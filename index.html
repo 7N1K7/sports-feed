@@ -145,7 +145,7 @@ footer a { color: var(--muted) }
 .badge { display: inline-grid; place-items: center; min-width: 30px; height: 18px; padding: 0 4px; border-radius: 4px; font: 700 10px/1 var(--f-body); letter-spacing: .03em; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 18%, transparent); flex: none }
 .ev .comp { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px }
 .sp { background: var(--sport); color: var(--paper); border-radius: 4px; padding: 1px 6px; font-size: 10px; letter-spacing: .08em }
-.logo { width: 1.1em; height: 1.1em; object-fit: contain; vertical-align: -0.15em; margin-right: 5px }
+.logo { --lh: 1.1em; width: 1.1em; height: 1.1em; object-fit: contain; vertical-align: -0.15em; margin-right: 5px }
 .flag { margin-right: 5px; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif }
 .chip { display: inline-flex; align-items: center; gap: 6px }
 .sportchip.sport-all { --sport: var(--ink) }
@@ -289,7 +289,7 @@ dialog#sheet { width: min(720px, 100%) }
 /* bigger time, names and logos */
 .ev .nz { font-size: 30px }
 .ev .teams { font-size: 32px; line-height: 1.15 }
-.ev .teams .logo { width: 1.6em; height: 1.6em; margin-right: 8px; vertical-align: -0.45em }
+.ev .teams .logo { --lh: 1.6em; width: 1.6em; height: 1.6em; margin-right: 8px; vertical-align: -0.45em }
 .ev .teams .flagimg { width: 1.5em; height: auto; vertical-align: -0.12em }
 .ev .when { min-width: 140px }
 
@@ -304,7 +304,7 @@ dialog#sheet { width: min(720px, 100%) }
 .matchup .side { min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center }
 .matchup .nm { min-width: 0; overflow-wrap: anywhere; text-wrap: balance }
 .matchup .away .logo { order: -1 }
-.ev .teams.matchup .logo, .ev .teams.matchup .logo.after { margin: 0; flex: none; width: 2.1em; height: 2.1em; vertical-align: 0; object-fit: contain }
+.ev .teams.matchup .logo, .ev .teams.matchup .logo.after { --lh: 2.1em; margin: 0; flex: none; width: 2.1em; height: 2.1em; vertical-align: 0; object-fit: contain }
 .ev .teams.matchup .flagimg, .ev .teams.matchup .flagimg.after { width: 2.2em; height: auto; margin-block: .2em; border-radius: 3px }
 .nm[style] { color: color-mix(in oklab, var(--tc) 82%, var(--ink)) }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .nm[style] { color: color-mix(in oklab, var(--tc) 55%, var(--ink)) } }
@@ -359,7 +359,7 @@ dialog#sheet { width: min(720px, 100%) }
 .ev .teams.matchup:has(img) .side > .nm { grid-row: 2; align-self: start }
 .ev .teams.matchup .flagimg, .ev .teams.matchup .flagimg.after { width: auto; height: 1.6em; max-width: 2.9em; margin: 0 }
 /* wide crests (wordmarks like Canterbury's) get more width so they aren't shrunk to fit a square */
-.ev .teams.matchup .logo:not(.flagimg) { width: auto; height: 2.5em; max-width: 5em }
+.ev .teams.matchup .logo:not(.flagimg) { --lh: 2.5em; width: auto; height: 2.5em; max-width: 5em }
 
 a.svc { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 2px }
 a.svc:hover { text-decoration-color: currentColor }
@@ -400,7 +400,9 @@ a.svc:hover { text-decoration-color: currentColor }
 .stable td { padding: 7px 6px; text-align: right; border-bottom: 1px solid var(--line) }
 .stable tr:last-child td { border-bottom: 0 }
 .stable .tn { text-align: left; width: 100%; font-weight: 600; white-space: nowrap }
-.stable .tn .logo { width: 1.3em; height: 1.3em; margin-right: 6px; vertical-align: -0.3em }
+.stable .tn .logo { --lh: 1.3em; width: 1.3em; height: 1.3em; margin-right: 6px; vertical-align: -0.3em }
+/* crests drawn small inside their image (Canterbury): scale up, and widen the box to match so it never overlaps the name */
+.logo.zoom, .ev .teams.matchup .logo.zoom, .ev .teams.matchup .logo.zoom.after { transform: scale(var(--z)); margin-inline: calc((var(--z) - 1) * var(--lh) / 2) }
 .stable .tn .flagimg { width: 1.4em; height: auto; vertical-align: -0.1em }
 .stable .pos { color: var(--muted); width: 1.5em; text-align: center }
 .stable .pts { font-weight: 800 }
@@ -446,7 +448,7 @@ a.svc:hover { text-decoration-color: currentColor }
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
   .tag { justify-self: start }
   .ev .teams { font-size: 25px }
-  .ev .teams.matchup .logo:not(.flagimg) { width: auto; height: 2.3em; max-width: 4.4em }
+  .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.3em; width: auto; height: 2.3em; max-width: 4.4em }
   .ev .teams.matchup .flagimg { width: auto; height: 1.6em }
   .ev .nz { font-size: 27px }
   .day .dd { font-size: 20px }
@@ -456,12 +458,12 @@ a.svc:hover { text-decoration-color: currentColor }
 .ev:hover, .ni:hover { border-color: color-mix(in srgb, var(--sport, var(--accent)) 50%, var(--line)) }
 
 /* compact cards: one short row each. Compact view uses them everywhere; Mixed keeps live and today's games full size */
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams { font-size: 19px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams { font-size: 21px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 8px; text-align: center; grid-template-rows: none; row-gap: 0 }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side > * { grid-row: auto; align-self: center; order: 0 }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side.away > img { order: 2 }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { height: 1.4em; max-width: 2.8em; transform: none !important }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .flagimg { height: 1em; max-width: 1.8em }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { --lh: 1.75em; height: 1.75em; max-width: 3.4em }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .flagimg { height: 1.2em; max-width: 2.1em }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .body { padding-top: 6px; padding-bottom: 6px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp { font-size: 11px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .summary, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .tvl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .nzl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .loc:not(.num) { display: none }
@@ -474,7 +476,7 @@ a.svc:hover { text-decoration-color: currentColor }
 /* worded results ("Fundora won by KO (R12, 2:59)") read as text, not as a big scoreline, in every view */
 .ev .when .score.long, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .score.long, .dres .score.long { font-size: 15px; font-family: var(--f-body); font-weight: 600; line-height: 1.3 }
 :is(body.v-compact, body.v-mixed) :is(.daygroup, .donetoday) { gap: 6px }
-@media (max-width: 560px) { :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams { font-size: 16px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side { gap: 6px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { height: 1.3em } }
+@media (max-width: 560px) { :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams { font-size: 17px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side { gap: 6px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { --lh: 1.55em; height: 1.55em } }
 /* Mixed: today's games a little smaller than live ones */
 body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 @media (max-width: 560px) { body.v-mixed #today .daygroup > .ev .teams { font-size: 22px } }
@@ -639,8 +641,8 @@ const shortName = n => n.split(' ').length > 2 ? n.replace(/\s+FC$/, '') : n;
 const LOGO_ZOOM = { Canterbury: 1.8 };
 const crest = (n, logo, after) => {
   const src = logo || flagOf(n);
-  const z = logo && LOGO_ZOOM[n] ? ` style="transform:scale(${LOGO_ZOOM[n]})"` : '';
-  return src ? `<img class="logo ${logo ? '' : 'flagimg'} ${after ? 'after' : ''}"${z} src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
+  const z = logo && LOGO_ZOOM[n] ? ` style="--z:${LOGO_ZOOM[n]}"` : '';
+  return src ? `<img class="logo ${logo ? '' : 'flagimg'} ${after ? 'after' : ''} ${z ? 'zoom' : ''}"${z} src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
 };
 // National side nicknames by sport and men's/women's, e.g. New Zealand cricket (men's) -> Black Caps
 const NICK = {
