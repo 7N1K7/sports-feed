@@ -14,7 +14,7 @@
 :root {
   --paper: #f3f6f4; --surface: #ffffff; --ink: #14211c; --muted: #5a6a64; --line: #d9e2de;
   --accent: #0d6b4d; --accent-ink: #ffffff; --soft: #e6efeb;
-  --rugby: #17704f; --cricket: #1d5ea6; --league: #b0521a;
+  --rugby: #17704f; --cricket: #1d5ea6; --league: #b0521a; --football: #6741d9; --mma: #a61e4d;
   --live: #c8322a; --cover: #dfe6e3;
   --soon: #d9480f; --near: #7048e8; --later: #5a6a64; --local: #1971c2;
   --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
@@ -24,12 +24,12 @@
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
   --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
-  --rugby: #46c093; --cricket: #7fb1ef; --league: #f09c62;
+  --rugby: #46c093; --cricket: #7fb1ef; --league: #f09c62; --football: #b197fc; --mma: #f783ac;
   --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark } }
 :root[data-theme="dark"] {
   --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
   --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
-  --rugby: #46c093; --cricket: #7fb1ef; --league: #f09c62;
+  --rugby: #46c093; --cricket: #7fb1ef; --league: #f09c62; --football: #b197fc; --mma: #f783ac;
   --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark }
 
 * { box-sizing: border-box }
@@ -98,7 +98,7 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .ev .loc { font-size: 12px; color: var(--muted) }
 .tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 1px 6px; background: var(--soft); color: var(--ink); justify-self: end }
 .tag.live { background: var(--live); color: #fff }
-.sport-rugby { --sport: var(--rugby) } .sport-cricket { --sport: var(--cricket) } .sport-league { --sport: var(--league) }
+.sport-rugby { --sport: var(--rugby) } .sport-cricket { --sport: var(--cricket) } .sport-league { --sport: var(--league) } .sport-football { --sport: var(--football) } .sport-mma { --sport: var(--mma) }
 
 .res .when { min-width: 120px }
 .res .score { font-family: var(--f-display); font-size: 28px; font-weight: 700; line-height: 1 }
@@ -133,6 +133,8 @@ footer a { color: var(--muted) }
 .sport-rugby .ev, .ev.sport-rugby { background: color-mix(in srgb, var(--rugby) 5%, var(--surface)) }
 .ev.sport-cricket { background: color-mix(in srgb, var(--cricket) 5%, var(--surface)) }
 .ev.sport-league { background: color-mix(in srgb, var(--league) 6%, var(--surface)) }
+.ev.sport-football { background: color-mix(in srgb, var(--football) 6%, var(--surface)) }
+.ev.sport-mma { background: color-mix(in srgb, var(--mma) 6%, var(--surface)) }
 .ev .stripe { width: 6px }
 .ni .top .badge { margin-right: 2px }
 #sportFilter { margin-bottom: -10px }
@@ -146,6 +148,41 @@ footer a { color: var(--muted) }
 .tag.later { background: transparent; color: var(--later); box-shadow: inset 0 0 0 1px var(--line) }
 .dayhead { color: var(--ink) }
 .dayhead::after { content: ""; display: block; height: 2px; width: 32px; background: var(--accent); margin-top: 4px; border-radius: 2px }
+
+
+.ev[data-open] { cursor: pointer }
+.ev .tv { color: var(--ink); font-weight: 600 }
+dialog#sheet { border: 0; padding: 0; margin: auto auto 0; width: min(640px, 100%); max-height: 88vh; border-radius: 16px 16px 0 0; background: var(--surface); color: var(--ink); box-shadow: 0 -8px 40px rgba(0,0,0,.25) }
+@media (min-width: 700px) { dialog#sheet { margin: auto; border-radius: 16px } }
+dialog#sheet::backdrop { background: rgba(10, 18, 15, .5) }
+.sheet-in { padding: 18px max(18px, env(safe-area-inset-left, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 12px; overflow-y: auto; max-height: 88vh }
+.close { justify-self: end; position: sticky; top: 0 }
+.sheet-head { display: grid; gap: 6px; border-left: 5px solid var(--sport); padding-left: 12px }
+.sheet-head .comp { display: flex; gap: 6px; align-items: center; font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--sport); font-weight: 700 }
+.dteams { font-size: 28px; line-height: 1.1 }
+.dteams .v { color: var(--muted); font-weight: 500 }
+.sheet-head .tag { justify-self: start }
+.dres { display: grid; gap: 4px; background: var(--paper); border-radius: 10px; padding: 10px 12px }
+.dres .score { font-family: var(--f-display); font-size: 30px; font-weight: 700 }
+.dres p { margin: 0 }
+.cover.big { padding: 14px; font-size: 14px }
+.facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; margin: 0; font-size: 14px }
+.facts dt { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; padding-top: 2px }
+.facts dd { margin: 0 }
+.dh { font-family: var(--f-body); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-top: 4px }
+.watchlist { margin: 0; padding-left: 18px; display: grid; gap: 3px; font-size: 14px }
+.muted { color: var(--muted) }
+.dn-item { display: block; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 14px; line-height: 1.35 }
+.dn-item:hover { border-color: var(--accent) }
+.srclink { color: var(--accent); font-size: 14px }
+
+
+.ni.has-img { grid-template-columns: 96px minmax(0, 1fr); column-gap: 12px; align-items: start }
+.ni-body { display: grid; gap: 3px; min-width: 0 }
+.thumb { width: 96px; height: 72px; object-fit: cover; border-radius: 8px; background: var(--soft) }
+.thumb.sm { width: 56px; height: 42px; float: left; margin-right: 10px }
+.dn-item::after { content: ""; display: block; clear: both }
+@media (max-width: 420px) { .ni.has-img { grid-template-columns: 72px minmax(0, 1fr) } .thumb { width: 72px; height: 56px } }
 
 @media (max-width: 560px) {
   .ev { grid-template-columns: 6px minmax(0, 1fr) }
@@ -212,16 +249,24 @@ footer a { color: var(--muted) }
   </section>
 </main>
 <footer class="wrap" id="foot"></footer>
+<dialog id="sheet" aria-label="Match details">
+  <div class="sheet-in">
+    <button class="btn close" id="sheetClose" type="button" aria-label="Close">Close</button>
+    <div id="sheetBody"></div>
+  </div>
+</dialog>
 
 <script>
 (() => {
 let FEED = { events: [], news: [], sources: [] };
 const NZ = 'Pacific/Auckland';
 const TEAMS = [
-  { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup']] },
-  { g: 'Super Rugby Pacific', items: [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika']] },
-  { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket']] },
-  { g: 'Rugby league', items: [['kiwis','Kiwis'],['kiwiferns','Kiwi Ferns'],['warriors','Warriors']] },
+  { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup'],['wallabies','Wallabies']] },
+  { g: 'Super Rugby Pacific', items: [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika'],['aurugby','Australian teams'],['superrugby','Every game']] },
+  { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
+  { g: 'Rugby league', items: [['kiwis','Kiwis'],['kiwiferns','Kiwi Ferns'],['warriors','Warriors'],['nrl','NRL (every game)'],['rlwc','League World Cup (every game)']] },
+  { g: 'Football', items: [['phoenix','Wellington Phoenix'],['aucklandfc','Auckland FC'],['aleague','A-League Men (every game)']] },
+  { g: 'UFC', items: [['ufc','UFC events']] },
 ];
 const TEAM_NAME = Object.fromEntries(TEAMS.flatMap(g => g.items));
 // team badges (colours + short code) and country flags
@@ -230,6 +275,9 @@ const BADGE = {
   blues: ['BLU', '#0b3d91', '#ffffff'], chiefs: ['CHI', '#d6001c', '#ffd200'], hurricanes: ['HUR', '#ffcd00', '#000000'], crusaders: ['CRU', '#c8102e', '#000000'],
   highlanders: ['HIG', '#1d2f6f', '#f2a900'], moana: ['MP', '#00807f', '#ffffff'],
   blackcaps: ['BC', '#111111', '#7fe0d0'], whiteferns: ['WF', '#ffffff', '#111111'], nzdomestic: ['NZC', '#2b3a67', '#ffffff'],
+  wallabies: ['WAL', '#f2c200', '#0b3d2e'], aurugby: ['AUS', '#0b3d91', '#f2c200'], superrugby: ['SRP', '#00205b', '#ffffff'],
+  bbl: ['BBL', '#ff6b00', '#111111'], wbbl: ['WBBL', '#7b2cbf', '#ffffff'], nrl: ['NRL', '#003b7a', '#ffffff'], rlwc: ['RLWC', '#0b6e4f', '#ffffff'],
+  phoenix: ['WNP', '#ffd100', '#000000'], aucklandfc: ['AFC', '#0033a0', '#ffffff'], aleague: ['ALM', '#e4002b', '#ffffff'], ufc: ['UFC', '#d20a0a', '#ffffff'],
   kiwis: ['KIW', '#000000', '#ffffff'], kiwiferns: ['KF', '#000000', '#ffffff'], warriors: ['WAR', '#0d1f4c', '#7fd13b'],
 };
 const badge = k => { const b = BADGE[k]; return b ? `<span class="badge" style="background:${b[1]};color:${b[2]}" aria-hidden="true">${b[0]}</span>` : ''; };
@@ -244,7 +292,7 @@ const flagOf = name => {
   return FLAGS[base] || '';
 };
 const teamName = n => { const f = flagOf(n); return f ? `<span class="flag" aria-hidden="true">${f}</span>${esc(n)}` : esc(n); };
-const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League' };
+const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC' };
 
 const ALL_KEYS = TEAMS.flatMap(g => g.items.map(i => i[0]));
 
@@ -253,6 +301,7 @@ const store = {
   set(k, v) { try { localStorage.setItem('sf.' + k, JSON.stringify(v)) } catch {} },
 };
 let picked = new Set(store.get('teams', ALL_KEYS));
+{ const known = new Set(store.get('known', ALL_KEYS)); ALL_KEYS.filter(k => !known.has(k)).forEach(k => picked.add(k)); store.set('known', ALL_KEYS); store.set('teams', [...picked]); }
 let spoilers = store.get('spoilers', true);   // true = hide recent results
 let spoilDays = store.get('spoilDays', 3);
 let revealed = new Set(store.get('revealed', []));
@@ -294,7 +343,7 @@ function isHidden(e, now) {
 }
 // an event also shows for the other side when both are followed (e.g. Blues v Hurricanes)
 const CLUBS = ['blues','chiefs','hurricanes','crusaders','highlanders','warriors'];
-const visibleTeam = x => picked.has(x.team) || CLUBS.some(k => picked.has(k) && [x.home, x.away].some(t => (t || '').includes(TEAM_NAME[k])));
+const visibleTeam = x => picked.has(x.team) || (x.tags || []).some(t => picked.has(t)) || CLUBS.some(k => picked.has(k) && [x.home, x.away].some(t => (t || '').includes(TEAM_NAME[k])));
 const visible = x => visibleTeam(x) && (sportSel === 'all' || (x.sport || sportOf(x.team)) === sportSel);
 
 function evCard(e, now) {
@@ -306,14 +355,13 @@ function evCard(e, now) {
   const urg = ms < 864e5 ? 'soon' : ms < 3 * 864e5 ? 'near' : 'later';
   const tag = live ? `<span class="tag live">${live}</span>` : cd ? `<span class="tag num ${urg}">${cd}</span>` : '';
   const local = overseas ? `<div class="loc num">${e.timeTBC ? '' : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${esc(cityOf(e))}</div>` : '';
-  return `<article class="ev sport-${e.sport}">
+  const tv = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : '';
+  return `<article class="ev sport-${e.sport}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(e.home)} v ${esc(e.away)}, details">
     <div class="stripe"></div>
     <div class="body">
       <div class="comp">${badge(e.team)}<span>${esc(e.comp)}</span></div>
       <div class="teams">${teamName(e.home)}<span class="v">v</span>${teamName(e.away)}</div>
-      <div class="meta">${esc([e.venue, e.city].filter(Boolean).join(', '))}</div>
-      ${e.note ? `<div class="meta">${esc(e.note)}</div>` : ''}
-      ${watchLine(e)}
+      <div class="meta">${esc(cityOf(e) || e.venue || '')}${tv ? ` · <span class="tv">${esc(tv)}</span>` : ''}</div>
     </div>
     <div class="when">
       <div class="nzl">NZ time</div>
@@ -338,7 +386,7 @@ function resCard(e, now) {
   const right = hidden
     ? `<button class="cover" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>hidden ${left} more day${left === 1 ? '' : 's'}</button>`
     : e.score ? `<div class="score num ${long ? 'long' : ''}">${esc(e.score)}</div>` : `<div class="loc">Result not in yet</div>`;
-  return `<article class="ev res sport-${e.sport}">
+  return `<article class="ev res sport-${e.sport}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(e.home)} v ${esc(e.away)}, details">
     <div class="stripe"></div>
     <div class="body">
       <div class="comp">${badge(e.team)}<span>${esc(e.comp)}</span></div>
@@ -348,6 +396,52 @@ function resCard(e, now) {
     </div>
     <div class="when">${right}</div>
   </article>`;
+}
+
+function detail(e) {
+  const now = Date.now(), d = new Date(e.startUTC);
+  const overseas = e.tz && e.tz !== NZ;
+  const isPast = e.status === 'final' || (d < now && !onNow(e, now) && e.status !== 'live');
+  const hidden = isPast && isHidden(e, now);
+  const when = e.timeTBC ? `${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}, time to be confirmed`
+    : `${time(d, NZ)} ${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}`;
+  const rows = [
+    ['NZ time', when],
+    overseas && !e.timeTBC ? ['Local time', `${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
+    ['Where', [e.venue, e.city].filter(Boolean).join(', ') || 'To be confirmed'],
+    e.note ? ['Note', e.note] : null,
+  ].filter(Boolean);
+  const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
+  const watch = [b && `<li><b>${esc(b)}</b></li>`, e.watchAlt && `<li>${esc(e.watchAlt)}</li>`, e.watchNote && `<li class="muted">${esc(e.watchNote)}</li>`].filter(Boolean).join('')
+    || '<li class="muted">Broadcaster not confirmed yet</li>';
+  const names = [e.home, e.away].map(n => String(n || '').replace(/ Women$/, ''));
+  const related = (FEED.news || []).filter(n => n.team === e.team || (e.tags || []).includes(n.team) || names.some(x => x.length > 3 && x !== 'TBC' && !FLAGS[x] && (n.title + ' ' + n.summary).includes(x)))
+    .filter(n => Math.abs(new Date(n.date) - d) < 21 * 864e5)
+    .filter(n => !(hidden && n.kind === 'result'))
+    .sort((a, c) => (a.kind === 'injury' ? -1 : 0) - (c.kind === 'injury' ? -1 : 0) || c.date.localeCompare(a.date)).slice(0, 6);
+  const res = isPast ? (hidden
+    ? `<button class="cover big" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>Spoilers are hidden</button>`
+    : `<div class="dres"><div class="score num">${esc(e.score || 'Result not in yet')}</div>${e.summary ? `<p>${esc(e.summary)}</p>` : ''}</div>`) : '';
+  const live = e.status === 'live' ? `<div class="dres"><span class="tag live">${esc(e.clock || 'Live')}</span> ${hidden || !e.score ? '' : `<span class="score num">${esc(e.score)}</span>`}</div>` : '';
+  return `<div class="sheet-head sport-${e.sport}">
+      <div class="comp">${badge(e.team)}<span>${esc(e.comp)}</span></div>
+      <h2 class="dteams">${teamName(e.home)} <span class="v">v</span> ${teamName(e.away)}</h2>
+      ${!isPast && e.status !== 'live' && countdown(e, now) ? `<span class="tag ${d - now < 864e5 ? 'soon' : d - now < 3 * 864e5 ? 'near' : 'later'}">${countdown(e, now)}</span>` : ''}
+    </div>
+    ${res}${live}
+    <dl class="facts">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
+    <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}</ul>
+    <h3 class="dh">Team news</h3>
+    ${related.length ? `<div class="news">${related.map(n => `<a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener">${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}<span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span> <b>${esc(n.title)}</b><span class="muted"> · ${esc(n.source || '')}</span></a>`).join('')}</div>` : '<p class="muted">No recent news for this match yet.</p>'}
+    ${e.source ? `<p><a class="srclink" href="${esc(e.source)}" target="_blank" rel="noopener">Match page</a></p>` : ''}`;
+}
+function openDetail(id) {
+  const e = (FEED.events || []).find(x => x.id === id);
+  if (!e) return;
+  $('sheetBody').innerHTML = detail(e);
+  const dlg = $('sheet');
+  dlg.dataset.id = id;
+  if (!dlg.open) dlg.showModal();
 }
 
 function render() {
@@ -405,30 +499,34 @@ function render() {
   $('news').innerHTML = items.length ? items.slice(0, 30).map(n => {
     const hide = spoilers && n.kind === 'result' && !revealed.has('n:' + n.id) && (now - new Date(n.date + 'T12:00:00+13:00')) < spoilDays * 864e5;
     const sport = sportOf(n.team);
-    return `<article class="ni sport-${sport}">
+    const img = n.image && !hide ? `<img class="thumb" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
+    return `<article class="ni sport-${sport} ${img ? 'has-img' : ''}">${img}<div class="ni-body">
       <div class="top">${badge(n.team)}<span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span>${esc(TEAM_NAME[n.team] || '')}</span><span class="num">${fmt(new Date(n.date + 'T12:00:00+13:00'), NZ, { day: 'numeric', month: 'short' })}</span><span>${esc(n.source || '')}</span></div>
       ${hide ? `<button class="cover" type="button" data-reveal="n:${esc(n.id)}"><b>Result story hidden</b>tap to show</button>`
         : `<h3>${esc(n.title)}</h3><p>${esc(n.summary)}</p>${n.url ? `<a href="${esc(n.url)}" target="_blank" rel="noopener">Read at ${esc(n.source || 'source')}</a>` : ''}`}
-    </article>`;
+    </div></article>`;
   }).join('') : `<div class="empty-note">No news in this category for your teams.</div>`;
 
   // controls
-  $('sportFilter').innerHTML = [['all','All sports'],['rugby','Rugby'],['cricket','Cricket'],['league','Rugby league']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${sportSel === k}" class="chip sportchip sport-${k}">${l}</button>`).join('');
+  $('sportFilter').innerHTML = [['all','All'],['rugby','Rugby'],['cricket','Cricket'],['league','League'],['football','Football'],['mma','UFC']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${sportSel === k}" class="chip sportchip sport-${k}">${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   $('spoilBtn').textContent = spoilers ? 'Spoilers hidden' : 'Spoilers shown';
   $('teamsBtn').textContent = `My teams (${picked.size})`;
   $('spoilDays').value = String(spoilDays);
   $('teamGroups').innerHTML = TEAMS.map(g => `<div class="group"><h3>${g.g}</h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`).join('');
 }
-const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana'], cricket: ['blackcaps','whiteferns','nzdomestic'], league: ['kiwis','kiwiferns','warriors'] };
+const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague'], mma: ['ufc'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
 
 function tick() { $('clock').textContent = `NZ ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}` }
 
 document.addEventListener('click', ev => {
-  const t = ev.target.closest('button'); if (!t) return;
+  if (ev.target.closest('a')) return;
+  const t = ev.target.closest('button');
+  if (!t) { const card = ev.target.closest('[data-open]'); if (card) openDetail(card.dataset.open); else if (ev.target === $('sheet')) $('sheet').close(); return; }
+  if (t.id === 'sheetClose') { $('sheet').close(); return; }
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); store.set('teams', [...picked]); render(); }
-  else if (t.dataset.reveal) { revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); }
+  else if (t.dataset.reveal) { ev.stopPropagation(); revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
   else if (t.dataset.sport) { sportSel = t.dataset.sport; store.set('sport', sportSel); render(); }
   else if (t.dataset.kind) { newsKind = t.dataset.kind; render(); }
   else if (t.dataset.jump) { const el = document.getElementById('d-' + t.dataset.jump) || (t.dataset.jump === dayKey(new Date()) ? $('todaySec') : null); if (el) el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
@@ -438,6 +536,7 @@ document.addEventListener('click', ev => {
   else if (t.id === 'allOn') { picked = new Set(ALL_KEYS); store.set('teams', ALL_KEYS); render(); }
   else if (t.id === 'allOff') { picked = new Set(); store.set('teams', []); render(); }
 });
+document.addEventListener('keydown', ev => { const c = ev.target.closest?.('[data-open]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openDetail(c.dataset.open); } });
 $('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; store.set('spoilDays', spoilDays); render(); });
 
 function stamp() {

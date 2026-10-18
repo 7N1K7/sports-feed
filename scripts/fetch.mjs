@@ -6,7 +6,7 @@
 //   RNZ sport RSS                   -> news, tagged to teams by keyword
 //   data/curated/*.json             -> fixtures ESPN lacks (Kiwis, Black Ferns, cricket), news, notes
 //   data/broadcast.json             -> where-to-watch rules by competition
-import { readFile, writeFile, readdir } from 'node:fs/promises';
+import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
 
 const ROOT = new URL('../', import.meta.url);
 const DAY = 864e5;
@@ -19,20 +19,34 @@ const ESPN = [
   { sport: 'rugby', path: 'rugby/242041', comp: 'Super Rugby Pacific' },
   { sport: 'rugby', path: 'rugby/270563', comp: 'NPC' },
   { sport: 'league', path: 'rugby-league/3', comp: 'NRL' },
+  { sport: 'football', path: 'soccer/aus.1', comp: 'A-League Men' },
+  { sport: 'mma', path: 'mma/ufc', comp: 'UFC' },
 ];
 
-// which followable team an ESPN fixture belongs to
-function teamFor(comp, home, away) {
+// Which followable item(s) an ESPN fixture belongs to.
+// `team` is the most specific (it picks the badge); `tags` are whole-competition follows.
+const SR_NZ = [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika']];
+const SR_AU = /Brumbies|Reds|Waratahs|Western Force/;
+function classify(comp, home, away) {
   const names = [home, away].join(' | ');
-  if (comp === 'NPC') return 'npc';
-  if (comp === 'NRL') return /Warriors/.test(names) ? 'warriors' : null;
-  if (comp === 'Super Rugby Pacific') {
-    for (const [k, n] of [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika']])
-      if (names.includes(n)) return k;
-    return null;
+  if (comp === 'NPC') return { team: 'npc', tags: [] };
+  if (comp === 'NRL') return { team: /Warriors/.test(names) ? 'warriors' : 'nrl', tags: ['nrl'] };
+  if (comp === 'A-League Men') {
+    const team = /Wellington Phoenix/.test(names) ? 'phoenix' : /Auckland FC/.test(names) ? 'aucklandfc' : 'aleague';
+    return { team, tags: ['aleague'] };
   }
-  if (/New Zealand Women|Black Ferns/.test(names)) return 'blackferns';
-  if (/\bNew Zealand\b|All Blacks/.test(names)) return 'allblacks';
+  if (comp === 'UFC') return { team: 'ufc', tags: [] };
+  if (comp === 'Super Rugby Pacific') {
+    const nz = SR_NZ.find(([, n]) => names.includes(n));
+    const tags = ['superrugby', ...(SR_AU.test(names) ? ['aurugby'] : [])];
+    return { team: nz ? nz[0] : SR_AU.test(names) ? 'aurugby' : 'superrugby', tags };
+  }
+  // tests
+  const tags = /\bAustralia\b|Wallabies/.test(names) ? ['wallabies'] : [];
+  if (/New Zealand Women|Black Ferns/.test(names)) return { team: 'blackferns', tags };
+  if (/\bNew Zealand\b|All Blacks/.test(names)) return { team: 'allblacks', tags };
+  if (/Australia Women|Wallaroos/.test(names)) return null;
+  if (tags.length) return { team: 'wallabies', tags };
   return null;
 }
 
@@ -48,6 +62,7 @@ const COUNTRY_TZ = {
   'South Africa': 'Africa/Johannesburg', Argentina: 'America/Argentina/Buenos_Aires', Japan: 'Asia/Tokyo',
   Fiji: 'Pacific/Fiji', Samoa: 'Pacific/Apia', Tonga: 'Pacific/Tongatapu', 'Papua New Guinea': 'Pacific/Port_Moresby',
 };
+Object.assign(CITY_TZ, { 'Las Vegas': 'America/Los_Angeles', 'Los Angeles': 'America/Los_Angeles', 'New York': 'America/New_York', Newark: 'America/New_York', Miami: 'America/New_York', Houston: 'America/Chicago', Chicago: 'America/Chicago', Denver: 'America/Denver', 'Abu Dhabi': 'Asia/Dubai', Riyadh: 'Asia/Riyadh', London: 'Europe/London', Paris: 'Europe/Paris', 'Mexico City': 'America/Mexico_City', 'Rio de Janeiro': 'America/Sao_Paulo', 'São Paulo': 'America/Sao_Paulo', Singapore: 'Asia/Singapore', Shanghai: 'Asia/Shanghai', Macau: 'Asia/Macau', Toronto: 'America/Toronto', Perth: 'Australia/Perth', Auckland: 'Pacific/Auckland' });
 const tzFor = (city = '', country = '') => CITY_TZ[city] || COUNTRY_TZ[country] || null;
 
 const ymd = t => new Date(t).toISOString().slice(0, 10).replaceAll('-', '');
@@ -78,6 +93,29 @@ async function espnScoreboard(path) {
   throw new Error(errors.join(', '));
 }
 
+// A UFC event is one card of many fights; show it as the main event, starting with the first fight.
+function ufcCard(ev) {
+  const fights = ev.competitions || [];
+  if (!fights.length) return null;
+  const main = fights.reduce((a, b) => (new Date(b.date || ev.date) >= new Date(a.date || ev.date) ? b : a));
+  const names = (main.competitors || []).map(x => x.athlete?.displayName || x.athlete?.shortName).filter(Boolean);
+  const states = fights.map(f => f.status?.type?.state);
+  const status = states.every(x => x === 'post') ? 'final' : states.some(x => x === 'in' || x === 'post') ? 'live' : 'upcoming';
+  const winner = (main.competitors || []).find(x => x.winner)?.athlete?.displayName;
+  const addr = (main.venue || fights[0].venue)?.address || {};
+  const first = fights.map(f => f.date || ev.date).sort()[0];
+  return {
+    id: `espn-${ev.id}`, team: 'ufc', tags: [], sport: 'mma', comp: ev.name || 'UFC', compKey: 'UFC',
+    home: names[0] || 'TBC', away: names[1] || 'TBC', startUTC: new Date(first).toISOString(), timeTBC: false,
+    venue: (main.venue || fights[0].venue)?.fullName || '', city: [addr.city, addr.country].filter(Boolean).join(', '),
+    tz: tzFor(addr.city, addr.country) || ({ 'United States': null }[addr.country] ?? null),
+    status, score: status === 'final' && winner ? `${winner} won` : undefined,
+    summary: status === 'final' && winner ? `${winner} won the main event.` : undefined,
+    note: `${fights.length} fights · main event about ${new Date(main.date || ev.date).toLocaleTimeString('en-NZ', { timeZone: 'Pacific/Auckland', hour: 'numeric', minute: '2-digit' })} NZ time`,
+    source: `https://www.espn.com/mma/fightcenter/_/id/${ev.id}`,
+  };
+}
+
 async function espnEvents() {
   const out = [];
   for (const src of ESPN) {
@@ -88,28 +126,68 @@ async function espnEvents() {
       diag[src.path] = `${data.events.length} events via ${r.name}${r.errors.length ? ' (' + r.errors.join(', ') + ')' : ''}`;
     } catch (e) { console.warn('ESPN failed:', src.path, e.message); diag[src.path] = 'error: ' + e.message; continue; }
     for (const ev of data.events || []) {
+      if (out.some(o => o.id === `espn-${ev.id}`)) continue;
+      if (src.comp === 'UFC') { const u = ufcCard(ev); if (u) out.push(u); continue; }
       const c = ev.competitions?.[0];
       if (!c) continue;
       const home = c.competitors?.find(x => x.homeAway === 'home') || c.competitors?.[0];
       const away = c.competitors?.find(x => x.homeAway === 'away') || c.competitors?.[1];
       const hn = home?.team?.displayName, an = away?.team?.displayName;
-      const team = teamFor(src.comp, hn, an);
-      if (!team || out.some(o => o.id === `espn-${ev.id}`)) continue;
+      const cls = classify(src.comp, hn, an);
+      if (!cls) continue;
       const st = c.status?.type || ev.status?.type || {};
       const status = st.state === 'post' || st.completed ? 'final' : st.state === 'in' ? 'live' : 'upcoming';
       const addr = c.venue?.address || {};
       out.push({
-        id: `espn-${ev.id}`, team, sport: src.sport,
+        id: `espn-${ev.id}`, team: cls.team, tags: cls.tags, sport: src.sport,
         comp: data.leagues?.[0]?.name || src.comp, compKey: src.comp,
         home: hn, away: an, startUTC: new Date(ev.date).toISOString(), timeTBC: false,
         venue: c.venue?.fullName || '', city: [addr.city, addr.country].filter(Boolean).join(', '),
         tz: tzFor(addr.city, addr.country),
         status, clock: status === 'live' ? (st.shortDetail || st.detail || '') : undefined,
         score: status !== 'upcoming' && home?.score != null ? `${home.score}-${away.score}` : undefined,
-        source: `https://www.espn.com/rugby/match/_/gameId/${ev.id}`,
+        source: ev.links?.[0]?.href || `https://www.espn.com/${src.sport === 'football' ? 'soccer' : src.path.split('/')[0]}/match/_/gameId/${ev.id}`,
       });
     }
   }
+  return out;
+}
+
+// --- cricket from ESPN's scoreboard header (current series only) ----------
+// Picks up Big Bash, WBBL and New Zealand internationals while they're on.
+async function espnCricket() {
+  let data;
+  try { data = await getJSON('https://site.web.api.espn.com/apis/v2/scoreboard/header?sport=cricket&region=au&lang=en&contentorigin=espn'); }
+  catch (e) { diag.cricket = 'error: ' + e.message; return []; }
+  const leagues = data.sports?.[0]?.leagues || [];
+  diag.cricketLeagues = leagues.map(l => `${l.name} (${(l.events || []).length})`).slice(0, 25);
+  const out = [];
+  for (const lg of leagues) {
+    const lname = lg.name || lg.shortName || '';
+    for (const ev of lg.events || []) {
+      const comps = ev.competitors || [];
+      const names = comps.map(c => c.displayName || c.name || '').join(' | ');
+      let team = null;
+      if (/Women'?s Big Bash|WBBL/i.test(lname)) team = 'wbbl';
+      else if (/Big Bash|BBL/i.test(lname)) team = 'bbl';
+      else if (/New Zealand Women/.test(names)) team = 'whiteferns';
+      else if (/New Zealand/.test(names)) team = 'blackcaps';
+      if (!team) continue;
+      const home = comps.find(c => c.homeAway === 'home') || comps[0] || {}, away = comps.find(c => c.homeAway === 'away') || comps[1] || {};
+      const state = ev.status === 'in' || ev.fullStatus?.type?.state === 'in' ? 'live' : (ev.status === 'post' || ev.fullStatus?.type?.state === 'post') ? 'final' : 'upcoming';
+      const sc = [home, away].map(c => c.score ? `${c.abbreviation || c.displayName} ${c.score}` : '').filter(Boolean).join(' v ');
+      out.push({
+        id: `espn-${ev.id}`, team, tags: [], sport: 'cricket', comp: `${lname}${ev.description ? ' · ' + ev.description : ''}`, compKey: lname,
+        home: home.displayName || 'TBC', away: away.displayName || 'TBC', startUTC: new Date(ev.date).toISOString(), timeTBC: false,
+        venue: '', city: ev.location || '', tz: null, status: state,
+        clock: state === 'live' ? (ev.summary || ev.fullStatus?.type?.shortDetail || '') : undefined,
+        score: state !== 'upcoming' && sc ? sc : undefined,
+        summary: state === 'final' ? (ev.summary || ev.fullStatus?.type?.detail || '') : undefined,
+        source: ev.link || `https://www.espncricinfo.com/`,
+      });
+    }
+  }
+  diag.cricket = `${out.length} matching`;
   return out;
 }
 
@@ -142,13 +220,14 @@ async function rnzNews() {
   for (const m of xml.matchAll(/<item>([\s\S]*?)<\/item>/g)) {
     const get = tag => unxml((m[1].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1]);
     const title = get('title'), summary = get('description'), url = get('link');
+    const image = (m[1].match(/<(?:media:content|media:thumbnail|enclosure)[^>]*url="([^"]+)"/) || [])[1];
     const team = NEWS_TEAMS.find(([, re]) => re.test(title + ' ' + summary))?.[0];
     if (!team) continue;
     const d = new Date(get('pubDate'));
     out.push({
       id: 'rnz-' + url.split('/').filter(Boolean).slice(-2).join('-').slice(0, 80), team,
       date: isNaN(d) ? new Date(now).toISOString().slice(0, 10) : d.toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }),
-      kind: kindOf(title + ' ' + summary), title, summary: summary.slice(0, 280), url, source: 'RNZ',
+      kind: kindOf(title + ' ' + summary), title, summary: summary.slice(0, 280), url, source: 'RNZ', image,
     });
   }
   diag.rnz = `${out.length} matching stories`;
@@ -182,14 +261,14 @@ function applyBroadcast(e, rules) {
 
 const curated = await readCurated();
 const rules = JSON.parse(await readFile(new URL('data/broadcast.json', ROOT), 'utf8'));
-const live = await espnEvents();
+const live = [...await espnEvents(), ...await espnCricket()];
 
 const events = curated.events.map(e => ({ ...e }));
 for (const le of live) {
   const hit = events.find(e => e.team === le.team && sameMatch(e, le));
   if (hit) {
     // ESPN wins on time, status and score; curated keeps names, venue notes and broadcast
-    Object.assign(hit, { startUTC: le.startUTC, timeTBC: false, status: le.status, clock: le.clock });
+    Object.assign(hit, { startUTC: le.startUTC, timeTBC: false, status: le.status, clock: le.clock, tags: [...new Set([...(hit.tags || []), ...(le.tags || [])])] });
     if (le.score) hit.score = le.score;
     if (!hit.tz && le.tz) hit.tz = le.tz;
   } else events.push(le);
@@ -199,6 +278,27 @@ events.forEach(e => applyBroadcast(e, rules));
 const newsAll = [...curated.news];
 for (const n of await rnzNews()) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
 const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
+
+// Thumbnails: read each article's og:image once and remember it in .cache/og.json
+async function addImages(items) {
+  const cacheUrl = new URL('.cache/og.json', ROOT);
+  let cache = {};
+  try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
+  const todo = items.filter(n => !n.image && n.url && !(n.url in cache)).slice(0, 40);
+  await Promise.all(todo.map(async n => {
+    try {
+      const r = await fetch(n.url, { headers: { 'user-agent': 'Mozilla/5.0 (sports-feed thumbnail bot)' }, signal: AbortSignal.timeout(8000) });
+      const html = (await r.text()).slice(0, 200000);
+      const m = html.match(/<meta[^>]+(?:property|name)=["'](?:og:image|twitter:image)["'][^>]*content=["']([^"']+)["']/i)
+        || html.match(/<meta[^>]+content=["']([^"']+)["'][^>]*(?:property|name)=["'](?:og:image|twitter:image)["']/i);
+      cache[n.url] = m ? new URL(m[1].replace(/&amp;/g, '&'), n.url).href : null;
+    } catch { cache[n.url] = null; }
+  }));
+  for (const n of items) if (!n.image && cache[n.url]) n.image = cache[n.url];
+  diag.thumbnails = `${items.filter(n => n.image).length}/${items.length} (${todo.length} looked up)`;
+  try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
+}
+await addImages(news);
 
 const feed = {
   generatedAt: new Date(now).toISOString(),
