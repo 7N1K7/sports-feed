@@ -266,6 +266,8 @@ for (const t of tsdbFill) {
   if (did.length) filled.push(`${hit.home} v ${hit.away} (${hit.id}): ${did.join(', ')}`);
 }
 if (tsdbFill.length) diag.tsdbFilled = filled;
+// a hand correction in the curated files ("fix") wins over every live source, for when a source has a score wrong
+for (const e of events) if (e.fix) Object.assign(e, e.fix);
 events.forEach(e => applyBroadcast(e, rules));
 for (const e of events) if (!e.tz && e.city) { const bits = e.city.split(',').map(x => x.trim()); e.tz = tzFor(bits[0], bits[bits.length - 1]); }
 

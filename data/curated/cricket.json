@@ -25,6 +25,8 @@
    "timeTBC": false,
    "status": "upcoming",
    "id": "wf-aus-t20i1-2026",
+   "fix": {"status": "final", "score": "8/165 (18.5 overs) v 2/162 (20 overs)", "summary": "Australia won by 2 wickets"},
+   "fixNote": "Wikipedia had Australia 8/168; cricket.com.au and ABC News report 8-165 in 18.5 overs",
    "team": "whiteferns",
    "comp": "1st T20I v Australia (Rose Bowl)",
    "format": "T20I",
