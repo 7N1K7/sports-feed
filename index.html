@@ -67,15 +67,18 @@ header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block:
 .mock .wrap { padding-block: 8px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 16px }
 .mock .siteinfo { margin-left: auto; text-align: right; opacity: .85 }
 
-.panel { background: var(--surface); border-bottom: 1px solid var(--line) }
-.panel .wrap { padding-block: 16px; display: grid; gap: 14px }
+/* settings: a dropdown under the header, over the page, so nothing below moves */
+.panel { position: absolute; top: calc(100% + 6px); left: 0; right: 0; pointer-events: none }
+.pclose { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 20px; line-height: 1; cursor: pointer; z-index: 1 }
+.panel .pbox { position: relative; pointer-events: auto; margin-left: auto; width: min(640px, 100%); max-height: calc(100vh - 110px); max-height: calc(100dvh - 110px); overflow: auto; overscroll-behavior: contain;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; display: grid; gap: 14px; box-shadow: 0 16px 40px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.08) }
 .group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--f-body); font-weight: 700; margin-bottom: 6px }
 .chips { display: flex; flex-wrap: wrap; gap: 6px }
 .chip { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 3px 11px; cursor: pointer; font-size: 14px }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
 .panel .ph { font-size: 20px; font-weight: 800; margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line) }
 .panel .ph .phnote { display: inline-block; margin-left: 8px; font-size: 13px; font-weight: 500; color: var(--muted); vertical-align: .1em }
-.panel .ph:first-child { border-top: 0; padding-top: 0; margin-top: 0 }
+.panel .ph:first-of-type { border-top: 0; padding-top: 0; margin-top: 0 }
 .spoil-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 14px }
 select { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink) }
 
@@ -424,8 +427,8 @@ a.svc:hover { text-decoration-color: currentColor }
 .rankchips { margin: 4px 0 12px }
 .swap { display: inline-grid } .swap > span { grid-area: 1 / 1; text-align: center } .swap > .off { visibility: hidden }
 .bico { width: 1.05em; height: 1.05em; vertical-align: -0.17em; margin-left: 4px }
-.rankrow { justify-content: center; margin-top: 2px }
-.rankbtn { font-size: 13px; padding: 4px 11px; border-style: dashed; color: var(--ink) }
+.ranksports { margin: 2px 0 10px }
+.rankbtn { font-size: 14px; padding: 3px 14px; border-style: dashed; color: var(--ink); background: var(--surface) }
 .stable.rank td.num { white-space: nowrap }
 .rankbody { padding-top: 6px }
 .stable.rank .rnote { font-weight: 400; white-space: normal }
@@ -607,10 +610,8 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
     <button class="btn" id="spoilBtn" aria-pressed="false" type="button">Spoilers hidden</button>
     <button class="btn" id="teamsBtn" aria-expanded="false" aria-controls="panel" type="button">My settings</button>
   </div>
-</header>
-<div class="mock"><div class="wrap" id="mockNote">Loading the latest fixtures and scores…</div></div>
-<div class="panel" id="panel" hidden>
-  <div class="wrap">
+  <div class="panel" id="panel" hidden>
+  <div class="wrap"><div class="pbox" role="dialog" aria-label="My settings"><button type="button" class="pclose" id="panelClose" aria-label="Close settings">×</button>
     <h2 class="ph">Settings</h2>
     <div class="spoil-row">
       <label for="tzSel">Show times for</label>
@@ -629,14 +630,14 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
     <h2 class="ph">My teams <span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news.</span></h2>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
     <div class="chips"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></div>
-  </div>
+  </div></div>
 </div>
-
+</header>
+<div class="mock"><div class="wrap" id="mockNote">Loading the latest fixtures and scores…</div></div>
 <main class="wrap">
   <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
-  <div class="chips rankrow" id="rankRow" hidden></div>
-  <div class="compbar"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9">NZ teams only</button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div></div>
+  <div class="compbar"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9">NZ teams only</button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" class="chip rankbtn" id="rankBtn">World rankings</button></div>
   <section id="hubSec" hidden>
     <div class="hub">
       <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
@@ -1441,7 +1442,9 @@ function openTeam(name, sport) {
 function openRankings(sport) {
   const lists = (FEED.rankings || []).filter(r => r.sport === sport);
   if (!lists.length) return;
-  $('sheetBody').innerHTML = `<div class="sheet-head sport-${sport}"><div class="comp">${sIcon(sport)}<span>World rankings</span></div><h2 class="dteams">${esc({ mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'Rugby league' }[sport] || sport)} rankings</h2></div><div class="rankbody">${rankingsHtml(lists)}</div>`;
+  const sports = ['rugby', 'cricket', 'league', 'mma'].filter(k => (FEED.rankings || []).some(r => r.sport === k));
+  const tabs = sports.length > 1 ? `<div class="chips ranksports">${sports.map(k => `<button type="button" class="chip sportchip sport-${k}" data-rankings="${k}" aria-pressed="${k === sport}">${sIcon(k, 'cicon')}${{ mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'League' }[k]}</button>`).join('')}</div>` : '';
+  $('sheetBody').innerHTML = `${tabs}<div class="sheet-head sport-${sport}"><div class="comp">${sIcon(sport)}<span>World rankings</span></div><h2 class="dteams">${esc({ mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'Rugby league' }[sport] || sport)} rankings</h2></div><div class="rankbody">${rankingsHtml(lists)}</div>`;
   const dlg = $('sheet');
   dlg.dataset.id = ''; dlg.dataset.rankings = sport;
   if (!dlg.open) dlg.showModal();
@@ -1695,11 +1698,8 @@ function render() {
     $('genderSel').innerHTML = [['all', 'All'], ['m', "Men's"], ['w', "Women's"]].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
     $('sportFilter').classList.toggle('dim', !!compSel);
   }
-  // a sport picked on its own gets a button for its world rankings, opened in the popup
-  const RANK_NAME = { mma: 'UFC rankings', rugby: 'World Rugby rankings', cricket: 'ICC rankings', league: 'Rugby league world rankings' };
-  const rankSports = [...sportSel].filter(k => (FEED.rankings || []).some(r => r.sport === k));
-  $('rankRow').hidden = !rankSports.length;
-  $('rankRow').innerHTML = rankSports.map(k => `<button type="button" class="chip rankbtn" data-rankings="${k}">${sIcon(k, 'cicon')}${RANK_NAME[k] || 'Rankings'}</button>`).join('');
+  // one World rankings button that's always there (so nothing shifts); it opens on the picked sport
+  $('rankBtn').hidden = !(FEED.rankings || []).length;
   $('sportFilter').innerHTML = [['all','All'],['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['motor','F1'],['mma','MMA'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
   document.body.classList.remove('v-big', 'v-mixed', 'v-compact');
   document.body.classList.add('v-' + view);
@@ -1754,12 +1754,20 @@ document.addEventListener('click', ev => {
   else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; render(); }
   else if (t.dataset.rank) { rankSel = t.dataset.rank; if ($('sheet').open && $('sheet').dataset.rankings) openRankings($('sheet').dataset.rankings); else render(); }
   else if (t.dataset.rankings) { rankSel = ''; openRankings(t.dataset.rankings); }
+  else if (t.id === 'rankBtn') {
+    // the picked sport if it has rankings, else rugby, else whatever there is
+    const have = k => (FEED.rankings || []).some(r => r.sport === k);
+    const cs = compSel ? ((FEED.events || []).find(e => compOf(e) === compSel) || {}).sport : '';
+    const k = [...sportSel].find(have) || (have(cs) ? cs : '') || ['rugby', 'cricket', 'league', 'mma'].find(have);
+    rankSel = ''; if (k) openRankings(k);
+  }
   else if (t.dataset.respage != null) { resPage = Math.max(0, +t.dataset.respage); render(); $('resSec').scrollIntoView({ block: 'start' }); }
   else if (t.id === 'hubClose') { compSel = ''; store.set('comp', ''); hubTab = 'games'; render(); }
   else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
   else if (t.id === 'moreUp') { store.set('showAllUp', true); render(); }
   else if (t.dataset.view) { view = t.dataset.view; store.set('view', view); render(); }
   else if (t.id === 'spoilBtn') { spoilers = !spoilers; store.set('spoilers', spoilers); render(); }
+  else if (t.id === 'panelClose') closeSettings();
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); }
   else if (t.id === 'allOn') { picked = new Set(ALL_KEYS); store.set('teams', ALL_KEYS); render(); }
   else if (t.id === 'allOff') { picked = new Set(); store.set('teams', []); render(); }
@@ -1772,7 +1780,9 @@ $('compSel').addEventListener('click', ev => { ev.stopPropagation(); const open 
 addEventListener('resize', fitComp);
 $('compMenu').addEventListener('click', ev => { const b = ev.target.closest('[data-comp]'); if (!b) return; ev.stopPropagation(); compSel = b.dataset.comp; store.set('comp', compSel); closeComp(); render(); });
 document.addEventListener('click', ev => { if (!ev.target.closest('.cmenu')) closeComp(); }, true);
-document.addEventListener('keydown', ev => { if (ev.key === 'Escape') closeComp(); });
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape') { closeComp(); closeSettings(); } });
+const closeSettings = () => { if (!$('panel').hidden) { $('panel').hidden = true; $('teamsBtn').setAttribute('aria-expanded', 'false'); } };
+document.addEventListener('pointerdown', ev => { if (!$('panel').hidden && !ev.target.closest('.pbox, #teamsBtn')) closeSettings(); });
 addEventListener('scroll', () => { $('toTop').hidden = scrollY < 700; }, { passive: true });
 $('nzOnly').addEventListener('click', ev => { ev.stopPropagation(); nzOnly = !nzOnly; store.set('nzOnly', nzOnly); render(); });
 $('tzSel').addEventListener('change', e => { tzPick = e.target.value; NZ = tzPick === 'device' ? deviceTZ : tzPick; store.set('tz', tzPick); tick(); render(); });
