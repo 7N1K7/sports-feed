@@ -106,6 +106,9 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .ev .comp .series { text-transform: none; letter-spacing: 0; font-weight: 600; color: var(--muted) }
 .ev .comp .series::before { content: '· '; }
 @media (max-width: 560px) { .ev .comp .series { flex-basis: 100% } .ev .comp .series::before { content: none } }
+.ev .hl { justify-self: end; font-size: 13px; font-weight: 700; color: #e03131; text-decoration: none; padding: 3px 9px; border: 1px solid color-mix(in srgb, #e03131 40%, transparent); border-radius: 999px }
+.ev .hl:hover { background: color-mix(in srgb, #e03131 10%, transparent) }
+@media (max-width: 560px) { .ev .hl { justify-self: start } }
 .ev .rloc { font-size: 12px; color: var(--muted) }
 @media (max-width: 560px) { .ev .when { padding-right: 40px } }
 .ev .tvl { font-size: 13px; font-weight: 600; color: var(--ink) }
@@ -144,6 +147,13 @@ footer a { color: var(--muted) }
 .chip { display: inline-flex; align-items: center; gap: 6px }
 .sportchip.sport-all { --sport: var(--ink) }
 .sportchip { border-color: var(--sport) }
+.nowbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin: 4px 0 14px }
+.nowlbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 4px; display: inline-flex; align-items: center; gap: 6px }
+.nowlbl::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #e03131; box-shadow: 0 0 0 3px color-mix(in srgb, #e03131 25%, transparent) }
+.copt .onnow, .copt .ended { white-space: nowrap; margin-left: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #e03131 }
+.copt .ended { color: var(--muted); font-weight: 600 }
+.nowchip { border-color: var(--sport); background: color-mix(in srgb, var(--sport) 8%, var(--paper)); font-weight: 600 }
+.nowchip[aria-pressed="true"] { background: var(--sport); color: var(--paper) }
 .sportchip[aria-pressed="true"] { background: var(--sport); border-color: var(--sport); color: var(--paper) }
 .sport-rugby .ev, .ev.sport-rugby { background: color-mix(in srgb, var(--rugby) 5%, var(--surface)) }
 .ev.sport-cricket { background: color-mix(in srgb, var(--cricket) 5%, var(--surface)) }
@@ -426,6 +436,7 @@ a.svc:hover { text-decoration-color: currentColor }
 </div>
 
 <main class="wrap">
+  <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
   <div class="compbar"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9">NZ teams only</button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div></div>
   <section id="hubSec" hidden>
@@ -483,7 +494,7 @@ const TEAMS = [
   { g: 'Super Rugby Pacific', items: [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika'],['aurugby','Australian teams'],['superrugby','Every game']] },
   { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
   { g: 'Rugby league', items: [['kiwis','Kiwis'],['kiwiferns','Kiwi Ferns'],['warriors','Warriors'],['nrl','NRL (every game)'],['rlwc','League World Cup (every game)']] },
-  { g: 'Football', items: [['phoenix','Wellington Phoenix'],['aucklandfc','Auckland FC'],['aleague','A-League Men (every game)']] },
+  { g: 'Football', items: [['phoenix','Wellington Phoenix'],['aucklandfc','Auckland FC'],['aleague','A-League Men (every game)'],['epl','Premier League (every game)']] },
   { g: 'Fight sports', items: [['ufc','UFC events'],['boxing','Major boxing'],['nzboxing','NZ boxers']] },
 ];
 const TEAM_NAME = Object.fromEntries(TEAMS.flatMap(g => g.items));
@@ -495,7 +506,7 @@ const BADGE = {
   blackcaps: ['BC', '#111111', '#7fe0d0'], whiteferns: ['WF', '#ffffff', '#111111'], nzdomestic: ['NZC', '#2b3a67', '#ffffff'],
   wallabies: ['WAL', '#f2c200', '#0b3d2e'], aurugby: ['AUS', '#0b3d91', '#f2c200'], superrugby: ['SRP', '#00205b', '#ffffff'],
   bbl: ['BBL', '#ff6b00', '#111111'], wbbl: ['WBBL', '#7b2cbf', '#ffffff'], nrl: ['NRL', '#003b7a', '#ffffff'], rlwc: ['RLWC', '#0b6e4f', '#ffffff'],
-  phoenix: ['WNP', '#ffd100', '#000000'], aucklandfc: ['AFC', '#0033a0', '#ffffff'], aleague: ['ALM', '#e4002b', '#ffffff'], ufc: ['UFC', '#d20a0a', '#ffffff'], boxing: ['BOX', '#8a1c1c', '#ffd43b'], nzboxing: ['NZB', '#000000', '#ffd43b'],
+  phoenix: ['WNP', '#ffd100', '#000000'], aucklandfc: ['AFC', '#0033a0', '#ffffff'], aleague: ['ALM', '#e4002b', '#ffffff'], epl: ['EPL', '#3d195b', '#ffffff'], ufc: ['UFC', '#d20a0a', '#ffffff'], boxing: ['BOX', '#8a1c1c', '#ffd43b'], nzboxing: ['NZB', '#000000', '#ffd43b'],
   kiwis: ['KIW', '#000000', '#ffffff'], kiwiferns: ['KF', '#000000', '#ffffff'], warriors: ['WAR', '#0d1f4c', '#7fd13b'],
 };
 const badge = k => { const b = BADGE[k]; return b ? `<span class="badge" style="background:${b[1]};color:${b[2]}" aria-hidden="true">${b[0]}</span>` : ''; };
@@ -574,6 +585,9 @@ const store = {
   set(k, v) { try { localStorage.setItem('sf.' + k, JSON.stringify(v)) } catch {} },
 };
 let picked = new Set(store.get('teams', ALL_KEYS));
+// teams added to the site later are switched on for people who already saved their picks
+{ const known = new Set(store.get('known', ALL_KEYS.filter(k => k !== 'epl'))); const fresh = ALL_KEYS.filter(k => !known.has(k));
+  if (fresh.length) { fresh.forEach(k => picked.add(k)); store.set('teams', [...picked]); } store.set('known', ALL_KEYS); }
 { const known = new Set(store.get('known', ALL_KEYS)); ALL_KEYS.filter(k => !known.has(k)).forEach(k => picked.add(k)); store.set('known', ALL_KEYS); store.set('teams', [...picked]); }
 let spoilers = store.get('spoilers', true);   // true = hide recent results
 let spoilDays = store.get('spoilDaysSet', false) ? store.get('spoilDays', 4) : 4; // default 4 days covers Friday games checked on Monday
@@ -610,6 +624,7 @@ function compOf(e) {
   if (/NPC/.test(c)) return 'NPC';
   if (/Farah Palmer/i.test(c)) return 'Farah Palmer Cup';
   if (/A-League/i.test(c)) return 'A-League Men';
+  if (/Premier League/i.test(c) || e.team === 'epl') return 'Premier League';
   if (/Super Rugby/i.test(c)) return 'Super Rugby Pacific';
   if (/Nations Championship/i.test(c)) return 'Nations Championship';
   if (/Bledisloe|Rugby Championship/i.test(c)) return 'Rugby Championship';
@@ -736,6 +751,13 @@ function watchLine(e) {
   const note = e.watchNote && /not on|no tv|not televised/i.test(e.watchNote) ? `<span class="muted">${esc(e.watchNote)}</span>` : '';
   return `<div class="watch"><span class="wl">Watch</span>${b ? `<span>${linkWatch(b)}</span>` : ''}${alt}${note}</div>`;
 }
+// a YouTube search for the match, so it works whenever the official highlights go up
+function highlights(e, now) {
+  const age = now - new Date(e.startUTC);
+  if (age < 3 * 36e5 || age > 8 * 864e5) return '';
+  const q = `${displayName(e.home, e)} v ${displayName(e.away, e)} ${plural(compOf(e))} highlights`;
+  return `<a class="hl" href="https://www.youtube.com/results?search_query=${encodeURIComponent(q)}" target="_blank" rel="noopener">▶ Highlights</a>`;
+}
 function resCard(e, now) {
   const d = new Date(e.startUTC);
   const hidden = isHidden(e, now);
@@ -743,7 +765,7 @@ function resCard(e, now) {
   const long = (e.score || '').length > 9;
   const right = hidden
     ? `<button class="cover" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>hidden ${left} more day${left === 1 ? '' : 's'}</button>`
-    : (e.score ? `<div class="score num ${long ? 'long' : ''}">${esc(e.score)}</div>` : `<div class="loc">Result not in yet</div>`) + (canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : '');
+    : (e.score ? `<div class="score num ${long ? 'long' : ''}">${esc(e.score)}</div>` : `<div class="loc">Result not in yet</div>`) + highlights(e, now) + (canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : '');
   return `<article class="ev res sport-${e.sport}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}, details">
     <div class="stripe"></div>
     <div class="body">
@@ -849,7 +871,7 @@ function detail(e) {
     .sort((a, c) => (a.kind === 'injury' ? -1 : 0) - (c.kind === 'injury' ? -1 : 0) || c.date.localeCompare(a.date)).slice(0, 6);
   const res = isPast ? (hidden
     ? `<button class="cover big" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>Spoilers are hidden</button>`
-    : `<div class="dres"><div class="score num">${esc(e.score || 'Result not in yet')}</div>${e.summary ? `<p>${esc(e.summary)}</p>` : ''}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
+    : `<div class="dres"><div class="score num">${esc(e.score || 'Result not in yet')}</div>${e.summary ? `<p>${esc(e.summary)}</p>` : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
   const live = e.status === 'live' || onNow(e, now) ? `<div class="dres"><span><span class="tag live">On now</span></span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
       <div class="comp">${badge(e.team)}<span>${esc(plural(e.comp))}</span>${sIcon(e.sport)}</div>
@@ -874,8 +896,34 @@ function openDetail(id) {
   if (!dlg.open) dlg.showModal();
 }
 
+// short tournaments and series under way right now (first game played, more to come), NZ ones first.
+// Season-long leagues and catch-all groups stay in the competition menu.
+const GENERIC = /^(Test match|Women's test|Boxing|UFC|NZ domestic cricket|Black Caps|White Ferns|NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|A-League Men|Premier League|Big Bash|Women's Big Bash|Nations Championship|Rugby Championship)$/;
+let onNowComps = new Set();
+function renderNowBar(now) {
+  const by = new Map();
+  for (const e of FEED.events || []) {
+    if (!visibleTeam(e)) continue;
+    const c = compOf(e);
+    if (GENERIC.test(c)) continue;
+    const t = new Date(e.startUTC) - now;
+    const v = by.get(c) || { started: false, next: Infinity, nz: false, sport: e.sport, first: Infinity, last: -Infinity };
+    v.first = Math.min(v.first, t); v.last = Math.max(v.last, t);
+    if (t <= 18 * 36e5) v.started = true; // under way, or its first game is today
+    if (t > -4 * 36e5 && t < v.next) v.next = t;
+    if (isNZ(e)) v.nz = true;
+    by.set(c, v);
+  }
+  const on = [...by].filter(([, v]) => v.started && v.next < 8 * 864e5)
+    .sort((a, b) => b[1].nz - a[1].nz || a[1].next - b[1].next).slice(0, 6);
+  onNowComps = new Set(on.map(([c]) => c));
+  $('nowBar').hidden = !on.length;
+  $('nowBar').innerHTML = on.length ? `<span class="nowlbl">On now</span>${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}">${sIcon(v.sport, 'cicon')}${esc(plural(c))}</button>`).join('')}` : '';
+}
+
 function render() {
   const now = Date.now();
+  renderNowBar(now);
   const nowD = new Date(now);
   const evs = (FEED.events || []).filter(visible).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
   const todayK = dayKey(nowD);
@@ -977,11 +1025,18 @@ function render() {
 
   // controls
   {
-    const counts = new Map(), sportOfComp = new Map();
-    (FEED.events || []).filter(e => Math.abs(new Date(e.startUTC) - now) < 21 * 864e5).forEach(e => { const c = compOf(e); counts.set(c, (counts.get(c) || 0) + 1); sportOfComp.set(c, e.sport || sportOf(e.team)); });
-    const comps = [...counts].filter(([c, n]) => n >= 2 || c === compSel).sort((a, b) => b[1] - a[1]).map(([c]) => c);
+    // every competition with games in the last two months or next four; ones on now first, then by next game
+    const counts = new Map(), sportOfComp = new Map(), nextOf = new Map();
+    (FEED.events || []).filter(e => { const t = new Date(e.startUTC) - now; return t > -60 * 864e5 && t < 120 * 864e5; }).forEach(e => {
+      const c = compOf(e), t = new Date(e.startUTC) - now;
+      counts.set(c, (counts.get(c) || 0) + 1); sportOfComp.set(c, e.sport || sportOf(e.team));
+      nextOf.set(c, Math.min(nextOf.get(c) ?? Infinity, t > -3 * 36e5 ? t : Infinity));
+    });
+    const rank = c => (onNowComps.has(c) ? 0 : nextOf.get(c) < Infinity ? 1 : 2);
+    const comps = [...counts].filter(([c, n]) => n >= 2 || c === compSel).map(([c]) => c)
+      .sort((a, b) => rank(a) - rank(b) || (nextOf.get(a) - nextOf.get(b)) || a.localeCompare(b));
     const groups = [['rugby', 'Rugby'], ['league', 'Rugby league'], ['cricket', 'Cricket'], ['football', 'Football'], ['mma', 'UFC'], ['boxing', 'Boxing']];
-    const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}">${esc(c)}</button>`;
+    const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}">${esc(c)}${onNowComps.has(c) ? '<span class="onnow">On now</span>' : !c || nextOf.get(c) < Infinity ? '' : '<span class="ended">Season over</span>'}</button>`;
     $('compMenu').innerHTML = opt('') .replace('></button>', '>All competitions</button>') + groups.map(([k, l]) => {
       const cs = comps.filter(c => sportOfComp.get(c) === k);
       return cs.length ? `<div class="cgroup"><div class="chead"><span class="dot" style="background:var(--${k})"></span>${l}</div>${cs.map(opt).join('')}</div>` : '';
@@ -1000,7 +1055,7 @@ function render() {
   $('spoilDays').value = String(spoilDays);
   $('teamGroups').innerHTML = TEAMS.map(g => `<div class="group"><h3>${g.g}</h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`).join('');
 }
-const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague'], mma: ['ufc'], boxing: ['boxing','nzboxing'] };
+const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], mma: ['ufc'], boxing: ['boxing','nzboxing'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
 
 function tick() { $('clock').textContent = `NZ ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}` }
@@ -1017,7 +1072,11 @@ document.addEventListener('click', ev => {
   else if (t.dataset.sport) { compSel = ''; store.set('comp', ''); sportSel = t.dataset.sport; store.set('sport', sportSel); render(); }
   else if (t.dataset.kind) { newsKind = t.dataset.kind; render(); }
   else if (t.dataset.jump) { selDay = t.dataset.jump; document.querySelectorAll('.day').forEach(b => b.classList.toggle('sel', b.dataset.jump === selDay)); const el = document.getElementById('d-' + t.dataset.jump) || (t.dataset.jump === dayKey(new Date()) ? $('todaySec') : null); if (el) el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
-  else if (t.dataset.bigcomp) { hubTab = 'games'; compSel = t.dataset.bigcomp; store.set('comp', compSel); render(); $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  else if (t.dataset.bigcomp) {
+    const again = compSel === t.dataset.bigcomp && t.classList.contains('nowchip');
+    hubTab = 'games'; compSel = again ? '' : t.dataset.bigcomp; store.set('comp', compSel); render();
+    if (!t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
   else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; render(); }
   else if (t.id === 'hubClose') { compSel = ''; store.set('comp', ''); hubTab = 'games'; render(); }
   else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }

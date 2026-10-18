@@ -18,10 +18,13 @@
     { "title": "{S} Big Bash League season", "sport": "cricket", "comp": "Big Bash League", "team": "bbl", "tz": "Australia/Sydney", "showRound": true },
     { "title": "{S} Women's Big Bash League season", "sport": "cricket", "comp": "Women's Big Bash League", "team": "wbbl", "tz": "Australia/Sydney", "showRound": true },
     { "title": "{S} A-League Men", "sport": "football", "comp": "A-League Men", "classify": "aleague" },
+    { "title": "{S} Premier League", "sport": "football", "comp": "Premier League", "classify": "epl" },
+    { "title": "{Y} NRL season", "sport": "league", "comp": "NRL", "classify": "nrl" },
     { "title": "List of UFC events", "sport": "mma", "comp": "UFC", "ufc": true }
   ],
   "thesportsdb": [
     { "id": 4356, "sport": "football", "comp": "A-League Men", "classify": "aleague" },
+    { "id": 4328, "sport": "football", "comp": "Premier League", "classify": "epl" },
     { "id": 4416, "sport": "league", "comp": "NRL", "classify": "nrl" },
     { "id": 4551, "sport": "rugby", "comp": "Super Rugby Pacific", "classify": "superrugby" },
     { "id": 4443, "sport": "mma", "comp": "UFC", "ufc": true }
