@@ -255,9 +255,18 @@ dialog#sheet { width: min(720px, 100%) }
 
 /* centred matchup: Home  v  Away, crests next to the v */
 .ev .teams.matchup { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 12px; flex: 1; padding-block: 6px }
-.matchup .side { min-width: 0; overflow-wrap: anywhere }
-.matchup .home { text-align: right }
-.matchup .away { text-align: left }
+.ev .teams.matchup { align-items: start }
+.matchup .v { align-self: center }
+.matchup .side { min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center }
+.matchup .nm { min-width: 0; overflow-wrap: anywhere; text-wrap: balance }
+.matchup .away .logo { order: -1 }
+.ev .teams.matchup .logo, .ev .teams.matchup .logo.after { margin: 0; flex: none; width: 2.1em; height: 2.1em; vertical-align: 0; object-fit: contain }
+.ev .teams.matchup .flagimg, .ev .teams.matchup .flagimg.after { width: 2.2em; height: auto; margin-block: .2em; border-radius: 3px }
+.nm[style] { color: color-mix(in oklab, var(--tc) 82%, var(--ink)) }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .nm[style] { color: color-mix(in oklab, var(--tc) 55%, var(--ink)) } }
+:root[data-theme="dark"] .nm[style] { color: color-mix(in oklab, var(--tc) 55%, var(--ink)) }
+/* same right-column width on every card so the "v" lines up down the page */
+@media (min-width: 561px) { .ev { grid-template-columns: 6px minmax(0, 1fr) 210px } .ev .when { min-width: 0 } }
 .matchup .v { padding: 0; font-size: 0.75em; text-transform: lowercase }
 .ev .teams .logo.after { margin: 0 0 0 8px }
 /* competition menu with its own arrow */
@@ -280,7 +289,9 @@ dialog#sheet { width: min(720px, 100%) }
   .ev { grid-template-columns: 6px minmax(0, 1fr) }
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
   .tag { justify-self: start }
-  .ev .teams { font-size: 23px }
+  .ev .teams { font-size: 22px }
+  .ev .teams.matchup .logo { width: 1.9em; height: 1.9em }
+  .ev .teams.matchup .flagimg { width: 2em; height: auto }
   .ev .nz { font-size: 27px }
   .day .dd { font-size: 20px }
   .day { padding: 6px 2px }
@@ -392,14 +403,47 @@ const flagOf = name => {
   return c ? `https://flagcdn.com/w40/${c}.png` : '';
 };
 // away side: name first, then logo/flag, so both crests sit beside the "v"
-const teamNameR = (n, logo) => {
+// "Wellington Phoenix FC" -> "Wellington Phoenix"; keeps short names like "Auckland FC"
+const shortName = n => n.split(' ').length > 2 ? n.replace(/\s+FC$/, '') : n;
+const crest = (n, logo, after) => {
   const src = logo || flagOf(n);
-  return src ? `${esc(n)}<img class="logo ${logo ? '' : 'flagimg'} after" src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : esc(n);
+  return src ? `<img class="logo ${logo ? '' : 'flagimg'} ${after ? 'after' : ''}" src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
 };
-const teamName = (n, logo) => {
-  if (logo) return `<img class="logo" src="${esc(logo)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">${esc(n)}`;
-  const f = flagOf(n); return f ? `<img class="logo flagimg" src="${f}" alt="" loading="lazy" onerror="this.remove()">${esc(n)}` : esc(n);
+// National side nicknames by sport and men's/women's, e.g. New Zealand cricket (men's) -> Black Caps
+const NICK = {
+  'rugby m': { 'New Zealand': 'All Blacks', Australia: 'Wallabies', 'South Africa': 'Springboks', Argentina: 'Pumas', Fiji: 'Flying Fijians', Samoa: 'Manu Samoa' },
+  'rugby w': { 'New Zealand': 'Black Ferns', Australia: 'Wallaroos', England: 'Red Roses', Fiji: 'Fijiana' },
+  'league m': { 'New Zealand': 'Kiwis', Australia: 'Kangaroos', 'Papua New Guinea': 'PNG Kumuls', Samoa: 'Toa Samoa', Fiji: 'Fiji Bati' },
+  'league w': { 'New Zealand': 'Kiwi Ferns', Australia: 'Jillaroos', 'Papua New Guinea': 'PNG Orchids', Fiji: 'Fiji Bulikula' },
+  'cricket m': { 'New Zealand': 'Black Caps' },
+  'cricket w': { 'New Zealand': 'White Ferns' },
 };
+const plural = t => /A-League/.test(t || '') ? t : String(t || '').replace(/\bWomen\b(?!')/g, "Women's").replace(/\bMen\b(?!')/g, "Men's");
+function displayName(n, e) {
+  if (!n) return '';
+  const base = n.replace(/\s+Women('s)?$/, '');
+  const g = e ? (/\s+Women('s)?$/.test(n) ? 'w' : genderOf(e)) : '';
+  const nick = e && NICK[`${e.sport} ${g}`]?.[base];
+  return nick || plural(shortName(n));
+}
+// Name colours: national and club colours. New Zealand / black teams stay the default ink.
+const TEAM_COLOR = {
+  Australia: '#00843d', Wallabies: '#c99700', Fiji: '#1b75bb', Samoa: '#0b3d91', Tonga: '#c8102e', 'Papua New Guinea': '#c8102e', 'Cook Islands': '#0a7d3b',
+  England: '#c8102e', Wales: '#d30731', Scotland: '#1d3a7a', Ireland: '#169b62', France: '#1d3c87', Italy: '#1f5fbf', 'South Africa': '#007a4d', Argentina: '#4a9fd8',
+  Japan: '#c8102e', USA: '#1d3c87', Lebanon: '#c8102e', India: '#1f6fd6', Pakistan: '#01411c', 'Sri Lanka': '#1f3a93', Bangladesh: '#006a4e', 'West Indies': '#7b1e3a', Afghanistan: '#1f5fbf', Zimbabwe: '#c8102e',
+  Blues: '#1f4fa3', Chiefs: '#b8001f', Hurricanes: '#c99700', Crusaders: '#c8102e', Highlanders: '#1d3a7a', Moana: '#0e7c86', Brumbies: '#0b3d91', Reds: '#c8102e', Waratahs: '#4a9fd8', 'Western Force': '#1d3a7a', Drua: '#1b75bb',
+  Warriors: '#5a6f7d', Broncos: '#7a1f3d', Dolphins: '#c8102e', Knights: '#1d3c87', Storm: '#5b2a86', Roosters: '#1d3c87', Rabbitohs: '#0a7d3b', Sharks: '#1c9bd8', 'Sea Eagles': '#6d1f3d', Raiders: '#58a618', Eels: '#1d5fbf', Titans: '#1c9bd8', Bulldogs: '#1d5fbf', Cowboys: '#1d3a7a', Dragons: '#c8102e', 'Wests Tigers': '#e87722',
+  'Wellington Phoenix': '#b08a00', 'Auckland FC': '#1f5bd8', 'Melbourne Victory': '#1c2a6b', 'Melbourne City': '#4a9fd8', 'Sydney FC': '#4a9fd8', 'Western Sydney': '#c8102e', 'Brisbane Roar': '#e87722', 'Perth Glory': '#5b2a86', 'Adelaide United': '#c8102e', 'Central Coast': '#c99700', Macarthur: '#b08a00', 'Newcastle Jets': '#1d3c87',
+  Strikers: '#1f6fd6', Heat: '#00a3ad', 'Hobart Hurricanes': '#5b2a86', Renegades: '#c8102e', Stars: '#0a7d3b', Scorchers: '#e87722', Sixers: '#d6006f', Thunder: '#6aa51b',
+  Auckland: '#1f6fd6', Canterbury: '#c8102e', Wellington: '#c99700', Otago: '#1d3a7a', Waikato: '#c8102e', Taranaki: '#c99700', 'Bay of Plenty': '#1f6fd6', Counties: '#c8102e', Northland: '#1f6fd6', 'North Harbour': '#1f6fd6', Tasman: '#e87722', "Hawke's Bay": '#c8102e', Manawat: '#0a7d3b', Southland: '#c8102e',
+  'Northern Districts': '#0a7d3b', Central: '#e87722',
+};
+const COLOR_KEYS = Object.keys(TEAM_COLOR).sort((a, b) => b.length - a.length); // longest first: "Hobart Hurricanes" before "Hurricanes"
+const colorOf = n => { const k = COLOR_KEYS.find(k => n.includes(k)); return k ? TEAM_COLOR[k] : '' };
+const nmSpan = (n, e) => { const c = colorOf(n.replace(/\s+Women('s)?$/, '')); return `<span class="nm"${c ? ` style="--tc:${c}"` : ''}>${esc(displayName(n, e))}</span>` };
+// flag lookups use the plain country name, the label uses the nickname
+const teamNameR = (n, logo, e) => `${nmSpan(n, e)}${crest(n.replace(/\s+Women('s)?$/, ''), logo, true)}`;
+const teamName = (n, logo, e) => `${crest(n.replace(/\s+Women('s)?$/, ''), logo)}${nmSpan(n, e)}`;
 const START_LABEL = { rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight', boxing: 'Main card' };
 const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC', boxing: 'Boxing' };
 
@@ -502,11 +546,11 @@ function evCard(e, now) {
   const local = overseas ? `<div class="loc num">${e.timeTBC ? '' : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${esc(cityOf(e))}</div>` : '';
   const tv = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : '';
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
-  return `<article class="ev sport-${e.sport} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(e.home)} v ${esc(e.away)}, details">
+  return `<article class="ev sport-${e.sport} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${badge(e.team)}<span>${esc(e.comp)}</span></div>
-      <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo)}</span></div>
+      <div class="comp">${badge(e.team)}<span>${esc(plural(e.comp))}</span></div>
+      <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>
       <div class="meta">${esc(cityOf(e) || e.venue || '')}${tv ? ` · <span class="tv">${esc(tv)}</span>` : ''}</div>
     </div>
     <div class="when">
@@ -537,11 +581,11 @@ function resCard(e, now) {
   const right = hidden
     ? `<button class="cover" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>hidden ${left} more day${left === 1 ? '' : 's'}</button>`
     : (e.score ? `<div class="score num ${long ? 'long' : ''}">${esc(e.score)}</div>` : `<div class="loc">Result not in yet</div>`) + (canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : '');
-  return `<article class="ev res sport-${e.sport}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(e.home)} v ${esc(e.away)}, details">
+  return `<article class="ev res sport-${e.sport}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${badge(e.team)}<span>${esc(e.comp)}</span></div>
-      <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo)}</span></div>
+      <div class="comp">${badge(e.team)}<span>${esc(plural(e.comp))}</span></div>
+      <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>
       <div class="meta">${dayLabel(d, NZ)} · ${esc(e.city || '')}</div>
       ${hidden ? '' : `<div class="summary">${esc(e.summary || '')}</div>`}
     </div>
@@ -575,8 +619,8 @@ function detail(e) {
     : `<div class="dres"><div class="score num">${esc(e.score || 'Result not in yet')}</div>${e.summary ? `<p>${esc(e.summary)}</p>` : ''}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
   const live = e.status === 'live' || onNow(e, now) ? `<div class="dres"><span><span class="tag live">On now</span></span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
-      <div class="comp">${badge(e.team)}<span>${esc(e.comp)}</span></div>
-      <h2 class="dteams">${teamName(e.home, e.homeLogo)} <span class="v">v</span> ${teamName(e.away, e.awayLogo)}</h2>
+      <div class="comp">${badge(e.team)}<span>${esc(plural(e.comp))}</span></div>
+      <h2 class="dteams">${teamName(e.home, e.homeLogo, e)} <span class="v">v</span> ${teamName(e.away, e.awayLogo, e)}</h2>
       ${!isPast && e.status !== 'live' && countdown(e, now) ? `<span class="tag ${d - now < 864e5 ? 'soon' : d - now < 3 * 864e5 ? 'near' : 'later'}">${countdown(e, now)}</span>` : ''}
     </div>
     ${res}${live}
@@ -622,7 +666,10 @@ function render() {
   // today's finished games stay in "On today" (spoiler rules still apply), latest first after the upcoming ones
   const doneToday = finals.filter(e => dayKey(new Date(e.startUTC)) === todayK);
   $('today').innerHTML = todays.length || doneToday.length
-    ? `<div class="daygroup">${todays.map(e => evCard(e, now)).join('')}${doneToday.length ? `<div class="dayhead">Earlier today</div><div class="donetoday">${doneToday.map(e => resCard(e, now)).join('')}</div>` : ''}</div>`
+    ? `<div class="daygroup">${(() => {
+        const live = todays.filter(e => e.status === 'live' || onNow(e, now)), later = todays.filter(e => !live.includes(e));
+        return live.map(e => evCard(e, now)).join('') + (live.length && later.length ? `<div class="dayhead">Later today</div>` : '') + later.map(e => evCard(e, now)).join('');
+      })()}${doneToday.length ? `<div class="dayhead">Earlier today</div><div class="donetoday">${doneToday.map(e => resCard(e, now)).join('')}</div>` : ''}</div>`
     : `<div class="empty-note">Nothing on for your teams today. ${upcoming[0] ? `Next up: <b>${esc(upcoming[0].home)} v ${esc(upcoming[0].away)}</b>, ${dayLabel(new Date(upcoming[0].startUTC), NZ)}.` : ''}</div>`;
 
   // coming up, grouped by NZ day
