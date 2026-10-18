@@ -621,6 +621,8 @@ function genderOf(x) {
 // how a competition reads in the menu
 const COMP_LABEL = { UFC: 'MMA › UFC' };
 // one name per competition, so a whole tournament can be shown on its own
+// the card's header: Australia's tours read home side first, like the names below ("South Africa v Australia · 1st T20I")
+const cardComp = e => e.team === 'aucricket' ? compOf(e) + (e.stage ? ' · ' + e.stage : '') : plural(e.comp);
 function compOf(e) {
   const c = e.comp || '';
   if (e.sport === 'mma') return 'UFC';
@@ -731,7 +733,7 @@ function evCard(e, now) {
   return `<article class="ev sport-${e.sport} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${sIcon(e.sport)}${badge(e.team)}<span>${esc(plural(e.comp))}</span>${seriesLine(e, now)}</div>
+      <div class="comp">${sIcon(e.sport)}${badge(e.team)}<span>${esc(cardComp(e))}</span>${seriesLine(e, now)}</div>
       <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>
     </div>
     <div class="when">
@@ -785,7 +787,7 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${sIcon(e.sport)}${badge(e.team)}<span>${esc(plural(e.comp))}</span></div>
+      <div class="comp">${sIcon(e.sport)}${badge(e.team)}<span>${esc(cardComp(e))}</span></div>
       <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>
       ${hidden ? '' : `<div class="summary">${esc(e.summary || '')}</div>`}
     </div>
@@ -891,7 +893,7 @@ function detail(e) {
     : `<div class="dres"><div class="score num">${esc(e.score || 'Result not in yet')}</div>${e.summary ? `<p>${esc(e.summary)}</p>` : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
   const live = e.status === 'live' || onNow(e, now) ? `<div class="dres"><span><span class="tag live">On now</span></span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
-      <div class="comp">${badge(e.team)}<span>${esc(plural(e.comp))}</span>${sIcon(e.sport)}</div>
+      <div class="comp">${badge(e.team)}<span>${esc(cardComp(e))}</span>${sIcon(e.sport)}</div>
       <h2 class="dteams">${teamName(e.home, e.homeLogo, e)} <span class="v">v</span> ${teamName(e.away, e.awayLogo, e)}</h2>
       ${!isPast && e.status !== 'live' && countdown(e, now) ? `<span class="tag ${d - now < 864e5 ? 'soon' : d - now < 3 * 864e5 ? 'near' : 'later'}">${countdown(e, now)}</span>` : ''}
     </div>
