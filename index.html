@@ -53,6 +53,7 @@ header.top .wrap { display: flex; align-items: center; gap: 12px; padding-block:
 .brand { font-family: var(--f-display); font-weight: 700; font-size: 26px; letter-spacing: .02em; text-transform: uppercase; line-height: 1 }
 .brand span { color: var(--accent) }
 .clock { color: var(--muted); font-size: 13px }
+.ver { color: var(--muted); font-size: 11px; border: 1px solid var(--line); border-radius: 999px; padding: 1px 7px }
 .spacer { flex: 1 }
 .btn { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-size: 14px; display: inline-flex; gap: 6px; align-items: center }
 .btn:hover { border-color: var(--accent) }
@@ -471,6 +472,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   <div class="wrap">
     <div class="brand">Sports <span>Feed</span></div>
     <div class="clock num" id="clock"></div>
+    <div class="ver num" id="ver"></div>
     <div class="spacer"></div>
     <button class="btn" id="spoilBtn" aria-pressed="false" type="button">Spoilers hidden</button>
     <button class="btn" id="teamsBtn" aria-expanded="false" aria-controls="panel" type="button">My teams</button>
@@ -1327,7 +1329,8 @@ $('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; st
 function stamp() {
   if (!FEED.generatedAt) return;
   const mins = Math.round((Date.now() - new Date(FEED.generatedAt)) / 6e4);
-  $('mockNote').textContent = `Updated ${mins < 1 ? 'just now' : mins < 60 ? mins + ' min ago' : fmt(new Date(FEED.generatedAt), NZ, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}. Results update about every 10 minutes.`;
+  if (FEED.site) { $('ver').textContent = `v${FEED.site.version}`; $('ver').title = `Site last changed ${fmt(new Date(FEED.site.changedAt), NZ, { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; }
+  $('mockNote').textContent = (FEED.site ? `Site v${FEED.site.version}, changed ${fmt(new Date(FEED.site.changedAt), NZ, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}. ` : '') + `Results updated ${mins < 1 ? 'just now' : mins < 60 ? mins + ' min ago' : fmt(new Date(FEED.generatedAt), NZ, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}. Results update about every 10 minutes.`;
 }
 async function load() {
   try {

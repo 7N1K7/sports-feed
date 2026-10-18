@@ -9,6 +9,7 @@
 //   data/broadcast.json        -> where-to-watch rules by competition
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
 import { wikiEvents, tsdbEvents, tsdb } from './sources.mjs';
+import { execSync } from 'node:child_process';
 
 const ROOT = new URL('../', import.meta.url);
 const DAY = 864e5;
@@ -251,8 +252,13 @@ async function addImages(items) {
 await addImages(news);
 await addLogos(events);
 
+// site version: the number of commits, and when the code last changed (needs the full git history in CI)
+let site = null;
+try { site = { version: +execSync('git rev-list --count HEAD').toString().trim(), changedAt: execSync('git log -1 --format=%cI').toString().trim() }; } catch {}
+
 const feed = {
   generatedAt: new Date(now).toISOString(),
+  ...(site ? { site } : {}),
   diag: { ...diag, liveSourceEvents: live.length, eventsByTeam: events.reduce((m, e) => (m[e.team] = (m[e.team] || 0) + 1, m), {}) },
   events: events.filter(e => now - new Date(e.startUTC) < 21 * DAY),
   news,
@@ -264,4 +270,15 @@ const feed = {
   ],
 };
 await writeFile(new URL('data/feed.json', ROOT), JSON.stringify(feed));
+
+// "hot" while a game is on or about to start (Tests count for five days), so the workflow refreshes every
+// 10 minutes then and only now and again otherwise, sparing Wikipedia and TheSportsDB needless requests
+const hot = feed.events.some(e => {
+  if (e.status === 'final') return false;
+  const age = now - new Date(e.startUTC);
+  const span = e.sport === 'cricket' && /\bTests?\b/.test(`${e.stage || ''} ${e.comp || ''}`) ? 5 * DAY : 12 * 36e5;
+  return age > -90 * 6e4 && age < span;
+});
+if (process.env.GITHUB_OUTPUT) await writeFile(process.env.GITHUB_OUTPUT, `hot=${hot}\n`, { flag: 'a' });
+console.log(hot ? 'Games on or starting soon: next refresh in 10 minutes' : 'Nothing on: next refresh on the slower schedule');
 console.log(`feed.json: ${feed.events.length} events (${wiki.length} from Wikipedia, ${tsdbLive.length} from TheSportsDB), ${news.length} news`);

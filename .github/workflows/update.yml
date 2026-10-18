@@ -4,9 +4,9 @@ on:
   push:
     branches: [main]
   schedule:
-    # Fallback only. GitHub starts scheduled runs late (about every 25 minutes), so the chain job
-    # below keeps the feed on a 10 minute cycle; a scheduled run restarts the chain if it stops.
-    - cron: '3,13,23,33,43,53 * * * *'
+    # The slow cycle (GitHub often starts these late). While a game is on or about to start, the chain
+    # job below adds a run every 10 minutes; a scheduled run restarts the chain when the next game nears.
+    - cron: '7,37 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -25,10 +25,13 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       started: ${{ steps.t0.outputs.started }}
+      hot: ${{ steps.fetch.outputs.hot }}
     steps:
       - id: t0
         run: echo "started=$(date +%s)" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history, for the site version number
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -37,7 +40,8 @@ jobs:
           path: .cache
           key: og-${{ github.run_id }}
           restore-keys: og-
-      - run: node scripts/fetch.mjs
+      - id: fetch
+        run: node scripts/fetch.mjs
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
@@ -55,7 +59,8 @@ jobs:
   # fallback cron, a manual run): that run carries the chain on, so there is only ever one chain.
   chain:
     needs: [build, deploy]
-    if: github.ref == 'refs/heads/main'
+    # only while a game is on or about to start; otherwise the half-hourly schedule is enough
+    if: github.ref == 'refs/heads/main' && needs.build.outputs.hot == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
