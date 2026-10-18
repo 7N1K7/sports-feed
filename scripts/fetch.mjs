@@ -279,6 +279,46 @@ const newsAll = [...curated.news];
 for (const n of await rnzNews()) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
 const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 
+// Club logos from TheSportsDB's free API (badges used as-is, credited in the footer).
+// Countries use flags in the page instead. Looked-up names are cached between runs.
+const COUNTRY = /^(New Zealand|Australia|England|Scotland|Wales|Ireland|France|Italy|South Africa|Argentina|Japan|Fiji|Samoa|Tonga|Papua New Guinea|Cook Islands|India|Sri Lanka|Bangladesh|Pakistan|West Indies|Lebanon|Canada|USA|United States|Chile|Uruguay|Georgia|Portugal|Spain|Romania)( Women| A| XI| Wheelchair)?$/i;
+const TSDB_SPORT = { rugby: ['Rugby'], league: ['Rugby League', 'Rugby'], football: ['Soccer'], cricket: ['Cricket'] };
+async function addLogos(events) {
+  const cacheUrl = new URL('.cache/logos.json', ROOT);
+  let cache = {};
+  try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
+  const want = new Map();
+  for (const e of events) {
+    if (!TSDB_SPORT[e.sport]) continue;
+    for (const n of [e.home, e.away]) if (n && !/TBC|winner|^Northland or/i.test(n) && !COUNTRY.test(n)) want.set(`${e.sport}|${n}`, [e.sport, n]);
+  }
+  let looked = 0;
+  for (const [key, [sport, name]] of want) {
+    if (key in cache || looked >= 25) continue;
+    looked++;
+    const tries = [name, name.replace(/\s+(FC|Bulls|Stags|Mako|Steamers|Pride|Storm|Women)$/i, '')];
+    cache[key] = null;
+    for (const q of [...new Set(tries)]) {
+      try {
+        const d = await getJSON(`https://www.thesportsdb.com/api/v1/json/123/searchteams.php?t=${encodeURIComponent(q)}`);
+        const teams = d.teams || [];
+        const t = teams.find(t => TSDB_SPORT[sport].includes(t.strSport)) || null;
+        const badge = t && (t.strBadge || t.strTeamBadge);
+        if (badge) { cache[key] = badge; break; }
+      } catch {}
+      await new Promise(r => setTimeout(r, 2100)); // free tier: 30 requests a minute
+    }
+  }
+  let n = 0;
+  for (const e of events) {
+    const h = cache[`${e.sport}|${e.home}`], a = cache[`${e.sport}|${e.away}`];
+    if (h) { e.homeLogo = h + '/tiny'; n++; }
+    if (a) { e.awayLogo = a + '/tiny'; n++; }
+  }
+  diag.logos = `${Object.values(cache).filter(Boolean).length}/${Object.keys(cache).length} teams found, ${looked} looked up this run`;
+  try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
+}
+
 // Thumbnails: read each article's og:image once and remember it in .cache/og.json
 async function addImages(items) {
   const cacheUrl = new URL('.cache/og.json', ROOT);
@@ -299,6 +339,7 @@ async function addImages(items) {
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
 await addImages(news);
+await addLogos(events);
 
 const feed = {
   generatedAt: new Date(now).toISOString(),
@@ -308,7 +349,7 @@ const feed = {
   sources: [
     { name: 'ESPN', url: 'https://www.espn.com/rugby/' }, { name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' },
     { name: 'NZ Rugby', url: 'https://www.allblacks.com' }, { name: 'NZ Cricket', url: 'https://www.nzc.nz' },
-    { name: 'NRL', url: 'https://www.nrl.com' },
+    { name: 'NRL', url: 'https://www.nrl.com' }, { name: 'Logos: TheSportsDB', url: 'https://www.thesportsdb.com' },
   ],
 };
 await writeFile(new URL('data/feed.json', ROOT), JSON.stringify(feed));
