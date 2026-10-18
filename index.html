@@ -65,6 +65,7 @@ header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block:
 
 .mock { background: var(--soft); color: var(--muted); font-size: 13px }
 .clockcol { display: grid; gap: 1px; line-height: 1.2 }
+.clockrow { display: flex; align-items: center; gap: 6px }
 .fresh { color: var(--muted); font-size: 12px; cursor: help; white-space: nowrap }
 .mock .wrap { padding-block: 8px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 16px }
 .mock .siteinfo { margin-left: auto; text-align: right; opacity: .85 }
@@ -612,8 +613,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 <header class="top">
   <div class="wrap">
     <div class="brand"><img class="blogo" src="logo.svg?v=b4" alt="" width="40" height="40">Kickoff <span>Kiwi</span></div>
-    <div class="clockcol"><div class="clock num" id="clock"></div><div class="fresh" id="fresh"></div></div>
-    <div class="ver num" id="ver"></div>
+    <div class="clockcol"><div class="clockrow"><div class="clock num" id="clock"></div><div class="ver num" id="ver"></div></div><div class="fresh" id="fresh"></div></div>
     <div class="spacer"></div>
     <div class="search" role="search">
       <input id="q" type="search" placeholder="Find a team or game" autocomplete="off" spellcheck="false" aria-label="Find a team or game" aria-controls="qList" aria-expanded="false">
