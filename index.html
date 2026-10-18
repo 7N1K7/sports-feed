@@ -154,7 +154,7 @@ footer a { color: var(--muted) }
 .nowbar::-webkit-scrollbar { display: none }
 .nowchip { flex: none; font-size: 13px; padding: 4px 10px; min-height: 0 }
 .nowchips { display: contents }
-.nowlbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 4px; display: inline-flex; align-items: center; gap: 6px }
+.nowlbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 4px; white-space: nowrap; flex: none; display: inline-flex; align-items: center; gap: 6px }
 .nowchip.is-live { border-color: #e03131 }
 .livetag { margin-left: 6px; font-size: 9px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff; background: #e03131; border-radius: 4px; padding: 1px 5px }
 @media (prefers-reduced-motion: no-preference) { .nowchip.is-live .livetag { animation: tagpulse 2s ease-in-out infinite } @keyframes tagpulse { 50% { opacity: .55 } } }
@@ -938,8 +938,13 @@ function hubTeams() {
   return keys;
 }
 function hubNews(n) {
-  const words = compSel.replace(/\b(Men's|Women's|League|Cup|Rugby|Pacific)\b/g, '').trim();
-  return hubTeams().has(n.team) || (words.length > 3 && (n.title + ' ' + n.summary).includes(words)) || (n.title + ' ' + n.summary).includes(compSel);
+  if (hubTeams().has(n.team)) return true;
+  // name matches only within the same sport, as whole words: "Premier" must not pick up the FPC "Premiership" final
+  const sports = new Set((FEED.events || []).filter(e => compOf(e) === compSel).map(e => e.sport));
+  if (sports.size && !sports.has(sportOf(n.team))) return false;
+  const text = n.title + ' ' + n.summary, has = w => new RegExp(`\\b${w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(text);
+  const words = compSel.replace(/\b(Men's|Women's|League|Cup|Rugby|Pacific)\b/g, '').replace(/\s+/g, ' ').trim();
+  return (words.length > 3 && has(words)) || has(compSel);
 }
 function hubTables() {
   const ts = (FEED.tables || []).filter(t => compOf({ comp: t.comp, sport: t.sport, team: t.team }) === compSel);
@@ -1171,7 +1176,7 @@ function renderNowBar(now) {
   onNowComps = new Set(on.map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
   $('nowBar').hidden = !on.length;
-  $('nowBar').innerHTML = on.length ? `<span class="nowlbl">Current</span><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}</div>` : '';
+  $('nowBar').innerHTML = on.length ? `<span class="nowlbl">Current series</span><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}</div>` : '';
 }
 
 function render() {
