@@ -374,7 +374,13 @@ async function addFaces(events) {
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
   const api = async q => { const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&' + q, { headers: { 'user-agent': 'sports-feed (personal site)' } }); if (!r.ok) throw new Error(`wikipedia ${r.status}`); return r.json(); };
   const near = events.filter(e => /^(mma|boxing)$/.test(e.sport) && Math.abs(Date.parse(e.startUTC) - now) < 60 * DAY);
-  const names = [...new Set(near.flatMap(e => [e.home, e.away]))].filter(n => n && !/TBC|^UFC|Fight Night|\bvs?\b/i.test(n) && n.split(' ').length <= 4);
+  // UFC cards are listed by surname ("Volkanovski vs. Evloev"); the fight card has the full names to look up
+  const full = (e, side) => {
+    const n = e[side], last = s => String(s || '').replace(/\s*\(c\)$/, '').trim().split(/\s+/).pop().toLowerCase();
+    const m = (e.card || []).flatMap(b => [b.a, b.b]).find(x => x && x.trim().includes(' ') && last(x) === last(n));
+    return /\s/.test(n || '') || !m ? n : m.replace(/\s*\(c\)$/, '').trim();
+  };
+  const names = [...new Set(near.flatMap(e => [full(e, 'home'), full(e, 'away')]))].filter(n => n && !/TBC|^UFC|Fight Night|\bvs?\b/i.test(n) && n.split(' ').length <= 4);
   const due = names.filter(n => !cache[n] || now - cache[n].t > (cache[n].src ? 30 : 7) * DAY).slice(0, 40);
   const plain = h => String(h || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
   try {
@@ -402,7 +408,7 @@ async function addFaces(events) {
     }
   } catch (e) { diag.faces = 'error: ' + e.message; }
   for (const e of near) for (const side of ['home', 'away']) {
-    const c = cache[e[side]];
+    const c = cache[full(e, side)];
     if (c?.src && !e[side + 'Logo']) { e[side + 'Logo'] = c.src; e[side + 'Credit'] = c.credit || 'Wikimedia Commons'; }
   }
   diag.faces ||= `${names.filter(n => cache[n]?.src).length}/${names.length} fighters with a free photo; ${due.length} looked up`;
