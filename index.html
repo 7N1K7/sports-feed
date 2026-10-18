@@ -349,8 +349,9 @@ dialog#sheet { width: min(720px, 100%) }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper) }
 
 .donetoday { display: grid; gap: 10px }
-.donetoday .ev { background: color-mix(in srgb, var(--muted) 10%, var(--paper)); border-style: dashed; filter: saturate(.45) }
-.donetoday .ev .teams { color: color-mix(in srgb, var(--ink) 75%, var(--paper)) }
+.resting .ev .loc { display: none }
+.donetoday:not(.resting) .ev { background: color-mix(in srgb, var(--muted) 10%, var(--paper)); border-style: dashed; filter: saturate(.45) }
+.donetoday:not(.resting) .ev .teams { color: color-mix(in srgb, var(--ink) 75%, var(--paper)) }
 
 /* competition menu: soft rounded popover */
 .cmenu { position: relative }
@@ -1019,9 +1020,10 @@ function seriesLine(e, now) {
 }
 
 function evCard(e, now) {
-  const d = new Date(e.startUTC);
-  const overseas = e.tz && e.tz !== NZ;
   const live = e.status === 'live' ? 'On now' : onNow(e, now), paused = !live && between(e, now);
+  // a Test between days shows when the next day starts, not when the match began
+  const d = new Date(+new Date(e.startUTC) + (paused ? (+paused.match(/\d+/)[0] - 1) * 864e5 : 0));
+  const overseas = e.tz && e.tz !== NZ;
   const cd = countdown(e, now);
   const ms = d - now;
   const urg = ms < 864e5 ? 'soon' : ms < 3 * 864e5 ? 'near' : 'later';
@@ -1585,7 +1587,7 @@ function render() {
         const hourNZ = e => +fmt(new Date(e.startUTC), NZ, { hour: 'numeric', hour12: false });
         const tonight = +fmt(nowD, NZ, { hour: 'numeric', hour12: false }) >= 17 || (later.length && later.every(e => !e.timeTBC && hourNZ(e) >= 17));
         return (lives.length && later.length ? `<div class="dayhead">${tonight ? 'Later tonight' : 'Later today'}</div>` : '') + later.map(e => evCard(e, now)).join('');
-      })()}${doneToday.length || resting.length ? `<div class="dayhead">Earlier${doneToday.length ? revealAll(doneToday, now) : ''}</div>${resting.map(e => evCard(e, now)).join('')}${doneToday.length ? `<div class="donetoday">${doneToday.map(e => resCard(e, now)).join('')}</div>` : ''}` : ''}</div>`
+      })()}${doneToday.length || resting.length ? `<div class="dayhead">Earlier${doneToday.length ? revealAll(doneToday, now) : ''}</div>${resting.length ? `<div class="donetoday resting">${resting.map(e => evCard(e, now)).join('')}</div>` : ''}${doneToday.length ? `<div class="donetoday">${doneToday.map(e => resCard(e, now)).join('')}</div>` : ''}` : ''}</div>`
     : `<div class="empty-note">Nothing on for your teams today. ${upcoming[0] ? `Next up: <b>${esc(titleOf(upcoming[0]))}</b>, ${dayLabel(new Date(upcoming[0].startUTC), NZ)}.` : ''}</div>`;
 
   // coming up this week, then further ahead, grouped by NZ day
