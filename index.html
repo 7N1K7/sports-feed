@@ -789,6 +789,8 @@ function usualStart(e) {
   const q = parts(new Date(wall)), off = Date.UTC(q.year, q.month - 1, q.day, q.hour % 24, q.minute) - wall;
   return new Date(wall - off);
 }
+const HOST_TZ = { 'South Africa': 'Africa/Johannesburg', Australia: 'Australia/Sydney', 'New Zealand': 'Pacific/Auckland', England: 'Europe/London', India: 'Asia/Kolkata', 'Sri Lanka': 'Asia/Colombo',
+  Pakistan: 'Asia/Karachi', Bangladesh: 'Asia/Dhaka', Zimbabwe: 'Africa/Harare', 'West Indies': 'America/Port_of_Spain', Ireland: 'Europe/Dublin', 'United Arab Emirates': 'Asia/Dubai' };
 const USUAL_NOTE = 'Start time not listed yet; Tests usually begin about 10am local time';
 function onNow(e, now) {
   const s = new Date(e.startUTC);
@@ -1400,8 +1402,13 @@ async function load() {
     const r = await fetch('data/feed.json', { cache: 'no-store' });
     if (!r.ok) throw new Error(r.status);
     FEED = await r.json();
-    // Tests with no listed time sit at their usual 10am local start, so they land on the right day and countdown
-    for (const e of FEED.events || []) { const u = usualStart(e); if (u) { e.startUTC = u.toISOString(); e.usual = true; } }
+    for (const e of FEED.events || []) {
+      // a tour game with no ground listed is still in the host country (listed first), so use its time zone
+      const host = String(e.home || '').replace(/\s+(Women|A|XI)$/i, '').trim();
+      if (e.sport === 'cricket' && !e.tz && HOST_TZ[host]) { e.tz = HOST_TZ[host]; if (!e.city && !e.venue) e.city = host; }
+      // Tests with no listed time sit at their usual 10am local start, so they land on the right day and countdown
+      const u = usualStart(e); if (u) { e.startUTC = u.toISOString(); e.usual = true; }
+    }
     $('foot').innerHTML = `Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0)`;
     render(); stamp();
   } catch (e) {
