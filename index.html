@@ -253,6 +253,19 @@ dialog#sheet { width: min(720px, 100%) }
 .ev .body { display: flex; flex-direction: column; gap: 4px }
 .ev:not(.res) .body > .meta:last-child { margin-top: auto; padding-top: 8px }
 
+/* centred matchup: Home  v  Away, crests next to the v */
+.ev .teams.matchup { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 12px; flex: 1; padding-block: 6px }
+.matchup .side { min-width: 0; overflow-wrap: anywhere }
+.matchup .home { text-align: right }
+.matchup .away { text-align: left }
+.matchup .v { padding: 0; font-size: 0.75em; text-transform: lowercase }
+.ev .teams .logo.after { margin: 0 0 0 7px }
+/* competition menu with its own arrow */
+#compSel { appearance: none; -webkit-appearance: none; padding: 6px 36px 6px 16px; text-align: center; text-align-last: center;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: right 17px center, right 12px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; min-width: 200px }
+#compSel option { color: var(--ink); background: var(--surface) }
+
 @media (max-width: 560px) {
   .ev { grid-template-columns: 6px minmax(0, 1fr) }
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
@@ -285,7 +298,7 @@ dialog#sheet { width: min(720px, 100%) }
     <div class="spoil-row">
       <label for="spoilDays">Hide results for</label>
       <select id="spoilDays">
-        <option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option>
+        <option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option><option value="4">4 days</option>
         <option value="5">5 days</option><option value="7">7 days</option>
       </select>
       <span style="color:var(--muted)">after the match, while spoilers are hidden</span>
@@ -368,6 +381,11 @@ const flagOf = name => {
   const c = ISO[base];
   return c ? `https://flagcdn.com/w40/${c}.png` : '';
 };
+// away side: name first, then logo/flag, so both crests sit beside the "v"
+const teamNameR = (n, logo) => {
+  const src = logo || flagOf(n);
+  return src ? `${esc(n)}<img class="logo ${logo ? '' : 'flagimg'} after" src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : esc(n);
+};
 const teamName = (n, logo) => {
   if (logo) return `<img class="logo" src="${esc(logo)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">${esc(n)}`;
   const f = flagOf(n); return f ? `<img class="logo flagimg" src="${f}" alt="" loading="lazy" onerror="this.remove()">${esc(n)}` : esc(n);
@@ -384,7 +402,7 @@ const store = {
 let picked = new Set(store.get('teams', ALL_KEYS));
 { const known = new Set(store.get('known', ALL_KEYS)); ALL_KEYS.filter(k => !known.has(k)).forEach(k => picked.add(k)); store.set('known', ALL_KEYS); store.set('teams', [...picked]); }
 let spoilers = store.get('spoilers', true);   // true = hide recent results
-let spoilDays = store.get('spoilDays', 3);
+let spoilDays = store.get('spoilDaysSet', false) ? store.get('spoilDays', 4) : 4; // default 4 days covers Friday games checked on Monday
 let revealed = new Set(store.get('revealed', []));
 let newsKind = 'all';
 let sportSel = store.get('sport', 'all');
@@ -466,7 +484,7 @@ function evCard(e, now) {
     <div class="stripe"></div>
     <div class="body">
       <div class="comp">${badge(e.team)}<span>${esc(e.comp)}</span></div>
-      <div class="teams">${teamName(e.home, e.homeLogo)}<span class="v">v</span>${teamName(e.away, e.awayLogo)}</div>
+      <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo)}</span></div>
       <div class="meta">${esc(cityOf(e) || e.venue || '')}${tv ? ` · <span class="tv">${esc(tv)}</span>` : ''}</div>
     </div>
     <div class="when">
@@ -501,7 +519,7 @@ function resCard(e, now) {
     <div class="stripe"></div>
     <div class="body">
       <div class="comp">${badge(e.team)}<span>${esc(e.comp)}</span></div>
-      <div class="teams">${teamName(e.home, e.homeLogo)}<span class="v">v</span>${teamName(e.away, e.awayLogo)}</div>
+      <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo)}</span></div>
       <div class="meta">${dayLabel(d, NZ)} · ${esc(e.city || '')}</div>
       ${hidden ? '' : `<div class="summary">${esc(e.summary || '')}</div>`}
     </div>
@@ -676,7 +694,7 @@ document.addEventListener('click', ev => {
 });
 document.addEventListener('keydown', ev => { const c = ev.target.closest?.('[data-open]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openDetail(c.dataset.open); } });
 $('compSel').addEventListener('change', e => { compSel = e.target.value; store.set('comp', compSel); render(); });
-$('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; store.set('spoilDays', spoilDays); render(); });
+$('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; store.set('spoilDays', spoilDays); store.set('spoilDaysSet', true); render(); });
 
 function stamp() {
   if (!FEED.generatedAt) return;
