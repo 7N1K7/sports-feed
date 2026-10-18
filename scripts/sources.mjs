@@ -741,8 +741,8 @@ export async function tsdb(q) {
   }
 }
 const STATUS = s => /^(FT|AET|AP|PEN|Match Finished|After Over Time|Final)$/i.test(s || '') ? 'final' : /^(NS|Not Started|TBD|PST|Postponed|CANC)$/i.test(s || '') || !s ? 'upcoming' : 'live';
-// "Crusaders Super Rugby", "Fiji Rugby League" -> "Crusaders", "Fiji"
-const tsdbTeam = s => (s || '').replace(/\s+(Super Rugby|Rugby League|Rugby Union)$/, '');
+// "Crusaders Super Rugby", "Fiji Rugby League", "New Zealand Rugby" -> "Crusaders", "Fiji", "New Zealand"
+const tsdbTeam = s => (s || '').replace(/\s+(Super Rugby|Rugby League|Rugby Union|Rugby)$/, '');
 function fromTsdb(ev, l) {
   const home = tsdbTeam(ev.strHomeTeam), away = tsdbTeam(ev.strAwayTeam);
   const cls = l.team ? { team: l.team, tags: l.tags || [] } : classify(l.classify, home, away);
@@ -768,20 +768,26 @@ function fromTsdb(ev, l) {
 // this league already gave: [{ e, need: 'score' | 'time', known }]. No gaps, no calls. Otherwise at most FILL_LEAGUE
 // calls: the round of a game seen before (or the league's last game, then its round) for scores, the next game and
 // its round for start times. Games found are kept in the cache for 3 days, so a score found once costs nothing after.
+// A score for a game the league lists is asked for every run; a start time, or a game it doesn't list, once an hour.
 const FILL_LEAGUE = 3, FILL_RUN = 6;
 async function fillLeague(l, out, diag, cache, gapsFor, left) {
-  const key = `fill ${l.id}`;
-  let got = (cache[key]?.events || []).filter(e => Date.now() - Date.parse(e.startUTC) < 3 * DAY);
+  const key = `fill ${l.id}`, now = Date.now();
+  let got = (cache[key]?.events || []).filter(e => now - Date.parse(e.startUTC) < 3 * DAY);
+  const miss = Object.fromEntries(Object.entries(cache[key]?.miss || {}).filter(([, t]) => now - t < DAY));
+  const due = g => (g.need === 'score' && g.known) || !(now - (miss[g.e.id] || 0) < 36e5);
   let open = gapsFor ? gapsFor(l, got) : [];
-  const need = n => open.some(g => g.need === n);
+  const before = open.length, asking = open.filter(due);
+  const need = n => open.some(g => g.need === n && due(g));
   let calls = 0;
   const max = Math.min(FILL_LEAGUE, left);
-  const add = evs => { for (const ev of evs || []) { const e = fromTsdb(ev, l); if (e) got = [...got.filter(x => x.id !== e.id), e]; } open = gapsFor ? gapsFor(l, got) : []; };
+  const add = evs => { for (const ev of (evs || []).filter(Boolean)) { const e = fromTsdb(ev, l); if (e) got = [...got.filter(x => x.id !== e.id), e]; } open = gapsFor ? gapsFor(l, got) : []; };
   const call = async q => { calls++; return (await tsdb(q)).events || []; };
-  const roundQ = (r, s) => `eventsround.php?id=${l.id}&r=${r}&s=${encodeURIComponent(s)}`;
   const asked = new Set();
-  const round = async (r, s) => { if (r == null || r === '' || !s || asked.has(`${r}|${s}`) || calls >= max) return; asked.add(`${r}|${s}`); add(await call(roundQ(r, s))); };
-  const before = open.length;
+  const round = async (r, s) => {
+    if (r == null || r === '' || !s || asked.has(`${r}|${s}`) || calls >= max) return;
+    asked.add(`${r}|${s}`);
+    add(await call(`eventsround.php?id=${l.id}&r=${r}&s=${encodeURIComponent(s)}`));
+  };
   let err = '';
   try {
     if (need('score') && calls < max) {
@@ -794,8 +800,9 @@ async function fillLeague(l, out, diag, cache, gapsFor, left) {
       if (next && need('time')) await round(next.intRound, next.strSeason);
     }
   } catch (e) { err = `; error: ${e.message}`; }
+  if (calls) for (const g of open) if (asking.some(a => a.e === g.e) && !(g.need === 'score' && g.known)) miss[g.e.id] = now;
   out.push(...got);
-  cache[key] = { t: Date.now(), events: got };
+  cache[key] = { t: now, events: got, miss };
   diag[`tsdb ${l.comp}`] = `fill: ${before ? `${before} cards lacking a score or time, ${open.length} still open` : 'nothing to fill'}; ${calls} calls; ${got.length} games known${err}`;
   return calls;
 }
@@ -850,4 +857,4 @@ export async function tsdbEvents(all, diag, cache = {}, gapsFor = null) {
   }
   return out;
 }
-export { hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
+export { fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };

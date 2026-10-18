@@ -29,6 +29,10 @@
     { "id": 4416, "sport": "league", "comp": "NRL", "classify": "nrl" },
     { "id": 4551, "sport": "rugby", "comp": "Super Rugby Pacific", "classify": "superrugby" },
     { "id": 4443, "sport": "mma", "comp": "UFC", "ufc": true },
-    { "id": 5806, "sport": "league", "comp": "Rugby League World Cup", "classify": "rlwc", "fill": { "teams": ["kiwis", "rlwc"], "comp": "^Rugby League World Cup" } }
+    { "id": 5806, "sport": "league", "comp": "Rugby League World Cup", "classify": "rlwc", "fill": { "teams": ["kiwis", "rlwc"], "comp": "^Rugby League World Cup" } },
+    { "id": 5278, "sport": "rugby", "comp": "NPC", "team": "npc", "fill": { "teams": ["npc"] } },
+    { "id": 5479, "sport": "rugby", "comp": "Test match", "classify": "rugbytests", "fill": { "teams": ["allblacks", "wallabies"], "comp": "^(?!.*Nations Championship)" } },
+    { "id": 5852, "sport": "rugby", "comp": "Nations Championship", "classify": "rugbytests", "fill": { "teams": ["allblacks", "wallabies"], "comp": "Nations Championship" } },
+    { "id": 5807, "sport": "league", "comp": "Pacific Cup", "classify": "leaguetests", "fill": { "teams": ["kiwis"], "comp": "Pacific" } }
   ]
 }
