@@ -124,7 +124,8 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .ev .tvl a { color: inherit }
 .tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 1px 6px; background: var(--soft); color: var(--ink); justify-self: end }
 .tag.live { background: var(--live); color: #fff }
-.moreres { display: block; margin: 12px auto 0 }
+.pager { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 14px auto 0; font-size: 14px; color: var(--muted) }
+.pager .btn[disabled] { opacity: .4; cursor: default }
 .tag.paused { background: color-mix(in srgb, var(--live) 15%, transparent); color: var(--live); border: 1px solid color-mix(in srgb, var(--live) 40%, transparent) }
 .sport-rugby { --sport: var(--rugby) } .sport-cricket { --sport: var(--cricket) } .sport-league { --sport: var(--league) } .sport-football { --sport: var(--football) } .sport-mma { --sport: var(--mma) } .sport-boxing { --sport: var(--boxing) } .sport-motor { --sport: var(--motor) }
 
@@ -843,7 +844,7 @@ let compSel = store.get('comp', '');
 let genderSel = store.get('gender', 'all');
 let nzOnly = store.get('nzOnly', false);
 let selDay = '', drawDayPick = () => {};
-let hubTab = 'games', resMore = false, rankSel = '';
+let hubTab = 'games', resPage = 0, rankSel = '';
 const NZ_KEYS = new Set(['allblacks', 'blackferns', 'npc', 'fpc', 'blues', 'chiefs', 'hurricanes', 'crusaders', 'highlanders', 'moana', 'blackcaps', 'whiteferns', 'nzdomestic', 'kiwis', 'kiwiferns', 'warriors', 'phoenix', 'aucklandfc', 'nzboxing']);
 const NZ_NAMES = /\bNew Zealand\b|^(Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Moana Pasifika)$|Warriors|Wellington Phoenix|Auckland FC|All Blacks|Black Ferns|Black ?Caps|White Ferns|Kiwi/;
 const isNZ = x => NZ_KEYS.has(x.team) || [x.home, x.away].some(n => NZ_NAMES.test(n || ''));
@@ -1625,10 +1626,10 @@ function render() {
 
   // results
   const pastFinals = finals;
-  // group past results: Yesterday, The weekend (on Mon/Tue), then by day
+  // group past results: Yesterday, The weekend (Saturday and Sunday only, on Mon/Tue), then by day
   const yK = dayKey(new Date(now - 864e5));
   const wd = new Date(nowD.toLocaleString('en-US', { timeZone: NZ })).getDay(); // 0 Sun .. 6 Sat, in NZ
-  const weekendKeys = wd === 1 || wd === 2 ? [3, 2, 1].map(back => dayKey(new Date(now - (wd + back - 1) * 864e5))) : [];
+  const weekendKeys = wd === 1 || wd === 2 ? [2, 1].map(back => dayKey(new Date(now - (wd + back - 1) * 864e5))) : [];
   const groupOf = e => {
     const k = dayKey(endOf(e, now));
     if (k === todayK) return 'Today';
@@ -1637,15 +1638,15 @@ function render() {
     return fmt(endOf(e, now), NZ, { weekday: 'long', day: 'numeric', month: 'short' });
   };
   const rgroups = new Map();
-  // the last week up front (a dozen at most); everything older the feed still holds behind "Show older results"
-  const recent = pastFinals.filter(e => now - new Date(e.startUTC) < 7 * 864e5).slice(0, 12);
-  const shown = resMore ? pastFinals : recent;
+  // ten results a page, newest first; older ones a page at a time
+  const PER = 10, pages = Math.max(1, Math.ceil(pastFinals.length / PER));
+  resPage = Math.min(resPage, pages - 1);
+  const shown = pastFinals.slice(resPage * PER, resPage * PER + PER);
   shown.forEach(e => { const g = groupOf(e); if (!rgroups.has(g)) rgroups.set(g, []); rgroups.get(g).push(e); });
-  const more = pastFinals.length - recent.length;
   $('results').innerHTML = (rgroups.size
     ? [...rgroups].map(([g, list]) => `<div class="daygroup"><div class="dayhead">${esc(g)}${revealAll(list, now)}</div>${list.map(e => resCard(e, now)).join('')}</div>`).join('')
     : `<div class="empty-note">No recent results for your teams.</div>`)
-    + (more > 0 ? `<button type="button" class="btn moreres" id="resMore">${resMore ? 'Show fewer results' : `Show older results (${more} more)`}</button>` : '');
+    + (pages > 1 ? `<div class="pager"><button type="button" class="btn" data-respage="${resPage - 1}"${resPage ? '' : ' disabled'}>‹ Newer</button><span class="num">Page ${resPage + 1} of ${pages}</span><button type="button" class="btn" data-respage="${resPage + 1}"${resPage < pages - 1 ? '' : ' disabled'}>Older ›</button></div>` : '');
 
   // news
   const kinds = [['all', 'All'], ['injury', 'Injuries'], ['squad', 'Squads'], ['result', 'Results'], ['news', 'Other']];
@@ -1753,7 +1754,7 @@ document.addEventListener('click', ev => {
   else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; render(); }
   else if (t.dataset.rank) { rankSel = t.dataset.rank; if ($('sheet').open && $('sheet').dataset.rankings) openRankings($('sheet').dataset.rankings); else render(); }
   else if (t.dataset.rankings) { rankSel = ''; openRankings(t.dataset.rankings); }
-  else if (t.id === 'resMore') { resMore = !resMore; render(); }
+  else if (t.dataset.respage != null) { resPage = Math.max(0, +t.dataset.respage); render(); $('resSec').scrollIntoView({ block: 'start' }); }
   else if (t.id === 'hubClose') { compSel = ''; store.set('comp', ''); hubTab = 'games'; render(); }
   else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
   else if (t.id === 'moreUp') { store.set('showAllUp', true); render(); }
