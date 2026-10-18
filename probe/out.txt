@@ -1,103 +1,135 @@
-F1 len 137166
-== Calendar ==
-[[File:Formula 1 all over the world-2026.svg|thumb|upright=1.3|Nations that are scheduled to host a [[list of Formula One Grands Prix|Grand Prix]] in 2026 are highlighted in green, with circuit locations marked with a black dot. Former host nations are shown in dark grey, and former host circuits are marked with a white dot. De facto borders are shown.]]
+Results and standings ==
 
-The 2026 calendar originally comprised twenty-four Grands Prix, as with the previous two seasons.<ref name="2026 calendar">{{cite news|url=https://www.formula1.com/en/latest/article/formula-1-reveals-calendar-for-2026-season.YctbMZWqBvrgyddrnauo8|title=Formula 1 reveals calendar for 2026 season|work=Formula 1|date=10 June 2025|access-date=10 June 2025|archive-date=10 June 2025|archive-url=https://web.archive.org/web/20250610055338/https://www.formula1.com/en/latest/article/formula-1-reveals-calendar-for-2026-season.YctbMZWqBvrgyddrnauo8|url-status=live}}</ref> The [[Saudi Arabian Grand Prix]] was cancelled following the outbreak of the [[2026 Iran war|Iran war]], reducing the count of confirmed Grands Prix to twenty-three. The [[Chinese Grand Prix|Chinese]], [[Miami Grand Prix|Miami]], [[Canadian Grand Prix|Canadian]], [[British Grand Prix|British]], [[Dutch Grand Prix|Dutch]], and [[Singapore Grand Prix|Singapore]] Grands Prix feature the [[Formula One racing#Sprint|sprint format]].<ref name="sprint">{{Cite news |title=Formula 1 and FIA announce 2026 Sprint Calendar |url=https://www.formula1.com/en/latest/article/formula-1-and-fia-announce-2026-sprint-calendar.3PyLPAazrBNe8kQIS3wOfY |access-date=16 September 2025 |work=Formula 1}}</ref>
-
-{| class="sortable wikitable" style="font-size: 85%;"
-! data-sort-type="number" |Round
-![[List of Formula One Grands Prix|Grand Prix]]
-![[List of Formula One circuits|Circuit]]
-! class="unsortable" |Race date
-|-
-!1
-|[[Australian Grand Prix]]
-|{{flagicon|AUS}} [[Albert Park Circuit]], [[Melbourne]]
-|8 March
-|-
-!2
-|[[Chinese Grand Prix]]
-|{{flagicon|CHN}} [[Shanghai International Circuit]], [[Shanghai]]
-|15 March
-|-
-!3
-|[[Japanese Grand Prix]]
-|{{flagicon|JPN}} [[Suzuka Circuit]], [[Suzuka, Mie|Suzuka]]
-|29 March
-|-
-!4
-|[[Miami Grand Prix]]
-|nowrap|{{flagicon|USA}} [[Miami International Autodrome]], [[Miami Gardens, Florida]]
-|3 May
-|-
-!5
-|[[Canadian Grand Prix]]
-|{{flagicon|CAN}} [[Circuit Gilles Villeneuve]], [[Montreal]]
-|24 May
-|-
-!6
-|[[Monaco Grand Prix]]
-|{{flagicon|MON}} [[Circuit de Monaco]], [[Municipality of Monaco|Monaco]]
-|7 June
-|-
-!7
-|nowrap|[[Barcelona-Catalunya Grand Prix]]
-|{{flagicon|ESP}} [[Circuit de Barcelona-Catalunya]], [[Montmeló]]
-|14 June
-|-
-!8
-|[[Austrian Grand Prix]]
-|{{flagicon|AUT}} [[Red Bull Ring]], [[Spielberg, Styria|Spielberg]]
-|28 June
-|-
-!9
-|[[British Grand Prix]]
-|{{flagicon|GBR}} [[Silverstone Circuit]], [[Silverstone]]
-|5 July
-|-
-!10
-|[[Belgian Grand Prix]]
-|{{flagicon|BEL}} [[Circuit de Spa-Francorchamps]], [[Stavelot]]
-|19 July
-|-
-!11
-|[[Hungarian Grand Prix]]
-|{{flagicon|HUN}} [[Hungaroring]], [[Mogyoród]]
-#### STANDINGS 136262
-Drivers' Championship standings ===
-{{F1 Drivers Standings}}
-
-=== World Constructors' Championship standings ===
+=== Grands Prix ===
 <div style="overflow-x: auto;">
-{{F1 Constructors Standings}}
-</div>
+{| class="wikitable sortable" style="font-size: 85%;"
+!Round
+![[List of Formula One Grands Prix|Grand Prix]]{{Efn|The [[2026 Chinese Grand Prix|Chinese]], [[2026 Miami Grand Prix|Miami]], [[2026 Canadian Grand Prix|Canadian]], [[2026 British Grand Prix|British]], [[2026 Dutch Grand Prix|Dutch]] and [[2026 Singapore Grand Prix|Singapore]] Grands Prix feature the [[Formula One racing#Sprint|sprint]] format.<ref name="sprint" />|name=sprint locations}}
+!nowrap|[[List of Formula One polesitters|Pole position]]
+!nowrap|[[List of Formula One drivers who set a fastest lap|Fastest lap]]
+!nowrap|[[List of Formula One Grand Prix winners|Winning driver]]
+!nowrap|[[List of Formula One Grand Prix winners (constructors)|Winning constructor]]
+!class="unsortable"|{{Tooltip|Report|Race report}}
+|-
+! 1
+| {{flagg|cnxa|Australia}}[[Australian Grand Prix]]
+| data-sort-value="RUS" nowrap|{{flagg|cxxlo|GBR}} [[George Russell (racing driver)|George Russell]]
+| data-sort-value="VER" nowrap|{{flagg|cxxlo|NED}} [[Max Verstappen]]
+| data-sort-value="RUS" nowrap|{{flagg|cxxlo|GBR}} [[George Russell (racing driver)|George Russell]]
+| data-sort-value="MER" nowrap|{{flagg|cxxlo|GER}} [[Mercedes-Benz in Formula One|Mercedes]]
+| style="text-align:center"|[[2026 Australian Grand Prix|Report]]
+|-
+! 2
+| {{flagg|cnxa|China}}[[Chinese Grand Prix]]
+| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]]
+| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]] 
+| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]]
+| data-sort-value="MER" |{{flagg|cxxlo|GER}} [[Mercedes-Benz in Formula One|Mercedes]] 
+| style="text-align:center"|[[2026 Chinese Grand Prix|Report]]
+|-
+! 3
+| {{flagg|cnxa|Japan}}[[Japanese Grand Prix]]
+| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]]
+| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]] 
+| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]]
+| data-sort-value="MER" |{{flagg|cxxlo|GER}} [[Mercedes-Benz in Formula One|Mercedes]] 
+| style="text-align:center"|[[2026 Japanese Grand Prix|Report]]
+|-
+! 4
+| {{flagg|cnxa|United States}}[[Miami Grand Prix]]
+| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]]
+| data-sort-value="NOR" |{{flagg|cxxlo|GBR}} [[Lando Norris]]
+| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]]
+| data-sort-value="MER" |{{flagg|cxxlo|GER}} [[Mercedes-Benz in Formula One|Mercedes]] 
+| style="text-align:center"|[[2026 Miami Grand Prix|Report]]
+|-
+! 5
+| {{flagg|cnxa|Canada}}[[Canadian Grand Prix]
+#### DRIVERS 25888
+<!--  Please do not update this template to use {{F1R2026}} - doing so breaks the [[2026 Formula One World Championship]] article due the template transclusion limit being exceeded -->
+{|
+|style="vertical-align:top; text-align:center; white-space: nowrap;"|
+{|class="wikitable" style="font-size: 85%; border-collapse:collapse; border-spacing: 0;"
+!{{Abbr|Pos.|Position}}
+!Driver
+![[2026 Australian Grand Prix|AUS]]<br />{{flagicon|AUS}}
+![[2026 Chinese Grand Prix|CHN]]<br />{{flagicon|CHN}}
+![[2026 Japanese Grand Prix|JPN]]<br />{{flagicon|JPN}}
+![[2026 Miami Grand Prix|MIA]]<br />{{flagicon|USA}}
+![[2026 Canadian Grand Prix|CAN]]<br />{{flagicon|CAN}}
+![[2026 Monaco Grand Prix|MON]]<br />{{flagicon|MON}}
+![[2026 Barcelona-Catalunya Grand Prix|BCN]]<br />{{flagicon|ESP}}
+![[2026 Austrian Grand Prix|AUT]]<br />{{flagicon|AUT}}
+![[2026 British Grand Prix|GBR]]<br />{{flagicon|GBR}}
+![[2026 Belgian Grand Prix|BEL]]<br />{{flagicon|BEL}}
+![[2026 Hungarian Grand Prix|HUN]]<br />{{flagicon|HUN}}
+![[2026 Dutch Grand Prix|NED]]<br />{{flagicon|NED}}
+![[2026 Italian Grand Prix|ITA]]<br />{{flagicon|ITA}}
+![[2026 Spanish Grand Prix|ESP]]<br />{{flagicon|ESP}}
+![[2026 Azerbaijan Grand Prix|AZE]]<br />{{flagicon|AZE}}
+![[2026 Bahrain Grand Prix in Malaysia|BHR]]<br />{{flagicon|MYS}}
+![[2026 Singapore Grand Prix|SIN]]<br />{{flagicon|SIN}}
+![[2026 United States Grand Prix|USA]]<br />{{flagicon|USA}}
+![[2026 Mexico City Grand Prix|MXC]]<br />{{flagicon|MEX}}
+![[2026 São Paulo Grand Prix|SAP]]<br />{{flagicon|BRA}}
+![[2026 Las Vegas Grand Prix|LVG]]<br />{{flagicon|USA}}
+![[2026 Qatar Grand Prix|QAT]]<br />{{flagicon|QAT}}
+![[2026 Abu Dhabi Grand Prix|ABU]]<br />{{flagicon|UAE}}
+!style=" border:1px solid #a2a9b1; position:sticky; right: 0; background-clip: padding-box; color: inherit;" |[[List of Formula One World Championship points scoring systems|Points]]
+|-
+! 1
+| style="text-align:left" |{{flagicon|ITA}} [[Kimi Antonelli]]
+| style="background:#DFDFDF" |2
+| style="background:#FFFFBF" |1<span style="margin:0 0.1em 0 0.1em;font-size:110%;font-weight:bold;white-space:nowrap;"><sup>5 P F</sup></span>
+| style="background:#FFFFBF" |{{F1 race position|1|p|f}}
+| style="background:#FFFFBF" |1<span style="margin:0 0.1em 0 0.1em;font-size:110%;font-weight:bold;white-space:nowrap;"><sup>6 P</sup></span>
+| style="background:#FFFFBF" |1<span style="margin:0 0.1em 0 0.1em;font-size:110%;font-weight:bold;white-space:nowrap;"><sup>3 F</sup></span>
+| style="background:#FFFFBF" |{{F1 race position|1|p|f}}
+| style="background:#CFCFFF" |16†
+| style="background:#FFDF9F" |{{F1 race position|3|f}}
+| style="background:#CFCFFF" |15<span style="margin:0 0.1em 0 0.1em;font-size:110%;font-weight:bold;white-space:nowrap;"><sup>1 P F</sup></span>
+| style="background:#FFFFBF" |{{F1 race position|1|p}}
+| style="background:#FFDF9F" |3
+| style="background:#DFDFDF" |{{F1 race position|2|s|4}}
+| style="background:#FFFFBF" |{{F1 race position|1|f}}
+| style="background:#FFFFBF" |1
+| style="background:#DFFFDF" |5
+| style="background:#DFDFDF" |2
+| style="background:#FFDF9F" |{{F1 race position|3|s|4}}
+| style="background:#" |
+| style="background:#" |
+| style="background:#" |
+| style="background:#" |
+| style="background:#" |
+| style="background:#" |
+!style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|340
+|-
+! 2
+| style="text-align:left"|{{flagicon|GBR}} [[George Russell (racing driver)|George Russell]]
+| style="background:#FFFFBF" |{{F1 race position|1|p}}
+| styl
+#### CONS 18791
+{|
+| style="vertical-align:top; text-align:center"|
+{| class="wikitable" style="font-size: 85%;"
+!{{Abbr|Pos.|Position}}
+!Constructor
+!style="vertical-align:top"|[[2026 Australian Grand Prix|AUS]]<br/>{{flagicon|AUS}}
+!style="vertical-align:top"|[[2026 Chinese Grand Prix|CHN]]<br />{{flagicon|CHN}}
+!style="vertical-align:top"|[[2026 Japanese Grand Prix|JPN]]<br />{{flagicon|JPN}}
+!style="vertical-align:top"|[[2026 Miami Grand Prix|MIA]]<br />{{flagicon|USA}}
+!style="vertical-align:top"|[[2026 Canadian Grand Prix|CAN]]<br />{{flagicon|CAN}}
+!style="vertical-align:top"|[[2026 Monaco Grand Prix|MON]]<br />{{flagicon|MON}}
+!style="vertical-align:top"|[[2026 Barcelona-Catalunya Grand Prix|BCN]]<br />{{flagicon|ESP}}
+!style="vertical-align:top"|[[2026 Austrian Grand Prix|AUT]]<br />{{flagicon|AUT}}
+!style="vertical-align:top"|[[2026 British Grand Prix|GBR]]<br />{{flagicon|GBR}}
+!style="vertical-align:top"|[[2026 Belgian Grand Prix|BEL]]<br />{{flagicon|BEL}}
+!style="vertical-align:top"|[[2026 Hungarian Grand Prix|HUN]]<br />{{flagicon|HUN}}
+!style="vertical-align:top"|[[2026 Dutch Grand Prix|NED]]<br />{{flagicon|NED}}
+!style="vertical-align:top"|[[2026 Italian Grand Prix|ITA]]<br />{{flagicon|ITA}}
+!style="vertical-align:top"|[[2026 Spanish Grand Prix|ESP]]<br />{{flagicon|ESP}}
+!style="vertical-align:top"|[[2026 Azerbaijan Grand Prix|AZE]]<br />{{flagicon|AZE}}
+!style="vertical-align:top"|[[2026 Bahrain Grand Prix in Malaysia|BHR]]<br />{{flagicon|MYS}}
+!style="vertical-align:to
+#### USGP 137166
 
-== Notes ==
-{{notelist}}
-
-== References ==
-{{Reflist}}
-
-== External links ==
-{{Portal|Formula One}}
-
-* [https://www.formula1.com/en/racing/2026 2026 Formula One World Championship calendar] at Formula1.com
-* [https://www.formula1.com/en/results/2026/races 2026 Formula One World Championship race results] at Formula1.com
-* [https://www.fia.com/events/fia-formula-one-world-championship/season-2026/2026-fia-formula-one-world-championship 2026 FIA Formula One World Championship] at FIA.com
-
-{{Formula One Championship}}
-{{World championships in 2026}}
-
-[[Category:2026 in Formula One| ]]
-[[Category:2026 in formula racing|Formula One]]
-[[Category:Formula One seasons]]
-[[Category:Current motorsport seasons|Formula One]]
-TPL F1 Drivers Standings
-TPL F1 Constructors Standings
-#### RACE 137166
-
-#### NRL finals 17658 8
-st week: Qualifying and Elimination Finals ====
-{{rugbyleaguebox|bg=|event=Second Elimination Final|date=11 September 2026|time=19:50 [[Time in Australia|AEST]] ([[UTC+10]])|team1=[[South Sydney Rabbitohs]] {{leagueicon|South Sydney|16}}|team2={{leagueicon|Newcastle|16}} [[Newcastle Knights]]|score=10–20|1sthalf=6–10|2ndhalf=4–10|report=[https://www.nrl.com/draw/nrl-premiership/2026/finals-week-1/rabbitohs-v-knights/ Report]|try1= '''2''' <br /> [[Campbell Graham|Graham]] {{try|35}} <br /> [[Jye Gray|Gray]] {{try|74}}|goal1='''1''' <br /> [[Latrell Mitchell|Mitchell]] {{kick|36}}|field1=|points2=|try2='''4''' <br /> [[Jermaine McEwen|McEwen]] {{try|4|61}} <br /> [[Dane Gagai|Gagai]] {{try|25}} <br /> [[Dominic Young|Young]] {{try|65}}|goal2='''2''' <br /> [[Sandon Smith|Smith]] {{kick|27|62}}|field2=|stadium=[[Sydney Football Stadium (2022)|Allianz Stadium]], [[Sydney]]|attendance=28,152|referee=[[Ashley Klein]]|touch=|manofmatch=}}
-
-{{
