@@ -309,7 +309,7 @@ function evCard(e, now) {
   return `<article class="ev sport-${e.sport}">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="sp">${SPORT_LABEL[e.sport] || ''}</span>${badge(e.team)}<span>${esc(TEAM_NAME[e.team] || '')} · ${esc(e.comp)}</span></div>
+      <div class="comp">${badge(e.team)}<span>${esc(e.comp)}</span></div>
       <div class="teams">${teamName(e.home)}<span class="v">v</span>${teamName(e.away)}</div>
       <div class="meta">${esc([e.venue, e.city].filter(Boolean).join(', '))}</div>
       ${e.note ? `<div class="meta">${esc(e.note)}</div>` : ''}
@@ -327,7 +327,7 @@ function watchLine(e) {
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
   if (!b && !e.watchAlt) return `<div class="watch"><span class="wl">Watch</span><span class="muted">Broadcaster to be confirmed</span></div>`;
   const alt = e.watchAlt ? `<span class="alt">${b ? 'Also: ' : ''}${esc(e.watchAlt)}</span>` : '';
-  const note = e.watchNote ? `<span class="muted">${esc(e.watchNote)}</span>` : '';
+  const note = e.watchNote && /not on|no tv|not televised/i.test(e.watchNote) ? `<span class="muted">${esc(e.watchNote)}</span>` : '';
   return `<div class="watch"><span class="wl">Watch</span>${b ? `<span>${esc(b)}</span>` : ''}${alt}${note}</div>`;
 }
 function resCard(e, now) {
@@ -341,7 +341,7 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport}">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="sp">${SPORT_LABEL[e.sport] || ''}</span>${badge(e.team)}<span>${esc(TEAM_NAME[e.team] || '')} · ${esc(e.comp)}</span></div>
+      <div class="comp">${badge(e.team)}<span>${esc(e.comp)}</span></div>
       <div class="teams">${teamName(e.home)}<span class="v">v</span>${teamName(e.away)}</div>
       <div class="meta">${dayLabel(d, NZ)} · ${esc(e.city || '')}</div>
       ${hidden ? '' : `<div class="summary">${esc(e.summary || '')}</div>`}
