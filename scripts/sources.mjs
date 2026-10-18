@@ -322,6 +322,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     const pg = texts[want_t];
     if (!pg) continue;
     const evs = c.ufc ? ufcFromList(pg.text, cityTz) : eventsFromPage(pg.title, pg.text, c.seriesTitle ? { ...c, comp: seriesComp(pg.title, c) } : c, cityTz);
+    if (c.seriesTitle) for (const e of evs) hostFirst(e, pg.title);
     per[pg.title] = evs.length;
     if (c.seriesTitle) {
       const sq = squadsFromPage(pg.text);
@@ -352,6 +353,20 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     }
   } catch (e) { diag.tables = 'error: ' + e.message; }
   if (!diag.tables) diag.tables = tables.map(t => `${t.page} / ${t.title}: ${t.rows.length}`);
+  // Formula 1: calendar and winners from the season page, standings from its two templates
+  if (F1_ON) try {
+    const y = Y;
+    const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent([`${y} Formula One World Championship`, 'Template:F1 Drivers Standings', 'Template:F1 Constructors Standings'].join('|')));
+    const pg = Object.fromEntries((r.query?.pages || []).filter(p => !p.missing).map(p => [p.title, p.revisions?.[0]?.slots?.main?.content || '']));
+    const season = pg[`${y} Formula One World Championship`] || '';
+    const f1 = f1Season(season, y, cityTz);
+    out.push(...f1);
+    for (const [t, title] of [['Template:F1 Drivers Standings', "Drivers' championship"], ['Template:F1 Constructors Standings', "Constructors' championship"]]) {
+      const rows = f1Standings(pg[t] || '');
+      if (rows.length) tables.push({ comp: 'Formula 1', sport: 'motor', team: 'f1', page: `${y} Formula One World Championship`, title, style: 'points', rows });
+    }
+    diag.f1 = `${f1.length} races, ${f1.filter(e => e.status === 'final').length} with results`;
+  } catch (e) { diag.f1 = 'error: ' + e.message; }
   out.tables = tables;
   // UFC: read each nearby event's own article for the full fight card
   const ufcSoon = out.filter(e => e.team === 'ufc' && /\/wiki\/UFC/.test(e.source) && Math.abs(new Date(e.startUTC) - Date.now()) < 30 * DAY);
@@ -407,6 +422,58 @@ function sportsTables(text, page, c) {
     out.push({ comp: c.comp, sport: c.sport, team: c.team || '', page, title: clean(p.title || '') || (/standings|table|ladder|log/i.test(head) || !head ? '' : head), style: cricket ? 'cricket' : rugby ? 'rugby' : 'wdl', rows });
   }
   return out;
+}
+
+const F1_ON = false; // switched on once the site can show races
+// F1 season page: "Calendar" table (round, Grand Prix, circuit and city, date) and
+// "Grands Prix" results table (round, Grand Prix, pole, fastest lap, winner, constructor, report)
+const rowsOf = table => table.split(/\n\|-[^\n]*/).slice(1).map(r => r.split('\n').filter(l => /^[|!]/.test(l)).flatMap(l => l.slice(1).split(/\|\||!!/)).map(c => c.replace(/^[^|[{]*?(?:style|data-sort-value|nowrap|class)[^|]*\|/i, '').replace(/^nowrap\|/, '')));
+function f1Season(text, year, cityTz) {
+  const sec = (re) => { const i = text.search(re); if (i < 0) return ''; const t = text.slice(i); const m = t.match(/\{\|[\s\S]*?\n\|\}/); return m ? m[0] : ''; };
+  const winners = {};
+  for (const c of rowsOf(sec(/===\s*Grands Prix\s*===/i))) {
+    const round = +clean(c[0]);
+    if (!round || c.length < 6) continue;
+    const report = (c[6] || '').match(/\[\[([^\]|]+)\|/);
+    winners[round] = { pole: clean(c[2]), fl: clean(c[3]), winner: clean(c[4]), team: clean(c[5]), report: report ? 'https://en.wikipedia.org/wiki/' + encodeURIComponent(report[1].replace(/ /g, '_')) : '' };
+  }
+  const out = [];
+  for (const c of rowsOf(sec(/==\s*Calendar\s*==/i))) {
+    const round = +clean(c[0]);
+    if (!round || c.length < 4) continue;
+    const gp = clean(c[1]).replace(/\s+/g, ' ');
+    const place = c[2].split(/\]\]\s*,\s*/).map(x => clean(x + (/\[\[/.test(x) && !/\]\]/.test(x) ? ']]' : '')).split(',')[0].trim());
+    const d = dateOf(clean(c[3]), year);
+    if (!gp || !d || d.m < 0) continue;
+    const city = place[place.length - 1] || '', tz = cityTz(city) || null;
+    const w = winners[round];
+    const t = localToUTC(d.y, d.m, d.d, 15, 0, tz || 'UTC');
+    out.push({
+      id: `f1-${year}-${round}`, team: 'f1', tags: [], sport: 'motor', comp: `Formula 1 · Round ${round}`, round: `Round ${round}`,
+      home: gp, away: '', startUTC: new Date(t).toISOString(), timeTBC: true, venue: place[0] || '', city, tz,
+      status: w?.winner ? 'final' : 'upcoming', ...(w?.winner ? { score: w.winner.split(' ').slice(-1)[0] + ' wins', summary: `${w.winner} won for ${w.team}. Pole: ${w.pole}. Fastest lap: ${w.fl}.` } : {}),
+      source: `https://en.wikipedia.org/wiki/${encodeURIComponent(`${year} Formula One World Championship`.replace(/ /g, '_'))}`, ...(w?.report ? { link: w.report } : {}),
+    });
+  }
+  return out;
+}
+// "F1 Drivers Standings" / "F1 Constructors Standings": position, name, a cell per race, points last
+function f1Standings(text) {
+  const m = text.match(/\{\|\s*class="wikitable"[\s\S]*?\n\|\}/);
+  if (!m) return [];
+  const rows = [];
+  for (const r of m[0].split(/\n\|-[^\n]*/).slice(1)) {
+    const lines = r.split('\n').filter(l => /^[|!]/.test(l));
+    const pos = +clean((lines[0] || '').replace(/^!\s*/, '').replace(/^[^|]*\|/, ''));
+    const nameLine = lines.find(l => /\[\[/.test(l));
+    const last = lines[lines.length - 1] || '';
+    const pts = parseFloat(clean(last.replace(/^[|!]/, '').split('|').pop()));
+    if (!pos || !nameLine || isNaN(pts)) continue;
+    const links = [...nameLine.matchAll(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g)];
+    const name = links.length ? (links[links.length - 1][2] || links[links.length - 1][1]).trim() : '';
+    rows.push({ name, pts, p: 0, w: 0, d: 0, l: 0, f: 0, a: 0, bp: 0, nr: 0, nrr: '', q: '', champ: false });
+  }
+  return rows.sort((a, b) => b.pts - a.pts);
 }
 
 // Cricket tour "Squads" tables: header rows give each column's team and/or format
@@ -498,6 +565,17 @@ function fightCard(text) {
   return bouts.slice(0, 20);
 }
 // "Indian cricket team in New Zealand in 2026–27" -> "Black Caps v India"
+// Wikipedia lists either side first in a tour's match boxes; put the host country first every time,
+// so the whole tour reads (and groups) as one series, e.g. "South Africa v Australia"
+function hostFirst(e, title) {
+  const host = ((title.match(/ cricket team in (?:the )?(.*?) in /) || [])[1] || '').trim();
+  const base = n => String(n || '').replace(/\s+(Women|A|XI)$/i, '').trim();
+  if (!host || base(e.home) === host || base(e.away) !== host) return;
+  [e.home, e.away] = [e.away, e.home];
+  const sides = (e.score || '').split(' v ');
+  if (sides.length === 2) e.score = `${sides[1]} v ${sides[0]}`;
+  if (e.homeLogo || e.awayLogo) [e.homeLogo, e.awayLogo] = [e.awayLogo, e.homeLogo];
+}
 function seriesComp(title, c) {
   const m = title.match(/^(.*?) (?:women's )?cricket team in (.*?) in /);
   if (!m) return c.comp;
@@ -582,4 +660,4 @@ export async function tsdbEvents(leagues, diag, cache = {}) {
   }
   return out;
 }
-export { squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
+export { hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
