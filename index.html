@@ -417,6 +417,7 @@ a.svc:hover { text-decoration-color: currentColor }
 .hubhide { display: none !important }
 .stable { margin-bottom: 18px }
 .rankchips { margin: 4px 0 12px }
+.bico { width: 1.05em; height: 1.05em; vertical-align: -0.17em; margin-left: 4px }
 .rankrow { justify-content: center; margin-top: 2px }
 .rankbtn { font-size: 13px; padding: 4px 11px; border-style: dashed; color: var(--ink) }
 .stable.rank td.num { white-space: nowrap }
@@ -534,7 +535,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev .teams.matchup.scored .side .ts { order: 5; flex-basis: 100%; text-align: center } }
 /* search, form guide, team pages */
 .search { position: relative }
-#q { width: 210px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font: 14px var(--f-body) }
+#q { width: 210px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font: 14px var(--f-body); text-align: center }
 #q:focus { outline: 2px solid color-mix(in srgb, var(--ink) 40%, transparent); outline-offset: 1px }
 .qlist { position: absolute; right: 0; top: calc(100% + 6px); width: min(440px, 92vw); max-height: 70vh; overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 32px rgb(0 0 0 / .18); z-index: 20; padding: 4px }
 .qi { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 8px 10px; border: 0; background: none; border-radius: 8px; font: 15px var(--f-body); color: inherit; cursor: pointer }
@@ -1658,8 +1659,11 @@ function render() {
   document.body.classList.add('v-' + view);
   $('viewSel').innerHTML = [['big', 'Big'], ['mixed', 'Mixed'], ['compact', 'Compact']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${view === k}">${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
-  $('spoilBtn').textContent = spoilers ? 'Spoilers hidden' : 'Spoilers shown';
-  $('teamsBtn').textContent = 'My settings';
+  // an eye on each state (crossed out while results are hidden), and a gear on settings
+  const eye = '<path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/>';
+  const ico = body => `<svg class="bico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
+  $('spoilBtn').innerHTML = spoilers ? `Spoilers hidden ${ico(eye + '<path d="M3 3l18 18"/>')}` : `Spoilers shown ${ico(eye)}`;
+  $('teamsBtn').innerHTML = `My settings ${ico('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>')}`;
   $('spoilDays').value = String(spoilDays);
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', `This device (${deviceTZ.split('/').pop().replace(/_/g, ' ')})`]].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(l)}</option>`).join('');
