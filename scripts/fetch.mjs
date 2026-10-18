@@ -380,7 +380,9 @@ async function addFaces(events) {
   // "Alexander Volkanovski (c)" -> "Alexander Volkanovski"; "Saul 'Canelo' Alvarez" -> "Saul Alvarez"
   const strip = n => String(n || '').replace(/\s*\((c|ic)\)$/i, '').replace(/\s+['"‘“][^'"’”]+['"’”]\s+/, ' ').trim();
   const FIGHTER = /box|fight|martial|mma|kickbox|wrestl|judo|jiu|muay|sambo|karate|taekwondo/i;
-  const near = events.filter(e => /^(mma|boxing)$/.test(e.sport) && Math.abs(Date.parse(e.startUTC) - now) < 60 * DAY);
+  // nearest fights first, so they are looked up first
+  const near = events.filter(e => /^(mma|boxing)$/.test(e.sport) && Math.abs(Date.parse(e.startUTC) - now) < 60 * DAY)
+    .sort((x, y) => Math.abs(Date.parse(x.startUTC) - now) - Math.abs(Date.parse(y.startUTC) - now));
   // UFC cards are listed by surname ("Volkanovski vs. Evloev"); the fight card has the full names to look up
   const full = (e, side) => {
     const n = e[side], last = s => strip(s).split(/\s+/).pop().toLowerCase();
