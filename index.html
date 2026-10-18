@@ -813,7 +813,7 @@ function onNow(e, now) {
   const f = e.sport === 'cricket' ? formatOf(e) : '';
   const days = DAYS[f] || 1;
   // a cricket day can run long with rain; a game whose time isn't known yet sits at 2pm local, so widen the window both ways
-  const hrs = e.sport === 'cricket' ? (HOURS[f] || 8) + 2 : 2;
+  const hrs = e.sport === 'cricket' ? (HOURS[f] || 8) + (/^T20/.test(f) ? 1 : 2) : 2;
   const early = e.timeTBC ? 5 * 36e5 : 0, late = e.timeTBC ? 4 * 36e5 : 0;
   for (let i = 0; i < days; i++) {
     const a = s.getTime() + i * 864e5 - early, b = a + early + hrs * 36e5 + late;
