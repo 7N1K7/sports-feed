@@ -145,7 +145,7 @@ async function heraldNews() {
 // feeds too. Headline and link only (as with the Herald), the newest few that are about a UFC or boxing card we list
 const FIGHT_FEEDS = [
   ['MMA Fighting', 'mmafighting.com', 'https://www.mmafighting.com/rss/index.xml'],
-  ['MMA Junkie', 'mmajunkie.usatoday.com', 'https://mmajunkie.usatoday.com/feed'],
+  ['MMA Mania', 'mmamania.com', 'https://www.mmamania.com/rss/index.xml'],
   ['Bad Left Hook', 'badlefthook.com', 'https://www.badlefthook.com/rss/index.xml'],
 ];
 async function fightNews() {
@@ -538,9 +538,13 @@ async function addFaces(events) {
     // 4. Commons search: photos that name the fighter but sit in no category of theirs (common for undercard
     // fighters with no article). The file's own text must give the full name and say UFC, MMA or boxing
     const fold = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w\s]/g, ' ').replace(/\s+/g, ' ').toLowerCase();
+    // also fighters looked up on an earlier run who still have no photo, a fortnight apart
     let searched = 0, searchHits = 0;
-    for (const n of due.filter(n => !cands[n]?.length).slice(0, 25)) {
+    const extra = names.filter(n => !due.includes(n) && cache[n]?.v === 5 && !cache[n].src && (!cache[n].cs || now - cache[n].cs > 14 * DAY));
+    const toSearch = [...due.filter(n => !cands[n]?.length), ...extra].slice(0, 25);
+    for (const n of toSearch) {
       searched++;
+      if (cache[n]) cache[n].cs = now;
       const r = await get('commons.wikimedia.org', `action=query&generator=search&gsrnamespace=6&gsrlimit=15&${INFO}&gsrsearch=` + encodeURIComponent(`"${n}"`));
       let hit = false;
       for (const pg of r.query?.pages || []) {
@@ -560,7 +564,7 @@ async function addFaces(events) {
         - (/\bvs?\.?\s|\bfight\b|\bbout\b|face.?off|press conference|\bwith\b|\band\b|&/i.test(title) ? 3 : 0)
         + (year >= 2015 ? Math.min(3, (year - 2015) * 0.3) : 0);
     };
-    for (const n of due) {
+    for (const n of [...due, ...toSearch.filter(n => !due.includes(n))]) {
       const best = (cands[n] || []).map(c => ({ c, s: score(c) })).filter(x => x.s > -50).sort((a, b) => b.s - a.s)[0];
       if (!best) continue;
       const { title, ii } = best.c, md = ii.extmetadata || {};
@@ -571,7 +575,8 @@ async function addFaces(events) {
     diag.facesCommons = `${cs.tried} categories tried, ${cs.files} had files`;
   } catch (e) { diag.facesError = e.message; }
   // only names that got an answer are cached; any left over by an error are tried again next run
-  for (const n of due) if (found[n] || miss[n]) cache[n] = found[n] ? { t: now, v: 5, ...found[n] } : { t: now, v: 5, src: null, why: miss[n] };
+  for (const n of due) if (found[n] || miss[n]) cache[n] = found[n] ? { t: now, v: 5, ...found[n] } : { t: now, v: 5, src: null, why: miss[n], cs: now };
+  for (const n of Object.keys(found)) if (!due.includes(n)) cache[n] = { t: now, v: 5, ...found[n] };
   // 5. Openverse (openverse.org, the free search of Creative Commons images): Flickr photos for fighters Wikimedia has
   // none of. Licences that allow adapting only (the page crops to a circle), mature results off, a dozen names a run,
   // each re-asked weekly. The photo's title or tags must give the full name and a fight word, and not name an opponent
@@ -587,9 +592,10 @@ async function addFaces(events) {
       if (!r.ok) throw new Error(r.status);
       res = (await r.json()).results || [];
     } catch (e) { ov.note = 'error ' + e.message; break; }
-    ov.asked++;
+    ov.asked++; ov.results = (ov.results || 0) + res.length;
     cache[n].ov = now;
     const want = ovFold(n), squash = want.replace(/ /g, '');
+    ov.named = (ov.named || 0) + res.filter(x => ovFold(x.title).includes(want) || (x.tags || []).some(t => ovFold(t.name).replace(/ /g, '') === squash)).length;
     const best = res.map(x => {
       const title = ovFold(x.title), tags = (x.tags || []).map(t => ovFold(t.name)), text = `${title} ${tags.join(' ')}`;
       const url = String(x.url || '');
@@ -606,7 +612,7 @@ async function addFaces(events) {
     Object.assign(cache[n], { src: best.src, file: x.foreign_landing_url, from: 'openverse', credit: `${x.creator || 'unknown'}, ${lic} / Flickr via Openverse`, t: now });
     ov.found++;
   }
-  diag.facesOpenverse = `${ov.asked} asked, ${ov.found} found${ov.note ? '; ' + ov.note : ''}; ${names.filter(n => !cache[n]?.src && cache[n]?.v === 5 && !cache[n].ov).length} not asked yet`;
+  diag.facesOpenverse = `${ov.asked} asked (${ov.results || 0} photos back, ${ov.named || 0} naming the fighter), ${ov.found} found${ov.note ? '; ' + ov.note : ''}; ${names.filter(n => !cache[n]?.src && cache[n]?.v === 5 && !cache[n].ov).length} not asked yet`;
   for (const e of near) {
     for (const side of ['home', 'away']) {
       const c = cache[full(e, side)];

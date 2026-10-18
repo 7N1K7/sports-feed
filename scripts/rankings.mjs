@@ -5,13 +5,15 @@ const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-fee
 // page -> what to take from it. teams: tables with a rank, a team and points/rating; fighters: the UFC page
 export const RANK_PAGES = [
   { sport: 'rugby', page: 'World Rugby Rankings', kind: 'teams', titles: ["Men's"] },
-  { sport: 'rugby', page: "World Rugby Women's Rankings", kind: 'teams', titles: ["Women's"] },
+  { sport: 'rugby', page: "World Rugby Women's World Rankings", kind: 'teams', titles: ["Women's"] },
   { sport: 'cricket', page: "ICC Men's Test Team Rankings", kind: 'teams', titles: ["Men's Tests"] },
   { sport: 'cricket', page: "ICC Men's ODI Team Rankings", kind: 'teams', titles: ["Men's ODIs"] },
   { sport: 'cricket', page: "ICC Men's T20I Team Rankings", kind: 'teams', titles: ["Men's T20Is"] },
   { sport: 'cricket', page: "ICC Women's ODI Team Rankings", kind: 'teams', titles: ["Women's ODIs"] },
   { sport: 'cricket', page: "ICC Women's T20I Team Rankings", kind: 'teams', titles: ["Women's T20Is"] },
-  { sport: 'league', page: 'IRL World Rankings', kind: 'teams', titles: ["Men's", "Women's", 'Wheelchair'] },
+  { sport: 'league', page: "IRL Men's World Rankings", kind: 'teams', titles: ["Men's"] },
+  { sport: 'league', page: "IRL Women's World Rankings", kind: 'teams', titles: ["Women's"] },
+  { sport: 'league', page: 'IRL Wheelchair World Rankings', kind: 'teams', titles: ['Wheelchair'] },
   { sport: 'mma', page: 'UFC rankings', kind: 'fighters' },
 ];
 
@@ -58,10 +60,13 @@ function tablesOf(html) {
   return out;
 }
 const MONTHS = 'January|February|March|April|May|June|July|August|September|October|November|December';
+// "6 April 2026" or "April 6, 2026" -> 2026-04-06; "December 2025" alone -> 2025-12
 const dateIn = s => {
   const m = String(s).match(new RegExp(`\\b(\\d{1,2} (?:${MONTHS}) \\d{4}|(?:${MONTHS}) \\d{1,2},? \\d{4})`, 'i'));
   const d = m && new Date(m[1].replace(/,/, '') + ' 12:00 UTC');
-  return d && !isNaN(d) ? d.toISOString().slice(0, 10) : '';
+  if (d && !isNaN(d)) return d.toISOString().slice(0, 10);
+  const my = String(s).match(new RegExp(`\\b(${MONTHS}) (\\d{4})\\b`, 'i'));
+  return my ? `${my[2]}-${String(MONTHS.split('|').findIndex(x => x.toLowerCase() === my[1].toLowerCase()) + 1).padStart(2, '0')}` : '';
 };
 const col = (heads, re) => {
   for (const h of heads) { const i = h.findIndex(x => re.test(x)); if (i >= 0) return i; }
@@ -75,11 +80,13 @@ function teamTables(tables, cfg) {
     if (out.length >= cfg.titles.length) break;
     const heads = t.heads.length ? t.heads : t.rows.slice(0, 1);
     const body = t.heads.length ? t.rows : t.rows.slice(1);
+    // the ICC's tables have no rank column: there the order is the rank
     const iRank = col(heads, /^(rank|pos|#)/i), iTeam = col(heads, /^(team|nation|country)/i);
     const iVal = col(heads, /^rating/i) >= 0 ? col(heads, /^rating/i) : col(heads, /^(points|pts)/i);
-    if (iRank < 0 || iTeam < 0 || iVal < 0) continue;
-    const rows = body.map(r => ({ rank: (r[iRank] || '').match(/^\d+/)?.[0] || '', name: (r[iTeam] || '').replace(/\s*\(.*?\)\s*$/, '').trim(), val: r[iVal] || '' }))
-      .filter(r => r.rank && r.name && /\d/.test(r.val));
+    if (iTeam < 0 || iVal < 0) continue;
+    const rows = body.map(r => ({ rank: iRank >= 0 ? (r[iRank] || '').match(/^\d+/)?.[0] || '' : 'n', name: (r[iTeam] || '').replace(/\s*\(.*?\)\s*$/, '').trim(), val: (r[iVal] || '').replace(/^0+(?=\d)/, '') }))
+      .filter(r => r.rank && r.name && /\d/.test(r.val) && !/^(team|total)$/i.test(r.name));
+    rows.forEach((r, i) => { if (r.rank === 'n') r.rank = String(i + 1); });
     if (rows.length < 5) continue;
     const top = rows.slice(0, 20), nz = rows.find(r => NZ.test(r.name));
     if (nz && !top.includes(nz)) top.push(nz);

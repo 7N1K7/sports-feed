@@ -417,6 +417,10 @@ a.svc:hover { text-decoration-color: currentColor }
 .hubhide { display: none !important }
 .stable { margin-bottom: 18px }
 .rankchips { margin: 4px 0 12px }
+.rankrow { justify-content: center; margin-top: 2px }
+.rankbtn { font-size: 13px; padding: 4px 11px; border-style: dashed; color: var(--ink) }
+.stable.rank td.num { white-space: nowrap }
+.rankbody { padding-top: 6px }
 .stable.rank .rnote { font-weight: 400; white-space: normal }
 .stable.rank tr.gap td { text-align: center; color: var(--muted); padding: 2px }
 .stable.rank .tag { font-size: 10px; vertical-align: .1em }
@@ -433,6 +437,10 @@ a.svc:hover { text-decoration-color: currentColor }
 /* crests drawn small inside their image (Canterbury): scale up, and widen the box to match so it never overlaps the name */
 .logo.zoom, .ev .teams.matchup .logo.zoom, .ev .teams.matchup .logo.zoom.after { transform: scale(var(--z)); margin-inline: calc((var(--z) - 1) * var(--lh) / 2) }
 .stable .tn .flagimg { width: 1.4em; height: auto; vertical-align: -0.1em }
+/* table crests sit in one fixed slot so every name starts in line; a crest with a lot of empty space (Canterbury)
+   fills its slot by cropping that space rather than scaling past it into the name */
+.stable .tn .logo:not(.flagimg) { width: 2em; object-fit: contain }
+.stable .tn .logo.zoom:not(.flagimg) { transform: none; margin: 0 6px 0 0; object-fit: cover }
 .stable .pos { color: var(--muted); width: 1.5em; text-align: center }
 .stable .pts { font-weight: 800 }
 .stable tr.q td:first-child { box-shadow: inset 4px 0 0 var(--sport) }
@@ -605,6 +613,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 <main class="wrap">
   <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
+  <div class="chips rankrow" id="rankRow" hidden></div>
   <div class="compbar"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9">NZ teams only</button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div></div>
   <section id="hubSec" hidden>
     <div class="hub">
@@ -1145,7 +1154,7 @@ function rankingsHtml(lists) {
     const name = fighters ? `${esc(r.name)}${r.iso ? ` <span class="muted small">${esc(r.iso)}</span>` : ''}${champ ? ` <span class="tag">${champ}</span>` : ''}` : teamName(r.name.replace(/\s+Women('s)?$/, ''), '', ev);
     return `${gap}<tr class="${r.nz || (fighters && /New Zealand|NZL/.test(r.iso)) ? 'mine' : ''}"><td class="pos">${champ ? '' : esc(r.rank)}</td><td class="tn">${name}${fighters && r.note && !/^(Steady|–|-)?$/.test(r.note) ? `<div class="muted small rnote">${esc(r.note)}</div>` : ''}</td><td class="num">${esc(fighters ? r.rec || '' : r.val)}</td></tr>`;
   }).join('');
-  return `${chips}<div class="stable rank"><h3 class="dh">${esc(l.title)}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date(l.asOf + 'T12:00:00Z'), NZ, { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+  return `${chips}<div class="stable rank"><h3 class="dh">${esc(l.title)}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), NZ, l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
     <p class="muted small">Rankings from <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(l.page.replace(/ /g, '_'))}" target="_blank" rel="noopener">Wikipedia</a> (CC BY-SA), which follows the official ${fighters ? 'UFC' : l.sport === 'rugby' ? 'World Rugby' : l.sport === 'cricket' ? 'ICC' : 'IRL'} list.</p>`;
 }
 // Shows tab: the wider conversation around each sport (panel shows, YouTube breakdowns, podcasts), best known first.
@@ -1230,7 +1239,7 @@ function renderHub(now) {
   $('hubSec').hidden = !on;
   const shows = on ? hubShows((FEED.events || []).find(e => compOf(e) === compSel)?.sport) : [];
   const ranks = on ? hubRankings() : [];
-  const tabs = on ? [['games', 'Games'], ...(hubTables().length ? [['table', 'Table']] : []), ...(ranks.length ? [['rank', 'Rankings']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
+  const tabs = on ? [['games', FIGHT.test((FEED.events || []).find(e => compOf(e) === compSel)?.sport || '') ? 'Fights' : (FEED.events || []).find(e => compOf(e) === compSel)?.sport === 'motor' ? 'Races' : 'Games'], ...(hubTables().length ? [['table', 'Table']] : []), ...(ranks.length ? [['rank', 'Rankings']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
   if (!tabs.some(([k]) => k === hubTab)) hubTab = 'games';
   const other = on && hubTab !== 'games';
   for (const id of ['liveSec', 'weekSec', 'todaySec', 'tomSec', 'upSec', 'laterSec', 'resSec', 'newsSec']) $(id).classList.toggle('hubhide', other || (on && id === 'newsSec'));
@@ -1384,13 +1393,21 @@ function openTeam(name, sport) {
   if (!dlg.open) dlg.showModal();
   $('sheet').querySelector('.sheet-in')?.scrollTo?.(0, 0);
 }
+function openRankings(sport) {
+  const lists = (FEED.rankings || []).filter(r => r.sport === sport);
+  if (!lists.length) return;
+  $('sheetBody').innerHTML = `<div class="sheet-head sport-${sport}"><div class="comp">${sIcon(sport)}<span>World rankings</span></div><h2 class="dteams">${esc({ mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'Rugby league' }[sport] || sport)} rankings</h2></div><div class="rankbody">${rankingsHtml(lists)}</div>`;
+  const dlg = $('sheet');
+  dlg.dataset.id = ''; dlg.dataset.rankings = sport;
+  if (!dlg.open) dlg.showModal();
+}
 function openDetail(id, fromTeam) {
   const e = (FEED.events || []).find(x => x.id === id);
   if (!e) return;
   if (!fromTeam) teamBack = null;
   $('sheetBody').innerHTML = (teamBack ? `<button type="button" class="back" data-teampage="${esc(teamBack.name)}" data-tsport="${teamBack.sport}">‹ ${esc(displayName(teamBack.name, e))}</button>` : '') + detail(e);
   const dlg = $('sheet');
-  dlg.dataset.id = id;
+  dlg.dataset.id = id; dlg.dataset.rankings = '';
   if (!dlg.open) dlg.showModal();
 }
 
@@ -1612,7 +1629,7 @@ function render() {
     const hasTable = new Set((FEED.tables || []).map(t => compOf({ comp: t.comp, sport: t.sport, team: t.team })));
     const comps = [...counts].filter(([c, n]) => n >= 2 || nextOf.get(c) < Infinity || hasTable.has(c) || c === compSel).map(([c]) => c)
       .sort((a, b) => rank(a) - rank(b) || (nextOf.get(a) - nextOf.get(b)) || a.localeCompare(b));
-    const groups = [[['rugby'], 'Rugby'], [['league'], 'Rugby league'], [['cricket'], 'Cricket'], [['football'], 'Football'], [['motor'], 'Motorsport'], [['mma', 'boxing'], 'Fighting']];
+    const groups = [[['rugby'], 'Rugby'], [['league'], 'Rugby league'], [['cricket'], 'Cricket'], [['football'], 'Football'], [['motor'], 'Motorsport'], [['mma', 'boxing'], 'Fighting']].sort((a, b) => a[1].localeCompare(b[1])); // sports A to Z: Cricket, Fighting, Football…
     const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}">${esc(COMP_LABEL[c] || c)}${liveComps.has(c) ? '<span class="onnow">Live</span>' : onNowComps.has(c) ? '<span class="current">Current</span>' : !c || nextOf.get(c) < Infinity ? '' : '<span class="ended">Season over</span>'}</button>`;
     $('compMenu').innerHTML = opt('') .replace('></button>', '>All competitions</button>') + groups.map(([ks, l]) => {
       const cs = comps.filter(c => ks.includes(sportOfComp.get(c))).sort((a, b) => ks.indexOf(sportOfComp.get(a)) - ks.indexOf(sportOfComp.get(b)));
@@ -1631,6 +1648,11 @@ function render() {
     $('genderSel').innerHTML = [['all', 'All'], ['m', "Men's"], ['w', "Women's"]].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
     $('sportFilter').classList.toggle('dim', !!compSel);
   }
+  // a sport picked on its own gets a button for its world rankings, opened in the popup
+  const RANK_NAME = { mma: 'UFC rankings', rugby: 'World Rugby rankings', cricket: 'ICC rankings', league: 'Rugby league world rankings' };
+  const rankSports = [...sportSel].filter(k => (FEED.rankings || []).some(r => r.sport === k));
+  $('rankRow').hidden = !rankSports.length;
+  $('rankRow').innerHTML = rankSports.map(k => `<button type="button" class="chip rankbtn" data-rankings="${k}">${sIcon(k, 'cicon')}${RANK_NAME[k] || 'Rankings'}</button>`).join('');
   $('sportFilter').innerHTML = [['all','All'],['rugby','Rugby'],['cricket','Cricket'],['league','League'],['football','Football'],['motor','F1'],['mma','MMA'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
   document.body.classList.remove('v-big', 'v-mixed', 'v-compact');
   document.body.classList.add('v-' + view);
@@ -1677,7 +1699,8 @@ document.addEventListener('click', ev => {
     if (!t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; render(); }
-  else if (t.dataset.rank) { rankSel = t.dataset.rank; render(); }
+  else if (t.dataset.rank) { rankSel = t.dataset.rank; if ($('sheet').open && $('sheet').dataset.rankings) openRankings($('sheet').dataset.rankings); else render(); }
+  else if (t.dataset.rankings) { rankSel = ''; openRankings(t.dataset.rankings); }
   else if (t.id === 'resMore') { resMore = !resMore; render(); }
   else if (t.id === 'hubClose') { compSel = ''; store.set('comp', ''); hubTab = 'games'; render(); }
   else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
