@@ -251,7 +251,7 @@ await addLogos(events);
 
 const feed = {
   generatedAt: new Date(now).toISOString(),
-  diag: { ...diag, liveSourceEvents: live.length },
+  diag: { ...diag, liveSourceEvents: live.length, eventsByTeam: events.reduce((m, e) => (m[e.team] = (m[e.team] || 0) + 1, m), {}) },
   events: events.filter(e => now - new Date(e.startUTC) < 21 * DAY),
   news,
   tables,

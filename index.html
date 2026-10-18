@@ -375,6 +375,10 @@ a.svc:hover { text-decoration-color: currentColor }
 .stable tr.q td:first-child { box-shadow: inset 4px 0 0 var(--sport) }
 .stable tr.mine td { background: color-mix(in srgb, var(--accent) 9%, transparent) }
 .small { font-size: 13px }
+.dlinks { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 6px }
+.dlinks:empty { display: none }
+.dlinks a { font-size: 13px; font-weight: 600; text-decoration: none; color: var(--ink); border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 11px }
+.dlinks a:hover { border-color: var(--accent) }
 .squads { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px }
 .squad { border: 1px solid var(--line); border-radius: var(--r); padding: 8px 10px; background: var(--surface) }
 .sqh { font-family: var(--f-display); font-size: 18px; font-weight: 600; margin-bottom: 4px }
@@ -881,12 +885,17 @@ function detail(e) {
     </div>
     ${res}${live}
     <dl class="facts">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
+    <div class="dlinks">${[
+      e.link && `<a href="${esc(e.link)}" target="_blank" rel="noopener">${e.sport === 'cricket' ? 'Scorecard' : isPast ? 'Match report and team lists' : 'Team lists and match centre'} ↗</a>`,
+      e.source && `<a href="${esc(e.source)}" target="_blank" rel="noopener">${e.status === 'live' ? 'Follow live' : 'Match page'} ↗</a>`,
+      e.sport === 'cricket' && `<a href="https://www.espncricinfo.com/live-cricket-score" target="_blank" rel="noopener">Ball by ball on Cricinfo ↗</a>`,
+    ].filter(Boolean).join('')}</div>
+    <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
     ${e.card?.length ? `<h3 class="dh">Fight card</h3>${fightCard(e, hidden)}` : ''}
     ${e.squads?.length ? `<h3 class="dh">Squads</h3>${squadsHtml(e)}` : ''}
-    <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
     <h3 class="dh">Team news</h3>
     ${related.length ? `<div class="news">${related.map(n => `<a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener">${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '<span></span>'}<span class="dn-text"><span class="dn-meta"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span class="muted">${esc(n.source || '')}</span></span><b>${esc(n.title)}</b></span></a>`).join('')}</div>` : '<p class="muted">No recent news for this match yet.</p>'}
-    ${e.link ? `<p><a class="srclink" href="${esc(e.link)}" target="_blank" rel="noopener">${e.sport === 'cricket' ? 'Scorecard' : isPast ? 'Match report and team lists' : 'Team lists and match centre'}</a></p>` : ''}${e.source ? `<p><a class="srclink" href="${esc(e.source)}" target="_blank" rel="noopener">${e.status === 'live' ? 'Follow live on the match page' : 'Match page'}</a>${e.sport === 'cricket' ? ` · <a class="srclink" href="https://www.espncricinfo.com/live-cricket-score" target="_blank" rel="noopener">Ball by ball on Cricinfo</a>` : ''}</p>` : ''}`;
+`;
 }
 function openDetail(id) {
   const e = (FEED.events || []).find(x => x.id === id);
