@@ -157,11 +157,13 @@ footer a { color: var(--muted) }
 .chip { display: inline-flex; align-items: center; gap: 6px }
 .sportchip.sport-all { --sport: var(--ink) }
 .sportchip { border-color: var(--sport) }
-.nowbar { min-width: 0; max-width: 100%; display: flex; flex-wrap: nowrap; align-items: center; justify-content: safe center; gap: 6px; margin: 0 auto -12px; overflow-x: auto; scrollbar-width: none; padding: 2px }
-.nowbar::-webkit-scrollbar { display: none }
+/* "Current series" title on its own line, the chips under it in a row that scrolls sideways when it runs out of room */
+.nowbar { min-width: 0; max-width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; margin: 0 auto -12px; padding: 2px }
+.nowbar .nowchips { display: flex; flex-wrap: nowrap; align-items: center; justify-content: safe center; gap: 6px; max-width: 100%; overflow-x: auto; scrollbar-width: none; padding: 2px }
+.nowbar .nowchips::-webkit-scrollbar { display: none }
 .nowchip { flex: none; font-size: 13px; padding: 4px 10px; min-height: 0 }
 .nowchips { display: contents }
-.nowlbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 4px; white-space: nowrap; flex: none; display: inline-flex; align-items: center; gap: 6px }
+.nowlbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 0; white-space: nowrap; flex: none; display: inline-flex; align-items: center; gap: 6px }
 .nowchip.is-live { border-color: #e03131 }
 .livetag { margin-left: 6px; font-size: 9px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff; background: #e03131; border-radius: 4px; padding: 1px 5px }
 @media (prefers-reduced-motion: no-preference) { .nowchip.is-live .livetag { animation: tagpulse 2s ease-in-out infinite } @keyframes tagpulse { 50% { opacity: .55 } } }
@@ -1501,7 +1503,7 @@ function renderNowBar(now) {
   onNowComps = new Set(on.map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
   $('nowBar').hidden = !on.length;
-  $('nowBar').innerHTML = on.length ? `<span class="nowlbl">Current series</span><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}</div>` : '';
+  $('nowBar').innerHTML = on.length ? `<span class="nowlbl">Current running series</span><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}</div>` : '';
 }
 
 function render() {
