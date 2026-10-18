@@ -236,11 +236,25 @@ dialog#sheet { width: min(720px, 100%) }
   @keyframes livepulse { 50% { box-shadow: 0 0 0 1px var(--live), 0 0 4px color-mix(in srgb, var(--live) 15%, transparent) } }
 }
 
+.compbar { display: flex; justify-content: center; margin-top: -14px }
+#compSel { border-radius: 999px; padding: 5px 14px; font-size: 14px; background: var(--surface); border: 1px solid var(--line); cursor: pointer; max-width: 100% }
+#compSel.on { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+#sportFilter.dim .chip[aria-pressed="true"] { background: transparent; color: var(--ink) }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0) }
+
+/* bigger time, names and logos */
+.ev .nz { font-size: 30px }
+.ev .teams { font-size: 24px; line-height: 1.2 }
+.ev .teams .logo { width: 1.25em; height: 1.25em; margin-right: 7px; vertical-align: -0.25em }
+.ev .teams .flagimg { width: 1.35em; height: auto; vertical-align: -0.1em }
+.ev .when { min-width: 140px }
+
 @media (max-width: 560px) {
   .ev { grid-template-columns: 6px minmax(0, 1fr) }
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
   .tag { justify-self: start }
-  .ev .teams { font-size: 19px }
+  .ev .teams { font-size: 21px }
+  .ev .nz { font-size: 27px }
   .day .dd { font-size: 20px }
   .day { padding: 6px 2px }
 }
@@ -278,6 +292,7 @@ dialog#sheet { width: min(720px, 100%) }
 
 <main class="wrap">
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
+  <div class="compbar"><label for="compSel" class="visually-hidden">Competition</label><select id="compSel"></select></div>
   <section id="weekSec">
     <h2>This week <small id="weekRange"></small></h2>
     <div class="week" id="week"></div>
@@ -291,8 +306,8 @@ dialog#sheet { width: min(720px, 100%) }
     <div id="upcoming"></div>
   </section>
   <section id="resSec">
-    <h2>Recent results</h2>
-    <div id="results" class="daygroup"></div>
+    <h2>Results</h2>
+    <div id="results"></div>
   </section>
   <section id="newsSec">
     <h2>News &amp; injuries</h2>
@@ -369,6 +384,27 @@ let spoilDays = store.get('spoilDays', 3);
 let revealed = new Set(store.get('revealed', []));
 let newsKind = 'all';
 let sportSel = store.get('sport', 'all');
+let compSel = store.get('comp', '');
+// one name per competition, so a whole tournament can be shown on its own
+function compOf(e) {
+  const c = e.comp || '';
+  if (e.sport === 'mma') return 'UFC';
+  if (e.sport === 'boxing') return 'Boxing';
+  if (e.team === 'wbbl' || /Women'?s Big Bash|WBBL/i.test(c)) return "Women's Big Bash";
+  if (e.team === 'bbl' || /Big Bash|BBL/i.test(c)) return 'Big Bash';
+  if (e.sport === 'league' && /World Cup/i.test(c)) return 'Rugby League World Cup';
+  if (/NRL/.test(c) || e.team === 'nrl') return 'NRL';
+  if (/NPC/.test(c)) return 'NPC';
+  if (/Farah Palmer/i.test(c)) return 'Farah Palmer Cup';
+  if (/A-League/i.test(c)) return 'A-League Men';
+  if (/Super Rugby/i.test(c)) return 'Super Rugby Pacific';
+  if (/Nations Championship/i.test(c)) return 'Nations Championship';
+  if (/Bledisloe|Rugby Championship/i.test(c)) return 'Rugby Championship';
+  if (e.team === 'blackcaps') return 'Black Caps';
+  if (e.team === 'whiteferns') return 'White Ferns';
+  if (e.team === 'nzdomestic') return 'NZ domestic cricket';
+  return c.split(/[,·]/)[0].trim();
+}
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -408,7 +444,8 @@ function isHidden(e, now) {
 // an event also shows for the other side when both are followed (e.g. Blues v Hurricanes)
 const CLUBS = ['blues','chiefs','hurricanes','crusaders','highlanders','warriors'];
 const visibleTeam = x => picked.has(x.team) || (x.tags || []).some(t => picked.has(t)) || CLUBS.some(k => picked.has(k) && [x.home, x.away].some(t => (t || '').includes(TEAM_NAME[k])));
-const visible = x => visibleTeam(x) && (sportSel === 'all' || (x.sport || sportOf(x.team)) === sportSel);
+const visible = x => x.startUTC ? (compSel ? compOf(x) === compSel : visibleTeam(x) && (sportSel === 'all' || (x.sport || sportOf(x.team)) === sportSel))
+  : visibleTeam(x) && (sportSel === 'all' || sportOf(x.team) === sportSel);
 
 function evCard(e, now) {
   const d = new Date(e.startUTC);
@@ -563,7 +600,21 @@ function render() {
 
   // results
   const pastFinals = finals.filter(e => dayKey(new Date(e.startUTC)) !== todayK);
-  $('results').innerHTML = pastFinals.length ? pastFinals.slice(0, 12).map(e => resCard(e, now)).join('') : `<div class="empty-note">No recent results for your teams.</div>`;
+  // group past results: Yesterday, The weekend (on Mon/Tue), then by day
+  const yK = dayKey(new Date(now - 864e5));
+  const wd = new Date(nowD.toLocaleString('en-US', { timeZone: NZ })).getDay(); // 0 Sun .. 6 Sat, in NZ
+  const weekendKeys = wd === 1 || wd === 2 ? [3, 2, 1].map(back => dayKey(new Date(now - (wd + back - 1) * 864e5))) : [];
+  const groupOf = e => {
+    const k = dayKey(new Date(e.startUTC));
+    if (weekendKeys.includes(k)) return 'The weekend';
+    if (k === yK) return 'Yesterday';
+    return fmt(new Date(e.startUTC), NZ, { weekday: 'long', day: 'numeric', month: 'short' });
+  };
+  const rgroups = new Map();
+  pastFinals.slice(0, 14).forEach(e => { const g = groupOf(e); if (!rgroups.has(g)) rgroups.set(g, []); rgroups.get(g).push(e); });
+  $('results').innerHTML = rgroups.size
+    ? [...rgroups].map(([g, list]) => `<div class="daygroup"><div class="dayhead">${esc(g)}</div>${list.map(e => resCard(e, now)).join('')}</div>`).join('')
+    : `<div class="empty-note">No recent results for your teams.</div>`;
 
   // news
   const kinds = [['all', 'All'], ['injury', 'Injuries'], ['squad', 'Squads'], ['result', 'Results'], ['news', 'Other']];
@@ -581,6 +632,15 @@ function render() {
   }).join('') : `<div class="empty-note">No news in this category for your teams.</div>`;
 
   // controls
+  {
+    const counts = new Map();
+    (FEED.events || []).filter(e => Math.abs(new Date(e.startUTC) - now) < 21 * 864e5).forEach(e => { const c = compOf(e); counts.set(c, (counts.get(c) || 0) + 1); });
+    const comps = [...counts].filter(([, n]) => n >= 2).sort((a, b) => b[1] - a[1]).map(([c]) => c);
+    if (compSel && !comps.includes(compSel)) comps.unshift(compSel);
+    $('compSel').innerHTML = `<option value="">All competitions</option>` + comps.map(c => `<option value="${esc(c)}" ${c === compSel ? 'selected' : ''}>${esc(c)}</option>`).join('');
+    $('compSel').classList.toggle('on', !!compSel);
+    $('sportFilter').classList.toggle('dim', !!compSel);
+  }
   $('sportFilter').innerHTML = [['all','All'],['rugby','Rugby'],['cricket','Cricket'],['league','League'],['football','Football'],['mma','UFC'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${sportSel === k}" class="chip sportchip sport-${k}">${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   $('spoilBtn').textContent = spoilers ? 'Spoilers hidden' : 'Spoilers shown';
@@ -601,7 +661,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); store.set('teams', [...picked]); render(); }
   else if (t.dataset.reveal) { ev.stopPropagation(); revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
   else if (t.dataset.rehide) { ev.stopPropagation(); revealed.delete(t.dataset.rehide); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
-  else if (t.dataset.sport) { sportSel = t.dataset.sport; store.set('sport', sportSel); render(); }
+  else if (t.dataset.sport) { compSel = ''; store.set('comp', ''); sportSel = t.dataset.sport; store.set('sport', sportSel); render(); }
   else if (t.dataset.kind) { newsKind = t.dataset.kind; render(); }
   else if (t.dataset.jump) { const el = document.getElementById('d-' + t.dataset.jump) || (t.dataset.jump === dayKey(new Date()) ? $('todaySec') : null); if (el) el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
   else if (t.id === 'moreUp') { store.set('showAllUp', true); render(); }
@@ -611,6 +671,7 @@ document.addEventListener('click', ev => {
   else if (t.id === 'allOff') { picked = new Set(); store.set('teams', []); render(); }
 });
 document.addEventListener('keydown', ev => { const c = ev.target.closest?.('[data-open]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openDetail(c.dataset.open); } });
+$('compSel').addEventListener('change', e => { compSel = e.target.value; store.set('comp', compSel); render(); });
 $('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; store.set('spoilDays', spoilDays); render(); });
 
 function stamp() {
