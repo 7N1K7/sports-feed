@@ -1,58 +1,103 @@
-{{#invoke:Sports table|main|style=Custom
-|num_cols=9
-|colstyle1=pld
-|colstyle2=win
-|colstyle3=draw
-|colstyle4=loss
-|colstyle5=rw
-|colstyle6=pf
-|colstyle7=pa
-|colstyle8=diff_pf_pa
-|colstyle9=pts
-|rw_header={{Abbr|B|Bye}}
-|col_header6={{Abbr|PF|Points for}}
-|col_header7={{Abbr|PA|Points against}}
-|col_header8={{Abbr|PD|Points difference}}
-|col_header9={{Abbr|Pts|Competition points}}
-|for_against_style=points
-|plus_sign_diffs=y
-|winpoints=2
-|drawpoints=1
-|losspoints=0
-|rwpoints=2
-|show_limit=17
-|teamwidth=230
+F1 len 137166
+== Calendar ==
+[[File:Formula 1 all over the world-2026.svg|thumb|upright=1.3|Nations that are scheduled to host a [[list of Formula One Grands Prix|Grand Prix]] in 2026 are highlighted in green, with circuit locations marked with a black dot. Former host nations are shown in dark grey, and former host circuits are marked with a white dot. De facto borders are shown.]]
 
-|update=complete
-|source=[https://www.nrl.com/ladder/?competition=111&season=2026 National Rugby League]
+The 2026 calendar originally comprised twenty-four Grands Prix, as with the previous two seasons.<ref name="2026 calendar">{{cite news|url=https://www.formula1.com/en/latest/article/formula-1-reveals-calendar-for-2026-season.YctbMZWqBvrgyddrnauo8|title=Formula 1 reveals calendar for 2026 season|work=Formula 1|date=10 June 2025|access-date=10 June 2025|archive-date=10 June 2025|archive-url=https://web.archive.org/web/20250610055338/https://www.formula1.com/en/latest/article/formula-1-reveals-calendar-for-2026-season.YctbMZWqBvrgyddrnauo8|url-status=live}}</ref> The [[Saudi Arabian Grand Prix]] was cancelled following the outbreak of the [[2026 Iran war|Iran war]], reducing the count of confirmed Grands Prix to twenty-three. The [[Chinese Grand Prix|Chinese]], [[Miami Grand Prix|Miami]], [[Canadian Grand Prix|Canadian]], [[British Grand Prix|British]], [[Dutch Grand Prix|Dutch]], and [[Singapore Grand Prix|Singapore]] Grands Prix feature the [[Formula One racing#Sprint|sprint format]].<ref name="sprint">{{Cite news |title=Formula 1 and FIA announce 2026 Sprint Calendar |url=https://www.formula1.com/en/latest/article/formula-1-and-fia-announce-2026-sprint-calendar.3PyLPAazrBNe8kQIS3wOfY |access-date=16 September 2025 |work=Formula 1}}</ref>
 
-<!--Ladder order-->
-|team_order= PEN, NZL, DOL, SYD, CRO, SOU, NEW, NQC, MAN, MEL, CAN, CBY, PAR, BRI, WTI, GCT, SGI
+{| class="sortable wikitable" style="font-size: 85%;"
+! data-sort-type="number" |Round
+![[List of Formula One Grands Prix|Grand Prix]]
+![[List of Formula One circuits|Circuit]]
+! class="unsortable" |Race date
+|-
+!1
+|[[Australian Grand Prix]]
+|{{flagicon|AUS}} [[Albert Park Circuit]], [[Melbourne]]
+|8 March
+|-
+!2
+|[[Chinese Grand Prix]]
+|{{flagicon|CHN}} [[Shanghai International Circuit]], [[Shanghai]]
+|15 March
+|-
+!3
+|[[Japanese Grand Prix]]
+|{{flagicon|JPN}} [[Suzuka Circuit]], [[Suzuka, Mie|Suzuka]]
+|29 March
+|-
+!4
+|[[Miami Grand Prix]]
+|nowrap|{{flagicon|USA}} [[Miami International Autodrome]], [[Miami Gardens, Florida]]
+|3 May
+|-
+!5
+|[[Canadian Grand Prix]]
+|{{flagicon|CAN}} [[Circuit Gilles Villeneuve]], [[Montreal]]
+|24 May
+|-
+!6
+|[[Monaco Grand Prix]]
+|{{flagicon|MON}} [[Circuit de Monaco]], [[Municipality of Monaco|Monaco]]
+|7 June
+|-
+!7
+|nowrap|[[Barcelona-Catalunya Grand Prix]]
+|{{flagicon|ESP}} [[Circuit de Barcelona-Catalunya]], [[Montmeló]]
+|14 June
+|-
+!8
+|[[Austrian Grand Prix]]
+|{{flagicon|AUT}} [[Red Bull Ring]], [[Spielberg, Styria|Spielberg]]
+|28 June
+|-
+!9
+|[[British Grand Prix]]
+|{{flagicon|GBR}} [[Silverstone Circuit]], [[Silverstone]]
+|5 July
+|-
+!10
+|[[Belgian Grand Prix]]
+|{{flagicon|BEL}} [[Circuit de Spa-Francorchamps]], [[Stavelot]]
+|19 July
+|-
+!11
+|[[Hungarian Grand Prix]]
+|{{flagicon|HUN}} [[Hungaroring]], [[Mogyoród]]
+#### STANDINGS 136262
+Drivers' Championship standings ===
+{{F1 Drivers Standings}}
 
-<!--Data for teams; rw = byes-->
-|win_BRI=8 |draw_BRI=0 |loss_BRI=16 |rw_BRI=3 |pf_BRI=471|pa_BRI=677
-|win_CAN=11|draw_CAN=0 |loss_CAN=13 |rw_CAN=3 |pf_CAN=581|pa_CAN=626
-|win_CBY=11|draw_CBY=0 |loss_CBY=13 |rw_CBY=3 |pf_CBY=476 |pa_CBY=536
-|win_CRO=14 |draw_CRO=0 |loss_CRO=10 |rw_CRO=3 |pf_CRO=672|pa_CRO=523
-|win_DOL=17 |draw_DOL=0 |loss_DOL=7 |rw_DOL=3 |pf_DOL=662|pa_DOL=506
-|win_GCT=6 |draw_GCT=0 |loss_GCT=18 |rw_GCT=3 |pf_GCT=477|pa_GCT=663
-|win_MAN=11 |draw_MAN=0 |loss_MAN=13 |rw_MAN=3 |pf_MAN=623|pa_MAN=524
-|win_MEL=11 |draw_MEL=0 |loss_MEL=13 |rw_MEL=3 |pf_MEL=594|pa_MEL=576
-|win_NEW=14 |draw_NEW=0 |loss_NEW=10|rw_NEW=3 |pf_NEW=633|pa_NEW=591
-|win_NZL=18 |draw_NZL=0 |loss_NZL=6 |rw_NZL=3 |pf_NZL=728|pa_NZL=418
-|win_NQC=13 |draw_NQC=0 |loss_NQC=11 |rw_NQC=3 |pf_NQC=568|pa_NQC=652
-|win_PAR=9 |draw_PAR=0 |loss_PAR=15 |rw_PAR=3 |pf_PAR=497|pa_PAR=678
-|win_PEN=18 |draw_PEN=0 |loss_PEN=6 |rw_PEN=3 |pf_PEN=683|pa_PEN=347
-|win_SOU=14 |draw_SOU=0 |loss_SOU=10 |rw_SOU=3 |pf_SOU=694|pa_SOU=581
-|win_SGI=5 |draw_SGI=0 |loss_SGI=19 |rw_SGI=3 |pf_SGI=392 |pa_SGI=717
-|win_SYD=16 |draw_SYD=0 |loss_SYD=8 |rw_SYD=3 |pf_SYD=619|pa_SYD=501 |status_SYD=P
-|win_WTI=8 |draw_WTI=0 |loss_WTI=16|rw_WTI=3 |pf_WTI=445|pa_WTI=699
+=== World Constructors' Championship standings ===
+<div style="overflow-x: auto;">
+{{F1 Constructors Standings}}
+</div>
 
-<!--TEAM NAMES. No need to update-->
-|name_BRI={{leagueicon|Brisbane|15}} [[2026 Brisbane Broncos season|Brisbane Broncos]]
-|name_CAN={{leagueicon|Canberra|15}} [[Canberra Raiders]]
-|name_CBY={{leagueicon|Canterbury|15}} [[2026 Canterbury-Bankstown Bulldogs season|Canterbury-Bankstown Bulldogs]]
-|name_CRO={{leagueicon|Cronulla|15}} [[Cronulla-Sutherland Sharks]]
-|name_DOL={{leagueicon|Dolphins|15}} [[2026 Dolphins (NRL) season|Dolphins]]
-|name_GCT={{leagueicon|Titans|15}} [[Gold Coast Titans]]
-|name_MAN={{leagueicon|Manly|15}} [[M
+== Notes ==
+{{notelist}}
+
+== References ==
+{{Reflist}}
+
+== External links ==
+{{Portal|Formula One}}
+
+* [https://www.formula1.com/en/racing/2026 2026 Formula One World Championship calendar] at Formula1.com
+* [https://www.formula1.com/en/results/2026/races 2026 Formula One World Championship race results] at Formula1.com
+* [https://www.fia.com/events/fia-formula-one-world-championship/season-2026/2026-fia-formula-one-world-championship 2026 FIA Formula One World Championship] at FIA.com
+
+{{Formula One Championship}}
+{{World championships in 2026}}
+
+[[Category:2026 in Formula One| ]]
+[[Category:2026 in formula racing|Formula One]]
+[[Category:Formula One seasons]]
+[[Category:Current motorsport seasons|Formula One]]
+TPL F1 Drivers Standings
+TPL F1 Constructors Standings
+#### RACE 137166
+
+#### NRL finals 17658 8
+st week: Qualifying and Elimination Finals ====
+{{rugbyleaguebox|bg=|event=Second Elimination Final|date=11 September 2026|time=19:50 [[Time in Australia|AEST]] ([[UTC+10]])|team1=[[South Sydney Rabbitohs]] {{leagueicon|South Sydney|16}}|team2={{leagueicon|Newcastle|16}} [[Newcastle Knights]]|score=10–20|1sthalf=6–10|2ndhalf=4–10|report=[https://www.nrl.com/draw/nrl-premiership/2026/finals-week-1/rabbitohs-v-knights/ Report]|try1= '''2''' <br /> [[Campbell Graham|Graham]] {{try|35}} <br /> [[Jye Gray|Gray]] {{try|74}}|goal1='''1''' <br /> [[Latrell Mitchell|Mitchell]] {{kick|36}}|field1=|points2=|try2='''4''' <br /> [[Jermaine McEwen|McEwen]] {{try|4|61}} <br /> [[Dane Gagai|Gagai]] {{try|25}} <br /> [[Dominic Young|Young]] {{try|65}}|goal2='''2''' <br /> [[Sandon Smith|Smith]] {{kick|27|62}}|field2=|stadium=[[Sydney Football Stadium (2022)|Allianz Stadium]], [[Sydney]]|attendance=28,152|referee=[[Ashley Klein]]|touch=|manofmatch=}}
+
+{{
