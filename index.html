@@ -54,7 +54,7 @@ header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; b
 header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block: 10px; flex-wrap: wrap }
 .brand { font-family: var(--f-display); font-weight: 700; font-size: 31px; letter-spacing: .02em; text-transform: uppercase; line-height: 1 }
 .brand span { color: var(--accent) }
-.brand .blogo { width: 1.3em; height: 1.3em; vertical-align: -0.28em; margin-right: .3em; border-radius: 8px }
+.brand .blogo { width: 1.7em; height: 1.7em; vertical-align: -0.48em; margin-right: .3em; border-radius: 10px }
 .clock { color: var(--muted); font-size: 13px }
 .ver:empty { display: none }
 .ver { color: var(--muted); font-size: 11px; border: 1px solid var(--line); border-radius: 999px; padding: 1px 7px }
@@ -448,6 +448,10 @@ a.svc:hover { text-decoration-color: currentColor }
 .stable.rank td.num { white-space: nowrap }
 .rankbody { padding-top: 6px }
 .stable.rank .rnote { font-weight: 400; white-space: normal }
+.stable.rank .medal { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; font-size: 12px; font-weight: 800; color: #3b2a00; box-shadow: inset 0 -2px 0 rgba(0,0,0,.18) }
+.stable.rank .medal.m1 { background: linear-gradient(145deg, #ffe58a, #e0a800) }
+.stable.rank .medal.m2 { background: linear-gradient(145deg, #f1f3f5, #aeb5bc); color: #2b3035 }
+.stable.rank .medal.m3 { background: linear-gradient(145deg, #f0b98a, #b8692e); color: #3a1d06 }
 .stable.rank tr.gap td { text-align: center; color: var(--muted); padding: 2px }
 .stable.rank .tag { font-size: 10px; vertical-align: .1em }
 .tscroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface) }
@@ -612,7 +616,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 
 <header class="top">
   <div class="wrap">
-    <div class="brand"><img class="blogo" src="logo.svg?v=b4" alt="" width="40" height="40">Kickoff <span>Kiwi</span></div>
+    <div class="brand"><img class="blogo" src="logo.svg?v=b4" alt="" width="52" height="52">Kickoff <span>Kiwi</span></div>
     <div class="clockcol"><div class="clockrow"><div class="clock num" id="clock"></div><div class="ver num" id="ver"></div></div><div class="fresh" id="fresh"></div></div>
     <div class="spacer"></div>
     <div class="search" role="search">
@@ -1214,7 +1218,7 @@ function rankingsHtml(lists) {
     const champ = r.rank === 'C' ? 'Champion' : r.rank === 'IC' ? 'Interim champion' : '';
     const gap = r.nz && l.rows.indexOf(r) > 0 && +r.rank > +l.rows[l.rows.indexOf(r) - 1].rank + 1 ? '<tr class="gap"><td colspan="4">…</td></tr>' : '';
     const name = fighters ? `${esc(r.name)}${r.iso ? ` <span class="muted small">${esc(r.iso)}</span>` : ''}${champ ? ` <span class="tag">${champ}</span>` : ''}` : teamName(r.name.replace(/\s+Women('s)?$/, ''), '', ev);
-    return `${gap}<tr class="${r.nz || (fighters && /New Zealand|NZL/.test(r.iso)) ? 'mine' : ''}"><td class="pos">${champ ? '' : esc(r.rank)}</td><td class="tn">${name}${fighters && r.note && !/^(Steady|–|-)?$/.test(r.note) ? `<div class="muted small rnote">${esc(r.note)}</div>` : ''}</td><td class="num">${esc(fighters ? r.rec || '' : r.val)}</td></tr>`;
+    return `${gap}<tr class="${r.nz || (fighters && /New Zealand|NZL/.test(r.iso)) ? 'mine' : ''}"><td class="pos">${l.rows.indexOf(r) < 3 ? `<span class="medal m${l.rows.indexOf(r) + 1}" title="${['Gold', 'Silver', 'Bronze'][l.rows.indexOf(r)]}">${champ ? 'C' : esc(r.rank === 'n' ? String(l.rows.indexOf(r) + 1) : r.rank)}</span>` : champ ? '' : esc(r.rank)}</td><td class="tn">${name}${fighters && r.note && !/^(Steady|–|-)?$/.test(r.note) ? `<div class="muted small rnote">${esc(r.note)}</div>` : ''}</td><td class="num">${esc(fighters ? r.rec || '' : r.val)}</td></tr>`;
   }).join('');
   return `${chips}<div class="stable rank"><h3 class="dh">${esc(l.title)}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), NZ, l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
     <p class="muted small">Rankings from <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(l.page.replace(/ /g, '_'))}" target="_blank" rel="noopener">Wikipedia</a> (CC BY-SA), which follows the official ${fighters ? 'UFC' : l.sport === 'rugby' ? 'World Rugby' : l.sport === 'cricket' ? 'ICC' : 'IRL'} list.</p>`;
