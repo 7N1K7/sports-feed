@@ -316,6 +316,7 @@ dialog#sheet { width: min(720px, 100%) }
 #compSel.on { background-color: var(--ink); color: var(--paper); border-color: var(--ink) }
 .cmenu-list { position: absolute; z-index: 30; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); min-width: 300px; max-height: 70vh; overflow: auto;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 8px; box-shadow: 0 12px 32px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.08) }
+.csub { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 6px 12px 2px 26px }
 .copt { display: block; width: 100%; text-align: left; border: 0; background: none; color: var(--ink); font: inherit; font-size: 14px; padding: 8px 12px 8px 26px; border-radius: 10px; cursor: pointer }
 .cmenu-list > .copt:first-child { padding-left: 12px; font-weight: 600 }
 .copt:hover, .copt:focus-visible { background: color-mix(in srgb, var(--accent) 12%, transparent); outline: none }
@@ -629,8 +630,10 @@ function genderOf(x) {
   return 'm';
 }
 const gcls = e => /wheelchair/i.test([e.comp, e.home, e.away].join(' ')) ? 'g-wc' : genderOf(e) === 'w' ? 'g-w' : '';
+// club and domestic competitions, listed under "Leagues" in the menu; everything else is international
+const DOMESTIC = /^(NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|Big Bash|Women's Big Bash|NZ domestic cricket|A-League Men|Premier League)$/;
 // how a competition reads in the menu
-const COMP_LABEL = { UFC: 'MMA' };
+const COMP_LABEL = {};
 // one name per competition, so a whole tournament can be shown on its own
 // the card's header: Australia's tours read home side first, like the names below ("South Africa v Australia · 1st T20I")
 const cardComp = e => e.team === 'aucricket' ? compOf(e) + (e.stage ? ' · ' + e.stage : '') : plural(e.comp);
@@ -1099,7 +1102,13 @@ function render() {
     const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}">${esc(COMP_LABEL[c] || c)}${liveComps.has(c) ? '<span class="onnow">Live</span>' : onNowComps.has(c) ? '<span class="current">Current</span>' : !c || nextOf.get(c) < Infinity ? '' : '<span class="ended">Season over</span>'}</button>`;
     $('compMenu').innerHTML = opt('') .replace('></button>', '>All competitions</button>') + groups.map(([ks, l]) => {
       const cs = comps.filter(c => ks.includes(sportOfComp.get(c))).sort((a, b) => ks.indexOf(sportOfComp.get(a)) - ks.indexOf(sportOfComp.get(b)));
-      return cs.length ? `<div class="cgroup"><div class="chead"><span class="dot" style="background:var(--${ks[0]})"></span>${l}</div>${cs.map(opt).join('')}</div>` : '';
+      if (!cs.length) return '';
+      // subheadings: MMA and Boxing under Fighting; International and Leagues within each team sport
+      const subs = ks.length > 1 ? ks.map(k => [k === 'mma' ? 'MMA' : 'Boxing', cs.filter(c => sportOfComp.get(c) === k)])
+        : [['International', cs.filter(c => !DOMESTIC.test(c))], ['Leagues', cs.filter(c => DOMESTIC.test(c))]];
+      const live = subs.filter(([, list]) => list.length);
+      const body = ks.length > 1 || live.length > 1 ? live.map(([h, list]) => `<div class="csub">${h}</div>${list.map(opt).join('')}`).join('') : cs.map(opt).join('');
+      return `<div class="cgroup"><div class="chead"><span class="dot" style="background:var(--${ks[0]})"></span>${l}</div>${body}</div>`;
     }).join('');
     $('compSel').textContent = COMP_LABEL[compSel] || compSel || 'All competitions';
     $('nzOnly').setAttribute('aria-pressed', String(nzOnly));
