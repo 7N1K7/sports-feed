@@ -78,10 +78,12 @@ function teamTables(tables, cfg) {
   const out = [];
   for (const t of tables) {
     if (out.length >= cfg.titles.length) break;
-    const heads = t.heads.length ? t.heads : t.rows.slice(0, 1);
-    const body = t.heads.length ? t.rows : t.rows.slice(1);
+    // the header row: the <th> rows, or else the first row naming a Team column (a caption row can come before it)
+    const all = [...t.heads, ...t.rows], hi = all.slice(0, 4).findIndex(r => r.some(x => /^(team|nation|country)\b/i.test(x)));
+    if (hi < 0) continue;
+    const heads = all.slice(0, hi + 1), body = all.slice(hi + 1);
     // the ICC's tables have no rank column: there the order is the rank
-    const iRank = col(heads, /^(rank|pos|#)/i), iTeam = col(heads, /^(team|nation|country)/i);
+    const iRank = col(heads, /^(rank|pos|#)/i), iTeam = col(heads, /^(team|nation|country)\b/i);
     const iVal = col(heads, /^rating/i) >= 0 ? col(heads, /^rating/i) : col(heads, /^(points|pts)/i);
     if (iTeam < 0 || iVal < 0) continue;
     const rows = body.map(r => ({ rank: iRank >= 0 ? (r[iRank] || '').match(/^\d+/)?.[0] || '' : 'n', name: (r[iTeam] || '').replace(/\s*\(.*?\)\s*$/, '').trim(), val: (r[iVal] || '').replace(/^0+(?=\d)/, '') }))
@@ -93,7 +95,7 @@ function teamTables(tables, cfg) {
     for (const r of top) if (NZ.test(r.name)) r.nz = true;
     out.push({
       sport: cfg.sport, title: /wheelchair/i.test(t.heading) ? 'Wheelchair' : /women/i.test(t.heading) && cfg.titles.includes("Women's") ? "Women's" : cfg.titles[out.length],
-      page: cfg.page, asOf: dateIn(t.notes) || dateIn(t.heading), valLabel: /rating/i.test(heads.flat()[iVal] || heads[0][iVal]) ? 'Rating' : 'Points', rows: top,
+      page: cfg.page, asOf: dateIn(t.notes) || dateIn(t.heading) || dateIn(all.slice(0, hi).flat().join(' ')), valLabel: /rating/i.test(heads.flat()[iVal] || heads[0][iVal]) ? 'Rating' : 'Points', rows: top,
     });
   }
   return out;
