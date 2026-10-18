@@ -149,7 +149,10 @@ footer a { color: var(--muted) }
 .sportchip { border-color: var(--sport) }
 .nowbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin: 0 0 -12px }
 .nowlbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 4px; display: inline-flex; align-items: center; gap: 6px }
-.nowlbl::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #e03131; box-shadow: 0 0 0 3px color-mix(in srgb, #e03131 25%, transparent) }
+.nowchip.is-live { box-shadow: 0 0 0 2px color-mix(in srgb, #e03131 35%, transparent), 0 0 14px color-mix(in srgb, #e03131 45%, transparent) }
+.livetag { margin-left: 7px; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff; background: #e03131; border-radius: 4px; padding: 1px 5px }
+@media (prefers-reduced-motion: no-preference) { .nowchip.is-live { animation: livepulse 2s ease-in-out infinite } @keyframes livepulse { 50% { box-shadow: 0 0 0 2px color-mix(in srgb, #e03131 20%, transparent), 0 0 4px color-mix(in srgb, #e03131 20%, transparent) } } }
+.copt .current { white-space: nowrap; margin-left: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--accent) }
 .copt .onnow, .copt .ended { white-space: nowrap; margin-left: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #e03131 }
 .copt .ended { color: var(--muted); font-weight: 600 }
 .nowchip { border-color: var(--sport); background: color-mix(in srgb, var(--sport) 8%, var(--paper)); font-weight: 600 }
@@ -916,7 +919,7 @@ function openDetail(id) {
 const GENERIC = /^(Test match|Women's test|Boxing|UFC|NZ domestic cricket|Black Caps|White Ferns|NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|A-League Men|Premier League|Big Bash|Women's Big Bash)$/;
 // tournaments played in windows across the year: listed whenever the next window is near
 const WINDOWED = /^(Nations Championship|Rugby Championship)$/;
-let onNowComps = new Set();
+let onNowComps = new Set(), liveComps = new Set();
 function renderNowBar(now) {
   const by = new Map();
   for (const e of FEED.events || []) {
@@ -929,13 +932,15 @@ function renderNowBar(now) {
     if (t <= 18 * 36e5) v.started = true; // under way, or its first game is today
     if (t > -4 * 36e5 && t < v.next) v.next = t;
     if (isNZ(e)) v.nz = true;
+    if (e.status === 'live' || (e.status !== 'final' && onNow(e, now))) v.live = true;
     by.set(c, v);
   }
   const on = [...by].filter(([c, v]) => (v.started || WINDOWED.test(c)) && v.next < 21 * 864e5)
     .sort((a, b) => b[1].nz - a[1].nz || a[1].next - b[1].next).slice(0, 6);
   onNowComps = new Set(on.map(([c]) => c));
+  liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
   $('nowBar').hidden = !on.length;
-  $('nowBar').innerHTML = on.length ? `<span class="nowlbl">On now</span>${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}">${sIcon(v.sport, 'cicon')}${esc(plural(c))}</button>`).join('')}` : '';
+  $('nowBar').innerHTML = on.length ? `<span class="nowlbl">Current series</span>${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}">${sIcon(v.sport, 'cicon')}${esc(plural(c))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}` : '';
 }
 
 function render() {
@@ -1053,7 +1058,7 @@ function render() {
     const comps = [...counts].filter(([c, n]) => n >= 2 || c === compSel).map(([c]) => c)
       .sort((a, b) => rank(a) - rank(b) || (nextOf.get(a) - nextOf.get(b)) || a.localeCompare(b));
     const groups = [['rugby', 'Rugby'], ['league', 'Rugby league'], ['cricket', 'Cricket'], ['football', 'Football'], ['mma', 'UFC'], ['boxing', 'Boxing']];
-    const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}">${esc(c)}${onNowComps.has(c) ? '<span class="onnow">On now</span>' : !c || nextOf.get(c) < Infinity ? '' : '<span class="ended">Season over</span>'}</button>`;
+    const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}">${esc(c)}${liveComps.has(c) ? '<span class="onnow">Live</span>' : onNowComps.has(c) ? '<span class="current">Current</span>' : !c || nextOf.get(c) < Infinity ? '' : '<span class="ended">Season over</span>'}</button>`;
     $('compMenu').innerHTML = opt('') .replace('></button>', '>All competitions</button>') + groups.map(([k, l]) => {
       const cs = comps.filter(c => sportOfComp.get(c) === k);
       return cs.length ? `<div class="cgroup"><div class="chead"><span class="dot" style="background:var(--${k})"></span>${l}</div>${cs.map(opt).join('')}</div>` : '';
