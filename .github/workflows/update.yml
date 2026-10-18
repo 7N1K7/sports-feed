@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   schedule:
+    # Fallback only. GitHub starts scheduled runs late (about every 25 minutes), so the chain job
+    # below keeps the feed on a 10 minute cycle; a scheduled run restarts the chain if it stops.
     - cron: '3,13,23,33,43,53 * * * *'
   workflow_dispatch:
 
@@ -12,14 +14,20 @@ permissions:
   pages: write
   id-token: write
 
+# One run at a time, and at most one waiting. A push cancels the running one so new code goes out
+# at once; scheduled and chained runs wait their turn instead of cutting the current run short.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      started: ${{ steps.t0.outputs.started }}
     steps:
+      - id: t0
+        run: echo "started=$(date +%s)" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
@@ -42,3 +50,29 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+  # After a good deploy, wait until 10 minutes after this run's build began, then start the next run.
+  # Skips the dispatch when another run of this workflow is already queued or running (a push, the
+  # fallback cron, a manual run): that run carries the chain on, so there is only ever one chain.
+  chain:
+    needs: [build, deploy]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      actions: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      STARTED: ${{ needs.build.outputs.started }}
+      EVERY: 600
+    steps:
+      - name: Start the next run 10 minutes after this one
+        run: |
+          secs=$(( ${STARTED:-0} + EVERY - 10 - $(date +%s) ))
+          if [ "$secs" -gt "$EVERY" ] || [ -z "$STARTED" ]; then secs=$(( EVERY - 180 )); fi
+          if [ "$secs" -gt 0 ]; then echo "Waiting ${secs}s"; sleep "$secs"; fi
+          busy=$(gh api "repos/$REPO/actions/workflows/update.yml/runs?per_page=30" --jq \
+            '[.workflow_runs[] | select(.id != ${{ github.run_id }} and .status != "completed" and .created_at > (now - 7200 | todate))] | length')
+          if [ "$busy" -gt 0 ]; then echo "Another run is queued or running; it carries the chain on."; exit 0; fi
+          gh workflow run update.yml --repo "$REPO" --ref main
+          echo "Started the next run."

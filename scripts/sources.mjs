@@ -405,16 +405,23 @@ function sportsTables(text, page, c) {
     const cricket = /cricket/.test(style), rugby = /rugby/.test(style);
     const winPts = +(p.winpoints || p.win_points || (rugby ? 4 : cricket ? 2 : c.sport === 'league' ? 2 : 3));
     const drawPts = +(p.drawpoints || p.draw_points || (rugby ? 2 : 1));
-    const rows = order.map((code, i) => {
+    const lossPts = +(p.losspoints || 0), goalPts = p.goalpoints != null ? +p.goalpoints || 1 : 0;
+    // |auto_generate_standings=y (Premier League and others): no |win_TTT= etc., only |match_HOME_AWAY=score cells
+    const auto = /^(y|yes|true|on|1)$/i.test(p.auto_generate_standings || '') ? autoStandings(p) : null;
+    if (auto) order = auto.order;
+    let rows = order.map(code => {
       const w = g('win', code), d = g('draw', code), l = g('loss', code), nr = g('nr', code);
       const f = has('pf', code) ? g('pf', code) : g('gf', code), a = has('pa', code) ? g('pa', code) : g('ga', code);
       const bp = rugby ? g('tb', code) + g('lb', code) + g('bonus', code) : g('bonus', code);
-      const pts = w * winPts + d * drawPts + nr * (cricket ? winPts / 2 : 0) + bp + g('rw', code) * +(p.rwpoints || 0) + g('adjust_points', code) + g('startpoints', code);
+      const pts = w * winPts + d * drawPts + l * lossPts + f * goalPts + nr * (cricket ? winPts / 2 : 0) + bp + g('rw', code) * +(p.rwpoints || 0) + g('adjust_points', code) + g('startpoints', code);
       const nameRaw = p[`name_${code.toLowerCase()}`] ?? p[`name_${code}`] ?? code;
-      const result = p[`result${i + 1}`] || '', status = (p[`status_${code.toLowerCase()}`] ?? p[`status_${code}`] ?? '').trim();
+      const status = (p[`status_${code.toLowerCase()}`] ?? p[`status_${code}`] ?? '').trim();
       return { name: teamOf(nameRaw).replace(/\s*\((RS|RU|C|H|Q)\)\s*$/g, '').trim() || code, p: w + d + l + nr + g('tie', code), w, d, l, f, a, bp, nr,
-        nrr: has('nrr', code) ? clean(p[`nrr_${code.toLowerCase()}`] ?? p[`nrr_${code}`]) : '', pts, q: result || '', champ: /^C$/.test(status) };
+        nrr: has('nrr', code) ? clean(p[`nrr_${code.toLowerCase()}`] ?? p[`nrr_${code}`]) : '', pts, q: '', champ: /^C$/.test(status) };
     });
+    if (auto) rows = rankAuto(rows, auto, p, { winPts, drawPts, lossPts });
+    // |resultN= colours table position N
+    rows.forEach((r, i) => { r.q = p[`result${i + 1}`] || ''; });
     if (!rows.length) continue;
     const before = text.slice(0, tpl.at);
     const heads = [...before.matchAll(/^={2,4}\s*([^=\n]+?)\s*={2,4}\s*$/gm)];
@@ -422,6 +429,96 @@ function sportsTables(text, page, c) {
     out.push({ comp: c.comp, sport: c.sport, team: c.team || '', page, title: clean(p.title || '') || (/standings|table|ladder|log/i.test(head) || !head ? '' : head), style: cricket ? 'cricket' : rugby ? 'rugby' : 'wdl', rows });
   }
   return out;
+}
+
+// Module:Sports table/auto, in brief: tally the |match_HOME_AWAY=2–1 cells into |win_TTT=, |draw_TTT=, |loss_TTT=,
+// |gf_TTT=, |ga_TTT= (written into p), and give the base order (|default_order=, then by name). Codes are lower case
+// here because params() lower-cases keys. rankAuto then sorts by |ranking_criteria=.
+function autoStandings(p) {
+  const list = v => String(v || '').split(/\s*[;,]\s*/).map(x => x.trim().toLowerCase()).filter(Boolean);
+  const ext = new Set(list(p.external_teams)), withdrawn = list(p.withdrawn_teams);
+  const codes = new Set();
+  for (const k of Object.keys(p)) { const m = k.match(/^(?:name|schedule)_(.+)$/); if (m) codes.add(m[1]); }
+  // "ars_che" -> ["ars", "che"]; prefer splits into known codes, as codes may hold underscores
+  const split = rest => {
+    const cands = [];
+    for (let i = rest.indexOf('_'); i > 0 && i < rest.length - 1; i = rest.indexOf('_', i + 1)) cands.push([rest.slice(0, i), rest.slice(i + 1)]);
+    return cands.find(([h, a]) => codes.has(h) && codes.has(a)) || cands.find(([h]) => codes.has(h)) || cands.find(([, a]) => codes.has(a)) || cands[cands.length - 1];
+  };
+  const keys = Object.keys(p).sort().map(k => k.match(/^match(n?)(\d*)_(.+)$/)).filter(m => m && !/_note$/.test(m[3]));
+  for (const m of keys) for (const x of split(m[3]) || []) codes.add(x);
+  const legs = +p.legs || 1, seen = new Set(), matches = [];
+  for (const [key, n, num, rest] of keys) {
+    const [h, a] = split(rest) || [];
+    if (!h || h === a || ext.has(h) || ext.has(a)) continue;
+    if (!n && !((legs === 1 && !num) || (num && +num <= legs))) continue; // only the cells the results grid shows
+    const id = n ? `n${num || 1}|${[h, a].sort().join('|')}` : `${num || 1}|${h}|${a}`;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    const s = clean(String(p[key]).replace(/&[nm]dash;|&minus;/gi, '-')).replace(/[–—−‒―‐‑]/g, '-').match(/^(\d+(?:\.\d+)?)\s*-+\s*(\d+(?:\.\d+)?)/);
+    if (s) matches.push({ h, a, hs: +s[1], as: +s[2] }); // blank, "a" or a link to a rivalry article = not played yet
+  }
+  const teams = [...codes].filter(x => !ext.has(x));
+  const st = tally(teams, matches);
+  for (const x of teams) {
+    Object.assign(p, { [`win_${x}`]: String(st[x].w), [`draw_${x}`]: String(st[x].d), [`loss_${x}`]: String(st[x].l), [`gf_${x}`]: String(st[x].gf), [`ga_${x}`]: String(st[x].ga) });
+    delete p[`pf_${x}`]; delete p[`pa_${x}`];
+  }
+  const nameKey = x => clean(p[`name_${x}`] || x).toLowerCase();
+  const alpha = teams.slice().sort((x, y) => nameKey(x) < nameKey(y) ? -1 : nameKey(x) > nameKey(y) ? 1 : x < y ? -1 : 1);
+  const base = [...new Set([...list(p.default_order).filter(x => codes.has(x) && !ext.has(x)), ...alpha])];
+  const ranked = base.filter(x => !withdrawn.includes(x));
+  return { order: [...ranked, ...withdrawn.filter(x => codes.has(x) && !ext.has(x))], ranked: ranked.length, matches };
+}
+function tally(teams, matches) {
+  const st = Object.fromEntries(teams.map(x => [x, { w: 0, d: 0, l: 0, gf: 0, ga: 0 }]));
+  const add = (t, f, a) => { t.gf += f; t.ga += a; t[f > a ? 'w' : f < a ? 'l' : 'd']++; };
+  for (const m of matches) if (st[m.h] && st[m.a]) { add(st[m.h], m.hs, m.as); add(st[m.a], m.as, m.hs); }
+  return st;
+}
+// Sort auto-generated rows by |ranking_criteria= (default "pts, gd, gf"): overall and head-to-head pts, gd, gf, ga,
+// w, d, l, ppg and wp. Criteria after a "." apply only once |update=complete. Ties keep the base order.
+function rankAuto(rows, auto, p, { winPts, drawPts, lossPts }) {
+  const complete = /^complete$/i.test(String(p.update || '').trim());
+  const crits = [];
+  let buf = '', final = false;
+  const flush = () => {
+    let id = buf.trim().toLowerCase().replace(/\s+/g, '_'), desc = true;
+    buf = '';
+    if (id.startsWith('-')) { desc = false; id = id.slice(1); }
+    const m = id.match(/^(h2h_)?(pts|gd|gf|ga|w|d|l|ppg|wp)$/);
+    if (!m || (final && !complete) || (m[1] && p.h2h_after_complete && !complete)) return;
+    crits.push({ h2h: !!m[1], base: m[2], desc });
+  };
+  for (const ch of String(p.ranking_criteria || 'pts, gd, gf').replace(/−|&minus;/g, '-')) {
+    if (/[,;()]/.test(ch)) flush();
+    else if (ch === '.') { flush(); final = true; }
+    else buf += ch;
+  }
+  flush();
+  const n = auto.ranked, idx = new Map(auto.order.map((x, i) => [x, i]));
+  const val = (base, s) => {
+    const pld = s.w + s.d + s.l;
+    return { pts: s.pts, gd: s.f - s.a, gf: s.f, ga: s.a, w: s.w, d: s.d, l: s.l, ppg: pld ? s.pts / pld : null, wp: pld ? 100 * s.w / pld : null }[base];
+  };
+  let buckets = [auto.order.slice(0, n)];
+  for (const cr of crits) {
+    buckets = buckets.flatMap(b => {
+      if (b.length < 2) return [b];
+      let stats;
+      if (cr.h2h) {
+        const t = tally(b, auto.matches);
+        stats = Object.fromEntries(b.map(x => [x, { ...t[x], f: t[x].gf, a: t[x].ga, pts: t[x].w * winPts + t[x].d * drawPts + t[x].l * lossPts }]));
+      } else stats = Object.fromEntries(b.map(x => [x, rows[idx.get(x)]]));
+      const v = Object.fromEntries(b.map(x => [x, val(cr.base, stats[x])]));
+      const key = x => v[x] == null ? -Infinity : cr.desc ? v[x] : -v[x]; // undefined values go last
+      const sorted = b.slice().sort((x, y) => key(y) - key(x) || idx.get(x) - idx.get(y));
+      const out = [];
+      for (const x of sorted) if (out.length && key(out[out.length - 1][0]) === key(x)) out[out.length - 1].push(x); else out.push([x]);
+      return out;
+    });
+  }
+  return [...buckets.flat(), ...auto.order.slice(n)].map(x => rows[idx.get(x)]);
 }
 
 const F1_ON = false; // switched on once the site can show races
