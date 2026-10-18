@@ -40,6 +40,8 @@
   --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark }
 
 * { box-sizing: border-box }
+/* keep room for the scrollbar always, so pages don't jump sideways when it appears */
+html { scrollbar-gutter: stable }
 body { background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.45; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface) }
 .wrap { max-width: 860px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
@@ -70,6 +72,8 @@ header.top .wrap { display: flex; align-items: center; gap: 12px; padding-block:
 .chips { display: flex; flex-wrap: wrap; gap: 6px }
 .chip { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 5px 11px; cursor: pointer; font-size: 14px }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+.panel .ph { font-size: 20px; font-weight: 800; margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line) }
+.panel .ph:first-child { border-top: 0; padding-top: 0; margin-top: 0 }
 .spoil-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 14px }
 select { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink) }
 
@@ -333,13 +337,13 @@ dialog#sheet { width: min(720px, 100%) }
 #compSel.on { background-color: var(--ink); color: var(--paper); border-color: var(--ink) }
 .cmenu-list { position: absolute; z-index: 30; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); min-width: 300px; max-height: 70vh; overflow: auto;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 8px; box-shadow: 0 12px 32px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.08) }
-.csub { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 6px 12px 2px 26px }
+.csub { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 6px 12px 2px 26px }
 .copt { display: block; width: 100%; text-align: left; border: 0; background: none; color: var(--ink); font: inherit; font-size: 14px; padding: 8px 12px 8px 26px; border-radius: 10px; cursor: pointer }
 .cmenu-list > .copt:first-child { padding-left: 12px; font-weight: 600 }
 .copt:hover, .copt:focus-visible { background: color-mix(in srgb, var(--accent) 12%, transparent); outline: none }
 .copt[aria-selected="true"] { background: color-mix(in srgb, var(--accent) 18%, transparent); font-weight: 600 }
 .cgroup { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--line) }
-.chead { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 4px 12px }
+.chead { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 4px 12px }
 .chead .dot { width: 8px; height: 8px; border-radius: 50% }
 .nzonly { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 6px 14px; font: inherit; font-size: 14px; cursor: pointer }
 .nzonly img { border-radius: 2px }
@@ -389,9 +393,10 @@ a.svc:hover { text-decoration-color: currentColor }
 .hubtop h2 { margin: 0; flex: 1; font-size: 26px }
 .hubicon { line-height: 0 }
 .hubclose { border: 1px solid var(--line); background: var(--surface); color: var(--ink); width: 34px; height: 34px; border-radius: 50%; font-size: 20px; line-height: 1; cursor: pointer }
-.hubtabs { display: flex; gap: 4px; margin-top: 10px }
-.hubtabs button { border: 0; background: none; font: inherit; font-weight: 600; font-size: 15px; color: var(--muted); padding: 9px 14px; border-bottom: 3px solid transparent; cursor: pointer }
-.hubtabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--sport) }
+.hubtabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; padding-bottom: 12px }
+.hubtabs button { border: 1px solid var(--line); background: var(--paper); font: inherit; font-weight: 700; font-size: 15px; color: var(--ink); padding: 7px 18px; border-radius: 999px; cursor: pointer; transition: background .15s, border-color .15s }
+.hubtabs button:hover { border-color: var(--sport); background: color-mix(in srgb, var(--sport) 12%, var(--paper)) }
+.hubtabs button[aria-selected="true"] { background: var(--sport); border-color: var(--sport); color: var(--surface) }
 .hubhide { display: none !important }
 .stable { margin-bottom: 18px }
 .tscroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface) }
@@ -492,13 +497,13 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
     <div class="ver num" id="ver"></div>
     <div class="spacer"></div>
     <button class="btn" id="spoilBtn" aria-pressed="false" type="button">Spoilers hidden</button>
-    <button class="btn" id="teamsBtn" aria-expanded="false" aria-controls="panel" type="button">My teams</button>
+    <button class="btn" id="teamsBtn" aria-expanded="false" aria-controls="panel" type="button">My settings</button>
   </div>
 </header>
 <div class="mock"><div class="wrap" id="mockNote">Loading the latest fixtures and scores…</div></div>
 <div class="panel" id="panel" hidden>
   <div class="wrap">
-    <div id="teamGroups" style="display:grid;gap:12px"></div>
+    <h2 class="ph">Settings</h2>
     <div class="spoil-row">
       <label for="tzSel">Show times in</label>
       <select id="tzSel"></select>
@@ -507,10 +512,12 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
       <label for="spoilDays">Hide results for</label>
       <select id="spoilDays">
         <option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option><option value="4">4 days</option>
-        <option value="5">5 days</option><option value="7">7 days</option>
+        <option value="5">5 days</option><option value="7">7 days</option><option value="14">14 days</option>
       </select>
       <span style="color:var(--muted)">after the match, while spoilers are hidden</span>
     </div>
+    <h2 class="ph">My teams</h2>
+    <div id="teamGroups" style="display:grid;gap:12px"></div>
     <div class="chips"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></div>
   </div>
 </div>
@@ -665,7 +672,7 @@ function displayName(n, e) {
 }
 // Name colours: national and club colours. New Zealand / black teams stay the default ink.
 const TEAM_COLOR = {
-  Australia: '#00843d', Wallabies: '#c99700', Fiji: '#1b75bb', Samoa: '#0b3d91', Tonga: '#c8102e', 'Papua New Guinea': '#c8102e', 'Cook Islands': '#0a7d3b',
+  Australia: '#c99700', Wallabies: '#c99700', Fiji: '#1b75bb', Samoa: '#0b3d91', Tonga: '#c8102e', 'Papua New Guinea': '#c8102e', 'Cook Islands': '#0a7d3b',
   England: '#c8102e', Wales: '#d30731', Scotland: '#1d3a7a', Ireland: '#169b62', France: '#1d3c87', Italy: '#1f5fbf', 'South Africa': '#007a4d', Argentina: '#4a9fd8',
   Japan: '#c8102e', USA: '#1d3c87', Lebanon: '#c8102e', India: '#1f6fd6', Pakistan: '#01411c', 'Sri Lanka': '#1f3a93', Bangladesh: '#006a4e', 'West Indies': '#7b1e3a', Afghanistan: '#1f5fbf', Zimbabwe: '#c8102e',
   Blues: '#1f4fa3', Chiefs: '#b8001f', Hurricanes: '#c99700', Crusaders: '#c8102e', Highlanders: '#1d3a7a', Moana: '#0e7c86', Brumbies: '#0b3d91', Reds: '#c8102e', Waratahs: '#4a9fd8', 'Western Force': '#1d3a7a', Drua: '#1b75bb',
@@ -1344,7 +1351,7 @@ function render() {
   $('viewSel').innerHTML = [['big', 'Big'], ['mixed', 'Mixed'], ['compact', 'Compact']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${view === k}">${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   $('spoilBtn').textContent = spoilers ? 'Spoilers hidden' : 'Spoilers shown';
-  $('teamsBtn').textContent = `My teams (${picked.size})`;
+  $('teamsBtn').textContent = 'My settings';
   $('spoilDays').value = String(spoilDays);
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', `This device (${deviceTZ.split('/').pop().replace(/_/g, ' ')})`]].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(l)}</option>`).join('');
