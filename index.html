@@ -279,7 +279,7 @@ dialog#sheet { width: min(720px, 100%) }
 .ev .nzl { font-size: 10px }
 .ev .nz { font-size: 22px }
 .ev .teams { font-size: 20px }
-.flagimg { width: 1.25em; height: auto; border-radius: 2px; vertical-align: -0.08em }
+.flagimg { width: 1.25em; height: auto; vertical-align: -0.08em }
 
 /* on now: red ring with a soft pulse; starting within 3 hours: orange ring */
 .ev.is-live { border-color: var(--live); box-shadow: 0 0 0 2px var(--live), 0 0 28px 4px color-mix(in srgb, var(--live) 50%, transparent) }
@@ -312,7 +312,7 @@ dialog#sheet { width: min(720px, 100%) }
 .matchup .nm { min-width: 0; overflow-wrap: anywhere; text-wrap: balance }
 .matchup .away .logo { order: -1 }
 .ev .teams.matchup .logo, .ev .teams.matchup .logo.after { --lh: 2.1em; margin: 0; flex: none; width: 2.1em; height: 2.1em; vertical-align: 0; object-fit: contain }
-.ev .teams.matchup .flagimg, .ev .teams.matchup .flagimg.after { width: 2.2em; height: auto; margin-block: .2em; border-radius: 3px }
+.ev .teams.matchup .flagimg, .ev .teams.matchup .flagimg.after { width: 2.2em; height: auto; margin-block: .2em }
 .nm[style] { color: color-mix(in oklab, var(--tc) 82%, var(--ink)) }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .nm[style] { color: color-mix(in oklab, var(--tc) 55%, var(--ink)) } }
 :root[data-theme="dark"] .nm[style] { color: color-mix(in oklab, var(--tc) 55%, var(--ink)) }
