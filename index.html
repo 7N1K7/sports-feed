@@ -244,9 +244,9 @@ dialog#sheet { width: min(720px, 100%) }
 
 /* bigger time, names and logos */
 .ev .nz { font-size: 30px }
-.ev .teams { font-size: 24px; line-height: 1.2 }
-.ev .teams .logo { width: 1.25em; height: 1.25em; margin-right: 7px; vertical-align: -0.25em }
-.ev .teams .flagimg { width: 1.35em; height: auto; vertical-align: -0.1em }
+.ev .teams { font-size: 28px; line-height: 1.2 }
+.ev .teams .logo { width: 1.6em; height: 1.6em; margin-right: 8px; vertical-align: -0.45em }
+.ev .teams .flagimg { width: 1.5em; height: auto; vertical-align: -0.12em }
 .ev .when { min-width: 140px }
 
 /* venue + channel sit in the bottom-left corner */
@@ -259,7 +259,7 @@ dialog#sheet { width: min(720px, 100%) }
 .matchup .home { text-align: right }
 .matchup .away { text-align: left }
 .matchup .v { padding: 0; font-size: 0.75em; text-transform: lowercase }
-.ev .teams .logo.after { margin: 0 0 0 7px }
+.ev .teams .logo.after { margin: 0 0 0 8px }
 /* competition menu with its own arrow */
 #compSel { appearance: none; -webkit-appearance: none; padding: 6px 36px 6px 16px; text-align: center; text-align-last: center;
   background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
@@ -280,7 +280,7 @@ dialog#sheet { width: min(720px, 100%) }
   .ev { grid-template-columns: 6px minmax(0, 1fr) }
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
   .tag { justify-self: start }
-  .ev .teams { font-size: 21px }
+  .ev .teams { font-size: 23px }
   .ev .nz { font-size: 27px }
   .day .dd { font-size: 20px }
   .day { padding: 6px 2px }
@@ -677,11 +677,15 @@ function render() {
 
   // controls
   {
-    const counts = new Map();
-    (FEED.events || []).filter(e => Math.abs(new Date(e.startUTC) - now) < 21 * 864e5).forEach(e => { const c = compOf(e); counts.set(c, (counts.get(c) || 0) + 1); });
-    const comps = [...counts].filter(([, n]) => n >= 2).sort((a, b) => b[1] - a[1]).map(([c]) => c);
-    if (compSel && !comps.includes(compSel)) comps.unshift(compSel);
-    $('compSel').innerHTML = `<option value="">All competitions</option>` + comps.map(c => `<option value="${esc(c)}" ${c === compSel ? 'selected' : ''}>${esc(c)}</option>`).join('');
+    const counts = new Map(), sportOfComp = new Map();
+    (FEED.events || []).filter(e => Math.abs(new Date(e.startUTC) - now) < 21 * 864e5).forEach(e => { const c = compOf(e); counts.set(c, (counts.get(c) || 0) + 1); sportOfComp.set(c, e.sport || sportOf(e.team)); });
+    const comps = [...counts].filter(([c, n]) => n >= 2 || c === compSel).sort((a, b) => b[1] - a[1]).map(([c]) => c);
+    const groups = [['rugby', 'Rugby'], ['league', 'Rugby league'], ['cricket', 'Cricket'], ['football', 'Football'], ['mma', 'UFC'], ['boxing', 'Boxing']];
+    const opt = c => `<option value="${esc(c)}" ${c === compSel ? 'selected' : ''}>${esc(c)}</option>`;
+    $('compSel').innerHTML = `<option value="">All competitions</option>` + groups.map(([k, l]) => {
+      const cs = comps.filter(c => sportOfComp.get(c) === k);
+      return !cs.length ? '' : cs.length === 1 && cs[0] === l ? opt(cs[0]) : `<optgroup label="${l}">${cs.map(opt).join('')}</optgroup>`;
+    }).join('');
     $('compSel').classList.toggle('on', !!compSel);
     $('genderSel').innerHTML = [['all', 'All'], ['m', "Men's"], ['w', "Women's"]].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
     $('sportFilter').classList.toggle('dim', !!compSel);
