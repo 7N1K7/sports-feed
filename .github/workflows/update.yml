@@ -14,11 +14,11 @@ permissions:
   pages: write
   id-token: write
 
-# One run at a time, and at most one waiting. A push cancels the running one so new code goes out
-# at once; scheduled and chained runs wait their turn instead of cutting the current run short.
+# One run at a time, and at most one waiting. Nothing cancels a running build, so a burst of pushes
+# can't stall the scores; the chain job below steps aside as soon as another run is waiting.
 concurrency:
   group: pages
-  cancel-in-progress: ${{ github.event_name == 'push' }}
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -75,9 +75,14 @@ jobs:
         run: |
           secs=$(( ${STARTED:-0} + EVERY - 10 - $(date +%s) ))
           if [ "$secs" -gt "$EVERY" ] || [ -z "$STARTED" ]; then secs=$(( EVERY - 180 )); fi
-          if [ "$secs" -gt 0 ]; then echo "Waiting ${secs}s"; sleep "$secs"; fi
-          busy=$(gh api "repos/$REPO/actions/workflows/update.yml/runs?per_page=30" --jq \
-            '[.workflow_runs[] | select(.id != ${{ github.run_id }} and .status != "completed" and .created_at > (now - 7200 | todate))] | length')
-          if [ "$busy" -gt 0 ]; then echo "Another run is queued or running; it carries the chain on."; exit 0; fi
+          deadline=$(( $(date +%s) + secs ))
+          busy() { gh api "repos/$REPO/actions/workflows/update.yml/runs?per_page=30" --jq \
+            '[.workflow_runs[] | select(.id != ${{ github.run_id }} and .status != "completed" and .created_at > (now - 7200 | todate))] | length'; }
+          # Wait, but give way at once to a push or scheduled run waiting behind this one: it carries the chain on.
+          while :; do
+            if [ "$(busy)" -gt 0 ]; then echo "Another run is queued or running; it carries the chain on."; exit 0; fi
+            left=$(( deadline - $(date +%s) )); [ "$left" -le 0 ] && break
+            sleep $(( left < 20 ? left : 20 ))
+          done
           gh workflow run update.yml --repo "$REPO" --ref main
           echo "Started the next run."
