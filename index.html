@@ -309,6 +309,19 @@ dialog#sheet { width: min(720px, 100%) }
 .ev .teams.matchup:has(img) .side > .nm { grid-row: 2; align-self: start }
 .ev .teams.matchup .flagimg, .ev .teams.matchup .flagimg.after { width: auto; height: 1.5em; max-width: 2.6em; margin: 0 }
 
+a.svc { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 2px }
+a.svc:hover { text-decoration-color: currentColor }
+
+/* big events ahead: a row of tiles */
+.bigrow { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px }
+@media (max-width: 560px) { .bigrow { grid-template-columns: 1fr 1fr; gap: 8px } .bigev { padding: 10px 11px } .bigev .bn { font-size: 17px } .bigev .bd { font-size: 13px } .bigev .bc { font-size: 12px } }
+.bigev { text-align: left; border: 1px solid var(--line); border-left: 5px solid var(--c); border-radius: var(--r); background: color-mix(in srgb, var(--c) 6%, var(--surface)); color: var(--ink); padding: 12px 14px; display: grid; gap: 3px; cursor: pointer; font: inherit }
+.bigev:hover { border-color: var(--c) }
+.bigev .bn { font-family: var(--f-display); font-size: 20px; font-weight: 700; line-height: 1.1 }
+.bigev .bd { font-size: 14px; font-weight: 600 }
+.bigev .bc { font-size: 13px; color: var(--muted) }
+.totop { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 40; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: var(--ink); color: var(--paper); font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.2) }
+
 @media (max-width: 560px) {
   .ev { grid-template-columns: 6px minmax(0, 1fr) }
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
@@ -364,8 +377,16 @@ dialog#sheet { width: min(720px, 100%) }
     <div id="today"></div>
   </section>
   <section id="upSec">
-    <h2>Coming up <small>Times in NZ, with local time for overseas games</small></h2>
+    <h2>Coming up this week <small>Times in NZ, with local time for overseas games</small></h2>
     <div id="upcoming"></div>
+  </section>
+  <section id="bigSec" hidden>
+    <h2>Big events ahead <small>Tap one to see all its games</small></h2>
+    <div id="bigEvents" class="bigrow"></div>
+  </section>
+  <section id="laterSec" hidden>
+    <h2>Further ahead</h2>
+    <div id="later"></div>
   </section>
   <section id="resSec">
     <h2>Results</h2>
@@ -377,6 +398,7 @@ dialog#sheet { width: min(720px, 100%) }
     <div id="news" class="news"></div>
   </section>
 </main>
+<button type="button" id="toTop" class="totop" aria-label="Back to top" hidden>↑</button>
 <footer class="wrap" id="foot"></footer>
 <dialog id="sheet" aria-label="Match details">
   <div class="sheet-in">
@@ -584,7 +606,7 @@ function evCard(e, now) {
     <div class="body">
       <div class="comp">${badge(e.team)}<span>${esc(plural(e.comp))}</span></div>
       <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>
-      <div class="meta">${esc(cityOf(e) || e.venue || '')}${tv ? ` · <span class="tv">${esc(tv)}</span>` : ''}</div>
+      <div class="meta">${esc(cityOf(e) || e.venue || '')}${tv ? ` · <span class="tv">${linkWatch(tv)}</span>` : ''}</div>
     </div>
     <div class="when">
       <div class="nzl">${START_LABEL[e.sport] || 'Start'} NZ</div>
@@ -594,6 +616,15 @@ function evCard(e, now) {
     </div>
   </article>`;
 }
+// Watch services -> their sites (home pages; apps open from there)
+const SERVICES = {
+  'Sky Sport Now': 'https://www.skysportnow.co.nz', 'Sky Go': 'https://www.skygo.co.nz', 'Sky Sport': 'https://www.sky.co.nz/sport',
+  'TVNZ+': 'https://www.tvnz.co.nz', 'TVNZ 1': 'https://www.tvnz.co.nz', 'ThreeNow': 'https://www.threenow.co.nz', 'Three': 'https://www.threenow.co.nz',
+  'scoring.nzc.nz': 'https://scoring.nzc.nz', 'NZC YouTube': 'https://www.youtube.com/@blackcaps', 'NZC live stream': 'https://www.nzc.nz', 'nzc.nz': 'https://www.nzc.nz',
+  RNZ: 'https://www.rnz.co.nz/live', DAZN: 'https://www.dazn.com', Netflix: 'https://www.netflix.com', 'ICC.tv': 'https://www.icc.tv',
+};
+const SVC_RE = new RegExp(`(${Object.keys(SERVICES).sort((a, b) => b.length - a.length).map(k => k.replace(/[.+]/g, '\\$&')).join('|')})(?![\\w+])`, 'g');
+const linkWatch = t => esc(t).replace(SVC_RE, m => `<a class="svc" href="${SERVICES[m]}" target="_blank" rel="noopener">${m}</a>`);
 const LIVE_SITE = { cricket: ['Cricinfo', 'https://www.espncricinfo.com/live-cricket-score'] };
 function liveLink(e) {
   const [name, url] = LIVE_SITE[e.sport] || ['match centre', e.link || e.source];
@@ -602,9 +633,9 @@ function liveLink(e) {
 function watchLine(e) {
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
   if (!b && !e.watchAlt) return `<div class="watch"><span class="wl">Watch</span><span class="muted">Broadcaster to be confirmed</span></div>`;
-  const alt = e.watchAlt ? `<span class="alt">${b ? 'Also: ' : ''}${esc(e.watchAlt)}</span>` : '';
+  const alt = e.watchAlt ? `<span class="alt">${b ? 'Also: ' : ''}${linkWatch(e.watchAlt)}</span>` : '';
   const note = e.watchNote && /not on|no tv|not televised/i.test(e.watchNote) ? `<span class="muted">${esc(e.watchNote)}</span>` : '';
-  return `<div class="watch"><span class="wl">Watch</span>${b ? `<span>${esc(b)}</span>` : ''}${alt}${note}</div>`;
+  return `<div class="watch"><span class="wl">Watch</span>${b ? `<span>${linkWatch(b)}</span>` : ''}${alt}${note}</div>`;
 }
 function resCard(e, now) {
   const d = new Date(e.startUTC);
@@ -640,7 +671,7 @@ function detail(e) {
     e.note ? ['Note', e.note] : null,
   ].filter(Boolean);
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
-  const watch = [b && `<li><b>${esc(b)}</b></li>`, e.watchAlt && `<li>${esc(e.watchAlt)}</li>`, e.watchNote && `<li class="muted">${esc(e.watchNote)}</li>`].filter(Boolean).join('')
+  const watch = [b && `<li><b>${linkWatch(b)}</b></li>`, e.watchAlt && `<li>${linkWatch(e.watchAlt)}</li>`, e.watchNote && `<li class="muted">${esc(e.watchNote)}</li>`].filter(Boolean).join('')
     || '<li class="muted">Broadcaster not confirmed yet</li>';
   const names = [e.home, e.away].map(n => String(n || '').replace(/ Women$/, ''));
   const related = (FEED.news || []).filter(n => n.team === e.team || (e.tags || []).includes(n.team) || (sportOf(n.team) === e.sport && names.some(x => x.length > 3 && x !== 'TBC' && !FLAGS[x] && (n.title + ' ' + n.summary).includes(x))))
@@ -703,26 +734,42 @@ function render() {
   $('today').innerHTML = todays.length || doneToday.length
     ? `<div class="daygroup">${(() => {
         const live = todays.filter(e => e.status === 'live' || onNow(e, now)), later = todays.filter(e => !live.includes(e));
-        return live.map(e => evCard(e, now)).join('') + (live.length && later.length ? `<div class="dayhead">Later today</div>` : '') + later.map(e => evCard(e, now)).join('');
+        const hourNZ = e => +fmt(new Date(e.startUTC), NZ, { hour: 'numeric', hour12: false });
+        const tonight = +fmt(nowD, NZ, { hour: 'numeric', hour12: false }) >= 17 || (later.length && later.every(e => !e.timeTBC && hourNZ(e) >= 17));
+        return live.map(e => evCard(e, now)).join('') + (live.length && later.length ? `<div class="dayhead">${tonight ? 'Later tonight' : 'Later today'}</div>` : '') + later.map(e => evCard(e, now)).join('');
       })()}${doneToday.length ? `<div class="dayhead">Earlier today</div><div class="donetoday">${doneToday.map(e => resCard(e, now)).join('')}</div>` : ''}</div>`
     : `<div class="empty-note">Nothing on for your teams today. ${upcoming[0] ? `Next up: <b>${esc(upcoming[0].home)} v ${esc(upcoming[0].away)}</b>, ${dayLabel(new Date(upcoming[0].startUTC), NZ)}.` : ''}</div>`;
 
-  // coming up, grouped by NZ day
+  // coming up this week, then further ahead, grouped by NZ day
   const rest = upcoming.filter(e => !todays.includes(e));
   const groups = new Map();
   rest.forEach(e => { const k = dayKey(new Date(e.startUTC)); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(e) });
-  const weekEnd = dayKey(new Date(now + 13 * 864e5));
+  const weekEnd = dayKey(new Date(now + 6 * 864e5));
   const showAll = store.get('showAllUp', false);
-  let html = '', n = 0, hiddenCount = 0;
+  const dayGroup = (k, list) => `<div class="daygroup"><div class="dayhead" id="d-${k}">${fmt(new Date(list[0].startUTC), NZ, { weekday: 'long', day: 'numeric', month: 'long' })}</div>${list.map(e => evCard(e, now)).join('')}</div>`;
+  let html = '', later = '', n = 0, hiddenCount = 0;
   for (const [k, list] of groups) {
-    if (!showAll && k > weekEnd && n >= 4) { hiddenCount += list.length; continue }
-    const d = new Date(list[0].startUTC);
-    const lbl = fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' });
-    html += `<div class="daygroup"><div class="dayhead" id="d-${k}">${lbl}</div>${list.map(e => evCard(e, now)).join('')}</div>`;
+    if (k <= weekEnd) { html += dayGroup(k, list); continue; }
+    if (!showAll && n >= 8) { hiddenCount += list.length; continue; }
+    later += dayGroup(k, list);
     n += list.length;
   }
-  if (hiddenCount) html += `<div class="daygroup"><button class="btn more" id="moreUp" type="button">Show ${hiddenCount} more fixtures</button></div>`;
-  $('upcoming').innerHTML = html || `<div class="empty-note">No fixtures for your teams yet. Pick more teams under My teams.</div>`;
+  if (hiddenCount) later += `<div class="daygroup"><button class="btn more" id="moreUp" type="button">Show ${hiddenCount} more fixtures</button></div>`;
+  $('later').innerHTML = later;
+  $('laterSec').hidden = !later;
+
+  // big events ahead: competitions not yet under way that start in the next five months
+  const firsts = new Map();
+  for (const e of rest) { const c = compOf(e); if (!firsts.has(c)) firsts.set(c, { first: e, count: 0 }); firsts.get(c).count++; }
+  const ongoing = new Set(evs.filter(e => Math.abs(new Date(e.startUTC) - now) < 6 * 864e5).map(compOf));
+  const big = [...firsts].filter(([c, v]) => !ongoing.has(c) && !/^(Test match|Women's test|Boxing|UFC|Black Caps|White Ferns|NZ domestic cricket)$/.test(c) && (v.count >= 4 || BIG_EVENT.test(c)) && new Date(v.first.startUTC) - now < 150 * 864e5)
+    .sort((a, b) => a[1].first.startUTC.localeCompare(b[1].first.startUTC)).slice(0, 8);
+  $('bigEvents').innerHTML = big.map(([c, v]) => {
+    const d = new Date(v.first.startUTC), days = Math.round((d - now) / 864e5);
+    return `<button type="button" class="bigev" data-bigcomp="${esc(c)}" style="--c:var(--${v.first.sport})"><span class="bn">${esc(plural(c))}</span><span class="bd">Starts ${fmt(d, NZ, { weekday: 'short', day: 'numeric', month: 'short' })}</span><span class="bc">${days < 60 ? `in ${days} days` : `in ${Math.round(days / 7)} weeks`} · ${v.count} games</span></button>`;
+  }).join('');
+  $('bigSec').hidden = !big.length || !!compSel;
+  $('upcoming').innerHTML = html || `<div class="empty-note">${later ? 'Nothing else this week for your picks.' : 'No fixtures for your teams yet. Pick more teams under My teams.'}</div>`;
 
   // results
   const pastFinals = finals.filter(e => dayKey(new Date(e.startUTC)) !== todayK);
@@ -798,6 +845,8 @@ document.addEventListener('click', ev => {
   else if (t.dataset.sport) { compSel = ''; store.set('comp', ''); sportSel = t.dataset.sport; store.set('sport', sportSel); render(); }
   else if (t.dataset.kind) { newsKind = t.dataset.kind; render(); }
   else if (t.dataset.jump) { selDay = t.dataset.jump; document.querySelectorAll('.day').forEach(b => b.classList.toggle('sel', b.dataset.jump === selDay)); const el = document.getElementById('d-' + t.dataset.jump) || (t.dataset.jump === dayKey(new Date()) ? $('todaySec') : null); if (el) el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
+  else if (t.dataset.bigcomp) { compSel = t.dataset.bigcomp; store.set('comp', compSel); render(); $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
   else if (t.id === 'moreUp') { store.set('showAllUp', true); render(); }
   else if (t.id === 'spoilBtn') { spoilers = !spoilers; store.set('spoilers', spoilers); render(); }
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); }
@@ -810,6 +859,7 @@ $('compSel').addEventListener('click', ev => { ev.stopPropagation(); const open 
 $('compMenu').addEventListener('click', ev => { const b = ev.target.closest('[data-comp]'); if (!b) return; ev.stopPropagation(); compSel = b.dataset.comp; store.set('comp', compSel); closeComp(); render(); });
 document.addEventListener('click', ev => { if (!ev.target.closest('.cmenu')) closeComp(); }, true);
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape') closeComp(); });
+addEventListener('scroll', () => { $('toTop').hidden = scrollY < 700; }, { passive: true });
 $('nzOnly').addEventListener('click', ev => { ev.stopPropagation(); nzOnly = !nzOnly; store.set('nzOnly', nzOnly); render(); });
 $('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; store.set('spoilDays', spoilDays); store.set('spoilDaysSet', true); render(); });
 
