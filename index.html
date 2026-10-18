@@ -228,6 +228,14 @@ dialog#sheet { width: min(720px, 100%) }
 .ev .teams { font-size: 20px }
 .flagimg { width: 1.25em; height: auto; border-radius: 2px; box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 15%, transparent); vertical-align: -0.08em }
 
+/* on now: red ring with a soft pulse; starting within 3 hours: orange ring */
+.ev.is-live { border-color: var(--live); box-shadow: 0 0 0 1px var(--live), 0 0 18px color-mix(in srgb, var(--live) 35%, transparent) }
+.ev.is-soon { border-color: var(--soon); box-shadow: 0 0 0 1px var(--soon), 0 0 14px color-mix(in srgb, var(--soon) 25%, transparent) }
+@media (prefers-reduced-motion: no-preference) {
+  .ev.is-live { animation: livepulse 2.4s ease-in-out infinite }
+  @keyframes livepulse { 50% { box-shadow: 0 0 0 1px var(--live), 0 0 4px color-mix(in srgb, var(--live) 15%, transparent) } }
+}
+
 @media (max-width: 560px) {
   .ev { grid-template-columns: 6px minmax(0, 1fr) }
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
@@ -412,7 +420,8 @@ function evCard(e, now) {
   const tag = live ? `<span class="tag live">${live}</span>` : cd ? `<span class="tag num ${urg}">${cd}</span>` : '';
   const local = overseas ? `<div class="loc num">${e.timeTBC ? '' : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${esc(cityOf(e))}</div>` : '';
   const tv = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : '';
-  return `<article class="ev sport-${e.sport}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(e.home)} v ${esc(e.away)}, details">
+  const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
+  return `<article class="ev sport-${e.sport} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(e.home)} v ${esc(e.away)}, details">
     <div class="stripe"></div>
     <div class="body">
       <div class="comp">${badge(e.team)}<span>${esc(e.comp)}</span></div>
