@@ -249,6 +249,10 @@ dialog#sheet { width: min(720px, 100%) }
 .ev .teams .flagimg { width: 1.35em; height: auto; vertical-align: -0.1em }
 .ev .when { min-width: 140px }
 
+/* venue + channel sit in the bottom-left corner */
+.ev .body { display: flex; flex-direction: column; gap: 4px }
+.ev:not(.res) .body > .meta:last-child { margin-top: auto; padding-top: 8px }
+
 @media (max-width: 560px) {
   .ev { grid-template-columns: 6px minmax(0, 1fr) }
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
