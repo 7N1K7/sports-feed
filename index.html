@@ -160,6 +160,8 @@ footer a { color: var(--muted) }
 
 .ev[data-open] { cursor: pointer }
 .ev .nz.longsc { font-family: var(--f-body); font-size: 15px; line-height: 1.3 }
+.livelink { font-size: 13px; font-weight: 700; color: var(--live); text-decoration: none; justify-self: end }
+.livelink:hover { text-decoration: underline }
 .ev .tv { color: var(--ink); font-weight: 600 }
 dialog#sheet { border: 0; padding: 0; margin: auto auto 0; width: min(640px, 100%); max-height: 88vh; border-radius: 16px 16px 0 0; background: var(--surface); color: var(--ink); box-shadow: 0 -8px 40px rgba(0,0,0,.25) }
 @media (min-width: 700px) { dialog#sheet { margin: auto; border-radius: 16px } }
@@ -359,7 +361,7 @@ const visible = x => visibleTeam(x) && (sportSel === 'all' || (x.sport || sportO
 function evCard(e, now) {
   const d = new Date(e.startUTC);
   const overseas = e.tz && e.tz !== NZ;
-  const live = e.status === 'live' ? `● ${e.clock || 'Live'}` : onNow(e, now);
+  const live = e.status === 'live' ? 'On now' : onNow(e, now);
   const cd = countdown(e, now);
   const ms = d - now;
   const urg = ms < 864e5 ? 'soon' : ms < 3 * 864e5 ? 'near' : 'later';
@@ -375,11 +377,16 @@ function evCard(e, now) {
     </div>
     <div class="when">
       <div class="nzl">${START_LABEL[e.sport] || 'Start'} NZ</div>
-      ${e.status === 'live' && e.score ? `<div class="nz num ${e.score.length > 9 ? 'longsc' : ''}">${isHidden(e, now) ? '<span class="loc">Score hidden</span>' : esc(e.score)}</div>` : `<div class="nz num">${e.timeTBC ? 'TBC' : time(d, NZ)}</div>`}
+      <div class="nz num">${e.timeTBC ? 'TBC' : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div>
-      ${local}${tag}
+      ${local}${tag}${live ? liveLink(e) : ''}
     </div>
   </article>`;
+}
+const LIVE_SITE = { cricket: ['Cricinfo', 'https://www.espncricinfo.com/live-cricket-score'] };
+function liveLink(e) {
+  const [name, url] = LIVE_SITE[e.sport] || ['match centre', e.source];
+  return url ? `<a class="livelink" href="${esc(e.sport === 'cricket' ? url : e.source || url)}" target="_blank" rel="noopener">Live scores on ${esc(e.sport === 'cricket' ? name : 'the match page')} ↗</a>` : '';
 }
 function watchLine(e) {
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
@@ -432,7 +439,7 @@ function detail(e) {
   const res = isPast ? (hidden
     ? `<button class="cover big" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>Spoilers are hidden</button>`
     : `<div class="dres"><div class="score num">${esc(e.score || 'Result not in yet')}</div>${e.summary ? `<p>${esc(e.summary)}</p>` : ''}</div>`) : '';
-  const live = e.status === 'live' ? `<div class="dres"><span class="tag live">${esc(e.clock || 'Live')}</span> ${hidden || !e.score ? '' : `<span class="score num">${esc(e.score)}</span>`}</div>` : '';
+  const live = e.status === 'live' || onNow(e, now) ? `<div class="dres"><span><span class="tag live">On now</span></span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
       <div class="comp">${badge(e.team)}<span>${esc(e.comp)}</span></div>
       <h2 class="dteams">${teamName(e.home)} <span class="v">v</span> ${teamName(e.away)}</h2>
@@ -555,7 +562,7 @@ $('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; st
 function stamp() {
   if (!FEED.generatedAt) return;
   const mins = Math.round((Date.now() - new Date(FEED.generatedAt)) / 6e4);
-  $('mockNote').textContent = `Updated ${mins < 1 ? 'just now' : mins < 60 ? mins + ' min ago' : fmt(new Date(FEED.generatedAt), NZ, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}. Scores refresh about every 10 minutes.`;
+  $('mockNote').textContent = `Updated ${mins < 1 ? 'just now' : mins < 60 ? mins + ' min ago' : fmt(new Date(FEED.generatedAt), NZ, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}. Results update about every half hour.`;
 }
 async function load() {
   try {
@@ -568,56 +575,7 @@ async function load() {
     if (!FEED.generatedAt) $('mockNote').textContent = 'Could not load the feed. Check your connection and refresh the page.';
   }
 }
-// Running scores: while a game is on, ask ESPN directly from the browser every 30 seconds.
-// The 10-minute site rebuild stays the fallback if this is blocked.
-const LIVE_POLL_MS = 30000;
-let liveAt = 0;
-function liveCandidates(now) {
-  return (FEED.events || []).filter(e => e.espnId && e.status !== 'final' && visible(e) &&
-    (e.status === 'live' || (now > new Date(e.startUTC) - 10 * 6e4 && now < +new Date(e.startUTC) + (e.sport === 'cricket' ? 10 : 6) * 36e5)));
-}
-function applyComp(e, comp, st) {
-  const cs = comp?.competitors || [];
-  const home = cs.find(c => c.homeAway === 'home') || cs[0], away = cs.find(c => c.homeAway === 'away') || cs[1];
-  const state = st?.type?.state || st?.state;
-  if (state === 'in') e.status = 'live'; else if (state === 'post') e.status = 'final';
-  if (e.sport !== 'mma' && home && away && home.score != null && state !== 'pre') e.score = `${home.score.displayValue ?? home.score}-${away.score.displayValue ?? away.score}`;
-  e.clock = st?.type?.shortDetail || st?.shortDetail || e.clock;
-}
-async function pollLive() {
-  const now = Date.now();
-  const list = liveCandidates(now);
-  if (!list.length) return;
-  let changed = false;
-  await Promise.all(list.map(async e => {
-    try {
-      if (e.espnPath === 'cricket-header') {
-        const r = await fetch('https://site.web.api.espn.com/apis/v2/scoreboard/header?sport=cricket&region=au&lang=en&contentorigin=espn');
-        const d = await r.json();
-        const ev = (d.sports?.[0]?.leagues || []).flatMap(l => l.events || []).find(x => String(x.id) === String(e.espnId));
-        if (!ev) return;
-        const state = ev.status || ev.fullStatus?.type?.state;
-        e.status = state === 'in' ? 'live' : state === 'post' ? 'final' : e.status;
-        const comps = ev.competitors || [];
-        const sc = comps.map(c => c.score ? `${c.abbreviation || c.displayName} ${c.score}` : '').filter(Boolean).join(' v ');
-        if (sc) e.score = sc;
-        e.clock = ev.summary || e.clock;
-        if (e.status === 'final') e.summary = ev.summary || e.summary;
-      } else {
-        const r = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${e.espnPath}/summary?event=${e.espnId}`);
-        const d = await r.json();
-        const comp = d.header?.competitions?.[0];
-        if (!comp) return;
-        if (e.sport === 'mma') { const st = comp.status; if (st?.type?.state === 'in') e.status = 'live'; e.clock = st?.type?.shortDetail || e.clock; }
-        else applyComp(e, comp, comp.status);
-      }
-      changed = true;
-    } catch { /* blocked or offline: the scheduled rebuild still updates scores */ }
-  }));
-  if (changed) { liveAt = Date.now(); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
-}
-tick(); render(); load().then(pollLive);
-setInterval(pollLive, LIVE_POLL_MS);
+tick(); render(); load();
 setInterval(() => { tick(); render(); stamp(); }, 60000);
 setInterval(load, 5 * 60000);
 })();
