@@ -829,6 +829,15 @@ function between(e, now) {
   return `Day ${Math.min(days, Math.floor((now - s) / 864e5) + 2)} next`;
 }
 const running = (e, now) => onNow(e, now) || between(e, now);
+// roughly when a finished game ended, so one that ran past midnight counts as that day's result;
+// a Test's last day isn't known, so take its scheduled last day, but never later than now
+const LEN_H = { rugby: 2, league: 2, football: 2, mma: 5, boxing: 4, motor: 2 };
+function endOf(e, now) {
+  const s = new Date(e.startUTC).getTime();
+  if (e.sport !== 'cricket') return new Date(s + (LEN_H[e.sport] || 2) * 36e5);
+  const f = formatOf(e), days = DAYS[f] || 1;
+  return new Date(Math.min(now, s + (days - 1) * 864e5 + (HOURS[f] || 8) * 36e5));
+}
 function countdown(e, now) {
   const ms = new Date(e.startUTC) - now;
   if (ms <= 0) return null;
@@ -1250,7 +1259,7 @@ function render() {
   const todays = upcoming.filter(e => !lives.includes(e) && dayKey(new Date(e.startUTC)) === todayK);
   $('todayLabel').textContent = dayLabel(nowD, NZ);
   // today's finished games stay in "On today" (spoiler rules still apply), latest first after the upcoming ones
-  const doneToday = finals.filter(e => dayKey(new Date(e.startUTC)) === todayK);
+  const doneToday = finals.filter(e => dayKey(endOf(e, now)) === todayK);
   $('todaySec').hidden = !todays.length && !doneToday.length && lives.length > 0;
   $('today').innerHTML = todays.length || doneToday.length
     ? `<div class="daygroup">${(() => {
@@ -1300,16 +1309,16 @@ function render() {
   $('upcoming').innerHTML = html || `<div class="empty-note">${later ? 'Nothing else this week for your picks.' : 'No fixtures for your teams yet. Pick more teams under My teams.'}</div>`;
 
   // results
-  const pastFinals = finals.filter(e => dayKey(new Date(e.startUTC)) !== todayK);
+  const pastFinals = finals.filter(e => dayKey(endOf(e, now)) !== todayK);
   // group past results: Yesterday, The weekend (on Mon/Tue), then by day
   const yK = dayKey(new Date(now - 864e5));
   const wd = new Date(nowD.toLocaleString('en-US', { timeZone: NZ })).getDay(); // 0 Sun .. 6 Sat, in NZ
   const weekendKeys = wd === 1 || wd === 2 ? [3, 2, 1].map(back => dayKey(new Date(now - (wd + back - 1) * 864e5))) : [];
   const groupOf = e => {
-    const k = dayKey(new Date(e.startUTC));
+    const k = dayKey(endOf(e, now));
     if (weekendKeys.includes(k)) return 'The weekend';
     if (k === yK) return 'Yesterday';
-    return fmt(new Date(e.startUTC), NZ, { weekday: 'long', day: 'numeric', month: 'short' });
+    return fmt(endOf(e, now), NZ, { weekday: 'long', day: 'numeric', month: 'short' });
   };
   const rgroups = new Map();
   // the last week up front (a dozen at most); everything older the feed still holds behind "Show older results"
