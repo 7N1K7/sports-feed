@@ -103,9 +103,11 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .ev .nz { font-family: var(--f-display); font-size: 24px; font-weight: 700; line-height: 1 }
 .ev .nzl { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted) }
 .ev .loc { font-size: 12px; color: var(--muted) }
-.ev .series { text-align: center; font-size: 13px; font-weight: 600; color: var(--muted); margin-top: -2px }
+.ev .comp .series { text-transform: none; letter-spacing: 0; font-weight: 600; color: var(--muted) }
+.ev .comp .series::before { content: '· '; }
+@media (max-width: 560px) { .ev .comp .series { flex-basis: 100% } .ev .comp .series::before { content: none } }
 .ev .rloc { font-size: 12px; color: var(--muted) }
-@media (min-width: 561px) { .ev .when:has(> .sicon) { padding-top: 34px } }
+@media (min-width: 561px) { .ev .when:has(> .sicon) { padding-top: 38px; align-content: start } }
 @media (max-width: 560px) { .ev .when { padding-right: 40px } }
 .ev .tvl { font-size: 13px; font-weight: 600; color: var(--ink) }
 .ev .tvl a { color: inherit }
@@ -324,14 +326,19 @@ a.svc:hover { text-decoration-color: currentColor }
 .ev .body { position: relative }
 .ev .comp { padding-right: 30px }
 .ev .when { position: relative }
-.ev .when .sicon { position: absolute; top: 8px; right: 10px; font-size: 20px; line-height: 1 }
+.ev .when .sicon { position: absolute; top: 9px; right: 10px; width: 22px; height: 22px }
 .ev .whtop { display: contents }
 @media (min-width: 561px) {
-  .ev .whtop { display: flex; justify-content: flex-end; align-items: center; gap: 8px }
+  .ev .when { align-content: start }
+  .ev .whtop { display: flex; justify-content: flex-end; align-items: center; gap: 8px; min-height: 22px; margin-bottom: 2px }
   .ev .whtop .sicon { position: static }
 }
 .dsheet .comp .sicon, .detail .comp .sicon { margin-left: auto; font-size: 20px; line-height: 1 }
-.cicon { margin-right: 1px; font-size: 15px; line-height: 1 }
+.cicon { width: 16px; height: 16px; margin-right: 5px; vertical-align: -3px }
+.hubimg { width: 28px; height: 28px; display: block }
+.sheet-head .comp { display: flex; align-items: center; gap: 6px; flex-wrap: wrap }
+.sheet-head .sicon { width: 22px; height: 22px }
+.sportchip { gap: 0 }
 
 .fc { margin-bottom: 10px }
 .fcs { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 6px 0 4px }
@@ -342,7 +349,7 @@ a.svc:hover { text-decoration-color: currentColor }
 .hub { border: 1px solid var(--line); border-top: 4px solid var(--sport); border-radius: var(--r); background: color-mix(in srgb, var(--sport) 6%, var(--surface)); padding: 12px 14px 0; margin-bottom: 14px }
 .hubtop { display: flex; align-items: center; gap: 10px }
 .hubtop h2 { margin: 0; flex: 1; font-size: 26px }
-.hubicon { font-size: 26px; line-height: 1 }
+.hubicon { line-height: 0 }
 .hubclose { border: 1px solid var(--line); background: var(--surface); color: var(--ink); width: 34px; height: 34px; border-radius: 50%; font-size: 20px; line-height: 1; cursor: pointer }
 .hubtabs { display: flex; gap: 4px; margin-top: 10px }
 .hubtabs button { border: 0; background: none; font: inherit; font-weight: 600; font-size: 15px; color: var(--muted); padding: 9px 14px; border-bottom: 3px solid transparent; cursor: pointer }
@@ -554,6 +561,8 @@ const teamName = (n, logo, e) => `${crest(n.replace(/\s+Women('s)?$/, ''), logo)
 // Tournaments that tint the week strip on the days they're on
 const BIG_EVENT = /World Cup|Nations Championship|Olympic|Commonwealth Games|Lions Tour|Champions Trophy/i;
 const SPORT_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', mma: '🥋', boxing: '🥊' };
+// same-size icons on every device (Twemoji, CC BY 4.0), rather than each system's own emoji
+const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/${s === 'league' ? 'rugby' : s}.svg" alt="" aria-hidden="true">` : '';
 const START_LABEL = { rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight', boxing: 'Main card' };
 const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC', boxing: 'Boxing' };
 
@@ -677,7 +686,7 @@ function seriesLine(e, now) {
     const [a, b] = [e.home, e.away].sort((x, y) => wins[y] - wins[x]);
     state = wins[a] === wins[b] ? ` · ${f} series level ${wins[a]}–${wins[b]}` : ` · ${esc(displayName(a, e))} lead the ${f} series ${wins[a]}–${wins[b]}`;
   }
-  return `<div class="series">${f === 'Test' ? 'Test' : 'Game'} ${n} of ${all.length}${state}</div>`;
+  return `<span class="series">${f === 'Test' ? 'Test' : 'Game'} ${n} of ${all.length}${state}</span>`;
 }
 
 function evCard(e, now) {
@@ -694,12 +703,11 @@ function evCard(e, now) {
   return `<article class="ev sport-${e.sport} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${badge(e.team)}<span>${esc(plural(e.comp))}</span></div>
+      <div class="comp">${badge(e.team)}<span>${esc(plural(e.comp))}</span>${seriesLine(e, now)}</div>
       <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>
-      ${seriesLine(e, now)}
     </div>
     <div class="when">
-      <div class="whtop"><div class="nzl">${START_LABEL[e.sport] || 'Start'} NZ</div><span class="sicon" aria-hidden="true">${SPORT_ICON[e.sport] || ''}</span></div>
+      <div class="whtop"><div class="nzl">${START_LABEL[e.sport] || 'Start'} NZ</div>${sIcon(e.sport)}</div>
       <div class="nz num">${e.timeTBC ? 'TBC' : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div>
       ${local || (cityOf(e) || e.venue ? `<div class="loc">${esc(cityOf(e) || e.venue)}</div>` : '')}${tag}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
@@ -742,7 +750,7 @@ function resCard(e, now) {
       <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>
       ${hidden ? '' : `<div class="summary">${esc(e.summary || '')}</div>`}
     </div>
-    <div class="when"><span class="sicon" aria-hidden="true">${SPORT_ICON[e.sport] || ''}</span>${right}<div class="rloc">${dayLabel(d, NZ)}${cityOf(e) ? ' · ' + esc(cityOf(e)) : ''}</div></div>
+    <div class="when">${sIcon(e.sport)}${right}<div class="rloc">${dayLabel(d, NZ)}${cityOf(e) ? ' · ' + esc(cityOf(e)) : ''}</div></div>
   </article>`;
 }
 
@@ -790,7 +798,7 @@ function renderHub(now) {
   if (!on) { $('hubBody').innerHTML = ''; return; }
   const sample = (FEED.events || []).find(e => compOf(e) === compSel);
   $('hubName').textContent = plural(compSel);
-  $('hubIcon').textContent = SPORT_ICON[sample?.sport] || '';
+  $('hubIcon').innerHTML = sIcon(sample?.sport, 'hubimg');
   $('hubSec').style.setProperty('--sport', `var(--${sample?.sport || 'rugby'})`);
   $('hubTabs').innerHTML = tabs.map(([k, l]) => `<button type="button" role="tab" data-hubtab="${k}" aria-selected="${hubTab === k}">${l}</button>`).join('');
   if (hubTab === 'table') {
@@ -836,7 +844,7 @@ function detail(e) {
     : `<div class="dres"><div class="score num">${esc(e.score || 'Result not in yet')}</div>${e.summary ? `<p>${esc(e.summary)}</p>` : ''}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
   const live = e.status === 'live' || onNow(e, now) ? `<div class="dres"><span><span class="tag live">On now</span></span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
-      <div class="comp">${badge(e.team)}<span>${esc(plural(e.comp))}</span><span class="sicon" aria-hidden="true">${SPORT_ICON[e.sport] || ''}</span></div>
+      <div class="comp">${badge(e.team)}<span>${esc(plural(e.comp))}</span>${sIcon(e.sport)}</div>
       <h2 class="dteams">${teamName(e.home, e.homeLogo, e)} <span class="v">v</span> ${teamName(e.away, e.awayLogo, e)}</h2>
       ${!isPast && e.status !== 'live' && countdown(e, now) ? `<span class="tag ${d - now < 864e5 ? 'soon' : d - now < 3 * 864e5 ? 'near' : 'later'}">${countdown(e, now)}</span>` : ''}
     </div>
@@ -976,7 +984,7 @@ function render() {
     $('genderSel').innerHTML = [['all', 'All'], ['m', "Men's"], ['w', "Women's"]].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
     $('sportFilter').classList.toggle('dim', !!compSel);
   }
-  $('sportFilter').innerHTML = [['all','All'],['rugby','Rugby'],['cricket','Cricket'],['league','League'],['football','Football'],['mma','UFC'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${sportSel === k}" class="chip sportchip sport-${k}">${SPORT_ICON[k] ? `<span class="cicon" aria-hidden="true">${SPORT_ICON[k]}</span>` : ''}${l}</button>`).join('');
+  $('sportFilter').innerHTML = [['all','All'],['rugby','Rugby'],['cricket','Cricket'],['league','League'],['football','Football'],['mma','UFC'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${sportSel === k}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   $('spoilBtn').textContent = spoilers ? 'Spoilers hidden' : 'Spoilers shown';
   $('teamsBtn').textContent = `My teams (${picked.size})`;
@@ -1030,7 +1038,7 @@ async function load() {
     const r = await fetch('data/feed.json', { cache: 'no-store' });
     if (!r.ok) throw new Error(r.status);
     FEED = await r.json();
-    $('foot').innerHTML = `Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')}`;
+    $('foot').innerHTML = `Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0)`;
     render(); stamp();
   } catch (e) {
     if (!FEED.generatedAt) $('mockNote').textContent = 'Could not load the feed. Check your connection and refresh the page.';
