@@ -1654,7 +1654,7 @@ function render() {
   const rankSports = [...sportSel].filter(k => (FEED.rankings || []).some(r => r.sport === k));
   $('rankRow').hidden = !rankSports.length;
   $('rankRow').innerHTML = rankSports.map(k => `<button type="button" class="chip rankbtn" data-rankings="${k}">${sIcon(k, 'cicon')}${RANK_NAME[k] || 'Rankings'}</button>`).join('');
-  $('sportFilter').innerHTML = [['all','All'],['rugby','Rugby'],['cricket','Cricket'],['league','League'],['football','Football'],['motor','F1'],['mma','MMA'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
+  $('sportFilter').innerHTML = [['all','All'],['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['motor','F1'],['mma','MMA'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
   document.body.classList.remove('v-big', 'v-mixed', 'v-compact');
   document.body.classList.add('v-' + view);
   $('viewSel').innerHTML = [['big', 'Big'], ['mixed', 'Mixed'], ['compact', 'Compact']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${view === k}">${l}</button>`).join('');
