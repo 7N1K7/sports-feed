@@ -110,6 +110,7 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .ev .hl { justify-self: end; font-size: 13px; font-weight: 700; color: #e03131; text-decoration: none; padding: 3px 9px; border: 1px solid color-mix(in srgb, #e03131 40%, transparent); border-radius: 999px }
 .ev .hl:hover { background: color-mix(in srgb, #e03131 10%, transparent) }
 @media (max-width: 560px) { .ev .hl { justify-self: start } }
+.ev .pending { font-size: 13px; font-weight: 600; color: var(--muted) }
 .ev .rloc { font-size: 12px; color: var(--muted); margin-top: 5px }
 .ev .tvl { font-size: 13px; font-weight: 600; color: var(--ink) }
 .ev .tvl a { color: inherit }
@@ -886,7 +887,7 @@ function resCard(e, now) {
   const long = (e.score || '').length > 9;
   const right = hidden
     ? `<button class="cover" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>hidden ${left} more day${left === 1 ? '' : 's'}</button>`
-    : (e.score ? `<div class="score num ${long ? 'long' : ''}">${esc(e.score)}</div>` : `<div class="loc">Result not in yet</div>`) + highlights(e, now) + (canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : '');
+    : (e.score ? `<div class="score num ${long ? 'long' : ''}">${esc(e.score)}</div>` : `<div class="pending">Result not in yet</div>`) + highlights(e, now) + (canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : '');
   return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
