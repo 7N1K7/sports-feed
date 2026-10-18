@@ -127,7 +127,7 @@ for (const e of [...tsdbLive, ...wiki]) {
   if (hit.timeTBC && !e.timeTBC) Object.assign(hit, { startUTC: e.startUTC, timeTBC: false });
   if (!hit.score && e.score) Object.assign(hit, { score: e.score, status: e.status, summary: e.summary });
   if (/^TBC$/.test(hit.away) && e.away !== 'TBC') Object.assign(hit, { home: e.home, away: e.away });
-  for (const k of ['venue', 'city', 'tz', 'link', 'card']) if (!hit[k] && e[k]) hit[k] = e[k];
+  for (const k of ['venue', 'city', 'tz', 'link', 'card', 'squads']) if (!hit[k] && e[k]) hit[k] = e[k];
   if (e.card && /wikipedia/.test(e.source)) { hit.source = e.source; if (e.score) Object.assign(hit, { score: e.score, summary: e.summary, status: e.status }); }
 }
 
@@ -141,6 +141,7 @@ for (const le of live) {
     hit.tags = [...new Set([...(hit.tags || []), ...(le.tags || [])])];
     if (!hit.tz && le.tz) hit.tz = le.tz;
     if (!hit.link && le.link) hit.link = le.link;
+    for (const k of ['card', 'squads']) if (!hit[k] && le[k]) hit[k] = le[k];
     if (!hit.source && le.source) hit.source = le.source;
   } else events.push(le);
 }

@@ -307,6 +307,10 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     if (!pg) continue;
     const evs = c.ufc ? ufcFromList(pg.text, cityTz) : eventsFromPage(pg.title, pg.text, c.seriesTitle ? { ...c, comp: seriesComp(pg.title, c) } : c, cityTz);
     per[pg.title] = evs.length;
+    if (c.seriesTitle) {
+      const sq = squadsFromPage(pg.text);
+      if (sq.length) for (const e of evs) e.squads = squadsFor(sq, e);
+    }
     out.push(...evs);
     if (!c.seriesTitle && !c.ufc) tableSrc.push({ c, title: pg.title, text: pg.text });
   }
@@ -387,6 +391,76 @@ function sportsTables(text, page, c) {
     out.push({ comp: c.comp, sport: c.sport, team: c.team || '', page, title: clean(p.title || '') || (/standings|table|ladder|log/i.test(head) || !head ? '' : head), style: cricket ? 'cricket' : rugby ? 'rugby' : 'wdl', rows });
   }
   return out;
+}
+
+// Cricket tour "Squads" tables: header rows give each column's team and/or format
+// (Tests / ODIs / T20Is), the cell under it lists players. Struck-out players are left out.
+const FORMAT = s => /T20/i.test(s) ? 'T20I' : /ODI|One Day/i.test(s) ? 'ODI' : /Test/i.test(s) ? 'Test' : '';
+function squadsFromPage(text) {
+  const i = text.search(/^==\s*Squads?\s*==/im);
+  if (i < 0) return [];
+  const rest = text.slice(i + 5), j = rest.search(/^==[^=]/m);
+  const sec = j < 0 ? rest : rest.slice(0, j);
+  const out = [];
+  // footnotes like {{Efn|name=ODI4&5|Only for 4th and 5th ODIs}}, reused later as {{Efn|name=ODI4&5}}
+  const notes = {};
+  for (const m of sec.matchAll(/\{\{\s*efn\s*\|([^{}]*)\}\}/gi)) { const p = params('x|' + m[1]); if (p.named.name && p.pos[0]) notes[p.named.name] = p.pos[0]; }
+  const games = note => {
+    if (!/only/i.test(note)) return null;
+    const words = { first: 1, second: 2, third: 3, fourth: 4, fifth: 5 };
+    return [...note.matchAll(/\b(\d)(?:st|nd|rd|th)\b|\b(first|second|third|fourth|fifth)\b/gi)].map(m => +m[1] || words[m[2].toLowerCase()]);
+  };
+  for (const tm of sec.matchAll(/\{\|[\s\S]*?\n\|\}/g)) {
+    const rows = tm[0].split(/\n\|-[^\n]*/).slice(1);
+    const cols = [];
+    let data = null;
+    for (const row of rows) {
+      const lines = row.split('\n').filter(l => l.trim());
+      if (lines.length && lines.every(l => l.startsWith('!'))) {
+        const cells = lines.flatMap(l => l.slice(1).split('!!'));
+        let k = 0;
+        for (const cell of cells) {
+          const m = cell.match(/^\s*colspan\s*=\s*"?(\d+)"?\s*\|([\s\S]*)$/i) || cell.match(/^\s*[a-z]+\s*=[^|]*\|([\s\S]*)$/i);
+          const span = m && m[2] !== undefined ? +m[1] : 1, body = m ? (m[2] ?? m[1]) : cell;
+          const txt = stripRefs(body);
+          for (let n = 0; n < span; n++, k++) {
+            cols[k] = cols[k] || {};
+            if (FORMAT(txt) && !/\{\{/.test(txt)) cols[k].format = FORMAT(txt);
+            else { const t = teamOf(txt); if (t) cols[k].team = t; }
+          }
+        }
+      } else if (lines.some(l => l.startsWith('*'))) { data = row; break; }
+    }
+    if (!data) continue;
+    const cells = [];
+    for (const l of data.split('\n')) {
+      if (/^\|(?!\})/.test(l)) cells.push([]);
+      else if (l.startsWith('*') && cells.length) cells[cells.length - 1].push(l);
+    }
+    cells.forEach((lines, k) => {
+      const col = cols[k];
+      if (!col?.team) return;
+      const players = lines.filter(l => !/<s>/.test(l)).map(l => {
+        const roles = [...l.matchAll(/\[\[[^\]|]*\|(c|vc|wk)\]\]/gi)].map(m => m[1].toLowerCase());
+        const n = clean(l.replace(/^\*\s*/, '').replace(/\{\{\s*efn[\s\S]*?\}\}/gi, '').replace(/\s*\((?:\s*\[\[[^\]]*\]\]\s*,?)+\s*\)/g, '')).trim();
+        const efn = l.match(/\{\{\s*efn\s*\|([^{}]*)\}\}/i), ep = efn ? params('x|' + efn[1]) : null;
+        const only = ep ? games(ep.pos[0] || notes[ep.named.name] || '') : null;
+        return n ? { n, r: roles.join(', '), ...(only?.length ? { only } : {}) } : null;
+      }).filter(Boolean);
+      if (players.length) out.push({ team: col.team, format: col.format || '', players });
+    });
+  }
+  return out;
+}
+function squadsFor(sq, e) {
+  const f = FORMAT(e.comp || '') || FORMAT(e.round || '');
+  const base = t => (t || '').replace(/\s+Women('s)?$/, '');
+  return [e.home, e.away].map(side => {
+    const mine = sq.filter(s => base(s.team) === base(side));
+    const pick = mine.find(s => s.format === f) || mine.find(s => !s.format);
+    const no = +((e.comp || '').match(/\b(\d)(?:st|nd|rd|th)\b/) || [])[1];
+    return pick ? { team: side, players: pick.players.filter(p => !p.only || !no || p.only.includes(no)).map(({ n, r }) => (r ? { n, r } : { n })) } : null;
+  }).filter(Boolean);
 }
 
 // {{MMAevent card|Main card}} then {{MMAevent bout|Weight|A|def./vs.|B|Method|Round|Time|Notes}};
@@ -482,4 +556,4 @@ export async function tsdbEvents(leagues, diag) {
   }
   return out;
 }
-export { eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
+export { squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };

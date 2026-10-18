@@ -107,7 +107,6 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .ev .comp .series::before { content: '· '; }
 @media (max-width: 560px) { .ev .comp .series { flex-basis: 100% } .ev .comp .series::before { content: none } }
 .ev .rloc { font-size: 12px; color: var(--muted) }
-@media (min-width: 561px) { .ev .when:has(> .sicon) { padding-top: 38px; align-content: start } }
 @media (max-width: 560px) { .ev .when { padding-right: 40px } }
 .ev .tvl { font-size: 13px; font-weight: 600; color: var(--ink) }
 .ev .tvl a { color: inherit }
@@ -328,16 +327,13 @@ a.svc:hover { text-decoration-color: currentColor }
 .ev .when { position: relative }
 .ev .when .sicon { position: absolute; top: 9px; right: 10px; width: 22px; height: 22px }
 .ev .whtop { display: contents }
-@media (min-width: 561px) {
-  .ev .when { align-content: start }
-  .ev .whtop { display: flex; justify-content: flex-end; align-items: center; gap: 8px; min-height: 22px; margin-bottom: 2px }
-  .ev .whtop .sicon { position: static }
-}
+/* time box: sport icon pinned top right, the rest centred in the space below it */
+@media (min-width: 561px) { .ev .when { align-content: center; padding-top: 36px; padding-bottom: 16px } }
 .dsheet .comp .sicon, .detail .comp .sicon { margin-left: auto; font-size: 20px; line-height: 1 }
 .cicon { width: 16px; height: 16px; margin-right: 5px; vertical-align: -3px }
 .hubimg { width: 28px; height: 28px; display: block }
 .sheet-head .comp { display: flex; align-items: center; gap: 6px; flex-wrap: wrap }
-.sheet-head .sicon { width: 22px; height: 22px }
+.sheet-head .sicon { width: 22px; height: 22px; order: -1 }
 .sportchip { gap: 0 }
 
 .fc { margin-bottom: 10px }
@@ -369,6 +365,11 @@ a.svc:hover { text-decoration-color: currentColor }
 .stable tr.q td:first-child { box-shadow: inset 4px 0 0 var(--sport) }
 .stable tr.mine td { background: color-mix(in srgb, var(--accent) 9%, transparent) }
 .small { font-size: 13px }
+.squads { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px }
+.squad { border: 1px solid var(--line); border-radius: var(--r); padding: 8px 10px; background: var(--surface) }
+.sqh { font-family: var(--f-display); font-size: 18px; font-weight: 600; margin-bottom: 4px }
+.squad ul { list-style: none; margin: 0; padding: 0; font-size: 14px; line-height: 1.55 }
+.squad .role { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted) }
 @media (max-width: 560px) { .stable .wide { display: none } .stable td, .stable th { padding: 7px 4px } .hubtop h2 { font-size: 22px } }
 
 @media (max-width: 560px) { .fb { grid-template-columns: 1fr } .fb .fr { grid-column: 1 } }
@@ -426,7 +427,7 @@ a.svc:hover { text-decoration-color: currentColor }
 
 <main class="wrap">
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
-  <div class="compbar"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/w40/nz.png" alt="" width="18" height="9">NZ teams only</button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div></div>
+  <div class="compbar"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9">NZ teams only</button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div></div>
   <section id="hubSec" hidden>
     <div class="hub">
       <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
@@ -504,7 +505,7 @@ const FLAGS = {
   Samoa: '🇼🇸', Tonga: '🇹🇴', 'Papua New Guinea': '🇵🇬', 'Cook Islands': '🇨🇰', India: '🇮🇳', 'Sri Lanka': '🇱🇰', Bangladesh: '🇧🇩',
   Pakistan: '🇵🇰', 'West Indies': '🌴', Canada: '🇨🇦', USA: '🇺🇸', 'United States': '🇺🇸',
 };
-// flag emoji don't render on Windows, so use small flag images (flagcdn.com) keyed by ISO code
+// flag emoji don't render on Windows, so use flag images (flagcdn.com SVG, sharp at any size) keyed by ISO code
 const ISO = { 'New Zealand': 'nz', 'All Blacks': 'nz', 'Black Ferns': 'nz', Australia: 'au', Wallabies: 'au', England: 'gb-eng', Scotland: 'gb-sct',
   Wales: 'gb-wls', Ireland: 'ie', France: 'fr', Italy: 'it', 'South Africa': 'za', Argentina: 'ar', Japan: 'jp', Fiji: 'fj', Samoa: 'ws', Tonga: 'to',
   'Papua New Guinea': 'pg', 'Cook Islands': 'ck', India: 'in', 'Sri Lanka': 'lk', Bangladesh: 'bd', Pakistan: 'pk', Lebanon: 'lb', Canada: 'ca',
@@ -512,7 +513,7 @@ const ISO = { 'New Zealand': 'nz', 'All Blacks': 'nz', 'Black Ferns': 'nz', Aust
 const flagOf = name => {
   const base = String(name || '').replace(/\s+(Women|A|XI|U\d+|Wheelchair)$/i, '').trim();
   const c = ISO[base];
-  return c ? `https://flagcdn.com/w40/${c}.png` : '';
+  return c ? `https://flagcdn.com/${c}.svg` : '';
 };
 // away side: name first, then logo/flag, so both crests sit beside the "v"
 // "Wellington Phoenix FC" -> "Wellington Phoenix"; keeps short names like "Auckland FC"
@@ -809,6 +810,13 @@ function renderHub(now) {
   } else $('hubBody').innerHTML = '';
 }
 
+// cricket squads from the tour's Wikipedia page, home side first
+function squadsHtml(e) {
+  const base = t => (t || '').replace(/\s+Women('s)?$/, '');
+  const sides = [e.home, e.away].map(t => e.squads.find(s => base(s.team) === base(t))).filter(Boolean);
+  return `<div class="squads">${sides.map(s => `<div class="squad"><div class="sqh">${nmSpan(s.team, e)}</div><ul>${s.players.map(p => `<li>${esc(p.n)}${p.r ? ` <span class="role">${esc(p.r)}</span>` : ''}</li>`).join('')}</ul></div>`).join('')}</div>`;
+}
+
 // UFC card grouped by section; winners hidden while spoilers are on
 function fightCard(e, hidden) {
   const secs = [];
@@ -851,10 +859,11 @@ function detail(e) {
     ${res}${live}
     <dl class="facts">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
     ${e.card?.length ? `<h3 class="dh">Fight card</h3>${fightCard(e, hidden)}` : ''}
+    ${e.squads?.length ? `<h3 class="dh">Squads</h3>${squadsHtml(e)}` : ''}
     <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
     <h3 class="dh">Team news</h3>
     ${related.length ? `<div class="news">${related.map(n => `<a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener">${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '<span></span>'}<span class="dn-text"><span class="dn-meta"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span class="muted">${esc(n.source || '')}</span></span><b>${esc(n.title)}</b></span></a>`).join('')}</div>` : '<p class="muted">No recent news for this match yet.</p>'}
-    ${e.link ? `<p><a class="srclink" href="${esc(e.link)}" target="_blank" rel="noopener">Match report / scorecard</a></p>` : ''}${e.source ? `<p><a class="srclink" href="${esc(e.source)}" target="_blank" rel="noopener">${e.status === 'live' ? 'Follow live on the match page' : 'Match page'}</a>${e.sport === 'cricket' ? ` · <a class="srclink" href="https://www.espncricinfo.com/live-cricket-score" target="_blank" rel="noopener">Ball by ball on Cricinfo</a>` : ''}</p>` : ''}`;
+    ${e.link ? `<p><a class="srclink" href="${esc(e.link)}" target="_blank" rel="noopener">${e.sport === 'cricket' ? 'Scorecard' : isPast ? 'Match report and team lists' : 'Team lists and match centre'}</a></p>` : ''}${e.source ? `<p><a class="srclink" href="${esc(e.source)}" target="_blank" rel="noopener">${e.status === 'live' ? 'Follow live on the match page' : 'Match page'}</a>${e.sport === 'cricket' ? ` · <a class="srclink" href="https://www.espncricinfo.com/live-cricket-score" target="_blank" rel="noopener">Ball by ball on Cricinfo</a>` : ''}</p>` : ''}`;
 }
 function openDetail(id) {
   const e = (FEED.events || []).find(x => x.id === id);
