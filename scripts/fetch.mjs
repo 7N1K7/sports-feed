@@ -394,9 +394,10 @@ async function addLogos(events, extra = []) {
 }
 
 // Fighter headshots: each boxer's or UFC fighter's freely licensed photo from Wikipedia / Wikimedia Commons, with its
-// credit, refreshed monthly; fighters without one are asked again every 3 days as photos get added. Only people Wikipedia describes as a fighter. Three tries per name: the article's own free lead image; the
-// photo on the fighter's Wikidata entry (always a Commons file, so free); then "Name (fighter)" / "(boxer)" when the plain
-// title is someone else. Every fighter on a UFC card is looked up, not just the main event.
+// credit. Only people Wikipedia or Commons describe as a fighter. Four tries per name: the article's own free lead image;
+// the photo on the fighter's Wikidata entry (always a Commons file, so free); "Name (fighter)" / "(boxer)" when the plain
+// title is someone else; then a photo in the fighter's own Commons category. Every fighter on a UFC card is looked up.
+// Found photos are kept a month; fighters without one are asked again every 3 days, as photos keep being added.
 async function addFaces(events) {
   const cacheUrl = new URL('.cache/faces.json', ROOT);
   let cache = {};
@@ -423,8 +424,8 @@ async function addFaces(events) {
   for (const e of near) for (const n of [full(e, 'home'), full(e, 'away'), ...(Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY ? (e.card || []).flatMap(b => [strip(b.a), strip(b.b)]) : [])])
     if (ok(n)) kindOf[n] ||= e.sport === 'boxing' ? 'boxer' : 'fighter';
   const names = Object.keys(kindOf);
-  // 60 a run keeps the calls few; the rest follow on the next runs, and the cache holds what was found
-  const due = names.filter(n => !cache[n] || now - cache[n].t > (cache[n].src ? 30 : 3) * DAY || cache[n].v !== 3 || cache[n].why === 'not looked up').slice(0, 60);
+  // 40 a run keeps each update quick (a second per call); the rest follow on the next runs, and the cache holds what was found
+  const due = names.filter(n => !cache[n] || now - cache[n].t > (cache[n].src ? 30 : 3) * DAY || cache[n].v !== 4 || cache[n].why === 'not looked up').slice(0, 40);
   const found = {}, miss = {};
   try {
     // 1. the English article: free lead image, short description and Wikidata id; titles to retry as "Name (fighter)"
@@ -452,12 +453,14 @@ async function addFaces(events) {
     await look(Object.keys(alt), alt);
     // 2. Wikidata's image (P18) for fighters whose article has no free photo
     const ids = Object.keys(qids).filter(q => !found[qids[q]]);
-    const p18 = {};
+    const p18 = {}, p373 = {};
     for (let i = 0; i < ids.length; i += 40) {
       const r = await get('www.wikidata.org', 'action=wbgetentities&props=claims&ids=' + ids.slice(i, i + 40).join('|'));
       for (const [q, ent] of Object.entries(r.entities || {})) {
         const f = ent.claims?.P18?.[0]?.mainsnak?.datavalue?.value;
         if (f) p18['File:' + f] = qids[q];
+        const cat = ent.claims?.P373?.[0]?.mainsnak?.datavalue?.value; // the fighter's own Commons category
+        if (cat) p373[qids[q]] = cat;
       }
     }
     // 3. Commons: thumbnails for the Wikidata files, and the author and licence of every photo used
@@ -476,9 +479,28 @@ async function addFaces(events) {
         if (found[name]) found[name].credit = credit;
       }
     }
+    // 4. Commons category: photos of the fighter that no article uses (event photos, fan shots). The category is the one
+    // Wikidata names, else "Category:<Name>"; a file counts only if its own description or categories say UFC, MMA or boxing
+    // and it names the fighter, so a namesake's category or a crowd shot isn't picked
+    for (const n of due.filter(n => !found[n])) {
+      const r = await get('commons.wikimedia.org', 'action=query&generator=categorymembers&gcmtype=file&gcmlimit=30&prop=imageinfo&iiprop=url|extmetadata|mime&iiurlwidth=160&gcmtitle='
+        + encodeURIComponent('Category:' + (p373[n] || n)));
+      const last = n.split(' ').pop().normalize('NFD').replace(/[^\w]/g, '').toLowerCase();
+      const pick = (r.query?.pages || []).map(pg => ({ pg, ii: pg.imageinfo?.[0] })).filter(({ pg, ii }) => {
+        if (!ii?.thumburl || !/jpeg|png|webp/.test(ii.mime || '')) return false;
+        const md = ii.extmetadata || {}, about = plain(`${md.ImageDescription?.value || ''} ${md.Categories?.value || ''} ${md.ObjectName?.value || ''} ${pg.title}`);
+        const named = about.normalize('NFD').replace(/[^\w\s]/g, '').toLowerCase().includes(last);
+        return named && (FIGHTER.test(about) || /\bUFC\b|Bellator|\bPFL\b|\bONE Championship/.test(about)) && !/\blogo\b|poster|belt\b/i.test(pg.title);
+      }).sort((a, b) => (/\bvs?\.?\b|fight\b/i.test(a.pg.title) ? 1 : 0) - (/\bvs?\.?\b|fight\b/i.test(b.pg.title) ? 1 : 0))[0];
+      if (!pick) continue;
+      const md = pick.ii.extmetadata || {};
+      found[n] = { src: pick.ii.thumburl, file: pick.pg.title, from: 'commons category',
+        credit: [plain(md.Artist?.value), plain(md.LicenseShortName?.value)].filter(Boolean).join(', ') + ' / Wikimedia Commons' };
+      delete miss[n];
+    }
   } catch (e) { diag.facesError = e.message; }
   // only names that got an answer are cached; any left over by an error are tried again next run
-  for (const n of due) if (found[n] || miss[n]) cache[n] = found[n] ? { t: now, v: 3, ...found[n] } : { t: now, v: 3, src: null, why: miss[n] };
+  for (const n of due) if (found[n] || miss[n]) cache[n] = found[n] ? { t: now, v: 4, ...found[n] } : { t: now, v: 4, src: null, why: miss[n] };
   for (const e of near) {
     for (const side of ['home', 'away']) {
       const c = cache[full(e, side)];
@@ -490,8 +512,8 @@ async function addFaces(events) {
     }
   }
   const have = names.filter(n => cache[n]?.src);
-  diag.faces = `${have.length}/${names.length} fighters with a free photo; ${due.length} looked up`;
-  diag.facesMissing = names.filter(n => !cache[n]?.src).map(n => `${n}: ${cache[n]?.v === 3 ? cache[n].why : 'not looked up yet'}`);
+  diag.faces = `${have.length}/${names.length} fighters with a free photo (${have.filter(n => cache[n].from).length} from Commons categories); ${due.length} looked up`;
+  diag.facesMissing = names.filter(n => !cache[n]?.src).map(n => `${n}: ${cache[n]?.v === 4 ? cache[n].why : 'not looked up yet'}`);
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
 
