@@ -645,23 +645,6 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   .qlist { left: 0; right: 0; width: auto }
   .trow { grid-template-columns: minmax(0, 1fr) auto } .trow .td { grid-column: 1 / -1 }
 }
-/* matchups read inward: each team's name sits against the "v", with its logo between them in a fixed-width slot,
-   so logos line up from card to card whatever the length of the names */
-.ev .teams.matchup { column-gap: 18px }
-.matchup .side.home { align-items: flex-end; text-align: right }
-.matchup .side.away { align-items: flex-start; text-align: left }
-.ev .teams.matchup:has(img) .side.home { justify-items: end }
-.ev .teams.matchup:has(img) .side.away { justify-items: start }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side.home { justify-content: flex-end; text-align: right }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side.away { justify-content: flex-start; text-align: left }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side.home > img { order: 2 }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side.away > img { order: -1 }
-.ev .teams.matchup:has(img) .side > img.logo:not(.flagimg):not(.face) { width: 3.4em; max-width: none; object-fit: contain }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side > img.logo:not(.flagimg) { flex: none; width: 2.6em; max-width: none; object-fit: contain }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side > img.logo.flagimg { flex: none; width: 2.6em; height: 1.35em; max-width: none; object-fit: contain }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side > img.logo.face:not(.flagimg) { width: 2.15em; margin-inline: .225em }
-.ev .teams.matchup .side > img.logo.zoom { margin-inline: 0 }  /* a zoomed crest is mostly blank edge, so it still fits its slot */
-@media (max-width: 560px) { .ev .teams.matchup:has(img) .side > img.logo:not(.flagimg):not(.face) { width: 3em } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side > img.logo:not(.flagimg), :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side > img.logo.flagimg { width: 2.3em } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side > img.logo.face:not(.flagimg) { width: 1.95em; margin-inline: .175em } }
 </style>
 <style>:root{padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
 </head>
