@@ -122,6 +122,8 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .ev .tvl a { color: inherit }
 .tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 1px 6px; background: var(--soft); color: var(--ink); justify-self: end }
 .tag.live { background: var(--live); color: #fff }
+.moreres { display: block; margin: 12px auto 0 }
+.tag.paused { background: color-mix(in srgb, var(--live) 15%, transparent); color: var(--live); border: 1px solid color-mix(in srgb, var(--live) 40%, transparent) }
 .sport-rugby { --sport: var(--rugby) } .sport-cricket { --sport: var(--cricket) } .sport-league { --sport: var(--league) } .sport-football { --sport: var(--football) } .sport-mma { --sport: var(--mma) } .sport-boxing { --sport: var(--boxing) } .sport-motor { --sport: var(--motor) }
 
 .res .when { min-width: 120px }
@@ -723,7 +725,7 @@ let compSel = store.get('comp', '');
 let genderSel = store.get('gender', 'all');
 let nzOnly = store.get('nzOnly', false);
 let selDay = '', drawDayPick = () => {};
-let hubTab = 'games';
+let hubTab = 'games', resMore = false;
 const NZ_KEYS = new Set(['allblacks', 'blackferns', 'npc', 'fpc', 'blues', 'chiefs', 'hurricanes', 'crusaders', 'highlanders', 'moana', 'blackcaps', 'whiteferns', 'nzdomestic', 'kiwis', 'kiwiferns', 'warriors', 'phoenix', 'aucklandfc', 'nzboxing']);
 const NZ_NAMES = /\bNew Zealand\b|^(Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Moana Pasifika)$|Warriors|Wellington Phoenix|Auckland FC|All Blacks|Black Ferns|Black ?Caps|White Ferns|Kiwi/;
 const isNZ = x => NZ_KEYS.has(x.team) || [x.home, x.away].some(n => NZ_NAMES.test(n || ''));
@@ -812,6 +814,14 @@ function onNow(e, now) {
   }
   return null;
 }
+// a Test between days of play (overnight, or after an early close) is still running, not finished
+function between(e, now) {
+  if (e.status === 'final' || e.sport !== 'cricket') return null;
+  const days = DAYS[formatOf(e)] || 1, s = new Date(e.startUTC).getTime();
+  if (days < 2 || now < s || now > s + (days - 1) * 864e5 + 14 * 36e5 || onNow(e, now)) return null;
+  return `Day ${Math.min(days, Math.floor((now - s) / 864e5) + 2)} next`;
+}
+const running = (e, now) => onNow(e, now) || between(e, now);
 function countdown(e, now) {
   const ms = new Date(e.startUTC) - now;
   if (ms <= 0) return null;
@@ -861,11 +871,13 @@ function seriesLine(e, now) {
 function evCard(e, now) {
   const d = new Date(e.startUTC);
   const overseas = e.tz && e.tz !== NZ;
-  const live = e.status === 'live' ? 'On now' : onNow(e, now);
+  const live = e.status === 'live' ? 'On now' : onNow(e, now), paused = !live && between(e, now);
   const cd = countdown(e, now);
   const ms = d - now;
   const urg = ms < 864e5 ? 'soon' : ms < 3 * 864e5 ? 'near' : 'later';
-  const tag = live ? `<span class="tag live">${live}</span>` : cd ? `<span class="tag num ${urg}">${cd}</span>` : '';
+  const tag = live ? `<span class="tag live">${live}</span>` : paused ? `<span class="tag paused">${paused}</span>` : cd ? `<span class="tag num ${urg}">${cd}</span>` : '';
+  // the state of play Wikipedia's editors give while a match is on ("Lunch, day 1"); the score only when spoilers are shown
+  const play = (live || (paused && !/lunch|tea|drinks|innings break/i.test(e.progress || ''))) && e.progress ? `<div class="wx play">${esc(e.progress)}${!spoilers && e.liveScore ? ` · ${esc(e.liveScore)}` : ''}</div>` : '';
   const local = overseas ? `<div class="loc num">${e.timeTBC ? (e.usual ? '≈' + time(d, e.tz) + ' ' : '') : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${wikiLink(cityOf(e))}</div>` : '';
   const tv = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : '';
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
@@ -879,7 +891,7 @@ function evCard(e, now) {
       <div class="nzl">${START_LABEL[e.sport] || 'Start'} ${esc(tzLabel())}</div>
       <div class="nz num"${e.usual ? ` title="${USUAL_NOTE}"` : ''}>${e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div>
-      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${live && wxNote(e) ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
+      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${live && wxNote(e) ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
     </div>
   </article>`;
 }
@@ -1100,7 +1112,7 @@ function fightCard(e, hidden) {
 function detail(e) {
   const now = Date.now(), d = new Date(e.startUTC);
   const overseas = e.tz && e.tz !== NZ;
-  const isPast = e.status === 'final' || (d < now && !onNow(e, now) && e.status !== 'live');
+  const isPast = e.status === 'final' || (d < now && !running(e, now) && e.status !== 'live');
   const hidden = isPast && isHidden(e, now);
   const when = e.timeTBC ? `${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}, ${e.usual ? `time not listed yet (Tests usually start about 10am local, so ≈${time(d, NZ)} ${tzLabel()})` : 'time to be confirmed'}`
     : `${time(d, NZ)} ${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}`;
@@ -1192,8 +1204,8 @@ function render() {
   const nowD = new Date(now);
   const evs = (FEED.events || []).filter(visible).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
   const todayK = dayKey(nowD);
-  const upcoming = evs.filter(e => e.status === 'live' || (e.status !== 'final' && (new Date(e.startUTC) > now || onNow(e, now))));
-  const finals = evs.filter(e => e.status === 'final' || (e.status !== 'live' && new Date(e.startUTC) < now && !onNow(e, now) && (!e.timeTBC || now - new Date(e.startUTC) > 12 * 36e5))).reverse();
+  const upcoming = evs.filter(e => e.status === 'live' || (e.status !== 'final' && (new Date(e.startUTC) > now || running(e, now))));
+  const finals = evs.filter(e => e.status === 'final' || (e.status !== 'live' && new Date(e.startUTC) < now && !running(e, now) && (!e.timeTBC || now - new Date(e.startUTC) > 12 * 36e5))).reverse();
 
   // week strip
   const days = [...Array(7)].map((_, i) => new Date(now + i * 864e5));
@@ -1211,7 +1223,7 @@ function render() {
   }).join('');
 
   // live now: games under way, in their own section above the week
-  const lives = upcoming.filter(e => e.status === 'live' || onNow(e, now));
+  const lives = upcoming.filter(e => e.status === 'live' || running(e, now));
   $('liveSec').hidden = !lives.length;
   // only rewrite the live cards when they change, so their glow doesn't restart on every click
   const liveHtml = lives.map(e => evCard(e, now)).join('');
@@ -1293,10 +1305,15 @@ function render() {
     return fmt(new Date(e.startUTC), NZ, { weekday: 'long', day: 'numeric', month: 'short' });
   };
   const rgroups = new Map();
-  pastFinals.slice(0, 14).forEach(e => { const g = groupOf(e); if (!rgroups.has(g)) rgroups.set(g, []); rgroups.get(g).push(e); });
-  $('results').innerHTML = rgroups.size
+  // the last week up front (a dozen at most); everything older the feed still holds behind "Show older results"
+  const recent = pastFinals.filter(e => now - new Date(e.startUTC) < 7 * 864e5).slice(0, 12);
+  const shown = resMore ? pastFinals : recent;
+  shown.forEach(e => { const g = groupOf(e); if (!rgroups.has(g)) rgroups.set(g, []); rgroups.get(g).push(e); });
+  const more = pastFinals.length - recent.length;
+  $('results').innerHTML = (rgroups.size
     ? [...rgroups].map(([g, list]) => `<div class="daygroup"><div class="dayhead">${esc(g)}</div>${list.map(e => resCard(e, now)).join('')}</div>`).join('')
-    : `<div class="empty-note">No recent results for your teams.</div>`;
+    : `<div class="empty-note">No recent results for your teams.</div>`)
+    + (more > 0 ? `<button type="button" class="btn moreres" id="resMore">${resMore ? 'Show fewer results' : `Show older results (${more} more)`}</button>` : '');
 
   // news
   const kinds = [['all', 'All'], ['injury', 'Injuries'], ['squad', 'Squads'], ['result', 'Results'], ['news', 'Other']];
@@ -1386,6 +1403,7 @@ document.addEventListener('click', ev => {
     if (!t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; render(); }
+  else if (t.id === 'resMore') { resMore = !resMore; render(); }
   else if (t.id === 'hubClose') { compSel = ''; store.set('comp', ''); hubTab = 'games'; render(); }
   else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
   else if (t.id === 'moreUp') { store.set('showAllUp', true); render(); }

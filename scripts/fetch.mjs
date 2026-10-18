@@ -181,6 +181,7 @@ for (const e of [...tsdbLive, ...wiki]) {
   if (/^TBC$/.test(hit.away) && e.away !== 'TBC') Object.assign(hit, { home: e.home, away: e.away });
   for (const k of ['venue', 'city', 'tz', 'link', 'card', 'squads', 'cricinfo']) if (!hit[k] && e[k]) hit[k] = e[k];
   if (e.weather) hit.weather = e.weather;
+  for (const k of ['progress', 'liveScore']) if (e[k]) hit[k] = e[k];
   if (e.card && /wikipedia/.test(e.source)) { hit.source = e.source; if (e.score) Object.assign(hit, { score: e.score, summary: e.summary, status: e.status }); }
 }
 
@@ -200,6 +201,7 @@ for (const le of live) {
     if (!hit.link && le.link) hit.link = le.link;
     for (const k of ['card', 'squads', 'cricinfo']) if (!hit[k] && le[k]) hit[k] = le[k];
     if (le.weather) hit.weather = le.weather;
+    for (const k of ['progress', 'liveScore']) if (le[k]) hit[k] = le[k];
     if (!hit.source && le.source) hit.source = le.source;
   } else events.push(le);
 }
@@ -343,7 +345,7 @@ const feed = {
 await writeFile(new URL('data/feed.json', ROOT), JSON.stringify(feed));
 // a small plain-text view of games around now, for checking the live site without reading the whole feed
 await writeFile(new URL('data/now.txt', ROOT), feed.events.filter(e => Math.abs(Date.parse(e.startUTC) - now) < 2 * DAY)
-  .map(e => [e.id, e.team, e.status, e.startUTC, e.timeTBC ? 'TBC' : '', e.format || '', e.stage || '', e.city || '', e.tz || '', e.score || '', e.summary || '', e.weather || ''].join(' | ')).join('\n') + '\n');
+  .map(e => [e.id, e.team, e.status, e.startUTC, e.timeTBC ? 'TBC' : '', e.format || '', e.stage || '', e.city || '', e.tz || '', e.score || '', e.summary || '', e.weather || '', e.progress || '', e.liveScore || ''].join(' | ')).join('\n') + '\n');
 
 // "hot" while a game is on or about to start (Tests count for five days), so the workflow refreshes every
 // 10 minutes then and only now and again otherwise, sparing Wikipedia and TheSportsDB needless requests

@@ -176,11 +176,18 @@ function eventsFromPage(title, text, cfg, cityTz) {
     else if (tm && tz) t = localToUTC(d.y, d.m, d.d, tm.h, tm.mi, tz);
     else { tbc = true; t = localToUTC(d.y, d.m, d.d, 14, 0, tz || 'Pacific/Auckland'); }
     // score
-    let score, summary, status = 'upcoming';
+    let score, summary, status = 'upcoming', progress, liveScore;
     if (isCricket) {
       const sc = n => clean(p[`score${n}`]) || (p[`runs${n}`] ? `${clean(p[`runs${n}`])}${p[`wickets${n}`] && clean(p[`wickets${n}`]) !== '10' ? '/' + clean(p[`wickets${n}`]) : ''}` : '');
       const result = clean(p.result || '');
-      if (result) {
+      // editors often write the state of play into the result line while a match is on ("Lunch, day 1", "Stumps, day 2")
+      const playing = result && /\b(lunch|tea|stumps|day \d|in progress|live|innings break|drinks|rain|bad light|delayed|play (?:to )?(?:start|resume))\b/i.test(result)
+        && !/\b(won|win|drawn|draw|tied|tie|abandoned|no result)\b/i.test(result);
+      if (playing) {
+        progress = result;
+        const a = sc(1), b = sc(2);
+        if (a || b) liveScore = [a, b].filter(Boolean).join(' v ');
+      } else if (result) {
         status = 'final'; summary = result;
         const a = sc(1), b = sc(2);
         score = a && b ? `${a} v ${b}` : result.length < 40 ? result : 'Result in';
@@ -205,6 +212,7 @@ function eventsFromPage(title, text, cfg, cityTz) {
       source: `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`, link: report, ...(/cricinfo\.com/.test(report || '') ? { cricinfo: report } : {}),
       // cricket boxes carry a "rain" note that editors fill in during the game ("Rain delayed the start of play")
       ...(isCricket && clean(stripRefs(p.rain || '')) ? { weather: clean(stripRefs(p.rain)) } : {}),
+      ...(progress ? { progress } : {}), ...(liveScore ? { liveScore } : {}),
     });
   }
   return out;
