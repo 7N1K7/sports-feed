@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="What's on today and this week for New Zealand rugby, cricket and league teams, with NZ start times, where to watch and spoiler-free results.">
 <title>Sports Feed</title>
+<meta property="og:title" content="Sports Feed">
+<meta property="og:description" content="What's on today and this week for NZ rugby, cricket, league, football and UFC, with NZ start times, where to watch, live scores and spoiler-free results.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://7n1k7.github.io/sports-feed/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0d6b4d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d6b4d'/%3E%3Ctext x='32' y='44' font-family='Arial Narrow,Arial' font-weight='700' font-size='30' text-anchor='middle' fill='white'%3ESF%3C/text%3E%3C/svg%3E">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -151,6 +158,7 @@ footer a { color: var(--muted) }
 
 
 .ev[data-open] { cursor: pointer }
+.ev .nz.longsc { font-family: var(--f-body); font-size: 15px; line-height: 1.3 }
 .ev .tv { color: var(--ink); font-weight: 600 }
 dialog#sheet { border: 0; padding: 0; margin: auto auto 0; width: min(640px, 100%); max-height: 88vh; border-radius: 16px 16px 0 0; background: var(--surface); color: var(--ink); box-shadow: 0 -8px 40px rgba(0,0,0,.25) }
 @media (min-width: 700px) { dialog#sheet { margin: auto; border-radius: 16px } }
@@ -292,6 +300,7 @@ const flagOf = name => {
   return FLAGS[base] || '';
 };
 const teamName = n => { const f = flagOf(n); return f ? `<span class="flag" aria-hidden="true">${f}</span>${esc(n)}` : esc(n); };
+const START_LABEL = { rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight' };
 const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC' };
 
 const ALL_KEYS = TEAMS.flatMap(g => g.items.map(i => i[0]));
@@ -349,7 +358,7 @@ const visible = x => visibleTeam(x) && (sportSel === 'all' || (x.sport || sportO
 function evCard(e, now) {
   const d = new Date(e.startUTC);
   const overseas = e.tz && e.tz !== NZ;
-  const live = e.status === 'live' ? (e.clock || 'Live') : onNow(e, now);
+  const live = e.status === 'live' ? `● ${e.clock || 'Live'}` : onNow(e, now);
   const cd = countdown(e, now);
   const ms = d - now;
   const urg = ms < 864e5 ? 'soon' : ms < 3 * 864e5 ? 'near' : 'later';
@@ -364,8 +373,8 @@ function evCard(e, now) {
       <div class="meta">${esc(cityOf(e) || e.venue || '')}${tv ? ` · <span class="tv">${esc(tv)}</span>` : ''}</div>
     </div>
     <div class="when">
-      <div class="nzl">NZ time</div>
-      ${e.status === 'live' && e.score ? `<div class="nz num">${isHidden(e, now) ? '<span class="loc">Score hidden</span>' : esc(e.score)}</div>` : `<div class="nz num">${e.timeTBC ? 'TBC' : time(d, NZ)}</div>`}
+      <div class="nzl">${START_LABEL[e.sport] || 'Start'} NZ</div>
+      ${e.status === 'live' && e.score ? `<div class="nz num ${e.score.length > 9 ? 'longsc' : ''}">${isHidden(e, now) ? '<span class="loc">Score hidden</span>' : esc(e.score)}</div>` : `<div class="nz num">${e.timeTBC ? 'TBC' : time(d, NZ)}</div>`}
       <div class="date">${dayLabel(d, NZ)}</div>
       ${local}${tag}
     </div>
@@ -406,8 +415,8 @@ function detail(e) {
   const when = e.timeTBC ? `${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}, time to be confirmed`
     : `${time(d, NZ)} ${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}`;
   const rows = [
-    ['NZ time', when],
-    overseas && !e.timeTBC ? ['Local time', `${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
+    [`${START_LABEL[e.sport] || 'Start'} (NZ)`, when],
+    overseas && !e.timeTBC ? ['Local', `${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
     ['Where', [e.venue, e.city].filter(Boolean).join(', ') || 'To be confirmed'],
     e.note ? ['Note', e.note] : null,
   ].filter(Boolean);
@@ -430,7 +439,7 @@ function detail(e) {
     </div>
     ${res}${live}
     <dl class="facts">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
-    <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}</ul>
+    <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
     <h3 class="dh">Team news</h3>
     ${related.length ? `<div class="news">${related.map(n => `<a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener">${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}<span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span> <b>${esc(n.title)}</b><span class="muted"> · ${esc(n.source || '')}</span></a>`).join('')}</div>` : '<p class="muted">No recent news for this match yet.</p>'}
     ${e.source ? `<p><a class="srclink" href="${esc(e.source)}" target="_blank" rel="noopener">Match page</a></p>` : ''}`;
@@ -555,7 +564,56 @@ async function load() {
     if (!FEED.generatedAt) $('mockNote').textContent = 'Could not load the feed. Check your connection and refresh the page.';
   }
 }
-tick(); render(); load();
+// Running scores: while a game is on, ask ESPN directly from the browser every 30 seconds.
+// The 10-minute site rebuild stays the fallback if this is blocked.
+const LIVE_POLL_MS = 30000;
+let liveAt = 0;
+function liveCandidates(now) {
+  return (FEED.events || []).filter(e => e.espnId && e.status !== 'final' && visible(e) &&
+    (e.status === 'live' || (now > new Date(e.startUTC) - 10 * 6e4 && now < +new Date(e.startUTC) + (e.sport === 'cricket' ? 10 : 6) * 36e5)));
+}
+function applyComp(e, comp, st) {
+  const cs = comp?.competitors || [];
+  const home = cs.find(c => c.homeAway === 'home') || cs[0], away = cs.find(c => c.homeAway === 'away') || cs[1];
+  const state = st?.type?.state || st?.state;
+  if (state === 'in') e.status = 'live'; else if (state === 'post') e.status = 'final';
+  if (e.sport !== 'mma' && home && away && home.score != null && state !== 'pre') e.score = `${home.score.displayValue ?? home.score}-${away.score.displayValue ?? away.score}`;
+  e.clock = st?.type?.shortDetail || st?.shortDetail || e.clock;
+}
+async function pollLive() {
+  const now = Date.now();
+  const list = liveCandidates(now);
+  if (!list.length) return;
+  let changed = false;
+  await Promise.all(list.map(async e => {
+    try {
+      if (e.espnPath === 'cricket-header') {
+        const r = await fetch('https://site.web.api.espn.com/apis/v2/scoreboard/header?sport=cricket&region=au&lang=en&contentorigin=espn');
+        const d = await r.json();
+        const ev = (d.sports?.[0]?.leagues || []).flatMap(l => l.events || []).find(x => String(x.id) === String(e.espnId));
+        if (!ev) return;
+        const state = ev.status || ev.fullStatus?.type?.state;
+        e.status = state === 'in' ? 'live' : state === 'post' ? 'final' : e.status;
+        const comps = ev.competitors || [];
+        const sc = comps.map(c => c.score ? `${c.abbreviation || c.displayName} ${c.score}` : '').filter(Boolean).join(' v ');
+        if (sc) e.score = sc;
+        e.clock = ev.summary || e.clock;
+        if (e.status === 'final') e.summary = ev.summary || e.summary;
+      } else {
+        const r = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${e.espnPath}/summary?event=${e.espnId}`);
+        const d = await r.json();
+        const comp = d.header?.competitions?.[0];
+        if (!comp) return;
+        if (e.sport === 'mma') { const st = comp.status; if (st?.type?.state === 'in') e.status = 'live'; e.clock = st?.type?.shortDetail || e.clock; }
+        else applyComp(e, comp, comp.status);
+      }
+      changed = true;
+    } catch { /* blocked or offline: the scheduled rebuild still updates scores */ }
+  }));
+  if (changed) { liveAt = Date.now(); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
+}
+tick(); render(); load().then(pollLive);
+setInterval(pollLive, LIVE_POLL_MS);
 setInterval(() => { tick(); render(); stamp(); }, 60000);
 setInterval(load, 5 * 60000);
 })();

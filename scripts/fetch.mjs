@@ -57,12 +57,12 @@ const CITY_TZ = {
   Suva: 'Pacific/Fiji', Lautoka: 'Pacific/Fiji', Apia: 'Pacific/Apia', Tokyo: 'Asia/Tokyo',
 };
 const COUNTRY_TZ = {
-  'New Zealand': 'Pacific/Auckland', England: 'Europe/London', Scotland: 'Europe/London', Wales: 'Europe/London',
+  'New Zealand': 'Pacific/Auckland', Australia: 'Australia/Sydney', USA: 'America/New_York', 'United States': 'America/New_York', Canada: 'America/Toronto', England: 'Europe/London', Scotland: 'Europe/London', Wales: 'Europe/London',
   'United Kingdom': 'Europe/London', Ireland: 'Europe/Dublin', France: 'Europe/Paris', Italy: 'Europe/Rome',
   'South Africa': 'Africa/Johannesburg', Argentina: 'America/Argentina/Buenos_Aires', Japan: 'Asia/Tokyo',
   Fiji: 'Pacific/Fiji', Samoa: 'Pacific/Apia', Tonga: 'Pacific/Tongatapu', 'Papua New Guinea': 'Pacific/Port_Moresby',
 };
-Object.assign(CITY_TZ, { 'Las Vegas': 'America/Los_Angeles', 'Los Angeles': 'America/Los_Angeles', 'New York': 'America/New_York', Newark: 'America/New_York', Miami: 'America/New_York', Houston: 'America/Chicago', Chicago: 'America/Chicago', Denver: 'America/Denver', 'Abu Dhabi': 'Asia/Dubai', Riyadh: 'Asia/Riyadh', London: 'Europe/London', Paris: 'Europe/Paris', 'Mexico City': 'America/Mexico_City', 'Rio de Janeiro': 'America/Sao_Paulo', 'São Paulo': 'America/Sao_Paulo', Singapore: 'Asia/Singapore', Shanghai: 'Asia/Shanghai', Macau: 'Asia/Macau', Toronto: 'America/Toronto', Perth: 'Australia/Perth', Auckland: 'Pacific/Auckland' });
+Object.assign(CITY_TZ, { Edmonton: 'America/Edmonton', Calgary: 'America/Edmonton', Vancouver: 'America/Vancouver', Montreal: 'America/Toronto', Gosford: 'Australia/Sydney', 'New South Wales': 'Australia/Sydney', Victoria: 'Australia/Melbourne', Queensland: 'Australia/Brisbane', 'Las Vegas': 'America/Los_Angeles', 'Los Angeles': 'America/Los_Angeles', 'New York': 'America/New_York', Newark: 'America/New_York', Miami: 'America/New_York', Houston: 'America/Chicago', Chicago: 'America/Chicago', Denver: 'America/Denver', 'Abu Dhabi': 'Asia/Dubai', Riyadh: 'Asia/Riyadh', London: 'Europe/London', Paris: 'Europe/Paris', 'Mexico City': 'America/Mexico_City', 'Rio de Janeiro': 'America/Sao_Paulo', 'São Paulo': 'America/Sao_Paulo', Singapore: 'Asia/Singapore', Shanghai: 'Asia/Shanghai', Macau: 'Asia/Macau', Toronto: 'America/Toronto', Perth: 'Australia/Perth', Auckland: 'Pacific/Auckland' });
 const tzFor = (city = '', country = '') => CITY_TZ[city] || COUNTRY_TZ[country] || null;
 
 const ymd = t => new Date(t).toISOString().slice(0, 10).replaceAll('-', '');
@@ -105,7 +105,7 @@ function ufcCard(ev) {
   const addr = (main.venue || fights[0].venue)?.address || {};
   const first = fights.map(f => f.date || ev.date).sort()[0];
   return {
-    id: `espn-${ev.id}`, team: 'ufc', tags: [], sport: 'mma', comp: ev.name || 'UFC', compKey: 'UFC',
+    id: `espn-${ev.id}`, espnId: ev.id, espnPath: 'mma/ufc', team: 'ufc', tags: [], sport: 'mma', comp: ev.name || 'UFC', compKey: 'UFC',
     home: names[0] || 'TBC', away: names[1] || 'TBC', startUTC: new Date(first).toISOString(), timeTBC: false,
     venue: (main.venue || fights[0].venue)?.fullName || '', city: [addr.city, addr.country].filter(Boolean).join(', '),
     tz: tzFor(addr.city, addr.country) || ({ 'United States': null }[addr.country] ?? null),
@@ -139,7 +139,7 @@ async function espnEvents() {
       const status = st.state === 'post' || st.completed ? 'final' : st.state === 'in' ? 'live' : 'upcoming';
       const addr = c.venue?.address || {};
       out.push({
-        id: `espn-${ev.id}`, team: cls.team, tags: cls.tags, sport: src.sport,
+        id: `espn-${ev.id}`, espnId: ev.id, espnPath: src.path, team: cls.team, tags: cls.tags, sport: src.sport,
         comp: data.leagues?.[0]?.name || src.comp, compKey: src.comp,
         home: hn, away: an, startUTC: new Date(ev.date).toISOString(), timeTBC: false,
         venue: c.venue?.fullName || '', city: [addr.city, addr.country].filter(Boolean).join(', '),
@@ -177,7 +177,7 @@ async function espnCricket() {
       const state = ev.status === 'in' || ev.fullStatus?.type?.state === 'in' ? 'live' : (ev.status === 'post' || ev.fullStatus?.type?.state === 'post') ? 'final' : 'upcoming';
       const sc = [home, away].map(c => c.score ? `${c.abbreviation || c.displayName} ${c.score}` : '').filter(Boolean).join(' v ');
       out.push({
-        id: `espn-${ev.id}`, team, tags: [], sport: 'cricket', comp: `${lname}${ev.description ? ' · ' + ev.description : ''}`, compKey: lname,
+        id: `espn-${ev.id}`, espnId: ev.id, espnPath: 'cricket-header', team, tags: [], sport: 'cricket', comp: `${lname}${ev.description ? ' · ' + ev.description : ''}`, compKey: lname,
         home: home.displayName || 'TBC', away: away.displayName || 'TBC', startUTC: new Date(ev.date).toISOString(), timeTBC: false,
         venue: '', city: ev.location || '', tz: null, status: state,
         clock: state === 'live' ? (ev.summary || ev.fullStatus?.type?.shortDetail || '') : undefined,
@@ -268,7 +268,7 @@ for (const le of live) {
   const hit = events.find(e => e.team === le.team && sameMatch(e, le));
   if (hit) {
     // ESPN wins on time, status and score; curated keeps names, venue notes and broadcast
-    Object.assign(hit, { startUTC: le.startUTC, timeTBC: false, status: le.status, clock: le.clock, tags: [...new Set([...(hit.tags || []), ...(le.tags || [])])] });
+    Object.assign(hit, { startUTC: le.startUTC, timeTBC: false, status: le.status, clock: le.clock, espnId: le.espnId, espnPath: le.espnPath, tags: [...new Set([...(hit.tags || []), ...(le.tags || [])])] });
     if (le.score) hit.score = le.score;
     if (!hit.tz && le.tz) hit.tz = le.tz;
   } else events.push(le);
