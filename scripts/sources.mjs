@@ -202,7 +202,7 @@ function eventsFromPage(title, text, cfg, cityTz) {
       team: cls.team, tags: cls.tags, sport: cfg.sport, comp: cfg.comp + (round && cfg.showRound ? ` · ${round}` : ''),
       home, away, startUTC: new Date(t).toISOString(), timeTBC: tbc, ...(stage ? { stage } : {}),
       venue: parts[0] || '', city, tz, status, score, summary,
-      source: `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`, link: report,
+      source: `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`, link: report, ...(/cricinfo\.com/.test(report || '') ? { cricinfo: report } : {}),
     });
   }
   return out;

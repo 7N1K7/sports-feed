@@ -745,8 +745,11 @@ const SERVICES = {
 const SVC_RE = new RegExp(`(${Object.keys(SERVICES).sort((a, b) => b.length - a.length).map(k => k.replace(/[.+]/g, '\\$&')).join('|')})(?![\\w+])`, 'g');
 const linkWatch = t => esc(t).replace(SVC_RE, m => `<a class="svc" href="${SERVICES[m]}" target="_blank" rel="noopener">${m}</a>`);
 const LIVE_SITE = { cricket: ['Cricinfo', 'https://www.espncricinfo.com/live-cricket-score'] };
+// the game's own Cricinfo page, when Wikipedia's match box links to it
+const cricinfo = e => e.cricinfo || (/cricinfo\.com/.test(e.link || '') ? e.link : '');
 function liveLink(e) {
-  const [name, url] = LIVE_SITE[e.sport] || ['match centre', e.link || e.source];
+  let [name, url] = LIVE_SITE[e.sport] || ['match centre', e.link || e.source];
+  if (cricinfo(e)) [name, url] = ['Cricinfo', cricinfo(e)];
   return url ? `<a class="livelink" href="${esc(e.sport === 'cricket' ? url : url)}" target="_blank" rel="noopener">Live scores on ${esc(e.sport === 'cricket' ? name : 'match page')} ↗</a>` : '';
 }
 function watchLine(e) {
@@ -867,7 +870,8 @@ function detail(e) {
     e.note ? ['Note', e.note] : null,
   ].filter(Boolean);
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
-  const watch = [b && `<li><b>${linkWatch(b)}</b></li>`, e.watchAlt && `<li>${linkWatch(e.watchAlt)}</li>`, e.watchNote && `<li class="muted">${esc(e.watchNote)}</li>`].filter(Boolean).join('')
+  const watch = [b && `<li><b>${linkWatch(b)}</b></li>`, e.watchAlt && `<li>${linkWatch(e.watchAlt)}</li>`,
+    cricinfo(e) && `<li>Live scores and commentary on <a class="svc" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Cricinfo</a></li>`, e.watchNote && `<li class="muted">${esc(e.watchNote)}</li>`].filter(Boolean).join('')
     || '<li class="muted">Broadcaster not confirmed yet</li>';
   const names = [e.home, e.away].map(n => String(n || '').replace(/ Women$/, ''));
   const related = (FEED.news || []).filter(n => n.team === e.team || (e.tags || []).includes(n.team) || (sportOf(n.team) === e.sport && names.some(x => x.length > 3 && x !== 'TBC' && !FLAGS[x] && (n.title + ' ' + n.summary).includes(x))))
@@ -886,13 +890,14 @@ function detail(e) {
     ${res}${live}
     <dl class="facts">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
     <div class="dlinks">${[
-      e.link && `<a href="${esc(e.link)}" target="_blank" rel="noopener">${e.sport === 'cricket' ? 'Scorecard' : isPast ? 'Match report and team lists' : 'Team lists and match centre'} ↗</a>`,
+      e.link && `<a href="${esc(e.link)}" target="_blank" rel="noopener">${cricinfo(e) === e.link ? 'Cricinfo: scorecard and squads' : e.sport === 'cricket' ? 'Scorecard' : isPast ? 'Match report and team lists' : 'Team lists and match centre'} ↗</a>`,
       e.source && `<a href="${esc(e.source)}" target="_blank" rel="noopener">${e.status === 'live' ? 'Follow live' : 'Match page'} ↗</a>`,
-      e.sport === 'cricket' && `<a href="https://www.espncricinfo.com/live-cricket-score" target="_blank" rel="noopener">Ball by ball on Cricinfo ↗</a>`,
+      cricinfo(e) && cricinfo(e) !== e.link && `<a href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Cricinfo: scorecard and squads ↗</a>`,
+      e.sport === 'cricket' && !cricinfo(e) && `<a href="https://www.espncricinfo.com/live-cricket-score" target="_blank" rel="noopener">Ball by ball on Cricinfo ↗</a>`,
     ].filter(Boolean).join('')}</div>
     <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
     ${e.card?.length ? `<h3 class="dh">Fight card</h3>${fightCard(e, hidden)}` : ''}
-    ${e.squads?.length ? `<h3 class="dh">Squads</h3>${squadsHtml(e)}` : ''}
+    ${e.squads?.length ? `<h3 class="dh">Squads</h3>${squadsHtml(e)}${cricinfo(e) ? `<p class="small"><a class="srclink" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Playing XIs on Cricinfo once announced ↗</a></p>` : ''}` : ''}
     <h3 class="dh">Team news</h3>
     ${related.length ? `<div class="news">${related.map(n => `<a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener">${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '<span></span>'}<span class="dn-text"><span class="dn-meta"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span class="muted">${esc(n.source || '')}</span></span><b>${esc(n.title)}</b></span></a>`).join('')}</div>` : '<p class="muted">No recent news for this match yet.</p>'}
 `;
