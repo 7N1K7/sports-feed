@@ -1,7 +1,17 @@
-nz 1746 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="600" width="1200"><defs><clipPath id="b"><path d="M0 0h600v300H0z"/><
-au 1307 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="640" viewBox="0 0 10080 5040"><defs><clipPath id="a"><pa
-gb-eng 176 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="480"><path fill="#FFF" d="M0 0h800v480H0"/><path stroke="#C8102E" stroke-width="96" d="M0 240h800M40
-fj 40121 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600"><style>.B{stroke-miterlimit:4.8}.C{stroke:#000}.D{fill:#862633}.E{stroke-width:.78}.F{fill:#00
-ck 1056 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="600" viewBox="0 0 9600 4800"><defs><clipPath id="a"><pat
-in 720 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="900" height="600" fill="#07038D" viewBox="-45 -30 90 60"><path fill="#
-ch 183 <svg width="512" height="512" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h32v32H0z" fill="red"/><path d="M13 6h6v7h7v6h-7v7h-6v-7H6v-6h
+115326
+{{table alignment}}
+==Ladder==
+{{NRL2026Ladder}}
+==Ladder progression==
+{{Table  alignment}}
+year = ''[[2027 NRL season|2027]]''
+}}
+
+The '''2026 NRL season''' was the 119th season of professional [[rugby league]] in Australia and the 29th season run by the [[National Rugby League]] (NRL). The regular season was followed by a finals series contested by the top eight teams on the competition ladder. The [[Penrith Panthers]] were the minor premiers, while the [[Sydney Roosters]] defeated the [[Newcastle Knights]] in the Grand Final to win their 16th premiership.
+
+The season recorded the highest aggregate and average regular season crowds in first-grade rugby league history, surpassing the record set the previous year.
+
+The season was also the highest scoring in first-grade rugby league history, with 10,167 points scored across 213 games, surpassing the 253 game [[1998 NRL season|1998 season]] in which 10,131 points were scored. At an average of 47.73 points scored per match, 2026 was also the highest average scoring season since [[2004 NRL season|2004]].{{efn|in which 9,086 points were scored across 189 matches, an average of 48.07 points per game.}}
+
+==Teams==
+The lineup of te
