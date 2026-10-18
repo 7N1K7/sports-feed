@@ -466,7 +466,7 @@ function render() {
   $('weekRange').textContent = `${dayLabel(days[0], NZ)} to ${dayLabel(days[6], NZ)}`;
   $('week').innerHTML = days.map(d => {
     const k = dayKey(d);
-    const list = upcoming.filter(e => dayKey(new Date(e.startUTC)) === k);
+    const list = evs.filter(e => dayKey(new Date(e.startUTC)) === k);
     const dots = list.slice(0, 6).map(e => `<span class="dot" style="background:var(--${e.sport})"></span>`).join('');
     return `<button class="day ${k === todayK ? 'today' : ''} ${list.length ? '' : 'empty'}" type="button" data-jump="${k}" aria-label="${dayLabel(d, NZ)}, ${list.length} games">
       <span class="dn">${k === todayK ? 'Today' : fmt(d, NZ, { weekday: 'short' })}</span>
@@ -477,8 +477,10 @@ function render() {
   // today
   const todays = upcoming.filter(e => dayKey(new Date(e.startUTC)) === todayK || e.status === 'live' || onNow(e, now));
   $('todayLabel').textContent = dayLabel(nowD, NZ);
-  $('today').innerHTML = todays.length
-    ? `<div class="daygroup">${todays.map(e => evCard(e, now)).join('')}</div>`
+  // today's finished games stay in "On today" (spoiler rules still apply), latest first after the upcoming ones
+  const doneToday = finals.filter(e => dayKey(new Date(e.startUTC)) === todayK);
+  $('today').innerHTML = todays.length || doneToday.length
+    ? `<div class="daygroup">${todays.map(e => evCard(e, now)).join('')}${doneToday.length ? `<div class="dayhead">Earlier today</div>${doneToday.map(e => resCard(e, now)).join('')}` : ''}</div>`
     : `<div class="empty-note">Nothing on for your teams today. ${upcoming[0] ? `Next up: <b>${esc(upcoming[0].home)} v ${esc(upcoming[0].away)}</b>, ${dayLabel(new Date(upcoming[0].startUTC), NZ)}.` : ''}</div>`;
 
   // coming up, grouped by NZ day
@@ -499,7 +501,8 @@ function render() {
   $('upcoming').innerHTML = html || `<div class="empty-note">No fixtures for your teams yet. Pick more teams under My teams.</div>`;
 
   // results
-  $('results').innerHTML = finals.length ? finals.slice(0, 12).map(e => resCard(e, now)).join('') : `<div class="empty-note">No recent results for your teams.</div>`;
+  const pastFinals = finals.filter(e => dayKey(new Date(e.startUTC)) !== todayK);
+  $('results').innerHTML = pastFinals.length ? pastFinals.slice(0, 12).map(e => resCard(e, now)).join('') : `<div class="empty-note">No recent results for your teams.</div>`;
 
   // news
   const kinds = [['all', 'All'], ['injury', 'Injuries'], ['squad', 'Squads'], ['result', 'Results'], ['news', 'Other']];
