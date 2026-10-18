@@ -355,15 +355,23 @@ dialog#sheet { width: min(720px, 100%) }
 
 /* competition menu: soft rounded popover */
 .cmenu { position: relative }
-#compSel { appearance: none; border-radius: 999px; padding: 4px 38px 4px 18px; font-size: 14px; background-color: var(--surface); color: var(--ink); border: 1px solid var(--line); cursor: pointer; min-width: 210px; text-align: center; font: inherit; font-size: 14px;
+#compSel { appearance: none; border-radius: 999px; padding: 4px 32px 4px 16px; font-size: 14px; background-color: var(--surface); color: var(--ink); border: 1px solid var(--line); cursor: pointer; min-width: 168px; max-width: 260px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; font: inherit; font-size: 14px;
   background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
-  background-position: right 19px center, right 14px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat }
+  background-position: right 17px center, right 12px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat }
 #compSel.on { background-color: var(--ink); color: var(--paper); border-color: var(--ink) }
 .cmenu-list { position: absolute; z-index: 30; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); min-width: 300px; max-height: 70vh; overflow: auto;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 8px; box-shadow: 0 12px 32px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.08) }
 .csub { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 6px 12px 2px 26px }
 .copt { display: block; width: 100%; text-align: left; border: 0; background: none; color: var(--ink); font: inherit; font-size: 14px; padding: 8px 12px 8px 26px; border-radius: 10px; cursor: pointer }
 .cmenu-list > .copt:first-child { padding-left: 12px; font-weight: 600 }
+.copt[data-comp=""] { text-align: center; padding-left: 12px }
+/* a slim, rounded scrollbar that sits inside the menu's curve */
+.cmenu-list { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--muted) 45%, transparent) transparent }
+.cmenu-list::-webkit-scrollbar { width: 10px }
+.cmenu-list::-webkit-scrollbar-track { background: transparent; margin: 14px 0 }
+.cmenu-list::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--muted) 45%, transparent); border-radius: 999px; border: 3px solid transparent; background-clip: padding-box }
+.cmenu-list::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, var(--muted) 70%, transparent) }
+.cmenu-list::-webkit-scrollbar-button { display: none; height: 0 }
 .copt:hover, .copt:focus-visible { background: color-mix(in srgb, var(--accent) 12%, transparent); outline: none }
 .copt[aria-selected="true"] { background: color-mix(in srgb, var(--accent) 18%, transparent); font-weight: 600 }
 .cgroup { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--line) }
@@ -429,7 +437,11 @@ a.svc:hover { text-decoration-color: currentColor }
 .swap { display: inline-grid } .swap > span { grid-area: 1 / 1; text-align: center } .swap > .off { visibility: hidden }
 .bico { width: 1.05em; height: 1.05em; vertical-align: -0.17em; margin-left: 4px }
 .ranksports { margin: 2px 0 10px }
-.rankbtn { font-size: 14px; padding: 3px 14px; border-style: dashed; color: var(--ink); background: var(--surface) }
+:root { --gold: #a87b00 }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --gold: #f2c94c } }
+:root[data-theme="dark"] { --gold: #f2c94c }
+.rankbtn { font-size: 14px; font-weight: 600; padding: 3px 14px; border: 1px solid var(--gold); color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--surface)) }
+.rankbtn:hover { background: color-mix(in srgb, var(--gold) 20%, var(--surface)) }
 .stable.rank td.num { white-space: nowrap }
 .rankbody { padding-top: 6px }
 .stable.rank .rnote { font-weight: 400; white-space: normal }
