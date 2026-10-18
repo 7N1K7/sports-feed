@@ -156,7 +156,8 @@ async function rnzNews() {
 }
 
 // --- merge -------------------------------------------------------------
-const norm = s => (s || '').toLowerCase().replace(/women|bulls|stags|storm|pride|mako|steamers|heartland|rugby|the /g, '').replace(/[^a-z]/g, '');
+const ALIAS = [[/all blacks|black ferns|kiwi ferns|\bkiwis\b|white ferns|black ?caps/gi, 'new zealand'], [/wallabies|kangaroos|jillaroos|wallaroos/gi, 'australia'], [/springboks/gi, 'south africa'], [/pumas/gi, 'argentina']];
+const norm = s => ALIAS.reduce((t, [re, to]) => t.replace(re, to), s || '').toLowerCase().replace(/women|bulls|stags|storm|pride|mako|steamers|heartland|rugby|the /g, '').replace(/[^a-z]/g, '');
 function sameMatch(a, b) {
   if (Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) > (a.timeTBC || b.timeTBC ? 2 * DAY : 8 * 36e5)) return false;
   const A = [norm(a.home), norm(a.away)], B = [norm(b.home), norm(b.away)];
