@@ -341,6 +341,9 @@ const feed = {
   ],
 };
 await writeFile(new URL('data/feed.json', ROOT), JSON.stringify(feed));
+// a small plain-text view of games around now, for checking the live site without reading the whole feed
+await writeFile(new URL('data/now.txt', ROOT), feed.events.filter(e => Math.abs(Date.parse(e.startUTC) - now) < 2 * DAY)
+  .map(e => [e.id, e.team, e.status, e.startUTC, e.timeTBC ? 'TBC' : '', e.format || '', e.stage || '', e.city || '', e.tz || '', e.score || '', e.summary || '', e.weather || ''].join(' | ')).join('\n') + '\n');
 
 // "hot" while a game is on or about to start (Tests count for five days), so the workflow refreshes every
 // 10 minutes then and only now and again otherwise, sparing Wikipedia and TheSportsDB needless requests
