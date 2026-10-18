@@ -1224,8 +1224,7 @@ function render() {
     const list = evs.filter(e => dayKey(new Date(e.startUTC)) === k);
     const dots = list.slice(0, 6).map(e => `<span class="dot" style="background:var(--${e.sport})"></span>`).join('');
     const wd = fmt(d, NZ, { weekday: 'short' });
-    const big = list.find(e => BIG_EVENT.test(compOf(e)));
-    return `<button class="day ${k === todayK ? 'today' : ''} ${k === selDay ? 'sel' : ''} ${/Sat|Sun/.test(wd) ? 'wkend' : ''} ${big ? 'big' : ''} ${list.length ? '' : 'empty'}" type="button" data-jump="${k}" ${big ? `style="--bigc:var(--${big.sport})" title="${esc(compOf(big))}"` : ''} aria-label="${dayLabel(d, NZ)}, ${list.length} games">
+    return `<button class="day ${k === todayK ? 'today' : ''} ${k === selDay ? 'sel' : ''} ${/Sat|Sun/.test(wd) ? 'wkend' : ''} ${list.length ? '' : 'empty'}" type="button" data-jump="${k}" aria-label="${dayLabel(d, NZ)}, ${list.length} games">
       <span class="dn">${k === todayK ? 'Today' : fmt(d, NZ, { weekday: 'short' })}</span>
       <span class="dd num">${fmt(d, NZ, { day: 'numeric' })}</span>
       <span class="dots">${dots}</span></button>`;
