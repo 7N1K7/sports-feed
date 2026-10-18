@@ -58,14 +58,35 @@ async function getJSON(url) {
   return r.json();
 }
 
+// ESPN rejects some date-range shapes, so try a few and keep the first that works
+async function espnScoreboard(path) {
+  const base = `https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard`;
+  const months = [-1, 0, 1, 2].map(m => { const d = new Date(now); d.setUTCDate(1); d.setUTCMonth(d.getUTCMonth() + m); return d.toISOString().slice(0, 7).replace('-', ''); });
+  const tries = [
+    ['range', [`${base}?dates=${ymd(now - 14 * DAY)}-${ymd(now + 60 * DAY)}`]],
+    ['months', months.map(m => `${base}?dates=${m}`)],
+    ['default', [base]],
+  ];
+  const errors = [];
+  for (const [name, urls] of tries) {
+    try {
+      const pages = await Promise.all(urls.map(getJSON));
+      const events = pages.flatMap(p => p.events || []);
+      return { name, data: { leagues: pages[0].leagues, events }, errors };
+    } catch (e) { errors.push(`${name}: ${e.message.split(' ')[0]}`); }
+  }
+  throw new Error(errors.join(', '));
+}
+
 async function espnEvents() {
-  const range = `${ymd(now - 14 * DAY)}-${ymd(now + 60 * DAY)}`;
   const out = [];
   for (const src of ESPN) {
-    const url = `https://site.api.espn.com/apis/site/v2/sports/${src.path}/scoreboard?dates=${range}&limit=300`;
     let data;
-    try { data = await getJSON(url); } catch (e) { console.warn('ESPN failed:', e.message); diag[src.path] = 'error: ' + e.message; continue; }
-    diag[src.path] = `${(data.events || []).length} events`;
+    try {
+      const r = await espnScoreboard(src.path);
+      data = r.data;
+      diag[src.path] = `${data.events.length} events via ${r.name}${r.errors.length ? ' (' + r.errors.join(', ') + ')' : ''}`;
+    } catch (e) { console.warn('ESPN failed:', src.path, e.message); diag[src.path] = 'error: ' + e.message; continue; }
     for (const ev of data.events || []) {
       const c = ev.competitions?.[0];
       if (!c) continue;
