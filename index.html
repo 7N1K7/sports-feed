@@ -74,6 +74,7 @@ header.top .wrap { display: flex; align-items: center; gap: 12px; padding-block:
 .chip { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 5px 11px; cursor: pointer; font-size: 14px }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
 .panel .ph { font-size: 20px; font-weight: 800; margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line) }
+.panel .ph .phnote { display: inline-block; margin-left: 8px; font-size: 13px; font-weight: 500; color: var(--muted); vertical-align: .1em }
 .panel .ph:first-child { border-top: 0; padding-top: 0; margin-top: 0 }
 .spoil-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 14px }
 select { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink) }
@@ -609,8 +610,9 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   <div class="wrap">
     <h2 class="ph">Settings</h2>
     <div class="spoil-row">
-      <label for="tzSel">Show times in</label>
+      <label for="tzSel">Show times for</label>
       <select id="tzSel"></select>
+      <span style="color:var(--muted)">every start time on the site uses this</span>
     </div>
     <div class="spoil-row">
       <label for="spoilDays">Hide results for</label>
@@ -621,7 +623,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
       <span style="color:var(--muted)">after the match, while spoilers are hidden</span>
     </div>
     <p class="muted" style="margin:4px 0 0;font-size:13px">Your settings and teams are saved in this browser only, so clearing site data or cookies resets them. Nothing is sent anywhere or collected from you.</p>
-    <h2 class="ph">My teams</h2>
+    <h2 class="ph">My teams <span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news.</span></h2>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
     <div class="chips"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></div>
   </div>
@@ -1692,7 +1694,7 @@ function render() {
   $('teamsBtn').innerHTML = `My settings ${ico('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>')}`;
   $('spoilDays').value = String(spoilDays);
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
-  $('tzSel').innerHTML = [...TZ_LIST, ['device', `This device (${deviceTZ.split('/').pop().replace(/_/g, ' ')})`]].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(l)}</option>`).join('');
+  $('tzSel').innerHTML = [...TZ_LIST, ['device', `This device (${deviceTZ.split('/').pop().replace(/_/g, ' ')})`]].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
   $('teamGroups').innerHTML = TEAMS.map(g => `<div class="group"><h3>${g.g}</h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`).join('');
   syncPulse();
 }
