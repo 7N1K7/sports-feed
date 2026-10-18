@@ -193,10 +193,13 @@ function eventsFromPage(title, text, cfg, cityTz) {
     if (!cls) continue;
     const report = (stripRefs(p.report || '').match(/https?:\/\/[^\s\]|]+/) || [])[0];
     const round = clean(p.round || '').replace(/^Match\s*/i, 'Match ');
+    // nearest heading above the box, e.g. "1st T20I" on a tour page
+    const heads = cfg.seriesTitle ? [...text.slice(0, tpl.at).matchAll(/^={2,5}\s*([^=\n]+?)\s*={2,5}\s*$/gm)] : [];
+    const stage = heads.length ? clean(heads[heads.length - 1][1]) : '';
     out.push({
       id: `wiki-${cls.team}-${new Date(t).toISOString().slice(0, 10)}-${(home + away).toLowerCase().replace(/[^a-z]/g, '').slice(0, 40)}`,
       team: cls.team, tags: cls.tags, sport: cfg.sport, comp: cfg.comp + (round && cfg.showRound ? ` · ${round}` : ''),
-      home, away, startUTC: new Date(t).toISOString(), timeTBC: tbc,
+      home, away, startUTC: new Date(t).toISOString(), timeTBC: tbc, ...(stage ? { stage } : {}),
       venue: parts[0] || '', city, tz, status, score, summary,
       source: `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`, link: report,
     });
@@ -310,7 +313,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     per[pg.title] = evs.length;
     if (c.seriesTitle) {
       const sq = squadsFromPage(pg.text);
-      if (sq.length) for (const e of evs) e.squads = squadsFor(sq, e);
+      if (sq.length) for (const e of evs) { const s = squadsFor(sq, e); if (s.length) e.squads = s; }
     }
     out.push(...evs);
     if (!c.seriesTitle && !c.ufc) tableSrc.push({ c, title: pg.title, text: pg.text });
@@ -320,7 +323,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
   const tables = [];
   try {
     const tplNames = new Map();
-    for (const src of tableSrc) for (const m of src.text.matchAll(/\{\{\s*([^{}|#\n]{4,90}?\b(?:table|standings))\s*\}\}/gi))
+    for (const src of tableSrc) for (const m of src.text.matchAll(/\{\{\s*([^{}|#\n]{4,90}?\b(?:table|standings|ladder))\s*\}\}/gi))
       if (!/^(wide table|table alignment)/i.test(m[1])) tplNames.set('Template:' + m[1].trim(), src);
     const tplTexts = {};
     const tn = [...tplNames.keys()].slice(0, 40);
@@ -332,7 +335,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     for (const src of tableSrc) {
       let text = src.text;
       // inline the transcluded table templates where they sit, so headings still apply
-      text = text.replace(/\{\{\s*([^{}|#\n]{4,90}?\b(?:table|standings))\s*\}\}/gi, (m, n) => tplTexts['Template:' + n.trim()] || m);
+      text = text.replace(/\{\{\s*([^{}|#\n]{4,90}?\b(?:table|standings|ladder))\s*\}\}/gi, (m, n) => tplTexts['Template:' + n.trim()] || m);
       tables.push(...sportsTables(text, src.title, src.c));
     }
   } catch (e) { diag.tables = 'error: ' + e.message; }
@@ -454,12 +457,12 @@ function squadsFromPage(text) {
   return out;
 }
 function squadsFor(sq, e) {
-  const f = FORMAT(e.comp || '') || FORMAT(e.round || '');
+  const f = FORMAT(e.stage || '') || FORMAT(e.comp || '');
   const base = t => (t || '').replace(/\s+Women('s)?$/, '');
   return [e.home, e.away].map(side => {
     const mine = sq.filter(s => base(s.team) === base(side));
     const pick = mine.find(s => s.format === f) || mine.find(s => !s.format);
-    const no = +((e.comp || '').match(/\b(\d)(?:st|nd|rd|th)\b/) || [])[1];
+    const no = +(`${e.stage || ''} ${e.comp || ''}`.match(/\b(\d)(?:st|nd|rd|th)\b/) || [])[1];
     return pick ? { team: side, players: pick.players.filter(p => !p.only || !no || p.only.includes(no)).map(({ n, r }) => (r ? { n, r } : { n })) } : null;
   }).filter(Boolean);
 }
@@ -522,9 +525,10 @@ function fromTsdb(ev, l) {
   };
 }
 // Rounds around now for a league: last result's round, two back and a few ahead
-export async function tsdbEvents(leagues, diag) {
+export async function tsdbEvents(leagues, diag, cache = {}) {
   const out = [];
   for (const l of leagues) {
+    const start = out.length;
     try {
       if (l.ufc) {
         for (const q of [`eventsnextleague.php?id=${l.id}`, `eventspastleague.php?id=${l.id}`]) {
@@ -536,6 +540,7 @@ export async function tsdbEvents(leagues, diag) {
             status: new Date(ev.strTimestamp + 'Z') < Date.now() - 8 * 36e5 ? 'final' : 'upcoming', source: `https://www.thesportsdb.com/event/${ev.idEvent}` });
         }
         diag[`tsdb ${l.comp}`] = 'next/last event';
+        cache[l.comp] = { t: Date.now(), events: out.slice(start) };
         continue;
       }
       const last = (await tsdb(`eventspastleague.php?id=${l.id}`)).events?.[0];
@@ -553,7 +558,13 @@ export async function tsdbEvents(leagues, diag) {
         }
       }
       diag[`tsdb ${l.comp}`] = `${n} games, season ${season}, rounds ${rounds.join(',')}`;
-    } catch (e) { diag[`tsdb ${l.comp}`] = 'error: ' + e.message; }
+      cache[l.comp] = { t: Date.now(), events: out.slice(start) };
+    } catch (e) {
+      out.length = start;
+      const c = cache[l.comp];
+      if (c && Date.now() - c.t < 3 * DAY) { out.push(...c.events.filter(x => !out.some(o => o.id === x.id))); diag[`tsdb ${l.comp}`] = `error: ${e.message}; using saved copy (${c.events.length} games)`; }
+      else diag[`tsdb ${l.comp}`] = 'error: ' + e.message;
+    }
   }
   return out;
 }

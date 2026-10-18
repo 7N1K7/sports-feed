@@ -113,7 +113,12 @@ const wikiCfg = JSON.parse(await readFile(new URL('data/wiki-pages.json', ROOT),
 let wiki = [];
 let tables = [];
 try { wiki = await wikiEvents(wikiCfg.pages, n => tzFor(n, n), diag); tables = wiki.tables || []; } catch (e) { console.warn('Wikipedia failed:', e.message); diag.wikipedia = 'error: ' + e.message; }
-const tsdbLive = await tsdbEvents(wikiCfg.thesportsdb, diag);
+// TheSportsDB often rate-limits shared GitHub runners, so keep each league's last good pull for up to 3 days
+const tsdbCacheUrl = new URL('.cache/tsdb-events.json', ROOT);
+let tsdbCache = {};
+try { tsdbCache = JSON.parse(await readFile(tsdbCacheUrl, 'utf8')); } catch {}
+const tsdbLive = await tsdbEvents(wikiCfg.thesportsdb, diag, tsdbCache);
+try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(tsdbCacheUrl, JSON.stringify(tsdbCache)); } catch {}
 
 // same fixture from two sources? UFC cards match on date alone
 const WOMEN_KEYS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'fpc', 'wbbl']);
