@@ -64,7 +64,8 @@ header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block:
 .btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
 
 .mock { background: var(--soft); color: var(--muted); font-size: 13px }
-.mock .fresh { cursor: help }
+.clockcol { display: grid; gap: 1px; line-height: 1.2 }
+.fresh { color: var(--muted); font-size: 12px; cursor: help; white-space: nowrap }
 .mock .wrap { padding-block: 8px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 16px }
 .mock .siteinfo { margin-left: auto; text-align: right; opacity: .85 }
 
@@ -611,7 +612,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 <header class="top">
   <div class="wrap">
     <div class="brand"><img class="blogo" src="logo.svg?v=b4" alt="" width="40" height="40">Kickoff <span>Kiwi</span></div>
-    <div class="clock num" id="clock"></div>
+    <div class="clockcol"><div class="clock num" id="clock"></div><div class="fresh" id="fresh"></div></div>
     <div class="ver num" id="ver"></div>
     <div class="spacer"></div>
     <div class="search" role="search">
@@ -647,7 +648,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   </div></div>
 </div>
 </header>
-<div class="mock"><div class="wrap" id="mockNote">Loading the latest fixtures and scores…</div></div>
+<div class="mock" id="mockBar"><div class="wrap" id="mockNote">Loading the latest fixtures and scores…</div></div>
 <main class="wrap">
   <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
@@ -1810,7 +1811,10 @@ function stamp() {
   const stamp = d => fmt(new Date(d), NZ, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true });
   // just how fresh it is; how often it refreshes sits in the hover text
   const ago = mins < 1 ? 'just now' : mins < 60 ? `${mins} min ago` : mins < 24 * 60 ? `${Math.floor(mins / 60)} hr ago` : stamp(FEED.generatedAt);
-  $('mockNote').innerHTML = `<span class="fresh" title="Updated ${esc(stamp(FEED.generatedAt))}. Results update about every 10 minutes while games are on, and every half hour otherwise.">Results updated ${ago}</span>`;
+  // under the clock in the header; the grey bar below the header is only for loading and errors now
+  $('fresh').textContent = `Results updated ${ago}`;
+  $('fresh').title = `Updated ${stamp(FEED.generatedAt)}. Results update about every 10 minutes while games are on, and every half hour otherwise.`;
+  $('mockBar').hidden = true;
 }
 async function load() {
   try {
@@ -1829,7 +1833,7 @@ async function load() {
     $('foot').innerHTML = `Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)`;
     render(); stamp();
   } catch (e) {
-    if (!FEED.generatedAt) $('mockNote').textContent = 'Could not load the feed. Check your connection and refresh the page.';
+    if (!FEED.generatedAt) { $('mockBar').hidden = false; $('mockNote').textContent = 'Could not load the feed. Check your connection and refresh the page.'; }
   }
 }
 tick(); render(); load();
