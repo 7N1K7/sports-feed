@@ -365,56 +365,100 @@ async function addLogos(events, extra = []) {
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
 
-// Thumbnails: read each article's og:image once and remember it in .cache/og.json
-// Fighter headshots: each boxer's or UFC fighter's freely licensed Wikipedia/Commons photo, with its credit.
-// Only pages Wikidata describes as a fighter, and only free images (pilicense=free). Cached a month (misses a week).
+// Fighter headshots: each boxer's or UFC fighter's freely licensed photo from Wikipedia / Wikimedia Commons, with its
+// credit. Only people Wikipedia describes as a fighter. Three tries per name: the article's own free lead image; the
+// photo on the fighter's Wikidata entry (always a Commons file, so free); then "Name (fighter)" / "(boxer)" when the plain
+// title is someone else. Every fighter on a UFC card is looked up, not just the main event. Cached a month (misses a week).
 async function addFaces(events) {
   const cacheUrl = new URL('.cache/faces.json', ROOT);
   let cache = {};
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
-  const api = async q => { const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&' + q, { headers: { 'user-agent': 'sports-feed (personal site)' } }); if (!r.ok) throw new Error(`wikipedia ${r.status}`); return r.json(); };
+  const UA = { headers: { 'user-agent': 'sports-feed (personal site)' } };
+  const get = async (host, q) => { const r = await fetch(`https://${host}/w/api.php?format=json&formatversion=2&maxlag=5&` + q, UA); if (!r.ok) throw new Error(`${host} ${r.status}`); return r.json(); };
+  const plain = h => String(h || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  const strip = n => String(n || '').replace(/\s*\((c|ic)\)$/i, '').trim();
+  const FIGHTER = /box|fight|martial|mma|kickbox|wrestl|judo|jiu|muay|sambo|karate|taekwondo/i;
   const near = events.filter(e => /^(mma|boxing)$/.test(e.sport) && Math.abs(Date.parse(e.startUTC) - now) < 60 * DAY);
   // UFC cards are listed by surname ("Volkanovski vs. Evloev"); the fight card has the full names to look up
   const full = (e, side) => {
-    const n = e[side], last = s => String(s || '').replace(/\s*\(c\)$/, '').trim().split(/\s+/).pop().toLowerCase();
-    const m = (e.card || []).flatMap(b => [b.a, b.b]).find(x => x && x.trim().includes(' ') && last(x) === last(n));
-    return /\s/.test(n || '') || !m ? n : m.replace(/\s*\(c\)$/, '').trim();
+    const n = e[side], last = s => strip(s).split(/\s+/).pop().toLowerCase();
+    const m = (e.card || []).flatMap(b => [b.a, b.b]).find(x => x && strip(x).includes(' ') && last(x) === last(n));
+    return /\s/.test(n || '') || !m ? n : strip(m);
   };
-  const names = [...new Set(near.flatMap(e => [full(e, 'home'), full(e, 'away')]))].filter(n => n && !/TBC|^UFC|Fight Night|\bvs?\b/i.test(n) && n.split(' ').length <= 4);
-  const due = names.filter(n => !cache[n] || now - cache[n].t > (cache[n].src ? 30 : 7) * DAY).slice(0, 40);
-  const plain = h => String(h || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  const ok = n => n && !/TBC|TBA|^UFC|Fight Night|\bvs?\b/i.test(n) && n.split(' ').length <= 4;
+  const names = [...new Set(near.flatMap(e => [full(e, 'home'), full(e, 'away'),
+    ...(Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY ? (e.card || []).flatMap(b => [strip(b.a), strip(b.b)]) : [])]))].filter(ok);
+  const due = names.filter(n => !cache[n] || now - cache[n].t > (cache[n].src ? 30 : 7) * DAY || cache[n].v !== 2).slice(0, 120);
+  const found = {}, miss = {};
   try {
-    for (let i = 0; i < due.length; i += 20) {
-      const batch = due.slice(i, i + 20);
-      const r = await api('action=query&prop=pageimages|description&piprop=thumbnail|name&pithumbsize=160&pilicense=free&redirects=1&titles=' + encodeURIComponent(batch.join('|')));
-      const back = {};
-      for (const m of [...(r.query?.normalized || []), ...(r.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
-      const files = {};
-      for (const pg of r.query?.pages || []) {
-        const name = back[pg.title] || pg.title;
-        const ok = pg.thumbnail && /box|fight|martial|mma|kickbox|wrestl|judo|jiu|muay/i.test(pg.description || '');
-        cache[name] = { t: now, src: ok ? pg.thumbnail.source : null, file: ok ? pg.pageimage : null };
-        if (ok) files['File:' + pg.pageimage] = name;
-      }
-      for (const n of batch) if (!cache[n] || cache[n].t !== now) cache[n] = { t: now, src: null };
-      if (Object.keys(files).length) {
-        const ir = await api('action=query&prop=imageinfo&iiprop=extmetadata&titles=' + encodeURIComponent(Object.keys(files).join('|')));
-        const fBack = {}; for (const m of ir.query?.normalized || []) fBack[m.to] = m.from;
-        for (const pg of ir.query?.pages || []) {
-          const md = pg.imageinfo?.[0]?.extmetadata || {}, name = files[fBack[pg.title] || pg.title];
-          if (name) cache[name].credit = [plain(md.Artist?.value), plain(md.LicenseShortName?.value)].filter(Boolean).join(', ') + ' / Wikimedia Commons';
+    // 1. the English article: free lead image, short description and Wikidata id; titles to retry as "Name (fighter)"
+    const retry = [], qids = {};
+    const look = async (titles, asked) => {
+      for (let i = 0; i < titles.length; i += 20) {
+        const batch = titles.slice(i, i + 20);
+        const r = await get('en.wikipedia.org', 'action=query&prop=pageimages|description|pageprops&piprop=thumbnail|name&pithumbsize=160&pilicense=free&ppprop=wikibase_item|disambiguation&redirects=1&titles=' + encodeURIComponent(batch.join('|')));
+        const back = {};
+        for (const m of [...(r.query?.normalized || []), ...(r.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
+        for (const pg of r.query?.pages || []) {
+          const t = back[pg.title] || pg.title, name = asked[t] || t;
+          if (found[name]) continue;
+          const fighter = !pg.missing && !pg.pageprops?.disambiguation && FIGHTER.test(pg.description || '');
+          if (fighter && pg.thumbnail) found[name] = { src: pg.thumbnail.source, file: 'File:' + pg.pageimage };
+          else if (fighter && pg.pageprops?.wikibase_item) qids[pg.pageprops.wikibase_item] = name;
+          else if (!fighter && !asked[t]) retry.push(name);
+          if (!found[name]) miss[name] ||= pg.missing ? 'no article' : !fighter ? `not a fighter page (${pg.description || 'no description'})` : 'no free photo';
         }
       }
+    };
+    await look(due, {});
+    const alt = {};
+    for (const n of retry) for (const s of ['fighter', 'boxer', 'kickboxer']) alt[`${n} (${s})`] = n;
+    await look(Object.keys(alt), alt);
+    // 2. Wikidata's image (P18) for fighters whose article has no free photo
+    const ids = Object.keys(qids).filter(q => !found[qids[q]]);
+    const p18 = {};
+    for (let i = 0; i < ids.length; i += 40) {
+      const r = await get('www.wikidata.org', 'action=wbgetentities&props=claims&ids=' + ids.slice(i, i + 40).join('|'));
+      for (const [q, ent] of Object.entries(r.entities || {})) {
+        const f = ent.claims?.P18?.[0]?.mainsnak?.datavalue?.value;
+        if (f) p18['File:' + f] = qids[q];
+      }
     }
-  } catch (e) { diag.faces = 'error: ' + e.message; }
-  for (const e of near) for (const side of ['home', 'away']) {
-    const c = cache[full(e, side)];
-    if (c?.src && !e[side + 'Logo']) { e[side + 'Logo'] = c.src; e[side + 'Credit'] = c.credit || 'Wikimedia Commons'; }
+    // 3. Commons: thumbnails for the Wikidata files, and the author and licence of every photo used
+    const files = { ...p18 };
+    for (const [n, v] of Object.entries(found)) files[v.file] = n;
+    const fl = Object.keys(files);
+    for (let i = 0; i < fl.length; i += 40) {
+      const r = await get('commons.wikimedia.org', 'action=query&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=160&titles=' + encodeURIComponent(fl.slice(i, i + 40).join('|')));
+      const back = {}; for (const m of r.query?.normalized || []) back[m.to] = m.from;
+      for (const pg of r.query?.pages || []) {
+        const key = back[pg.title] || pg.title, name = files[key], ii = pg.imageinfo?.[0];
+        if (!name || !ii) continue;
+        const md = ii.extmetadata || {};
+        const credit = [plain(md.Artist?.value), plain(md.LicenseShortName?.value)].filter(Boolean).join(', ') + ' / Wikimedia Commons';
+        if (!found[name] && p18[key] && ii.thumburl) { found[name] = { src: ii.thumburl, file: key }; delete miss[name]; }
+        if (found[name]) found[name].credit = credit;
+      }
+    }
+  } catch (e) { diag.facesError = e.message; }
+  for (const n of due) cache[n] = found[n] ? { t: now, v: 2, ...found[n] } : { t: now, v: 2, src: null, why: miss[n] || 'not looked up' };
+  for (const e of near) {
+    for (const side of ['home', 'away']) {
+      const c = cache[full(e, side)];
+      if (c?.src && !e[side + 'Logo']) { e[side + 'Logo'] = c.src; e[side + 'Credit'] = c.credit || 'Wikimedia Commons'; }
+    }
+    for (const b of e.card || []) for (const k of ['a', 'b']) {
+      const c = cache[strip(b[k])];
+      if (c?.src) { b[k + 'Img'] = c.src; b[k + 'Credit'] = c.credit || 'Wikimedia Commons'; }
+    }
   }
-  diag.faces ||= `${names.filter(n => cache[n]?.src).length}/${names.length} fighters with a free photo; ${due.length} looked up`;
+  const have = names.filter(n => cache[n]?.src);
+  diag.faces = `${have.length}/${names.length} fighters with a free photo; ${due.length} looked up`;
+  diag.facesMissing = names.filter(n => !cache[n]?.src).map(n => `${n}: ${cache[n]?.why || '?'}`);
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
 
+// Thumbnails: read each article's og:image once and remember it in .cache/og.json
 async function addImages(items) {
   const cacheUrl = new URL('.cache/og.json', ROOT);
   let cache = {};

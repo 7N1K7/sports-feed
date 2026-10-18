@@ -388,6 +388,8 @@ a.svc:hover { text-decoration-color: currentColor }
 .fcs { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 6px 0 4px }
 .fb { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 0 10px; padding: 6px 0; border-top: 1px solid var(--line); font-size: 14px }
 .fb .fw { color: var(--muted); font-size: 13px }
+.fb .fm { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px }
+.fface { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; object-position: 50% 20%; background: var(--paper) }
 .fb .fr { grid-column: 2; font-size: 13px }
 /* competition view */
 .hub { border: 1px solid var(--line); border-top: 4px solid var(--sport); border-radius: var(--r); background: color-mix(in srgb, var(--sport) 6%, var(--surface)); padding: 12px 14px 0; margin-bottom: 14px }
@@ -1127,7 +1129,8 @@ function fightCard(e, hidden) {
   for (const b of e.card) { if (!secs.length || secs[secs.length - 1][0] !== b.section) secs.push([b.section, []]); secs[secs.length - 1][1].push(b); }
   return secs.map(([sec, list]) => `<div class="fc">${sec ? `<div class="fcs">${esc(sec)}</div>` : ''}${list.map(b => {
     const done = !hidden && b.res !== 'vs.';
-    return `<div class="fb"><span class="fw">${esc(b.weight || '')}</span><span class="fm"><b>${esc(b.a)}</b> <span class="muted">${done ? esc(b.res) : 'vs'}</span> ${esc(b.b)}</span>${done && b.method ? `<span class="fr muted">${esc(b.method)}${b.round ? `, R${esc(b.round)}` : ''}${b.time ? ` ${esc(b.time)}` : ''}</span>` : ''}</div>`;
+    const face = k => b[k + 'Img'] ? `<img class="fface" src="${esc(b[k + 'Img'])}" alt="" title="Photo: ${esc(b[k + 'Credit'] || '')}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
+    return `<div class="fb"><span class="fw">${esc(b.weight || '')}</span><span class="fm">${face('a')}<b>${esc(b.a)}</b> <span class="muted">${done ? esc(b.res) : 'vs'}</span> ${esc(b.b)}${face('b')}</span>${done && b.method ? `<span class="fr muted">${esc(b.method)}${b.round ? `, R${esc(b.round)}` : ''}${b.time ? ` ${esc(b.time)}` : ''}</span>` : ''}</div>`;
   }).join('')}</div>`).join('');
 }
 function detail(e) {
@@ -1142,7 +1145,13 @@ function detail(e) {
     overseas && (!e.timeTBC || e.usual) ? ['Local', `${e.usual ? '≈' : ''}${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
     ['Where', [e.venue, e.city].filter(Boolean).map(wikiLink).join(', ') || 'To be confirmed', true],
     e.note ? ['Note', e.note] : null,
-    e.homeCredit || e.awayCredit ? ['Photos', [e.homeCredit && `${e.home}: ${e.homeCredit}`, e.awayCredit && `${e.away}: ${e.awayCredit}`].filter(Boolean).join('; ')] : null,
+    (() => {
+      // every photo shown for this fight or card, once each
+      const seen = new Map();
+      for (const [img, n, c] of [[e.homeLogo, e.home, e.homeCredit], [e.awayLogo, e.away, e.awayCredit], ...(e.card || []).flatMap(b => [[b.aImg, b.a, b.aCredit], [b.bImg, b.b, b.bCredit]])])
+        if (c && (!seen.has(img) || !/\s/.test(seen.get(img)[0]))) seen.set(img, [n.replace(/\s*\(c\)$/, ''), c]);
+      return seen.size ? ['Photos', [...seen.values()].map(([n, c]) => `${n}: ${c}`).join('; ')] : null;
+    })(),
     e.weather ? ['Weather', e.weather] : null,
   ].filter(Boolean);
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
