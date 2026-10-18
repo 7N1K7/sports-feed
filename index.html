@@ -146,12 +146,14 @@ footer a { color: var(--muted) }
 .chip { display: inline-flex; align-items: center; gap: 6px }
 .sportchip.sport-all { --sport: var(--ink) }
 .sportchip { border-color: var(--sport) }
-.nowbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin: 0 auto -12px }
+.nowbar { display: flex; flex-wrap: nowrap; align-items: center; justify-content: safe center; gap: 6px; margin: 0 auto -12px; overflow-x: auto; scrollbar-width: none; padding: 2px }
+.nowbar::-webkit-scrollbar { display: none }
+.nowchip { flex: none; font-size: 13px; padding: 4px 10px; min-height: 0 }
 .nowchips { display: contents }
 .nowlbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 4px; display: inline-flex; align-items: center; gap: 6px }
-.nowchip.is-live { box-shadow: 0 0 0 2px color-mix(in srgb, #e03131 35%, transparent), 0 0 14px color-mix(in srgb, #e03131 45%, transparent) }
-.livetag { margin-left: 7px; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff; background: #e03131; border-radius: 4px; padding: 1px 5px }
-@media (prefers-reduced-motion: no-preference) { .nowchip.is-live { animation: livepulse 2s ease-in-out infinite } @keyframes livepulse { 50% { box-shadow: 0 0 0 2px color-mix(in srgb, #e03131 20%, transparent), 0 0 4px color-mix(in srgb, #e03131 20%, transparent) } } }
+.nowchip.is-live { border-color: #e03131 }
+.livetag { margin-left: 6px; font-size: 9px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff; background: #e03131; border-radius: 4px; padding: 1px 5px }
+@media (prefers-reduced-motion: no-preference) { .nowchip.is-live .livetag { animation: tagpulse 2s ease-in-out infinite } @keyframes tagpulse { 50% { opacity: .55 } } }
 .copt .current { white-space: nowrap; margin-left: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--accent) }
 .copt .onnow, .copt .ended { white-space: nowrap; margin-left: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #e03131 }
 .copt .ended { color: var(--muted); font-weight: 600 }
@@ -331,8 +333,11 @@ dialog#sheet { width: min(720px, 100%) }
 .day.wkend { background: color-mix(in srgb, var(--accent) 7%, var(--surface)) }
 .day.big { box-shadow: inset 0 3px 0 var(--bigc) }
 .day.today.big { box-shadow: inset 0 0 0 1px var(--accent), inset 0 4px 0 var(--bigc) }
-.day.sel { background: var(--ink); border-color: var(--ink) }
-.day.sel .dn, .day.sel .dd { color: var(--paper) }
+.day.sel { border-color: var(--accent); box-shadow: inset 0 0 0 2px var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface)) }
+.daypick { margin-top: 12px; display: grid; gap: 8px; padding: 10px; border: 1px solid var(--line); border-radius: var(--r); background: color-mix(in srgb, var(--accent) 5%, var(--surface)) }
+.daypickhead { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted) }
+.dayclose { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 50%; width: 28px; height: 28px; font-size: 18px; line-height: 1; cursor: pointer }
+.livedot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #e03131; margin-right: 8px; vertical-align: 2px; box-shadow: 0 0 0 3px color-mix(in srgb, #e03131 25%, transparent) }
 /* crests sit in a fixed-height row so names line up whatever the flag shape */
 .ev .teams.matchup:has(img) .side { display: grid; grid-template-rows: 2.6em auto; justify-items: center; align-items: center; row-gap: 6px }
 .ev .teams.matchup:has(img) .side > img { grid-row: 1 }
@@ -423,22 +428,27 @@ a.svc:hover { text-decoration-color: currentColor }
 @media (prefers-reduced-motion: no-preference) { .ev, .ni { transition: border-color .15s } }
 .ev:hover, .ni:hover { border-color: color-mix(in srgb, var(--sport, var(--accent)) 50%, var(--line)) }
 
-/* compact view: each card one short row, so a whole day fits on screen */
-body.compact .ev .teams { font-size: 19px }
-body.compact .ev .teams.matchup .side { text-align: center; justify-content: center }
-body.compact .ev .teams.matchup:has(img) .side { grid-template-rows: auto; display: flex; gap: 8px; align-items: center; justify-content: center }
-body.compact .ev .teams.matchup .side.away { flex-direction: row-reverse }
-body.compact .ev .teams.matchup .logo:not(.flagimg) { height: 1.4em; max-width: 2.8em }
-body.compact .ev .teams.matchup .flagimg { height: 1em }
-body.compact .ev .body { padding-top: 6px; padding-bottom: 6px }
-body.compact .ev .comp { font-size: 11px }
-body.compact .ev .summary, body.compact .ev .tvl, body.compact .ev .nzl, body.compact .ev .loc:not(.num) { display: none }
-body.compact .ev .when { padding-top: 6px; padding-bottom: 6px; gap: 0 }
-body.compact .ev .nz { font-size: 20px }
-body.compact .ev .cover { padding: 4px 8px; font-size: 12px }
-body.compact .ev .cover b { font-size: 13px }
-body.compact .ev .rloc { margin-top: 2px }
-body.compact .daygroup, body.compact .donetoday { gap: 6px }
+/* compact cards: one short row each. Compact view uses them everywhere; Mixed keeps live and today's games full size */
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams { font-size: 19px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side, :is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 8px; text-align: center; grid-template-rows: none; row-gap: 0 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side > * { grid-row: auto; align-self: center; order: 0 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side.away > img { order: 2 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { height: 1.4em; max-width: 2.8em; transform: none }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .flagimg { height: 1em; max-width: 1.8em }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .body { padding-top: 6px; padding-bottom: 6px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp { font-size: 11px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .summary, :is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .tvl, :is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .nzl, :is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .loc:not(.num) { display: none }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .when { padding-top: 6px; padding-bottom: 6px; gap: 0 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .nz { font-size: 20px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .cover { padding: 4px 8px; font-size: 12px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .cover b { font-size: 13px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .rloc { margin-top: 2px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .score { font-size: 20px }
+:is(body.v-compact, body.v-mixed) :is(.daygroup, .donetoday) { gap: 6px }
+@media (max-width: 560px) { :is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams { font-size: 16px } :is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side { gap: 6px } :is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { height: 1.3em } }
+/* Mixed: today's games a little smaller than live ones */
+body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
+@media (max-width: 560px) { body.v-mixed #today .daygroup > .ev .teams { font-size: 22px } }
 </style>
 <style>:root{padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
 </head>
@@ -449,7 +459,6 @@ body.compact .daygroup, body.compact .donetoday { gap: 6px }
     <div class="brand">Sports <span>Feed</span></div>
     <div class="clock num" id="clock"></div>
     <div class="spacer"></div>
-    <button class="btn" id="compactBtn" aria-pressed="false" type="button">Compact</button>
     <button class="btn" id="spoilBtn" aria-pressed="false" type="button">Spoilers hidden</button>
     <button class="btn" id="teamsBtn" aria-expanded="false" aria-controls="panel" type="button">My teams</button>
   </div>
@@ -473,7 +482,7 @@ body.compact .daygroup, body.compact .donetoday { gap: 6px }
 <main class="wrap">
   <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
-  <div class="compbar"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9">NZ teams only</button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div></div>
+  <div class="compbar"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9">NZ teams only</button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div></div>
   <section id="hubSec" hidden>
     <div class="hub">
       <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
@@ -481,9 +490,14 @@ body.compact .daygroup, body.compact .donetoday { gap: 6px }
     </div>
     <div id="hubBody"></div>
   </section>
+  <section id="liveSec" hidden>
+    <h2><span class="livedot" aria-hidden="true"></span>Live now</h2>
+    <div id="live" class="daygroup"></div>
+  </section>
   <section id="weekSec">
     <h2>This week <small id="weekRange"></small></h2>
     <div class="week" id="week"></div>
+    <div id="dayPick" class="daypick" hidden></div>
   </section>
   <section id="todaySec">
     <h2>On today <small id="todayLabel"></small></h2>
@@ -544,6 +558,17 @@ const BADGE = {
   phoenix: ['WNP', '#ffd100', '#000000'], aucklandfc: ['AFC', '#0033a0', '#ffffff'], aleague: ['ALM', '#e4002b', '#ffffff'], aucricket: ['AUS', '#ffcd00', '#00573f'], epl: ['EPL', '#3d195b', '#ffffff'], ufc: ['UFC', '#d20a0a', '#ffffff'], boxing: ['BOX', '#8a1c1c', '#ffd43b'], nzboxing: ['NZB', '#000000', '#ffd43b'],
   kiwis: ['KIW', '#000000', '#ffffff'], kiwiferns: ['KF', '#000000', '#ffffff'], warriors: ['WAR', '#0d1f4c', '#7fd13b'],
 };
+// the card's badge names the competition (or the cricket format), not the team: NPC, RLWC, TEST, ODI
+const COMP_BADGE = { NPC: 'npc', 'Farah Palmer Cup': 'fpc', 'Super Rugby Pacific': 'superrugby', 'Rugby League World Cup': 'rlwc', NRL: 'nrl', 'A-League Men': 'aleague', 'Premier League': 'epl', 'Big Bash': 'bbl', "Women's Big Bash": 'wbbl', UFC: 'ufc', Boxing: 'boxing', 'NZ domestic cricket': 'nzdomestic',
+  'Rugby Championship': ['RC', '#1d3557', '#ffffff'], 'Nations Championship': ['NC', '#1d3557', '#ffffff'], 'Test match': ['TEST', '#1b1f1d', '#ffffff'], "Women's test": ['TEST', '#1b1f1d', '#ffffff'], 'WXV Global Series': ['WXV', '#5f3dc4', '#ffffff'], 'Pacific Championships': ['PAC', '#0b6e4f', '#ffffff'], 'Formula 1': ['F1', '#e10600', '#ffffff'] };
+const FORMAT_BADGE = { Test: ['TEST', '#ffffff', '#111111'], ODI: ['ODI', '#1864ab', '#ffffff'], T20I: ['T20I', '#c2255c', '#ffffff'] };
+function compBadge(e) {
+  const c = compOf(e);
+  let b = e.sport === 'cricket' && /^(blackcaps|whiteferns|aucricket)$/.test(e.team) ? FORMAT_BADGE[formatOf(e)] : COMP_BADGE[c];
+  if (typeof b === 'string') b = BADGE[b];
+  if (!b) return badge(e.team);
+  return `<span class="badge" style="background:${b[1]};color:${b[2]}" aria-hidden="true">${b[0]}</span>`;
+}
 const badge = k => { const b = BADGE[k]; return b ? `<span class="badge" style="background:${b[1]};color:${b[2]}" aria-hidden="true">${b[0]}</span>` : ''; };
 const FLAGS = {
   'New Zealand': '🇳🇿', 'All Blacks': '🇳🇿', 'Black Ferns': '🇳🇿', Australia: '🇦🇺', Wallabies: '🇦🇺', England: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', Scotland: '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
@@ -627,7 +652,7 @@ let picked = new Set(store.get('teams', ALL_KEYS));
 { const known = new Set(store.get('known', ALL_KEYS.filter(k => k !== 'epl' && k !== 'aucricket'))); const fresh = ALL_KEYS.filter(k => !known.has(k));
   if (fresh.length) { fresh.forEach(k => picked.add(k)); store.set('teams', [...picked]); } store.set('known', ALL_KEYS); }
 { const known = new Set(store.get('known', ALL_KEYS)); ALL_KEYS.filter(k => !known.has(k)).forEach(k => picked.add(k)); store.set('known', ALL_KEYS); store.set('teams', [...picked]); }
-let compact = store.get('compact', false);
+let view = store.get('view', 'mixed');   // big, mixed (live big, today normal, the rest compact) or compact
 let spoilers = store.get('spoilers', true);   // true = hide recent results
 let spoilDays = store.get('spoilDaysSet', false) ? store.get('spoilDays', 4) : 4; // default 4 days covers Friday games checked on Monday
 let revealed = new Set(store.get('revealed', []));
@@ -699,12 +724,17 @@ const cityOf = e => (e.city || '').split(',')[0];
 // rough match lengths, used for "On now"
 const HOURS = { Test: 7 * 24 * 0 + 8, ODI: 8, 'List A': 8, T20I: 3.5, T20: 3.5, 'First-class': 8 };
 const DAYS = { Test: 5, 'First-class': 4 };
+// cricket format from the feed, or from the stage/comp name ("2nd Test", "1st T20I")
+const formatOf = e => e.format || (/\bTests?\b/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'Test' : /\bODI/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'ODI' : /\bT20/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'T20I' : '');
 function onNow(e, now) {
   const s = new Date(e.startUTC);
-  const days = DAYS[e.format] || 1;
-  const hrs = e.sport === 'cricket' ? (HOURS[e.format] || 8) : 2;
+  const f = e.sport === 'cricket' ? formatOf(e) : '';
+  const days = DAYS[f] || 1;
+  // a cricket day can run long with rain; a game whose time isn't known yet sits at 2pm local, so widen the window both ways
+  const hrs = e.sport === 'cricket' ? (HOURS[f] || 8) + 2 : 2;
+  const early = e.timeTBC ? 5 * 36e5 : 0, late = e.timeTBC ? 4 * 36e5 : 0;
   for (let i = 0; i < days; i++) {
-    const a = s.getTime() + i * 864e5, b = a + hrs * 36e5;
+    const a = s.getTime() + i * 864e5 - early, b = a + early + hrs * 36e5 + late;
     if (now >= a && now <= b) return days > 1 ? `Day ${i + 1}` : 'On now';
   }
   return null;
@@ -763,20 +793,20 @@ function evCard(e, now) {
   const ms = d - now;
   const urg = ms < 864e5 ? 'soon' : ms < 3 * 864e5 ? 'near' : 'later';
   const tag = live ? `<span class="tag live">${live}</span>` : cd ? `<span class="tag num ${urg}">${cd}</span>` : '';
-  const local = overseas ? `<div class="loc num">${e.timeTBC ? '' : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${esc(cityOf(e))}</div>` : '';
+  const local = overseas ? `<div class="loc num">${e.timeTBC ? '' : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${wikiLink(cityOf(e))}</div>` : '';
   const tv = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : '';
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${sIcon(e.sport)}${badge(e.team)}<span>${esc(cardComp(e))}</span>${seriesLine(e, now)}</div>
+      <div class="comp">${sIcon(e.sport)}${compBadge(e)}<span>${esc(cardComp(e))}</span>${seriesLine(e, now)}</div>
       <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>
     </div>
     <div class="when">
       <div class="nzl">${START_LABEL[e.sport] || 'Start'} NZ</div>
       <div class="nz num">${e.timeTBC ? 'TBC' : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div>
-      ${local || (cityOf(e) || e.venue ? `<div class="loc">${esc(cityOf(e) || e.venue)}</div>` : '')}${tag}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
+      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
     </div>
   </article>`;
 }
@@ -825,11 +855,11 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${sIcon(e.sport)}${badge(e.team)}<span>${esc(cardComp(e))}</span></div>
+      <div class="comp">${sIcon(e.sport)}${compBadge(e)}<span>${esc(cardComp(e))}</span></div>
       <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>
       ${hidden ? '' : `<div class="summary">${esc(e.summary || '')}</div>`}
     </div>
-    <div class="when">${right}<div class="rloc">${dayLabel(d, NZ)}${cityOf(e) ? ' · ' + esc(cityOf(e)) : ''}</div></div>
+    <div class="when">${right}<div class="rloc">${dayLabel(d, NZ)}${cityOf(e) ? ' · ' + wikiLink(cityOf(e)) : ''}</div></div>
   </article>`;
 }
 
@@ -931,14 +961,14 @@ function detail(e) {
     : `<div class="dres"><div class="score num">${esc(e.score || 'Result not in yet')}</div>${e.summary ? `<p>${esc(e.summary)}</p>` : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
   const live = e.status === 'live' || onNow(e, now) ? `<div class="dres"><span><span class="tag live">On now</span></span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
-      <div class="comp">${badge(e.team)}<span>${esc(cardComp(e))}</span>${sIcon(e.sport)}</div>
+      <div class="comp">${compBadge(e)}<span>${esc(cardComp(e))}</span>${sIcon(e.sport)}</div>
       <h2 class="dteams">${teamName(e.home, e.homeLogo, e)} <span class="v">v</span> ${teamName(e.away, e.awayLogo, e)}</h2>
       ${!isPast && e.status !== 'live' && countdown(e, now) ? `<span class="tag ${d - now < 864e5 ? 'soon' : d - now < 3 * 864e5 ? 'near' : 'later'}">${countdown(e, now)}</span>` : ''}
     </div>
     ${res}${live}
     <dl class="facts">${rows.map(([k, v, html]) => `<dt>${k}</dt><dd>${html ? v : esc(v)}</dd>`).join('')}</dl>
     <div class="dlinks">${[
-      e.link && `<a href="${esc(e.link)}" target="_blank" rel="noopener">${cricinfo(e) === e.link ? 'Cricinfo: scorecard and squads' : e.sport === 'cricket' ? 'Scorecard' : FIGHT.test(e.sport) ? (isPast ? 'Fight results' : 'Fight page') : e.sport === 'motor' ? (isPast ? 'Race results' : 'Race page') : isPast ? 'Match report and team lists' : 'Team lists and match centre'} ↗</a>`,
+      e.link && `<a href="${esc(e.link)}" target="_blank" rel="noopener">${cricinfo(e) === e.link ? 'Cricinfo: scorecard and squads' : e.sport === 'cricket' ? 'Scorecard' : FIGHT.test(e.sport) ? (isPast ? 'Fight results' : 'Fight page (results go up here after)') : e.sport === 'motor' ? (isPast ? 'Race results' : 'Race page') : isPast ? 'Match report and team lists' : 'Team lists and match centre'} ↗</a>`,
       e.source && `<a href="${esc(e.source)}" target="_blank" rel="noopener">${e.status === 'live' ? 'Follow live' : FIGHT.test(e.sport) ? 'Fight page' : e.sport === 'motor' ? 'Race page' : 'Match page'} ↗</a>`,
       cricinfo(e) && cricinfo(e) !== e.link && `<a href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Cricinfo: scorecard and squads ↗</a>`,
       e.sport === 'cricket' && !cricinfo(e) && `<a href="https://www.espncricinfo.com/live-cricket-score" target="_blank" rel="noopener">Ball by ball on Cricinfo ↗</a>`,
@@ -962,27 +992,13 @@ function openDetail(id) {
 // short tournaments and series under way right now (first game played, more to come), NZ ones first.
 // Season-long leagues and catch-all groups stay in the competition menu.
 const GENERIC = /^(Test match|Women's test|Boxing|UFC|NZ domestic cricket|Black Caps|White Ferns|NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|A-League Men|Premier League|Big Bash|Women's Big Bash)$/;
+// short names for the Current bar: "SA v AUS", "RLWC"
+const SHORT = [[/Women's Rugby League World Cup/, "Women's RLWC"], [/Wheelchair Rugby League World Cup/, 'Wheelchair RLWC'], [/Rugby League World Cup/, 'RLWC'], [/Nations Championship/, 'Nations Champ.'], [/Rugby Championship/, 'Rugby Champ.'], [/WXV Global Series/, 'WXV'],
+  [/\bSouth Africa\b/, 'SA'], [/\bAustralia\b/, 'AUS'], [/\bNew Zealand\b/, 'NZ'], [/\bIndia\b/, 'IND'], [/\bEngland\b/, 'ENG'], [/\bSri Lanka\b/, 'SL'], [/\bPakistan\b/, 'PAK'], [/\bBangladesh\b/, 'BAN'], [/\bWest Indies\b/, 'WI'], [/\bAfghanistan\b/, 'AFG'], [/\bZimbabwe\b/, 'ZIM'], [/\bIreland\b/, 'IRE']];
+const shortComp = c => SHORT.reduce((t, [re, r]) => t.replace(re, r), c);
 // tournaments played in windows across the year: listed whenever the next window is near
 const WINDOWED = /^(Nations Championship|Rugby Championship)$/;
 let onNowComps = new Set(), liveComps = new Set();
-// when the chips need two or more rows, narrow the box so the rows come out about even
-function balanceNow() {
-  const box = $('nowBar');
-  if (box.hidden) return;
-  box.style.maxWidth = '';
-  const chips = [box.querySelector('.nowlbl'), ...box.querySelectorAll('.nowchip')], gap = 6, full = box.clientWidth;
-  const total = chips.reduce((w, c) => w + c.offsetWidth + gap, -gap);
-  const rows = Math.ceil(total / full);
-  if (rows < 2) return;
-  const rowCount = () => new Set(chips.map(c => { const r = c.getBoundingClientRect(); return Math.round((r.top + r.bottom) / 20); })).size;
-  // smallest width that still fits in the same number of rows, so they come out even
-  for (let w = Math.max(Math.ceil(total / rows), ...chips.map(c => c.offsetWidth)); w < full; w += 12) {
-    box.style.maxWidth = w + 'px';
-    if (rowCount() <= rows) return;
-  }
-  box.style.maxWidth = '';
-}
-addEventListener('resize', () => requestAnimationFrame(balanceNow));
 function renderNowBar(now) {
   const by = new Map();
   for (const e of FEED.events || []) {
@@ -1003,8 +1019,7 @@ function renderNowBar(now) {
   onNowComps = new Set(on.map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
   $('nowBar').hidden = !on.length;
-  $('nowBar').innerHTML = on.length ? `<span class="nowlbl">Current series</span><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}">${sIcon(v.sport, 'cicon')}${esc(plural(c))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}</div>` : '';
-  requestAnimationFrame(balanceNow);
+  $('nowBar').innerHTML = on.length ? `<span class="nowlbl">Current</span><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}</div>` : '';
 }
 
 function render() {
@@ -1014,7 +1029,7 @@ function render() {
   const evs = (FEED.events || []).filter(visible).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
   const todayK = dayKey(nowD);
   const upcoming = evs.filter(e => e.status === 'live' || (e.status !== 'final' && (new Date(e.startUTC) > now || onNow(e, now))));
-  const finals = evs.filter(e => e.status === 'final' || (e.status !== 'live' && new Date(e.startUTC) < now && !onNow(e, now) && !e.timeTBC)).reverse();
+  const finals = evs.filter(e => e.status === 'final' || (e.status !== 'live' && new Date(e.startUTC) < now && !onNow(e, now) && (!e.timeTBC || now - new Date(e.startUTC) > 12 * 36e5))).reverse();
 
   // week strip
   const days = [...Array(7)].map((_, i) => new Date(now + i * 864e5));
@@ -1031,22 +1046,33 @@ function render() {
       <span class="dots">${dots}</span></button>`;
   }).join('');
 
+  // live now: games under way, in their own section above the week
+  const lives = upcoming.filter(e => e.status === 'live' || onNow(e, now));
+  $('liveSec').hidden = !lives.length;
+  $('live').innerHTML = lives.map(e => evCard(e, now)).join('');
+  // a picked day's games, shown right under the week strip
+  const pickK = selDay && selDay !== todayK ? selDay : '';
+  const pickList = pickK ? evs.filter(e => dayKey(new Date(e.startUTC)) === pickK && !lives.includes(e)) : [];
+  $('dayPick').hidden = !pickK;
+  $('dayPick').innerHTML = pickK ? `<div class="daypickhead"><span>${fmt(new Date(pickK + 'T00:00:00Z'), NZ, { weekday: 'long', day: 'numeric', month: 'long' })}</span><button type="button" class="dayclose" data-jump="${pickK}" aria-label="Close this day">×</button></div>${pickList.length ? pickList.map(e => finals.includes(e) ? resCard(e, now) : evCard(e, now)).join('') : '<div class="empty-note">Nothing on for your teams this day.</div>'}` : '';
+
   // today
-  const todays = upcoming.filter(e => dayKey(new Date(e.startUTC)) === todayK || e.status === 'live' || onNow(e, now));
+  const todays = upcoming.filter(e => !lives.includes(e) && dayKey(new Date(e.startUTC)) === todayK);
   $('todayLabel').textContent = dayLabel(nowD, NZ);
   // today's finished games stay in "On today" (spoiler rules still apply), latest first after the upcoming ones
   const doneToday = finals.filter(e => dayKey(new Date(e.startUTC)) === todayK);
+  $('todaySec').hidden = !todays.length && !doneToday.length && lives.length > 0;
   $('today').innerHTML = todays.length || doneToday.length
     ? `<div class="daygroup">${(() => {
-        const live = todays.filter(e => e.status === 'live' || onNow(e, now)), later = todays.filter(e => !live.includes(e));
+        const live = [], later = todays;
         const hourNZ = e => +fmt(new Date(e.startUTC), NZ, { hour: 'numeric', hour12: false });
         const tonight = +fmt(nowD, NZ, { hour: 'numeric', hour12: false }) >= 17 || (later.length && later.every(e => !e.timeTBC && hourNZ(e) >= 17));
-        return live.map(e => evCard(e, now)).join('') + (live.length && later.length ? `<div class="dayhead">${tonight ? 'Later tonight' : 'Later today'}</div>` : '') + later.map(e => evCard(e, now)).join('');
+        return (lives.length && later.length ? `<div class="dayhead">${tonight ? 'Later tonight' : 'Later today'}</div>` : '') + later.map(e => evCard(e, now)).join('');
       })()}${doneToday.length ? `<div class="dayhead">Earlier today</div><div class="donetoday">${doneToday.map(e => resCard(e, now)).join('')}</div>` : ''}</div>`
     : `<div class="empty-note">Nothing on for your teams today. ${upcoming[0] ? `Next up: <b>${esc(upcoming[0].home)} v ${esc(upcoming[0].away)}</b>, ${dayLabel(new Date(upcoming[0].startUTC), NZ)}.` : ''}</div>`;
 
   // coming up this week, then further ahead, grouped by NZ day
-  const rest = upcoming.filter(e => !todays.includes(e));
+  const rest = upcoming.filter(e => !todays.includes(e) && !lives.includes(e));
   const groups = new Map();
   rest.forEach(e => { const k = dayKey(new Date(e.startUTC)); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(e) });
   const weekEnd = dayKey(new Date(now + 6 * 864e5));
@@ -1142,8 +1168,9 @@ function render() {
     $('sportFilter').classList.toggle('dim', !!compSel);
   }
   $('sportFilter').innerHTML = [['all','All'],['rugby','Rugby'],['cricket','Cricket'],['league','League'],['football','Football'],['motor','F1'],['mma','MMA'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${sportSel === k}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
-  document.body.classList.toggle('compact', compact);
-  $('compactBtn').setAttribute('aria-pressed', String(compact));
+  document.body.classList.remove('v-big', 'v-mixed', 'v-compact');
+  document.body.classList.add('v-' + view);
+  $('viewSel').innerHTML = [['big', 'Big'], ['mixed', 'Mixed'], ['compact', 'Compact']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${view === k}">${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   $('spoilBtn').textContent = spoilers ? 'Spoilers hidden' : 'Spoilers shown';
   $('teamsBtn').textContent = `My teams (${picked.size})`;
@@ -1166,7 +1193,7 @@ document.addEventListener('click', ev => {
   else if (t.dataset.gender) { genderSel = t.dataset.gender; store.set('gender', genderSel); render(); }
   else if (t.dataset.sport) { compSel = ''; store.set('comp', ''); sportSel = t.dataset.sport; store.set('sport', sportSel); render(); }
   else if (t.dataset.kind) { newsKind = t.dataset.kind; render(); }
-  else if (t.dataset.jump) { selDay = t.dataset.jump; document.querySelectorAll('.day').forEach(b => b.classList.toggle('sel', b.dataset.jump === selDay)); const el = document.getElementById('d-' + t.dataset.jump) || (t.dataset.jump === dayKey(new Date()) ? $('todaySec') : null); if (el) el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
+  else if (t.dataset.jump) { selDay = selDay === t.dataset.jump || t.dataset.jump === dayKey(new Date()) ? '' : t.dataset.jump; render(); }
   else if (t.dataset.bigcomp) {
     const again = compSel === t.dataset.bigcomp && t.classList.contains('nowchip');
     hubTab = 'games'; compSel = again ? '' : t.dataset.bigcomp; store.set('comp', compSel); render();
@@ -1176,7 +1203,7 @@ document.addEventListener('click', ev => {
   else if (t.id === 'hubClose') { compSel = ''; store.set('comp', ''); hubTab = 'games'; render(); }
   else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
   else if (t.id === 'moreUp') { store.set('showAllUp', true); render(); }
-  else if (t.id === 'compactBtn') { compact = !compact; store.set('compact', compact); render(); }
+  else if (t.dataset.view) { view = t.dataset.view; store.set('view', view); render(); }
   else if (t.id === 'spoilBtn') { spoilers = !spoilers; store.set('spoilers', spoilers); render(); }
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); }
   else if (t.id === 'allOn') { picked = new Set(ALL_KEYS); store.set('teams', ALL_KEYS); render(); }
