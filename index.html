@@ -471,6 +471,8 @@ a.svc:hover { text-decoration-color: currentColor }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .cover b { font-size: 13px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .rloc { margin-top: 2px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .score { font-size: 20px }
+/* worded results ("Fundora won by KO (R12, 2:59)") read as text, not as a big scoreline, in every view */
+.ev .when .score.long, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .score.long, .dres .score.long { font-size: 15px; font-family: var(--f-body); font-weight: 600; line-height: 1.3 }
 :is(body.v-compact, body.v-mixed) :is(.daygroup, .donetoday) { gap: 6px }
 @media (max-width: 560px) { :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams { font-size: 16px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side { gap: 6px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { height: 1.3em } }
 /* Mixed: today's games a little smaller than live ones */
@@ -777,6 +779,15 @@ const HOURS = { Test: 7 * 24 * 0 + 8, ODI: 8, 'List A': 8, T20I: 3.5, T20: 3.5, 
 const DAYS = { Test: 5, 'First-class': 4 };
 // cricket format from the feed, or from the stage/comp name ("2nd Test", "1st T20I")
 const formatOf = e => e.format || (/\bTests?\b/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'Test' : /\bODI/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'ODI' : /\bT20/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'T20I' : '');
+// a Test with no start time listed: nearly all begin about 10am local, so show that as a guide ("≈9:00pm")
+function usualStart(e) {
+  if (!e.timeTBC || e.sport !== 'cricket' || formatOf(e) !== 'Test' || !e.tz) return null;
+  const parts = d => Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: e.tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }).formatToParts(d).map(x => [x.type, +x.value]));
+  const p = parts(new Date(e.startUTC)), wall = Date.UTC(p.year, p.month - 1, p.day, 10, 0);
+  const q = parts(new Date(wall)), off = Date.UTC(q.year, q.month - 1, q.day, q.hour % 24, q.minute) - wall;
+  return new Date(wall - off);
+}
+const USUAL_NOTE = 'Start time not listed yet; Tests usually begin about 10am local time';
 function onNow(e, now) {
   const s = new Date(e.startUTC);
   const f = e.sport === 'cricket' ? formatOf(e) : '';
@@ -844,7 +855,7 @@ function evCard(e, now) {
   const ms = d - now;
   const urg = ms < 864e5 ? 'soon' : ms < 3 * 864e5 ? 'near' : 'later';
   const tag = live ? `<span class="tag live">${live}</span>` : cd ? `<span class="tag num ${urg}">${cd}</span>` : '';
-  const local = overseas ? `<div class="loc num">${e.timeTBC ? '' : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${wikiLink(cityOf(e))}</div>` : '';
+  const local = overseas ? `<div class="loc num">${e.timeTBC ? (e.usual ? '≈' + time(d, e.tz) + ' ' : '') : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${wikiLink(cityOf(e))}</div>` : '';
   const tv = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : '';
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
@@ -855,7 +866,7 @@ function evCard(e, now) {
     </div>
     <div class="when">
       <div class="nzl">${START_LABEL[e.sport] || 'Start'} ${esc(tzLabel())}</div>
-      <div class="nz num">${e.timeTBC ? 'TBC' : time(d, NZ)}</div>
+      <div class="nz num"${e.usual ? ` title="${USUAL_NOTE}"` : ''}>${e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div>
       ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${live && wxNote(e) ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
     </div>
@@ -941,12 +952,15 @@ function tableHtml(t) {
     : [['p', 'P'], ['w', 'W'], ['d', 'D'], ['l', 'L'], ['f', t.sport === 'football' ? 'GF' : 'PF', 'wide'], ['a', t.sport === 'football' ? 'GA' : 'PA', 'wide'], ['diff', t.sport === 'football' ? 'GD' : '+/−'], ['pts', 'Pts']];
   const ev = { sport: t.sport, comp: t.comp, team: t.team };
   const logos = {};
-  for (const e of FEED.events || []) if (compOf(e) === compSel) { if (e.homeLogo) logos[e.home] = e.homeLogo; if (e.awayLogo) logos[e.away] = e.awayLogo; }
+  // the table's names come from Wikipedia, the logos from fixtures: match loosely ("Brighton & Hove Albion" = "Brighton and Hove Albion")
+  const lk = n => String(n || '').toLowerCase().replace(/&/g, 'and').replace(/\b(a?fc|cf)\b/g, '').replace(/[^a-z]/g, '');
+  for (const e of FEED.events || []) if (compOf(e) === compSel) { if (e.homeLogo) logos[lk(e.home)] = e.homeLogo; if (e.awayLogo) logos[lk(e.away)] = e.awayLogo; }
+  const logoOf = n => logos[lk(n)] || Object.entries(logos).find(([k]) => k.length > 4 && lk(n).length > 4 && (k.startsWith(lk(n)) || lk(n).startsWith(k)))?.[1] || '';
   const rows = t.rows.map((r, i) => {
     const diff = r.f - r.a;
     const v = k => k === 'diff' ? (diff > 0 ? '+' + diff : String(diff)) : k === 'nrr' ? (r.nrr || '–') : r[k];
     const mine = picked.has(Object.keys(TEAM_NAME).find(k => TEAM_NAME[k] === r.name)) || NZ_NAMES.test(r.name) || r.nz;
-    return `<tr class="${r.q ? 'q' : ''} ${mine ? 'mine' : ''}"><td class="pos">${i + 1}</td><td class="tn">${teamName(/Women/.test(t.page) ? r.name.replace(/\s+Women('s)?$/, '') : r.name, logos[r.name] || '', ev)}${r.champ ? ' <span class="tag">Champions</span>' : ''}</td>${cols.map(([k, , c]) => `<td class="num ${c || ''} ${k === 'pts' ? 'pts' : ''}">${esc(String(v(k)))}</td>`).join('')}</tr>`;
+    return `<tr class="${r.q ? 'q' : ''} ${mine ? 'mine' : ''}"><td class="pos">${i + 1}</td><td class="tn">${teamName(/Women/.test(t.page) ? r.name.replace(/\s+Women('s)?$/, '') : r.name, logoOf(r.name), ev)}${r.champ ? ' <span class="tag">Champions</span>' : ''}</td>${cols.map(([k, , c]) => `<td class="num ${c || ''} ${k === 'pts' ? 'pts' : ''}">${esc(String(v(k)))}</td>`).join('')}</tr>`;
   }).join('');
   return `<div class="stable ${t.style === 'points' ? 'points' : ''}"><h3 class="dh">${esc(t.label)}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${t.style === 'points' && /driver/i.test(t.title) ? 'Driver' : 'Team'}</th>${cols.map(([, l, c]) => `<th class="${c || ''}">${l}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div></div>`;
 }
@@ -1072,11 +1086,11 @@ function detail(e) {
   const overseas = e.tz && e.tz !== NZ;
   const isPast = e.status === 'final' || (d < now && !onNow(e, now) && e.status !== 'live');
   const hidden = isPast && isHidden(e, now);
-  const when = e.timeTBC ? `${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}, time to be confirmed`
+  const when = e.timeTBC ? `${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}, ${e.usual ? `time not listed yet (Tests usually start about 10am local, so ≈${time(d, NZ)} ${tzLabel()})` : 'time to be confirmed'}`
     : `${time(d, NZ)} ${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}`;
   const rows = [
     [`${START_LABEL[e.sport] || 'Start'} (${tzLabel()})`, when],
-    overseas && !e.timeTBC ? ['Local', `${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
+    overseas && (!e.timeTBC || e.usual) ? ['Local', `${e.usual ? '≈' : ''}${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
     ['Where', [e.venue, e.city].filter(Boolean).map(wikiLink).join(', ') || 'To be confirmed', true],
     e.note ? ['Note', e.note] : null,
     e.weather ? ['Weather', e.weather] : null,
@@ -1092,7 +1106,7 @@ function detail(e) {
     .sort((a, c) => (a.kind === 'injury' ? -1 : 0) - (c.kind === 'injury' ? -1 : 0) || c.date.localeCompare(a.date)).slice(0, 6);
   const res = isPast ? (hidden
     ? `<button class="cover big" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>Spoilers are hidden</button>`
-    : `<div class="dres"><div class="score num">${esc(e.score || 'Result not in yet')}</div>${e.summary ? `<p>${esc(e.summary)}</p>` : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
+    : `<div class="dres"><div class="score num ${/[a-z]{3}/i.test(e.score || '') ? 'long' : ''}">${esc(e.score || 'Result not in yet')}</div>${e.summary ? `<p>${esc(e.summary)}</p>` : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
   const live = e.status === 'live' || onNow(e, now) ? `<div class="dres"><span><span class="tag live">On now</span></span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
       <div class="comp">${compBadge(e)}<span>${esc(cardComp(e))}</span>${sIcon(e.sport)}</div>
@@ -1384,6 +1398,8 @@ async function load() {
     const r = await fetch('data/feed.json', { cache: 'no-store' });
     if (!r.ok) throw new Error(r.status);
     FEED = await r.json();
+    // Tests with no listed time sit at their usual 10am local start, so they land on the right day and countdown
+    for (const e of FEED.events || []) { const u = usualStart(e); if (u) { e.startUTC = u.toISOString(); e.usual = true; } }
     $('foot').innerHTML = `Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0)`;
     render(); stamp();
   } catch (e) {

@@ -181,7 +181,10 @@ const LOGO_CODES = {
   cricket: { leagues: ['Big Bash League', 'Womens Big Bash League', 'Super Smash', 'Plunket Shield', 'Ford Trophy'], ok: /Big Bash|Super Smash|Plunket|Ford Trophy|Cricket/i, sport: 'Cricket' },
 };
 const simple = n => String(n || '').toLowerCase().replace(/\b(fc|rugby|league|club|women|cricket)\b/g, '').replace(/[^a-z]/g, '');
-async function addLogos(events) {
+async function addLogos(events, extra = []) {
+  // badges that came with TheSportsDB fixtures (Premier League, A-League...): reuse them for that club everywhere
+  const seen = {};
+  for (const e of [...extra, ...events]) for (const [n, b] of [[e.home, e.homeLogo], [e.away, e.awayLogo]]) if (n && b) seen[`${e.sport}|${simple(n)}`] = b.replace(/\/tiny$/, '');
   const cacheUrl = new URL('.cache/logos4.json', ROOT);
   let cache = { leagues: {}, names: {} };
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
@@ -209,6 +212,7 @@ async function addLogos(events) {
   let looked = 0;
   const found = {};
   for (const [key, [sport, name]] of want) {
+    if (seen[`${sport}|${simple(name)}`]) { found[key] = seen[`${sport}|${simple(name)}`]; continue; }
     const p = fromPool(sport, name);
     if (p) { found[key] = p; continue; }
     const c = cache.names[key];
@@ -231,8 +235,8 @@ async function addLogos(events) {
   }
   for (const e of events) {
     const h = found[`${e.sport}|${e.home}`], a = found[`${e.sport}|${e.away}`];
-    if (h) e.homeLogo = h + '/tiny';
-    if (a) e.awayLogo = a + '/tiny';
+    if (h && !e.homeLogo) e.homeLogo = h + '/tiny';
+    if (a && !e.awayLogo) e.awayLogo = a + '/tiny';
   }
   diag.logos = `${Object.values(found).filter(Boolean).length}/${want.size} teams; ${looked} searched this run`;
   diag.logoLeagues = Object.fromEntries(Object.entries(cache.leagues).map(([k, v]) => [k, (v.teams || []).length]));
@@ -259,7 +263,7 @@ async function addImages(items) {
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
 await addImages(news);
-await addLogos(events);
+await addLogos(events, tsdbLive);
 
 // site version: the number of commits, and when the code last changed (needs the full git history in CI)
 let site = null;

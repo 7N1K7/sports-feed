@@ -753,6 +753,8 @@ function fromTsdb(ev, l) {
     home, away, startUTC: t.toISOString(), timeTBC: false, venue: ev.strVenue || '', city: [ev.strCity, ev.strCountry].filter(Boolean).join(', '), tz: l.tz || null,
     status: status === 'live' ? 'upcoming' : status, score: hasScore ? `${ev.intHomeScore}-${ev.intAwayScore}` : undefined,
     source: `https://www.thesportsdb.com/event/${ev.idEvent}`,
+    // each side's club badge comes with the fixture, so clubs get logos without extra calls
+    ...(ev.strHomeTeamBadge ? { homeLogo: ev.strHomeTeamBadge + '/tiny' } : {}), ...(ev.strAwayTeamBadge ? { awayLogo: ev.strAwayTeamBadge + '/tiny' } : {}),
   };
 }
 // Rounds around now for a league: last result's round, two back and a few ahead
