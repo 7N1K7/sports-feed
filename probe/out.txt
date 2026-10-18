@@ -1,0 +1,63 @@
+fetch.mjs took 153s
+Games on or starting soon: next refresh in 10 minutes
+feed.json: 442 events (514 from Wikipedia, 60 from TheSportsDB), 61 news
+
+== diag
+wikipedia => {"2026 Hilux NPC":79,"List of 2026 Super Rugby Pacific matches":77,"List of 2027 Super Rugby Pacific matches":80,"2026 Super Rugby Pacific season":6,"2027 Super Rugby Pacific season":5,"2026 Nations Championship":0,"The Rugby Championship":0,"2026 men's rugby union internationals":13,"2027 men's rugby union internationals":2,"2026 women's rugby union internationals":3,"2026 WXV Global Series":6,"2026 Men's Rugby League World Cup":18,"2026 Women's Rugby League World Cup":15,"2026 Wheelchair Rugby League World Cup":20,"2026–27 Big Bash League season":44,"2026–27 Women's Big Bash League season":43,"2026–27 A-League Men":0,"2026–27 Premier League":0,"2026 NRL season":1,"2026 NRL finals series":8,"List of UFC events":14,"Indian cricket team in New Zealand in 2026–27":12,"Sri Lankan cricket team in New Zealand in 2026–27":8,"New Zealand cricket team in Australia in 2026–27":4,"New Zealand women's cricket team in Australia in 2026–27":6,"English cricket team in Australia in 2026–27":9,"Australian cricket team in India in 2026–27":5,"Australian cricket team in Zimbabwe in 2026":3,"Australian cricket team in South Africa in 2026–27":7,"Bangladeshi cricket team in Australia in 2026":3}
+f1Times => "United States Grand Prix: 2026-10-25T20:00:00.000Z; 1 of 23 races with start times"
+tsdb Pacific Cup => "fill: nothing to fill; 0 calls; 0 games known"
+tsdb Rugby League World Cup => "fill: 1 cards lacking a score or time, 0 still open; 1 calls; 1 games known"
+tsdb NPC => "fill: nothing to fill; 0 calls; 0 games known"
+tsdb Test match => "fill: nothing to fill; 0 calls; 0 games known"
+tsdb Nations Championship => "fill: nothing to fill; 0 calls; 0 games known"
+tsdb UFC => "next/last event"
+tsdb A-League Men => "18 games, season 2026-2027, rounds 1,2,3"
+tsdb Premier League => "40 games, season 2026-2027, rounds 6,7,8,9"
+tsdb NRL => "off season"
+tsdb Super Rugby Pacific => "off season"
+tsdbFilled => ["Fiji v Cook Islands (rlwc-m-fiji-cook-islands): score 40-12"]
+
+== fill cache
+fill 5807  {}
+fill 5806 Fiji v Cook Islands 2026-10-18T05:05:00.000Z final 40-12 r1 {}
+fill 5278  {}
+fill 5479  {}
+fill 5852  {}
+
+== every TheSportsDB game of the fill leagues from 14 days back to 10 days ahead, against the feed cards
+  [Rugby League World Cup] Australia v New Zealand 2026-10-15T09:05 final 24-22 (team kiwis)
+      -> rlwc-aus-nz | Rugby League World Cup, Group A, Round 1 | Australia v New Zealand 2026-10-15T09:05 (same time) final 24-22 score agrees
+  [Rugby League World Cup] Samoa v France 2026-10-16T06:45 final 78-4 (team rlwc)
+      -> rlwc-m-samoa-france | Rugby League World Cup, Group B/C, Round 1 | Samoa v France 2026-10-16T06:45 (same time) final 78-4 score agrees
+  [Rugby League World Cup] Papua New Guinea v Lebanon 2026-10-17T04:25 final 42-18 (team rlwc)
+      -> rlwc-m-papua-new-guinea-lebanon | Rugby League World Cup, Group B/C, Round 1 | Papua New Guinea v Lebanon 2026-10-17T04:25 (same time) final 42-18 score agrees
+  [Rugby League World Cup] England v Tonga 2026-10-17T09:05 final 12-30 (team rlwc)
+      -> rlwc-m-england-tonga | Rugby League World Cup, Group B/C, Round 1 | England v Tonga 2026-10-17T09:05 (same time) final 12-30 score agrees
+  [Rugby League World Cup] Fiji v Cook Islands 2026-10-18T05:05 final 40-12 (team rlwc)
+      -> rlwc-m-fiji-cook-islands | Rugby League World Cup, Group A, Round 1 | Fiji v Cook Islands 2026-10-18T05:05 (same time) final 40-12 score agrees
+  [Rugby League World Cup] Tonga v Lebanon 2026-10-23T09:05 upcoming  (team rlwc)
+      -> rlwc-m-tonga-lebanon | Rugby League World Cup, Group B/C, Round 2 | Tonga v Lebanon 2026-10-23T09:05 (same time) upcoming  
+  [Rugby League World Cup] Papua New Guinea v Samoa 2026-10-24T03:25 upcoming  (team rlwc)
+      -> rlwc-m-papua-new-guinea-samoa | Rugby League World Cup, Group B/C, Round 2 | Papua New Guinea v Samoa 2026-10-24T03:25 (same time) upcoming  
+  [Rugby League World Cup] England v France 2026-10-24T06:35 upcoming  (team rlwc)
+      -> rlwc-m-england-france | Rugby League World Cup, Group B/C, Round 2 | England v France 2026-10-24T06:35 (same time) upcoming  
+  [Rugby League World Cup] New Zealand v Cook Islands 2026-10-25T06:05 upcoming  (team kiwis)
+      -> rlwc-nz-cook | Rugby League World Cup, Group A, Round 2 | New Zealand v Cook Islands 2026-10-25T06:05 (same time) upcoming  
+  [Rugby League World Cup] Australia v Fiji 2026-10-25T09:05 upcoming  (team rlwc)
+      -> rlwc-m-australia-fiji | Rugby League World Cup, Group A, Round 2 | Australia v Fiji 2026-10-25T09:05 (same time) upcoming  
+  [NPC] Northland v Otago 2026-10-16T06:10 final 38-19 (team npc)
+      -> npc-sf-nor-ota | NPC Semi-final | Northland v Otago 2026-10-16T06:10 (same time) final 38-19 score agrees
+  [NPC] Canterbury v Taranaki 2026-10-18T02:35 final 38-28 (team npc)
+      -> npc-sf-can-tar | NPC Semi-final | Canterbury v Taranaki Bulls 2026-10-18T02:35 (same time) final 38-28 score agrees
+  [Test match] New Zealand v Australia 2026-10-10T06:10 final 50-19 (team allblacks)
+      -> ab-nz-aus-2026-10-10 | Bledisloe Cup | All Blacks v Wallabies 2026-10-10T06:10 (same time) final 50-19 score agrees
+  [Test match] Australia v New Zealand 2026-10-17T04:45 final 21-43 (team allblacks)
+      -> ab-aus-nz-2026-10-17 | Bledisloe Cup | Wallabies v All Blacks 2026-10-17T04:45 (same time) final 21-43 score agrees
+
+== cards changed vs the live site
+live generatedAt 2026-10-18T10:30:30.262Z tsdbFilled there: ["Fiji v Cook Islands (rlwc-m-fiji-cook-islands): score 40-12"]
+   f1-2026-19 - -> - 2026-11-01T20:00:00.000Z -> 2026-11-01T21:00:00.000Z
+   f1-2026-20 - -> - 2026-11-08T17:00:00.000Z -> 2026-11-08T18:00:00.000Z
+   f1-2026-21 - -> - 2026-11-22T04:00:00.000Z -> 2026-11-21T23:00:00.000Z
+   f1-2026-22 - -> - 2026-11-29T16:00:00.000Z -> 2026-11-29T12:00:00.000Z
+   f1-2026-23 - -> - 2026-12-06T13:00:00.000Z -> 2026-12-06T11:00:00.000Z
