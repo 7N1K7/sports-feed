@@ -197,6 +197,7 @@ footer a { color: var(--muted) }
 .livelink { font-size: 13px; font-weight: 700; color: var(--live); text-decoration: none; justify-self: end }
 .livelink:hover { text-decoration: underline }
 .ev .when .livelink { margin-top: 6px }
+.ev .wx { font-size: 12px; font-weight: 700; color: #1c7ed6; margin-top: 4px }
 .ev .tv { color: var(--ink); font-weight: 600 }
 dialog#sheet { border: 0; padding: 0; margin: auto auto 0; width: min(640px, 100%); max-height: 88vh; border-radius: 16px 16px 0 0; background: var(--surface); color: var(--ink); box-shadow: 0 -8px 40px rgba(0,0,0,.25) }
 @media (min-width: 700px) { dialog#sheet { margin: auto; border-radius: 16px } }
@@ -806,7 +807,7 @@ function evCard(e, now) {
       <div class="nzl">${START_LABEL[e.sport] || 'Start'} NZ</div>
       <div class="nz num">${e.timeTBC ? 'TBC' : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div>
-      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
+      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${live && wxNote(e) ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
     </div>
   </article>`;
 }
@@ -825,6 +826,8 @@ const FIGHT = /^(mma|boxing)$/;
 const cricinfo = e => e.cricinfo || (/cricinfo\.com/.test(e.link || '') ? e.link : '');
 // a venue or city opens its Wikipedia article (Wikipedia's "go" search lands on the page when the name matches)
 const wikiLink = n => `<a class="svc" href="https://en.wikipedia.org/wiki/Special:Search?go=Go&search=${encodeURIComponent(n)}" target="_blank" rel="noopener">${esc(n)}</a>`;
+// Wikipedia's match box notes rain during a game; a short label for the card
+const wxNote = e => !e.weather ? '' : /no play|abandon/i.test(e.weather) ? 'No play yet' : /bad light/i.test(e.weather) && !/rain/i.test(e.weather) ? 'Bad light' : /rain|wet/i.test(e.weather) ? 'Rain affected' : '';
 function liveLink(e) {
   let [name, url] = LIVE_SITE[e.sport] || ['match centre', e.link || e.source];
   if (cricinfo(e)) [name, url] = ['Cricinfo', cricinfo(e)];
@@ -946,6 +949,7 @@ function detail(e) {
     overseas && !e.timeTBC ? ['Local', `${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
     ['Where', [e.venue, e.city].filter(Boolean).map(wikiLink).join(', ') || 'To be confirmed', true],
     e.note ? ['Note', e.note] : null,
+    e.weather ? ['Weather', e.weather] : null,
   ].filter(Boolean);
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
   const watch = [b && `<li><b>${linkWatch(b)}</b></li>`, e.watchAlt && `<li>${linkWatch(e.watchAlt)}</li>`,

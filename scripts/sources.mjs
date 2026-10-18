@@ -203,6 +203,8 @@ function eventsFromPage(title, text, cfg, cityTz) {
       home, away, startUTC: new Date(t).toISOString(), timeTBC: tbc, ...(stage ? { stage } : {}),
       venue: parts[0] || '', city, tz, status, score, summary,
       source: `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`, link: report, ...(/cricinfo\.com/.test(report || '') ? { cricinfo: report } : {}),
+      // cricket boxes carry a "rain" note that editors fill in during the game ("Rain delayed the start of play")
+      ...(isCricket && clean(stripRefs(p.rain || '')) ? { weather: clean(stripRefs(p.rain)) } : {}),
     });
   }
   return out;
