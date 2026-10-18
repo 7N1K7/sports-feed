@@ -1,379 +1,72 @@
-#### CONS ROWS
-
-|-
+#### CONS KEY LINES
+!{{Abbr|Pos.|Position}}
+!Constructor
+!style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|[[List of Formula One World Championship points scoring systems|Points]]
 ! rowspan="2"| 1
 | rowspan="2" style="text-align:left"|{{flagicon|GER}} [[Mercedes-Benz in Formula One|Mercedes]]
-|{{F1R2026|RUS|AUS}}
-|{{F1R2026|ANT|CHN}}
-|{{F1R2026|ANT|JPN}}
-|{{F1R2026|ANT|MIA}}
-|{{F1R2026|ANT|CAN}}
-|{{F1R2026|ANT|MON}}
-|{{F1R2026|RUS|BCN}}
-|{{F1R2026|RUS|AUT}}
-|{{F1R2026|RUS|GBR}}
-|{{F1R2026|ANT|BEL}}
-|{{F1R2026|ANT|HUN}}
-|{{F1R2026|ANT|NED}}
-|{{F1R2026|ANT|ITA}}
-|{{F1R2026|ANT|ESP}}
-|{{F1R2026|RUS|AZE}}
-|{{F1R2026|ANT|BHR}}
-|{{F1R2026|ANT|SIN}}
-|{{F1R2026|ANT|USA}}
-|{{F1R2026|ANT|MXC}}
-|{{F1R2026|ANT|SAP}}
-|{{F1R2026|ANT|LVG}}
-|{{F1R2026|ANT|QAT}}
-|{{F1R2026|ANT|ABU}}
 ! rowspan="2" style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|{{Sum|{{F1R2026|RUS|points}}|{{F1R2026|ANT|points}}}}
-|-
-|{{F1R2026|ANT|AUS}}
-|{{F1R2026|RUS|CHN}}
-|{{F1R2026|RUS|JPN}}
-|{{F1R2026|RUS|MIA}}
-|{{F1R2026|RUS|CAN}}
-|{{F1R2026|RUS|MON}}
-|{{F1R2026|ANT|BCN}}
-|{{F1R2026|ANT|AUT}}
-|{{F1R2026|ANT|GBR}}
-|{{F1R2026|RUS|BEL}}
-|{{F1R2026|RUS|HUN}}
-|{{F1R2026|RUS|NED}}
-|{{F1R2026|RUS|ITA}}
-|{{F1R2026|RUS|ESP}}
-|{{F1R2026|ANT|AZE}}
-|{{F1R2026|RUS|BHR}}
-|{{F1R2026|RUS|SIN}}
-|{{F1R2026|RUS|USA}}
-|{{F1R2026|RUS|MXC}}
-|{{F1R2026|RUS|SAP}}
-|{{F1R2026|RUS|LVG}}
-|{{F1R2026|RUS|QAT}}
-|{{F1R2026|RUS|ABU}}
-|-
 ! rowspan="2"| 2
 | rowspan="2" style="text-align:left"|{{flagicon|ITA}} [[Scuderia Ferrari|Ferrari]]
-|{{F1R2026|LEC|AUS}}
-|{{F1R2026|HAM|CHN}}
-|{{F1R2026|LEC|JPN}}
-|{{F1R2026|HAM|MIA}}
-|{{F1R2026|HAM|CAN}}
-|{{F1R2026|HAM|MON}}
-|{{F1R2026|HAM|BCN}}
-|{{F1R2026|HAM|AUT}}
-|{{F1R2026|LEC|GBR}}
-|{{F1R2026|LEC|BEL}}
-|{{F1R2026|LEC|HUN}}
-|{{F1R2026|HAM|NED}}
-|{{F1R2026|HAM|ITA}}
-|{{F1R2026|LEC|ESP}}
-|{{F1R2026|LEC|AZE}}
-|{{F1R2026|HAM|BHR}}
-|{{F1R2026|LEC|SIN}}
-|{{F1R2026|LEC|USA}}
-|{{F1R2026|LEC|MXC}}
-|{{F1R2026|LEC|SAP}}
-|{{F1R2026|LEC|LVG}}
-|{{F1R2026|LEC|QAT}}
-|{{F1R2026|LEC|ABU}}
 ! rowspan="2" style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|{{Sum|{{F1R2026|LEC|points}}|{{F1R2026|HAM|points}}}}
-|-
-|{{F1R2026|HAM|AUS}}
-|{{F1R2026|LEC|CHN}}
-|{{F1R2026|HAM|JPN}}
-|{{F1R2026|LEC|MIA}}
-|{{F1R2026|LEC|CAN}}
-|{{F1R2026|LEC|MON}}
-|{{F1R2026|LEC|BCN}}
-|{{F1R2026|LEC|AUT}}
-|{{F1R2026|HAM|GBR}}
-|{{F1R2026|HAM|BEL}}
-|{{F1R2026|HAM|HUN}}
-|{{F1R2026|LEC|NED}}
-|{{F1R2026|LEC|ITA}}
-|{{F1R2026|HAM|ESP}}
-|{{F1R2026|HAM|AZE}}
-|{{F1R2026|LEC|BHR}}
-|{{F1R2026|HAM|SIN}}
-|{{F1R2026|HAM|USA}}
-|{{F1R2026|HAM|MXC}}
-|{{F1R2026|HAM|SAP}}
-|{{F1R2026|HAM|LVG}}
-|{{F1R2026|HAM|QAT}}
-|{{F1R2026|HAM|ABU}}
-|-
 ! rowspan="2"| 3
 | rowspan="2" style="text-align:left"|{{flagicon|GBR}} [[McLaren]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]
-|{{F1R2026|NOR|AUS}}
-|{{F1R2026|NOR|CHN}}
-|{{F1R2026|PIA|JPN}}
-|{{F1R2026|NOR|MIA}}
-|{{F1R2026|PIA|CAN}}
-|{{F1R2026|PIA|MON}}
-|{{F1R2026|NOR|BCN}}
-|{{F1R2026|PIA|AUT}}
-|{{F1R2026|NOR|GBR}}
-|{{F1R2026|PIA|BEL}}
-|{{F1R2026|NOR|HUN}}
-|{{F1R2026|NOR|NED}}
-|{{F1R2026|NOR|ITA}}
-|{{F1R2026|NOR|ESP}}
-|{{F1R2026|PIA|AZE}}
-|{{F1R2026|PIA|BHR}}
-|{{F1R2026|NOR|SIN}}
-|{{F1R2026|NOR|USA}}
-|{{F1R2026|NOR|MXC}}
-|{{F1R2026|NOR|SAP}}
-|{{F1R2026|NOR|LVG}}
-|{{F1R2026|NOR|QAT}}
-|{{F1R2026|NOR|ABU}}
 ! rowspan="2" style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|{{Sum|{{F1R2026|NOR|points}}|{{F1R2026|PIA|points}}}}
-|-
-|{{F1R2026|PIA|AUS}}
-|{{F1R2026|PIA|CHN}}
-|{{F1R2026|NOR|JPN}}
-|{{F1R2026|PIA|MIA}}
-|{{F1R2026|NOR|CAN}}
-|{{F1R2026|NOR|MON}}
-|{{F1R2026|PIA|BCN}}
-|{{F1R2026|NOR|AUT}}
-|{{F1R2026|PIA|GBR}}
-|{{F1R2026|NOR|BEL}}
-|{{F1R2026|PIA|HUN}}
-|{{F1R2026|PIA|NED}}
-|{{F1R2026|PIA|ITA}}
-|{{F1R2026|PIA|ESP}}
-|{{F1R2026|NOR|AZE}}
-|{{F1R2026|NOR|BHR}}
-|{{F1R2026|PIA|SIN}}
-|{{F1R2026|PIA|USA}}
-|{{F1R2026|PIA|MXC}}
-|{{F1R2026|PIA|SAP}}
-|{{F1R2026|PIA|LVG}}
-|{{F1R2026|PIA|QAT}}
-|{{F1R2026|PIA|ABU}}
-|-
 ! rowspan="2"| 4
 | rowspan="2" style="text-align:left;span-class:nowrap"|{{nowrap|{{flagicon|AUT}} [[Red Bull Racing]]-[[Red Bull Powertrains|Red Bull Ford]]}}
-|{{F1R2026|VER|AUS}}
-|{{F1R2026|HAD|CHN}}
-|{{F1R2026|VER|JPN}}
-|{{F1R2026|VER|MIA}}
-|{{F1R2026|VER|CAN}}
-|{{F1R2026|HAD|MON}}
-|{{F1R2026|VER|BCN}}
-|{{F1R2026|VER|AUT}}
-|{{F1R2026|HAD|GBR}}
-|{{F1R2026|VER|BEL}}
-|{{F1R2026|VER|HUN}}
-|{{F1R2026|LAW|NED}}
-|{{F1R2026|VER|ITA}}
-|{{F1R2026|VER|ESP}}
-|{{F1R2026|VER|AZE}}
-|{{F1R2026|VER|BHR}}
-|{{F1R2026|VER|SIN}}
-|{{F1R2026|VER|USA}}
-|{{F1R2026|VER|MXC}}
-|{{F1R2026|VER|SAP}}
-|{{F1R2026|VER|LVG}}
-|{{F1R2026|VER|QAT}}
-|{{F1R2026|VER|ABU}}
 ! rowspan="2" style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|{{Sum|{{F1R2026|VER|points}}|{{F1R2026|HAD|points}}|14}}
-|-
-|{{F1R2026|HAD|AUS}}
-|{{F1R2026|VER|CHN}}
-|{{F1R2026|HAD|JPN}}
-|{{F1R2026|HAD|MIA}}
-|{{F1R2026|HAD|CAN}}
-|{{F1R2026|VER|MON}}
-|{{F1R2026|HAD|BCN}}
-|{{F1R2026|HAD|AUT}}
-|{{F1R2026|VER|GBR}}
-|{{F1R2026|HAD|BEL}}
-|{{F1R2026|HAD|HUN}}
-|{{F1R2026|VER|NED}}
-|{{F1R2026|LAW|ITA}}
-|{{F1R2026|LAW|ESP}}
-|{{F1R2026|HAD|AZE}}
-|{{F1R2026|HAD|BHR}}
-|{{F1R2026|HAD|SIN}}
-|{{F1R2026|HAD|USA}}
-|{{F1R2026|HAD|MXC}}
-|{{F1R2026|HAD|SAP}}
-|{{F1R2026|HAD|LVG}}
-|{{F1R2026|HAD|QAT}}
-|{{F1R2026|HAD|ABU}}
-|-
 ! rowspan="2"| 5
 | rowspan="2" style="text-align:left"|{{flagicon|ITA}} [[Racing Bulls]]-[[Red Bull Powertrains|Red Bull Ford]]
-|{{F1R2026|LIN|AUS}}
-|{{F1R2026|LAW|CHN}}
-|{{F1R2026|LAW|JPN}}
-|{{F1R2026|LIN|MIA}}
-|{{F1R2026|LAW|CAN}}
-|{{F1R2026|LAW|MON}}
-|{{F1R2026|LAW|BCN}}
-|{{F1R2026|LAW|AUT}}
-|{{F1R2026|LAW|GBR}}
-|{{F1R2026|LIN|BEL}}
-|{{F1R2026|LAW|HUN}}
-|{{F1R2026|TSU|NED}}
-|{{F1R2026|LIN|ITA}}
-|{{F1R2026|LIN|ESP}}
-|{{F1R2026|LIN|AZE}}
-|{{F1R2026|LAW|BHR}}
-|{{F1R2026|LAW|SIN}}
-|{{F1R2026|LAW|USA}}
-|{{F1R2026|LAW|MXC}}
-|{{F1R2026|LAW|SAP}}
-|{{F1R2026|LAW|LVG}}
-|{{F1R2026|LAW|QAT}}
-|{{F1R2026|LAW|ABU}}
 ! rowspan="2" style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|{{Sum|{{F1R2026|LAW|points}}|{{F1R2026|LIN|points}}|{{F1R2026|TSU|points}}|-14}}
-|-
-|{{F1R2026|LAW|AUS}}
-|{{F1R2026|LIN|CHN}}
-|{{F1R2026|LIN|JPN}}
-|{{F1R2026|LAW|MIA}}
-|{{F1R2026|LIN|CAN}}
-|{{F1R2026|LIN|MON}}
-|{{F1R2026|LIN|BCN}}
-|{{F1R2026|LIN|AUT}}
-|{{F1R2026|LIN|GBR}}
-|{{F1R2026|LAW|BEL}}
-|{{F1R2026|LIN|HUN}}
-|{{F1R2026|LIN|NED}}
-|{{F1R2026|TSU|ITA}}
-|{{F1R2026|TSU|ESP}}
-|{{F1R2026|LAW|AZE}}
-|{{F1R2026|LIN|BHR}}
-|{{F1R2026|LIN|SIN}}
-|{{F1R2026|LIN|USA}}
-|{{F1R2026|LIN|MXC}}
-|{{F1R2026|LIN|SAP}}
-|{{F1R2026|LIN|LVG}}
-|{{F1R2026|LIN|QAT}}
-|{{F1R2026|LIN|ABU}}
-|-
 ! rowspan="2"| 6
 | rowspan="2" style="text-align:left"|{{flagicon|FRA}} [[Alpine F1 Team|Alpine]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]
-|{{F1R2026|GAS|AUS}}
-|{{F1R2026|GAS|CHN}}
-|{{F1R2026|GAS|JPN}}
-|{{F1R2026|COL|MIA}}
-|{{F1R2026|COL|CAN}}
-|{{F1R2026|GAS|MON}}
-|{{F1R2026|GAS|BCN}}
-|{{F1R2026|GAS|AUT}}
-|{{F1R2026|COL|GBR}}
-|{{F1R2026|COL|BEL}}
-|{{F1R2026|GAS|HUN}}
-|{{F1R2026|GAS|NED}}
-|{{F1R2026|GAS|ITA}}
-|{{F1R2026|COL|ESP}}
-|{{F1R2026|GAS|AZE}}
-|{{F1R2026|COL|BHR}}
-|{{F1R2026|GAS|SIN}}
-|{{F1R2026|GAS|USA}}
-|{{F1R2026|GAS|MXC}}
-|{{F1R2026|GAS|SAP}}
-|{{F1R2026|GAS|LVG}}
-|{{F1R2026|GAS|QAT}}
-|{{F1R2026|GAS|ABU}}
-! rowspan="2" style="position:sticky; right: 0; background-clip: padding-box; color
-#### CONS TAIL
-:top"|[[2026 Japanese Grand Prix|JPN]]<br />{{flagicon|JPN}}
-!style="vertical-align:top"|[[2026 Miami Grand Prix|MIA]]<br />{{flagicon|USA}}
-!style="vertical-align:top"|[[2026 Canadian Grand Prix|CAN]]<br />{{flagicon|CAN}}
-!style="vertical-align:top"|[[2026 Monaco Grand Prix|MON]]<br />{{flagicon|MON}}
-!style="vertical-align:top"|[[2026 Barcelona-Catalunya Grand Prix|BCN]]<br />{{flagicon|ESP}}
-!style="vertical-align:top"|[[2026 Austrian Grand Prix|AUT]]<br />{{flagicon|AUT}}
-!style="vertical-align:top"|[[2026 British Grand Prix|GBR]]<br />{{flagicon|GBR}}
-!style="vertical-align:top"|[[2026 Belgian Grand Prix|BEL]]<br />{{flagicon|BEL}}
-!style="vertical-align:top"|[[2026 Hungarian Grand Prix|HUN]]<br />{{flagicon|HUN}}
-!style="vertical-align:top"|[[2026 Dutch Grand Prix|NED]]<br />{{flagicon|NED}}
-!style="vertical-align:top"|[[2026 Italian Grand Prix|ITA]]<br />{{flagicon|ITA}}
-!style="vertical-align:top"|[[2026 Spanish Grand Prix|ESP]]<br />{{flagicon|ESP}}
-!style="vertical-align:top"|[[2026 Azerbaijan Grand Prix|AZE]]<br />{{flagicon|AZE}}
-!style="vertical-align:top"|[[2026 Bahrain Grand Prix in Malaysia|BHR]]<br />{{flagicon|MYS}}
-!style="vertical-align:top"|[[2026 Singapore Grand Prix|SIN]]<br />{{flagicon|SIN}}
-!style="vertical-align:top"|[[2026 United States Grand Prix|USA]]<br />{{flagicon|USA}}
-!style="vertical-align:top"|[[2026 Mexico City Grand Prix|MXC]]<br />{{flagicon|MEX}}
-!style="vertical-align:top"|[[2026 São Paulo Grand Prix|SAP]]<br />{{flagicon|BRA}}
-!style="vertical-align:top"|[[2026 Las Vegas Grand Prix|LVG]]<br />{{flagicon|USA}}
-!style="vertical-align:top"|[[2026 Qatar Grand Prix|QAT]]<br />{{flagicon|QAT}}
-!style="vertical-align:top"|[[2026 Abu Dhabi Grand Prix|ABU]]<br />{{flagicon|UAE}}
+! rowspan="2" style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|{{Sum|{{F1R2026|GAS|points}}|{{F1R2026|COL|points}}}}
+! rowspan="2"| 7
+| rowspan="2" style="text-align:left"|{{flagicon|USA}} [[Haas F1 Team|Haas]]-[[Scuderia Ferrari|Ferrari]]
+! rowspan="2" style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|{{Sum|{{F1R2026|BEA|points}}|{{F1R2026|OCO|points}}}}
+! rowspan="2"| 8
+| rowspan="2" style="text-align:left"|{{flagicon|GER}} [[Audi in Formula One|Audi]]
+! rowspan="2" style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|{{Sum|{{F1R2026|HUL|points}}|{{F1R2026|BOR|points}}}}
+! rowspan="2"| 9
+| rowspan="2" style="text-align:left"|{{flagicon|GBR}} [[Williams Racing|Atlassian Williams]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]
+! rowspan="2" style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|{{Sum|{{F1R2026|ALB|points}}|{{F1R2026|SAI|points}}}}
+! rowspan="2"| 10
+| rowspan="2" style="text-align:left"|{{flagicon|GBR}} [[Aston Martin in Formula One|Aston Martin Aramco]]-[[Honda in Formula One|Honda]]
+! rowspan="2" style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|{{Sum|{{F1R2026|ALO|points}}|{{F1R2026|STR|points}}}}
+! rowspan="2"| 11
+| rowspan="2" style="text-align:left"|{{flagicon|USA}} [[Cadillac in Formula One|Cadillac]]-[[Scuderia Ferrari|Ferrari]]
+! rowspan="2" style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|{{Sum|{{F1R2026|PER|points}}|{{F1R2026|BOT|points}}}}
+!{{Abbr|Pos.|Position}}
+!Constructor
 !style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|[[List of Formula One World Championship points scoring systems|Points]]
-|-
 !colspan="26"|Source:<includeonly><ref name="ChampionshipPoints" /></includeonly>
-|}
-| style="vertical-align:top;"|
-{{F1 driver results legend 8}}
-|}
-'''Notes:'''
-* {{dagger}}&nbsp;– Driver did not finish the Grand Prix, but was classified as he completed more than 90% of the race distance.
-* Rows are not related to the drivers: within each constructor, individual Grand Prix standings are sorted purely based on the final classification in the race (not by total points scored in the event, which includes points awarded for the sprint).<noinclude>
 [[Category:Formula One templates]]
-</noinclude>
-#### LAWSON
-round:#" |
-| style="background:#" |
-| style="background:#" |
-!style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|97 
-|-
-! 9
-| style="text-align:left" |{{flagicon|NZL}} [[Liam Lawson]]
-| style="background:#CFCFFF" |13
-| style="background:#DFFFDF" |{{F1 race position|7|s|7}}
-| style="background:#DFFFDF" |9
-| style="background:#EFCFFF" |Ret
-| style="background:#DFFFDF" |7
-| style="background:#DFFFDF" |5
-| style="background:#DFFFDF" |8
-| style="background:#DFFFDF" |9
-| 
-#### DRIVERS TAIL
-AN]]<br />{{flagicon|CAN}}
-![[2026 Monaco Grand Prix|MON]]<br />{{flagicon|MON}}
-![[2026 Barcelona-Catalunya Grand Prix|BCN]]<br />{{flagicon|ESP}}
-![[2026 Austrian Grand Prix|AUT]]<br />{{flagicon|AUT}}
-![[2026 British Grand Prix|GBR]]<br />{{flagicon|GBR}}
-![[2026 Belgian Grand Prix|BEL]]<br />{{flagicon|BEL}}
-![[2026 Hungarian Grand Prix|HUN]]<br />{{flagicon|HUN}}
-![[2026 Dutch Grand Prix|NED]]<br />{{flagicon|NED}}
-![[2026 Italian Grand Prix|ITA]]<br />{{flagicon|ITA}}
-![[2026 Spanish Grand Prix|ESP]]<br />{{flagicon|ESP}}
-![[2026 Azerbaijan Grand Prix|AZE]]<br />{{flagicon|AZE}}
-![[2026 Bahrain Grand Prix in Malaysia|BHR]]<br />{{flagicon|MYS}}
-![[2026 Singapore Grand Prix|SIN]]<br />{{flagicon|SIN}}
-![[2026 United States Grand Prix|USA]]<br />{{flagicon|USA}}
-![[2026 Mexico City Grand Prix|MXC]]<br />{{flagicon|MEX}}
-![[2026 São Paulo Grand Prix|SAP]]<br />{{flagicon|BRA}}
-![[2026 Las Vegas Grand Prix|LVG]]<br />{{flagicon|USA}}
-![[2026 Qatar Grand Prix|QAT]]<br />{{flagicon|QAT}}
-![[2026 Abu Dhabi Grand Prix|ABU]]<br />{{flagicon|UAE}}
-! style="position:sticky; right: 0; background-clip: padding-box; color: inherit;" |[[List of Formula One World Championship points scoring systems|Points]]
-|-
-!colspan="26"|Source:<ref name="ChampionshipPoints">{{cite web |url=https://www.fia.com/system/files/decision-document/2026_singapore_grand_prix_-_championship_points.pdf |title=2026 Singapore Grand Prix – Championship Points |publisher=[[Fédération Internationale de l'Automobile]] |date=11 October 2026 |access-date=11 October 2026 |last=Holter |first=Felix |last2=Selley |first2=Matthew |last3=Lamy |first3=Pedro |author-link3=Pedro Lamy |last4=Ng |first4=Paul |format=PDF}}</ref>
-|}
-|style="vertical-align:top" |
-{{F1 driver results legend 8}}
-|}
-'''Notes:'''
-* {{dagger}}&nbsp;– Driver did not finish the Grand Prix, but was classified as he completed more than 90% of the race distance.
-<noinclude>
-{{pp-template}}
-{{reflist}}
-[[Category:Formula One templates]]
-</noinclude>
-#### TSDB eventsround.php?id=4370&r=18&s=2026 200 5
-2408197 | United States Grand Prix Practice 1 | 2026-10-23 | 17:30:00 | 2026-10-23T17:30:00 | Circuit of the Americas | Austin, TX | 18 |  | 4370
-2408198 | United States Grand Prix Practice 2 | 2026-10-23 | 21:00:00 | 2026-10-23T21:00:00 | Circuit of the Americas | Austin, TX | 18 |  | 4370
-2408199 | United States Grand Prix Practice 3 | 2026-10-24 | 17:30:00 | 2026-10-24T17:30:00 | Circuit of the Americas | Austin, TX | 18 |  | 4370
-2408200 | United States Grand Prix Qualifying | 2026-10-24 | 21:00:00 | 2026-10-24T21:00:00 | Circuit of the Americas | Austin, TX | 18 |  | 4370
-2408201 | United States Grand Prix | 2026-10-25 | 20:00:00 | 2026-10-25T20:00:00 | Circuit of the Americas | Austin, TX | 18 |  | 4370
-#### TSDB searchevents.php?e=United%20States%20Grand%20Prix&s=2026 200 1
-2417382 | United States Grand Prix Moto2  | 2026-03-29 | 18:15:00 | 2026-03-29T18:15:00 | Circuit of the Americas | Austin | 3 | FT | 4436
-#### TSDB eventsday.php?d=2026-10-25&l=4370 200 1
-2408201 | United States Grand Prix | 2026-10-25 | 20:00:00 | 2026-10-25T20:00:00 | Circuit of the Americas | Austin, TX | 18 |  | 4370
+#### SUMS 11
+{"expandtemplates":{"wikitext":"578§§444§§339§§332§§100§§68§§30§§23§§12§§7§§0"}}
+#### F1R2026 63587
+{{safesubst:<noinclude />#switch: {{{1|}}}
+ | UPTO = 2026 Singapore Grand Prix <!-- The template is updated to this Grand Prix -->
+
+ | ALB = {{safesubst:<noinclude />#switch: {{{2|}}}
+ | AUS = {{Coltit|CFCFFF|x=}} 12
+ | AUS2 = {{Coltit|CFCFFF|x=}} [[2026 Australian Grand Prix|AUS]]<br />{{small|12}}
+ | CHN = {{Coltit|FFFFFF|x=}} DNS
+ | CHN2 = {{Coltit|FFFFFF|x=}} [[2026 Chinese Grand Prix|CHN]]<br />{{small|DNS}}
+ | JPN = {{Coltit|CFCFFF|x=}} 20
+ | JPN2 = {{Coltit|CFCFFF|x=}} [[2026 Japanese Grand Prix|JPN]]<br />{{small|20}}
+ | MIA = {{Coltit|DFFFDF|x=}} 10
+ | MIA2 = {{Coltit|DFFFDF|x=}} [[2026 Miami Grand Prix|MIA]]<br />{{small|10}}
+ | CAN = {{Coltit|EFCFFF|x=}} Ret
+ | CAN2 = {{Coltit|EFCFFF|x=}} [[2026 Canadian Grand Prix|CAN]]<br />{{small|Ret}}
+ | MON = {{Coltit|DFFFDF|x=}} 8
+ | MON2 = {{Coltit|DFFFDF|x=}} [[2026 Monaco Grand Prix|MON]]<br />{{small|8}}
+ | BCN = {{Coltit|CFCFFF|x=}} NC
+ | BCN2 = {{Coltit|CFCFFF|x=}} [[2026 Barcelona-Catalunya Grand Prix|BCN]]<br />{{small|NC}}
+ | AUT = {{Coltit|CFCFFF|x=}} 17
+ | AUT2 = {{Coltit|CFCFFF|x=}} [[2026 Austrian Grand Prix|AUT]]<br />{{small|17}}
+ | GBR = {{Coltit|EFCFFF|x=}} Ret
+ | GBR2 = {{Coltit|EFCFFF|x=}} [[2026 British Grand Prix|GBR]]<br />{{small|Ret}}
+ | BEL = {{Coltit|CFCFFF|x=}} 15
+ | BEL2 = {{Coltit|CFCFFF|x=}} [[2026 Belgian Grand Prix|BEL]]<br />{{small|15}}
+ | HUN = {{Coltit|CFCFFF|x=}} 17
+ | HUN2 = {{Coltit|CFCFFF|x=}} [[2026 Hungarian Grand Prix|HUN]]<br />{{small|17}}
+ | NED = {{Coltit|CFCFFF|x=}} 17{{dagger}
