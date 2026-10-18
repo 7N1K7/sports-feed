@@ -1549,7 +1549,9 @@ function render() {
   }).join('');
 
   // live now: games under way, in their own section above the week
-  const lives = upcoming.filter(e => e.status === 'live' || running(e, now));
+  const lives = upcoming.filter(e => e.status === 'live' || onNow(e, now));
+  // a Test between days of play (overnight, or after rain ended the day) waits in "Earlier" until the next day starts
+  const resting = upcoming.filter(e => !lives.includes(e) && between(e, now));
   $('liveSec').hidden = !lives.length;
   // only rewrite the live cards when they change, so their glow doesn't restart on every click
   const liveHtml = lives.map(e => evCard(e, now)).join('');
@@ -1566,24 +1568,24 @@ function render() {
   drawDayPick();
 
   // today
-  const todays = upcoming.filter(e => !lives.includes(e) && dayKey(new Date(e.startUTC)) === todayK);
+  const todays = upcoming.filter(e => !lives.includes(e) && !resting.includes(e) && dayKey(new Date(e.startUTC)) === todayK);
   $('todayLabel').textContent = dayLabel(nowD, NZ);
   // today's finished games stay in "On today" (spoiler rules still apply), latest first after the upcoming ones
   // "Earlier": games that ended in the last 12 hours, whatever the day, so one that finished late last night stays up
   // here into the morning. They're in Results below as well, and only there once the 12 hours are up.
   const doneToday = finals.filter(e => now - endOf(e, now) < 12 * 36e5);
-  $('todaySec').hidden = !todays.length && !doneToday.length && lives.length > 0;
-  $('today').innerHTML = todays.length || doneToday.length
+  $('todaySec').hidden = !todays.length && !doneToday.length && !resting.length && lives.length > 0;
+  $('today').innerHTML = todays.length || doneToday.length || resting.length
     ? `<div class="daygroup">${(() => {
         const live = [], later = todays;
         const hourNZ = e => +fmt(new Date(e.startUTC), NZ, { hour: 'numeric', hour12: false });
         const tonight = +fmt(nowD, NZ, { hour: 'numeric', hour12: false }) >= 17 || (later.length && later.every(e => !e.timeTBC && hourNZ(e) >= 17));
         return (lives.length && later.length ? `<div class="dayhead">${tonight ? 'Later tonight' : 'Later today'}</div>` : '') + later.map(e => evCard(e, now)).join('');
-      })()}${doneToday.length ? `<div class="dayhead">Earlier${revealAll(doneToday, now)}</div><div class="donetoday">${doneToday.map(e => resCard(e, now)).join('')}</div>` : ''}</div>`
+      })()}${doneToday.length || resting.length ? `<div class="dayhead">Earlier${doneToday.length ? revealAll(doneToday, now) : ''}</div>${resting.map(e => evCard(e, now)).join('')}${doneToday.length ? `<div class="donetoday">${doneToday.map(e => resCard(e, now)).join('')}</div>` : ''}` : ''}</div>`
     : `<div class="empty-note">Nothing on for your teams today. ${upcoming[0] ? `Next up: <b>${esc(titleOf(upcoming[0]))}</b>, ${dayLabel(new Date(upcoming[0].startUTC), NZ)}.` : ''}</div>`;
 
   // coming up this week, then further ahead, grouped by NZ day
-  const rest = upcoming.filter(e => !todays.includes(e) && !lives.includes(e));
+  const rest = upcoming.filter(e => !todays.includes(e) && !lives.includes(e) && !resting.includes(e));
   const groups = new Map();
   // tomorrow gets its own section, right after today
   const tomK = dayKey(new Date(now + 864e5));
