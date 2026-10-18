@@ -422,6 +422,23 @@ a.svc:hover { text-decoration-color: currentColor }
 }
 @media (prefers-reduced-motion: no-preference) { .ev, .ni { transition: border-color .15s } }
 .ev:hover, .ni:hover { border-color: color-mix(in srgb, var(--sport, var(--accent)) 50%, var(--line)) }
+
+/* compact view: each card one short row, so a whole day fits on screen */
+body.compact .ev .teams { font-size: 19px }
+body.compact .ev .teams.matchup .side { text-align: center; justify-content: center }
+body.compact .ev .teams.matchup:has(img) .side { grid-template-rows: auto; display: flex; gap: 8px; align-items: center; justify-content: center }
+body.compact .ev .teams.matchup .side.away { flex-direction: row-reverse }
+body.compact .ev .teams.matchup .logo:not(.flagimg) { height: 1.4em; max-width: 2.8em }
+body.compact .ev .teams.matchup .flagimg { height: 1em }
+body.compact .ev .body { padding-top: 6px; padding-bottom: 6px }
+body.compact .ev .comp { font-size: 11px }
+body.compact .ev .summary, body.compact .ev .tvl, body.compact .ev .nzl, body.compact .ev .loc:not(.num) { display: none }
+body.compact .ev .when { padding-top: 6px; padding-bottom: 6px; gap: 0 }
+body.compact .ev .nz { font-size: 20px }
+body.compact .ev .cover { padding: 4px 8px; font-size: 12px }
+body.compact .ev .cover b { font-size: 13px }
+body.compact .ev .rloc { margin-top: 2px }
+body.compact .daygroup, body.compact .donetoday { gap: 6px }
 </style>
 <style>:root{padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
 </head>
@@ -432,6 +449,7 @@ a.svc:hover { text-decoration-color: currentColor }
     <div class="brand">Sports <span>Feed</span></div>
     <div class="clock num" id="clock"></div>
     <div class="spacer"></div>
+    <button class="btn" id="compactBtn" aria-pressed="false" type="button">Compact</button>
     <button class="btn" id="spoilBtn" aria-pressed="false" type="button">Spoilers hidden</button>
     <button class="btn" id="teamsBtn" aria-expanded="false" aria-controls="panel" type="button">My teams</button>
   </div>
@@ -606,6 +624,7 @@ let picked = new Set(store.get('teams', ALL_KEYS));
 { const known = new Set(store.get('known', ALL_KEYS.filter(k => k !== 'epl' && k !== 'aucricket'))); const fresh = ALL_KEYS.filter(k => !known.has(k));
   if (fresh.length) { fresh.forEach(k => picked.add(k)); store.set('teams', [...picked]); } store.set('known', ALL_KEYS); }
 { const known = new Set(store.get('known', ALL_KEYS)); ALL_KEYS.filter(k => !known.has(k)).forEach(k => picked.add(k)); store.set('known', ALL_KEYS); store.set('teams', [...picked]); }
+let compact = store.get('compact', false);
 let spoilers = store.get('spoilers', true);   // true = hide recent results
 let spoilDays = store.get('spoilDaysSet', false) ? store.get('spoilDays', 4) : 4; // default 4 days covers Friday games checked on Monday
 let revealed = new Set(store.get('revealed', []));
@@ -771,6 +790,8 @@ const LIVE_SITE = { cricket: ['Cricinfo', 'https://www.espncricinfo.com/live-cri
 // the game's own Cricinfo page, when Wikipedia's match box links to it
 const FIGHT = /^(mma|boxing)$/;
 const cricinfo = e => e.cricinfo || (/cricinfo\.com/.test(e.link || '') ? e.link : '');
+// a venue or city opens its Wikipedia article (Wikipedia's "go" search lands on the page when the name matches)
+const wikiLink = n => `<a class="svc" href="https://en.wikipedia.org/wiki/Special:Search?go=Go&search=${encodeURIComponent(n)}" target="_blank" rel="noopener">${esc(n)}</a>`;
 function liveLink(e) {
   let [name, url] = LIVE_SITE[e.sport] || ['match centre', e.link || e.source];
   if (cricinfo(e)) [name, url] = ['Cricinfo', cricinfo(e)];
@@ -890,7 +911,7 @@ function detail(e) {
   const rows = [
     [`${START_LABEL[e.sport] || 'Start'} (NZ)`, when],
     overseas && !e.timeTBC ? ['Local', `${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
-    ['Where', [e.venue, e.city].filter(Boolean).join(', ') || 'To be confirmed'],
+    ['Where', [e.venue, e.city].filter(Boolean).map(wikiLink).join(', ') || 'To be confirmed', true],
     e.note ? ['Note', e.note] : null,
   ].filter(Boolean);
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
@@ -912,7 +933,7 @@ function detail(e) {
       ${!isPast && e.status !== 'live' && countdown(e, now) ? `<span class="tag ${d - now < 864e5 ? 'soon' : d - now < 3 * 864e5 ? 'near' : 'later'}">${countdown(e, now)}</span>` : ''}
     </div>
     ${res}${live}
-    <dl class="facts">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
+    <dl class="facts">${rows.map(([k, v, html]) => `<dt>${k}</dt><dd>${html ? v : esc(v)}</dd>`).join('')}</dl>
     <div class="dlinks">${[
       e.link && `<a href="${esc(e.link)}" target="_blank" rel="noopener">${cricinfo(e) === e.link ? 'Cricinfo: scorecard and squads' : e.sport === 'cricket' ? 'Scorecard' : FIGHT.test(e.sport) ? (isPast ? 'Fight results' : 'Fight page') : e.sport === 'motor' ? (isPast ? 'Race results' : 'Race page') : isPast ? 'Match report and team lists' : 'Team lists and match centre'} ↗</a>`,
       e.source && `<a href="${esc(e.source)}" target="_blank" rel="noopener">${e.status === 'live' ? 'Follow live' : FIGHT.test(e.sport) ? 'Fight page' : e.sport === 'motor' ? 'Race page' : 'Match page'} ↗</a>`,
@@ -1118,6 +1139,8 @@ function render() {
     $('sportFilter').classList.toggle('dim', !!compSel);
   }
   $('sportFilter').innerHTML = [['all','All'],['rugby','Rugby'],['cricket','Cricket'],['league','League'],['football','Football'],['motor','F1'],['mma','MMA'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${sportSel === k}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
+  document.body.classList.toggle('compact', compact);
+  $('compactBtn').setAttribute('aria-pressed', String(compact));
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   $('spoilBtn').textContent = spoilers ? 'Spoilers hidden' : 'Spoilers shown';
   $('teamsBtn').textContent = `My teams (${picked.size})`;
@@ -1150,6 +1173,7 @@ document.addEventListener('click', ev => {
   else if (t.id === 'hubClose') { compSel = ''; store.set('comp', ''); hubTab = 'games'; render(); }
   else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
   else if (t.id === 'moreUp') { store.set('showAllUp', true); render(); }
+  else if (t.id === 'compactBtn') { compact = !compact; store.set('compact', compact); render(); }
   else if (t.id === 'spoilBtn') { spoilers = !spoilers; store.set('spoilers', spoilers); render(); }
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); }
   else if (t.id === 'allOn') { picked = new Set(ALL_KEYS); store.set('teams', ALL_KEYS); render(); }
