@@ -4,6 +4,7 @@
 // Sources (all allow automated use; credited in the page footer)
 //   Wikipedia (MediaWiki API)  -> fixtures and results from season pages listed in data/wiki-pages.json
 //   TheSportsDB free API       -> A-League, NRL, Super Rugby rounds, next/last UFC event, team logos
+//                                 and, fill only, final scores/start times Wikipedia lacks (RLWC, NPC, rugby tests)
 //   RNZ sport RSS              -> news, tagged to teams by keyword
 //   data/curated/*.json        -> fixtures the above lack (boxing, some tests), news, notes
 //   data/broadcast.json        -> where-to-watch rules by competition
