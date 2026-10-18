@@ -21,7 +21,7 @@
 :root {
   --paper: #f3f6f4; --surface: #ffffff; --ink: #14211c; --muted: #5a6a64; --line: #d9e2de;
   --accent: #0d6b4d; --accent-ink: #ffffff; --soft: #e6efeb;
-  --rugby: #1b1f1d; --cricket: #b88a00; --league: #e8590c; --football: #2b8a3e; --mma: #d32f2f; --boxing: #d6336c;
+  --rugby: #1b1f1d; --cricket: #b88a00; --league: #e8590c; --football: #2b8a3e; --mma: #d32f2f; --boxing: #d6336c; --motor: #1c7ed6;
   --live: #c8322a; --cover: #dfe6e3;
   --soon: #d9480f; --near: #7048e8; --later: #5a6a64; --local: #1971c2;
   --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
@@ -31,12 +31,12 @@
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
   --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
-  --rugby: #d5dbd8; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac;
+  --rugby: #d5dbd8; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7;
   --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark } }
 :root[data-theme="dark"] {
   --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
   --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
-  --rugby: #d5dbd8; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac;
+  --rugby: #d5dbd8; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7;
   --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark }
 
 * { box-sizing: border-box }
@@ -110,12 +110,11 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .ev .hl:hover { background: color-mix(in srgb, #e03131 10%, transparent) }
 @media (max-width: 560px) { .ev .hl { justify-self: start } }
 .ev .rloc { font-size: 12px; color: var(--muted) }
-@media (max-width: 560px) { .ev .when { padding-right: 40px } }
 .ev .tvl { font-size: 13px; font-weight: 600; color: var(--ink) }
 .ev .tvl a { color: inherit }
 .tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 1px 6px; background: var(--soft); color: var(--ink); justify-self: end }
 .tag.live { background: var(--live); color: #fff }
-.sport-rugby { --sport: var(--rugby) } .sport-cricket { --sport: var(--cricket) } .sport-league { --sport: var(--league) } .sport-football { --sport: var(--football) } .sport-mma { --sport: var(--mma) } .sport-boxing { --sport: var(--boxing) }
+.sport-rugby { --sport: var(--rugby) } .sport-cricket { --sport: var(--cricket) } .sport-league { --sport: var(--league) } .sport-football { --sport: var(--football) } .sport-mma { --sport: var(--mma) } .sport-boxing { --sport: var(--boxing) } .sport-motor { --sport: var(--motor) }
 
 .res .when { min-width: 120px }
 .res .score { font-family: var(--f-display); font-size: 28px; font-weight: 700; line-height: 1 }
@@ -147,7 +146,8 @@ footer a { color: var(--muted) }
 .chip { display: inline-flex; align-items: center; gap: 6px }
 .sportchip.sport-all { --sport: var(--ink) }
 .sportchip { border-color: var(--sport) }
-.nowbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin: 0 0 -12px }
+.nowbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin: 0 auto -12px }
+.nowchips { display: contents }
 .nowlbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 4px; display: inline-flex; align-items: center; gap: 6px }
 .nowchip.is-live { box-shadow: 0 0 0 2px color-mix(in srgb, #e03131 35%, transparent), 0 0 14px color-mix(in srgb, #e03131 45%, transparent) }
 .livetag { margin-left: 7px; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff; background: #e03131; border-radius: 4px; padding: 1px 5px }
@@ -164,6 +164,7 @@ footer a { color: var(--muted) }
 .ev.sport-football { background: color-mix(in srgb, var(--football) 6%, var(--surface)) }
 .ev.sport-boxing { background: color-mix(in srgb, var(--boxing) 6%, var(--surface)) }
 .ev.sport-mma { background: color-mix(in srgb, var(--mma) 6%, var(--surface)) }
+.ev.sport-motor { background: color-mix(in srgb, var(--motor) 6%, var(--surface)) }
 .ev .stripe { width: 6px }
 .ni .top .badge { margin-right: 2px }
 #sportFilter { margin-bottom: -10px; justify-content: center }
@@ -336,12 +337,9 @@ a.svc:hover { text-decoration-color: currentColor }
 /* big events ahead: a row of tiles */
 .bigrow { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px }
 .ev .body { position: relative }
-.ev .comp { padding-right: 30px }
-.ev .when { position: relative }
-.ev .when .sicon { position: absolute; top: 9px; right: 10px; width: 22px; height: 22px }
-.ev .whtop { display: contents }
-/* time box: sport icon pinned top right, the rest centred in the space below it */
-@media (min-width: 561px) { .ev .when { align-content: center; padding-top: 36px; padding-bottom: 16px } }
+.ev .comp .sicon { width: 18px; height: 18px; flex: none }
+/* time box: everything centred, top to bottom and side to side */
+@media (min-width: 561px) { .ev .when { align-content: center; justify-items: center; text-align: center; padding-top: 14px; padding-bottom: 14px } .ev .when .tag { justify-self: center } }
 .dsheet .comp .sicon, .detail .comp .sicon { margin-left: auto; font-size: 20px; line-height: 1 }
 .cicon { width: 16px; height: 16px; margin-right: 5px; vertical-align: -3px }
 .hubimg { width: 28px; height: 28px; display: block }
@@ -579,10 +577,10 @@ const teamNameR = (n, logo, e) => `${nmSpan(n, e)}${crest(n.replace(/\s+Women('s
 const teamName = (n, logo, e) => `${crest(n.replace(/\s+Women('s)?$/, ''), logo)}${nmSpan(n, e)}`;
 // Tournaments that tint the week strip on the days they're on
 const BIG_EVENT = /World Cup|Nations Championship|Olympic|Commonwealth Games|Lions Tour|Champions Trophy/i;
-const SPORT_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', mma: '🥋', boxing: '🥊' };
+const SPORT_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', mma: '🥋', boxing: '🥊', motor: '🏎️' };
 // same-size icons on every device (Twemoji, CC BY 4.0), rather than each system's own emoji
 const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/${s}.svg" alt="" aria-hidden="true">` : '';
-const START_LABEL = { rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight', boxing: 'Main card' };
+const START_LABEL = { rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight', boxing: 'Main card', motor: 'Lights out' };
 const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC', boxing: 'Boxing' };
 
 const ALL_KEYS = TEAMS.flatMap(g => g.items.map(i => i[0]));
@@ -619,6 +617,8 @@ function genderOf(x) {
   if (x.sport === 'boxing') return '';
   return 'm';
 }
+// how a competition reads in the menu
+const COMP_LABEL = { UFC: 'MMA › UFC' };
 // one name per competition, so a whole tournament can be shown on its own
 function compOf(e) {
   const c = e.comp || '';
@@ -730,11 +730,11 @@ function evCard(e, now) {
   return `<article class="ev sport-${e.sport} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${badge(e.team)}<span>${esc(plural(e.comp))}</span>${seriesLine(e, now)}</div>
+      <div class="comp">${sIcon(e.sport)}${badge(e.team)}<span>${esc(plural(e.comp))}</span>${seriesLine(e, now)}</div>
       <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>
     </div>
     <div class="when">
-      <div class="whtop"><div class="nzl">${START_LABEL[e.sport] || 'Start'} NZ</div>${sIcon(e.sport)}</div>
+      <div class="nzl">${START_LABEL[e.sport] || 'Start'} NZ</div>
       <div class="nz num">${e.timeTBC ? 'TBC' : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div>
       ${local || (cityOf(e) || e.venue ? `<div class="loc">${esc(cityOf(e) || e.venue)}</div>` : '')}${tag}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
@@ -752,11 +752,12 @@ const SVC_RE = new RegExp(`(${Object.keys(SERVICES).sort((a, b) => b.length - a.
 const linkWatch = t => esc(t).replace(SVC_RE, m => `<a class="svc" href="${SERVICES[m]}" target="_blank" rel="noopener">${m}</a>`);
 const LIVE_SITE = { cricket: ['Cricinfo', 'https://www.espncricinfo.com/live-cricket-score'] };
 // the game's own Cricinfo page, when Wikipedia's match box links to it
+const FIGHT = /^(mma|boxing)$/;
 const cricinfo = e => e.cricinfo || (/cricinfo\.com/.test(e.link || '') ? e.link : '');
 function liveLink(e) {
   let [name, url] = LIVE_SITE[e.sport] || ['match centre', e.link || e.source];
   if (cricinfo(e)) [name, url] = ['Cricinfo', cricinfo(e)];
-  return url ? `<a class="livelink" href="${esc(e.sport === 'cricket' ? url : url)}" target="_blank" rel="noopener">Live scores on ${esc(e.sport === 'cricket' ? name : 'match page')} ↗</a>` : '';
+  return url ? `<a class="livelink" href="${esc(e.sport === 'cricket' ? url : url)}" target="_blank" rel="noopener">Live ${FIGHT.test(e.sport) ? 'on the fight page' : e.sport === 'motor' ? 'timing on the race page' : `scores on ${esc(e.sport === 'cricket' ? name : 'match page')}`} ↗</a>` : '';
 }
 function watchLine(e) {
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
@@ -783,11 +784,11 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${badge(e.team)}<span>${esc(plural(e.comp))}</span></div>
+      <div class="comp">${sIcon(e.sport)}${badge(e.team)}<span>${esc(plural(e.comp))}</span></div>
       <div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>
       ${hidden ? '' : `<div class="summary">${esc(e.summary || '')}</div>`}
     </div>
-    <div class="when">${sIcon(e.sport)}${right}<div class="rloc">${dayLabel(d, NZ)}${cityOf(e) ? ' · ' + esc(cityOf(e)) : ''}</div></div>
+    <div class="when">${right}<div class="rloc">${dayLabel(d, NZ)}${cityOf(e) ? ' · ' + esc(cityOf(e)) : ''}</div></div>
   </article>`;
 }
 
@@ -896,8 +897,8 @@ function detail(e) {
     ${res}${live}
     <dl class="facts">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
     <div class="dlinks">${[
-      e.link && `<a href="${esc(e.link)}" target="_blank" rel="noopener">${cricinfo(e) === e.link ? 'Cricinfo: scorecard and squads' : e.sport === 'cricket' ? 'Scorecard' : isPast ? 'Match report and team lists' : 'Team lists and match centre'} ↗</a>`,
-      e.source && `<a href="${esc(e.source)}" target="_blank" rel="noopener">${e.status === 'live' ? 'Follow live' : 'Match page'} ↗</a>`,
+      e.link && `<a href="${esc(e.link)}" target="_blank" rel="noopener">${cricinfo(e) === e.link ? 'Cricinfo: scorecard and squads' : e.sport === 'cricket' ? 'Scorecard' : FIGHT.test(e.sport) ? (isPast ? 'Fight results' : 'Fight page') : e.sport === 'motor' ? (isPast ? 'Race results' : 'Race page') : isPast ? 'Match report and team lists' : 'Team lists and match centre'} ↗</a>`,
+      e.source && `<a href="${esc(e.source)}" target="_blank" rel="noopener">${e.status === 'live' ? 'Follow live' : FIGHT.test(e.sport) ? 'Fight page' : e.sport === 'motor' ? 'Race page' : 'Match page'} ↗</a>`,
       cricinfo(e) && cricinfo(e) !== e.link && `<a href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Cricinfo: scorecard and squads ↗</a>`,
       e.sport === 'cricket' && !cricinfo(e) && `<a href="https://www.espncricinfo.com/live-cricket-score" target="_blank" rel="noopener">Ball by ball on Cricinfo ↗</a>`,
     ].filter(Boolean).join('')}</div>
@@ -923,6 +924,24 @@ const GENERIC = /^(Test match|Women's test|Boxing|UFC|NZ domestic cricket|Black 
 // tournaments played in windows across the year: listed whenever the next window is near
 const WINDOWED = /^(Nations Championship|Rugby Championship)$/;
 let onNowComps = new Set(), liveComps = new Set();
+// when the chips need two or more rows, narrow the box so the rows come out about even
+function balanceNow() {
+  const box = $('nowBar');
+  if (box.hidden) return;
+  box.style.maxWidth = '';
+  const chips = [box.querySelector('.nowlbl'), ...box.querySelectorAll('.nowchip')], gap = 6, full = box.clientWidth;
+  const total = chips.reduce((w, c) => w + c.offsetWidth + gap, -gap);
+  const rows = Math.ceil(total / full);
+  if (rows < 2) return;
+  const rowCount = () => new Set(chips.map(c => { const r = c.getBoundingClientRect(); return Math.round((r.top + r.bottom) / 20); })).size;
+  // smallest width that still fits in the same number of rows, so they come out even
+  for (let w = Math.max(Math.ceil(total / rows), ...chips.map(c => c.offsetWidth)); w < full; w += 12) {
+    box.style.maxWidth = w + 'px';
+    if (rowCount() <= rows) return;
+  }
+  box.style.maxWidth = '';
+}
+addEventListener('resize', () => requestAnimationFrame(balanceNow));
 function renderNowBar(now) {
   const by = new Map();
   for (const e of FEED.events || []) {
@@ -943,7 +962,8 @@ function renderNowBar(now) {
   onNowComps = new Set(on.map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
   $('nowBar').hidden = !on.length;
-  $('nowBar').innerHTML = on.length ? `<span class="nowlbl">Current series</span>${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}">${sIcon(v.sport, 'cicon')}${esc(plural(c))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}` : '';
+  $('nowBar').innerHTML = on.length ? `<span class="nowlbl">Current series</span><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}">${sIcon(v.sport, 'cicon')}${esc(plural(c))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}</div>` : '';
+  requestAnimationFrame(balanceNow);
 }
 
 function render() {
@@ -1058,22 +1078,23 @@ function render() {
       nextOf.set(c, Math.min(nextOf.get(c) ?? Infinity, t > -3 * 36e5 ? t : Infinity));
     });
     const rank = c => (onNowComps.has(c) ? 0 : nextOf.get(c) < Infinity ? 1 : 2);
-    const comps = [...counts].filter(([c, n]) => n >= 2 || c === compSel).map(([c]) => c)
+    const hasTable = new Set((FEED.tables || []).map(t => compOf({ comp: t.comp, sport: t.sport, team: t.team })));
+    const comps = [...counts].filter(([c, n]) => n >= 2 || nextOf.get(c) < Infinity || hasTable.has(c) || c === compSel).map(([c]) => c)
       .sort((a, b) => rank(a) - rank(b) || (nextOf.get(a) - nextOf.get(b)) || a.localeCompare(b));
-    const groups = [['rugby', 'Rugby'], ['league', 'Rugby league'], ['cricket', 'Cricket'], ['football', 'Football'], ['mma', 'UFC'], ['boxing', 'Boxing']];
-    const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}">${esc(c)}${liveComps.has(c) ? '<span class="onnow">Live</span>' : onNowComps.has(c) ? '<span class="current">Current</span>' : !c || nextOf.get(c) < Infinity ? '' : '<span class="ended">Season over</span>'}</button>`;
-    $('compMenu').innerHTML = opt('') .replace('></button>', '>All competitions</button>') + groups.map(([k, l]) => {
-      const cs = comps.filter(c => sportOfComp.get(c) === k);
-      return cs.length ? `<div class="cgroup"><div class="chead"><span class="dot" style="background:var(--${k})"></span>${l}</div>${cs.map(opt).join('')}</div>` : '';
+    const groups = [[['rugby'], 'Rugby'], [['league'], 'Rugby league'], [['cricket'], 'Cricket'], [['football'], 'Football'], [['motor'], 'Motorsport'], [['mma', 'boxing'], 'Fighting']];
+    const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}">${esc(COMP_LABEL[c] || c)}${liveComps.has(c) ? '<span class="onnow">Live</span>' : onNowComps.has(c) ? '<span class="current">Current</span>' : !c || nextOf.get(c) < Infinity ? '' : '<span class="ended">Season over</span>'}</button>`;
+    $('compMenu').innerHTML = opt('') .replace('></button>', '>All competitions</button>') + groups.map(([ks, l]) => {
+      const cs = comps.filter(c => ks.includes(sportOfComp.get(c))).sort((a, b) => ks.indexOf(sportOfComp.get(a)) - ks.indexOf(sportOfComp.get(b)));
+      return cs.length ? `<div class="cgroup"><div class="chead"><span class="dot" style="background:var(--${ks[0]})"></span>${l}</div>${cs.map(opt).join('')}</div>` : '';
     }).join('');
-    $('compSel').textContent = compSel || 'All competitions';
+    $('compSel').textContent = COMP_LABEL[compSel] || compSel || 'All competitions';
     $('nzOnly').setAttribute('aria-pressed', String(nzOnly));
     renderHub(now);
     $('compSel').classList.toggle('on', !!compSel);
     $('genderSel').innerHTML = [['all', 'All'], ['m', "Men's"], ['w', "Women's"]].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
     $('sportFilter').classList.toggle('dim', !!compSel);
   }
-  $('sportFilter').innerHTML = [['all','All'],['rugby','Rugby'],['cricket','Cricket'],['league','League'],['football','Football'],['mma','UFC'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${sportSel === k}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
+  $('sportFilter').innerHTML = [['all','All'],['rugby','Rugby'],['cricket','Cricket'],['league','League'],['football','Football'],['motor','F1'],['mma','MMA'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${sportSel === k}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   $('spoilBtn').textContent = spoilers ? 'Spoilers hidden' : 'Spoilers shown';
   $('teamsBtn').textContent = `My teams (${picked.size})`;

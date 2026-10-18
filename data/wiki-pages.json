@@ -20,6 +20,7 @@
     { "title": "{S} A-League Men", "sport": "football", "comp": "A-League Men", "classify": "aleague" },
     { "title": "{S} Premier League", "sport": "football", "comp": "Premier League", "classify": "epl" },
     { "title": "{Y} NRL season", "sport": "league", "comp": "NRL", "classify": "nrl" },
+    { "title": "{Y} NRL finals series", "sport": "league", "comp": "NRL finals", "classify": "nrl" },
     { "title": "List of UFC events", "sport": "mma", "comp": "UFC", "ufc": true }
   ],
   "thesportsdb": [
