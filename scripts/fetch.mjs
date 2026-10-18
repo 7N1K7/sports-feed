@@ -559,11 +559,37 @@ await addFaces(events);
 let site = null;
 try { site = { version: +execSync('git rev-list --count HEAD').toString().trim(), changedAt: execSync('git log -1 --format=%cI').toString().trim() }; } catch {}
 
+// Form guide: each side's last five results, oldest first, from every finished game the sources gave this season (not
+// just the three weeks the feed keeps). Scores decide rugby, league and football; cricket goes by "X won by". Only sides
+// still in the feed are kept, and the page hides any result that spoilers cover.
+const outcome = e => {
+  if (e.sport === 'cricket') {
+    const t = e.summary || '';
+    if (/no result|abandoned|cancel/i.test(t)) return null;
+    const w = (t.match(/^(.*?)\s+won\b(?! the toss)/i) || t.match(/(.*?)\s+won the super over/i) || [])[1];
+    if (w) { const k = norm(w); const h = norm(e.home), a = norm(e.away); return k && (h.includes(k) || k.includes(h)) ? ['W', 'L'] : k && (a.includes(k) || k.includes(a)) ? ['L', 'W'] : null; }
+    return /drawn|\bdraw\b|\btied?\b/i.test(t) ? ['D', 'D'] : null;
+  }
+  const m = String(e.score || '').match(/^(\d+)\s*[-–]\s*(\d+)$/);
+  if (!m) return null;
+  return +m[1] > +m[2] ? ['W', 'L'] : +m[1] < +m[2] ? ['L', 'W'] : ['D', 'D'];
+};
+const formAll = {};
+for (const e of events.filter(e => e.status === 'final' && /^(rugby|league|football|cricket)$/.test(e.sport)).sort((a, b) => a.startUTC.localeCompare(b.startUTC))) {
+  const r = outcome(e);
+  if (!r) continue;
+  for (const [me, them, res] of [[e.home, e.away, r[0]], [e.away, e.home, r[1]]]) (formAll[`${e.sport}|${me}`] ||= []).push({ id: e.id, d: e.startUTC.slice(0, 10), o: them, r: res, s: e.score || '' });
+}
+const inFeed = new Set(events.filter(e => now - new Date(e.startUTC) < 21 * DAY).flatMap(e => [`${e.sport}|${e.home}`, `${e.sport}|${e.away}`]));
+const form = Object.fromEntries(Object.entries(formAll).filter(([k]) => inFeed.has(k)).map(([k, v]) => [k, v.slice(-6)]));
+diag.form = `${Object.keys(form).length} sides with a form guide`;
+
 const feed = {
   generatedAt: new Date(now).toISOString(),
   ...(site ? { site } : {}),
   diag: { ...diag, liveSourceEvents: live.length, eventsByTeam: events.reduce((m, e) => (m[e.team] = (m[e.team] || 0) + 1, m), {}) },
   events: events.filter(e => now - new Date(e.startUTC) < 21 * DAY),
+  form,
   news,
   tables,
   sources: [
