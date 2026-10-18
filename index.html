@@ -978,9 +978,9 @@ const rehideBtn = id => `<button class="rehide" type="button" data-rehide="${esc
 // turns into "Hide all", which covers them again
 const revealAll = (list, now) => {
   const ids = list.filter(e => isHidden(e, now)).map(e => e.id);
-  if (ids.length > 1) return `<button type="button" class="revall" data-revealall="${esc(ids.join(' '))}">Show all ${ids.length}</button>`;
+  if (ids.length > 1) return `<button type="button" class="revall" data-revealall="${esc(ids.join(' '))}">Show all ${ids.length} results</button>`;
   const back = list.filter(e => canRehide(e.id, e.startUTC, now)).map(e => e.id);
-  return !ids.length && back.length > 1 ? `<button type="button" class="revall" data-hideall="${esc(back.join(' '))}">Hide all</button>` : '';
+  return !ids.length && back.length > 1 ? `<button type="button" class="revall" data-hideall="${esc(back.join(' '))}">Hide all results</button>` : '';
 };
 function isHidden(e, now) {
   if (!spoilers || revealed.has(e.id)) return false;
