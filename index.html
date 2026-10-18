@@ -53,6 +53,7 @@ header.top .wrap { display: flex; align-items: center; gap: 12px; padding-block:
 .brand { font-family: var(--f-display); font-weight: 700; font-size: 26px; letter-spacing: .02em; text-transform: uppercase; line-height: 1 }
 .brand span { color: var(--accent) }
 .clock { color: var(--muted); font-size: 13px }
+.ver:empty { display: none }
 .ver { color: var(--muted); font-size: 11px; border: 1px solid var(--line); border-radius: 999px; padding: 1px 7px }
 .spacer { flex: 1 }
 .btn { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-size: 14px; display: inline-flex; gap: 6px; align-items: center }
@@ -494,6 +495,10 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   <div class="wrap">
     <div id="teamGroups" style="display:grid;gap:12px"></div>
     <div class="spoil-row">
+      <label for="tzSel">Show times in</label>
+      <select id="tzSel"></select>
+    </div>
+    <div class="spoil-row">
       <label for="spoilDays">Hide results for</label>
       <select id="spoilDays">
         <option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option><option value="4">4 days</option>
@@ -534,7 +539,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
     <div id="tomorrow" class="daygroup"></div>
   </section>
   <section id="upSec">
-    <h2>Coming up this week <small>Times in NZ, with local time for overseas games</small></h2>
+    <h2>Coming up this week <small>Times in <span id="tzWord">NZ</span>, with local time for overseas games</small></h2>
     <div id="upcoming"></div>
   </section>
   <section id="bigSec" hidden>
@@ -567,7 +572,13 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 <script>
 (() => {
 let FEED = { events: [], news: [], sources: [] };
-const NZ = 'Pacific/Auckland';
+// the time zone times are shown in: NZ by default, changeable under My teams (the name NZ is kept for the display zone)
+const TZ_LIST = [['Pacific/Auckland', 'NZ'], ['Australia/Sydney', 'Sydney'], ['Australia/Brisbane', 'Brisbane'], ['Australia/Adelaide', 'Adelaide'], ['Australia/Perth', 'Perth'],
+  ['Pacific/Fiji', 'Fiji'], ['Asia/Tokyo', 'Japan'], ['Asia/Singapore', 'Singapore'], ['Asia/Kolkata', 'India'], ['Asia/Dubai', 'Dubai'], ['Africa/Johannesburg', 'South Africa'],
+  ['Europe/London', 'UK'], ['Europe/Dublin', 'Ireland'], ['Europe/Paris', 'Central Europe'], ['America/New_York', 'US Eastern'], ['America/Chicago', 'US Central'], ['America/Denver', 'US Mountain'], ['America/Los_Angeles', 'US Pacific'], ['America/Toronto', 'Toronto'], ['America/Vancouver', 'Vancouver']];
+const deviceTZ = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || 'Pacific/Auckland'; } catch { return 'Pacific/Auckland'; } })();
+let tzPick = 'Pacific/Auckland', NZ = tzPick;   // tzPick: a zone from TZ_LIST, or 'device'; read from storage below
+const tzLabel = () => (TZ_LIST.find(([z]) => z === NZ) || [, tzPick === 'device' ? 'local' : NZ.split('/').pop().replace(/_/g, ' ')])[1];
 const TEAMS = [
   { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup'],['wallabies','Wallabies']] },
   { g: 'Super Rugby Pacific', items: [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika'],['aurugby','Australian teams'],['superrugby','Every game']] },
@@ -684,6 +695,7 @@ const store = {
   get(k, d) { try { const v = localStorage.getItem('sf.' + k); return v == null ? d : JSON.parse(v) } catch { return d } },
   set(k, v) { try { localStorage.setItem('sf.' + k, JSON.stringify(v)) } catch {} },
 };
+tzPick = store.get('tz', 'Pacific/Auckland'); NZ = tzPick === 'device' ? deviceTZ : tzPick;
 let picked = new Set(store.get('teams', ALL_KEYS));
 // teams added to the site later are switched on for people who already saved their picks
 { const known = new Set(store.get('known', ALL_KEYS.filter(k => k !== 'epl' && k !== 'aucricket'))); const fresh = ALL_KEYS.filter(k => !known.has(k));
@@ -841,7 +853,7 @@ function evCard(e, now) {
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
     </div>
     <div class="when">
-      <div class="nzl">${START_LABEL[e.sport] || 'Start'} NZ</div>
+      <div class="nzl">${START_LABEL[e.sport] || 'Start'} ${esc(tzLabel())}</div>
       <div class="nz num">${e.timeTBC ? 'TBC' : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div>
       ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${live && wxNote(e) ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
@@ -1062,7 +1074,7 @@ function detail(e) {
   const when = e.timeTBC ? `${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}, time to be confirmed`
     : `${time(d, NZ)} ${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}`;
   const rows = [
-    [`${START_LABEL[e.sport] || 'Start'} (NZ)`, when],
+    [`${START_LABEL[e.sport] || 'Start'} (${tzLabel()})`, when],
     overseas && !e.timeTBC ? ['Local', `${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
     ['Where', [e.venue, e.city].filter(Boolean).map(wikiLink).join(', ') || 'To be confirmed', true],
     e.note ? ['Note', e.note] : null,
@@ -1179,7 +1191,7 @@ function render() {
   document.querySelectorAll('.day').forEach(b => b.classList.toggle('sel', b.dataset.jump === pickK));
   const pickList = pickK ? evs.filter(e => dayKey(new Date(e.startUTC)) === pickK && !lives.includes(e)) : [];
   $('dayPick').hidden = !pickK;
-  $('dayPick').innerHTML = pickK ? `<div class="daypickhead"><span>${fmt(new Date(pickK + 'T00:00:00Z'), NZ, { weekday: 'long', day: 'numeric', month: 'long' })}</span><button type="button" class="dayclose" data-jump="${pickK}" aria-label="Close this day">×</button></div>${pickList.length ? pickList.map(e => finals.includes(e) ? resCard(e, now) : evCard(e, now)).join('') : '<div class="empty-note">Nothing on for your teams this day.</div>'}` : '';
+  $('dayPick').innerHTML = pickK ? `<div class="daypickhead"><span>${fmt(new Date(pickK + 'T12:00:00Z'), 'UTC', { weekday: 'long', day: 'numeric', month: 'long' })}</span><button type="button" class="dayclose" data-jump="${pickK}" aria-label="Close this day">×</button></div>${pickList.length ? pickList.map(e => finals.includes(e) ? resCard(e, now) : evCard(e, now)).join('') : '<div class="empty-note">Nothing on for your teams this day.</div>'}` : '';
   };
   drawDayPick();
 
@@ -1309,12 +1321,14 @@ function render() {
   $('spoilBtn').textContent = spoilers ? 'Spoilers hidden' : 'Spoilers shown';
   $('teamsBtn').textContent = `My teams (${picked.size})`;
   $('spoilDays').value = String(spoilDays);
+  $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
+  $('tzSel').innerHTML = [...TZ_LIST, ['device', `This device (${deviceTZ.split('/').pop().replace(/_/g, ' ')})`]].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(l)}</option>`).join('');
   $('teamGroups').innerHTML = TEAMS.map(g => `<div class="group"><h3>${g.g}</h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`).join('');
 }
 const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
 
-function tick() { $('clock').textContent = `NZ ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}` }
+function tick() { $('clock').textContent = `${tzLabel()} ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}` }
 
 document.addEventListener('click', ev => {
   if (ev.target.closest('a')) return;
@@ -1354,6 +1368,7 @@ document.addEventListener('click', ev => { if (!ev.target.closest('.cmenu')) clo
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape') closeComp(); });
 addEventListener('scroll', () => { $('toTop').hidden = scrollY < 700; }, { passive: true });
 $('nzOnly').addEventListener('click', ev => { ev.stopPropagation(); nzOnly = !nzOnly; store.set('nzOnly', nzOnly); render(); });
+$('tzSel').addEventListener('change', e => { tzPick = e.target.value; NZ = tzPick === 'device' ? deviceTZ : tzPick; store.set('tz', tzPick); tick(); render(); });
 $('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; store.set('spoilDays', spoilDays); store.set('spoilDaysSet', true); render(); });
 
 function stamp() {
