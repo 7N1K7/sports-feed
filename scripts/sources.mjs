@@ -323,7 +323,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
   const tables = [];
   try {
     const tplNames = new Map();
-    for (const src of tableSrc) for (const m of src.text.matchAll(/\{\{\s*([^{}|#\n]{4,90}?\b(?:table|standings|ladder))\s*\}\}/gi))
+    for (const src of tableSrc) for (const m of src.text.matchAll(/\{\{\s*([^{}|#\n]{4,90}?(?:table|standings|ladder))\s*\}\}/gi))
       if (!/^(wide table|table alignment)/i.test(m[1])) tplNames.set('Template:' + m[1].trim(), src);
     const tplTexts = {};
     const tn = [...tplNames.keys()].slice(0, 40);
@@ -335,7 +335,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     for (const src of tableSrc) {
       let text = src.text;
       // inline the transcluded table templates where they sit, so headings still apply
-      text = text.replace(/\{\{\s*([^{}|#\n]{4,90}?\b(?:table|standings|ladder))\s*\}\}/gi, (m, n) => tplTexts['Template:' + n.trim()] || m);
+      text = text.replace(/\{\{\s*([^{}|#\n]{4,90}?(?:table|standings|ladder))\s*\}\}/gi, (m, n) => tplTexts['Template:' + n.trim()] || m);
       tables.push(...sportsTables(text, src.title, src.c));
     }
   } catch (e) { diag.tables = 'error: ' + e.message; }
@@ -382,7 +382,7 @@ function sportsTables(text, page, c) {
       const w = g('win', code), d = g('draw', code), l = g('loss', code), nr = g('nr', code);
       const f = has('pf', code) ? g('pf', code) : g('gf', code), a = has('pa', code) ? g('pa', code) : g('ga', code);
       const bp = rugby ? g('tb', code) + g('lb', code) + g('bonus', code) : g('bonus', code);
-      const pts = w * winPts + d * drawPts + nr * (cricket ? winPts / 2 : 0) + bp + g('adjust_points', code) + g('startpoints', code);
+      const pts = w * winPts + d * drawPts + nr * (cricket ? winPts / 2 : 0) + bp + g('rw', code) * +(p.rwpoints || 0) + g('adjust_points', code) + g('startpoints', code);
       const nameRaw = p[`name_${code.toLowerCase()}`] ?? p[`name_${code}`] ?? code;
       const result = p[`result${i + 1}`] || '', status = (p[`status_${code.toLowerCase()}`] ?? p[`status_${code}`] ?? '').trim();
       return { name: teamOf(nameRaw).replace(/\s*\((RS|RU|C|H|Q)\)\s*$/g, '').trim() || code, p: w + d + l + nr + g('tie', code), w, d, l, f, a, bp, nr,
