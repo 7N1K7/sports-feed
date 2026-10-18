@@ -8,7 +8,7 @@
 //   data/curated/*.json        -> fixtures the above lack (boxing, some tests), news, notes
 //   data/broadcast.json        -> where-to-watch rules by competition
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
-import { wikiEvents, tsdbEvents } from './sources.mjs';
+import { wikiEvents, tsdbEvents, tsdb } from './sources.mjs';
 
 const ROOT = new URL('../', import.meta.url);
 const DAY = 864e5;
@@ -162,17 +162,16 @@ const LOGO_CODES = {
 };
 const simple = n => String(n || '').toLowerCase().replace(/\b(fc|rugby|league|club|women|cricket)\b/g, '').replace(/[^a-z]/g, '');
 async function addLogos(events) {
-  const cacheUrl = new URL('.cache/logos3.json', ROOT);
+  const cacheUrl = new URL('.cache/logos4.json', ROOT);
   let cache = { leagues: {}, names: {} };
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
   const WEEK = 7 * DAY;
   for (const code of Object.values(LOGO_CODES)) for (const l of code.leagues) {
     if (cache.leagues[l] && now - cache.leagues[l].t < WEEK) continue;
     try {
-      const d = await getJSON(`https://www.thesportsdb.com/api/v1/json/123/search_all_teams.php?l=${encodeURIComponent(l)}`);
+      const d = await tsdb(`search_all_teams.php?l=${encodeURIComponent(l)}`);
       cache.leagues[l] = { t: now, teams: (d.teams || []).map(t => ({ n: [t.strTeam, t.strTeamAlternate, t.strTeamShort].filter(Boolean).join('|'), b: t.strBadge || t.strTeamBadge })).filter(t => t.b) };
-    } catch { cache.leagues[l] = { t: now, teams: [] }; }
-    await new Promise(r => setTimeout(r, 2100)); // free tier: 30 requests a minute
+    } catch { /* rate limited or down: try again next run */ }
   }
   // exact name match within the code's own leagues, then "starts with" (Taranaki -> Taranaki Bulls), never across codes
   const fromPool = (sport, name) => {
@@ -194,19 +193,19 @@ async function addLogos(events) {
     if (p) { found[key] = p; continue; }
     const c = cache.names[key];
     if (c && (c.b || now - c.t < WEEK)) { found[key] = c.b; continue; }
-    if (looked >= 20) continue;
+    if (looked >= 10) continue;
     looked++;
-    let b = null;
+    let b = null, failed = false;
     for (const q of [...new Set([name, name.replace(/\s+(FC|Bulls|Stags|Mako|Steamers|Pride|Storm|Women)$/i, '')])]) {
       try {
-        const d = await getJSON(`https://www.thesportsdb.com/api/v1/json/123/searchteams.php?t=${encodeURIComponent(q)}`);
+        const d = await tsdb(`searchteams.php?t=${encodeURIComponent(q)}`);
         const code = LOGO_CODES[sport];
         const t = (d.teams || []).find(t => (code.sport ? t.strSport === code.sport : t.strSport === 'Rugby') && code.ok.test(t.strLeague || '') && simple(t.strTeam).startsWith(simple(q).slice(0, 5)));
         b = t && (t.strBadge || t.strTeamBadge) || null;
-      } catch {}
-      await new Promise(r => setTimeout(r, 2100));
+      } catch { failed = true; }
       if (b) break;
     }
+    if (failed) continue;
     cache.names[key] = { t: now, b };
     found[key] = b;
   }

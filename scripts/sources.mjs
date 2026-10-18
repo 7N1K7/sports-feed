@@ -323,11 +323,14 @@ function seriesComp(title, c) {
 
 // ---------- TheSportsDB ------------------------------------------------------
 const TSDB = 'https://www.thesportsdb.com/api/v1/json/123/';
-async function tsdb(q) {
-  const r = await fetch(TSDB + q, { headers: UA });
-  await sleep(2100); // free tier: 30 requests a minute
-  if (!r.ok) throw new Error(`thesportsdb ${r.status}`);
-  return r.json();
+export async function tsdb(q) {
+  for (let attempt = 0; ; attempt++) {
+    const r = await fetch(TSDB + q, { headers: UA });
+    await sleep(3000); // free tier allows 30 requests a minute; stay well under
+    if (r.status === 429 && attempt < 2) { await sleep(30000); continue; }
+    if (!r.ok) throw new Error(`thesportsdb ${r.status}`);
+    return r.json();
+  }
 }
 const STATUS = s => /^(FT|AET|AP|PEN|Match Finished|After Over Time|Final)$/i.test(s || '') ? 'final' : /^(NS|Not Started|TBD|PST|Postponed|CANC)$/i.test(s || '') || !s ? 'upcoming' : 'live';
 function fromTsdb(ev, l) {
@@ -367,6 +370,7 @@ export async function tsdbEvents(leagues, diag) {
       if (!ref || (!next && Date.now() - new Date(last.strTimestamp + 'Z') > 30 * DAY)) { diag[`tsdb ${l.comp}`] = 'off season'; continue; }
       const season = ref.strSeason, r0 = +(last?.intRound || next?.intRound || 1);
       const rounds = [...new Set([r0 - 2, r0 - 1, r0, r0 + 1, r0 + 2, r0 + 3])].filter(r => r >= 1 && r < 40);
+      if (!rounds.length) { diag[`tsdb ${l.comp}`] = 'off season'; continue; }
       let n = 0;
       for (const r of rounds) {
         for (const ev of (await tsdb(`eventsround.php?id=${l.id}&r=${r}&s=${encodeURIComponent(season)}`)).events || []) {
