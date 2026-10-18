@@ -279,7 +279,8 @@ dialog#sheet { width: min(720px, 100%) }
 .ev .nzl { font-size: 10px }
 .ev .nz { font-size: 22px }
 .ev .teams { font-size: 20px }
-.flagimg { width: 1.25em; height: auto; vertical-align: -0.08em }
+/* rounded by clipping 1px inside the edge: the flag files paint a white base under the stripes, which bleeds through as a pale rim at the very edge */
+.flagimg { width: 1.25em; height: auto; vertical-align: -0.08em; clip-path: inset(1px round 3px) }
 
 /* on now: red ring with a soft pulse; starting within 3 hours: orange ring */
 .ev.is-live { border-color: var(--live); box-shadow: 0 0 0 2px var(--live), 0 0 28px 4px color-mix(in srgb, var(--live) 50%, transparent) }
