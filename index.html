@@ -417,6 +417,7 @@ a.svc:hover { text-decoration-color: currentColor }
 .hubhide { display: none !important }
 .stable { margin-bottom: 18px }
 .rankchips { margin: 4px 0 12px }
+.swap { display: inline-grid } .swap > span { grid-area: 1 / 1; text-align: center } .swap > .off { visibility: hidden }
 .bico { width: 1.05em; height: 1.05em; vertical-align: -0.17em; margin-left: 4px }
 .rankrow { justify-content: center; margin-top: 2px }
 .rankbtn { font-size: 13px; padding: 4px 11px; border-style: dashed; color: var(--ink) }
@@ -1683,7 +1684,8 @@ function render() {
   // an eye on each state (crossed out while results are hidden), and a gear on settings
   const eye = '<path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/>';
   const ico = body => `<svg class="bico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
-  $('spoilBtn').innerHTML = spoilers ? `Spoilers hidden ${ico(eye + '<path d="M3 3l18 18"/>')}` : `Spoilers shown ${ico(eye)}`;
+  // both labels sit in the same spot, the unused one invisible, so the button keeps one width and nothing beside it moves
+  $('spoilBtn').innerHTML = `<span class="swap"><span${spoilers ? '' : ' class="off"'}>Spoilers hidden ${ico(eye + '<path d="M3 3l18 18"/>')}</span><span${spoilers ? ' class="off"' : ''}>Spoilers shown ${ico(eye)}</span></span>`;
   $('teamsBtn').innerHTML = `My settings ${ico('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>')}`;
   $('spoilDays').value = String(spoilDays);
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
