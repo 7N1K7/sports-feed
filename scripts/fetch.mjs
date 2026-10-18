@@ -283,39 +283,65 @@ const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 // Countries use flags in the page instead. Looked-up names are cached between runs.
 const COUNTRY = /^(New Zealand|Australia|England|Scotland|Wales|Ireland|France|Italy|South Africa|Argentina|Japan|Fiji|Samoa|Tonga|Papua New Guinea|Cook Islands|India|Sri Lanka|Bangladesh|Pakistan|West Indies|Lebanon|Canada|USA|United States|Chile|Uruguay|Georgia|Portugal|Spain|Romania)( Women| A| XI| Wheelchair)?$/i;
 const TSDB_SPORT = { rugby: ['Rugby'], league: ['Rugby League', 'Rugby'], football: ['Soccer'], cricket: ['Cricket'] };
+// Whole leagues first (one request each), then single-name searches for anything left.
+const TSDB_LEAGUES = ['Australian A-League', 'Australian A-League Men', 'NRL', 'Australian National Rugby League', 'Super Rugby', 'Super Rugby Pacific',
+  'Mitre 10 Cup', 'Bunnings NPC', 'NPC', 'Big Bash League', 'Womens Big Bash League', 'Super Smash', 'Plunket Shield', 'Ford Trophy'];
+const simple = n => String(n || '').toLowerCase().replace(/\b(fc|rugby|league|club|women|cricket)\b/g, '').replace(/[^a-z]/g, '');
 async function addLogos(events) {
-  const cacheUrl = new URL('.cache/logos.json', ROOT);
-  let cache = {};
+  const cacheUrl = new URL('.cache/logos2.json', ROOT);
+  let cache = { leagues: {}, names: {} };
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
+  const WEEK = 7 * DAY;
+  for (const l of TSDB_LEAGUES) {
+    if (cache.leagues[l] && now - cache.leagues[l].t < WEEK) continue;
+    try {
+      const d = await getJSON(`https://www.thesportsdb.com/api/v1/json/123/search_all_teams.php?l=${encodeURIComponent(l)}`);
+      cache.leagues[l] = { t: now, teams: (d.teams || []).map(t => ({ n: [t.strTeam, t.strTeamAlternate, t.strTeamShort].filter(Boolean).join('|'), sport: t.strSport, b: t.strBadge || t.strTeamBadge })).filter(t => t.b) };
+    } catch { cache.leagues[l] = { t: now, teams: [] }; }
+    await new Promise(r => setTimeout(r, 2100)); // free tier: 30 requests a minute
+  }
+  const pool = Object.values(cache.leagues).flatMap(l => l.teams || []);
+  const fromPool = (sport, name) => {
+    const k = simple(name);
+    if (!k) return null;
+    const hit = pool.find(t => TSDB_SPORT[sport].includes(t.sport) && t.n.split('|').some(x => simple(x) === k))
+      || pool.find(t => TSDB_SPORT[sport].includes(t.sport) && t.n.split('|').some(x => { const y = simple(x); return y.length > 4 && (y.includes(k) || k.includes(y)); }));
+    return hit ? hit.b : null;
+  };
   const want = new Map();
   for (const e of events) {
     if (!TSDB_SPORT[e.sport]) continue;
     for (const n of [e.home, e.away]) if (n && !/TBC|winner|^Northland or/i.test(n) && !COUNTRY.test(n)) want.set(`${e.sport}|${n}`, [e.sport, n]);
   }
   let looked = 0;
+  const found = {};
   for (const [key, [sport, name]] of want) {
-    if (key in cache || looked >= 25) continue;
+    const p = fromPool(sport, name);
+    if (p) { found[key] = p; continue; }
+    const c = cache.names[key];
+    if (c && (c.b || now - c.t < WEEK)) { found[key] = c.b; continue; }
+    if (looked >= 20) continue;
     looked++;
-    const tries = [name, name.replace(/\s+(FC|Bulls|Stags|Mako|Steamers|Pride|Storm|Women)$/i, '')];
-    cache[key] = null;
-    for (const q of [...new Set(tries)]) {
+    let b = null;
+    for (const q of [...new Set([name, name.replace(/\s+(FC|Bulls|Stags|Mako|Steamers|Pride|Storm|Women)$/i, '')])]) {
       try {
         const d = await getJSON(`https://www.thesportsdb.com/api/v1/json/123/searchteams.php?t=${encodeURIComponent(q)}`);
-        const teams = d.teams || [];
-        const t = teams.find(t => TSDB_SPORT[sport].includes(t.strSport)) || null;
-        const badge = t && (t.strBadge || t.strTeamBadge);
-        if (badge) { cache[key] = badge; break; }
+        const t = (d.teams || []).find(t => TSDB_SPORT[sport].includes(t.strSport));
+        b = t && (t.strBadge || t.strTeamBadge) || null;
       } catch {}
-      await new Promise(r => setTimeout(r, 2100)); // free tier: 30 requests a minute
+      await new Promise(r => setTimeout(r, 2100));
+      if (b) break;
     }
+    cache.names[key] = { t: now, b };
+    found[key] = b;
   }
-  let n = 0;
   for (const e of events) {
-    const h = cache[`${e.sport}|${e.home}`], a = cache[`${e.sport}|${e.away}`];
-    if (h) { e.homeLogo = h + '/tiny'; n++; }
-    if (a) { e.awayLogo = a + '/tiny'; n++; }
+    const h = found[`${e.sport}|${e.home}`], a = found[`${e.sport}|${e.away}`];
+    if (h) e.homeLogo = h + '/tiny';
+    if (a) e.awayLogo = a + '/tiny';
   }
-  diag.logos = `${Object.values(cache).filter(Boolean).length}/${Object.keys(cache).length} teams found, ${looked} looked up this run`;
+  diag.logos = `${Object.values(found).filter(Boolean).length}/${want.size} teams; league pool ${pool.length}; ${looked} searched this run`;
+  diag.logoLeagues = Object.fromEntries(Object.entries(cache.leagues).map(([k, v]) => [k, (v.teams || []).length]));
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
 
