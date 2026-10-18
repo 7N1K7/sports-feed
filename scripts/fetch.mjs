@@ -298,6 +298,32 @@ async function addLogos(events, extra = []) {
     if (h && !e.homeLogo) e.homeLogo = h + '/tiny';
     if (a && !e.awayLogo) e.awayLogo = a + '/tiny';
   }
+  // National men's sides keep their flag; their union's badge (when TheSportsDB has one) shows beside it.
+  // From fixtures already pulled, else one name search each (a few a run, remembered for a month).
+  const NAT = { rugby: [c => `${c} Rugby`, t => t.strSport === 'Rugby' && !/League/i.test(t.strLeague || '')], league: [c => `${c} Rugby League`, t => t.strSport === 'Rugby' && /League/i.test(`${t.strLeague} ${t.strTeam}`)],
+    cricket: [c => c, t => t.strSport === 'Cricket'], football: [c => c, t => t.strSport === 'Soccer'] };
+  cache.nat ||= {};
+  let natLooked = 0;
+  const natWant = new Map();
+  for (const e of events) if (NAT[e.sport] && !isW(e)) for (const n of [e.home, e.away]) if (n && COUNTRY.test(n) && !/ (A|XI|Wheelchair|Women)$/i.test(n)) natWant.set(`${e.sport}|${n}`, [e.sport, n]);
+  for (const [key, [sport, name]] of natWant) {
+    const fromFix = seen[`${sport}|${simple(name)}`];
+    if (fromFix) { cache.nat[key] = { t: now, b: fromFix }; continue; }
+    const c = cache.nat[key];
+    if (c && now - c.t < (c.b ? 30 : 7) * DAY) continue;
+    if (natLooked >= 4) continue;
+    natLooked++;
+    try {
+      const d = await tsdb(`searchteams.php?t=${encodeURIComponent(NAT[sport][0](name))}`);
+      const t = (d.teams || []).find(t => NAT[sport][1](t) && simple(t.strTeam).startsWith(simple(name)) && !/women|u2\d|u1\d|sevens|7s|\bA\b|XI/i.test(t.strTeam));
+      cache.nat[key] = { t: now, b: t ? (t.strBadge || t.strTeamBadge || null) : null };
+    } catch { /* rate limited: next run */ }
+  }
+  for (const e of events) for (const side of ['home', 'away']) {
+    const b = !isW(e) && cache.nat[`${e.sport}|${e[side]}`]?.b;
+    if (b) e[side + 'Badge'] = b + '/tiny';
+  }
+  diag.natBadges = `${Object.values(cache.nat).filter(x => x.b).length} national badges; ${natLooked} searched this run`;
   diag.logos = `${Object.values(found).filter(Boolean).length}/${want.size} teams; ${looked} searched this run`;
   diag.logoLeagues = Object.fromEntries(Object.entries(cache.leagues).map(([k, v]) => [k, (v.teams || []).length]));
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
