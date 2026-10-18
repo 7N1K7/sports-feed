@@ -1216,6 +1216,7 @@ function render() {
   const pickList = pickK ? evs.filter(e => dayKey(new Date(e.startUTC)) === pickK && !lives.includes(e)) : [];
   $('dayPick').hidden = !pickK;
   $('dayPick').innerHTML = pickK ? `<div class="daypickhead"><span>${fmt(new Date(pickK + 'T12:00:00Z'), 'UTC', { weekday: 'long', day: 'numeric', month: 'long' })}</span><button type="button" class="dayclose" data-jump="${pickK}" aria-label="Close this day">×</button></div>${pickList.length ? pickList.map(e => finals.includes(e) ? resCard(e, now) : evCard(e, now)).join('') : '<div class="empty-note">Nothing on for your teams this day.</div>'}` : '';
+    syncPulse();
   };
   drawDayPick();
 
@@ -1348,6 +1349,12 @@ function render() {
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', `This device (${deviceTZ.split('/').pop().replace(/_/g, ' ')})`]].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(l)}</option>`).join('');
   $('teamGroups').innerHTML = TEAMS.map(g => `<div class="group"><h3>${g.g}</h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`).join('');
+  syncPulse();
+}
+// Redrawn live tags and cards would restart their pulse on every click; run every pulse on the page's own clock instead
+function syncPulse() {
+  if (!document.getAnimations) return;
+  document.querySelectorAll('.nowchip.is-live .livetag, .ev.is-live').forEach(el => el.getAnimations().forEach(a => { if (a.startTime !== 0) a.startTime = 0; }));
 }
 const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';

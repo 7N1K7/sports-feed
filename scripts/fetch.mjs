@@ -99,8 +99,12 @@ async function rnzNews() {
 // --- merge -------------------------------------------------------------
 const ALIAS = [[/all blacks|black ferns|kiwi ferns|\bkiwis\b|white ferns|black ?caps/gi, 'new zealand'], [/wallabies|kangaroos|jillaroos|wallaroos/gi, 'australia'], [/springboks/gi, 'south africa'], [/pumas/gi, 'argentina']];
 const norm = s => ALIAS.reduce((t, [re, to]) => t.replace(re, to), s || '').toLowerCase().replace(/women|bulls|stags|storm|pride|mako|steamers|heartland|rugby|the /g, '').replace(/[^a-z]/g, '');
+// a final's date often moves once the semis are done (NPC: "weekend of 24/25 Oct", then Labour Day), so finals get a wider window
+const stageOf = x => `${x.comp || ''} ${x.stage || ''}`, early = x => /semi|quarter|qualif|preliminary|elimination/i.test(stageOf(x));
+const finalPair = (a, b) => (/\bfinal\b/i.test(stageOf(a)) || /\bfinal\b/i.test(stageOf(b))) && !early(a) && !early(b);
 function sameMatch(a, b) {
-  if (Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) > (a.timeTBC || b.timeTBC ? 2 * DAY : 8 * 36e5)) return false;
+  const tbc = a.timeTBC || b.timeTBC ? (finalPair(a, b) ? 3.5 : 2) * DAY : 8 * 36e5;
+  if (Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) > tbc) return false;
   const A = [norm(a.home), norm(a.away)], B = [norm(b.home), norm(b.away)];
   return A.some(x => x && B.some(y => y && (x.includes(y) || y.includes(x))));
 }
@@ -186,6 +190,10 @@ for (const le of live) {
   if (hit) {
     // live sources win on time, status and score; curated keeps names, notes and broadcast
     if (!le.timeTBC || hit.timeTBC) Object.assign(hit, { startUTC: le.startUTC, timeTBC: le.timeTBC });
+    // ...except a placeholder ("Northland or SF2 winner" v "TBC") once the real teams and ground are known
+    const ph = x => /\bor\b|winner|^TBC$/i.test(x || '');
+    if ((ph(hit.home) || ph(hit.away)) && !ph(le.home) && !ph(le.away)) Object.assign(hit, { home: le.home, away: le.away, homeLogo: le.homeLogo, awayLogo: le.awayLogo });
+    for (const k of ['venue', 'city']) if (/^TBC\b/.test(hit[k] || '') && le[k]) hit[k] = le[k];
     if (le.score) Object.assign(hit, { score: le.score, status: le.status, summary: le.summary || hit.summary });
     hit.tags = [...new Set([...(hit.tags || []), ...(le.tags || [])])];
     if (!hit.tz && le.tz) hit.tz = le.tz;
