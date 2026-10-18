@@ -661,7 +661,7 @@ let sportSel = store.get('sport', 'all');
 let compSel = store.get('comp', '');
 let genderSel = store.get('gender', 'all');
 let nzOnly = store.get('nzOnly', false);
-let selDay = '';
+let selDay = '', drawDayPick = () => {};
 let hubTab = 'games';
 const NZ_KEYS = new Set(['allblacks', 'blackferns', 'npc', 'fpc', 'blues', 'chiefs', 'hurricanes', 'crusaders', 'highlanders', 'moana', 'blackcaps', 'whiteferns', 'nzdomestic', 'kiwis', 'kiwiferns', 'warriors', 'phoenix', 'aucklandfc', 'nzboxing']);
 const NZ_NAMES = /\bNew Zealand\b|^(Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Moana Pasifika)$|Warriors|Wellington Phoenix|Auckland FC|All Blacks|Black Ferns|Black ?Caps|White Ferns|Kiwi/;
@@ -1049,12 +1049,18 @@ function render() {
   // live now: games under way, in their own section above the week
   const lives = upcoming.filter(e => e.status === 'live' || onNow(e, now));
   $('liveSec').hidden = !lives.length;
-  $('live').innerHTML = lives.map(e => evCard(e, now)).join('');
-  // a picked day's games, shown right under the week strip
+  // only rewrite the live cards when they change, so their glow doesn't restart on every click
+  const liveHtml = lives.map(e => evCard(e, now)).join('');
+  if ($('live').dataset.h !== liveHtml) { $('live').innerHTML = liveHtml; $('live').dataset.h = liveHtml; }
+  // a picked day's games, shown right under the week strip (redrawn on its own when a day is clicked)
+  drawDayPick = () => {
   const pickK = selDay && selDay !== todayK ? selDay : '';
+  document.querySelectorAll('.day').forEach(b => b.classList.toggle('sel', b.dataset.jump === pickK));
   const pickList = pickK ? evs.filter(e => dayKey(new Date(e.startUTC)) === pickK && !lives.includes(e)) : [];
   $('dayPick').hidden = !pickK;
   $('dayPick').innerHTML = pickK ? `<div class="daypickhead"><span>${fmt(new Date(pickK + 'T00:00:00Z'), NZ, { weekday: 'long', day: 'numeric', month: 'long' })}</span><button type="button" class="dayclose" data-jump="${pickK}" aria-label="Close this day">×</button></div>${pickList.length ? pickList.map(e => finals.includes(e) ? resCard(e, now) : evCard(e, now)).join('') : '<div class="empty-note">Nothing on for your teams this day.</div>'}` : '';
+  };
+  drawDayPick();
 
   // today
   const todays = upcoming.filter(e => !lives.includes(e) && dayKey(new Date(e.startUTC)) === todayK);
@@ -1193,7 +1199,7 @@ document.addEventListener('click', ev => {
   else if (t.dataset.gender) { genderSel = t.dataset.gender; store.set('gender', genderSel); render(); }
   else if (t.dataset.sport) { compSel = ''; store.set('comp', ''); sportSel = t.dataset.sport; store.set('sport', sportSel); render(); }
   else if (t.dataset.kind) { newsKind = t.dataset.kind; render(); }
-  else if (t.dataset.jump) { selDay = selDay === t.dataset.jump || t.dataset.jump === dayKey(new Date()) ? '' : t.dataset.jump; render(); }
+  else if (t.dataset.jump) { selDay = selDay === t.dataset.jump || t.dataset.jump === dayKey(new Date()) ? '' : t.dataset.jump; drawDayPick(); }
   else if (t.dataset.bigcomp) {
     const again = compSel === t.dataset.bigcomp && t.classList.contains('nowchip');
     hubTab = 'games'; compSel = again ? '' : t.dataset.bigcomp; store.set('comp', compSel); render();
