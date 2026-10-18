@@ -51,7 +51,7 @@ button { font: inherit; color: inherit }
 .num { font-variant-numeric: tabular-nums }
 
 header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line) }
-header.top .wrap { display: flex; align-items: center; gap: 12px; padding-block: 10px; flex-wrap: wrap }
+header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block: 10px; flex-wrap: wrap }
 .brand { font-family: var(--f-display); font-weight: 700; font-size: 26px; letter-spacing: .02em; text-transform: uppercase; line-height: 1 }
 .brand span { color: var(--accent) }
 .brand .blogo { width: 1.3em; height: 1.3em; vertical-align: -0.28em; margin-right: .3em; border-radius: 6px }
@@ -552,7 +552,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev .teams.matchup.scored .side .ts { order: 5; flex-basis: 100%; text-align: center } }
 /* search, form guide, team pages */
 .search { position: relative }
-#q { width: 210px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font: 14px var(--f-body); text-align: center }
+#q { width: 200px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font: 14px var(--f-body); text-align: center }
 #q:focus { outline: 2px solid color-mix(in srgb, var(--ink) 40%, transparent); outline-offset: 1px }
 .qlist { position: absolute; right: 0; top: calc(100% + 6px); width: min(440px, 92vw); max-height: 70vh; overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 32px rgb(0 0 0 / .18); z-index: 20; padding: 4px }
 .qi { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 8px 10px; border: 0; background: none; border-radius: 8px; font: 15px var(--f-body); color: inherit; cursor: pointer }
@@ -602,6 +602,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
     </div>
     <div class="spacer"></div>
     <button class="btn" id="toResults" type="button" title="Jump to recent results">Results ↓</button>
+    <button class="btn" id="toNews" type="button" title="Jump to the news">News ↓</button>
     <button class="btn" id="spoilBtn" aria-pressed="false" type="button">Spoilers hidden</button>
     <button class="btn" id="teamsBtn" aria-expanded="false" aria-controls="panel" type="button">My settings</button>
   </div>
@@ -1691,7 +1692,9 @@ function render() {
   const eye = '<path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/>';
   const ico = body => `<svg class="bico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
   // both labels sit in the same spot, the unused one invisible, so the button keeps one width and nothing beside it moves
-  $('spoilBtn').innerHTML = `<span class="swap"><span${spoilers ? '' : ' class="off"'}>Spoilers hidden ${ico(eye + '<path d="M3 3l18 18"/>')}</span><span${spoilers ? ' class="off"' : ''}>Spoilers shown ${ico(eye)}</span></span>`;
+  $('spoilBtn').innerHTML = `Spoilers ${ico(spoilers ? eye + '<path d="M3 3l18 18"/>' : eye)}`;
+  $('spoilBtn').title = spoilers ? 'Results are hidden: tap to show them' : 'Results are showing: tap to hide them';
+  $('spoilBtn').setAttribute('aria-label', spoilers ? 'Spoilers hidden' : 'Spoilers shown');
   $('teamsBtn').innerHTML = `My settings ${ico('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>')}`;
   $('spoilDays').value = String(spoilDays);
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
@@ -1716,7 +1719,7 @@ document.addEventListener('click', ev => {
   if (t.id === 'sheetClose') { $('sheet').close(); return; }
   if (t.dataset.teampage) { closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport); return; }
   if (t.dataset.goto) { const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
-  if (t.id === 'toResults') { const el = $('resSec'); scrollTo({ top: el.getBoundingClientRect().top + scrollY - document.querySelector('header.top').offsetHeight - 10, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
+  if (t.id === 'toResults' || t.id === 'toNews') { const el = $(t.id === 'toNews' ? 'newsSec' : 'resSec'); scrollTo({ top: el.getBoundingClientRect().top + scrollY - document.querySelector('header.top').offsetHeight - 10, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); store.set('teams', [...picked]); render(); }
   else if (t.dataset.hideall) { ev.stopPropagation(); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); }
   else if (t.dataset.revealall) { ev.stopPropagation(); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); }
