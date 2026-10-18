@@ -11,6 +11,7 @@ import { readFile, writeFile, readdir } from 'node:fs/promises';
 const ROOT = new URL('../', import.meta.url);
 const DAY = 864e5;
 const now = Date.now();
+const diag = {}; // per-source health, written into feed.json
 
 const ESPN = [
   { sport: 'rugby', path: 'rugby/289234', comp: 'Test match' },
@@ -63,7 +64,8 @@ async function espnEvents() {
   for (const src of ESPN) {
     const url = `https://site.api.espn.com/apis/site/v2/sports/${src.path}/scoreboard?dates=${range}&limit=300`;
     let data;
-    try { data = await getJSON(url); } catch (e) { console.warn('ESPN failed:', e.message); continue; }
+    try { data = await getJSON(url); } catch (e) { console.warn('ESPN failed:', e.message); diag[src.path] = 'error: ' + e.message; continue; }
+    diag[src.path] = `${(data.events || []).length} events`;
     for (const ev of data.events || []) {
       const c = ev.competitions?.[0];
       if (!c) continue;
@@ -114,7 +116,7 @@ async function rnzNews() {
     const r = await fetch('https://www.rnz.co.nz/rss/sport.xml');
     if (!r.ok) throw new Error(r.status);
     xml = await r.text();
-  } catch (e) { console.warn('RNZ failed:', e.message); return []; }
+  } catch (e) { console.warn('RNZ failed:', e.message); diag.rnz = 'error: ' + e.message; return []; }
   const out = [];
   for (const m of xml.matchAll(/<item>([\s\S]*?)<\/item>/g)) {
     const get = tag => unxml((m[1].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1]);
@@ -128,6 +130,7 @@ async function rnzNews() {
       kind: kindOf(title + ' ' + summary), title, summary: summary.slice(0, 280), url, source: 'RNZ',
     });
   }
+  diag.rnz = `${out.length} matching stories`;
   return out;
 }
 
@@ -177,6 +180,7 @@ const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 
 const feed = {
   generatedAt: new Date(now).toISOString(),
+  diag: { ...diag, espnMatched: live.length },
   events: events.filter(e => now - new Date(e.startUTC) < 21 * DAY),
   news,
   sources: [
