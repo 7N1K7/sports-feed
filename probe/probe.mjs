@@ -1,8 +1,5 @@
-// dump Module:Sports table source (to mirror auto_generate_standings)
-const UA = { 'User-Agent': 'sports-feed probe (https://7n1k7.github.io/sports-feed/)' };
-const api = async q => (await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&' + q, { headers: UA })).json();
-for (const t of ['Module:Sports table/auto']) {
-  const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(t));
-  console.log('#### ' + t);
-  console.log(r.query.pages[0].revisions?.[0].slots.main.content || 'MISSING');
-}
+// read the live feed and print the Premier League table
+const f = await (await fetch('https://7n1k7.github.io/sports-feed/data/feed.json?v=' + Date.now())).json();
+console.log('generatedAt', f.generatedAt);
+for (const t of f.tables.filter(t => /Premier League/.test(t.page))) { console.log(t.page, '|', t.title, '|', t.style, '|', t.rows.length); for (const r of t.rows) console.log(JSON.stringify(r)); }
+console.log(f.tables.map(t => `${t.page}/${t.title}: ${t.rows.length} rows, played ${t.rows.reduce((s, r) => s + r.p, 0)}`).join('\n'));
