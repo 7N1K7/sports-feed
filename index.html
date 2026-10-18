@@ -898,7 +898,9 @@ function openDetail(id) {
 
 // short tournaments and series under way right now (first game played, more to come), NZ ones first.
 // Season-long leagues and catch-all groups stay in the competition menu.
-const GENERIC = /^(Test match|Women's test|Boxing|UFC|NZ domestic cricket|Black Caps|White Ferns|NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|A-League Men|Premier League|Big Bash|Women's Big Bash|Nations Championship|Rugby Championship)$/;
+const GENERIC = /^(Test match|Women's test|Boxing|UFC|NZ domestic cricket|Black Caps|White Ferns|NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|A-League Men|Premier League|Big Bash|Women's Big Bash)$/;
+// tournaments played in windows across the year: listed whenever the next window is near
+const WINDOWED = /^(Nations Championship|Rugby Championship)$/;
 let onNowComps = new Set();
 function renderNowBar(now) {
   const by = new Map();
@@ -914,7 +916,7 @@ function renderNowBar(now) {
     if (isNZ(e)) v.nz = true;
     by.set(c, v);
   }
-  const on = [...by].filter(([, v]) => v.started && v.next < 8 * 864e5)
+  const on = [...by].filter(([c, v]) => (v.started || WINDOWED.test(c)) && v.next < 21 * 864e5)
     .sort((a, b) => b[1].nz - a[1].nz || a[1].next - b[1].next).slice(0, 6);
   onNowComps = new Set(on.map(([c]) => c));
   $('nowBar').hidden = !on.length;
