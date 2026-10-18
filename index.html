@@ -272,6 +272,10 @@ dialog#sheet { width: min(720px, 100%) }
 .seg button + button { border-left: 1px solid var(--line) }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper) }
 
+.donetoday { display: grid; gap: 10px }
+.donetoday .ev { background: color-mix(in srgb, var(--muted) 10%, var(--paper)); border-style: dashed; filter: saturate(.45) }
+.donetoday .ev .teams { color: color-mix(in srgb, var(--ink) 75%, var(--paper)) }
+
 @media (max-width: 560px) {
   .ev { grid-template-columns: 6px minmax(0, 1fr) }
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
@@ -618,7 +622,7 @@ function render() {
   // today's finished games stay in "On today" (spoiler rules still apply), latest first after the upcoming ones
   const doneToday = finals.filter(e => dayKey(new Date(e.startUTC)) === todayK);
   $('today').innerHTML = todays.length || doneToday.length
-    ? `<div class="daygroup">${todays.map(e => evCard(e, now)).join('')}${doneToday.length ? `<div class="dayhead">Earlier today</div>${doneToday.map(e => resCard(e, now)).join('')}` : ''}</div>`
+    ? `<div class="daygroup">${todays.map(e => evCard(e, now)).join('')}${doneToday.length ? `<div class="dayhead">Earlier today</div><div class="donetoday">${doneToday.map(e => resCard(e, now)).join('')}</div>` : ''}</div>`
     : `<div class="empty-note">Nothing on for your teams today. ${upcoming[0] ? `Next up: <b>${esc(upcoming[0].home)} v ${esc(upcoming[0].away)}</b>, ${dayLabel(new Date(upcoming[0].startUTC), NZ)}.` : ''}</div>`;
 
   // coming up, grouped by NZ day
