@@ -302,7 +302,7 @@ dialog#sheet { width: min(720px, 100%) }
   background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
   background-position: right 19px center, right 14px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat }
 #compSel.on { background-color: var(--ink); color: var(--paper); border-color: var(--ink) }
-.cmenu-list { position: absolute; z-index: 30; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); min-width: 260px; max-height: min(70vh, 520px); overflow: auto;
+.cmenu-list { position: absolute; z-index: 30; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); min-width: 260px; max-height: 70vh; overflow: auto;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 8px; box-shadow: 0 12px 32px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.08) }
 .copt { display: block; width: 100%; text-align: left; border: 0; background: none; color: var(--ink); font: inherit; font-size: 14px; padding: 8px 12px 8px 26px; border-radius: 10px; cursor: pointer }
 .cmenu-list > .copt:first-child { padding-left: 12px; font-weight: 600 }
@@ -1088,7 +1088,10 @@ document.addEventListener('click', ev => {
 });
 document.addEventListener('keydown', ev => { const c = ev.target.closest?.('[data-open]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openDetail(c.dataset.open); } });
 function closeComp() { $('compMenu').hidden = true; $('compSel').setAttribute('aria-expanded', 'false'); }
-$('compSel').addEventListener('click', ev => { ev.stopPropagation(); const open = $('compMenu').hidden; $('compMenu').hidden = !open; $('compSel').setAttribute('aria-expanded', String(open)); });
+// the menu runs down to just above the bottom of the window, so bigger windows show more of it
+const fitComp = () => { const m = $('compMenu'); if (!m.hidden) m.style.maxHeight = Math.max(220, innerHeight - $('compSel').getBoundingClientRect().bottom - 24) + 'px'; };
+$('compSel').addEventListener('click', ev => { ev.stopPropagation(); const open = $('compMenu').hidden; $('compMenu').hidden = !open; $('compSel').setAttribute('aria-expanded', String(open)); fitComp(); });
+addEventListener('resize', fitComp);
 $('compMenu').addEventListener('click', ev => { const b = ev.target.closest('[data-comp]'); if (!b) return; ev.stopPropagation(); compSel = b.dataset.comp; store.set('comp', compSel); closeComp(); render(); });
 document.addEventListener('click', ev => { if (!ev.target.closest('.cmenu')) closeComp(); }, true);
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape') closeComp(); });

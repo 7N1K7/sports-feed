@@ -527,7 +527,9 @@ function fromTsdb(ev, l) {
 // Rounds around now for a league: last result's round, two back and a few ahead
 export async function tsdbEvents(leagues, diag, cache = {}) {
   const out = [];
-  for (const l of leagues) {
+  // start with a different league each run, so a rate limit part-way through doesn't always starve the same ones
+  const k = Math.floor(Date.now() / 6e5) % (leagues.length || 1);
+  for (const l of [...leagues.slice(k), ...leagues.slice(0, k)]) {
     const start = out.length;
     try {
       if (l.ufc) {
