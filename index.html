@@ -64,6 +64,7 @@ header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block:
 .btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
 
 .mock { background: var(--soft); color: var(--muted); font-size: 13px }
+.mock .fresh { cursor: help }
 .mock .wrap { padding-block: 8px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 16px }
 .mock .siteinfo { margin-left: auto; text-align: right; opacity: .85 }
 
@@ -1807,7 +1808,9 @@ function stamp() {
   const mins = Math.round((Date.now() - new Date(FEED.generatedAt)) / 6e4);
   if (FEED.site) { $('ver').textContent = `v${FEED.site.version}`; $('ver').title = `Site last changed ${fmt(new Date(FEED.site.changedAt), NZ, { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; }
   const stamp = d => fmt(new Date(d), NZ, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true });
-  $('mockNote').innerHTML = `<span>Results updated ${mins < 1 ? 'just now' : mins < 60 ? mins + ' min ago' : stamp(FEED.generatedAt)}. Results update about every 10 minutes.</span>`;
+  // just how fresh it is; how often it refreshes sits in the hover text
+  const ago = mins < 1 ? 'just now' : mins < 60 ? `${mins} min ago` : mins < 24 * 60 ? `${Math.floor(mins / 60)} hr ago` : stamp(FEED.generatedAt);
+  $('mockNote').innerHTML = `<span class="fresh" title="Updated ${esc(stamp(FEED.generatedAt))}. Results update about every 10 minutes while games are on, and every half hour otherwise.">Results updated ${ago}</span>`;
 }
 async function load() {
   try {
