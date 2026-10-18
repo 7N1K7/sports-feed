@@ -66,8 +66,16 @@ try { const t = JSON.parse(localStorage.getItem('sf.theme') || '"auto"'), c = JS
 :root[data-accent="orange"] { --paper: #f9f5f1; --surface: #ffffff; --ink: #2a1a0d; --muted: #705f50; --line: #ebdccf; --accent: #d9480f; --accent-ink: #ffffff; --soft: #f5e7db; }
 @media (prefers-color-scheme: dark) { :root[data-accent="orange"]:not([data-theme="light"]) { --paper: #140f0b; --surface: #1e1712; --ink: #f3e8de; --muted: #b09d8c; --line: #382a20; --accent: #ff8a4c; --accent-ink: #1c0a00; --soft: #2a2018; --cover: #382a20; } }
 :root[data-accent="orange"][data-theme="dark"] { --paper: #140f0b; --surface: #1e1712; --ink: #f3e8de; --muted: #b09d8c; --line: #382a20; --accent: #ff8a4c; --accent-ink: #1c0a00; --soft: #2a2018; --cover: #382a20; }
-.swatches { display: flex; flex-wrap: wrap; gap: 6px }
-.swatch { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 3px 12px 3px 5px; font: inherit; font-size: 14px; cursor: pointer }
+:root[data-accent="lime"] { --paper: #f4f7f0; --surface: #ffffff; --ink: #18220e; --muted: #5c6a4e; --line: #dbe4d0; --accent: #4f7f0a; --accent-ink: #ffffff; --soft: #e8efdd; }
+@media (prefers-color-scheme: dark) { :root[data-accent="lime"]:not([data-theme="light"]) { --paper: #0e120a; --surface: #161c10; --ink: #e8f0dc; --muted: #9cab89; --line: #2a3420; --accent: #a9e34b; --accent-ink: #111a03; --soft: #1e2617; --cover: #2a3420; } }
+:root[data-accent="lime"][data-theme="dark"] { --paper: #0e120a; --surface: #161c10; --ink: #e8f0dc; --muted: #9cab89; --line: #2a3420; --accent: #a9e34b; --accent-ink: #111a03; --soft: #1e2617; --cover: #2a3420; }
+:root[data-accent="pink"] { --paper: #f9f3f5; --surface: #ffffff; --ink: #2a1220; --muted: #705a66; --line: #ebd8e0; --accent: #c2255c; --accent-ink: #ffffff; --soft: #f5e4eb; }
+@media (prefers-color-scheme: dark) { :root[data-accent="pink"]:not([data-theme="light"]) { --paper: #140c10; --surface: #1e1419; --ink: #f4e4eb; --muted: #b398a5; --line: #38242e; --accent: #f783ac; --accent-ink: #22040f; --soft: #291a21; --cover: #38242e; } }
+:root[data-accent="pink"][data-theme="dark"] { --paper: #140c10; --surface: #1e1419; --ink: #f4e4eb; --muted: #b398a5; --line: #38242e; --accent: #f783ac; --accent-ink: #22040f; --soft: #291a21; --cover: #38242e; }
+.swatches { display: grid; grid-template-columns: repeat(5, max-content); justify-content: start; gap: 6px }
+.swatch { justify-content: flex-start; white-space: nowrap }
+@media (max-width: 700px) { .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.swatch { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 3px 11px 3px 5px; font: inherit; font-size: 14px; cursor: pointer }
 .swatch i { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line) }
 .swatch[aria-pressed="true"] { border-color: var(--ink); font-weight: 600 }
 
@@ -105,7 +113,7 @@ header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block:
 /* settings: a dropdown under the header, over the page, so nothing below moves */
 .panel { position: absolute; top: calc(100% + 6px); left: 0; right: 0; pointer-events: none }
 .pclose { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 20px; line-height: 1; cursor: pointer; z-index: 1 }
-.panel .pbox { position: relative; pointer-events: auto; margin-left: auto; width: min(640px, 100%); max-height: calc(100vh - 110px); max-height: calc(100dvh - 110px); overflow: auto; overscroll-behavior: contain;
+.panel .pbox { position: relative; pointer-events: auto; margin-left: auto; width: min(720px, 100%); max-height: calc(100vh - 110px); max-height: calc(100dvh - 110px); overflow: auto; overscroll-behavior: contain;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; display: grid; gap: 14px; box-shadow: 0 16px 40px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.08) }
 .group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--f-body); font-weight: 700; margin-bottom: 6px }
 .chips { display: flex; flex-wrap: wrap; gap: 6px }
@@ -403,10 +411,12 @@ dialog#sheet { width: min(720px, 100%) }
 .cmenu-list > .copt:first-child { padding-left: 12px; font-weight: 600 }
 .copt[data-comp=""] { text-align: center; padding-left: 12px }
 /* slim, rounded scrollbars everywhere (page, menus, popups, tables, chip rows), with no arrow buttons */
-* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--muted) 45%, transparent) transparent }
+/* Chrome, Edge and Safari use the ::-webkit-scrollbar look below (no arrows); setting the standard properties
+   there would switch it off, so only browsers without it (Firefox) get them */
+@supports not selector(::-webkit-scrollbar) { * { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--muted) 45%, transparent) transparent } }
 ::-webkit-scrollbar { width: 10px; height: 10px }
 ::-webkit-scrollbar-track { background: transparent }
-.cmenu-list::-webkit-scrollbar-track, .pbox::-webkit-scrollbar-track, dialog::-webkit-scrollbar-track { margin: 14px 0 }
+.cmenu-list::-webkit-scrollbar-track, .pbox::-webkit-scrollbar-track, dialog::-webkit-scrollbar-track, dialog *::-webkit-scrollbar-track { margin: 16px 0 }
 ::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--muted) 45%, transparent); border-radius: 999px; border: 3px solid transparent; background-clip: padding-box }
 ::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, var(--muted) 70%, transparent) }
 ::-webkit-scrollbar-button { display: none; width: 0; height: 0 }
@@ -1862,7 +1872,8 @@ addEventListener('scroll', () => { $('toTop').hidden = scrollY < 700; }, { passi
 $('nzOnly').addEventListener('click', ev => { ev.stopPropagation(); nzOnly = !nzOnly; store.set('nzOnly', nzOnly); render(); });
 // look: light/dark and a colour theme, saved in this browser
 const ACCENTS = [['green', 'Kiwi green', '#0d6b4d'], ['ocean', 'Ocean blue', '#1864ab'], ['red', 'Pōhutukawa red', '#c92a2a'], ['black', 'All Black', '#111111'],
-  ['kowhai', 'Kōwhai gold', '#d9a400'], ['paua', 'Pāua teal', '#0b7a7e'], ['purple', 'Twilight purple', '#6741d9'], ['orange', 'Sunset orange', '#d9480f']];
+  ['kowhai', 'Kōwhai gold', '#d9a400'], ['paua', 'Pāua teal', '#0b7a7e'], ['purple', 'Twilight purple', '#6741d9'], ['orange', 'Sunset orange', '#d9480f'],
+  ['lime', 'Kawakawa lime', '#5c940d'], ['pink', 'Rātā pink', '#c2255c']];
 function drawLook() {
   const t = store.get('theme', 'auto'), c = store.get('accent', 'green');
   $('themeSel').value = t;
