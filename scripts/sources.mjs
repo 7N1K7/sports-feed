@@ -362,7 +362,15 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     const f1 = f1Season(season, y, cityTz);
     out.push(...f1);
     for (const [t, title] of [['Template:F1 Drivers Standings', "Drivers' championship"], ['Template:F1 Constructors Standings', "Constructors' championship"]]) {
-      const rows = f1Standings(pg[t] || '');
+      const all = f1Standings(pg[t] || '');
+      // constructors' points are sums of their drivers' ({{Sum|{{F1R2026|RUS|points}}|...}}): let Wikipedia work them out
+      const sums = all.filter(r => r.expr);
+      if (sums.length) {
+        const x = await api('action=expandtemplates&prop=wikitext&title=' + encodeURIComponent(t) + '&text=' + encodeURIComponent(sums.map(r => r.expr).join('§§')));
+        const vals = (x.expandtemplates?.wikitext || '').split('§§');
+        sums.forEach((r, i) => { r.pts = parseFloat(clean(vals[i] || '')); });
+      }
+      const rows = all.filter(r => !isNaN(r.pts)).map(({ expr, ...r }) => r).sort((a, b) => b.pts - a.pts);
       if (rows.length) tables.push({ comp: 'Formula 1', sport: 'motor', team: 'f1', page: `${y} Formula One World Championship`, title, style: 'points', rows });
     }
     diag.f1 = `${f1.length} races, ${f1.filter(e => e.status === 'final').length} with results`;
@@ -457,23 +465,57 @@ function f1Season(text, year, cityTz) {
   }
   return out;
 }
-// "F1 Drivers Standings" / "F1 Constructors Standings": position, name, a cell per race, points last
+// "F1 Drivers Standings" / "F1 Constructors Standings": position, name, a cell per race, points last.
+// A constructor takes two rows (one per driver) and its points cell is a {{Sum|...}} of its drivers' points:
+// those come back as `expr`, for wikiEvents to have Wikipedia expand. Unsorted.
 function f1Standings(text) {
   const m = text.match(/\{\|\s*class="wikitable"[\s\S]*?\n\|\}/);
   if (!m) return [];
+  // a cell's content, without its leading | or ! and any style="..." attributes
+  const cell = l => stripRefs(l).replace(/^[|!]\s*/, '').replace(/^[^|[{]*?\|(?!\|)/, '').trim();
   const rows = [];
   for (const r of m[0].split(/\n\|-[^\n]*/).slice(1)) {
     const lines = r.split('\n').filter(l => /^[|!]/.test(l));
-    const pos = +clean((lines[0] || '').replace(/^!\s*/, '').replace(/^[^|]*\|/, ''));
+    const pos = +clean(cell(lines[0] || ''));
     const nameLine = lines.find(l => /\[\[/.test(l));
-    const last = lines[lines.length - 1] || '';
-    const pts = parseFloat(clean(last.replace(/^[|!]/, '').split('|').pop()));
-    if (!pos || !nameLine || isNaN(pts)) continue;
-    const links = [...nameLine.matchAll(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g)];
-    const name = links.length ? (links[links.length - 1][2] || links[links.length - 1][1]).trim() : '';
-    rows.push({ name, pts, p: 0, w: 0, d: 0, l: 0, f: 0, a: 0, bp: 0, nr: 0, nrr: '', q: '', champ: false });
+    const last = cell(lines[lines.length - 1] || '');
+    if (!pos || !nameLine || lines.length < 3) continue;
+    // link labels first, so "{{nowrap|[[Red Bull Racing]]-[[Red Bull Powertrains|Red Bull Ford]]}}" reads "Red Bull Racing-Red Bull Ford"
+    const name = clean(cell(nameLine).replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1'));
+    const lit = clean(last).replace('−', '-');
+    const pts = /^-?\d+(\.\d+)?$/.test(lit) ? +lit : NaN;
+    if (!name || (isNaN(pts) && !/\{\{/.test(last))) continue;
+    rows.push({ name, pts, ...(isNaN(pts) ? { expr: last } : {}), ...(/\{\{\s*flagicon\s*\|\s*NZL?\s*[|}]/i.test(nameLine) ? { nz: true } : {}),
+      p: 0, w: 0, d: 0, l: 0, f: 0, a: 0, bp: 0, nr: 0, nrr: '', q: '', champ: false });
   }
-  return rows.sort((a, b) => b.pts - a.pts);
+  return rows;
+}
+
+// Wikipedia's calendar has race dates only; TheSportsDB (free key) has start times. At most one call a run:
+// the weekend of the next race not looked up in the last 12 hours. Answers are kept in `cache` (fetch.mjs saves it).
+export async function f1StartTimes(events, cache, diag) {
+  const now = Date.now();
+  const races = events.filter(e => e.team === 'f1');
+  const due = races.filter(e => e.status !== 'final' && Date.parse(e.startUTC) > now - DAY && Date.parse(e.startUTC) < now + 60 * DAY)
+    .find(e => !cache[e.id] || now - cache[e.id].t > 12 * 36e5);
+  const notes = [];
+  if (due) {
+    const [, season, round] = due.id.split('-');
+    try {
+      const d = await tsdb(`eventsround.php?id=4370&r=${round}&s=${season}`);
+      // the race itself, not practice, sprint or qualifying, within two days of Wikipedia's date
+      const t = (d.events || []).filter(ev => ev.strTimestamp && !/practice|qualifying|sprint|shootout|testing/i.test(ev.strEvent || ''))
+        .map(ev => Date.parse(ev.strTimestamp.replace(/(\+00:00|Z)$/, '') + 'Z')).find(t => Math.abs(t - Date.parse(due.startUTC)) < 2 * DAY);
+      cache[due.id] = { t: now, gp: due.home, startUTC: t ? new Date(t).toISOString() : null };
+      notes.push(`${due.home}: ${t ? new Date(t).toISOString() : 'no time listed yet'}`);
+    } catch (e) { notes.push(`${due.home}: ${e.message}`); }
+  }
+  let n = 0;
+  for (const e of races) {
+    const c = cache[e.id];
+    if (c?.startUTC && c.gp === e.home && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 2 * DAY) { Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); n++; }
+  }
+  diag.f1Times = [...notes, `${n} of ${races.length} races with start times`].join('; ');
 }
 
 // Cricket tour "Squads" tables: header rows give each column's team and/or format

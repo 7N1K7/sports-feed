@@ -1,13 +1,16 @@
-// F1 probe 3: constructor name/points lines, and expanding the points sums through the API
-const UA = { 'User-Agent': 'sports-feed probe (https://7n1k7.github.io/sports-feed/)' };
-const api = async q => (await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&' + q, { headers: UA })).json();
-const get = async t => (await api('action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(t))).query.pages[0].revisions?.[0].slots.main.content || '';
-const c = await get('Template:F1 Constructors Standings');
-console.log('#### CONS KEY LINES');
-for (const l of c.split('\n')) if (/^!|\[\[|Sum|Red Bull/.test(l) && !/^!\s*style="vertical-align/.test(l)) console.log(l.slice(0, 300));
-const sums = [...c.matchAll(/\{\{Sum\|(?:[^{}]|\{\{[^{}]*\}\})*\}\}/g)].map(m => m[0]);
-console.log('#### SUMS', sums.length);
-const x = await api('action=expandtemplates&prop=wikitext&title=Template:F1_Constructors_Standings&text=' + encodeURIComponent(sums.join('§§')));
-console.log(JSON.stringify(x).slice(0, 1500));
-const f = await get('Template:F1R2026');
-console.log('#### F1R2026', f.length); console.log(f.slice(0, 1500));
+// F1 probe 4: full feed build with F1 on, start times, both standings tables
+import { execSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+console.log('#### FETCH');
+try { console.log(execSync('node scripts/fetch.mjs', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })); } catch (e) { console.log('fetch failed', e.message, e.stdout, e.stderr); }
+const feed = JSON.parse(readFileSync('data/feed.json', 'utf8'));
+console.log('#### DIAG'); console.log(JSON.stringify({ f1: feed.diag.f1, f1Times: feed.diag.f1Times, rnz: feed.diag.rnz, tsdb: Object.fromEntries(Object.entries(feed.diag).filter(([k]) => /^tsdb/.test(k))) }, null, 1));
+console.log('#### CACHE'); try { console.log(readFileSync('.cache/f1-times.json', 'utf8')); } catch (e) { console.log(e.message); }
+console.log('#### F1 EVENTS');
+for (const e of feed.events.filter(e => e.team === 'f1')) console.log(JSON.stringify(e));
+console.log('#### F1 TABLES');
+for (const tb of feed.tables.filter(x => x.team === 'f1')) console.log(tb.title, tb.style, JSON.stringify(tb.rows.map(r => [r.name, r.pts, r.nz])));
+console.log('#### F1 NEWS');
+for (const n of feed.news.filter(n => n.team === 'f1')) console.log(JSON.stringify(n));
+console.log('#### FEEDJSON');
+console.log(JSON.stringify(feed));
