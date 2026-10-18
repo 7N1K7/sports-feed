@@ -178,7 +178,7 @@ footer a { color: var(--muted) }
 .teams.solo .nm, .dteams.solo { overflow-wrap: anywhere; text-wrap: balance }
 .teams.solo .where, .dteams.solo small { display: block; font-family: var(--f-body); font-size: 13px; font-weight: 600; line-height: 1.3; letter-spacing: 0; color: var(--muted) }
 .dteams.solo small { font-size: 14px; margin-top: 4px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.solo .where { display: none }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.solo .where { display: none }
 /* points-only standings (drivers, constructors) sit side by side when there's room */
 #hubBody:has(> .stable.points) { display: flex; flex-wrap: wrap; align-items: flex-start; column-gap: 18px }
 #hubBody > .stable.points { flex: 1 1 320px; min-width: 0 }
@@ -454,23 +454,23 @@ a.svc:hover { text-decoration-color: currentColor }
 .ev:hover, .ni:hover { border-color: color-mix(in srgb, var(--sport, var(--accent)) 50%, var(--line)) }
 
 /* compact cards: one short row each. Compact view uses them everywhere; Mixed keeps live and today's games full size */
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams { font-size: 19px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side, :is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 8px; text-align: center; grid-template-rows: none; row-gap: 0 }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side > * { grid-row: auto; align-self: center; order: 0 }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side.away > img { order: 2 }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { height: 1.4em; max-width: 2.8em; transform: none !important }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .flagimg { height: 1em; max-width: 1.8em }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .body { padding-top: 6px; padding-bottom: 6px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp { font-size: 11px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .summary, :is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .tvl, :is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .nzl, :is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .loc:not(.num) { display: none }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .when { padding-top: 6px; padding-bottom: 6px; gap: 0 }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .nz { font-size: 20px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .cover { padding: 4px 8px; font-size: 12px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .cover b { font-size: 13px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .rloc { margin-top: 2px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .score { font-size: 20px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams { font-size: 19px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 8px; text-align: center; grid-template-rows: none; row-gap: 0 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side > * { grid-row: auto; align-self: center; order: 0 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side.away > img { order: 2 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { height: 1.4em; max-width: 2.8em; transform: none !important }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .flagimg { height: 1em; max-width: 1.8em }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .body { padding-top: 6px; padding-bottom: 6px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp { font-size: 11px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .summary, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .tvl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .nzl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .loc:not(.num) { display: none }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .when { padding-top: 6px; padding-bottom: 6px; gap: 0 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .nz { font-size: 20px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .cover { padding: 4px 8px; font-size: 12px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .cover b { font-size: 13px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .rloc { margin-top: 2px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .score { font-size: 20px }
 :is(body.v-compact, body.v-mixed) :is(.daygroup, .donetoday) { gap: 6px }
-@media (max-width: 560px) { :is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams { font-size: 16px } :is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side { gap: 6px } :is(body.v-compact, body.v-mixed :is(#upcoming, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { height: 1.3em } }
+@media (max-width: 560px) { :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams { font-size: 16px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side { gap: 6px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { height: 1.3em } }
 /* Mixed: today's games a little smaller than live ones */
 body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 @media (max-width: 560px) { body.v-mixed #today .daygroup > .ev .teams { font-size: 22px } }
@@ -528,6 +528,10 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   <section id="todaySec">
     <h2>On today <small id="todayLabel"></small></h2>
     <div id="today"></div>
+  </section>
+  <section id="tomSec" hidden>
+    <h2>Tomorrow <small id="tomLabel"></small></h2>
+    <div id="tomorrow" class="daygroup"></div>
   </section>
   <section id="upSec">
     <h2>Coming up this week <small>Times in NZ, with local time for overseas games</small></h2>
@@ -1017,7 +1021,7 @@ function renderHub(now) {
   const tabs = on ? [['games', 'Games'], ...(hubTables().length ? [['table', 'Table']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
   if (!tabs.some(([k]) => k === hubTab)) hubTab = 'games';
   const other = on && hubTab !== 'games';
-  for (const id of ['weekSec', 'todaySec', 'upSec', 'laterSec', 'resSec', 'newsSec']) $(id).classList.toggle('hubhide', other || (on && id === 'newsSec'));
+  for (const id of ['liveSec', 'weekSec', 'todaySec', 'tomSec', 'upSec', 'laterSec', 'resSec', 'newsSec']) $(id).classList.toggle('hubhide', other || (on && id === 'newsSec'));
   if (!on) { $('hubBody').innerHTML = ''; return; }
   const sample = (FEED.events || []).find(e => compOf(e) === compSel);
   $('hubName').textContent = plural(compSel);
@@ -1197,7 +1201,13 @@ function render() {
   // coming up this week, then further ahead, grouped by NZ day
   const rest = upcoming.filter(e => !todays.includes(e) && !lives.includes(e));
   const groups = new Map();
-  rest.forEach(e => { const k = dayKey(new Date(e.startUTC)); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(e) });
+  // tomorrow gets its own section, right after today
+  const tomK = dayKey(new Date(now + 864e5));
+  const toms = rest.filter(e => dayKey(new Date(e.startUTC)) === tomK);
+  $('tomSec').hidden = !toms.length;
+  $('tomLabel').textContent = dayLabel(new Date(now + 864e5), NZ);
+  $('tomorrow').innerHTML = toms.map(e => evCard(e, now)).join('');
+  rest.filter(e => !toms.includes(e)).forEach(e => { const k = dayKey(new Date(e.startUTC)); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(e) });
   const weekEnd = dayKey(new Date(now + 6 * 864e5));
   const showAll = store.get('showAllUp', false);
   const dayGroup = (k, list) => `<div class="daygroup"><div class="dayhead" id="d-${k}">${fmt(new Date(list[0].startUTC), NZ, { weekday: 'long', day: 'numeric', month: 'long' })}</div>${list.map(e => evCard(e, now)).join('')}</div>`;
