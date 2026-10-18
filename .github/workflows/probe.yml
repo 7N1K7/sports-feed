@@ -1,5 +1,6 @@
 name: probe
-on: { push: { branches: [probe] } }
+on: { push: { branches: [probe], paths-ignore: ['probe/out*'] } }
+permissions: { contents: write }
 jobs:
   p:
     runs-on: ubuntu-latest
@@ -7,4 +8,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - run: node probe/probe.mjs
+      - run: node probe/probe.mjs > probe/out.txt 2>&1 || true
+      - run: git -c user.name=bot -c user.email=bot@x add probe/out.txt && git -c user.name=bot -c user.email=bot@x commit -m out && git push
