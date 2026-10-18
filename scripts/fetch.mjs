@@ -373,10 +373,12 @@ async function addFaces(events) {
   const cacheUrl = new URL('.cache/faces.json', ROOT);
   let cache = {};
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
-  const UA = { headers: { 'user-agent': 'sports-feed (personal site)' } };
-  const get = async (host, q) => { const r = await fetch(`https://${host}/w/api.php?format=json&formatversion=2&maxlag=5&` + q, UA); if (!r.ok) throw new Error(`${host} ${r.status}`); return r.json(); };
+  // Wikimedia asks for a descriptive user agent and gentle pacing (it answered 429 to quick bursts), so a second between calls
+  const UA = { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } };
+  const get = async (host, q) => { await new Promise(r => setTimeout(r, 1000)); const r = await fetch(`https://${host}/w/api.php?format=json&formatversion=2&maxlag=5&` + q, UA); if (!r.ok) throw new Error(`${host} ${r.status}`); return r.json(); };
   const plain = h => String(h || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-  const strip = n => String(n || '').replace(/\s*\((c|ic)\)$/i, '').trim();
+  // "Alexander Volkanovski (c)" -> "Alexander Volkanovski"; "Saul 'Canelo' Alvarez" -> "Saul Alvarez"
+  const strip = n => String(n || '').replace(/\s*\((c|ic)\)$/i, '').replace(/\s+['"‘“][^'"’”]+['"’”]\s+/, ' ').trim();
   const FIGHTER = /box|fight|martial|mma|kickbox|wrestl|judo|jiu|muay|sambo|karate|taekwondo/i;
   const near = events.filter(e => /^(mma|boxing)$/.test(e.sport) && Math.abs(Date.parse(e.startUTC) - now) < 60 * DAY);
   // UFC cards are listed by surname ("Volkanovski vs. Evloev"); the fight card has the full names to look up
@@ -385,10 +387,14 @@ async function addFaces(events) {
     const m = (e.card || []).flatMap(b => [b.a, b.b]).find(x => x && strip(x).includes(' ') && last(x) === last(n));
     return /\s/.test(n || '') || !m ? n : strip(m);
   };
-  const ok = n => n && !/TBC|TBA|^UFC|Fight Night|\bvs?\b/i.test(n) && n.split(' ').length <= 4;
-  const names = [...new Set(near.flatMap(e => [full(e, 'home'), full(e, 'away'),
-    ...(Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY ? (e.card || []).flatMap(b => [strip(b.a), strip(b.b)]) : [])]))].filter(ok);
-  const due = names.filter(n => !cache[n] || now - cache[n].t > (cache[n].src ? 30 : 7) * DAY || cache[n].v !== 2).slice(0, 120);
+  // a full name only: a lone surname (a far-off card with no bouts listed yet) would find the wrong page
+  const ok = n => n && /\S\s+\S/.test(n) && !/TBC|TBA|^UFC|Fight Night|\bvs?\b|\d/i.test(n) && n.split(' ').length <= 4;
+  const kindOf = {};
+  for (const e of near) for (const n of [full(e, 'home'), full(e, 'away'), ...(Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY ? (e.card || []).flatMap(b => [strip(b.a), strip(b.b)]) : [])])
+    if (ok(n)) kindOf[n] ||= e.sport === 'boxing' ? 'boxer' : 'fighter';
+  const names = Object.keys(kindOf);
+  // 60 a run keeps the calls few; the rest follow on the next runs, and the cache holds what was found
+  const due = names.filter(n => !cache[n] || now - cache[n].t > (cache[n].src ? 30 : 7) * DAY || cache[n].v !== 2 || cache[n].why === 'not looked up').slice(0, 60);
   const found = {}, miss = {};
   try {
     // 1. the English article: free lead image, short description and Wikidata id; titles to retry as "Name (fighter)"
@@ -412,7 +418,7 @@ async function addFaces(events) {
     };
     await look(due, {});
     const alt = {};
-    for (const n of retry) for (const s of ['fighter', 'boxer', 'kickboxer']) alt[`${n} (${s})`] = n;
+    for (const n of retry) alt[`${n} (${kindOf[n]})`] = n;
     await look(Object.keys(alt), alt);
     // 2. Wikidata's image (P18) for fighters whose article has no free photo
     const ids = Object.keys(qids).filter(q => !found[qids[q]]);
@@ -441,7 +447,8 @@ async function addFaces(events) {
       }
     }
   } catch (e) { diag.facesError = e.message; }
-  for (const n of due) cache[n] = found[n] ? { t: now, v: 2, ...found[n] } : { t: now, v: 2, src: null, why: miss[n] || 'not looked up' };
+  // only names that got an answer are cached; any left over by an error are tried again next run
+  for (const n of due) if (found[n] || miss[n]) cache[n] = found[n] ? { t: now, v: 2, ...found[n] } : { t: now, v: 2, src: null, why: miss[n] };
   for (const e of near) {
     for (const side of ['home', 'away']) {
       const c = cache[full(e, side)];
@@ -454,7 +461,7 @@ async function addFaces(events) {
   }
   const have = names.filter(n => cache[n]?.src);
   diag.faces = `${have.length}/${names.length} fighters with a free photo; ${due.length} looked up`;
-  diag.facesMissing = names.filter(n => !cache[n]?.src).map(n => `${n}: ${cache[n]?.why || '?'}`);
+  diag.facesMissing = names.filter(n => !cache[n]?.src).map(n => `${n}: ${cache[n]?.v === 2 ? cache[n].why : 'not looked up yet'}`);
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
 
