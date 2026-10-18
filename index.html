@@ -816,7 +816,7 @@ $('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; st
 function stamp() {
   if (!FEED.generatedAt) return;
   const mins = Math.round((Date.now() - new Date(FEED.generatedAt)) / 6e4);
-  $('mockNote').textContent = `Updated ${mins < 1 ? 'just now' : mins < 60 ? mins + ' min ago' : fmt(new Date(FEED.generatedAt), NZ, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}. Results update about every 15 minutes.`;
+  $('mockNote').textContent = `Updated ${mins < 1 ? 'just now' : mins < 60 ? mins + ' min ago' : fmt(new Date(FEED.generatedAt), NZ, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}. Results update about every 10 minutes.`;
 }
 async function load() {
   try {
