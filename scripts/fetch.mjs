@@ -61,7 +61,17 @@ const NEWS_TEAMS = [
   ['blackcaps', /Black ?Caps/i], ['whiteferns', /White Ferns/i], ['nzdomestic', /Plunket Shield|Ford Trophy|Super Smash|Hallyburton/i],
   ['kiwis', /\bKiwis\b/], ['kiwiferns', /Kiwi Ferns/i], ['warriors', /Warriors/],
   ['f1', /Formula (One|1)\b|\bF1\b|Liam Lawson/i],
+  ['wallabies', /Wallabies/], ['superrugby', /Super Rugby/i],
+  ['rlwc', /Rugby League World Cup|\bRLWC\b/i], ['nrl', /\bNRL\b/],
+  ['wbbl', /\bWBBL\b|Women's Big Bash/i], ['bbl', /\bBBL\b|Big Bash/i],
+  ['phoenix', /Wellington Phoenix|\bPhoenix\b/], ['aucklandfc', /Auckland FC/i], ['aleague', /A-League/i], ['epl', /Premier League|\bEPL\b/],
+  ['nzboxing', /Joseph Parker|David Nyika|Mea Motu|Lani Daniels|Andrei Mikhailovich/i],
+  ['ufc', /\bUFC\b|\bMMA\b|Adesanya|Kara-France|Dan Hooker|Carlos Ulberg/i], ['boxing', /\bboxing\b|\bboxer\b|heavyweight title/i],
 ];
+// Stories about an upcoming game that name no team above: match the names on the next fortnight's fixtures instead
+// ("Volkanovski" -> ufc, "Arsenal" -> epl). Countries are left out, as they'd match half the sport section.
+let EVENT_NAMES = [];
+const teamFor = text => NEWS_TEAMS.find(([, re]) => re.test(text))?.[0] || EVENT_NAMES.find(([re]) => re.test(text))?.[1];
 function kindOf(text) {
   if (/injur|ruled out|surgery|hamstring|concussion|sidelined|fracture|broken/i.test(text)) return 'injury';
   if (/squad|named|selected|recalled|debut|line-?up|team to (play|face)|contract|signs?\b|re-sign/i.test(text)) return 'squad';
@@ -82,7 +92,7 @@ async function rnzNews() {
   for (const m of xml.matchAll(/<item>([\s\S]*?)<\/item>/g)) {
     const get = tag => unxml((m[1].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1]);
     const title = get('title'), summary = get('description'), url = get('link');
-    const team = NEWS_TEAMS.find(([, re]) => re.test(title + ' ' + summary))?.[0];
+    const team = teamFor(title + ' ' + summary);
     if (!team) continue;
     const image = (m[1].match(/<(?:media:content|media:thumbnail|enclosure)[^>]*url="([^"]+)"/) || [])[1];
     const d = new Date(get('pubDate'));
@@ -99,6 +109,7 @@ async function rnzNews() {
 // NZ Herald sport headlines. Its RSS licence lets a website show the headlines exactly as received, each linked
 // to the story and credited "supplied by nzherald.co.nz"; summaries and images are not covered, so neither is kept.
 const HERALD_FEEDS = ['https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/sport/?outputType=xml&_website=nzh',
+  ...['cricket', 'rugby-league', 'football', 'boxing', 'motorsport'].map(s => `https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/sport/${s}/?outputType=xml&_website=nzh`),
   'https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/sport/rugby/?outputType=xml&_website=nzh'];
 async function heraldNews() {
   const out = [], notes = [];
@@ -113,7 +124,7 @@ async function heraldNews() {
     for (const m of xml.matchAll(/<item>([\s\S]*?)<\/item>/g)) {
       const get = tag => unxml((m[1].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1]);
       const title = get('title'), url = get('link');
-      const team = NEWS_TEAMS.find(([, re]) => re.test(title))?.[0];
+      const team = teamFor(title);
       if (!team || !url || out.some(x => x.url === url)) continue;
       const d = new Date(get('pubDate'));
       out.push({
@@ -258,7 +269,24 @@ if (tsdbFill.length) diag.tsdbFilled = filled;
 events.forEach(e => applyBroadcast(e, rules));
 for (const e of events) if (!e.tz && e.city) { const bits = e.city.split(',').map(x => x.trim()); e.tz = tzFor(bits[0], bits[bits.length - 1]); }
 
+const COUNTRY = /^(New Zealand|Australia|England|Scotland|Wales|Ireland|France|Italy|South Africa|Argentina|Japan|Fiji|Samoa|Tonga|Papua New Guinea|Cook Islands|India|Sri Lanka|Bangladesh|Pakistan|West Indies|Lebanon|Canada|USA|United States|Chile|Uruguay|Georgia|Portugal|Spain|Romania)( Women| A| XI| Wheelchair)?$/i;
 const newsAll = [...curated.news];
+{
+  const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pairs = new Map();
+  for (const e of events) {
+    const age = now - Date.parse(e.startUTC);
+    if (age > 2 * DAY || age < -14 * DAY) continue;
+    const card = (e.card || []).slice(0, 4).flatMap(b => [b.a, b.b]).map(n => String(n || '').replace(/\s*\(c\)$/, ''));
+    for (const n of [e.home, e.away, ...card]) {
+      if (!n || n.length < 6 || /TBC|winner|^UFC|Fight Night|\bor\b/i.test(n) || COUNTRY.test(n)) continue;
+      pairs.set(n, e.team);
+      const last = n.split(' ').pop();
+      if (/^(mma|boxing)$/.test(e.sport) && last.length >= 6) pairs.set(last, e.team);
+    }
+  }
+  EVENT_NAMES = [...pairs].map(([n, t]) => [new RegExp(`\\b${esc(n)}\\b`), t]);
+}
 // RNZ's RSS terms say "for personal use only" (rnz.co.nz/rss); the owner chose to show it on this non-commercial site,
 // with the feed's own summary and photo and a "Read at RNZ" link back. Set false to switch it off again
 const RNZ_ON = true;
@@ -267,7 +295,6 @@ const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 
 // Club logos from TheSportsDB's free API (badges used as-is, credited in the footer).
 // Countries use flags in the page instead. Looked-up names are cached between runs.
-const COUNTRY = /^(New Zealand|Australia|England|Scotland|Wales|Ireland|France|Italy|South Africa|Argentina|Japan|Fiji|Samoa|Tonga|Papua New Guinea|Cook Islands|India|Sri Lanka|Bangladesh|Pakistan|West Indies|Lebanon|Canada|USA|United States|Chile|Uruguay|Georgia|Portugal|Spain|Romania)( Women| A| XI| Wheelchair)?$/i;
 // TheSportsDB labels union and league both "Rugby", so logos are matched within the right competitions only.
 // Each code: the leagues whose team lists we pull, and which strLeague values a name search may accept.
 const LOGO_CODES = {
@@ -312,7 +339,8 @@ async function addLogos(events, extra = []) {
     const p = fromPool(sport, name);
     if (p) { found[key] = p; continue; }
     const c = cache.names[key];
-    if (c && (c.b || now - c.t < WEEK)) { found[key] = c.b; continue; }
+    // misses are asked again every 3 days, as TheSportsDB keeps adding badges
+    if (c && (c.b || now - c.t < 3 * DAY)) { found[key] = c.b; continue; }
     if (looked >= 10) continue;
     looked++;
     let b = null, failed = false;
@@ -346,7 +374,7 @@ async function addLogos(events, extra = []) {
     const fromFix = seen[`${sport}|${simple(name)}`];
     if (fromFix) { cache.nat[key] = { t: now, b: fromFix }; continue; }
     const c = cache.nat[key];
-    if (c && now - c.t < (c.b ? 30 : 7) * DAY) continue;
+    if (c && now - c.t < (c.b ? 30 : 3) * DAY) continue;
     if (natLooked >= 4) continue;
     natLooked++;
     try {
@@ -366,9 +394,9 @@ async function addLogos(events, extra = []) {
 }
 
 // Fighter headshots: each boxer's or UFC fighter's freely licensed photo from Wikipedia / Wikimedia Commons, with its
-// credit. Only people Wikipedia describes as a fighter. Three tries per name: the article's own free lead image; the
+// credit, refreshed monthly; fighters without one are asked again every 3 days as photos get added. Only people Wikipedia describes as a fighter. Three tries per name: the article's own free lead image; the
 // photo on the fighter's Wikidata entry (always a Commons file, so free); then "Name (fighter)" / "(boxer)" when the plain
-// title is someone else. Every fighter on a UFC card is looked up, not just the main event. Cached a month (misses a week).
+// title is someone else. Every fighter on a UFC card is looked up, not just the main event.
 async function addFaces(events) {
   const cacheUrl = new URL('.cache/faces.json', ROOT);
   let cache = {};
@@ -396,7 +424,7 @@ async function addFaces(events) {
     if (ok(n)) kindOf[n] ||= e.sport === 'boxing' ? 'boxer' : 'fighter';
   const names = Object.keys(kindOf);
   // 60 a run keeps the calls few; the rest follow on the next runs, and the cache holds what was found
-  const due = names.filter(n => !cache[n] || now - cache[n].t > (cache[n].src ? 30 : 7) * DAY || cache[n].v !== 3 || cache[n].why === 'not looked up').slice(0, 60);
+  const due = names.filter(n => !cache[n] || now - cache[n].t > (cache[n].src ? 30 : 3) * DAY || cache[n].v !== 3 || cache[n].why === 'not looked up').slice(0, 60);
   const found = {}, miss = {};
   try {
     // 1. the English article: free lead image, short description and Wikidata id; titles to retry as "Name (fighter)"

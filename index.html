@@ -149,6 +149,7 @@ footer a { color: var(--muted) }
 
 
 .badge { display: inline-grid; place-items: center; min-width: 30px; height: 18px; padding: 0 4px; border-radius: 4px; font: 700 10px/1 var(--f-body); letter-spacing: .03em; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 18%, transparent); flex: none }
+.badge.intl { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink) 55%, transparent) }
 .ev .comp { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px }
 .sp { background: var(--sport); color: var(--paper); border-radius: 4px; padding: 1px 6px; font-size: 10px; letter-spacing: .08em }
 .logo { --lh: 1.1em; width: 1.1em; height: 1.1em; object-fit: contain; vertical-align: -0.15em; margin-right: 5px }
@@ -632,6 +633,10 @@ function compBadge(e) {
   if (!b) return badge(e.team);
   return `<span class="badge" style="background:${b[1]};color:${b[2]}" aria-hidden="true">${b[0]}</span>`;
 }
+// international game: two national sides, or a Test / World Cup / international series
+const isIntl = e => !!(e.home && e.away && (flagOf(e.home) && flagOf(e.away)
+  || /\b(World Cup|Tests?|T20I|ODI|internationals?|Nations Championship|Rugby Championship|WXV|Pacific (Championship|Cup))\b/i.test(`${e.comp || ''} ${e.stage || ''}`)));
+const intlTag = e => isIntl(e) ? '<span class="badge intl" title="International game">INTL</span>' : '';
 const badge = k => { const b = BADGE[k]; return b ? `<span class="badge" style="background:${b[1]};color:${b[2]}" aria-hidden="true">${b[0]}</span>` : ''; };
 const FLAGS = {
   'New Zealand': '🇳🇿', 'All Blacks': '🇳🇿', 'Black Ferns': '🇳🇿', Australia: '🇦🇺', Wallabies: '🇦🇺', England: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', Scotland: '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
@@ -907,7 +912,7 @@ function evCard(e, now) {
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${sIcon(e.sport)}${compBadge(e)}<span>${esc(cardComp(e))}</span>${seriesLine(e, now)}</div>
+      <div class="comp">${sIcon(e.sport)}${compBadge(e)}${intlTag(e)}<span>${esc(cardComp(e))}</span>${seriesLine(e, now)}</div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
     </div>
     <div class="when">
@@ -965,7 +970,7 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${sIcon(e.sport)}${compBadge(e)}<span>${esc(cardComp(e))}</span></div>
+      <div class="comp">${sIcon(e.sport)}${compBadge(e)}${intlTag(e)}<span>${esc(cardComp(e))}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${hidden ? '' : `<div class="summary">${esc(e.summary || '')}</div>`}
     </div>
@@ -1168,7 +1173,7 @@ function detail(e) {
     : `<div class="dres"><div class="score num ${/[a-z]{3}/i.test(e.score || '') ? 'long' : ''}">${esc(e.score || 'Result not in yet')}</div>${e.summary ? `<p>${esc(e.summary)}</p>` : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
   const live = e.status === 'live' || onNow(e, now) ? `<div class="dres"><span><span class="tag live">On now</span></span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
-      <div class="comp">${compBadge(e)}<span>${esc(cardComp(e))}</span>${sIcon(e.sport)}</div>
+      <div class="comp">${compBadge(e)}${intlTag(e)}<span>${esc(cardComp(e))}</span>${sIcon(e.sport)}</div>
       ${solo(e) ? `<h2 class="dteams solo">${esc(e.home)}${placeOf(e) ? `<small>${esc(placeOf(e))}</small>` : ''}</h2>` : `<h2 class="dteams">${teamName(e.home, e.homeLogo, e)} <span class="v">v</span> ${teamName(e.away, e.awayLogo, e)}</h2>`}
       ${!isPast && e.status !== 'live' && countdown(e, now) ? `<span class="tag ${d - now < 864e5 ? 'soon' : d - now < 3 * 864e5 ? 'near' : 'later'}">${countdown(e, now)}</span>` : ''}
     </div>
