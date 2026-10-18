@@ -482,9 +482,12 @@ async function addFaces(events) {
     // 4. Commons category: photos of the fighter that no article uses (event photos, fan shots). The category is the one
     // Wikidata names, else "Category:<Name>"; a file counts only if its own description or categories say UFC, MMA or boxing
     // and it names the fighter, so a namesake's category or a crowd shot isn't picked
+    const cs = { tried: 0, files: 0 };
     for (const n of due.filter(n => !found[n])) {
+      cs.tried++;
       const r = await get('commons.wikimedia.org', 'action=query&generator=categorymembers&gcmtype=file&gcmlimit=30&prop=imageinfo&iiprop=url|extmetadata|mime&iiurlwidth=160&gcmtitle='
         + encodeURIComponent('Category:' + (p373[n] || n)));
+      if (r.query?.pages?.length) cs.files++;
       const last = n.split(' ').pop().normalize('NFD').replace(/[^\w]/g, '').toLowerCase();
       const pick = (r.query?.pages || []).map(pg => ({ pg, ii: pg.imageinfo?.[0] })).filter(({ pg, ii }) => {
         if (!ii?.thumburl || !/jpeg|png|webp/.test(ii.mime || '')) return false;
@@ -498,6 +501,7 @@ async function addFaces(events) {
         credit: [plain(md.Artist?.value), plain(md.LicenseShortName?.value)].filter(Boolean).join(', ') + ' / Wikimedia Commons' };
       delete miss[n];
     }
+    diag.facesCommons = `${cs.tried} categories tried, ${cs.files} had files`;
   } catch (e) { diag.facesError = e.message; }
   // only names that got an answer are cached; any left over by an error are tried again next run
   for (const n of due) if (found[n] || miss[n]) cache[n] = found[n] ? { t: now, v: 4, ...found[n] } : { t: now, v: 4, src: null, why: miss[n] };

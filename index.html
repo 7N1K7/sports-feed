@@ -279,7 +279,7 @@ dialog#sheet { width: min(720px, 100%) }
 .ev .nzl { font-size: 10px }
 .ev .nz { font-size: 22px }
 .ev .teams { font-size: 20px }
-.flagimg { width: 1.25em; height: auto; border-radius: 2px; box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 15%, transparent); vertical-align: -0.08em }
+.flagimg { width: 1.25em; height: auto; border-radius: 2px; vertical-align: -0.08em }
 
 /* on now: red ring with a soft pulse; starting within 3 hours: orange ring */
 .ev.is-live { border-color: var(--live); box-shadow: 0 0 0 2px var(--live), 0 0 28px 4px color-mix(in srgb, var(--live) 50%, transparent) }
@@ -364,7 +364,7 @@ dialog#sheet { width: min(720px, 100%) }
 .ev .teams.matchup:has(img) .side { display: grid; grid-template-rows: 2.6em auto; justify-items: center; align-items: center; row-gap: 6px }
 .ev .teams.matchup:has(img) .side > img { grid-row: 1 }
 .ev .teams.matchup:has(img) .side > .nm { grid-row: 2; align-self: start }
-.ev .teams.matchup .flagimg, .ev .teams.matchup .flagimg.after { width: auto; height: 1.6em; max-width: 2.9em; margin: 0 }
+.ev .teams.matchup .flagimg, .ev .teams.matchup .flagimg.after { width: auto; height: 1.6em; max-width: 3.4em; margin: 0 }
 /* wide crests (wordmarks like Canterbury's) get more width so they aren't shrunk to fit a square */
 .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.5em; width: auto; height: 2.5em; max-width: 5em }
 
@@ -476,7 +476,7 @@ a.svc:hover { text-decoration-color: currentColor }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side > * { grid-row: auto; align-self: center; order: 0 }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side.away > img { order: 2 }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.15em; height: 2.15em; max-width: 4em; margin-block: -0.3em }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .flagimg { height: 1.35em; max-width: 2.4em }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .flagimg { height: 1.35em; max-width: 2.8em }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .body { padding-top: 6px; padding-bottom: 6px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp { font-size: 11px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .summary, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .tvl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .nzl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .loc:not(.num) { display: none }
@@ -1316,8 +1316,9 @@ function render() {
   // big events ahead: competitions not yet under way that start in the next five months
   const firsts = new Map();
   for (const e of rest) { const c = compOf(e); if (!firsts.has(c)) firsts.set(c, { first: e, count: 0 }); firsts.get(c).count++; }
-  // a season-long competition with a game in the last three weeks is between rounds, not about to start
-  const ongoing = new Set(evs.filter(e => { const t = new Date(e.startUTC) - now; return Math.abs(t) < 6 * 864e5 || (t < 0 && t > -21 * 864e5 && GENERIC.test(compOf(e))); }).map(compOf));
+  // already under way: a game in the last six days, or a season-long competition with one in the last three weeks
+  // (between rounds, not about to start). A series starting in the next few days still counts as ahead.
+  const ongoing = new Set(evs.filter(e => { const t = new Date(e.startUTC) - now; return t < 0 && (t > -6 * 864e5 || (t > -21 * 864e5 && GENERIC.test(compOf(e)))); }).map(compOf));
   const big = [...firsts].filter(([c, v]) => !ongoing.has(c) && !/^(Test match|Women's test|Boxing|UFC|Black Caps|White Ferns|NZ domestic cricket)$/.test(c) && (v.count >= 4 || BIG_EVENT.test(c)) && new Date(v.first.startUTC) - now < 150 * 864e5)
     .sort((a, b) => a[1].first.startUTC.localeCompare(b[1].first.startUTC)).slice(0, 8);
   $('bigEvents').innerHTML = big.map(([c, v]) => {
@@ -1467,7 +1468,7 @@ function stamp() {
   const mins = Math.round((Date.now() - new Date(FEED.generatedAt)) / 6e4);
   if (FEED.site) { $('ver').textContent = `v${FEED.site.version}`; $('ver').title = `Site last changed ${fmt(new Date(FEED.site.changedAt), NZ, { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; }
   const stamp = d => fmt(new Date(d), NZ, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true });
-  $('mockNote').innerHTML = `<span>Results updated ${mins < 1 ? 'just now' : mins < 60 ? mins + ' min ago' : stamp(FEED.generatedAt)}. Results update about every 10 minutes.</span>` + (FEED.site ? `<span class="siteinfo">Site v${FEED.site.version}, changed ${stamp(FEED.site.changedAt)}</span>` : '');
+  $('mockNote').innerHTML = `<span>Results updated ${mins < 1 ? 'just now' : mins < 60 ? mins + ' min ago' : stamp(FEED.generatedAt)}. Results update about every 10 minutes.</span>`;
 }
 async function load() {
   try {
