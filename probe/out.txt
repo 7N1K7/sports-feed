@@ -1,135 +1,407 @@
-Results and standings ==
+#### SAAUS 24689
+{{Short description|International cricket tour}}
+{{Use dmy dates|date=March 2026}}
+{{Infobox cricket tour
+| series_name                  = Australian cricket team in South Africa in 2026–27
+| team1_image                  = Flag of South Africa.svg
+| team1_name                   = South Africa
+| team2_image                  = Flag of Australia.svg
+| team2_name                   = Australia
+| from_date                    = 24 September
+| to_date                      = 31 October 2026
+| team1_captain                = [[Temba Bavuma]]{{Efn|[[Aiden Markram]] captained in the 3rd ODI.}}
+| team2_captain                = {{plainlist|
+* [[Pat Cummins]] {{small|(Tests)}}
+* {{nowrap|[[Mitchell Marsh]] {{small|(ODIs)}}{{Efn|Pat Cummins was earlier announced as captain; however, he did not captain in any of the ODIs.}}}}
+}}
+| no_of_tests                  = 3
+| team1_Tests_won              = 
+| team2_Tests_won              = 
+| team1_Tests_most_runs        = 
+| team2_Tests_most_runs        = 
+| team1_Tests_most_wickets     = 
+| team2_Tests_most_wickets     = 
+| player_of_Test_series        = 
+| no_of_ODIs                   = 3
+| team1_ODIs_won               = 2
+| team2_ODIs_won               = 1
+| team1_ODIs_most_runs         = {{nowrap|[[Matthew Breetzke]] (171)}}
+| team2_ODIs_most_runs         = [[Mitchell Marsh]] (200)
+| team1_ODIs_most_wickets      = [[Keshav Maharaj]] (6)<br>[[Corbin Bosch]] (6)
+| team2_ODIs_most_wickets      = [[Jack Edwards (cricketer, born 2000)|Jack Edwards]] (5)
+| player_of_ODI_series         = [[Keshav Maharaj]] (SA)
+}}
+The [[Australia national cricket team]] is touring South Africa in September and October 2026 to play three [[One Day International]] (ODI) and three [[Test cricket|Test]] matches.<ref>{{cite web|url=https://www.icc-cricket.com/news/south-africa-unveil-schedule-for-key-wtc-series |title=South Africa unveil schedule for key WTC series home season |work=[[International Cricket Council]] |access-date=29 March 2026}}</ref><ref>{{cite web|url=https://www.cricinfo.com/story/early-season-cape-town-test-headlines-south-africa-s-2026-27-home-season-1525568 |title=Early-season Cape Town Test headlines SA's 2026-27 home season |work=[[Cricinfo]] |access-date=29 March 2026}}</ref><ref>{{cite web|url=https://www.cricbuzz.com/cricket-news/137848/south-africa-announce-schedule-for-bumper-mens-home-summer-australia-bangladesh-england-sa-home-summer-sa-vs-aus-sa-vs-eng-sa-vs-ban-2026-cricbuzzcom |title=South Africa announce schedule for bumper men's home summer |work=[[Cricbuzz]] |access-date=29 March 2026}}</ref> The Test series forms part of the [[2025–2027 World Test Championship]] cycle.<ref>{{cite web |title=Men's Future Tours Program |url=https://resources.pulse.icc-cricket.com/ICC/document/2022/08/17/9ecd5af8-4657-475f-ae1e-733b04f69750/Men-s-FTP-upto-2027.pdf |access-date=2 April 2025 |work=[[International Cricket Council]]}}</ref> In February 2026, [[Cricket South Africa]] (CSA) confirmed the fixtures for the tour, as a part of the 2026 home international season.<ref>{{cite web|url=https://cricket.co.za/csa-announces-unmissable-2026-27-home-season-for-the-proteas-men/ |title=CSA announces unmissable 2026/27 home season for the Proteas Men |work=[[Cricket South Africa]] |access-date=29 March 2026}}</ref>
 
-=== Grands Prix ===
-<div style="overflow-x: auto;">
-{| class="wikitable sortable" style="font-size: 85%;"
-!Round
-![[List of Formula One Grands Prix|Grand Prix]]{{Efn|The [[2026 Chinese Grand Prix|Chinese]], [[2026 Miami Grand Prix|Miami]], [[2026 Canadian Grand Prix|Canadian]], [[2026 British Grand Prix|British]], [[2026 Dutch Grand Prix|Dutch]] and [[2026 Singapore Grand Prix|Singapore]] Grands Prix feature the [[Formula One racing#Sprint|sprint]] format.<ref name="sprint" />|name=sprint locations}}
-!nowrap|[[List of Formula One polesitters|Pole position]]
-!nowrap|[[List of Formula One drivers who set a fastest lap|Fastest lap]]
-!nowrap|[[List of Formula One Grand Prix winners|Winning driver]]
-!nowrap|[[List of Formula One Grand Prix winners (constructors)|Winning constructor]]
-!class="unsortable"|{{Tooltip|Report|Race report}}
-|-
-! 1
-| {{flagg|cnxa|Australia}}[[Australian Grand Prix]]
-| data-sort-value="RUS" nowrap|{{flagg|cxxlo|GBR}} [[George Russell (racing driver)|George Russell]]
-| data-sort-value="VER" nowrap|{{flagg|cxxlo|NED}} [[Max Verstappen]]
-| data-sort-value="RUS" nowrap|{{flagg|cxxlo|GBR}} [[George Russell (racing driver)|George Russell]]
-| data-sort-value="MER" nowrap|{{flagg|cxxlo|GER}} [[Mercedes-Benz in Formula One|Mercedes]]
-| style="text-align:center"|[[2026 Australian Grand Prix|Report]]
-|-
-! 2
-| {{flagg|cnxa|China}}[[Chinese Grand Prix]]
-| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]]
-| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]] 
-| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]]
-| data-sort-value="MER" |{{flagg|cxxlo|GER}} [[Mercedes-Benz in Formula One|Mercedes]] 
-| style="text-align:center"|[[2026 Chinese Grand Prix|Report]]
-|-
-! 3
-| {{flagg|cnxa|Japan}}[[Japanese Grand Prix]]
-| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]]
-| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]] 
-| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]]
-| data-sort-value="MER" |{{flagg|cxxlo|GER}} [[Mercedes-Benz in Formula One|Mercedes]] 
-| style="text-align:center"|[[2026 Japanese Grand Prix|Report]]
-|-
-! 4
-| {{flagg|cnxa|United States}}[[Miami Grand Prix]]
-| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]]
-| data-sort-value="NOR" |{{flagg|cxxlo|GBR}} [[Lando Norris]]
-| data-sort-value="ANT" |{{flagg|cxxlo|ITA}} [[Kimi Antonelli]]
-| data-sort-value="MER" |{{flagg|cxxlo|GER}} [[Mercedes-Benz in Formula One|Mercedes]] 
-| style="text-align:center"|[[2026 Miami Grand Prix|Report]]
-|-
-! 5
-| {{flagg|cnxa|Canada}}[[Canadian Grand Prix]
-#### DRIVERS 25888
-<!--  Please do not update this template to use {{F1R2026}} - doing so breaks the [[2026 Formula One World Championship]] article due the template transclusion limit being exceeded -->
-{|
-|style="vertical-align:top; text-align:center; white-space: nowrap;"|
-{|class="wikitable" style="font-size: 85%; border-collapse:collapse; border-spacing: 0;"
-!{{Abbr|Pos.|Position}}
-!Driver
-![[2026 Australian Grand Prix|AUS]]<br />{{flagicon|AUS}}
-![[2026 Chinese Grand Prix|CHN]]<br />{{flagicon|CHN}}
-![[2026 Japanese Grand Prix|JPN]]<br />{{flagicon|JPN}}
-![[2026 Miami Grand Prix|MIA]]<br />{{flagicon|USA}}
-![[2026 Canadian Grand Prix|CAN]]<br />{{flagicon|CAN}}
-![[2026 Monaco Grand Prix|MON]]<br />{{flagicon|MON}}
-![[2026 Barcelona-Catalunya Grand Prix|BCN]]<br />{{flagicon|ESP}}
-![[2026 Austrian Grand Prix|AUT]]<br />{{flagicon|AUT}}
-![[2026 British Grand Prix|GBR]]<br />{{flagicon|GBR}}
-![[2026 Belgian Grand Prix|BEL]]<br />{{flagicon|BEL}}
-![[2026 Hungarian Grand Prix|HUN]]<br />{{flagicon|HUN}}
-![[2026 Dutch Grand Prix|NED]]<br />{{flagicon|NED}}
-![[2026 Italian Grand Prix|ITA]]<br />{{flagicon|ITA}}
-![[2026 Spanish Grand Prix|ESP]]<br />{{flagicon|ESP}}
-![[2026 Azerbaijan Grand Prix|AZE]]<br />{{flagicon|AZE}}
-![[2026 Bahrain Grand Prix in Malaysia|BHR]]<br />{{flagicon|MYS}}
-![[2026 Singapore Grand Prix|SIN]]<br />{{flagicon|SIN}}
-![[2026 United States Grand Prix|USA]]<br />{{flagicon|USA}}
-![[2026 Mexico City Grand Prix|MXC]]<br />{{flagicon|MEX}}
-![[2026 São Paulo Grand Prix|SAP]]<br />{{flagicon|BRA}}
-![[2026 Las Vegas Grand Prix|LVG]]<br />{{flagicon|USA}}
-![[2026 Qatar Grand Prix|QAT]]<br />{{flagicon|QAT}}
-![[2026 Abu Dhabi Grand Prix|ABU]]<br />{{flagicon|UAE}}
-!style=" border:1px solid #a2a9b1; position:sticky; right: 0; background-clip: padding-box; color: inherit;" |[[List of Formula One World Championship points scoring systems|Points]]
-|-
-! 1
-| style="text-align:left" |{{flagicon|ITA}} [[Kimi Antonelli]]
-| style="background:#DFDFDF" |2
-| style="background:#FFFFBF" |1<span style="margin:0 0.1em 0 0.1em;font-size:110%;font-weight:bold;white-space:nowrap;"><sup>5 P F</sup></span>
-| style="background:#FFFFBF" |{{F1 race position|1|p|f}}
-| style="background:#FFFFBF" |1<span style="margin:0 0.1em 0 0.1em;font-size:110%;font-weight:bold;white-space:nowrap;"><sup>6 P</sup></span>
-| style="background:#FFFFBF" |1<span style="margin:0 0.1em 0 0.1em;font-size:110%;font-weight:bold;white-space:nowrap;"><sup>3 F</sup></span>
-| style="background:#FFFFBF" |{{F1 race position|1|p|f}}
-| style="background:#CFCFFF" |16†
-| style="background:#FFDF9F" |{{F1 race position|3|f}}
-| style="background:#CFCFFF" |15<span style="margin:0 0.1em 0 0.1em;font-size:110%;font-weight:bold;white-space:nowrap;"><sup>1 P F</sup></span>
-| style="background:#FFFFBF" |{{F1 race position|1|p}}
-| style="background:#FFDF9F" |3
-| style="background:#DFDFDF" |{{F1 race position|2|s|4}}
-| style="background:#FFFFBF" |{{F1 race position|1|f}}
-| style="background:#FFFFBF" |1
-| style="background:#DFFFDF" |5
-| style="background:#DFDFDF" |2
-| style="background:#FFDF9F" |{{F1 race position|3|s|4}}
-| style="background:#" |
-| style="background:#" |
-| style="background:#" |
-| style="background:#" |
-| style="background:#" |
-| style="background:#" |
-!style="position:sticky; right: 0; background-clip: padding-box; color: inherit;"|340
-|-
-! 2
-| style="text-align:left"|{{flagicon|GBR}} [[George Russell (racing driver)|George Russell]]
-| style="background:#FFFFBF" |{{F1 race position|1|p}}
-| styl
-#### CONS 18791
-{|
-| style="vertical-align:top; text-align:center"|
-{| class="wikitable" style="font-size: 85%;"
-!{{Abbr|Pos.|Position}}
-!Constructor
-!style="vertical-align:top"|[[2026 Australian Grand Prix|AUS]]<br/>{{flagicon|AUS}}
-!style="vertical-align:top"|[[2026 Chinese Grand Prix|CHN]]<br />{{flagicon|CHN}}
-!style="vertical-align:top"|[[2026 Japanese Grand Prix|JPN]]<br />{{flagicon|JPN}}
-!style="vertical-align:top"|[[2026 Miami Grand Prix|MIA]]<br />{{flagicon|USA}}
-!style="vertical-align:top"|[[2026 Canadian Grand Prix|CAN]]<br />{{flagicon|CAN}}
-!style="vertical-align:top"|[[2026 Monaco Grand Prix|MON]]<br />{{flagicon|MON}}
-!style="vertical-align:top"|[[2026 Barcelona-Catalunya Grand Prix|BCN]]<br />{{flagicon|ESP}}
-!style="vertical-align:top"|[[2026 Austrian Grand Prix|AUT]]<br />{{flagicon|AUT}}
-!style="vertical-align:top"|[[2026 British Grand Prix|GBR]]<br />{{flagicon|GBR}}
-!style="vertical-align:top"|[[2026 Belgian Grand Prix|BEL]]<br />{{flagicon|BEL}}
-!style="vertical-align:top"|[[2026 Hungarian Grand Prix|HUN]]<br />{{flagicon|HUN}}
-!style="vertical-align:top"|[[2026 Dutch Grand Prix|NED]]<br />{{flagicon|NED}}
-!style="vertical-align:top"|[[2026 Italian Grand Prix|ITA]]<br />{{flagicon|ITA}}
-!style="vertical-align:top"|[[2026 Spanish Grand Prix|ESP]]<br />{{flagicon|ESP}}
-!style="vertical-align:top"|[[2026 Azerbaijan Grand Prix|AZE]]<br />{{flagicon|AZE}}
-!style="vertical-align:top"|[[2026 Bahrain Grand Prix in Malaysia|BHR]]<br />{{flagicon|MYS}}
-!style="vertical-align:to
-#### USGP 137166
+The 2026 Test series marked the first time since Australia's [[2018 Australian ball-tampering scandal|controversial]] [[Australian cricket team in South Africa in 2017–18|2017–18 tour]] that Australia had played South Africa in South Africa in Test cricket.<ref>{{cite news |last=Savage |first=Nic |date=24 February 2026 |title=Dates for Australia’s first Test tour of South Africa since Cape Town scandal revealed |url=https://www.foxsports.com.au/cricket/dates-for-australias-first-test-tour-of-south-africa-since-cape-town-scandal-revealed/news-story/b64888b88699669eb80be9a872f2679b |work=[[Fox Sports (Australia)|Fox Sports Australia]] |publisher=[[News Corp Australia]] }}</ref><ref>{{cite news |last=Pollock |first=Shaun |date=8 October 2026 |title=South Africa vs Australia Test series: 'Sandpapergate' adds to intrigue in rematch of infamous 2018 ball-fixing scandal |url=https://www.skysports.com/cricket/news/13595454/south-africa-vs-australia-test-series-sandpapergate-adds-to-intrigue-in-rematch-of-infamous-2018-ball-fixing-scandal |work=[[Sky Sports]] }}</ref>
 
+==Squads==
+
+{| class="wikitable" style="text-align:center"
+|- 
+!colspan=2|{{cr|SA}}
+!colspan=2|{{cr|AUS}}
+|-
+!Tests<ref>{{cite web |date=28 September 2026 |title=Preliminary squad announced for 1st Dafabet Test against Australia |url=https://www.cricket.co.za/preliminary-squad-announced-for-1st-dafabet-test-against-australia/ |work=[[Cricket South Africa]] |access-date=28 September 2026}}</ref>
+!ODIs<ref>{{cite web |first=Firdose |last=Moonda |date=7 September 2026 |title=Miller, de Kock in South Africa squad for Australia ODIs |url=https://www.cricinfo.com/story/sa-vs-aus-david-miller-quinton-de-kock-temba-bavuma-in-sa-squad-for-australia-odis-1553166 |work=[[Cricinfo]] |access-date=17 September 2026}}</ref>
+!Tests<ref>{{cite web |last=Schonafinger |first=Josh |date=7 September 2026 |title=Marnus maintained in Test squad for South Africa showdown |url=https://www.cricket.com.au/news/4573063/ |work=[[Cricket Australia]] |access-date=13 September 2026}}</ref>
+!ODIs<ref>{{cite web |last=Cameron |first=Louis |date=1 September 2026 |title=Labuschagne omitted, Peake, Davies included for African ODI tour |url=https://www.cricket.com.au/news/4569440/australia-odi-squad-zimbabwe-south-africa-tour-2026-labuschagne-marsh-cummins-starc-inglis-peake-stanlake-connolly-davies |work=[[Cricket Australia]] |access-date=9 September 2026}}</ref>
+|- style="vertical-align:top"
+|
+* [[Temba Bavuma]] ([[Captain (cricket)|c]])
+* [[Marques Ackerman]]
+* [[David Bedingham]]
+* [[Corbin Bosch]]
+* [[Matthew Breetzke]]
+* [[Gerald Coetzee]]
+* [[Tony de Zorzi]]
+* [[Simon Harmer]]
+* [[Marco Jansen]]
+* [[Keshav Maharaj]]
+* [[Aiden Markram]]
+* [[Wiaan Mulder]]
+* [[Senuran Muthusamy]]
+* [[Anrich Nortje]]
+* [[Dane Paterson]]
+* [[Kagiso Rabada]]
+* [[Ryan Rickelton]] ([[wicket-keeper|wk]])
+* [[Tristan Stubbs]]
+* [[Kyle Verreynne]] ([[wicket-keeper|wk]])
+|
+* [[Temba Bavuma]] ([[Captain (cricket)|c]])
+* <s>[[Ottneil Baartman]]</s>
+* [[Corbin Bosch]]
+* [[Matthew Breetzke]]
+* [[Gerald Coetzee]]
+* [[Quinton de Kock]] ([[wicket-keeper|wk]])
+* [[Tony de Zorzi]]
+* [[Bjorn Fortuin]]
+* [[Duan Jansen]]
+* [[Marco Jansen]]
+* [[Keshav Maharaj]]
+* <s>[[Kwena Maphaka]]</s>
+* [[Aiden Markram]]
+* [[David Miller (South African cricketer)|David Miller]]
+* [[Nqobani Mokoena]]
+* <s>[[Lungi Ngidi]]</s>
+* [[Ryan Rickelton]]
+* [[Tristan Stubbs]]
+* [[Lizaad Williams]]
+|
+* [[Pat Cummins]] ([[Captain (cricket)|c]])
+* [[Steve Smith (cricketer)|Steve Smith]] ([[Captain (cricket)#Vice-captain|vc]])
+* [[Scott Boland]]
+* [[Alex Carey]] ([[wicket-keeper|wk]])
+* [[Cooper Connolly]]
+* [[Cameron Green]]
+* [[Sam Harper (cricketer)|Sam Harper]] ([[wicket-keeper|wk]])
+* [[Josh Hazlewood]]
+* [[Travis Head]]
+* [[Josh Inglis]] ([[wicket-keeper|wk]])
+* [[Matthew Kuhnemann]]
+* [[Marnus Labuschagne]]
+* [[Nathan Lyon]]
+* [[Nic Maddinson]]
+* [[Michael Neser]]
+* [[Matt Renshaw]]
+* [[Mitchell Starc]]
+* [[Beau Webster]]
+|
+* [[Pat Cummins]] ([[Captain (cricket)|c]])
+* [[Mitchell Marsh]] ([[Captain (cricket)#Vice-captain|vc]])
+* [[Xavier Bartlett]]
+* [[Alex Carey]] ([[wicket-keeper|wk]])
+* [[Cooper Connolly]]
+* [[Joel Davies]]
+* [[Jack Edwards (cricketer, born 2000)|Jack Edwards]]
+* [[Nathan Ellis]]
+* [[Cameron Green]]
+* [[Josh Hazlewood]]
+* [[Travis Head]]
+* [[Josh Inglis]] ([[wicket-keeper|wk]])
+* <s>[[Spencer Johnson (cricketer)|Spencer Johnson]]</s>
+* [[Oliver Peake]]
+* [[Matt Renshaw]]
+* <s>[[Billy Stanlake]]</s>
+* [[Mitchell Starc]]
+* [[Adam Zampa]]
+|}
+
+On 12 September, [[Ottneil Baartman]] was ruled out from the ODI series due to a hamstring injury and was replaced by [[Duan Jansen]].<ref>{{cite web |first=Firdose |last=Moonda |date=13 September 2026 |url=https://www.cricinfo.com/story/south-africa-news-ottneil-baartman-out-of-australia-odis-duan-jansen-named-replacement-1553992 |title=Injured Baartman out of Australia ODIs, Duan Jansen named replacement |work=[[Cricinfo]] |access-date=19 September 2026}}</ref> On 18 September, [[Lungi Ngidi]] was ruled out from the ODI series due to a hamstring injury and was replaced by [[Nqobani Mokoena]].<ref>{{cite web |url=https://www.icc-cricket.com/news/injury-rules-out-star-south-african-pacer-for-australia-series |title=Injury rules out star South African pacer for Australia series |work=[[International Cricket Council]] |date=18 September 2026 |access-date=24 September 2026}}</ref> On 23 September, [[Kwena Maphaka]] was ruled out from the ODI series due to a right hamstring strain and was replaced by [[Lizaad Williams]].<ref>{{cite web |url=https://www.cricinfo.com/story/sa-vs-aus-odis-lizaad-williams-replaces-kwena-maphaka-as-south-africa-s-hamstring-crisis-intensifies-1555463 |title=Williams replaces Maphaka as SA's hamstring crisis intensifies |work=[[Cricinfo]] |date=23 September 2026 |access-date=28 September 2026}}</ref>
+
+On 21 September, [[Billy Stanlake]] and [[Spencer Johnson (cricketer)|Spencer Johnson]] were ruled out of the ODI series following a side strain and management, [[Jack Edwards (cricketer, born 2000)|Jack Edwards]] was named in their place.<ref>{{cite web |last=Cameron |first=Louis |date=21 September 2026 |title=Edwards added to Aussie squad, pace duo head home |url=https://www.cricket.com.au/news/4579271/australia-odi-squad-selection-changes-jack-edwards-spencer-johnson-billy-stanlake-south-africa-tour? |work=[[Cricket Australia]] |location=[[Harare]] |access-date=27 September 2026}}</ref> On 29 September, both [[Nathan Ellis]] and [[Joel Davies]] were ruled out of the last ODI due to side strain and a hamstring strain, respectively with no replacememnts named.<ref>{{cite web |last=Malcolm |first=Alex |date=29 September 2026 |title=Ellis and Davies out of the South Africa tour with injury |url=https://www.cricinfo.com/story/nathan-ellis-and-joel-davies-out-of-the-south-africa-tour-with-injury-1556070 |work=[[Cricinfo]] |access-date=30 September 2026}}</ref> On 1 October, [[Josh Inglis]] was ruled out of the Test series due to fractured finger and was replaced by [[Sam Harper (cricketer)|Sam Harper]]. [[Cameron Green]]'s availability was uncertain after he sustained lower abdominal strain, [[Nic Maddinson]] was added in the squad for his cover.<ref>{{cite web |access-date=1 October 2026 |title=Australia make squad changes ahead of first Proteas Test |url=https://www.icc-cricket.com/news/australia-make-squad-changes-ahead-of-first-proteas-test |work=International Cricket Council}}</ref> Later, Inglis rejoined the squad for remaining matches.<ref>{{cite web |access-date=10 October 2026 |title=Inglis to rejoin Australia Test squad after finger injury |url=https://www.cricinfo.com/story/josh-inglis-to-rejoin-australia-test-squad-after-finger-injury-1557845?platform=amp |website=Cricinfo}}</ref> 
+
+On 15 October, [[Matthew Breetzke]] was added to South Africa's squad as a replacement for [[Tristan Stubbs]] who was dropped from the squad.<ref>{{cite web |access-date=15 October 2026 |title=Stubbs dropped, Rickelton to keep wickets in Gqeberha Test |url=https://www.cricinfo.com/story/sa-vs-aus-2nd-test-tristan-stubbs-dropped-ryan-rickelton-to-keep-wickets-1558532 |work=[[Cricinfo]]}}</ref>
+
+==Venues==
+In February 2026, [[Cricket South Africa]] (CSA) announced their men's team home schedule, confirming the ODI and Test venues for the series against Australia. [[Durban]]'s [[Kingsmead Cricket Ground]], [[Johannesburg]]'s [[Wanderers Stadium]], [[Potchefstroom]]'s [[JB Marks Oval]], [[Gqeberha]]'s [[St George's Park Cricket Ground]], and [[Cape Town]]'s [[Newlands Cricket Ground]] were revealed to host the three ODIs and three Test matches, respectively.<ref>{{cite web |date=23 February 2026 |title=CSA Announces Unmissable 2026/27 Home Season for The Proteas Men |url=https://www.cricket.co.za/the-proteas-men-2026-27-home-fixtures-csa/ |work=cricket.co.za |publisher=[[Cricket South Africa]] }}</ref><ref>{{cite news |last=Kaushik |first=Aditya |date=24 September 2026 |title=Australia tour of South Africa 2026: Full schedule, venues, live streaming |url=https://www.business-standard.com/cricket/news/australia-tour-of-south-africa-2026-full-schedule-venues-live-streaming-126091500769_1.html |work=[[Business Standard]] }}</ref>
+
+{| class="wikitable" style="text-align:center"
+|-
+! [[Durban]]
+! [[Johannesburg]]
+! [[Cape Town]]
+! [[Potchefstroom]]
+|-
+| [[Kingsmead Cricket Ground]]
+| [[Wanderers Stadium]]
+| [[Newlands Cricket Ground]]
+| [[JB Marks Oval]]
+|-
+| Capacity: '''25,000'''
+| Capacity: '''34,000'''
+| Capacity: '''25,000'''
+| Capacity: '''18,000'''
+|-
+| [[File:Kingsmead2009.jpg|185x155px]]
+| [[File:Wanderers Stadium 2024.jpg|185x155px]]
+| [[File:Newlandsoverview.jpg|185x155px]]
+| [[File:HD transparent picture.png|185x155px]]
+|-
+! [[Gqeberha]]
+! rowspan=4 colspan=3|{{OSM Location map |nolabels=1 |coord={{Coord|-28.252|25.112}} |zoom=5 |width=550 |height=500 | shapeD=circle | mark-sizeD=6 | label-sizeD = 12,background |ldxD=0 |ldyD=0
+
+|label1='''[[Durban]]''' |mark-coord1={{Coord|-29.85|31.027778}} |ldx1=-5 |ldy1=-8
+|mark-title1=[[Durban]] |mark-image1= |mark-description1=[[Kingsmead Cricket Ground]]
+|label2='''1st Test''' |label-size2=11 |label-color2=#000000 |mark-coord2={{Coord|-29.85|31.027778}} |ldx2=-3 |ldy2=-24
+|mark-title2='''''1st Test''' |label-pos1=top
+
+|label3='''[[Johannesburg]]''' |mark-coord3={{Coord|-26.131111|28.0575}} |ldx3=9 |ldy3=-9
+|mark-title3=[[Johannesburg]] |mark-image3= |mark-description3=[[Wanderers Stadium]]| label-pos3=top
+
+|label4='''[[Potchefstroom]]''' |mark-coord4={{Coord|-26.695658|27.100772}} |ldx4= |ldy4=6
+|mark-title4=[[Potchefstroom]] |mark-image4= |mark-description4=[[JB Marks Oval]] | label-pos4=bottom
+
+|label5='''[[Gqeberha]]''' |mark-coord5={{Coord|-33.966389|25.610278}} |ldx5=-1 |ldy5=-7
+|mark-title5=[[Gqeberha]] |mark-image5= |mark-description5=[[St George's Park Cricket Ground]] | label-pos5=top
+|label6='''2nd Test''' |label-size6=11 |label-color6=#000000 |mark-coord6={{Coord|-33.966389|25.610278}} |ldx6= |ldy6=-24
+|mark-title6='''''2nd Test''' |label-pos6=top
+
+|label7='''[[Cape Town]]''' |mark-coord7={{Coord|-33.973611|18.468889}} |ldx7=2 |ldy7=-4
+|mark-title7=[[Cape Town]] |mark-description7=[[Newlands Cricket Ground]] | label-pos7=right
+|label8='''3rd Test''' |label-size8=11 |label-color8=#000000 |mark-coord8={{Coord|-33.973611|18.468889}} |ldx8=34 |ldy8=-14
+|mark-title8='''''3rd Test''' |label-pos8=top
+}}
+|-
+| [[St George's Park Cricket Ground]]
+|-
+| Capacity: '''19,000'''
+|-
+| [[File:Sahara Oval St George's, uploaded 2005.jpg|185x155px]]
+|}
+{{clear}}
+
+==Tour match==
+The [[Australia national cricket team|Australia]] played a two-day match against the [[Cricket South Africa|South Africa XI]] team.
+
+{{Two-innings cricket match
+| date = 3–4 October 2026
+| team1 = [[Cricket South Africa|South Africa Invitation XI]] {{flagdeco|SA}}
+| team2 = {{cr|AUS}}
+
+| score-team1-inns1 = 318/7[[Declaration and forfeiture|d]] (90 overs)
+| runs-team1-inns1 = [[Neil Brand (cricketer)|Neil Brand]] 152 (174)
+| wickets-team1-inns1 = [[Josh Hazlewood]] 1/17 (9 overs)
+
+| score-team2-inns1 = 368/6 (74 overs)
+| runs-team2-inns1 = [[Marnus Labuschagne]] 111 (89)
+| wickets-team2-inns1 = [[Neil Brand (cricketer)|Neil Brand]] 1/32 (6 overs)
+
+| result = Match drawn
+| report = [http://www.cricinfo.com/ci/engine/match/1525658.html Scorecard]
+| venue = [[Senwes Park]], [[Potchefstroom]]
+| umpires = [[Lubabalo Gcuma]] (SA) and [[Arno Jacobs]] (SA)
+| toss = Australia won the toss and elected to field.
+}}
+
+==ODI series==
+===1st ODI===
+{{Single-innings cricket match
+| date = 24 September 2026
+| time = 10:00
+| night = 
+| team1 = {{cr-rt|SA}}
+| team2 = {{cr|AUS}}
+| score1 = 297/8 (50 overs)
+| runs1 = [[Matthew Breetzke]] 112 (106)
+| wickets1 = [[Nathan Ellis]] 3/57 (10 overs)
+| score2 = 230 (41.2 overs)
+| runs2 = [[Mitchell Marsh]] 60 (36)
+| wickets2 = [[Keshav Maharaj]] 4/20 (9.2 overs)
+| result = South Africa won by 67 runs
+| report = [https://www.cricinfo.com/ci/engine/match/1525655.html Scorecard]
+| venue = [[Kingsmead Cricket Ground]], [[Durban]]
+| umpires = [[Lubabalo Gcuma]] (SA) and [[Asif Yaqoob]] (Pak) 
+| motm = [[Matthew Breetzke]] (SA)
+| toss = Australia won the toss and elected to field.
+| rain = 
+| notes = [[Jack Edwards (cricketer, born 2000)|Jack Edwards]] (Aus) made his ODI debut.
+}}
+
+===2nd ODI===
+{{Single-innings cricket match
+| date = 27 September 2026
+| time = 10:00
+| night = 
+| team1 = {{cr-rt|SA}}
+| team2 = {{cr|AUS}}
+| score1 = 365/9 (50 overs)
+| runs1 = [[David Miller (South African cricketer)|David Miller]] 142 (93)
+| wickets1 = [[Jack Edwards (cricketer, born 2000)|Jack Edwards]] 5/67 (10 overs)
+| score2 = 333 (49.5 overs)
+| runs2 = [[Mitchell Marsh]] 84 (53)
+| wickets2 = [[Lizaad Williams]] 3/54 (7.5 overs)
+| result = South Africa won by 32 runs
+| report = [https://www.cricinfo.com/ci/engine/match/1525656.html Scorecard]
+| venue = [[Wanderers Stadium]], [[Johannesburg]]
+| umpires = [[Richard Illingworth]] (Eng) and [[Arno Jacobs]] (SA) 
+| motm = [[David Miller (South African cricketer)|David Miller]] (SA)
+| toss = Australia won the toss and elected to field.
+| rain = 
+| notes = [[David Miller (South African cricketer)|David Miller]] (SA) hit his 150th six in ODIs. He became the second South African after [[AB de Villiers]] to achieve this record.<ref>{{cite web |access-date=27 September 2026 |title=David Miller equals ODI middle-order century record with stunning 142; surpasses MS Dhoni |url=https://thesportstak.com/cricket/story/david-miller-equals-odi-middle-order-century-record-with-stunning-142-surpasses-ms-dhoni-3288183-2026-09-27 |work=Sports Tak}}</ref>
+* [[Jack Edwards (cricketer, born 2000)|Jack Edwards]] (Aus) took his maiden [[five-wicket haul]] in ODIs.<ref>{{cite web |access-date=28 September 2026 |title=Jack Edwards on his almost unnoticed maiden five-wicket haul in high-scoring Proteas ODI clash |url=https://thestar.co.za/sport/cricket/2026-09-28-jack-edwards-on-his-almost-unnoticed-maiden-five-wicket-haul-in-high-scoring-proteas-odi-clash/ |work=[[The Star (South Africa)|The Star]]}}</ref>
+}}
+
+===3rd ODI===
+{{Single-innings cricket match
+| date = 30 September 2026
+| time = 13:30
+| daynight = y
+| team1 = {{cr-rt|AUS}}
+| team2 = {{cr|SA}}
+| score1 = 322/9 (50 overs)
+| runs1 = [[Alex Carey]] 74 (88)
+| wickets1 = [[Corbin Bosch]] 4/60 (9 overs)
+| score2 = 145/4 (28 overs)
+| runs2 = [[Ryan Rickelton]] 71[[not out|*]] (81)
+| wickets2 = [[Xavier Bartlett]] 2/25 (5 overs)
+| result = Australia won by 45 runs ([[Duckworth-Lewis-Stern method|DLS method]])
+| report = [https://www.cricinfo.com/ci/engine/match/1525657.html Scorecard]
+| venue = [[JB Marks Oval]], [[Potchefstroom]]
+| umpires = [[Lubabalo Gcuma]] (SA) and [[Asif Yaqoob]] (Pak)
+| motm = [[Alex Carey]] (Aus)
+| toss = South Africa won the toss and elected to field.
+| rain = South Africa's innings was curtailed at 28 overs due to rain; DLS par score was 191.<ref>{{cite web |last=Fidel Fernando |first=Andrew |access-date=30 September 2026 |title=Carey, Marsh, Zampa star as Australia win rain-affected finale |url=https://www.cricinfo.com/series/australia-in-south-africa-2026-27-1525634/south-africa-vs-australia-3rd-odi-1525657/match-report |work=[[Cricinfo]]}}</ref>
+| notes = [[Alex Carey]] (Aus) scored his 2,500th run in ODIs.
+}}
+
+==Test series==
+===1st Test===
+{{Two-innings cricket match
+| date = 9–13 October 2026
+| team1 = {{cr-rt|AUS}}
+| team2 = {{cr|SA}}
+
+| score-team1-inns1 = 390 (137.2 overs)
+| runs-team1-inns1 = [[Matt Renshaw]] 190 (397)
+| wickets-team1-inns1 = [[Wiaan Mulder]] 4/68 (27 overs)
+
+| score-team2-inns1 = 284 (78 overs)
+| runs-team2-inns1 = [[David Bedingham]] 49 (73)
+| wickets-team2-inns1 = [[Pat Cummins]] 3/54 (15 overs)
+
+| score-team1-inns2 = 314/6[[Declaration and forfeiture|d]] (58 overs)
+| runs-team1-inns2 = [[Matt Renshaw]] 82 (99)
+| wickets-team1-inns2 = [[Keshav Maharaj]] 2/56 (9 overs)
+
+
+| score-team2-inns2 = 206 (86.5 overs)
+| runs-team2-inns2 = [[Aiden Markram]] 75 (237)
+| wickets-team2-inns2 = [[Josh Hazlewood]] 6/49 (16.5 overs)
+
+| result = Australia won by 214 runs
+| report = [http://www.cricinfo.com/ci/engine/match/1525659.html Scorecard]
+| venue = [[Kingsmead Cricket Ground]], [[Durban]]
+| umpires = [[Chris Gaffaney]] (NZ) and [[Richard Kettleborough]] (Eng)
+| motm = [[Matt Renshaw]] (Aus)
+| toss = Australia won the toss and elected to bat.
+| notes = Only 65.2 overs were played on Day 1 due to bad light.<ref>{{cite web |last=Bailey |first=Scott |date=10 October 2026 |title=Bad light could be sign of the time in South Africa |url=https://www.cricket.com.au/news/4589629/bad-light-issues-to-affect-durban-test-south-africa-australia-weather-conditions-october-start-time-session-extended |work=[[Cricket Australia]] |access-date=12 October 2026}}</ref>
+* This was Australia's oldest playing XI in their 149-year Test history, with all 11 players aged 30 or older.<ref>{{cite web |last=Vishnu |first=PN |date=10 October 2026 |title=Australia field oldest-ever Test XI, with all 11 players aged 30 or above for the first time in history |url=https://www.livemint.com/sports/cricket-news/sa-vs-aus-australia-field-oldest-ever-test-xi-with-all-11-players-aged-30-or-above-for-the-first-time-in-history/11791600031181.html |work=[[Mint (newspaper)|Mint]] |access-date=13 October 2026}}</ref>
+*Australia set a Test record for the most catches taken in a match (18) without a single dropped catch.<ref>{{cite news |last1=Miller |first1=Tim |title=Truth about the end of an Aussie golden gen... and masterpiece that flipped ugly Test script |url=https://www.foxsports.com.au/cricket/australia/australia-vs-south-africa-2026-australia-praised-for-traditional-approach-to-test-cricket-in-durban-win-controversial-selection-and-batting-order-calls-vindicated-latest-news-analysis/news-story/fe9d38f3a91c7b076dad02b491542a72? |access-date=14 October 2026 |work=[[Fox Sports (Australia)|Fox Sports]] |date=14 October 2026}}</ref>
+* [[Steve Smith (cricketer)|Steve Smith]] (Aus) surpassed [[Joe Root]] to become the fielder with [[List of Test cricket records#Most catches in a career|most catches]] in the history of Test cricket.<ref>{{cite web |title=Steve Smith rewrites Test record books, surpasses Joe Root for most catches as fielder |url=https://www.indiatoday.in/amp/sports/cricket/story/steve-smith-test-catches-record-australia-star-joe-root-durban-3014772-2026-10-11 |work=[[India Today]] |date=11 October 2026 |access-date=13 October 2026}}</ref>
+| WTC Points = Australia 12, South Africa 0
+}}
+
+===2nd Test===
+{{Two-innings cricket match
+| date = 18–22 October 2026
+| team1 = {{cr-rt|SA}}
+| team2 = {{cr|AUS}}
+
+| score-team1-inns1 = 
+| runs-team1-inns1 = 
+| wickets-team1-inns1 =
+
+| score-team2-inns1 = 
+| runs-team2-inns1 = 
+| wickets-team2-inns1 =
+
+| score-team1-inns2 = 
+| runs-team1-inns2 = 
+| wickets-team1-inns2 =
+
+| score-team2-inns2 = 
+| runs-team2-inns2 = 
+| wickets-team2-inns2 =
+
+| result = 
+| report = [http://www.cricinfo.com/ci/engine/match/1525660.html Scorecard]
+| venue = [[St George's Park Cricket Ground]], [[Gqeberha]]
+| umpires = [[Chris Gaffaney]] (NZ) and [[Richard Illingworth]] (Eng)
+| motm = 
+| toss = 
+| rain =
+| notes =
+}}
+
+===3rd Test===
+{{Two-innings cricket match
+| date = 27–31 October 2026
+| team1 = {{cr-rt|SA}}
+| team2 = {{cr|AUS}}
+
+| score-team1-inns1 = 
+| runs-team1-inns1 = 
+| wickets-team1-inns1 =
+
+| score-team2-inns1 = 
+| runs-team2-inns1 = 
+| wickets-team2-inns1 =
+
+| score-team1-inns2 = 
+| runs-team1-inns2 = 
+| wickets-team1-inns2 =
+
+| score-team2-inns2 = 
+| runs-team2-inns2 = 
+| wickets-team2-inns2 =
+
+| result = 
+| report = [http://www.cricinfo.com/ci/engine/match/1525661.html Scorecard]
+| venue = [[Newlands Cricket Ground]], [[Cape Town]]
+| umpires = [[Richard Illingworth]] (Eng) and [[Richard Kettleborough]] (Eng)
+| motm = 
+| toss = 
+| rain =
+| notes =
+}}
+
+== Notes ==
+{{notelist}}
+
+== References ==
+{{Reflist}}
+
+==External links==
+* [https://www.cricinfo.com/series/_/id/24203/24203 Series home at Cricinfo]
+
+{{International cricket tours of South Africa}}
+{{International cricket in 2026–27}}
+
+[[Category:2026 in South African cricket]]
+[[Category:2026 in Australian cricket]]
+[[Category:International cricket competitions in 2026–27]]
+[[Category:Australian cricket tours of South Africa]]
+[[Category:September 2026 sports events in South Africa|Australian]]
+[[Category:October 2026 sports events in South Africa|Australian]]
+[[Category:Current cricket tours]]
