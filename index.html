@@ -640,7 +640,10 @@ function compOf(e) {
     const nz = e.team === 'blackcaps' ? 'Black Caps' : e.team === 'whiteferns' ? 'White Ferns' : 'Australia';
     const own = e.team === 'aucricket' ? /^Australia/ : /^New Zealand/;
     const opp = (c.match(/\bv (?:the )?([A-Z][\w .'-]+?)(?:\s*\(|,|$)/) || [])[1] || [e.home, e.away].find(t => t && !own.test(t));
-    return opp && !/XI\b|\bA$/.test(opp) ? `${nz} v ${opp.replace(/\s+Women('s)?$/, '')}` : nz;
+    if (!opp || /XI\b|\bA$/.test(opp)) return nz;
+    const o = opp.replace(/\s+Women('s)?$/, '');
+    // home side first, matching the card: "Black Caps v India", "Australia v Black Caps"
+    return own.test(e.away || '') ? `${o} v ${nz}` : `${nz} v ${o}`;
   }
   if (e.team === 'nzdomestic') return 'NZ domestic cricket';
   return c.split(/[,·]/)[0].trim();
@@ -692,7 +695,7 @@ const visible0 = x => x.startUTC ? (compSel ? compOf(x) === compSel : visibleTea
 const fmtOf = c => (/\bT20I?\b/i.test(c) ? 'T20I' : /\bODI\b/.test(c) ? 'ODI' : /\bTest\b/.test(c) ? 'Test' : '');
 function seriesLine(e, now) {
   const f = fmtOf(e.comp || '');
-  if (e.sport !== 'cricket' || !f || !/^(Black Caps|White Ferns|Australia) v /.test(compOf(e))) return '';
+  if (e.sport !== 'cricket' || !f || !/(^|v )(Black Caps|White Ferns|Australia)( v |$)/.test(compOf(e))) return '';
   const all = (FEED.events || []).filter(x => compOf(x) === compOf(e) && fmtOf(x.comp || '') === f).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
   if (all.length < 2) return '';
   const n = all.findIndex(x => x.id === e.id) + 1;

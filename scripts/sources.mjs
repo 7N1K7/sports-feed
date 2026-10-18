@@ -515,7 +515,7 @@ export async function tsdb(q) {
   for (let attempt = 0; ; attempt++) {
     if (tsdbBlocked || Date.now() - tsdbStart > 150000) throw new Error('thesportsdb skipped this run');
     const r = await fetch(TSDB + q, { headers: UA, signal: AbortSignal.timeout(10000) });
-    await sleep(6000); // the free key allows about 10 calls a minute // free tier allows 30 requests a minute
+    await sleep(6000); // the free key allows about 10 calls a minute
     if (r.status === 429) { if (attempt) { tsdbBlocked = true; throw new Error('thesportsdb 429'); } await sleep(15000); continue; }
     if (!r.ok) throw new Error(`thesportsdb ${r.status}`);
     return r.json();
