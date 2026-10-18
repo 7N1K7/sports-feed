@@ -226,7 +226,9 @@ events.forEach(e => applyBroadcast(e, rules));
 for (const e of events) if (!e.tz && e.city) { const bits = e.city.split(',').map(x => x.trim()); e.tz = tzFor(bits[0], bits[bits.length - 1]); }
 
 const newsAll = [...curated.news];
-for (const n of await rnzNews()) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
+// RNZ's RSS terms are "for personal use only" (rnz.co.nz/rss), so its feed stays off unless RNZ gives permission
+const RNZ_ON = false;
+for (const n of RNZ_ON ? await rnzNews() : []) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
 const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 
 // Club logos from TheSportsDB's free API (badges used as-is, credited in the footer).
@@ -407,7 +409,7 @@ const feed = {
   news,
   tables,
   sources: [
-    { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, { name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' },
+    { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []),
     { name: 'NZ Rugby', url: 'https://www.allblacks.com' }, { name: 'NZ Cricket', url: 'https://www.nzc.nz' },
     { name: 'NRL', url: 'https://www.nrl.com' },
   ],
@@ -425,6 +427,18 @@ const hot = feed.events.some(e => {
   const span = e.sport === 'cricket' && /\bTests?\b/.test(`${e.stage || ''} ${e.comp || ''}`) ? 5 * DAY : 12 * 36e5;
   return age > -90 * 6e4 && age < span;
 });
-if (process.env.GITHUB_OUTPUT) await writeFile(process.env.GITHUB_OUTPUT, `hot=${hot}\n`, { flag: 'a' });
-console.log(hot ? 'Games on or starting soon: next refresh in 10 minutes' : 'Nothing on: next refresh on the slower schedule');
+// "live": a game in its playing window right now (for a Test, the first 10 hours of each day), so refresh every 5 minutes
+const PLAY_H = { rugby: 2.5, league: 2.5, football: 2.5, mma: 6, boxing: 5, motor: 3 };
+const playing = feed.events.some(e => {
+  if (e.status === 'final') return false;
+  const age = now - new Date(e.startUTC);
+  if (age < -15 * 6e4) return false;
+  if (e.sport === 'cricket') {
+    const test = /\bTests?\b/.test(`${e.stage || ''} ${e.comp || ''}`);
+    return test ? age < 5 * DAY && age % DAY < 10 * 36e5 : age < (/\bT20/.test(`${e.format || ''} ${e.stage || ''}`) ? 4.5 : 9.5) * 36e5;
+  }
+  return age < (PLAY_H[e.sport] || 3) * 36e5;
+});
+if (process.env.GITHUB_OUTPUT) await writeFile(process.env.GITHUB_OUTPUT, `hot=${hot}\nevery=${playing ? 300 : 600}\n`, { flag: 'a' });
+console.log(playing ? 'A game is being played: next refresh in 5 minutes' : hot ? 'Games on or starting soon: next refresh in 10 minutes' : 'Nothing on: next refresh on the slower schedule');
 console.log(`feed.json: ${feed.events.length} events (${wiki.length} from Wikipedia, ${tsdbLive.length} from TheSportsDB), ${news.length} news`);

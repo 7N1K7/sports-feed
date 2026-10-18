@@ -26,6 +26,7 @@ jobs:
     outputs:
       started: ${{ steps.t0.outputs.started }}
       hot: ${{ steps.fetch.outputs.hot }}
+      every: ${{ steps.fetch.outputs.every }}
     steps:
       - id: t0
         run: echo "started=$(date +%s)" >> "$GITHUB_OUTPUT"
@@ -69,7 +70,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       REPO: ${{ github.repository }}
       STARTED: ${{ needs.build.outputs.started }}
-      EVERY: 600
+      EVERY: ${{ needs.build.outputs.every || 600 }}
     steps:
       - name: Start the next run 10 minutes after this one
         run: |
