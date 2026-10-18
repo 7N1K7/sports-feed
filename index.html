@@ -683,7 +683,7 @@ function render() {
     if (compSel && !comps.includes(compSel)) comps.unshift(compSel);
     $('compSel').innerHTML = `<option value="">All competitions</option>` + comps.map(c => `<option value="${esc(c)}" ${c === compSel ? 'selected' : ''}>${esc(c)}</option>`).join('');
     $('compSel').classList.toggle('on', !!compSel);
-    $('genderSel').innerHTML = [['all', 'All'], ['m', 'Men'], ['w', 'Women']].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
+    $('genderSel').innerHTML = [['all', 'All'], ['m', "Men's"], ['w', "Women's"]].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
     $('sportFilter').classList.toggle('dim', !!compSel);
   }
   $('sportFilter').innerHTML = [['all','All'],['rugby','Rugby'],['cricket','Cricket'],['league','League'],['football','Football'],['mma','UFC'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${sportSel === k}" class="chip sportchip sport-${k}">${l}</button>`).join('');
