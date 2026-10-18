@@ -375,7 +375,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
       const rows = all.filter(r => !isNaN(r.pts)).map(({ expr, ...r }) => r).sort((a, b) => b.pts - a.pts);
       if (rows.length) tables.push({ comp: 'Formula 1', sport: 'motor', team: 'f1', page: `${y} Formula One World Championship`, title, style: 'points', rows });
     }
-    diag.f1 = `${f1.length} races, ${f1.filter(e => e.status === 'final').length} with results`;
+    diag.f1 = `${f1.length} races, ${f1.filter(e => e.status === 'final').length} with results; standings: ${tables.filter(t => t.team === 'f1').map(t => `${t.title} ${t.rows.length} (top ${t.rows[0]?.name} ${t.rows[0]?.pts})`).join(', ') || 'none'}`;
   } catch (e) { diag.f1 = 'error: ' + e.message; }
   out.tables = tables;
   // UFC: read each nearby event's own article for the full fight card
