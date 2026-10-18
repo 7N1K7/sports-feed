@@ -350,7 +350,7 @@ a.svc:hover { text-decoration-color: currentColor }
 .ev .comp .sicon { width: 18px; height: 18px; flex: none }
 .ev .comp { justify-content: center; text-align: center }
 /* time box: everything centred, top to bottom and side to side */
-@media (min-width: 561px) { .ev .when { align-content: center; justify-items: center; text-align: center; padding-top: 14px; padding-bottom: 14px } .ev .when > * { justify-self: center } }
+@media (min-width: 561px) { .ev .when { align-content: center; justify-items: center; text-align: center; padding-top: 14px; padding-bottom: 14px } .ev .when > * { justify-self: center } .ev .when .score + .hl { margin-top: 6px } }
 .dsheet .comp .sicon, .detail .comp .sicon { margin-left: auto; font-size: 20px; line-height: 1 }
 .cicon { width: 16px; height: 16px; margin-right: 5px; vertical-align: -3px }
 .hubimg { width: 28px; height: 28px; display: block }
@@ -564,9 +564,12 @@ const flagOf = name => {
 // away side: name first, then logo/flag, so both crests sit beside the "v"
 // "Wellington Phoenix FC" -> "Wellington Phoenix"; keeps short names like "Auckland FC"
 const shortName = n => n.split(' ').length > 2 ? n.replace(/\s+FC$/, '') : n;
+// crests whose image file has a lot of empty space around a small wordmark
+const LOGO_ZOOM = { Canterbury: 1.8 };
 const crest = (n, logo, after) => {
   const src = logo || flagOf(n);
-  return src ? `<img class="logo ${logo ? '' : 'flagimg'} ${after ? 'after' : ''}" src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
+  const z = logo && LOGO_ZOOM[n] ? ` style="transform:scale(${LOGO_ZOOM[n]})"` : '';
+  return src ? `<img class="logo ${logo ? '' : 'flagimg'} ${after ? 'after' : ''}"${z} src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
 };
 // National side nicknames by sport and men's/women's, e.g. New Zealand cricket (men's) -> Black Caps
 const NICK = {
