@@ -16,6 +16,7 @@
   --accent: #0d6b4d; --accent-ink: #ffffff; --soft: #e6efeb;
   --rugby: #17704f; --cricket: #1d5ea6; --league: #b0521a;
   --live: #c8322a; --cover: #dfe6e3;
+  --soon: #d9480f; --near: #7048e8; --later: #5a6a64; --local: #1971c2;
   --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
   --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
   --r: 10px;
@@ -24,12 +25,12 @@
   --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
   --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
   --rugby: #46c093; --cricket: #7fb1ef; --league: #f09c62;
-  --live: #ff6b5f; --cover: #25322d; color-scheme: dark } }
+  --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark } }
 :root[data-theme="dark"] {
   --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
   --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
   --rugby: #46c093; --cricket: #7fb1ef; --league: #f09c62;
-  --live: #ff6b5f; --cover: #25322d; color-scheme: dark }
+  --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark }
 
 * { box-sizing: border-box }
 body { background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.45; }
@@ -120,6 +121,32 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 footer { color: var(--muted); font-size: 13px; padding-block: 0 40px }
 footer a { color: var(--muted) }
 
+
+.badge { display: inline-grid; place-items: center; min-width: 30px; height: 18px; padding: 0 4px; border-radius: 4px; font: 700 10px/1 var(--f-body); letter-spacing: .03em; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 18%, transparent); flex: none }
+.ev .comp { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px }
+.sp { background: var(--sport); color: var(--paper); border-radius: 4px; padding: 1px 6px; font-size: 10px; letter-spacing: .08em }
+.flag { margin-right: 5px; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif }
+.chip { display: inline-flex; align-items: center; gap: 6px }
+.sportchip.sport-all { --sport: var(--ink) }
+.sportchip { border-color: var(--sport) }
+.sportchip[aria-pressed="true"] { background: var(--sport); border-color: var(--sport); color: var(--paper) }
+.sport-rugby .ev, .ev.sport-rugby { background: color-mix(in srgb, var(--rugby) 5%, var(--surface)) }
+.ev.sport-cricket { background: color-mix(in srgb, var(--cricket) 5%, var(--surface)) }
+.ev.sport-league { background: color-mix(in srgb, var(--league) 6%, var(--surface)) }
+.ev .stripe { width: 6px }
+.ni .top .badge { margin-right: 2px }
+#sportFilter { margin-bottom: -10px }
+
+
+.ev .nz { color: var(--sport) }
+.ev .date { font-size: 13px; font-weight: 700; color: var(--ink) }
+.ev .loc { color: var(--local) }
+.tag.soon { background: var(--soon); color: #fff }
+.tag.near { background: var(--near); color: #fff }
+.tag.later { background: transparent; color: var(--later); box-shadow: inset 0 0 0 1px var(--line) }
+.dayhead { color: var(--ink) }
+.dayhead::after { content: ""; display: block; height: 2px; width: 32px; background: var(--accent); margin-top: 4px; border-radius: 2px }
+
 @media (max-width: 560px) {
   .ev { grid-template-columns: 6px minmax(0, 1fr) }
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
@@ -161,6 +188,7 @@ footer a { color: var(--muted) }
 </div>
 
 <main class="wrap">
+  <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
   <section id="weekSec">
     <h2>This week <small id="weekRange"></small></h2>
     <div class="week" id="week"></div>
@@ -196,6 +224,28 @@ const TEAMS = [
   { g: 'Rugby league', items: [['kiwis','Kiwis'],['kiwiferns','Kiwi Ferns'],['warriors','Warriors']] },
 ];
 const TEAM_NAME = Object.fromEntries(TEAMS.flatMap(g => g.items));
+// team badges (colours + short code) and country flags
+const BADGE = {
+  allblacks: ['AB', '#000000', '#ffffff'], blackferns: ['BF', '#000000', '#ffffff'], npc: ['NPC', '#c8102e', '#ffffff'], fpc: ['FPC', '#6d2077', '#ffffff'],
+  blues: ['BLU', '#0b3d91', '#ffffff'], chiefs: ['CHI', '#d6001c', '#ffd200'], hurricanes: ['HUR', '#ffcd00', '#000000'], crusaders: ['CRU', '#c8102e', '#000000'],
+  highlanders: ['HIG', '#1d2f6f', '#f2a900'], moana: ['MP', '#00807f', '#ffffff'],
+  blackcaps: ['BC', '#111111', '#7fe0d0'], whiteferns: ['WF', '#ffffff', '#111111'], nzdomestic: ['NZC', '#2b3a67', '#ffffff'],
+  kiwis: ['KIW', '#000000', '#ffffff'], kiwiferns: ['KF', '#000000', '#ffffff'], warriors: ['WAR', '#0d1f4c', '#7fd13b'],
+};
+const badge = k => { const b = BADGE[k]; return b ? `<span class="badge" style="background:${b[1]};color:${b[2]}" aria-hidden="true">${b[0]}</span>` : ''; };
+const FLAGS = {
+  'New Zealand': '🇳🇿', 'All Blacks': '🇳🇿', 'Black Ferns': '🇳🇿', Australia: '🇦🇺', Wallabies: '🇦🇺', England: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', Scotland: '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+  Wales: '🏴󠁧󠁢󠁷󠁬󠁳󠁿', Ireland: '🇮🇪', France: '🇫🇷', Italy: '🇮🇹', 'South Africa': '🇿🇦', Argentina: '🇦🇷', Japan: '🇯🇵', Fiji: '🇫🇯',
+  Samoa: '🇼🇸', Tonga: '🇹🇴', 'Papua New Guinea': '🇵🇬', 'Cook Islands': '🇨🇰', India: '🇮🇳', 'Sri Lanka': '🇱🇰', Bangladesh: '🇧🇩',
+  Pakistan: '🇵🇰', 'West Indies': '🌴', Canada: '🇨🇦', USA: '🇺🇸', 'United States': '🇺🇸',
+};
+const flagOf = name => {
+  const base = String(name || '').replace(/\s+(Women|A|XI|U\d+)$/i, '').trim();
+  return FLAGS[base] || '';
+};
+const teamName = n => { const f = flagOf(n); return f ? `<span class="flag" aria-hidden="true">${f}</span>${esc(n)}` : esc(n); };
+const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League' };
+
 const ALL_KEYS = TEAMS.flatMap(g => g.items.map(i => i[0]));
 
 const store = {
@@ -207,6 +257,7 @@ let spoilers = store.get('spoilers', true);   // true = hide recent results
 let spoilDays = store.get('spoilDays', 3);
 let revealed = new Set(store.get('revealed', []));
 let newsKind = 'all';
+let sportSel = store.get('sport', 'all');
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -243,20 +294,23 @@ function isHidden(e, now) {
 }
 // an event also shows for the other side when both are followed (e.g. Blues v Hurricanes)
 const CLUBS = ['blues','chiefs','hurricanes','crusaders','highlanders','warriors'];
-const visible = x => picked.has(x.team) || CLUBS.some(k => picked.has(k) && [x.home, x.away].some(t => (t || '').includes(TEAM_NAME[k])));
+const visibleTeam = x => picked.has(x.team) || CLUBS.some(k => picked.has(k) && [x.home, x.away].some(t => (t || '').includes(TEAM_NAME[k])));
+const visible = x => visibleTeam(x) && (sportSel === 'all' || (x.sport || sportOf(x.team)) === sportSel);
 
 function evCard(e, now) {
   const d = new Date(e.startUTC);
   const overseas = e.tz && e.tz !== NZ;
   const live = e.status === 'live' ? (e.clock || 'Live') : onNow(e, now);
   const cd = countdown(e, now);
-  const tag = live ? `<span class="tag live">${live}</span>` : cd ? `<span class="tag num">${cd}</span>` : '';
+  const ms = d - now;
+  const urg = ms < 864e5 ? 'soon' : ms < 3 * 864e5 ? 'near' : 'later';
+  const tag = live ? `<span class="tag live">${live}</span>` : cd ? `<span class="tag num ${urg}">${cd}</span>` : '';
   const local = overseas ? `<div class="loc num">${e.timeTBC ? '' : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${esc(cityOf(e))}</div>` : '';
   return `<article class="ev sport-${e.sport}">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${esc(TEAM_NAME[e.team] || '')} · ${esc(e.comp)}</div>
-      <div class="teams">${esc(e.home)}<span class="v">v</span>${esc(e.away)}</div>
+      <div class="comp"><span class="sp">${SPORT_LABEL[e.sport] || ''}</span>${badge(e.team)}<span>${esc(TEAM_NAME[e.team] || '')} · ${esc(e.comp)}</span></div>
+      <div class="teams">${teamName(e.home)}<span class="v">v</span>${teamName(e.away)}</div>
       <div class="meta">${esc([e.venue, e.city].filter(Boolean).join(', '))}</div>
       ${e.note ? `<div class="meta">${esc(e.note)}</div>` : ''}
       ${watchLine(e)}
@@ -264,7 +318,7 @@ function evCard(e, now) {
     <div class="when">
       <div class="nzl">NZ time</div>
       ${e.status === 'live' && e.score ? `<div class="nz num">${isHidden(e, now) ? '<span class="loc">Score hidden</span>' : esc(e.score)}</div>` : `<div class="nz num">${e.timeTBC ? 'TBC' : time(d, NZ)}</div>`}
-      <div class="loc">${dayLabel(d, NZ)}</div>
+      <div class="date">${dayLabel(d, NZ)}</div>
       ${local}${tag}
     </div>
   </article>`;
@@ -287,8 +341,8 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport}">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${esc(TEAM_NAME[e.team] || '')} · ${esc(e.comp)}</div>
-      <div class="teams">${esc(e.home)}<span class="v">v</span>${esc(e.away)}</div>
+      <div class="comp"><span class="sp">${SPORT_LABEL[e.sport] || ''}</span>${badge(e.team)}<span>${esc(TEAM_NAME[e.team] || '')} · ${esc(e.comp)}</span></div>
+      <div class="teams">${teamName(e.home)}<span class="v">v</span>${teamName(e.away)}</div>
       <div class="meta">${dayLabel(d, NZ)} · ${esc(e.city || '')}</div>
       ${hidden ? '' : `<div class="summary">${esc(e.summary || '')}</div>`}
     </div>
@@ -328,11 +382,11 @@ function render() {
   const rest = upcoming.filter(e => !todays.includes(e));
   const groups = new Map();
   rest.forEach(e => { const k = dayKey(new Date(e.startUTC)); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(e) });
-  const weekEnd = dayKey(days[6]);
+  const weekEnd = dayKey(new Date(now + 13 * 864e5));
   const showAll = store.get('showAllUp', false);
   let html = '', n = 0, hiddenCount = 0;
   for (const [k, list] of groups) {
-    if (!showAll && k > weekEnd && n >= 6) { hiddenCount += list.length; continue }
+    if (!showAll && k > weekEnd && n >= 4) { hiddenCount += list.length; continue }
     const d = new Date(list[0].startUTC);
     const lbl = fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' });
     html += `<div class="daygroup"><div class="dayhead" id="d-${k}">${lbl}</div>${list.map(e => evCard(e, now)).join('')}</div>`;
@@ -352,18 +406,19 @@ function render() {
     const hide = spoilers && n.kind === 'result' && !revealed.has('n:' + n.id) && (now - new Date(n.date + 'T12:00:00+13:00')) < spoilDays * 864e5;
     const sport = sportOf(n.team);
     return `<article class="ni sport-${sport}">
-      <div class="top"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span>${esc(TEAM_NAME[n.team] || '')}</span><span class="num">${fmt(new Date(n.date + 'T12:00:00+13:00'), NZ, { day: 'numeric', month: 'short' })}</span><span>${esc(n.source || '')}</span></div>
+      <div class="top">${badge(n.team)}<span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span>${esc(TEAM_NAME[n.team] || '')}</span><span class="num">${fmt(new Date(n.date + 'T12:00:00+13:00'), NZ, { day: 'numeric', month: 'short' })}</span><span>${esc(n.source || '')}</span></div>
       ${hide ? `<button class="cover" type="button" data-reveal="n:${esc(n.id)}"><b>Result story hidden</b>tap to show</button>`
         : `<h3>${esc(n.title)}</h3><p>${esc(n.summary)}</p>${n.url ? `<a href="${esc(n.url)}" target="_blank" rel="noopener">Read at ${esc(n.source || 'source')}</a>` : ''}`}
     </article>`;
   }).join('') : `<div class="empty-note">No news in this category for your teams.</div>`;
 
   // controls
+  $('sportFilter').innerHTML = [['all','All sports'],['rugby','Rugby'],['cricket','Cricket'],['league','Rugby league']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${sportSel === k}" class="chip sportchip sport-${k}">${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   $('spoilBtn').textContent = spoilers ? 'Spoilers hidden' : 'Spoilers shown';
   $('teamsBtn').textContent = `My teams (${picked.size})`;
   $('spoilDays').value = String(spoilDays);
-  $('teamGroups').innerHTML = TEAMS.map(g => `<div class="group"><h3>${g.g}</h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${l}</button>`).join('')}</div></div>`).join('');
+  $('teamGroups').innerHTML = TEAMS.map(g => `<div class="group"><h3>${g.g}</h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`).join('');
 }
 const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana'], cricket: ['blackcaps','whiteferns','nzdomestic'], league: ['kiwis','kiwiferns','warriors'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
@@ -374,6 +429,7 @@ document.addEventListener('click', ev => {
   const t = ev.target.closest('button'); if (!t) return;
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); store.set('teams', [...picked]); render(); }
   else if (t.dataset.reveal) { revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); }
+  else if (t.dataset.sport) { sportSel = t.dataset.sport; store.set('sport', sportSel); render(); }
   else if (t.dataset.kind) { newsKind = t.dataset.kind; render(); }
   else if (t.dataset.jump) { const el = document.getElementById('d-' + t.dataset.jump) || (t.dataset.jump === dayKey(new Date()) ? $('todaySec') : null); if (el) el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
   else if (t.id === 'moreUp') { store.set('showAllUp', true); render(); }
