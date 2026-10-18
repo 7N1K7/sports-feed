@@ -96,6 +96,39 @@ async function rnzNews() {
   return out;
 }
 
+// NZ Herald sport headlines. Its RSS licence lets a website show the headlines exactly as received, each linked
+// to the story and credited "supplied by nzherald.co.nz"; summaries and images are not covered, so neither is kept.
+const HERALD_FEEDS = ['https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/sport/?outputType=xml&_website=nzh',
+  'https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/sport/rugby/?outputType=xml&_website=nzh'];
+async function heraldNews() {
+  const out = [], notes = [];
+  for (const feedUrl of HERALD_FEEDS) {
+    let xml;
+    try {
+      const r = await fetch(feedUrl, { headers: { 'user-agent': 'sports-feed (personal site)' }, signal: AbortSignal.timeout(10000) });
+      if (!r.ok) throw new Error(r.status);
+      xml = await r.text();
+    } catch (e) { notes.push(`${feedUrl.split('/section/')[1]?.split('/?')[0]}: error ${e.message}`); continue; }
+    let n = 0;
+    for (const m of xml.matchAll(/<item>([\s\S]*?)<\/item>/g)) {
+      const get = tag => unxml((m[1].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1]);
+      const title = get('title'), url = get('link');
+      const team = NEWS_TEAMS.find(([, re]) => re.test(title))?.[0];
+      if (!team || !url || out.some(x => x.url === url)) continue;
+      const d = new Date(get('pubDate'));
+      out.push({
+        id: 'nzh-' + url.split('/').filter(Boolean).slice(-2).join('-').slice(0, 80), team,
+        date: isNaN(d) ? new Date(now).toISOString().slice(0, 10) : d.toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }),
+        kind: kindOf(title), title, summary: '', url, source: 'nzherald.co.nz', credit: 'Headline supplied by nzherald.co.nz', headlineOnly: true,
+      });
+      n++;
+    }
+    notes.push(`${feedUrl.split('/section/')[1]?.split('/?')[0]}: ${n} matching`);
+  }
+  diag.herald = notes.join('; ');
+  return out;
+}
+
 // --- merge -------------------------------------------------------------
 const ALIAS = [[/all blacks|black ferns|kiwi ferns|\bkiwis\b|white ferns|black ?caps/gi, 'new zealand'], [/wallabies|kangaroos|jillaroos|wallaroos/gi, 'australia'], [/springboks/gi, 'south africa'], [/pumas/gi, 'argentina']];
 const norm = s => ALIAS.reduce((t, [re, to]) => t.replace(re, to), s || '').toLowerCase().replace(/women|bulls|stags|storm|pride|mako|steamers|heartland|rugby|the /g, '').replace(/[^a-z]/g, '');
@@ -228,7 +261,7 @@ for (const e of events) if (!e.tz && e.city) { const bits = e.city.split(',').ma
 const newsAll = [...curated.news];
 // RNZ's RSS terms are "for personal use only" (rnz.co.nz/rss), so its feed stays off unless RNZ gives permission
 const RNZ_ON = false;
-for (const n of RNZ_ON ? await rnzNews() : []) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
+for (const n of [...(RNZ_ON ? await rnzNews() : []), ...await heraldNews()]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
 const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 
 // Club logos from TheSportsDB's free API (badges used as-is, credited in the footer).
@@ -379,7 +412,7 @@ async function addImages(items) {
   const cacheUrl = new URL('.cache/og.json', ROOT);
   let cache = {};
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
-  const todo = items.filter(n => !n.image && n.url && !(n.url in cache)).slice(0, 40);
+  const todo = items.filter(n => !n.image && !n.headlineOnly && n.url && !(n.url in cache)).slice(0, 40);
   await Promise.all(todo.map(async n => {
     try {
       const r = await fetch(n.url, { headers: { 'user-agent': 'Mozilla/5.0 (sports-feed thumbnail bot)' }, signal: AbortSignal.timeout(8000) });
@@ -409,7 +442,7 @@ const feed = {
   news,
   tables,
   sources: [
-    { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []),
+    { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' },
     { name: 'NZ Rugby', url: 'https://www.allblacks.com' }, { name: 'NZ Cricket', url: 'https://www.nzc.nz' },
     { name: 'NRL', url: 'https://www.nrl.com' },
   ],

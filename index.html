@@ -1335,7 +1335,7 @@ function render() {
     return `<article class="ni sport-${sport} ${img ? 'has-img' : ''}">${img}<div class="ni-body">
       <div class="top">${badge(n.team)}<span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span>${esc(TEAM_NAME[n.team] || '')}</span><span class="num">${fmt(new Date(n.date + 'T12:00:00+13:00'), NZ, { day: 'numeric', month: 'short' })}</span><span>${esc(n.source || '')}</span></div>
       ${hide ? `<button class="cover" type="button" data-reveal="n:${esc(n.id)}"><b>Result story hidden</b>tap to show</button>`
-        : `<h3>${esc(n.title)}</h3><p>${esc(n.summary)}</p>${n.url ? `<a href="${esc(n.url)}" target="_blank" rel="noopener">Read at ${esc(n.source || 'source')}</a>` : ''}`}
+        : `<h3>${n.headlineOnly && n.url ? `<a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a>` : esc(n.title)}</h3>${n.summary ? `<p>${esc(n.summary)}</p>` : ''}${n.headlineOnly ? `<p class="muted">${esc(n.credit || '')}</p>` : n.url ? `<a href="${esc(n.url)}" target="_blank" rel="noopener">Read at ${esc(n.source || 'source')}</a>` : ''}`}
     </div></article>`;
   }).join('') : `<div class="empty-note">No news in this category for your teams.</div>`;
 
