@@ -254,7 +254,9 @@ footer a { color: var(--muted) }
 .plink { color: inherit; text-decoration: underline dotted color-mix(in srgb, var(--muted) 70%, transparent); text-underline-offset: 3px }
 .plink:hover { text-decoration-style: solid }
 .dhnote { text-transform: none; letter-spacing: 0; font-weight: 500; margin-left: 6px }
-.revall { float: right; position: relative; top: 3px; font: inherit; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 4px 10px; cursor: pointer }
+.dayhead { position: relative }
+/* out of the flow, so it showing or not never moves the cards below */
+.revall { position: absolute; right: 0; top: 3px; font: inherit; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 4px 10px; cursor: pointer }
 .revall:hover { border-color: var(--muted) }
 .dayhead::after { content: ""; display: block; height: 2px; width: 32px; background: var(--accent); margin-top: 4px; border-radius: 2px }
 
