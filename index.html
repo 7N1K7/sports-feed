@@ -816,7 +816,7 @@ const soloTitle = e => `<div class="teams solo"><span class="nm">${esc(e.home)}<
 const BIG_EVENT = /World Cup|Nations Championship|Olympic|Commonwealth Games|Lions Tour|Champions Trophy/i;
 const SPORT_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', mma: '🥋', boxing: '🥊', motor: '🏎️' };
 // same-size icons on every device (Twemoji, CC BY 4.0), rather than each system's own emoji
-const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/${s}.svg" alt="" aria-hidden="true">` : '';
+const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/${s}.svg?v=2" alt="" aria-hidden="true">` : '';
 const START_LABEL = { rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight', boxing: 'Main card', motor: 'Lights out' };
 const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC', boxing: 'Boxing' };
 
