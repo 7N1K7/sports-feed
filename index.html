@@ -492,7 +492,7 @@ const NZ = 'Pacific/Auckland';
 const TEAMS = [
   { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup'],['wallabies','Wallabies']] },
   { g: 'Super Rugby Pacific', items: [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika'],['aurugby','Australian teams'],['superrugby','Every game']] },
-  { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
+  { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['aucricket','Australia (men\'s tours)'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
   { g: 'Rugby league', items: [['kiwis','Kiwis'],['kiwiferns','Kiwi Ferns'],['warriors','Warriors'],['nrl','NRL (every game)'],['rlwc','League World Cup (every game)']] },
   { g: 'Football', items: [['phoenix','Wellington Phoenix'],['aucklandfc','Auckland FC'],['aleague','A-League Men (every game)'],['epl','Premier League (every game)']] },
   { g: 'Fight sports', items: [['ufc','UFC events'],['boxing','Major boxing'],['nzboxing','NZ boxers']] },
@@ -506,7 +506,7 @@ const BADGE = {
   blackcaps: ['BC', '#111111', '#7fe0d0'], whiteferns: ['WF', '#ffffff', '#111111'], nzdomestic: ['NZC', '#2b3a67', '#ffffff'],
   wallabies: ['WAL', '#f2c200', '#0b3d2e'], aurugby: ['AUS', '#0b3d91', '#f2c200'], superrugby: ['SRP', '#00205b', '#ffffff'],
   bbl: ['BBL', '#ff6b00', '#111111'], wbbl: ['WBBL', '#7b2cbf', '#ffffff'], nrl: ['NRL', '#003b7a', '#ffffff'], rlwc: ['RLWC', '#0b6e4f', '#ffffff'],
-  phoenix: ['WNP', '#ffd100', '#000000'], aucklandfc: ['AFC', '#0033a0', '#ffffff'], aleague: ['ALM', '#e4002b', '#ffffff'], epl: ['EPL', '#3d195b', '#ffffff'], ufc: ['UFC', '#d20a0a', '#ffffff'], boxing: ['BOX', '#8a1c1c', '#ffd43b'], nzboxing: ['NZB', '#000000', '#ffd43b'],
+  phoenix: ['WNP', '#ffd100', '#000000'], aucklandfc: ['AFC', '#0033a0', '#ffffff'], aleague: ['ALM', '#e4002b', '#ffffff'], aucricket: ['AUS', '#ffcd00', '#00573f'], epl: ['EPL', '#3d195b', '#ffffff'], ufc: ['UFC', '#d20a0a', '#ffffff'], boxing: ['BOX', '#8a1c1c', '#ffd43b'], nzboxing: ['NZB', '#000000', '#ffd43b'],
   kiwis: ['KIW', '#000000', '#ffffff'], kiwiferns: ['KF', '#000000', '#ffffff'], warriors: ['WAR', '#0d1f4c', '#7fd13b'],
 };
 const badge = k => { const b = BADGE[k]; return b ? `<span class="badge" style="background:${b[1]};color:${b[2]}" aria-hidden="true">${b[0]}</span>` : ''; };
@@ -586,7 +586,7 @@ const store = {
 };
 let picked = new Set(store.get('teams', ALL_KEYS));
 // teams added to the site later are switched on for people who already saved their picks
-{ const known = new Set(store.get('known', ALL_KEYS.filter(k => k !== 'epl'))); const fresh = ALL_KEYS.filter(k => !known.has(k));
+{ const known = new Set(store.get('known', ALL_KEYS.filter(k => k !== 'epl' && k !== 'aucricket'))); const fresh = ALL_KEYS.filter(k => !known.has(k));
   if (fresh.length) { fresh.forEach(k => picked.add(k)); store.set('teams', [...picked]); } store.set('known', ALL_KEYS); }
 { const known = new Set(store.get('known', ALL_KEYS)); ALL_KEYS.filter(k => !known.has(k)).forEach(k => picked.add(k)); store.set('known', ALL_KEYS); store.set('teams', [...picked]); }
 let spoilers = store.get('spoilers', true);   // true = hide recent results
@@ -628,10 +628,11 @@ function compOf(e) {
   if (/Super Rugby/i.test(c)) return 'Super Rugby Pacific';
   if (/Nations Championship/i.test(c)) return 'Nations Championship';
   if (/Bledisloe|Rugby Championship/i.test(c)) return 'Rugby Championship';
-  if (e.team === 'blackcaps' || e.team === 'whiteferns') {
-    // a tour's T20Is, ODIs and Tests together: "Black Caps v India"
-    const nz = e.team === 'blackcaps' ? 'Black Caps' : 'White Ferns';
-    const opp = (c.match(/\bv (?:the )?([A-Z][\w .'-]+?)(?:\s*\(|,|$)/) || [])[1] || [e.home, e.away].find(t => t && !/^New Zealand/.test(t));
+  if (e.team === 'blackcaps' || e.team === 'whiteferns' || e.team === 'aucricket') {
+    // a tour's T20Is, ODIs and Tests together: "Black Caps v India", "Australia v South Africa"
+    const nz = e.team === 'blackcaps' ? 'Black Caps' : e.team === 'whiteferns' ? 'White Ferns' : 'Australia';
+    const own = e.team === 'aucricket' ? /^Australia/ : /^New Zealand/;
+    const opp = (c.match(/\bv (?:the )?([A-Z][\w .'-]+?)(?:\s*\(|,|$)/) || [])[1] || [e.home, e.away].find(t => t && !own.test(t));
     return opp && !/XI\b|\bA$/.test(opp) ? `${nz} v ${opp.replace(/\s+Women('s)?$/, '')}` : nz;
   }
   if (e.team === 'nzdomestic') return 'NZ domestic cricket';
@@ -684,7 +685,7 @@ const visible0 = x => x.startUTC ? (compSel ? compOf(x) === compSel : visibleTea
 const fmtOf = c => (/\bT20I?\b/i.test(c) ? 'T20I' : /\bODI\b/.test(c) ? 'ODI' : /\bTest\b/.test(c) ? 'Test' : '');
 function seriesLine(e, now) {
   const f = fmtOf(e.comp || '');
-  if (e.sport !== 'cricket' || !f || !/^(Black Caps|White Ferns) v /.test(compOf(e))) return '';
+  if (e.sport !== 'cricket' || !f || !/^(Black Caps|White Ferns|Australia) v /.test(compOf(e))) return '';
   const all = (FEED.events || []).filter(x => compOf(x) === compOf(e) && fmtOf(x.comp || '') === f).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
   if (all.length < 2) return '';
   const n = all.findIndex(x => x.id === e.id) + 1;
@@ -1057,7 +1058,7 @@ function render() {
   $('spoilDays').value = String(spoilDays);
   $('teamGroups').innerHTML = TEAMS.map(g => `<div class="group"><h3>${g.g}</h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`).join('');
 }
-const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], mma: ['ufc'], boxing: ['boxing','nzboxing'] };
+const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], mma: ['ufc'], boxing: ['boxing','nzboxing'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
 
 function tick() { $('clock').textContent = `NZ ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}` }

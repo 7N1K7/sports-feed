@@ -142,6 +142,7 @@ export function classify(kind, home, away) {
     }
     case 'rlwc': return { team: nz ? (women ? 'kiwiferns' : 'kiwis') : 'rlwc', tags: ['rlwc'] };
     case 'leaguetests': return nz ? { team: women ? 'kiwiferns' : 'kiwis', tags: [] } : null;
+    case 'aucricket': return /\bAustralia\b/.test(names) && !women ? { team: 'aucricket', tags: [] } : null;
     case 'nzcricket': return nz ? { team: women ? 'whiteferns' : 'blackcaps', tags: [] } : null;
     case 'nrl': return { team: /Warriors/.test(names) ? 'warriors' : 'nrl', tags: ['nrl'] };
     case 'epl': return { team: 'epl', tags: ['epl'] };
@@ -288,6 +289,17 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
         if (!/cricket team/.test(title) || !/New Zealand/.test(title) || !/\b20\d\d\b/.test(title)) continue;
         if (![...seasons, ...years.map(String)].some(s => title.endsWith(s))) continue;
         want.set(title, { sport: 'cricket', comp: /women/i.test(title) ? "White Ferns" : 'Black Caps', classify: 'nzcricket', women: /women's cricket team/i.test(title), seriesTitle: true });
+      }
+    } catch (e) { diag.wikiSearch = e.message; }
+  }
+  // Australian men's tours, home and away (NZ ones are already in)
+  for (const q of [...seasons, ...years.map(String)].flatMap(s => [`intitle:"cricket team in Australia in ${s}"`, `intitle:"Australian cricket team in" "${s}"`])) {
+    try {
+      const r = await api('action=query&list=search&srlimit=20&srnamespace=0&srsearch=' + encodeURIComponent(q));
+      for (const { title } of r.query?.search || []) {
+        if (!/^[A-Z][\w ]+ cricket team in [\w ]+ in 20\d\d/.test(title) || /New Zealand|women|under-19|\bA cricket/i.test(title) || !/Australia/.test(title)) continue;
+        if (![...seasons, ...years.map(String)].some(s => title.endsWith(s)) || want.has(title)) continue;
+        want.set(title, { sport: 'cricket', comp: 'Australia', classify: 'aucricket', seriesTitle: true });
       }
     } catch (e) { diag.wikiSearch = e.message; }
   }
@@ -489,7 +501,7 @@ function fightCard(text) {
 function seriesComp(title, c) {
   const m = title.match(/^(.*?) (?:women's )?cricket team in (.*?) in /);
   if (!m) return c.comp;
-  const other = [m[1], m[2]].find(x => x !== 'New Zealand') || '';
+  const other = [m[1], m[2]].find(x => !/^(New Zealand|Australian?)$/.test(x) || (c.comp !== 'Australia' && /^Australian?$/.test(x))) || '';
   const adj = { Indian: 'India', Australian: 'Australia', English: 'England', Pakistani: 'Pakistan', 'Sri Lankan': 'Sri Lanka', 'South African': 'South Africa', Bangladeshi: 'Bangladesh', Afghan: 'Afghanistan', Zimbabwean: 'Zimbabwe', Irish: 'Ireland', 'West Indian': 'West Indies', Scottish: 'Scotland', Dutch: 'Netherlands' };
   return `${c.comp} v ${adj[other] || other}`;
 }
