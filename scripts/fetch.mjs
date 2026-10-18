@@ -82,14 +82,13 @@ async function rnzNews() {
   for (const m of xml.matchAll(/<item>([\s\S]*?)<\/item>/g)) {
     const get = tag => unxml((m[1].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1]);
     const title = get('title'), summary = get('description'), url = get('link');
-    const image = (m[1].match(/<(?:media:content|media:thumbnail|enclosure)[^>]*url="([^"]+)"/) || [])[1];
     const team = NEWS_TEAMS.find(([, re]) => re.test(title + ' ' + summary))?.[0];
     if (!team) continue;
     const d = new Date(get('pubDate'));
     out.push({
       id: 'rnz-' + url.split('/').filter(Boolean).slice(-2).join('-').slice(0, 80), team,
       date: isNaN(d) ? new Date(now).toISOString().slice(0, 10) : d.toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }),
-      kind: kindOf(title + ' ' + summary), title, summary: summary.slice(0, 280), url, source: 'RNZ', image,
+      kind: kindOf(title + ' ' + summary), title, summary: '', url, source: 'RNZ', credit: 'Headline from RNZ', headlineOnly: true,
     });
   }
   diag.rnz = `${out.length} matching stories`;
@@ -259,8 +258,9 @@ events.forEach(e => applyBroadcast(e, rules));
 for (const e of events) if (!e.tz && e.city) { const bits = e.city.split(',').map(x => x.trim()); e.tz = tzFor(bits[0], bits[bits.length - 1]); }
 
 const newsAll = [...curated.news];
-// RNZ's RSS terms are "for personal use only" (rnz.co.nz/rss), so its feed stays off unless RNZ gives permission
-const RNZ_ON = false;
+// RNZ's RSS terms say "for personal use only" (rnz.co.nz/rss); the owner chose to show it on this non-commercial site,
+// kept to the headline and a link back (no summary or image), like the Herald. Set false to switch it off again
+const RNZ_ON = true;
 for (const n of [...(RNZ_ON ? await rnzNews() : []), ...await heraldNews()]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
 const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 
