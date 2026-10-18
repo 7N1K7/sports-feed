@@ -1,1547 +1,1217 @@
-#### Module:Sports table
--- Module to build tables for standings in Sports
--- See documentation for details
+#### Module:Sports table/auto
+-- Builds standings from match results for |auto_generate_standings=yes.
+-- Reads match cells, calculates records, ranks teams, and writes the results
+-- back for Module:Sports table. See the documentation for criteria.
 
 require('strict')
 
-local p = {}
+local pa = {}
 
--- Main function
-function p.main(frame)
-	-- Declare locals
-	local getArgs = require('Module:Arguments').getArgs
-	local Args = getArgs(frame, {parentFirst = true})
-	local ii_start, ii_end, N_rows_res = 0
-	local text_field_result
-	local notes_exist = false
-	local t = {}
-	local t_footer = {}
-	local t_return = {}
-	local team_list = {}
-	local jj, jjj
-	local table_anchor = mw.ustring.gsub(Args['section'] and 'sports-table-' .. Args['section'] or '', ' ', '_')
-	
-	-- Exit early if we are using section transclusion for a different section
-	local tsection = frame:getParent().args['transcludesection'] or frame:getParent().args['section'] or ''
-	local bsection = frame.args['section'] or ''
-	if( tsection ~= '' and bsection ~= '' ) then
-		if( tsection ~= bsection ) then
-			return ''
+local yesno = require('Module:Yesno')
+
+-- Fields in each statistics record.
+local FIELDS = {'pld', 'w', 'otw', 'd', 'otl', 'l', 'gf', 'ga',
+	'hpld', 'hw', 'hotw', 'hd', 'hotl', 'hl', 'hgf', 'hga',
+	'apld', 'aw', 'aotw', 'ad', 'aotl', 'al', 'agf', 'aga'}
+
+-- |result_AAA_BBB= values that mark an overtime result; SO (shootout) is an alias.
+local OT_RESULTS = {OT = true, SO = true}
+
+-- Score separators normalized to hyphens before matching.
+local DASHES = {'–', '—', '−', '‒', '―', '‐', '‑'}
+local DASH = '%-+'
+
+-- Limit displayed errors for badly broken tables.
+local MAX_ERRORS = 25
+
+-- Limit recursive tiebreak processing.
+local MAX_RECURSION = 25
+
+--------------------------------------------------------------------------------
+-- Helpers
+--------------------------------------------------------------------------------
+
+local function trim(s)
+	return mw.text.trim(tostring(s or ''))
+end
+
+local function add_error(errors, msg)
+	if #errors < MAX_ERRORS then
+		errors[#errors + 1] = msg
+	elseif #errors == MAX_ERRORS then
+		errors[#errors + 1] = 'further problems were found but are not listed'
+	end
+end
+
+--------------------------------------------------------------------------------
+-- Match-cell parsing
+--------------------------------------------------------------------------------
+
+-- Remove common markup from a match cell before parsing its score.
+local function clean_cell(raw)
+	local s = tostring(raw or '')
+	-- Strip reference markers.
+	s = s:gsub('\127[^\127]*\127', '')
+	-- Remove superscripts; retain other tag contents.
+	s = s:gsub('<[Ss][Uu][Pp].->.-</[Ss][Uu][Pp]>', '')
+	s = s:gsub('</?%w+[^<>]*>', '')
+	-- Keep wikilink display text.
+	s = s:gsub('%[%[[^%[%]|]*|([^%[%]|]*)%]%]', '%1')
+	s = s:gsub('%[%[([^%[%]|]*)%]%]', '%1')
+	-- Keep external-link display text.
+	s = s:gsub('%[%S+%s+([^%[%]]*)%]', '%1')
+	-- Normalize entities.
+	s = s:gsub('&[Nn][Dd][Aa][Ss][Hh];', '-')
+	s = s:gsub('&[Mm][Dd][Aa][Ss][Hh];', '-')
+	s = s:gsub('&minus;', '-')
+	s = s:gsub('&nbsp;', ' ')
+	-- Normalize dash characters.
+	for _, d in ipairs(DASHES) do
+		s = s:gsub(d, '-')
+	end
+	return trim(s)
+end
+
+-- Returns scores and whether an unparseable value resembles a score.
+local function parse_score(raw)
+	local s = clean_cell(raw)
+	if s == '' or s:lower() == 'null' then
+		return nil, nil, false
+	end
+	local h, a = s:match('^([%d%.]+)%s*' .. DASH .. '%s*([%d%.]+)')
+	h, a = tonumber(h or ''), tonumber(a or '')
+	if h and a then
+		return h, a, false
+	end
+	-- Flag score-like but unparseable values.
+	local looks = s:match('[%d%.]+%s*' .. DASH .. '%s*[%d%.]+') ~= nil
+	return nil, nil, looks
+end
+
+-- Split match parameter suffixes, preferring known codes with underscores.
+local function split_pair(rest, codes)
+	local cands = {}
+	local i = rest:find('_', 1, true)
+	while i do
+		local h, a = rest:sub(1, i - 1), rest:sub(i + 1)
+		if h ~= '' and a ~= '' then
+			cands[#cands + 1] = {h, a}
+		end
+		i = rest:find('_', i + 1, true)
+	end
+	if #cands == 0 then return nil end
+	for _, c in ipairs(cands) do
+		if codes[c[1]] and codes[c[2]] then return c[1], c[2] end
+	end
+	for _, c in ipairs(cands) do
+		if codes[c[1]] then return c[1], c[2] end
+	end
+	for _, c in ipairs(cands) do
+		if codes[c[2]] then return c[1], c[2] end
+	end
+	return cands[#cands][1], cands[#cands][2]
+end
+
+-- Return match parameters in a stable order.
+local function match_keys(Args)
+	local keys = {}
+	for k, v in pairs(Args) do
+		if type(k) == 'string' and v ~= nil then
+			-- Check neutral matches first.
+			local num, rest = k:match('^matchn(%d*)_(.+)$')
+			local neutral = true
+			if not rest then
+				num, rest = k:match('^match(%d*)_(.+)$')
+				neutral = false
+			end
+			if rest and not rest:match('_note$') then
+				keys[#keys + 1] = {key = k, rest = rest, neutral = neutral,
+					num = tonumber(num) or 1, numbered = (num ~= '')}
+			end
 		end
 	end
+	table.sort(keys, function(x, y) return x.key < y.key end)
+	return keys
+end
 
-	local templatestyles = frame:extensionTag{
-		name = 'templatestyles', args = { src = 'Module:Sports table/styles.css' }
-	}
-	
-	-- Edit links if requested
-	local baselink = frame:getParent():getTitle()
-	local currentTitle = mw.title.getCurrentTitle()
-	if baselink == 'Module:Excerpt' then baselink = '' end
-	if currentTitle.fullText == baselink then	baselink = '' end
-	local template_name = (baselink ~= '' and (':' .. baselink .. (table_anchor ~= '' and '#' .. table_anchor or '')))
-		or ''
+--------------------------------------------------------------------------------
+-- Team list
+--------------------------------------------------------------------------------
 
-	-- Optional baselink override for the match-report anchor links
-	-- (this does not impact the v·t·e edit links)
-	local baselink_override = Args['baselink']
-	if baselink_override and baselink_override ~= '' then
-		baselink = baselink_override
-		if baselink == 'Module:Excerpt' then baselink = '' end
-		if currentTitle.fullText == baselink then baselink = '' end
-	end
-
-	-- Get the custom start point for the table (most will start by default at 1)
-	local top_pos = tonumber(Args['highest_pos']) or 1
-	-- Get the custom end point for the table (unrestricted if bottom_pos is < top_pos)
-	local bottom_pos = tonumber(Args['lowest_pos']) or 0
-	local N_teams = top_pos - 1 -- Default to 0 at start, but higher number needed to skip certain entries
-	
-	-- Load modules
-	local yesno = require('Module:Yesno')
-	-- Load style and (sub) modules
-	local style_def = Args['style'] or 'WDL'
-	-- Historically 'football' exists as style, this is now forwarded to WDL
-	if style_def == 'football' then style_def = 'WDL' end
-	-- These internal helper modules are not styles; reject them as |style= to
-	-- avoid missing renderer-function errors.
-	local reserved_styles = {auto = true, sub = true, argcheck = true, totalscheck = true}
-	if reserved_styles[style_def] then
-		return '<div style="color:red">Error: |style=' .. style_def .. ' is not a valid table style; '
-			.. '"' .. style_def .. '" is a supporting module used internally by Module:Sports table. '
-			.. 'See the documentation for the list of valid |style= values.</div>'
-	end
-	local p_style = require('Module:Sports table/'..style_def)
-	local p_sub = require('Module:Sports table/sub')
-	
-	-- Results-only display mode, and automatic generation of the standings
-	local show_matches_val = string.lower(mw.text.trim(Args['show_matches'] or ''))
-	local matches_only = (show_matches_val == 'only')
-	-- |show_matches=below or below_levelN adds the results table to a section below the standings
-	local below_level = nil
-	if show_matches_val == 'below' then
-		below_level = 2
+-- Convert a team name to plain text for sorting and link anchors.
+-- Keep this in sync with clean_team_name in Module:Sports results.
+local function replace_link(m)
+	local pipe_pos = m:find('|')
+	if pipe_pos then
+		return m:sub(pipe_pos + 1, -3) -- text after the '|'
 	else
-		below_level = tonumber(show_matches_val:match('^below_level(%d+)$'))
+		return m:sub(3, -3) -- text between the brackets
 	end
-	local auto_standings = yesno(Args['auto_generate_standings'] or 'no') and true or false
-	local auto_errors = {}
-	if matches_only then
-		-- Return nothing but the output Module:Sports results would give
-		local p_res = require((style_def == 'Chess') and ('Module:Sports results/' .. style_def)
-			or 'Module:Sports results')
-		do
-			-- The results grid uses |default_order=, then display name and code;
-			-- it ignores standings ranking and |teamN=/|team_order=.
-			local p_auto = require('Module:Sports table/auto')
-			auto_errors = p_auto.order_only(Args, top_pos, true)
+end
+
+local function plain_name(str, default)
+	if str and str ~= '' then
+		str = str:gsub('<sup.->.-</sup>', '')
+		str = str:gsub('</?%w+[^>]*>', '')
+		str = str:gsub('\127%\'"`UNIQ.-QINU`"%\'\127', '')
+		str = str:gsub('%[%[[Ff]ile:[^%]]+%]%]', '')
+		str = str:gsub('%[%[[Ii]mage:[^%]]+%]%]', '')
+		str = str:gsub('%[%[.-%]%]', replace_link)
+		str = str:gsub('%s*&nbsp;%s*', '')
+		str = str:gsub("'''+", '')
+		str = str:gsub("''", '')
+		str = str:match('^%s*(.-)%s*$') -- trim
+		return (str ~= '' and str) or default
+	end
+	return default
+end
+
+local function name_sorter(Args)
+	local key = {}
+	local function keyof(c)
+		if key[c] == nil then
+			key[c] = string.lower(plain_name(Args['name_' .. c], c))
 		end
-		local out
-		if p_res._main then
-			-- Use |matches_title= and |matches_team_header= for parameters that conflict with Module:Sports results
-			local res_args = {}
-			for k, v in pairs(Args) do
-				res_args[k] = v
-			end
-			res_args['title'] = Args['matches_title']
-			res_args['table_header'] = nil
-			res_args['team_header'] = Args['matches_team_header']
-			if Args['matches_source'] and mw.text.trim(Args['matches_source']) ~= '' then
-				res_args['source'] = Args['matches_source']
-			end
-			-- |matches_team_notes=yes to pass |note_TTT= to results; disabled by default
-			local pass_team_notes = yesno(Args['matches_team_notes'] or 'no') and true or false
-			out = p_res._main(frame, res_args, not pass_team_notes)
-		elseif p_res.main then
-			table.insert(auto_errors, 'Module:Sports results/' .. style_def .. ' has no _main function, so the '
-				.. 'team order and the standings-only parameters could not be handled for |show_matches=only')
-			out = p_res.main(frame)
+		return key[c]
+	end
+	return function(x, y)
+		local kx, ky = keyof(x), keyof(y)
+		if kx == ky then return x < y end
+		return kx < ky
+	end
+end
+
+-- Read outside opponents, which are excluded from the standings and matches.
+function pa.external(Args)
+	local ext = {}
+	for _, c in ipairs(mw.text.split(trim(Args['external_teams'] or ''), '%s*[;,]%s*')) do
+		if c ~= '' then ext[c] = true end
+	end
+	return ext
+end
+
+-- Read withdrawn teams: kept in the standings (pinned at the bottom, in the
+-- order given) but left out of the results grid entirely. Returns a lookup
+-- set and the ordered list.
+function pa.withdrawn(Args)
+	local set, order = {}, {}
+	for _, c in ipairs(mw.text.split(trim(Args['withdrawn_teams'] or ''), '%s*[;,]%s*')) do
+		if c ~= '' and not set[c] then
+			set[c] = true
+			order[#order + 1] = c
+		end
+	end
+	return set, order
+end
+
+-- Build the roster from names and matches, excluding outside opponents.
+-- The code set retains outsiders to split match names with underscores.
+function pa.roster(Args)
+	local codes, list = {}, {}
+	local ext = pa.external(Args)
+	for k, _ in pairs(Args) do
+		if type(k) == 'string' then
+			local c = k:match('^name_(.+)$') or k:match('^schedule_(.+)$')
+			if c and c ~= '' then codes[c] = true end
+		end
+	end
+	for _, mk in ipairs(match_keys(Args)) do
+		local h, a = split_pair(mk.rest, codes)
+		if h then
+			codes[h] = true
+			codes[a] = true
+		end
+	end
+	for c in pairs(codes) do
+		if not ext[c] then list[#list + 1] = c end
+	end
+	table.sort(list, name_sorter(Args))
+	return list, codes
+end
+
+-- Warn about likely mistyped team codes without rejecting valid sparse input.
+local function check_orphans(Args, teams, errors)
+	local n_named = 0
+	local unnamed = {}
+	for _, c in ipairs(teams) do
+		if Args['name_' .. c] ~= nil then
+			n_named = n_named + 1
 		else
-			-- Some results styles cannot build a table on their own
-			table.insert(auto_errors, 'the results for |style=' .. style_def .. ' cannot be shown on their own, '
-				.. 'because Module:Sports results/' .. style_def .. ' only builds rows for the standings table; '
-				.. 'use |show_matches=yes instead')
-			out = ''
+			unnamed[#unnamed + 1] = c
 		end
-		if #auto_errors > 0 and frame:preprocess( "{{REVISIONID}}" ) == "" then
-			for k = 1, #auto_errors do
-				out = out .. '<div style="color:red">Error: ' .. auto_errors[k] .. '</div>'
+	end
+
+	-- Unnamed codes are suspicious only when other teams have names.
+	if n_named > 0 and #unnamed > 0 then
+		add_error(errors, 'unnamed teams = ' .. table.concat(unnamed, ', ')
+			.. ' (found in a match parameter but given no |name_TTT=)')
+	end
+end
+
+-- Base order: |default_order= first, then remaining codes alphabetically.
+function pa.base_order(Args, teams, codes, errors)
+	local order, seen = {}, {}
+	local raw = Args['default_order']
+	if raw and trim(raw) ~= '' then
+		for _, tname in ipairs(mw.text.split(raw, '%s*[;,]%s*')) do
+			tname = trim(tname)
+			if tname ~= '' then
+				if not codes[tname] then
+					add_error(errors, 'the team "' .. tname .. '" given in |default_order= is not in the table')
+				elseif seen[tname] then
+					add_error(errors, 'the team "' .. tname .. '" is given more than once in |default_order=')
+				else
+					seen[tname] = true
+					order[#order + 1] = tname
+				end
+			end
+		end
+	end
+	-- teams is already sorted alphabetically.
+	for _, c in ipairs(teams) do
+		if not seen[c] then order[#order + 1] = c end
+	end
+	return order
+end
+
+--------------------------------------------------------------------------------
+-- Statistics
+--------------------------------------------------------------------------------
+
+local function new_stats()
+	local st = {}
+	for _, f in ipairs(FIELDS) do st[f] = 0 end
+	return st
+end
+
+-- Neutral matches affect overall records, not home/away records.
+-- side is 'home', 'away', or 'neutral'. ot marks an overtime result, counted as
+-- an overtime win/loss instead of a win/loss; a drawn score stays a draw.
+local function add_result(st, gf, ga, side, ot)
+	st.pld = st.pld + 1
+	st.gf = st.gf + gf
+	st.ga = st.ga + ga
+	local w, otw, d, otl, l = 0, 0, 0, 0, 0
+	if gf > ga then
+		if ot then otw = 1 else w = 1 end
+	elseif gf < ga then
+		if ot then otl = 1 else l = 1 end
+	else
+		d = 1
+	end
+	st.w, st.otw, st.d, st.otl, st.l = st.w + w, st.otw + otw, st.d + d, st.otl + otl, st.l + l
+	if side == 'home' then
+		st.hpld = st.hpld + 1
+		st.hgf = st.hgf + gf
+		st.hga = st.hga + ga
+		st.hw, st.hotw, st.hd, st.hotl, st.hl =
+			st.hw + w, st.hotw + otw, st.hd + d, st.hotl + otl, st.hl + l
+	elseif side == 'away' then
+		st.apld = st.apld + 1
+		st.agf = st.agf + gf
+		st.aga = st.aga + ga
+		st.aw, st.aotw, st.ad, st.aotl, st.al =
+			st.aw + w, st.aotw + otw, st.ad + d, st.aotl + otl, st.al + l
+	end
+end
+
+-- Build played matches; the first code is the home team. With read_ot,
+-- |result_AAA_BBB=OT (or SO) marks the match as decided in overtime.
+function pa.matches(Args, codes, errors, read_ot)
+	local out = {}
+	local legs = tonumber(Args['legs']) or 1
+	local fmt = string.lower(trim(Args['matches_format']))
+	local schedule = (fmt == 'schedule' or fmt == 'series' or fmt == 'series_split')
+	-- Neutral matches cannot appear in a results grid.
+	local sm = string.lower(trim(Args['show_matches']))
+	local shows_grid = (fmt == '' or fmt == 'grid')
+		and sm ~= '' and sm ~= 'no' and sm ~= 'n' and sm ~= 'false' and sm ~= 'f'
+		and sm ~= 'off' and sm ~= '0'
+	local seen = {}
+	local ext = pa.external(Args)
+	for _, mk in ipairs(match_keys(Args)) do
+		local h, a = split_pair(mk.rest, codes)
+		local hs, as, broken = parse_score(Args[mk.key])
+
+		-- Skip matches against listed outside opponents.
+		local outside = h and (ext[h] or ext[a]) and true or false
+
+		-- Count only matches shown by grid mode; schedules number freely.
+		local displayed = true
+		if not schedule and not mk.neutral then
+			displayed = (legs == 1) and not mk.numbered or (mk.numbered and mk.num <= legs)
+		end
+
+		-- Neutral fixtures are unordered.
+		local pair_id
+		if mk.neutral and h then
+			local x, y = h, a
+			if y < x then x, y = y, x end
+			pair_id = 'n' .. mk.num .. '|' .. x .. '|' .. y
+		else
+			pair_id = mk.num .. '|' .. tostring(h) .. '|' .. tostring(a)
+		end
+
+		if not h then
+			add_error(errors, 'could not read two team codes from |' .. mk.key .. '=')
+		elseif outside then
+			-- Outside fixture.
+		elseif h == a then
+			add_error(errors, '|' .. mk.key .. '= is a match of a team against itself')
+		elseif seen[pair_id] then
+			-- Catch reversed duplicate neutral fixtures.
+			add_error(errors, '|' .. mk.key .. '= repeats a match already given by |' .. seen[pair_id]
+				.. '=' .. (mk.neutral and ' (a neutral match is the same match either way round)' or ''))
+		elseif not displayed then
+			add_error(errors, '|' .. mk.key .. '= is not shown in the results grid with |legs='
+				.. legs .. ', so it has not been counted; use |'
+				.. ((legs == 1) and ('match_' .. mk.rest) or ('match<1-' .. legs .. '>_' .. mk.rest)) .. '=')
+		elseif broken then
+			add_error(errors, 'could not read the score in |' .. mk.key .. '=' .. trim(Args[mk.key]))
+		else
+			if mk.neutral and shows_grid then
+				add_error(errors, '|' .. mk.key .. '= is a neutral-venue match, which the results grid '
+					.. 'cannot show; it has still been counted in the standings')
+			end
+			seen[pair_id] = mk.key
+			if hs then
+				local ot = false
+				if read_ot then
+					-- match_h_a -> result_h_a, matchn2_h_a -> resultn2_h_a
+					local rkey = mk.key:gsub('^match', 'result')
+					ot = OT_RESULTS[trim(Args[rkey])] or false
+				end
+				out[#out + 1] = {home = h, away = a, hs = hs, as = as, neutral = mk.neutral, ot = ot}
+			end
+		end
+	end
+	return out
+end
+
+-- Build statistics for these teams only (used for head-to-head criteria).
+local function build_stats(matches, teams)
+	local st = {}
+	for _, c in ipairs(teams) do st[c] = new_stats() end
+	for _, m in ipairs(matches) do
+		if st[m.home] and st[m.away] then
+			add_result(st[m.home], m.hs, m.as, m.neutral and 'neutral' or 'home', m.ot)
+			add_result(st[m.away], m.as, m.hs, m.neutral and 'neutral' or 'away', m.ot)
+		end
+	end
+	return st
+end
+
+-- Aggregate opponents' full-season records, counting repeat meetings twice.
+local function opp_stats(code, matches, full, adj)
+	local agg = new_stats()
+	local aadj = {pts = 0, gf = 0, ga = 0}
+	for _, m in ipairs(matches) do
+		local opp
+		if m.home == code then
+			opp = m.away
+		elseif m.away == code then
+			opp = m.home
+		end
+		if opp and full[opp] then
+			for _, f in ipairs(FIELDS) do
+				agg[f] = agg[f] + full[opp][f]
+			end
+			local a = adj[opp]
+			if a then
+				aadj.pts = aadj.pts + (a.pts or 0)
+				aadj.gf = aadj.gf + (a.gf or 0)
+				aadj.ga = aadj.ga + (a.ga or 0)
+			end
+		end
+	end
+	return agg, aadj
+end
+
+--------------------------------------------------------------------------------
+-- Criteria
+--------------------------------------------------------------------------------
+
+-- Criterion identifiers; each also accepts a h2h_ or opp_ scope prefix, and
+-- (independently) a h or a side prefix (e.g. hpts, agd, h2h_hpts, opp_agpm).
+local METRICS = {
+	pts = true, gd = true, gf = true, ga = true,
+	w = true, otw = true, d = true, otl = true, l = true,
+	gr = true, gp = true, ap = true, pp = true, gpm = true,
+	wp = true, perc = true, ppg = true,
+}
+
+local SIDES = {h = true, a = true}
+
+-- Split a criterion id into its scope (full/h2h/opp), side (''/h/a), and
+-- underlying metric. A bare metric name is always preferred over reading its
+-- first letter as a side prefix (so e.g. "ap" is the against-percentage
+-- metric, not the away "p" metric, since "p" is not a metric on its own).
+local function id_parts(id)
+	local scope, rest = 'full', id
+	if id:sub(1, 4) == 'h2h_' then
+		scope, rest = 'h2h', id:sub(5)
+	elseif id:sub(1, 4) == 'opp_' then
+		scope, rest = 'opp', id:sub(5)
+	end
+	if METRICS[rest] then
+		return scope, '', rest
+	end
+	local prefix, remainder = rest:sub(1, 1), rest:sub(2)
+	if SIDES[prefix] and METRICS[remainder] then
+		return scope, prefix, remainder
+	end
+	return scope, '', rest
+end
+
+local function valid_id(id)
+	local _, _, base = id_parts(id)
+	return METRICS[base] and true or false
+end
+
+-- Pick out the home, away, or overall view of a statistics record.
+local function side_view(st, side)
+	if side == 'h' then
+		return {pld = st.hpld, w = st.hw, otw = st.hotw, d = st.hd, otl = st.hotl, l = st.hl,
+			gf = st.hgf, ga = st.hga}
+	elseif side == 'a' then
+		return {pld = st.apld, w = st.aw, otw = st.aotw, d = st.ad, otl = st.aotl, l = st.al,
+			gf = st.agf, ga = st.aga}
+	end
+	return st
+end
+
+-- Return a criterion value; undefined values sort last. adj is {pts=, gf=,
+-- ga=}, from |adjust_points_TTT=/|startpoints_TTT=/|adjust_gf_TTT=/
+-- |adjust_ga_TTT=; gf/ga adjustments feed every goal-based metric below
+-- (including the points formula's goalpoints term), the same way pts' own
+-- adjustment feeds pts.
+local function value_of(base, opts, st, adj)
+	adj = adj or {}
+	local gf = st.gf + (adj.gf or 0)
+	local ga = st.ga + (adj.ga or 0)
+	local pts = opts.winpoints * st.w + opts.otwinpoints * st.otw + opts.drawpoints * st.d
+		+ opts.otlosspoints * st.otl + opts.losspoints * st.l + opts.goalpoints * gf + (adj.pts or 0)
+
+	if base == 'pts' then return pts end
+	if base == 'gd' then return gf - ga end
+	if base == 'gf' then return gf end
+	if base == 'ga' then return ga end
+	if base == 'w' then return st.w end
+	if base == 'otw' then return st.otw end
+	if base == 'd' then return st.d end
+	if base == 'otl' then return st.otl end
+	if base == 'l' then return st.l end
+	-- A clean sheet is infinite; 0–0 is undefined.
+	if base == 'gr' or base == 'gp' then
+		if ga ~= 0 then
+			return (base == 'gr') and (gf / ga) or (100 * gf / ga)
+		end
+		return (gf > 0) and math.huge or nil
+	end
+	if base == 'ap' then
+		if gf ~= 0 then return 100 * ga / gf end
+		return (ga > 0) and math.huge or nil
+	end
+	if base == 'pp' then
+		return ((gf + ga) > 0) and (100 * gf / (gf + ga)) or nil
+	end
+	if base == 'gpm' then return (st.pld > 0) and (gf / st.pld) or nil end
+	if base == 'wp' then return (st.pld > 0) and (100 * (st.w + st.otw) / st.pld) or nil end
+	if base == 'perc' then
+		if opts.ot then
+			-- Same as the OT styles' PCT: points over the most a team could earn.
+			return (st.pld > 0 and opts.winpoints > 0) and (pts / (opts.winpoints * st.pld)) or nil
+		end
+		return (st.pld > 0) and ((2 * st.w + st.d + (adj.pts or 0)) / (2 * st.pld)) or nil
+	end
+	if base == 'ppg' then return (st.pld > 0) and (pts / st.pld) or nil end
+	return nil
+end
+
+-- Parse ranking criteria, recursive groups, ascending order, and final-only rules.
+local function parse_criteria(str, errors)
+	str = tostring(str or '')
+	str = str:gsub('−', '-'):gsub('&minus;', '-')
+
+	local items = {}
+	local stack = {items}
+	local cur = items
+	local buf = ''
+	local final, seen_period = false, false
+
+	local function flush()
+		local tok = trim(buf)
+		buf = ''
+		if tok == '' then return end
+		local desc = true
+		if tok:sub(1, 1) == '-' then
+			desc = false
+			tok = tok:sub(2)
+		end
+		local id = (trim(tok):lower():gsub('%s+', '_'))
+		if id == '' then return end
+		if not valid_id(id) then
+			add_error(errors, 'unknown ranking criterion "' .. id ..
+				'" in |ranking_criteria=')
+			return
+		end
+		cur[#cur + 1] = {kind = 'crit', id = id, desc = desc, final_only = final}
+	end
+
+	for i = 1, #str do
+		local ch = str:sub(i, i)
+		if ch == '(' then
+			flush()
+			local g = {kind = 'group', items = {}, final_only = final}
+			cur[#cur + 1] = g
+			stack[#stack + 1] = g.items
+			cur = g.items
+		elseif ch == ')' then
+			flush()
+			if #stack > 1 then
+				table.remove(stack)
+				cur = stack[#stack]
+			else
+				add_error(errors, 'unmatched ")" in |ranking_criteria=')
+			end
+		elseif ch == ',' or ch == ';' then
+			flush()
+		elseif ch == '.' then
+			flush()
+			if #stack == 1 and not seen_period then
+				seen_period = true
+				final = true
+			end
+		else
+			buf = buf .. ch
+		end
+	end
+	flush()
+	if #stack > 1 then
+		add_error(errors, 'unmatched "(" in |ranking_criteria=')
+	end
+
+	-- Remove empty groups.
+	local function prune(list)
+		local out = {}
+		for _, it in ipairs(list) do
+			if it.kind == 'group' then
+				it.items = prune(it.items)
+				if #it.items > 0 then out[#out + 1] = it end
+			else
+				out[#out + 1] = it
 			end
 		end
 		return out
-	elseif auto_standings then
-		-- Build W/D/L/GF/GA and the team order from the |match_TTT_SSS= parameters
-		if style_def == 'WDL' or p_style.auto_supported then
-			if p_style.default_show_draw and Args['show_draw'] == nil then
-				Args['show_draw'] = p_style.default_show_draw
-			end
-			auto_errors = require('Module:Sports table/auto').generate(Args, top_pos, p_style.write_ha, p_style.write_ot)
-		else
-			auto_errors = {'|auto_generate_standings= is not supported for |style=' .. style_def}
+	end
+	return prune(items)
+end
+
+--------------------------------------------------------------------------------
+-- Ranking
+--------------------------------------------------------------------------------
+
+-- Evaluate one criterion for a tied group.
+local function evaluate(crit, bucket, ctx)
+	local scope, side, base = id_parts(crit.id)
+	local vals = {}
+	if scope == 'h2h' then
+		-- Rebuild the mini-table for the tied teams.
+		local sub = build_stats(ctx.matches, bucket)
+		for _, c in ipairs(bucket) do
+			vals[c] = value_of(base, ctx.opts, side_view(sub[c], side), nil)
+		end
+	elseif scope == 'opp' then
+		for _, c in ipairs(bucket) do
+			local agg, aadj = opp_stats(c, ctx.matches, ctx.full, ctx.adj)
+			-- A home/away split of the opponents' aggregate has no adjustment to prorate.
+			vals[c] = value_of(base, ctx.opts, side_view(agg, side), (side == '') and aadj or nil)
 		end
 	else
-		for _, k in ipairs({'ranking_criteria', 'default_order', 'show_tied_positions', 'h2h_after_complete'}) do
-			if Args[k] and mw.text.trim(Args[k]) ~= '' then
-				table.insert(auto_errors, '|' .. k .. '= does nothing unless |auto_generate_standings= is set'
-					.. ((k == 'default_order') and ' or |show_matches=only' or ''))
+		for _, c in ipairs(bucket) do
+			-- Adjustments are season-wide, not tied to venue, so they only
+			-- apply to the overall (non-home/away-split) criteria.
+			vals[c] = value_of(base, ctx.opts, side_view(ctx.full[c], side), (side == '') and ctx.adj[c] or nil)
+		end
+	end
+	return vals
+end
+
+--------------------------------------------------------------------------------
+-- Head-to-head completeness (|h2h_after_complete=)
+--------------------------------------------------------------------------------
+
+-- One match slot: present with a readable score, or explicitly 'null'.
+local function slot_ok(Args, key)
+	local raw = Args[key]
+	if raw == nil then return false end
+	local s = clean_cell(raw)
+	if s == '' then return false end
+	if s:lower() == 'null' then return true end
+	local hs = parse_score(raw)
+	return hs ~= nil
+end
+
+local function directional_key(h, a, n)
+	if n == 1 then return 'match_' .. h .. '_' .. a end
+	return 'match' .. n .. '_' .. h .. '_' .. a
+end
+
+local function neutral_key(x, y, n)
+	if n == 1 then return 'matchn_' .. x .. '_' .. y end
+	return 'matchn' .. n .. '_' .. x .. '_' .. y
+end
+
+-- Whether x and y have completed every leg against each other. Every leg is
+-- expected in both directions (home and away); a leg explicitly marked
+-- 'null' does not block completeness. Pairs with no directional fixtures at
+-- all (an all-neutral competition) instead need one recorded neutral meeting
+-- per leg, in either team's order.
+local function h2h_pair_complete(Args, x, y, legs)
+	local has_directional = false
+	for n = 1, legs do
+		if Args[directional_key(x, y, n)] ~= nil or Args[directional_key(y, x, n)] ~= nil then
+			has_directional = true
+			break
+		end
+	end
+	if has_directional then
+		for n = 1, legs do
+			if not slot_ok(Args, directional_key(x, y, n)) or not slot_ok(Args, directional_key(y, x, n)) then
+				return false
+			end
+		end
+		return true
+	end
+	local nx, ny = x, y
+	if ny < nx then nx, ny = ny, nx end
+	for n = 1, legs do
+		if not (slot_ok(Args, neutral_key(nx, ny, n)) or slot_ok(Args, neutral_key(ny, nx, n))) then
+			return false
+		end
+	end
+	return true
+end
+
+-- Whether every pair within a tied bucket has completed its head-to-head fixtures.
+local function bucket_h2h_complete(Args, bucket, legs)
+	for i = 1, #bucket do
+		for j = i + 1, #bucket do
+			if not h2h_pair_complete(Args, bucket[i], bucket[j], legs) then
+				return false
 			end
 		end
 	end
+	return true
+end
 
-	-- |show_matches=below / below_levelN is only available with automatic generation
-	if not below_level and show_matches_val:match('^below') then
-		table.insert(auto_errors, '|show_matches=' .. show_matches_val .. ' was not understood; use '
-			.. '|show_matches=below or |show_matches=below_levelN, where N is the heading level')
+-- Split tied teams by a criterion, retaining base order for equal values.
+local function split_by(bucket, vals, desc, rank)
+	local sorted = {}
+	for _, c in ipairs(bucket) do sorted[#sorted + 1] = c end
+	table.sort(sorted, function(x, y)
+		local vx, vy = vals[x], vals[y]
+		if vx == nil and vy == nil then return rank[x] < rank[y] end
+		if vx == nil then return false end
+		if vy == nil then return true end
+		if vx == vy then return rank[x] < rank[y] end
+		if desc then return vx > vy end
+		return vx < vy
+	end)
+
+	local out, cur, prev = {}, nil, nil
+	for _, c in ipairs(sorted) do
+		local v = vals[c]
+		if cur == nil or v ~= prev then
+			cur = {c}
+			out[#out + 1] = cur
+		else
+			cur[#cur + 1] = c
+		end
+		prev = v
 	end
-	-- |show_matches=below appears only on the page the invocation itself is on,
-	-- unless |show_matches_only_on= names another page
-	if below_level then
-		local here = mw.title.getCurrentTitle().fullText
-		local allowed = mw.text.trim(Args['show_matches_only_on'] or '')
-		local ok = false
-		if allowed ~= '' then
-			for _, pg in ipairs(mw.text.split(allowed, '%s*;%s*')) do
-				if mw.text.trim(pg) == here then ok = true end
+	return out
+end
+
+local apply_items, apply_group
+
+-- Reapply grouped criteria to smaller unresolved ties.
+function apply_group(bucket, group, ctx, depth, frozen)
+	depth = (depth or 0) + 1
+	local res = apply_items({bucket}, group.items, ctx, frozen)
+	if depth >= MAX_RECURSION then return res end
+
+	local out = {}
+	for _, b in ipairs(res) do
+		if #b > 1 and #b < #bucket and not frozen[b] then
+			for _, nb in ipairs(apply_group(b, group, ctx, depth, frozen)) do
+				out[#out + 1] = nb
 			end
 		else
-			local origin = frame:getParent() and frame:getParent():getTitle() or here
-			ok = (origin == here)
+			out[#out + 1] = b
 		end
-		if not ok then below_level = nil end
 	end
-	if below_level and not auto_standings then
-		table.insert(auto_errors, '|show_matches=' .. show_matches_val
-			.. ' only works with |auto_generate_standings=; the results have not been shown')
-		below_level = nil
-	end
-	-- |show_matches=below_levelN cannot go below level 6
-	if below_level and below_level > 6 then
-		table.insert(auto_errors, 'a section heading cannot be deeper than level 6, so level 6 has been used for '
-			.. '|show_matches=' .. show_matches_val)
-		below_level = 6
-	end
-	if below_level and below_level < 1 then
-		below_level = 1
-	end
+	return out
+end
 
-	local fmt = string.lower(mw.text.trim(Args['matches_format'] or ''))
-	if fmt ~= '' and fmt ~= 'grid' and not matches_only and not below_level
-		and not yesno(Args['show_matches'] or 'no') then
-		table.insert(auto_errors, '|matches_format=' .. fmt .. ' does nothing on its own; '
-			.. 'the results are only shown with |show_matches=only, |show_matches=below or '
-			.. '|show_matches=yes')
-	end
-
-	-- Parameters that only apply when the results grid is given on its own
-	for _, k in ipairs({'matches_title', 'matches_team_header', 'matches_source', 'matches_team_notes'}) do
-		if Args[k] and mw.text.trim(Args[k]) ~= '' and not below_level then
-			table.insert(auto_errors, '|' .. k .. '= does nothing unless |show_matches=only or below')
+function apply_items(buckets, items, ctx, frozen)
+	frozen = frozen or {}
+	for _, item in ipairs(items) do
+		if item.final_only and not ctx.complete then
+			-- Final-only criteria require |update=complete.
+			break
 		end
-	end
-	if Args['below_results_header'] and mw.text.trim(Args['below_results_header']) ~= '' and not below_level then
-		table.insert(auto_errors, '|below_results_header= does nothing unless |show_matches=below or below_levelN')
-	end
-
-	-- |show_matches=below / below_levelN to add the results table in a separate section below
-	local below_text = ''
-	if below_level then
-		local p_res = (style_def == 'Chess') and require('Module:Sports results/' .. style_def)
-			or require('Module:Sports results')
-		local body
-		if p_res and not p_res._main and not p_res.main then
-			table.insert(auto_errors, 'the results for |style=' .. style_def .. ' cannot be shown under the '
-				.. 'standings, because Module:Sports results/' .. style_def .. ' only builds rows for the '
-				.. 'standings table; use |show_matches=yes instead')
-			below_level = nil
-			p_res = nil
-		end
-		if p_res == nil then
-			body = nil
-		elseif p_res._main then
-			-- Same substitution as for |show_matches=only
-			local res_args = {}
-			for k, v in pairs(Args) do
-				res_args[k] = v
-			end
-			res_args['title'] = Args['matches_title']
-			res_args['table_header'] = nil
-			res_args['team_header'] = Args['matches_team_header']
-			if Args['matches_source'] and mw.text.trim(Args['matches_source']) ~= '' then
-				res_args['source'] = Args['matches_source']
-			end
-			-- Set the below-grid order on res_args only, leaving the standings'
-			-- |teamN= values unchanged.
-			local grid_errors = require('Module:Sports table/auto').order_only(res_args, top_pos, true)
-			-- generate() already reported anything both passes share (e.g. a bad |default_order= team).
-			local seen_err = {}
-			for _, e in ipairs(auto_errors) do seen_err[e] = true end
-			for _, e in ipairs(grid_errors) do
-				if not seen_err[e] then table.insert(auto_errors, e) end
-			end
-			-- |matches_team_notes=yes to pass |note_TTT= to results; disabled by default
-			local pass_team_notes = yesno(Args['matches_team_notes'] or 'no') and true or false
-			body = p_res._main(frame, res_args, not pass_team_notes)
-		else
-			body = p_res.main(frame)
-		end
-		if body then
-			local eq = string.rep('=', below_level)
-			below_text = '\n\n' .. eq .. ' ' .. (Args['below_results_header'] or 'Results') .. ' ' .. eq .. '\n' .. body
-		end
-	end
-	
-	-- Random value used for uniqueness
-	math.randomseed( os.clock() * 10^8 )
-	local rand_val = math.random()
-	
-	-- Declare colour scheme
-	local result_col = {}
-	result_col = {green1='#BBF3BB', green2='#CCF9CC', green3='#DDFCDD', green4='#EEFFEE',
-		blue1='#BBF3FF', blue2='#CCF9FF', blue3='#DDFCFF', blue4='#EEFFFF',
-		yellow1='#FFFFBB', yellow2='#FFFFCC', yellow3='#FFFFDD', yellow4='#FFFFEE',
-		red1='#FFBBBB', red2='#FFCCCC', red3='#FFDDDD', red4='#FFEEEE',
-		black1='#BBBBBB', black2='#CCCCCC', black3='#DDDDDD', black4='#EEEEEE',
-		orange1='#FEDCBA', orange2='#FEEAD5',
-		white1='inherit',['']='inherit'
-	}
-	
-	-- Show all stats in table or just matches played and points
-	local full_table = true
-	local hide_results = yesno(Args['hide_results'] or 'no')
-	local hide_footer = yesno(Args['hide_footer'] or 'no')
-	local pld_pts_val = string.lower(Args['only_pld_pts'] or 'no')
-	local show_class_rules = yesno(Args['show_class_rules'] or 'yes') and true or false
-	-- True if par doesn't exist, false otherwise
-	if yesno(pld_pts_val) then
-		full_table = false
-	elseif pld_pts_val=='no_hide_class_rules' then
-		full_table = true
-		show_class_rules = false
-	end
-	
-	-- Declare results column header
-	local results_header = {}
-	results_header = {Q='Qualification', QR='Qualification or relegation',
-		P='Promotion', PQR='Promotion, qualification or relegation',
-		PR='Promotion or relegation', PQ='Promotion or qualification', 
-		R='Relegation'}
-	local results_defined = false -- Check whether this would be needed
-	-- Possible prefix for result fields
-	local respre = (Args['result_prefix'] or '') .. '_'
-	respre = (respre == '_') and '' or respre
-	-- Now define line for column header (either option or custom)
-	local local_res_header = results_header[Args[respre..'res_col_header']] or Args[respre..'res_col_header']  or ''
-	-- Check whether it includes a note
-	local res_head_note = Args['note_header_res']
-	local res_head_note_text = ''
-	if full_table and res_head_note then
-		notes_exist = true
-		res_head_note_text = frame:expandTemplate{ title = 'efn', args = { group='lower-alpha',  res_head_note} }
-	end
-	local results_header_txt = '! scope="col" |'..local_res_header..res_head_note_text..'\n'
-	
-	-- Get status option
-	local t_status = p_style.status(Args)
-	
-	-- Alternative team-list syntax. For auto-generated tables, ordering has already
-	-- been resolved and |team_order= cleared by Module:Sports table/auto.
-	if Args['team_order'] and Args['team_order'] ~= '' then
-		local team_order_offset = (tonumber(Args['team_order_start']) or 1) - 1
-		local tlist = mw.text.split(Args['team_order'], '%s*[;,]%s*')
-		local overridden = {}
-		for k, tname in ipairs(tlist) do
-			if tname ~= '' then
-				local pos = k + team_order_offset
-				local existing = Args['team' .. pos]
-				if existing and existing ~= '' and existing ~= tname then
-					table.insert(overridden, pos)
+		local nextb = {}
+		for _, b in ipairs(buckets) do
+			if #b <= 1 or frozen[b] then
+				nextb[#nextb + 1] = b
+			else
+				local res
+				local scope = (item.kind == 'crit') and select(1, id_parts(item.id)) or nil
+				if scope == 'h2h' and ctx.h2h_gate and not bucket_h2h_complete(ctx.Args, b, ctx.legs) then
+					-- Not every tied team has played every other tied team yet.
+					res = {b}
+					if ctx.h2h_freeze then
+						-- Stop ranking this group altogether, not just this
+						-- criterion: it stays tied until the mini-league completes.
+						frozen[b] = true
+					end
+					-- Otherwise (the default), just skip this head-to-head
+					-- criterion for this group and continue with the next one.
+				elseif item.kind == 'group' then
+					res = apply_group(b, item, ctx, nil, frozen)
+				else
+					res = split_by(b, evaluate(item, b, ctx), item.desc, ctx.rank)
 				end
-				Args['team' .. pos] = tname
+				for _, nb in ipairs(res) do nextb[#nextb + 1] = nb end
 			end
 		end
-		if #overridden > 0 then
-			table.insert(auto_errors, '|team_order= and |team' .. table.concat(overridden, '=, |team')
-				.. '= are both set; |team_order= takes precedence, so the |teamN= value(s) at position(s) '
+		buckets = nextb
+	end
+	return buckets
+end
+
+--------------------------------------------------------------------------------
+-- Options and write-back
+--------------------------------------------------------------------------------
+
+-- write_ot uses the OT styles' points (win 3, overtime win 2, draw or overtime
+-- loss 1, loss 0), which do not depend on |show_draw=.
+local function read_opts(Args, write_ot)
+	local goalpoints = Args['goalpoints'] and (tonumber(Args['goalpoints']) or 1) or 0
+	if write_ot then
+		return {
+			ot = true,
+			winpoints    = tonumber(Args['winpoints'])    or 3,
+			otwinpoints  = tonumber(Args['OTwinpoints'])  or 2,
+			drawpoints   = tonumber(Args['drawpoints'])   or 1,
+			otlosspoints = tonumber(Args['OTlosspoints']) or 1,
+			losspoints   = tonumber(Args['losspoints'])   or 0,
+			goalpoints   = goalpoints,
+		}
+	end
+	local show_draw = yesno(Args['show_draw'] or 'yes')
+	return {
+		winpoints  = tonumber(Args['winpoints'])  or (show_draw and 3 or 2),
+		otwinpoints = 0,
+		drawpoints = tonumber(Args['drawpoints']) or (show_draw and 1 or 0),
+		otlosspoints = 0,
+		losspoints = tonumber(Args['losspoints']) or (show_draw and 0 or 1),
+		goalpoints = goalpoints,
+	}
+end
+
+local function read_adjustments(Args, teams)
+	local adj = {}
+	for _, c in ipairs(teams) do
+		adj[c] = {
+			pts = (tonumber(Args['adjust_points_' .. c]) or 0) + (tonumber(Args['startpoints_' .. c]) or 0),
+			gf = tonumber(Args['adjust_gf_' .. c]) or 0,
+			ga = tonumber(Args['adjust_ga_' .. c]) or 0,
+		}
+	end
+	return adj
+end
+
+-- Warn about manual parameters that automatic generation ignores or overwrites.
+local function check_ignored(Args, teams, errors, write_ha, write_ot)
+	local overwritten, n_over, first = {}, 0, nil
+	local rounds = {}
+	local fields = {'win', 'pf', 'pa', 'matches'}
+	if write_ot then
+		fields[#fields + 1] = 'OTwin'
+		fields[#fields + 1] = 'OTloss'
+	end
+	if write_ha then
+		for _, f in ipairs({'hwin', 'hdraw', 'hloss', 'hgf', 'hga', 'awin', 'adraw', 'aloss', 'agf', 'aga'}) do
+			fields[#fields + 1] = f
+		end
+	else
+		for _, f in ipairs({'draw', 'loss', 'gf', 'ga'}) do
+			fields[#fields + 1] = f
+		end
+	end
+	for _, c in ipairs(teams) do
+		local hit = false
+		for _, f in ipairs(fields) do
+			if Args[f .. '_' .. c] ~= nil then
+				overwritten[f] = true
+				hit = true
+			end
+		end
+		if hit then
+			n_over = n_over + 1
+			first = first or c
+		end
+		if tonumber(Args['rw_' .. c]) then rounds[#rounds + 1] = c end
+	end
+
+	if n_over > 0 then
+		local names = {}
+		for f in pairs(overwritten) do names[#names + 1] = '|' .. f .. '_TTT=' end
+		table.sort(names)
+		add_error(errors, 'values given in ' .. table.concat(names, ', ') .. ' are ignored when '
+			.. '|auto_generate_standings= is set (found for ' .. first
+			.. (n_over > 1 and (' and ' .. (n_over - 1) .. ' other team(s)') or '')
+			.. '); they are calculated from the match results and can be removed')
+	end
+	if #rounds > 0 then
+		add_error(errors, '|rw_TTT= is added to the points column by the style but is not used when ranking, '
+			.. 'so the table may not be in points order (found for ' .. table.concat(rounds, ', ')
+			.. '); rounds won are not supported by |auto_generate_standings=')
+	end
+end
+
+-- write_ha writes HA-style split fields (hwin_TTT, awin_TTT, etc.) only.
+-- WDLHA/WLHA do not use plain fields, which argcheck would flag as unknown.
+local function write_stats(Args, teams, full, write_ha, write_ot)
+	for _, c in ipairs(teams) do
+		local st = full[c]
+		Args['win_' .. c] = tostring(st.w)
+		if write_ot then
+			Args['OTwin_' .. c]  = tostring(st.otw)
+			Args['OTloss_' .. c] = tostring(st.otl)
+		end
+		if write_ha then
+			Args['hwin_' .. c]  = tostring(st.hw)
+			Args['hdraw_' .. c] = tostring(st.hd)
+			Args['hloss_' .. c] = tostring(st.hl)
+			Args['hgf_' .. c]   = tostring(st.hgf)
+			Args['hga_' .. c]   = tostring(st.hga)
+			Args['awin_' .. c]  = tostring(st.aw)
+			Args['adraw_' .. c] = tostring(st.ad)
+			Args['aloss_' .. c] = tostring(st.al)
+			Args['agf_' .. c]   = tostring(st.agf)
+			Args['aga_' .. c]   = tostring(st.aga)
+		else
+			Args['draw_' .. c] = tostring(st.d)
+			Args['loss_' .. c] = tostring(st.l)
+			Args['gf_' .. c]   = tostring(st.gf)
+			Args['ga_' .. c]   = tostring(st.ga)
+		end
+	end
+end
+
+--------------------------------------------------------------------------------
+-- Table rows
+--------------------------------------------------------------------------------
+
+-- Read manual ordering; |team_order= overrides |teamN= at any position both give.
+-- Withdrawn teams are always placed at the bottom separately, so any
+-- |teamN=/|team_order= entry naming one is ignored here.
+local function read_pins(Args, top_pos, errors, withdrawn)
+	withdrawn = withdrawn or {}
+	local pins, order_full = {}, false
+	local from_teamN = {}
+
+	-- |teamN= gives an absolute table position, so a withdrawn entry cannot
+	-- just be dropped in place -- that would leave a gap and later positions
+	-- would fail range/displacement checks. Instead, delete it and shift
+	-- every later |teamN= down by one, exactly as if that slot never
+	-- existed; positions unrelated to any withdrawn team keep their number.
+	do
+		local raw = {}
+		for k, v in pairs(Args) do
+			if type(k) == 'string' and v and trim(v) ~= '' then
+				local num = k:match('^team(%d+)$')
+				if num then
+					raw[#raw + 1] = {num = tonumber(num), tname = trim(v)}
+				end
+			end
+		end
+		table.sort(raw, function(a, b) return a.num < b.num end)
+		local shift = 0
+		for _, entry in ipairs(raw) do
+			if withdrawn[entry.tname] then
+				shift = shift + 1
+			else
+				local pos = entry.num - shift
+				pins[pos] = entry.tname
+				from_teamN[pos] = entry.tname
+			end
+		end
+	end
+	local to = Args['team_order']
+	if to and trim(to) ~= '' then
+		order_full = true
+		local offset = (tonumber(Args['team_order_start']) or top_pos) - 1
+		local overridden = {}
+		local k = 0
+		for _, tname in ipairs(mw.text.split(to, '%s*[;,]%s*')) do
+			if tname ~= '' and not withdrawn[tname] then
+				k = k + 1
+				local pos = k + offset
+				if from_teamN[pos] and from_teamN[pos] ~= tname then
+					overridden[#overridden + 1] = pos
+				end
+				pins[pos] = tname
+			end
+		end
+		if errors and #overridden > 0 then
+			table.sort(overridden)
+			add_error(errors, '|team_order= and |team' .. table.concat(overridden, '=, |team') .. '= are both set; '
+				.. '|team_order= takes precedence, so the |teamN= value(s) at position(s) '
 				.. table.concat(overridden, ', ') .. ' have been ignored')
 		end
 	end
-
-	-- Withdrawn teams are always placed at the very bottom
-	local withdrawn, withdrawn_order = require('Module:Sports table/auto').withdrawn(Args)
-	if next(withdrawn) ~= nil then
-		local full, k = {}, 1
-		while Args['team' .. k] ~= nil do
-			full[#full + 1] = Args['team' .. k]
-			k = k + 1
-		end
-		local kept = {}
-		for _, tname in ipairs(full) do
-			if not withdrawn[tname] then kept[#kept + 1] = tname end
-		end
-		for i = 1, #full do
-			Args['team' .. i] = kept[i]
-		end
-	end
-
-	-- Read in number of consecutive teams (ignore entries after skipping a spot)
-	while Args['team'..N_teams+1] ~= nil and (bottom_pos < top_pos or N_teams < bottom_pos) do
-		N_teams = N_teams+1
-		-- Sneakily add it twice to the team_list parameter, once for the actual
-		-- ranking, the second for position lookup in sub-tables
-		-- This is possible because Lua allows both numbers and strings as indices.
-		team_list[N_teams] = Args['team'..N_teams] -- i^th entry is team X
-		team_list[Args['team'..N_teams]] = N_teams -- team X entry is position i
-	end
-
-	-- Append withdrawn teams at the very bottom, in the order given in
-	-- |withdrawn_teams=, continuing the position numbers.
-	for _, code in ipairs(withdrawn_order) do
-		N_teams = N_teams + 1
-		Args['team' .. N_teams] = code
-		team_list[N_teams] = code
-		team_list[code] = N_teams
-	end
-
-	-- Optional totals
-	local total_row_name = 'SPORTS_TABLE_TOTAL'
-	if yesno(Args['show_totals'] or 'no') then
-		N_teams = N_teams+1
-		Args['team' .. N_teams] = total_row_name
-		Args['name_' .. total_row_name] = 'Total'
-		Args['result' .. N_teams] = total_row_name
-		Args['col_' .. total_row_name] = '#eee'
-		team_list[N_teams] = Args['team' .. N_teams]
-		team_list[Args['team'..N_teams]] = N_teams
-	end
-
-	-- Show position
-	local position_col = yesno(Args['show_positions'] or 'yes') and true or false
-	
-	-- Show groups or note
-	local group_col = yesno(Args['show_groups'] or 'no') and true or false
-
-	-- Show match_table or not
-	local match_table = yesno(Args['show_matches'] or 'no') and true or false
-	local mformat = string.lower(mw.text.trim(Args['matches_format'] or ''))
-	if match_table and (mformat == 'schedule' or mformat == 'series' or mformat == 'series_split') then
-		table.insert(auto_errors, '|matches_format=' .. mformat .. ' cannot be shown inside the standings; '
-			.. 'use |show_matches=only or |show_matches=below instead')
-		match_table = false
-	end
-	local p_matches = match_table and 
-		(style_def == 'Chess' and require('Module:Sports results/'..style_def) or require('Module:Sports results'))
-	
-	-- Custom position column label or note
-	local pos_label = Args['postitle'] or '<abbr title="Position">Pos</abbr>'
-	if position_col == false then pos_label = nil end
-	
-	-- Show status or not
-	local show_status = yesno(Args['show_status'] or 'yes') and true or false
-
-	-- Get VTE button text (but only for non-empty text)
-	local VTE_text = ''
-	if (template_name ~= '') then
-		VTE_text = require('Module:Navbar')._navbar({
-			template_name,
-			mini=1,
-			style='float:right',
-			brackets=1
-		})
-		
-		-- remove the next part if https://en.wikipedia.org/w/index.php?oldid=832717047#Sortable_link_disables_navbar_links?
-		-- is ever fixed
-		if yesno(Args['sortable_table'] or 'no') then
-			VTE_text = mw.ustring.gsub(VTE_text, '<%/?abbr[^<>]*>', ' ')
-		end
-	end
-	
-	-- Add source to title if specified and possible
-	local title_source = false
-	if Args['title'] and Args['title_source'] then
-		Args['title'] = Args['title'] .. Args['title_source']
-		title_source = true
-	elseif Args['table_header'] and Args['table_header_source'] then
-		Args['table_header'] = Args['table_header'] .. Args['table_header_source']
-		title_source = true
-	end
-
-	-- Add a table anchor
-	if table_anchor ~= '' then
-		table.insert(t, '<span class="anchor" id="' .. table_anchor .. '"></span>\n')
-	end
-
-	-- Write column headers
-	t_return = p_style.header(t,Args,p_sub,pos_label,group_col,VTE_text,full_table,results_header_txt)
-	if match_table then
-		-- Add empty column header
-		t_return.count = t_return.count+1
-		table.insert(t_return.tab_text,'! scope="row" class="unsortable" style="background-color:white;color:black;border-top:white;border-bottom:white;line-width:3pt;"| \n')
-		
-		-- Add rest of header
-		t_return = p_matches.header(t_return,Args,p_sub,N_teams,team_list,tonumber(Args['legs']) or 1)
-	end
-	t = t_return.tab_text
-	local N_cols = t_return.count
-	
-	-- Determine what entries go into table
-	-- Find out which team to show (if any)
-	local ii_show = team_list[Args['showteam'] or Args['team'] or nil] -- nil if non-existant
-	-- Start and end positions to show
-	local n_to_show = tonumber(Args['show_limit']) or N_teams
-	-- Check for "legal value", if not legal (or non declared), then show all
-	local check_n = ((n_to_show>=(N_teams-top_pos+1)) or (n_to_show<=1) or (n_to_show~=math.floor(n_to_show)))
-	-- Also check whether there is a valid ii_show
-	if check_n or (not ii_show) then
-		ii_start = top_pos
-		ii_end = N_teams
-	else
-		-- It's a proper integer between top_pos+1 and N_teams-1
-		-- If it is in the middle show the same number above and below
-		-- If it is in the top or bottom, show the exact number
-		-- How many to show on the side
-		local n_show_side = math.floor(n_to_show/2)
-		if (ii_show-top_pos+1)<=n_show_side then
-			-- Top team
-			ii_start = top_pos
-			ii_end = top_pos+n_to_show-1
-		elseif ii_show>=(N_teams+1-n_show_side) then
-			-- Bottom team
-			ii_start = N_teams+1-n_to_show
-			ii_end = N_teams
-		else
-			-- Normal case
-			ii_start = ii_show-n_show_side
-			ii_end = ii_show+n_show_side
-		end
-	end
-	
-	-- For results column
-	local new_res_ii = ii_start
-	-- Pre-check for existence of column
-	if not hide_results then
-		for ii = ii_start, ii_end do
-			if Args[respre..'result'..ii] and Args[respre..'text_' .. Args[respre..'result'..ii]] then results_defined = true end
-		end
-	end
-	-- Remove results header if it is unused
-	if full_table and not results_defined then
-		-- First get it as one string, then use string replace to replace that header by empty string
-		local t_str = tostring(table.concat(t))
-		t_str = mw.ustring.gsub( t_str, results_header_txt, '' )
-		N_cols = N_cols-1 -- There is actually one column less
-		t = {}
-		table.insert(t, t_str)
-	end
-	
-	-- Write rows
-	local team_name, team_code_ii, team_code_jj, pos_num, group_txt, note_local
-	local note_string, note_local, note_local_num, note_id
-	local note_id_list = {}
-	local hth_id_list = {}
-	for ii = ii_start, ii_end do
-		-- First get code
-		team_code_ii = team_list[ii]
-		-- Now read values
-		pos_num = Args['pos_'..team_code_ii]			or ii
-		group_txt = Args['group_'..team_code_ii]		or ' '
-		team_name = Args['name_'..team_code_ii]		 	or team_code_ii
-		note_local = Args['note_'..team_code_ii] 		or nil
-		
-		-- Does it need a promotion/qualification/relegation tag
-		local result_local = Args[respre..'result'..ii] or nil
-		local bg_col = nil
-
-		-- Get local background colour
-		if result_local then
-			bg_col = result_col[Args[respre..'col_'..result_local]] or Args[respre..'col_'..result_local] or 'inherit'
-            if bg_col == 'inherit' then
-				bg_col = 'background-color:inherit;color:inherit;' 
-            else
-				bg_col = 'background-color:'..bg_col..';color:black;' 	-- Full style tag
-		    end
-        end
-		if not bg_col then bg_col = 'background-color:transparent;color:inherit;' end -- Becomes default if undefined
-		
-		-- Bold this line or not
-		local ii_fw = ii == ii_show and 'font-weight: bold;' or 'font-weight: normal;'
-		if yesno(Args['show_totals'] or 'no') and team_code_ii == total_row_name then
-			ii_fw = 'font-weight: bold;'
-		end
-		
-		-- Check whether there is a note or not, if so get text ready for it
-		if note_local and full_table then
-			-- Set global check for notes to true
-			notes_exist = true
-			-- There are now 3 options for notes
-			-- 1) It is a full note
-			-- 2) It is a referal to another note (i.e. it's just a team code; e.g. note_AAA=Text, note_BBB=AAA) in which the note for BBB should link to the same footnote as AAA, with
-			-- 2a) The other linked note exist in the part of the table shown
-			-- 2b) The part of the note does not exist in the part of the table shown
-			if not Args['note_'..note_local] then
-				-- Option 1
-				-- Now define the identifier for this
-				note_id = '"table_note_'..team_code_ii..rand_val..'"' -- Add random end for unique ID if more tables are present on article (which might otherwise share an ID)
-				note_id_list[team_code_ii] = note_id
-				
-				-- Call refn template
-				note_string = frame:expandTemplate{ title = 'efn', args = { group='lower-alpha',  name=note_id, note_local} }
-			else 
-				-- Option 2
-				-- It is option 2a in either one if either the main note is inside the sub-table
-				--                                  or another ref to that note is inside the sub-table
-				-- Basically when it either has been defined, or the main link will be in the table
-				note_local_num = team_list[note_local]
-				if note_id_list[note_local] or ((note_local_num >= ii_start) and (note_local_num <= ii_end)) then
-					-- Option 2a
-					note_id = '"table_note_'..note_local..rand_val..'"'
-					note_string = frame:extensionTag{ name = 'ref', args = { group = 'lower-alpha', name = note_id} }
-				else
-					-- Option 2b
-					-- Now define the identifier for this
-					note_id = '"table_note_'..note_local..rand_val..'"' -- Add random end for unique ID
-					note_id_list[note_local] = note_id
-					
-					-- Call refn template
-					note_string = frame:expandTemplate{ title = 'efn', args = { group='lower-alpha',  name=note_id, Args['note_'..note_local]} }
-				end
-			end
-		else
-			note_string = '';
-		end
-		
-		-- Insert status when needed
-		local status_string = ''
-		local status_local = show_status and Args[respre .. 'status_'..team_code_ii] or nil
-		local status_let_first = true
-		local curr_letter
-		-- Only if it is defined
-		if status_local then
-			-- Take it letter by letter
-			for jjj = 1,mw.ustring.len(status_local) do
-				curr_letter = mw.ustring.upper(mw.ustring.sub(status_local,jjj,jjj))
-				-- See whether it exist
-				if t_status.code[curr_letter] then
-					-- Depending on whether it is the first letter of not
-					if status_let_first then
-						status_string = curr_letter
-						t_status.called[curr_letter] = true
-						status_let_first = false
-					else
-						status_string = status_string..', '..curr_letter
-						t_status.called[curr_letter] = true
-					end
-				end
-			end
-			-- Only add brackets/dash and bolding if it exist
-			if not status_let_first then 
-				if t_status.position == 'before' then
-					status_string = '<span style="font-weight:bold">'..string.lower(status_string)..' &ndash;</span> ' 
-				else
-					status_string = ' <span style="font-weight:bold">('..status_string..')</span>' 
-				end
-			end
-		end
-		
-		-- Now build the rows
-		if yesno(Args['show_totals'] or 'no') and team_code_ii == total_row_name then
-			table.insert(t,'|- class="sortbottom"\n')											-- New row
-		else
-			table.insert(t,'|- \n')																-- New row
-		end
-		if position_col then
-			table.insert(t,'| style="text-align: center;'..ii_fw..bg_col..'"| '..pos_num..'\n')	-- Position number
-		end
-		if full_table and group_col then
-			table.insert(t,'| style="'..ii_fw..bg_col..'" |'..group_txt..'\n') 							-- Group number/name
-		end
-		-- Build the team string order based on status position
-		local team_string
-		if t_status.position == 'before' then
-			team_string = status_string..team_name..note_string
-		else
-			team_string = team_name..note_string..status_string
-		end
-		table.insert(t,'! scope="row" style="text-align: left; white-space:nowrap;'..ii_fw..bg_col..'"| '..team_string..'\n')-- Team (with possible note)
-		-- Call to subfunction
-		t_return = p_style.row(frame,t,Args,p_sub,notes_exist,hth_id_list,full_table,rand_val,team_list,team_code_ii,ii_start,ii_end,ii_fw,bg_col,N_teams,ii,ii_show)
-		t = t_return.t
-		notes_exist = t_return.notes_exist
-		hth_id_list = t_return.hth_id_list
-		
-		-- Now check what needs to be added inside the results column
-		if full_table then
-			local res_jjj
-			if ii == new_res_ii then
-				-- First check how many rows you need for this
-				N_rows_res = 1
-				jjj = ii+1
-				result_local = Args[respre..'result'..ii] or ''
-				local cont_loop = true
-				while (jjj<=ii_end) and cont_loop do
-					if Args['split'..tostring(jjj-1)] then
-						cont_loop = false
-						new_res_ii = jjj
-					else
-						res_jjj = Args[respre..'result'..jjj] or ''
-						if result_local == res_jjj then 
-							N_rows_res = N_rows_res+1 
-						else
-							cont_loop = false
-							new_res_ii = jjj
-						end
-					end
-					jjj = jjj+1
-				end
-				-- Now create this field (reuse ii_fw and bg_col)
-				-- Bold (if in range) or not
-				if ii_show and (ii_show>=ii) and (ii_show<=(ii+N_rows_res-1)) then
-					ii_fw = 'font-weight: bold;'
-				else
-					ii_fw = 'font-weight: normal;'
-				end
-				-- Get background colour
-				bg_col = nil
-
-				if Args[respre..'result'..ii] then
-					bg_col = result_col[Args[respre..'col_'..result_local]] or Args[respre..'col_'..result_local] or 'inherit'
-					if bg_col == 'inherit' then
-						bg_col = 'background-color:inherit;color:inherit;'
-                    else
-					bg_col = 'background-color:'..bg_col..';color:black;' 	-- Full style tag
-				    end
-				end
-				if not bg_col then bg_col = 'background-color:transparent;color:inherit;' end -- Becomes default if undefined
-				-- Check for notes
-				local note_res_string, note_ref, note_text = '', '', ''
-				if Args['note_res_'..result_local] then
-					notes_exist = true
-					local note_res_local = Args['note_res_'..result_local]
-					
-					-- Split the note_res_local into a table if all the entries are valid
-					local multiref = 1
-					local note_res_local_table = mw.text.split(note_res_local, '%s*,%s*')
-					if (#note_res_local_table > 1) then
-						for k, note_res_loc in ipairs(note_res_local_table) do
-							multiref = multiref * (Args['note_res_' .. note_res_loc] and 1 or 0)
-						end
-					else
-						multiref = 0
-					end
-
-					-- Split failed, so make a single entry table with hth_local inside
-					if multiref < 1 then
-						note_res_local_table = { note_res_local }
-					end
-
-					for k,note_res_local in ipairs(note_res_local_table) do
-						if not Args['note_res_'..note_res_local] then
-							-- It does not point to another result note
-							note_ref = respre..'res_'..result_local
-							note_id = '"table_note_res_'..result_local..rand_val..'"' -- Identifier
-							note_text = note_res_local
-						else
-							-- It does point to another result note
-							note_ref = respre..'res_'..note_res_local
-							note_id = '"table_note_res_'..note_res_local..rand_val..'"' -- Identifier
-							note_text = Args['note_res_'..note_res_local]
-						end
-						-- Check whether it is already printed
-						if not note_id_list[note_ref] then
-							-- Print it
-							note_id_list[note_ref] = note_id
-							note_res_string = note_res_string .. frame:expandTemplate{ title = 'efn', args = { group='lower-alpha',  name=note_id, note_text} }
-						else
-							-- Refer to it
-							note_res_string = note_res_string .. frame:extensionTag{ name = 'ref', args = { group = 'lower-alpha', name = note_id} }
-						end
-					end
-				end
-				-- Get text
-				local text_result = Args[respre..'text_'..result_local] or ''
-				if text_result:match('fbmulticomp') then
-					ii_fw = 'padding:0;' .. ii_fw
-					if text_result:match('fbmulticompefn') then
-						notes_exist = true
-					end
-				end
-				text_field_result = '| style="'..ii_fw..bg_col..'" rowspan="'..tostring(N_rows_res)..'" |'..text_result..note_res_string..'\n'
-				-- See whether it is needed (only when blank for all entries)
-				if results_defined then table.insert(t,text_field_result) end
-			end
-		end
-	
-		-- Insert match row if needed
-		if match_table then
-			local legs = tonumber(Args['legs']) or 1
-			-- Add empty cell
-			table.insert(t,'| style="background-color:white;color:black;border-top:white;border-bottom:white;"| \n')
-			
-			-- Now include note to match results if needed 
-			for jj=top_pos,N_teams do
-				team_code_jj = team_list[jj]
-				if ii == jj then
-					-- Nothing
-				else
-					for l=1,legs do
-						local m = (legs == 1) and 'match_' or 'match' .. l .. '_'
-						local match_note = Args[m..team_code_ii..'_'..team_code_jj..'_note']
-						if match_note then
-							notes_exist = true
-							-- Only when it exist
-							-- First check for existence of reference for note
-							if not (Args['note_'..match_note] or Args[m..match_note..'_note']) then
-								-- It's the entry
-								note_id = '"table_note_'..team_code_ii..'_'..team_code_jj..rand_val..'"' -- Add random end for unique ID if more tables are present on article (which might otherwise share an ID)
-								note_id_list[team_code_ii..'_'..team_code_jj] = note_id
-								
-								note_string = frame:expandTemplate{ title = 'efn', args = { group='lower-alpha', name=note_id,  match_note} }
-							else 
-								-- Check for existence elsewhere
-								note_local_num = team_list[match_note] or ii_end + 1
-								if note_id_list[match_note] or ((note_local_num >= ii_start) and (note_local_num <= ii_end)) then
-									-- It exists
-									note_id = '"table_note_'..match_note..rand_val..'"' -- Identifier
-									note_string = frame:extensionTag{ name = 'ref', args = { group = 'lower-alpha', name = note_id} }
-								else
-									-- Now define the identifier for this
-									note_id = '"table_note_'..match_note..rand_val..'"' -- Add random end for unique ID
-									note_id_list[match_note] = note_id
-									-- Call refn template
-									note_string = frame:expandTemplate{ title = 'efn', args = { group='lower-alpha', name=note_id, Args['note_'..match_note]} }
-								end
-							end
-
-							-- Now append this to the match result string
-							Args[m..team_code_ii..'_'..team_code_jj] = (Args[m..team_code_ii..'_'..team_code_jj] or '')..note_string
-						end
-					end
-				end
-			end
-			
-			-- Add rest of match row
-			t = p_matches.row(t,Args,N_teams,team_list,ii,ii_show,legs)
-		end
-	
-		-- Now, if needed, insert a split (solid line to indicate split in standings, but only when it is not at the last shown position)
-		if Args['split'..ii] and (ii<ii_end) then
-			-- Base size on N_cols (it needs 2*N_cols |)
-			table.insert(t,'|- style="color:inherit;background-color:'..result_col['black1']..'; line-height:3pt;"\n')
-			table.insert(t,string.rep('|',2*N_cols)..'\n')
-		end
-	end
-	
-	-- Close table
-	table.insert(t, '|}')
-	
-	-- Get info for footer
-	local update = Args['update']			or 'unknown'
-	local start_date = Args['start_date'] 	or 'unknown'
-	local source = Args['source']			or (title_source == true and '')
-		or frame:expandTemplate{ title = 'citation needed', args = { reason='No source parameter defined', date=os.date('%B %Y') } }
-	local class_rules = Args['class_rules']	or nil
-	
-	-- Create footer text
-	-- Date updating
-	local matches_text = Args['matches_text'] or 'match(es)'
-	if string.lower(update)=='complete' or hide_footer then
-		-- Do nothing
-	elseif update=='' then
-		-- Empty parameter
-		table.insert(t_footer,'Updated to '..matches_text..' played on unknown. ')
-	elseif string.lower(update)=='future' then
-		-- Future start date
-		table.insert(t_footer,'First '..matches_text..' will be played: '..start_date..'. ')
-	else
-		table.insert(t_footer,'Updated to '..matches_text..' played on '..update..'. ')
-	end
-	
-	-- Stack footer or not
-	local footer_break = yesno(Args['stack_footer'] or 'no') and true or false
-	
-	-- Variable for linebreak
-	local stack_string = '<br>'
-	
-	if footer_break and (not (string.lower(update)=='complete')) and not hide_footer then table.insert(t_footer,stack_string) end
-	
-	if source ~= '' and not hide_footer then
-		table.insert(t_footer,'Source: '..source)
-	end
-	if match_table and p_matches and p_matches.footer_legend and not hide_footer then
-		table.insert(t_footer, p_matches.footer_legend(Args))
-	end
-	if class_rules and full_table and show_class_rules and not hide_footer then
-		if (#t_footer > 0) then table.insert(t_footer,'<br>') end
-		table.insert(t_footer,'Rules for classification: '..class_rules)
-	end
-	
-	-- Now for the named status
-	local status_exist = false
-	local status_string = ''
-	local curr_letter
-	for jjj = 1,mw.ustring.len(t_status.letters) do
-		curr_letter = mw.ustring.upper(mw.ustring.sub(t_status.letters,jjj,jjj))
-		if t_status.called[curr_letter] then
-			if (footer_break and status_exist) then
-				status_string = status_string..stack_string
-			end
-			if t_status.position == 'before' then
-				status_string = status_string..'<span style="font-weight:bold">'..string.lower(curr_letter)..' &ndash;</span> '..t_status.code[curr_letter]..'; '
-			else
-				status_string = status_string..'<span style="font-weight:bold">('..curr_letter..')</span> '..t_status.code[curr_letter]..'; '
-			end
-			status_exist = true
-		end
-	end
-	-- Now if it contains entries the '; ' needs to be removed
-	if status_exist and not hide_footer then
-		if (#t_footer > 0) then table.insert(t_footer,'<br>') end
-		status_string = mw.ustring.sub(status_string,1,mw.ustring.len(status_string)-2)
-		table.insert(t_footer,status_string)
-	end
-	
-	-- Add notes (if applicable)
-	if notes_exist then
-		if (#t_footer > 0) then table.insert(t_footer,'<br>') end
-		table.insert(t_footer,'Notes:')
-		-- As reflist size text
-		t_footer = '<div class="sports-table-notes">'..table.concat(t_footer)..'</div>'
-		t_footer = t_footer..frame:expandTemplate{ title = 'notelist', args = { group='lower-alpha'} }
-	else
-		-- As reflist size text
-		t_footer = '<div class="sports-table-notes">'..table.concat(t_footer)..'</div>'
-	end
-	
-	-- Add footer to main text table
-	table.insert(t,t_footer)
-	
-	-- Rewrite anchor links
-	for k=1,#t do
-		if t[k]:match('%[%[#[^%[%]]*%|') then
-			t[k] = mw.ustring.gsub(t[k], '(%[%[)(#[^%[%]]*%|)', '%1' .. baselink .. '%2')
-		end
-	end
-	
--- Generate tracking
-	if not Args['notracking'] then
-		local exclude_tracking_categories = (currentTitle.namespace == 2) or (currentTitle.fullText):find('/sandbox$') or (currentTitle.fullText):find('/testcases$')
-		local getTracking = require('Module:Sports table/argcheck').check
-		local warning_categories, tracking_categories = getTracking(Args, frame:getParent().args)
-		if #warning_categories > 0 then
-			if frame:preprocess( "{{REVISIONID}}" ) == "" then
-				for k=1,#warning_categories do
-					warning_categories[k] = mw.ustring.gsub(warning_categories[k], '^%[%[Category:Pages using sports table with (.*)|(.*)%]%]$', '<div style="color:red">Warning: %1 = %2</div>')
-				end
-			end
-		end
-		-- Add tracking categories
-		if not exclude_tracking_categories then
-			for k=1,#warning_categories do
-				table.insert(t, warning_categories[k])
-			end
-			for k=1,#tracking_categories do
-				table.insert(t, tracking_categories[k])
-			end
-		end
-		
-		-- Auto-generated statistics come from the match results, so skip this check.
-		if not auto_standings and ((Args['showteam'] or Args['team']) == nil) then
-			local getWarnings = require('Module:Sports table/totalscheck').check
-			local total_warnings = getWarnings(Args, team_list, ii_start, ii_end)
-			if #total_warnings > 0 then
-				if frame:preprocess( "{{REVISIONID}}" ) == "" then
-					for k=1,#total_warnings do
-						table.insert(t, '<div style="color:green">Possible problem: ' .. total_warnings[k] .. '</div>')
-					end
-				end
-			end
-		end
-	else
-		table.insert(t, '[[Category:Pages using sports table with notracking]]')
-	end
-
-	-- Report errors while generating standings in preview
-	if #auto_errors > 0 and frame:preprocess( "{{REVISIONID}}" ) == "" then
-		for k = 1, #auto_errors do
-			table.insert(t, '<div style="color:red">Error: ' .. auto_errors[k] .. '</div>')
-		end
-	end
-
-	if Args['float'] then
-		return frame:expandTemplate{ title = 'stack begin', args = {clear = 'true', margin = '1', float = Args['float']} }
-			.. templatestyles .. '\n' .. table.concat(t) .. frame:expandTemplate{ title = 'stack end'} .. below_text
-	end
-
-	return templatestyles .. '\n' .. table.concat(t) .. below_text
-end
- 
-return p
-#### Module:Sports table/WDL
--- Style for football tables
-local pp = {}
-
-function pp.header(t,Args,p_sub,pos_label,group_col,VTE_text,full_table,results_header_txt)
-	-- Load relevant modules
-	local yesno = require('Module:Yesno')
-	
-	-- Create table header
-	-- Pre stuff
-	local team_width = Args['teamwidth'] or '190'
-	local sort_text = yesno(Args['sortable_table'] or 'no') and ' sortable' or ''
-	local show_played = not yesno(Args['hide_played'] or 'no')
-	local rounds_won = yesno(Args['show_rw'] or Args['rounds_won'] or 'no')
-	table.insert(t,'{| class="wikitable'..sort_text..'" style="text-align:center;"\n')            			-- Open table
-	-- Table title
-	if Args['title'] or Args['table_header'] then
-		table.insert(t,'|+ ' .. (Args['title'] or Args['table_header']) .. '\n')
-	end
-	-- Custom header options
-	local played_head_text = Args['pld_header'] or '<abbr title="Played">Pld</abbr>'
-	local draw_head_text = Args['draw_header'] 
-		or (yesno(Args['use_tie'] or 'no') and '<abbr title="Tied">T</abbr>') or '<abbr title="Drawn">D</abbr>'
-	local group_head_text = Args['group_header'] or '<abbr title="Group">Grp</abbr>'
-	local team_head_text = Args['team_header'] or 'Team'
-	local away_goals_head_text = Args['away_goals_header'] or '<abbr title="Away goals">AG</abbr>'
-	local bonus_head_text = Args['bonus_header'] or '<abbr title="Bonus points">BP</abbr>'
-	local rw_head_text = Args['rw_header'] or '<abbr title="Rounds won">RW</abbr>'
-	local loss_first = Args['loss_before_draw'] or Args['loss_before_tie'] or false
-	-- What to rank the teams by
-	local ranking_style = string.lower(Args['ranking_style'] or 'pts')
-	local show_points, show_wperc, show_perc, show_ppg = false, false, false, false
-	if ranking_style=='w' or ranking_style=='win' or ranking_style=='wins' or ranking_style=='none' then
-		-- Based on wins
-	elseif ranking_style=='wperc' or ranking_style=='win percentage' or ranking_style=='wpct' or ranking_style=='%w' then
-		show_wperc = true
-	elseif ranking_style=='perc' or ranking_style=='percentage' or ranking_style=='%' then
-		-- Based on percentage
-		show_perc = true
-	elseif ranking_style=='ppg' or ranking_style=='points per game' or ranking_style=='ptspergame' then
-		-- Based on points per game
-		show_ppg = true
-	elseif ranking_style=='percpts' or ranking_style=='%pts' then
-		-- Based on percentage and points
-		show_perc = true
-		show_points = true
-	elseif ranking_style=='ppgpts' then
-		-- Based on ppg and points
-		show_ppg = true
-		show_points = true
-	else
-		-- Based on points
-		show_points = true
-	end
-	local pts_perc_first = yesno((show_points and Args['pts_first']) or (show_perc and Args['perc_first']) or 'no')
-	local show_away_goals = yesno(Args['show_away_goals'] or 'no')
-	local show_bonus_points = yesno(Args['show_bonus_points'] or 'no')
-	local show_win = yesno(Args['show_win'] or 'yes')
-	local show_draw = yesno(Args['show_draw'] or 'yes')
-	local show_loss = yesno(Args['show_loss'] or 'yes')
-	-- Use points instead of goals for/against
-	local for_against_style = Args['for_against_style'] 	or 'goals'
-	local fa_letter, fa_word_sing, fa_word_plur
-	local hide_for_against = false
-	-- First convert to lower case if it is a string
-	for_against_style = string.lower(for_against_style)
-	if for_against_style=='g' or for_against_style=='goal' or for_against_style=='goals' then
-		fa_letter = 'G'
-		fa_word_sing = 'Goal'
-		fa_word_plur = 'Goals'
-	elseif for_against_style=='f' or for_against_style=='frame' or for_against_style=='frames' then
-		fa_letter = 'F'
-		fa_word_sing = 'Frame'
-		fa_word_plur = 'Frames'
-	elseif for_against_style=='m' or for_against_style=='match' or for_against_style=='matches' then
-		fa_letter = 'M'
-		fa_word_sing = 'Match'
-		fa_word_plur = 'Matches'
-	elseif for_against_style=='game' or for_against_style=='games' then
-		fa_letter = 'G'
-		fa_word_sing = 'Game'
-		fa_word_plur = 'Games'
-	elseif for_against_style=='p' or for_against_style=='point' or for_against_style=='points' then
-		fa_letter = 'P'
-		fa_word_sing = 'Point'
-		fa_word_plur = 'Points'
-    elseif for_against_style=='s' or for_against_style=='set' or for_against_style=='sets' then
-        fa_letter = 'S'
-        fa_word_sing = 'Set'
-        fa_word_plur = 'Sets'		
-    elseif for_against_style=='r' or for_against_style=='run' or for_against_style=='runs' then
-        fa_letter = 'R'
-        fa_word_sing = 'Run'
-        fa_word_plur = 'Runs'	
-    elseif for_against_style=='l' or for_against_style=='leg' or for_against_style=='legs' then
-        fa_letter = 'L'
-        fa_word_sing = 'Leg'
-        fa_word_plur = 'Legs'
-	elseif for_against_style=='none' then
-		hide_for_against = true
-	else
-		fa_letter = 'G'
-		fa_word_sing = 'Goal'
-		fa_word_plur = 'Goals'
-	end
-	-- Whether to use goal ratio (goal average) instead
-	local do_ratio = yesno(Args['use_goal_ratio'] or 'no')
-	local do_average = yesno(Args['use_goal_average'] or 'no')
-
-	-- Whether to use goal percentage instead
-	local do_percentage = yesno(Args['use_goal_percentage'] or Args['use_against_percentage'] or Args['use_point_percentage'] or 'no')
-	
-	local do_point_for_avg = yesno(Args['use_goals_per_match'] or Args['use_points_per_match'] or 'no')
-	
-	-- Whether to suppress the GR/GA/G% column entirely
-	local do_difference = yesno(Args['use_goal_diff'] or 'yes')
-
-	-- Use games behind header
-	local show_GB = yesno(Args['show_GB'] or 'no')
-	
-	-- Initialize
-	local tt = {}
-	tt.count = 0 		-- Up by one after every call
-	tt.tab_text = t		-- Actual text
-	-- Actual headers
-	if pos_label ~= nil then
-		tt = p_sub.colhead(tt,28,pos_label)									-- Position col
-	end
-	-- Add group header
-	if full_table and group_col then
-		tt = p_sub.colhead(tt,28,group_head_text)			-- Group col
-	end
-	tt = p_sub.colhead(tt,team_width,team_head_text..VTE_text)				-- Team col
-	if pts_perc_first then
-		if show_points then
-			tt = p_sub.colhead(tt,28,'<abbr title="Points">Pts</abbr>')					-- Points col
-		end
-		if show_perc then
-			tt = p_sub.colhead(tt,36,'<abbr title="Win percentage">PCT</abbr>')			-- Win percentage col
-		end
-		if show_ppg then
-			tt = p_sub.colhead(tt,36,'<abbr title="Points per game">PPG</abbr>')		-- Points per game col
-		end
-	end
-	if show_played then
-		tt = p_sub.colhead(tt,28,played_head_text)							-- Matches played col
-	end
-	if full_table then
-		if show_win then
-			tt = p_sub.colhead(tt,28,'<abbr title="Won">W</abbr>')			-- Win col
-		end
-		if loss_first then
-			if show_loss then
-				tt = p_sub.colhead(tt,28,'<abbr title="Lost">L</abbr>')		-- Loss col
-			end
-			if show_draw then
-				tt = p_sub.colhead(tt,28,draw_head_text)					-- Draw col
-			end
-		else
-			if show_draw then
-				tt = p_sub.colhead(tt,28,draw_head_text)					-- Draw col
-			end
-			if show_loss then
-				tt = p_sub.colhead(tt,28,'<abbr title="Lost">L</abbr>')		-- Loss col
-			end
-		end
-		if rounds_won then
-			tt = p_sub.colhead(tt,28,rw_head_text)  -- Rounds won
-		end
-		if not hide_for_against then
-			if not yesno(Args['hide_for_against_columns'] or 'no') then
-				tt = p_sub.colhead(tt,28,'<abbr title="'..fa_word_plur..' for">'..fa_letter..'F</abbr>')		-- For col
-				tt = p_sub.colhead(tt,28,'<abbr title="'..fa_word_plur..' against">'..fa_letter..'A</abbr>')	-- Against col
-			end
-			if do_ratio or do_average then
-				local ratio_word = do_ratio and ' ratio' or ' average'
-				local ratio_letter = do_ratio and 'R' or 'Av'
-				tt = p_sub.colhead(tt,28,'<abbr title="'..fa_word_sing..ratio_word..'">'..fa_letter..ratio_letter..'</abbr>')	-- Ratio col
-			elseif do_percentage then
-				tt = p_sub.colhead(tt,28,'<abbr title="'..fa_word_sing..' percentage">PP</abbr>')			-- Percentage col
-			elseif do_point_for_avg then
-				tt = p_sub.colhead(tt,28,'<abbr title="'..fa_word_plur..' per match">'..fa_letter..'PM</abbr>')	-- Points per match
-			elseif do_difference then
-				tt = p_sub.colhead(tt,28,'<abbr title="'..fa_word_sing..' difference">'..fa_letter..'D</abbr>')	-- Difference col
-			end
-		end
-	end
-	if show_away_goals then
-		tt = p_sub.colhead(tt,28,away_goals_head_text)		-- Away goals col
-	end
-	if show_bonus_points then
-		tt = p_sub.colhead(tt,28,bonus_head_text)			-- Bonus points col
-	end
-	if not pts_perc_first then
-		if show_points then
-			tt = p_sub.colhead(tt,28,'<abbr title="Points">Pts</abbr>')					-- Points col
-		end
-		if show_perc then
-			tt = p_sub.colhead(tt,36,'<abbr title="Win percentage">PCT</abbr>')			-- Win percentage col
-		elseif show_wperc then
-			tt = p_sub.colhead(tt,36,'<abbr title="Win percentage">WPCT</abbr>')			-- Win percentage col
-		end
-		if show_ppg then
-			tt = p_sub.colhead(tt,36,'<abbr title="Points per game">PPG</abbr>')		-- Points per game col
-		end
-	end
-	if full_table then
-		if show_GB then -- Games behind header
-			tt = p_sub.colhead(tt,28,'<abbr title="Games behind">GB</abbr>')
-		end
-		tt.count = tt.count+1
-		table.insert(tt.tab_text,results_header_txt)
-	end
-
-	return tt
+	return pins, order_full
 end
 
--- Numeric alignment
-local function num_align(num, digits)
-	if tonumber(digits) and tonumber(num) then
-		local n = tonumber(num)
-		digits = tonumber(digits)
-		if digits == 1 then
-			if n >= 0 and n < 10 then
-				return '<span style="visibility:hidden;color:transparent;">0</span>' .. num
-			end
-		elseif digits == 2 then
-			if n >= 0 and n < 10 then
-				return '<span style="visibility:hidden;color:transparent;">00</span>' .. num
-			elseif n >= 10 and n < 100 then
-				return '<span style="visibility:hidden;color:transparent;">0</span>' .. num
-			end
-		end
+local function clear_team_args(Args)
+	local keys = {}
+	for k, _ in pairs(Args) do
+		if type(k) == 'string' and k:match('^team%d+$') then keys[#keys + 1] = k end
 	end
-	return num
+	for _, k in ipairs(keys) do Args[k] = nil end
+	Args['team_order'] = nil
+	Args['team_order_start'] = nil
 end
 
-function pp.row(frame,t,Args,p_sub,notes_exist,hth_id_list,full_table,rand_val,team_list,team_code_ii,ii_start,ii_end,ii_fw,bg_col,N_teams,ii,ii_show)
-	-- Build the inner parts of individual rows
-	
-	-- Sub-module usage
-	local mm = require('Module:Math')
-	local yesno = require('Module:Yesno')
-
-	-- Get custom/default options for in table
-	local show_win = yesno(Args['show_win'] or 'yes')
-	local show_draw = yesno(Args['show_draw'] or 'yes')
-	local show_loss = yesno(Args['show_loss'] or 'yes')
-	local win_points = tonumber(Args['winpoints'])				or (show_draw and 3 or 2)
-	local draw_points = tonumber(Args['drawpoints'])			or (show_draw and 1 or 0)
-	local loss_points = tonumber(Args['losspoints'])			or (show_draw and 0 or 1)
-	local rw_points = tonumber(Args['rwpoints'])				or 1
-	local digits = Args['digitpad']
-	
-	local total_row_name = 'SPORTS_TABLE_TOTAL'
-	-- Add to tallies if enabled
-	if yesno(Args['show_totals'] or 'no') and (team_code_ii ~= total_row_name) then
-		for k,v in ipairs({'win', 'draw', 'loss', 'gf', 'ga', 'adjust_points', 'startpoints', 'adjust_gf', 'adjust_ga'}) do
-			Args[v .. '_' .. total_row_name] = 
-				(tonumber(Args[v .. '_' .. total_row_name]) or 0) 
-				+ (tonumber(Args[v .. '_' .. team_code_ii]) or 0)
+-- Place ranked teams, applying manual ordering unless disabled.
+local function place(Args, buckets, top_pos, errors, ignore_manual, withdrawn)
+	local auto, auto_index, shared, group_of = {}, {}, {}, {}
+	local n, gid = 0, 0
+	for _, b in ipairs(buckets) do
+		gid = gid + 1
+		local pos = top_pos + n
+		for _, c in ipairs(b) do
+			n = n + 1
+			auto[n] = c
+			auto_index[c] = top_pos + n - 1
+			shared[c] = pos
+			if #b > 1 then group_of[c] = gid end
 		end
 	end
 
-	-- Order of draws and losses --
-	local loss_first = Args['loss_before_draw'] or Args['loss_before_tie'] or false	
-
-	-- Optional rounds won
-	local rounds_won = yesno(Args['show_rw'] or Args['rounds_won'] or 'no')
-	
-	-- Get some input
-	local wins = tonumber(Args['win_'..team_code_ii])			or 0
-	local draws = tonumber(Args['draw_'..team_code_ii]) 		or 0
-	local losses = tonumber(Args['loss_'..team_code_ii])		or 0
-	local rw = tonumber(Args['rw_'..team_code_ii])		or 0
-	local gfor = tonumber(Args['gf_'..team_code_ii] or Args['pf_'..team_code_ii] or '0') or '?'
-	local gaig = tonumber(Args['ga_'..team_code_ii] or Args['pa_'..team_code_ii] or '0') or '?'
-	-- Deductions/additions are season-wide, like |adjust_points_TTT=, so they
-	-- apply here too, not only in Module:Sports table/auto's ranking.
-	if gfor ~= '?' then gfor = gfor + (tonumber(Args['adjust_gf_'..team_code_ii]) or 0) end
-	if gaig ~= '?' then gaig = gaig + (tonumber(Args['adjust_ga_'..team_code_ii]) or 0) end
-	local s_pts = (tonumber(Args['adjust_points_'..team_code_ii]) or 0) + (tonumber(Args['startpoints_'..team_code_ii]) or 0)
-	local hth_local = yesno(Args['show_hth'] or 'yes') and Args['hth_'..team_code_ii] or nil
-	local ranking_style = string.lower(Args['ranking_style'] or 'pts')
-	local pct_style = string.lower(Args['pct_style'] or 'ratio')
-
-	-- Then calculate some values
-	local matches = wins + draws + losses
-	local points = win_points*wins + draw_points*draws + loss_points*losses + rw_points*rw + s_pts
-	
-	if Args['goalpoints'] and gfor ~= '?' then
-		points = points + (tonumber(Args['goalpoints']) or 1)*gfor
+	local pins, order_full = {}, false
+	if not ignore_manual then
+		pins, order_full = read_pins(Args, top_pos, errors, withdrawn)
 	end
-	
-	local matches_text = matches
-	if tonumber(Args['win_'..team_code_ii]) == nil or tonumber(Args['draw_'..team_code_ii]) == nil or tonumber(Args['loss_'..team_code_ii]) == nil then
-		matches = tonumber(Args['matches_'..team_code_ii]) or matches
-		matches_text = Args['matches_'..team_code_ii] or matches
+
+	-- A valid manual order must fill every vacated slot.
+	local pinned_at, ok, count = {}, true, 0
+	-- Keep messages in a stable order.
+	local pin_slots = {}
+	for pos in pairs(pins) do pin_slots[#pin_slots + 1] = pos end
+	table.sort(pin_slots)
+	for _, pos in ipairs(pin_slots) do
+		local tname = pins[pos]
+		count = count + 1
+		if not auto_index[tname] then
+			ok = false
+			add_error(errors, 'the team "' .. tname .. '" given in the manual order is not in the table')
+		elseif pinned_at[tname] then
+			ok = false
+			add_error(errors, 'the team "' .. tname .. '" is given more than once in the manual order')
+		else
+			pinned_at[tname] = pos
+		end
+		if pos < top_pos or pos > (top_pos + n - 1) then
+			ok = false
+			add_error(errors, 'position ' .. pos .. ' in the manual order is outside the table')
+		end
 	end
-	
-	local win_perc = ''
-	local ppg = ''
-	if tonumber(matches) == nil or matches == 0 then 
-		-- Escape for zero matches
-		win_perc = '&mdash;'
-		ppg = '&mdash;'
+	if ok then
+		for _, slot in ipairs(pin_slots) do
+			local tname = pins[slot]
+			local pos = pinned_at[tname]
+			if tname and pins[auto_index[tname]] == nil then
+				ok = false
+				add_error(errors, 'the manual order is incomplete: "' .. tname .. '" has been moved from position '
+					.. auto_index[tname] .. ' to position ' .. pos .. ', but nothing has been given for position '
+					.. auto_index[tname] .. '. Every team displaced by a |teamN= must itself be given a position, '
+					.. 'otherwise the order cannot be resolved. The order before the manual changes has been used instead')
+			end
+		end
+	end
+
+	local final, manual = {}, false
+	if count > 0 and ok then
+		manual = true
+		for pos, tname in pairs(pins) do final[pos] = tname end
+		local rest = {}
+		for i = 1, n do
+			if not pinned_at[auto[i]] then rest[#rest + 1] = auto[i] end
+		end
+		local j = 1
+		for i = top_pos, top_pos + n - 1 do
+			if not final[i] then
+				final[i] = rest[j]
+				j = j + 1
+			end
+		end
 	else
-		--Some sports use draw as well
-		win_perc = (pct_style == 'ratio') and
-			mm._precision_format((2*wins + draws  + s_pts) / (2*matches), 3) or
-			mm._precision_format(100*(2*wins + draws  + s_pts) / (2*matches), 2)
-			-- Allow win_perc to be altered due to point deductions/additions
-		ppg = mm._precision_format(points / matches, 2)
-		if (losses > 0 or draws > 0) and pct_style == 'ratio' then
-			-- Drop the leading zero (from the string)
-			win_perc = string.sub(win_perc,2,string.len(win_perc))
-		end
+		for i = 1, n do final[top_pos + i - 1] = auto[i] end
 	end
-	if ranking_style=='wperc' or ranking_style=='win percentage' or ranking_style=='wpct' or ranking_style=='%w' then
-		if matches == 0 then
-			win_perc = '&mdash;'
+
+	-- Manual ordering breaks tied-position groups it touches.
+	local broken = {}
+	if manual then
+		if order_full then
+			for g = 1, gid do broken[g] = true end
 		else
-			win_perc = mm._precision_format(100 * wins / matches, 2)
+			for tname, _ in pairs(pinned_at) do
+				if group_of[tname] then broken[group_of[tname]] = true end
+			end
 		end
 	end
 
-	-- Show for/against
-	local for_against_style = Args['for_against_style'] 	or 'goals'
-	local hide_for_against = false
-	for_against_style = string.lower(for_against_style)
-	if for_against_style=='none' then
-		hide_for_against = true
-	end
+	-- Number every row if tied positions are disabled.
+	local show_tied = yesno(Args['show_tied_positions'] or 'yes')
 
-	-- Comparison of for against
-	local gcomp = nil
-	-- Whether to use goal ratio (goal average) or goal percentage instead
-	local skip_sign
-	if yesno(Args['use_goal_ratio'] or 'no') or yesno(Args['use_goal_average'] or 'no') then
-		-- Now it is the goal ratio/goal average
-		if (gfor == '?') or (gaig == '?') or gaig == 0 then
-			gcomp = '&mdash;'
-		else
-			gcomp = mm._precision_format(gfor / gaig, 3)
-		end
-	elseif yesno(Args['use_goal_percentage'] or 'no') then
-		-- Now it is the percentage
-		if (gfor == '?') or (gaig == '?') or gaig == 0 then
-			gcomp = '&mdash;'
-		else
-			gcomp = mm._precision_format(100 * gfor / gaig , 1)
-		end
-	elseif yesno(Args['use_against_percentage'] or 'no') then
-		-- Now it is the percentage
-		if (gfor == '?') or (gaig == '?') or gfor == 0 then
-			gcomp = '&mdash;'
-		else
-			gcomp = mm._precision_format(100 * gaig / gfor , 1)
-		end
-	elseif yesno(Args['use_point_percentage'] or 'no') then
-		-- Now it is the point percentage
-		if (gfor == '?') or (gaig == '?') or (gfor + gaig) <= 0 then
-			gcomp = '&mdash;'
-		else
-			gcomp = mm._precision_format(100 * gfor / (gfor + gaig) , 2)
-		end
-	elseif yesno(Args['use_goals_per_match'] or Args['use_points_per_match'] or 'no') then
-		-- Now it is the point for average
-		if (gfor == '?') or matches <= 0 then
-			gcomp = '&mdash;'
-		else
-			gcomp = mm._precision_format(gfor / matches , 1)
-		end
-	elseif yesno(Args['use_goal_diff'] or 'yes') then
-		-- It's goal difference
-		if (gfor == '?') or (gaig == '?') then
-			gcomp = '&mdash;'
-		else
-			gcomp = gfor - gaig
-			-- Formatting with signs
-			if gcomp>0 then
-				gcomp='+'..num_align(gcomp,digits)
-			elseif gcomp < 0 then
-				gcomp='&minus;'..-num_align(gcomp,digits)
-			end
+	clear_team_args(Args)
+	for i = top_pos, top_pos + n - 1 do
+		local c = final[i]
+		Args['team' .. i] = c
+		local shown = i
+		if show_tied and group_of[c] and not broken[group_of[c]] then shown = shared[c] end
+		-- Preserve editor-set positions.
+		if Args['pos_' .. c] == nil and shown ~= i then
+			Args['pos_' .. c] = tostring(shown)
 		end
 	end
-	-- Use actual values if gfor or gaig is not numeric
-	if (gfor == '?') then gfor = Args['gf_'..team_code_ii] or Args['pf_'..team_code_ii] or '' end
-	if (gaig == '?') then gaig = Args['ga_'..team_code_ii] or Args['pa_'..team_code_ii] or '' end
-
-	-- Show games behind
-	local show_GB = yesno(Args['show_GB'] or 'no')
-	local GB_text = '&mdash;'
-	if show_GB then
-		local GB_team_no = tonumber(Args['GB_team']) or 1
-		if ii == GB_team_no then
-			-- Do nothing, it's vs this team
-		else
-			local wins_GB = tonumber(Args['win_'..team_list[GB_team_no]])		or 0
-			local losses_GB = tonumber(Args['loss_'..team_list[GB_team_no]])	or 0
-			local GB_num = (wins_GB-wins+losses-losses_GB)/2
-			-- Display options
-			if GB_num >0 then
-				-- Indicates trailing GB_team
-				GB_text = num_align(GB_num,digits)
-			elseif GB_num == 0 then
-				-- Equal, do nothing to get dash
-			else 
-				-- Ahead of GB team, should be noted by plus (instead of minus that comes from formula)
-				GB_text = '+'..num_align(-GB_num,digits)
-			end
-		end
+	-- Prevent stale |teamN= values from adding rows.
+	if not tonumber(Args['lowest_pos']) then
+		Args['lowest_pos'] = tostring(top_pos + n - 1)
 	end
-	
-	-- Some local vars	
-	local hth_string
-	local tt_return = p_sub.hth(frame,Args,full_table,hth_id_list,hth_local,notes_exist,team_list,team_code_ii,ii_start,ii_end,rand_val)
-	hth_string = tt_return.str
-	hth_id_list = tt_return.list
-	notes_exist = tt_return.notes_exist
-	
-	-- What to rank the teams by
-	local rank_points, rank_perc, rank_wperc, rank_ppg = false, false, false, false
-	local win_fw, win_string
-	
-	if ranking_style=='w' or ranking_style=='win' or ranking_style=='wins' then
-		-- Based on wins
-		win_fw = 'font-weight: bold;'
-		win_string = hth_string
-	elseif ranking_style=='perc' or ranking_style=='percentage' or ranking_style=='%' then
-		-- Based on percentage
-		rank_perc = true
-		win_fw=ii_fw
-		win_string = ''
-	elseif ranking_style=='wperc' or ranking_style=='win percentage' or ranking_style=='wpct' or ranking_style=='%w' then
-		-- Based on percentage
-		rank_wperc = true
-		win_fw=ii_fw
-		win_string = ''
-	elseif ranking_style=='ppg' or ranking_style=='points per game' or ranking_style=='ptspergame' then
-		-- Based on points per game
-		rank_ppg = true
-		win_fw=ii_fw
-		win_string = ''
-	elseif ranking_style=='percpts' or ranking_style=='%pts' then
-		-- Based on percentage and points
-		rank_perc = true
-		rank_points = true
-		win_fw=ii_fw
-		win_string = ''
-	elseif ranking_style=='ppgpts'  then
-		-- Based on ppg and points
-		rank_ppg = true
-		rank_points = true
-		win_fw=ii_fw
-		win_string = ''
-	elseif ranking_style=='none' then
-		win_fw=ii_fw
-		win_string = ''
-	else
-		-- Based on points
-		rank_points = true
-		win_fw=ii_fw
-		win_string = ''
-	end
-	local show_played = not yesno(Args['hide_played'] or 'no')
-	local show_away_goals = yesno(Args['show_away_goals'] or 'no')
-	local show_bonus_points = yesno(Args['show_bonus_points'] or 'no')
-	local pts_perc_first = yesno((rank_points and Args['pts_first']) or ((rank_perc or rank_wperc) and Args['perc_first']) or 'no')
-	-- Row building
-	if (tonumber(Args['adjust_points_'..team_code_ii]) and tonumber(Args['startpoints_'..team_code_ii])) then
-		table.insert(t,'[[Category:Pages using sports table with both adjust and startpoints]]\n')
-	end
-	if pts_perc_first then
-		if rank_points then
-			-- Add &minus; for negative point totals
-			if points<0 then
-				table.insert(t,'| style="font-weight: bold;'..bg_col..'" | &minus;'..num_align(-points,digits)..hth_string..'\n')
-			else
-				table.insert(t,'| style="font-weight: bold;'..bg_col..'" | '..num_align(points,digits)..hth_string..'\n')
-			end
-		end
-		if rank_perc then
-			table.insert(t,'| style="font-weight: bold;'..bg_col..'" | '..win_perc..hth_string..'\n')
-		elseif rank_wperc then
-			table.insert(t,'| style="font-weight: bold;text-align:right;'..bg_col..'" | '..win_perc..hth_string..'\n')
-		end
-		if rank_ppg then
-			table.insert(t,'| style="font-weight: bold;'..bg_col..'" | '..ppg..hth_string..'\n')
-		end
-	end
-	if show_played then
-		table.insert(t,'| style="'..ii_fw..bg_col..'" |'..matches_text..'\n') 		-- Played
-	end
-	if full_table then
-		-- Use actual values if wins, draws, and losses are not numeric
-		if (wins == 0 and draws == 0 and losses == 0) then
-			local function numorval(s)
-				return s and ((s == '' and 0) or tonumber(s) or s) or 0
-			end
-			wins = numorval(Args['win_'..team_code_ii])
-			draws = numorval(Args['draw_'..team_code_ii])
-			losses = numorval(Args['loss_'..team_code_ii])
-		end
-		if show_win then
-			table.insert(t,'| style="'..win_fw..bg_col..'" |'..num_align(wins,digits)..win_string..'\n') 	-- Won
-		end
-		
-		if loss_first then
-			if show_loss then
-				table.insert(t,'| style="'..ii_fw..bg_col..'" |'..num_align(losses,digits)..'\n') -- Lost
-			end
-			if show_draw then
-				table.insert(t,'| style="'..ii_fw..bg_col..'" |'..num_align(draws,digits)..'\n') 	-- Drawn
-			end
-		else
-			if show_draw then
-				table.insert(t,'| style="'..ii_fw..bg_col..'" |'..num_align(draws,digits)..'\n') 	-- Drawn
-			end
-			if show_loss then
-				table.insert(t,'| style="'..ii_fw..bg_col..'" |'..num_align(losses,digits)..'\n') -- Lost
-			end
-		end
-		if rounds_won then
-			if tonumber(Args['rw_' .. team_code_ii] or 0) == nil then
-				rw = Args['rw_' .. team_code_ii] or ''
-			end
-			table.insert(t,'| style="'..ii_fw..bg_col..'" |'..rw..'\n')         -- Rounds won
-		end
-		if not hide_for_against then
-			if not yesno(Args['hide_for_against_columns'] or 'no') then
-				table.insert(t,'| style="'..ii_fw..bg_col..'" |'..num_align(gfor,digits)..'\n') 		-- GF
-				table.insert(t,'| style="'..ii_fw..bg_col..'" |'..num_align(gaig,digits)..'\n')		-- GA
-			end
-			if gcomp then
-				table.insert(t,'| style="'..ii_fw..bg_col..'" |'..gcomp..'\n')      -- Goal comparison
-			end
-		end
-		
-	end
-	if show_away_goals then
-		table.insert(t,'| style="'..bg_col..'" | '..(Args['away_goals_'..team_code_ii] or '')..'\n')
-	end
-	if show_bonus_points then
-		if s_pts < 0 then
-			table.insert(t,'| style="'..bg_col..'" | &minus;'..num_align(-s_pts,digits)..'\n')
-		else
-			table.insert(t,'| style="'..bg_col..'" | '..num_align(s_pts,digits)..'\n')
-		end
-	end
-	if not pts_perc_first then
-		if rank_points then
-			-- Add &minus; for negative point totals
-			if points<0 then
-				table.insert(t,'| style="font-weight: bold;'..bg_col..'" | &minus;'..num_align(-points,digits)..hth_string..'\n')
-			else
-				table.insert(t,'| style="font-weight: bold;'..bg_col..'" | '..num_align(points,digits)..hth_string..'\n')
-			end
-		end
-		if rank_perc then
-			table.insert(t,'| style="font-weight: bold;'..bg_col..'" | '..win_perc..hth_string..'\n')
-		elseif rank_wperc then
-			table.insert(t,'| style="font-weight: bold;text-align:right;'..bg_col..'" | '..win_perc..hth_string..'\n')
-		end
-		if rank_ppg then
-			table.insert(t,'| style="font-weight: bold;'..bg_col..'" | '..ppg..hth_string..'\n')
-		end
-	end
-	if show_GB then
-		table.insert(t,'| style="'..ii_fw..bg_col..'" |'..GB_text..'\n')  -- GB
-	end
-	return {t=t, notes_exist=notes_exist, hth_id_list=hth_id_list}
+	return n
 end
 
-function pp.status(Args)
-	-- Declare status options
-	-- ------------------------------------------------------------
-	-- NOTE: If you add to status_code, also add to status_called and status_letters!!
-	-- Or functionality will be compromised
-	-- ------------------------------------------------------------
-	local status_code, status_called = {}, {}
-	status_code = {	A='Advance to a further round', C='Champions', D='Disqualified', 
-		E='Eliminated', G='Guests', H='Hosts', O='Play-off winners', P='Promoted', Q='Qualified for the phase indicated',
-		R='Relegated', T='Qualified, but not yet for the particular phase indicated'}
-	local status_letters = (Args['status_order'] or '') .. 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-	
-	-- Status position (before or after read and default)
-	local stat_pos_val = string.lower(Args['status_pos'] or '')
-	local status_position = 'after' 	-- Default location
-	if stat_pos_val=='before' then
-		status_position = 'before'
-	elseif stat_pos_val=='after' then
-		status_position = 'after'
-	end
-	-- Read in custom status options
-	for l in mw.text.gsplit(status_letters, '') do
-		status_called[l] = false
-		status_code[l] = status_code[l] or '?'
-		status_letters = mw.ustring.gsub(status_letters, '(' .. l ..'.-)' .. l, '%1')
+--------------------------------------------------------------------------------
+-- Entry points
+--------------------------------------------------------------------------------
 
-		if Args['status_text_' .. l] then
-			status_code[l] = Args['status_text_' .. l]
+-- Build standings and return any errors. write_ha additionally computes and
+-- writes the home/away split fields a HA-style table needs to render.
+function pa.generate(Args, top_pos, write_ha, write_ot)
+	local errors = {}
+	top_pos = top_pos or 1
+
+	local teams, codes = pa.roster(Args)
+	if #teams == 0 then
+		add_error(errors, 'no teams were found: |auto_generate_standings= needs |name_TTT= or |match_TTT_SSS= parameters')
+		return errors
+	end
+	check_orphans(Args, teams, errors)
+
+	local withdrawn, withdrawn_order = pa.withdrawn(Args)
+	for _, c in ipairs(withdrawn_order) do
+		if not codes[c] then
+			add_error(errors, 'the team "' .. c .. '" given in |withdrawn_teams= is not in the table')
 		end
-	 end
-	
-	return {code=status_code, called=status_called, letters=status_letters, position=status_position}
+	end
+
+	local matches = pa.matches(Args, codes, errors, write_ot)
+	local opts = read_opts(Args, write_ot)
+	local adj = read_adjustments(Args, teams)
+	local full = build_stats(matches, teams)
+
+	check_ignored(Args, teams, errors, write_ha, write_ot)
+	write_stats(Args, teams, full, write_ha, write_ot)
+
+	local crit_str = Args['ranking_criteria']
+	if not crit_str or trim(crit_str) == '' then crit_str = 'pts, gd, gf' end
+	local items = parse_criteria(crit_str, errors)
+
+	-- Withdrawn teams do not compete for ranked positions; they are appended
+	-- below, in the order given, after the ranked teams are placed.
+	local start = {}
+	local rank = {}
+	for i, c in ipairs(pa.base_order(Args, teams, codes, errors)) do
+		if not withdrawn[c] then
+			start[#start + 1] = c
+			rank[c] = i
+		end
+	end
+
+	local legs = tonumber(Args['legs']) or 1
+	-- |h2h_after_complete=freeze leaves teams tied after an incomplete
+	-- head-to-head criterion; other positive values skip it and continue.
+	local h2h_raw = trim(Args['h2h_after_complete'] or '')
+	local h2h_freeze = (string.lower(h2h_raw) == 'freeze')
+	local h2h_gate = h2h_freeze or (yesno(h2h_raw) and true or false)
+	if h2h_gate then
+		local fmt = string.lower(trim(Args['matches_format']))
+		if fmt == 'schedule' or fmt == 'series' or fmt == 'series_split' then
+			add_error(errors, '|h2h_after_complete= has no effect with |matches_format=' .. fmt
+				.. ', because that fixture list is not necessarily a full round-robin; the head-to-head '
+				.. 'criteria have been applied immediately instead')
+			h2h_gate = false
+			h2h_freeze = false
+		end
+	end
+
+	local ctx = {
+		matches = matches,
+		full = full,
+		adj = adj,
+		opts = opts,
+		rank = rank,
+		complete = (trim(Args['update']):lower() == 'complete'),
+		Args = Args,
+		legs = legs,
+		h2h_gate = h2h_gate,
+		h2h_freeze = h2h_freeze,
+	}
+	local buckets = apply_items({start}, items, ctx)
+	local n = place(Args, buckets, top_pos, errors, nil, withdrawn)
+
+	-- Withdrawn teams are appended after place() has fully resolved the
+	-- ranked teams.
+	local next_pos = top_pos + n
+	for _, c in ipairs(withdrawn_order) do
+		if codes[c] then
+			Args['team' .. next_pos] = c
+			next_pos = next_pos + 1
+		end
+	end
+	return errors
 end
 
-return pp
+-- Place teams in base order for |show_matches=only.
+function pa.order_only(Args, top_pos, ignore_manual)
+	local errors = {}
+	top_pos = top_pos or 1
+	local teams, codes = pa.roster(Args)
+	if #teams == 0 then
+		add_error(errors, 'no teams were found: |auto_generate_standings= needs |name_TTT= or |match_TTT_SSS= parameters')
+		return errors
+	end
+	check_orphans(Args, teams, errors)
+	local withdrawn, withdrawn_order = pa.withdrawn(Args)
+	for _, c in ipairs(withdrawn_order) do
+		if not codes[c] then
+			add_error(errors, 'the team "' .. c .. '" given in |withdrawn_teams= is not in the table')
+		end
+	end
+	local buckets = {}
+	for _, c in ipairs(pa.base_order(Args, teams, codes, errors)) do
+		if not withdrawn[c] then
+			buckets[#buckets + 1] = {c}
+		end
+	end
+	place(Args, buckets, top_pos, errors, ignore_manual, withdrawn)
+	return errors
+end
+
+return pa
