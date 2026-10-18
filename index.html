@@ -919,16 +919,27 @@ function usualStart(e) {
 const HOST_TZ = { 'South Africa': 'Africa/Johannesburg', Australia: 'Australia/Sydney', 'New Zealand': 'Pacific/Auckland', England: 'Europe/London', India: 'Asia/Kolkata', 'Sri Lanka': 'Asia/Colombo',
   Pakistan: 'Asia/Karachi', Bangladesh: 'Asia/Dhaka', Zimbabwe: 'Africa/Harare', 'West Indies': 'America/Port_of_Spain', Ireland: 'Europe/Dublin', 'United Arab Emirates': 'Asia/Dubai' };
 const USUAL_NOTE = 'Start time not listed yet; Tests usually begin about 10am local time';
+// the last day the editors say is over ("Stumps, day 2", "No play on day 1", "Day 3 washed out")
+function dayOver(e) {
+  let n = 0;
+  for (const m of `${e.progress || ''} ${e.weather || ''}`.matchAll(/\b(?:stumps|no play|washed out|rained off|called off)\b[^.;]*?\bday (\d)|\bday (\d)\b[^.;]*?\b(?:washed out|rained off|called off|no play)/gi)) n = Math.max(n, +(m[1] || m[2]));
+  return n;
+}
+// the day of play a progress line talks about ("Tea, day 1" is 1)
+const progDay = e => +((e.progress || '').match(/\bday (\d)/i) || [])[1] || 0;
 function onNow(e, now) {
   const s = new Date(e.startUTC);
   const f = e.sport === 'cricket' ? formatOf(e) : '';
   const days = DAYS[f] || 1;
-  // a cricket day can run long with rain; a game whose time isn't known yet sits at 2pm local, so widen the window both ways
   // a rain note on the match ("Rain delayed the start", "reduced to 15 overs") buys two more hours
   const wet = /\b(rain|wet|delay|bad light|reduced)/i.test(`${e.weather || ''} ${e.progress || ''}`) ? 2 : 0;
-  const hrs = e.sport === 'cricket' ? (HOURS[f] || 8) + (/^T20/.test(f) ? 1 : 2) + wet : 2;
-  const early = e.timeTBC ? 5 * 36e5 : 0, late = e.timeTBC ? 4 * 36e5 : 0;
-  for (let i = 0; i < days; i++) {
+  // a day of a Test is set down to finish about 5pm local, with half an hour more to make up lost overs;
+  // a one-day game can run long, so give it two more hours (one for a T20)
+  const hrs = e.sport === 'cricket' ? (days > 1 ? 7.5 : (HOURS[f] || 8) + (/^T20/.test(f) ? 1 : 2)) + wet : 2;
+  // a Test placed at its usual 10am start gets an hour's leeway; a game with no time at all sits at 2pm, so widen both ways
+  const early = e.usual ? 36e5 : e.timeTBC ? 5 * 36e5 : 0, late = e.usual ? 0 : e.timeTBC ? 4 * 36e5 : 0;
+  const over = dayOver(e);
+  for (let i = over; i < days; i++) {
     const a = s.getTime() + i * 864e5 - early, b = a + early + hrs * 36e5 + late;
     if (now >= a && now <= b) return days > 1 ? `Day ${i + 1}` : 'On now';
   }
@@ -1014,7 +1025,10 @@ function evCard(e, now) {
   const urg = ms < 864e5 ? 'soon' : ms < 3 * 864e5 ? 'near' : 'later';
   const tag = live ? `<span class="tag live">${live}</span>` : paused ? `<span class="tag paused">${paused}</span>` : cd ? `<span class="tag num ${urg}">${cd}</span>` : '';
   // the state of play Wikipedia's editors give while a match is on ("Lunch, day 1"); the score only when spoilers are shown
-  const play = (live || (paused && !/lunch|tea|drinks|innings break/i.test(e.progress || ''))) && e.progress ? `<div class="wx play">${esc(e.progress)}${!spoilers && e.liveScore ? ` · ${esc(e.liveScore)}` : ''}</div>` : '';
+  // a state of play from an earlier day ("Tea, day 1" once day 2 is on) is stale, so drop it
+  const today = +((live || paused || '').match(/Day (\d)/) || [])[1] || 0, pd = progDay(e);
+  const fresh = !pd || !today || (live ? pd >= today : pd >= today - 1);
+  const play = fresh && (live || (paused && !/lunch|tea|drinks|innings break/i.test(e.progress || ''))) && e.progress ? `<div class="wx play">${esc(e.progress)}${!spoilers && e.liveScore ? ` · ${esc(e.liveScore)}` : ''}</div>` : '';
   const local = overseas ? `<div class="loc num">${e.timeTBC ? (e.usual ? '≈' + time(d, e.tz) + ' ' : '') : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${wikiLink(cityOf(e))}</div>` : '';
   const tv = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : '';
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
