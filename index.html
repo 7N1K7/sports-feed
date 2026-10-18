@@ -319,6 +319,13 @@ a.svc:hover { text-decoration-color: currentColor }
 .ev .comp .sicon { position: absolute; top: 8px; right: 10px; font-size: 20px; line-height: 1 }
 .cicon { margin-right: 5px; font-size: 15px; line-height: 1 }
 
+.fc { margin-bottom: 10px }
+.fcs { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 6px 0 4px }
+.fb { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 0 10px; padding: 6px 0; border-top: 1px solid var(--line); font-size: 14px }
+.fb .fw { color: var(--muted); font-size: 13px }
+.fb .fr { grid-column: 2; font-size: 13px }
+@media (max-width: 560px) { .fb { grid-template-columns: 1fr } .fb .fr { grid-column: 1 } }
+
 @media (max-width: 560px) { .bigrow { grid-template-columns: 1fr 1fr; gap: 8px } .bigev { padding: 10px 11px } .bigev .bn { font-size: 17px } .bigev .bd { font-size: 13px } .bigev .bc { font-size: 12px } }
 .bigev { text-align: left; border: 1px solid var(--line); border-left: 5px solid var(--c); border-radius: var(--r); background: color-mix(in srgb, var(--c) 6%, var(--surface)); color: var(--ink); padding: 12px 14px; display: grid; gap: 3px; cursor: pointer; font: inherit }
 .bigev:hover { border-color: var(--c) }
@@ -663,6 +670,15 @@ function resCard(e, now) {
   </article>`;
 }
 
+// UFC card grouped by section; winners hidden while spoilers are on
+function fightCard(e, hidden) {
+  const secs = [];
+  for (const b of e.card) { if (!secs.length || secs[secs.length - 1][0] !== b.section) secs.push([b.section, []]); secs[secs.length - 1][1].push(b); }
+  return secs.map(([sec, list]) => `<div class="fc">${sec ? `<div class="fcs">${esc(sec)}</div>` : ''}${list.map(b => {
+    const done = !hidden && b.res !== 'vs.';
+    return `<div class="fb"><span class="fw">${esc(b.weight || '')}</span><span class="fm"><b>${esc(b.a)}</b> <span class="muted">${done ? esc(b.res) : 'vs'}</span> ${esc(b.b)}</span>${done && b.method ? `<span class="fr muted">${esc(b.method)}${b.round ? `, R${esc(b.round)}` : ''}${b.time ? ` ${esc(b.time)}` : ''}</span>` : ''}</div>`;
+  }).join('')}</div>`).join('');
+}
 function detail(e) {
   const now = Date.now(), d = new Date(e.startUTC);
   const overseas = e.tz && e.tz !== NZ;
@@ -695,6 +711,7 @@ function detail(e) {
     </div>
     ${res}${live}
     <dl class="facts">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
+    ${e.card?.length ? `<h3 class="dh">Fight card</h3>${fightCard(e, hidden)}` : ''}
     <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
     <h3 class="dh">Team news</h3>
     ${related.length ? `<div class="news">${related.map(n => `<a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener">${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '<span></span>'}<span class="dn-text"><span class="dn-meta"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span class="muted">${esc(n.source || '')}</span></span><b>${esc(n.title)}</b></span></a>`).join('')}</div>` : '<p class="muted">No recent news for this match yet.</p>'}

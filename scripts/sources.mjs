@@ -310,7 +310,46 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     out.push(...evs);
   }
   diag.wikipedia = per;
+  // UFC: read each nearby event's own article for the full fight card
+  const ufcSoon = out.filter(e => e.team === 'ufc' && /\/wiki\/UFC/.test(e.source) && Math.abs(new Date(e.startUTC) - Date.now()) < 30 * DAY);
+  try {
+    const names = ufcSoon.map(e => decodeURIComponent(e.source.split('/wiki/')[1]).replace(/_/g, ' '));
+    if (names.length) {
+      const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(names.slice(0, 20).join('|')));
+      const byTitle = {};
+      const redir = Object.fromEntries([...(r.query?.redirects || []), ...(r.query?.normalized || [])].map(x => [x.to, x.from]));
+      for (const pg of r.query?.pages || []) if (!pg.missing) byTitle[redir[pg.title] || pg.title] = pg.revisions?.[0]?.slots?.main?.content || '';
+      ufcSoon.forEach((e, i) => {
+        const card = fightCard(byTitle[names[i]] || '');
+        if (!card.length) return;
+        e.card = card;
+        const main = card[0];
+        if (e.away === 'TBC') Object.assign(e, { home: main.a.replace(/\s*\(c\)$/, ''), away: main.b.replace(/\s*\(c\)$/, '') });
+        if (main.res === 'def.') Object.assign(e, { status: 'final', score: `${main.a} won`, summary: `${main.a} def. ${main.b}${main.method ? ` by ${main.method}` : ''}${main.round ? `, round ${main.round}` : ''}` });
+      });
+      diag.ufcCards = ufcSoon.map(e => `${e.comp}: ${(e.card || []).length} bouts`);
+    }
+  } catch (e) { diag.ufcCards = 'error: ' + e.message; }
   return out;
+}
+
+// {{MMAevent card|Main card}} then {{MMAevent bout|Weight|A|def./vs.|B|Method|Round|Time|Notes}};
+// before the card is set, the "Announced bouts" list: * Lightweight bout: A vs. B
+function fightCard(text) {
+  const bouts = [];
+  let section = '';
+  for (const tpl of templates(text, /^MMAevent (card|bout)$/i)) {
+    const { name, pos } = params(tpl.body);
+    if (/card/i.test(name)) { section = clean(pos[0] || ''); continue; }
+    const [weight, a, res, b, method, round, time] = pos.map(clean);
+    if (a && b) bouts.push({ section, weight, a, b, res: /def/i.test(res) ? 'def.' : /draw/i.test(res) ? 'draw' : /nc|no contest/i.test(res) ? 'NC' : 'vs.', method, round, time });
+  }
+  if (!bouts.length) {
+    const i = text.search(/==\s*Announced bouts\s*==/i);
+    if (i >= 0) for (const m of text.slice(i, text.indexOf('\n==', i + 5) > 0 ? text.indexOf('\n==', i + 5) : undefined).matchAll(/^\*\s*([^:\n]*?)\s*(?:bout)?:\s*(.+?)\s+vs\.?\s+(.+)$/gim))
+      bouts.push({ section: 'Announced', weight: clean(m[1]).replace(/\s*bout$/i, ''), a: clean(m[2]), b: clean(m[3]).replace(/\s*\(.*$/, ''), res: 'vs.' });
+  }
+  return bouts.slice(0, 20);
 }
 // "Indian cricket team in New Zealand in 2026–27" -> "Black Caps v India"
 function seriesComp(title, c) {
@@ -323,11 +362,15 @@ function seriesComp(title, c) {
 
 // ---------- TheSportsDB ------------------------------------------------------
 const TSDB = 'https://www.thesportsdb.com/api/v1/json/123/';
+// One shared budget per run: if TheSportsDB rate-limits us twice, or we've spent 90s on it, skip it until next run
+let tsdbBlocked = false;
+const tsdbStart = Date.now();
 export async function tsdb(q) {
   for (let attempt = 0; ; attempt++) {
-    const r = await fetch(TSDB + q, { headers: UA });
-    await sleep(3000); // free tier allows 30 requests a minute; stay well under
-    if (r.status === 429 && attempt < 2) { await sleep(30000); continue; }
+    if (tsdbBlocked || Date.now() - tsdbStart > 90000) throw new Error('thesportsdb skipped this run');
+    const r = await fetch(TSDB + q, { headers: UA, signal: AbortSignal.timeout(10000) });
+    await sleep(2500); // free tier allows 30 requests a minute
+    if (r.status === 429) { if (attempt) { tsdbBlocked = true; throw new Error('thesportsdb 429'); } await sleep(15000); continue; }
     if (!r.ok) throw new Error(`thesportsdb ${r.status}`);
     return r.json();
   }
@@ -369,7 +412,7 @@ export async function tsdbEvents(leagues, diag) {
       const ref = next || last;
       if (!ref || (!next && Date.now() - new Date(last.strTimestamp + 'Z') > 30 * DAY)) { diag[`tsdb ${l.comp}`] = 'off season'; continue; }
       const season = ref.strSeason, r0 = +(last?.intRound || next?.intRound || 1);
-      const rounds = [...new Set([r0 - 2, r0 - 1, r0, r0 + 1, r0 + 2, r0 + 3])].filter(r => r >= 1 && r < 40);
+      const rounds = [...new Set([r0 - 1, r0, r0 + 1, r0 + 2])].filter(r => r >= 1 && r < 40);
       if (!rounds.length) { diag[`tsdb ${l.comp}`] = 'off season'; continue; }
       let n = 0;
       for (const r of rounds) {
@@ -383,4 +426,4 @@ export async function tsdbEvents(leagues, diag) {
   }
   return out;
 }
-export { eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList };
+export { eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard };
