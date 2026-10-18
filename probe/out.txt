@@ -1,17 +1,58 @@
-115326
-{{table alignment}}
-==Ladder==
-{{NRL2026Ladder}}
-==Ladder progression==
-{{Table  alignment}}
-year = ''[[2027 NRL season|2027]]''
-}}
+{{#invoke:Sports table|main|style=Custom
+|num_cols=9
+|colstyle1=pld
+|colstyle2=win
+|colstyle3=draw
+|colstyle4=loss
+|colstyle5=rw
+|colstyle6=pf
+|colstyle7=pa
+|colstyle8=diff_pf_pa
+|colstyle9=pts
+|rw_header={{Abbr|B|Bye}}
+|col_header6={{Abbr|PF|Points for}}
+|col_header7={{Abbr|PA|Points against}}
+|col_header8={{Abbr|PD|Points difference}}
+|col_header9={{Abbr|Pts|Competition points}}
+|for_against_style=points
+|plus_sign_diffs=y
+|winpoints=2
+|drawpoints=1
+|losspoints=0
+|rwpoints=2
+|show_limit=17
+|teamwidth=230
 
-The '''2026 NRL season''' was the 119th season of professional [[rugby league]] in Australia and the 29th season run by the [[National Rugby League]] (NRL). The regular season was followed by a finals series contested by the top eight teams on the competition ladder. The [[Penrith Panthers]] were the minor premiers, while the [[Sydney Roosters]] defeated the [[Newcastle Knights]] in the Grand Final to win their 16th premiership.
+|update=complete
+|source=[https://www.nrl.com/ladder/?competition=111&season=2026 National Rugby League]
 
-The season recorded the highest aggregate and average regular season crowds in first-grade rugby league history, surpassing the record set the previous year.
+<!--Ladder order-->
+|team_order= PEN, NZL, DOL, SYD, CRO, SOU, NEW, NQC, MAN, MEL, CAN, CBY, PAR, BRI, WTI, GCT, SGI
 
-The season was also the highest scoring in first-grade rugby league history, with 10,167 points scored across 213 games, surpassing the 253 game [[1998 NRL season|1998 season]] in which 10,131 points were scored. At an average of 47.73 points scored per match, 2026 was also the highest average scoring season since [[2004 NRL season|2004]].{{efn|in which 9,086 points were scored across 189 matches, an average of 48.07 points per game.}}
+<!--Data for teams; rw = byes-->
+|win_BRI=8 |draw_BRI=0 |loss_BRI=16 |rw_BRI=3 |pf_BRI=471|pa_BRI=677
+|win_CAN=11|draw_CAN=0 |loss_CAN=13 |rw_CAN=3 |pf_CAN=581|pa_CAN=626
+|win_CBY=11|draw_CBY=0 |loss_CBY=13 |rw_CBY=3 |pf_CBY=476 |pa_CBY=536
+|win_CRO=14 |draw_CRO=0 |loss_CRO=10 |rw_CRO=3 |pf_CRO=672|pa_CRO=523
+|win_DOL=17 |draw_DOL=0 |loss_DOL=7 |rw_DOL=3 |pf_DOL=662|pa_DOL=506
+|win_GCT=6 |draw_GCT=0 |loss_GCT=18 |rw_GCT=3 |pf_GCT=477|pa_GCT=663
+|win_MAN=11 |draw_MAN=0 |loss_MAN=13 |rw_MAN=3 |pf_MAN=623|pa_MAN=524
+|win_MEL=11 |draw_MEL=0 |loss_MEL=13 |rw_MEL=3 |pf_MEL=594|pa_MEL=576
+|win_NEW=14 |draw_NEW=0 |loss_NEW=10|rw_NEW=3 |pf_NEW=633|pa_NEW=591
+|win_NZL=18 |draw_NZL=0 |loss_NZL=6 |rw_NZL=3 |pf_NZL=728|pa_NZL=418
+|win_NQC=13 |draw_NQC=0 |loss_NQC=11 |rw_NQC=3 |pf_NQC=568|pa_NQC=652
+|win_PAR=9 |draw_PAR=0 |loss_PAR=15 |rw_PAR=3 |pf_PAR=497|pa_PAR=678
+|win_PEN=18 |draw_PEN=0 |loss_PEN=6 |rw_PEN=3 |pf_PEN=683|pa_PEN=347
+|win_SOU=14 |draw_SOU=0 |loss_SOU=10 |rw_SOU=3 |pf_SOU=694|pa_SOU=581
+|win_SGI=5 |draw_SGI=0 |loss_SGI=19 |rw_SGI=3 |pf_SGI=392 |pa_SGI=717
+|win_SYD=16 |draw_SYD=0 |loss_SYD=8 |rw_SYD=3 |pf_SYD=619|pa_SYD=501 |status_SYD=P
+|win_WTI=8 |draw_WTI=0 |loss_WTI=16|rw_WTI=3 |pf_WTI=445|pa_WTI=699
 
-==Teams==
-The lineup of te
+<!--TEAM NAMES. No need to update-->
+|name_BRI={{leagueicon|Brisbane|15}} [[2026 Brisbane Broncos season|Brisbane Broncos]]
+|name_CAN={{leagueicon|Canberra|15}} [[Canberra Raiders]]
+|name_CBY={{leagueicon|Canterbury|15}} [[2026 Canterbury-Bankstown Bulldogs season|Canterbury-Bankstown Bulldogs]]
+|name_CRO={{leagueicon|Cronulla|15}} [[Cronulla-Sutherland Sharks]]
+|name_DOL={{leagueicon|Dolphins|15}} [[2026 Dolphins (NRL) season|Dolphins]]
+|name_GCT={{leagueicon|Titans|15}} [[Gold Coast Titans]]
+|name_MAN={{leagueicon|Manly|15}} [[M
