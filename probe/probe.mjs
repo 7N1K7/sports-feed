@@ -1,7 +1,6 @@
 // Run the real build, then check every recent TheSportsDB game of the fill leagues against the feed's cards
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
-import { tsdb, _fromTsdb } from '../scripts/sources.mjs';
 const t0 = Date.now();
 let log = '';
 try { log = execSync('node scripts/fetch.mjs', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }); } catch (e) { log = 'FAILED ' + e.message + '\n' + (e.stdout || '') + (e.stderr || ''); }
@@ -30,6 +29,7 @@ const side = (x, y) => { const a = norm(x), b = norm(y); return !!a && !!b && (a
 const cfg = JSON.parse(readFileSync('data/wiki-pages.json', 'utf8')).thesportsdb.filter(l => l.fill);
 console.log('\n== every TheSportsDB game of the fill leagues from 14 days back to 10 days ahead, against the feed cards');
 await new Promise(r => setTimeout(r, 60000)); // let the rate limit recover after the build
+const { tsdb, _fromTsdb } = await import('../scripts/sources.mjs'); // loaded now: its call budget starts at load
 const plan = { 5806: [1, 2], 5278: [0], 5479: [0], 5852: [3, 4], 5807: [] };
 for (const l of cfg) {
   for (const r of plan[l.id] || []) {
