@@ -17,6 +17,7 @@
     { "title": "{Y} Rugby League Pacific Championships", "sport": "league", "comp": "Pacific Championships", "classify": "leaguetests" },
     { "title": "{S} Big Bash League season", "sport": "cricket", "comp": "Big Bash League", "team": "bbl", "tz": "Australia/Sydney", "showRound": true },
     { "title": "{S} Women's Big Bash League season", "sport": "cricket", "comp": "Women's Big Bash League", "team": "wbbl", "tz": "Australia/Sydney", "showRound": true },
+    { "title": "{S} A-League Men", "sport": "football", "comp": "A-League Men", "classify": "aleague" },
     { "title": "List of UFC events", "sport": "mma", "comp": "UFC", "ufc": true }
   ],
   "thesportsdb": [

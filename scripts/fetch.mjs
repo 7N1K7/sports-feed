@@ -111,7 +111,8 @@ const curated = await readCurated();
 const rules = JSON.parse(await readFile(new URL('data/broadcast.json', ROOT), 'utf8'));
 const wikiCfg = JSON.parse(await readFile(new URL('data/wiki-pages.json', ROOT), 'utf8'));
 let wiki = [];
-try { wiki = await wikiEvents(wikiCfg.pages, n => tzFor(n, n), diag); } catch (e) { console.warn('Wikipedia failed:', e.message); diag.wikipedia = 'error: ' + e.message; }
+let tables = [];
+try { wiki = await wikiEvents(wikiCfg.pages, n => tzFor(n, n), diag); tables = wiki.tables || []; } catch (e) { console.warn('Wikipedia failed:', e.message); diag.wikipedia = 'error: ' + e.message; }
 const tsdbLive = await tsdbEvents(wikiCfg.thesportsdb, diag);
 
 // same fixture from two sources? UFC cards match on date alone
@@ -247,6 +248,7 @@ const feed = {
   diag: { ...diag, liveSourceEvents: live.length },
   events: events.filter(e => now - new Date(e.startUTC) < 21 * DAY),
   news,
+  tables,
   sources: [
     { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, { name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' },
     { name: 'NZ Rugby', url: 'https://www.allblacks.com' }, { name: 'NZ Cricket', url: 'https://www.nzc.nz' },

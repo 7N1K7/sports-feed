@@ -68,7 +68,7 @@ function clean(s) {
   let t = stripRefs(s);
   for (let k = 0; k < 4; k++) {
     t = t.replace(/\{\{\s*(?:nowrap|nobr|small|abbr|sort|rus|rut|ru stadium|stadium)\s*\|([^{}]*?)\}\}/gi, (_, a) => a.split('|').filter(x => !x.includes('=')).pop() || '')
-      .replace(/\{\{\s*(?:nbsp|snd|ndash|mdash|·|dot|efn|refn|notetag|cite[^|}]*|flagicon|flagdeco|vanchor|anchor)[^{}]*\}\}/gi, m => /ndash|snd/.test(m) ? '–' : /mdash/.test(m) ? '—' : /nbsp/.test(m) ? ' ' : '');
+      .replace(/\{\{\s*(?:nbsp|snd|ndash|mdash|·|dot|efn|refn|notetag|cite[^|}]*|flagicon|flagdeco|flag decoration|colou?r box|vanchor|anchor)[^{}]*\}\}/gi, m => /ndash|snd/.test(m) ? '–' : /mdash/.test(m) ? '—' : /nbsp/.test(m) ? ' ' : '');
   }
   return t.replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1').replace(/\[https?:\S+\s+([^\]]*)\]/g, '$1').replace(/'''?/g, '')
     .replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\{\{[^{}]*\}\}/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
@@ -86,7 +86,7 @@ const CODES = {
 // Team cell: {{Rut|Crusaders}}, {{rl-rt|AUS}}, {{crw|NZ}}, {{RuA-rt|ITA|name=Italy XV}}, [[Melbourne Renegades]] (H)
 function teamOf(v) {
   const raw = stripRefs(v);
-  const tpl = templates(raw, /^[A-Za-z][\w\- ]{0,14}$/)[0];
+  const tpl = templates(raw, /^[A-Za-z][\w\- ]{0,14}$/).find(t => !/^(colou?r ?box|flag ?deco(ration)?|flagicon|nowrap|small|abbr|sort)$/i.test(t.name));
   if (tpl) {
     const p = params('x|' + tpl.body.slice(tpl.name.length + 1));
     const nm = tpl.name.toLowerCase();
@@ -301,15 +301,38 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     }
     await sleep(300);
   }
-  const out = [], per = {};
+  const out = [], per = {}, tableSrc = [];
   for (const [want_t, c] of want) {
     const pg = texts[want_t];
     if (!pg) continue;
     const evs = c.ufc ? ufcFromList(pg.text, cityTz) : eventsFromPage(pg.title, pg.text, c.seriesTitle ? { ...c, comp: seriesComp(pg.title, c) } : c, cityTz);
     per[pg.title] = evs.length;
     out.push(...evs);
+    if (!c.seriesTitle && !c.ufc) tableSrc.push({ c, title: pg.title, text: pg.text });
   }
   diag.wikipedia = per;
+  // standings: Sports table blocks on the page, or in a transcluded "... table" / "... standings" template
+  const tables = [];
+  try {
+    const tplNames = new Map();
+    for (const src of tableSrc) for (const m of src.text.matchAll(/\{\{\s*([^{}|#\n]{4,90}?\b(?:table|standings))\s*\}\}/gi))
+      if (!/^(wide table|table alignment)/i.test(m[1])) tplNames.set('Template:' + m[1].trim(), src);
+    const tplTexts = {};
+    const tn = [...tplNames.keys()].slice(0, 40);
+    for (let i = 0; i < tn.length; i += 20) {
+      const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(tn.slice(i, i + 20).join('|')));
+      const back = Object.fromEntries([...(r.query?.redirects || []), ...(r.query?.normalized || [])].map(x => [x.to, x.from]));
+      for (const pg of r.query?.pages || []) if (!pg.missing) tplTexts[back[back[pg.title]] || back[pg.title] || pg.title] = pg.revisions?.[0]?.slots?.main?.content || '';
+    }
+    for (const src of tableSrc) {
+      let text = src.text;
+      // inline the transcluded table templates where they sit, so headings still apply
+      text = text.replace(/\{\{\s*([^{}|#\n]{4,90}?\b(?:table|standings))\s*\}\}/gi, (m, n) => tplTexts['Template:' + n.trim()] || m);
+      tables.push(...sportsTables(text, src.title, src.c));
+    }
+  } catch (e) { diag.tables = 'error: ' + e.message; }
+  if (!diag.tables) diag.tables = tables.map(t => `${t.page} / ${t.title}: ${t.rows.length}`);
+  out.tables = tables;
   // UFC: read each nearby event's own article for the full fight card
   const ufcSoon = out.filter(e => e.team === 'ufc' && /\/wiki\/UFC/.test(e.source) && Math.abs(new Date(e.startUTC) - Date.now()) < 30 * DAY);
   try {
@@ -330,6 +353,39 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
       diag.ufcCards = ufcSoon.map(e => `${e.comp}: ${(e.card || []).length} bouts`);
     }
   } catch (e) { diag.ufcCards = 'error: ' + e.message; }
+  return out;
+}
+
+// {{#invoke:Sports table|main|style=WDL|Rugby|CricketRR ...}} -> { title, style, rows: [{ name, p, w, d, l, f, a, bp, nr, nrr, pts, q }] }
+function sportsTables(text, page, c) {
+  const out = [];
+  for (const tpl of templates(text, /^#invoke:\s*sports table/i)) {
+    const { named: p } = params(tpl.body.replace(/<!--[\s\S]*?-->/g, ''));
+    const style = (p.style || 'WDL').toLowerCase();
+    let order = (p.team_order || '').split(',').map(x => x.trim()).filter(Boolean);
+    if (!order.length) order = Object.keys(p).filter(k => /^team\d+$/.test(k)).sort((a, b) => +a.slice(4) - +b.slice(4)).map(k => p[k].trim());
+    if (!order.length) order = Object.keys(p).filter(k => k.startsWith('name_')).map(k => k.slice(5).toUpperCase());
+    const g = (k, code) => { const v = p[`${k}_${code.toLowerCase()}`] ?? p[`${k}_${code}`]; const n = parseFloat(clean(v || '').replace('−', '-')); return isNaN(n) ? 0 : n; };
+    const has = (k, code) => (p[`${k}_${code.toLowerCase()}`] ?? p[`${k}_${code}`]) != null;
+    const cricket = /cricket/.test(style), rugby = /rugby/.test(style);
+    const winPts = +(p.winpoints || p.win_points || (rugby ? 4 : cricket ? 2 : c.sport === 'league' ? 2 : 3));
+    const drawPts = +(p.drawpoints || p.draw_points || (rugby ? 2 : 1));
+    const rows = order.map((code, i) => {
+      const w = g('win', code), d = g('draw', code), l = g('loss', code), nr = g('nr', code);
+      const f = has('pf', code) ? g('pf', code) : g('gf', code), a = has('pa', code) ? g('pa', code) : g('ga', code);
+      const bp = rugby ? g('tb', code) + g('lb', code) + g('bonus', code) : g('bonus', code);
+      const pts = w * winPts + d * drawPts + nr * (cricket ? winPts / 2 : 0) + bp + g('adjust_points', code) + g('startpoints', code);
+      const nameRaw = p[`name_${code.toLowerCase()}`] ?? p[`name_${code}`] ?? code;
+      const result = p[`result${i + 1}`] || '', status = (p[`status_${code.toLowerCase()}`] ?? p[`status_${code}`] ?? '').trim();
+      return { name: teamOf(nameRaw).replace(/\s*\((RS|RU|C|H|Q)\)\s*$/g, '').trim() || code, p: w + d + l + nr + g('tie', code), w, d, l, f, a, bp, nr,
+        nrr: has('nrr', code) ? clean(p[`nrr_${code.toLowerCase()}`] ?? p[`nrr_${code}`]) : '', pts, q: result || '', champ: /^C$/.test(status) };
+    });
+    if (!rows.length) continue;
+    const before = text.slice(0, tpl.at);
+    const heads = [...before.matchAll(/^={2,4}\s*([^=\n]+?)\s*={2,4}\s*$/gm)];
+    const head = heads.length ? clean(heads[heads.length - 1][1]) : '';
+    out.push({ comp: c.comp, sport: c.sport, team: c.team || '', page, title: clean(p.title || '') || (/standings|table|ladder|log/i.test(head) || !head ? '' : head), style: cricket ? 'cricket' : rugby ? 'rugby' : 'wdl', rows });
+  }
   return out;
 }
 
@@ -426,4 +482,4 @@ export async function tsdbEvents(leagues, diag) {
   }
   return out;
 }
-export { eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard };
+export { eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
