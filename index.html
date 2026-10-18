@@ -109,7 +109,7 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .ev .hl { justify-self: end; font-size: 13px; font-weight: 700; color: #e03131; text-decoration: none; padding: 3px 9px; border: 1px solid color-mix(in srgb, #e03131 40%, transparent); border-radius: 999px }
 .ev .hl:hover { background: color-mix(in srgb, #e03131 10%, transparent) }
 @media (max-width: 560px) { .ev .hl { justify-self: start } }
-.ev .rloc { font-size: 12px; color: var(--muted) }
+.ev .rloc { font-size: 12px; color: var(--muted); margin-top: 5px }
 .ev .tvl { font-size: 13px; font-weight: 600; color: var(--ink) }
 .ev .tvl a { color: inherit }
 .tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 1px 6px; background: var(--soft); color: var(--ink); justify-self: end }
@@ -330,7 +330,8 @@ dialog#sheet { width: min(720px, 100%) }
 .ev .teams.matchup:has(img) .side > img { grid-row: 1 }
 .ev .teams.matchup:has(img) .side > .nm { grid-row: 2; align-self: start }
 .ev .teams.matchup .flagimg, .ev .teams.matchup .flagimg.after { width: auto; height: 1.6em; max-width: 2.9em; margin: 0 }
-.ev .teams.matchup .logo:not(.flagimg) { width: 2.5em; height: 2.5em }
+/* wide crests (wordmarks like Canterbury's) get more width so they aren't shrunk to fit a square */
+.ev .teams.matchup .logo:not(.flagimg) { width: auto; height: 2.5em; max-width: 5em }
 
 a.svc { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 2px }
 a.svc:hover { text-decoration-color: currentColor }
@@ -404,7 +405,7 @@ a.svc:hover { text-decoration-color: currentColor }
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
   .tag { justify-self: start }
   .ev .teams { font-size: 25px }
-  .ev .teams.matchup .logo:not(.flagimg) { width: 2.3em; height: 2.3em }
+  .ev .teams.matchup .logo:not(.flagimg) { width: auto; height: 2.3em; max-width: 4.4em }
   .ev .teams.matchup .flagimg { width: auto; height: 1.6em }
   .ev .nz { font-size: 27px }
   .day .dd { font-size: 20px }
