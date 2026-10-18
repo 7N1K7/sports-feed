@@ -693,11 +693,10 @@ const COLOR_KEYS = Object.keys(TEAM_COLOR).sort((a, b) => b.length - a.length); 
 const colorOf = n => { const k = COLOR_KEYS.find(k => n.includes(k)); return k ? TEAM_COLOR[k] : '' };
 const nmSpan = (n, e) => { const c = colorOf(n.replace(/\s+Women('s)?$/, '')); return `<span class="nm"${c ? ` style="--tc:${c}"` : ''}>${esc(displayName(n, e))}</span>` };
 // flag lookups use the plain country name, the label uses the nickname
-// a national side with a union badge: the badge takes the crest's place and a small flag sits in front of the name
+// a national side with a union badge shows the badge in place of its flag
 const badgeOf = (n, e) => e && (n === e.home ? e.homeBadge : n === e.away ? e.awayBadge : '') || '';
-const withFlag = (n, e) => { const f = flagOf(n); return f ? nmSpan(n, e).replace(/^(<span class="nm"[^>]*>)/, `$1<img class="miniflag" src="${f}" alt="" loading="lazy" onerror="this.remove()">`) : nmSpan(n, e); };
-const teamNameR = (n, logo, e) => badgeOf(n, e) ? `${withFlag(n, e)}${crest(n, badgeOf(n, e), true)}` : `${nmSpan(n, e)}${crest(n.replace(/\s+Women('s)?$/, ''), logo, true)}`;
-const teamName = (n, logo, e) => badgeOf(n, e) ? `${crest(n, badgeOf(n, e))}${withFlag(n, e)}` : `${crest(n.replace(/\s+Women('s)?$/, ''), logo)}${nmSpan(n, e)}`;
+const teamNameR = (n, logo, e) => `${nmSpan(n, e)}${crest(n.replace(/\s+Women('s)?$/, ''), badgeOf(n, e) || logo, true)}`;
+const teamName = (n, logo, e) => `${crest(n.replace(/\s+Women('s)?$/, ''), badgeOf(n, e) || logo)}${nmSpan(n, e)}`;
 // a race has no opponent: the Grand Prix is the title, with the circuit and town under it
 const solo = e => e.sport === 'motor';
 const titleOf = e => solo(e) ? e.home : `${displayName(e.home, e)} v ${displayName(e.away, e)}`;
