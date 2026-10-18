@@ -403,7 +403,19 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
         if (e.away === 'TBC') Object.assign(e, { home: main.a.replace(/\s*\(c\)$/, ''), away: main.b.replace(/\s*\(c\)$/, '') });
         if (main.res === 'def.') Object.assign(e, { status: 'final', score: `${main.a} won`, summary: `${main.a} def. ${main.b}${main.method ? ` by ${main.method}` : ''}${main.round ? `, round ${main.round}` : ''}` });
       });
-      diag.ufcCards = ufcSoon.map(e => `${e.comp}: ${(e.card || []).length} bouts`);
+      // the article's opening paragraph, shown as "About" in the fight's details (credited to Wikipedia)
+      const x = await api('action=query&prop=extracts&exintro=1&explaintext=1&exlimit=20&redirects=1&titles=' + encodeURIComponent(names.slice(0, 20).join('|')));
+      const redir2 = Object.fromEntries([...(x.query?.redirects || []), ...(x.query?.normalized || [])].map(y => [y.to, y.from]));
+      const intro = {};
+      for (const pg of x.query?.pages || []) if (pg.extract) intro[redir2[pg.title] || pg.title] = pg.extract.replace(/\s+/g, ' ').trim();
+      ufcSoon.forEach((e, i) => {
+        const t = intro[names[i]];
+        if (!t || t.length < 60) return;
+        // first three sentences at most; "vs.", "U.S." and "Jr." don't end one
+        const ends = [...t.matchAll(/(\S+)[.!?] (?=[A-Z])/g)].filter(m => !/^(vs|Jr|Sr|St|Mt|No|Dr|Mr|[A-Z]|(?:[A-Z]\.)+[A-Z])$/.test(m[1]));
+        e.about = (ends[2] ? t.slice(0, ends[2].index + ends[2][0].length) : t).trim().slice(0, 600);
+      });
+      diag.ufcCards = ufcSoon.map(e => `${e.comp}: ${(e.card || []).length} bouts${e.about ? ', intro' : ''}`);
     }
   } catch (e) { diag.ufcCards = 'error: ' + e.message; }
   return out;
@@ -677,7 +689,9 @@ function squadsFromPage(text) {
         const n = clean(l.replace(/^\*\s*/, '').replace(/\{\{\s*efn[\s\S]*?\}\}/gi, '').replace(/\s*\((?:\s*\[\[[^\]]*\]\]\s*,?)+\s*\)/g, '')).trim();
         const efn = l.match(/\{\{\s*efn\s*\|([^{}]*)\}\}/i), ep = efn ? params('x|' + efn[1]) : null;
         const only = ep ? games(ep.pos[0] || notes[ep.named.name] || '') : null;
-        return n ? { n, r: roles.join(', '), ...(only?.length ? { only } : {}) } : null;
+        // the player's own article, for a profile link (role links like [[Captain (cricket)|c]] aside)
+        const w = [...l.matchAll(/\[\[([^\]|#]+)(?:\|[^\]]*)?\]\]/g)].map(m => m[1].trim()).find(t => !/captain|wicket|vice|^(c|vc|wk)$/i.test(t));
+        return n ? { n, r: roles.join(', '), ...(w ? { w } : {}), ...(only?.length ? { only } : {}) } : null;
       }).filter(Boolean);
       if (players.length) out.push({ team: col.team, format: col.format || '', players });
     });

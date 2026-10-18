@@ -10,6 +10,7 @@
 //   data/broadcast.json        -> where-to-watch rules by competition
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
 import { wikiEvents, tsdbEvents, tsdb, f1StartTimes } from './sources.mjs';
+import { rankings as getRankings } from './rankings.mjs';
 import { execSync } from 'node:child_process';
 
 const ROOT = new URL('../', import.meta.url);
@@ -140,6 +141,45 @@ async function heraldNews() {
   return out;
 }
 
+// Fight news: NZ outlets rarely cover UFC or world boxing, so headlines come from the specialist sites' public RSS
+// feeds too. Headline and link only (as with the Herald), the newest few that are about a UFC or boxing card we list
+const FIGHT_FEEDS = [
+  ['MMA Fighting', 'mmafighting.com', 'https://www.mmafighting.com/rss/index.xml'],
+  ['MMA Junkie', 'mmajunkie.usatoday.com', 'https://mmajunkie.usatoday.com/feed'],
+  ['Bad Left Hook', 'badlefthook.com', 'https://www.badlefthook.com/rss/index.xml'],
+];
+async function fightNews() {
+  const out = [], notes = [];
+  for (const [name, host, feedUrl] of FIGHT_FEEDS) {
+    let xml;
+    try {
+      const r = await fetch(feedUrl, { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' }, signal: AbortSignal.timeout(10000) });
+      if (!r.ok) throw new Error(r.status);
+      xml = await r.text();
+    } catch (e) { notes.push(`${name}: error ${e.message}`); continue; }
+    // RSS <item> or Atom <entry>
+    const items = [...xml.matchAll(/<(item|entry)>([\s\S]*?)<\/\1>/g)];
+    let n = 0;
+    for (const m of items) {
+      const get = tag => unxml((m[2].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1]);
+      const title = get('title').trim();
+      const url = (get('link') || (m[2].match(/<link[^>]*href="([^"]+)"/) || [])[1] || '').trim();
+      const d = new Date(get('pubDate') || get('published') || get('updated'));
+      const team = teamFor(title);
+      if (n >= 8 || !/^(ufc|boxing|nzboxing)$/.test(team || '') || !url || isNaN(d) || now - d > 5 * DAY || out.some(x => x.url === url || x.title === title)) continue;
+      out.push({
+        id: host.split('.')[0] + '-' + url.split('/').filter(Boolean).pop().slice(0, 80), team,
+        date: d.toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }),
+        kind: kindOf(title), title, summary: '', url, source: host, credit: `Headline from ${host}`, headlineOnly: true,
+      });
+      n++;
+    }
+    notes.push(`${name}: ${items.length} items, ${n} kept`);
+  }
+  diag.fightNews = notes.join('; ');
+  return out;
+}
+
 // --- merge -------------------------------------------------------------
 const ALIAS = [[/all blacks|black ferns|kiwi ferns|\bkiwis\b|white ferns|black ?caps/gi, 'new zealand'], [/wallabies|kangaroos|jillaroos|wallaroos/gi, 'australia'], [/springboks/gi, 'south africa'], [/pumas/gi, 'argentina']];
 const norm = s => ALIAS.reduce((t, [re, to]) => t.replace(re, to), s || '').toLowerCase().replace(/women|bulls|stags|storm|pride|mako|steamers|heartland|rugby|the /g, '').replace(/[^a-z]/g, '');
@@ -223,7 +263,7 @@ for (const e of [...tsdbLive, ...wiki]) {
   if (hit.timeTBC && !e.timeTBC) Object.assign(hit, { startUTC: e.startUTC, timeTBC: false });
   if (!hit.score && e.score) Object.assign(hit, { score: e.score, status: e.status, summary: e.summary });
   if (/^TBC$/.test(hit.away) && e.away !== 'TBC') Object.assign(hit, { home: e.home, away: e.away });
-  for (const k of ['venue', 'city', 'tz', 'link', 'card', 'squads', 'cricinfo']) if (!hit[k] && e[k]) hit[k] = e[k];
+  for (const k of ['venue', 'city', 'tz', 'link', 'card', 'squads', 'cricinfo', 'about']) if (!hit[k] && e[k]) hit[k] = e[k];
   if (e.weather) hit.weather = e.weather;
   for (const k of ['progress', 'liveScore']) if (e[k]) hit[k] = e[k];
   if (e.card && /wikipedia/.test(e.source)) { hit.source = e.source; if (e.score) Object.assign(hit, { score: e.score, summary: e.summary, status: e.status }); }
@@ -292,7 +332,7 @@ const newsAll = [...curated.news];
 // RNZ's RSS terms say "for personal use only" (rnz.co.nz/rss); the owner chose to show it on this non-commercial site,
 // with the feed's own summary and photo and a "Read at RNZ" link back. Set false to switch it off again
 const RNZ_ON = true;
-for (const n of [...(RNZ_ON ? await rnzNews() : []), ...await heraldNews()]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
+for (const n of [...(RNZ_ON ? await rnzNews() : []), ...await heraldNews(), ...await fightNews()]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
 const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 
 // Club logos from TheSportsDB's free API (badges used as-is, credited in the footer).
@@ -495,6 +535,22 @@ async function addFaces(events) {
         add(n, pg, 0);
       }
     }
+    // 4. Commons search: photos that name the fighter but sit in no category of theirs (common for undercard
+    // fighters with no article). The file's own text must give the full name and say UFC, MMA or boxing
+    const fold = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w\s]/g, ' ').replace(/\s+/g, ' ').toLowerCase();
+    let searched = 0, searchHits = 0;
+    for (const n of due.filter(n => !cands[n]?.length).slice(0, 25)) {
+      searched++;
+      const r = await get('commons.wikimedia.org', `action=query&generator=search&gsrnamespace=6&gsrlimit=15&${INFO}&gsrsearch=` + encodeURIComponent(`"${n}"`));
+      let hit = false;
+      for (const pg of r.query?.pages || []) {
+        const md = pg.imageinfo?.[0]?.extmetadata || {}, about = plain(`${md.ImageDescription?.value || ''} ${md.Categories?.value || ''} ${md.ObjectName?.value || ''} ${pg.title}`);
+        if (!fold(about).includes(fold(n)) || !(FIGHTER.test(about) || /\bUFC\b|Bellator|\bPFL\b|\bONE Championship/.test(about))) continue;
+        add(n, pg, 0); hit = true;
+      }
+      if (hit) searchHits++;
+    }
+    diag.facesSearch = `${searched} searched on Commons, ${searchHits} with a matching photo`;
     const score = ({ title, ii, bonus }) => {
       if (!/jpeg|png|webp/.test(ii.mime || '') || Math.min(ii.width, ii.height) < 200 || /\blogo\b|poster|belt\b|signature/i.test(title)) return -99;
       const r = ii.height / ii.width, md = ii.extmetadata || {};
@@ -508,7 +564,7 @@ async function addFaces(events) {
       const best = (cands[n] || []).map(c => ({ c, s: score(c) })).filter(x => x.s > -50).sort((a, b) => b.s - a.s)[0];
       if (!best) continue;
       const { title, ii } = best.c, md = ii.extmetadata || {};
-      found[n] = { src: ii.thumburl, file: title, ...(best.c.bonus ? {} : { from: 'commons category' }),
+      found[n] = { src: ii.thumburl, file: title, ...(best.c.bonus ? {} : { from: 'commons' }),
         credit: [plain(md.Artist?.value), plain(md.LicenseShortName?.value)].filter(Boolean).join(', ') + ' / Wikimedia Commons' };
       delete miss[n];
     }
@@ -516,6 +572,41 @@ async function addFaces(events) {
   } catch (e) { diag.facesError = e.message; }
   // only names that got an answer are cached; any left over by an error are tried again next run
   for (const n of due) if (found[n] || miss[n]) cache[n] = found[n] ? { t: now, v: 5, ...found[n] } : { t: now, v: 5, src: null, why: miss[n] };
+  // 5. Openverse (openverse.org, the free search of Creative Commons images): Flickr photos for fighters Wikimedia has
+  // none of. Licences that allow adapting only (the page crops to a circle), mature results off, a dozen names a run,
+  // each re-asked weekly. The photo's title or tags must give the full name and a fight word, and not name an opponent
+  const ovFold = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w\s]/g, ' ').replace(/\s+/g, ' ').toLowerCase().trim();
+  const ovDue = names.filter(n => !cache[n]?.src && cache[n]?.v === 5 && (!cache[n].ov || now - cache[n].ov > 7 * DAY)).slice(0, 12);
+  const ov = { asked: 0, found: 0, note: '' };
+  for (const n of ovDue) {
+    let res;
+    try {
+      await new Promise(r => setTimeout(r, 1500));
+      const r = await fetch(`https://api.openverse.org/v1/images/?q=${encodeURIComponent(n)}&source=flickr&license_type=modification&mature=false&page_size=20`, UA);
+      if (r.status === 429) { ov.note = 'rate-limited, stopped'; break; }
+      if (!r.ok) throw new Error(r.status);
+      res = (await r.json()).results || [];
+    } catch (e) { ov.note = 'error ' + e.message; break; }
+    ov.asked++;
+    cache[n].ov = now;
+    const want = ovFold(n), squash = want.replace(/ /g, '');
+    const best = res.map(x => {
+      const title = ovFold(x.title), tags = (x.tags || []).map(t => ovFold(t.name)), text = `${title} ${tags.join(' ')}`;
+      const url = String(x.url || '');
+      if (!(title.includes(want) || tags.some(t => t === want || t.replace(/ /g, '') === squash))) return null;
+      if (!/\b(ufc|mma|fight\w*|box\w*|weigh|octagon|bellator|pfl|cage|kickbox\w*|martial|bjj|jiu)\b/.test(text)) return null;
+      if (/\b(vs?|versus|and|with)\b|&/.test(title.replace(want, '')) || !/staticflickr\.com\/.+\/\d+_[0-9a-f]+(_[bcmnqstwz])?\.jpg$/i.test(url)) return null;
+      const r = (x.height || 1) / (x.width || 1);
+      const s = (r >= 1.15 ? 3 : r >= 0.85 ? 2 : r >= 0.6 ? 0 : -3) + (/weigh|media day|portrait|headshot|press|open workout|face/.test(text) ? 2 : 0) - (/\bfight\b|\bbout\b|\bround\b/.test(title) ? 2 : 0);
+      // Flickr sizes: "_n" is 320px; the large "_k"/"_h"/"_o" files have their own secret, so those are skipped
+      return { x, s, src: url.replace(/(_[bcmnqstwz])?\.jpg$/i, '_n.jpg') };
+    }).filter(Boolean).sort((a, b) => b.s - a.s)[0];
+    if (!best) continue;
+    const { x } = best, lic = x.license === 'cc0' ? 'CC0' : x.license === 'pdm' ? 'Public domain' : `CC ${String(x.license).toUpperCase()} ${x.license_version || ''}`.trim();
+    Object.assign(cache[n], { src: best.src, file: x.foreign_landing_url, from: 'openverse', credit: `${x.creator || 'unknown'}, ${lic} / Flickr via Openverse`, t: now });
+    ov.found++;
+  }
+  diag.facesOpenverse = `${ov.asked} asked, ${ov.found} found${ov.note ? '; ' + ov.note : ''}; ${names.filter(n => !cache[n]?.src && cache[n]?.v === 5 && !cache[n].ov).length} not asked yet`;
   for (const e of near) {
     for (const side of ['home', 'away']) {
       const c = cache[full(e, side)];
@@ -527,8 +618,45 @@ async function addFaces(events) {
     }
   }
   const have = names.filter(n => cache[n]?.src);
-  diag.faces = `${have.length}/${names.length} fighters with a free photo (${have.filter(n => cache[n].from).length} from Commons categories); ${due.length} looked up`;
+  diag.faces = `${have.length}/${names.length} fighters with a free photo (${have.filter(n => cache[n].from === 'commons').length} from Commons search or categories, ${have.filter(n => cache[n].from === 'openverse').length} from Openverse); ${due.length} looked up`;
   diag.facesMissing = names.filter(n => !cache[n]?.src).map(n => `${n}: ${cache[n]?.v === 5 ? cache[n].why : 'not looked up yet'}`);
+  try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
+}
+
+// Squad names link to each player's Cricinfo profile: the Cricinfo id comes from Wikidata (ESPNcricinfo player ID, P2697),
+// found through the player's Wikipedia article. Ids are kept for 30 days, players without one are re-asked weekly
+async function addPlayerLinks(events) {
+  const cacheUrl = new URL('.cache/players.json', ROOT);
+  let cache = {};
+  try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
+  const UA = { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } };
+  const get = async (host, q) => { await new Promise(r => setTimeout(r, 1000)); const r = await fetch(`https://${host}/w/api.php?format=json&formatversion=2&maxlag=5&` + q, UA); if (!r.ok) throw new Error(`${host} ${r.status}`); return r.json(); };
+  const players = events.filter(e => e.squads && Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY).flatMap(e => e.squads.flatMap(s => s.players));
+  const key = p => p.w || p.n;
+  const due = [...new Set(players.map(key))].filter(k => !cache[k] || now - cache[k].t > (cache[k].ci ? 30 : 7) * DAY).slice(0, 150);
+  try {
+    const qid = {};
+    for (let i = 0; i < due.length; i += 50) {
+      const r = await get('en.wikipedia.org', 'action=query&prop=pageprops&ppprop=wikibase_item|disambiguation&redirects=1&titles=' + encodeURIComponent(due.slice(i, i + 50).join('|')));
+      const back = {};
+      for (const m of [...(r.query?.normalized || []), ...(r.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
+      for (const pg of r.query?.pages || []) {
+        const k = back[pg.title] || pg.title;
+        if (!pg.missing && !pg.pageprops?.disambiguation && pg.pageprops?.wikibase_item) qid[k] = [pg.pageprops.wikibase_item, pg.title];
+        else cache[k] = { t: now };
+      }
+    }
+    const ids = Object.values(qid).map(([q]) => q);
+    const ci = {};
+    for (let i = 0; i < ids.length; i += 50) {
+      const r = await get('www.wikidata.org', 'action=wbgetentities&props=claims&ids=' + ids.slice(i, i + 50).join('|'));
+      for (const [q, ent] of Object.entries(r.entities || {})) { const v = ent.claims?.P2697?.[0]?.mainsnak?.datavalue?.value; if (v) ci[q] = v; }
+    }
+    for (const [k, [q, title]] of Object.entries(qid)) cache[k] = { t: now, wp: title, ...(ci[q] ? { ci: ci[q] } : {}) };
+  } catch (e) { diag.playersError = e.message; }
+  let linked = 0;
+  for (const p of players) { const c = cache[key(p)]; if (c?.ci) { p.ci = c.ci; linked++; } if (c?.wp) p.wp = c.wp; delete p.w; }
+  diag.players = `${linked}/${players.length} squad places linked to Cricinfo; ${due.length} looked up`;
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
 
@@ -554,6 +682,7 @@ async function addImages(items) {
 await addImages(news);
 await addLogos(events, tsdbAll);
 await addFaces(events);
+await addPlayerLinks(events);
 
 // site version: the number of commits, and when the code last changed (needs the full git history in CI)
 let site = null;
@@ -584,6 +713,14 @@ const inFeed = new Set(events.filter(e => now - new Date(e.startUTC) < 21 * DAY)
 const form = Object.fromEntries(Object.entries(formAll).filter(([k]) => inFeed.has(k)).map(([k, v]) => [k, v.slice(-6)]));
 diag.form = `${Object.keys(form).length} sides with a form guide`;
 
+// world rankings (Wikipedia), each page re-read every 12 hours
+const rankUrl = new URL('.cache/rankings.json', ROOT);
+let rankCache = {};
+try { rankCache = JSON.parse(await readFile(rankUrl, 'utf8')); } catch {}
+let rankings = [];
+try { rankings = await getRankings(rankCache, diag); } catch (e) { diag.rankings = 'error: ' + e.message; }
+try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(rankUrl, JSON.stringify(rankCache)); } catch {}
+
 const feed = {
   generatedAt: new Date(now).toISOString(),
   ...(site ? { site } : {}),
@@ -592,8 +729,9 @@ const feed = {
   form,
   news,
   tables,
+  rankings,
   sources: [
-    { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' },
+    { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })),
     { name: 'NZ Rugby', url: 'https://www.allblacks.com' }, { name: 'NZ Cricket', url: 'https://www.nzc.nz' },
     { name: 'NRL', url: 'https://www.nrl.com' },
   ],
@@ -602,6 +740,15 @@ await writeFile(new URL('data/feed.json', ROOT), JSON.stringify(feed));
 // a small plain-text view of games around now, for checking the live site without reading the whole feed
 await writeFile(new URL('data/now.txt', ROOT), feed.events.filter(e => Math.abs(Date.parse(e.startUTC) - now) < 2 * DAY)
   .map(e => [e.id, e.team, e.status, e.startUTC, e.timeTBC ? 'TBC' : '', e.format || '', e.stage || '', e.city || '', e.tz || '', e.score || '', e.summary || '', e.weather || '', e.progress || '', e.liveScore || ''].join(' | ')).join('\n') + '\n');
+
+// plain-text check of the fight sections: nearby cards, photos still missing and fight headlines
+await writeFile(new URL('data/fights.txt', ROOT), [
+  '# cards within 30 days',
+  ...feed.events.filter(e => /^(mma|boxing)$/.test(e.sport) && Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY)
+    .map(e => [e.startUTC.slice(0, 10), e.comp, `${e.home} v ${e.away}`, e.status, e.score || '', `${(e.card || []).length} bouts`, `photos ${[e.homeLogo, e.awayLogo, ...(e.card || []).flatMap(b => [b.aImg, b.bImg])].filter(Boolean).length}`, e.about ? 'intro' : ''].join(' | ')),
+  '', `# ${diag.faces}`, `# ${diag.facesSearch || ''} / openverse: ${diag.facesOpenverse || ''}`, ...(diag.facesMissing || []),
+  '', `# fight headlines (${diag.fightNews || ''})`, ...feed.news.filter(n => /^(ufc|boxing|nzboxing)$/.test(n.team)).map(n => [n.date, n.team, n.source, n.title].join(' | ')),
+].join('\n') + '\n');
 
 // "hot" while a game is on or about to start (Tests count for five days), so the workflow refreshes every
 // 10 minutes then and only now and again otherwise, sparing Wikipedia and TheSportsDB needless requests

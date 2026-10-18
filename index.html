@@ -208,6 +208,11 @@ footer a { color: var(--muted) }
 .tag.near { background: var(--near); color: #fff }
 .tag.later { background: transparent; color: var(--later); box-shadow: inset 0 0 0 1px var(--line) }
 .dayhead { color: var(--ink) }
+.plink { color: inherit; text-decoration: underline dotted color-mix(in srgb, var(--muted) 70%, transparent); text-underline-offset: 3px }
+.plink:hover { text-decoration-style: solid }
+.dhnote { text-transform: none; letter-spacing: 0; font-weight: 500; margin-left: 6px }
+.revall { float: right; margin-top: -3px; font: inherit; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 4px 10px; cursor: pointer }
+.revall:hover { border-color: var(--muted) }
 .dayhead::after { content: ""; display: block; height: 2px; width: 32px; background: var(--accent); margin-top: 4px; border-radius: 2px }
 
 
@@ -229,6 +234,12 @@ dialog#sheet::backdrop { background: rgba(10, 18, 15, .5) }
 .sheet-head .comp { display: flex; gap: 6px; align-items: center; font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--sport); font-weight: 700 }
 .dteams { font-size: 28px; line-height: 1.1 }
 .dteams .v { color: var(--muted); font-weight: 500 }
+.dteams.scored { display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap }
+.dteams.scored .v { padding-top: .1em }
+.dteams .dside { display: inline-grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 0; min-width: 0 }
+.dteams .dside .ts { grid-column: 1 / -1; font-size: .78em; padding: 4px 0 0; justify-self: start }
+.dres .dwin { font-weight: 700; font-size: 16px; margin-top: 0 }
+@media (max-width: 560px) { .dteams.scored { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; font-size: 22px } .dteams.scored .dside { display: flex; flex-direction: column; align-items: flex-start } .dteams.scored .dside:last-child { align-items: flex-end; text-align: right } .dteams.scored .dside .ts { padding-top: 2px } }
 .sheet-head .tag { justify-self: start }
 .dres { display: grid; gap: 4px; background: var(--paper); border-radius: 10px; padding: 10px 12px }
 .dres .score { font-family: var(--f-display); font-size: 30px; font-weight: 700 }
@@ -405,6 +416,10 @@ a.svc:hover { text-decoration-color: currentColor }
 .hubtabs button[aria-selected="true"] { background: var(--sport); border-color: var(--sport); color: var(--surface) }
 .hubhide { display: none !important }
 .stable { margin-bottom: 18px }
+.rankchips { margin: 4px 0 12px }
+.stable.rank .rnote { font-weight: 400; white-space: normal }
+.stable.rank tr.gap td { text-align: center; color: var(--muted); padding: 2px }
+.stable.rank .tag { font-size: 10px; vertical-align: .1em }
 .tscroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface) }
 .stable table { width: 100%; border-collapse: collapse; font-size: 14px }
 .stable th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; padding: 8px 6px; text-align: right; border-bottom: 1px solid var(--line) }
@@ -502,6 +517,10 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev .when .score.sm { font-size: 14px; font-family: var(--f-body); font-weight: 700; line-height: 1.3; color: var(--muted) }
 :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev .teams.matchup.scored:has(.ts) .side { flex-wrap: wrap; row-gap: 2px }
 .ts .ov { font-size: .7em; font-weight: 600 }
+/* scores either side of the "v", so the crests and names stay where they'd be without them */
+.matchup .v.vsc { display: flex; align-items: baseline; gap: .45em; font-size: 1em; text-transform: none; color: inherit }
+.matchup .vsc .vv { color: var(--muted); font-weight: 500; font-size: .75em }
+.matchup .vsc .ts { padding: 0 }
 @media (max-width: 560px) { .ts .ov { display: none }
   /* on a phone the score drops to its own line under the name, so long names keep their width */
   :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev .teams.matchup.scored .side .ts { order: 5; flex-basis: 100%; text-align: center } }
@@ -794,7 +813,7 @@ let compSel = store.get('comp', '');
 let genderSel = store.get('gender', 'all');
 let nzOnly = store.get('nzOnly', false);
 let selDay = '', drawDayPick = () => {};
-let hubTab = 'games', resMore = false;
+let hubTab = 'games', resMore = false, rankSel = '';
 const NZ_KEYS = new Set(['allblacks', 'blackferns', 'npc', 'fpc', 'blues', 'chiefs', 'hurricanes', 'crusaders', 'highlanders', 'moana', 'blackcaps', 'whiteferns', 'nzdomestic', 'kiwis', 'kiwiferns', 'warriors', 'phoenix', 'aucklandfc', 'nzboxing']);
 const NZ_NAMES = /\bNew Zealand\b|^(Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Moana Pasifika)$|Warriors|Wellington Phoenix|Auckland FC|All Blacks|Black Ferns|Black ?Caps|White Ferns|Kiwi/;
 const isNZ = x => NZ_KEYS.has(x.team) || [x.home, x.away].some(n => NZ_NAMES.test(n || ''));
@@ -912,6 +931,14 @@ function countdown(e, now) {
 }
 function canRehide(id, start, now) { return spoilers && revealed.has(id) && now - new Date(start) < spoilDays * 864e5; }
 const rehideBtn = id => `<button class="rehide" type="button" data-rehide="${esc(id)}">Hide again</button>`;
+// "Show all" beside a results heading uncovers every hidden result under it in one go; once none are hidden it
+// turns into "Hide all", which covers them again
+const revealAll = (list, now) => {
+  const ids = list.filter(e => isHidden(e, now)).map(e => e.id);
+  if (ids.length > 1) return `<button type="button" class="revall" data-revealall="${esc(ids.join(' '))}">Show all ${ids.length}</button>`;
+  const back = list.filter(e => canRehide(e.id, e.startUTC, now)).map(e => e.id);
+  return !ids.length && back.length > 1 ? `<button type="button" class="revall" data-hideall="${esc(back.join(' '))}">Hide all</button>` : '';
+};
 function isHidden(e, now) {
   if (!spoilers || revealed.has(e.id)) return false;
   return now - new Date(e.startUTC) < spoilDays * 864e5;
@@ -1044,7 +1071,7 @@ function resCard(e, now) {
     <div class="stripe"></div>
     <div class="body">
       <div class="comp">${sIcon(e.sport)}${compBadge(e)}${intlTag(e)}<span>${esc(cardComp(e))}</span></div>
-      ${solo(e) ? soloTitle(e) : `<div class="teams matchup${split ? ' scored' : ''}"><span class="side home">${teamName(e.home, e.homeLogo, e)}${split ? scoreTag(split[0], res('home')) : ''}</span><span class="v">v</span><span class="side away">${split ? scoreTag(split[1], res('away')) : ''}${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
+      ${solo(e) ? soloTitle(e) : `<div class="teams matchup${split ? ' scored' : ''}"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span>${split ? `<span class="v vsc">${scoreTag(split[0], res('home'))}<span class="vv">v</span>${scoreTag(split[1], res('away'))}</span>` : '<span class="v">v</span>'}<span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${hidden ? '' : `<div class="summary">${esc(e.summary || '')}</div>`}
     </div>
     <div class="when">${right}<div class="rloc">${dayLabel(d, NZ)}${cityOf(e) ? ' · ' + wikiLink(cityOf(e)) : ''}</div></div>
@@ -1092,6 +1119,34 @@ function tableHtml(t) {
     return `<tr class="${r.q ? 'q' : ''} ${mine ? 'mine' : ''}"><td class="pos">${i + 1}</td><td class="tn">${teamName(/Women/.test(t.page) ? r.name.replace(/\s+Women('s)?$/, '') : r.name, logoOf(r.name), ev)}${r.champ ? ' <span class="tag">Champions</span>' : ''}</td>${cols.map(([k, , c]) => `<td class="num ${c || ''} ${k === 'pts' ? 'pts' : ''}">${esc(String(v(k)))}</td>`).join('')}</tr>`;
   }).join('');
   return `<div class="stable ${t.style === 'points' ? 'points' : ''}"><h3 class="dh">${esc(t.label)}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${t.style === 'points' && /driver/i.test(t.title) ? 'Driver' : 'Team'}</th>${cols.map(([, l, c]) => `<th class="${c || ''}">${l}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div></div>`;
+}
+// Rankings tab: world rankings for the hub's sport (international competitions and the UFC)
+function hubRankings() {
+  const evs = (FEED.events || []).filter(e => compOf(e) === compSel);
+  const sport = evs[0]?.sport;
+  const lists = (FEED.rankings || []).filter(r => r.sport === sport);
+  return lists.length && (sport === 'mma' || evs.some(isIntl)) ? lists : [];
+}
+function rankDefault(lists) {
+  const evs = (FEED.events || []).filter(e => compOf(e) === compSel);
+  const women = evs.length && evs.every(e => genderOf(e) === 'women');
+  const fmtWord = { Test: 'Tests', ODI: 'ODIs', T20I: 'T20Is', T20: 'T20Is' }[evs.map(e => e.format).find(Boolean)] || '';
+  return lists.find(l => /Women/.test(l.title) === !!women && (!fmtWord || l.title.endsWith(fmtWord)))?.title || lists[0].title;
+}
+function rankingsHtml(lists) {
+  if (!lists.some(l => l.title === rankSel)) rankSel = rankDefault(lists);
+  const l = lists.find(x => x.title === rankSel);
+  const chips = lists.length > 1 ? `<div class="chips rankchips">${lists.map(x => `<button type="button" class="chip" data-rank="${esc(x.title)}" aria-pressed="${x.title === rankSel}">${esc(x.title)}</button>`).join('')}</div>` : '';
+  const fighters = l.sport === 'mma';
+  const ev = { sport: l.sport };
+  const rows = l.rows.map(r => {
+    const champ = r.rank === 'C' ? 'Champion' : r.rank === 'IC' ? 'Interim champion' : '';
+    const gap = r.nz && l.rows.indexOf(r) > 0 && +r.rank > +l.rows[l.rows.indexOf(r) - 1].rank + 1 ? '<tr class="gap"><td colspan="4">…</td></tr>' : '';
+    const name = fighters ? `${esc(r.name)}${r.iso ? ` <span class="muted small">${esc(r.iso)}</span>` : ''}${champ ? ` <span class="tag">${champ}</span>` : ''}` : teamName(r.name.replace(/\s+Women('s)?$/, ''), '', ev);
+    return `${gap}<tr class="${r.nz || (fighters && /New Zealand|NZL/.test(r.iso)) ? 'mine' : ''}"><td class="pos">${champ ? '' : esc(r.rank)}</td><td class="tn">${name}${fighters && r.note && !/^(Steady|–|-)?$/.test(r.note) ? `<div class="muted small rnote">${esc(r.note)}</div>` : ''}</td><td class="num">${esc(fighters ? r.rec || '' : r.val)}</td></tr>`;
+  }).join('');
+  return `${chips}<div class="stable rank"><h3 class="dh">${esc(l.title)}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date(l.asOf + 'T12:00:00Z'), NZ, { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+    <p class="muted small">Rankings from <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(l.page.replace(/ /g, '_'))}" target="_blank" rel="noopener">Wikipedia</a> (CC BY-SA), which follows the official ${fighters ? 'UFC' : l.sport === 'rugby' ? 'World Rugby' : l.sport === 'cricket' ? 'ICC' : 'IRL'} list.</p>`;
 }
 // Shows tab: the wider conversation around each sport (panel shows, YouTube breakdowns, podcasts), best known first.
 // t: tv / yt / pod. c: only for competitions matching it. url: a checked page; otherwise a YouTube search for q (or the name).
@@ -1174,7 +1229,8 @@ function renderHub(now) {
   const on = !!compSel;
   $('hubSec').hidden = !on;
   const shows = on ? hubShows((FEED.events || []).find(e => compOf(e) === compSel)?.sport) : [];
-  const tabs = on ? [['games', 'Games'], ...(hubTables().length ? [['table', 'Table']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
+  const ranks = on ? hubRankings() : [];
+  const tabs = on ? [['games', 'Games'], ...(hubTables().length ? [['table', 'Table']] : []), ...(ranks.length ? [['rank', 'Rankings']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
   if (!tabs.some(([k]) => k === hubTab)) hubTab = 'games';
   const other = on && hubTab !== 'games';
   for (const id of ['liveSec', 'weekSec', 'todaySec', 'tomSec', 'upSec', 'laterSec', 'resSec', 'newsSec']) $(id).classList.toggle('hubhide', other || (on && id === 'newsSec'));
@@ -1187,6 +1243,8 @@ function renderHub(now) {
   if (hubTab === 'table') {
     const ts = hubTables();
     $('hubBody').innerHTML = ts.map(tableHtml).join('') + `<p class="muted small">Standings from Wikipedia.${ts.some(t => t.rows.some(r => r.q)) ? ' Highlighted rows are in a qualifying spot.' : ''}${ts.some(t => t.rows.some(r => r.nz)) ? ' New Zealanders highlighted.' : ''}</p>`;
+  } else if (hubTab === 'rank') {
+    $('hubBody').innerHTML = rankingsHtml(ranks);
   } else if (hubTab === 'news') {
     $('hubBody').innerHTML = `<div class="newslist">${$('news').innerHTML}</div>`;
   } else if (hubTab === 'shows') {
@@ -1194,11 +1252,15 @@ function renderHub(now) {
   } else $('hubBody').innerHTML = '';
 }
 
+// a squad name opens the player's Cricinfo profile (id from Wikidata), else their Wikipedia article
+const slug = n => n.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const playerLink = p => p.ci ? `<a class="plink" href="https://www.espncricinfo.com/cricketers/${slug(p.n)}-${encodeURIComponent(p.ci)}" target="_blank" rel="noopener" title="${esc(p.n)} on Cricinfo">${esc(p.n)}</a>`
+  : p.wp ? `<a class="plink" href="https://en.wikipedia.org/wiki/${encodeURIComponent(p.wp.replace(/ /g, '_'))}" target="_blank" rel="noopener" title="${esc(p.n)} on Wikipedia">${esc(p.n)}</a>` : esc(p.n);
 // cricket squads from the tour's Wikipedia page, home side first
 function squadsHtml(e) {
   const base = t => (t || '').replace(/\s+Women('s)?$/, '');
   const sides = [e.home, e.away].map(t => e.squads.find(s => base(s.team) === base(t))).filter(Boolean);
-  return `<div class="squads">${sides.map(s => `<div class="squad"><div class="sqh">${nmSpan(s.team, e)}</div><ul>${s.players.map(p => `<li>${esc(p.n)}${p.r ? ` <span class="role">${esc(p.r)}</span>` : ''}</li>`).join('')}</ul></div>`).join('')}</div>`;
+  return `<div class="squads">${sides.map(s => `<div class="squad"><div class="sqh">${nmSpan(s.team, e)}</div><ul>${s.players.map(p => `<li>${playerLink(p)}${p.r ? ` <span class="role">${esc(p.r)}</span>` : ''}</li>`).join('')}</ul></div>`).join('')}</div>`;
 }
 
 // UFC card grouped by section; winners hidden while spoilers are on
@@ -1218,11 +1280,15 @@ function detail(e) {
   const hidden = isPast && isHidden(e, now);
   const when = e.timeTBC ? `${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}, ${e.usual ? `time not listed yet (Tests usually start about 10am local, so ≈${time(d, NZ)} ${tzLabel()})` : 'time to be confirmed'}`
     : `${time(d, NZ)} ${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}`;
+  // form up to this game, or including it once it's finished and the result is showing
+  const formTo = isPast && !hidden ? new Date(d.getTime() + 864e5).toISOString() : e.startUTC;
   const rows = [
     [`${START_LABEL[e.sport] || 'Start'} (${tzLabel()})`, when],
     overseas && (!e.timeTBC || e.usual) ? ['Local', `${e.usual ? '≈' : ''}${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
     ['Where', [e.venue, e.city].filter(Boolean).map(wikiLink).join(', ') || 'To be confirmed', true],
     e.note ? ['Note', e.note] : null,
+    // the event article's opening lines (UFC); kept back while spoilers are hidden, as an intro can name the winner
+    e.about && !hidden ? ['About', `${esc(e.about)} <a class="muted small" href="${esc(e.source)}" target="_blank" rel="noopener">Wikipedia ↗</a>`, true] : null,
     (() => {
       // every photo shown for this fight or card, once each
       const seen = new Map();
@@ -1232,8 +1298,8 @@ function detail(e) {
     })(),
     e.weather ? ['Weather', e.weather] : null,
     // form going into this game; each name opens that side's page
-    !solo(e) && /^(rugby|league|football|cricket)$/.test(e.sport) && [e.home, e.away].some(n => formOf(n, e.sport, e.startUTC).length)
-      ? ['Form', `<div class="formrows">${[e.home, e.away].map(n => `<div><button type="button" class="tlink" data-teampage="${esc(n)}" data-tsport="${e.sport}">${nmSpan(n, e)}</button>${formHtml(n, e.sport, e.startUTC) || '<span class="muted small">no results yet</span>'}</div>`).join('')}</div>`, true] : null,
+    !solo(e) && /^(rugby|league|football|cricket)$/.test(e.sport) && [e.home, e.away].some(n => formOf(n, e.sport, formTo).length)
+      ? ['Form', `<div class="formrows">${[e.home, e.away].map(n => `<div><button type="button" class="tlink" data-teampage="${esc(n)}" data-tsport="${e.sport}">${nmSpan(n, e)}</button>${formHtml(n, e.sport, formTo) || '<span class="muted small">no other results on record</span>'}</div>`).join('')}</div>`, true] : null,
   ].filter(Boolean);
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
   const watch = [b && `<li><b>${linkWatch(b)}</b></li>`, e.watchAlt && `<li>${linkWatch(e.watchAlt)}</li>`,
@@ -1244,13 +1310,16 @@ function detail(e) {
     .filter(n => Math.abs(new Date(n.date) - d) < 21 * 864e5)
     .filter(n => !(hidden && n.kind === 'result'))
     .sort((a, c) => (a.kind === 'injury' ? -1 : 0) - (c.kind === 'injury' ? -1 : 0) || c.date.localeCompare(a.date)).slice(0, 6);
+  // revealed scores sit under each side's name (green winner, red loser); the box below says who won
+  const split = isPast && !hidden && !solo(e) ? sideScores(e) : null, win = split && winnerOf(e);
+  const wl = side => !win ? '' : win === 'draw' ? 'D' : win === side ? 'W' : 'L';
   const res = isPast ? (hidden
     ? `<button class="cover big" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>Spoilers are hidden</button>`
-    : `<div class="dres"><div class="score num ${/[a-z]{3}/i.test(e.score || '') ? 'long' : ''}">${esc(e.score || 'Result not in yet')}</div>${e.summary ? `<p>${esc(e.summary)}</p>` : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
-  const live = e.status === 'live' || onNow(e, now) ? `<div class="dres"><span><span class="tag live">On now</span></span>${liveLink(e)}</div>` : '';
+    : `<div class="dres">${split && e.summary ? '' : `<div class="score num ${/[a-z]{3}/i.test(e.score || '') ? 'long' : ''}">${esc(e.score || 'Result not in yet')}</div>`}${e.summary ? `<p${split ? ' class="dwin"' : ''}>${esc(e.summary)}</p>` : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
+  const live = e.status === 'live' || (e.status !== 'final' && onNow(e, now)) ? `<div class="dres"><span><span class="tag live">On now</span></span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
       <div class="comp">${compBadge(e)}${intlTag(e)}<span>${esc(cardComp(e))}</span>${sIcon(e.sport)}</div>
-      ${solo(e) ? `<h2 class="dteams solo">${esc(e.home)}${placeOf(e) ? `<small>${esc(placeOf(e))}</small>` : ''}</h2>` : `<h2 class="dteams">${teamName(e.home, e.homeLogo, e)} <span class="v">v</span> ${teamName(e.away, e.awayLogo, e)}</h2>`}
+      ${solo(e) ? `<h2 class="dteams solo">${esc(e.home)}${placeOf(e) ? `<small>${esc(placeOf(e))}</small>` : ''}</h2>` : split ? `<h2 class="dteams scored"><span class="dside">${teamName(e.home, e.homeLogo, e)}${scoreTag(split[0], wl('home'))}</span> <span class="v">v</span> <span class="dside">${teamName(e.away, e.awayLogo, e)}${scoreTag(split[1], wl('away'))}</span></h2>` : `<h2 class="dteams">${teamName(e.home, e.homeLogo, e)} <span class="v">v</span> ${teamName(e.away, e.awayLogo, e)}</h2>`}
       ${!isPast && e.status !== 'live' && countdown(e, now) ? `<span class="tag ${d - now < 864e5 ? 'soon' : d - now < 3 * 864e5 ? 'near' : 'later'}">${countdown(e, now)}</span>` : ''}
     </div>
     ${res}${live}
@@ -1263,7 +1332,7 @@ function detail(e) {
     ].filter(Boolean).join('')}</div>
     <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
     ${e.card?.length ? `<h3 class="dh">Fight card</h3>${fightCard(e, hidden)}` : ''}
-    ${e.squads?.length ? `<h3 class="dh">Squads</h3>${squadsHtml(e)}${cricinfo(e) ? `<p class="small"><a class="srclink" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Playing XIs on Cricinfo once announced ↗</a></p>` : ''}` : ''}
+    ${e.squads?.length ? `<h3 class="dh">Squads${e.squads.some(q => q.players.some(p => p.ci || p.wp)) ? ' <span class="muted small dhnote">tap a name for their profile</span>' : ''}</h3>${squadsHtml(e)}${cricinfo(e) ? `<p class="small"><a class="srclink" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Playing XIs on Cricinfo once announced ↗</a></p>` : ''}` : ''}
     <h3 class="dh">${solo(e) ? 'News' : 'Team news'}</h3>
     ${related.length ? `<div class="news">${related.map(n => `<a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener">${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '<span></span>'}<span class="dn-text"><span class="dn-meta"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span class="muted">${esc(n.source || '')}</span></span><b>${esc(n.title)}</b></span></a>`).join('')}</div>` : `<p class="muted">No recent news for this ${solo(e) ? 'race' : 'match'} yet.</p>`}
 `;
@@ -1449,7 +1518,7 @@ function render() {
         const hourNZ = e => +fmt(new Date(e.startUTC), NZ, { hour: 'numeric', hour12: false });
         const tonight = +fmt(nowD, NZ, { hour: 'numeric', hour12: false }) >= 17 || (later.length && later.every(e => !e.timeTBC && hourNZ(e) >= 17));
         return (lives.length && later.length ? `<div class="dayhead">${tonight ? 'Later tonight' : 'Later today'}</div>` : '') + later.map(e => evCard(e, now)).join('');
-      })()}${doneToday.length ? `<div class="dayhead">Earlier</div><div class="donetoday">${doneToday.map(e => resCard(e, now)).join('')}</div>` : ''}</div>`
+      })()}${doneToday.length ? `<div class="dayhead">Earlier${revealAll(doneToday, now)}</div><div class="donetoday">${doneToday.map(e => resCard(e, now)).join('')}</div>` : ''}</div>`
     : `<div class="empty-note">Nothing on for your teams today. ${upcoming[0] ? `Next up: <b>${esc(titleOf(upcoming[0]))}</b>, ${dayLabel(new Date(upcoming[0].startUTC), NZ)}.` : ''}</div>`;
 
   // coming up this week, then further ahead, grouped by NZ day
@@ -1511,7 +1580,7 @@ function render() {
   shown.forEach(e => { const g = groupOf(e); if (!rgroups.has(g)) rgroups.set(g, []); rgroups.get(g).push(e); });
   const more = pastFinals.length - recent.length;
   $('results').innerHTML = (rgroups.size
-    ? [...rgroups].map(([g, list]) => `<div class="daygroup"><div class="dayhead">${esc(g)}</div>${list.map(e => resCard(e, now)).join('')}</div>`).join('')
+    ? [...rgroups].map(([g, list]) => `<div class="daygroup"><div class="dayhead">${esc(g)}${revealAll(list, now)}</div>${list.map(e => resCard(e, now)).join('')}</div>`).join('')
     : `<div class="empty-note">No recent results for your teams.</div>`)
     + (more > 0 ? `<button type="button" class="btn moreres" id="resMore">${resMore ? 'Show fewer results' : `Show older results (${more} more)`}</button>` : '');
 
@@ -1594,6 +1663,8 @@ document.addEventListener('click', ev => {
   if (t.dataset.goto) { const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
   if (t.id === 'toResults') { const el = $('resSec'); scrollTo({ top: el.getBoundingClientRect().top + scrollY - document.querySelector('header.top').offsetHeight - 10, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); store.set('teams', [...picked]); render(); }
+  else if (t.dataset.hideall) { ev.stopPropagation(); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); }
+  else if (t.dataset.revealall) { ev.stopPropagation(); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); }
   else if (t.dataset.reveal) { ev.stopPropagation(); revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
   else if (t.dataset.rehide) { ev.stopPropagation(); revealed.delete(t.dataset.rehide); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
   else if (t.dataset.gender) { genderSel = t.dataset.gender; store.set('gender', genderSel); render(); }
@@ -1606,6 +1677,7 @@ document.addEventListener('click', ev => {
     if (!t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; render(); }
+  else if (t.dataset.rank) { rankSel = t.dataset.rank; render(); }
   else if (t.id === 'resMore') { resMore = !resMore; render(); }
   else if (t.id === 'hubClose') { compSel = ''; store.set('comp', ''); hubTab = 'games'; render(); }
   else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
@@ -1651,7 +1723,7 @@ async function load() {
       // Tests with no listed time sit at their usual 10am local start, so they land on the right day and countdown
       const u = usualStart(e); if (u) { e.startUTC = u.toISOString(); e.usual = true; }
     }
-    $('foot').innerHTML = `Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> (credits in each fight's details)`;
+    $('foot').innerHTML = `Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)`;
     render(); stamp();
   } catch (e) {
     if (!FEED.generatedAt) $('mockNote').textContent = 'Could not load the feed. Check your connection and refresh the page.';
