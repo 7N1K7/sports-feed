@@ -237,8 +237,6 @@ dialog#sheet { width: min(720px, 100%) }
 }
 
 .compbar { display: flex; justify-content: center; margin-top: 2px }
-#compSel { border-radius: 999px; padding: 5px 14px; font-size: 14px; background: var(--surface); border: 1px solid var(--line); cursor: pointer; max-width: 100% }
-#compSel.on { background: var(--ink); color: var(--paper); border-color: var(--ink) }
 #sportFilter.dim .chip[aria-pressed="true"] { background: transparent; color: var(--ink) }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0) }
 
@@ -269,11 +267,7 @@ dialog#sheet { width: min(720px, 100%) }
 @media (min-width: 561px) { .ev { grid-template-columns: 6px minmax(0, 1fr) 210px } .ev .when { min-width: 0 } }
 .matchup .v { padding: 0; font-size: 0.75em; text-transform: lowercase }
 .ev .teams .logo.after { margin: 0 0 0 8px }
-/* competition menu with its own arrow */
-#compSel { appearance: none; -webkit-appearance: none; padding: 6px 36px 6px 16px; text-align: center; text-align-last: center;
-  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
-  background-position: right 17px center, right 12px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; min-width: 200px }
-#compSel option { color: var(--ink); background: var(--surface) }
+
 
 .compbar { gap: 10px; flex-wrap: wrap; align-items: center }
 .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--surface) }
@@ -284,6 +278,36 @@ dialog#sheet { width: min(720px, 100%) }
 .donetoday { display: grid; gap: 10px }
 .donetoday .ev { background: color-mix(in srgb, var(--muted) 10%, var(--paper)); border-style: dashed; filter: saturate(.45) }
 .donetoday .ev .teams { color: color-mix(in srgb, var(--ink) 75%, var(--paper)) }
+
+/* competition menu: soft rounded popover */
+.cmenu { position: relative }
+#compSel { appearance: none; border-radius: 999px; padding: 7px 38px 7px 18px; font-size: 14px; background-color: var(--surface); color: var(--ink); border: 1px solid var(--line); cursor: pointer; min-width: 210px; text-align: center; font: inherit; font-size: 14px;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: right 19px center, right 14px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat }
+#compSel.on { background-color: var(--ink); color: var(--paper); border-color: var(--ink) }
+.cmenu-list { position: absolute; z-index: 30; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); min-width: 260px; max-height: min(70vh, 520px); overflow: auto;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 8px; box-shadow: 0 12px 32px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.08) }
+.copt { display: block; width: 100%; text-align: left; border: 0; background: none; color: var(--ink); font: inherit; font-size: 14px; padding: 8px 12px 8px 26px; border-radius: 10px; cursor: pointer }
+.cmenu-list > .copt:first-child { padding-left: 12px; font-weight: 600 }
+.copt:hover, .copt:focus-visible { background: color-mix(in srgb, var(--accent) 12%, transparent); outline: none }
+.copt[aria-selected="true"] { background: color-mix(in srgb, var(--accent) 18%, transparent); font-weight: 600 }
+.cgroup { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--line) }
+.chead { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 4px 12px }
+.chead .dot { width: 8px; height: 8px; border-radius: 50% }
+.nzonly { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 6px 14px; font: inherit; font-size: 14px; cursor: pointer }
+.nzonly img { border-radius: 2px }
+.nzonly[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+/* week strip: weekends tinted, big tournaments get a coloured bar, picked day filled */
+.day.wkend { background: color-mix(in srgb, var(--accent) 7%, var(--surface)) }
+.day.big { box-shadow: inset 0 3px 0 var(--bigc) }
+.day.today.big { box-shadow: inset 0 0 0 1px var(--accent), inset 0 4px 0 var(--bigc) }
+.day.sel { background: var(--ink); border-color: var(--ink) }
+.day.sel .dn, .day.sel .dd { color: var(--paper) }
+/* crests sit in a fixed-height row so names line up whatever the flag shape */
+.ev .teams.matchup:has(img) .side { display: grid; grid-template-rows: 2.4em auto; justify-items: center; align-items: center; row-gap: 6px }
+.ev .teams.matchup:has(img) .side > img { grid-row: 1 }
+.ev .teams.matchup:has(img) .side > .nm { grid-row: 2; align-self: start }
+.ev .teams.matchup .flagimg, .ev .teams.matchup .flagimg.after { width: auto; height: 1.5em; max-width: 2.6em; margin: 0 }
 
 @media (max-width: 560px) {
   .ev { grid-template-columns: 6px minmax(0, 1fr) }
@@ -330,7 +354,7 @@ dialog#sheet { width: min(720px, 100%) }
 
 <main class="wrap">
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
-  <div class="compbar"><label for="compSel" class="visually-hidden">Competition</label><select id="compSel"></select><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div></div>
+  <div class="compbar"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/w40/nz.png" alt="" width="18" height="9">NZ teams only</button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div></div>
   <section id="weekSec">
     <h2>This week <small id="weekRange"></small></h2>
     <div class="week" id="week"></div>
@@ -411,12 +435,14 @@ const crest = (n, logo, after) => {
 };
 // National side nicknames by sport and men's/women's, e.g. New Zealand cricket (men's) -> Black Caps
 const NICK = {
-  'rugby m': { 'New Zealand': 'All Blacks', Australia: 'Wallabies', 'South Africa': 'Springboks', Argentina: 'Pumas', Fiji: 'Flying Fijians', Samoa: 'Manu Samoa' },
-  'rugby w': { 'New Zealand': 'Black Ferns', Australia: 'Wallaroos', England: 'Red Roses', Fiji: 'Fijiana' },
-  'league m': { 'New Zealand': 'Kiwis', Australia: 'Kangaroos', 'Papua New Guinea': 'PNG Kumuls', Samoa: 'Toa Samoa', Fiji: 'Fiji Bati' },
-  'league w': { 'New Zealand': 'Kiwi Ferns', Australia: 'Jillaroos', 'Papua New Guinea': 'PNG Orchids', Fiji: 'Fiji Bulikula' },
-  'cricket m': { 'New Zealand': 'Black Caps' },
-  'cricket w': { 'New Zealand': 'White Ferns' },
+  'rugby m': { 'New Zealand': 'All Blacks', Australia: 'Wallabies', 'South Africa': 'Springboks', Argentina: 'Los Pumas', Fiji: 'Flying Fijians', Samoa: 'Manu Samoa', Tonga: "'Ikale Tahi", Japan: 'Brave Blossoms', Georgia: 'Lelos', Portugal: 'Os Lobos', Uruguay: 'Los Teros', Chile: 'Los Cóndores', Namibia: 'Welwitschias' },
+  'rugby w': { 'New Zealand': 'Black Ferns', Australia: 'Wallaroos', England: 'Red Roses', Fiji: 'Fijiana', Samoa: 'Manusina', Japan: 'Sakura Fifteen' },
+  'league m': { 'New Zealand': 'Kiwis', Australia: 'Kangaroos', 'Papua New Guinea': 'PNG Kumuls', Fiji: 'Fiji Bati', Samoa: 'Toa Samoa', 'Cook Islands': 'Cook Islands Aitu', Lebanon: 'Lebanon Cedars', Jamaica: 'Reggae Warriors' },
+  'league w': { 'New Zealand': 'Kiwi Ferns', Australia: 'Jillaroos', 'Papua New Guinea': 'PNG Orchids', Fiji: 'Fiji Bulikula', Samoa: 'Fetu Samoa', 'Cook Islands': 'Cook Islands Moana' },
+  'cricket m': { 'New Zealand': 'Black Caps', 'South Africa': 'Proteas', 'West Indies': 'Windies' },
+  'cricket w': { 'New Zealand': 'White Ferns', 'South Africa': 'Proteas', 'West Indies': 'Windies' },
+  'football m': { 'New Zealand': 'All Whites', Australia: 'Socceroos', Fiji: 'Bula Boys', 'Papua New Guinea': 'Kapuls', 'Solomon Islands': 'Bonitos' },
+  'football w': { 'New Zealand': 'Football Ferns', Australia: 'Matildas', England: 'Lionesses', Japan: 'Nadeshiko', Fiji: 'Kulas' },
 };
 const plural = t => /A-League/.test(t || '') ? t : String(t || '').replace(/\bWomen\b(?!')/g, "Women's").replace(/\bMen\b(?!')/g, "Men's");
 function displayName(n, e) {
@@ -444,6 +470,8 @@ const nmSpan = (n, e) => { const c = colorOf(n.replace(/\s+Women('s)?$/, '')); r
 // flag lookups use the plain country name, the label uses the nickname
 const teamNameR = (n, logo, e) => `${nmSpan(n, e)}${crest(n.replace(/\s+Women('s)?$/, ''), logo, true)}`;
 const teamName = (n, logo, e) => `${crest(n.replace(/\s+Women('s)?$/, ''), logo)}${nmSpan(n, e)}`;
+// Tournaments that tint the week strip on the days they're on
+const BIG_EVENT = /World Cup|Nations Championship|Olympic|Commonwealth Games|Lions Tour|Champions Trophy/i;
 const START_LABEL = { rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight', boxing: 'Main card' };
 const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC', boxing: 'Boxing' };
 
@@ -462,6 +490,11 @@ let newsKind = 'all';
 let sportSel = store.get('sport', 'all');
 let compSel = store.get('comp', '');
 let genderSel = store.get('gender', 'all');
+let nzOnly = store.get('nzOnly', false);
+let selDay = '';
+const NZ_KEYS = new Set(['allblacks', 'blackferns', 'npc', 'fpc', 'blues', 'chiefs', 'hurricanes', 'crusaders', 'highlanders', 'moana', 'blackcaps', 'whiteferns', 'nzdomestic', 'kiwis', 'kiwiferns', 'warriors', 'phoenix', 'aucklandfc', 'nzboxing']);
+const NZ_NAMES = /\bNew Zealand\b|^(Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Moana Pasifika)$|Warriors|Wellington Phoenix|Auckland FC|All Blacks|Black Ferns|Black ?Caps|White Ferns|Kiwi/;
+const isNZ = x => NZ_KEYS.has(x.team) || [x.home, x.away].some(n => NZ_NAMES.test(n || ''));
 const WOMEN_TEAMS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc']);
 // 'w' women's, 'm' men's, '' mixed or unknown (shown either way)
 function genderOf(x) {
@@ -531,7 +564,7 @@ function isHidden(e, now) {
 // an event also shows for the other side when both are followed (e.g. Blues v Hurricanes)
 const CLUBS = ['blues','chiefs','hurricanes','crusaders','highlanders','warriors'];
 const visibleTeam = x => picked.has(x.team) || (x.tags || []).some(t => picked.has(t)) || CLUBS.some(k => picked.has(k) && [x.home, x.away].some(t => (t || '').includes(TEAM_NAME[k])));
-const visible = x => (genderSel === 'all' || !genderOf(x) || genderOf(x) === genderSel) && visible0(x);
+const visible = x => (genderSel === 'all' || !genderOf(x) || genderOf(x) === genderSel) && (!nzOnly || isNZ(x)) && visible0(x);
 const visible0 = x => x.startUTC ? (compSel ? compOf(x) === compSel : visibleTeam(x) && (sportSel === 'all' || (x.sport || sportOf(x.team)) === sportSel))
   : visibleTeam(x) && (sportSel === 'all' || sportOf(x.team) === sportSel);
 
@@ -563,8 +596,8 @@ function evCard(e, now) {
 }
 const LIVE_SITE = { cricket: ['Cricinfo', 'https://www.espncricinfo.com/live-cricket-score'] };
 function liveLink(e) {
-  const [name, url] = LIVE_SITE[e.sport] || ['match centre', e.source];
-  return url ? `<a class="livelink" href="${esc(e.sport === 'cricket' ? url : e.source || url)}" target="_blank" rel="noopener">Live scores on ${esc(e.sport === 'cricket' ? name : 'the match page')} ↗</a>` : '';
+  const [name, url] = LIVE_SITE[e.sport] || ['match centre', e.link || e.source];
+  return url ? `<a class="livelink" href="${esc(e.sport === 'cricket' ? url : url)}" target="_blank" rel="noopener">Live scores on ${esc(e.sport === 'cricket' ? name : 'match page')} ↗</a>` : '';
 }
 function watchLine(e) {
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
@@ -628,7 +661,7 @@ function detail(e) {
     <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
     <h3 class="dh">Team news</h3>
     ${related.length ? `<div class="news">${related.map(n => `<a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener">${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '<span></span>'}<span class="dn-text"><span class="dn-meta"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span class="muted">${esc(n.source || '')}</span></span><b>${esc(n.title)}</b></span></a>`).join('')}</div>` : '<p class="muted">No recent news for this match yet.</p>'}
-    ${e.source ? `<p><a class="srclink" href="${esc(e.source)}" target="_blank" rel="noopener">${e.status === 'live' ? 'Follow live on the match page' : 'Match page'}</a>${e.sport === 'cricket' ? ` · <a class="srclink" href="https://www.espncricinfo.com/live-cricket-score" target="_blank" rel="noopener">Ball by ball on Cricinfo</a>` : ''}</p>` : ''}`;
+    ${e.link ? `<p><a class="srclink" href="${esc(e.link)}" target="_blank" rel="noopener">Match report / scorecard</a></p>` : ''}${e.source ? `<p><a class="srclink" href="${esc(e.source)}" target="_blank" rel="noopener">${e.status === 'live' ? 'Follow live on the match page' : 'Match page'}</a>${e.sport === 'cricket' ? ` · <a class="srclink" href="https://www.espncricinfo.com/live-cricket-score" target="_blank" rel="noopener">Ball by ball on Cricinfo</a>` : ''}</p>` : ''}`;
 }
 function openDetail(id) {
   const e = (FEED.events || []).find(x => x.id === id);
@@ -654,7 +687,9 @@ function render() {
     const k = dayKey(d);
     const list = evs.filter(e => dayKey(new Date(e.startUTC)) === k);
     const dots = list.slice(0, 6).map(e => `<span class="dot" style="background:var(--${e.sport})"></span>`).join('');
-    return `<button class="day ${k === todayK ? 'today' : ''} ${list.length ? '' : 'empty'}" type="button" data-jump="${k}" aria-label="${dayLabel(d, NZ)}, ${list.length} games">
+    const wd = fmt(d, NZ, { weekday: 'short' });
+    const big = list.find(e => BIG_EVENT.test(compOf(e)));
+    return `<button class="day ${k === todayK ? 'today' : ''} ${k === selDay ? 'sel' : ''} ${/Sat|Sun/.test(wd) ? 'wkend' : ''} ${big ? 'big' : ''} ${list.length ? '' : 'empty'}" type="button" data-jump="${k}" ${big ? `style="--bigc:var(--${big.sport})" title="${esc(compOf(big))}"` : ''} aria-label="${dayLabel(d, NZ)}, ${list.length} games">
       <span class="dn">${k === todayK ? 'Today' : fmt(d, NZ, { weekday: 'short' })}</span>
       <span class="dd num">${fmt(d, NZ, { day: 'numeric' })}</span>
       <span class="dots">${dots}</span></button>`;
@@ -728,11 +763,13 @@ function render() {
     (FEED.events || []).filter(e => Math.abs(new Date(e.startUTC) - now) < 21 * 864e5).forEach(e => { const c = compOf(e); counts.set(c, (counts.get(c) || 0) + 1); sportOfComp.set(c, e.sport || sportOf(e.team)); });
     const comps = [...counts].filter(([c, n]) => n >= 2 || c === compSel).sort((a, b) => b[1] - a[1]).map(([c]) => c);
     const groups = [['rugby', 'Rugby'], ['league', 'Rugby league'], ['cricket', 'Cricket'], ['football', 'Football'], ['mma', 'UFC'], ['boxing', 'Boxing']];
-    const opt = c => `<option value="${esc(c)}" ${c === compSel ? 'selected' : ''}>${esc(c)}</option>`;
-    $('compSel').innerHTML = `<option value="">All competitions</option>` + groups.map(([k, l]) => {
+    const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}">${esc(c)}</button>`;
+    $('compMenu').innerHTML = opt('') .replace('></button>', '>All competitions</button>') + groups.map(([k, l]) => {
       const cs = comps.filter(c => sportOfComp.get(c) === k);
-      return !cs.length ? '' : cs.length === 1 && cs[0] === l ? opt(cs[0]) : `<optgroup label="${l}">${cs.map(opt).join('')}</optgroup>`;
+      return cs.length ? `<div class="cgroup"><div class="chead"><span class="dot" style="background:var(--${k})"></span>${l}</div>${cs.map(opt).join('')}</div>` : '';
     }).join('');
+    $('compSel').textContent = compSel || 'All competitions';
+    $('nzOnly').setAttribute('aria-pressed', String(nzOnly));
     $('compSel').classList.toggle('on', !!compSel);
     $('genderSel').innerHTML = [['all', 'All'], ['m', "Men's"], ['w', "Women's"]].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
     $('sportFilter').classList.toggle('dim', !!compSel);
@@ -760,7 +797,7 @@ document.addEventListener('click', ev => {
   else if (t.dataset.gender) { genderSel = t.dataset.gender; store.set('gender', genderSel); render(); }
   else if (t.dataset.sport) { compSel = ''; store.set('comp', ''); sportSel = t.dataset.sport; store.set('sport', sportSel); render(); }
   else if (t.dataset.kind) { newsKind = t.dataset.kind; render(); }
-  else if (t.dataset.jump) { const el = document.getElementById('d-' + t.dataset.jump) || (t.dataset.jump === dayKey(new Date()) ? $('todaySec') : null); if (el) el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
+  else if (t.dataset.jump) { selDay = t.dataset.jump; document.querySelectorAll('.day').forEach(b => b.classList.toggle('sel', b.dataset.jump === selDay)); const el = document.getElementById('d-' + t.dataset.jump) || (t.dataset.jump === dayKey(new Date()) ? $('todaySec') : null); if (el) el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
   else if (t.id === 'moreUp') { store.set('showAllUp', true); render(); }
   else if (t.id === 'spoilBtn') { spoilers = !spoilers; store.set('spoilers', spoilers); render(); }
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); }
@@ -768,7 +805,12 @@ document.addEventListener('click', ev => {
   else if (t.id === 'allOff') { picked = new Set(); store.set('teams', []); render(); }
 });
 document.addEventListener('keydown', ev => { const c = ev.target.closest?.('[data-open]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openDetail(c.dataset.open); } });
-$('compSel').addEventListener('change', e => { compSel = e.target.value; store.set('comp', compSel); render(); });
+function closeComp() { $('compMenu').hidden = true; $('compSel').setAttribute('aria-expanded', 'false'); }
+$('compSel').addEventListener('click', ev => { ev.stopPropagation(); const open = $('compMenu').hidden; $('compMenu').hidden = !open; $('compSel').setAttribute('aria-expanded', String(open)); });
+$('compMenu').addEventListener('click', ev => { const b = ev.target.closest('[data-comp]'); if (!b) return; ev.stopPropagation(); compSel = b.dataset.comp; store.set('comp', compSel); closeComp(); render(); });
+document.addEventListener('click', ev => { if (!ev.target.closest('.cmenu')) closeComp(); }, true);
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape') closeComp(); });
+$('nzOnly').addEventListener('click', ev => { ev.stopPropagation(); nzOnly = !nzOnly; store.set('nzOnly', nzOnly); render(); });
 $('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; store.set('spoilDays', spoilDays); store.set('spoilDaysSet', true); render(); });
 
 function stamp() {

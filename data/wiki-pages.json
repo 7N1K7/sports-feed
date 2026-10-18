@@ -1,0 +1,28 @@
+{
+  "_note": "Wikipedia pages read for fixtures and results. {Y} = calendar year (this year, plus next year from September), {S} = summer season like 2026–27. Pages that don't exist yet are skipped. NZ cricket tour pages are found by search automatically. team = fixed team key; classify = pick by team names (see scripts/sources.mjs).",
+  "pages": [
+    { "title": "{Y} Hilux NPC", "sport": "rugby", "comp": "NPC", "team": "npc", "tz": "Pacific/Auckland" },
+    { "title": "{Y} Bunnings NPC", "sport": "rugby", "comp": "NPC", "team": "npc", "tz": "Pacific/Auckland" },
+    { "title": "{Y} Farah Palmer Cup", "sport": "rugby", "comp": "Farah Palmer Cup", "team": "fpc", "tz": "Pacific/Auckland" },
+    { "title": "List of {Y} Super Rugby Pacific matches", "sport": "rugby", "comp": "Super Rugby Pacific", "classify": "superrugby" },
+    { "title": "{Y} Super Rugby Pacific season", "sport": "rugby", "comp": "Super Rugby Pacific", "classify": "superrugby" },
+    { "title": "{Y} Nations Championship", "sport": "rugby", "comp": "Nations Championship", "classify": "rugbytests" },
+    { "title": "{Y} Rugby Championship", "sport": "rugby", "comp": "Rugby Championship", "classify": "rugbytests" },
+    { "title": "{Y} men's rugby union internationals", "sport": "rugby", "comp": "Test match", "classify": "rugbytests" },
+    { "title": "{Y} women's rugby union internationals", "sport": "rugby", "comp": "Women's test", "classify": "rugbytests", "women": true },
+    { "title": "{Y} WXV Global Series", "sport": "rugby", "comp": "WXV Global Series", "classify": "rugbytests", "women": true },
+    { "title": "{Y} Men's Rugby League World Cup", "sport": "league", "comp": "Rugby League World Cup", "classify": "rlwc" },
+    { "title": "{Y} Women's Rugby League World Cup", "sport": "league", "comp": "Women's Rugby League World Cup", "classify": "rlwc", "women": true },
+    { "title": "{Y} Wheelchair Rugby League World Cup", "sport": "league", "comp": "Wheelchair Rugby League World Cup", "classify": "rlwc" },
+    { "title": "{Y} Rugby League Pacific Championships", "sport": "league", "comp": "Pacific Championships", "classify": "leaguetests" },
+    { "title": "{S} Big Bash League season", "sport": "cricket", "comp": "Big Bash League", "team": "bbl", "tz": "Australia/Sydney", "showRound": true },
+    { "title": "{S} Women's Big Bash League season", "sport": "cricket", "comp": "Women's Big Bash League", "team": "wbbl", "tz": "Australia/Sydney", "showRound": true },
+    { "title": "List of UFC events", "sport": "mma", "comp": "UFC", "ufc": true }
+  ],
+  "thesportsdb": [
+    { "id": 4356, "sport": "football", "comp": "A-League Men", "classify": "aleague" },
+    { "id": 4416, "sport": "league", "comp": "NRL", "classify": "nrl" },
+    { "id": 4551, "sport": "rugby", "comp": "Super Rugby Pacific", "classify": "superrugby" },
+    { "id": 4443, "sport": "mma", "comp": "UFC", "ufc": true }
+  ]
+}
