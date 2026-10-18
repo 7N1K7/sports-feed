@@ -1,0 +1,12 @@
+name: probe
+on: { push: { branches: [probe2], paths-ignore: ['probe/**'] } }
+permissions: { contents: write }
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: mkdir -p probe && (node scripts/fetch.mjs > probe/log.txt 2>&1 || true) && cp data/feed.json probe/feed.json || true
+      - run: git -c user.name=bot -c user.email=bot@x add -f probe && git -c user.name=bot -c user.email=bot@x commit -m out && git push
