@@ -1,342 +1,172 @@
 
 ######## PAGE 2026 Men's Rugby League World Cup 41517
-TRANSCLUDES []
-(no invoke)
-BRACKET {{Round4|3rdplace=no
-<!-- Date-Place|Team 1|Score 1|Team 2|Score 2 -->
-<!-- semi-finals -->
-|7 November – [[Newcastle International Sports Centre|Newcastle]]|Pool A runners-up||Pool B & C winner|
-|8 November – [[Sydney Football Stadium (2022)|Sydney]]|Pool A winner||Pool B & C runners-up|
-<!-- final -->
-|15 November – [[Lang Park|Brisbane]]||||
-}}
-<section end=WC_bracket/>
-
-===Semi-finals===
-<section begin="WC_SF" />{{rugbyleaguebox|bg=|event=|date=7 November 2026|time=20:05 [[AEDT]] ([[UTC+11:00]])|team1=Pool A runners-up|points1=|try1=|goal1=|drop1=|field1=|sinbin1=|sentoff1= |score=|1sthalf=|2ndhalf=|ExtraTime1=|ExtraTime2=|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/semi-final/game-1/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2579 Report (IRL)]|team2=Pool B & C winner|points2=|try2=|goal2=|drop2=|field2=|sinbin2=|sentoff2= |stadium=[[Newcastle Interna
+(none)
 
 ######## PAGE 2026 Women's Rugby League World Cup 33496
-TRANSCLUDES [ '{{Table alignment}}' ]
-(no invoke)
-BRACKET {{Round4|3rdplace=no
-<!-- Date-Place|Team 1|Score 1|Team 2|Score 2 -->
-<!-- semi-finals -->
-|7 November – [[Newcastle International Sports Centre|Newcastle]]|B1| – |A2| –
-|8 November – [[Sydney Football Stadium (2022)|Sydney]]|A1| – |B2| –
-<!-- final -->
-|15 November – [[Lang Park|Brisbane]]|SF1 Winner| – |SF2 Winner| – }}<section end=WC_bracket/>
+==Group A===
+<section begin=WC_GAtable/>{{#invoke:sports table|main|style=WDL
+|for_against_style=points
+|winpoints=2
+|team2=AUS|name_AUS={{rlw-l|Australia}}
+|team1=ENG|name_ENG={{rlw-l|England}}
+|team3=SAM|name_SAM={{rlw-l|Samoa}}
+|team4=WAL|name_WAL={{rlw-l|Wales}}
+|win_AUS=1|draw_AUS=0|loss_AUS=0|pf_AUS=40|pa_AUS=0|status_AUS=H
+|win_ENG=1|draw_ENG=0|loss_ENG=0|pf_ENG=70|pa_ENG=6
+|win_SAM=0|draw_SAM=0|loss_SAM=1|pf_SAM=0|pa_SAM=40
+|win_WAL=0|draw_WAL=0|loss_WAL=1|pf_WAL=6|pa_WAL=70
 
-===Semi-finals===
-<section begin="WC_SF" />{{rugbyleaguebox|bg=
+|res_col_header=Q
+|col_A=green1|text_A=Advance to knockout stage 
+|result1=A|result2=A
+|start_date=16 October 2026
+|update=17 October 2026
+|source=[https://www.bbc.co.uk/sport/rugby-league/womens-world-cup/table Source]
+}}
+<section end=WC_GAtable/>
+
+<section begin=WC_GA/>
+{{rugbyleaguebox
+|bg=
 |event=
-|date=7 November 2026
-|time=17:55 [[AEDT]] ([[UTC+11:00]])
-|team1=Group B Winner
-|try1=
-|goal1=
+|date= 16 October 2026
+|time=20:05 [[AEDT]] ([[UTC+11:00]])
+|team1={{rlw-r|AUS}}
+|try1= [[Jaime Chapman|Chapman]] 10'<br/>[[Julia Robinson|Robinson]] 17'<br/>[[Shaylee Bent|Bent]] 22'<br/>[[Keeley Davis|Nizza]] 26'<br/>[[Olivia Kernick|Kernick]] 34'<br/>[[Keilee Joseph|Joseph]] 44'<br/>[[Jessica Sergis|Sergis]] 67'
+|goal1= [[Jocelyn Kelleher|Kelleher]] (6/7) 
 |drop1=
 |field1=
 |sinbin1=
 |sentoff1=
-|score=
-|1sthalf=
-|2ndhalf=
+|score=40{{ndash}}0
+|1sthalf=28{{ndash}}0
+|2ndhalf=12{{ndash}}0
 |ExtraTime1=
 |ExtraTime2=
-|report=[https://www.rlwc2026.com/articles/2026-rugby-league-world-cup-fixtures-announced Source]
-|team2=Group A Runner Up
+|report=[https://www.intrl.sport/match-details/2582 Report]
+|team2={{rlw-l|SAM}}
 |try2=
 |goal2=
 |drop2=
 |field2=
 |sinbin2=
 |sentoff2=
-|stadium=[[Newcastle International Sports Centre]], [[Newcastle, New South Wales|Newcastle]]
+|stadium=[[Western Sydney Stadium]], [[Sydney]]
 |attendance=
-|refere
+|referee=[[Kasey Badger]] ([[ARLC|Australia]])
+|vreferee=Peter Gough (Australia)
+|touch=Karra-Lee Nolan (Australia), Izzy Davidson (Australia)
+|manofmatch= [[Jocelyn Kelleher]] (Australia)
+|potmaward=
+|potmwinner=}}
+{{Rugby league match squad
+| collapsed = y
+| align = center
+| abbr = y
+| hometeam = Australia
+| awayteam = Samoa
+| squadsize = 18
+| location = s
+| homeCoach = [[Jess Skinner]]
+| homeFB =  [[Tamika Upton]]
+| homeWG1 = [[Jaime Chapman]]
+| homeCE1 = [[Jessica Sergis]]
+| homeCE2 = [[Isabelle Kelly]]
+| homeWG2 = [[Julia Robinson]]
+| homeSO = [[Jocelyn Kelleher]]
+| homeSH = [[Tarryn Aiken]]
+| homePR1 =  [[Millie Elliott]]
+| homeHK = [[Olivia Higgins]]
+| homePR2 = [[Simaima Taufa]]
+| homeSR1 = [[Kezie Apps]]
+| homeSR2 = [[Shaylee Bent]]
+| homeLF = [[Olivia Kernick]]
+| homeIN1 = [[Keeley Davis (rugby league)|Keeley Nizza]]
+| homeIN2 = [[Keilee Joseph]]
+| homeIN3 = [[Tiana Penitani]]
+| homeIN4 = [[Ellie Johnston (rugby league)|Ellie Johnston]]
+| homeIN5 = [[Makenzie Weale]]
+| awayCoach = [[Frank Pritchard]]
+| awayFB = [[Destiny Sinapati]]
+| awayWG1 = [[Mercedez Taulelei-Saila]]
+| awayCE1 = [[Monica Tago
 
 ######## PAGE 2026 Hilux NPC 130942
-TRANSCLUDES []
-(no invoke)
-BRACKET {{8TeamBracket
-| seeds       = 
-| boldwinner  = high
+==Standings==
+The current standings for the 2026 National Provincial Championship are:<!-- This sentence can be removed after the regular season -->
 
-| RD1         = [[#Quarter-finals|Quarter-finals]]
-| RD2         = [[#Semi-finals|Semi-finals]]
-| RD3         = [[#Final|Final]]
+{{#invoke:sports table|main|style=Rugby
 
-<!-- Quarter-finals -->
-| RD1-seed1   = 1
-| RD1-team1   = {{Rut|Canterbury}}
-| RD1-score1  = 62
-| RD1-seed2   = 8
-| RD1-team2   = {{Rut|Waikato}}
-| RD1-score2  = 26
+<!-- Team names, do not change; exceptions: move (RS) if the Ranfurly Shield holder changes; after the final, add (RU) after the name of the losing finalist -->
+| name_AKL = {{rut|Auckland}}
+| name_BOP = {{rut|Bay of Plenty}}
+| name_CAN = {{rut|Canterbury}}
+| name_COU = {{rut|Counties Manukau}} '''(RS)'''
+| name_HBY = {{rut|Hawke's Bay}}
+| name_MAN = {{rut|Manawatu}}
+| name_NHA = {{rut|North Harbour}}
+| name_NOR = {{rut|Northland}}
+| name_OTA = {{rut|Otago}} 
+| name_SOU = {{rut|Southland}}
+| name_TAR = {{rut|Taranaki}}
+| name_TAS = {{rut|Tasman}}
+| name_WAI = {{rut|Waikato}}
+| name_WEL = {{rut|Wellington}}
 
-| RD1-seed3   = 4
-| RD1-team3   = {{Rut|North Harbour}}
-| RD1-score3  = 31
-| RD1-seed4   = 5
-| RD1-team4   = {{Rut|Taranaki}}
-| RD1-score4  = 50
+<!-- Update results here and then (if needed) classification below. Don't forget to update the date below (in the update parameter in the footer) -->
+<!-- win=number of wins; draw=number of draws; loss=number of losses; pf=total number of game points for; pa=total number of game points against; tf=total number of tries for; ta=total number of tries against; tb=total number of try bonus points; lb=total number of losing bonus points -->
+| win_AKL = 3 | draw_AKL =0| loss_AKL =7 | pf_AKL =289 | pa_AKL =330 | tf_AKL =44 | ta_AKL =48 | tb_AKL =6 | lb_AKL =4
+| win_BOP = 5 | draw_BOP =0| loss_BOP =5 | pf_BOP =258 | pa_BOP =300 | tf_BOP =38 | ta_BOP =46 | tb_BOP =7 | lb_BOP =1
+| win_CAN = 8 | draw_CAN =0| loss_CAN =2 | pf_CAN =311 | pa_CAN =240 | tf_CAN =50 | ta_CAN =35 | tb_CAN =8 | lb_CAN =0
+| win_COU = 4 | draw_COU =0| loss_COU =6 | pf_COU =252 | pa_COU =352 | tf_COU =38 | ta_COU =53 | tb_COU =4 | lb_COU =0
+| win_HBY = 6 | draw_HBY =0| loss_HBY =4 | pf_HBY =338 | pa_HBY =270 | tf_HBY =52 | ta_HBY =42 | tb_HBY =7 | lb_HBY =2
+| win_MAN = 5 | draw_MAN =0| loss_MAN =5 | pf_MAN =272 | pa_MAN =332 | tf_MAN =36 | ta_MAN =51 | tb_MAN =4 | lb_MAN =1
+| win_NHA = 6 | draw_NHA =0| loss_NHA =4 | pf_NHA =367 | pa_NHA =269 | tf_NHA =54 | ta_NHA =40 | tb_NHA =9 | lb_NHA =3
+| win_NOR = 7 | draw_NOR =0| loss_NOR =3 | pf_NOR =344 | pa_NOR =208 | tf_NOR =50 | ta_NOR =30 | tb_NOR =8 | lb_NOR =2
+| win_OTA = 7 | draw_OTA =0| loss_OTA =3 | pf_OTA =386 | pa_OTA =283 | tf_OTA =58 | ta_OTA =39 | tb_OTA =8 | lb_OTA =1
+| win_SOU = 2 | draw_SOU =0| loss_SOU =8 | pf_SOU =240 | pa_SOU =366 | tf_SOU =36 | ta_SOU =60 | tb_SOU =4 | lb_SOU =1
+| win_TAR = 6 | draw_TAR =0| loss_TAR =4 | pf_TAR =342 | pa_TAR =237 | tf_TAR =52 | ta_TAR =35 | tb_TAR =7 | lb_TAR =3
+| win_TAS = 6 | draw_TAS =0| loss_TAS =4 | pf
 
-| RD1-seed5   = 2
-| RD1-team5   = {{Rut|Northland}}
-| RD1-score5  = 26
-| RD1-seed6   = 7
-| RD1-team6   = {{Rut|Tasman}}
-| RD1-score6  = 21
+######## PAGE 2026 Farah Palmer Cup 0
+(none)
 
-| RD1-seed7   = 3
-| RD1-team7   = {{Rut|Otago}}
-| RD1-score7  = 50
-| RD1-seed8   = 6
-| RD1-team8   = {{Rut|Hawke's Bay}}
-| RD1-score8  = 14
+######## PAGE Template:2026 Super Rugby Pacific standings 3011
+{{#invoke:Sports table|main|style=Rugby
+| title = 2026 Super Rugby Pacific standings
 
-<!-- Semi-finals -->
-| RD2-seed1   = 
-| RD2-team1   = {{Rut|Canterbury}}
-| RD2-score1  = 38
-| RD2-seed2   = 
-| RD2-team2   
+ <!-- Team names, do not change; exceptions: after the final, add '''(RU)''' after the name of the losing finalist -->
+|name_BLU={{flag decoration|NZL}} {{Rut|Blues}}
+|name_BRU={{flag decoration|AUS}} {{Rut|Brumbies}}
+|name_CHI={{flag decoration|NZL}} {{Rut|Chiefs}} '''(RU)'''
+|name_CRU={{flag decoration|NZL}} {{Rut|Crusaders}}
+|name_DRU={{flag decoration|FIJ}} {{Rut|Drua}}
+|name_FOR={{flag decoration|AUS}} {{Rut|Force}}
+|name_HIG={{flag decoration|NZL}} {{Rut|Highlanders}}
+|name_HUR={{flag decoration|NZL}} {{Rut|Hurricanes}}
+|name_MOA={{flag decoration|NZL}} {{Rut|Moana Pasifika}}
+|name_RED={{flag decoration|AUS}} {{Rut|Reds}}
+|name_WAR={{flag decoration|AUS}} {{Rut|Waratahs}}
 
-######## PAGE 2026–27 A-League Men 29144
-TRANSCLUDES [ '{{2026–27 A-League Men table}}' ]
-(no invoke)
-BRACKET none
+<!-- Update results here and then (if needed) classification below. Don't forget to update the date below (in the update parameter in the footer) -->
+|win_BLU=8 |draw_BLU=0 |loss_BLU=6 |pf_BLU=456 |pa_BLU=412 |tf_BLU=68 |ta_BLU=60 |tb_BLU=4 |lb_BLU=2
+|win_BRU=7 |draw_BRU=0 |loss_BRU=7 |pf_BRU=402 |pa_BRU=373 |tf_BRU=60 |ta_BRU=48 |tb_BRU=2 |lb_BRU=4
+|win_CHI=11 |draw_CHI=0 |loss_CHI=3 |pf_CHI=515 |pa_CHI=325 |tf_CHI=75 |ta_CHI=49 |tb_CHI=6 |lb_CHI=1
+|win_CRU=8 |draw_CRU=0 |loss_CRU=6 |pf_CRU=488 |pa_CRU=388 |tf_CRU=73 |ta_CRU=55 |tb_CRU=5 |lb_CRU=4
+|win_DRU=5 |draw_DRU=0 |loss_DRU=9 |pf_DRU=330 |pa_DRU=473 |tf_DRU=45 |ta_DRU=74 |tb_DRU=0 |lb_DRU=1
+|win_FOR=7 |draw_FOR=0 |loss_FOR=7 |pf_FOR=358 |pa_FOR=383 |tf_FOR=52 |ta_FOR=54 |tb_FOR=1 |lb_FOR=1
+|win_HIG=5 |draw_HIG=0 |loss_HIG=9 |pf_HIG=327 |pa_HIG=424 |tf_HIG=44 |ta_HIG=64 |tb_HIG=1 |lb_HIG=3
+|win_HUR=11 |draw_HUR=0 |loss_HUR=3 |pf_HUR=562 |pa_HUR=298 |tf_HUR=86 |ta_HUR=44 |tb_HUR=9 |lb_HUR=2
+|win_MOA=2 |draw_MOA=0 |loss_MOA=12 |pf_MOA=276 |pa_MOA=567 |tf_MOA=43 |ta_MOA=88 |tb_MOA=0 |lb_MOA=1
+|win_RED=8 |draw_RED=0 |loss_RED=6 |pf_RED=364 |pa_RED=386 |tf_RED=53 |ta_RED=56 |tb_RED=3 |lb_RED=2
+|win_WAR=5 |draw_WAR=0 |loss_WAR=9 |pf_WAR=353 |pa_WAR=402 |tf_WAR=50 |ta_WAR=57 |tb_WAR=4 |lb_WAR=4
+ 
+<!-- Classification: update team positions here -->
+|team_order=HUR, CHI, CRU, BLU, RED, BRU, FOR, WAR, HIG, DRU, MOA
 
-######## PAGE 2026–27 Big Bash League season 51544
-TRANSCLUDES [ '{{wide table start}}', '{{wide table end}}' ]
-===
-<section begin=table />
-{{#invoke:Sports table|main|style=CricketRR
-|source=[https://www.cricinfo.com/series/big-bash-league-2026-27-1545470/points-table-standings Cricinfo]
-|show_tie=no
-|col_Q=#cfc
-|col_K=#ffc
-|showteam={{{team|}}}
-|update=complete
+<!-- Qualification for Quarterfinals (do not change) -->
+| res_col_header=Q | result1=QF | result2=QF | result3=QF | result4=QF | result5=QF | result6=QF
+| col_QF=green1 | text_QF=[[2026 Super Rugby Pacific season#Qualifying finals|Qualifying finals]]
 
-|team_order=AS, BH, HH, MR, MS, PS, SS, ST,
-
-|result1=Q
-|result2=Q
-|result3=K
-|result4=K
-
-|win_AS= |loss_AS= |nr_AS= |nrr_AS= 
-|win_BH= |loss_BH= |nr_BH= |nrr_BH=
-|win_HH= |loss_HH= |nr_HH= |nrr_HH=
-|win_MR= |loss_MR= |nr_MR= |nrr_MR=
-|win_MS= |loss_MS= |nr_MS= |nrr_MS=
-|win_PS= |loss_PS= |nr_PS= |nrr_PS=
-|win_SS= |loss_SS= |nr_SS= |nrr_SS=
-|win_ST= |loss_ST= |nr_ST= |nrr_ST=
-
-|name_AS={{color box|#009FDF}} [[Adelaide Strikers]] 
-|name_BH={{color box|#00B3C4}} [[Brisbane Heat]] 
-|name_HH={{color box|#69359C}} [[Hobart Hurricanes]] 
-|name_MR={{color box|red}} [[Melbourne Renegades]] 
-|name_MS={{color box|#00B13F}} [[Melbourne Stars]] 
-|name_PS={{color box|#ff8000}} [[Perth Scorchers]]
-|name_SS={{color box|#FF0090}} [[Sydney Sixers]] 
-|name_ST={{color box|#96d701}} [[Sydney Thunder]] 
-
-|res_col_header=Q
-|text_Q=Advanced to the [[2026-27 Big Bash League season#Qualifier|Qualifier]]
-|text_K={{nobr|Advanced to the}} [[2026-27 Big Bash League season#Knockout|Knockout]]
-|status_text_R=Runners-up
-}}<section end=table />
-<!--=== Win–loss table ===
-Below is a summary of results for each team's ten regular season matches, plus finals where applicable, in chronological order. A team's opponent for any given match is listed above the margin of victory/defeat.
-
-{| class="wikitable plainrowheaders" style="font-size:87%; text-align:center;"
-!scope="col" rowspan="2" |Team
-!scope="colgroup" colspan="10" |League stage
-!scope="colgroup" colspan="4" |Play-offs
-!scope="col" rowspan="2" |{{Abbr|Pos.|Position on points table}}
-|-
-!scope="col"|1
-!scope="col"|2
-!scope="col"|3
-!scope="col"|4
-!scope="col"|5
-!scope="col"|6
-!scope="col"|7
-!scope="col"|8
-!scope="col"|9
-!scope="col"|10
-!{{Abbr|Q|Qualifier}}
-!{{Abbr|K|Knock-out}}
-!{{Abbr|C|Challenger}}
-!{{Abbr|F|Final}}
-|-
-|style="text-align:left;"| [[2025–26 Adelaide Strikers season|Adelaide<br>Strikers (ADS)]]
-|||||||||||||||
-|-
-|style="text-align:left;"| [[2026–27 Brisbane Heat season|Brisbane<br>Heat (BRH)]]
-|||||||||||
-BRACKET {{4TeamBracket-PagePlayoff
-| team-width=150px
-| score-width=110px
-
-| RD1= '''[[#Qualifier|Qualifier]]'''
-| RD1-text1 = 19 January 2027
-| RD1-seed1 = 1
-| RD1-team1 = 1st placed team
-| RD1-score1 =
-| RD1-seed2 = 2
-| RD1-team2 = 2nd placed team
-| RD1-score2 =
-| P1Winner =
-| P1Margin =
-| P1Matchno =
-
-| RD1b ='''[[#Knockout|Knockout]]'''
-| RD1b-text1 = 20 January 2027
-| RD1b-seed1 = 3
-| RD1b-team1 = 3rd placed team
-| RD1b-score1 =
-| RD1b-seed2 = 4
-| RD1b-team2 = 4th placed team
-| RD1b-score2 =
-| P2Winner =
-| P2Margin =
-| P2Matchno =
-
-| RD2 ='''[[#Challenger|Challenger]]'''
-| RD2-text1 = 23 January 2027
-| RD2-seed1 =
-| RD2-team1 = Loser of Qualifier
-| RD2-score1 =
-| RD2-seed2 =
-| RD2-team2 = Winner of Knockout
-| RD2-score2 =
-| P3Winner =
-| P3Margin =
-| P3Matchno =
-
-| RD3 ='''[[#Final|Final]]'''
-| RD3-text1 = 26 January 2027
-| RD3-seed1 =
-| RD3-team1 = Winner of Qualifier
-| RD3-score1 =
-| RD3-s
-
-######## PAGE 2026 Super Rugby Pacific season 119070
-TRANSCLUDES [ '{{2026 Super Rugby Pacific standings}}' ]
-(no invoke)
-BRACKET {{6TeamBracket-SeedingPlayIn
-|score-width=3em|boldwinner=yes|seeds=no|3rdplace=no
-| RD1         = [[#Qualifying finals|Qualifying finals]]
-| RD2         = [[#Semi-finals|Semi-finals]]
-| RD3         = [[#Final|Final]]
-
-| RD1-text1 = 5 June 2026 – [[Wellington Regional Stadium|Wellington]]
-| RD1-text2 = 6 June 2026 – [[Te Kaha (stadium)|Christchurch]]
-| RD1-text3 = 6 June 2026 – [[Waikato Stadium|Hamilton]]
-
-| RD2-text1 = 13 June 2026 – [[Wellington Regional Stadium|Wellington]]
-| RD2-text2 = 12 June 2026 – [[Waikato Stadium|Hamilton]]
-
-| RD3-text1 = 20 June 2026 – [[Wellington Regional Stadium|Wellington]]
-
-| RD1-team1   = {{flagdeco|NZL}} {{Rut|Hurricanes}}
-| RD1-score1  = 66
-| RD1-team2   = {{flagdeco|AUS}} {{Rut|Brumbies}}
-| RD1-score2  = 12
-
-| RD1-team3   = {{flagdeco|NZL}} {{Rut|Crusaders}}
-| RD1-score3  = 52
-| RD1-team4   = {{flagdeco|NZL}} {{Rut|Blues}}
-| RD1-score4  = 31
-
-| RD1-te
-
-######## PAGE 2026 Wheelchair Rugby League World Cup 31277
-TRANSCLUDES []
-(no invoke)
-BRACKET {{Round4|3rdplace=yes|RD1=Ranking semi-finals|RD2=5th/6th play-off|Consol=7th/8th play-off
-<!-- Date-Place|Team 1|Score 1|Team 2|Score 2 -->
-<!-- semi-finals -->
-|10 November – [[Wollongong Entertainment Centre|Wollongong]]|B3| – |A4| –
-|10 November – [[Wollongong Entertainment Centre|Wollongong]]|A3| – |B4| –
-<!-- finals -->
-|12 November – [[Wollongong Entertainment Centre|Wollongong]]|RSF1 Winner| – |RSF2 Winner| – 
-|12 November – [[Wollongong Entertainment Centre|Wollongong]]|RSF1 Loser| – |RSF2 Loser| – }}<section end=WC_bracket2/>
-
-====Ranking semi-finals====
-<section begin="WC_RSF" />{{rugbyleaguebox|bg=
-|event=
-|date= 9 November 2026
-|time=
-|team1=Group B 3rd place
-|try1=
-|goal1=
-|drop1=
-|field1=
-|sinbin1=
-|sentoff1=
-|score=
-|1sthalf=
-|2ndhalf=
-|ExtraTime1=
-|ExtraTime2=
-|report=[https://www.rlwc2026.com/news/2026-rugby-league-world-cup-fixtures-announced Source]
-|team2=Group A 4th
-
-######## TPL Template:2026–27 A-League Men table 4052
-<noinclude>{{main|2026–27 A-League Men}}
-'''READ THIS BEFORE UPDATING:''' Please do not forget to update the date ({{para|update}}).<br />'''AFTER UPDATING:''' Pages with the template might not be updated immediately so the page can be updated with a [[WP:NULL]] on the article in question.
-</noinclude>
-{{#invoke:Sports table|main|style=WDL
-
-|source=[https://aleagues.com.au/ladders/a-league-men/2026-2027/ A-Leagues]
-<!--Team qualifications (defined below)-->
-|result1=FS |result2=FS |result3=ACLE |result4=ACLEPO |result5=FS |result6=FS
-
-<!-- AUCKLAND AND WELLINGTON CANNOT QUALIFY FOR ACLE, DOUBLE CHECK BEFORE CONFIRMING CHANGES -->
-
-<!--Team positions-->
-|team_order = AUC, WEL, MAC, NEW, CCM, SYD, WSW, ADE, BRI, PER, MVC, MCY
-<!--Team results and then positions above-->
-|update=18 October 2026
-|win_ADE= 0|draw_ADE= 0|loss_ADE= 0|gf_ADE= 0|ga_ADE= 0
-|win_AUC= 1|draw_AUC= 0|loss_AUC= 0|gf_AUC= 3|ga_AUC= 1
-|win_BRI= 0|draw_BRI= 0|loss_BRI= 0|gf_BRI= 0|ga_BRI= 0
-|win_CCM= 0|draw_CCM= 1|loss_CCM= 0|gf_CCM= 2|ga_CCM= 2
-|win_MAC= 1|draw_MAC= 0|loss_MAC= 0|gf_MAC= 2|ga_MAC= 1
-|win_MCY= 0|draw_MCY= 0|loss_MCY= 1|gf_MCY= 1|ga_MCY= 3
-|win_MVC= 0|draw_MVC= 0|loss_MVC= 1|gf_MVC= 1|ga_MVC= 2
-|win_NEW= 0|draw_NEW= 1|loss_NEW= 0|gf_NEW= 2|ga_NEW= 2
-|win_PER= 0|draw_PER= 0|loss_PER= 1|gf_PER= 1|ga_PER= 2
-|win_SYD= 0|draw_SYD= 1|loss_SYD= 0|gf_SYD= 0|ga_SYD= 0
-|win_WEL= 1|draw_WEL= 0|loss_WEL= 0|gf_WEL= 2|ga_WEL= 1
-|win_WSW= 0|draw_WSW= 1|loss_WSW= 0|gf_WSW= 0|ga_WSW= 0
-
-<!--Team definitions (wikilinks in table)-->
-|name_ADE=[[Adelaide United FC|Adelaide United]]
-|name_AUC=[[Auckland FC]]
-|name_BRI=[[Brisbane Roar FC|Brisbane Roar]]
-|name_CCM=[[Central Coast Mariners FC|Central Coast Mariners]]
-|name_MAC=[[Macarthur FC]]
-|name_MCY=[[Melbourne City FC|Melbourne City]]
-|name_MVC=[[Melbourne Victory FC|Melbourne Victory]]
-|name_NEW=[[Newcastle Jets FC|Newcastle Jets]]
-|name_PER=[[Perth Glory FC|Perth Glory]]
-|name_SYD=[[Sydney FC]]
-|name_WEL=[[Wellington Phoenix FC|Wellington Phoenix]]
-|name_WSW=[[Western Sydney Wanderers FC|Western Sydney Wanderers]]
-
-|hth_MAC=Fair Play points: Wellington Phoenix 0, Macarthur FC –3. |hth_WEL=MAC
-|hth_CCM=Fair Play points: Newcastle Jets –2, Central Coast Mariners –3. |hth_NEW=CCM
-|hth_SYD=Fair Play points: Sydney FC –4, Western Sydney Wanderers –5. |hth_WSW=SYD
-|hth_MVC=Fair Play points: Perth Glory –1, Melbourne Victory –2. |hth_PER=MVC
-
-<!--Notes-->
-|note_AUC=[[Auckland FC]] and [[Wellington Phoenix FC|Wellington Phoenix]] cannot qualify for 
-
-######## TPL Template:2026–27 Big Bash League table 0
-
+| status_HUR=C  <!-- Unhide status after the final; in the status parameter, change xxx to the acronym of the team that has won the final -->
+| status_text_C =Champions; '''(RU)''' Runners
