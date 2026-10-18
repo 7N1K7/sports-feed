@@ -166,6 +166,9 @@ footer a { color: var(--muted) }
 .ev.sport-mma { background: color-mix(in srgb, var(--mma) 6%, var(--surface)) }
 .ev.sport-motor { background: color-mix(in srgb, var(--motor) 6%, var(--surface)) }
 .ev .stripe { width: 6px }
+/* the same 6px sport edge on the right, inside the border like the left stripe */
+.ev { position: relative }
+.ev::after { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 6px; background: var(--sport); pointer-events: none }
 .ni .top .badge { margin-right: 2px }
 #sportFilter { margin-bottom: -10px; justify-content: center }
 #newsFilters { justify-content: center }
@@ -254,8 +257,8 @@ dialog#sheet { width: min(720px, 100%) }
 .ev.is-live { border-color: var(--live); box-shadow: 0 0 0 2px var(--live), 0 0 28px 4px color-mix(in srgb, var(--live) 50%, transparent) }
 .ev.is-soon { border-color: var(--soon); box-shadow: 0 0 0 2px var(--soon), 0 0 24px 3px color-mix(in srgb, var(--soon) 42%, transparent) }
 @media (prefers-reduced-motion: no-preference) {
-  .ev.is-live { animation: livepulse 2.4s ease-in-out infinite }
-  @keyframes livepulse { 50% { box-shadow: 0 0 0 2px var(--live), 0 0 10px 1px color-mix(in srgb, var(--live) 25%, transparent) } }
+  .ev.is-live { animation: evpulse 2.4s ease-in-out infinite }
+  @keyframes evpulse { 50% { box-shadow: 0 0 0 2px var(--live), 0 0 10px 1px color-mix(in srgb, var(--live) 25%, transparent) } }
 }
 
 .compbar { display: flex; justify-content: center; margin-top: 2px }
@@ -402,6 +405,7 @@ a.svc:hover { text-decoration-color: currentColor }
 
 @media (max-width: 560px) {
   .ev { grid-template-columns: 6px minmax(0, 1fr) }
+  .ev .stripe { grid-row: span 2 }
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
   .tag { justify-self: start }
   .ev .teams { font-size: 25px }
@@ -621,7 +625,7 @@ function genderOf(x) {
   return 'm';
 }
 // how a competition reads in the menu
-const COMP_LABEL = { UFC: 'MMA › UFC' };
+const COMP_LABEL = { UFC: 'MMA' };
 // one name per competition, so a whole tournament can be shown on its own
 // the card's header: Australia's tours read home side first, like the names below ("South Africa v Australia · 1st T20I")
 const cardComp = e => e.team === 'aucricket' ? compOf(e) + (e.stage ? ' · ' + e.stage : '') : plural(e.comp);
