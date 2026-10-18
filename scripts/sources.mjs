@@ -424,7 +424,7 @@ function sportsTables(text, page, c) {
   return out;
 }
 
-const F1_ON = false; // switched on once the site can show races
+const F1_ON = true;
 // F1 season page: "Calendar" table (round, Grand Prix, circuit and city, date) and
 // "Grands Prix" results table (round, Grand Prix, pole, fastest lap, winner, constructor, report)
 const rowsOf = table => table.split(/\n\|-[^\n]*/).slice(1).map(r => r.split('\n').filter(l => /^[|!]/.test(l)).flatMap(l => l.slice(1).split(/\|\||!!/)).map(c => c.replace(/^[^|[{]*?(?:style|data-sort-value|nowrap|class)[^|]*\|/i, '').replace(/^nowrap\|/, '')));
