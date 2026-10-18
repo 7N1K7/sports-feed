@@ -1,0 +1,235 @@
+SEARCH 2026 Bunnings NPC => 2025 Bunnings NPC | National Provincial Championship (2006–present) | Johnny Lee (rugby union) | Kyren Taumoefolau
+SEARCH 2026 Rugby League World Cup => 2026 Rugby League World Cup | 2026 Men's Rugby League World Cup | 2026 Men's Rugby League World Cup squads | Rugby League World Cup
+SEARCH 2026 Nations Championship rugby => 2026 Six Nations Championship | 2026 Nations Championship | 2026 World Rugby Nations Cup | Nations Championship
+SEARCH 2026 end-of-year rugby union internationals => End-of-year rugby union internationals | 2018 end-of-year rugby union internationals | 2008 end-of-year rugby union internationals | 2020 end-of-year rugby union internationals
+SEARCH 2026–27 A-League Men => 2026–27 A-League Men | 2026–27 UEFA Nations League A | 2026–27 UEFA Nations League | 2026–27 Premier League
+SEARCH List of UFC events => List of UFC events | UFC Fight Night: Bonfim vs. Brady | UFC Fight Night: Moicano vs. Nolan | UFC Fight Night: Allen vs. Duncan
+SEARCH 2027 Super Rugby Pacific season => 2027 Super Rugby Pacific season | 2026 Super Rugby Pacific season | List of 2027 Super Rugby Pacific matches | List of 2026–27 Super Rugby transfers
+SEARCH 2026–27 Big Bash League season => 2026–27 Big Bash League season | 2026–27 Women's Big Bash League season | List of 2026–27 Big Bash League personnel signings | 2025–26 Big Bash League season
+SEARCH 2026–27 Women's Big Bash League season => 2026–27 Women's Big Bash League season | 2026–27 Big Bash League season | List of 2026–27 Women's Big Bash League personnel signings | Big Bash League
+SEARCH New Zealand cricket team 2026–27 => Indian cricket team in New Zealand in 2026–27 | International cricket in 2026–27 | New Zealand cricket team in Australia in 2026–27 | New Zealand women's cricket team in Australia in 2026–27
+SEARCH 2026 Farah Palmer Cup => Farah Palmer Cup | 2023 Farah Palmer Cup | 2020 Farah Palmer Cup | Structure of rugby union in New Zealand
+SEARCH 2026 Pacific Championships rugby league => Rugby League Pacific Championships | 2024 Rugby League Pacific Championships | 2025 Rugby League Pacific Championships | 2026 Men's Rugby League World Cup qualification
+SEARCH New Zealand women cricket team in Australia 2026 => New Zealand women's cricket team in Australia in 2026–27 | 2026 Women's T20 World Cup | Bangladesh women's cricket team in Australia in 2026–27 | England women's cricket team
+SEARCH 2026–27 Super Smash => Super Smash (men's cricket) | Super Smash (women's cricket) | Super Smash Bros. | Super Smash Bros. Melee
+SEARCH 2026–27 Plunket Shield => 2026–27 Plunket Shield season | Plunket Shield | 2025–26 Plunket Shield season | Tim Robinson (New Zealand cricketer)
+
+######## PAGE 2026 Bunnings Warehouse NPC 340
+[]
+{"code":"missingtitle","info":"The page you specified doesn't exist.","docref":"See https://en.wikipedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes."}
+
+######## PAGE 2026 Rugby League World Cup 47150
+[
+  [ 'mdash', 51 ],    [ 'Cite web', 27 ],
+  [ 'flagdeco', 23 ], [ 'nowrap', 21 ],
+  [ 'rl-rt', 15 ],    [ 'coord', 12 ],
+  [ 'vanchor', 12 ],  [ 'rlw-r', 12 ],
+  [ 'rlw-l', 12 ],    [ 'wrl-r', 12 ],
+  [ 'wrl-l', 12 ],    [ 'Yes', 6 ],
+  [ 'Flag', 6 ],      [ 'cite news', 5 ],
+  [ 'cite web', 4 ]
+]
+{{Short description|Collection of world cups in rugby league}}
+{{Infobox rugby league international tournament
+| year               = 2026
+| title              = Rugby League World Cup
+| image              =RLWC2026_Logo.svg 
+| imagesize          = 
+| alt                =
+| finalists          = {{ubl|10 ([[2026 Men's Rugby League World Cup#Teams|men]])|8 ([[2026 Women's Rugby League World Cup#Teams|women]])|8 ([[2026 Wheelchair Rugby League World Cup#Teams|wheelchair]])|3 ([[2026 Physical Disability Rugby League World Cup#Teams|pdrl]])}}
+| winners_other      = 
+| count              =
+| dates              = 
+| matches            = 53
+| attendance         =  
+| points             = 
+| tries              = 
+| topscorer-flag     = 
+| topscorer          = 
+| top try scorer-flag= 
+| top try scorer     = 
+| tournaments        = 
+| last               = [[2021 Rugby League World Cup|2021]]
+| next               = [[2030 Rugby League World Cup|2030]]
+|country=Australia|country2=New Zealand|country3=Papua New Guinea}}
+
+The '''2026 Rugby League World Cup''' ('''RLWC2026''') is a collection of [[world cup]]s in the sport of [[rugby league]] and   is a replacement tournament for the [[2025 Rugby League World Cup]].
+
+Like [[2021 Rugby League World Cup|2021]], the 2026 World Cup will see the [[2026 Men's Rugby League World Cup|men's]], [[2026 Women's Rugby League World Cup|women's]], and [[2026 Wheelchair Rugby League World Cup|wheelchair]] world cups simultaneously. However unlike 2021, the 
+
+######## PAGE 2026–27 A-League Men 29144
+[
+  [ 'flagicon', 111 ],
+  [ 'cite web', 42 ],
+  [ 'sort', 22 ],
+  [ 'efn', 12 ],
+  [ 'cite news', 5 ],
+  [ 'Cite web', 4 ],
+  [ 'refn', 2 ],
+  [ 'updated', 2 ],
+  [ 'Short description', 1 ],
+  [ 'Use dmy dates', 1 ],
+  [ 'Use Australian English', 1 ],
+  [ 'Infobox football league season', 1 ],
+  [ 'A-League 2025–2026 map', 1 ],
+  [ 'clear', 1 ],
+  [ 'cite tweet', 1 ]
+]
+{{Short description|50th season of top-tier soccer league in Australia}}
+{{Use dmy dates|date=May 2023}}
+{{Use Australian English|date=January 2023}}
+{{Infobox football league season
+| competition = [[A-League Men]]
+| image = 
+| season = [[2026–27 in Australian soccer|2026–27]]
+| dates = 16 October 2026 – 5/6 June 2027
+| winners = 
+| premiers = 
+| continentalcup1 = [[2027–28 AFC Champions League Elite|AFC Champions League Elite]]
+| continentalcup1 qualifiers = 
+| continentalcup2 = [[2027–28 AFC Champions League Two|AFC Champions League Two]]
+| continentalcup2 qualifiers = 
+| matches = 5
+| total goals = 14
+| league topscorer = [[Lachlan Bayliss]]<br>(2 goals)
+| best goalkeeper = 
+| biggest home win = [[Auckland FC]] 3–1 [[Melbourne City FC|Melbourne City]]<br>(17 October 2026)
+| biggest away win = 
+| highest scoring = 
+| longest wins = 
+| longest unbeaten = 
+| longest winless = 
+| longest losses = 
+| highest attendance = 30,103<br>[[Sydney FC]] 0–0 [[Western Sydney Wanderers FC|Western Sydney Wanderers]]<br/>(16 October 2026)
+| lowest attendance = 3,441<br>[[Macarthur FC]] 2–1 [[Perth Glory FC|Perth Glory]]<br>(17 October 2026)
+| attendance = 	54,179
+| average attendance = 18,060
+| prevseason = [[2025–26 A-League Men|2025–26]]
+| nextseason = [[2027–28 A-League Men|2027–28]]
+| updated = 18 October 2026
+}}
+
+The '''2026–27 A-League Men''' will be the 50th season of national level men's [[soccer in Australia]], and the 22nd since the establishment of the [[A-League Men|competition
+
+######## PAGE List of UFC events 365891
+[
+  [ 'dts', 812 ],
+  [ 'nts', 590 ],
+  [ 'cite web', 309 ],
+  [ 'Cite web', 244 ],
+  [ 'sort', 161 ],
+  [ 'cite news', 157 ],
+  [ 'n/a', 89 ],
+  [ 'Cite news', 46 ],
+  [ 'nowrap', 5 ],
+  [ 'Short description', 1 ],
+  [ 'use mdy dates', 1 ],
+  [ 'Use American English', 1 ],
+  [ 'sticky header', 1 ],
+  [ 'sic', 1 ],
+  [ 'columns-list', 1 ]
+]
+{{Short description|none}}
+{{use mdy dates|date=July 2021}}
+{{Use American English|date=April 2023}}
+[[Image:UFC 74 Respect Bout.jpg|right|300px|thumb|All UFC bouts take place inside [[Mixed martial arts cage|the Octagon]].]]
+
+==Overview==
+The UFC's [[mixed martial arts]] (MMA) events are separated into nine different formats:
+*"Numbered" events, currently airing on [[Paramount+]] and formerly aired on [[pay-per-view]], with some exceptions.
+*"Fight Night" events, currently airing on [[Paramount+]] and formerly aired on [[Spike (TV network)|Spike]], [[Fox Sports 1]], [[Fox Sports 2]], [[UFC Fight Pass]] or [[ESPN+]]. 
+*"The Ultimate Fighter Finale" events, formerly aired on Spike, [[FX (TV channel)|FX]], Fox Sports 1, UFC Fight Pass or ESPN+.
+*"UFC Live" events, formerly aired on [[Versus (TV channel)|Versus]]
+*"[[Fox UFC|UFC on Fox]]" events, formerly aired on [[Fox Broadcasting Company|Fox]]
+*"UFC on FX" events, formerly aired on [[FX (TV channel)|FX]]
+*"UFC on Fuel TV" events, formerly aired on [[Fox Sports 2|Fuel TV]]
+*"UFC on ESPN" events, formerly aired on [[ESPN]] or [[ESPN2]]
+*"UFC on ABC" events, formerly aired on [[American Broadcasting Company|ABC]]
+
+Most of the "numbered" events have taken place on pay-per-view, though there have been a few exceptions for reasons such as [[Broadcast delay|tape-delay]]. Events such as [[UFC 72]], which took place in [[Belfast]], [[Northern Ireland]], were sold on pay-per-view, but due to tape-delay, purchase rates were not as high 
+
+######## PAGE 2026–27 Big Bash League season 51544
+[
+  [ 'Single-innings cricket match', 44 ],
+  [ 'anchor', 40 ],
+  [ 'cite web', 19 ],
+  [ 'location map~', 9 ],
+  [ 'color box', 8 ],
+  [ 'cite press release', 6 ],
+  [ 'Abbr', 6 ],
+  [ 'Cite web', 5 ],
+  [ 'cite news', 4 ],
+  [ 'location map+', 2 ],
+  [ 'Short description', 1 ],
+  [ 'About', 1 ],
+  [ 'use Australian English', 1 ],
+  [ 'Use dmy dates', 1 ],
+  [ 'Infobox cricket tournament', 1 ]
+]
+{{Single-innings cricket match
+| round = {{anchor|match1}} '''Match 1'''
+| date = 12 December 2026
+| time = 20:10
+| night = y
+| team1 = [[Melbourne Renegades]] (H)
+| team2 = [[Perth Scorchers]]
+| score1 =
+| runs1 =
+| wickets1 =
+| score2 =
+| runs2 =
+| wickets2 =
+| result =
+| report = [https://www.cricinfo.com/ci/engine/match/1545498.html Scorecard]
+| venue = [[M. A. Chidambaram Stadium]], [[Chennai]]
+| umpires =
+| motm =
+| toss =
+| rain =
+| notes = <!--This will be the first BBL match played outside of Australia.<ref>{{cite web |last=Savage |first=Nic |date=10 July 2026 |title=BBL's first overseas match locked in as details of landmark blockbuster revealed |url=https://www.foxsports.com.au/cricket/cricket-2026-chennai-to-host-big-bash-league-season-opener-melbourne-renegades-vs-perth-scorchers-fixture-bbl-date-teams-video-how-to-watch/news-story/d5e62ccf315c17eb34a0eb3e76e844b3 |website=Fox Sports |access-date=14 July 2026}}</ref>-->
+}}
+<section end=match1/>
+
+----
+<section begin=match2/>
+{{Single-innings cricket match
+| round = {{anchor|match2}} '''Match 2'''
+| date = 15 December 2026
+| time = 18:15
+| night = y
+| team1 = [[Brisbane Heat]] (H)
+| team2 = [[Sydney Sixers]]
+| score1 =
+| runs1 =
+| wickets1 =
+| score2 =
+| runs2 =
+| wickets2 =
+| result =
+| report = [https://www.cricinfo.com/ci/engine/match/1545499.html Scorecard]
+| venue = [[The Gabba]], [[Brisbane]]
+| umpires =
+| motm =
+| toss =
+| rain =
+| notes = 
+}}
+<section end=match2/>
+
+----
+<section begin=match3/>
+{{Single-innings cricket match
+| round = {{anchor|match3}} '''Match 3'''
+| date = 16 December 2026
+| time = 19:15
+| night = y
+| team1 = [[Sydney Thunder]] (H)
+| team2 = [[Adelaide Strikers]]
+| score1 =
+| runs1 =
+| wickets1 =
+| score2 =
+| runs2 =
+| wickets2 =
+| result =
+| report = [https://www.cricinfo.com/ci/eng
