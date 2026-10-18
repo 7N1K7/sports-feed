@@ -408,6 +408,8 @@ a.svc:hover { text-decoration-color: currentColor }
 .stable tr:last-child td { border-bottom: 0 }
 .stable .tn { text-align: left; width: 100%; font-weight: 600; white-space: nowrap }
 .stable .tn .logo { --lh: 1.3em; width: 1.3em; height: 1.3em; margin-right: 6px; vertical-align: -0.3em }
+/* fighters' headshots: round, cropped to the face */
+.logo.face, .ev .teams.matchup .logo.face:not(.flagimg) { aspect-ratio: 1; width: var(--lh, 1.1em); max-width: none; object-fit: cover; object-position: 50% 20%; border-radius: 50%; box-shadow: 0 0 0 2px var(--line) }
 /* crests drawn small inside their image (Canterbury): scale up, and widen the box to match so it never overlaps the name */
 .logo.zoom, .ev .teams.matchup .logo.zoom, .ev .teams.matchup .logo.zoom.after { transform: scale(var(--z)); margin-inline: calc((var(--z) - 1) * var(--lh) / 2) }
 .stable .tn .flagimg { width: 1.4em; height: auto; vertical-align: -0.1em }
@@ -647,11 +649,13 @@ const flagOf = name => {
 // "Wellington Phoenix FC" -> "Wellington Phoenix"; keeps short names like "Auckland FC"
 const shortName = n => n.split(' ').length > 2 ? n.replace(/\s+FC$/, '') : n;
 // crests whose image file has a lot of empty space around a small wordmark
+const CREDITS = {}; // fighter photo -> its Commons credit, filled when the feed loads
 const LOGO_ZOOM = { Canterbury: 1.8 };
 const crest = (n, logo, after) => {
   const src = logo || flagOf(n);
   const z = logo && LOGO_ZOOM[n] ? ` style="--z:${LOGO_ZOOM[n]}"` : '';
-  return src ? `<img class="logo ${logo ? '' : 'flagimg'} ${after ? 'after' : ''} ${z ? 'zoom' : ''}"${z} src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
+  const face = logo && CREDITS[logo];
+  return src ? `<img class="logo ${logo ? '' : 'flagimg'} ${after ? 'after' : ''} ${z ? 'zoom' : ''} ${face ? 'face' : ''}"${face ? ` title="Photo: ${esc(face)}"` : ''}${z} src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
 };
 // National side nicknames by sport and men's/women's, e.g. New Zealand cricket (men's) -> Black Caps
 const NICK = {
@@ -1121,6 +1125,7 @@ function detail(e) {
     overseas && (!e.timeTBC || e.usual) ? ['Local', `${e.usual ? '≈' : ''}${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
     ['Where', [e.venue, e.city].filter(Boolean).map(wikiLink).join(', ') || 'To be confirmed', true],
     e.note ? ['Note', e.note] : null,
+    e.homeCredit || e.awayCredit ? ['Photos', [e.homeCredit && `${e.home}: ${e.homeCredit}`, e.awayCredit && `${e.away}: ${e.awayCredit}`].filter(Boolean).join('; ')] : null,
     e.weather ? ['Weather', e.weather] : null,
   ].filter(Boolean);
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
@@ -1440,13 +1445,15 @@ async function load() {
     if (!r.ok) throw new Error(r.status);
     FEED = await r.json();
     for (const e of FEED.events || []) {
+      if (e.homeCredit) CREDITS[e.homeLogo] = e.homeCredit;
+      if (e.awayCredit) CREDITS[e.awayLogo] = e.awayCredit;
       // a tour game with no ground listed is still in the host country (listed first), so use its time zone
       const host = String(e.home || '').replace(/\s+(Women|A|XI)$/i, '').trim();
       if (e.sport === 'cricket' && !e.tz && HOST_TZ[host]) { e.tz = HOST_TZ[host]; if (!e.city && !e.venue) e.city = host; }
       // Tests with no listed time sit at their usual 10am local start, so they land on the right day and countdown
       const u = usualStart(e); if (u) { e.startUTC = u.toISOString(); e.usual = true; }
     }
-    $('foot').innerHTML = `Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0)`;
+    $('foot').innerHTML = `Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> (credits in each fight's details)`;
     render(); stamp();
   } catch (e) {
     if (!FEED.generatedAt) $('mockNote').textContent = 'Could not load the feed. Check your connection and refresh the page.';

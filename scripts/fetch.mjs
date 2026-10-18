@@ -304,6 +304,49 @@ async function addLogos(events, extra = []) {
 }
 
 // Thumbnails: read each article's og:image once and remember it in .cache/og.json
+// Fighter headshots: each boxer's or UFC fighter's freely licensed Wikipedia/Commons photo, with its credit.
+// Only pages Wikidata describes as a fighter, and only free images (pilicense=free). Cached a month (misses a week).
+async function addFaces(events) {
+  const cacheUrl = new URL('.cache/faces.json', ROOT);
+  let cache = {};
+  try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
+  const api = async q => { const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&' + q, { headers: { 'user-agent': 'sports-feed (personal site)' } }); if (!r.ok) throw new Error(`wikipedia ${r.status}`); return r.json(); };
+  const near = events.filter(e => /^(mma|boxing)$/.test(e.sport) && Math.abs(Date.parse(e.startUTC) - now) < 60 * DAY);
+  const names = [...new Set(near.flatMap(e => [e.home, e.away]))].filter(n => n && !/TBC|^UFC|Fight Night|\bvs?\b/i.test(n) && n.split(' ').length <= 4);
+  const due = names.filter(n => !cache[n] || now - cache[n].t > (cache[n].src ? 30 : 7) * DAY).slice(0, 40);
+  const plain = h => String(h || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  try {
+    for (let i = 0; i < due.length; i += 20) {
+      const batch = due.slice(i, i + 20);
+      const r = await api('action=query&prop=pageimages|description&piprop=thumbnail|name&pithumbsize=160&pilicense=free&redirects=1&titles=' + encodeURIComponent(batch.join('|')));
+      const back = {};
+      for (const m of [...(r.query?.normalized || []), ...(r.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
+      const files = {};
+      for (const pg of r.query?.pages || []) {
+        const name = back[pg.title] || pg.title;
+        const ok = pg.thumbnail && /box|fight|martial|mma|kickbox|wrestl|judo|jiu|muay/i.test(pg.description || '');
+        cache[name] = { t: now, src: ok ? pg.thumbnail.source : null, file: ok ? pg.pageimage : null };
+        if (ok) files['File:' + pg.pageimage] = name;
+      }
+      for (const n of batch) if (!cache[n] || cache[n].t !== now) cache[n] = { t: now, src: null };
+      if (Object.keys(files).length) {
+        const ir = await api('action=query&prop=imageinfo&iiprop=extmetadata&titles=' + encodeURIComponent(Object.keys(files).join('|')));
+        const fBack = {}; for (const m of ir.query?.normalized || []) fBack[m.to] = m.from;
+        for (const pg of ir.query?.pages || []) {
+          const md = pg.imageinfo?.[0]?.extmetadata || {}, name = files[fBack[pg.title] || pg.title];
+          if (name) cache[name].credit = [plain(md.Artist?.value), plain(md.LicenseShortName?.value)].filter(Boolean).join(', ') + ' / Wikimedia Commons';
+        }
+      }
+    }
+  } catch (e) { diag.faces = 'error: ' + e.message; }
+  for (const e of near) for (const side of ['home', 'away']) {
+    const c = cache[e[side]];
+    if (c?.src && !e[side + 'Logo']) { e[side + 'Logo'] = c.src; e[side + 'Credit'] = c.credit || 'Wikimedia Commons'; }
+  }
+  diag.faces ||= `${names.filter(n => cache[n]?.src).length}/${names.length} fighters with a free photo; ${due.length} looked up`;
+  try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
+}
+
 async function addImages(items) {
   const cacheUrl = new URL('.cache/og.json', ROOT);
   let cache = {};
@@ -324,6 +367,7 @@ async function addImages(items) {
 }
 await addImages(news);
 await addLogos(events, tsdbAll);
+await addFaces(events);
 
 // site version: the number of commits, and when the code last changed (needs the full git history in CI)
 let site = null;
