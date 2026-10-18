@@ -741,13 +741,17 @@ export async function tsdb(q) {
   }
 }
 const STATUS = s => /^(FT|AET|AP|PEN|Match Finished|After Over Time|Final)$/i.test(s || '') ? 'final' : /^(NS|Not Started|TBD|PST|Postponed|CANC)$/i.test(s || '') || !s ? 'upcoming' : 'live';
+// "Crusaders Super Rugby", "Fiji Rugby League" -> "Crusaders", "Fiji"
+const tsdbTeam = s => (s || '').replace(/\s+(Super Rugby|Rugby League|Rugby Union)$/, '');
 function fromTsdb(ev, l) {
-  const home = (ev.strHomeTeam || '').replace(/\s+Super Rugby$/, ''), away = (ev.strAwayTeam || '').replace(/\s+Super Rugby$/, '');
-  const cls = classify(l.classify, home, away);
+  const home = tsdbTeam(ev.strHomeTeam), away = tsdbTeam(ev.strAwayTeam);
+  const cls = l.team ? { team: l.team, tags: l.tags || [] } : classify(l.classify, home, away);
   if (!cls || !ev.strTimestamp) return null;
   const status = STATUS(ev.strStatus);
   const t = new Date(ev.strTimestamp.replace(/(\+00:00)?$/, '') + 'Z');
   const hasScore = ev.intHomeScore != null && ev.intHomeScore !== '' && status !== 'upcoming';
+  // fill-only leagues: remember the round so the next run can ask for it directly; midnight UTC is a placeholder time
+  const fill = l.fill ? { fill: true, tsdbRound: ev.intRound ?? null, tsdbSeason: ev.strSeason || null, ...(/T00:00(:00)?$/.test(ev.strTimestamp.replace(/\+00:00$/, '')) ? { timeTBC: true } : {}) } : {};
   return {
     id: `tsdb-${ev.idEvent}`, team: cls.team, tags: cls.tags, sport: l.sport, comp: l.comp + (ev.intRound && +ev.intRound < 50 ? ` · Round ${ev.intRound}` : ''),
     home, away, startUTC: t.toISOString(), timeTBC: false, venue: ev.strVenue || '', city: [ev.strCity, ev.strCountry].filter(Boolean).join(', '), tz: l.tz || null,
@@ -755,14 +759,57 @@ function fromTsdb(ev, l) {
     source: `https://www.thesportsdb.com/event/${ev.idEvent}`,
     // each side's club badge comes with the fixture, so clubs get logos without extra calls
     ...(ev.strHomeTeamBadge ? { homeLogo: ev.strHomeTeamBadge + '/tiny' } : {}), ...(ev.strAwayTeamBadge ? { awayLogo: ev.strAwayTeamBadge + '/tiny' } : {}),
+    ...fill,
   };
 }
+
+// Fill-only leagues ("fill" in data/wiki-pages.json) never add cards. They give a final score or an exact start time
+// to a Wikipedia or curated card that lacks one. gapsFor(l, known) (from fetch.mjs) lists those cards, given the games
+// this league already gave: [{ e, need: 'score' | 'time', known }]. No gaps, no calls. Otherwise at most FILL_LEAGUE
+// calls: the round of a game seen before (or the league's last game, then its round) for scores, the next game and
+// its round for start times. Games found are kept in the cache for 3 days, so a score found once costs nothing after.
+const FILL_LEAGUE = 3, FILL_RUN = 6;
+async function fillLeague(l, out, diag, cache, gapsFor, left) {
+  const key = `fill ${l.id}`;
+  let got = (cache[key]?.events || []).filter(e => Date.now() - Date.parse(e.startUTC) < 3 * DAY);
+  let open = gapsFor ? gapsFor(l, got) : [];
+  const need = n => open.some(g => g.need === n);
+  let calls = 0;
+  const max = Math.min(FILL_LEAGUE, left);
+  const add = evs => { for (const ev of evs || []) { const e = fromTsdb(ev, l); if (e) got = [...got.filter(x => x.id !== e.id), e]; } open = gapsFor ? gapsFor(l, got) : []; };
+  const call = async q => { calls++; return (await tsdb(q)).events || []; };
+  const roundQ = (r, s) => `eventsround.php?id=${l.id}&r=${r}&s=${encodeURIComponent(s)}`;
+  const asked = new Set();
+  const round = async (r, s) => { if (r == null || r === '' || !s || asked.has(`${r}|${s}`) || calls >= max) return; asked.add(`${r}|${s}`); add(await call(roundQ(r, s))); };
+  const before = open.length;
+  let err = '';
+  try {
+    if (need('score') && calls < max) {
+      const k = open.find(g => g.need === 'score' && g.known?.tsdbSeason)?.known;
+      if (k) await round(k.tsdbRound, k.tsdbSeason);
+      else { const [last] = await call(`eventspastleague.php?id=${l.id}`); add([last]); if (last && need('score')) await round(last.intRound, last.strSeason); }
+    }
+    if (need('time') && calls < max) {
+      const [next] = await call(`eventsnextleague.php?id=${l.id}`); add([next]);
+      if (next && need('time')) await round(next.intRound, next.strSeason);
+    }
+  } catch (e) { err = `; error: ${e.message}`; }
+  out.push(...got);
+  cache[key] = { t: Date.now(), events: got };
+  diag[`tsdb ${l.comp}`] = `fill: ${before ? `${before} cards lacking a score or time, ${open.length} still open` : 'nothing to fill'}; ${calls} calls; ${got.length} games known${err}`;
+  return calls;
+}
 // Rounds around now for a league: last result's round, two back and a few ahead
-export async function tsdbEvents(leagues, diag, cache = {}) {
+export async function tsdbEvents(all, diag, cache = {}, gapsFor = null) {
   const out = [];
   // start with a different league each run, so a rate limit part-way through doesn't always starve the same ones
-  const k = Math.floor(Date.now() / 6e5) % (leagues.length || 1);
-  for (const l of [...leagues.slice(k), ...leagues.slice(0, k)]) {
+  const slot = Math.floor(Date.now() / 6e5);
+  const turn = list => { const k = slot % (list.length || 1); return [...list.slice(k), ...list.slice(0, k)]; };
+  // fill-only leagues first: they cost nothing unless a card is waiting on them, and then at most FILL_RUN calls in all
+  let fillCalls = 0;
+  for (const l of turn(all.filter(l => l.fill))) fillCalls += await fillLeague(l, out, diag, cache, gapsFor, FILL_RUN - fillCalls);
+  const leagues = all.filter(l => !l.fill);
+  for (const l of turn(leagues)) {
     const start = out.length;
     try {
       if (l.ufc) {

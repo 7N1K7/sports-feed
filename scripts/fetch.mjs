@@ -136,13 +136,36 @@ try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFil
 const tsdbCacheUrl = new URL('.cache/tsdb-events.json', ROOT);
 let tsdbCache = {};
 try { tsdbCache = JSON.parse(await readFile(tsdbCacheUrl, 'utf8')); } catch {}
-const tsdbLive = await tsdbEvents(wikiCfg.thesportsdb, diag, tsdbCache);
-try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(tsdbCacheUrl, JSON.stringify(tsdbCache)); } catch {}
 
 // same fixture from two sources? UFC cards match on date alone
 const WOMEN_KEYS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'fpc', 'wbbl']);
 const isW = e => WOMEN_KEYS.has(e.team) || /women|wheelchair/i.test([e.comp, e.home, e.away].join(' '));
 const same = (a, b) => a.team === b.team && isW(a) === isW(b) && (a.team === 'ufc' ? Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) < 1.5 * DAY : sameMatch(a, b));
+const near = t => (a, b) => Math.abs(Date.parse(a.startUTC) - t) - Math.abs(Date.parse(b.startUTC) - t);
+
+// Fill-only TheSportsDB leagues: which Wikipedia or curated cards could one complete? Men's games of its teams and
+// competition that started 110 minutes to 12 hours ago with no score yet, or start within 2 days with no exact time.
+// `known` = games the league already gave (cached), so a gap it has filled before costs no more calls.
+const pre = [...curated.events, ...wiki];
+function gapsFor(l, known) {
+  const comp = new RegExp(l.fill.comp || '', 'i'), seen = new Set(), gaps = [];
+  for (const e of pre) {
+    if (seen.has(e) || e.sport !== l.sport || !(l.fill.teams || []).includes(e.team) || isW(e) || !comp.test(e.comp || '')) continue;
+    const twins = pre.filter(x => x === e || same(x, e));
+    twins.forEach(x => seen.add(x));
+    const k = known.filter(x => same(e, x)).sort(near(Date.parse(e.startUTC)))[0];
+    if (twins.some(x => x.score || x.status === 'final') || k?.score) continue;
+    const timed = [...twins, k].find(x => x && !x.timeTBC);
+    const age = now - Date.parse((timed || e).startUTC);
+    if (timed ? age > 110 * 6e4 && age < 12 * 36e5 : age > 0 && age < 12 * 36e5) gaps.push({ e, need: 'score', known: k });
+    else if (!timed && age <= 0 && age > -2 * DAY) gaps.push({ e, need: 'time', known: k });
+  }
+  return gaps;
+}
+const tsdbAll = await tsdbEvents(wikiCfg.thesportsdb, diag, tsdbCache, gapsFor);
+try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(tsdbCacheUrl, JSON.stringify(tsdbCache)); } catch {}
+const tsdbLive = tsdbAll.filter(e => !e.fill), tsdbFill = tsdbAll.filter(e => e.fill);
+
 // TheSportsDB has exact times; Wikipedia has scores for more competitions. Merge both, then onto curated.
 const live = [];
 for (const e of [...tsdbLive, ...wiki]) {
@@ -171,6 +194,23 @@ for (const le of live) {
     if (!hit.source && le.source) hit.source = le.source;
   } else events.push(le);
 }
+// Fill-only TheSportsDB games: a final score or exact start time for the closest matching card that lacks one, never a
+// card of their own. TheSportsDB may list the sides the other way round, so the score is turned to face the card.
+const side = (x, y) => { const a = norm(x), b = norm(y); return !!a && !!b && (a.includes(b) || b.includes(a)); };
+const filled = [];
+for (const t of tsdbFill) {
+  const hit = events.filter(e => same(e, t)).sort(near(Date.parse(t.startUTC)))[0];
+  if (!hit) continue;
+  const did = [];
+  if (hit.timeTBC && !t.timeTBC) { Object.assign(hit, { startUTC: t.startUTC, timeTBC: false }); did.push('start time'); }
+  if (!hit.score && hit.status !== 'final' && t.status === 'final' && t.score) {
+    const flip = (side(t.home, hit.away) && !side(t.home, hit.home)) || (side(t.away, hit.home) && !side(t.away, hit.away));
+    Object.assign(hit, { score: flip ? t.score.split('-').reverse().join('-') : t.score, status: 'final' });
+    did.push(`score ${hit.score}`);
+  }
+  if (did.length) filled.push(`${hit.home} v ${hit.away} (${hit.id}): ${did.join(', ')}`);
+}
+if (tsdbFill.length) diag.tsdbFilled = filled;
 events.forEach(e => applyBroadcast(e, rules));
 for (const e of events) if (!e.tz && e.city) { const bits = e.city.split(',').map(x => x.trim()); e.tz = tzFor(bits[0], bits[bits.length - 1]); }
 
@@ -272,7 +312,7 @@ async function addImages(items) {
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
 await addImages(news);
-await addLogos(events, tsdbLive);
+await addLogos(events, tsdbAll);
 
 // site version: the number of commits, and when the code last changed (needs the full git history in CI)
 let site = null;

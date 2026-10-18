@@ -1,5 +1,5 @@
 {
-  "_note": "Wikipedia pages read for fixtures and results. {Y} = calendar year (this year, plus next year from September), {S} = summer season like 2026–27. Pages that don't exist yet are skipped. NZ cricket tour pages are found by search automatically. team = fixed team key; classify = pick by team names (see scripts/sources.mjs).",
+  "_note": "Wikipedia pages read for fixtures and results. {Y} = calendar year (this year, plus next year from September), {S} = summer season like 2026–27. Pages that don't exist yet are skipped. NZ cricket tour pages are found by search automatically. team = fixed team key; classify = pick by team names (see scripts/sources.mjs). thesportsdb entries with fill never add cards: they only give a final score or exact start time to a card that lacks one (fill.teams = card team keys, fill.comp = pattern for the card's competition), and are only polled while such a card is waiting.",
   "pages": [
     { "title": "{Y} Hilux NPC", "sport": "rugby", "comp": "NPC", "team": "npc", "tz": "Pacific/Auckland" },
     { "title": "{Y} Bunnings NPC", "sport": "rugby", "comp": "NPC", "team": "npc", "tz": "Pacific/Auckland" },
@@ -28,6 +28,7 @@
     { "id": 4328, "sport": "football", "comp": "Premier League", "classify": "epl" },
     { "id": 4416, "sport": "league", "comp": "NRL", "classify": "nrl" },
     { "id": 4551, "sport": "rugby", "comp": "Super Rugby Pacific", "classify": "superrugby" },
-    { "id": 4443, "sport": "mma", "comp": "UFC", "ufc": true }
+    { "id": 4443, "sport": "mma", "comp": "UFC", "ufc": true },
+    { "id": 5806, "sport": "league", "comp": "Rugby League World Cup", "classify": "rlwc", "fill": { "teams": ["kiwis", "rlwc"], "comp": "^Rugby League World Cup" } }
   ]
 }
