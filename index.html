@@ -158,6 +158,10 @@ footer a { color: var(--muted) }
 .nowchip { border-color: var(--sport); background: color-mix(in srgb, var(--sport) 8%, var(--paper)); font-weight: 600 }
 .nowchip[aria-pressed="true"] { background: var(--sport); color: var(--paper) }
 .sportchip[aria-pressed="true"] { background: var(--sport); border-color: var(--sport); color: var(--paper) }
+/* women's games in violet and wheelchair games in teal, whatever the sport, so mixed competitions read apart at a glance */
+.ev.g-w { --sport: #7048e8 } .ev.g-wc { --sport: #0c8599 }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ev.g-w { --sport: #9775fa } :root:not([data-theme="light"]) .ev.g-wc { --sport: #3bc9db } }
+:root[data-theme="dark"] .ev.g-w { --sport: #9775fa } :root[data-theme="dark"] .ev.g-wc { --sport: #3bc9db }
 .sport-rugby .ev, .ev.sport-rugby { background: color-mix(in srgb, var(--rugby) 5%, var(--surface)) }
 .ev.sport-cricket { background: color-mix(in srgb, var(--cricket) 5%, var(--surface)) }
 .ev.sport-league { background: color-mix(in srgb, var(--league) 6%, var(--surface)) }
@@ -624,6 +628,7 @@ function genderOf(x) {
   if (x.sport === 'boxing') return '';
   return 'm';
 }
+const gcls = e => /wheelchair/i.test([e.comp, e.home, e.away].join(' ')) ? 'g-wc' : genderOf(e) === 'w' ? 'g-w' : '';
 // how a competition reads in the menu
 const COMP_LABEL = { UFC: 'MMA' };
 // one name per competition, so a whole tournament can be shown on its own
@@ -736,7 +741,7 @@ function evCard(e, now) {
   const local = overseas ? `<div class="loc num">${e.timeTBC ? '' : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${esc(cityOf(e))}</div>` : '';
   const tv = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : '';
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
-  return `<article class="ev sport-${e.sport} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}, details">
+  return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}, details">
     <div class="stripe"></div>
     <div class="body">
       <div class="comp">${sIcon(e.sport)}${badge(e.team)}<span>${esc(cardComp(e))}</span>${seriesLine(e, now)}</div>
@@ -790,7 +795,7 @@ function resCard(e, now) {
   const right = hidden
     ? `<button class="cover" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>hidden ${left} more day${left === 1 ? '' : 's'}</button>`
     : (e.score ? `<div class="score num ${long ? 'long' : ''}">${esc(e.score)}</div>` : `<div class="loc">Result not in yet</div>`) + highlights(e, now) + (canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : '');
-  return `<article class="ev res sport-${e.sport}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}, details">
+  return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}, details">
     <div class="stripe"></div>
     <div class="body">
       <div class="comp">${sIcon(e.sport)}${badge(e.team)}<span>${esc(cardComp(e))}</span></div>
