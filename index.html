@@ -211,7 +211,7 @@ footer a { color: var(--muted) }
 .plink { color: inherit; text-decoration: underline dotted color-mix(in srgb, var(--muted) 70%, transparent); text-underline-offset: 3px }
 .plink:hover { text-decoration-style: solid }
 .dhnote { text-transform: none; letter-spacing: 0; font-weight: 500; margin-left: 6px }
-.revall { float: right; margin-top: -3px; font: inherit; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 4px 10px; cursor: pointer }
+.revall { float: right; position: relative; top: 3px; font: inherit; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 4px 10px; cursor: pointer }
 .revall:hover { border-color: var(--muted) }
 .dayhead::after { content: ""; display: block; height: 2px; width: 32px; background: var(--accent); margin-top: 4px; border-radius: 2px }
 
@@ -530,6 +530,18 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 .matchup .v.vsc { display: flex; align-items: baseline; gap: .45em; font-size: 1em; text-transform: none; color: inherit }
 .matchup .vsc .vv { color: var(--muted); font-weight: 500; font-size: .75em }
 .matchup .vsc .ts { padding: 0 }
+.matchup .v.vhow { display: grid; justify-items: center; line-height: 1.1 }
+.matchup .vhow small { font-size: .78em; font-weight: 700; text-transform: none; color: var(--ink); white-space: nowrap }
+.side.fW .nm { color: #2b8a3e } .side.fL .nm { color: #c92a2a; opacity: .85 }
+.side.fW .nm::after { content: " ✓"; font-size: .8em }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .side.fW .nm { color: #69db7c } :root:not([data-theme="light"]) .side.fL .nm { color: #ff8787 } }
+:root[data-theme="dark"] .side.fW .nm { color: #69db7c } :root[data-theme="dark"] .side.fL .nm { color: #ff8787 }
+/* side panel of a revealed result: one line of result (full text on hover and in the details), links in a row */
+.ev .when .score.one { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; min-width: 0 }
+.ev .when .acts { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 2px 10px }
+.ev .when .acts:empty { display: none }
+.ev .when .acts .rehide { padding: 0 }
+@media (max-width: 560px) { .ev .when .acts { justify-content: flex-start; margin-right: 6px } }
 @media (max-width: 560px) { .ts .ov { display: none }
   /* on a phone the score drops to its own line under the name, so long names keep their width */
   :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev .teams.matchup.scored .side .ts { order: 5; flex-basis: 100%; text-align: center } }
@@ -1060,7 +1072,8 @@ function sideScores(e) {
 function winnerOf(e) {
   const m = String(e.score || '').match(/^(\d+)\s*[-–]\s*(\d+)$/);
   if (m) return +m[1] > +m[2] ? 'home' : +m[1] < +m[2] ? 'away' : 'draw';
-  const t = e.summary || '', w = fold((t.match(/^(.*?)\s+won\b(?! the toss)/i) || [])[1] || '');
+  // "X won by …" in the summary, or in the score line for fights ("Fundora won by KO (R12, 2:59)")
+  const t = /^.{2,40}?\s+won\b/i.test(e.score || '') ? e.score : e.summary || '', w = fold((t.match(/^(.*?)\s+won\b(?! the toss)/i) || [])[1] || '');
   const is = n => { const a = fold(String(n || '').replace(/\s+Women('s)?$/, '')), b = fold(displayName(n, e)); return !!w && (w.includes(a) || w.includes(b) || a.includes(w)); };
   if (w) return is(e.home) ? 'home' : is(e.away) ? 'away' : null;
   return /drawn|\bdraw\b|\btied?\b/i.test(t) ? 'draw' : null;
@@ -1074,14 +1087,22 @@ function resCard(e, now) {
   // revealed scores sit beside each side's name, green for the winner and red for the loser
   const split = !hidden && !solo(e) ? sideScores(e) : null, win = split && winnerOf(e);
   const res = side => !win ? '' : win === 'draw' ? 'D' : win === side ? 'W' : 'L';
+  // a fight: the winner's name in green with a tick, the loser's in red, and how it ended under the "v"
+  const fw = !hidden && FIGHT.test(e.sport) && !solo(e) ? winnerOf(e) : null;
+  const fres = side => !fw ? '' : fw === 'draw' ? 'fD' : fw === side ? 'fW' : 'fL';
+  const how = fw ? [(`${e.score} ${e.summary || ''}`.match(/\bby (KO|TKO|UD|SD|MD|DQ|RTD|submission|decision|knockout|technical knockout)\b/i) || [])[1], (`${e.score} ${e.summary || ''}`.match(/\bR(\d+)\b|round (\d+)/i) || []).slice(1).find(Boolean)].filter(Boolean) : [];
+  const howTxt = how.length ? `${how[0] ? how[0].replace(/^submission$/i, 'Sub').replace(/^decision$/i, 'Dec').replace(/^(technical )?knockout$/i, m => /tech/i.test(m) ? 'TKO' : 'KO') : ''}${how[1] ? ` R${how[1]}` : ''}`.trim() : '';
+  // revealed, the side panel stays about as tall as the "Show result" cover: one line of result, then the links
+  const short = fw && fw !== 'draw' ? `${displayName(e[fw], e).split(' ').pop()} won` : '';
   const right = hidden
     ? `<button class="cover" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>hidden ${left} more day${left === 1 ? '' : 's'}</button>`
-    : (split ? `<div class="score num sm">${esc(e.score)}</div>` : e.score ? `<div class="score num ${long ? 'long' : ''}">${esc(e.score)}</div>` : `<div class="pending">Result not in yet</div>`) + highlights(e, now) + (canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : '');
+    : (split || short ? `<div class="score sm one" title="${esc(e.score)}">${esc(short || e.score)}</div>` : e.score ? `<div class="score num ${long ? 'long one' : ''}" title="${esc(e.score)}">${esc(e.score)}</div>` : `<div class="pending">Result not in yet</div>`)
+      + `<span class="acts">${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</span>`;
   return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
       <div class="comp">${sIcon(e.sport)}${compBadge(e)}${intlTag(e)}<span>${esc(cardComp(e))}</span></div>
-      ${solo(e) ? soloTitle(e) : `<div class="teams matchup${split ? ' scored' : ''}"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span>${split ? `<span class="v vsc">${scoreTag(split[0], res('home'))}<span class="vv">v</span>${scoreTag(split[1], res('away'))}</span>` : '<span class="v">v</span>'}<span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
+      ${solo(e) ? soloTitle(e) : `<div class="teams matchup${split ? ' scored' : ''}"><span class="side home ${fres('home')}">${teamName(e.home, e.homeLogo, e)}</span>${split ? `<span class="v vsc">${scoreTag(split[0], res('home'))}<span class="vv">v</span>${scoreTag(split[1], res('away'))}</span>` : fw ? `<span class="v vhow"><span>v</span>${howTxt ? `<small>${esc(howTxt)}</small>` : ''}</span>` : '<span class="v">v</span>'}<span class="side away ${fres('away')}">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${hidden ? '' : `<div class="summary">${esc(e.summary || '')}</div>`}
     </div>
     <div class="when">${right}<div class="rloc">${dayLabel(d, NZ)}${cityOf(e) ? ' · ' + wikiLink(cityOf(e)) : ''}</div></div>
