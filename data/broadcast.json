@@ -1,0 +1,11 @@
+[
+  { "comp": "NPC|Farah Palmer", "broadcast": "Sky Sport / TVNZ+ (free stream)" },
+  { "comp": "Super Rugby", "broadcast": "Sky Sport / Sky Sport Now" },
+  { "team": "allblacks", "broadcast": "Sky Sport / Sky Sport Now" },
+  { "team": "blackferns", "broadcast": "Sky Sport / Sky Sport Now" },
+  { "team": "warriors", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Free on Three / ThreeNow" },
+  { "comp": "World Cup", "broadcast": "Sky Sport / Sky Sport Now" },
+  { "team": "nzdomestic", "broadcast": "", "watchAlt": "NZC live stream (nzc.nz / YouTube)", "watchNote": "Not on TV in NZ" },
+  { "team": "blackcaps", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Radio: RNZ / Sport Nation" },
+  { "team": "whiteferns", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Radio: RNZ / Sport Nation" }
+]

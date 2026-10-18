@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="What's on today and this week for New Zealand rugby, cricket and league teams, with NZ start times, where to watch and spoiler-free results.">
+<title>Sports Feed</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Layout: sticky scoreboard header, week strip, then one column of day-grouped fixture rows, results and news. */
+:root {
+  --paper: #f3f6f4; --surface: #ffffff; --ink: #14211c; --muted: #5a6a64; --line: #d9e2de;
+  --accent: #0d6b4d; --accent-ink: #ffffff; --soft: #e6efeb;
+  --rugby: #17704f; --cricket: #1d5ea6; --league: #b0521a;
+  --live: #c8322a; --cover: #dfe6e3;
+  --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
+  --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
+  --rugby: #46c093; --cricket: #7fb1ef; --league: #f09c62;
+  --live: #ff6b5f; --cover: #25322d; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
+  --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
+  --rugby: #46c093; --cricket: #7fb1ef; --league: #f09c62;
+  --live: #ff6b5f; --cover: #25322d; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.45; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface) }
+.wrap { max-width: 860px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0 }
+button { font: inherit; color: inherit }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.num { font-variant-numeric: tabular-nums }
+
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line) }
+header.top .wrap { display: flex; align-items: center; gap: 12px; padding-block: 10px; flex-wrap: wrap }
+.brand { font-family: var(--f-display); font-weight: 700; font-size: 26px; letter-spacing: .02em; text-transform: uppercase; line-height: 1 }
+.brand span { color: var(--accent) }
+.clock { color: var(--muted); font-size: 13px }
+.spacer { flex: 1 }
+.btn { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-size: 14px; display: inline-flex; gap: 6px; align-items: center }
+.btn:hover { border-color: var(--accent) }
+.btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
+
+.mock { background: var(--soft); color: var(--muted); font-size: 13px }
+.mock .wrap { padding-block: 8px }
+
+.panel { background: var(--surface); border-bottom: 1px solid var(--line) }
+.panel .wrap { padding-block: 16px; display: grid; gap: 14px }
+.group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--f-body); font-weight: 700; margin-bottom: 6px }
+.chips { display: flex; flex-wrap: wrap; gap: 6px }
+.chip { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 5px 11px; cursor: pointer; font-size: 14px }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+.spoil-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 14px }
+select { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink) }
+
+main { padding-block: 18px 48px; display: grid; gap: 28px }
+section > h2 { font-size: 22px; text-transform: uppercase; letter-spacing: .04em; display: flex; flex-wrap: wrap; column-gap: 10px; align-items: baseline; gap: 10px; margin-bottom: 10px }
+section > h2 small { font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 13px; color: var(--muted); font-weight: 400 }
+
+.week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px }
+.day { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 8px 4px; text-align: center; cursor: pointer; display: grid; gap: 2px; min-width: 0 }
+.day:hover { border-color: var(--accent) }
+.day .dn { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted) }
+.day .dd { font-family: var(--f-display); font-size: 24px; font-weight: 700; line-height: 1 }
+.day .dots { display: flex; gap: 3px; justify-content: center; min-height: 8px; flex-wrap: wrap }
+.dot { width: 7px; height: 7px; border-radius: 50% }
+.day.today { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
+.day.empty .dd { color: var(--muted) }
+
+.daygroup { display: grid; gap: 8px }
+.daygroup + .daygroup { margin-top: 14px }
+.dayhead { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); scroll-margin-top: 80px }
+
+.ev { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); display: grid; grid-template-columns: 6px minmax(0, 1fr) auto; overflow: hidden }
+.ev .stripe { background: var(--sport) }
+.ev .body { padding: 10px 12px; min-width: 0; display: grid; gap: 2px }
+.ev .comp { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--sport); font-weight: 700 }
+.ev .teams { font-family: var(--f-display); font-size: 21px; font-weight: 600; line-height: 1.15 }
+.ev .teams .v { color: var(--muted); font-weight: 500; padding-inline: 4px }
+.ev .meta { font-size: 13px; color: var(--muted) }
+.watch { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; font-size: 13px; margin-top: 4px }
+.watch .wl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; border: 1px solid var(--sport); color: var(--sport); border-radius: 4px; padding: 0 5px }
+.watch .alt { font-weight: 600 }
+.watch .muted { color: var(--muted) }
+.ev .when { padding: 10px 12px; text-align: right; display: grid; align-content: center; gap: 2px; border-left: 1px dashed var(--line); min-width: 112px }
+.ev .nz { font-family: var(--f-display); font-size: 24px; font-weight: 700; line-height: 1 }
+.ev .nzl { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted) }
+.ev .loc { font-size: 12px; color: var(--muted) }
+.tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 1px 6px; background: var(--soft); color: var(--ink); justify-self: end }
+.tag.live { background: var(--live); color: #fff }
+.sport-rugby { --sport: var(--rugby) } .sport-cricket { --sport: var(--cricket) } .sport-league { --sport: var(--league) }
+
+.res .when { min-width: 120px }
+.res .score { font-family: var(--f-display); font-size: 28px; font-weight: 700; line-height: 1 }
+.res .score.long { font-size: 15px; font-family: var(--f-body); font-weight: 600; line-height: 1.3 }
+.res .summary { font-size: 14px; margin-top: 2px }
+.cover { background: var(--cover); border: 0; border-radius: 8px; padding: 8px 10px; cursor: pointer; font-size: 13px; text-align: center; line-height: 1.25 }
+.cover b { display: block; font-size: 14px }
+
+.news { display: grid; gap: 8px }
+.ni { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 10px 12px; display: grid; gap: 3px }
+.ni .top { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted) }
+.kind { text-transform: uppercase; letter-spacing: .07em; font-weight: 700; font-size: 11px; border-radius: 4px; padding: 1px 5px; background: var(--soft); color: var(--ink) }
+.kind.injury { background: var(--live); color: #fff }
+.ni h3 { font-family: var(--f-body); font-size: 16px; font-weight: 700; line-height: 1.3 }
+.ni p { margin: 0; font-size: 14px; color: var(--muted); max-width: 68ch }
+.ni a { color: var(--accent); font-size: 13px }
+.filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px }
+.empty-note { color: var(--muted); font-size: 14px; background: var(--surface); border: 1px dashed var(--line); border-radius: var(--r); padding: 12px }
+.more { justify-self: start }
+footer { color: var(--muted); font-size: 13px; padding-block: 0 40px }
+footer a { color: var(--muted) }
+
+@media (max-width: 560px) {
+  .ev { grid-template-columns: 6px minmax(0, 1fr) }
+  .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
+  .tag { justify-self: start }
+  .ev .teams { font-size: 19px }
+  .day .dd { font-size: 20px }
+  .day { padding: 6px 2px }
+}
+@media (prefers-reduced-motion: no-preference) { .ev, .ni { transition: border-color .15s } }
+.ev:hover, .ni:hover { border-color: color-mix(in srgb, var(--sport, var(--accent)) 50%, var(--line)) }
+</style>
+<style>:root{padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">Sports <span>Feed</span></div>
+    <div class="clock num" id="clock"></div>
+    <div class="spacer"></div>
+    <button class="btn" id="spoilBtn" aria-pressed="false" type="button">Spoilers hidden</button>
+    <button class="btn" id="teamsBtn" aria-expanded="false" aria-controls="panel" type="button">My teams</button>
+  </div>
+</header>
+<div class="mock"><div class="wrap" id="mockNote">Loading the latest fixtures and scores…</div></div>
+<div class="panel" id="panel" hidden>
+  <div class="wrap">
+    <div id="teamGroups" style="display:grid;gap:12px"></div>
+    <div class="spoil-row">
+      <label for="spoilDays">Hide results for</label>
+      <select id="spoilDays">
+        <option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option>
+        <option value="5">5 days</option><option value="7">7 days</option>
+      </select>
+      <span style="color:var(--muted)">after the match, while spoilers are hidden</span>
+    </div>
+    <div class="chips"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <section id="weekSec">
+    <h2>This week <small id="weekRange"></small></h2>
+    <div class="week" id="week"></div>
+  </section>
+  <section id="todaySec">
+    <h2>On today <small id="todayLabel"></small></h2>
+    <div id="today"></div>
+  </section>
+  <section id="upSec">
+    <h2>Coming up <small>Times in NZ, with local time for overseas games</small></h2>
+    <div id="upcoming"></div>
+  </section>
+  <section id="resSec">
+    <h2>Recent results</h2>
+    <div id="results" class="daygroup"></div>
+  </section>
+  <section id="newsSec">
+    <h2>News &amp; injuries</h2>
+    <div class="filters" id="newsFilters"></div>
+    <div id="news" class="news"></div>
+  </section>
+</main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+(() => {
+let FEED = { events: [], news: [], sources: [] };
+const NZ = 'Pacific/Auckland';
+const TEAMS = [
+  { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup']] },
+  { g: 'Super Rugby Pacific', items: [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika']] },
+  { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket']] },
+  { g: 'Rugby league', items: [['kiwis','Kiwis'],['kiwiferns','Kiwi Ferns'],['warriors','Warriors']] },
+];
+const TEAM_NAME = Object.fromEntries(TEAMS.flatMap(g => g.items));
+const ALL_KEYS = TEAMS.flatMap(g => g.items.map(i => i[0]));
+
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('sf.' + k); return v == null ? d : JSON.parse(v) } catch { return d } },
+  set(k, v) { try { localStorage.setItem('sf.' + k, JSON.stringify(v)) } catch {} },
+};
+let picked = new Set(store.get('teams', ALL_KEYS));
+let spoilers = store.get('spoilers', true);   // true = hide recent results
+let spoilDays = store.get('spoilDays', 3);
+let revealed = new Set(store.get('revealed', []));
+let newsKind = 'all';
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = (d, tz, o) => new Intl.DateTimeFormat('en-NZ', { timeZone: tz, ...o }).format(d);
+const dayKey = (d, tz = NZ) => new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
+const time = (d, tz) => fmt(d, tz, { hour: 'numeric', minute: '2-digit', hour12: true }).replace(' ', '').toLowerCase();
+const dayLabel = (d, tz) => fmt(d, tz, { weekday: 'short', day: 'numeric', month: 'short' });
+const cityOf = e => (e.city || '').split(',')[0];
+
+// rough match lengths, used for "On now"
+const HOURS = { Test: 7 * 24 * 0 + 8, ODI: 8, 'List A': 8, T20I: 3.5, T20: 3.5, 'First-class': 8 };
+const DAYS = { Test: 5, 'First-class': 4 };
+function onNow(e, now) {
+  const s = new Date(e.startUTC);
+  const days = DAYS[e.format] || 1;
+  const hrs = e.sport === 'cricket' ? (HOURS[e.format] || 8) : 2;
+  for (let i = 0; i < days; i++) {
+    const a = s.getTime() + i * 864e5, b = a + hrs * 36e5;
+    if (now >= a && now <= b) return days > 1 ? `Day ${i + 1}` : 'On now';
+  }
+  return null;
+}
+function countdown(e, now) {
+  const ms = new Date(e.startUTC) - now;
+  if (ms <= 0) return null;
+  const h = Math.floor(ms / 36e5), d = Math.floor(h / 24);
+  if (d >= 2) return `in ${d} days`;
+  if (h >= 1) return `in ${h}h ${Math.floor(ms / 6e4) % 60}m`;
+  return `in ${Math.max(1, Math.floor(ms / 6e4))}m`;
+}
+function isHidden(e, now) {
+  if (!spoilers || revealed.has(e.id)) return false;
+  return now - new Date(e.startUTC) < spoilDays * 864e5;
+}
+// an event also shows for the other side when both are followed (e.g. Blues v Hurricanes)
+const CLUBS = ['blues','chiefs','hurricanes','crusaders','highlanders','warriors'];
+const visible = x => picked.has(x.team) || CLUBS.some(k => picked.has(k) && [x.home, x.away].some(t => (t || '').includes(TEAM_NAME[k])));
+
+function evCard(e, now) {
+  const d = new Date(e.startUTC);
+  const overseas = e.tz && e.tz !== NZ;
+  const live = e.status === 'live' ? (e.clock || 'Live') : onNow(e, now);
+  const cd = countdown(e, now);
+  const tag = live ? `<span class="tag live">${live}</span>` : cd ? `<span class="tag num">${cd}</span>` : '';
+  const local = overseas ? `<div class="loc num">${e.timeTBC ? '' : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${esc(cityOf(e))}</div>` : '';
+  return `<article class="ev sport-${e.sport}">
+    <div class="stripe"></div>
+    <div class="body">
+      <div class="comp">${esc(TEAM_NAME[e.team] || '')} · ${esc(e.comp)}</div>
+      <div class="teams">${esc(e.home)}<span class="v">v</span>${esc(e.away)}</div>
+      <div class="meta">${esc([e.venue, e.city].filter(Boolean).join(', '))}</div>
+      ${e.note ? `<div class="meta">${esc(e.note)}</div>` : ''}
+      ${watchLine(e)}
+    </div>
+    <div class="when">
+      <div class="nzl">NZ time</div>
+      ${e.status === 'live' && e.score ? `<div class="nz num">${isHidden(e, now) ? '<span class="loc">Score hidden</span>' : esc(e.score)}</div>` : `<div class="nz num">${e.timeTBC ? 'TBC' : time(d, NZ)}</div>`}
+      <div class="loc">${dayLabel(d, NZ)}</div>
+      ${local}${tag}
+    </div>
+  </article>`;
+}
+function watchLine(e) {
+  const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
+  if (!b && !e.watchAlt) return `<div class="watch"><span class="wl">Watch</span><span class="muted">Broadcaster to be confirmed</span></div>`;
+  const alt = e.watchAlt ? `<span class="alt">${b ? 'Also: ' : ''}${esc(e.watchAlt)}</span>` : '';
+  const note = e.watchNote ? `<span class="muted">${esc(e.watchNote)}</span>` : '';
+  return `<div class="watch"><span class="wl">Watch</span>${b ? `<span>${esc(b)}</span>` : ''}${alt}${note}</div>`;
+}
+function resCard(e, now) {
+  const d = new Date(e.startUTC);
+  const hidden = isHidden(e, now);
+  const left = Math.ceil((spoilDays * 864e5 - (now - d)) / 864e5);
+  const long = (e.score || '').length > 9;
+  const right = hidden
+    ? `<button class="cover" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>hidden ${left} more day${left === 1 ? '' : 's'}</button>`
+    : e.score ? `<div class="score num ${long ? 'long' : ''}">${esc(e.score)}</div>` : `<div class="loc">Result not in yet</div>`;
+  return `<article class="ev res sport-${e.sport}">
+    <div class="stripe"></div>
+    <div class="body">
+      <div class="comp">${esc(TEAM_NAME[e.team] || '')} · ${esc(e.comp)}</div>
+      <div class="teams">${esc(e.home)}<span class="v">v</span>${esc(e.away)}</div>
+      <div class="meta">${dayLabel(d, NZ)} · ${esc(e.city || '')}</div>
+      ${hidden ? '' : `<div class="summary">${esc(e.summary || '')}</div>`}
+    </div>
+    <div class="when">${right}</div>
+  </article>`;
+}
+
+function render() {
+  const now = Date.now();
+  const nowD = new Date(now);
+  const evs = (FEED.events || []).filter(visible).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
+  const todayK = dayKey(nowD);
+  const upcoming = evs.filter(e => e.status === 'live' || (e.status !== 'final' && (new Date(e.startUTC) > now || onNow(e, now))));
+  const finals = evs.filter(e => e.status === 'final' || (e.status !== 'live' && new Date(e.startUTC) < now && !onNow(e, now) && !e.timeTBC)).reverse();
+
+  // week strip
+  const days = [...Array(7)].map((_, i) => new Date(now + i * 864e5));
+  $('weekRange').textContent = `${dayLabel(days[0], NZ)} to ${dayLabel(days[6], NZ)}`;
+  $('week').innerHTML = days.map(d => {
+    const k = dayKey(d);
+    const list = upcoming.filter(e => dayKey(new Date(e.startUTC)) === k);
+    const dots = list.slice(0, 6).map(e => `<span class="dot" style="background:var(--${e.sport})"></span>`).join('');
+    return `<button class="day ${k === todayK ? 'today' : ''} ${list.length ? '' : 'empty'}" type="button" data-jump="${k}" aria-label="${dayLabel(d, NZ)}, ${list.length} games">
+      <span class="dn">${k === todayK ? 'Today' : fmt(d, NZ, { weekday: 'short' })}</span>
+      <span class="dd num">${fmt(d, NZ, { day: 'numeric' })}</span>
+      <span class="dots">${dots}</span></button>`;
+  }).join('');
+
+  // today
+  const todays = upcoming.filter(e => dayKey(new Date(e.startUTC)) === todayK || e.status === 'live' || onNow(e, now));
+  $('todayLabel').textContent = dayLabel(nowD, NZ);
+  $('today').innerHTML = todays.length
+    ? `<div class="daygroup">${todays.map(e => evCard(e, now)).join('')}</div>`
+    : `<div class="empty-note">Nothing on for your teams today. ${upcoming[0] ? `Next up: <b>${esc(upcoming[0].home)} v ${esc(upcoming[0].away)}</b>, ${dayLabel(new Date(upcoming[0].startUTC), NZ)}.` : ''}</div>`;
+
+  // coming up, grouped by NZ day
+  const rest = upcoming.filter(e => !todays.includes(e));
+  const groups = new Map();
+  rest.forEach(e => { const k = dayKey(new Date(e.startUTC)); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(e) });
+  const weekEnd = dayKey(days[6]);
+  const showAll = store.get('showAllUp', false);
+  let html = '', n = 0, hiddenCount = 0;
+  for (const [k, list] of groups) {
+    if (!showAll && k > weekEnd && n >= 6) { hiddenCount += list.length; continue }
+    const d = new Date(list[0].startUTC);
+    const lbl = fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' });
+    html += `<div class="daygroup"><div class="dayhead" id="d-${k}">${lbl}</div>${list.map(e => evCard(e, now)).join('')}</div>`;
+    n += list.length;
+  }
+  if (hiddenCount) html += `<div class="daygroup"><button class="btn more" id="moreUp" type="button">Show ${hiddenCount} more fixtures</button></div>`;
+  $('upcoming').innerHTML = html || `<div class="empty-note">No fixtures for your teams yet. Pick more teams under My teams.</div>`;
+
+  // results
+  $('results').innerHTML = finals.length ? finals.slice(0, 12).map(e => resCard(e, now)).join('') : `<div class="empty-note">No recent results for your teams.</div>`;
+
+  // news
+  const kinds = [['all', 'All'], ['injury', 'Injuries'], ['squad', 'Squads'], ['result', 'Results'], ['news', 'Other']];
+  $('newsFilters').innerHTML = kinds.map(([k, l]) => `<button class="chip" type="button" data-kind="${k}" aria-pressed="${newsKind === k}">${l}</button>`).join('');
+  const items = (FEED.news || []).filter(visible).filter(n => newsKind === 'all' || n.kind === newsKind).sort((a, b) => b.date.localeCompare(a.date));
+  $('news').innerHTML = items.length ? items.slice(0, 30).map(n => {
+    const hide = spoilers && n.kind === 'result' && !revealed.has('n:' + n.id) && (now - new Date(n.date + 'T12:00:00+13:00')) < spoilDays * 864e5;
+    const sport = sportOf(n.team);
+    return `<article class="ni sport-${sport}">
+      <div class="top"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span>${esc(TEAM_NAME[n.team] || '')}</span><span class="num">${fmt(new Date(n.date + 'T12:00:00+13:00'), NZ, { day: 'numeric', month: 'short' })}</span><span>${esc(n.source || '')}</span></div>
+      ${hide ? `<button class="cover" type="button" data-reveal="n:${esc(n.id)}"><b>Result story hidden</b>tap to show</button>`
+        : `<h3>${esc(n.title)}</h3><p>${esc(n.summary)}</p>${n.url ? `<a href="${esc(n.url)}" target="_blank" rel="noopener">Read at ${esc(n.source || 'source')}</a>` : ''}`}
+    </article>`;
+  }).join('') : `<div class="empty-note">No news in this category for your teams.</div>`;
+
+  // controls
+  $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
+  $('spoilBtn').textContent = spoilers ? 'Spoilers hidden' : 'Spoilers shown';
+  $('teamsBtn').textContent = `My teams (${picked.size})`;
+  $('spoilDays').value = String(spoilDays);
+  $('teamGroups').innerHTML = TEAMS.map(g => `<div class="group"><h3>${g.g}</h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${l}</button>`).join('')}</div></div>`).join('');
+}
+const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana'], cricket: ['blackcaps','whiteferns','nzdomestic'], league: ['kiwis','kiwiferns','warriors'] };
+const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
+
+function tick() { $('clock').textContent = `NZ ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}` }
+
+document.addEventListener('click', ev => {
+  const t = ev.target.closest('button'); if (!t) return;
+  if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); store.set('teams', [...picked]); render(); }
+  else if (t.dataset.reveal) { revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); }
+  else if (t.dataset.kind) { newsKind = t.dataset.kind; render(); }
+  else if (t.dataset.jump) { const el = document.getElementById('d-' + t.dataset.jump) || (t.dataset.jump === dayKey(new Date()) ? $('todaySec') : null); if (el) el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
+  else if (t.id === 'moreUp') { store.set('showAllUp', true); render(); }
+  else if (t.id === 'spoilBtn') { spoilers = !spoilers; store.set('spoilers', spoilers); render(); }
+  else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); }
+  else if (t.id === 'allOn') { picked = new Set(ALL_KEYS); store.set('teams', ALL_KEYS); render(); }
+  else if (t.id === 'allOff') { picked = new Set(); store.set('teams', []); render(); }
+});
+$('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; store.set('spoilDays', spoilDays); render(); });
+
+function stamp() {
+  if (!FEED.generatedAt) return;
+  const mins = Math.round((Date.now() - new Date(FEED.generatedAt)) / 6e4);
+  $('mockNote').textContent = `Updated ${mins < 1 ? 'just now' : mins < 60 ? mins + ' min ago' : fmt(new Date(FEED.generatedAt), NZ, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}. Scores refresh about every 10 minutes.`;
+}
+async function load() {
+  try {
+    const r = await fetch('data/feed.json', { cache: 'no-store' });
+    if (!r.ok) throw new Error(r.status);
+    FEED = await r.json();
+    $('foot').innerHTML = `Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')}`;
+    render(); stamp();
+  } catch (e) {
+    if (!FEED.generatedAt) $('mockNote').textContent = 'Could not load the feed. Check your connection and refresh the page.';
+  }
+}
+tick(); render(); load();
+setInterval(() => { tick(); render(); stamp(); }, 60000);
+setInterval(load, 5 * 60000);
+})();
+</script>
+
+</body>
+</html>
