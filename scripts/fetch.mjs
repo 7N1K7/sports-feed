@@ -385,7 +385,7 @@ async function addFaces(events) {
   const full = (e, side) => {
     const n = e[side], last = s => strip(s).split(/\s+/).pop().toLowerCase();
     const m = (e.card || []).flatMap(b => [b.a, b.b]).find(x => x && strip(x).includes(' ') && last(x) === last(n));
-    return /\s/.test(n || '') || !m ? n : strip(m);
+    return /\s/.test(n || '') || !m ? strip(n) : strip(m);
   };
   // a full name only: a lone surname (a far-off card with no bouts listed yet) would find the wrong page
   const ok = n => n && /\S\s+\S/.test(n) && !/TBC|TBA|^UFC|Fight Night|\bvs?\b|\d/i.test(n) && n.split(' ').length <= 4;
@@ -394,7 +394,7 @@ async function addFaces(events) {
     if (ok(n)) kindOf[n] ||= e.sport === 'boxing' ? 'boxer' : 'fighter';
   const names = Object.keys(kindOf);
   // 60 a run keeps the calls few; the rest follow on the next runs, and the cache holds what was found
-  const due = names.filter(n => !cache[n] || now - cache[n].t > (cache[n].src ? 30 : 7) * DAY || cache[n].v !== 2 || cache[n].why === 'not looked up').slice(0, 60);
+  const due = names.filter(n => !cache[n] || now - cache[n].t > (cache[n].src ? 30 : 7) * DAY || cache[n].v !== 3 || cache[n].why === 'not looked up').slice(0, 60);
   const found = {}, miss = {};
   try {
     // 1. the English article: free lead image, short description and Wikidata id; titles to retry as "Name (fighter)"
@@ -448,7 +448,7 @@ async function addFaces(events) {
     }
   } catch (e) { diag.facesError = e.message; }
   // only names that got an answer are cached; any left over by an error are tried again next run
-  for (const n of due) if (found[n] || miss[n]) cache[n] = found[n] ? { t: now, v: 2, ...found[n] } : { t: now, v: 2, src: null, why: miss[n] };
+  for (const n of due) if (found[n] || miss[n]) cache[n] = found[n] ? { t: now, v: 3, ...found[n] } : { t: now, v: 3, src: null, why: miss[n] };
   for (const e of near) {
     for (const side of ['home', 'away']) {
       const c = cache[full(e, side)];
@@ -461,7 +461,7 @@ async function addFaces(events) {
   }
   const have = names.filter(n => cache[n]?.src);
   diag.faces = `${have.length}/${names.length} fighters with a free photo; ${due.length} looked up`;
-  diag.facesMissing = names.filter(n => !cache[n]?.src).map(n => `${n}: ${cache[n]?.v === 2 ? cache[n].why : 'not looked up yet'}`);
+  diag.facesMissing = names.filter(n => !cache[n]?.src).map(n => `${n}: ${cache[n]?.v === 3 ? cache[n].why : 'not looked up yet'}`);
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
 
