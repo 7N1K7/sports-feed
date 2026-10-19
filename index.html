@@ -1977,13 +1977,16 @@ function renderNowBar(now) {
     const t = new Date(e.startUTC) - now;
     const v = by.get(c) || { started: false, next: Infinity, nz: false, sport: e.sport, first: Infinity, last: -Infinity };
     v.first = Math.min(v.first, t); v.last = Math.max(v.last, t);
-    if (t <= 18 * 36e5 || (e.openUTC && new Date(e.openUTC) <= now)) v.started = true; // under way, or its first game is today
+    // under way: a game in the last 10 days (with the next one close behind, checked below), its next game today, or open now
+    if ((t <= 0 && t > -10 * 864e5) || (t > 0 && t <= 18 * 36e5) || (e.openUTC && new Date(e.openUTC) <= now)) v.started = true;
+    if (t <= 0) v.lastPlayed = Math.max(v.lastPlayed ?? -Infinity, t);
     if (t > -4 * 36e5 && t < v.next) v.next = t;
     if (isNZ(e)) v.nz = true;
     if (e.status === 'live' || (e.status !== 'final' && onNow(e, now))) v.live = true;
     by.set(c, v);
   }
-  const on = [...by].filter(([c, v]) => (v.started || WINDOWED.test(c)) && v.next < 21 * 864e5)
+  // a tour between legs (T20Is done, Tests weeks away) isn't running; one with its next game within 10 days of the last is
+  const on = [...by].filter(([c, v]) => (v.started || WINDOWED.test(c)) && v.next < 21 * 864e5 && (v.next < 18 * 36e5 || v.lastPlayed === undefined || v.next < 10 * 864e5 || WINDOWED.test(c)))
     .sort((a, b) => b[1].nz - a[1].nz || a[1].next - b[1].next).slice(0, 6);
   onNowComps = new Set(on.map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
