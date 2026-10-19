@@ -9,4 +9,5 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: rm -f probe/out-*.png && node probe/probe.mjs > probe/out.txt 2>&1 || true
-      - run: git -c user.name=bot -c user.email=bot@x add -A probe/out* && git -c user.name=bot -c user.email=bot@x commit -m out && git push
+      # save the output; a run whose output didn't change has nothing to save, which isn't a failure
+      - run: git -c user.name=bot -c user.email=bot@x add -A probe/out* && (git diff --cached --quiet || (git -c user.name=bot -c user.email=bot@x commit -m out && git push))
