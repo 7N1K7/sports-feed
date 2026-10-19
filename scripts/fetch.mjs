@@ -1040,7 +1040,7 @@ async function writeCalendars(events) {
   const ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', motor: '🏎️', tennis: '🎾', mma: '🥊', boxing: '🥊' };
   const HOURS = { rugby: 2, league: 2, football: 2, motor: 2, tennis: 4, mma: 5, boxing: 4 };
   const NICK = { 'rugby m': 'All Blacks', 'rugby w': 'Black Ferns', 'league m': 'Kiwis', 'league w': 'Kiwi Ferns', 'cricket m': 'Black Caps', 'cricket w': 'White Ferns', 'football m': 'All Whites', 'football w': 'Football Ferns' };
-  const site = process.env.GITHUB_REPOSITORY ? `https://${process.env.GITHUB_REPOSITORY.split('/')[0].toLowerCase()}.github.io/${process.env.GITHUB_REPOSITORY.split('/')[1]}/` : 'https://7n1k7.github.io/sports-feed/';
+  const site = process.env.SITE_URL || 'https://kickoff.kiwi/';
   const esc = t => String(t || '').replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
   // lines longer than 75 bytes continue on the next line after a space, without splitting a character
   const fold = line => {

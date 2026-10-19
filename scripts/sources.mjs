@@ -3,7 +3,7 @@
 //   TheSportsDB (official free API, key 123)
 // Both return events in the feed's shape: { id, team, tags, sport, comp, home, away, startUTC, timeTBC, venue, city, tz, status, score, summary, source, link }
 const DAY = 864e5;
-const UA = { 'user-agent': 'nz-sports-feed/1.0 (https://7n1k7.github.io/sports-feed/; personal non-commercial site)' };
+const UA = { 'user-agent': 'nz-sports-feed/1.0 (https://kickoff.kiwi/; personal non-commercial site)' };
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // ---------- time zones -------------------------------------------------------
