@@ -1,14 +1,3 @@
-// probe 39: renamed yet? does the stats server answer at kickoffkiwi.workers.dev? is the stats password secret set?
-// the old address, the token or the account id (this output is public).
-const tok = (process.env.CLOUDFLARE_API_TOKEN || '').trim(), acct = (process.env.CLOUDFLARE_ACCOUNT_ID || '').trim();
-const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${acct}/workers/subdomain`, { headers: { authorization: 'Bearer ' + tok } });
-const j = await r.json().catch(() => ({}));
-const renamed = j.result?.subdomain === 'kickoffkiwi';
-console.log('address renamed to kickoffkiwi.workers.dev:', renamed);
-if (renamed) {
-  const base = 'https://kickoff-api.kickoffkiwi.workers.dev';
-  for (const [what, url, opts] of [['home', base + '/', {}], ['stats (no password)', base + '/stats', { headers: { origin: 'https://kickoff.kiwi' } }]]) {
-    try { const x = await fetch(url, opts); console.log(what, x.status, (await x.text()).slice(0, 80)); } catch (e) { console.log(what, 'error', e.cause?.code || e.message); }
-  }
-}
-console.log('STATS_PASSWORD secret set:', process.env.HAS_STATS_PASSWORD === 'true');
+// probe 40: the stats server now has its password: /stats without one should say wrong-password, not not-set-up
+const r = await fetch('https://kickoff-api.kickoffkiwi.workers.dev/stats', { headers: { origin: 'https://kickoff.kiwi' } });
+console.log('stats without a password:', r.status, await r.text(), '| allowed origin:', r.headers.get('access-control-allow-origin'));
