@@ -788,11 +788,10 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   </div>
   <div class="panel" id="panel" hidden>
   <div class="wrap"><div class="pbox" role="dialog" aria-label="Settings"><button type="button" class="pclose" id="panelClose" aria-label="Close settings">×</button>
-    <h2 class="ph">Settings</h2>
+    <h2 class="ph">Settings <span class="phnote">Saved in this browser only (clearing site data resets them). Nothing is sent or collected.</span></h2>
     <div class="spoil-row">
       <label for="tzSel">Show times for</label>
       <select id="tzSel"></select>
-      <span style="color:var(--muted)">every start time on the site uses this</span>
     </div>
     <div class="spoil-row">
       <label for="themeSel">Light or dark</label>
@@ -810,7 +809,6 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
       </select>
       <span style="color:var(--muted)">after the match, while spoilers are hidden</span>
     </div>
-    <p class="muted" style="margin:4px 0 0;font-size:13px">Your settings and teams are saved in this browser only, so clearing site data or cookies resets them. Nothing is sent anywhere or collected from you.</p>
     <h2 class="ph">My teams <span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news.</span></h2>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
     <div class="chips"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></div>
