@@ -119,7 +119,7 @@ header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block:
 .btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
 
 .mock { background: var(--soft); color: var(--muted); font-size: 13px }
-.clockcol { display: grid; gap: 1px; line-height: 1.2; align-self: flex-end; margin-bottom: 2px } /* bottom lines up with "by N1K" */
+.clockcol { display: grid; gap: 1px; line-height: 1.2; position: relative; top: 2px } /* centred on the ink of "Kickoff Kiwi" + "by N1K", not their line boxes */
 .clockrow { display: flex; align-items: center; gap: 6px }
 .fresh { color: var(--muted); font-size: 11px; cursor: help; white-space: nowrap }
 .mock .wrap { padding-block: 8px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 16px }
@@ -700,6 +700,9 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 .pbox2 { display: grid; gap: 4px; text-align: left; font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 7px 10px; cursor: pointer }
 .pbox2:hover { border-color: color-mix(in srgb, var(--sport, var(--accent)) 50%, var(--line)) }
 .pbox2 .pdate { font-size: 11px; color: var(--muted) }
+div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { border-color: var(--line) }
+.pside.tbd { color: var(--muted); font-weight: 500 } .pside.tbd > span:first-child { min-height: 1.3em; display: flex; align-items: center }
+.pdiv { margin: 6px 0 10px; font-family: var(--f-display); font-size: 18px; font-weight: 700; color: var(--ink) }
 .pside { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; font-family: var(--f-display); font-size: 17px; font-weight: 600 }
 .pside .crest { width: 1.3em; height: 1.3em }
 .pside.win .psc { color: #2b8a3e } :root[data-theme="dark"] .pside.win .psc { color: #69db7c } @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pside.win .psc { color: #69db7c } } .pside.lose { opacity: .6 }
@@ -720,7 +723,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   #viewSel { display: none }
   /* phone header: name, then the clock, then the four buttons as one even row, then search */
   .brand { flex: none; font-size: 27px }
-  .clockcol { flex: 1 1 0; min-width: 0; justify-items: end; text-align: right; margin-bottom: 1px }
+  .clockcol { flex: 1 1 0; min-width: 0; justify-items: end; text-align: right; top: 1.5px }
   .clockrow { display: contents }
   .clock { white-space: nowrap } .fresh { font-size: 10px }
   /* the version goes with the byline on phones */
@@ -1163,6 +1166,8 @@ function between(e, now) {
   return `Day ${Math.min(days, Math.floor((now - s) / 864e5) + 2)} next`;
 }
 const running = (e, now) => onNow(e, now) || between(e, now);
+// when a game next gets under way: its start, or for a Test between days the start of the next day's play
+const nextAt = (e, now) => { const b = between(e, now); return new Date(+new Date(e.startUTC) + (b ? (+b.match(/\d+/)[0] - 1) * 864e5 : 0)); };
 // roughly when a finished game ended, so one that ran past midnight counts as that day's result;
 // a Test's last day isn't known, so take its scheduled last day, but never later than now
 const LEN_H = { rugby: 2, league: 2, football: 2, mma: 5, boxing: 4, motor: 2, tennis: 3 };
@@ -1239,12 +1244,12 @@ function seriesLine(e, now) {
 function evCard(e, now) {
   const live = e.status === 'live' ? 'On now' : onNow(e, now), paused = !live && between(e, now);
   // a Test between days shows when the next day starts, not when the match began
-  const d = new Date(+new Date(e.startUTC) + (paused ? (+paused.match(/\d+/)[0] - 1) * 864e5 : 0));
+  const d = nextAt(e, now);
   const overseas = e.tz && e.tz !== NZ;
-  const cd = countdown(e, now);
+  const cd = countdown({ startUTC: d.toISOString() }, now);
   const ms = d - now;
   const urg = ms < 864e5 ? 'soon' : ms < 3 * 864e5 ? 'near' : 'later';
-  const tag = live ? `<span class="tag live">${live}</span>` : paused ? `<span class="tag paused">${paused}</span>` : cd ? `<span class="tag num ${urg}" data-cd="${esc(e.startUTC)}">${cd}</span>` : '';
+  const tag = live ? `<span class="tag live">${live}</span>` : paused ? `<span class="tag paused">${paused.replace(' next', '')}${cd ? ` · <span class="num" data-cd="${esc(d.toISOString())}">${cd}</span>` : ''}</span>` : cd ? `<span class="tag num ${urg}" data-cd="${esc(d.toISOString())}">${cd}</span>` : '';
   // the state of play Wikipedia's editors give while a match is on ("Lunch, day 1"); the score only when spoilers are shown
   // a state of play from an earlier day ("Tea, day 1" once day 2 is on) is stale, so drop it
   const today = +((live || paused || '').match(/Day (\d)/) || [])[1] || 0, pd = progDay(e);
@@ -1389,7 +1394,57 @@ const inFinals = e => !!roundOf(e) || /\bfinals\b/i.test(e.comp || '');
 function hubFinals() {
   return (FEED.events || []).filter(e => compSel && compOf(e) === compSel && !solo(e) && inFinals(e)).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
 }
+// known finals formats, so a competition shows its whole bracket before anyone has qualified: each division's rounds,
+// how many games each has, who meets in each slot, and what picks a game into it (its round's name, or for leagues whose
+// Wikipedia finals carry no round, the finals week). Slots with no game yet read "TBD".
+const isFinal1 = t => /\bfinal\b/.test(t) && !/(semi|quarter|preliminary|elimination|qualifying)[- ]final/.test(t);
+const RD = (n, test, hints) => ({ n, test, hints });
+const BRACKETS = {
+  'NRL': { weekly: true, divs: [{ test: e => !/NRLW|women/i.test(e.comp), rounds: [
+    RD('Qualifying & elimination finals', t => /qualifying|elimination/.test(t), ['1st v 4th', '2nd v 3rd', '5th v 8th', '6th v 7th']),
+    RD('Semi-finals', t => /semi/.test(t), ['QF loser v EF winner', 'QF loser v EF winner']),
+    RD('Preliminary finals', t => /preliminary/.test(t), ['QF winner v SF winner', 'QF winner v SF winner']),
+    RD('Grand Final', t => /grand final/.test(t), ['Preliminary final winners'])] }] },
+  'NPC': { divs: [{ rounds: [
+    RD('Quarter-finals', t => /quarter/.test(t), ['1st v 8th', '2nd v 7th', '3rd v 6th', '4th v 5th']),
+    RD('Semi-finals', t => /semi/.test(t), ['Quarter-final winners', 'Quarter-final winners']),
+    RD('Final', isFinal1, ['Semi-final winners'])] }] },
+  'Farah Palmer Cup': { divs: ['Premiership', 'Championship'].map(d => ({ label: d, test: e => new RegExp(d, 'i').test(e.comp), rounds: [
+    RD('Semi-finals', t => /semi/.test(t), ['1st v 4th', '2nd v 3rd']),
+    RD('Final', isFinal1, ['Semi-final winners'])] })) },
+  'Big Bash': { divs: [{ rounds: [
+    RD('Qualifier', t => /qualifier/.test(t), ['1st v 2nd']),
+    RD('Knockout', t => /knockout/.test(t), ['3rd v 4th']),
+    RD('Challenger', t => /challenger/.test(t), ['Qualifier loser v Knockout winner']),
+    RD('Final', isFinal1, ['Qualifier winner v Challenger winner'])] }] },
+  "Women's Big Bash": { divs: [{ rounds: [
+    RD('Knockout', t => /knockout/.test(t), ['3rd v 4th']),
+    RD('Challenger', t => /challenger/.test(t), ['2nd v Knockout winner']),
+    RD('Final', isFinal1, ['1st v Challenger winner'])] }] },
+  'Rugby League World Cup': { divs: [
+    { label: "Men's", test: e => !/women|wheelchair/i.test(e.comp), rounds: [
+      RD('Semi-finals', t => /semi/.test(t), ['Group A runner-up v Group B/C winner', 'Group A winner v Group B/C runner-up']),
+      RD('Final', isFinal1, ['Semi-final winners'])] },
+    { label: "Women's", test: e => /women/i.test(e.comp), rounds: [
+      RD('Semi-finals', t => /semi/.test(t), ['Group winners and runners-up', 'Group winners and runners-up']),
+      RD('Final', isFinal1, ['Semi-final winners'])] },
+    { label: 'Wheelchair', test: e => /wheelchair/i.test(e.comp), rounds: [
+      RD('Semi-finals and play-offs', t => /semi/.test(t), ['', '', '', '']),
+      RD('Final and play-offs', t => /finals round|\bfinal\b/.test(t) && !/semi/.test(t), ['', '', '', ''])] }] },
+  'A-League Men': { weekly: true, divs: [{ rounds: [
+    RD('Elimination finals', t => /elimination/.test(t), ['3rd v 6th', '4th v 5th']),
+    RD('Semi-finals (two legs)', t => /semi/.test(t), ['1st v lower EF winner', '2nd v higher EF winner']),
+    RD('Grand Final', t => /grand final/.test(t), ['Semi-final winners'])] }] },
+};
+// a known format's games: every game of the competition that one of its rounds claims (the generic finals list misses
+// named games like the Big Bash "Qualifier")
+function bracketEvents(fmtB) {
+  return (FEED.events || []).filter(e => compSel && compOf(e) === compSel && (inFinals(e) || fmtB.divs.some(d => (!d.test || d.test(e)) && d.rounds.some(r => r.test(`${e.comp} ${e.stage || ''}`.toLowerCase())))))
+    .sort((a, b) => a.startUTC.localeCompare(b.startUTC));
+}
 function playoffsHtml(list, now) {
+  const fmtB = BRACKETS[compSel];
+  if (fmtB) return bracketHtml(fmtB, bracketEvents(fmtB), now);
   // a column per finals week, counted from the first finals game
   const t0 = new Date(list[0].startUTC).getTime(), cols = [];
   for (const e of list) { const w = Math.floor((new Date(e.startUTC) - t0) / (7 * 864e5)); (cols[w] ||= []).push(e); }
@@ -1403,13 +1458,40 @@ function playoffsHtml(list, now) {
     if (i === weeks.length - 1 && col.length === 1) return list[0].sport === 'league' ? 'Grand Final' : 'Final';
     return `Week ${i + 1}`;
   };
-  const box = e => {
-    const hid = isHidden(e, now), done = e.status === 'final' || new Date(e.startUTC) < now - 4 * 36e5;
-    const sc = done && !hid ? sideScores(e) : null, w = done && !hid ? winnerOf(e) : null;
-    const side = k => `<div class="pside ${w === k ? 'win' : w && w !== 'draw' ? 'lose' : ''}">${teamName(e[k], e[k + 'Logo'], e)}<span class="num psc">${sc ? esc(sc[k === 'home' ? 0 : 1]) : ''}</span></div>`;
-    return `<button type="button" class="pbox2" data-goto="${esc(e.id)}"><span class="pdate">${esc(fmt(new Date(e.startUTC), NZ, { weekday: 'short', day: 'numeric', month: 'short' }))}${hid && done ? ' · result hidden' : ''}</span>${side('home')}${side('away')}</button>`;
-  };
-  return `<div class="playoffs">${weeks.map((col, i) => `<div class="pcol"><h3 class="dh">${esc(name(col, i))}</h3>${col.map(box).join('')}</div>`).join('')}</div><p class="muted small">Tap a match for its details.</p>`;
+  return `<div class="playoffs">${weeks.map((col, i) => `<div class="pcol"><h3 class="dh">${esc(name(col, i))}</h3>${col.map(e => pbox(e, now)).join('')}</div>`).join('')}</div><p class="muted small">Tap a match for its details.</p>`;
+}
+const isTBC = n => !n || /^(TBC|TBD|TBA)\b|\bor\b.*winner|winner|runner-up/i.test(n);
+function pbox(e, now, hint) {
+  const hid = isHidden(e, now), done = e.status === 'final' || new Date(e.startUTC) < now - 4 * 36e5;
+  const sc = done && !hid ? sideScores(e) : null, w = done && !hid ? winnerOf(e) : null;
+  const open = isTBC(e.home) && isTBC(e.away);
+  const side = k => isTBC(e[k]) ? `<div class="pside tbd"><span>TBD</span><span class="num psc"></span></div>`
+    : `<div class="pside ${w === k ? 'win' : w && w !== 'draw' ? 'lose' : ''}">${teamName(e[k], e[k + 'Logo'], e)}<span class="num psc">${sc ? esc(sc[k === 'home' ? 0 : 1]) : ''}</span></div>`;
+  return `<button type="button" class="pbox2" data-goto="${esc(e.id)}"><span class="pdate">${esc(fmt(new Date(e.startUTC), NZ, { weekday: 'short', day: 'numeric', month: 'short' }))}${hid && done ? ' · result hidden' : open && hint ? ` · ${esc(hint)}` : ''}</span>${side('home')}${side('away')}</button>`;
+}
+// a known format: each round a column with its full number of games, played or scheduled ones in place, the rest "TBD"
+function bracketHtml(fmtB, list, now) {
+  // this season only: finals within ten weeks of the latest one
+  const last = list.length ? new Date(list[list.length - 1].startUTC) - 70 * 864e5 : 0;
+  const seen = new Set(), evs = list.filter(e => new Date(e.startUTC) >= last).filter(e => {
+    const k = `${e.startUTC.slice(0, 10)}|${e.comp.split(',')[0]}|${(`${e.comp} ${e.stage || ''}`.match(/(semi-final|final|qualifier|knockout|challenger)\s*\d?/i) || [''])[0]}|${e.home}|${e.away}`;
+    return seen.has(k) ? false : seen.add(k);
+  });
+  const t0 = evs.length ? new Date(evs[0].startUTC).getTime() : 0;
+  const divs = fmtB.divs.map(d => {
+    const mine = evs.filter(e => !d.test || d.test(e)), cols = d.rounds.map(() => []);
+    for (const e of mine) {
+      const t = `${e.comp} ${e.stage || ''}`.toLowerCase();
+      let i = d.rounds.findIndex(r => r.test(t));
+      if (i < 0 && fmtB.weekly) i = Math.min(d.rounds.length - 1, Math.floor((new Date(e.startUTC) - t0) / (7 * 864e5)));
+      if (i >= 0) cols[i].push(e);
+    }
+    // a round before one that already has its teams was played even when we don't have its games
+    const played = i => cols.slice(i + 1).some(c => c.some(e => !isTBC(e.home) || !isTBC(e.away)));
+    const body = d.rounds.map((r, i) => `<div class="pcol"><h3 class="dh">${esc(r.n)}</h3>${cols[i].map((e, j) => pbox(e, now, r.hints[j])).join('')}${r.hints.slice(cols[i].length).map(h => played(i) ? `<div class="pbox2 tbd"><span class="pdate">${esc(h ? h + ' · ' : '')}not listed</span><div class="pside tbd"><span>–</span></div><div class="pside tbd"><span>–</span></div></div>` : `<div class="pbox2 tbd"><span class="pdate">${esc(h || 'To be decided')}</span><div class="pside tbd"><span>TBD</span></div><div class="pside tbd"><span>TBD</span></div></div>`).join('')}</div>`).join('');
+    return `${fmtB.divs.length > 1 ? `<h3 class="pdiv">${esc(d.label)}</h3>` : ''}<div class="playoffs">${body}</div>`;
+  }).join('');
+  return `${divs}<p class="muted small">${evs.length ? 'Tap a match for its details. ' : ''}TBD games fill in as teams qualify.</p>`;
 }
 function tableHtml(t) {
   const cols = t.style === 'points' ? [['pts', 'Pts']] : t.style === 'cricket' ? [['p', 'P'], ['w', 'W'], ['l', 'L'], ['nr', 'NR'], ['nrr', 'NRR'], ['pts', 'Pts']]
@@ -1570,7 +1652,7 @@ function renderHub(now) {
   $('hubSec').hidden = !on;
   const shows = on ? hubShows((FEED.events || []).find(e => compOf(e) === compSel)?.sport) : [];
   const ranks = on ? hubRankings() : [];
-  const tabs = on ? [['games', FIGHT.test((FEED.events || []).find(e => compOf(e) === compSel)?.sport || '') ? 'Fights' : (FEED.events || []).find(e => compOf(e) === compSel)?.sport === 'motor' ? 'Races' : 'Games'], ...(hubTables().length ? [['table', 'Table']] : []), ...(ranks.length ? [['rank', 'Rankings']] : []), ...(hubFinals().length ? [['playoffs', 'Playoffs']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
+  const tabs = on ? [['games', FIGHT.test((FEED.events || []).find(e => compOf(e) === compSel)?.sport || '') ? 'Fights' : (FEED.events || []).find(e => compOf(e) === compSel)?.sport === 'motor' ? 'Races' : 'Games'], ...(hubTables().length ? [['table', 'Table']] : []), ...(ranks.length ? [['rank', 'Rankings']] : []), ...(BRACKETS[compSel] || hubFinals().length ? [['playoffs', 'Playoffs']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
   if (!tabs.some(([k]) => k === hubTab)) hubTab = 'games';
   const other = on && hubTab !== 'games';
   for (const id of ['liveSec', 'weekSec', 'todaySec', 'tomSec', 'upSec', 'laterSec', 'resSec', 'newsSec', 'showSec']) $(id).classList.toggle('hubhide', other || (on && (id === 'newsSec' || id === 'showSec')));
@@ -1857,7 +1939,7 @@ function render() {
 
   // live now: games under way, in their own section above the week
   const lives = upcoming.filter(e => e.status === 'live' || onNow(e, now));
-  // a Test between days of play (overnight, or after rain ended the day) waits in "Earlier" until the next day starts
+  // a Test between days of play (overnight, or after rain ended the day) waits with the upcoming games until the next day starts
   const resting = upcoming.filter(e => !lives.includes(e) && between(e, now));
   $('liveSec').hidden = !lives.length;
   // only rewrite the live cards when they change, so their glow doesn't restart on every click
@@ -1875,7 +1957,8 @@ function render() {
   drawDayPick();
 
   // today
-  const todays = upcoming.filter(e => !lives.includes(e) && !resting.includes(e) && dayKey(new Date(e.startUTC)) === todayK);
+  // today, plus anything starting in the next 12 hours (an overnight game shows tonight, under "Early tomorrow")
+  const todays = upcoming.filter(e => !lives.includes(e) && !resting.includes(e) && (dayKey(new Date(e.startUTC)) === todayK || new Date(e.startUTC) - now < 12 * 36e5));
   $('todayLabel').textContent = dayLabel(nowD, NZ);
   // today's finished games stay in "On today" (spoiler rules still apply), latest first after the upcoming ones
   // "Earlier": games that ended in the last 16 hours, whatever the day, so one that finished late last night stays up
@@ -1884,11 +1967,14 @@ function render() {
   $('todaySec').hidden = !todays.length && !doneToday.length && !resting.length && lives.length > 0;
   $('today').innerHTML = todays.length || doneToday.length || resting.length
     ? `<div class="daygroup">${(() => {
-        const live = [], later = todays;
-        const hourNZ = e => +fmt(new Date(e.startUTC), NZ, { hour: 'numeric', hour12: false });
-        const tonight = +fmt(nowD, NZ, { hour: 'numeric', hour12: false }) >= 17 || (later.length && later.every(e => !e.timeTBC && hourNZ(e) >= 17));
-        return (lives.length && later.length ? `<div class="dayhead">${tonight ? 'Later tonight' : 'Later today'}</div>` : '') + later.map(e => evCard(e, now)).join('');
-      })()}${doneToday.length || resting.length ? `<div class="dayhead">Earlier${doneToday.length ? revealAll(doneToday, now) : ''}</div>${resting.length ? `<div class="donetoday resting">${resting.map(e => evCard(e, now)).join('')}</div>` : ''}${doneToday.length ? `<div class="donetoday">${doneToday.map(e => resCard(e, now)).join('')}</div>` : ''}` : ''}</div>`
+        // a Test between days waits with the upcoming games, at the time its next day starts
+        const later = [...resting, ...todays].sort((a, b) => nextAt(a, now) - nextAt(b, now));
+        const hourNZ = e => +fmt(nextAt(e, now), NZ, { hour: 'numeric', hour12: false });
+        const isToday = e => dayKey(nextAt(e, now)) === todayK, tod = later.filter(isToday), early = later.filter(e => !isToday(e));
+        const tonight = +fmt(nowD, NZ, { hour: 'numeric', hour12: false }) >= 17 || (tod.length && tod.every(e => !e.timeTBC && hourNZ(e) >= 17));
+        return (lives.length && tod.length ? `<div class="dayhead">${tonight ? 'Later tonight' : 'Later today'}</div>` : '') + tod.map(e => evCard(e, now)).join('')
+          + (early.length ? `<div class="dayhead">Early tomorrow</div>${early.map(e => evCard(e, now)).join('')}` : '');
+      })()}${doneToday.length ? `<div class="dayhead">Earlier${revealAll(doneToday, now)}</div><div class="donetoday">${doneToday.map(e => resCard(e, now)).join('')}</div>` : ''}</div>`
     : `<div class="empty-note">Nothing on for your teams today. ${upcoming[0] ? `Next up: <b>${esc(titleOf(upcoming[0]))}</b>, ${dayLabel(new Date(upcoming[0].startUTC), NZ)}.` : ''}</div>`;
 
   // coming up this week, then further ahead, grouped by NZ day
