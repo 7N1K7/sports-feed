@@ -402,6 +402,10 @@ const LOGO_CODES = {
   football: { leagues: ['Australian A-League', 'Australian A-League Men'], ok: /A-League|Soccer|Football/i, sport: 'Soccer' },
   cricket: { leagues: ['Big Bash League', 'Womens Big Bash League', 'Super Smash', 'Plunket Shield', 'Ford Trophy'], ok: /Big Bash|Super Smash|Plunket|Ford Trophy|Cricket/i, sport: 'Cricket' },
 };
+// NZ domestic cricket sides go by their association name in fixtures but their team name on TheSportsDB
+const LOGO_ALIAS = { 'cricket|Northern Districts': ['Northern Brave', 'Northern Knights'], 'cricket|Canterbury': ['Canterbury Kings', 'Canterbury Wizards'], 'cricket|Central Districts': ['Central Stags'],
+  'cricket|Auckland': ['Auckland Aces'], 'cricket|Wellington': ['Wellington Firebirds'], 'cricket|Otago': ['Otago Volts'] };
+const LOGO_V = 2; // bump to re-ask names whose earlier miss is still cached
 const simple = n => String(n || '').toLowerCase().replace(/\b(fc|rugby|league|club|women|cricket)\b/g, '').replace(/[^a-z]/g, '');
 async function addLogos(events, extra = []) {
   // badges that came with TheSportsDB fixtures (Premier League, A-League...): reuse them for that club everywhere
@@ -435,15 +439,15 @@ async function addLogos(events, extra = []) {
   const found = {};
   for (const [key, [sport, name]] of want) {
     if (seen[`${sport}|${simple(name)}`]) { found[key] = seen[`${sport}|${simple(name)}`]; continue; }
-    const p = fromPool(sport, name);
+    const p = [name, ...(LOGO_ALIAS[key] || [])].map(n => fromPool(sport, n)).find(Boolean);
     if (p) { found[key] = p; continue; }
     const c = cache.names[key];
     // misses are asked again every 3 days, as TheSportsDB keeps adding badges
-    if (c && (c.b || now - c.t < 3 * DAY)) { found[key] = c.b; continue; }
+    if (c && (c.b || (now - c.t < 3 * DAY && (c.v || 0) >= LOGO_V))) { found[key] = c.b; continue; }
     if (looked >= 10) continue;
     looked++;
     let b = null, failed = false;
-    for (const q of [...new Set([name, name.replace(/\s+(FC|Bulls|Stags|Mako|Steamers|Pride|Storm|Women)$/i, '')])]) {
+    for (const q of [...new Set([name, ...(LOGO_ALIAS[key] || []), name.replace(/\s+(FC|Bulls|Stags|Mako|Steamers|Pride|Storm|Women)$/i, '')])]) {
       try {
         const d = await tsdb(`searchteams.php?t=${encodeURIComponent(q)}`);
         const code = LOGO_CODES[sport];
@@ -453,9 +457,10 @@ async function addLogos(events, extra = []) {
       if (b) break;
     }
     if (failed) continue;
-    cache.names[key] = { t: now, b };
+    cache.names[key] = { t: now, b, v: LOGO_V };
     found[key] = b;
   }
+  diag.cricketLogos = [...want.keys()].filter(k => k.startsWith('cricket|')).map(k => `${k.slice(8)}${found[k] ? '*' : ''}`).join(', ');
   for (const e of events) {
     const h = found[`${e.sport}|${e.home}`], a = found[`${e.sport}|${e.away}`];
     if (h && !e.homeLogo) e.homeLogo = h + '/tiny';
@@ -897,6 +902,7 @@ if (process.env.GITHUB_ACTIONS) {
   console.log(`::notice title=Tables::${String(Array.isArray(diag.tables) ? diag.tables.join('; ') : diag.tables || '').replace(/[\r\n%]/g, ' ').slice(0, 3000)}`);
   const intl = feed.events.filter(e => e.team === 'intlcricket').sort((a, b) => a.startUTC.localeCompare(b.startUTC));
   console.log(`::notice title=IntlCricket::${intl.length} games: ${intl.map(e => `${e.startUTC.slice(0, 10)} ${e.comp}${e.stage ? ' / ' + e.stage : ''}: ${e.home} v ${e.away} [${e.status}]`).join(' ; ').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
+  console.log(`::notice title=CricketLogos::${String(diag.cricketLogos || 'none').replace(/[\r\n%]/g, ' ').slice(0, 2000)}`);
   console.log(`::notice title=Scoop::${String(diag.scoop || 'not run').replace(/[\r\n%]/g, ' ').slice(0, 1000)}`);
   console.log(`::notice title=Faces::${String(diag.facesMain || '').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
   console.log(`::notice title=Tennis::${String(diag.tennis || 'not run').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
