@@ -218,9 +218,9 @@ async function fightNews() {
 
 // Cricket's state of play as it happens, from ESPN's score-strip feed (the one behind espncricinfo.com): "Match delayed
 // by rain", "Lunch", "Stumps", "Innings break", and the score. Wikipedia's editors add these late if at all, so a rain
-// delay never showed. ESPN's terms of use don't allow automated access without its permission, so like RNZ this stays
-// off unless the site's owner chooses to switch it on. It only adds to matches already on a card, never a card of its own
-const ESPN_ON = false;
+// delay never showed. ESPN's terms of use don't allow automated access without its permission; the site's owner chose
+// to switch it on for this non-commercial site (19 Oct 2026). It only adds to matches already on a card, never a card of its own
+const ESPN_ON = true;
 async function espnCricket(events) {
   let d;
   try {
@@ -896,7 +896,7 @@ const feed = {
   tables,
   rankings,
   sources: [
-    { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, { name: 'Press releases via Scoop Media', url: 'https://www.scoop.co.nz/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })),
+    { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(ESPN_ON ? [{ name: 'Live cricket: ESPNcricinfo', url: 'https://www.espncricinfo.com' }] : []), ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, { name: 'Press releases via Scoop Media', url: 'https://www.scoop.co.nz/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })),
     { name: 'NZ Rugby', url: 'https://www.allblacks.com' }, { name: 'NZ Cricket', url: 'https://www.nzc.nz' },
     { name: 'NRL', url: 'https://www.nrl.com' },
   ],
