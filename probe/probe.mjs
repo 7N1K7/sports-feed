@@ -1,4 +1,4 @@
-// probe 29: raw match boxes on the Black Sticks pages (India tests, World Cup) to see where time and city sit
+// probe 30: hockey parser again, with the location field read for the town
 const UA = 'KickoffKiwi/1.0 (https://kickoff.kiwi/; probe)';
 for (const t of ["New Zealand men's national field hockey team", "New Zealand women's national field hockey team"]) {
   const r = await fetch(`https://en.wikipedia.org/w/index.php?title=${encodeURIComponent(t)}&action=raw`, { headers: { 'user-agent': UA } });

@@ -170,7 +170,9 @@ function eventsFromPage(title, text, cfg, cityTz) {
     if (!d || d.m < 0) continue;
     const venueRaw = clean(p.stadium || p.venue || p.location || '');
     const parts = venueRaw.split(',').map(s => s.trim()).filter(Boolean);
-    const city = parts.length > 1 ? parts[parts.length - 1] : '';
+    // some boxes give the ground and the town separately ("stadium = Lloyd Elsmore Park", "location = Auckland, New Zealand")
+    const loc = (p.stadium || p.venue) && p.location ? clean(p.location).split(',').map(s => s.trim()).filter(Boolean) : [];
+    const city = parts.length > 1 ? parts[parts.length - 1] : loc[0] || '';
     const tm = timeOf(p.time || '');
     const tz = (tm && tm.tz) || cityTz(city) || cityTz(parts[0]) || cfg.tz || null;
     let t, tbc = false;
