@@ -1,35 +1,25 @@
-// probe 9: what each candidate news feed's own terms say about showing its headlines on a website
+// probe 9b: BBC's RSS reuse clause, and Stuff's terms found from its own footer links
 const UA = { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36' };
-const text = h => h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&nbsp;|&#160;/g, ' ').replace(/&amp;/g, '&').replace(/&#8217;|&rsquo;/g, "'").replace(/\s+/g, ' ');
-const around = (t, re, n = 6, w = 420) => [...t.matchAll(re)].slice(0, n).map(m => '…' + t.slice(Math.max(0, m.index - w / 2), m.index + w) + '…');
-const PAGES = [
-  ['BBC RSS help', 'https://www.bbc.co.uk/news/10628494'],
-  ['BBC RSS terms', 'https://www.bbc.co.uk/usingthebbc/terms/can-i-share-things-from-the-bbc/'],
-  ['Guardian feeds help', 'https://www.theguardian.com/help/feeds'],
-  ['Guardian terms', 'https://www.theguardian.com/help/terms-of-service'],
-  ['Stuff terms', 'https://www.stuff.co.nz/about-stuff/terms-of-use'],
-  ['Stuff terms 2', 'https://www.stuff.co.nz/terms-of-use'],
-  ['Stuff rss page', 'https://www.stuff.co.nz/about-stuff/rss-feeds'],
-  ['Newsroom terms', 'https://newsroom.co.nz/terms-and-conditions/'],
-  ['Zero Tackle terms', 'https://www.zerotackle.com/terms-of-use/'],
-  ['Sherdog terms', 'https://www.sherdog.com/terms'],
-  ['Boxing News 24 terms', 'https://www.boxingnews24.com/terms-of-service/'],
-  ['Bloody Elbow terms', 'https://bloodyelbow.com/terms-of-service/'],
-  ['Motorsport.com terms', 'https://www.motorsport.com/info/terms/'],
-];
-for (const [name, url] of PAGES) {
-  try {
-    const r = await fetch(url, { headers: UA, signal: AbortSignal.timeout(15000), redirect: 'follow' });
-    const t = text(await r.text());
-    const hits = around(t, /\bRSS\b|\bfeeds?\b|headline|automated|scrap|robot|spider|crawl/gi);
-    console.log(`\n## ${name} ${r.status} ${r.url}\n${hits.join('\n') || t.slice(0, 300)}`);
-  } catch (e) { console.log(`\n## ${name} ERR ${e.message}`); }
+const text = h => h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&nbsp;|&#160;/g, ' ').replace(/&amp;/g, '&').replace(/&#8217;|&rsquo;|&#039;|&#x27;/g, "'").replace(/\s+/g, ' ');
+const get = async url => { const r = await fetch(url, { headers: UA, signal: AbortSignal.timeout(20000), redirect: 'follow' }); return { s: r.status, u: r.url, h: await r.text() }; };
+{
+  const r = await get('https://www.bbc.co.uk/usingthebbc/terms-of-use/');
+  const t = text(r.h);
+  const i = t.search(/Metadata and RSS feeds|RSS feeds/i);
+  console.log('## BBC terms', r.s, r.u, '\n', i >= 0 ? t.slice(Math.max(0, i - 200), i + 2600) : t.slice(0, 500));
 }
-// the feeds' own channel notes (copyright / description / terms links)
-for (const url of ['https://www.stuff.co.nz/rss/sport', 'https://feeds.bbci.co.uk/sport/cricket/rss.xml', 'https://www.theguardian.com/sport/cricket/rss', 'https://newsroom.co.nz/category/lockerroom/feed/', 'https://www.zerotackle.com/feed/', 'https://www.sherdog.com/rss/news.xml', 'https://bloodyelbow.com/feed/', 'https://www.boxingnews24.com/feed/', 'https://www.motorsport.com/rss/f1/news/']) {
+for (const home of ['https://www.stuff.co.nz/', 'https://newsroom.co.nz/', 'https://www.zerotackle.com/', 'https://www.sherdog.com/', 'https://www.boxingnews24.com/', 'https://www.motorsport.com/']) {
   try {
-    const x = await (await fetch(url, { headers: UA, signal: AbortSignal.timeout(15000) })).text();
-    const ch = x.split(/<item[\s>]/)[0];
-    console.log(`\nFEED ${url}\n   ${(ch.match(/<(copyright|dc:rights|description|managingEditor|generator)>[\s\S]*?<\/\1>/g) || []).join(' ').replace(/\s+/g, ' ').slice(0, 500)}`);
-  } catch (e) { console.log('FEED ERR', url, e.message); }
+    const r = await get(home);
+    const links = [...new Set([...r.h.matchAll(/href="([^"]*(?:terms|conditions|legal|copyright|rss|syndicat)[^"]*)"/gi)].map(m => new URL(m[1], r.u).href))].slice(0, 6);
+    console.log(`\n## ${home} ${r.s} links: ${links.join(' ')}`);
+    for (const l of links.filter(l => /terms|conditions|legal|copyright/i.test(l)).slice(0, 2)) {
+      try {
+        const p = await get(l);
+        const t = text(p.h);
+        const hits = [...t.matchAll(/\bRSS\b|\bfeeds?\b|headlines?|automated|scrap|robot|crawl|reproduc|non-commercial|personal use/gi)].slice(0, 6).map(m => '…' + t.slice(Math.max(0, m.index - 220), m.index + 320) + '…');
+        console.log(`   -> ${l} ${p.s}\n${hits.join('\n') || '   ' + t.slice(0, 300)}`);
+      } catch (e) { console.log('   ERR', l, e.message); }
+    }
+  } catch (e) { console.log('ERR', home, e.message); }
 }
