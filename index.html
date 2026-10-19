@@ -115,6 +115,7 @@ header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block:
 .ver { color: var(--muted); font-size: 10px; border: 1px solid var(--line); border-radius: 999px; padding: 0 6px }
 .spacer { flex: 1 }
 .btn { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-size: 14px; display: inline-flex; gap: 6px; align-items: center }
+.btn.sbtn { display: none } /* the search button is for phones */
 .btn:hover { border-color: var(--accent) }
 .btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
 
@@ -755,7 +756,13 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
   .hbtns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; flex: 1 1 100% }
   .hbtns .btn { justify-content: center; padding: 6px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
   .hbtns .btn svg { width: 14px; height: 14px; flex: none }
-  .search { order: 10; flex: 1 1 100% }
+  /* the search box folds behind a magnifier button, and opens over the page just under the header (nothing moves) */
+  .hbtns { grid-template-columns: repeat(4, minmax(0, 1fr)) 36px }
+  .hbtns .sbtn { display: inline-flex; padding: 6px 0 }
+  .search { display: none; position: absolute; left: 16px; right: 16px; top: calc(100% + 6px); z-index: 6 }
+  header.top.searching .search { display: block }
+  header.top.searching .sbtn { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+  #q { box-shadow: 0 8px 24px rgb(0 0 0 / .35) }
   #q { width: 100%; box-sizing: border-box }
   .qlist { left: 0; right: 0; width: auto }
   .trow { grid-template-columns: minmax(0, 1fr) auto } .trow .td { grid-column: 1 / -1 }
@@ -835,6 +842,7 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
     <button class="btn" id="toNews" type="button" title="Jump to the news">News ↓</button>
     <button class="btn" id="spoilBtn" aria-pressed="false" type="button">Spoilers hidden</button>
     <button class="btn" id="teamsBtn" aria-expanded="false" aria-controls="panel" type="button">Settings</button>
+    <button class="btn sbtn" id="searchBtn" type="button" aria-label="Find a team or game" aria-expanded="false" aria-controls="q"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg></button>
     </div>
   </div>
   <div class="panel" id="panel" hidden>
@@ -1888,11 +1896,14 @@ function drawSearch() {
 }
 // scroll a section's heading to just under the sticky header
 const toSec = id => scrollTo({ top: $(id).getBoundingClientRect().top + scrollY - document.querySelector('header.top').offsetHeight - 10 });
-const closeSearch = () => { $('qList').hidden = true; $('q').setAttribute('aria-expanded', 'false'); };
+const closeSearch = () => { $('qList').hidden = true; $('q').setAttribute('aria-expanded', 'false'); setSearching(false); };
+// phones: the magnifier opens the folded search box (and closes it again)
+const setSearching = on => { document.querySelector('header.top').classList.toggle('searching', on); $('searchBtn').setAttribute('aria-expanded', String(on)); };
+$('searchBtn').addEventListener('click', () => { const on = !document.querySelector('header.top').classList.contains('searching'); if (!on) $('q').value = ''; setSearching(on); if (on) $('q').focus(); else closeSearch(); });
 $('q').addEventListener('input', drawSearch);
 $('q').addEventListener('focus', drawSearch);
 $('q').addEventListener('keydown', ev => {
-  if (ev.key === 'Escape') { $('q').value = ''; closeSearch(); }
+  if (ev.key === 'Escape') { $('q').value = ''; closeSearch(); setSearching(false); }
   if (ev.key === 'Enter') { ev.preventDefault(); $('qList').querySelector('.qi')?.click(); }
   if (ev.key === 'ArrowDown') { ev.preventDefault(); $('qList').querySelector('.qi')?.focus(); }
 });
@@ -1902,7 +1913,7 @@ $('qList').addEventListener('keydown', ev => {
   if (ev.key === 'ArrowUp') { ev.preventDefault(); (i > 0 ? items[i - 1] : $('q')).focus(); }
   if (ev.key === 'Escape') { closeSearch(); $('q').focus(); }
 });
-document.addEventListener('click', ev => { if (!ev.target.closest('.search')) closeSearch(); }, true);
+document.addEventListener('click', ev => { if (!ev.target.closest('.search, #searchBtn')) closeSearch(); }, true);
 
 // short tournaments and series under way right now (first game played, more to come), NZ ones first.
 // Season-long leagues and catch-all groups stay in the competition menu.
