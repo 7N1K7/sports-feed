@@ -81,7 +81,7 @@ const CODES = {
   BAN: 'Bangladesh', BGD: 'Bangladesh', WI: 'West Indies', WIN: 'West Indies', AFG: 'Afghanistan', ZIM: 'Zimbabwe', LBN: 'Lebanon', LEB: 'Lebanon', JAM: 'Jamaica', GEO: 'Georgia', POR: 'Portugal',
   ESP: 'Spain', URU: 'Uruguay', CHI: 'Chile', NED: 'Netherlands', BRA: 'Brazil', KEN: 'Kenya', CZE: 'Czechia', POL: 'Poland', ROU: 'Romania', ROM: 'Romania', HKG: 'Hong Kong',
   KOR: 'South Korea', CHN: 'China', GER: 'Germany', BEL: 'Belgium', NAM: 'Namibia', UAE: 'United Arab Emirates', SCOT: 'Scotland', IRELAND: 'Ireland', SER: 'Serbia', GRE: 'Greece',
-  MLT: 'Malta', ITY: 'Italy', NIR: 'Northern Ireland',
+  MLT: 'Malta', ITY: 'Italy', NIR: 'Northern Ireland', IRE: 'Ireland', GBR: 'Great Britain', MAS: 'Malaysia', AUT: 'Austria', BLR: 'Belarus', UKR: 'Ukraine', EGY: 'Egypt',
 };
 // Team cell: {{Rut|Crusaders}}, {{rl-rt|AUS}}, {{crw|NZ}}, {{RuA-rt|ITA|name=Italy XV}}, [[Melbourne Renegades]] (H)
 function teamOf(v) {
@@ -92,7 +92,7 @@ function teamOf(v) {
     const nm = tpl.name.toLowerCase();
     let name = p.named.name || p.pos[0] || '';
     name = CODES[name.toUpperCase()] || name.replace(/_/g, ' ');
-    const women = /^(ruw|rlw|crw|fbw|wrl?w)/.test(nm) || /women/i.test(nm);
+    const women = /^(ruw|rlw|crw|fbw|fhw|wrl?w)/.test(nm) || /women/i.test(nm);
     if (name && !/\d{4}/.test(name)) return clean(name) + (women && !/Women/.test(name) ? ' Women' : '');
   }
   return clean(raw).replace(/\s*\((H|A|N)\)\s*$/i, '').trim();
@@ -146,6 +146,7 @@ export function classify(kind, home, away) {
     case 'intlcricket': return !nz && !women && !/\bAustralia\b/.test(names) ? { team: 'intlcricket', tags: [] } : null;
     case 'nzcricket': return nz ? { team: women ? 'whiteferns' : 'blackcaps', tags: [] } : null;
     case 'nrl': return { team: /Warriors/.test(names) ? 'warriors' : 'nrl', tags: ['nrl'] };
+    case 'hockey': return nz ? { team: women ? 'blacksticksw' : 'blacksticks', tags: [] } : null;
     case 'epl': return { team: 'epl', tags: ['epl'] };
     case 'aleague': return { team: /Wellington Phoenix/.test(names) ? 'phoenix' : /Auckland FC/.test(names) ? 'aucklandfc' : 'aleague', tags: ['aleague'] };
     default: return null;
@@ -153,7 +154,7 @@ export function classify(kind, home, away) {
 }
 
 // ---------- Wikipedia -------------------------------------------------------
-const BOX = /^(rugby ?box|rugby ?league ?box|rlbox|single-innings cricket match|two-innings cricket match|limited overs international|footballbox|football box(?: collapsible)?)$/i;
+const BOX = /^(rugby ?box|rugby ?league ?box|rlbox|single-innings cricket match|two-innings cricket match|limited overs international|footballbox|football box(?: collapsible)?|field ?hockey ?box|hockey ?box)$/i;
 
 function eventsFromPage(title, text, cfg, cityTz) {
   const year = +(title.match(/\b(20\d\d)/) || [])[1] || new Date().getUTCFullYear();
@@ -169,7 +170,9 @@ function eventsFromPage(title, text, cfg, cityTz) {
     if (!d || d.m < 0) continue;
     const venueRaw = clean(p.stadium || p.venue || p.location || '');
     const parts = venueRaw.split(',').map(s => s.trim()).filter(Boolean);
-    const city = parts.length > 1 ? parts[parts.length - 1] : '';
+    // some boxes give the ground and the town separately ("stadium = Lloyd Elsmore Park", "location = Auckland, New Zealand")
+    const loc = (p.stadium || p.venue) && p.location ? clean(p.location).split(',').map(s => s.trim()).filter(Boolean) : [];
+    const city = parts.length > 1 ? parts[parts.length - 1] : loc[0] || '';
     const tm = timeOf(p.time || '');
     const tz = (tm && tm.tz) || cityTz(city) || cityTz(parts[0]) || cfg.tz || null;
     let t, tbc = false;
@@ -202,6 +205,10 @@ function eventsFromPage(title, text, cfg, cityTz) {
     if (!cls) continue;
     const report = (stripRefs(p.report || '').match(/https?:\/\/[^\s\]|]+/) || [])[0];
     const round = clean(p.round || '').replace(/^Match\s*/i, 'Match ');
+    // a national team's page links each game's round to its tournament ("[[2026 Men's FIH Hockey World Cup|Pool A]]"): that
+    // tournament is the game's competition and the round its stage; an unlinked round ("Match 1") is a test series
+    const linked = cfg.compFromRound && (stripRefs(p.round || '').match(/\[\[([^\]|]+)\|?[^\]]*\]\]/) || [])[1];
+    const comp = !cfg.compFromRound ? cfg.comp : linked ? linked.replace(/^\d{4}(?:[–-]\d{2,4})?\s+/, '').replace(/^(Men's|Women's)\s+/, '') : cfg.comp;
     // nearest heading above the box, e.g. "1st T20I" on a tour page
     const heads = cfg.seriesTitle ? [...text.slice(0, tpl.at).matchAll(/^={2,5}\s*([^=\n]+?)\s*={2,5}\s*$/gm)] : [];
     const stage = heads.length ? clean(heads[heads.length - 1][1]) : '';
@@ -209,8 +216,8 @@ function eventsFromPage(title, text, cfg, cityTz) {
     if (cfg.classify === 'intlcricket' && /tour match|warm-?up|practice/i.test(stage)) continue;
     out.push({
       id: `wiki-${cls.team}-${new Date(t).toISOString().slice(0, 10)}-${(home + away).toLowerCase().replace(/[^a-z]/g, '').slice(0, 40)}`,
-      team: cls.team, tags: cls.tags, sport: cfg.sport, comp: cfg.comp + (round && cfg.showRound ? ` · ${round}` : ''),
-      home, away, startUTC: new Date(t).toISOString(), timeTBC: tbc, ...(stage ? { stage } : {}),
+      team: cls.team, tags: cls.tags, sport: cfg.sport, comp: comp + (round && cfg.showRound && !linked && !/^test(?: match)?$/i.test(round) ? ` · ${round}` : ''),
+      home, away, startUTC: new Date(t).toISOString(), timeTBC: tbc, ...(stage ? { stage } : linked && round ? { stage: round } : {}),
       venue: parts[0] || '', city, tz, status, score, summary,
       source: `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`, link: report, ...(/cricinfo\.com/.test(report || '') ? { cricinfo: report } : {}),
       // cricket boxes carry a "rain" note that editors fill in during the game ("Rain delayed the start of play")

@@ -32,6 +32,8 @@ const COUNTRY_TZ = {
 };
 Object.assign(CITY_TZ, { Edmonton: 'America/Edmonton', Calgary: 'America/Edmonton', Vancouver: 'America/Vancouver', Montreal: 'America/Toronto', Gosford: 'Australia/Sydney', 'New South Wales': 'Australia/Sydney', Victoria: 'Australia/Melbourne', Queensland: 'Australia/Brisbane', 'Las Vegas': 'America/Los_Angeles', 'Los Angeles': 'America/Los_Angeles', 'New York': 'America/New_York', Newark: 'America/New_York', Miami: 'America/New_York', Houston: 'America/Chicago', Chicago: 'America/Chicago', Denver: 'America/Denver', 'Abu Dhabi': 'Asia/Dubai', Riyadh: 'Asia/Riyadh', London: 'Europe/London', Paris: 'Europe/Paris', 'Mexico City': 'America/Mexico_City', 'Rio de Janeiro': 'America/Sao_Paulo', 'São Paulo': 'America/Sao_Paulo', Singapore: 'Asia/Singapore', Shanghai: 'Asia/Shanghai', Macau: 'Asia/Macau', Toronto: 'America/Toronto', Perth: 'Australia/Perth', Auckland: 'Pacific/Auckland' });
 Object.assign(COUNTRY_TZ, { 'U.S.': 'America/New_York', 'United States of America': 'America/New_York', Qatar: 'Asia/Qatar', 'Saudi Arabia': 'Asia/Riyadh', 'United Arab Emirates': 'Asia/Dubai', Brazil: 'America/Sao_Paulo', Mexico: 'America/Mexico_City', China: 'Asia/Shanghai', Singapore: 'Asia/Singapore', Azerbaijan: 'Asia/Baku', Kazakhstan: 'Asia/Almaty', Germany: 'Europe/Berlin', Netherlands: 'Europe/Amsterdam', Pakistan: 'Asia/Karachi', India: 'Asia/Kolkata', 'Sri Lanka': 'Asia/Colombo', Bangladesh: 'Asia/Dhaka', 'West Indies': 'America/Barbados', Zimbabwe: 'Africa/Harare', 'Cook Islands': 'Pacific/Rarotonga' });
+// hockey grounds: the Pro League, World Cup and Nations Cup towns
+Object.assign(CITY_TZ, { Amstelveen: 'Europe/Amsterdam', Wavre: 'Europe/Brussels', Antwerp: 'Europe/Brussels', Eindhoven: 'Europe/Amsterdam', Utrecht: 'Europe/Amsterdam', Terrassa: 'Europe/Madrid', Valencia: 'Europe/Madrid', Krefeld: 'Europe/Berlin', Mannheim: 'Europe/Berlin', Bhubaneswar: 'Asia/Kolkata', Rourkela: 'Asia/Kolkata', Changzhou: 'Asia/Shanghai', Hangzhou: 'Asia/Shanghai', Santiago: 'America/Santiago', 'Córdoba': 'America/Argentina/Cordoba', Hobart: 'Australia/Hobart', Kuala: 'Asia/Kuala_Lumpur', 'Kuala Lumpur': 'Asia/Kuala_Lumpur', Ipoh: 'Asia/Kuala_Lumpur', Muscat: 'Asia/Muscat' });
 Object.assign(CITY_TZ, { 'Al Rayyan': 'Asia/Qatar', Doha: 'Asia/Qatar', 'New York City': 'America/New_York', 'Salt Lake City': 'America/Denver', Nashville: 'America/Chicago', Atlanta: 'America/New_York', Boston: 'America/New_York', Philadelphia: 'America/New_York', Baku: 'Asia/Baku', Christchurch: 'Pacific/Auckland', Wellington: 'Pacific/Auckland', Hamilton: 'Pacific/Auckland', Dunedin: 'Pacific/Auckland', 'Mount Maunganui': 'Pacific/Auckland', Napier: 'Pacific/Auckland', Nelson: 'Pacific/Auckland', Whangārei: 'Pacific/Auckland', Whangarei: 'Pacific/Auckland', Invercargill: 'Pacific/Auckland', 'New Plymouth': 'Pacific/Auckland', 'Palmerston North': 'Pacific/Auckland', Queenstown: 'Pacific/Auckland', Rotorua: 'Pacific/Auckland', Geelong: 'Australia/Melbourne', Launceston: 'Australia/Hobart', Cairns: 'Australia/Brisbane', Chennai: 'Asia/Kolkata', Mumbai: 'Asia/Kolkata', 'Cape Town': 'Africa/Johannesburg', Johannesburg: 'Africa/Johannesburg', Pretoria: 'Africa/Johannesburg', Durban: 'Africa/Johannesburg', Dublin: 'Europe/Dublin', Cardiff: 'Europe/London', Edinburgh: 'Europe/London', Rome: 'Europe/Rome', Marseille: 'Europe/Paris', 'Buenos Aires': 'America/Argentina/Buenos_Aires', Rarotonga: 'Pacific/Rarotonga', "Nuku'alofa": 'Pacific/Tongatapu' });
 // Formula 1 circuit towns, as the season page's calendar names them
 Object.assign(CITY_TZ, { Suzuka: 'Asia/Tokyo', Sakhir: 'Asia/Bahrain', Jeddah: 'Asia/Riyadh', 'Miami Gardens': 'America/New_York', Monaco: 'Europe/Monaco', 'Monte Carlo': 'Europe/Monaco', Montmeló: 'Europe/Madrid', Barcelona: 'Europe/Madrid', Madrid: 'Europe/Madrid', Spielberg: 'Europe/Vienna', Silverstone: 'Europe/London', Stavelot: 'Europe/Brussels', 'Spa-Francorchamps': 'Europe/Brussels', Mogyoród: 'Europe/Budapest', Budapest: 'Europe/Budapest', Zandvoort: 'Europe/Amsterdam', Monza: 'Europe/Rome', Imola: 'Europe/Rome', Austin: 'America/Chicago', Paradise: 'America/Los_Angeles', Lusail: 'Asia/Qatar', 'Yas Island': 'Asia/Dubai', 'Yas Marina': 'Asia/Dubai', Portimão: 'Europe/Lisbon', Istanbul: 'Europe/Istanbul', 'Le Castellet': 'Europe/Paris', Hockenheim: 'Europe/Berlin', Bahrain: 'Asia/Bahrain', Sepang: 'Asia/Kuala_Lumpur', 'Kuala Lumpur': 'Asia/Kuala_Lumpur' });
@@ -61,6 +63,7 @@ const NEWS_TEAMS = [
   ['highlanders', /Highlanders/], ['moana', /Moana Pasifika/i],
   ['blackcaps', /Black ?Caps/i], ['whiteferns', /White Ferns/i], ['nzdomestic', /Plunket Shield|Ford Trophy|Super Smash|Hallyburton/i],
   ['kiwis', /\bKiwis\b/], ['kiwiferns', /Kiwi Ferns/i], ['warriors', /Warriors/],
+  ['blacksticksw', /Black Sticks Women|Black Sticks women/i], ['blacksticks', /Black Sticks/i],
   ['f1', /Formula (One|1)\b|\bF1\b|Liam Lawson/i],
   ['wallabies', /Wallabies/], ['superrugby', /Super Rugby/i],
   ['rlwc', /Rugby League World Cup|\bRLWC\b/i], ['nrl', /\bNRL\b/],
@@ -387,7 +390,7 @@ let tsdbCache = {};
 try { tsdbCache = JSON.parse(await readFile(tsdbCacheUrl, 'utf8')); } catch {}
 
 // same fixture from two sources? UFC cards match on date alone
-const WOMEN_KEYS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'fpc', 'wbbl']);
+const WOMEN_KEYS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'fpc', 'wbbl', 'blacksticksw']);
 const isW = e => WOMEN_KEYS.has(e.team) || /women|wheelchair/i.test([e.comp, e.home, e.away].join(' '));
 const same = (a, b) => a.team === b.team && isW(a) === isW(b) && (a.team === 'ufc' ? Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) < 1.5 * DAY : sameMatch(a, b));
 const near = t => (a, b) => Math.abs(Date.parse(a.startUTC) - t) - Math.abs(Date.parse(b.startUTC) - t);
@@ -493,7 +496,7 @@ for (const e of events) if (e.fix) Object.assign(e, e.fix);
 events.forEach(e => applyBroadcast(e, rules));
 for (const e of events) if (!e.tz && e.city) { const bits = e.city.split(',').map(x => x.trim()); e.tz = tzFor(bits[0], bits[bits.length - 1]); }
 
-const COUNTRY = /^(New Zealand|Australia|England|Scotland|Wales|Ireland|France|Italy|South Africa|Argentina|Japan|Fiji|Samoa|Tonga|Papua New Guinea|Cook Islands|India|Sri Lanka|Bangladesh|Pakistan|West Indies|Lebanon|Canada|USA|United States|Chile|Uruguay|Georgia|Portugal|Spain|Romania)( Women| A| XI| Wheelchair)?$/i;
+const COUNTRY = /^(New Zealand|Australia|England|Scotland|Wales|Ireland|France|Italy|South Africa|Argentina|Japan|Fiji|Samoa|Tonga|Papua New Guinea|Cook Islands|India|Sri Lanka|Bangladesh|Pakistan|West Indies|Lebanon|Canada|USA|United States|Chile|Uruguay|Georgia|Portugal|Spain|Romania|Netherlands|Belgium|Germany|Great Britain|Malaysia|South Korea|China|Austria|Egypt|Namibia)( Women| A| XI| Wheelchair)?$/i;
 const newsAll = [...curated.news];
 {
   const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -969,10 +972,10 @@ async function teamLinks(events) {
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
   const UA = { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } };
   const get = async (host, q) => { await new Promise(r => setTimeout(r, 1000)); const r = await fetch(`https://${host}/w/api.php?format=json&formatversion=2&maxlag=5&` + q, UA); if (!r.ok) throw new Error(`${host} ${r.status}`); return r.json(); };
-  const WORD = { rugby: 'rugby union', league: 'rugby league', cricket: 'cricket', football: 'football' };
-  const DESC = { rugby: /rugby union|rugby team|rugby football union|provincial union/i, league: /rugby league/i, cricket: /cricket/i, football: /football|soccer/i };
+  const WORD = { rugby: 'rugby union', league: 'rugby league', cricket: 'cricket', football: 'football', hockey: 'field hockey' };
+  const DESC = { rugby: /rugby union|rugby team|rugby football union|provincial union/i, league: /rugby league/i, cricket: /cricket/i, football: /football|soccer/i, hockey: /hockey/i };
   const NICK = { 'All Blacks': 'New Zealand', 'Black Ferns': 'New Zealand', Wallabies: 'Australia', Wallaroos: 'Australia', Springboks: 'South Africa', 'Los Pumas': 'Argentina',
-    Kiwis: 'New Zealand', 'Kiwi Ferns': 'New Zealand', Kangaroos: 'Australia', Jillaroos: 'Australia', 'Black Caps': 'New Zealand', 'White Ferns': 'New Zealand' };
+    Kiwis: 'New Zealand', 'Kiwi Ferns': 'New Zealand', Kangaroos: 'Australia', Jillaroos: 'Australia', 'Black Caps': 'New Zealand', 'White Ferns': 'New Zealand', 'Black Sticks': 'New Zealand' };
   const want = new Map();
   for (const e of events) {
     const age = now - Date.parse(e.startUTC);
@@ -988,7 +991,7 @@ async function teamLinks(events) {
       const [sport, name, w] = want.get(k);
       const base = name.replace(/\s+Women('s)?$/i, '');
       const country = COUNTRY.test(base) && !/ (A|XI|Wheelchair)$/i.test(base) ? base : NICK[base];
-      if (country) nat[`${country} ${w ? "women's " : ''}national ${WORD[sport]} team`] = k;
+      if (country) nat[`${country} ${w ? "women's " : sport === 'hockey' ? "men's " : ''}national ${WORD[sport]} team`] = k;
     }
     const titles = Object.keys(nat);
     for (let i = 0; i < titles.length; i += 40) {
@@ -1037,9 +1040,9 @@ async function writeCalendars(events) {
   try { NZ_KEYS = new Set(JSON.parse(page.match(/const NZ_KEYS = new Set\((\[[^\]]*\])\)/)[1].replace(/'/g, '"'))); } catch {}
   try { const m = page.match(/const NZ_NAMES = \/(.*)\/([a-z]*);/); NZ_NAMES = new RegExp(m[1], m[2]); } catch {}
   const CLUBS = { blues: 'Blues', chiefs: 'Chiefs', hurricanes: 'Hurricanes', crusaders: 'Crusaders', highlanders: 'Highlanders', warriors: 'Warriors' };
-  const ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', motor: '🏎️', tennis: '🎾', mma: '🥊', boxing: '🥊' };
-  const HOURS = { rugby: 2, league: 2, football: 2, motor: 2, tennis: 4, mma: 5, boxing: 4 };
-  const NICK = { 'rugby m': 'All Blacks', 'rugby w': 'Black Ferns', 'league m': 'Kiwis', 'league w': 'Kiwi Ferns', 'cricket m': 'Black Caps', 'cricket w': 'White Ferns', 'football m': 'All Whites', 'football w': 'Football Ferns' };
+  const ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', hockey: '🏑', motor: '🏎️', tennis: '🎾', mma: '🥊', boxing: '🥊' };
+  const HOURS = { rugby: 2, league: 2, football: 2, hockey: 2, motor: 2, tennis: 4, mma: 5, boxing: 4 };
+  const NICK = { 'rugby m': 'All Blacks', 'rugby w': 'Black Ferns', 'league m': 'Kiwis', 'league w': 'Kiwi Ferns', 'cricket m': 'Black Caps', 'cricket w': 'White Ferns', 'football m': 'All Whites', 'football w': 'Football Ferns', 'hockey m': 'Black Sticks', 'hockey w': 'Black Sticks Women' };
   const site = process.env.SITE_URL || 'https://kickoff.kiwi/';
   const esc = t => String(t || '').replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
   // lines longer than 75 bytes continue on the next line after a space, without splitting a character
@@ -1253,7 +1256,7 @@ const hot = feed.events.some(e => {
   return age > -90 * 6e4 && age < span;
 });
 // "live": a game in its playing window right now (for a Test, the first 10 hours of each day), so refresh every 5 minutes
-const PLAY_H = { rugby: 2.5, league: 2.5, football: 2.5, mma: 6, boxing: 5, motor: 3 };
+const PLAY_H = { rugby: 2.5, league: 2.5, football: 2.5, hockey: 2, mma: 6, boxing: 5, motor: 3 };
 const playing = feed.events.some(e => {
   if (e.status === 'final') return false;
   const age = now - new Date(e.startUTC);

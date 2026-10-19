@@ -21,7 +21,15 @@
     { "title": "{S} Premier League", "sport": "football", "comp": "Premier League", "classify": "epl" },
     { "title": "{Y} NRL season", "sport": "league", "comp": "NRL", "classify": "nrl" },
     { "title": "{Y} NRL finals series", "sport": "league", "comp": "NRL finals", "classify": "nrl" },
-    { "title": "List of UFC events", "sport": "mma", "comp": "UFC", "ufc": true }
+    { "title": "List of UFC events", "sport": "mma", "comp": "UFC", "ufc": true },
+    { "title": "New Zealand men's national field hockey team", "sport": "hockey", "comp": "Test series", "classify": "hockey", "compFromRound": true, "showRound": true },
+    { "title": "New Zealand women's national field hockey team", "sport": "hockey", "comp": "Test series", "classify": "hockey", "compFromRound": true, "showRound": true, "women": true },
+    { "title": "{S} Men's FIH Pro League", "sport": "hockey", "comp": "FIH Pro League", "classify": "hockey" },
+    { "title": "{S} Women's FIH Pro League", "sport": "hockey", "comp": "FIH Pro League", "classify": "hockey", "women": true },
+    { "title": "{S} Men's FIH Hockey Nations Cup", "sport": "hockey", "comp": "FIH Hockey Nations Cup", "classify": "hockey" },
+    { "title": "{S} Women's FIH Hockey Nations Cup", "sport": "hockey", "comp": "FIH Hockey Nations Cup", "classify": "hockey", "women": true },
+    { "title": "{Y} Men's FIH Hockey World Cup", "sport": "hockey", "comp": "FIH Hockey World Cup", "classify": "hockey" },
+    { "title": "{Y} Women's FIH Hockey World Cup", "sport": "hockey", "comp": "FIH Hockey World Cup", "classify": "hockey", "women": true }
   ],
   "thesportsdb": [
     { "id": 4356, "sport": "football", "comp": "A-League Men", "classify": "aleague" },

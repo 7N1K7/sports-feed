@@ -28,7 +28,7 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
 :root {
   --paper: #f3f6f4; --surface: #ffffff; --ink: #14211c; --muted: #5a6a64; --line: #d9e2de;
   --accent: #0d6b4d; --accent-ink: #ffffff; --soft: #e6efeb;
-  --rugby: #1b1f1d; --cricket: #b88a00; --league: #e8590c; --football: #2b8a3e; --mma: #d32f2f; --boxing: #d6336c; --motor: #1c7ed6; --tennis: #7a8c00;
+  --rugby: #1b1f1d; --cricket: #b88a00; --league: #e8590c; --football: #2b8a3e; --mma: #d32f2f; --boxing: #d6336c; --motor: #1c7ed6; --tennis: #7a8c00; --hockey: #0b7285;
   --live: #c8322a; --cover: #dfe6e3;
   --soon: #d9480f; --near: #7048e8; --later: #5a6a64; --local: #1971c2;
   --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
@@ -38,12 +38,12 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
   --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
-  --rugby: #d5dbd8; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7; --tennis: #c0d32a;
+  --rugby: #d5dbd8; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7; --tennis: #c0d32a; --hockey: #3bc9db;
   --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark } }
 :root[data-theme="dark"] {
   --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
   --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
-  --rugby: #d5dbd8; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7; --tennis: #c0d32a;
+  --rugby: #d5dbd8; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7; --tennis: #c0d32a; --hockey: #3bc9db;
   --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark }
 
 /* colour themes: Settings picks one; Kiwi green is the default above */
@@ -224,7 +224,7 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .pager .btn[disabled] { opacity: .4; cursor: default }
 .pager > .num { min-width: 8em; text-align: center }
 .tag.paused { background: color-mix(in srgb, var(--live) 15%, transparent); color: var(--live); border: 1px solid color-mix(in srgb, var(--live) 40%, transparent) }
-.sport-rugby { --sport: var(--rugby) } .sport-cricket { --sport: var(--cricket) } .sport-league { --sport: var(--league) } .sport-football { --sport: var(--football) } .sport-mma { --sport: var(--mma) } .sport-boxing { --sport: var(--boxing) } .sport-motor { --sport: var(--motor) } .sport-tennis { --sport: var(--tennis) }
+.sport-rugby { --sport: var(--rugby) } .sport-cricket { --sport: var(--cricket) } .sport-league { --sport: var(--league) } .sport-football { --sport: var(--football) } .sport-mma { --sport: var(--mma) } .sport-boxing { --sport: var(--boxing) } .sport-motor { --sport: var(--motor) } .sport-tennis { --sport: var(--tennis) } .sport-hockey { --sport: var(--hockey) }
 
 .res .when { min-width: 120px }
 .res .score { font-family: var(--f-display); font-size: 28px; font-weight: 700; line-height: 1 }
@@ -1016,6 +1016,7 @@ const TEAMS = [
   { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['aucricket','Australia (men\'s tours)'],['intlcricket','Other international tours'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
   { g: 'Rugby league', items: [['kiwis','Kiwis'],['kiwiferns','Kiwi Ferns'],['warriors','Warriors'],['nrl','NRL (every game)'],['rlwc','League World Cup (every game)']] },
   { g: 'Football', items: [['phoenix','Wellington Phoenix'],['aucklandfc','Auckland FC'],['aleague','A-League Men (every game)'],['epl','Premier League (every game)']] },
+  { g: 'Hockey', items: [['blacksticks','Black Sticks'],['blacksticksw','Black Sticks Women']] },
   { g: 'Motorsport', items: [['f1','Formula 1']] },
   { g: 'Tennis', items: [['tennis','Grand Slams, Finals and ASB Classic']] },
   { g: 'Fight sports', items: [['ufc','UFC events'],['boxing','Major boxing'],['nzboxing','NZ boxers']] },
@@ -1031,15 +1032,17 @@ const BADGE = {
   bbl: ['BBL', '#ff6b00', '#111111'], wbbl: ['WBBL', '#7b2cbf', '#ffffff'], nrl: ['NRL', '#003b7a', '#ffffff'], rlwc: ['RLWC', '#0b6e4f', '#ffffff'],
   phoenix: ['WNP', '#ffd100', '#000000'], aucklandfc: ['AFC', '#0033a0', '#ffffff'], aleague: ['ALM', '#e4002b', '#ffffff'], aucricket: ['AUS', '#ffcd00', '#00573f'], intlcricket: ['INT', '#1c7ed6', '#ffffff'], epl: ['EPL', '#3d195b', '#ffffff'], ufc: ['UFC', '#d20a0a', '#ffffff'], boxing: ['BOX', '#8a1c1c', '#ffd43b'], nzboxing: ['NZB', '#000000', '#ffd43b'],
   kiwis: ['KIW', '#000000', '#ffffff'], kiwiferns: ['KF', '#000000', '#ffffff'], warriors: ['WAR', '#0d1f4c', '#7fd13b'],
-  f1: ['F1', '#e10600', '#ffffff'], tennis: ['TEN', '#c5db2e', '#1b1f1d'],
+  f1: ['F1', '#e10600', '#ffffff'], tennis: ['TEN', '#c5db2e', '#1b1f1d'], blacksticks: ['BS', '#000000', '#ffffff'], blacksticksw: ['BSW', '#000000', '#ffffff'],
 };
 // the card's badge names the competition (or the cricket format), not the team: NPC, RLWC, TEST, ODI
 const COMP_BADGE = { NPC: 'npc', 'Farah Palmer Cup': 'fpc', 'Super Rugby Pacific': 'superrugby', 'Rugby League World Cup': 'rlwc', NRL: 'nrl', 'A-League Men': 'aleague', 'Premier League': 'epl', 'Big Bash': 'bbl', "Women's Big Bash": 'wbbl', UFC: 'ufc', Boxing: 'boxing', 'NZ domestic cricket': 'nzdomestic',
-  'Rugby Championship': ['RC', '#1d3557', '#ffffff'], 'Nations Championship': ['NC', '#1d3557', '#ffffff'], 'Test match': ['TEST', '#1b1f1d', '#ffffff'], "Women's test": ['TEST', '#1b1f1d', '#ffffff'], 'WXV Global Series': ['WXV', '#5f3dc4', '#ffffff'], 'Pacific Championships': ['PAC', '#0b6e4f', '#ffffff'], 'Formula 1': ['F1', '#e10600', '#ffffff'] };
+  'Rugby Championship': ['RC', '#1d3557', '#ffffff'], 'Nations Championship': ['NC', '#1d3557', '#ffffff'], 'Test match': ['TEST', '#1b1f1d', '#ffffff'], "Women's test": ['TEST', '#1b1f1d', '#ffffff'], 'WXV Global Series': ['WXV', '#5f3dc4', '#ffffff'], 'Pacific Championships': ['PAC', '#0b6e4f', '#ffffff'], 'Formula 1': ['F1', '#e10600', '#ffffff'],
+  'FIH Pro League': ['PRO', '#0b7285', '#ffffff'], 'FIH Hockey World Cup': ['WC', '#0b7285', '#ffffff'], 'FIH Hockey Nations Cup': ['NC', '#0b7285', '#ffffff'] };
 const FORMAT_BADGE = { Test: ['TEST', '#ffffff', '#111111'], ODI: ['ODI', '#1864ab', '#ffffff'], T20I: ['T20I', '#c2255c', '#ffffff'] };
 function compBadge(e) {
   const c = compOf(e);
-  let b = e.sport === 'cricket' && /^(blackcaps|whiteferns|aucricket|intlcricket)$/.test(e.team) ? FORMAT_BADGE[formatOf(e)] : COMP_BADGE[c];
+  let b = e.sport === 'cricket' && /^(blackcaps|whiteferns|aucricket|intlcricket)$/.test(e.team) ? FORMAT_BADGE[formatOf(e)]
+    : e.sport === 'hockey' && /^Test series/.test(e.comp || '') ? COMP_BADGE['Test match'] : COMP_BADGE[c] || COMP_BADGE[c.replace(/^Women's /, '')];
   if (typeof b === 'string') b = BADGE[b];
   if (!b) return badge(e.team);
   return `<span class="badge" style="background:${b[1]};color:${b[2]}" aria-hidden="true">${b[0]}</span>`;
@@ -1054,12 +1057,14 @@ const FLAGS = {
   Wales: '🏴󠁧󠁢󠁷󠁬󠁳󠁿', Ireland: '🇮🇪', France: '🇫🇷', Italy: '🇮🇹', 'South Africa': '🇿🇦', Argentina: '🇦🇷', Japan: '🇯🇵', Fiji: '🇫🇯',
   Samoa: '🇼🇸', Tonga: '🇹🇴', 'Papua New Guinea': '🇵🇬', 'Cook Islands': '🇨🇰', India: '🇮🇳', 'Sri Lanka': '🇱🇰', Bangladesh: '🇧🇩',
   Pakistan: '🇵🇰', 'West Indies': '🌴', Canada: '🇨🇦', USA: '🇺🇸', 'United States': '🇺🇸',
+  Netherlands: '🇳🇱', Belgium: '🇧🇪', Germany: '🇩🇪', 'Great Britain': '🇬🇧', Malaysia: '🇲🇾', 'South Korea': '🇰🇷', China: '🇨🇳', Spain: '🇪🇸', Chile: '🇨🇱',
 };
 // flag emoji don't render on Windows, so use flag images (flagcdn.com SVG, sharp at any size) keyed by ISO code
 const ISO = { 'New Zealand': 'nz', 'All Blacks': 'nz', 'Black Ferns': 'nz', Australia: 'au', Wallabies: 'au', England: 'gb-eng', Scotland: 'gb-sct',
   Wales: 'gb-wls', Ireland: 'ie', France: 'fr', Italy: 'it', 'South Africa': 'za', Argentina: 'ar', Japan: 'jp', Fiji: 'fj', Samoa: 'ws', Tonga: 'to',
   'Papua New Guinea': 'pg', 'Cook Islands': 'ck', India: 'in', 'Sri Lanka': 'lk', Bangladesh: 'bd', Pakistan: 'pk', Lebanon: 'lb', Canada: 'ca',
-  USA: 'us', 'United States': 'us', Georgia: 'ge', Portugal: 'pt', Spain: 'es', Chile: 'cl', Uruguay: 'uy', Afghanistan: 'af', Zimbabwe: 'zw', Ireland: 'ie' };
+  USA: 'us', 'United States': 'us', Georgia: 'ge', Portugal: 'pt', Spain: 'es', Chile: 'cl', Uruguay: 'uy', Afghanistan: 'af', Zimbabwe: 'zw',
+  Netherlands: 'nl', Belgium: 'be', Germany: 'de', 'Great Britain': 'gb', Malaysia: 'my', 'South Korea': 'kr', China: 'cn', Austria: 'at', Egypt: 'eg', Ukraine: 'ua', Poland: 'pl', Namibia: 'na' };
 const flagOf = name => {
   const base = String(name || '').replace(/\s+(Women|A|XI|U\d+|Wheelchair)$/i, '').trim();
   const c = ISO[base];
@@ -1089,6 +1094,8 @@ const NICK = {
   'cricket w': { 'New Zealand': 'White Ferns', 'South Africa': 'Proteas', 'West Indies': 'Windies' },
   'football m': { 'New Zealand': 'All Whites', Australia: 'Socceroos', Fiji: 'Bula Boys', 'Papua New Guinea': 'Kapuls', 'Solomon Islands': 'Bonitos' },
   'football w': { 'New Zealand': 'Football Ferns', Australia: 'Matildas', England: 'Lionesses', Japan: 'Nadeshiko', Fiji: 'Kulas' },
+  'hockey m': { 'New Zealand': 'Black Sticks', Australia: 'Kookaburras' },
+  'hockey w': { 'New Zealand': 'Black Sticks Women', Australia: 'Hockeyroos' },
 };
 const plural = t => /A-League/.test(t || '') ? t : String(t || '').replace(/\bWomen\b(?!')/g, "Women's").replace(/\bMen\b(?!')/g, "Men's");
 function displayName(n, e) {
@@ -1103,6 +1110,7 @@ const TEAM_COLOR = {
   Australia: '#c99700', Wallabies: '#c99700', Fiji: '#1b75bb', Samoa: '#0b3d91', Tonga: '#c8102e', 'Papua New Guinea': '#c8102e', 'Cook Islands': '#0a7d3b',
   England: '#c8102e', Wales: '#d30731', Scotland: '#1d3a7a', Ireland: '#169b62', France: '#1d3c87', Italy: '#1f5fbf', 'South Africa': '#007a4d', Argentina: '#4a9fd8',
   Japan: '#c8102e', USA: '#1d3c87', Lebanon: '#c8102e', India: '#1f6fd6', Pakistan: '#01411c', 'Sri Lanka': '#1f3a93', Bangladesh: '#006a4e', 'West Indies': '#7b1e3a', Afghanistan: '#1f5fbf', Zimbabwe: '#c8102e',
+  Netherlands: '#e8590c', Belgium: '#c8102e', Germany: '#5a6f7d', 'Great Britain': '#1d3c87', Malaysia: '#1d3c87', 'South Korea': '#c8102e', China: '#c8102e', Spain: '#c8102e', Chile: '#c8102e',
   Blues: '#1f4fa3', Chiefs: '#b8001f', Hurricanes: '#c99700', Crusaders: '#c8102e', Highlanders: '#1d3a7a', Moana: '#0e7c86', Brumbies: '#0b3d91', Reds: '#c8102e', Waratahs: '#4a9fd8', 'Western Force': '#1d3a7a', Drua: '#1b75bb',
   Warriors: '#5a6f7d', Broncos: '#7a1f3d', Dolphins: '#c8102e', Knights: '#1d3c87', Storm: '#5b2a86', Roosters: '#1d3c87', Rabbitohs: '#0a7d3b', Sharks: '#1c9bd8', 'Sea Eagles': '#6d1f3d', Raiders: '#58a618', Eels: '#1d5fbf', Titans: '#1c9bd8', Bulldogs: '#1d5fbf', Cowboys: '#1d3a7a', Dragons: '#c8102e', 'Wests Tigers': '#e87722',
   'Wellington Phoenix': '#b08a00', 'Auckland FC': '#1f5bd8', 'Melbourne Victory': '#1c2a6b', 'Melbourne City': '#4a9fd8', 'Sydney FC': '#4a9fd8', 'Western Sydney': '#c8102e', 'Brisbane Roar': '#e87722', 'Perth Glory': '#5b2a86', 'Adelaide United': '#c8102e', 'Central Coast': '#c99700', Macarthur: '#b08a00', 'Newcastle Jets': '#1d3c87',
@@ -1125,11 +1133,11 @@ const placeOf = e => [e.venue, cityOf(e)].filter(Boolean).join(', ');
 const soloTitle = e => `<div class="teams solo"><span class="nm">${esc(e.home)}</span>${placeOf(e) ? `<span class="where">${esc(placeOf(e))}</span>` : ''}</div>`;
 // Tournaments that tint the week strip on the days they're on
 const BIG_EVENT = /World Cup|Nations Championship|Olympic|Commonwealth Games|Lions Tour|Champions Trophy/i;
-const SPORT_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', mma: '🥋', boxing: '🥊', motor: '🏎️', tennis: '🎾' };
+const SPORT_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', mma: '🥋', boxing: '🥊', motor: '🏎️', tennis: '🎾', hockey: '🏑' };
 // same-size icons on every device (Twemoji, CC BY 4.0), rather than each system's own emoji
 const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/${s}.svg?v=2" alt="" aria-hidden="true">` : '';
-const START_LABEL = { rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight', boxing: 'Main card', motor: 'Lights out', tennis: 'Final' };
-const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC', boxing: 'Boxing' };
+const START_LABEL = { rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight', boxing: 'Main card', motor: 'Lights out', tennis: 'Final', hockey: 'Push back' };
+const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC', boxing: 'Boxing', hockey: 'Hockey' };
 
 const ALL_KEYS = TEAMS.flatMap(g => g.items.map(i => i[0]));
 
@@ -1157,10 +1165,10 @@ let genderSel = store.get('gender', 'all');
 let nzOnly = store.get('nzOnly', false);
 let selDay = '', drawDayPick = () => {};
 let hubTab = 'games', resPage = 0, laterPage = 0, rankSel = '';
-const NZ_KEYS = new Set(['allblacks', 'blackferns', 'npc', 'fpc', 'blues', 'chiefs', 'hurricanes', 'crusaders', 'highlanders', 'moana', 'blackcaps', 'whiteferns', 'nzdomestic', 'kiwis', 'kiwiferns', 'warriors', 'phoenix', 'aucklandfc', 'nzboxing']);
-const NZ_NAMES = /\bNew Zealand\b|^(Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Moana Pasifika)$|Warriors|Wellington Phoenix|Auckland FC|All Blacks|Black Ferns|Black ?Caps|White Ferns|Kiwi/;
+const NZ_KEYS = new Set(['allblacks', 'blackferns', 'npc', 'fpc', 'blues', 'chiefs', 'hurricanes', 'crusaders', 'highlanders', 'moana', 'blackcaps', 'whiteferns', 'nzdomestic', 'kiwis', 'kiwiferns', 'warriors', 'phoenix', 'aucklandfc', 'nzboxing', 'blacksticks', 'blacksticksw']);
+const NZ_NAMES = /\bNew Zealand\b|^(Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Moana Pasifika)$|Warriors|Wellington Phoenix|Auckland FC|All Blacks|Black Ferns|Black ?Caps|White Ferns|Black Sticks|Kiwi/;
 const isNZ = x => NZ_KEYS.has(x.team) || !!x.nzEvent || [x.home, x.away].some(n => NZ_NAMES.test(n || ''));
-const WOMEN_TEAMS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc']);
+const WOMEN_TEAMS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc', 'blacksticksw']);
 // 'w' women's, 'm' men's, '' mixed or unknown (shown either way)
 function genderOf(x) {
   if (WOMEN_TEAMS.has(x.team)) return 'w';
@@ -1177,7 +1185,7 @@ const DOMESTIC = /^(NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|Big Bash|Women'
 const COMP_LABEL = {};
 // one name per competition, so a whole tournament can be shown on its own
 // the card's header: Australia's tours read home side first, like the names below ("South Africa v Australia · 1st T20I")
-const cardComp = e => e.team === 'aucricket' || e.team === 'intlcricket' ? compOf(e) + (e.stage ? ' · ' + e.stage : '') : plural(e.comp);
+const cardComp = e => e.team === 'aucricket' || e.team === 'intlcricket' ? compOf(e) + (e.stage ? ' · ' + e.stage : '') : e.sport === 'hockey' ? plural(e.comp) + (e.stage ? ' · ' + e.stage : '') : plural(e.comp);
 function compOf(e) {
   const c = e.comp || '';
   if (e.sport === 'mma') return 'UFC';
@@ -1205,6 +1213,13 @@ function compOf(e) {
     return own.test(e.away || '') ? `${o} v ${nz}` : `${nz} v ${o}`;
   }
   if (e.team === 'nzdomestic') return 'NZ domestic cricket';
+  if (e.sport === 'hockey') {
+    // a test series is named for the opponent, like a cricket tour: "Black Sticks v India"
+    const w = genderOf(e) === 'w', nz = w ? 'Black Sticks Women' : 'Black Sticks';
+    const opp = [e.home, e.away].find(t => t && !/^New Zealand/.test(t));
+    if (/^Test series/.test(c) && opp) { const o = opp.replace(/\s+Women('s)?$/, ''); return /^New Zealand/.test(e.away || '') ? `${o} v ${nz}` : `${nz} v ${o}`; }
+    return (w ? "Women's " : '') + c.split(/[,·]/)[0].trim();
+  }
   return c.split(/[,·]/)[0].trim();
 }
 
@@ -1273,7 +1288,7 @@ const running = (e, now) => onNow(e, now) || between(e, now);
 const nextAt = (e, now) => { const b = between(e, now); return new Date(+new Date(e.startUTC) + (b ? (+b.match(/\d+/)[0] - 1) * 864e5 : 0)); };
 // roughly when a finished game ended, so one that ran past midnight counts as that day's result;
 // a Test's last day isn't known, so take its scheduled last day, but never later than now
-const LEN_H = { rugby: 2, league: 2, football: 2, mma: 5, boxing: 4, motor: 2, tennis: 3 };
+const LEN_H = { rugby: 2, league: 2, football: 2, mma: 5, boxing: 4, motor: 2, tennis: 3, hockey: 2 };
 function endOf(e, now) {
   const s = new Date(e.startUTC).getTime();
   if (e.sport !== 'cricket') return new Date(s + (LEN_H[e.sport] || 2) * 36e5);
@@ -1923,7 +1938,7 @@ const formHtml = (name, sport, before, format = '') => {
   return l.length ? `<span class="form" aria-label="Last ${l.length}: ${l.map(f => RES_WORD[f.r]).join(', ')}">${l.map(f => `<span class="fd ${f.r}" title="${esc(`${RES_WORD[f.r]} v ${f.o}${f.s ? `, ${f.s}` : ''} (${fmt(new Date(f.d), NZ, { day: 'numeric', month: 'short' })})`)}">${f.r}</span>`).join('')}</span>` : '';
 };
 // a side's own page: crest, form, next games and recent results, each opening its game
-const SPORT_WORD = { rugby: 'rugby union', league: 'rugby league', football: 'football club', cricket: 'cricket team', mma: 'fighter', boxing: 'boxer' };
+const SPORT_WORD = { rugby: 'rugby union', league: 'rugby league', football: 'football club', cricket: 'cricket team', mma: 'fighter', boxing: 'boxer', hockey: 'field hockey team' };
 let teamBack = null;
 function teamPage(name, sport) {
   const now = Date.now();
@@ -2243,7 +2258,7 @@ function render() {
     const hasTable = new Set((FEED.tables || []).map(t => compOf({ comp: t.comp, sport: t.sport, team: t.team })));
     const comps = [...counts].filter(([c, n]) => n >= 2 || nextOf.get(c) < Infinity || hasTable.has(c) || c === compSel).map(([c]) => c)
       .sort((a, b) => rank(a) - rank(b) || (nextOf.get(a) - nextOf.get(b)) || a.localeCompare(b));
-    const groups = [[['rugby'], 'Rugby'], [['league'], 'Rugby league'], [['cricket'], 'Cricket'], [['football'], 'Football'], [['motor'], 'Motorsport'], [['tennis'], 'Tennis'], [['mma', 'boxing'], 'Fighting']].sort((a, b) => a[1].localeCompare(b[1])); // sports A to Z: Cricket, Fighting, Football…
+    const groups = [[['rugby'], 'Rugby'], [['league'], 'Rugby league'], [['cricket'], 'Cricket'], [['football'], 'Football'], [['hockey'], 'Hockey'], [['motor'], 'Motorsport'], [['tennis'], 'Tennis'], [['mma', 'boxing'], 'Fighting']].sort((a, b) => a[1].localeCompare(b[1])); // sports A to Z: Cricket, Fighting, Football…
     const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}"><span class="lb" data-l="${esc(COMP_LABEL[c] || c)}"><span>${esc(COMP_LABEL[c] || c)}</span></span>${liveComps.has(c) ? '<span class="onnow">Live</span>' : onNowComps.has(c) ? '<span class="current">Current</span>' : !c || nextOf.get(c) < Infinity ? '' : '<span class="ended">Season over</span>'}</button>`;
     $('compMenu').innerHTML = opt('') .replace('></button>', '>All competitions</button>') + groups.map(([ks, l]) => {
       const cs = comps.filter(c => ks.includes(sportOfComp.get(c))).sort((a, b) => ks.indexOf(sportOfComp.get(a)) - ks.indexOf(sportOfComp.get(b)));
@@ -2264,7 +2279,7 @@ function render() {
   }
   // one World rankings button that's always there (so nothing shifts); it opens on the picked sport
   $('rankBtn').hidden = !(FEED.rankings || []).length;
-  $('sportFilter').innerHTML = [['all','All'],['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['motor','F1'],['tennis','Tennis'],['mma','MMA'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
+  $('sportFilter').innerHTML = [['all','All'],['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['hockey','Hockey'],['motor','F1'],['tennis','Tennis'],['mma','MMA'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
   document.body.classList.remove('v-big', 'v-mixed', 'v-compact');
   document.body.classList.add('v-' + (PHONE.matches ? 'mixed' : view)); // phones always use Mixed
   $('viewSel').innerHTML = [['big', 'Big'], ['mixed', 'Mixed'], ['compact', 'Compact']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${view === k}">${l}</button>`).join('');
@@ -2304,7 +2319,7 @@ function syncPulse() {
   if (!document.getAnimations) return;
   document.querySelectorAll('.nowchip.is-live .livetag, .ev.is-live').forEach(el => el.getAnimations().forEach(a => { if (a.startTime !== 0) a.startTime = 0; }));
 }
-const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1'], tennis: ['tennis'] };
+const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], hockey: ['blacksticks','blacksticksw'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1'], tennis: ['tennis'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
 
 function tick() { $('clock').textContent = `${tzLabel()} ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; syncInfo(); }
