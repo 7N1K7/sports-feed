@@ -1,1 +1,6 @@
-version 255 events 495 news 155 bytes 648285
+token secret present: true | account id secret present: true | account id looks right (32 hex): true
+token valid: true | status: active 
+account reachable: true 
+workers access: true | existing workers: 0
+database (D1) access: true | existing databases: 0
+workers.dev address set: true (nick-the-hayward.workers.dev)
