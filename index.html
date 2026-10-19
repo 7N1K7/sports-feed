@@ -334,6 +334,8 @@ dialog#sheet { width: min(720px, 100%) }
 .dres { padding: 14px 16px; gap: 8px; justify-items: start }
 .facts { gap: 10px 18px; padding-block: 4px }
 .dh { margin-bottom: 8px }
+.showh { display: flex; align-items: center; gap: 6px; color: var(--sport) }
+.showh .sicon { width: 18px; height: 18px }
 .watchlist { gap: 6px }
 .news { gap: 10px }
 .dn-item { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; align-items: center; padding: 10px 12px }
@@ -466,7 +468,7 @@ a.svc:hover { text-decoration-color: currentColor }
 .cicon { width: 16px; height: 16px; margin-right: 5px; vertical-align: -3px }
 .hubimg { width: 28px; height: 28px; display: block }
 .sheet-head .comp { display: flex; align-items: center; gap: 6px; flex-wrap: wrap }
-.sheet-head .sicon { width: 22px; height: 22px; order: -1 }
+.sheet-head .sicon { width: 22px; height: 22px }
 .sportchip { gap: 0 }
 
 .fc { margin-bottom: 10px }
@@ -544,6 +546,12 @@ dialog#sheet:has(.stable.rank) { height: min(88vh, 780px) }
 .sqh { font-family: var(--f-display); font-size: 18px; font-weight: 600; margin-bottom: 4px }
 .squad ul { list-style: none; margin: 0; padding: 0; font-size: 14px; line-height: 1.55 }
 .squad .role { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted) }
+.squad li.hasri { display: grid; grid-template-columns: 31px minmax(0, 1fr); align-items: start }
+.squad .ri { display: flex; align-items: center; gap: 0; height: 1.55em }
+.squad .ri svg { width: 13px; height: 13px; flex: none }
+a.tlink { color: inherit; text-decoration: none }
+a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px }
+.dteams.scored .dside > a.tlink { display: contents }
 /* competition view, Shows tab: link cards for panel shows, YouTube channels and podcasts */
 .shows { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; margin-bottom: 12px }
 .show { display: grid; grid-template-rows: auto auto 1fr auto; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 11px 14px 12px; color: var(--ink); text-decoration: none; min-width: 0 }
@@ -842,6 +850,10 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
     <div class="filters" id="newsFilters"></div>
     <div id="news" class="news"></div>
   </section>
+  <section id="showSec" hidden>
+    <h2>Shows &amp; podcasts</h2>
+    <div id="mainShows"></div>
+  </section>
 </main>
 <button type="button" id="toTop" class="totop" aria-label="Back to top" hidden>↑</button>
 <footer class="wrap" id="foot"></footer>
@@ -1128,11 +1140,21 @@ function endOf(e, now) {
 function countdown(e, now) {
   const ms = new Date(e.startUTC) - now;
   if (ms <= 0) return null;
-  const h = Math.floor(ms / 36e5), d = Math.floor(h / 24);
-  if (d >= 2) return `in ${d} days`;
-  if (h >= 1) return `in ${h}h ${Math.floor(ms / 6e4) % 60}m`;
-  return `in ${Math.max(1, Math.floor(ms / 6e4))}m`;
+  // sharpens as the start nears: days, then days and hours, then hours and minutes, then a ticking clock
+  const h = Math.floor(ms / 36e5), d = Math.floor(h / 24), m = Math.floor(ms / 6e4) % 60, sec = Math.floor(ms / 1e3) % 60;
+  if (d >= 7) return `in ${d} days`;
+  if (d >= 2) return `in ${d}d ${h % 24}h`;
+  if (h >= 1) return `in ${h}h ${m}m`;
+  return `in ${m}:${String(sec).padStart(2, '0')}`;
 }
+// the ticking clock in the last hour moves every second, without redrawing the page
+setInterval(() => {
+  const now = new Date();
+  for (const el of document.querySelectorAll('[data-cd]')) {
+    const ms = new Date(el.dataset.cd) - now;
+    if (ms > 0 && ms < 36e5) el.textContent = countdown({ startUTC: el.dataset.cd }, now);
+  }
+}, 1000);
 function canRehide(id, start, now) { return spoilers && revealed.has(id) && now - new Date(start) < spoilDays * 864e5; }
 const rehideBtn = id => `<button class="rehide" type="button" data-rehide="${esc(id)}">Hide again</button>`;
 // "Show all" beside a results heading uncovers every hidden result under it in one go; once none are hidden it
@@ -1187,7 +1209,7 @@ function evCard(e, now) {
   const cd = countdown(e, now);
   const ms = d - now;
   const urg = ms < 864e5 ? 'soon' : ms < 3 * 864e5 ? 'near' : 'later';
-  const tag = live ? `<span class="tag live">${live}</span>` : paused ? `<span class="tag paused">${paused}</span>` : cd ? `<span class="tag num ${urg}">${cd}</span>` : '';
+  const tag = live ? `<span class="tag live">${live}</span>` : paused ? `<span class="tag paused">${paused}</span>` : cd ? `<span class="tag num ${urg}" data-cd="${esc(e.startUTC)}">${cd}</span>` : '';
   // the state of play Wikipedia's editors give while a match is on ("Lunch, day 1"); the score only when spoilers are shown
   // a state of play from an earlier day ("Tea, day 1" once day 2 is on) is stale, so drop it
   const today = +((live || paused || '').match(/Day (\d)/) || [])[1] || 0, pd = progDay(e);
@@ -1448,12 +1470,12 @@ function hubShows(sport) {
   const fit = all.filter(s => !s.c || s.c.test(compSel));
   return (fit.length ? fit : all).slice(0, 8);
 }
-function showsHtml(list) {
+function showsHtml(list, note = true) {
   const card = s => {
     const href = s.url || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(s.q || s.n);
     return `<a class="show" href="${esc(href)}" target="_blank" rel="noopener"><span class="stype st-${s.t}">${SHOW_TYPE[s.t]}</span><span class="sname">${esc(s.n)}</span><span class="sdesc">${esc(s.d)}</span><span class="sgo">${s.url ? 'Listen' : 'Search YouTube'} ↗</span></a>`;
   };
-  return `<p class="muted small showsnote">Panel shows, YouTube breakdowns and podcasts for the wider chat around the game.</p><div class="shows">${list.map(card).join('')}</div>`;
+  return `${note ? '<p class="muted small showsnote">Panel shows, YouTube breakdowns and podcasts for the wider chat around the game.</p>' : ''}<div class="shows">${list.map(card).join('')}</div>`;
 }
 function renderHub(now) {
   const on = !!compSel;
@@ -1463,7 +1485,7 @@ function renderHub(now) {
   const tabs = on ? [['games', FIGHT.test((FEED.events || []).find(e => compOf(e) === compSel)?.sport || '') ? 'Fights' : (FEED.events || []).find(e => compOf(e) === compSel)?.sport === 'motor' ? 'Races' : 'Games'], ...(hubTables().length ? [['table', 'Table']] : []), ...(ranks.length ? [['rank', 'Rankings']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
   if (!tabs.some(([k]) => k === hubTab)) hubTab = 'games';
   const other = on && hubTab !== 'games';
-  for (const id of ['liveSec', 'weekSec', 'todaySec', 'tomSec', 'upSec', 'laterSec', 'resSec', 'newsSec']) $(id).classList.toggle('hubhide', other || (on && id === 'newsSec'));
+  for (const id of ['liveSec', 'weekSec', 'todaySec', 'tomSec', 'upSec', 'laterSec', 'resSec', 'newsSec', 'showSec']) $(id).classList.toggle('hubhide', other || (on && (id === 'newsSec' || id === 'showSec')));
   if (!on) { $('hubBody').innerHTML = ''; return; }
   const sample = (FEED.events || []).find(e => compOf(e) === compSel);
   $('hubName').textContent = plural(compSel);
@@ -1486,11 +1508,22 @@ function renderHub(now) {
 const slug = n => n.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const playerLink = p => p.ci ? `<a class="plink" href="https://www.espncricinfo.com/cricketers/${slug(p.n)}-${encodeURIComponent(p.ci)}" target="_blank" rel="noopener" title="${esc(p.n)} on Cricinfo">${esc(p.n)}</a>`
   : p.wp ? `<a class="plink" href="https://en.wikipedia.org/wiki/${encodeURIComponent(p.wp.replace(/ /g, '_'))}" target="_blank" rel="noopener" title="${esc(p.n)} on Wikipedia">${esc(p.n)}</a>` : esc(p.n);
+// a player's job, from their Wikipedia infobox (a keeper marked "wk" in the squad list counts as one whatever it says)
+const BAT = '<svg viewBox="0 0 16 16" aria-hidden="true"><g transform="rotate(40 8 8)"><rect x="5.6" y="5.2" width="4.8" height="10.3" rx="1.4" fill="#d9b46c"/><rect x="7.1" y=".4" width="1.8" height="5.4" rx=".7" fill="#6e5230"/></g></svg>';
+const BALL = '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#c63a2f"/><path d="M3.6 3.9Q8 8 12.4 12.1M2.6 5.6Q7 9.7 10.4 13.4" stroke="#f3e6d6" stroke-width=".8" fill="none" stroke-dasharray="1 .9" transform="translate(.6 -.8)"/></svg>';
+const GLOVE = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.4 7V3.4a1 1 0 012 0V6.5V2.4a1 1 0 012 0v4.1V3a1 1 0 012 0v4.3l.9-1.6a1 1 0 011.7 1l-2 4.2A4.6 4.6 0 017.1 14H6.8a2.6 2.6 0 01-2.4-2.6z" fill="#e8e3d8" stroke="#8a8172" stroke-width=".6"/></svg>';
+const ROLE = { bat: ['Batter', BAT], bowl: ['Bowler', BALL], ar: ['All-rounder', BAT + BALL], wk: ['Wicket-keeper', GLOVE] };
+const roleIcon = p => { const k = /\bwk\b/.test(p.r || '') ? 'wk' : p.role, r = ROLE[k]; return `<span class="ri"${r ? ` title="${r[0]}"` : ''}>${r ? r[1] : ''}</span>`; };
+// a national side's page on Cricinfo (men's teams; the number is Cricinfo's own id for the side)
+const CI_TEAM = { 'england': 'england-1', 'australia': 'australia-2', 'south africa': 'south-africa-3', 'west indies': 'west-indies-4', 'new zealand': 'new-zealand-5', 'india': 'india-6', 'pakistan': 'pakistan-7', 'sri lanka': 'sri-lanka-8', 'zimbabwe': 'zimbabwe-9', 'bangladesh': 'bangladesh-25', 'ireland': 'ireland-29', 'scotland': 'scotland-30', 'afghanistan': 'afghanistan-40', 'netherlands': 'netherlands-15' };
+const ciTeam = (n, e) => { const k = e.sport === 'cricket' && !/women/i.test(`${n} ${e.comp || ''}`) && CI_TEAM[(n || '').toLowerCase()]; return k ? `https://www.espncricinfo.com/team/${k}` : ''; };
+const ciWrap = (n, e, html) => ciTeam(n, e) ? `<a class="tlink" href="${ciTeam(n, e)}" target="_blank" rel="noopener" title="${esc(displayName(n, e))} on Cricinfo">${html}</a>` : html;
 // cricket squads from the tour's Wikipedia page, home side first
 function squadsHtml(e) {
   const base = t => (t || '').replace(/\s+Women('s)?$/, '');
   const sides = [e.home, e.away].map(t => e.squads.find(s => base(s.team) === base(t))).filter(Boolean);
-  return `<div class="squads">${sides.map(s => `<div class="squad"><div class="sqh">${nmSpan(s.team, e)}</div><ul>${s.players.map(p => `<li>${playerLink(p)}${p.r ? ` <span class="role">${esc(p.r)}</span>` : ''}</li>`).join('')}</ul></div>`).join('')}</div>`;
+  const icons = sides.some(s => s.players.some(p => p.role || /\bwk\b/.test(p.r || '')));
+  return `<div class="squads">${sides.map(s => `<div class="squad"><div class="sqh">${ciWrap(s.team, e, nmSpan(s.team, e))}</div><ul>${s.players.map(p => `<li${icons ? ' class="hasri"' : ''}>${icons ? roleIcon(p) : ''}<span>${playerLink(p)}${p.r ? ` <span class="role">${esc(p.r)}</span>` : ''}</span></li>`).join('')}</ul></div>`).join('')}</div>`;
 }
 
 // UFC card grouped by section; winners hidden while spoilers are on
@@ -1548,9 +1581,9 @@ function detail(e) {
     : `<div class="dres">${split && e.summary ? '' : `<div class="score num ${/[a-z]{3}/i.test(e.score || '') ? 'long' : ''}">${esc(e.score || 'Result not in yet')}</div>`}${e.summary ? `<p${split ? ' class="dwin"' : ''}>${esc(e.summary)}</p>` : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
   const live = e.status === 'live' || (e.status !== 'final' && onNow(e, now)) ? `<div class="dres"><span><span class="tag live">On now</span></span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
-      <div class="comp">${compBadge(e)}${intlTag(e)}<span>${esc(cardComp(e))}</span>${sIcon(e.sport)}</div>
-      ${solo(e) ? `<h2 class="dteams solo">${esc(e.home)}${placeOf(e) ? `<small>${esc(placeOf(e))}</small>` : ''}</h2>` : split ? `<h2 class="dteams scored"><span class="dside">${teamName(e.home, e.homeLogo, e)}${scoreTag(split[0], wl('home'))}</span> <span class="v">v</span> <span class="dside">${teamName(e.away, e.awayLogo, e)}${scoreTag(split[1], wl('away'))}</span></h2>` : `<h2 class="dteams">${teamName(e.home, e.homeLogo, e)} <span class="v">v</span> ${teamName(e.away, e.awayLogo, e)}</h2>`}
-      ${!isPast && e.status !== 'live' && countdown(e, now) ? `<span class="tag ${d - now < 864e5 ? 'soon' : d - now < 3 * 864e5 ? 'near' : 'later'}">${countdown(e, now)}</span>` : ''}
+      <div class="comp"><span>${esc(cardComp(e))}</span>${sIcon(e.sport)}${compBadge(e)}${intlTag(e)}</div>
+      ${solo(e) ? `<h2 class="dteams solo">${esc(e.home)}${placeOf(e) ? `<small>${esc(placeOf(e))}</small>` : ''}</h2>` : split ? `<h2 class="dteams scored"><span class="dside">${ciWrap(e.home, e, teamName(e.home, e.homeLogo, e))}${scoreTag(split[0], wl('home'))}</span> <span class="v">v</span> <span class="dside">${ciWrap(e.away, e, teamName(e.away, e.awayLogo, e))}${scoreTag(split[1], wl('away'))}</span></h2>` : `<h2 class="dteams">${ciWrap(e.home, e, teamName(e.home, e.homeLogo, e))} <span class="v">v</span> ${ciWrap(e.away, e, teamName(e.away, e.awayLogo, e))}</h2>`}
+      ${!isPast && e.status !== 'live' && countdown(e, now) ? `<span class="tag num ${d - now < 864e5 ? 'soon' : d - now < 3 * 864e5 ? 'near' : 'later'}" data-cd="${esc(e.startUTC)}">${countdown(e, now)}</span>` : ''}
     </div>
     ${res}${live}
     <dl class="facts">${rows.map(([k, v, html]) => `<dt>${k}</dt><dd>${html ? v : esc(v)}</dd>`).join('')}</dl>
@@ -1594,7 +1627,7 @@ function teamPage(name, sport) {
     const r = res && !hid && (FEED.form?.[`${sport}|${name}`] || []).find(f => f.id === e.id);
     return `<button type="button" class="trow" data-goto="${esc(e.id)}"><span class="td num">${esc(fmt(d, NZ, { weekday: 'short', day: 'numeric', month: 'short' }))}${res ? '' : ` · ${esc(time(d, NZ))}`}</span>`
       + `<span class="to">${e.home === name ? 'v' : '@'} ${nmSpan(opp, e)}<small class="muted">${esc(cardComp(e))}</small></span>`
-      + `<span class="tr">${res ? (hid ? '<span class="muted small">Result hidden</span>' : `${r ? `<span class="fd ${r.r}">${r.r}</span> ` : ''}<span class="num">${esc(e.score || '')}</span>`) : (countdown(e, now) ? `<span class="muted small">${countdown(e, now)}</span>` : '')}</span></button>`;
+      + `<span class="tr">${res ? (hid ? '<span class="muted small">Result hidden</span>' : `${r ? `<span class="fd ${r.r}">${r.r}</span> ` : ''}<span class="num">${esc(e.score || '')}</span>`) : (countdown(e, now) ? `<span class="muted small num" data-cd="${esc(e.startUTC)}">${countdown(e, now)}</span>` : '')}</span></button>`;
   };
   const f = formHtml(name, sport);
   return `<div class="sheet-head sport-${sport}">
@@ -1823,6 +1856,11 @@ function render() {
     ? [...rgroups].map(([g, list]) => `<div class="daygroup"><div class="dayhead">${esc(g)}${revealAll(list, now)}</div>${list.map(e => resCard(e, now)).join('')}</div>`).join('')
     : `<div class="empty-note">No recent results for your teams.</div>`)
     + (pages > 1 ? `<div class="pager"><button type="button" class="btn" data-respage="${resPage - 1}"${resPage ? '' : ' disabled'}>‹ Newer</button><span class="num">Page ${resPage + 1} of ${pages}</span><button type="button" class="btn" data-respage="${resPage + 1}"${resPage < pages - 1 ? '' : ' disabled'}>Older ›</button></div>` : '');
+
+  // shows for the sports picked in the filter, at the foot of the page (a competition page has its own Shows tab)
+  const showSports = [...sportSel].filter(sp => SHOWS[sp]?.length);
+  $('showSec').hidden = !showSports.length || showSports.length > 3;
+  $('mainShows').innerHTML = $('showSec').hidden ? '' : showSports.map((sp, i) => `${showSports.length > 1 ? `<h3 class="dh showh sport-${sp}">${sIcon(sp)}${esc(SPORT_LABEL[sp] || sp[0].toUpperCase() + sp.slice(1))}</h3>` : ''}${showsHtml(SHOWS[sp].slice(0, 6), !i)}`).join('');
 
   // news
   const kinds = [['all', 'All'], ['injury', 'Injuries'], ['squad', 'Squads'], ['result', 'Results'], ['news', 'Other']];

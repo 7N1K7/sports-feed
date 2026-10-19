@@ -411,8 +411,8 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     diag.tennis = notes.join('; ') || 'no pages yet';
   } catch (e) { diag.tennis = 'error: ' + e.message; }
   out.tables = tables;
-  // UFC: read each nearby event's own article for the full fight card
-  const ufcSoon = out.filter(e => e.team === 'ufc' && /\/wiki\/UFC/.test(e.source) && Math.abs(new Date(e.startUTC) - Date.now()) < 30 * DAY);
+  // UFC: read each event's own article (two months out) for the fight card, and the main event's full names for photos
+  const ufcSoon = out.filter(e => e.team === 'ufc' && /\/wiki\/UFC/.test(e.source) && Math.abs(new Date(e.startUTC) - Date.now()) < 60 * DAY);
   try {
     const names = ufcSoon.map(e => decodeURIComponent(e.source.split('/wiki/')[1]).replace(/_/g, ' '));
     if (names.length) {
