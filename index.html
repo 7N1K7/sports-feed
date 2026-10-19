@@ -94,7 +94,10 @@ header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; b
 header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block: 10px; flex-wrap: wrap }
 .brand { font-family: var(--f-display); font-weight: 700; font-size: 31px; letter-spacing: .02em; text-transform: uppercase; line-height: 1 }
 .brand span { color: var(--accent) }
-.brand .by { font-family: var(--f-body); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: none; color: var(--muted); margin-left: 8px; vertical-align: .2em; white-space: nowrap }
+.brand { display: flex; align-items: center }
+.brand .bt { display: grid; gap: 3px }
+.brand .bn { font-weight: inherit }
+.brand .by { font-family: var(--f-body); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: none; color: var(--muted); line-height: 1; white-space: nowrap }
 .hbtns { display: contents }
 .brand .blogo { width: 1.7em; height: 1.7em; vertical-align: -0.48em; margin-right: .3em; border-radius: 10px }
 .clock { color: var(--muted); font-size: 13px }
@@ -686,6 +689,17 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 .ev.res .rtop { height: 54px; display: grid; align-content: center; justify-items: center; gap: 2px; min-width: 0 }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev.res .rtop { height: 46px }
 .ev.res .rtop .acts { flex-wrap: nowrap; white-space: nowrap }
+/* a card's competition title sits dead centre over the "v"; its sport icon and badges trail to the right of it */
+.ev .comp { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: 8px }
+.ev .comp .ctitle { grid-column: 2; text-align: center; min-width: 0 }
+.ev .comp .ctags { grid-column: 3; justify-self: start; display: flex; align-items: center; gap: 5px }
+.ev .comp .cpad { grid-column: 1 }
+@media (max-width: 560px) {
+  .ev .comp { grid-template-columns: auto auto; justify-content: center }
+  .ev .comp .cpad { display: none }
+  .ev .comp .ctitle { grid-column: 1 } .ev .comp .ctags { grid-column: 2 }
+  .ev .comp .series { display: block }
+}
 /* the "v" sits in the middle of its column whether or not a score is beside it */
 .matchup > .v { text-align: center }
 .ev .when .wbr { display: none }
@@ -723,7 +737,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 
 <header class="top">
   <div class="wrap">
-    <div class="brand"><img class="blogo" src="logo.svg?v=b4" alt="" width="52" height="52">Kickoff <span>Kiwi</span><small class="by">by N1K</small></div>
+    <div class="brand"><img class="blogo" src="logo.svg?v=b4" alt="" width="52" height="52"><div class="bt"><b class="bn">Kickoff <span>Kiwi</span></b><small class="by">by N1K</small></div></div>
     <div class="clockcol"><div class="clockrow"><div class="clock num" id="clock"></div><div class="ver num" id="ver"></div></div><div class="fresh" id="fresh"></div></div>
     <div class="spacer"></div>
     <div class="search" role="search">
@@ -1175,7 +1189,7 @@ function evCard(e, now) {
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${sIcon(e.sport)}${compBadge(e)}${intlTag(e)}<span>${esc(cardComp(e))}</span>${seriesLine(e, now)}</div>
+      <div class="comp"><i class="cpad"></i><span class="ctitle"><span>${esc(cardComp(e))}</span>${seriesLine(e, now)}</span><span class="ctags">${compBadge(e)}${intlTag(e)}${sIcon(e.sport)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
     </div>
     <div class="when">
@@ -1267,7 +1281,7 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp">${sIcon(e.sport)}${compBadge(e)}${intlTag(e)}<span>${esc(cardComp(e))}</span></div>
+      <div class="comp"><i class="cpad"></i><span class="ctitle"><span>${esc(cardComp(e))}</span></span><span class="ctags">${compBadge(e)}${intlTag(e)}${sIcon(e.sport)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup${split ? ' scored' : ''}"><span class="side home ${fres('home')}">${teamName(e.home, e.homeLogo, e)}</span>${split ? `<span class="v vsc">${scoreTag(split[0], res('home'))}<span class="vv">v</span>${scoreTag(split[1], res('away'))}</span>` : fw ? `<span class="v vhow"><span>v</span>${howTxt ? `<small>${esc(howTxt)}</small>` : ''}</span>` : '<span class="v">v</span>'}<span class="side away ${fres('away')}">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${e.summary ? (hidden ? '<div class="summary" aria-hidden="true">&nbsp;</div>' : `<div class="summary" title="${esc(e.summary)}">${esc(e.summary)}</div>`) : ''}
     </div>
