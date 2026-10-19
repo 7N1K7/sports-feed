@@ -1361,7 +1361,7 @@ function evCard(e, now) {
       <div class="nzl">${START_LABEL[e.sport] || 'Start'} ${esc(tzLabel())}</div>
       <div class="nz num"${e.usual ? ` title="${USUAL_NOTE}"` : ''}>${e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div><i class="wbr" aria-hidden="true"></i>
-      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${(live || paused) && e.wxNews && !wet ? `<div class="wx wxnews">🌧 <a href="${esc(e.wxNews.url)}" target="_blank" rel="noopener">${esc(e.wxNews.title)}</a> · ${e.wxNews.creditUrl ? `<a href="${esc(e.wxNews.creditUrl)}" target="_blank" rel="noopener">${esc(e.wxNews.credit)}</a>` : esc(e.wxNews.credit || '')}</div>` : ''}${live && wxNote(e) && !(play && wet) && !e.wxNews ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
+      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${(live || paused) && e.wxNews && !wet ? `<div class="wx wxnews">🌧 ${rainWord(e.wxNews.title)} · <a href="${esc(e.wxNews.url)}" target="_blank" rel="noopener" title="${esc(e.wxNews.title)}">${esc(e.wxNews.source || (/bbc/i.test(e.wxNews.credit || '') ? 'BBC Sport' : 'NZ Herald'))} ↗</a></div>` : ''}${live && wxNote(e) && !(play && wet) && !e.wxNews ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
     </div>
   </article>`;
 }
@@ -1380,6 +1380,10 @@ const FIGHT = /^(mma|boxing)$/;
 const cricinfo = e => e.cricinfo || (/cricinfo\.com/.test(e.link || '') ? e.link : '');
 // a venue or city opens its Wikipedia article (Wikipedia's "go" search lands on the page when the name matches)
 const wikiLink = n => `<a class="svc" href="https://en.wikipedia.org/wiki/Special:Search?go=Go&search=${encodeURIComponent(n)}" target="_blank" rel="noopener">${esc(n)}</a>`;
+// a rain headline in a few words for the card ("Start delayed on second day of ... Test" -> "Start delayed"); the
+// headline itself is on the link to the story
+const rainWord = t => /start (is |was )?delayed|delayed start|delay(s|ed)? (the )?start/i.test(t) ? 'Start delayed' : /washed out|wash-?out/i.test(t) ? 'Washed out'
+  : /\bno play\b/i.test(t) ? 'No play' : /abandon/i.test(t) ? 'Abandoned' : /bad light/i.test(t) ? 'Bad light' : /rain (stops|halts|interrupts|ends)|interrupt|stoppage/i.test(t) ? 'Rain stops play' : 'Rain delay';
 // Wikipedia's match box notes rain during a game; a short label for the card
 const wxNote = e => !e.weather ? '' : /no play|abandon/i.test(e.weather) ? 'No play yet' : /bad light/i.test(e.weather) && !/rain/i.test(e.weather) ? 'Bad light' : /rain|wet/i.test(e.weather) ? 'Rain affected' : '';
 function liveLink(e) {
