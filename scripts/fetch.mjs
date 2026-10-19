@@ -478,7 +478,8 @@ async function addFaces(events) {
   // UFC cards are listed by surname ("Volkanovski vs. Evloev"); the fight card has the full names to look up
   const full = (e, side) => {
     const n = e[side], last = s => strip(s).split(/\s+/).pop().toLowerCase();
-    const m = (e.card || []).flatMap(b => [b.a, b.b]).find(x => x && strip(x).includes(' ') && last(x) === last(n));
+    // the surname can come first ("Wang Cong" is billed as "Wang"), so any word of the full name may match
+    const m = (e.card || []).flatMap(b => [b.a, b.b]).find(x => x && strip(x).includes(' ') && (last(x) === last(n) || strip(x).toLowerCase().split(/\s+/).includes(last(n))));
     return /\s/.test(n || '') || !m ? strip(n) : strip(m);
   };
   // a full name only: a lone surname (a far-off card with no bouts listed yet) would find the wrong page
@@ -645,6 +646,8 @@ async function addFaces(events) {
   }
   const have = names.filter(n => cache[n]?.src);
   diag.faces = `${have.length}/${names.length} fighters with a free photo (${have.filter(n => cache[n].from === 'commons').length} from Commons search or categories, ${have.filter(n => cache[n].from === 'openverse').length} from Openverse); ${due.length} looked up`;
+  // every main event's two fighters, with whether each has a photo and why not
+  diag.facesMain = near.filter(e => e.sport === 'mma').map(e => `${e.startUTC.slice(0, 10)} ${e.comp}: ` + ['home', 'away'].map(k => { const n = full(e, k), c = cache[n]; return `${e[k]}=>${n} ${c?.src ? 'OK' : c ? c.why || 'none' : 'not looked up'}`; }).join(' / ')).join(' ; ');
   diag.facesMissing = names.filter(n => !cache[n]?.src).map(n => `${n}: ${cache[n]?.v === 5 ? cache[n].why : 'not looked up yet'}`);
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
@@ -826,5 +829,6 @@ if (process.env.GITHUB_ACTIONS) {
   console.log(`::notice title=Tables::${String(Array.isArray(diag.tables) ? diag.tables.join('; ') : diag.tables || '').replace(/[\r\n%]/g, ' ').slice(0, 3000)}`);
   const nrl = feed.events.filter(e => e.sport === 'league' && /NRL/.test(`${e.comp} ${(e.tags || []).join(' ')} ${e.team}`)).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
   console.log(`::notice title=NRL::${nrl.map(e => `${e.startUTC.slice(0, 10)} ${e.comp}${e.stage ? ' / ' + e.stage : ''}: ${e.home}${e.homeLogo ? '*' : ''} v ${e.away}${e.awayLogo ? '*' : ''} = ${e.score || '-'} [${e.status}] ${(e.summary || '').slice(0, 40)} <${(e.source || '').replace(/^https?:\/\/(www\.)?/, '').slice(0, 30)}>`).join(' ; ').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
+  console.log(`::notice title=Faces::${String(diag.facesMain || '').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
   console.log(`::notice title=Tennis::${String(diag.tennis || 'not run').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
 }
