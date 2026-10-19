@@ -259,9 +259,10 @@ async function bbcNews() {
 
 // Cricket's state of play as it happens, from ESPN's score-strip feed (the one behind espncricinfo.com): "Match delayed
 // by rain", "Lunch", "Stumps", "Innings break", and the score. Wikipedia's editors add these late if at all, so a rain
-// delay never showed. ESPN's terms of use don't allow automated access without its permission; the site's owner chose
-// to switch it on for this non-commercial site (19 Oct 2026). It only adds to matches already on a card, never a card of its own
-const ESPN_ON = true;
+// delay never showed. ESPN's terms of use don't allow automated access without its permission, so the owner switched
+// it off (19 Oct 2026); rain now comes from Sportmonks, BBC Sport and Herald headlines, and Wikipedia. Only switch this
+// back on with ESPN's permission. It only adds to matches already on a card, never a card of its own
+const ESPN_ON = false;
 // "Central Stags" is ESPN's "Central Districts", "Auckland Aces" its "Auckland": compare on the place
 const sideKey = n => norm(String(n || '').replace(/\b(aces|stags|hinds|volts|sparks|firebirds|blaze|kings|magicians|knights|brave|hearts|districts|wizards)\b/gi, ''));
 const sameSide = (a, b) => { const x = sideKey(a), y = sideKey(b); return !!x && !!y && (x === y || x.startsWith(y) || y.startsWith(x)); };
