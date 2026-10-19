@@ -1037,12 +1037,14 @@ const flagOf = name => {
 // away side: name first, then logo/flag, so both crests sit beside the "v"
 // "Wellington Phoenix FC" -> "Wellington Phoenix"; keeps short names like "Auckland FC"
 const shortName = n => n.split(' ').length > 2 ? n.replace(/\s+FC$/, '') : n;
-// crests whose image file has a lot of empty space around a small wordmark
+// crests whose image file has a lot of empty space around a small wordmark, by sport: the
+// Canterbury rugby crest needs it, the Canterbury Kings cricket badge already fills its image
 const CREDITS = {}; // fighter photo -> its Commons credit, filled when the feed loads
-const LOGO_ZOOM = { Canterbury: 1.8 };
-const crest = (n, logo, after) => {
+const LOGO_ZOOM = { 'rugby|Canterbury': 1.8 };
+const crest = (n, logo, after, sport) => {
   const src = logo || flagOf(n);
-  const z = logo && LOGO_ZOOM[n] ? ` style="--z:${LOGO_ZOOM[n]}"` : '';
+  const zf = logo && LOGO_ZOOM[`${sport}|${n}`];
+  const z = zf ? ` style="--z:${zf}"` : '';
   const face = logo && CREDITS[logo];
   return src ? `<img class="logo ${logo ? '' : 'flagimg'} ${after ? 'after' : ''} ${z ? 'zoom' : ''} ${face ? 'face' : ''}"${face ? ` title="Photo: ${esc(face)}"` : ''}${z} src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
 };
@@ -1083,8 +1085,8 @@ const nmSpan = (n, e) => { const c = colorOf(n.replace(/\s+Women('s)?$/, '')); r
 // flag lookups use the plain country name, the label uses the nickname
 // a national side with a union badge shows the badge in place of its flag
 const badgeOf = (n, e) => e && (n === e.home ? e.homeBadge : n === e.away ? e.awayBadge : '') || '';
-const teamNameR = (n, logo, e) => `${nmSpan(n, e)}${crest(n.replace(/\s+Women('s)?$/, ''), badgeOf(n, e) || logo, true)}`;
-const teamName = (n, logo, e) => `${crest(n.replace(/\s+Women('s)?$/, ''), badgeOf(n, e) || logo)}${nmSpan(n, e)}`;
+const teamNameR = (n, logo, e) => `${nmSpan(n, e)}${crest(n.replace(/\s+Women('s)?$/, ''), badgeOf(n, e) || logo, true, e?.sport)}`;
+const teamName = (n, logo, e) => `${crest(n.replace(/\s+Women('s)?$/, ''), badgeOf(n, e) || logo, false, e?.sport)}${nmSpan(n, e)}`;
 // a race has no opponent: the Grand Prix is the title, with the circuit and town under it
 const solo = e => e.sport === 'motor' || e.sport === 'tennis';
 const titleOf = e => solo(e) ? e.home : `${displayName(e.home, e)} v ${displayName(e.away, e)}`;
