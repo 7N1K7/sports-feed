@@ -327,6 +327,25 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     }
     await sleep(300);
   }
+  // labelled-section transclusions, as the NRL finals page shows its Grand Final: {{#section:2026 NRL Grand Final|scoreboard}}
+  // reads <section begin=scoreboard /> ... <section end=scoreboard /> from that page, so fetch those pages and put the section in
+  const SECT = /\{\{\s*#(?:section|lst)\s*:\s*([^|{}]+?)\s*\|\s*([^|{}]+?)\s*\}\}/gi;
+  const sectPages = [...new Set(Object.values(texts).flatMap(t => [...t.text.matchAll(SECT)].map(m => m[1])))].slice(0, 20);
+  if (sectPages.length) {
+    try {
+      const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(sectPages.join('|')));
+      const back = Object.fromEntries([...(r.query?.redirects || []), ...(r.query?.normalized || [])].map(x => [x.to, x.from]));
+      const src = {};
+      for (const pg of r.query?.pages || []) if (!pg.missing) src[back[back[pg.title]] || back[pg.title] || pg.title] = pg.revisions?.[0]?.slots?.main?.content || '';
+      const section = (text, name) => {
+        const q = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const m = text.match(new RegExp(`<section\\s+begin\\s*=\\s*["']?${q}["']?\\s*/?>([\\s\\S]*?)<section\\s+end\\s*=\\s*["']?${q}["']?\\s*/?>`, 'i'));
+        return m ? m[1] : '';
+      };
+      for (const t of Object.values(texts)) t.text = t.text.replace(SECT, (m, pg, name) => (src[pg] && section(src[pg], name)) || m);
+      diag.sections = sectPages.map(pg => `${pg}: ${src[pg] ? 'read' : 'missing'}`).join('; ');
+    } catch (e) { diag.sections = 'error: ' + e.message; }
+  }
   const out = [], per = {}, tableSrc = [];
   for (const [want_t, c] of want) {
     const pg = texts[want_t];
@@ -343,7 +362,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
   }
   diag.wikipedia = per;
   // temporary: what the NRL finals page says about its Grand Final
-  { const fin = Object.values(texts).find(t => /NRL finals series/.test(t.title)); const i = fin ? fin.text.search(/^=+\s*Grand Final/im) : -1; diag.nrlGF = fin ? (i < 0 ? 'no Grand Final heading; headings: ' + [...fin.text.matchAll(/^=+\s*([^=\n]+?)\s*=+/gm)].map(m => m[1]).join(' | ') : fin.text.slice(i, i + 2500)) : 'no page'; }
+  { const fin = Object.values(texts).find(t => /NRL finals series/.test(t.title)); const i = fin ? fin.text.search(/^=+\s*Grand Final/im) : -1; diag.nrlGF = (diag.sections || '') + ' || ' + (fin ? fin.text.slice(i, i + 1800) : 'no page'); }
   // standings: Sports table blocks on the page, or in a transcluded "... table" / "... standings" template
   const tables = [];
   try {
