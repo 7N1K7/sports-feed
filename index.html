@@ -78,6 +78,10 @@ try { const t = JSON.parse(localStorage.getItem('sf.theme') || '"auto"'), c = JS
 .swatch { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 3px 11px 3px 5px; font: inherit; font-size: 14px; cursor: pointer }
 .swatch i { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line) }
 .swatch[aria-pressed="true"] { border-color: var(--ink); font-weight: 600 }
+/* the label keeps its bold width whether picked or not, so picking one never nudges the others */
+.swatch .lb, .copt .lb { display: inline-grid; min-width: 0 }
+.swatch .lb > *, .copt .lb > * { grid-area: 1 / 1; overflow: hidden; text-overflow: ellipsis }
+.swatch .lb::after, .copt .lb::after { content: attr(data-l); grid-area: 1 / 1; font-weight: 600; visibility: hidden; height: 0; overflow: hidden }
 
 * { box-sizing: border-box }
 /* keep room for the scrollbar always, so pages don't jump sideways when it appears */
@@ -1893,7 +1897,7 @@ function render() {
     const comps = [...counts].filter(([c, n]) => n >= 2 || nextOf.get(c) < Infinity || hasTable.has(c) || c === compSel).map(([c]) => c)
       .sort((a, b) => rank(a) - rank(b) || (nextOf.get(a) - nextOf.get(b)) || a.localeCompare(b));
     const groups = [[['rugby'], 'Rugby'], [['league'], 'Rugby league'], [['cricket'], 'Cricket'], [['football'], 'Football'], [['motor'], 'Motorsport'], [['tennis'], 'Tennis'], [['mma', 'boxing'], 'Fighting']].sort((a, b) => a[1].localeCompare(b[1])); // sports A to Z: Cricket, Fighting, Football…
-    const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}">${esc(COMP_LABEL[c] || c)}${liveComps.has(c) ? '<span class="onnow">Live</span>' : onNowComps.has(c) ? '<span class="current">Current</span>' : !c || nextOf.get(c) < Infinity ? '' : '<span class="ended">Season over</span>'}</button>`;
+    const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}"><span class="lb" data-l="${esc(COMP_LABEL[c] || c)}"><span>${esc(COMP_LABEL[c] || c)}</span></span>${liveComps.has(c) ? '<span class="onnow">Live</span>' : onNowComps.has(c) ? '<span class="current">Current</span>' : !c || nextOf.get(c) < Infinity ? '' : '<span class="ended">Season over</span>'}</button>`;
     $('compMenu').innerHTML = opt('') .replace('></button>', '>All competitions</button>') + groups.map(([ks, l]) => {
       const cs = comps.filter(c => ks.includes(sportOfComp.get(c))).sort((a, b) => ks.indexOf(sportOfComp.get(a)) - ks.indexOf(sportOfComp.get(b)));
       if (!cs.length) return '';
@@ -2007,7 +2011,7 @@ const ACCENTS = [['green', 'Kiwi green', '#0d6b4d'], ['ocean', 'Ocean blue', '#1
 function drawLook() {
   const t = store.get('theme', 'auto'), c = store.get('accent', 'green');
   $('themeSel').value = t;
-  $('accentSel').innerHTML = ACCENTS.map(([k, l, col]) => `<button type="button" class="swatch" data-accent="${k}" aria-pressed="${k === c}"><i style="background:${col}"></i>${l}</button>`).join('');
+  $('accentSel').innerHTML = ACCENTS.map(([k, l, col]) => `<button type="button" class="swatch" data-accent="${k}" aria-pressed="${k === c}"><i style="background:${col}"></i><span class="lb" data-l="${esc(l)}"><span>${esc(l)}</span></span></button>`).join('');
 }
 function setLook(t, c) {
   const root = document.documentElement;
