@@ -1,77 +1,54 @@
-// probe 7: how many missing fighter photos free sources could fill (Wikidata search, other-language Wikipedias), the
-// logo lookups that miss (Farah Palmer Cup, Central Hinds), and what ESPN's UFC feed carries
-const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
-const BROWSER = { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', accept: 'application/json' };
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-const wm = async (host, q) => { await sleep(700); const r = await fetch(`https://${host}/w/api.php?format=json&formatversion=2&maxlag=5&` + q, { headers: UA }); if (!r.ok) throw new Error(host + ' ' + r.status); return r.json(); };
-const now = Date.now();
-
-const feed = await (await fetch('https://7n1k7.github.io/sports-feed/data/feed.json?x=' + now)).json();
-const why = Object.fromEntries((feed.diag.facesMissing || []).map(s => { const i = s.lastIndexOf(': '); return [s.slice(0, i), s.slice(i + 2)]; }));
-const onCards = new Set();
-for (const e of feed.events) { const t = Date.parse(e.startUTC); if (t < now - 3 * 864e5 || t > now + 35 * 864e5) continue; for (const b of e.card || []) for (const k of ['a', 'b']) if (b[k] && !b[k + 'Img']) onCards.add(String(b[k]).replace(/\s*\((c|ic)\)$/i, '').replace(/\s+['"‘“][^'"’”]+['"’”]\s+/, ' ').trim()); for (const k of ['home', 'away']) if (/^(mma|boxing)$/.test(e.sport) && !e[k + 'Logo'] && /\s/.test(e[k] || '')) onCards.add(e[k]); }
-const names = [...new Set([...onCards, ...Object.keys(why)])];
-console.log('missing names', names.length, '| reasons:', Object.entries(Object.values(why).reduce((m, r) => (m[r.replace(/\(.*/, '')] = (m[r.replace(/\(.*/, '')] || 0) + 1, m), {})).map(([k, v]) => `${k}=${v}`).join(', '));
-
-// --- 1. Wikidata: search each name, keep humans whose occupation is a combat sport (or who have a Sherdog / BoxRec id)
-const FIGHT_OCC = new Set(['Q11607585', 'Q11338576', 'Q13382533', 'Q1371925', 'Q2066131', 'Q11124885', 'Q3348300', 'Q4009406', 'Q12039558', 'Q13141064', 'Q18534714']);
-const found = {}, viaOther = {}, stats = { searched: 0, matched: 0, p18: 0, other: 0 };
-for (const n of names) {
-  let s;
-  try { s = await wm('www.wikidata.org', 'action=wbsearchentities&language=en&type=item&limit=7&search=' + encodeURIComponent(n)); } catch (e) { console.log('ERR search', n, e.message); continue; }
-  stats.searched++;
-  const ids = (s.search || []).map(x => x.id);
-  if (!ids.length) continue;
-  const ents = (await wm('www.wikidata.org', 'action=wbgetentities&props=claims|sitelinks|labels&languages=en&ids=' + ids.join('|'))).entities || {};
-  const fold = t => String(t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z ]/g, '').trim();
-  const pick = Object.values(ents).find(en => {
-    const c = en.claims || {};
-    const human = (c.P31 || []).some(x => x.mainsnak?.datavalue?.value?.id === 'Q5');
-    const occ = (c.P106 || []).some(x => FIGHT_OCC.has(x.mainsnak?.datavalue?.value?.id));
-    const ids = c.P2818 || c.P4351 || c.P8665 || c.P2041; // Sherdog, BoxRec, UFC athlete, Tapology... any of these marks a fighter
-    return human && (occ || ids) && fold(en.labels?.en?.value) === fold(n);
-  });
-  if (!pick) continue;
-  stats.matched++;
-  const f = pick.claims?.P18?.[0]?.mainsnak?.datavalue?.value;
-  if (f) { found[n] = 'File:' + f; stats.p18++; continue; }
-  // other-language articles' free lead images
-  const links = Object.entries(pick.sitelinks || {}).filter(([k]) => /^[a-z_]+wiki$/.test(k) && !/^(en|commons|species)wiki$/.test(k));
-  for (const [k, v] of links.slice(0, 6)) {
-    const lang = k.replace(/wiki$/, '').replace(/_/g, '-');
-    try {
-      const r = await wm(`${lang}.wikipedia.org`, 'action=query&prop=pageimages&piprop=name&pilicense=free&titles=' + encodeURIComponent(v.title));
-      const img = r.query?.pages?.[0]?.pageimage;
-      if (img) { viaOther[n] = `${lang}: File:${img}`; stats.other++; break; }
-    } catch { }
+// probe 8: mock-ups on the live site. Slightly bigger card text and crests, and four takes on the UFC icon, as screenshots
+import { chromium } from 'playwright';
+import { readFileSync, writeFileSync } from 'node:fs';
+const SITE = 'https://7n1k7.github.io/sports-feed/';
+const svg = f => readFileSync(new URL('mock/' + f, import.meta.url), 'utf8');
+// slightly bigger: titles about 1px up, every crest and flag about 14% bigger, sport icons 18px -> 22px
+const BIG = `
+.ev .comp { font-size: 13px }
+.ev .comp .ctitle { font-size: 14.5px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp { font-size: 12px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp .ctitle { font-size: 13.5px }
+.ev .comp .sicon { width: 22px; height: 22px }
+.ev .teams.matchup:has(img) .side { grid-template-rows: 2.95em auto }
+.ev .teams.matchup .logo:not(.flagimg) { --lh: 2.85em; height: 2.85em; max-width: 5.7em }
+.ev .teams.matchup .flagimg, .ev .teams.matchup .flagimg.after { height: 1.8em; max-width: 3.9em }
+@media (max-width: 560px) { .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.6em; height: 2.6em; max-width: 5em } .ev .teams.matchup .flagimg { height: 1.8em } }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.45em; height: 2.45em; max-width: 4.6em }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .flagimg { height: 1.55em; max-width: 3.2em }
+@media (min-width: 561px) { :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .logo:not(.face) { width: 3.2em } }
+`;
+const MMA = sel => `.ev.sport-mma .comp .sicon { ${sel} }`;
+const VARIANTS = [
+  ['1-now', 'As it is now', '', null],
+  ['2-bigger', 'Text and crests slightly bigger (current UFC octagon at 22px)', BIG, null],
+  ['3-octagon-big', 'Bigger, plus the current UFC octagon sized up to 30px', BIG + MMA('width: 30px; height: 30px'), null],
+  ['4-octagon-bold', 'Bigger, plus a bolder octagon (light rim, thick fence, red centre) at 28px', BIG + MMA('width: 28px; height: 28px'), svg('mma-bold.svg')],
+  ['5-ufc-octagon', 'Bigger, plus a red octagon with UFC across it, 28px', BIG + MMA('width: 28px; height: 28px'), svg('mma-ufc.svg')],
+  ['6-ufc-wordmark', 'Bigger, plus the UFC wordmark (public domain on Wikimedia Commons), 18px tall', BIG + MMA('width: auto; height: 18px'), svg('ufc-wordmark.svg')],
+];
+const b = await chromium.launch();
+const log = [];
+for (const [dev, vp] of [['desktop', { width: 1180, height: 1000 }], ['phone', { width: 390, height: 844 }]]) {
+  for (const [id, label, css, icon] of VARIANTS) {
+    const ctx = await b.newContext({ viewport: vp, deviceScaleFactor: 2, colorScheme: 'dark' });
+    const p = await ctx.newPage();
+    if (icon) await p.route(/icons\/mma\.svg/, r => r.fulfill({ contentType: 'image/svg+xml', body: icon }));
+    await p.goto(SITE, { waitUntil: 'networkidle', timeout: 60000 }).catch(e => log.push('goto ' + e.message));
+    if (css) await p.addStyleTag({ content: css });
+    await p.waitForTimeout(2500);
+    // one card of each kind: UFC, boxing, a rugby or league game with crests, and cricket
+    const picks = { ufc: 'article.ev.sport-mma', boxing: 'article.ev.sport-boxing', rugby: 'article.ev.sport-rugby:has(img.logo:not(.flagimg))', league: 'article.ev.sport-league:has(img.logo)', football: 'article.ev.sport-football:has(img.logo)', cricket: 'article.ev.sport-cricket' };
+    for (const [k, sel] of Object.entries(picks)) {
+      const el = await p.$(sel);
+      if (!el) { log.push(`${dev} ${id}: no ${k} card`); continue; }
+      await el.scrollIntoViewIfNeeded();
+      await el.screenshot({ path: new URL(`out-${dev}-${id}-${k}.png`, import.meta.url).pathname }).catch(e => log.push(`${dev} ${id} ${k}: ${e.message}`));
+    }
+    if (id === '1-now' || id === '2-bigger') await p.screenshot({ path: new URL(`out-${dev}-${id}-page.png`, import.meta.url).pathname, fullPage: false });
+    await ctx.close();
   }
-  if (!viaOther[n]) found[n] = `(on Wikidata ${pick.id}, no photo; ${links.length} other-language articles)`;
 }
-console.log('\n#### WIKIDATA', JSON.stringify(stats));
-for (const n of names) console.log('FACE', n, '|', why[n] || 'card', '|', viaOther[n] ? 'OTHER-WIKI ' + viaOther[n] : found[n] || '-');
-
-// --- 2. logos TheSportsDB misses
-console.log('\n#### LOGOS');
-const tsdb = async q => { await sleep(2200); const r = await fetch('https://www.thesportsdb.com/api/v1/json/123/' + q, { headers: UA }); const d = await r.json().catch(() => ({})); return d.teams || []; };
-for (const q of ['Wellington Pride', 'Wellington', 'Northland Kauri', 'Northland', 'Canterbury Women', 'Auckland Storm', 'Central Hinds', 'Central Districts', 'Central Stags', 'Governor-General\'s XI', 'Prime Minister\'s XI']) {
-  const t = await tsdb('searchteams.php?t=' + encodeURIComponent(q));
-  console.log('TSDB', q, '=>', t.slice(0, 8).map(x => `${x.strTeam} [${x.strSport} / ${x.strLeague}] ${x.strBadge ? 'badge' : '-'}`).join(' ; ') || 'none');
-}
-for (const l of ['Farah Palmer Cup', 'Womens Super Smash', 'Hallyburton Johnstone Shield', 'Bunnings NPC', 'NPC', 'National Provincial Championship']) {
-  const t = await tsdb('search_all_teams.php?l=' + encodeURIComponent(l));
-  console.log('LEAGUE', l, '=>', t.length, t.slice(0, 14).map(x => x.strTeam).join(', '));
-}
-// the logos the feed has for FPC, NPC and domestic cricket now
-const has = {};
-for (const e of feed.events) if (/^(npc|fpc|nzdomestic)$/.test(e.team)) for (const k of ['home', 'away']) has[`${e.team}|${e[k]}`] = e[k + 'Logo'] ? 'logo' : '-';
-console.log('FEED LOGOS', Object.entries(has).map(([k, v]) => `${k}=${v}`).join(', '));
-
-// --- 3. what ESPN's UFC feed carries for the next card (for the owner's choice; ESPN photos are not free)
-console.log('\n#### ESPN UFC');
-try {
-  const r = await (await fetch('https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard', { headers: BROWSER })).json();
-  const ev = (r.events || [])[0];
-  console.log('event', ev?.name, ev?.date, 'fights', ev?.competitions?.length);
-  for (const c of (ev?.competitions || []).slice(0, 4)) console.log('BOUT', JSON.stringify((c.competitors || []).map(x => ({ id: x.athlete?.id || x.id, name: x.athlete?.displayName, headshot: x.athlete?.headshot?.href, flag: x.athlete?.flag?.href }))));
-} catch (e) { console.log('ERR', e.message); }
-console.log('\ndone', new Date().toISOString());
+await b.close();
+writeFileSync(new URL('out-labels.json', import.meta.url), JSON.stringify(VARIANTS.map(([id, label]) => ({ id, label }))));
+console.log(log.join('\n') || 'all shots taken');
