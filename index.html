@@ -1804,13 +1804,20 @@ function squadsHtml(e) {
 }
 
 // UFC card grouped by section; winners hidden while spoilers are on
+// a fighter's name opens their Wikipedia article, else their UFC.com, Sherdog, BoxRec or Tapology page (ids from Wikidata)
+const FIGHT_LINK = [['wp', v => `https://en.wikipedia.org/wiki/${encodeURIComponent(v.replace(/ /g, '_'))}`, 'Wikipedia'], ['ufc', v => `https://www.ufc.com/athlete/${encodeURIComponent(v)}`, 'UFC.com'],
+  ['sd', v => `https://www.sherdog.com/fighter/${encodeURIComponent(v)}`, 'Sherdog'], ['br', v => `https://boxrec.com/en/box-pro/${encodeURIComponent(v)}`, 'BoxRec'], ['tp', v => `https://www.tapology.com/fightcenter/fighters/${encodeURIComponent(v)}`, 'Tapology']];
+function fighterName(b, k) {
+  const l = b[k + 'Links'] || {}, hit = FIGHT_LINK.find(([f]) => l[f]);
+  return hit ? `<a class="plink" href="${esc(hit[1](l[hit[0]]))}" target="_blank" rel="noopener" title="${esc(b[k])} on ${hit[2]}">${esc(b[k])}</a>` : esc(b[k]);
+}
 function fightCard(e, hidden) {
   const secs = [];
   for (const b of e.card) { if (!secs.length || secs[secs.length - 1][0] !== b.section) secs.push([b.section, []]); secs[secs.length - 1][1].push(b); }
   return secs.map(([sec, list]) => `<div class="fc">${sec ? `<div class="fcs">${esc(sec)}</div>` : ''}${list.map(b => {
     const done = !hidden && b.res !== 'vs.';
     const face = k => b[k + 'Img'] ? `<img class="fface" src="${esc(b[k + 'Img'])}" alt="" title="Photo: ${esc(b[k + 'Credit'] || '')}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
-    return `<div class="fb"><span class="fw">${esc(b.weight || '')}</span><span class="fm">${face('a')}<b>${esc(b.a)}</b> <span class="muted">${done ? esc(b.res) : 'vs'}</span> ${esc(b.b)}${face('b')}</span>${done && b.method ? `<span class="fr muted">${esc(b.method)}${b.round ? `, R${esc(b.round)}` : ''}${b.time ? ` ${esc(b.time)}` : ''}</span>` : ''}</div>`;
+    return `<div class="fb"><span class="fw">${esc(b.weight || '')}</span><span class="fm">${face('a')}<b>${fighterName(b, 'a')}</b> <span class="muted">${done ? esc(b.res) : 'vs'}</span> ${fighterName(b, 'b')}${face('b')}</span>${done && b.method ? `<span class="fr muted">${esc(b.method)}${b.round ? `, R${esc(b.round)}` : ''}${b.time ? ` ${esc(b.time)}` : ''}</span>` : ''}</div>`;
   }).join('')}</div>`).join('');
 }
 function detail(e) {
@@ -1902,6 +1909,8 @@ function teamPage(name, sport) {
   const done = e => e.status === 'final' || (new Date(e.startUTC) < now && !running(e, now) && e.status !== 'live');
   const next = games.filter(e => !done(e)).slice(0, 6), past = games.filter(done).reverse().slice(0, 6);
   const e0 = games[0] || { sport };
+  // the side's own Wikipedia article and official site, when the feed found them; otherwise a Wikipedia search
+  const tl = FEED.teamLinks?.[`${sport}|${name}`] || {};
   const logo = e0.home === name ? (e0.homeBadge || e0.homeLogo) : (e0.awayBadge || e0.awayLogo);
   const row = (e, res) => {
     const opp = e.home === name ? e.away : e.home, d = new Date(e.startUTC), hid = res && isHidden(e, now);
@@ -1918,7 +1927,7 @@ function teamPage(name, sport) {
     ${f ? `<dl class="facts"><dt>Form</dt><dd>${f}<span class="muted small"> oldest to newest</span></dd></dl>` : ''}
     <h3 class="dh">Next games</h3>${next.length ? `<div class="tlist">${next.map(e => row(e, false)).join('')}</div>` : '<p class="muted">No games listed yet.</p>'}
     <h3 class="dh">Recent results</h3>${past.length ? `<div class="tlist">${past.map(e => row(e, true)).join('')}</div>` : '<p class="muted">No recent results.</p>'}
-    <div class="dlinks"><a class="srclink" href="https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(`${name.replace(/\s+Women$/, " women's")} ${SPORT_WORD[sport] || ''}`)}" target="_blank" rel="noopener">${esc(displayName(name, e0))} on Wikipedia ↗</a></div>`;
+    <div class="dlinks">${tl.site ? `<a class="srclink" href="${esc(tl.site)}" target="_blank" rel="noopener">Official site ↗</a>` : ''}<a class="srclink" href="${tl.wp ? `https://en.wikipedia.org/wiki/${encodeURIComponent(tl.wp.replace(/ /g, '_'))}` : `https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(`${name.replace(/\s+Women$/, " women's")} ${SPORT_WORD[sport] || ''}`)}`}" target="_blank" rel="noopener">${esc(displayName(name, e0))} on Wikipedia ↗</a></div>`;
 }
 function openTeam(name, sport, fromRank = '') {
   teamBack = { name, sport };

@@ -884,6 +884,143 @@ async function addFaces(events) {
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
 
+// Fighters' own pages for the fight cards: their Wikipedia article when it's about them (its short description says
+// fighter or boxer), and their UFC.com, Sherdog, BoxRec and Tapology pages from Wikidata, which also covers undercard
+// fighters with no article. Links only; nothing is copied from those sites. Each name is looked up monthly, 60 a run
+async function addFighterLinks(events) {
+  const cacheUrl = new URL('.cache/fighterlinks.json', ROOT);
+  let cache = {};
+  try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
+  const UA = { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } };
+  const get = async (host, q) => { await new Promise(r => setTimeout(r, 1000)); const r = await fetch(`https://${host}/w/api.php?format=json&formatversion=2&maxlag=5&` + q, UA); if (!r.ok) throw new Error(`${host} ${r.status}`); return r.json(); };
+  const strip = n => String(n || '').replace(/\s*\((c|ic)\)$/i, '').replace(/\s+['"‘“][^'"’”]+['"’”]\s+/, ' ').trim();
+  const ok = n => n && /\S\s+\S/.test(n) && !/TBC|TBA|^UFC|Fight Night|\bvs?\b|\d/i.test(n) && n.split(' ').length <= 4;
+  const fold = t => String(t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z ]/g, '').replace(/\s+/g, ' ').trim();
+  const FIGHTER = /box|fight|martial|mma|kickbox|wrestl|judo|jiu|muay|sambo|karate|taekwondo/i;
+  // mixed martial artist, boxer, martial artist, kickboxer, wrestler, judoka, Brazilian jiu-jitsu practitioner, Muay Thai fighter, sambo fighter
+  const FIGHT_OCC = new Set(['Q11607585', 'Q11338576', 'Q13382533', 'Q1371925', 'Q13474373', 'Q6665249', 'Q18534714', 'Q14949394', 'Q19798842']);
+  const PROPS = { ufc: 'P9722', sd: 'P2818', br: 'P1967', tp: 'P9728' };
+  const near = events.filter(e => /^(mma|boxing)$/.test(e.sport) && Math.abs(Date.parse(e.startUTC) - now) < 60 * DAY);
+  const kind = {};
+  for (const e of near) for (const n of [e.home, e.away, ...(e.card || []).flatMap(b => [b.a, b.b])].map(strip)) if (ok(n)) kind[n] ||= e.sport === 'boxing' ? 'boxer' : 'fighter';
+  const due = Object.keys(kind).filter(n => !cache[n] || now - cache[n].t > 30 * DAY).slice(0, 60);
+  try {
+    // 1. the English article, also tried as "Name (fighter)" / "(boxer)" when the plain title is someone else
+    const wp = {}, qid = {};
+    const look = async (titles, asked) => {
+      for (let i = 0; i < titles.length; i += 20) {
+        const r = await get('en.wikipedia.org', 'action=query&prop=description|pageprops&ppprop=wikibase_item|disambiguation&redirects=1&titles=' + encodeURIComponent(titles.slice(i, i + 20).join('|')));
+        const back = {};
+        for (const m of [...(r.query?.normalized || []), ...(r.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
+        for (const pg of r.query?.pages || []) {
+          const t = back[pg.title] || pg.title, name = asked[t] || t;
+          if (wp[name] || pg.missing || pg.pageprops?.disambiguation || !FIGHTER.test(pg.description || '')) continue;
+          wp[name] = pg.title;
+          if (pg.pageprops?.wikibase_item) qid[name] = pg.pageprops.wikibase_item;
+        }
+      }
+    };
+    await look(due, {});
+    const alt = {};
+    for (const n of due.filter(n => !wp[n])) alt[`${n} (${kind[n]})`] = n;
+    await look(Object.keys(alt), alt);
+    // 2. no article: Wikidata's own search, keeping a person of exactly that name who fights (or has a fight-site id)
+    const cand = {};
+    for (const n of due.filter(n => !qid[n]).slice(0, 25)) {
+      const r = await get('www.wikidata.org', 'action=wbsearchentities&language=en&type=item&limit=5&search=' + encodeURIComponent(n));
+      cand[n] = (r.search || []).filter(x => fold(x.label) === fold(n)).map(x => x.id);
+    }
+    const ids = [...new Set([...Object.values(qid), ...Object.values(cand).flat()])];
+    const claims = {};
+    for (let i = 0; i < ids.length; i += 40) {
+      const r = await get('www.wikidata.org', 'action=wbgetentities&props=claims&ids=' + ids.slice(i, i + 40).join('|'));
+      for (const [q, ent] of Object.entries(r.entities || {})) claims[q] = ent.claims || {};
+    }
+    const val = (c, p) => c?.[p]?.[0]?.mainsnak?.datavalue?.value;
+    const isFighter = c => (c?.P31 || []).some(x => x.mainsnak?.datavalue?.value?.id === 'Q5')
+      && (Object.values(PROPS).some(p => val(c, p)) || (c?.P106 || []).some(x => FIGHT_OCC.has(x.mainsnak?.datavalue?.value?.id)));
+    for (const n of due) {
+      const q = qid[n] || (cand[n] || []).find(id => isFighter(claims[id]));
+      const rec = { t: now, ...(wp[n] ? { wp: wp[n] } : {}) };
+      for (const [k, p] of Object.entries(PROPS)) { const v = q && val(claims[q], p); if (typeof v === 'string') rec[k] = v; }
+      cache[n] = rec;
+    }
+  } catch (e) { diag.fighterLinksError = e.message; }
+  let linked = 0, places = 0;
+  for (const e of near) for (const b of e.card || []) for (const k of ['a', 'b']) {
+    places++;
+    const { t, ...links } = cache[strip(b[k])] || {};
+    if (Object.keys(links).length) { b[k + 'Links'] = links; linked++; }
+  }
+  diag.fighterLinks = `${linked}/${places} card places linked; ${due.length} looked up`;
+  try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
+}
+
+// Each side's Wikipedia article and official website, for its team page. National sides go by Wikipedia's titles ("New
+// Zealand national rugby league team"); clubs are found with Wikipedia's search, keeping a result whose short description
+// is about that sport and whose title names the club's place. The website is the article's Wikidata "official website".
+// Kept two months, 30 searches a run
+async function teamLinks(events) {
+  const cacheUrl = new URL('.cache/teamlinks.json', ROOT);
+  let cache = {};
+  try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
+  const UA = { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } };
+  const get = async (host, q) => { await new Promise(r => setTimeout(r, 1000)); const r = await fetch(`https://${host}/w/api.php?format=json&formatversion=2&maxlag=5&` + q, UA); if (!r.ok) throw new Error(`${host} ${r.status}`); return r.json(); };
+  const WORD = { rugby: 'rugby union', league: 'rugby league', cricket: 'cricket', football: 'football' };
+  const DESC = { rugby: /rugby union|rugby team|rugby football union|provincial union/i, league: /rugby league/i, cricket: /cricket/i, football: /football|soccer/i };
+  const NICK = { 'All Blacks': 'New Zealand', 'Black Ferns': 'New Zealand', Wallabies: 'Australia', Wallaroos: 'Australia', Springboks: 'South Africa', 'Los Pumas': 'Argentina',
+    Kiwis: 'New Zealand', 'Kiwi Ferns': 'New Zealand', Kangaroos: 'Australia', Jillaroos: 'Australia', 'Black Caps': 'New Zealand', 'White Ferns': 'New Zealand' };
+  const want = new Map();
+  for (const e of events) {
+    const age = now - Date.parse(e.startUTC);
+    if (!WORD[e.sport] || age > 21 * DAY || age < -60 * DAY) continue;
+    for (const n of [e.home, e.away]) if (n && !/TBC|winner|loser|\bor\b|placed|runner|semi-final|qualifier|\d(st|nd|rd|th)\b/i.test(n)) want.set(`${e.sport}|${n}`, [e.sport, n, isW(e) || /\bwomen\b|ferns|wallaroos|jillaroos/i.test(n)]);
+  }
+  const due = [...want.keys()].filter(k => !cache[k] || now - cache[k].t > 60 * DAY);
+  const found = {};
+  try {
+    // national sides: one batch of exact titles
+    const nat = {};
+    for (const k of due) {
+      const [sport, name, w] = want.get(k);
+      const base = name.replace(/\s+Women('s)?$/i, '');
+      const country = COUNTRY.test(base) && !/ (A|XI|Wheelchair)$/i.test(base) ? base : NICK[base];
+      if (country) nat[`${country} ${w ? "women's " : ''}national ${WORD[sport]} team`] = k;
+    }
+    const titles = Object.keys(nat);
+    for (let i = 0; i < titles.length; i += 40) {
+      const r = await get('en.wikipedia.org', 'action=query&prop=pageprops&ppprop=wikibase_item|disambiguation&redirects=1&titles=' + encodeURIComponent(titles.slice(i, i + 40).join('|')));
+      const back = {};
+      for (const m of [...(r.query?.normalized || []), ...(r.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
+      for (const pg of r.query?.pages || []) { const k = nat[back[pg.title] || pg.title]; if (k && !pg.missing && !pg.pageprops?.disambiguation) found[k] = { wp: pg.title, q: pg.pageprops?.wikibase_item }; }
+    }
+    // clubs: a search each
+    let searched = 0;
+    for (const k of due) {
+      if (found[k] || Object.values(nat).includes(k) || searched >= 30) continue;
+      const [sport, name, w] = want.get(k);
+      searched++;
+      const r = await get('en.wikipedia.org', `action=query&generator=search&gsrlimit=5&prop=description|pageprops&ppprop=wikibase_item|disambiguation&gsrsearch=${encodeURIComponent(`${name} ${WORD[sport]}${w && !/women/i.test(name) ? ' women' : ''}`)}`);
+      const place = name.split(/\s+/)[0].toLowerCase();
+      const pg = (r.query?.pages || []).sort((a, b) => (a.index || 0) - (b.index || 0))
+        .find(pg => !pg.pageprops?.disambiguation && DESC[sport].test(pg.description || '') && pg.title.toLowerCase().includes(place));
+      found[k] = pg ? { wp: pg.title, q: pg.pageprops?.wikibase_item } : {};
+    }
+    const qs = [...new Set(Object.values(found).map(f => f.q).filter(Boolean))];
+    const site = {};
+    for (let i = 0; i < qs.length; i += 40) {
+      const r = await get('www.wikidata.org', 'action=wbgetentities&props=claims&ids=' + qs.slice(i, i + 40).join('|'));
+      for (const [q, ent] of Object.entries(r.entities || {})) { const v = ent.claims?.P856?.[0]?.mainsnak?.datavalue?.value; if (typeof v === 'string' && /^https?:\/\//.test(v)) site[q] = v; }
+    }
+    for (const [k, f] of Object.entries(found)) cache[k] = { t: now, ...(f.wp ? { wp: f.wp } : {}), ...(f.q && site[f.q] ? { site: site[f.q] } : {}) };
+  } catch (e) { diag.teamLinksError = e.message; }
+  const out = {};
+  for (const k of want.keys()) { const { t, ...l } = cache[k] || {}; if (Object.keys(l).length) out[k] = l; }
+  diag.teamLinks = `${Object.keys(out).length}/${want.size} sides linked; ${Object.keys(found).length} looked up`;
+  try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
+  return out;
+}
+
 // Squad names link to each player's Cricinfo profile: the Cricinfo id comes from Wikidata (ESPNcricinfo player ID, P2697),
 // found through the player's Wikipedia article. Ids are kept for 30 days, players without one are re-asked weekly
 async function addPlayerLinks(events) {
@@ -961,6 +1098,8 @@ await addImages(news);
 await addLogos(events, tsdbAll);
 await addFaces(events);
 await addPlayerLinks(events);
+await addFighterLinks(events);
+const links = await teamLinks(events);
 
 // site version: the number of commits, and when the code last changed (needs the full git history in CI)
 let site = null;
@@ -1012,6 +1151,7 @@ const feed = {
   news,
   tables,
   rankings,
+  teamLinks: links,
   sources: [
     { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(ESPN_ON ? [{ name: 'Live cricket: ESPNcricinfo', url: 'https://www.espncricinfo.com' }] : []), ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, { name: 'Press releases via Scoop Media', url: 'https://www.scoop.co.nz/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })),
     { name: 'NZ Rugby', url: 'https://www.allblacks.com' }, { name: 'NZ Cricket', url: 'https://www.nzc.nz' },
