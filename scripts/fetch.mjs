@@ -744,11 +744,13 @@ let rankings = [];
 try { rankings = await getRankings(rankCache, diag); } catch (e) { diag.rankings = 'error: ' + e.message; }
 try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(rankUrl, JSON.stringify(rankCache)); } catch {}
 
+// a season's finals stay up through the off-season (about five months), so a finished competition still shows how it ended
+const isFinal = e => /\bfinals?\b|semi.?final|grand final|qualifying final|elimination final|preliminary final/i.test(`${e.comp || ''} ${e.stage || ''} ${e.round || ''}`);
 const feed = {
   generatedAt: new Date(now).toISOString(),
   ...(site ? { site } : {}),
   diag: { ...diag, liveSourceEvents: live.length, eventsByTeam: events.reduce((m, e) => (m[e.team] = (m[e.team] || 0) + 1, m), {}) },
-  events: events.filter(e => now - new Date(e.startUTC) < 21 * DAY),
+  events: events.filter(e => now - new Date(e.startUTC) < (isFinal(e) ? 150 : 21) * DAY),
   form,
   news,
   tables,
@@ -799,5 +801,7 @@ console.log(`feed.json: ${feed.events.length} events (${wiki.length} from Wikipe
 // what the tennis and squad-role readers found, as run annotations (readable on the run page without the full log)
 if (process.env.GITHUB_ACTIONS) {
   console.log(`::notice title=Players::${String(diag.players || '')} ${diag.playerRolesError || ''}`);
+  console.log(`::notice title=Tables::${String(Array.isArray(diag.tables) ? diag.tables.join('; ') : diag.tables || '').replace(/[\r\n%]/g, ' ').slice(0, 3000)}`);
+  console.log(`::notice title=Finals::${events.filter(e => isFinal(e) && now - new Date(e.startUTC) > 0 && now - new Date(e.startUTC) < 150 * DAY).map(e => `${e.comp}|${e.stage || ''}|${e.home} v ${e.away}|${e.startUTC.slice(0, 10)}`).join('; ').replace(/[\r\n%]/g, ' ').slice(0, 3000)}`);
   console.log(`::notice title=Tennis::${String(diag.tennis || 'not run').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
 }
