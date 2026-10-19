@@ -131,7 +131,7 @@ async function heraldNews() {
       out.push({
         id: 'nzh-' + url.split('/').filter(Boolean).slice(-2).join('-').slice(0, 80), team,
         date: isNaN(d) ? new Date(now).toISOString().slice(0, 10) : d.toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }),
-        kind: kindOf(title), title, summary: '', url, source: 'nzherald.co.nz', credit: 'Headline supplied by nzherald.co.nz', headlineOnly: true,
+        kind: kindOf(title), title, summary: '', url, source: 'nzherald.co.nz', credit: 'Headline supplied by nzherald.co.nz', headlineOnly: true, ...(isNaN(d) ? {} : { at: d.toISOString() }),
       });
       n++;
     }
@@ -213,6 +213,42 @@ async function fightNews() {
     notes.push(`${name}: ${items.length} items, ${n} kept`);
   }
   diag.fightNews = notes.join('; ');
+  return out;
+}
+
+// BBC Sport's RSS feeds. The BBC's terms (bbc.co.uk/usingthebbc/terms-of-use, section 15) let a person add its RSS feeds to
+// a website as long as the feed isn't changed and is credited "from BBC" with a link nearby, so each story keeps its
+// headline and summary exactly as sent, links to the BBC, and is credited with a link to BBC Sport. Images are left out.
+// Only stories that name one of our teams (or a fixture's teams) are kept
+const BBC_FEEDS = ['rugby-union', 'rugby-league', 'cricket', 'boxing', 'mixed-martial-arts', 'formula1', 'tennis', 'football/premier-league']
+  .map(s => [s, `https://feeds.bbci.co.uk/sport/${s}/rss.xml`]);
+async function bbcNews() {
+  const out = [], notes = [];
+  for (const [name, feedUrl] of BBC_FEEDS) {
+    let xml;
+    try {
+      const r = await fetch(feedUrl, { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' }, signal: AbortSignal.timeout(10000) });
+      if (!r.ok) throw new Error(r.status);
+      xml = await r.text();
+    } catch (e) { notes.push(`${name}: error ${e.message}`); continue; }
+    let n = 0, all = 0;
+    for (const m of xml.matchAll(/<item>([\s\S]*?)<\/item>/g)) {
+      all++;
+      const get = tag => unxml((m[1].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1]);
+      const title = get('title'), summary = get('description'), url = get('link').replace(/\?at_medium=RSS.*$/, '');
+      const d = new Date(get('pubDate'));
+      const team = teamFor(title + ' ' + summary);
+      if (!team || !url || isNaN(d) || now - d > 10 * DAY || out.some(x => x.url === url)) continue;
+      out.push({
+        id: 'bbc-' + url.split('/').filter(Boolean).slice(-1)[0].replace(/\W+/g, '-').slice(0, 80), team,
+        date: d.toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }), at: d.toISOString(),
+        kind: kindOf(title + ' ' + summary), title, summary, url, source: 'BBC Sport', credit: 'From BBC Sport', creditUrl: 'https://www.bbc.com/sport', headlineOnly: true,
+      });
+      n++;
+    }
+    notes.push(`${name}: ${n} of ${all}`);
+  }
+  diag.bbc = notes.join('; ');
   return out;
 }
 
@@ -431,8 +467,29 @@ const newsAll = [...curated.news];
 // permission of Radio New Zealand", so the feed stays off; the page links to RNZ Sport instead. Only switch this back on
 // with RNZ's written permission
 const RNZ_ON = false;
-for (const n of [...(RNZ_ON ? await rnzNews() : []), ...await heraldNews(), ...await scoopNews(), ...await fightNews()]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
+for (const n of [...(RNZ_ON ? await rnzNews() : []), ...await heraldNews(), ...await scoopNews(), ...await fightNews(), ...await bbcNews()]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
 const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
+// Rain on a cricket match from the headlines, for when no live feed has it: a BBC Sport or Herald headline from the last
+// 12 hours that names both sides and rain, a delay or bad light ("Start delayed on second day of South Africa-Australia
+// Test"). The live card shows the headline as it was sent, linked and credited, never reworded
+{
+  const WET = /\b(rain\w*|showers?|wet outfield|washed out|wash-?out|delay(ed|s)?|bad light|abandon\w*|no play|covers)\b/i;
+  const flat = t => norm(String(t || '').replace(/proteas/gi, 'south africa').replace(/windies/gi, 'west indies'));
+  const wet = newsAll.filter(n => n.at && now - Date.parse(n.at) < 12 * 36e5 && WET.test(n.title) && /^(BBC Sport|nzherald\.co\.nz)$/.test(n.source));
+  const hits = [];
+  for (const e of events) {
+    const start = Date.parse(e.startUTC);
+    if (e.sport !== 'cricket' || e.status === 'final' || start > now || now - start > 5.5 * DAY) continue;
+    const sides = [e.home, e.away].map(x => norm(String(x || '').replace(/\s+Women('s)?$/i, '')));
+    const w = isW(e);
+    const n = wet.filter(n => Date.parse(n.at) > start - 2 * 36e5 && w === /\bwomen\b|white ferns/i.test(n.title) && sides.every(x => x && flat(n.title).includes(x)))
+      .sort((a, b) => b.at.localeCompare(a.at))[0];
+    if (!n) continue;
+    e.wxNews = { title: n.title, url: n.url, credit: n.credit, ...(n.creditUrl ? { creditUrl: n.creditUrl } : {}), at: n.at };
+    hits.push(`${e.home} v ${e.away}: ${n.title}`);
+  }
+  diag.rainHeadlines = `${wet.length} rain headlines in 12 hours; ${hits.length ? hits.join('; ') : 'none on our matches'}`;
+}
 
 // Club logos from TheSportsDB's free API (badges used as-is, credited in the footer).
 // Countries use flags in the page instead. Looked-up names are cached between runs.
