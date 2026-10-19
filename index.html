@@ -276,6 +276,12 @@ footer a { color: var(--muted) }
 /* out of the flow, so it showing or not never moves the cards below */
 .revall { position: absolute; right: 0; top: 3px; font: inherit; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 4px 10px; cursor: pointer }
 .revall:hover { border-color: var(--muted) }
+.rankrows { display: grid; gap: 8px; margin: 4px 0 14px }
+.rankrows .rrow { display: grid; grid-template-columns: 5.6em minmax(0, 1fr); align-items: start; column-gap: 6px }
+.rankrows .rrh { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding-top: 8px }
+@media (max-width: 560px) { .rankrows .rrow { grid-template-columns: 1fr; row-gap: 4px } .rankrows .rrh { padding-top: 0 } .rankrows .rrh:empty { display: none } }
+.stable .dh .wlim { white-space: nowrap }
+.stable .dh .wlim { text-transform: none; letter-spacing: 0; font-weight: 700; color: var(--sport); margin-left: 4px }
 @media (min-width: 561px) { .revall { right: 106px; transform: translateX(50%); white-space: nowrap } } /* centred over the cards' 210px time column */
 .dayhead::after { content: ""; display: block; height: 2px; width: 32px; background: var(--accent); margin-top: 4px; border-radius: 2px }
 
@@ -1388,12 +1394,22 @@ function rankDefault(lists) {
   const fmtWord = { Test: 'Tests', ODI: 'ODIs', T20I: 'T20Is', T20: 'T20Is' }[evs.map(e => e.format).find(Boolean)] || '';
   return lists.find(l => /Women/.test(l.title) === !!women && (!fmtWord || l.title.endsWith(fmtWord)))?.title || lists[0].title;
 }
+// UFC division weight limits in pounds (the kilos are worked out from these)
+const UFC_LIMIT = { strawweight: 115, flyweight: 125, bantamweight: 135, featherweight: 145, lightweight: 155, welterweight: 170, middleweight: 185, 'light heavyweight': 205, heavyweight: 265 };
 // a team's points or rating, big, with a bar running from the lowest side in the list to the top one
 const rankVal = (v, top, low) => { const n = parseFloat(v); return isNaN(n) || !top ? esc(v || '') : `<span class="rv"><span class="rbar" aria-hidden="true"><i style="width:${(top > low ? 12 + 88 * (n - low) / (top - low) : 100).toFixed(1)}%"></i></span><b>${esc(v)}</b></span>`; };
 function rankingsHtml(lists) {
   if (!lists.some(l => l.title === rankSel)) rankSel = rankDefault(lists);
   const l = lists.find(x => x.title === rankSel);
-  const chips = lists.length > 1 ? `<div class="chips rankchips">${lists.map(x => `<button type="button" class="chip" data-rank="${esc(x.title)}" aria-pressed="${x.title === rankSel}">${esc(x.title)}</button>`).join('')}</div>` : '';
+  const chip = (x, label = x.title) => `<button type="button" class="chip" data-rank="${esc(x.title)}" aria-pressed="${x.title === rankSel}">${esc(label)}</button>`;
+  // UFC: pound for pound on its own line, then the men's divisions, then the women's, heaviest first
+  const ufcRows = l.sport === 'mma' && [
+    ['', lists.filter(x => /pound/i.test(x.title))],
+    ["Men's", lists.filter(x => !/pound|women/i.test(x.title))],
+    ["Women's", lists.filter(x => !/pound/i.test(x.title) && /women/i.test(x.title))],
+  ].filter(([, xs]) => xs.length);
+  const chips = ufcRows ? `<div class="rankrows">${ufcRows.map(([h, xs]) => `<div class="rrow"><span class="rrh">${h}</span><div class="chips">${xs.map(x => chip(x, h ? x.title.replace(/^Women's\s+/i, '').replace(/^./, c => c.toUpperCase()) : x.title)).join('')}</div></div>`).join('')}</div>`
+    : lists.length > 1 ? `<div class="chips rankchips">${lists.map(x => chip(x)).join('')}</div>` : '';
   const fighters = l.sport === 'mma';
   const ev = { sport: l.sport };
   const hasPage = new Set((FEED.events || []).filter(e => e.sport === l.sport).flatMap(e => [e.home, e.away]));
@@ -1406,7 +1422,8 @@ function rankingsHtml(lists) {
     const name = fighters ? `${esc(r.name)}${r.iso ? ` <span class="muted small">${esc(r.iso)}</span>` : ''}${champ ? ` <span class="tag">${champ}</span>` : ''}` : page ? `<button type="button" class="tlink rteam" data-teampage="${esc(page)}" data-tsport="${l.sport}" title="${esc(displayName(page, ev))}: games and form">${teamName(r.name.replace(/\s+Women('s)?$/, ''), '', ev)}</button>` : teamName(r.name.replace(/\s+Women('s)?$/, ''), '', ev);
     return `${gap}<tr class="${r.nz || (fighters && /New Zealand|NZL/.test(r.iso)) ? 'mine' : ''}"><td class="pos">${l.rows.indexOf(r) < 3 ? `<span class="medal m${l.rows.indexOf(r) + 1}" title="${['Gold', 'Silver', 'Bronze'][l.rows.indexOf(r)]}">${champ ? 'C' : esc(r.rank === 'n' ? String(l.rows.indexOf(r) + 1) : r.rank)}</span>` : champ ? '' : esc(r.rank)}</td><td class="tn">${name}${fighters && r.note && !/^(Steady|–|-)?$/.test(r.note) ? `<div class="muted small rnote">${esc(r.note)}</div>` : ''}</td><td class="num">${fighters ? esc(r.rec || '') : rankVal(r.val, top, low)}</td></tr>`;
   }).join('');
-  return `${chips}<div class="stable rank sport-${l.sport}"><h3 class="dh">${esc(l.title)}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), NZ, l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+  const lim = fighters && UFC_LIMIT[(l.title.match(/(strawweight|flyweight|bantamweight|featherweight|lightweight|welterweight|middleweight|light heavyweight|heavyweight)\s*$/i) || [])[1]?.toLowerCase()];
+  return `${chips}<div class="stable rank sport-${l.sport}"><h3 class="dh">${esc(l.title)}${lim ? ` <span class="wlim">up to ${(lim * 0.45359237).toFixed(1)} kg (${lim} lb)</span>` : fighters ? ' <span class="wlim" aria-hidden="true" style="visibility:hidden">up to 00.0 kg (000 lb)</span>' : ''}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), NZ, l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
     <p class="muted small">Rankings from <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(l.page.replace(/ /g, '_'))}" target="_blank" rel="noopener">Wikipedia</a> (CC BY-SA), which follows the official ${fighters ? 'UFC' : l.sport === 'rugby' ? 'World Rugby' : l.sport === 'cricket' ? 'ICC' : 'IRL'} list.</p>`;
 }
 // Shows tab: the wider conversation around each sport (panel shows, YouTube breakdowns, podcasts), best known first.
