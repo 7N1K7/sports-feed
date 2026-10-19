@@ -661,8 +661,10 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   /* phones always show Mixed, so the card-size buttons aren't offered there */
   #viewSel { display: none }
   /* phone header: name, then the clock, then the four buttons as one even row, then search */
-  .brand { flex: 1 1 100% }
-  .clockcol { flex: 1 1 100% }
+  .brand { flex: none; font-size: 27px }
+  .clockcol { flex: 1 1 0; min-width: 0; justify-items: end; text-align: right }
+  .clockrow { display: contents }
+  .clock { white-space: nowrap; order: 1 } .fresh { order: 2; font-size: 11px } .ver { order: 3; font-size: 10px; padding: 0 6px }
   .hbtns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; flex: 1 1 100% }
   .hbtns .btn { justify-content: center; padding: 6px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
   .hbtns .btn svg { width: 14px; height: 14px; flex: none }
