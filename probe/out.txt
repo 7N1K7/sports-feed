@@ -1,1 +1,4 @@
-address renamed to kickoffkiwi.workers.dev: false
+address renamed to kickoffkiwi.workers.dev: true
+home 404 Kickoff Kiwi stats
+stats (no password) 503 {"error":"not-set-up"}
+STATS_PASSWORD secret set: true
