@@ -501,7 +501,8 @@ dialog#sheet { width: min(720px, 100%) }
   background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
   background-position: right 17px center, right 12px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat }
 #compSel.on { background-color: var(--ink); color: var(--paper); border-color: var(--ink) }
-.cmenu-list { position: absolute; z-index: 30; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); min-width: 300px; max-height: 70vh; overflow: auto;
+/* as wide as its longest entry, never narrower than the button above it */
+.cmenu-list { position: absolute; z-index: 30; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); width: max-content; min-width: 250px; max-width: calc(100vw - 32px); max-height: 70vh; overflow: auto;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 8px; box-shadow: 0 12px 32px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.08) }
 .csub { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 6px 12px 2px 26px }
 .copt { display: block; width: 100%; text-align: left; border: 0; background: none; color: var(--ink); font: inherit; font-size: 14px; padding: 8px 12px 8px 26px; border-radius: 10px; cursor: pointer }
@@ -957,10 +958,10 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
     <h2 class="ph">My teams <span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news.</span></h2>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
     <div class="chips"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></div>
-    <h2 class="ph">Calendar <span class="phnote">Put the games in your phone or computer calendar, with a reminder before each one.</span></h2>
-    <div class="cals" id="calList"></div>
     <h2 class="ph">Phone app <span class="phnote">Put Kickoff Kiwi on your home screen. It opens full-screen like an app. No app store, no account.</span></h2>
     <div class="cals" id="appInstall"></div>
+    <h2 class="ph">Calendar <span class="phnote">Put the games in your phone or computer calendar, with a reminder before each one.</span></h2>
+    <div class="cals" id="calList"></div>
     <h2 class="ph">Phone alerts <span class="phnote">A heads-up on your phone before each game and when it's over. Never the score.</span></h2>
     <div class="cals" id="alertList"></div>
   </div></div>
@@ -970,7 +971,7 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
 <main class="wrap">
   <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
-  <div class="compbar"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9"><span class="lg">NZ teams only</span><span class="sm">NZ only</span></button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" class="chip rankbtn" id="rankBtn"><span class="lg">World rankings</span><span class="sm">Rankings</span></button></div>
+  <div class="compbar"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9"><span class="lg">NZ teams only</span><span class="sm">NZ only</span></button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
   <section id="hubSec" hidden>
     <div class="hub">
       <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
@@ -2318,7 +2319,7 @@ function render() {
     $('genderSel').innerHTML = [['all', 'All'], ['m', "Men's"], ['w', "Women's"]].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
     $('sportFilter').classList.toggle('dim', !!compSel);
   }
-  // one World rankings button that's always there (so nothing shifts); it opens on the picked sport
+  // one Rankings button that's always there (so nothing shifts); it opens on the picked sport
   $('rankBtn').hidden = !(FEED.rankings || []).length;
   $('sportFilter').innerHTML = [['all','All'],['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['hockey','Hockey'],['motor','F1'],['tennis','Tennis'],['mma','MMA'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
   document.body.classList.remove('v-big', 'v-mixed', 'v-compact');
