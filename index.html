@@ -248,6 +248,10 @@ footer a { color: var(--muted) }
 .nowbar { min-width: 0; max-width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; margin: 0 auto -6px; padding: 2px }
 .nowbar .nowchips { display: flex; flex-wrap: nowrap; align-items: center; justify-content: safe center; gap: 6px; max-width: 100%; overflow-x: auto; scrollbar-width: none; padding: 2px }
 .nowbar .nowchips::-webkit-scrollbar { display: none }
+.nowwrap { position: relative; min-width: 0; max-width: 100% }
+/* the "more this way" arrow: faded over the last chip, shown only while the row has more to scroll to */
+.nowmore { position: absolute; top: 0; bottom: 0; right: 0; width: 34px; padding: 0 2px 2px 0; border: 0; display: flex; align-items: center; justify-content: flex-end; font: 700 22px/1 var(--f-body); color: var(--muted); background: linear-gradient(to right, transparent, var(--paper) 65%); opacity: 0; pointer-events: none; cursor: pointer }
+.nowwrap.more .nowmore { opacity: 1; pointer-events: auto }
 /* a narrow desktop window has no swipe, so there the chips wrap onto a second line instead of scrolling */
 @media (min-width: 561px), (hover: hover) and (pointer: fine) { .nowbar .nowchips { flex-wrap: wrap; justify-content: center; overflow-x: visible } }
 .nowchip { flex: none; font-size: 13px; padding: 4px 10px; min-height: 0 } .nowchip .cicon { margin-right: 0 } /* the chip's own gap spaces the icon, as on the sport buttons */
@@ -1991,8 +1995,14 @@ function renderNowBar(now) {
   onNowComps = new Set(on.map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
   $('nowBar').hidden = !on.length;
-  $('nowBar').innerHTML = on.length ? `<span class="nowlbl">Current running series</span><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}</div>` : '';
+  $('nowBar').innerHTML = on.length ? `<span class="nowlbl">Current running series</span><div class="nowwrap" id="nowWrap"><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}</div><button type="button" class="nowmore" id="nowMore" tabindex="-1" aria-hidden="true">›</button></div>` : '';
   balanceNow();
+  if ($('nowChips')) { $('nowChips').addEventListener('scroll', syncNowMore, { passive: true }); syncNowMore(); }
+}
+// on a phone the chips scroll sideways; a small arrow at the right edge shows there are more, until the end is reached
+function syncNowMore() {
+  const box = $('nowChips'); if (!box) return;
+  $('nowWrap').classList.toggle('more', box.scrollLeft + box.clientWidth < box.scrollWidth - 4);
 }
 // when the series chips wrap (a narrow desktop window), narrow their box so the lines hold even counts, 3 and 2 rather than 4 and 1
 function balanceNow() {
@@ -2273,6 +2283,7 @@ document.addEventListener('click', ev => {
   else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
   else if (t.dataset.laterpage != null) { laterPage = Math.max(0, +t.dataset.laterpage); render(); toSec('laterSec'); }
   else if (t.dataset.view) { view = t.dataset.view; store.set('view', view); render(); }
+  else if (t.id === 'nowMore') { const c = $('nowChips'); c.scrollBy({ left: c.clientWidth * 0.7, behavior: 'smooth' }); }
   else if (t.id === 'spoilBtn') { spoilers = !spoilers; store.set('spoilers', spoilers); if (spoilers && !spoilDays) { spoilDays = 4; store.set('spoilDays', 4); } render(); }
   else if (t.id === 'panelClose') closeSettings();
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); }
@@ -2303,7 +2314,7 @@ function dotCap() {
 }
 // redraw when the window changes how many fit
 let lastCap = 0;
-addEventListener('resize', () => { if (lastCap && dotCap() !== lastCap) render(); else balanceNow(); });
+addEventListener('resize', () => { if (lastCap && dotCap() !== lastCap) render(); else { balanceNow(); syncNowMore(); } });
 $('compMenu').addEventListener('click', ev => { const b = ev.target.closest('[data-comp]'); if (!b) return; ev.stopPropagation(); compSel = b.dataset.comp; store.set('comp', compSel); closeComp(); render(); });
 document.addEventListener('click', ev => { if (!ev.target.closest('.cmenu')) closeComp(); }, true);
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape') { closeComp(); closeSettings(); } });
