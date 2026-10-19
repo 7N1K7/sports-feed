@@ -168,7 +168,10 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .day .dd { font-family: var(--f-display); font-size: 24px; font-weight: 700; line-height: 1 }
 .day .dots { display: flex; gap: 3px; justify-content: center; align-content: center; min-height: 17px; flex-wrap: wrap } /* room for two rows, so filtering never changes the strip's height */
 .dot { width: 7px; height: 7px; border-radius: 50% }
-.dot.more { display: grid; place-items: center; font: 700 11px/1 var(--f-body); color: var(--muted) }
+/* the "+" is drawn, not typed, so it sits dead centre in a dot's spot */
+.dot.more { position: relative; border-radius: 0; color: var(--muted) }
+.dot.more::before, .dot.more::after { content: ''; position: absolute; left: 50%; top: 50%; width: 7px; height: 1.6px; background: currentColor; border-radius: 1px; transform: translate(-50%, -50%) }
+.dot.more::after { transform: translate(-50%, -50%) rotate(90deg) }
 .day.today { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
 .day.empty .dd { color: var(--muted) }
 
@@ -1961,8 +1964,9 @@ function render() {
   $('week').innerHTML = days.map(d => {
     const k = dayKey(d);
     const list = evs.filter(e => dayKey(new Date(e.startUTC)) === k);
-    // six spots: past six games, the last spot becomes a "+"
-    const dots = (list.length > 6 ? list.slice(0, 5) : list).map(e => `<span class="dot" style="background:var(--${e.sport})"></span>`).join('') + (list.length > 6 ? `<span class="dot more" title="${list.length - 5} more" aria-hidden="true">+</span>` : '');
+    // as many spots as two rows hold (six on a phone); past that, the last spot becomes a "+"
+    const cap = dotCap();
+    const dots = (list.length > cap ? list.slice(0, cap - 1) : list).map(e => `<span class="dot" style="background:var(--${e.sport})"></span>`).join('') + (list.length > cap ? `<span class="dot more" title="${list.length - cap + 1} more" aria-hidden="true"></span>` : '');
     const wd = fmt(d, NZ, { weekday: 'short' });
     return `<button class="day ${k === todayK ? 'today' : ''} ${k === selDay ? 'sel' : ''} ${/Sat|Sun/.test(wd) ? 'wkend' : ''} ${list.length ? '' : 'empty'}" type="button" data-jump="${k}" aria-label="${dayLabel(d, NZ)}, ${list.length} games">
       <span class="dn">${k === todayK ? 'Today' : fmt(d, NZ, { weekday: 'short' })}</span>
@@ -2212,6 +2216,15 @@ function closeComp() { $('compMenu').hidden = true; $('compSel').setAttribute('a
 const fitComp = () => { const m = $('compMenu'); if (!m.hidden) m.style.maxHeight = Math.max(220, innerHeight - $('compSel').getBoundingClientRect().bottom - 24) + 'px'; };
 $('compSel').addEventListener('click', ev => { ev.stopPropagation(); const open = $('compMenu').hidden; $('compMenu').hidden = !open; $('compSel').setAttribute('aria-expanded', String(open)); fitComp(); });
 addEventListener('resize', fitComp);
+// dots that fit in two rows of a day in the week strip (7px dots, 3px apart); six on a phone
+function dotCap() {
+  if (PHONE.matches) return 6;
+  const w = $('week').clientWidth; if (!w) return 6;
+  const inner = (w - 6 * 6) / 7 - 10, perRow = Math.max(3, Math.floor((inner + 3) / 10));
+  return Math.min(24, perRow * 2);
+}
+// redraw the strip when the window is resized enough to change how many dots fit
+let lastCap = 0; addEventListener('resize', () => { const c = dotCap(); if (lastCap && c !== lastCap) render(); lastCap = c; });
 $('compMenu').addEventListener('click', ev => { const b = ev.target.closest('[data-comp]'); if (!b) return; ev.stopPropagation(); compSel = b.dataset.comp; store.set('comp', compSel); closeComp(); render(); });
 document.addEventListener('click', ev => { if (!ev.target.closest('.cmenu')) closeComp(); }, true);
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape') { closeComp(); closeSettings(); } });
