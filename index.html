@@ -181,6 +181,7 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .tag.live { background: var(--live); color: #fff }
 .pager { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 14px auto 0; font-size: 14px; color: var(--muted) }
 .pager .btn[disabled] { opacity: .4; cursor: default }
+.pager > .num { min-width: 8em; text-align: center }
 .tag.paused { background: color-mix(in srgb, var(--live) 15%, transparent); color: var(--live); border: 1px solid color-mix(in srgb, var(--live) 40%, transparent) }
 .sport-rugby { --sport: var(--rugby) } .sport-cricket { --sport: var(--cricket) } .sport-league { --sport: var(--league) } .sport-football { --sport: var(--football) } .sport-mma { --sport: var(--mma) } .sport-boxing { --sport: var(--boxing) } .sport-motor { --sport: var(--motor) } .sport-tennis { --sport: var(--tennis) }
 
@@ -1027,7 +1028,7 @@ let compSel = store.get('comp', '');
 let genderSel = store.get('gender', 'all');
 let nzOnly = store.get('nzOnly', false);
 let selDay = '', drawDayPick = () => {};
-let hubTab = 'games', resPage = 0, rankSel = '';
+let hubTab = 'games', resPage = 0, laterPage = 0, rankSel = '';
 const NZ_KEYS = new Set(['allblacks', 'blackferns', 'npc', 'fpc', 'blues', 'chiefs', 'hurricanes', 'crusaders', 'highlanders', 'moana', 'blackcaps', 'whiteferns', 'nzdomestic', 'kiwis', 'kiwiferns', 'warriors', 'phoenix', 'aucklandfc', 'nzboxing']);
 const NZ_NAMES = /\bNew Zealand\b|^(Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Moana Pasifika)$|Warriors|Wellington Phoenix|Auckland FC|All Blacks|Black Ferns|Black ?Caps|White Ferns|Kiwi/;
 const isNZ = x => NZ_KEYS.has(x.team) || !!x.nzEvent || [x.home, x.away].some(n => NZ_NAMES.test(n || ''));
@@ -1701,6 +1702,8 @@ function drawSearch() {
   $('qList').hidden = q.length < 2;
   $('q').setAttribute('aria-expanded', String(q.length >= 2));
 }
+// scroll a section's heading to just under the sticky header
+const toSec = id => scrollTo({ top: $(id).getBoundingClientRect().top + scrollY - document.querySelector('header.top').offsetHeight - 10 });
 const closeSearch = () => { $('qList').hidden = true; $('q').setAttribute('aria-expanded', 'false'); };
 $('q').addEventListener('input', drawSearch);
 $('q').addEventListener('focus', drawSearch);
@@ -1821,16 +1824,17 @@ function render() {
   $('tomorrow').innerHTML = toms.map(e => evCard(e, now)).join('');
   rest.filter(e => !toms.includes(e)).forEach(e => { const k = dayKey(new Date(e.startUTC)); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(e) });
   const weekEnd = dayKey(new Date(now + 6 * 864e5));
-  const showAll = store.get('showAllUp', false);
   const dayGroup = (k, list) => `<div class="daygroup"><div class="dayhead" id="d-${k}">${fmt(new Date(list[0].startUTC), NZ, { weekday: 'long', day: 'numeric', month: 'long' })}</div>${list.map(e => evCard(e, now)).join('')}</div>`;
-  let html = '', later = '', n = 0, hiddenCount = 0;
-  for (const [k, list] of groups) {
-    if (k <= weekEnd) { html += dayGroup(k, list); continue; }
-    if (!showAll && n >= 8) { hiddenCount += list.length; continue; }
-    later += dayGroup(k, list);
-    n += list.length;
-  }
-  if (hiddenCount) later += `<div class="daygroup"><button class="btn more" id="moreUp" type="button">Show ${hiddenCount} more fixtures</button></div>`;
+  let html = '', later = '';
+  const ahead = [];
+  for (const [k, list] of groups) { if (k <= weekEnd) html += dayGroup(k, list); else ahead.push(...list); }
+  // further ahead: ten fixtures a page, soonest first, the same way Results pages back
+  const LPER = 10, lpages = Math.max(1, Math.ceil(ahead.length / LPER));
+  laterPage = Math.min(laterPage, lpages - 1);
+  const lgroups = new Map();
+  ahead.slice(laterPage * LPER, laterPage * LPER + LPER).forEach(e => { const k = dayKey(new Date(e.startUTC)); if (!lgroups.has(k)) lgroups.set(k, []); lgroups.get(k).push(e); });
+  for (const [k, list] of lgroups) later += dayGroup(k, list);
+  if (lpages > 1) later += `<div class="pager"><button type="button" class="btn" data-laterpage="${laterPage - 1}"${laterPage ? '' : ' disabled'}>‹ Sooner</button><span class="num">Page ${laterPage + 1} of ${lpages}</span><button type="button" class="btn" data-laterpage="${laterPage + 1}"${laterPage < lpages - 1 ? '' : ' disabled'}>Later ›</button></div>`;
   $('later').innerHTML = later;
   $('laterSec').hidden = !later;
 
@@ -1955,7 +1959,7 @@ function tick() { $('clock').textContent = `${tzLabel()} ${fmt(new Date(), NZ, {
 
 document.addEventListener('click', ev => {
   // the logo and name go back to the main page: out of any competition page, results back to the newest, to the top
-  if (ev.target.closest('#home')) { ev.preventDefault(); if ($('sheet').open) $('sheet').close(); $('q').value = ''; closeSearch(); compSel = ''; store.set('comp', ''); hubTab = 'games'; resPage = 0; render(); scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  if (ev.target.closest('#home')) { ev.preventDefault(); if ($('sheet').open) $('sheet').close(); $('q').value = ''; closeSearch(); compSel = ''; store.set('comp', ''); hubTab = 'games'; resPage = 0; laterPage = 0; render(); scrollTo({ top: 0, behavior: 'smooth' }); return; }
   if (ev.target.closest('a')) return;
   const t = ev.target.closest('button');
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) openDetail(card.dataset.open); else if (ev.target === $('sheet')) $('sheet').close(); return; }
@@ -1988,10 +1992,10 @@ document.addEventListener('click', ev => {
     const k = [...sportSel].find(have) || (have(cs) ? cs : '') || ['rugby', 'cricket', 'league', 'mma'].find(have);
     rankSel = ''; if (k) openRankings(k);
   }
-  else if (t.dataset.respage != null) { resPage = Math.max(0, +t.dataset.respage); render(); $('resSec').scrollIntoView({ block: 'start' }); }
+  else if (t.dataset.respage != null) { resPage = Math.max(0, +t.dataset.respage); render(); toSec('resSec'); }
   else if (t.id === 'hubClose') { compSel = ''; store.set('comp', ''); hubTab = 'games'; render(); }
   else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
-  else if (t.id === 'moreUp') { store.set('showAllUp', true); render(); }
+  else if (t.dataset.laterpage != null) { laterPage = Math.max(0, +t.dataset.laterpage); render(); toSec('laterSec'); }
   else if (t.dataset.view) { view = t.dataset.view; store.set('view', view); render(); }
   else if (t.id === 'spoilBtn') { spoilers = !spoilers; store.set('spoilers', spoilers); render(); }
   else if (t.id === 'panelClose') closeSettings();
