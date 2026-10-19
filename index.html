@@ -170,9 +170,6 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .ev .nz { font-family: var(--f-display); font-size: 24px; font-weight: 700; line-height: 1 }
 .ev .nzl { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted) }
 .ev .loc { font-size: 12px; color: var(--muted) }
-.ev .comp .series { text-transform: none; letter-spacing: 0; font-weight: 600; color: var(--muted) }
-.ev .comp .series::before { content: '· '; }
-@media (max-width: 560px) { .ev .comp .series { flex-basis: 100% } .ev .comp .series::before { content: none } }
 .ev .hl { justify-self: end; font-size: 13px; font-weight: 700; color: #e03131; text-decoration: none; padding: 3px 9px; border: 1px solid color-mix(in srgb, #e03131 40%, transparent); border-radius: 999px }
 .ev .hl:hover { background: color-mix(in srgb, #e03131 10%, transparent) }
 @media (max-width: 560px) { .ev .hl { justify-self: start } }
@@ -288,6 +285,10 @@ footer a { color: var(--muted) }
 .livelink { font-size: 13px; font-weight: 700; color: var(--live); text-decoration: none; justify-self: end }
 .livelink:hover { text-decoration: underline }
 .ev .when .livelink { margin-top: 6px }
+.ev .series { text-align: center; font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.2 }
+/* desktop: the series line sits in the spare room at the card's foot, so the card keeps its height */
+@media (min-width: 561px) { .ev .series { position: absolute; left: 0; right: 0; bottom: 5px; pointer-events: none } }
+@media (max-width: 560px) { .ev .series { margin-top: 4px } }
 .ev .wx { font-size: 12px; font-weight: 700; color: #1c7ed6; margin-top: 4px }
 .ev .tv { color: var(--ink); font-weight: 600 }
 dialog#sheet { border: 0; padding: 0; margin: auto auto 0; width: min(640px, 100%); max-height: 88vh; border-radius: 16px 16px 0 0; background: var(--surface); color: var(--ink); box-shadow: 0 -8px 40px rgba(0,0,0,.25) }
@@ -722,7 +723,6 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 .ev .comp .ctitle { font-size: 13.5px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp .ctitle { font-size: 12.5px }
 .ev .comp .ctags { justify-self: start; display: flex; align-items: center; gap: 5px }
-@media (max-width: 560px) { .ev .comp .series { display: block } }
 /* the "v" sits in the middle of its column whether or not a score is beside it */
 .matchup > .v { text-align: center }
 .ev .when .wbr { display: none }
@@ -1204,7 +1204,7 @@ function seriesLine(e, now) {
     const [a, b] = [e.home, e.away].sort((x, y) => wins[y] - wins[x]);
     state = wins[a] === wins[b] ? ` · ${f} series level ${wins[a]}–${wins[b]}` : ` · ${esc(displayName(a, e))} lead the ${f} series ${wins[a]}–${wins[b]}`;
   }
-  return `<span class="series">${f === 'Test' ? 'Test' : 'Game'} ${n} of ${all.length}${state}</span>`;
+  return `<div class="series">${f === 'Test' ? 'Test' : 'Game'} ${n} of ${all.length}${state}</div>`;
 }
 
 function evCard(e, now) {
@@ -1227,8 +1227,9 @@ function evCard(e, now) {
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${esc(cardComp(e))}</span>${seriesLine(e, now)}</span><span class="ctags">${compBadge(e)}${intlTag(e)}</span></div>
+      <div class="comp"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${esc(cardComp(e))}</span></span><span class="ctags">${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
+      ${seriesLine(e, now)}
     </div>
     <div class="when">
       <div class="nzl">${START_LABEL[e.sport] || 'Start'} ${esc(tzLabel())}</div>
