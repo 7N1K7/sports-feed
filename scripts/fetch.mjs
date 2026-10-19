@@ -125,9 +125,10 @@ async function heraldNews() {
     for (const m of xml.matchAll(/<item>([\s\S]*?)<\/item>/g)) {
       const get = tag => unxml((m[1].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1]);
       const title = get('title'), url = get('link');
+      const d = new Date(get('pubDate'));
+      if (/\/cricket\//.test(feedUrl) && url && !isNaN(d)) CRICKET_HEADLINES.push({ title, url, at: d.toISOString(), credit: 'Headline supplied by nzherald.co.nz' });
       const team = teamFor(title);
       if (!team || !url || out.some(x => x.url === url)) continue;
-      const d = new Date(get('pubDate'));
       out.push({
         id: 'nzh-' + url.split('/').filter(Boolean).slice(-2).join('-').slice(0, 80), team,
         date: isNaN(d) ? new Date(now).toISOString().slice(0, 10) : d.toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }),
@@ -220,6 +221,8 @@ async function fightNews() {
 // a website as long as the feed isn't changed and is credited "from BBC" with a link nearby, so each story keeps its
 // headline and summary exactly as sent, links to the BBC, and is credited with a link to BBC Sport. Images are left out.
 // Only stories that name one of our teams (or a fixture's teams) are kept
+// every cricket headline, matched to our teams or not, for spotting rain on any match we list
+const CRICKET_HEADLINES = [];
 const BBC_FEEDS = ['rugby-union', 'rugby-league', 'cricket', 'boxing', 'mixed-martial-arts', 'formula1', 'tennis', 'football/premier-league']
   .map(s => [s, `https://feeds.bbci.co.uk/sport/${s}/rss.xml`]);
 async function bbcNews() {
@@ -237,8 +240,10 @@ async function bbcNews() {
       const get = tag => unxml((m[1].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1]);
       const title = get('title'), summary = get('description'), url = get('link').replace(/\?at_medium=RSS.*$/, '');
       const d = new Date(get('pubDate'));
+      if (name === 'cricket' && url && !isNaN(d)) CRICKET_HEADLINES.push({ title, url, at: d.toISOString(), credit: 'From BBC Sport', creditUrl: 'https://www.bbc.com/sport' });
       const team = teamFor(title + ' ' + summary);
-      if (!team || !url || isNaN(d) || now - d > 10 * DAY || out.some(x => x.url === url)) continue;
+      // the newest eight stories a feed has for us, so a busy one (the Premier League) doesn't crowd out the rest
+      if (n >= 8 || !team || !url || isNaN(d) || now - d > 10 * DAY || out.some(x => x.url === url)) continue;
       out.push({
         id: 'bbc-' + url.split('/').filter(Boolean).slice(-1)[0].replace(/\W+/g, '-').slice(0, 80), team,
         date: d.toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }), at: d.toISOString(),
@@ -517,7 +522,7 @@ const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 {
   const WET = /\b(rain\w*|showers?|wet outfield|washed out|wash-?out|delay(ed|s)?|bad light|abandon\w*|no play|covers)\b/i;
   const flat = t => norm(String(t || '').replace(/proteas/gi, 'south africa').replace(/windies/gi, 'west indies'));
-  const wet = newsAll.filter(n => n.at && now - Date.parse(n.at) < 12 * 36e5 && WET.test(n.title) && /^(BBC Sport|nzherald\.co\.nz)$/.test(n.source));
+  const wet = [...CRICKET_HEADLINES, ...newsAll.filter(n => /^nzherald\.co\.nz$/.test(n.source))].filter(n => n.at && now - Date.parse(n.at) < 12 * 36e5 && WET.test(n.title));
   const hits = [];
   for (const e of events) {
     const start = Date.parse(e.startUTC);
