@@ -1,9 +1,1 @@
-version 252 | generated 2026-10-19T13:31:47.387Z
-alerts: 0 due, 0 sent
-calendars: nz 338; allblacks 11, blackferns 9, npc 79, fpc 2, wallabies 11, blues 32, chiefs 33, hurricanes 53, crusaders 32, highlanders 30, moana 5, aurugby 98, superrugby 166, blackcaps 24, whiteferns 13, nzdomestic 13, aucricket 27, intlcricket 64, bbl 48, wbbl 46, kiwis 9, kiwiferns 6, warriors 3, nrl 10, rlwc 66, phoenix 3, aucklandfc 3, aleague 18, epl 40, blacksticks 19, blacksticksw 19, f1 23, tennis 12, ufc 14, boxing 17, nzboxing 0
-ntfy kickoffkiwi-nz last 12h: (none)
-next games: 2026-10-19T19:00:00.000Z epl Tottenham Hotspur v Coventry City
-  2026-10-20T08:15:00.000Z whiteferns Australia Women v New Zealand Women
-  2026-10-22T07:00:00.000Z blackcaps New Zealand v India
-  2026-10-22T08:15:00.000Z whiteferns Australia Women v New Zealand Women
-  2026-10-23T06:50:00.000Z rlwc Samoa v Wales
+version 253 events 495 news 156 bytes 649110
