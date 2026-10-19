@@ -157,6 +157,9 @@ header.top .wrap { display: flex; align-items: center; justify-content: flex-end
 .calgo { display: flex; flex-wrap: wrap; gap: 6px }
 .calgo a, .calgo button { font: inherit; font-size: 13px; font-weight: 600; color: var(--ink); text-decoration: none; border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 4px 10px; cursor: pointer }
 .calgo a:hover, .calgo button:hover { border-color: var(--accent) }
+.calhow { font-size: 13px; color: var(--muted); border-left: 3px solid var(--line); padding: 2px 0 2px 10px; margin-top: 4px }
+.calhow b { color: var(--ink) }
+.calhow ul { margin: 4px 0 0; padding-left: 18px; display: grid; gap: 3px }
 .calmore > summary { cursor: pointer; font-size: 14px; font-weight: 600; padding: 4px 2px; color: var(--ink) }
 .calmore[open] > summary { margin-bottom: 6px }
 .panel .ph .phnote { display: inline-block; margin-left: 8px; font-size: 13px; font-weight: 500; color: var(--muted); vertical-align: .1em }
@@ -926,7 +929,7 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
     <h2 class="ph">My teams <span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news.</span></h2>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
     <div class="chips"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></div>
-    <h2 class="ph">Calendar <span class="phnote">Put the games in your phone or computer calendar, with a reminder before each one. It keeps itself up to date and never shows a score.</span></h2>
+    <h2 class="ph">Calendar <span class="phnote">Put the games in your phone or computer calendar, with a reminder before each one.</span></h2>
     <div class="cals" id="calList"></div>
   </div></div>
 </div>
@@ -2286,7 +2289,13 @@ function render() {
   const one = ALL_KEYS.filter(k => picked.has(k));
   $('calList').innerHTML = calRow('nz', 'All NZ teams')
     + (one.length ? `<details class="calmore"><summary>Or just one team or competition you follow (${one.length})</summary><div class="cals">${one.map(k => calRow(k, TEAM_NAME[k])).join('')}</div></details>` : '')
-    + `<p class="muted small">iPhone, Mac and Outlook remind you 30 minutes before each game. Google Calendar skips reminders in calendars added this way: in its settings for the calendar, set "Event notifications" to 30 minutes before. Google can take up to a day to pick up changes; Apple checks about hourly.</p>`;
+    + `<div class="calhow"><b>How it works</b><ul>
+      <li>Your calendar app subscribes to a public list of games on this site, then checks it for changes by itself (iPhone and Mac about hourly, Google up to once a day). Moved start times and new fixtures follow.</li>
+      <li><b>It only goes one way.</b> This site can't see, change or add anything else in your calendar, and doesn't know who has subscribed. No account or sign-in.</li>
+      <li>Only fixtures go in: start time, where to watch and the venue. Never a score or result.</li>
+      <li>Reminders: iPhone, Mac and Outlook remind you 30 minutes before each game. Google Calendar skips reminders in calendars added this way, so in its settings for the calendar set "Event notifications" to 30 minutes before, once.</li>
+      <li>To stop, delete or unsubscribe the calendar in your calendar app. The games disappear from it.</li>
+    </ul></div>`;
   fitTop(); syncPulse();
 }
 // Redrawn live tags and cards would restart their pulse on every click; run every pulse on the page's own clock instead
