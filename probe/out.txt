@@ -1,25 +1,30 @@
-kickoff.kiwi
-  RDAP (https://rdap.kiwi.fury.ca/rdap/): 404 (not registered)
-  NS: ENOTFOUND
-  WHOIS: Not found: kickoff.kiwi % % Use of CIRA's WHOIS service is governed by the Terms of Use in its Legal % Notice, available at https://www.cira.ca/en/resources/documents/about/website-terms-use % % (c) 2026 Canadian Internet Registration Authority, (http://www.cira.ca/) 
 
-kickoffkiwi.kiwi
-  RDAP (https://rdap.kiwi.fury.ca/rdap/): 404 (not registered)
-  NS: ENOTFOUND
-  WHOIS: Not found: kickoffkiwi.kiwi % % Use of CIRA's WHOIS service is governed by the Terms of Use in its Legal % Notice, available at https://www.cira.ca/en/resources/documents/about/website-terms-use % % (c) 2026 Canadian Internet Registration Authority, (http://www.cira.ca/) 
+## Crazy Domains .kiwi 403 https://www.crazydomains.co.nz/domain-names/kiwi/
+  kiwi: -
+  renew: -
+  json: 
 
-kickoffkiwi.nz
-  RDAP (-): no RDAP server listed
-  NS: ENOTFOUND
-  WHOIS: Not found: kickoffkiwi.nz % Terms of Use % % By submitting a WHOIS query you are entering into an agreement with Domain % Name Commission Ltd on the following terms and conditions, and subject to % all relevant .nz Policies and procedures as found at https://dnc.org.nz/. % % It is prohibited to: % -
+## Crazy Domains .kiwi (alt) 403 https://www.crazydomains.co.nz/domains/kiwi-domain-names/
+  kiwi: -
+  renew: -
+  json: 
 
-kickoff.kiwi.nz
-  RDAP (-): no RDAP server listed
-  NS: ENOTFOUND
-  WHOIS: Not found: kickoff.kiwi.nz % Terms of Use % % By submitting a WHOIS query you are entering into an agreement with Domain % Name Commission Ltd on the following terms and conditions, and subject to % all relevant .nz Policies and procedures as found at https://dnc.org.nz/. % % It is prohibited to: % 
+## Crazy Domains pricing 403 https://www.crazydomains.co.nz/domain-names/pricing/
+  kiwi: -
+  renew: -
+  json: 
 
-kickoffkiwi.co.nz
-  RDAP (-): no RDAP server listed
-  NS: ENOTFOUND
-  WHOIS: Not found: kickoffkiwi.co.nz % Terms of Use % % By submitting a WHOIS query you are entering into an agreement with Domain % Name Commission Ltd on the following terms and conditions, and subject to % all relevant .nz Policies and procedures as found at https://dnc.org.nz/. % % It is prohibited to: 
+## Namecheap .kiwi 403 https://www.namecheap.com/domains/registration/gtld/kiwi/
+  kiwi: -
+  renew: -
+  json: 
 
+## Metaname pricing 404 https://metaname.net/pricing
+  kiwi: -
+  renew: -
+  json: 
+
+## Metaname domains 404 https://metaname.net/domains
+  kiwi: -
+  renew: -
+  json: 
