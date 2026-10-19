@@ -385,6 +385,28 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     }
     diag.f1 = `${f1.length} races, ${f1.filter(e => e.status === 'final').length} with results; standings: ${tables.filter(t => t.team === 'f1').map(t => `${t.title} ${t.rows.length} (top ${t.rows[0]?.name} ${t.rows[0]?.pts})`).join(', ') || 'none'}`;
   } catch (e) { diag.f1 = 'error: ' + e.message; }
+  // Tennis: the four Grand Slams, the ATP and WTA Finals and Auckland's ASB Classic, from each tournament's own page.
+  // Each gives a women's and a men's singles final (the tournament's last two days), with the champion once it's played.
+  try {
+    const titles = years.flatMap(y => TENNIS.map(t => ({ ...t, y, title: t.title.replace('{Y}', y) })));
+    const got = {};
+    for (let i = 0; i < titles.length; i += 20) {
+      const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&rvsection=0&redirects=1&titles=' + encodeURIComponent(titles.slice(i, i + 20).map(t => t.title).join('|')));
+      const back = Object.fromEntries([...(r.query?.redirects || []), ...(r.query?.normalized || [])].map(x => [x.to, x.from]));
+      for (const pg of r.query?.pages || []) if (!pg.missing) got[back[back[pg.title]] || back[pg.title] || pg.title] = { title: pg.title, text: pg.revisions?.[0]?.slots?.main?.content || '' };
+      await sleep(300);
+    }
+    const ten = [], notes = [];
+    for (const t of titles) {
+      const pg = got[t.title];
+      if (!pg) continue;
+      const evs = tennisFinals(pg.text, pg.title, t);
+      notes.push(`${pg.title}: ${evs.map(e => `${e.draw} ${e.startUTC.slice(0, 10)}${e.status === 'final' ? ' ' + e.score : ''}`).join(', ') || 'no dates'}`);
+      ten.push(...evs.map(({ draw, ...e }) => e));
+    }
+    out.push(...ten);
+    diag.tennis = notes.join('; ') || 'no pages yet';
+  } catch (e) { diag.tennis = 'error: ' + e.message; }
   out.tables = tables;
   // UFC: read each nearby event's own article for the full fight card
   const ufcSoon = out.filter(e => e.team === 'ufc' && /\/wiki\/UFC/.test(e.source) && Math.abs(new Date(e.startUTC) - Date.now()) < 30 * DAY);
@@ -549,6 +571,61 @@ function rankAuto(rows, auto, p, { winPts, drawPts, lossPts }) {
     });
   }
   return [...buckets.flat(), ...auto.order.slice(n)].map(x => rows[idx.get(x)]);
+}
+
+// ---------- tennis ------------------------------------------------------------
+// times are the usual start of each final, local; the women's final is the day before the men's
+// (a week before at the ASB Classic, where the women play the first week)
+const TENNIS = [
+  { title: '{Y} Australian Open', name: 'Australian Open', city: 'Melbourne', venue: 'Melbourne Park', tz: 'Australia/Melbourne', w: [-1, 19, 30], m: [0, 19, 30] },
+  { title: '{Y} French Open', name: 'French Open', city: 'Paris', venue: 'Roland Garros', tz: 'Europe/Paris', w: [-1, 15, 0], m: [0, 15, 0] },
+  { title: '{Y} Wimbledon Championships', name: 'Wimbledon', city: 'London', venue: 'All England Club', tz: 'Europe/London', w: [-1, 16, 0], m: [0, 16, 0] },
+  { title: '{Y} US Open (tennis)', name: 'US Open', city: 'New York', venue: 'Flushing Meadows', tz: 'America/New_York', w: [-1, 16, 0], m: [0, 14, 0] },
+  { title: '{Y} ATP Finals', name: 'ATP Finals', city: 'Turin', venue: 'Inalpi Arena', tz: 'Europe/Rome', m: [0, 18, 0] },
+  { title: '{Y} WTA Finals', name: 'WTA Finals', city: 'Riyadh', venue: '', tz: 'Asia/Riyadh', w: [0, 19, 0] },
+  { title: '{Y} ASB Classic', name: 'ASB Classic', city: 'Auckland', venue: 'ASB Tennis Arena', tz: 'Pacific/Auckland', w: [-7, 14, 0], m: [0, 15, 0], nz: true },
+];
+// "12 January – 1 February 2026", "5–17 January", "January 12 – February 1, 2026", "29 December 2025 – 10 January 2026"
+function dateRange(v, year) {
+  const t = clean(v).replace(/\s+/g, ' ');
+  const mo = x => MONTHS.indexOf(String(x).slice(0, 3).toLowerCase());
+  let m = t.match(/(\d{1,2}) ([A-Za-z]{3,})(?: (\d{4}))? ?[–-] ?(\d{1,2}) ([A-Za-z]{3,})(?: (\d{4}))?/);
+  if (m && mo(m[2]) >= 0 && mo(m[5]) >= 0) {
+    const y2 = +(m[6] || year), y1 = +(m[3] || (mo(m[2]) > mo(m[5]) ? y2 - 1 : y2));
+    return { start: [y1, mo(m[2]), +m[1]], end: [y2, mo(m[5]), +m[4]] };
+  }
+  m = t.match(/(\d{1,2}) ?[–-] ?(\d{1,2}) ([A-Za-z]{3,})(?: (\d{4}))?/);
+  if (m && mo(m[3]) >= 0) return { start: [+(m[4] || year), mo(m[3]), +m[1]], end: [+(m[4] || year), mo(m[3]), +m[2]] };
+  m = t.match(/([A-Za-z]{3,}) (\d{1,2}) ?[–-] ?(?:([A-Za-z]{3,}) )?(\d{1,2}),? (\d{4})?/);
+  if (m && mo(m[1]) >= 0) { const y = +(m[5] || year), m2 = m[3] && mo(m[3]) >= 0 ? mo(m[3]) : mo(m[1]); return { start: [y, mo(m[1]), +m[2]], end: [y, m2, +m[4]] }; }
+  return null;
+}
+function tennisFinals(text, title, t) {
+  const box = templates(stripRefs(text), /^Infobox tennis/i)[0];
+  if (!box) return [];
+  const p = params(box.body).named;
+  const r = dateRange(p.date || p.dates || '', t.y);
+  if (!r) return [];
+  const champ = keys => { for (const k of keys) { const v = clean(p[k] || ''); if (v && !/^(tba|tbd|\?)$/i.test(v)) return v.replace(/\s*\(.*$/, ''); } return ''; };
+  // singles champions; the Finals pages have one draw, so their plain "champs" is that tour's
+  const champs = { w: champ(['champws', 'champ_ws', 'womens_singles', 'wsingles', ...(t.w && !t.m ? ['champs', 'champ'] : [])]), m: champ(['champms', 'champ_ms', 'mens_singles', 'msingles', ...(t.m && !t.w ? ['champs', 'champ'] : [])]) };
+  const end = r.end, out = [];
+  const openAt = localToUTC(r.start[0], r.start[1], r.start[2], 11, 0, t.tz);
+  for (const k of ['w', 'm']) {
+    if (!t[k]) continue;
+    const [dd, h, mi] = t[k];
+    const day = new Date(Date.UTC(end[0], end[1], end[2] + dd));
+    const at = localToUTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), h, mi, t.tz);
+    const who = champs[k], draw = k === 'w' ? "Women's" : "Men's";
+    out.push({
+      id: `tennis-${t.name.toLowerCase().replace(/\W+/g, '-')}-${t.y}-${k}`, team: 'tennis', tags: [], sport: 'tennis', comp: t.name, draw,
+      home: `${draw} final`, away: '', startUTC: new Date(at).toISOString(), openUTC: new Date(openAt).toISOString(), timeTBC: true, usual: true,
+      venue: t.venue, city: t.city, tz: t.tz, ...(t.nz ? { nzEvent: true } : {}),
+      status: who ? 'final' : 'upcoming', ...(who ? { score: `${who.split(' ').slice(-1)[0]} won`, summary: `${who} won the ${draw.toLowerCase()} singles.` } : {}),
+      source: `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`,
+    });
+  }
+  return out;
 }
 
 const F1_ON = true;
@@ -879,4 +956,5 @@ export async function tsdbEvents(all, diag, cache = {}, gapsFor = null) {
   }
   return out;
 }
+export { tennisFinals as _tennisFinals, dateRange as _dateRange, TENNIS as _TENNIS };
 export { fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
