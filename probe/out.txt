@@ -1,20 +1,146 @@
-header 200
-events 34 leagues 8
-KIND in|106|Lunch 5 | Meghalaya v Manipur [Day 2] Lunch / Manipur trail by 293 runs with 9 wickets remaining in the 1st innings || Arunachal Pradesh v Sikkim [Day 2] Lunch / Sikkim lead by 132 runs with 8 wickets remaining in the 1st innings || Baroda v Bihar [Day 2] Lunch / Baroda lead by 55 runs with 7 wickets remaining in the 1st innings
-KIND in|0|Live 20 | Nagaland v Mizoram [Day 2] Live / Nagaland won the toss and elected to field || Assam v Tripura [Day 2] Live / Tripura won the toss and elected to field || Andhra v Hyderabad (India) [Day 2] Live / Andhra trail by 140 runs with 5 wickets remaining in the 1st innings
-KIND in|103|Innings break 1 | Kerala v Odisha [Day 2] Innings break / Odisha won the toss and elected to field
-KIND in|112|Stumps 6 | Tasmania v Victoria [Day 1] Stumps / Tasmania won the toss and elected to bat || South Australia v Queensland [Day 1] Stumps / Queensland trail by 140 runs with 8 wickets remaining in the 1st innings || Sylhet Division v Rangpur Division [Day 1] Stumps / Rangpur Division trail by 147 runs with 9 wickets remaining in the 1st innings
-KIND in|101|Match delayed by rain 1 | South Africa v Australia [Day 2] Match delayed by rain / Australia won the toss and elected to field
-KIND pre|0|Scheduled 1 | Afghanistan v Zimbabwe [] Scheduled / Match scheduled to begin at 15:30 local time (11:30 GMT)
+missing names 114 | reasons: no free photo=30, no article=62, not a fighter page =10
 
-###### LIVE TEST 24203 Australia tour of South Africa 2026/27
-{"gamecastAvailable":false,"playByPlayAvailable":false,"commentaryAvailable":false,"recent":true,"id":"1525660","competitionId":"1525660","uid":"s:200~e:1525660~c:1525660","date":"2026-10-18T07:45:00Z","endDate":"2026-10-23T23:59:00Z","timeValid":true,"name":"South Africa v Australia","shortName":"SA v AUS","description":"2nd Test, Australia tour of South Africa at Gqeberha, Oct 18-22 2026","updatesOnly":false,"title":"2nd Test","locationAndDate":"at Gqeberha, Oct 18-22 2026","class":{"internationalClassId":"1","generalClassId":"4","generalClassCard":"Test","name":"Test matches","eventType":"Test"},"location":"St George's Park, Gqeberha","season":2026,"seasonStartDate":"2026-09-24T00:00:00Z","preCommentaryAvailable":false,"seasonEndDate":"2026-10-31T23:59:00Z","seasonType":"1","seasonTypeHasGroups":false,"group":{"groupId":"1","name":"Regular Season","abbreviation":"Australia tour of South Africa","shortName":"AUSTRALIA TOUR OF SOUTH AFRICA"},"period":1,"clock":"0'","addedClock":0,"status":"in","summary":"Match delayed by rain","eventType":"Test","fullStatus":{"clock":0,"addedClock":0,"displayClock":"0'","presentLocalTime":"10:38","period":1,"session":"Day 2","battingTeamId":3,"dayNumber":2,"longSummary":"Australia won the toss and elected to field","summary":"Australia won toss & fielded","type":{"id":"101","description":"Match delayed by rain","detail":"Live","shortDetail":"Live","state":"in"}},"notes":[{"href":"https://www.cricinfo.com/ci/engine/records/index.html?class=1","text":"Test no. 2638","type":"matchnumber"},{"href":"https://www.cricinfo.com/ci/engine/series/index.html?season=2026/27","text":"2026/27","type":"season"},{"text":"18,19,20,21,22 October 2026 (5-day match)","type":"matchdays"},{"text":"9.45 start, Lunch 12.00-12.40, Tea 14.55-15.15, Close 17.15","type":"hoursofplay"},{"text":"Australia , elected to field first","type":"toss"},{"text":"Alagappan Muthu","type":"livecommentator"},{"text":"Harshith Gowda","type":"livescorer"},{"dayNumber":"1","id":"770269","text":"Rain: South Africa - 0/0","type":"matchnote"},{"dayNumber":"1","id":"770270","text":"Wet Ground: South Africa - 0/0","type":"matchnote"},{"dayNumber":"1","id":"770271","text":"Arno Jacobs is on-field umpire for Chris Gaffaney from the start of South Africa 1st Innings","type":"matchnote"},{"dayNumber":"1","id":"770276","text":"Rain: South Africa - 11/0 in 5.3 overs (AK Markram 10, MJ Ackerman 1)","type":"matchnote"},{"dayNumber":"1","id":"770281","text":"Lunch: South Africa - 11/0 in 5.3 overs (AK Markram 10, MJ Ackerman 1)","type":"matchnote"},{"dayNumber":"1","id":"770294","text":"Rain: South Africa - 20/2 in 12.2 overs (MJ Ackerman 5, T Bavuma 4)","type":"matchnote"},{"dayNumber":"1","id":"770301","text":"Tea: South Africa - 20/2 in 12.2 overs (MJ Ackerman 5, T Bavuma 4)","type":"matchnote"},{"dayNumber":"1","id":"770304","text":"Rain: South Africa - 20/2 in 12.2 overs (MJ Ackerman 5, T Bavuma 4)","type":"matchnote"},{"dayNumber":"1","id":"770308","text":"End Of Day: South Africa - 20/2 in 12.2 overs (MJ Ackerman 5, T Bavuma 4)","type":"matchnote"},{"dayNumber":"2","id":"770343","text":"Rain: South Africa - 20/2 in 12.2 overs (MJ Ackerman 5, T Bavuma 4)","type":"matchnote"},{"date":"","dayNumber":"1","id":219394,"text":"day 1 - South Africa 1st innings 20/2 (MJ Ackerman 5*, T Bavuma 4*, 12.2 ov)","type":"closeofplay"}],"link":"https://www.espn.in/cricket/series/24203/game/1525660/south-africa-vs-australia-2nd-test-24203","links":[{"rel":["event","boxscore","match","live","summary","desktop"],"href":"https://www.espn.in/cricket/series/24203/game/1525660/south-africa-vs-australia-2nd-test-24203","text":"Summary"},{"rel":["event","recap","report","desktop"],"href":"https://www.espn.in/cricket/series/24203/report/1525660/south-africa-vs-australia-2nd-test-24203","text":"Report"},{"rel":["event","league","serieshome","desktop"],"href":"https://www.espn.in/cricket/series/_/id/24203/24203","text":"Series Home"}],"onWatch":false,"competitors":[{"id":"3","uid":"s:200~t:3","type":"team","order":1,"homeAway":"home","winner":false,"score":"20/2 (12.2 ov)","record":"0-0","logo":"https://a.espncdn.com/i/teamlogos/cricket/500/3.png","links":[{"language":"en","rel":["clubhouse","desktop"],"href":"https://www.espn.in/cricket/team/_/id/3/south-africa","text":"Clubhouse","shortText":"Clubhouse","isExternal":false,"isPremium":false},{"language":"en","rel":["fixtures","desktop"],"href":"https://www.espn.in/cricket/scores/team/3/south-africa","text":"Fixtures","shortText":"Fixtures","isExternal":false,"isPremium":false},{"language":"en","rel":["statistics","desktop"],"href":"https://stats.espncricinfo.com/ci/engine/records/index.html?id=3;type=team","text":"Statistics","shortText":"Statistics","isExternal":false,"isPremium":false},{"language":"en","rel":["players","desktop"],"href":"https://www.cricinfo.com/ci/content/player/country.html?country=3","text":"Players","shortText":"Players","isExternal":false,"isPremium":false},{"language":"en","rel":["videos","desktop"],"href":"https://www.cricinfo.com/ci/content/current/video_audio/index.html?object=3","text":"Videos","shortText":"Videos","isExternal":false,"isPremium":false}],"place":1,"displayName":"South Africa","name":"SA","abbreviation":"SA","location":"South Africa","color":"#ace411","isNational":true,"competitionIdPrevious":"1525659","competitionIdNext":"1525661"},{"id":"2","uid":"s:200~t:2","type":"team","order":2,"homeAway":"away","winner":false,"score":"","record":"0-0","logo":"https://a.espncdn.com/i/teamlogos/cricket/500/2.png","links":[{"language":"en","rel":["clubhouse","desktop"],"href":"https://www.espn.in/cricket/team/_/id/2/australia","text":"Clubhouse","shortText":"Clubhouse","isExternal":false,"isPremium":false},{"language":"en","rel":["fixtures","desktop"],"href":"https://www.espn.in/cricket/scores/team/2/australia","text":"Fixtures","shortText":"Fixtures","isExternal":false,"isPremium":false},{"language":"en","rel":["statistics","desktop"],"href":"https://stats.espncricinfo.com/ci/engine/records/index.html?id=2;type=team","text":"Statistics","shortText":"Statistics","isExternal":false,"isPremium":false},{"language":"en","rel":["players","desktop"],"href":"https://www.cricinfo.com/ci/content/player/country.html?country=2","text":"Players","shortText":"Players","isExternal":false,"isPremium":false},{"language":"en","rel":["videos","desktop"],"href":"https://www.cricinfo.com/ci/content/current/video_audio/index.html?object=2","text":"Videos","shortText":"Videos","isExternal":false,"isPremium":false}],"place":1,"displayName":"Australia","name":"AUS","abbreviation":"AUS","location":"Australia","color":"#f3f702","isNational":true,"competitionIdPrevious":"1525659","competitionIdNext":"1525661"}],"appLinks":[]}
+#### WIKIDATA {"searched":114,"matched":46,"p18":7,"other":2}
+FACE Sebastian Fundora | no free photo | (on Wikidata Q110977051, no photo; 7 other-language articles)
+FACE Dalton Smith | no free photo | (on Wikidata Q96603074, no photo; 3 other-language articles)
+FACE Alberto Puello | no free photo | (on Wikidata Q65972732, no photo; 4 other-language articles)
+FACE Elif Nur Turhan | no free photo | (on Wikidata Q133515937, no photo; 1 other-language articles)
+FACE Jasmina Zapotoczna | no free photo | (on Wikidata Q133160296, no photo; 0 other-language articles)
+FACE Losene Keita | no free photo | (on Wikidata Q115821268, no photo; 8 other-language articles)
+FACE Abdul-Rakhman Yakhyaev | no article | -
+FACE Cameron Rowston | no article | -
+FACE Abubakar Vagaev | no article | OTHER-WIKI io: File:Ne_havas_libera_imajo.svg
+FACE Asaf Chopurov | no article | -
+FACE Cristian Pérez | not a fighter page (Uruguayan footballer (born 1990)) | -
+FACE Timothy Cuamba | no article | -
+FACE Louis Jourdain | no article | -
+FACE Mandel Nallo | no article | -
+FACE Nick Galanti | no article | -
+FACE Julien Leblanc | no article | -
+FACE Joel Faglier | no article | -
+FACE Mackenzie Stiller | no article | -
+FACE Steven Koslow | no article | -
+FACE Chad Anheliger | no article | -
+FACE Melissa Croden | no article | -
+FACE You Su-young | no article | -
+FACE Cody Chovancek | no article | -
+FACE Jared Cannonier | card | File:Jared Cannonier at UFC Fight Night 160 in Copenhagen.jpg
+FACE Ikram Aliskerov | card | File:Ikram Aliskerov 2024.png
+FACE Shamil Gaziev | card | (on Wikidata Q126005422, no photo; 6 other-language articles)
+FACE Tallison Teixeira | card | File:Tallison Teixeira 2025.jpg
+FACE Jake Matthews | card | File:Jake Mattews & Jon Jones.jpg
+FACE Tahir Abdullayev | card | -
+FACE Aleksandre Topuria | card | File:Aleksandre Topuria at the UFC Freedom 250 Ceremony.jpg
+FACE Santiago Luna | card | -
+FACE Asu Almabayev | card | File:AsuAlmabayev.png
+FACE Kyoji Horiguchi | card | File:Kyoji Horiguchi 2017.jpg
+FACE Amir Albazi | card | (on Wikidata Q78095043, no photo; 7 other-language articles)
+FACE Alessandro Costa | card | -
+FACE Luis Gurule | no article | -
+FACE Charles Radtke | not a fighter page (American studio furniture maker) | -
+FACE Beatriz Mesquita | no free photo | (on Wikidata Q48641628, no photo; 3 other-language articles)
+FACE Elijah Smith | not a fighter page (Topics referred to by the same term) | (on Wikidata Q140191060, no photo; 1 other-language articles)
+FACE Billy Elekana | no free photo | (on Wikidata Q137584666, no photo; 2 other-language articles)
+FACE Lucas Fernando | no article | -
+FACE Ko Seok-hyeon | no article | -
+FACE Mantas Kondratavičius | no article | -
+FACE Gabriella Fernandes | no article | -
+FACE José Mauro Delano | no article | -
+FACE Murtazali Magomedov | no article | -
+FACE Keiichiro Nakamura | no article | (on Wikidata Q136692912, no photo; 1 other-language articles)
+FACE Ollie Schmid | no article | -
+FACE Austin Bashi | no article | (on Wikidata Q140546496, no photo; 1 other-language articles)
+FACE Lucas Brennan | no free photo | (on Wikidata Q112990147, no photo; 2 other-language articles)
+FACE Nina Nikolija Milošević | no article | -
+FACE Jonny Parsons | no article | -
+FACE José Henrique Souza | no article | -
+FACE Jean-Paul Lebosnoyani | no article | (on Wikidata Q138392818, no photo; 1 other-language articles)
+FACE Farman Hasanov | no free photo | (on Wikidata Q141744873, no photo; 0 other-language articles)
+FACE Azamat Bekoev | no free photo | (on Wikidata Q124754561, no photo; 2 other-language articles)
+FACE Rodrigo Sezinando | no article | -
+FACE Theodor Berggren | no article | -
+FACE Lee Jeong-yeong | not a fighter page (South Korean handball player (born 1979)) | -
+FACE Nick Klein | not a fighter page (no description) | -
+FACE Joseph Kropschot | no article | -
+FACE Piera Rodriguez | no article | (on Wikidata Q126718723, no photo; 1 other-language articles)
+FACE Tainara Lisboa | no article | -
+FACE Floyd Schofield | no free photo | (on Wikidata Q127280702, no photo; 2 other-language articles)
+FACE Lucas Bahdi | no free photo | (on Wikidata Q132637703, no photo; 1 other-language articles)
+FACE Ricardo Sandoval | no free photo | -
+FACE Osleys Iglesias | no free photo | (on Wikidata Q112989460, no photo; 4 other-language articles)
+FACE Oliver Zaren | no free photo | -
+FACE Takuma Inoue | no free photo | (on Wikidata Q27139351, no photo; 6 other-language articles)
+FACE Masamichi Yabuki | no free photo | (on Wikidata Q81033502, no photo; 4 other-language articles)
+FACE Nelson Hysa | no free photo | (on Wikidata Q20029125, no photo; 3 other-language articles)
+FACE Callum Smith | no free photo | (on Wikidata Q111045231, no photo; 3 other-language articles)
+FACE Matheus Camilo | no article | -
+FACE Andre Fili | no free photo | (on Wikidata Q16233140, no photo; 9 other-language articles)
+FACE Kai Kamaka III | no free photo | (on Wikidata Q106684765, no photo; 2 other-language articles)
+FACE Khaos Williams | no free photo | (on Wikidata Q104384356, no photo; 3 other-language articles)
+FACE Ilimbek Akylbek uulu | no article | -
+FACE Sean Sharaf | no article | (on Wikidata Q141510306, no photo; 0 other-language articles)
+FACE Otari Tanzilovi | no article | -
+FACE Malcolm Wellmaker | no article | (on Wikidata Q134142166, no photo; 1 other-language articles)
+FACE Roman Kopylov | no free photo | (on Wikidata Q51670222, no photo; 5 other-language articles)
+FACE Ateba Gautier | no free photo | -
+FACE Melissa Amaya | no article | -
+FACE Iwo Baraniewski | no free photo | (on Wikidata Q131730273, no photo; 6 other-language articles)
+FACE Julius Walker | no article | -
+FACE Imanol Rodríguez | no free photo | OTHER-WIKI io: File:Ne_havas_libera_imajo.svg
+FACE Alden Coria | no article | -
+FACE Brady Hiestand | no article | -
+FACE Ismael Bonfim | no article | -
+FACE Damian Pinas | no free photo | (on Wikidata Q140764414, no photo; 3 other-language articles)
+FACE Andrey Pulyaev | no article | -
+FACE Leon Shahbazyan | no article | -
+FACE Anthony Romero | not a fighter page (American activist) | -
+FACE Rodolfo Bellato | no article | (on Wikidata Q136389926, no photo; 1 other-language articles)
+FACE Michael Aswell Jr. | no article | -
+FACE Yoo Joo-sang | no article | -
+FACE Brendson Ribeiro | no article | (on Wikidata Q133798200, no photo; 1 other-language articles)
+FACE Felipe Franco | not a fighter page (Brazilian water polo player (born 1985)) | -
+FACE Anthony Wint | no free photo | (on Wikidata Q60194753, no photo; 3 other-language articles)
+FACE Lucas Armand | no article | -
+FACE Elves Brener | no article | -
+FACE Josiah Harrell | not a fighter page (no description) | (on Wikidata Q141535834, no photo; 0 other-language articles)
+FACE Ryan Gandra | no article | -
+FACE Osman Diaz | no article | -
+FACE Allen Frye Jr. | no article | -
+FACE RJ Harris | not a fighter page (American gridiron football player (born 1992)) | -
+FACE Alice Pereira | no article | -
+FACE Darya Zheleznyakova | no article | -
+FACE Jacobe Smith | no article | -
+FACE Bruce Whitehead | not a fighter page (American politician) | -
+FACE Alateng Heili | no free photo | -
+FACE Eduarda Moura | no article | -
+FACE Ernesta Kareckaitė | no article | -
+FACE Eric Nolan | no article | -
 
-###### UPCOMING 10931 United Arab Emirates Tri-Nation Series
-{"gamecastAvailable":false,"playByPlayAvailable":false,"commentaryAvailable":false,"recent":false,"id":"1555118","competitionId":"1555118","uid":"s:200~e:1555118~c:1555118","date":"2026-10-19T11:30:00Z","endDate":"2026-10-21T23:59:00Z","timeValid":true,"name":"Afghanistan v Zimbabwe","shortName":"AFG v ZIM","description":"2nd Match (D/N), UAE ODI Tri-Series at Abu Dhabi, Oct 19 2026","updatesOnly":false,"title":"2nd Match (D/N)","locationAndDate":"at Abu Dhabi, Oct 19 2026","class":{"internationalClassId":"2","generalClassId":"5","generalClassCard":"ODI","name":"One-Day Internationals","eventType":"ODI"},"location":"Zayed Cricket Stadium, Abu Dhabi","season":2026,"seasonStartDate":"2026-10-17T00:00:00Z","preCommentaryAvailable":false,"seasonEndDate":"2026-10-21T23:59:00Z","seasonType":"1","seasonTypeHasGroups":true,"group":{"groupId":"1","name":"Regular Season","abbreviation":"UAE ODI Tri-Series","shortName":"UAE ODI TRI-SERIES"},"period":0,"clock":"0'","addedClock":0,"status":"pre","summary":"Scheduled","eventType":"ODI","fullStatus":{"clock":0,"addedClock":0,"displayClock":"0'","presentLocalTime":"12:38","period":0,"dayNumber":0,"longSummary":"Match scheduled to begin at 15:30 local time (11:30 GMT)","summary":"Starts at 15:30 local time","type":{"id":"0","description":"Scheduled","detail":"Scheduled","shortDetail":"Scheduled","state":"pre"}},"notes":[{"href":"https://www.cricinfo.com/ci/engine/records/index.html?class=2","text":"ODI no. 5039","type":"matchnumber"},{"href":"https://www.cricinfo.com/ci/engine/series/index.html?season=2026/27","text":"2026/27","type":"season"},{"text":"19 October 2026 - day/night match (50-over match)","type":"matchdays"}],"link":"https://www.espn.in/cricket/series/10931/game/1555118/afghanistan-vs-zimbabwe-2nd-match-uae-odi-tri-series-2026-27","links":[{"rel":["event","preview","desktop"],"href":"https://www.espn.in/cricket/series/10931/preview/1555118/afghanistan-vs-zimbabwe-2nd-match-uae-odi-tri-series-2026-27","text":"Preview"},{"rel":["event","boxscore","match","live","summary","desktop"],"href":"https://www.espn.in/cricket/series/10931/game/1555118/afghanistan-vs-zimbabwe-2nd-match-uae-odi-tri-series-2026-27","text":"Summary"},{"rel":["event","league","serieshome","desktop"],"href":"https://www.espn.in/cricket/series/_/id/10931/season/2026/uae-odi-tri-series","text":"Series Home"}],"onWatch":false,"competitors":[{"id":"40","uid":"s:200~t:40","type":"team","order":1,"homeAway":"home","winner":false,"score":"","record":"0-0","logo":"https://a.espncdn.com/i/teamlogos/cricket/500/40.png","links":[{"language":"en","rel":["clubhouse","desktop"],"href":"https://www.espn.in/cricket/team/_/id/40/afghanistan","text":"Clubhouse","shortText":"Clubhouse","isExternal":false,"isPremium":false},{"language":"en","rel":["fixtures","desktop"],"href":"https://www.espn.in/cricket/scores/team/40/afghanistan","text":"Fixtures","shortText":"Fixtures","isExternal":false,"isPremium":false},{"language":"en","rel":["statistics","desktop"],"href":"https://stats.espncricinfo.com/ci/engine/records/index.html?id=40;type=team","text":"Statistics","shortText":"Statistics","isExternal":false,"isPremium":false},{"language":"en","rel":["players","desktop"],"href":"https://www.cricinfo.com/ci/content/player/country.html?country=40","text":"Players","shortText":"Players","isExternal":false,"isPremium":false},{"language":"en","rel":["videos","desktop"],"href":"https://www.cricinfo.com/ci/content/current/video_audio/index.html?object=40","text":"Videos","shortText":"Videos","isExternal":false,"isPremium":false}],"place":1,"displayName":"Afghanistan","name":"AFG","abbreviation":"AFG","location":"Afghanistan","color":"#3f8108","isNational":true,"competitionIdPrevious":"1555116","competitionIdNext":"1555119"},{"id":"9","uid":"s:200~t:9","type":"team","order":2,"homeAway":"away","winner":false,"score":"","record":"","logo":"https://a.espncdn.com/i/teamlogos/cricket/500/9.png","links":[{"language":"en","rel":["clubhouse","desktop"],"href":"https://www.espn.in/cricket/team/_/id/9/zimbabwe","text":"Clubhouse","shortText":"Clubhouse","isExternal":false,"isPremium":false},{"language":"en","rel":["fixtures","desktop"],"href":"https://www.espn.in/cricket/scores/team/9/zimbabwe","text":"Fixtures","shortText":"Fixtures","isExternal":false,"isPremium":false},{"language":"en","rel":["statistics","desktop"],"href":"https://stats.espncricinfo.com/ci/engine/records/index.html?id=9;type=team","text":"Statistics","shortText":"Statistics","isExternal":false,"isPremium":false},{"language":"en","rel":["players","desktop"],"href":"https://www.cricinfo.com/ci/content/player/country.html?country=9","text":"Players","shortText":"Players","isExternal":false,"isPremium":false},{"language":"en","rel":["videos","desktop"],"href":"https://www.cricinfo.com/ci/content/current/video_audio/index.html?object=9","text":"Videos","shortText":"Videos","isExternal":false,"isPremium":false}],"place":1,"displayName":"Zimbabwe","name":"ZIM","abbreviation":"ZIM","location":"Zimbabwe","color":"#d04037","isNational":true,"competitionIdPrevious":"1555117","competitionIdNext":"1555120"}],"appLinks":[]}
+#### LOGOS
+TSDB Wellington Pride => none
+TSDB Wellington => Wellington [Soccer / _No League Soccer] badge
+TSDB Northland Kauri => none
+TSDB Northland => Northland [Rugby / New Zealand National Provincial Championship] badge
+TSDB Canterbury Women => none
+TSDB Auckland Storm => none
+TSDB Central Hinds => none
+TSDB Central Districts => Central Districts Lions [Basketball / NBL1 Central] badge
+TSDB Central Stags => Central Stags [Cricket / New Zealand Super Smash] badge
+TSDB Governor-General's XI => none
+TSDB Prime Minister's XI => none
+LEAGUE Farah Palmer Cup => 0 
+LEAGUE Womens Super Smash => 0 
+LEAGUE Hallyburton Johnstone Shield => 0 
+LEAGUE Bunnings NPC => 0 
+LEAGUE NPC => 0 
+LEAGUE National Provincial Championship => 0 
+FEED LOGOS nzdomestic|New Zealand A=-, nzdomestic|India A=-, nzdomestic|Auckland Aces=logo, nzdomestic|Canterbury=logo, nzdomestic|Central Stags=logo, nzdomestic|Northern Districts=logo, nzdomestic|Wellington Firebirds=logo, nzdomestic|Otago Volts=logo, nzdomestic|Central Hinds=-, npc|Otago=logo, npc|Auckland=logo, npc|Southland Stags=logo, npc|Northland=logo, npc|Manawatu=logo, npc|Canterbury=logo, npc|Counties Manukau=logo, npc|Hawke's Bay=logo, npc|Waikato=logo, npc|Tasman Mako=logo, npc|Taranaki Bulls=logo, npc|Wellington=logo, npc|Bay of Plenty=logo, npc|North Harbour=logo, fpc|Wellington Pride=-, fpc|Northland Kauri=-, fpc|Canterbury=logo, fpc|Auckland Storm=logo
 
-league list: 8050:Ranji Trophy ; 8043:Sheffield Shield ; 8836:President's Trophy ; 24203:Australia tour of South Africa 2026/27 ; 8814:National Cricket League ; 19439:ICC Men's Cricket World Cup League 2 ; 10931:United Arab Emirates Tri-Nation Series ; 24831:Bangladesh Under-19s tour of Oman 2026/27
+#### ESPN UFC
+event UFC 333: Volkanovski vs. Evloev 2026-10-24T14:00Z fights 11
+BOUT [{"id":"3960340","name":"Abubakar Vagaev","flag":"https://a.espncdn.com/i/teamlogos/countries/500/rus.png"},{"id":"4687434","name":"Jacob Malkoun","flag":"https://a.espncdn.com/i/teamlogos/countries/500/aus.png"}]
+BOUT [{"id":"5264462","name":"Colby Thicknesse","flag":"https://a.espncdn.com/i/teamlogos/countries/500/aus.png"},{"id":"5454811","name":"Asaf Chopurov","flag":"https://a.espncdn.com/i/teamlogos/countries/500/rus.png"}]
+BOUT [{"id":"3931156","name":"Grant Dawson","flag":"https://a.espncdn.com/i/teamlogos/countries/500/usa.png"},{"id":"5092398","name":"Nurullo Aliev","flag":"https://a.espncdn.com/i/teamlogos/countries/500/tjk.png"}]
+BOUT [{"id":"3077822","name":"Abus Magomedov","flag":"https://a.espncdn.com/i/teamlogos/countries/500/ger.png"},{"id":"4694832","name":"Cam Rowston","flag":"https://a.espncdn.com/i/teamlogos/countries/500/aus.png"}]
 
-scorepanel retry 200 8
-
-done 2026-10-19T08:38:56.070Z
+done 2026-10-19T08:48:27.815Z
