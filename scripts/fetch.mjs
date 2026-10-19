@@ -516,26 +516,28 @@ const newsAll = [...curated.news];
 const RNZ_ON = false;
 for (const n of [...(RNZ_ON ? await rnzNews() : []), ...await heraldNews(), ...await scoopNews(), ...await fightNews(), ...await bbcNews()]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
 const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
-// Rain on a cricket match from the headlines, for when no live feed has it: a BBC Sport or Herald headline from the last
-// 12 hours that names both sides and rain, a delay or bad light ("Start delayed on second day of South Africa-Australia
-// Test"). The live card shows the headline as it was sent, linked and credited, never reworded
+// Rain on a cricket match from the headlines, for when no live feed has it: a BBC Sport or Herald headline published
+// during the match that names both sides and rain, a delay or bad light. BBC's scorecard pages ("Start delayed on second
+// day of South Africa-Australia Test - scorecard") are set up before play and retitled as it goes, so their publish
+// time is older than the match; their title is always current, so any from two days before the start on count. The
+// live card shows the headline as it was sent, linked and credited, never reworded
 {
   const WET = /\b(rain\w*|showers?|wet outfield|washed out|wash-?out|delay(ed|s)?|bad light|abandon\w*|no play|covers)\b/i;
   const flat = t => norm(String(t || '').replace(/proteas/gi, 'south africa').replace(/windies/gi, 'west indies'));
-  const wet = [...CRICKET_HEADLINES, ...newsAll.filter(n => /^nzherald\.co\.nz$/.test(n.source))].filter(n => n.at && now - Date.parse(n.at) < 12 * 36e5 && WET.test(n.title));
+  const wet = [...CRICKET_HEADLINES, ...newsAll.filter(n => /^nzherald\.co\.nz$/.test(n.source))].filter(n => n.at && now - Date.parse(n.at) < 7 * DAY && WET.test(n.title));
   const hits = [];
   for (const e of events) {
     const start = Date.parse(e.startUTC);
     if (e.sport !== 'cricket' || e.status === 'final' || start > now || now - start > 5.5 * DAY) continue;
     const sides = [e.home, e.away].map(x => norm(String(x || '').replace(/\s+Women('s)?$/i, '')));
     const w = isW(e);
-    const n = wet.filter(n => Date.parse(n.at) > start - 2 * 36e5 && w === /\bwomen\b|white ferns/i.test(n.title) && sides.every(x => x && flat(n.title).includes(x)))
+    const n = wet.filter(n => Date.parse(n.at) > start - (/scorecard/i.test(n.title) ? 2 * DAY : 2 * 36e5) && w === /\bwomen\b|white ferns/i.test(n.title) && sides.every(x => x && flat(n.title).includes(x)))
       .sort((a, b) => b.at.localeCompare(a.at))[0];
     if (!n) continue;
     e.wxNews = { title: n.title, url: n.url, credit: n.credit, ...(n.creditUrl ? { creditUrl: n.creditUrl } : {}), at: n.at };
     hits.push(`${e.home} v ${e.away}: ${n.title}`);
   }
-  diag.rainHeadlines = `${wet.length} rain headlines in 12 hours; ${hits.length ? hits.join('; ') : 'none on our matches'}`;
+  diag.rainHeadlines = `${wet.length} rain headlines this week; ${hits.length ? hits.join('; ') : 'none on our matches'}`;
 }
 
 // Club logos from TheSportsDB's free API (badges used as-is, credited in the footer).
@@ -974,7 +976,7 @@ async function teamLinks(events) {
   for (const e of events) {
     const age = now - Date.parse(e.startUTC);
     if (!WORD[e.sport] || age > 21 * DAY || age < -60 * DAY) continue;
-    for (const n of [e.home, e.away]) if (n && !/TBC|winner|loser|\bor\b|placed|runner|semi-final|qualifier|\d(st|nd|rd|th)\b/i.test(n)) want.set(`${e.sport}|${n}`, [e.sport, n, isW(e) || /\bwomen\b|ferns|wallaroos|jillaroos/i.test(n)]);
+    for (const n of [e.home, e.away]) if (n && !/TBC|winner|loser|\bor\b|placed|runner|semi-final|qualifier|\d(st|nd|rd|th)\b| (A|XI)$/i.test(n)) want.set(`${e.sport}|${n}`, [e.sport, n, isW(e) || /\bwomen\b|ferns|wallaroos|jillaroos/i.test(n)]);
   }
   const due = [...want.keys()].filter(k => !cache[k] || now - cache[k].t > 60 * DAY);
   const found = {};
