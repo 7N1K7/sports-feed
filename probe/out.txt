@@ -1,224 +1,235 @@
-SEARCH 2026 Farah Palmer Cup season => Farah Palmer Cup | 2023 Farah Palmer Cup | 2020 Farah Palmer Cup | 2022 Farah Palmer Cup | Structure of rugby union in New Zealand
-SEARCH 2026–27 Super Smash season => Super Smash (men's cricket) | 2026 Hull FC season | Super Smash (women's cricket) | Super Scope | 2026 LIV Golf League
-SEARCH Men's Super Smash 2026–27 => 2026 Men's T20 World Cup | Super Smash (men's cricket) | 2025–26 Super Smash (men's cricket) | 2026 Men's T20 World Cup final | 2026 in sports
-SEARCH 2026 NRL season results => 2026 NRL season results | 2026 NRL season | 2026 NRL Grand Final | 2026 NRL Women's season | 2026 NRL Pre-season Challenge
-SEARCH 2026 Wheelchair Rugby League World Cup => 2026 Wheelchair Rugby League World Cup | 2026 Rugby League World Cup | 2026 Men's Rugby League World Cup | 2026 Women's Rugby League World Cup | 2025 Rugby League World Cup
-SEARCH 2026 Hilux NPC => 2026 Hilux NPC | Taranaki (National Provincial Championship) | Wellington (National Provincial Championship) | National Provincial Championship (2006–present) | 2026 Heartland Championship
-SEARCH All Blacks 2026 end of year tour => Black Sabbath | New Zealand national rugby union team | Arirang World Tour | Long Live The Black Parade | Black Eyed Peas
-SEARCH Wallabies 2026 spring tour => 2026 men's rugby union internationals | Nathan Charles | Mark Nawaqanitawase | Australia national rugby union team | 2026 Nations Championship Southern Hemisphere Series
+#### A. LIVE FEED
+generated  events 489 news 124 keys generatedAt,site,diag,events,form,news,tables,rankings,sources
+EV {"id":"tsdb-2494064","team":"epl","tags":["epl"],"sport":"football","comp":"Premier League · Round 7","home":"Tottenham Hotspur","away":"Coventry City","startUTC":"2026-10-19T19:00:00.000Z","timeTBC":false,"venue":"Tottenham Hotspur Stadium","city":"England","tz":"Europe/London","status":"upcoming","source":"https://www.thesportsdb.com/event/2494064","homeLogo":"https://r2.thesportsdb.com/images/media/team/badge/dfyfhl1604094109.png/tiny","awayLogo":"https://r2.thesportsdb.com/images/media/team/badge/uxyqys1424033798.png/tiny"}
 
-######## PAGE 2026 Men's Rugby League World Cup 41517 
-{{rugbyleaguebox|bg=
-|event=
-|date=15 October 2026
-|time=20:05 [[AEDT]] ([[UTC+11:00]])
-|team1={{rl-rt|AUS}}
-|try1='''5''' <br/> [[Jack Bostock|Bostock]] {{try|19|56|75}} <br/> [[Tom Trbojevic|Trbojevic]] {{try|30}} <br/> [[Reece Walsh|Walsh]] {{try|68}}
-|goal1='''2''' <br/> [[Reece Walsh|Walsh]] 2/4 {{kick|32|57}} <br/> [[Latrell Mitchell|Mitchell]] 0/1
-|drop1=
-|field1=
-|sinbin1=[[Kotoni Staggs|Staggs]] {{sin bin|37|47}}
-|sentoff1= 
-|score=24–22
-|1sthalf=10–10
-|2ndhalf=14–12
-|ExtraTime1=
-|ExtraTime2=
-|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-1/australia-v-new-zealand/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2563 Report (IRL)]
-|team2={{rl|NZL}}
-|try2='''3''' <br/> [[Casey McLean|McLean]] {{try|3}} <br/> [[Kalyn Ponga|Ponga]] {{try|46|59}}
-|goal2='''5''' <br/> [[Jamayne Isaako|Isaako]] 5/5 {{kick|5|pen 25|pen 38|48|61}}
-|drop2=
-|field2=
-|sinbin2=
-|sentoff2= 
-|stadium=[[Sydney Football Stadium (2022)|Sydney Football Stadium]], [[Sydney]]
-|attendance=41,255
-|referee= [[Adam Gee (referee)|Adam Gee]] ([[Australian Rugby League Commission|Australia]])
-|referee2=
-|vreferee=Chris Butler ([[Australian Rugby League Commission|Australia]])
-|touch=Matt Noyen ([[Australian Rugby League Commission|Australia]]), Tyson Brough ([[Australian Rugby League Commission|Australia]])
-|manofmatch=[[Jack Bostock]] (Australia)
-|potmaward=
-|potmwinner=
-}}
-{{Rugby league match squad
-| collapsed = y
-| align = center
-| abbr = y
-| hometeam = Australia
-| awayteam =
-FILLED: tock|Bostock]] {{try|19|56|75}} <br/> [[Tom Trbojevic|Trbojevic]] {{try|30}} <br/> [[Reece Walsh|Walsh]] {{try|68}}
-|goal1='''2''' <br/> [[Reece Walsh|Walsh]] 2/4 {{kick|32|57}} <br/> [[Latrell Mitchell|Mitchell]] 0/1
-|drop1=
-|field1=
-|sinbin1=[[Kotoni Staggs|Staggs]] {{sin bin|37|47}}
-|sentoff1= 
-|score=24–22
-|1sthalf=10–10
-|2ndhalf=14–12
-|ExtraTime1=
-|ExtraTime2=
-|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-1/australia-v-new-zealand/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2563 Report (IRL)]
-|team2={{rl|NZL}}
-|try2='''3''' <br/> [[Casey McLean|McLean]] {{try|3}} <br/> [[Kalyn Ponga|Ponga]] {{try|46|59}}
-|goal2='''5''' <br/> [[Jamayne Isaako|Isaako]] 5/5 {{kick|5|pen 25|pen 38|48|61}}
-|drop2=
-|field2=
-|sinbin2=
-|sentoff2= 
-|stadium=[[Sydney Football Stadium (2022)|Sydney Football Stadium]], [[Sydney]]
-|attendance=41,255
-|referee= [[Adam Gee (referee)|Adam Gee]] ([[Australian Rugby League Commission|Australia]])
-|referee2=
-|vreferee=Chris Butler ([[Australian Rugby League Commission|Australia]])
-|touch=Matt Noyen ([[Australian Rugby League Commission|Australia]]), Tyson Brough ([[Australian Rugby League Commission|Australia]])
-|manofmatch=[[
+## diag
+DIAG sections = "2026 Men's Rugby League World Cup qualification: read; 2026 Men's Rugby League World Cup Pool A: read; 2026 Women's Rugby League World Cup qualification: read; 2026 NRL Grand Final: read"
+DIAG wikipedia = {"2026 Hilux NPC":79,"List of 2026 Super Rugby Pacific matches":77,"List of 2027 Super Rugby Pacific matches":80,"2026 Super Rugby Pacific season":6,"2027 Super Rugby Pacific season":5,"2026 Nations Championship":0,"The Rugby Championship":0,"2026 men's rugby union internationals":13,"2027 men's rugby union internationals":2,"2026 women's rugby union internationals":3,"2026 WXV Global Series":6,"2026 Men's Rugby League World Cup":18,"2026 Women's Rugby League World Cup":15,"2026 Wheelchair Rugby League World Cup":20,"2026–27 Big Bash League season":44,"2026–27 Women's Big Bash League season":43,"2026–27 A-League Men":0,"2026–27 Premier League":0,"2026 NRL season":1,"2026 NRL finals series":9,"List of UFC events":14,"Indian cricket team in New Zealand in 2026–27":12,"Sri Lankan cricket team in New Zealand in 2026–27":8,"New Zealand cricket team in Australia in 2026–27":4,"New Zealand women's cricket team in Australia in 2026–27":6,"English cricket team in Australia in 2026–27":9,"Australian cricket team in India in 2026–27":5,"Australian cricket team in Zimbabwe in 2026":3,"Australian cricket team in South Africa in 2026–27":7,"Bangladeshi cricket team in Australia in 2026":3,"Sri Lankan cricket team in India in 2026–27":6,"West Indian cricket team in India in 2026–27":8,"Zimbabwean cricket team in India in 2026–27":3,"Sri Lankan cricket team in Pakistan in 2026–27":5,"English cricket team in South Africa in 2026–27":6,"Bangladeshi cricket team in South Africa in 2026–27":8,"West Indian cricket team in Bangladesh in 2026–27":2,"Afghan cricket team in India in 2026":4,"Indian cricket team in Sri Lanka in 2026":2,"Indian cricket team in Bangladesh in 2026":6,"Indian cricket team in Zimbabwe in 2026":3,"Bangladeshi cricket team in Zimbabwe in 2026":7,"Indian cricket team in Ireland in 2026":2,"Afghan cricket team in Ireland in 2026":5,"Pakistani cricket team in the West Indies in 2026":2}
+DIAG tables = ["2026 Hilux NPC / : 14","2026 Super Rugby Pacific season / 2026 Super Rugby Pacific standings: 11","2027 Super Rugby Pacific season / 2027 Super Rugby Pacific standings: 10","2026 Nations Championship / Northern Hemisphere: 6","2026 Nations Championship / Southern Hemisphere: 6","2026 Men's Rugby League World Cup / Pool A: 4","2026 Men's Rugby League World Cup / Pools B and C: 6","2026 Women's Rugby League World Cup / Group A: 4","2026 Women's Rugby League World Cup / Group B: 4","2026 Wheelchair Rugby League World Cup / Group A: 4","2026 Wheelchair Rugby League World Cup / Group B: 4","2026–27 Big Bash League season / : 8","2026–27 Women's Big Bash League season / : 8","2026–27 A-League Men / : 12","2026–27 Premier League / : 20","2026 NRL season / : 17","2026 NRL finals series / Qualification: 17"]
+DIAG f1 = "23 races, 17 with results; standings: Drivers' championship 23 (top Kimi Antonelli 340), Constructors' championship 11 (top Mercedes 578)"
+DIAG tennis = "2026 Australian Open: Women's 2026-01-31 Rybakina won, Men's 2026-02-01 Alcaraz won [Infobox tennis event: date=18 January – 1 February 2026 | champms={{flagicon|ESP}} [[Carlos Alcaraz]] | champws={{flagicon|KAZ}} [[Elena Rybakina]] | champbs={{flagicon|SLO}} [[Žiga Šeško]] | champgs={{flagicon|FRA}} [[Ksenia Efremova]]]; 2026 French Open: Women's 2026-06-06 Andreeva won, Men's 2026-06-07 Zverev won [Infobox tennis event: date=24 May – 7 June 2026 | champms={{flagicon|GER}} [[Alexander Zverev]] | champws={{flagicon|}} [[Mirra Andreeva]] | champbs={{flagicon|BRA}} [[Guto Miguel|Luís Guto Miguel]] | champgs={{flagicon|}} [[Alisa Oktiabreva]]]; 2026 Wimbledon Championships: Women's 2026-07-11 Nosková won, Men's 2026-07-12 Sinner won [TennisEventInfo: date=29 June – 12 July 2026 | champms={{flagicon|ITA}} [[Jannik Sinner]] | champws={{flagicon|CZE}} [[Linda Nosková]] | champbs={{flagicon|USA}} [[Jordan Lee (tennis)|Jordan Lee]] | champgs={{flagicon|}} [[Anna Pushkareva]]]; 2026 US Open (tennis): Women's 2026-09-12 Rybakina won, Men's 2026-09-13 Zverev won [TennisEventInfo: date=August 30{{efn|Mixed doubles competition began on August 25.}} – Septe | champms={{flagicon|GER}} [[Alexander Zverev]] | champws={{flagicon|KAZ}} [[Elena Rybakina]] | champbs={{flagicon|USA}} [[Marcel Latak]] | champgs={{flagicon|CHN}} [[Sun Xinran]]]; 2026 ATP Finals: Men's 2026-11-22 [Infobox tennis tournament year: date=15–22 November | defchamps={{flagicon|ITA}} [[Jannik Sinner]]]; 2026 WTA Finals: Women's 2026-11-15 [TennisEventInfo: date=November 8–15 | defchamps={{flagicon|KAZ}} [[Elena Rybakina]]]; 2026 ASB Classic: Women's 2026-01-11 Svitolina won, Men's 2026-01-17 Menšík won [Infobox tennis event: date=5 –11 January (women) <br> 12 – 17 January (men) | champms={{flagicon|CZE}} [[Jakub Menšík]] | champws={{flagicon|UKR}} [[Elina Svitolina]]]"
+DIAG ufcCards = ["UFC 335: 5 bouts, intro","UFC Fight Night 295: 3 bouts, intro","UFC Fight Night: 9 bouts, intro","UFC 334: 9 bouts, intro","UFC Fight Night: 12 bouts, intro","UFC Fight Night: 9 bouts, intro","UFC 333: 11 bouts, intro","UFC Fight Night: 13 bouts, intro","UFC Fight Night: 12 bouts, intro","UFC 332: 14 bouts, intro","UFC Fight Night: 12 bouts, intro","UFC 331: 12 bouts, intro"]
+DIAG f1Times = "6 of 23 races with start times"
+DIAG tsdb NPC = "fill: nothing to fill; 0 calls; 0 games known"
+DIAG tsdb Test match = "fill: nothing to fill; 0 calls; 0 games known"
+DIAG tsdb Nations Championship = "fill: nothing to fill; 0 calls; 0 games known"
+DIAG tsdb Pacific Cup = "fill: nothing to fill; 0 calls; 0 games known"
+DIAG tsdb Rugby League World Cup = "fill: nothing to fill; 0 calls; 1 games known"
+DIAG tsdb Premier League = "40 games, season 2026-2027, rounds 6,7,8,9"
+DIAG tsdb NRL = "off season"
+DIAG tsdb Super Rugby Pacific = "off season"
+DIAG tsdb UFC = "next/last event"
+DIAG tsdb A-League Men = "18 games, season 2026-2027, rounds 1,2,3"
+DIAG tsdbFilled = []
+DIAG herald = "sport: 5 matching; sport/cricket: 9 matching; sport/rugby-league: 8 matching; sport/football: 9 matching; sport/boxing: 9 matching; sport/motorsport: 8 matching; sport/rugby: 6 matching"
+DIAG scoop = "CU: 2 of 15 matching; SP: 0 of 0 matching | e.g. Kiwi Ferns Injury Update [kiwiferns] img=no"
+DIAG fightNews = "MMA Fighting: 10 items, 8 kept; MMA Mania: 10 items, 8 kept; Bad Left Hook: 10 items, 7 kept"
+DIAG thumbnails = "47/124 (0 looked up)"
+DIAG cricketLogos = "Melbourne Renegades*, Sydney Thunder*, Melbourne Stars*, Hobart Hurricanes*, Brisbane Heat*, Sydney Sixers*, Adelaide Strikers*, Perth Scorchers*, Governor-General's XI, Auckland Aces*, Canterbury*, Central Stags*, Northern Districts*, Wellington Firebirds*, Otago Volts*, Central Hinds, 1st placed team, 2nd placed team, 3rd placed team, 4th placed team, Loser of Qualifier, Zimbabwe, South Africa Invitation XI, Australia XI]], Afghanistan"
+DIAG natBadges = "21 national badges; 0 searched this run"
+DIAG logos = "84/124 teams; 1 searched this run"
+DIAG logoLeagues = {"Super Rugby":10,"Super Rugby Pacific":0,"Mitre 10 Cup":0,"Bunnings NPC":0,"NPC":0,"NRL":0,"Australian National Rugby League":10,"Australian A-League":10,"Australian A-League Men":0,"Big Bash League":0,"Super Smash":0,"Plunket Shield":0,"Ford Trophy":0,"Womens Big Bash League":0}
+DIAG facesSearch = "0 searched on Commons, 0 with a matching photo"
+DIAG facesCommons = "0 categories tried, 0 had files"
+DIAG facesSportsDB = "0 asked, 0 found"
+DIAG facesOpenverse = "0 asked (0 photos back, 0 naming the fighter), 0 found; 0 not asked yet"
+DIAG faces = "145/247 fighters with a free photo (13 from Commons search or categories, 0 from Openverse); 0 looked up"
+DIAG facesMain = "TheSportsDB: 0 asked, 0 found ; 2026-10-18 WBC super welterweight title: Sebastian Fundora=>Sebastian Fundora no free photo / Ermal Hadribeaj=>Ermal Hadribeaj OK ; 2026-10-17 UFC Fight Night 291: Buckley=>Joaquin Buckley OK / Malott=>Mike Malott OK ; 2026-10-17 WBO heavyweight title: Daniel Dubois=>Daniel Dubois OK / Fabio Wardley=>Fabio Wardley OK ; 2026-10-24 WBC super lightweight title: Dalton Smith=>Dalton Smith no free photo / Alberto Puello=>Alberto Puello no free photo ; 2026-10-24 UFC 333: Volkanovski=>Alexander Volkanovski OK / Evloev=>Movsar Evloev OK ; 2026-10-25 WBO, IBF & WBC super featherweight unification: Emanuel Navarrete=>Emanuel Navarrete OK / O'Shaquie Foster=>O'Shaquie Foster OK ; 2026-10-11 UFC Fight Night: Allen=>Brendan Allen OK / Duncan=>Christian Leroy Duncan OK ; 2026-10-10 Vacant WBA lightweight title: Floyd Schofield=>Floyd Schofield no free photo / Lucas Bahdi=>Lucas Bahdi no free photo ; 2026-10-10 WBA & WBC flyweight titles: Ricardo Sandoval=>Ricardo Sandoval no free photo / Sergio Mendoza=>Sergio Mendoza OK ; 2026-10-08 IBF super middleweight title: Osleys Iglesias=>Osleys Iglesias no free photo / Oliver Zaren=>Oliver Zaren no free photo ; 2026-11-01 WBC super middleweight title: Christian Mbilli=>Christian Mbilli OK / Saul 'Canelo' Alvarez=>Saul Alvarez OK ; 2026-11-01 UFC Fight Night: Moicano=>Renato Moicano OK / Nolan=>Tom Nolan OK ; 2026-10-04 UFC 332: Silva=>Natália Silva OK / Wang=>Wang Cong OK ; 2026-11-07 Interim WBC light heavyweight title: Joshua Buatsi=>Joshua Buatsi OK / Willy Hutchinson=>Willy Hutchinson OK ; 2026-11-08 UFC Fight Night: Bonfim=>Gabriel Bonfim OK / Brady=>Sean Brady OK ; 2026-11-09 IBF women's lightweight title: Elif Nur Turhan=>Elif Nur Turhan no free photo / Alycia Baumgardner=>Alycia Baumgardner OK ; 2026-09-27 WBC bantamweight title: Takuma Inoue=>Takuma Inoue no free photo / Tenshin Nasukawa=>Tenshin Nasukawa OK ; 2026-09-27 UFC Fight Night: Rosas Jr.=>Rosas Jr. OK / Barcelos=>Raoni Barcelos OK ; 2026-11-14 UFC 334: Gane=>Ciryl Gane OK / Hokit=>Josh Hokit OK ; 2026-09-20 UFC 331: Van=>Joshua Van OK / Pantoja 2=>Alexandre Pantoja OK ; 2026-11-20 Undisputed women's flyweight titles: Gabriela Fundora=>Gabriela Fundora OK / Jasmina Zapotoczna=>Jasmina Zapotoczna no free photo ; 2026-11-21 UFC Fight Night: Procházka=>Jiří Procházka OK / Stirling=>Navajo Stirling OK ; 2026-11-26 IBF flyweight title: Masamichi Yabuki=>Masamichi Yabuki no free photo / Miel Fajardo=>Miel Fajardo OK ; 2026-11-28 WBC
+DIAG facesMissing = ["Sebastian Fundora: no free photo","Dalton Smith: no free photo","Alberto Puello: no free photo","Floyd Schofield: no free photo","Lucas Bahdi: no free photo","Ricardo Sandoval: no free photo","Osleys Iglesias: no free photo","Oliver Zaren: no free photo","Elif Nur Turhan: no free photo","Takuma Inoue: no free photo","Jasmina Zapotoczna: no free photo","Masamichi Yabuki: no free photo","Nelson Hysa: no free photo","Callum Smith: no free photo","Matheus Camilo: no article","Cristian Pérez: not a fighter page (Uruguayan footballer (born 1990))","Jean-Paul Lebosnoyani: no article","Farman Hasanov: no free photo","Elijah Smith: not a fighter page (Topics referred to by the same term)","Andre Fili: no free photo","Kai Kamaka III: no free photo","Azamat Bekoev: no free photo","Khaos Williams: no free photo","Billy Elekana: no free photo","Lucas Fernando: no article","Ilimbek Akylbek uulu: no article","Sean Sharaf: no article","Timothy Cuamba: no article","Louis Jourdain: no article","Losene Keita: no free photo","Otari Tanzilovi: no article","Malcolm Wellmaker: no article","Rodrigo Sezinando: no article","Theodor Berggren: no article","Roman Kopylov: no free photo","Ateba Gautier: no free photo","Ko Seok-hyeon: no article","Melissa Amaya: no article","Luis Gurule: no article","Iwo Baraniewski: no free photo","Mandel Nallo: no article","Julius Walker: no article","Lee Jeong-yeong: not a fighter page (South Korean handball player (born 1979))","Imanol Rodríguez: no free photo","Alden Coria: no article","Mantas Kondratavičius: no article","Brady Hiestand: no article","Charles Radtke: not a fighter page (American studio furniture maker)","Abdul-Rakhman Yakhyaev: no article","Ismael Bonfim: no article","Nick Klein: not a fighter page (no description)","Joseph Kropschot: no article","Damian Pinas: no free photo","Andrey Pulyaev: no article","Gabriella Fernandes: no article","Nick Galanti: no article","Julien Leblanc: no article","Cameron Rowston: no article","Leon Shahbazyan: no article","Piera Rodriguez: no article","Anthony Romero: not a fighter page (American activist)","José Mauro Delano: no article","Murtazali Magomedov: no article","Rodolfo Bellato: no article","Michael Aswell Jr.: no article","Yoo Joo-sang: no article","Joel Faglier: no article","Brendson Ribeiro: no article","Felipe Franco: not a fighter page (Brazilian water polo player (born 1985))","Tainara Lisboa: no article","Anthony Wint: no free photo","Lucas Armand: no article","Keiichiro Nakamura: no
+DIAG players = "689/1088 squad places linked to Cricinfo, 978 with a role; 0 looked up, 0 roles read"
+DIAG form = "90 sides with a form guide"
+DIAG rankings = "all from cache"
+DIAG liveSourceEvents = 643
+DIAG eventsByTeam = {"wbbl":46,"bbl":48,"boxing":17,"whiteferns":13,"blackcaps":24,"nzdomestic":13,"kiwis":9,"kiwiferns":6,"warriors":3,"rlwc":57,"npc":79,"fpc":2,"crusaders":18,"highlanders":15,"blues":32,"chiefs":29,"blackferns":9,"allblacks":11,"epl":40,"ufc":14,"aleague":12,"aucklandfc":3,"phoenix":3,"aurugby":40,"moana":5,"hurricanes":24,"superrugby":3,"wallabies":8,"nrl":8,"aucricket":27,"intlcricket":64,"f1":23,"tennis":12}
 
-######## PAGE 2026 Hilux NPC 130942 
-{{rugbybox
-| date       = 30 July 2026
-| time       = 19:10 [[Time in New Zealand|NZST]]
-| home       = {{Rut|Waikato}}
-| score      = 38–26
-| report     = [https://www.provincial.rugby/news/thousands-flock-to-see-storied-hilux-npc-rivalries Report]
-| away       = {{Rut|Bay of Plenty}}
-| try1       = [[Nathan Stephens (rugby union)|Nathan Stephens]] 2'<br />[[Waisake Salabiau]] 13'<br />[[Daniel Sinkinson]] 22'<br />[[Taha Kemara]] 26'<br />[[Oli Mathis]] 39'
-| con1       = [[Taha Kemara]] (5/5) 3', 14', 23', 27', 40'
-| pen1       = [[Austin Anderson]] (1/1) 73'
-| try2       = [[Cole Forbes]] 55'<br />[[Riley Hohepa]] 57'<br />[[Veveni Lasaqa]] (2) 78', 80+2'
-| con2       = [[Riley Hohepa]] (1/2) 56'<br />[[Jason Robertson (rugby union)|Jason Robertson]] (2/2) 78', 80+3'
-| stadium    = {{Rus|FMG Stadium Waikato}}
-| attendance = 
-| referee    = [[Todd Petrie]]
-}}
-{{rugbybox
-| date       = 31 July 2026
-| time       = 19:10 [[Time in New Zealand|NZST]]
-| home       = {{Rut|Tasman}}
-| score      = 31–29
-| report     = [https://www.provincial.rugby/news/thousands-flock-to-see-storied-hilux-npc-rivalries Report]
-| away       = {{Rut|North Harbour}}
-| try1       = [[Leo Marfell]] 11'<br /
+## teams with no crest, by sport (next 60 days and last 14)
+NOLOGO cricket India(19), New Zealand(14), Australia(13), South Africa(12), Bangladesh(10), England(9), New Zealand Women(8), Sri Lanka(7), TBC(6), Pakistan(5), Bangladesh Women(4), Australia Women(3), New Zealand A(3), India A(3), Governor-General's XI(1), Central Hinds(1), 3rd placed team(1), 4th placed team(1), 2nd placed team(1), Winner of Knockout(1), 1st placed team(1), Winner of Challenger(1)
+NOLOGO boxing Osleys Iglesias(1), Oliver Zaren(1), Floyd Schofield(1), Lucas Bahdi(1), Ricardo Sandoval(1), Sebastian Fundora(1), Dalton Smith(1), Alberto Puello(1), Elif Nur Turhan(1), Jasmina Zapotoczna(1), Masamichi Yabuki(1), Nelson Hysa(1), Callum Smith(1)
+NOLOGO league TBC(40), New Zealand(6), France(6), Australia(6), England(6), Wales(6), Fiji(3), Papua New Guinea(3), Samoa(3), Ireland(3), USA(3), Scotland(3), First semi-final winner(2), Second semi-final winner(2), Pool A runners-up(1), Pool B & C winner(1), Pool A winner(1), Pool B & C runners-up(1), Group B Winner Women(1), Group A Runner Up Women(1), Group A Winner Women(1), Group B Runner Up Women(1), First semi-final winner Women(1), Second semi-final winner Women(1), Group B 3rd place(1), Group A 4th place(1), Group A 3rd place(1), Group B 4th place(1), First ranking semi-final loser(1), Second ranking semi-final loser(1), First ranking semi-final winner(1), Second ranking semi-final winner(1), Group B Winner(1), Group A Runner Up(1), First semi-final loser(1), Second semi-final loser(1)
+NOLOGO rugby All Blacks(6), Black Ferns(3), France(3), Wallabies(2), Wellington Pride(1), Northland Kauri(1), TBC (northern hemisphere side, by standings)(1)
+NOFACE (cards, next 5 weeks) 58 UFC 333: Losene Keita ; UFC 333: Abdul-Rakhman Yakhyaev ; UFC 333: Cameron Rowston ; UFC 333: Abubakar Vagaev ; UFC 333: Asaf Chopurov ; UFC Fight Night 291: Cristian Pérez ; UFC Fight Night 291: Timothy Cuamba ; UFC Fight Night 291: Louis Jourdain ; UFC Fight Night 291: Mandel Nallo ; UFC Fight Night 291: Nick Galanti ; UFC Fight Night 291: Julien Leblanc ; UFC Fight Night 291: Joel Faglier ; UFC Fight Night 291: Mackenzie Stiller ; UFC Fight Night 291: Steven Koslow ; UFC Fight Night 291: Chad Anheliger ; UFC Fight Night 291: Melissa Croden ; UFC Fight Night 291: You Su-young ; UFC Fight Night 291: Cody Chovancek ; UFC Fight Night: Jared Cannonier ; UFC Fight Night: Ikram Aliskerov ; UFC Fight Night: Shamil Gaziev ; UFC Fight Night: Tallison Teixeira ; UFC Fight Night: Jake Matthews ; UFC Fight Night: Tahir Abdullayev ; UFC Fight Night: Aleksandre Topuria ; UFC Fight Night: Santiago Luna ; UFC Fight Night: Asu Almabayev ; UFC Fight Night: Kyoji Horiguchi ; UFC Fight Night: Amir Albazi ; UFC Fight Night: Alessandro Costa ; UFC 334: Luis Gurule ; UFC 334: Charles Radtke ; UFC 334: Beatriz Mesquita ; UFC Fight Night: Elijah Smith ; UFC Fight Night: Billy Elekana ; UFC Fight Night: Lucas Fernando ; UFC Fight Night: Ko Seok-hyeon ; UFC Fight Night: Mantas Kondratavičius ; UFC Fight Night: Gabriella Fernandes ; UFC Fight Night: José Mauro Delano ; UFC Fight Night: Murtazali Magomedov ; UFC Fight Night: Keiichiro Nakamura ; UFC Fight Night: Ollie Schmid ; UFC Fight Night: Austin Bashi ; UFC Fight Night: Lucas Brennan ; UFC Fight Night: Nina Nikolija Milošević ; UFC Fight Night: Jonny Parsons ; UFC Fight Night: José Henrique Souza ; UFC Fight Night: Jean-Paul Lebosnoyani ; UFC Fight Night: Farman Hasanov ; UFC Fight Night: Azamat Bekoev ; UFC Fight Night: Rodrigo Sezinando ; UFC Fight Night: Theodor Berggren ; UFC Fight Night: Lee Jeong-yeong ; UFC Fight Night: Nick Klein ; UFC Fight Night: Joseph Kropschot ; UFC Fight Night: Piera Rodriguez ; UFC Fight Night: Tainara Lisboa
 
-######## PAGE 2026 Hilux NPC 130942 
-(no match)
+#### B. LIVE CRICKET
 
-######## PAGE 2026 men's rugby union internationals 125770 
-{{rugbybox
-|date = 6 February 2026
-|time = 17:30 [[Central European Time|CET]] ([[UTC+1]])
-|team1 = {{RuA-rt|ITA|name=Italy XV}}
-|score = 24–24
-|report = [https://scottishrugby.org/news-and-features/match-report-italy-xv-24-24-scotland-a/ Report]
-|team2 = {{ruA|SCO}}
-|try1 = [[Nicholas Gasperini|Gasperini]] 30' c<br />[[Nelson Casartelli|Casartelli]] 36' c<br />[[Marcos Gallorini|Gallorini]] 52' c
-|con1 = [[Giovanni Montemauri|Montemauri]] (3/3) 31', 37', 40'
-|pen1 = [[Giovanni Montemauri|Montemauri]] (1/1) 57'
-|try2 = [[Gregor Hiddleston|Hiddleston]] 17' c<br />[[Kyle Rowe|Rowe]] (2) 38' m, 61' m<br />[[Cameron Redpath|Redpath]] 49' c
-|con2 = [[Fergus Burke|Burke]] (2/4) 18', 50'
-|stadium = [[Stadio Centro d'Italia – Manlio Scopigno|Stadio Centro d'Italia]], [[Rieti]]
-|attendance = 
-|referee = Daniele Pompa ([[Italian Rugby Federation|Italy]])
-}}
-----
-{{rugbybox
-|date = 6 February 2026
-|time = 17:30 [[Central European Time|CET]] ([[UTC+1]])
-|team1 = {{RuA-rt|IRE|name=Ireland XV}}
-|score = 14–42
-|report = [https://www.bbc.co.uk/sport/rugby-union/articles/cnvgvz7ny78o Report]
-|team2 = {{ruA|ENG|name=England A}}
-|try1 = [[Brian Gleeson (rugby union)|Gleeson]] 23' c<br />[[Joshua Kenny (rugby union)|Kenny]] 38' c
-|con1 = [[Ciarán Frawley|Frawley]] (2/2) 24, 38'
-|try2 = [[Ethan Roots|Roots]] (2) 8' c, 78' c<br />[[Billy Searle|Searle]] 17' m<br />[[Ollie Hassell-Collins|Hassell-Collins]] (2) 28' m, 50' c<br />[[Harry Randall (rugby union)|Randall]] 35' c<br />[[George Kloska|Klos
+== cricinfo current 403 text/html 435b 
+HEAD <HTML><HEAD> <TITLE>Access Denied</TITLE> </HEAD><BODY> <H1>Access Denied</H1> You don't have permission to access "http&#58;&#47;&#47;hs&#45;consumer&#45;api&#46;espncricinfo&#46;com&#47;v1&#47;pages&#47;matches&#47;current&#63;" on this server.<P> Reference&#32;&#35;18&#46;901c2117&#46;1792398844&#46;3f902071 <P>https&#58;&#47;&#47;errors&#46;edgesuite&#46;net&#47;18&#46;901c2117&#46;1792398844&#46;3f902071</P> </BODY> </HTML>
 
-######## PAGE 2026 women's rugby union internationals 53821 
-{{rugbybox
-|id=
-|date=1 March 2026
-|time=12:00 [[Central European Time|CET]] ([[UTC+1]])
-|team1={{Ruw-rt|POL}}
-|score=7–26
-|report= Report<ref name="Poland v Czechia">{{cite web |title=Poland v Czechia - Women's Internationals 2026 |url=https://www.world.rugby/beta/en/match/2367e1c0-d760-4366-8cdf-e1e347600fd0 |website=World Rugby |access-date=23 March 2026}}</ref>
-|team2={{Ruw|CZE}}
-|stadium=[[Ruda Śląska]], [[Poland]]
-|referee=Filip Kuniczkowski ([[Polish Rugby Union|Poland]])<ref name="Poland v Czechia"/>
-}}
-----
-{{rugbybox
-|id=
-|date=27 March 2026
-|time=16:55 [[Time in Australia|AEST]] ([[UTC+10]])
-|team1={{Ruw-rt|AUS}}
-|score=33–15
-|report= Report<ref>{{cite web |title=Australia v Fiji - Women's Internationals 2026 |url=https://www.world.rugby/beta/en/match/17f734f5-cb68-4f82-9f84-e92f8ca94cf6 |website=World Rugby |access-date=30 March 2026}}</ref>
-|team2={{Ruw|FIJ}}<ref>{{cite web 
+== cricinfo live rss 200 application/xml 7283b 
+HEAD <?xml version="1.0" encoding="UTF-8" ?> <rss version="2.0"> <channel> <title>Cricinfo Live Scores</title> <ttl>2</ttl> <link>http://www.cricinfo.com</link> <description>Latest scores from Cricinfo</description> <copyright>(c)Cricinfo</copyright> <language>en-gb</language> <pubDate>Sun, 18 Oct 2026 02:37:02 +0000</pubDate> <item> <title>Diasqua Little Sai Wan Cricket Club 122/3 * v United Services Recreation Club</title> <link>http://www.cricinfo.com/ci/engine/match/1555411.html?CMP=OTC-RSS </link> <description>Diasqua Little Sai Wan Cricket Club 122/3 * v United Services Recreation Club</description> <guid>http://www.cricinfo.com/ci/engine/match/1555411.html</guid> </item> <item> <title>Kowloon Cricket Club v Pakistan Association of Hong Kong 60/3 *</title> <link>http://www.cricinfo.com/ci/engine/match/1555412.html?CMP=OTC-RSS </link> <description>Kowloon Cricket Club v Pakistan Associa
+NZ .cricinfo.com/ci/engine/match/1550713.html?CMP=OTC-RSS </link> <description>Pakistan v Sri Lanka</description> <guid>http://www.cricinfo.com/ci/engine/match/1550713.html</guid> </item> <item> <title>Australia Women v New Zealand Women</title> <link>http://www.cricinfo.com/ci/engine/match/1528722.html?CMP=OTC-RSS </link> <description>Australia Women v New Zealand Women</description> <guid>http://  ||  ngine/match/1550713.html?CMP=OTC-RSS </link> <description>Pakistan v Sri Lanka</description> <guid>http://www.cricinfo.com/ci/engine/match/1550713.html</guid> </item> <item> <title>Australia Women v New Zealand Women</title> <link>http://www.cricinfo.com/ci/engine/match/1528722.html?CMP=OTC-RSS </link> <description>Australia Women v New Zealand Women</description> <guid>http://www.cricinfo.com/c  ||  o.com/ci/engine/match/1550713.html</guid> </item> <item> <title>Australia Women v New Zealand Women</title> <link>http://www.cricinfo.com/ci/engine/match/1528722.html?CMP=OTC-RSS </link> <description>Australia Women v New Zealand Women</description> <guid>http://www.cricinfo.com/ci/engine/match/1528722.html</guid> </item> <item> <title>South Africa Emerging Players v Knights</title> <link>http://  ||  tch/1550713.html</guid> </item> <item> <title>Australia Women v New Zealand Women</title> <link>http://www.cricinfo.com/ci/engine/match/1528722.html?CMP=OTC-RSS </link> <description>Australia Women v New Zealand Women</description> <guid>http://www.cricinfo.com/ci/engine/match/1528722.html</guid> </item> <item> <title>South Africa Emerging Players v Knights</title> <link>http://www.cricinfo.com/c  ||  ch/1551874.html?CMP=OTC-RSS </link> <description>South Africa Emerging Players v Knights</description> <guid>http://www.cricinfo.com/ci/engine/match/1551874.html</guid> </item> <item> <title>Lions v Northern Cape</title> <link>http://www.cricinfo.com/ci/engine/match/1551873.html?CMP=OTC-RSS </link> <description>Lions v Northern Cape</description> <guid>http://www.cricinfo.com/ci/engine/match/155  ||  ricinfo.com/ci/engine/match/1551874.html</guid> </item> <item> <title>Lions v Northern Cape</title> <link>http://www.cricinfo.com/ci/engine/match/1551873.html?CMP=OTC-RSS </link> <description>Lions v Northern Cape</description> <guid>http://www.cricinfo.com/ci/engine/match/1551873.html</guid> </item> <item> <title>India Women v Zimbabwe Women</title> <link>http://www.cricinfo.com/ci/engine/match/
 
-######## PAGE 2026 New Zealand rugby union tour of South Africa 97838 
-{{Rugbybox
-|id = Stormers
-|date = 7 August 2026
-|time = 19:10 [[South African Standard Time|SAST]] ([[UTC+2]])
-|home = {{Rut|Stormers}}
-|score = 21–38
-|report = [https://www.rugbypass.com/news/all-blacks-dig-deep-to-deny-stormers-in-ill-disciplined-rgr-opener/ Report]
-|away = {{Ru|NZL}}
-|try1 = [[Deon Fourie|Fourie]] 15' c<br />[[Seabelo Senatla|Senatla]] 56' c<br />[[Try (rugby)#Penalty try|Penalty try]] 78'
-|con1 = [[Yaqeen Ahmed|Ahmed]] (2/2) 16', 57'
-|try2 = [[Samisoni Taukei'aho|Taukei'aho]] 5' c<br />[[Simon Parker|Parker]] 39' c<br />[[Rieko Ioane|Ioane]] 67' c<br />[[Leroy Carter (rugby union)|Carter]] 72' c<br />[[Josh Moorby|Moorby]] 76' m<br />[[Asafo Aumua|Aumua]] 80+1' m
-|con2 = [[Beauden Barrett|B.Barrett]] (3/3) 6', 40', 68'<br />[[Josh Jacomb|Jacomb]] (1/3) 73'
-|stadium = [[Cape Town Stadium]], [[Cape Town]]
-|attendance = 47,130
-|referee = [[Karl Dickson]] ([[Rugby Footba
+== espn cricket header 200 application/json;charset=UTF-8 148220b 
+HEAD {"sports":[{"$ref":"http://new.core.espnuk.org/v2/sports/cricket","id":"200","uid":"s:200","name":"Cricket","slug":"cricket","leagues":[{"id":"8814","uid":"s:200~l:8814","name":"National Cricket League","shortName":"National Cricket League","shortAlternateName":"NCL","abbreviation":"National Cricket League","slug":"8814","isTournament":true,"events":[{"gamecastAvailable":false,"playByPlayAvailable":false,"commentaryAvailable":false,"recent":true,"id":"1555673","competitionId":"1555673","uid":"s:200~e:1555673~c:1555673","date":"2026-10-18T03:30:00Z","endDate":"2026-10-22T23:59:00Z","timeValid":true,"name":"Sylhet Division v Rangpur Division","shortName":"SYL v RAN","description":"9th Match, National Cricket League at Chattogram, Oct 18-21 2026","updatesOnly":false,"title":"9th Match","locationAndDate":"at Chattogram, Oct 18-21 2026","class":{"internationalClassId":"0","generalClassId":"4"
+STATE Regular Season","abbreviation":"National Cricket League","shortName":"NATIONAL CRICKET LEAGUE"},"period":2,"clock":"0'","addedClock":0,"status":"in","summary":"Stumps","eventType":"Test","fullStatus":{"clock":0,"addedClock":0,"displayClock":"0'","presentLocalTime":"14:31","period":2,"session":"Day 1","battingTeamId":53  ||  y":"Rangpur Division trail by 147 runs with 9 wickets remaining in the 1st innings","summary":"Rangpur DIV trail by 147 runs","type":{"id":"112","description":"Stumps","detail":"Live","shortDetail":"Live","state":"in"}},"notes":[{"href":"https://www.cricinfo.com/ci/engine/series/index.html?season=2026/27","text":"2026/  ||  Regular Season","abbreviation":"National Cricket League","shortName":"NATIONAL CRICKET LEAGUE"},"period":1,"clock":"0'","addedClock":0,"status":"in","summary":"Stumps","eventType":"Test","fullStatus":{"clock":0,"addedClock":0,"displayClock":"0'","presentLocalTime":"14:31","period":1,"session":"Day 1","battingTeamId":68  ||  83,"dayNumber":1,"longSummary":"Mymensingh Division won the toss and elected to bat","summary":"Mymensingh won toss & batted","type":{"id":"112","description":"Stumps","detail":"Live","shortDetail":"Live","state":"in"}},"notes":[{"href":"https://www.cricinfo.com/ci/engine/series/index.html?season=2026/27","text":"2026/  ||  Regular Season","abbreviation":"National Cricket League","shortName":"NATIONAL CRICKET LEAGUE"},"period":2,"clock":"0'","addedClock":0,"status":"in","summary":"Stumps","eventType":"Test","fullStatus":{"clock":0,"addedClock":0,"displayClock":"0'","presentLocalTime":"14:31","period":2,"session":"Day 1","battingTeamId":67  ||  :"Chattogram Division trail by 131 runs with 7 wickets remaining in the 1st innings","summary":"Chattogram trail by 131 runs","type":{"id":"112","description":"Stumps","detail":"Live","shortDetail":"Live","state":"in"}},"notes":[{"href":"https://www.cricinfo.com/ci/engine/series/index.html?season=2026/27","text":"2026/
+NZ rue,"id":"1553802","competitionId":"1553802","uid":"s:200~e:1553802~c:1553802","date":"2026-10-19T05:00:00Z","endDate":"2026-10-23T23:59:00Z","timeValid":true,"name":"Khan Research Laboratories v Sui Northern Gas Pipelines Limited","shortName":"KRL v SNGP","description":"26th Match, President's Trophy Grade-I at Rawalpindi, Oct 19-22 2026","updatesOnly":false,"title":"26th Match","locationAndDate"  ||  ,"text":"2026/27","type":"season"},{"text":"19,20,21,22 October 2026 (4-day match)","type":"matchdays"}],"link":"https://www.espn.in/cricket/series/8836/game/1553802/khan-research-laboratories-vs-sui-northern-gas-pipelines-limited-26th-match-presidents-trophy-grade-i-2026-27","links":[{"rel":["event","boxscore","match","live","summary","desktop"],"href":"https://www.espn.in/cricket/series/8836/gam  ||  esidents-trophy-grade-i-2026-27","links":[{"rel":["event","boxscore","match","live","summary","desktop"],"href":"https://www.espn.in/cricket/series/8836/game/1553802/khan-research-laboratories-vs-sui-northern-gas-pipelines-limited-26th-match-presidents-trophy-grade-i-2026-27","text":"Summary"},{"rel":["event","league","serieshome","desktop"],"href":"https://www.espn.in/cricket/series/_/id/8836/sea  ||  e,"score":"","record":"","logo":"https://a.espncdn.com/i/teamlogos/cricket/500/3088.png","links":[{"language":"en","rel":["clubhouse","desktop"],"href":"https://www.espn.in/cricket/team/_/id/3088/sui-northern-gas-pipelines-limited","text":"Clubhouse","shortText":"Clubhouse","isExternal":false,"isPremium":false},{"language":"en","rel":["fixtures","desktop"],"href":"https://www.espn.in/cricket/score  ||  elines-limited","text":"Clubhouse","shortText":"Clubhouse","isExternal":false,"isPremium":false},{"language":"en","rel":["fixtures","desktop"],"href":"https://www.espn.in/cricket/scores/team/3088/sui-northern-gas-pipelines-limited","text":"Fixtures","shortText":"Fixtures","isExternal":false,"isPremium":false}],"place":1,"displayName":"Sui Northern Gas Pipelines Limited","name":"SNGP","abbreviation  ||  ],"href":"https://www.espn.in/cricket/scores/team/3088/sui-northern-gas-pipelines-limited","text":"Fixtures","shortText":"Fixtures","isExternal":false,"isPremium":false}],"place":1,"displayName":"Sui Northern Gas Pipelines Limited","name":"SNGP","abbreviation":"SNGP","location":"Pakistan","color":"","isNational":false,"competitionIdPrevious":"1553800"}],"appLinks":[]},{"gamecastAvailable":false,"p
 
-######## PAGE 2026–27 Ford Trophy 4767 
-(no match)
+== espn cricket scorepanel 200 application/json;charset=UTF-8 150772b 
+HEAD {"scores":[{"leagues":[{"id":"8043","uid":"s:200~l:8043","name":"Sheffield Shield","abbreviation":"Sheff Shield","slug":"8043","calendarType":"day","calendar":["2026-10-07T00:00:00Z","2026-10-08T00:00:00Z","2026-10-09T00:00:00Z","2026-10-10T00:00:00Z","2026-10-11T00:00:00Z","2026-10-19T00:00:00Z","2026-10-20T00:00:00Z","2026-10-21T00:00:00Z","2026-10-22T00:00:00Z","2026-10-28T00:00:00Z","2026-10-29T00:00:00Z","2026-10-30T00:00:00Z","2026-10-31T00:00:00Z","2026-11-01T00:00:00Z","2026-11-02T00:00:00Z","2026-11-11T00:00:00Z","2026-11-12T00:00:00Z","2026-11-13T00:00:00Z","2026-11-14T00:00:00Z","2026-11-22T00:00:00Z","2026-11-23T00:00:00Z","2026-11-24T00:00:00Z","2026-11-25T00:00:00Z","2026-11-26T00:00:00Z","2026-11-27T00:00:00Z","2026-12-03T00:00:00Z","2026-12-04T00:00:00Z","2026-12-05T00:00:00Z","2026-12-06T00:00:00Z","2027-02-08T00:00:00Z","2027-02-09T00:00:00Z","2027-02-10T00:00:00Z","202
+STATE tus":{"clock":0,"displayClock":"0'","period":1,"session":"Day 1","featuredAthletes":[],"summary":"Tasmania won toss & batted","type":{"id":"112","description":"Stumps","detail":"Live","shortDetail":"Live","state":"in"}},"odds":[],"broadcasts":[],"notes":[],"situation":{},"startDate":"2026-10-18T23:30Z","broadcast":"","  ||  sPremium":false}],"status":{"clock":0,"displayClock":"0'","period":1,"session":"Day 1","summary":"Tasmania won toss & batted","type":{"id":"112","description":"Stumps","detail":"Live","shortDetail":"Live","state":"in"}},"leagueId":"8043","isTopEvent":false},{"id":"1544868","uid":"s:200~e:1544868","date":"2026-10-19T00:  ||  s":{"clock":0,"displayClock":"0'","period":2,"session":"Day 1","featuredAthletes":[],"summary":"Queensland trail by 140 runs","type":{"id":"112","description":"Stumps","detail":"Live","shortDetail":"Live","state":"in"}},"odds":[],"broadcasts":[],"notes":[],"situation":{},"startDate":"2026-10-19T00:00Z","broadcast":"","  ||  remium":false}],"status":{"clock":0,"displayClock":"0'","period":2,"session":"Day 1","summary":"Queensland trail by 140 runs","type":{"id":"112","description":"Stumps","detail":"Live","shortDetail":"Live","state":"in"}},"leagueId":"8043","isTopEvent":false},{"id":"1544869","uid":"s:200~e:1544869","date":"2026-10-19T02:  ||  atus":{"clock":0,"displayClock":"0'","period":1,"session":"Day 2","featuredAthletes":[],"summary":"Odisha won toss & fielded","type":{"id":"103","description":"Innings break","detail":"Live","shortDetail":"Live","state":"in"}},"odds":[],"broadcasts":[],"notes":[],"situation":{},"startDate":"2026-10-18T04:00Z","broadcas  ||  isPremium":false}],"status":{"clock":0,"displayClock":"0'","period":1,"session":"Day 2","summary":"Odisha won toss & fielded","type":{"id":"103","description":"Innings break","detail":"Live","shortDetail":"Live","state":"in"}},"leagueId":"8050","isTopEvent":false},{"id":"1546551","uid":"s:200~e:1546551","date":"2026-10
+NZ ":"Live","state":"in"}},"leagueId":"8836","isTopEvent":false},{"id":"1553802","uid":"s:200~e:1553802","date":"2026-10-19T05:00Z","endDate":"2026-10-23T23:59Z","name":"Khan Research Laboratories v Sui Northern Gas Pipelines Limited","shortName":"KRL v SNGP","description":"26th Match, President's Trophy Grade-I at Rawalpindi, Oct 19-22 2026","season":{"year":2026,"type":8836},"competitions":[{"id":"  ||  ,{"id":"3088","uid":"s:200~e:1553802~c:1553802~t:3088","type":"team","order":2,"homeAway":"away","winner":"false","score":"","team":{"id":"3088","uid":"s:200~t:3088","location":"Pakistan","name":"Sui Northern Gas Pipelines Limited","abbreviation":"SNGP","displayName":"Sui Northern Gas Pipelines Limited","shortDisplayName":"SNGP","isActive":true,"countryCode":"PK","color":"","links":[{"rel":["clubh  ||  er":2,"homeAway":"away","winner":"false","score":"","team":{"id":"3088","uid":"s:200~t:3088","location":"Pakistan","name":"Sui Northern Gas Pipelines Limited","abbreviation":"SNGP","displayName":"Sui Northern Gas Pipelines Limited","shortDisplayName":"SNGP","isActive":true,"countryCode":"PK","color":"","links":[{"rel":["clubhouse","desktop"],"href":"https://www.espn.in/cricket/team/_/id/3088/sui-n  ||  Northern Gas Pipelines Limited","shortDisplayName":"SNGP","isActive":true,"countryCode":"PK","color":"","links":[{"rel":["clubhouse","desktop"],"href":"https://www.espn.in/cricket/team/_/id/3088/sui-northern-gas-pipelines-limited","text":"Clubhouse","isExternal":false,"isPremium":false}],"logo":"https://a.espncdn.com/i/teamlogos/cricket/500/3088.png","logoDark":""},"linescores":[],"leaders":{"$re  ||  highlights":[]}],"links":[{"language":"en","rel":["event","boxscore","match","live","summary","desktop"],"href":"https://www.espn.in/cricket/series/8836/game/1553802/khan-research-laboratories-vs-sui-northern-gas-pipelines-limited-26th-match-presidents-trophy-grade-i-2026-27","text":"Summary","shortText":"Summary","isExternal":false,"isPremium":false},{"language":"en","rel":["event","league","seri
 
-######## PAGE 2026 NRL season results 104910 
-{| class="wikitable" style="border-collapse:collapse; text-align:center; width:100%;"
-|- style="text-align:center; background:#f5faff;"  style="background:#c1d8ff;"
-! rowspan="2" |Home
-! rowspan="2" |Score
-! rowspan="2" |Away
-! colspan="4" |Match information
-|-
-! width="17%" |Day & time
-! width="17%" |Venue
-! width="17%" |Referee
-! width="5%" |Attendance
-|- style="text-align:center; background:#f5faff;" 
-| align="left" |'''{{leagueicon|Newcastle|size=16}} [[Newcastle Knights]]'''
-|28–18
-| align="left" |{{leagueicon|North Queensland|size=16}} [[North Queensland Cowboys]]
-|Sunday 1 March, 12:15pm
-| rowspan="2" |[[Allegiant Stadium]]
-|[[Ashley Klein]]
-| rowspan="2" |45,719
-|- style="text-align:center; background:#f5faff;" 
-| align="left" |'''{{leagueicon|Canterbury|size=16}} [[Canterbury-Bankstown Bulldogs]]'''
-|15–14*
-| align="left" |{{leagueicon|St. George|size=16}} [[St. George Illawarra Dragons]]
-|Sunday 1 March, 2:30pm
-|[[Grant Atkins]]
-|- style="text-align:center; background:#f5faff;" 
-| align="left" |'''{{leagueicon|Melbourne|size=16}} [[Melbourne Storm]]'''
-|52–4
-| align="left" |{{leagueicon|Parramatta|size=16}} [[Parramatta Eels]]
-|Thursday 5 March, 7:00{{nbsp}}pm
-|[[Melbourne Rectangular Stadium|AAMI Park]]
-|Todd Smith
-|18,264
-|- style="text-align:center; background:#f5faff;" 
-| align="left" |'''{{leagueicon|Auckland|size=16}} [[New Zealand Warriors]]'''
-|42–18
-| align="left" |{{leagueicon|Eastern Suburbs|size=16}} [[Sydney Roosters]]
-|Friday 6 March, 5:00{{nbsp}}pm
-|[
-TSDB eventsround.php?id=4356&r=1&s=2026-2027 events 6 2026-10-16T09:00:00 Sydney FC vs Western Sydney Wanderers 0 0 FT Allianz Stadium Sydney || 2026-10-17T04:00:00 Auckland FC vs Melbourne City 3 1 FT Mount Smart Stadium || 2026-10-17T06:00:00 Macarthur FC vs Perth Glory 2 1 FT Campbelltown Stadium || 2026-10-17T08:40:00 Central Coast Mariners vs Newcastle Jets 2 2 FT polytec Stadium || 2026-10-18T02:00:00 Wellington Phoenix vs Melbourne Victory 2 1 FT Hnry Stadium || 2026-12-15T08:30:00 Adelaide United vs Brisbane Roar   NS Hindmarsh Stadium
-TSDB eventsround.php?id=4356&r=2&s=2026-2027 events 6 2026-10-23T09:00:00 Brisbane Roar vs Perth Glory   NS Suncorp Stadium || 2026-10-24T04:00:00 Newcastle Jets vs Macarthur FC   NS McDonald Jones Stadium || 2026-10-24T06:00:00 Western Sydney Wanderers vs Auckland FC   NS CommBank Stadium || 2026-10-24T08:40:00 Melbourne Victory vs Melbourne City   NS AAMI Park || 2026-10-25T02:00:00 Wellington Phoenix vs Central Coast Mariners   NS Hnry Stadium || 2026-10-25T04:00:00 Sydney FC vs Adelaide United   NS Allianz Stadium Sydney
-TSDB searchteams.php?t=Wellington_Phoenix teams 1      
-TSDB eventsnext.php?id=136052 events 1 2026-10-18T21:30:00 Liverpool Montevideo vs Peñarol   NS Estadio Belvedere
-TSDB eventslast.php?id=136052 results 1 2026-10-03T14:00:00 Liverpool Montevideo vs Progreso 3 2 FT Estadio Belvedere
-TSDB eventsseason.php?id=4356&s=2026-2027 events 15 2026-10-16T09:00:00 Sydney FC vs Western Sydney Wanderers 0 0 FT Allianz Stadium Sydney || 2026-10-17T04:00:00 Auckland FC vs Melbourne City 3 1 FT Mount Smart Stadium || 2026-10-17T06:00:00 Macarthur FC vs Perth Glory 2 1 FT Campbelltown Stadium || 2026-10-17T08:40:00 Central Coast Mariners vs Newcastle Jets 2 2 FT polytec Stadium || 2026-10-18T02:00:00 Wellington Phoenix vs Melbourne Victory 2 1 FT Hnry Stadium || 2026-10-23T09:00:00 Brisbane Roar vs Perth Glory   NS Suncorp Stadium || 2026-10-24T04:00:00 Newcastle Jets vs Macarthur FC   NS McDonald Jones Stadium || 2026-10-24T06:00:00 Western Sydney Wanderers vs Auckland FC   NS CommBank Stadium || 2026-10-24T08:40:00 Melbourne Victory vs Melbourne City   NS AAMI Park || 2026-10-25T02:00:00 Wellington Phoenix vs Central Coast Mariners   NS Hnry Stadium || 2026-10-25T04:00:00 Sydney FC vs Adelaide United   NS Allianz Stadium Sydney || 2026-10-30T09:00:00 Brisbane Roar vs Auckland FC   NS Suncorp Stadium
-TSDB eventsseason.php?id=4443&s=2026 events 15 2026-01-24T22:00:00 UFC 324 Gaethje vs Pimblett   NS T-Mobile Arena || 2026-01-31T22:00:00 UFC 325 Volkanovski vs Lopes 2   NS Qudos Bank Arena || 2026-02-07T23:00:00 UFC Fight Night 266 Bautista vs Oliveira   FT UFC APEX || 2026-02-21T22:00:00 UFC Fight Night 267 Strickland vs Hernandez   FT Toyota Center || 2026-02-28T22:00:00 UFC Fight Night 268 Moreno vs Kavanagh   FT Mexico City Arena || 2026-03-07T22:00:00 UFC 326 Holloway vs Oliveira 2   FT T-Mobile Arena || 2026-03-14T21:00:00 UFC Fight Night 269 Emmett vs Vallejos   FT UFC APEX || 2026-03-21T17:00:00 UFC Fight Night 270 Evloev vs Murphy   FT The O2 Arena || 2026-03-28T21:00:00 UFC Fight Night 271 Adesanya vs Pyfer   NS Climate Pledge Arena || 2026-04-04T23:00:00 UFC Fight Night 272 Moicano vs Duncan   FT Meta Apex || 2026-04-11T21:30:00 UFC 327 Procházka vs Ulberg   FT Kaseya Center || 2026-04-18T21:00:00 UFC Fight Night 273 Burns vs Malott   FT Canada Life Centre
+== espn cricket scoreboard 404  12b 
+HEAD {"code":404}
+
+== cricbuzz live 404 text/html; charset=utf-8 198327b 
+HEAD <!DOCTYPE html><html lang="en" class="inter-app"><head><meta charSet="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/><link rel="dns-prefetch" href="https://static.cricbuzz.com/"/><link rel="preconnect" href="https://static.cricbuzz.com/"/><link rel="dns-prefetch" href="https://willow-static.cricbuzz.com/"/><link rel="preconnect" href="https://willow-static.cricbuzz.com/"/><link rel="stylesheet" href="/_next/static/css/1541c89821de85f1.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-8d9f654b56a0e82d.js" as="script"/><link rel="preload" href="/_next/static/chunks/heavy-libs-d27e48be6c58d499.js" as="script"/><link rel="preload" href="/_next/static/chunks/vendors-a19f50d5afc8fd41.js" as="script"/><link rel="preload" href="/_next/static/chunks/main-app-28a9
+STATE center px-3 bg-[#333] hover:bg-[#4a4a4a]">MATCHES</a><div class="h-full w-full flex items-center justify-start"><a title="South Africa vs Australia, 2nd Test - Rain " href="/live-cricket-scores/147931/rsa-vs-aus-2nd-test-australia-tour-of-south-africa-2026" class="h-full w-fit max-w-[160px] px-3 flex items-center hover  ||  px] px-3 flex items-center hover:bg-[#444]"><span class="whitespace-nowrap text-ellipsis overflow-hidden">RSA<!-- --> vs <!-- -->AUS<!-- --> -<!-- --> <!-- -->Rain</span></a><a title="Afghanistan vs Zimbabwe, 2nd Match - Preview " href="/live-cricket-scores/172680/afg-vs-zim-2nd-match-odi-tri-nation-series-in-uae-2026  ||  2026-27</a><div><a href="/live-cricket-scores/166607/tas-vs-vic-4th-match-sheffield-shield-2026-27" class="block mb-3" title="Tasmania vs Victoria, 4th Match - Stumps "><div class="flex gap-1"><div class="text-white">Tasmania vs Victoria<!-- --> </div></div><div class="text-xs text-[#d1d1d1]">4th Match</div></a><a href  ||  iv></a><a href="/live-cricket-scores/166613/saus-vs-ql-5th-match-sheffield-shield-2026-27" class="block mb-3" title="South Australia vs Queensland, 5th Match - Stumps "><div class="flex gap-1"><div class="text-white">South Australia vs Queensland<!-- --> </div></div><div class="text-xs text-[#d1d1d1]">5th Match</div></  ||  :\"Australia tour of South Africa, 2026\",\"matchDesc\":\"2nd Test\",\"matchFormat\":\"TEST\",\"startDate\":1792310400000,\"endDate\":1792681200000,\"state\":\"Rain\",\"status\":\"Day 2: Start delayed due to rain\",\"team1\":{\"teamId\":11,\"teamName\":\"South Africa\",\"teamSName\":\"RSA\",\"imageId\":776287},\"team2\  ||  , 2026\",\"matchDesc\":\"2nd Test\",\"matchFormat\":\"TEST\",\"startDate\":1792310400000,\"endDate\":1792681200000,\"state\":\"Rain\",\"status\":\"Day 2: Start delayed due to rain\",\"team1\":{\"teamId\":11,\"teamName\":\"South Africa\",\"teamSName\":\"RSA\",\"imageId\":776287},\"team2\":{\"teamId\":4,\"teamName\":\"Au
+NZ e-2026" class="block text-[#d1d1d1] text-sm font-bold mt-2">CSA T20 Challenge 2026</a><div><a href="/live-cricket-scores/173387/ncape-vs-lions-pool-a-csa-t20-challenge-2026" class="block mb-3" title="Northern Cape vs Lions, Pool A - Toss "><div class="flex gap-1"><div class="text-white">Northern Cape vs Lions<!-- --> </div></div><div class="text-xs text-[#d1d1d1]">Pool A</div></a><a href="/live-cr  ||  iv><a href="/live-cricket-scores/173387/ncape-vs-lions-pool-a-csa-t20-challenge-2026" class="block mb-3" title="Northern Cape vs Lions, Pool A - Toss "><div class="flex gap-1"><div class="text-white">Northern Cape vs Lions<!-- --> </div></div><div class="text-xs text-[#d1d1d1]">Pool A</div></a><a href="/live-cricket-scores/173407/kng-vs-saep-pool-b-csa-t20-challenge-2026" class="block mb-3" title=  ||  ext-xs text-[#d1d1d1]">Semi Final 2</div></a></div></div><div class="mb-3"><a href="/cricket-series/11859/new-zealand-women-tour-of-australia-2026" class="block text-[#d1d1d1] text-sm font-bold mt-2">New Zealand Women tour of Australia, 2026</a><div><a href="/live-cricket-scores/151251/nzw-vs-ausw-1st-t20i-new-zealand-women-tour-of-australia-2026" class="block mb-3" title="New Zealand Women vs Aus  ||  text-sm font-bold mt-2">New Zealand Women tour of Australia, 2026</a><div><a href="/live-cricket-scores/151251/nzw-vs-ausw-1st-t20i-new-zealand-women-tour-of-australia-2026" class="block mb-3" title="New Zealand Women vs Australia Women, 1st T20I - AUSW Won "><div class="flex gap-1"><div class="text-white">New Zealand Women vs Australia Women<!-- --> </div></div><div class="text-xs text-[#d1d1d1]"  ||  2">New Zealand Women tour of Australia, 2026</a><div><a href="/live-cricket-scores/151251/nzw-vs-ausw-1st-t20i-new-zealand-women-tour-of-australia-2026" class="block mb-3" title="New Zealand Women vs Australia Women, 1st T20I - AUSW Won "><div class="flex gap-1"><div class="text-white">New Zealand Women vs Australia Women<!-- --> </div></div><div class="text-xs text-[#d1d1d1]">1st T20I</div></a><a  ||  51/nzw-vs-ausw-1st-t20i-new-zealand-women-tour-of-australia-2026" class="block mb-3" title="New Zealand Women vs Australia Women, 1st T20I - AUSW Won "><div class="flex gap-1"><div class="text-white">New Zealand Women vs Australia Women<!-- --> </div></div><div class="text-xs text-[#d1d1d1]">1st T20I</div></a><a href="/live-cricket-scores/151262/ausw-vs-nzw-2nd-t20i-new-zealand-women-tour-of-austr
+
+== cricbuzz old json 403 text/html 93b 
+HEAD <html><body><h1>403 Forbidden</h1> Request forbidden by administrative rules. </body></html>
+
+== tsdb livescore 200 application/json; charset=utf-8 18b 
+HEAD {"livescore":null}
+
+#### C. NEWS FEEDS
+FEED 200 79 items, 79 with images, 10 naming our teams, newest 2026-10-19T06:39 https://www.stuff.co.nz/rss
+   e.g. Leroy Carter ruled out of Nations Championship after hip-drop tackle forces ankle surgery | Intoxicated lawyer censured after appearing drunk in court | Vegetation fire in northwest Auckland under control | ‘Turn this off right now’ mobile DJ told after impromptu Olivia Dean after party
+FEED 410/browser 410 0 items, 0 with images, 0 naming our teams, newest - https://www.stuff.co.nz/sport/rss
+    text/html; charset=utf-8 <!doctype html><html><head><meta name="robots" content="noindex" data-react-helmet="true"><title>Gone</title></head><body></body></html>
+FEED 200 86 items, 86 with images, 49 naming our teams, newest 2026-10-19T06:39 https://www.stuff.co.nz/rss/sport
+   e.g. Leroy Carter ruled out of Nations Championship after hip-drop tackle forces ankle surgery | ‘Tough as nails’: Kiwis prop ready to honour his hard-man great grandfather | Phoenix striker scores with first touch off the bench in ‘surreal’ return | World Cup selection headaches and other takeaways after All Blacks hammer Wallabies
+FEED 200 76 items, 76 with images, 4 naming our teams, newest 2026-10-19T06:43 https://www.1news.co.nz/arc/outboundfeeds/rss/?outputType=xml
+   e.g. Kings of Leon announce Auckland show | 'I hate who I am': Sydney serial rapist speaks after 30 years | Pregnant mums transferred by helicopter amid Wairau Hospital staffing 'gaps' | Analysis: Trump says he's a great dealmaker. His record says otherwise
+FEED 404/browser 404 0 items, 0 with images, 0 naming our teams, newest - https://www.1news.co.nz/arc/outboundfeeds/rss/section/sport/?outputType=xml
+    text/plain; charset=utf-8 Not Found
+FEED 404/browser 404 0 items, 0 with images, 0 naming our teams, newest - https://www.newstalkzb.co.nz/arc/outboundfeeds/rss/section/sport/?outputType=xml&_website=newstalkzb
+    text/html; charset=utf-8 <!DOCTYPE html> <html lang="en-nz"> <head> <meta charset="utf-8" /> <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <title>Page Not Found</title> <meta name="google-s
+FEED 404/browser 404 0 items, 0 with images, 0 naming our teams, newest - https://www.newstalkzb.co.nz/rss/sport
+    text/html; charset=utf-8 <!DOCTYPE html> <html lang="en-nz"> <head> <meta charset="utf-8" /> <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <title>Page Not Found</title> <meta name="google-s
+FEED 404/browser 404 0 items, 0 with images, 0 naming our teams, newest - https://www.odt.co.nz/rss.xml
+    text/html; charset=utf-8 <!DOCTYPE html><html id="root-site" lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="isMobile" content="false"/><link rel="apple-touch-icon" href=
+FEED 404/browser 404 0 items, 0 with images, 0 naming our teams, newest - https://www.odt.co.nz/sport/rss
+    text/html; charset=utf-8 <!DOCTYPE html><html id="root-site" lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="isMobile" content="false"/><link rel="apple-touch-icon" href=
+FEED 404/browser 404 0 items, 0 with images, 0 naming our teams, newest - https://www.odt.co.nz/rss/sport
+    text/html; charset=utf-8 <!DOCTYPE html><html id="root-site" lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="isMobile" content="false"/><link rel="apple-touch-icon" href=
+FEED 200 15 items, 15 with images, 0 naming our teams, newest 2026-10-19T03:21 https://newsroom.co.nz/feed/
+   e.g. Labour candidate warns Te Pāti Māori gang photos hand right wing ammunition | Little wonder young people don&#8217;t enrol – they&#8217;re prisoners in a gerontocracy | The grassroots housing ideas escaping notice | ‘You sound like a lousy apologist for the Labour Party’
+FEED 200 15 items, 15 with images, 4 naming our teams, newest 2026-10-18T16:00 https://newsroom.co.nz/category/lockerroom/feed/
+   e.g. Beyond the World Cup euphoria: why equity in NZ sport remains stuck | Double international Stacey Waaka inspired by Honey for World Cup debut | Star American back to help Phoenix rise one more step | &#8216;Clinical&#8217; Black Ferns aim to take the flamboyance out of France in three test tour
+FEED 404/browser 404 0 items, 0 with images, 0 naming our teams, newest - https://thespinoff.co.nz/sports/feed
+    text/html; charset=utf-8 <!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"/><link rel="styl
+FEED 404/browser 404 0 items, 0 with images, 0 naming our teams, newest - https://thespinoff.co.nz/feed
+    text/html; charset=utf-8 <!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"/><link rel="styl
+FEED 200 0 items, 0 with images, 0 naming our teams, newest - https://www.skysport.co.nz/rss
+    text/html <!doctype html><html lang="en" style="overflow-x:hidden"><head><meta charset="utf-8"/><link rel="icon" href="/favicon.ico"/><title>Welcome to Sky</title><meta name="description" content="New Zealand's
+FEED 404/browser 404 0 items, 0 with images, 0 naming our teams, newest - https://www.allblacks.com/rss
+    text/html; charset=utf-8 <!DOCTYPE html><html data-dpl-id="1_12_0" id="__next_error__"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="script" fetchPri
+FEED 404/browser 404 0 items, 0 with images, 0 naming our teams, newest - https://www.nzc.nz/rss
+    text/html; charset=utf-8 <!DOCTYPE html> <html lang="en" class="group/html scroll-pt-[40px] overflow-x-hidden scroll-smooth"> <head> <meta charset="utf-8"/> <meta name="viewport" content="width=device-width, i
+FEED 404/browser 200 0 items, 0 with images, 0 naming our teams, newest - https://www.warriors.kiwi/rss
+    text/html; charset=utf-8 <!DOCTYPE html> <html lang="en" class="no-js-keyboard-focus"> <head> <meta charset="utf-8" /> <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <meta name="HandheldFriendly" c
+FEED 200 53 items, 53 with images, 4 naming our teams, newest 2026-10-19T03:30 https://feeds.bbci.co.uk/sport/rugby-union/rss.xml
+   e.g. The players that staked late claims for Wales spots | Northampton beat Cardiff for first English win in Champions Cup | Toulouse deny Exeter famous win as Slade misses last-gasp kick for draw | Late tries give Pau bonus-point win over Leicester
+FEED 200 31 items, 31 with images, 0 naming our teams, newest 2026-10-19T05:27 https://feeds.bbci.co.uk/sport/cricket/rss.xml
+   e.g. Start delayed on second day of South Africa-Australia Test - scorecard | How one rule change is altering the face of one-day cricket | Pakistan close out win over Sri Lanka in tri-series - scorecard | Zimbabwe beat Bangladesh by 99 runs - ODI tri-series scorecard
+FEED 200 35 items, 35 with images, 5 naming our teams, newest 2026-10-18T07:38 https://feeds.bbci.co.uk/sport/rugby-league/rss.xml
+   e.g. New Zealand avoid massive World Cup shock against Fiji | McDermott seeks fix as England fight to save their World Cup | England stunned by Tonga in World Cup opener | England crush Women's World Cup debutants Wales
+FEED 200 40 items, 40 with images, 7 naming our teams, newest 2026-10-19T06:31 https://feeds.bbci.co.uk/sport/boxing/rss.xml
+   e.g. Smith v Puello - all you need to know | After Dubois' dominant win, what's next for heavyweight boxing? | 'Devastating & dramatic' - Dubois stops Wardley to retain title | Dubois destroys Wardley in two rounds to retain title 
+FEED 200 32 items, 32 with images, 16 naming our teams, newest 2026-10-16T06:23 https://feeds.bbci.co.uk/sport/mixed-martial-arts/rss.xml
+   e.g. Carmouche shaves head to make weight for world title fight | Pereira's sister, Aline, misses out on UFC contract | Staines 'living the dream' after UFC contract win | Allen submits Duncan to derail Briton's title hopes
+FEED 200 66 items, 66 with images, 0 naming our teams, newest 2026-10-19T06:42 https://feeds.bbci.co.uk/sport/formula1/rss.xml
+   e.g. Best images of F1 in the US through the years | How to follow US Grand Prix on the BBC | Brazilian Camara to join Haas for F1 debut in 2027 | The F1 pit stop that helped save lives
+FEED 200 20 items, 20 with images, 5 naming our teams, newest 2026-10-18T18:31 https://www.theguardian.com/sport/rugby-union/rss
+   e.g. Northampton break England’s duck in Champions Cup with victory over Cardiff | Meaty Montpellier leave Bath reeling and offer Prem French lessons | Champions Cup roundup: La Rochelle beat Lions after emotional tribute to Andrews | Doomsday for Wallabies and Les Kiss as clinical All Blacks expose fault lines | Angus Fontaine
+FEED 200 20 items, 20 with images, 1 naming our teams, newest 2026-10-19T08:10 https://www.theguardian.com/sport/cricket/rss
+   e.g. South Africa v Australia: second men’s cricket Test, day two – live | Australia’s Boland damages South Africa in brief respite from rain | South Africa v Australia: second men’s cricket Test, day one abandoned – as it happened | Australia squeeze past New Zealand after mid-order collapse in opening women’s T20
+FEED 200 20 items, 20 with images, 5 naming our teams, newest 2026-10-17T11:35 https://www.theguardian.com/sport/rugbyleague/rss
+   e.g. England stunned as Tonga tonking leaves Rugby League World Cup hopes in shreds | England’s World Cup test against Tonga will show where power really lies in rugby league | Australia cruise past Samoa in women’s Rugby League World Cup opener | Australia 40-0 Samoa: women’s Rugby League World Cup – as it happened
+FEED 200 20 items, 20 with images, 3 naming our teams, newest 2026-10-18T13:53 https://www.theguardian.com/sport/boxing/rss
+   e.g. ‘My time, my era’: Dubois sends out warning to rivals with Wardley demolition | Fundora brutally knocks out Hadribeaj with one second left to retain 154lb title | Daniel Dubois knocks out Fabio Wardley to retain WBO heavyweight title – as it happened | Daniel Dubois delivers devastating second-round stoppage of Fabio Wardley to retain WBO title
+FEED 200 20 items, 20 with images, 15 naming our teams, newest 2026-10-16T09:00 https://www.theguardian.com/sport/mma/rss
+   e.g. From the Octagon to Quantico: UFC teaching the FBI to fight is its latest tie to Trump world | ‘I wanted to change the stigma’: Nikita Hand on winning a civil rape case against Conor McGregor | UFC champion Sean Strickland in ‘real bad place’ after ATV crash while not wearing helmet | UFC’s White House spectacle led to losses of around $30m, company reveals
+FEED 200 20 items, 20 with images, 0 naming our teams, newest 2026-10-13T12:16 https://www.theguardian.com/sport/formulaone/rss
+   e.g. F1 returns to Africa for first time since 1993 with 10-year Rwanda deal from ‘early 2030s’ | Christian Horner: ‘Not all teams act that way. You don’t see the same brutality as when I left’ | Kimi Antonelli admits he can taste F1 glory after Verstappen wins Singapore GP | Feelgood factor of human interaction | Brief letters
+FEED 200 20 items, 20 with images, 8 naming our teams, newest 2026-10-19T02:47 https://www.theguardian.com/world/newzealand/rss
+   e.g. ‘You reach a tipping point’: New Zealand’s strained healthcare system at centre of election battle | Uncovering the secrets of New Zealand’s elusive ‘jungle penguins’ | Museum releases historical photos of island where Amelia Earhart may have crashed | ‘Like, really, really shocked’: why are so many people riffing on this sheep’s sex appeal?
+FEED 200 100 items, 100 with images, 3 naming our teams, newest 2026-10-19T07:37 https://www.espncricinfo.com/rss/content/story/feeds/0.xml
+   e.g. Abhimanyu: The 'dream' to play for India is 'still there' | Darcie Brown ruled out of WBBL with a back injury | Bowlers, Shafali, Mandhana power India to series win | Pakistan quicks seal win after Salman Agha ton sets tone
+FEED 200 100 items, 100 with images, 38 naming our teams, newest 2026-10-18T08:17 https://www.espncricinfo.com/rss/content/story/feeds/5.xml
+   e.g. Australia bowl, McGrath replaces injured Litchfield | Rose Bowl expanded to include Australia vs New Zealand T20Is | NZ look to move Allen to the middle order for 'competitive advantage' in ODIs | Allen, Ferguson, Seifert picked for India ODIs; Ravindra returns from injury
+FEED 202 0 items, 0 with images, 0 naming our teams, newest - https://www.espn.com/espn/rss/mma/news
+    text/html; charset=UTF-8 
+FEED 202 0 items, 0 with images, 0 naming our teams, newest - https://www.espn.com/espn/rss/boxing/news
+    text/html; charset=UTF-8 
+FEED 202 0 items, 0 with images, 0 naming our teams, newest - https://www.espn.com/espn/rss/rpm/news
+    text/html; charset=UTF-8 
+FEED 200 10 items, 10 with images, 3 naming our teams, newest 2026-10-19T07:22 https://www.zerotackle.com/feed/
+   e.g. Penisini among two new signings for Brisbane Broncos | An apology to Reece Walsh, the unfair draw and pre-match goosebumps: 20 thoughts from Rugby League World Cup, Week 1 | FIVE November 1 NRL contract targets: Cronulla Sharks | Footy finals superstition comes at a cost &#8211; now it&#8217;s time to face the beard
+FEED 404/browser 200 0 items, 0 with images, 0 naming our teams, newest - https://www.rugbypass.com/feed/
+    text/html; charset=UTF-8 <!DOCTYPE html> <html lang="en" itemscope itemtype="http://schema.org/NewsMediaOrganization"> <head> <script> (function (w, d, s, l, i) { w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTim
+FEED 404/browser 404 0 items, 0 with images, 0 naming our teams, newest - https://rugby365.com/feed/
+    text/html; charset=UTF-8 <!DOCTYPE html><html lang="en" itemscope itemtype="http://schema.org/NewsMediaOrganization"> <head> <script> window.facebookSDKLoaded = 0; window.scriptsToInit = []; window.bcPlayers = []; </script> <
+FEED 200 50 items, 0 with images, 28 naming our teams, newest 2026-10-19T04:07 https://www.sherdog.com/rss/news.xml
+   e.g. Video shows police officer slamming spectator at UFC Edmonton | Javid Basharat says brother learned of UFC exit with everyone else | Muhammad Mokaev blames TKO & Paramount, not Dana White, for UFC exits | Merab Dvalishvili calls himself a 'decision machine' before Yan trilogy
+FEED 404/browser 404 0 items, 0 with images, 0 naming our teams, newest - https://mmajunkie.usatoday.com/feed
+    text/html; charset=utf-8 <!doctype html><html lang=en-US class=gnt__njs data-u-s=anon><head><meta charset=utf-8 /><meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1"/><meta name=theme-color conten
+FEED 403/browser 200 0 items, 0 with images, 0 naming our teams, newest - https://www.boxingscene.com/feed
+    text/html <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> <HTML><HEAD><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1"> <TITLE>ERROR
+FEED 200 15 items, 15 with images, 1 naming our teams, newest 2026-10-19T06:50 https://www.boxingnews24.com/feed/
+   e.g. Fabio Wardley Still Has Plenty Of Paydays Available | Canelo Alvarez Seeks Stamina Help From Team Usyk | David Benavidez Drops Canelo Chase Three Years Late | Frank Martin Wants Shakur Stevenson Or Tank Rematch
+FEED 200 20 items, 20 with images, 11 naming our teams, newest 2026-10-19T03:30 https://bloodyelbow.com/feed/
+   e.g. Jake Paul shuts down Tommy Fury rematch as bitter feud continues… &#8216;Ship has sailed&#8217; | Streamer HSTikkyTokky claims he will &#8216;dethrone&#8217; Sean Strickland with just six months of training | ‘Don’t waste my time’… Ryan Garcia confirms Floyd Mayweather super-fight talks have begun | Tommy Fury hits back at Jake Paul as he teases rematch years in the making&#8230; &#8216;See you so
+FEED 404/browser 404 0 items, 0 with images, 0 naming our teams, newest - https://www.ringmagazine.com/feed
+    text/html; charset=utf-8 <!DOCTYPE html><html id="__next_error__"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="script" fetchPriority="low" href="/_n
+FEED 200 10 items, 0 with images, 0 naming our teams, newest - https://www.formula1.com/en/latest/all.xml
+   e.g. 6 times drivers improvised after losing radio during a race | Rwanda will write a new chapter in Africa’s rich F1 heritage | How Mekies has already made his mark at Red Bull | How the pecking order has changed since the season opener
+FEED 200 50 items, 50 with images, 2 naming our teams, newest 2026-10-19T08:27 https://www.motorsport.com/rss/f1/news/
+   e.g. Inside the competition building F1’s future engineering talent | Max Verstappen and Anthony Hamilton's "wholesome" reunion earns F1 fan praise | Stray Kids' Felix sends fans into frenzy with behind-the-scenes Ferrari F1 photos | Documentary on Lewis Hamilton and Fernando Alonso's F1 rivalry reportedly in the works
+FEED 200 50 items, 50 with images, 0 naming our teams, newest 2026-10-18T11:00 https://www.autosport.com/rss/f1/news/
+   e.g. Mercedes explains why its upgrade made its F1 car harder to drive | The maths behind when Mercedes could become F1 world champions in 2026 | What drives Bortoleto as his junior rivals hit new heights in F1 | What Verstappen knew about Red Bull’s big upgrade when he signed his new F1 deal
+FEED 200 70 items, 0 with images, 28 naming our teams, newest 2026-10-19T07:53 https://news.google.com/rss/headlines/section/topic/SPORTS?hl=en-NZ&gl=NZ&ceid=NZ:en
+   e.g. 'Clinical': Brave new netball world as Silver Ferns stun Diamonds - 1News | Live: Kiwi Ferns v Fiji – Rugby League World Cup - Stuff | 'Shylights': The Black Ferns rookie showing proof of pathway - NZ Herald | Contrasting starts for Wellington Phoenix teams in double header at Hnry Stadium - NZ Herald
+FEED 200 100 items, 0 with images, 99 naming our teams, newest 2026-10-18T06:35 https://news.google.com/rss/search?q=Warriors+NRL&hl=en-NZ&gl=NZ&ceid=NZ:en
+   e.g. Major contract call set to force star out of Warriors; Perth land son of ex-NRL enforcer — Whispers - Fox Sports | The deja vu decision that Kiwi fans know all too well - NZ Herald | Local pathways competitions take another step forward - Warriors | Warriors to re-sign one hooker but lose another as NRL deadline approaches - NZ Herald
+
+#### D. DATA APIS
+
+== espn rugby all 404  12b
+HEAD {"code":404}
+
+== espn super rugby 200 application/json;charset=UTF-8 11083b
+HEAD {"leagues":[{"id":"8326","uid":"s:300~l:8326","name":"Super Rugby Pacific","abbreviation":"Super Rugby Pacific","midsizeName":"242041","slug":"242041","season":{"year":2026,"startDate":"2026-02-23T05:00Z","endDate":"2026-06-02T03:59Z","displayName":"2026","type":{"id":"1","type":1,"name":"2026 Super Rugby Pacific","abbreviation":"2026 Super Rugby Pacific"}},"logos":[{"href":"https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-rugby.png","width":500,"height":500,"alt":"","rel":["full","default"],"lastUpdated":"2026-10-18T00:32Z"}],"isClubCompetition":false,"calendarType":"day","calendarIsWhitelist":true,"calendarStartDate":"2026-02-23T05:00Z","calendarEndDate":"2026-06-0
+
+== espn npc 270557 200 application/json;charset=UTF-8 9986b
+HEAD {"leagues":[{"id":"8331","uid":"s:300~l:8331","name":"United Rugby Championship","abbreviation":"United Rugby Championship","midsizeName":"270557","slug":"270557","season":{"year":2027,"startDate":"2026-08-30T04:00Z","endDate":"2027-05-26T04:00Z","displayName":"2026-27","type":{"id":"1","type":1,"name":"United Rugby Championship","abbreviation":"United Rugby Championship"}},"logos":[{"href":"https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-rugby.png","width":500,"height":500,"alt":"","rel":["full","default"],"lastUpdated":"2026-10-18T00:32Z"}],"isClubCompetition":false,"calendarType":"day","calendarIsWhitelist":true,"calendarStartDate":"2026-08-30T04:00Z","calendarEn
+
+== espn rugby league nrl 200 application/json;charset=UTF-8 51553b
+HEAD {"leagues":[{"id":"8370","uid":"s:8088~l:8370","name":"Rugby League","abbreviation":"NRL","midsizeName":"3","slug":"3","season":{"year":2026,"startDate":"2026-09-10T04:00Z","endDate":"2026-10-08T03:59Z","displayName":"2026","type":{"id":"2","type":2,"name":"2026 FINAL NRL","abbreviation":"2026 FINAL NRL"}},"logos":[{"href":"https://a.espncdn.com/i/teamlogos/leagues/500/nrl.png","width":500,"height":500,"alt":"","rel":["full","default"],"lastUpdated":"2022-03-10T15:54Z"}],"isClubCompetition":false,"calendarType":"list","calendarIsWhitelist":true,"calendarStartDate":"2026-09-10T04:00Z","calendarEndDate":"2026-10-08T03:59Z","calendar":[{"label":"2026 REG NRL","value":"1","startDate":"2026-02-28
+
+== espn ufc 200 application/json;charset=UTF-8 32448b
+HEAD {"leagues":[{"id":"3321","uid":"s:3301~l:3321","name":"Ultimate Fighting Championship","displayName":"UFC","abbreviation":"UFC","shortName":"UFC","slug":"ufc","season":{"year":2026,"startDate":"2026-01-01T08:00Z","endDate":"2026-12-31T08:00Z","displayName":"2026","type":{"id":"2","type":2,"name":"Regular Season","abbreviation":"reg"}},"logos":[{"href":"https://a.espncdn.com/i/teamlogos/leagues/500/ufc.png","width":500,"height":500,"alt":"","rel":["full","default"],"lastUpdated":"2018-12-21T18:30Z"},{"href":"https://a.espncdn.com/i/teamlogos/leagues/500/ufc.png","width":500,"height":500,"alt":"","rel":["full","dark"],"lastUpdated":"2018-12-21T18:30Z"}],"calendarType":"list","calendarIsWhiteli
+
+== espn a-league 200 application/json;charset=UTF-8 47371b
+HEAD {"leagues":[{"id":"3906","uid":"s:600~l:3906","name":"Australian A-League Men","abbreviation":"A-League Men","midsizeName":"AUS.1","slug":"aus.1","season":{"year":2026,"startDate":"2026-07-01T04:00Z","endDate":"2027-07-01T03:59Z","displayName":"2026-27 Australian A-League Men","type":{"id":"1","type":14401,"name":"Regular Season","abbreviation":"2026-27 A-League"}},"logos":[{"href":"https://a.espncdn.com/i/leaguelogos/soccer/500/1308.png","width":500,"height":500,"alt":"","rel":["full","default"],"lastUpdated":"2021-10-08T17:20Z"},{"href":"https://a.espncdn.com/i/leaguelogos/soccer/500-dark/1308.png","width":500,"height":500,"alt":"","rel":["full","dark"],"lastUpdated":"2021-10-08T17:20Z"}],
+
+== espn f1 200 application/json;charset=UTF-8 11097b
+HEAD {"leagues":[{"id":"2030","uid":"s:2000~l:2030","name":"Formula 1","abbreviation":"F1","slug":"f1","season":{"year":2026,"startDate":"2026-01-01T08:00Z","endDate":"2026-12-31T08:00Z","displayName":"2026","type":{"id":"2","type":2,"name":"Regular Season","abbreviation":"reg"}},"logos":[{"href":"https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/f1.png","width":500,"height":500,"alt":"","rel":["full","default"],"lastUpdated":"2026-10-18T00:53Z"},{"href":"http://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/f1.png","width":500,"height":500,"alt":"","rel":["full","dark"],"lastUpdated":"2026-10-17T12:25Z"}],"calendarType":"list","calendarIsWhitelist":true,"calendarStartDate":"20
+STATE e":"2026-03-29T08:00Z","event":{"$ref":"http://sports.core.api.espn.pvt/v2/sports/racing/leagues/f1/events/600057429?lang=en&region=us"}},{"label":"Gulf Air Bahrain Grand Prix","startDate":"2026-04-10T14:30Z","endDate":"2026-04-12T18:00Z","event":{"$ref":"http://sports.core.api.espn.pvt/v2/sports/racing/leagues/f1/even  ||  e":"2026-09-26T14:00Z","event":{"$ref":"http://sports.core.api.espn.pvt/v2/sports/racing/leagues/f1/events/600057444?lang=en&region=us"}},{"label":"Gulf Air Bahrain Grand Prix in Malaysia","startDate":"2026-10-02T07:30Z","endDate":"2026-10-04T10:00Z","event":{"$ref":"http://sports.core.api.espn.pvt/v2/sports/racing/lea
+
+== world rugby rankings ERR ENOTFOUND  0b
+HEAD 
+
+== world rugby matches ERR ENOTFOUND  0b
+HEAD 
+
+== nrl draw 200 text/html;charset=UTF-8 862b
+HEAD <html><head><title>Submit This Form</title><meta http-equiv="X-UA-Compatible" content="IE=edge"></head><body onload="javascript:document.forms[0].submit()"><form method="post" action="https://www.nrl.com/account/signin-nrl"><input type="hidden" name="error" value="login_required"/><input type="hidden" name="error_description" value="Login required"/><input type="hidden" name="state" value="OpenIdConnect.AuthenticationProperties=MtKYLJhWb44AQ3yfgKFmz_whFQD1IsIzre_XCKjMBWnbUNnvlQc9K4UTGzoWag8JbxhNlH-GNunW4vWK08_4jo9UHmpk4MEP28V_DxVrIhaII7zhaTecx7CfkIPBOqJi_TaTThFUa-HMDf8GdCcxcBtJ5J6ERDdzbUwfjWtHc7hZZHDKXGBveHomFI_8YAX59CaAU-eW7uhczP7vX8Oy6Q_FGJ9mTmt1AuCQVDBI6bKkrxl4-84GT7m5iSUl2Lz6zMbKiFAn8eZA
+
+== fixturedownload nrl 200 application/json; charset=utf-8 45345b
+HEAD [{"MatchNumber":1,"RoundNumber":1,"DateUtc":"2026-03-01 02:15:00Z","Location":"Allegiant Stadium","HomeTeam":"Knights","AwayTeam":"Cowboys","Group":null,"HomeTeamScore":28,"AwayTeamScore":18,"Winner":"Knights"},{"MatchNumber":2,"RoundNumber":1,"DateUtc":"2026-03-01 04:30:00Z","Location":"Allegiant Stadium","HomeTeam":"Bulldogs","AwayTeam":"Dragons","Group":null,"HomeTeamScore":15,"AwayTeamScore":14,"Winner":"Bulldogs"},{"MatchNumber":3,"RoundNumber":1,"DateUtc":"2026-03-05 09:00:00Z","Location":"AAMI Park","HomeTeam":"Storm","AwayTeam":"Eels","Group":null,"HomeTeamScore":52,"AwayTeamScore":4,"Winner":"Storm"},{"MatchNumber":4,"RoundNumber":1,"DateUtc":"2026-03-06 07:00:00Z","Location":"Go Me
+
+== fixturedownload super rugby 404 text/html; charset=utf-8 3581b
+HEAD <!DOCTYPE html> <html> <head> <meta charset="utf-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Page not found | Fixture Download</title> <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"> <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"> <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"> <link rel="manifest" href="/site.webmanifest"> <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#566fa2"> <meta name="msapplication-TileColor" content="#2b5797"> <meta name="theme-color" content="#ffffff"> <link href="/Conten
+
+== fixturedownload bbl 200 application/json; charset=utf-8 9613b
+HEAD [{"MatchNumber":1,"RoundNumber":1,"DateUtc":"2026-12-12 09:10:00Z","Location":"MA Chidambaram Stadium","HomeTeam":"Melbourne Renegades","AwayTeam":"Perth Scorchers","Group":null,"HomeTeamScore":null,"AwayTeamScore":null,"Winner":""},{"MatchNumber":2,"RoundNumber":1,"DateUtc":"2026-12-15 08:15:00Z","Location":"The Gabba","HomeTeam":"Brisbane Heat","AwayTeam":"Sydney Sixers","Group":null,"HomeTeamScore":null,"AwayTeamScore":null,"Winner":""},{"MatchNumber":3,"RoundNumber":1,"DateUtc":"2026-12-16 08:15:00Z","Location":"Corroboree Group Oval Manuka","HomeTeam":"Sydney Thunder","AwayTeam":"Adelaide Strikers","Group":null,"HomeTeamScore":null,"AwayTeamScore":null,"Winner":""},{"MatchNumber":4,"Rou
+
+== jolpica f1 next 200 application/json 807b
+HEAD {"MRData":{"xmlns":"","series":"f1","url":"https://api.jolpi.ca/ergast/f1/current/next.json","limit":"30","offset":"0","total":"1","RaceTable":{"season":"2026","round":"18","Races":[{"season":"2026","round":"18","url":"https://en.wikipedia.org/wiki/2026_United_States_Grand_Prix","raceName":"United States Grand Prix","Circuit":{"circuitId":"americas","url":"https://en.wikipedia.org/wiki/Circuit_of_the_Americas","circuitName":"Circuit of the Americas","Location":{"lat":"30.1328","long":"-97.6411","locality":"Austin","country":"USA"}},"date":"2026-10-25","time":"20:00:00Z","FirstPractice":{"date":"2026-10-23","time":"17:30:00Z"},"SecondPractice":{"date":"2026-10-23","time":"21:00:00Z"},"ThirdPr
+
+== openf1 drivers 200 application/json 9166b
+HEAD [{"meeting_key":1296,"session_key":11388,"driver_number":1,"broadcast_name":"L NORRIS","full_name":"Lando NORRIS","name_acronym":"NOR","team_name":"McLaren","team_colour":"F47600","first_name":"Lando","last_name":"Norris","headshot_url":"https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/L/LANNOR01_Lando_Norris/lannor01.png.transform/1col/image.png","country_code":null},{"meeting_key":1296,"session_key":11388,"driver_number":3,"broadcast_name":"M VERSTAPPEN","full_name":"Max VERSTAPPEN","name_acronym":"VER","team_name":"Red Bull Racing","team_colour":"4781D7","first_name":"Max","last_name":"Verstappen","headshot_url":"https://media.formula1.com/d_driver_fa
+
+done 2026-10-19T08:34:39.065Z
