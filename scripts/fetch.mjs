@@ -780,4 +780,4 @@ if (process.env.GITHUB_OUTPUT) await writeFile(process.env.GITHUB_OUTPUT, `hot=$
 console.log(playing ? 'A game is being played: next refresh in 5 minutes' : hot ? 'Games on or starting soon: next refresh in 10 minutes' : 'Nothing on: next refresh on the slower schedule');
 console.log(`feed.json: ${feed.events.length} events (${wiki.length} from Wikipedia, ${tsdbLive.length} from TheSportsDB), ${news.length} news`);
 // what the tennis reader found, as a run annotation (readable on the run page without the full log)
-if (process.env.GITHUB_ACTIONS) console.log(`::notice title=Tennis::${String(diag.tennis || 'not run').replace(/[\r\n%]/g, ' ').slice(0, 900)}`);
+if (process.env.GITHUB_ACTIONS) console.log(`::notice title=Tennis::${String(diag.tennis || 'not run').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);

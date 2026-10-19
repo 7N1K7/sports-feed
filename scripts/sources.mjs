@@ -400,8 +400,11 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     for (const t of titles) {
       const pg = got[t.title];
       if (!pg) continue;
+      if (!pg.title.includes(String(t.y))) continue; // a future year that only redirects to the main article
       const evs = tennisFinals(pg.text, pg.title, t);
-      notes.push(`${pg.title}: ${evs.map(e => `${e.draw} ${e.startUTC.slice(0, 10)}${e.status === 'final' ? ' ' + e.score : ''}`).join(', ') || 'no dates'}`);
+      const box = templates(stripRefs(pg.text), /^Infobox/i)[0];
+      const raw = box ? Object.entries(params(box.body).named).filter(([k]) => /date|champ.?s|single/i.test(k)).map(([k, v]) => `${k}=${v.slice(0, 70)}`).join(' | ') : 'no infobox: ' + pg.text.slice(0, 80);
+      notes.push(`${pg.title}: ${evs.map(e => `${e.draw} ${e.startUTC.slice(0, 10)}${e.status === 'final' ? ' ' + e.score : ''}`).join(', ') || 'no dates'} [${box?.name || ''}: ${raw}]`);
       ten.push(...evs.map(({ draw, ...e }) => e));
     }
     out.push(...ten);
