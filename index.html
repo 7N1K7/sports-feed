@@ -498,6 +498,13 @@ a.svc:hover { text-decoration-color: currentColor }
 .rankbtn { font-size: 14px; font-weight: 600; padding: 3px 14px; border: 1px solid var(--gold); color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--surface)) }
 .rankbtn:hover { background: color-mix(in srgb, var(--gold) 20%, var(--surface)) }
 .stable.rank td.num { white-space: nowrap }
+.stable.rank .rv { display: inline-flex; align-items: center; gap: 8px }
+.stable.rank .rv b { font-size: 16px; font-weight: 800; min-width: 3.4em; text-align: right }
+.stable.rank .rbar { width: 72px; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--ink) 10%, transparent); overflow: hidden }
+.stable.rank .rbar i { display: block; height: 100%; border-radius: 3px; background: var(--sport, var(--accent)) }
+@media (max-width: 560px) { .stable.rank .rbar { width: 44px } }
+/* the rankings pop-up keeps one height whichever sport or list is picked; a long list scrolls inside it */
+dialog#sheet:has(.stable.rank) { height: min(88vh, 780px) }
 .rankbody { padding-top: 6px }
 .stable.rank .rnote { font-weight: 400; white-space: normal }
 .stable.rank .medal { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; font-size: 12px; font-weight: 800; color: #3b2a00; box-shadow: inset 0 -2px 0 rgba(0,0,0,.18) }
@@ -1345,19 +1352,22 @@ function rankDefault(lists) {
   const fmtWord = { Test: 'Tests', ODI: 'ODIs', T20I: 'T20Is', T20: 'T20Is' }[evs.map(e => e.format).find(Boolean)] || '';
   return lists.find(l => /Women/.test(l.title) === !!women && (!fmtWord || l.title.endsWith(fmtWord)))?.title || lists[0].title;
 }
+// a team's points or rating, big, with a bar running from the lowest side in the list to the top one
+const rankVal = (v, top, low) => { const n = parseFloat(v); return isNaN(n) || !top ? esc(v || '') : `<span class="rv"><span class="rbar" aria-hidden="true"><i style="width:${(top > low ? 12 + 88 * (n - low) / (top - low) : 100).toFixed(1)}%"></i></span><b>${esc(v)}</b></span>`; };
 function rankingsHtml(lists) {
   if (!lists.some(l => l.title === rankSel)) rankSel = rankDefault(lists);
   const l = lists.find(x => x.title === rankSel);
   const chips = lists.length > 1 ? `<div class="chips rankchips">${lists.map(x => `<button type="button" class="chip" data-rank="${esc(x.title)}" aria-pressed="${x.title === rankSel}">${esc(x.title)}</button>`).join('')}</div>` : '';
   const fighters = l.sport === 'mma';
   const ev = { sport: l.sport };
+  const vals = l.rows.map(r => parseFloat(r.val)).filter(n => !isNaN(n)), top = Math.max(...vals), low = Math.min(...vals);
   const rows = l.rows.map(r => {
     const champ = r.rank === 'C' ? 'Champion' : r.rank === 'IC' ? 'Interim champion' : '';
     const gap = r.nz && l.rows.indexOf(r) > 0 && +r.rank > +l.rows[l.rows.indexOf(r) - 1].rank + 1 ? '<tr class="gap"><td colspan="4">…</td></tr>' : '';
     const name = fighters ? `${esc(r.name)}${r.iso ? ` <span class="muted small">${esc(r.iso)}</span>` : ''}${champ ? ` <span class="tag">${champ}</span>` : ''}` : teamName(r.name.replace(/\s+Women('s)?$/, ''), '', ev);
-    return `${gap}<tr class="${r.nz || (fighters && /New Zealand|NZL/.test(r.iso)) ? 'mine' : ''}"><td class="pos">${l.rows.indexOf(r) < 3 ? `<span class="medal m${l.rows.indexOf(r) + 1}" title="${['Gold', 'Silver', 'Bronze'][l.rows.indexOf(r)]}">${champ ? 'C' : esc(r.rank === 'n' ? String(l.rows.indexOf(r) + 1) : r.rank)}</span>` : champ ? '' : esc(r.rank)}</td><td class="tn">${name}${fighters && r.note && !/^(Steady|–|-)?$/.test(r.note) ? `<div class="muted small rnote">${esc(r.note)}</div>` : ''}</td><td class="num">${esc(fighters ? r.rec || '' : r.val)}</td></tr>`;
+    return `${gap}<tr class="${r.nz || (fighters && /New Zealand|NZL/.test(r.iso)) ? 'mine' : ''}"><td class="pos">${l.rows.indexOf(r) < 3 ? `<span class="medal m${l.rows.indexOf(r) + 1}" title="${['Gold', 'Silver', 'Bronze'][l.rows.indexOf(r)]}">${champ ? 'C' : esc(r.rank === 'n' ? String(l.rows.indexOf(r) + 1) : r.rank)}</span>` : champ ? '' : esc(r.rank)}</td><td class="tn">${name}${fighters && r.note && !/^(Steady|–|-)?$/.test(r.note) ? `<div class="muted small rnote">${esc(r.note)}</div>` : ''}</td><td class="num">${fighters ? esc(r.rec || '') : rankVal(r.val, top, low)}</td></tr>`;
   }).join('');
-  return `${chips}<div class="stable rank"><h3 class="dh">${esc(l.title)}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), NZ, l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+  return `${chips}<div class="stable rank sport-${l.sport}"><h3 class="dh">${esc(l.title)}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), NZ, l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
     <p class="muted small">Rankings from <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(l.page.replace(/ /g, '_'))}" target="_blank" rel="noopener">Wikipedia</a> (CC BY-SA), which follows the official ${fighters ? 'UFC' : l.sport === 'rugby' ? 'World Rugby' : l.sport === 'cricket' ? 'ICC' : 'IRL'} list.</p>`;
 }
 // Shows tab: the wider conversation around each sport (panel shows, YouTube breakdowns, podcasts), best known first.
