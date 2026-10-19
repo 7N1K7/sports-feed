@@ -513,7 +513,7 @@ a.svc:hover { text-decoration-color: currentColor }
 .stable.rank .rbar i { display: block; height: 100%; border-radius: 3px; background: var(--sport, var(--accent)) }
 @media (max-width: 560px) { .stable.rank .rbar { width: 44px } }
 /* the rankings pop-up keeps one height whichever sport or list is picked; a long list scrolls inside it */
-dialog#sheet:has(.stable.rank) { height: min(88vh, 780px) }
+dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback) { height: min(88vh, 780px) }
 .rankbody { padding-top: 6px }
 .stable.rank .rnote { font-weight: 400; white-space: normal }
 .stable.rank .medal { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; font-size: 12px; font-weight: 800; color: #3b2a00; box-shadow: inset 0 -2px 0 rgba(0,0,0,.18) }
@@ -672,6 +672,8 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 .formrows > div { display: flex; align-items: center; gap: 10px; flex-wrap: wrap }
 .tlink { border: 0; background: none; padding: 0; font: inherit; font-weight: 700; color: inherit; cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; min-width: 7.5em; text-align: left }
 .tlink .nm { color: var(--tc, inherit) }
+.tlink.rteam { min-width: 0; text-decoration: none; display: inline-flex; align-items: center; text-align: left; font-weight: inherit }
+.tlink.rteam:hover .nm, .tlink.rteam:focus-visible .nm { text-decoration: underline; text-underline-offset: 3px }
 .tlist { display: grid; gap: 6px }
 .trow { display: grid; grid-template-columns: 10em minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); text-align: left; font: 15px var(--f-body); color: inherit; cursor: pointer }
 .trow:hover, .trow:focus-visible { border-color: color-mix(in srgb, var(--ink) 45%, transparent) }
@@ -1391,11 +1393,14 @@ function rankingsHtml(lists) {
   const chips = lists.length > 1 ? `<div class="chips rankchips">${lists.map(x => `<button type="button" class="chip" data-rank="${esc(x.title)}" aria-pressed="${x.title === rankSel}">${esc(x.title)}</button>`).join('')}</div>` : '';
   const fighters = l.sport === 'mma';
   const ev = { sport: l.sport };
+  const hasPage = new Set((FEED.events || []).filter(e => e.sport === l.sport).flatMap(e => [e.home, e.away]));
   const vals = l.rows.map(r => parseFloat(r.val)).filter(n => !isNaN(n)), top = Math.max(...vals), low = Math.min(...vals);
   const rows = l.rows.map(r => {
     const champ = r.rank === 'C' ? 'Champion' : r.rank === 'IC' ? 'Interim champion' : '';
     const gap = r.nz && l.rows.indexOf(r) > 0 && +r.rank > +l.rows[l.rows.indexOf(r) - 1].rank + 1 ? '<tr class="gap"><td colspan="4">…</td></tr>' : '';
-    const name = fighters ? `${esc(r.name)}${r.iso ? ` <span class="muted small">${esc(r.iso)}</span>` : ''}${champ ? ` <span class="tag">${champ}</span>` : ''}` : teamName(r.name.replace(/\s+Women('s)?$/, ''), '', ev);
+    // a side with games in the feed has a team page, so its name opens it
+    const page = !fighters && [r.name, r.name.replace(/\s+Women('s)?$/, ''), r.name.replace(/\s+Women('s)?$/, '') + ' Women'].find(t => hasPage.has(t));
+    const name = fighters ? `${esc(r.name)}${r.iso ? ` <span class="muted small">${esc(r.iso)}</span>` : ''}${champ ? ` <span class="tag">${champ}</span>` : ''}` : page ? `<button type="button" class="tlink rteam" data-teampage="${esc(page)}" data-tsport="${l.sport}" title="${esc(displayName(page, ev))}: games and form">${teamName(r.name.replace(/\s+Women('s)?$/, ''), '', ev)}</button>` : teamName(r.name.replace(/\s+Women('s)?$/, ''), '', ev);
     return `${gap}<tr class="${r.nz || (fighters && /New Zealand|NZL/.test(r.iso)) ? 'mine' : ''}"><td class="pos">${l.rows.indexOf(r) < 3 ? `<span class="medal m${l.rows.indexOf(r) + 1}" title="${['Gold', 'Silver', 'Bronze'][l.rows.indexOf(r)]}">${champ ? 'C' : esc(r.rank === 'n' ? String(l.rows.indexOf(r) + 1) : r.rank)}</span>` : champ ? '' : esc(r.rank)}</td><td class="tn">${name}${fighters && r.note && !/^(Steady|–|-)?$/.test(r.note) ? `<div class="muted small rnote">${esc(r.note)}</div>` : ''}</td><td class="num">${fighters ? esc(r.rec || '') : rankVal(r.val, top, low)}</td></tr>`;
   }).join('');
   return `${chips}<div class="stable rank sport-${l.sport}"><h3 class="dh">${esc(l.title)}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), NZ, l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
@@ -1646,9 +1651,9 @@ function teamPage(name, sport) {
     <h3 class="dh">Recent results</h3>${past.length ? `<div class="tlist">${past.map(e => row(e, true)).join('')}</div>` : '<p class="muted">No recent results.</p>'}
     <div class="dlinks"><a class="srclink" href="https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(`${name.replace(/\s+Women$/, " women's")} ${SPORT_WORD[sport] || ''}`)}" target="_blank" rel="noopener">${esc(displayName(name, e0))} on Wikipedia ↗</a></div>`;
 }
-function openTeam(name, sport) {
+function openTeam(name, sport, fromRank = '') {
   teamBack = { name, sport };
-  $('sheetBody').innerHTML = teamPage(name, sport);
+  $('sheetBody').innerHTML = (fromRank ? `<button type="button" class="back rback" data-rankback="${esc(fromRank)}">‹ World rankings</button>` : '') + teamPage(name, sport);
   const dlg = $('sheet');
   dlg.dataset.id = '';
   if (!dlg.open) dlg.showModal();
@@ -1954,7 +1959,7 @@ document.addEventListener('click', ev => {
   const t = ev.target.closest('button');
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) openDetail(card.dataset.open); else if (ev.target === $('sheet')) $('sheet').close(); return; }
   if (t.id === 'sheetClose') { $('sheet').close(); return; }
-  if (t.dataset.teampage) { closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport); return; }
+  if (t.dataset.teampage) { closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport, t.classList.contains('rteam') ? $('sheet').dataset.rankings : ''); return; }
   if (t.dataset.goto) { const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
   if (t.id === 'toResults' || t.id === 'toNews') { const el = $(t.id === 'toNews' ? 'newsSec' : 'resSec'); scrollTo({ top: el.getBoundingClientRect().top + scrollY - document.querySelector('header.top').offsetHeight - 10, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); store.set('teams', [...picked]); render(); }
@@ -1974,6 +1979,7 @@ document.addEventListener('click', ev => {
   else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; render(); }
   else if (t.dataset.rank) { rankSel = t.dataset.rank; if ($('sheet').open && $('sheet').dataset.rankings) openRankings($('sheet').dataset.rankings); else render(); }
   else if (t.dataset.rankings) { rankSel = ''; openRankings(t.dataset.rankings); }
+  else if (t.dataset.rankback) openRankings(t.dataset.rankback);
   else if (t.id === 'rankBtn') {
     // the picked sport if it has rankings, else rugby, else whatever there is
     const have = k => (FEED.rankings || []).some(r => r.sport === k);
