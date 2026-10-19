@@ -1,72 +1,54 @@
-
-## 2026–27 Men's FIH Pro League | tz notes: ''All times are local.''
-boxes 72 with NZL 0
-
-## 2026–27 Women's FIH Pro League | tz notes: ''All times are local.''
-boxes 72 with NZL 0
-
-## 2025–26 Men's FIH Pro League | tz notes: 
-boxes 72 with NZL 0
-
-## 2025–26 Women's FIH Pro League | tz notes: 
-boxes 72 with NZL 0
-
-## New Zealand men's national field hockey team | tz notes: 
-boxes 19 with NZL 19
-   14 June 2026 | 17:00 | {{fh-rt|KOR}} v {{fh|NZL}} | 2–6 | [[Hartleyvale Stadium]] [[Cape Town]], South Africa | [[2025–26 Men's FIH Hockey Nations Cup|P
-   16 June 2026 | 12:15 | {{fh-rt|MAS}} v {{fh|NZL}} | 1–5 | [[Hartleyvale Stadium]] [[Cape Town]], South Africa | [[2025–26 Men's FIH Hockey Nations Cup|P
-   17 June 2026 | 19:00 | {{fh-rt|NZL}} v {{fh|JPN}} | 5–2 | [[Hartleyvale Stadium]] [[Cape Town]], South Africa | [[2025–26 Men's FIH Hockey Nations Cup|P
-   19 June 2026 | 16:45 | {{fh-rt|NZL}} v {{fh|RSA}} | 2–2 | [[Hartleyvale Stadium]] [[Cape Town]], South Africa | [[2025–26 Men's FIH Hockey Nations Cup|S
-   20 June 2026 | 16:45 | {{fh-rt|NZL}} v {{fh|JPN}} | 3–1 | [[Hartleyvale Stadium]] [[Cape Town]], South Africa | [[2025–26 Men's FIH Hockey Nations Cup|3
-   16 August 2026 | 16:00 | {{fh-rt|NED}} v {{fh|NZL}} | 5–1 | [[Wagener Stadium]] [[Amstelveen]], [[Netherlands]] | [[2026 Men's FIH Hockey World Cup|Pool A
-   18 August 2026 | 09:30 | {{fh-rt|NZL}} v {{fh|JPN}} | 2–0 | [[Wagener Stadium]] [[Amstelveen]], [[Netherlands]] | [[2026 Men's FIH Hockey World Cup|Pool A
-   20 August 2026 | 12:30 | {{fh-rt|NZL}} v {{fh|ARG}} | 1–7 | [[Wagener Stadium]] [[Amstelveen]], [[Netherlands]] | [[2026 Men's FIH Hockey World Cup|Pool A
-   22 August 2026 | 10:00 | {{fh-rt|NZL}} v {{fh|WAL}} | 7–2 | [[Wagener Stadium]] [[Amstelveen]], [[Netherlands]] | [[2026 Men's FIH Hockey World Cup|Pool G
-   24 August 2026 | 12:30 | {{fh-rt|NZL}} v {{fh|PAK}} | 4–2 | [[Wagener Stadium]] [[Amstelveen]], [[Netherlands]] | [[2026 Men's FIH Hockey World Cup|Pool G
-   28 August 2026 | 14:00 | {{fh-rt|NZL}} v {{fh|IRE}} | 6–3 | [[Stade Justin Peeters|Belfius Hockey Arena]] [[Wavre]], [[Belgium]] | [[2026 Men's FIH Hockey World Cup|9th pl
-   19 November 2026 | 18:30 | {{fh-rt|NZL}} v {{fh|IND}} |  | [[Lloyd Elsmore Park]] [[Auckland]], New Zealand | Match 1
-   21 November 2026 | 16:00 | {{fh-rt|NZL}} v {{fh|IND}} |  | [[Lloyd Elsmore Park]] [[Auckland]], New Zealand | Match 2
-   22 November 2026 | 16:00 | {{fh-rt|NZL}} v {{fh|IND}} |  | [[Lloyd Elsmore Park]] [[Auckland]], New Zealand | Match 3
-
-## New Zealand women's national field hockey team | tz notes: 
-boxes 21 with NZL 21
-   27 April 2026 |  | {{fhw-rt|ARG}} v {{fhw|NZL}} | 3–2 | Wujin Hockey Stadium [[Changzhou]], China | Test Match
-   1 May 2026 |  | {{fhw-rt|ARG}} v {{fhw|NZL}} | 3–2 | Wujin Hockey Stadium [[Changzhou]], China | Test Match
-   3 May 2026 |  | {{fhw-rt|ARG}} v {{fhw|NZL}} | 7–0 | Wujin Hockey Stadium [[Changzhou]], China | Test Match
-   15 June 2026 | 18:00 | {{fhw-rt|NZL}} v {{fhw|KOR}} | 3–1 | National Hockey Centre [[Auckland]], New Zealand | [[2025–26 Women's FIH Hockey Nations Cup
-   16 June 2026 | 18:00 | {{fhw-rt|CHI}} v {{fhw|NZL}} | 2–3 | National Hockey Centre [[Auckland]], New Zealand | [[2025–26 Women's FIH Hockey Nations Cup
-   18 June 2026 | 18:00 | {{fhw-rt|NZL}} v {{fhw|FRA}} | 2–1 | National Hockey Centre [[Auckland]], New Zealand | [[2025–26 Women's FIH Hockey Nations Cup
-   20 June 2026 | 18:30 | {{fhw-rt|NZL}} v {{fhw|USA}} | 1–1 | National Hockey Centre [[Auckland]], New Zealand | [[2025–26 Women's FIH Hockey Nations Cup
-   21 June 2026 | 18:30 | {{fhw-rt|IND}} v {{fhw|NZL}} | 2–0 | National Hockey Centre [[Auckland]], New Zealand | [[2025–26 Women's FIH Hockey Nations Cup
-   16 August 2026 | 17:30 | {{fhw-rt|BEL}} v {{fhw|NZL}} | 5–2 | [[Stade Justin Peeters|Belfius Hockey Arena]] [[Wavre]], Belgium | [[2026 Women's FIH Hockey World Cup|Pool
-   18 August 2026 | 11:00 | {{fhw-rt|NZL}} v {{fhw|IRE}} | 2–3 | [[Stade Justin Peeters|Belfius Hockey Arena]] [[Wavre]], Belgium | [[2026 Women's FIH Hockey World Cup|Pool
-   20 August 2026 | 14:00 | {{fhw-rt|NZL}} v {{fhw|ESP}} | 0–3 | [[Stade Justin Peeters|Belfius Hockey Arena]] [[Wavre]], Belgium | [[2026 Women's FIH Hockey World Cup|Pool
-   22 August 2026 | 14:30 | {{fhw-rt|USA}} v {{fhw|NZL}} | 1–1 | [[Stade Justin Peeters|Belfius Hockey Arena]] [[Wavre]], Belgium | [[2026 Women's FIH Hockey World Cup|Pool
-   24 August 2026 | 11:00 | {{fhw-rt|NZL}} v {{fhw|SCO}} | 1–2 | [[Stade Justin Peeters|Belfius Hockey Arena]] [[Wavre]], Belgium | [[2026 Women's FIH Hockey World Cup|Pool
-   27 August 2026 | 11:00 | {{fhw-rt|CHI}} v {{fhw|NZL}} | 2–3 | [[Stade Justin Peeters|Belfius Hockey Arena]] [[Wavre]], Belgium | [[2026 Women's FIH Hockey World Cup|15th
-
-## 2026 Men's FIH Hockey World Cup | tz notes: ''All times are local ([[Central European Summer Time|UTC+2]]).''
-boxes 49 with NZL 6
-   16 August 2026 | 16:00 | {{fh-rt|NED}} v {{fh|NZL}} | 5–1 | [[Wagener Stadium]], [[Amstelveen]]  | 
-   18 August 2026 | 09:30 | {{fh-rt|NZL}} v {{fh|JPN}} | 2–0 | [[Wagener Stadium]], [[Amstelveen]]  | 
-   20 August 2026 | 12:30 | {{fh-rt|NZL}} v {{fh|ARG}} | 1–7 | [[Wagener Stadium]], [[Amstelveen]]  | 
-   22 August 2026 | 10:00 | {{fh-rt|NZL}} v {{fh|WAL}} | 7–2 | [[Wagener Stadium]], [[Amstelveen]]  | 
-   24 August 2026 | 12:30 | {{fh-rt|NZL}} v {{fh|PAK}} | 4–2 | [[Wagener Stadium]], [[Amstelveen]]  | 
-   28 August 2026 | 14:00 | {{fh-rt|NZL}} v {{fh|IRE}} | 6–3 | [[Stade Justin Peeters|Belfius Hockey Arena]], [[Wavre]]  | 
-
-## 2026 Women's FIH Hockey World Cup | tz notes: ''All times are local ([[Central European Summer Time|UTC+2]]).''
-boxes 49 with NZL 6
-   16 August 2026 | 17:30 | {{fhw-rt|BEL}} v {{fhw|NZL}} | 5–2 | [[Stade Justin Peeters|Belfius Hockey Arena]], [[Wavre]]  | 
-   18 August 2026 | 11:00 | {{fhw-rt|NZL}} v {{fhw|IRE}} | 2–3 | [[Stade Justin Peeters|Belfius Hockey Arena]], [[Wavre]]  | 
-   20 August 2026 | 14:00 | {{fhw-rt|NZL}} v {{fhw|ESP}} | 0–3 | [[Stade Justin Peeters|Belfius Hockey Arena]], [[Wavre]]  | 
-   22 August 2026 | 14:30 | {{fhw-rt|USA}} v {{fhw|NZL}} | 1–1 | [[Stade Justin Peeters|Belfius Hockey Arena]], [[Wavre]]  | 
-   24 August 2026 | 11:00 | {{fhw-rt|NZL}} v {{fhw|SCO}} | 1–2 | [[Stade Justin Peeters|Belfius Hockey Arena]], [[Wavre]]  | 
-   27 August 2026 | 11:00 | {{fhw-rt|CHI}} v {{fhw|NZL}} | 2–3 | [[Stade Justin Peeters|Belfius Hockey Arena]], [[Wavre]]  | 
-
-## 2025–26 Women's FIH Hockey Nations Cup | tz notes: ''All times are local ([[Time in New Zealand|UTC+12]]).''
-boxes 20 with NZL 5
-   15 June 2026 | 18:00 | {{fhw-rt|NZL}} v {{fhw|KOR}} | 3–1 |   | 
-   16 June 2026 | 18:00 | {{fhw-rt|CHI}} v {{fhw|NZL}} | 2–3 |   | 
-   18 June 2026 | 18:00 | {{fhw-rt|NZL}} v {{fhw|FRA}} | 2–1 |   | 
-   20 June 2026 | 18:30 | {{fhw-rt|NZL}} v {{fhw|USA}} | 1–1 |   | 
-   21 June 2026 | 18:30 | {{fhw-rt|IND}} v {{fhw|NZL}} | 2–0 |   | 
+pages: {"New Zealand men's national field hockey team":19,"New Zealand women's national field hockey team":21,"2026–27 Men's FIH Pro League":0,"2026–27 Women's FIH Pro League":0,"Men's FIH Hockey Nations Cup":0,"2026 Men's FIH Hockey World Cup":6,"2026 Women's FIH Hockey World Cup":6,"Indian cricket team in New Zealand in 2026–27":12,"Sri Lankan cricket team in New Zealand in 2026–27":8,"New Zealand cricket team in Australia in 2026–27":4,"New Zealand women's cricket team in Australia in 2026–27":6,"English cricket team in Australia in 2026–27":9,"Australian cricket team in India in 2026–27":5,"Austr
+hockey events 52
+2025-09-04T02:00:00.000Z Thu, 4 Sept, 2:00 pm (TBC) | blacksticksw | Oceania Cup / Match 1 | Australia Women v New Zealand Women | final 0-1 | Marrara Hockey Centre  null
+2025-09-06T02:00:00.000Z Sat, 6 Sept, 2:00 pm (TBC) | blacksticksw | Oceania Cup / Match 2 | Australia Women v New Zealand Women | final 1-0 | Marrara Hockey Centre  null
+2025-09-07T02:00:00.000Z Sun, 7 Sept, 2:00 pm (TBC) | blacksticksw | Oceania Cup / Match 3 | Australia Women v New Zealand Women | final 1-1 | Marrara Hockey Centre  null
+2026-01-04T01:00:00.000Z Sun, 4 Jan, 2:00 pm (TBC) | blacksticks | Test series · Test 4  | New Zealand v Japan | final 3-3 | Gallagher Hockey Centre  null
+2026-01-21T01:00:00.000Z Wed, 21 Jan, 2:00 pm (TBC) | blacksticksw | Summer of Hockey Series / Match 1 | New Zealand Women v USA Women | final 1-2 | Alexander McMillan Hockey Centre  null
+2026-01-22T01:00:00.000Z Thu, 22 Jan, 2:00 pm (TBC) | blacksticksw | Summer of Hockey Series / Match 2 | New Zealand Women v New Zealand A Women | final 4-1 | Alexander McMillan Hockey Centre  null
+2026-01-24T01:00:00.000Z Sat, 24 Jan, 2:00 pm (TBC) | blacksticksw | Summer of Hockey Series / Match 3 | New Zealand Women v Japan Women | final 1-0 | Alexander McMillan Hockey Centre  null
+2026-01-25T01:00:00.000Z Sun, 25 Jan, 2:00 pm (TBC) | blacksticksw | Summer of Hockey Series / Final | USA Women v New Zealand Women | final 2-1 | Alexander McMillan Hockey Centre  null
+2026-01-30T01:00:00.000Z Fri, 30 Jan, 2:00 pm (TBC) | blacksticks | Test series · Test 1  | New Zealand v Japan | final 2-5 | Gallagher Hockey Centre  null
+2026-02-01T01:00:00.000Z Sun, 1 Feb, 2:00 pm (TBC) | blacksticks | Test series · Test 2  | New Zealand v Japan | final 5-1 | Gallagher Hockey Centre  null
+2026-02-02T01:00:00.000Z Mon, 2 Feb, 2:00 pm (TBC) | blacksticks | Test series · Test 3  | New Zealand v Japan | final 4-3 | Gallagher Hockey Centre  null
+2026-04-27T02:00:00.000Z Mon, 27 Apr, 2:00 pm (TBC) | blacksticksw | Test series  | Argentina Women v New Zealand Women | final 3-2 | Wujin Hockey Stadium  null
+2026-05-01T02:00:00.000Z Fri, 1 May, 2:00 pm (TBC) | blacksticksw | Test series  | Argentina Women v New Zealand Women | final 3-2 | Wujin Hockey Stadium  null
+2026-05-03T02:00:00.000Z Sun, 3 May, 2:00 pm (TBC) | blacksticksw | Test series  | Argentina Women v New Zealand Women | final 7-0 | Wujin Hockey Stadium  null
+2026-06-12T02:00:00.000Z Fri, 12 Jun, 2:00 pm (TBC) | blacksticks | FIH Hockey Nations Cup / Pool A | New Zealand v Scotland | final 1-0 | Hartleyvale Stadium  null
+2026-06-14T02:00:00.000Z Sun, 14 Jun, 2:00 pm (TBC) | blacksticks | FIH Hockey Nations Cup / Pool A | South Korea v New Zealand | final 2-6 | Hartleyvale Stadium  null
+2026-06-15T02:00:00.000Z Mon, 15 Jun, 2:00 pm (TBC) | blacksticksw | FIH Hockey Nations Cup / Pool B | New Zealand Women v South Korea Women | final 3-1 | National Hockey Centre  null
+2026-06-16T02:00:00.000Z Tue, 16 Jun, 2:00 pm (TBC) | blacksticks | FIH Hockey Nations Cup / Pool A | Malaysia v New Zealand | final 1-5 | Hartleyvale Stadium  null
+2026-06-16T02:00:00.000Z Tue, 16 Jun, 2:00 pm (TBC) | blacksticksw | FIH Hockey Nations Cup / Pool B | Chile Women v New Zealand Women | final 2-3 | National Hockey Centre  null
+2026-06-17T02:00:00.000Z Wed, 17 Jun, 2:00 pm (TBC) | blacksticks | FIH Hockey Nations Cup / Pool A | New Zealand v Japan | final 5-2 | Hartleyvale Stadium  null
+2026-06-18T02:00:00.000Z Thu, 18 Jun, 2:00 pm (TBC) | blacksticksw | FIH Hockey Nations Cup / Pool B | New Zealand Women v France Women | final 2-1 | National Hockey Centre  null
+2026-06-19T02:00:00.000Z Fri, 19 Jun, 2:00 pm (TBC) | blacksticks | FIH Hockey Nations Cup / Semi finals | New Zealand v South Africa | final 2-2 | Hartleyvale Stadium  null
+2026-06-20T02:00:00.000Z Sat, 20 Jun, 2:00 pm (TBC) | blacksticks | FIH Hockey Nations Cup / 3/4 classification | New Zealand v Japan | final 3-1 | Hartleyvale Stadium  null
+2026-06-20T02:00:00.000Z Sat, 20 Jun, 2:00 pm (TBC) | blacksticksw | FIH Hockey Nations Cup / Semi finals | New Zealand Women v USA Women | final 1-1 | National Hockey Centre  null
+2026-06-21T02:00:00.000Z Sun, 21 Jun, 2:00 pm (TBC) | blacksticksw | FIH Hockey Nations Cup / Final | India Women v New Zealand Women | final 2-0 | National Hockey Centre  null
+2026-08-16T02:00:00.000Z Sun, 16 Aug, 2:00 pm (TBC) | blacksticks | FIH Hockey World Cup / Pool A | Netherlands v New Zealand | final 5-1 | Wagener Stadium  null
+2026-08-16T02:00:00.000Z Sun, 16 Aug, 2:00 pm (TBC) | blacksticksw | FIH Hockey World Cup / Pool B | Belgium Women v New Zealand Women | final 5-2 | Belfius Hockey Arena  null
+2026-08-16T14:00:00.000Z Mon, 17 Aug, 2:00 am  | blacksticks | FIH Hockey World Cup  | Netherlands v New Zealand | final 5-1 | Wagener Stadium Amstelveen Europe/Amsterdam
+2026-08-16T15:30:00.000Z Mon, 17 Aug, 3:30 am  | blacksticksw | FIH Hockey World Cup  | Belgium Women v New Zealand Women | final 5-2 | Belfius Hockey Arena Wavre Europe/Brussels
+2026-08-18T02:00:00.000Z Tue, 18 Aug, 2:00 pm (TBC) | blacksticks | FIH Hockey World Cup / Pool A | New Zealand v Japan | final 2-0 | Wagener Stadium  null
+2026-08-18T02:00:00.000Z Tue, 18 Aug, 2:00 pm (TBC) | blacksticksw | FIH Hockey World Cup / Pool B | New Zealand Women v Ireland Women | final 2-3 | Belfius Hockey Arena  null
+2026-08-18T07:30:00.000Z Tue, 18 Aug, 7:30 pm  | blacksticks | FIH Hockey World Cup  | New Zealand v Japan | final 2-0 | Wagener Stadium Amstelveen Europe/Amsterdam
+2026-08-18T09:00:00.000Z Tue, 18 Aug, 9:00 pm  | blacksticksw | FIH Hockey World Cup  | New Zealand Women v Ireland Women | final 2-3 | Belfius Hockey Arena Wavre Europe/Brussels
+2026-08-20T02:00:00.000Z Thu, 20 Aug, 2:00 pm (TBC) | blacksticks | FIH Hockey World Cup / Pool A | New Zealand v Argentina | final 1-7 | Wagener Stadium  null
+2026-08-20T02:00:00.000Z Thu, 20 Aug, 2:00 pm (TBC) | blacksticksw | FIH Hockey World Cup / Pool B | New Zealand Women v Spain Women | final 0-3 | Belfius Hockey Arena  null
+2026-08-20T10:30:00.000Z Thu, 20 Aug, 10:30 pm  | blacksticks | FIH Hockey World Cup  | New Zealand v Argentina | final 1-7 | Wagener Stadium Amstelveen Europe/Amsterdam
+2026-08-20T12:00:00.000Z Fri, 21 Aug, 12:00 am  | blacksticksw | FIH Hockey World Cup  | New Zealand Women v Spain Women | final 0-3 | Belfius Hockey Arena Wavre Europe/Brussels
+2026-08-22T02:00:00.000Z Sat, 22 Aug, 2:00 pm (TBC) | blacksticks | FIH Hockey World Cup / Pool G | New Zealand v Wales | final 7-2 | Wagener Stadium  null
+2026-08-22T02:00:00.000Z Sat, 22 Aug, 2:00 pm (TBC) | blacksticksw | FIH Hockey World Cup / Pool H | USA Women v New Zealand Women | final 1-1 | Belfius Hockey Arena  null
+2026-08-22T08:00:00.000Z Sat, 22 Aug, 8:00 pm  | blacksticks | FIH Hockey World Cup  | New Zealand v Wales | final 7-2 | Wagener Stadium Amstelveen Europe/Amsterdam
+2026-08-22T12:30:00.000Z Sun, 23 Aug, 12:30 am  | blacksticksw | FIH Hockey World Cup  | USA Women v New Zealand Women | final 1-1 | Belfius Hockey Arena Wavre Europe/Brussels
+2026-08-24T02:00:00.000Z Mon, 24 Aug, 2:00 pm (TBC) | blacksticks | FIH Hockey World Cup / Pool G | New Zealand v Pakistan | final 4-2 | Wagener Stadium  null
+2026-08-24T02:00:00.000Z Mon, 24 Aug, 2:00 pm (TBC) | blacksticksw | FIH Hockey World Cup / Pool H | New Zealand Women v Scotland Women | final 1-2 | Belfius Hockey Arena  null
+2026-08-24T09:00:00.000Z Mon, 24 Aug, 9:00 pm  | blacksticksw | FIH Hockey World Cup  | New Zealand Women v Scotland Women | final 1-2 | Belfius Hockey Arena Wavre Europe/Brussels
+2026-08-24T10:30:00.000Z Mon, 24 Aug, 10:30 pm  | blacksticks | FIH Hockey World Cup  | New Zealand v Pakistan | final 4-2 | Wagener Stadium Amstelveen Europe/Amsterdam
+2026-08-27T02:00:00.000Z Thu, 27 Aug, 2:00 pm (TBC) | blacksticksw | FIH Hockey World Cup / 15th place match | Chile Women v New Zealand Women | final 2-3 | Belfius Hockey Arena  null
+2026-08-27T09:00:00.000Z Thu, 27 Aug, 9:00 pm  | blacksticksw | FIH Hockey World Cup  | Chile Women v New Zealand Women | final 2-3 | Belfius Hockey Arena Wavre Europe/Brussels
+2026-08-28T02:00:00.000Z Fri, 28 Aug, 2:00 pm (TBC) | blacksticks | FIH Hockey World Cup / 9th place match | New Zealand v Ireland | final 6-3 | Belfius Hockey Arena  null
+2026-08-28T12:00:00.000Z Sat, 29 Aug, 12:00 am  | blacksticks | FIH Hockey World Cup  | New Zealand v Ireland | final 6-3 | Belfius Hockey Arena Wavre Europe/Brussels
+2026-11-19T01:00:00.000Z Thu, 19 Nov, 2:00 pm (TBC) | blacksticks | Test series · Match 1  | New Zealand v India | upcoming  | Lloyd Elsmore Park  null
+2026-11-21T01:00:00.000Z Sat, 21 Nov, 2:00 pm (TBC) | blacksticks | Test series · Match 2  | New Zealand v India | upcoming  | Lloyd Elsmore Park  null
+2026-11-22T01:00:00.000Z Sun, 22 Nov, 2:00 pm (TBC) | blacksticks | Test series · Match 3  | New Zealand v India | upcoming  | Lloyd Elsmore Park  null
