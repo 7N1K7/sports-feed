@@ -710,6 +710,9 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev .teams.matchup.scored .side .ts { order: 5; flex-basis: 100%; text-align: center } }
 /* search, form guide, team pages */
 .search { position: relative }
+/* wide screens: the search box sits in the middle of the page, in line with "Current running series" below; narrower
+   ones keep it beside Results */
+@media (min-width: 1000px) { header.top .wrap { position: relative } header.top .search { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) } }
 /* no built-in clear button: it keeps space on the right, which pushed the centred text left (Esc still clears) */
 #q::-webkit-search-cancel-button, #q::-webkit-search-decoration { -webkit-appearance: none; appearance: none; display: none }
 #q { width: 162px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font: 14px var(--f-body); text-align: center }
