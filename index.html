@@ -244,6 +244,8 @@ footer a { color: var(--muted) }
 .nowbar { min-width: 0; max-width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; margin: 0 auto -6px; padding: 2px }
 .nowbar .nowchips { display: flex; flex-wrap: nowrap; align-items: center; justify-content: safe center; gap: 6px; max-width: 100%; overflow-x: auto; scrollbar-width: none; padding: 2px }
 .nowbar .nowchips::-webkit-scrollbar { display: none }
+/* a narrow desktop window has no swipe, so there the chips wrap onto a second line instead of scrolling */
+@media (min-width: 561px), (hover: hover) and (pointer: fine) { .nowbar .nowchips { flex-wrap: wrap; justify-content: center; overflow-x: visible } }
 .nowchip { flex: none; font-size: 13px; padding: 4px 10px; min-height: 0 } .nowchip .cicon { margin-right: 0 } /* the chip's own gap spaces the icon, as on the sport buttons */
 .nowchips { display: contents }
 .nowlbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 0; white-space: nowrap; flex: none; display: inline-flex; align-items: center; gap: 6px }
@@ -856,20 +858,20 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
   <div class="wrap"><div class="pbox" role="dialog" aria-label="Settings"><button type="button" class="pclose" id="panelClose" aria-label="Close settings">×</button>
     <h2 class="ph">Settings <span class="phnote">Saved in this browser only (clearing site data resets them). Nothing is sent or collected.</span></h2>
     <div class="spoil-row">
+      <label for="spoilDays">Hide results for</label>
+      <select id="spoilDays">
+        <option value="0">Never</option><option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option><option value="4">4 days</option>
+        <option value="5">5 days</option><option value="7">7 days</option><option value="14">14 days</option>
+      </select>
+      <span id="spoilNote" style="color:var(--muted)">after the match, while spoilers are hidden</span>
+    </div>
+    <div class="spoil-row">
       <label for="tzSel">Show times for</label>
       <select id="tzSel"></select>
     </div>
     <div class="spoil-row">
       <span>Colours</span>
       <div class="swatches" id="accentSel" role="group" aria-label="Colours"></div>
-    </div>
-    <div class="spoil-row">
-      <label for="spoilDays">Hide results for</label>
-      <select id="spoilDays">
-        <option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option><option value="4">4 days</option>
-        <option value="5">5 days</option><option value="7">7 days</option><option value="14">14 days</option>
-      </select>
-      <span style="color:var(--muted)">after the match, while spoilers are hidden</span>
     </div>
     <h2 class="ph">My teams <span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news.</span></h2>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
@@ -1965,11 +1967,10 @@ function render() {
   // week strip
   const days = [...Array(7)].map((_, i) => new Date(now + i * 864e5));
   $('weekRange').textContent = `${dayLabel(days[0], NZ)} to ${dayLabel(days[6], NZ)}`;
-  $('week').innerHTML = days.map(d => {
+  // as many spots as two full rows hold; past that, the last spot becomes a "+"
+  const drawWeek = cap => $('week').innerHTML = days.map(d => {
     const k = dayKey(d);
     const list = evs.filter(e => dayKey(new Date(e.startUTC)) === k);
-    // as many spots as two rows hold (six on a phone); past that, the last spot becomes a "+"
-    const cap = dotCap();
     const dots = (list.length > cap ? list.slice(0, cap - 1) : list).map(e => `<span class="dot" style="background:var(--${e.sport})"></span>`).join('') + (list.length > cap ? `<span class="dot more" title="${list.length - cap + 1} more" aria-hidden="true"></span>` : '');
     const wd = fmt(d, NZ, { weekday: 'short' });
     return `<button class="day ${k === todayK ? 'today' : ''} ${k === selDay ? 'sel' : ''} ${/Sat|Sun/.test(wd) ? 'wkend' : ''} ${list.length ? '' : 'empty'}" type="button" data-jump="${k}" aria-label="${dayLabel(d, NZ)}, ${list.length} games">
@@ -1977,6 +1978,8 @@ function render() {
       <span class="dd num">${fmt(d, NZ, { day: 'numeric' })}</span>
       <span class="dots">${dots}</span></button>`;
   }).join('');
+  // the first draw has to guess the width; once the boxes exist, redraw if two rows actually hold a different number
+  const cap = dotCap(); drawWeek(cap); lastCap = dotCap(); if (lastCap !== cap) drawWeek(lastCap);
 
   // live now: games under way, in their own section above the week
   const lives = upcoming.filter(e => e.status === 'live' || onNow(e, now));
@@ -2146,7 +2149,7 @@ function render() {
   $('spoilBtn').title = spoilers ? 'Results are hidden: tap to show them' : 'Results are showing: tap to hide them';
   $('spoilBtn').setAttribute('aria-label', spoilers ? 'Spoilers hidden' : 'Spoilers shown');
   $('teamsBtn').innerHTML = `Settings ${ico('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>')}`;
-  $('spoilDays').value = String(spoilDays);
+  $('spoilDays').value = String(spoilDays); $('spoilNote').style.visibility = spoilDays ? '' : 'hidden';
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
   $('teamGroups').innerHTML = TEAMS.map(g => `<div class="group"><h3>${g.g}</h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`).join('');
@@ -2208,7 +2211,7 @@ document.addEventListener('click', ev => {
   else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
   else if (t.dataset.laterpage != null) { laterPage = Math.max(0, +t.dataset.laterpage); render(); toSec('laterSec'); }
   else if (t.dataset.view) { view = t.dataset.view; store.set('view', view); render(); }
-  else if (t.id === 'spoilBtn') { spoilers = !spoilers; store.set('spoilers', spoilers); render(); }
+  else if (t.id === 'spoilBtn') { spoilers = !spoilers; store.set('spoilers', spoilers); if (spoilers && !spoilDays) { spoilDays = 4; store.set('spoilDays', 4); } render(); }
   else if (t.id === 'panelClose') closeSettings();
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); }
   else if (t.id === 'allOn') { picked = new Set(ALL_KEYS); store.set('teams', ALL_KEYS); render(); }
@@ -2220,15 +2223,16 @@ function closeComp() { $('compMenu').hidden = true; $('compSel').setAttribute('a
 const fitComp = () => { const m = $('compMenu'); if (!m.hidden) m.style.maxHeight = Math.max(220, innerHeight - $('compSel').getBoundingClientRect().bottom - 24) + 'px'; };
 $('compSel').addEventListener('click', ev => { ev.stopPropagation(); const open = $('compMenu').hidden; $('compMenu').hidden = !open; $('compSel').setAttribute('aria-expanded', String(open)); fitComp(); });
 addEventListener('resize', fitComp);
-// dots that fit in two rows of a day in the week strip (7px dots, 3px apart); six on a phone
+// dots that fill exactly two rows of a day in the week strip (7px dots, 3px apart), measured from the strip itself, so
+// the "+" always lands in the last spot of the second row
 function dotCap() {
-  if (PHONE.matches) return 6;
-  const w = $('week').clientWidth; if (!w) return 6;
-  const inner = (w - 6 * 6) / 7 - 10, perRow = Math.max(3, Math.floor((inner + 3) / 10));
-  return Math.min(24, perRow * 2);
+  const d = document.querySelector('.day'), cs = d && getComputedStyle(d);
+  const w = d ? d.getBoundingClientRect().width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - parseFloat(cs.borderLeftWidth) - parseFloat(cs.borderRightWidth) : 0;
+  return w ? 2 * Math.max(2, Math.floor((w + 3.01) / 10)) : 6;
 }
-// redraw the strip when the window is resized enough to change how many dots fit
-let lastCap = 0; addEventListener('resize', () => { const c = dotCap(); if (lastCap && c !== lastCap) render(); lastCap = c; });
+// redraw when the window changes how many fit
+let lastCap = 0;
+addEventListener('resize', () => { if (lastCap && dotCap() !== lastCap) render(); });
 $('compMenu').addEventListener('click', ev => { const b = ev.target.closest('[data-comp]'); if (!b) return; ev.stopPropagation(); compSel = b.dataset.comp; store.set('comp', compSel); closeComp(); render(); });
 document.addEventListener('click', ev => { if (!ev.target.closest('.cmenu')) closeComp(); }, true);
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape') { closeComp(); closeSettings(); } });
@@ -2252,7 +2256,8 @@ function setLook(t, c) {
 drawLook();
 $('accentSel').addEventListener('click', e => { const b = e.target.closest('[data-accent]'); if (b) setLook(null, b.dataset.accent); });
 $('tzSel').addEventListener('change', e => { tzPick = e.target.value; NZ = tzPick === 'device' ? deviceTZ : tzPick; store.set('tz', tzPick); tick(); render(); });
-$('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; store.set('spoilDays', spoilDays); store.set('spoilDaysSet', true); render(); });
+// "Never" shows every result, so the spoilers button follows it; hiding spoilers again from the button brings back 4 days
+$('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; store.set('spoilDays', spoilDays); store.set('spoilDaysSet', true); spoilers = spoilDays > 0; store.set('spoilers', spoilers); render(); });
 
 function stamp() {
   if (!FEED.generatedAt) return;
