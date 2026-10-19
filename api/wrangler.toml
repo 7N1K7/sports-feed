@@ -1,0 +1,14 @@
+# Kickoff Kiwi's stats server (Cloudflare Workers, free plan), deployed by .github/workflows/api.yml
+name = "kickoff-api"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "kickoff-stats"
+database_id = "set-by-deploy" # the deploy workflow fills in the real id (it creates the database the first time)
+
+# once a day: delete the visitor codes and salts older than two days
+[triggers]
+crons = ["17 14 * * *"]

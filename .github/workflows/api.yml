@@ -1,0 +1,36 @@
+# Deploys the stats server (api/) to Cloudflare Workers when it changes. Needs the CLOUDFLARE_API_TOKEN and
+# CLOUDFLARE_ACCOUNT_ID secrets; STATS_PASSWORD (the private stats page's password) is passed on when it's set.
+name: Deploy stats server
+on:
+  push:
+    branches: [main]
+    paths: ['api/**', '.github/workflows/api.yml']
+  workflow_dispatch:
+permissions: { contents: read }
+concurrency: { group: api, cancel-in-progress: false }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      STATS_PASSWORD: ${{ secrets.STATS_PASSWORD }}
+      WRANGLER_SEND_METRICS: 'false'
+    defaults:
+      run: { working-directory: api }
+    # this repo's logs are public: wrangler's output goes through a filter that hides the workers.dev address (it was
+    # made from the owner's email) and any email address
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Database (made the first time) and its tables
+        run: |
+          id=$(node d1-id.mjs)
+          sed -i "s/set-by-deploy/$id/" wrangler.toml
+          npx --yes wrangler@4.147.0 d1 execute kickoff-stats --remote --file schema.sql -y 2>&1 | node hide.mjs
+      - name: Deploy
+        run: npx --yes wrangler@4.147.0 deploy 2>&1 | node hide.mjs
+      - name: Stats page password
+        if: env.STATS_PASSWORD != ''
+        run: printf '%s' "$STATS_PASSWORD" | npx --yes wrangler@4.147.0 secret put STATS_PASSWORD 2>&1 | node hide.mjs

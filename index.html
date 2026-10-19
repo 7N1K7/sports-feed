@@ -938,7 +938,7 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
   </div>
   <div class="panel" id="panel" hidden>
   <div class="wrap"><div class="pbox" role="dialog" aria-label="Settings"><button type="button" class="pclose" id="panelClose" aria-label="Close settings">×</button>
-    <h2 class="ph">Settings <span class="phnote">Saved in this browser only (clearing site data resets them). Nothing is sent or collected.</span></h2>
+    <h2 class="ph">Settings <span class="phnote">Saved in this browser only (clearing site data resets them). Visits are counted anonymously: no cookies, nothing personal.</span></h2>
     <div class="spoil-row">
       <label for="spoilDays">Hide results for</label>
       <select id="spoilDays">
@@ -1042,6 +1042,14 @@ const TZ_LIST = [['Pacific/Auckland', 'NZ'], ['Australia/Sydney', 'Sydney'], ['A
 const deviceTZ = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || 'Pacific/Auckland'; } catch { return 'Pacific/Auckland'; } })();
 let tzPick = 'Pacific/Auckland', NZ = tzPick;   // tzPick: a zone from TZ_LIST, or 'device'; read from storage below
 const tzLabel = () => (TZ_LIST.find(([z]) => z === NZ) || [, tzPick === 'device' ? 'local' : NZ.split('/').pop().replace(/_/g, ' ')])[1];
+// Visitor counts (api/worker.js, on Cloudflare): one small message per page load, and one when a feature is used. No
+// cookies and nothing personal. Off on test copies of the site and on a browser whose owner turned it off on the stats
+// page. STATS_API is empty until the server's address is confirmed.
+const STATS_API = '';
+const count = (msg = {}) => {
+  if (!STATS_API || !/^(www\.)?kickoff\.kiwi$/.test(location.hostname)) return;
+  try { if (localStorage.getItem('sf.nocount') === 'true') return; navigator.sendBeacon(STATS_API + '/hit', JSON.stringify(msg)); } catch {}
+};
 const TEAMS = [
   { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup'],['wallabies','Wallabies']] },
   { g: 'Super Rugby Pacific', items: [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika'],['aurugby','Australian teams'],['superrugby','Every game']] },
@@ -2007,8 +2015,9 @@ function teamPage(name, sport) {
     <div class="dlinks">${tl.site ? `<a class="srclink" href="${esc(tl.site)}" target="_blank" rel="noopener">Official site ↗</a>` : ''}<a class="srclink" href="${tl.wp ? `https://en.wikipedia.org/wiki/${encodeURIComponent(tl.wp.replace(/ /g, '_'))}` : `https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(`${name.replace(/\s+Women$/, " women's")} ${SPORT_WORD[sport] || ''}`)}`}" target="_blank" rel="noopener">${esc(displayName(name, e0))} on Wikipedia ↗</a></div>`;
 }
 function openTeam(name, sport, fromRank = '') {
+  count({ e: 'team' });
   teamBack = { name, sport };
-  $('sheetBody').innerHTML = (fromRank ? `<button type="button" class="back rback" data-rankback="${esc(fromRank)}">‹ World rankings</button>` : '') + teamPage(name, sport);
+  $('sheetBody').innerHTML = (fromRank ? `<button type="button" class="back rback" data-rankback="${esc(fromRank)}">‹ Rankings</button>` : '') + teamPage(name, sport);
   const dlg = $('sheet');
   dlg.dataset.id = '';
   if (!dlg.open) dlg.showModal();
@@ -2029,6 +2038,7 @@ function openRankings(sport) {
 function openDetail(id, fromTeam) {
   const e = (FEED.events || []).find(x => x.id === id);
   if (!e) return;
+  count({ e: 'game' });
   if (!fromTeam) teamBack = null;
   $('sheetBody').innerHTML = (teamBack ? `<button type="button" class="back" data-teampage="${esc(teamBack.name)}" data-tsport="${teamBack.sport}">‹ ${esc(displayName(teamBack.name, e))}</button>` : '') + detail(e);
   const dlg = $('sheet');
@@ -2394,7 +2404,7 @@ function appHtml() {
   </ul></div>`;
 }
 addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; if ($('appInstall')) $('appInstall').innerHTML = appHtml(); });
-addEventListener('appinstalled', () => { installEvt = null; if ($('appInstall')) $('appInstall').innerHTML = appHtml(); });
+addEventListener('appinstalled', () => { count({ e: 'install' }); installEvt = null; if ($('appInstall')) $('appInstall').innerHTML = appHtml(); });
 if ('serviceWorker' in navigator && isSecureContext) navigator.serviceWorker.register('sw.js').catch(() => {});
 // Redrawn live tags and cards would restart their pulse on every click; run every pulse on the page's own clock instead
 function syncPulse() {
@@ -2422,6 +2432,8 @@ document.addEventListener('click', ev => {
     if (reset) render();
     scrollTo({ top: 0, behavior: 'smooth' }); return;
   }
+  const sub = ev.target.closest('#calList a, #alertList a');
+  if (sub) count({ e: sub.closest('#calList') ? 'cal' : 'alerts' });
   if (ev.target.closest('a')) return;
   const t = ev.target.closest('button');
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) openDetail(card.dataset.open); else if (ev.target === $('sheet')) $('sheet').close(); return; }
@@ -2430,7 +2442,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.goto) { const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
   if (t.id === 'toResults' || t.id === 'toNews') { const el = $(t.id === 'toNews' ? 'newsSec' : 'resSec'); scrollTo({ top: el.getBoundingClientRect().top + scrollY - document.querySelector('header.top').offsetHeight - 10, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
   if (t.dataset.install) { if (installEvt) installEvt.prompt().then(() => installEvt.userChoice).then(() => { installEvt = null; $('appInstall').innerHTML = appHtml(); }); return; }
-  if (t.dataset.calcopy) { const u = t.dataset.calcopy; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { const was = t.textContent; t.textContent = 'Copied'; setTimeout(() => { t.textContent = was; }, 1600); }, () => prompt('Copy this', u)); return; }
+  if (t.dataset.calcopy) { count({ e: t.closest('#alertList') ? 'alerts' : 'cal' }); const u = t.dataset.calcopy; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { const was = t.textContent; t.textContent = 'Copied'; setTimeout(() => { t.textContent = was; }, 1600); }, () => prompt('Copy this', u)); return; }
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); store.set('teams', [...picked]); render(); }
   else if (t.dataset.hideall) { ev.stopPropagation(); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); }
   else if (t.dataset.revealall) { ev.stopPropagation(); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); }
@@ -2450,6 +2462,7 @@ document.addEventListener('click', ev => {
   else if (t.dataset.rankings) { rankSel = ''; openRankings(t.dataset.rankings); }
   else if (t.dataset.rankback) openRankings(t.dataset.rankback);
   else if (t.id === 'rankBtn') {
+    count({ e: 'rankings' });
     // the picked sport if it has rankings, else rugby, else whatever there is
     const have = k => (FEED.rankings || []).some(r => r.sport === k);
     const cs = compSel ? ((FEED.events || []).find(e => compOf(e) === compSel) || {}).sport : '';
@@ -2600,6 +2613,7 @@ function openFromLink() {
   const g = new URLSearchParams(location.hash.slice(1)).get('g');
   if (!g || !(FEED.events || []).some(e => e.id === g)) return;
   history.replaceState(null, '', location.pathname + location.search);
+  count({ e: 'alert-open' });
   openDetail(g);
 }
 addEventListener('hashchange', () => { if (FEED.events) openFromLink(); });
@@ -2630,6 +2644,7 @@ async function load(woke) {
   }
 }
 tick(); render(); load();
+{ let ref = ''; try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch {} count({ app: standalone() ? 1 : 0, r: ref }); }
 setInterval(() => { tick(); render(); stamp(); }, 60000);
 setInterval(load, 5 * 60000);
 document.addEventListener('touchstart', () => {}, { passive: true }); // lets iPhone show the :active press

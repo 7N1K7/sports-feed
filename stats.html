@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Kickoff Kiwi stats</title>
+<meta name="theme-color" content="#0d6b4d">
+<link rel="icon" href="logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* the site's own dark colours; chart series validated against the card surface (dataviz palette, dark steps) */
+:root {
+  color-scheme: dark;
+  --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d; --accent: #2b8a3e;
+  --series-1: #3987e5; /* visitors */
+  --series-2: #d95926; /* page views */
+  --f-display: 'Barlow Condensed', system-ui, sans-serif; --f-body: 'Source Sans 3', system-ui, sans-serif;
+}
+* { box-sizing: border-box }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.45; padding-top: env(safe-area-inset-top, 0px) }
+.wrap { max-width: 860px; margin: 0 auto; padding: 16px max(16px, env(safe-area-inset-right, 0px)) 40px max(16px, env(safe-area-inset-left, 0px)) }
+header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px }
+header img { width: 44px; height: 44px }
+header h1 { font-family: var(--f-display); font-size: 30px; line-height: 1; margin: 0; letter-spacing: .01em }
+header h1 span { color: var(--accent) }
+header a { margin-left: auto; color: var(--muted); font-size: 14px }
+.note { color: var(--muted); font-size: 13px }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; margin-top: 12px }
+.card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 10px; font-weight: 700 }
+button, input { font: inherit; color: inherit }
+.btn { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 6px 14px; cursor: pointer; font-weight: 600; -webkit-tap-highlight-color: transparent }
+.btn:active { filter: brightness(1.25); transform: scale(.97) }
+.btn[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+#gate form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center }
+#gate input { flex: 1 1 200px; min-width: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px }
+#gateMsg { margin-top: 8px; min-height: 1.4em }
+.err { color: #ff8787 }
+.range { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 14px }
+.range .sp { flex: 1 }
+/* the headline: visits in the range, then the tiles */
+.hero { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px }
+.hero .big { font-size: 56px; font-weight: 700; line-height: 1 }
+.hero .lbl { color: var(--muted) }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 14px }
+.tile { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; background: var(--paper) }
+.tile .l { color: var(--muted); font-size: 13px }
+.tile .v { font-size: 24px; font-weight: 700; line-height: 1.2 }
+.tile .s { color: var(--muted); font-size: 13px }
+/* the daily chart */
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-bottom: 6px }
+.legend i { display: inline-block; width: 16px; height: 2px; border-radius: 1px; vertical-align: middle; margin-right: 6px }
+.chartbox { position: relative }
+.chartbox svg { display: block; width: 100%; height: 240px; overflow: visible; touch-action: pan-y }
+.chartbox text { fill: var(--muted); font-size: 11px; font-family: var(--f-body) }
+.chartbox .end { font-size: 12px; font-weight: 600; fill: var(--ink) }
+.tip { position: absolute; top: 0; pointer-events: none; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; font-size: 13px; white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,.35); transform: translateX(-50%) }
+.tip .d { color: var(--muted); font-size: 12px }
+.tip .row { display: flex; align-items: center; gap: 6px }
+.tip .row i { width: 12px; height: 2px; border-radius: 1px; display: inline-block }
+.tip b { font-weight: 700 }
+/* bar lists */
+.lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px }
+.lists .card { margin-top: 0 }
+.bars { display: grid; gap: 7px }
+.bar { display: grid; grid-template-columns: minmax(0, 8em) minmax(0, 1fr) auto; align-items: center; gap: 8px; font-size: 14px }
+.bar .k { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.bar .t { height: 10px; position: relative }
+.bar .t i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--series-1); border-radius: 0 4px 4px 0; min-width: 2px }
+.bar .n { font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; text-align: right }
+.empty { color: var(--muted); font-size: 14px }
+details.tbl summary { cursor: pointer; font-weight: 600 }
+table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 14px; font-variant-numeric: tabular-nums }
+th, td { text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--line) }
+th:first-child, td:first-child { text-align: left }
+th { color: var(--muted); font-weight: 600 }
+.me { display: flex; gap: 10px; align-items: center; flex-wrap: wrap }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><img src="logo.svg" alt=""><h1>Kickoff <span>Kiwi</span> stats</h1><a href="./">Back to the site</a></header>
+  <p class="note">Private: the numbers need the stats password. Visits are counted with no cookies and nothing personal: a person counts once a day, whatever they look at.</p>
+
+  <section class="card" id="gate">
+    <h2>Password</h2>
+    <form id="pwForm"><input id="pw" type="password" autocomplete="current-password" placeholder="Stats password" aria-label="Stats password"><button class="btn" type="submit">Show stats</button></form>
+    <div id="gateMsg" class="note"></div>
+  </section>
+
+  <div id="main" hidden>
+    <div class="range" role="group" aria-label="Date range">
+      <button class="btn" type="button" data-days="7">7 days</button>
+      <button class="btn" type="button" data-days="30">30 days</button>
+      <button class="btn" type="button" data-days="90">90 days</button>
+      <span class="sp"></span>
+      <button class="btn" type="button" id="refresh">Refresh</button>
+    </div>
+
+    <section class="card" aria-live="polite">
+      <div class="hero"><span class="big" id="heroN">0</span><span class="lbl" id="heroL">visits</span></div>
+      <div class="tiles" id="tiles"></div>
+    </section>
+
+    <section class="card">
+      <h2>Each day</h2>
+      <div class="legend"><span><i style="background:var(--series-1)"></i>Visitors</span><span><i style="background:var(--series-2)"></i>Page views</span></div>
+      <div class="chartbox" id="chart"></div>
+      <details class="tbl"><summary>As a table</summary><div id="table"></div></details>
+    </section>
+
+    <div class="lists" style="margin-top:12px">
+      <section class="card"><h2>Countries</h2><div class="bars" id="country"></div><p class="note">Visitors, by the country their connection comes from.</p></section>
+      <section class="card"><h2>Devices</h2><div class="bars" id="device"></div></section>
+      <section class="card"><h2>App or browser</h2><div class="bars" id="mode"></div><p class="note">Visitors using the home-screen app, or a web browser.</p></section>
+      <section class="card"><h2>Came from</h2><div class="bars" id="ref"></div><p class="note">Page views that arrived from a link on another site. Links opened from most chat apps arrive without one.</p></section>
+      <section class="card"><h2>Features used</h2><div class="bars" id="event"></div><p class="note">Taps on each feature, all visitors together. Calendars and alert topics count taps on their links and copy buttons; from an alert counts games opened by tapping a phone alert.</p></section>
+    </div>
+
+    <section class="card">
+      <h2>This device</h2>
+      <div class="me"><button class="btn" type="button" id="noCount" aria-pressed="false">Don't count my visits</button><span class="note" id="noCountNote"></span></div>
+      <p class="note">So your own checking doesn't add to the numbers. It's set for this browser only: turn it on on each phone, computer and the home-screen app. <button class="btn" type="button" id="forget" style="margin-left:6px">Forget the password here</button></p>
+    </section>
+  </div>
+</div>
+<script>
+(() => {
+// the stats server (api/worker.js); the same address as in index.html
+const API = 'https://kickoff-api.kickoffkiwi.workers.dev';
+const $ = id => document.getElementById(id);
+const store = { get(k, d) { try { const v = localStorage.getItem('sf.' + k); return v == null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { localStorage.setItem('sf.' + k, JSON.stringify(v)); } catch {} }, del(k) { try { localStorage.removeItem('sf.' + k); } catch {} } };
+const fmtN = n => n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e4 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : n.toLocaleString('en-NZ');
+const dayLabel = (d, o = { weekday: 'short', day: 'numeric', month: 'short' }) => new Date(d + 'T12:00:00Z').toLocaleDateString('en-NZ', { timeZone: 'UTC', ...o });
+const COUNTRY = new Intl.DisplayNames(['en'], { type: 'region' });
+const EVENT_LABEL = { cal: 'Calendars', alerts: 'Alert topics', install: 'App installs', rankings: 'Rankings', 'alert-open': 'From an alert', team: 'Team pages', game: 'Games opened' };
+const MODE_LABEL = { app: 'App', browser: 'Browser' };
+const DEVICE_LABEL = { phone: 'Phone', tablet: 'Tablet', computer: 'Computer' };
+
+let days = store.get('statsDays', 30), data = null, pw = store.get('statspw', '');
+
+async function fetchStats() {
+  $('gateMsg').textContent = 'Loading…'; $('gateMsg').className = 'note';
+  try {
+    const r = await fetch(`${API}/stats?days=90`, { headers: { authorization: 'Bearer ' + pw }, cache: 'no-store' });
+    const j = await r.json().catch(() => ({}));
+    if (r.status === 401) { store.del('statspw'); throw new Error('That password isn\'t right.'); }
+    if (r.status === 503) throw new Error('The stats password isn\'t set up yet: add STATS_PASSWORD in the GitHub repo\'s secrets, then wait for the stats server to redeploy.');
+    if (!r.ok) throw new Error('The stats server answered with an error (' + r.status + ').');
+    data = j; store.set('statspw', pw);
+    $('gate').hidden = true; $('main').hidden = false; $('gateMsg').textContent = '';
+    draw();
+  } catch (e) {
+    $('gate').hidden = false;
+    $('gateMsg').textContent = e instanceof TypeError ? 'Couldn\'t reach the stats server. Check your connection.' : e.message;
+    $('gateMsg').className = 'err';
+  }
+}
+
+// totals for the chosen range: per day, and per metric/key
+function shape() {
+  const list = [], from = new Date(data.today + 'T12:00:00Z');
+  for (let i = days - 1; i >= 0; i--) list.push(new Date(from - i * 864e5).toISOString().slice(0, 10));
+  const inRange = new Set(list), per = Object.fromEntries(list.map(d => [d, { visitors: 0, views: 0, appviews: 0 }])), sums = {};
+  for (const r of data.rows) {
+    if (!inRange.has(r.day)) continue;
+    if (r.metric in per[r.day]) per[r.day][r.metric] += r.n;
+    else { (sums[r.metric] ||= {}); sums[r.metric][r.key] = (sums[r.metric][r.key] || 0) + r.n; }
+  }
+  return { list, per, sums };
+}
+
+function draw() {
+  document.querySelectorAll('[data-days]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.days === days)));
+  const { list, per, sums } = shape();
+  const tot = k => list.reduce((a, d) => a + per[d][k], 0);
+  const visits = tot('visitors'), views = tot('views'), app = sums.mode?.app || 0, br = sums.mode?.browser || 0;
+  $('heroN').textContent = fmtN(visits);
+  $('heroL').textContent = `visits in the last ${days} days · ${fmtN(views)} page views`;
+  const today = per[data.today] || { visitors: 0, views: 0 }, yday = per[list[list.length - 2]] || { visitors: 0, views: 0 };
+  const tile = (l, v, s) => `<div class="tile"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
+  $('tiles').innerHTML = tile('Today', fmtN(today.visitors), `visitors · ${fmtN(today.views)} views`)
+    + tile('Yesterday', fmtN(yday.visitors), `visitors · ${fmtN(yday.views)} views`)
+    + tile('Average a day', fmtN(Math.round(visits / days)), `visitors · ${fmtN(Math.round(views / days))} views`)
+    + tile('Using the app', app + br ? Math.round(100 * app / (app + br)) + '%' : '–', 'of visitors');
+  chart(list, per);
+  $('table').innerHTML = `<table><thead><tr><th>Day</th><th>Visitors</th><th>Page views</th></tr></thead><tbody>${list.slice().reverse().map(d => `<tr><td>${dayLabel(d)}</td><td>${per[d].visitors}</td><td>${per[d].views}</td></tr>`).join('')}</tbody></table>`;
+  bars('country', sums.country, k => k === '?' ? 'Unknown' : (() => { try { return COUNTRY.of(k); } catch { return k; } })());
+  bars('device', sums.device, k => DEVICE_LABEL[k] || k);
+  bars('mode', sums.mode, k => MODE_LABEL[k] || k);
+  bars('ref', sums.ref, k => k);
+  bars('event', sums.event, k => EVENT_LABEL[k] || k);
+}
+
+// a ranked list of horizontal bars, the top 7 and the rest as "Other"; names go in as text, never as markup
+function bars(id, obj, label) {
+  const el = $(id);
+  const rows = Object.entries(obj || {}).sort((a, b) => b[1] - a[1]);
+  el.replaceChildren();
+  if (!rows.length) { const p = document.createElement('div'); p.className = 'empty'; p.textContent = 'Nothing yet in this range.'; el.append(p); return; }
+  const top = rows.slice(0, 7), rest = rows.slice(7).reduce((a, r) => a + r[1], 0);
+  if (rest) top.push(['', rest]);
+  const max = Math.max(...top.map(r => r[1]));
+  for (const [k, n] of top) {
+    const row = document.createElement('div'); row.className = 'bar';
+    const name = document.createElement('span'); name.className = 'k'; name.textContent = k === '' ? 'Other' : label(k); name.title = name.textContent;
+    const track = document.createElement('span'); track.className = 't';
+    const fill = document.createElement('i'); fill.style.width = (100 * n / max).toFixed(1) + '%'; track.append(fill);
+    const num = document.createElement('span'); num.className = 'n'; num.textContent = fmtN(n);
+    row.append(name, track, num); el.append(row);
+  }
+}
+
+// visitors and page views a day: two 2px lines on one count axis from zero, hairline grid, end labels, and a
+// crosshair that snaps to a day with both values in the tooltip
+function chart(list, per) {
+  const box = $('chart'), W = Math.max(280, box.clientWidth), H = 240, m = { l: 34, r: 92, t: 10, b: 24 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const S = [['visitors', 'Visitors', 'var(--series-1)'], ['views', 'Page views', 'var(--series-2)']];
+  const maxV = Math.max(4, ...list.map(d => per[d].views), ...list.map(d => per[d].visitors));
+  const step = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000, 10000].find(s => maxV / s <= 4) || Math.ceil(maxV / 4);
+  const top = Math.ceil(maxV / step) * step;
+  const x = i => m.l + (list.length < 2 ? iw / 2 : i * iw / (list.length - 1)), y = v => m.t + ih - v / top * ih;
+  let g = '';
+  for (let v = 0; v <= top; v += step) g += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${fmtN(v)}</text>`;
+  // date labels: first, last and a few between, never crowded
+  const every = Math.max(1, Math.ceil(list.length / Math.max(2, Math.floor(iw / 70))));
+  list.forEach((d, i) => { if (i % every === 0 || i === list.length - 1) { if (i !== list.length - 1 && list.length - 1 - i < every * 0.6) return; g += `<text x="${x(i)}" y="${H - 6}" text-anchor="middle">${dayLabel(d, { day: 'numeric', month: 'short' })}</text>`; } });
+  const ends = [];
+  for (const [k, name, c] of S) {
+    const pts = list.map((d, i) => `${x(i).toFixed(1)},${y(per[d][k]).toFixed(1)}`).join(' ');
+    g += `<polyline points="${pts}" fill="none" stroke="${c}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    const last = per[list[list.length - 1]][k];
+    ends.push({ y: y(last), name, last, c });
+  }
+  // end labels: series name and today's value, nudged apart when they'd overlap
+  ends.sort((a, b) => a.y - b.y);
+  if (ends.length === 2 && ends[1].y - ends[0].y < 15) { const mid = (ends[0].y + ends[1].y) / 2; ends[0].y = mid - 8; ends[1].y = mid + 8; }
+  for (const e of ends) g += `<circle cx="${x(list.length - 1)}" cy="${y(e.last)}" r="4" fill="${e.c}" stroke="var(--surface)" stroke-width="2"/><text class="end" x="${m.l + iw + 10}" y="${e.y + 4}">${e.name} ${fmtN(e.last)}</text>`;
+  g += `<line id="xh" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="var(--muted)" stroke-width="1" visibility="hidden"/>`;
+  for (const [k, , c] of S) g += `<circle class="hd" data-k="${k}" r="4" fill="${c}" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>`;
+  g += `<rect x="${m.l}" y="0" width="${iw}" height="${H}" fill="transparent" id="hit"/>`;
+  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Visitors and page views each day for the last ${list.length} days">${g}</svg><div class="tip" hidden></div>`;
+  const svg = box.querySelector('svg'), tip = box.querySelector('.tip'), xh = svg.querySelector('#xh');
+  const show = ev => {
+    const r = svg.getBoundingClientRect(), px = (ev.clientX - r.left) * W / r.width;
+    const i = Math.max(0, Math.min(list.length - 1, Math.round((px - m.l) / (iw / Math.max(1, list.length - 1)))));
+    const d = list[i];
+    xh.setAttribute('x1', x(i)); xh.setAttribute('x2', x(i)); xh.setAttribute('visibility', 'visible');
+    svg.querySelectorAll('.hd').forEach(c => { c.setAttribute('cx', x(i)); c.setAttribute('cy', y(per[d][c.dataset.k])); c.setAttribute('visibility', 'visible'); });
+    tip.replaceChildren();
+    const dl = document.createElement('div'); dl.className = 'd'; dl.textContent = dayLabel(d, { weekday: 'long', day: 'numeric', month: 'short' }); tip.append(dl);
+    for (const [k, name, c] of S) {
+      const row = document.createElement('div'); row.className = 'row';
+      const key = document.createElement('i'); key.style.background = c;
+      const b = document.createElement('b'); b.textContent = fmtN(per[d][k]);
+      const t = document.createElement('span'); t.textContent = name.toLowerCase();
+      row.append(key, b, t); tip.append(row);
+    }
+    tip.hidden = false;
+    const left = x(i) / W * r.width, half = tip.offsetWidth / 2;
+    tip.style.left = Math.max(half, Math.min(r.width - half, left)) + 'px';
+    tip.style.top = '-8px'; tip.style.transform = `translate(-50%, -100%)`;
+  };
+  const hide = () => { tip.hidden = true; xh.setAttribute('visibility', 'hidden'); svg.querySelectorAll('.hd').forEach(c => c.setAttribute('visibility', 'hidden')); };
+  const hit = svg.querySelector('#hit');
+  hit.addEventListener('pointermove', show); hit.addEventListener('pointerdown', show); hit.addEventListener('pointerleave', hide);
+}
+
+$('pwForm').addEventListener('submit', ev => { ev.preventDefault(); pw = $('pw').value.trim(); if (pw) fetchStats(); });
+document.querySelectorAll('[data-days]').forEach(b => b.addEventListener('click', () => { days = +b.dataset.days; store.set('statsDays', days); draw(); }));
+$('refresh').addEventListener('click', fetchStats);
+$('forget').addEventListener('click', () => { store.del('statspw'); pw = ''; $('pw').value = ''; $('main').hidden = true; $('gate').hidden = false; $('gateMsg').textContent = 'Forgotten on this device.'; $('gateMsg').className = 'note'; });
+const syncMe = () => { const on = store.get('nocount', false); $('noCount').setAttribute('aria-pressed', String(on)); $('noCount').textContent = on ? 'Not counting my visits' : 'Don\'t count my visits'; $('noCountNote').textContent = on ? 'Your visits on this browser aren\'t counted.' : 'Your visits on this browser are counted like everyone\'s.'; };
+$('noCount').addEventListener('click', () => { store.set('nocount', !store.get('nocount', false)); syncMe(); });
+syncMe();
+let rz = 0; addEventListener('resize', () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(() => data && draw()); });
+if (pw) fetchStats(); else $('pw').focus();
+})();
+</script>
+</body>
+</html>
