@@ -1044,8 +1044,8 @@ let tzPick = 'Pacific/Auckland', NZ = tzPick;   // tzPick: a zone from TZ_LIST, 
 const tzLabel = () => (TZ_LIST.find(([z]) => z === NZ) || [, tzPick === 'device' ? 'local' : NZ.split('/').pop().replace(/_/g, ' ')])[1];
 // Visitor counts (api/worker.js, on Cloudflare): one small message per page load, and one when a feature is used. No
 // cookies and nothing personal. Off on test copies of the site and on a browser whose owner turned it off on the stats
-// page. STATS_API is empty until the server's address is confirmed.
-const STATS_API = '';
+// page.
+const STATS_API = 'https://kickoff-api.kickoffkiwi.workers.dev';
 const count = (msg = {}) => {
   if (!STATS_API || !/^(www\.)?kickoff\.kiwi$/.test(location.hostname)) return;
   try { if (localStorage.getItem('sf.nocount') === 'true') return; navigator.sendBeacon(STATS_API + '/hit', JSON.stringify(msg)); } catch {}
