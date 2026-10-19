@@ -531,6 +531,22 @@ a.svc:hover { text-decoration-color: currentColor }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --gold: #f2c94c } }
 :root[data-theme="dark"] { --gold: #f2c94c }
 .rankbtn { font-size: 14px; font-weight: 600; padding: 3px 14px; border: 1px solid var(--gold); color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--surface)) }
+/* phones: short labels, so NZ only, men's/women's and rankings share one line, and tighter gaps so the day's first
+   games are on screen sooner */
+.compbar .sm { display: none }
+@media (max-width: 560px) {
+  main { padding-top: 10px; gap: 18px }
+  .nowbar { margin-bottom: -8px; gap: 4px }
+  #sportFilter { margin-bottom: -6px }
+  .compbar { gap: 6px }
+  .compbar .lg { display: none } .compbar .sm { display: inline }
+  .compbar .cmenu { flex: 0 0 100%; display: flex; justify-content: center }
+  .nzonly, .rankbtn { padding: 3px 10px; gap: 5px; font-size: 13px }
+  .compbar .seg button { padding: 3px 9px; font-size: 13px }
+  #sportFilter .chip { font-size: 13px; padding: 2px 10px }
+  #sportFilter { gap: 5px }
+}
+@media (max-width: 380px) { .nzonly, .rankbtn, .compbar .seg button { font-size: 12px; padding-inline: 8px } .nzonly img { width: 15px; height: auto } }
 .rankbtn:hover { background: color-mix(in srgb, var(--gold) 20%, var(--surface)) }
 .stable.rank td.num { white-space: nowrap }
 .stable.rank .rv { display: inline-flex; align-items: center; gap: 8px }
@@ -847,7 +863,7 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
 <main class="wrap">
   <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
-  <div class="compbar"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9">NZ teams only</button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" class="chip rankbtn" id="rankBtn">World rankings</button></div>
+  <div class="compbar"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9"><span class="lg">NZ teams only</span><span class="sm">NZ only</span></button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" class="chip rankbtn" id="rankBtn"><span class="lg">World rankings</span><span class="sm">Rankings</span></button></div>
   <section id="hubSec" hidden>
     <div class="hub">
       <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
