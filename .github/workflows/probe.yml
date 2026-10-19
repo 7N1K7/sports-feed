@@ -8,5 +8,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
+      - run: npm i --no-save playwright@1.56.1 && npx playwright install --with-deps chromium
       - run: rm -f probe/out-*.png && node probe/probe.mjs > probe/out.txt 2>&1 || true
       - run: git -c user.name=bot -c user.email=bot@x add -A probe/out* && git -c user.name=bot -c user.email=bot@x commit -m out && git push
