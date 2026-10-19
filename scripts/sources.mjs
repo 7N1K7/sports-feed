@@ -342,6 +342,8 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     if (!c.seriesTitle && !c.ufc) tableSrc.push({ c, title: pg.title, text: pg.text });
   }
   diag.wikipedia = per;
+  // temporary: what the NRL finals page says about its Grand Final
+  { const fin = Object.values(texts).find(t => /NRL finals series/.test(t.title)); const i = fin ? fin.text.search(/^=+\s*Grand Final/im) : -1; diag.nrlGF = fin ? (i < 0 ? 'no Grand Final heading; headings: ' + [...fin.text.matchAll(/^=+\s*([^=\n]+?)\s*=+/gm)].map(m => m[1]).join(' | ') : fin.text.slice(i, i + 2500)) : 'no page'; }
   // standings: Sports table blocks on the page, or in a transcluded "... table" / "... standings" template
   const tables = [];
   try {
