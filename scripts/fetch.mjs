@@ -859,8 +859,8 @@ console.log(`feed.json: ${feed.events.length} events (${wiki.length} from Wikipe
 if (process.env.GITHUB_ACTIONS) {
   console.log(`::notice title=Players::${String(diag.players || '')} ${diag.playerRolesError || ''}`);
   console.log(`::notice title=Tables::${String(Array.isArray(diag.tables) ? diag.tables.join('; ') : diag.tables || '').replace(/[\r\n%]/g, ' ').slice(0, 3000)}`);
-  const nrl = feed.events.filter(e => e.sport === 'league' && /NRL/.test(`${e.comp} ${(e.tags || []).join(' ')} ${e.team}`)).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
-  console.log(`::notice title=NRL::${nrl.map(e => `${e.startUTC.slice(0, 10)} ${e.comp}${e.stage ? ' / ' + e.stage : ''}: ${e.home}${e.homeLogo ? '*' : ''} v ${e.away}${e.awayLogo ? '*' : ''} = ${e.score || '-'} [${e.status}] ${(e.summary || '').slice(0, 40)} <${(e.source || '').replace(/^https?:\/\/(www\.)?/, '').slice(0, 30)}>`).join(' ; ').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
+  const intl = feed.events.filter(e => e.team === 'intlcricket').sort((a, b) => a.startUTC.localeCompare(b.startUTC));
+  console.log(`::notice title=IntlCricket::${intl.length} games: ${intl.map(e => `${e.startUTC.slice(0, 10)} ${e.comp}${e.stage ? ' / ' + e.stage : ''}: ${e.home} v ${e.away} [${e.status}]`).join(' ; ').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
   console.log(`::notice title=Faces::${String(diag.facesMain || '').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
   console.log(`::notice title=Tennis::${String(diag.tennis || 'not run').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
 }

@@ -143,6 +143,7 @@ export function classify(kind, home, away) {
     case 'rlwc': return { team: nz ? (women ? 'kiwiferns' : 'kiwis') : 'rlwc', tags: ['rlwc'] };
     case 'leaguetests': return nz ? { team: women ? 'kiwiferns' : 'kiwis', tags: [] } : null;
     case 'aucricket': return /\bAustralia\b/.test(names) && !women ? { team: 'aucricket', tags: [] } : null;
+    case 'intlcricket': return !nz && !women && !/\bAustralia\b/.test(names) ? { team: 'intlcricket', tags: [] } : null;
     case 'nzcricket': return nz ? { team: women ? 'whiteferns' : 'blackcaps', tags: [] } : null;
     case 'nrl': return { team: /Warriors/.test(names) ? 'warriors' : 'nrl', tags: ['nrl'] };
     case 'epl': return { team: 'epl', tags: ['epl'] };
@@ -310,6 +311,19 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
         if (!/^[A-Z][\w ]+ cricket team in [\w ]+ in 20\d\d/.test(title) || /New Zealand|women|under-19|\bA cricket/i.test(title) || !/Australia/.test(title)) continue;
         if (![...seasons, ...years.map(String)].some(s => title.endsWith(s)) || want.has(title)) continue;
         want.set(title, { sport: 'cricket', comp: 'Australia', classify: 'aucricket', seriesTitle: true });
+      }
+    } catch (e) { diag.wikiSearch = e.message; }
+  }
+  // men's tours between the other Test nations ("Pakistani cricket team in South Africa in 2026–27")
+  const FULL = /^(Indian|English|Pakistani|Sri Lankan|South African|Bangladeshi|Afghan(?:istan)?|Zimbabwean?|Irish|West Indian) cricket team in (?:the )?(India|England|Pakistan|Sri Lanka|South Africa|Bangladesh|Afghanistan|Zimbabwe|Ireland|West Indies|United Arab Emirates) in /;
+  const HOSTS = ['India', 'England', 'Pakistan', 'Sri Lanka', 'South Africa', 'Bangladesh', 'Zimbabwe', 'Ireland', 'the West Indies', 'the United Arab Emirates'];
+  for (const q of [...seasons, ...years.map(String)].flatMap(s => HOSTS.map(h => `intitle:"cricket team in ${h}" "${s}"`))) {
+    try {
+      const r = await api('action=query&list=search&srlimit=50&srnamespace=0&srsearch=' + encodeURIComponent(q));
+      for (const { title } of r.query?.search || []) {
+        if (!FULL.test(title) || /women|under-19|\bA cricket/i.test(title)) continue;
+        if (![...seasons, ...years.map(String)].some(s => title.endsWith(s)) || want.has(title)) continue;
+        want.set(title, { sport: 'cricket', comp: '', classify: 'intlcricket', seriesTitle: true });
       }
     } catch (e) { diag.wikiSearch = e.message; }
   }
@@ -843,8 +857,11 @@ function hostFirst(e, title) {
   if (e.homeLogo || e.awayLogo) [e.homeLogo, e.awayLogo] = [e.awayLogo, e.homeLogo];
 }
 function seriesComp(title, c) {
-  const m = title.match(/^(.*?) (?:women's )?cricket team in (.*?) in /);
+  const m = title.match(/^(.*?) (?:women's )?cricket team in (?:the )?(.*?) in /);
   if (!m) return c.comp;
+  const ADJ = { Indian: 'India', English: 'England', Pakistani: 'Pakistan', 'Sri Lankan': 'Sri Lanka', 'South African': 'South Africa', Bangladeshi: 'Bangladesh', Afghan: 'Afghanistan', Zimbabwean: 'Zimbabwe', Irish: 'Ireland', 'West Indian': 'West Indies' };
+  // a tour between two other nations: host first, "South Africa v Pakistan"
+  if (c.classify === 'intlcricket') return /United Arab Emirates/.test(m[2]) ? `${ADJ[m[1]] || m[1]} in the UAE` : `${m[2]} v ${ADJ[m[1]] || m[1]}`;
   const other = [m[1], m[2]].find(x => !/^(New Zealand|Australian?)$/.test(x) || (c.comp !== 'Australia' && /^Australian?$/.test(x))) || '';
   const adj = { Indian: 'India', Australian: 'Australia', English: 'England', Pakistani: 'Pakistan', 'Sri Lankan': 'Sri Lanka', 'South African': 'South Africa', Bangladeshi: 'Bangladesh', Afghan: 'Afghanistan', Zimbabwean: 'Zimbabwe', Irish: 'Ireland', 'West Indian': 'West Indies', Scottish: 'Scotland', Dutch: 'Netherlands' };
   return `${c.comp} v ${adj[other] || other}`;
