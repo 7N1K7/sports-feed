@@ -1847,6 +1847,8 @@ function detail(e) {
       cricinfo(e) && cricinfo(e) !== e.link && `<a href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Match page on Cricinfo ↗</a>`,
       e.source && `<a href="${esc(e.source)}" target="_blank" rel="noopener">${e.sport === 'cricket' ? (/wikipedia/.test(e.source) ? 'Series on Wikipedia' : 'Match page') : e.status === 'live' ? 'Follow live' : FIGHT.test(e.sport) ? 'Fight page' : e.sport === 'motor' ? 'Season page' : e.sport === 'tennis' ? 'Tournament page' : 'Match page'} ↗</a>`,
       e.sport === 'cricket' && !cricinfo(e) && `<a href="https://www.espncricinfo.com/live-cricket-score" target="_blank" rel="noopener">Ball by ball on Cricinfo ↗</a>`,
+      // the subreddit's game-day thread, for the live chat around a game (a plain search link, nothing pulled from Reddit)
+      Math.abs(d - now) < 864e5 && redditSub(e) && `<a href="https://www.reddit.com/r/${redditSub(e)}/search/?q=${encodeURIComponent(e.sport === 'cricket' ? 'Match Thread' : e.sport === 'motor' ? 'Race Discussion' : /^(mma|boxing)$/.test(e.sport) ? 'Live Discussion' : 'Match Thread')}&restrict_sr=1&sort=new" target="_blank" rel="noopener">Match thread on r/${redditSub(e)} ↗</a>`,
     ].filter(Boolean).join('')}</div>
     <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
     ${e.card?.length ? `<h3 class="dh">Fight card</h3>${fightCard(e, hidden)}` : ''}
@@ -1856,6 +1858,7 @@ function detail(e) {
     ${photos}
 `;
 }
+const redditSub = e => e.sport === 'league' ? 'nrl' : e.sport === 'rugby' ? 'rugbyunion' : e.sport === 'cricket' ? 'Cricket' : e.sport === 'football' ? (/A-League/i.test(e.comp) || /^(phoenix|aucklandfc|aleague)$/.test(e.team) ? 'Aleague' : 'soccer') : e.sport === 'mma' ? 'MMA' : e.sport === 'boxing' ? 'Boxing' : e.sport === 'motor' ? 'formula1' : e.sport === 'tennis' ? 'tennis' : '';
 // Form guide: a side's last five results (oldest first) before a given date, from the feed's season-long list.
 // Results that spoilers cover are left out until revealed.
 function formOf(name, sport, before, format = '') {
