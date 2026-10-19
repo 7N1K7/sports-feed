@@ -9,5 +9,8 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: rm -f probe/out-*.png && node probe/probe.mjs > probe/out.txt 2>&1 || true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       # save the output; a run whose output didn't change has nothing to save, which isn't a failure
       - run: git -c user.name=bot -c user.email=bot@x add -A probe/out* && (git diff --cached --quiet || (git -c user.name=bot -c user.email=bot@x commit -m out && git push))
