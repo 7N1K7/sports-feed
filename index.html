@@ -705,6 +705,8 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 .ev .comp { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: 7px }
 .ev .comp .cicon { justify-self: end; display: flex }
 .ev .comp .ctitle { text-align: center; min-width: 0 }
+.ev .comp .ctitle { font-size: 13.5px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp .ctitle { font-size: 12.5px }
 .ev .comp .ctags { justify-self: start; display: flex; align-items: center; gap: 5px }
 @media (max-width: 560px) { .ev .comp .series { display: block } }
 /* the "v" sits in the middle of its column whether or not a score is beside it */
