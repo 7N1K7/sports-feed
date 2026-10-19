@@ -1,10 +1,2 @@
-cloudflare | A ["185.199.109.153","185.199.110.153","185.199.108.153","185.199.111.153"] | www CNAME ["7n1k7.github.io"] | CAA ENODATA | SOA {"nsname":"ns1.crazydomains.com","hostmaster":"admin.syrahost.com","serial":1792412957,"refresh":3600,"retry":7200,"expire":3600000,"minttl":3600}
-google | A ["185.199.110.153","185.199.108.153","185.199.111.153","185.199.109.153"] | www CNAME ["7n1k7.github.io"] | CAA ENODATA | SOA {"nsname":"ns1.crazydomains.com","hostmaster":"admin.syrahost.com","serial":1792412957,"refresh":3600,"retry":7200,"expire":3600000,"minttl":3600}
-quad9 | A ["185.199.111.153","185.199.110.153","185.199.109.153","185.199.108.153"] | www CNAME ["7n1k7.github.io"] | CAA ENODATA | SOA {"nsname":"ns1.crazydomains.com","hostmaster":"admin.syrahost.com","serial":1792412957,"refresh":3600,"retry":7200,"expire":3600000,"minttl":3600}
-opendns | A ["185.199.110.153","185.199.111.153","185.199.108.153","185.199.109.153"] | www CNAME ["7n1k7.github.io"] | CAA ENODATA | SOA {"nsname":"ns1.crazydomains.com","hostmaster":"admin.syrahost.com","serial":1792412957,"refresh":3600,"retry":7200,"expire":3600000,"minttl":3600}
-.kiwi zone SOA (negative-cache minttl): {"nsname":"prd-fzp-03.corp.cira.ca","hostmaster":"admin-dns.cira.ca","serial":2610191230,"refresh":1800,"retry":900,"expire":3456000,"minttl":3600}
-google-json DS Status 0 AD false [{"name":"cgqfdpqls13b7hl09je965goq26sci25.kiwi.","type":50,"TTL":3600,"data":"1 1 0 - CHQ1CUE9QUQTCRAA6SKFTIK2QMJ7F35S NS SOA RRSIG DNSKEY NSEC3PARAM"},{"name":"cgqfdpqls13b7hl09je965goq26sci25.kiwi.","type":46,"TTL":3600,"data":"nsec3 8 2 3600 1792899933 1792312234 38116 kiwi. N56vmZi5VC6xgfs+gNwX
-google-json DNSKEY Status 0 AD false [{"name":"kickoff.kiwi.","type":6,"TTL":1800,"data":"ns1.crazydomains.com. admin.syrahost.com. 1792412957 3600 7200 3600000 3600"}]
-google-json A Status 0 AD false [{"name":"kickoff.kiwi.","type":1,"TTL":300,"data":"185.199.110.153"},{"name":"kickoff.kiwi.","type":1,"TTL":300,"data":"185.199.111.153"},{"name":"kickoff.kiwi.","type":1,"TTL":300,"data":"185.199.108.153"},{"name":"kickoff.kiwi.","type":1,"TTL":300,"data":"185.199.109.153"}]
-google-json CAA Status 0 AD false [{"name":"kickoff.kiwi.","type":6,"TTL":1796,"data":"ns1.crazydomains.com. admin.syrahost.com. 1792412957 3600 7200 3600000 3600"}]
-HTTPS not yet: ERR_TLS_CERT_ALTNAME_INVALID
+using https://kickoff.kiwi/
+done
