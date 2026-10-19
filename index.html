@@ -276,6 +276,7 @@ footer a { color: var(--muted) }
 /* out of the flow, so it showing or not never moves the cards below */
 .revall { position: absolute; right: 0; top: 3px; font: inherit; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 4px 10px; cursor: pointer }
 .revall:hover { border-color: var(--muted) }
+@media (min-width: 561px) { .revall { right: 106px; transform: translateX(50%); white-space: nowrap } } /* centred over the cards' 210px time column */
 .dayhead::after { content: ""; display: block; height: 2px; width: 32px; background: var(--accent); margin-top: 4px; border-radius: 2px }
 
 
