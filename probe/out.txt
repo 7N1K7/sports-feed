@@ -1,1 +1,7 @@
-stats without a password: 401 {"error":"wrong-password"} | allowed origin: https://kickoff.kiwi
+kickoffkiwi-epl: 1 message(s)
+  2026-10-19T18:22:44.000Z | ⚽ Tottenham Hotspur v Coventry City starts in 40 min | Tottenham Hotspur Stadium, England | priority 4 | https://kickoff.kiwi/#g=tsdb-2494064&a=start
+kickoffkiwi-nz: 0 message(s)
+kickoffkiwi-whiteferns: 0 message(s)
+feed generated 2026-10-19T18:45:39.298Z | version 257
+alerts diag: 1 due, 0 sent
+Spurs v Coventry in feed: 2026-10-19T19:00:00.000Z upcoming timeTBC=false
