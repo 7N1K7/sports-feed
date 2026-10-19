@@ -1,23 +1,15 @@
-PROP TheSportsDB team => 
-PROP TheSportsDB player => 
-PROP All Blacks player => P3645 All Blacks player ID (archived)
-PROP ESPN scrum player => 
-PROP World Rugby player => 
-PROP NRL player => 
-PROP Rugby League Project player => P4464 Rugby League Project player ID
-PROP Sherdog fighter => P2818 Sherdog fighter ID
-PROP UFC athlete => P9722 UFC athlete ID
-PROP BoxRec boxer => P1967 BoxRec boxer ID
-PROP Tapology fighter => P9728 Tapology fighter ID
-PROP ESPNcricinfo player => P2697 Cricinfo player ID
-PROP official website => P856 official website | P10225 official shop URL
-PROP Black Ferns player => P5636 Black Ferns player ID (archived)
-PROP Super Rugby => 
-TSDB Crusaders => Crusaders | Soccer | idTeam=134078 ; strTeam=Crusaders ; strWebsite=www.crusadersfc.com
-TSDB New Zealand Warriors => New Zealand Warriors | Rugby | idTeam=135193 ; strTeam=New Zealand Warriors
-TSDB Canterbury => Canterbury | Rugby | idTeam=145933 ; strTeam=Canterbury
-TSDB Wellington Phoenix => Wellington Phoenix | Soccer | idTeam=134475 ; strTeam=Wellington Phoenix ; strWebsite=www.wellingtonphoenix.com ; strFacebook=www.facebook.com/wellingtonphoenixfc ; strTwitter=twitter.com/WgtnPhoenixFC ; strInstagram=www.instagram.com/wellingtonphoenix ; strYoutube=www.youtube.com/user/WgtnPhoenixFC
-TSDB Auckland Aces => Auckland Aces | Cricket | idTeam=144876 ; strTeam=Auckland Aces
-SQUADS {"cricket":{"n":1075,"wp":961,"ci":593,"ex":"{\"n\":\"Sophie Molineux\",\"r\":\"c\",\"ci\":\"944373\",\"wp\":\"Sophie Molineux\",\"role\":\"bowl\"}"}}
-CARD {"section":"Main card (Paramount+)","weight":"Featherweight","a":"Alexander Volkanovski (c)","b":"Movsar Evloev","res":"vs.","method":"","round":"","time":"","aImg":"https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Alexander_Volkanovski_at_UFC_232.jpg/250px-Alexander_Volkanovski_at_UFC_232.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","aCredit":"MMAnytt, CC BY 3.0 / Wikimedia Commons","bImg":"https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Movsar_Evloev_M-1_Challenge_2018.jpg/250px-Movsar_Evloev_M-1_Challenge_2018.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","bCredit":"Press Service of the Head and Government of the Republic of Ingushetia, CC BY 4.0 / Wikimedia Commons"}
-version 232 bbc rugby-union: 3 of 53; rugby-league: 11 of 35; cricket: 1 of 31; boxing: 10 of 40; mixed-martial-arts: 3 of 32; formula1: 14 of 66; tennis: 0 of 55; football/premier-league: 33 of 35 | rain 0 rain headlines in 12 hours; none on our matches | sportmonks undefined
+version 237 generated 2026-10-19T09:20:25.860Z
+espnCricket = "34 on ESPN now, 1 on our cards: South Africa v Australia: Match delayed by rain, day 2 / South Africa 20/2 (12.2 ov)"
+sportmonks = "no token (add the SPORTMONKS_TOKEN secret to switch it on)"
+bbc = "rugby-union: 3 of 53; rugby-league: 8 of 35; cricket: 1 of 31; boxing: 8 of 40; mixed-martial-arts: 3 of 32; formula1: 8 of 66; tennis: 0 of 55; football/premier-league: 8 of 35"
+rainHeadlines = "0 rain headlines in 12 hours; none on our matches"
+fighterLinks = "24/242 card places linked; 60 looked up"
+fighterLinksError = undefined
+teamLinks = "62/105 sides linked; 63 looked up"
+teamLinksError = undefined
+logos = "86/124 teams; 0 searched this run"
+natBadges = "21 national badges; 0 searched this run"
+teamLinks sample [["cricket|Melbourne Renegades",{"wp":"Melbourne Renegades","site":"http://www.melbournerenegades.com.au"}],["cricket|Sydney Thunder",{"wp":"Sydney Thunder","site":"http://www.sydneythunder.com.au"}],["cricket|Melbourne Stars",{"wp":"Melbourne Stars","site":"https://www.melbournestars.com.au/"}],["cricket|Hobart Hurricanes",{"wp":"Hobart Hurricanes","site":"http://www.hobarthurricanes.com.au"}],["cricket|Brisbane Heat",{"wp":"Brisbane Heat","site":"http://www.brisbaneheat.com.au"}],["cricket|Sydney Sixers",{"wp":"Sydney Sixers","site":"http://www.sydneysixers.com.au"}],["cricket|Adelaide Strikers",{"wp":"Adelaide Strikers","site":"https://www.adelaidestrikers.com.au/"}],["cricket|Perth Scorchers",{"wp":"Perth Scorchers","site":"http://www.perthscorchers.com.au"}],["cricket|New Zealand Women",{"wp":"New Zealand women's national cricket team","site":"http://www.blackcaps.co.nz/international/white-ferns"}],["cricket|Australia Women",{"wp":"Australia women's national cricket team"}],["cricket|New Zealand",{"wp":"New Zealand national cricket team","site":"https://www.nzc.nz/international/blackcaps"}],["cricket|India",{"wp":"India national cricket team","site":"https://www.bcci.tv/players/men"}],["cricket|New Zealand A",{"wp":"New Zealand national cricket team","site":"https://www.nzc.nz/international/blackcaps"}],["cricket|India A",{"wp":"India national cricket team","site":"https://www.bcci.tv/players/men"}],["cricket|Auckland Aces",{"wp":"Auckland cricket team","site":"http://aucklandcricket.co.nz"}],["cricket|Canterbury",{"wp":"Canterbury cricket team","site":"http://www.canterburykings.co.nz/"}],["cricket|Central Stags",{"wp":"Central Districts cricket team","site":"http://www.cdcricket.co.nz/"}],["cricket|Northern Districts",{"wp":"Northern Districts men's cricket team","site":"https://www.ndcricket.co.nz/"}],["cricket|Wellington Firebirds",{"wp":"Wellington cricket team","site":"http://www.cricketwellington.co.nz/"}],["cricket|Otago Volts",{"wp":"Otago cricket team","site":"https://www.otagocricket.co.nz/"}],["cricket|Central Hinds",{"wp":"Central Hinds"}],["cricket|Australia",{"wp":"Australia national cricket team","site":"https://www.cricket.com.au/"}],["cricket|Bangladesh Women",{"wp":"Bangladesh women's national cricket team"}],["league|Australia",{"wp":"Australia women's national rugby league team","site":"http://www.awrljillaroos.leaguenet.com.au/"}],["league|New Zealand",{"wp":"New Zealand women's national rugby league team"}]]
+UFC 333 links Alexander Volkanovski (c)=wp+ufc+sd+br+tp / Movsar Evloev=wp+ufc+sd+tp ; Petr Yan (c)=wp+ufc+sd+tp / Merab Dvalishvili=wp+ufc+sd+tp ; Lone'er Kavanagh=wp+ufc+sd+tp / Ramazan Temirov=wp+ufc+sd+tp ; Alexander Volkov=wp+ufc+sd+tp / Rizvan Kuniev=wp+ufc+sd+tp ; Aaron Pico=wp+ufc+sd+br+tp / Losene Keita=wp+ufc+sd+tp ; Azamat Murzakanov=wp+ufc+sd+tp / Dominick Reyes=wp+ufc+sd+tp ; Nikita Krylov=wp+ufc+sd+tp / Abdul-Rakhman Yakhyaev=- ; Abusupiyan Magomedov=wp+sd+tp / Cameron Rowston=- ; Grant Dawson=wp+ufc+sd+tp / Nurullo Aliev=wp+ufc+sd+tp ; Abubakar Vagaev=ufc+sd+tp / Jacob Malkoun=wp+ufc+sd+tp ; Colby Thicknesse=wp / Asaf Chopurov=-
+LIVE South Africa v Australia | Match delayed by rain, day 2 | 
+crests Wellington Pride:crest v Northland Kauri:crest ; Canterbury:crest v Auckland Storm:crest ; All Blacks:crest v Wallabies:crest ; Wallabies:crest v All Blacks:crest ; Scotland:crest v All Blacks:crest ; Wales:crest v All Blacks:crest ; England:crest v All Blacks:crest ; All Blacks:crest v TBC (northern hemisphere side, by standings):-
