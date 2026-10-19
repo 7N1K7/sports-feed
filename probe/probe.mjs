@@ -1,4 +1,4 @@
-// probe 23: why GitHub's DNS check fails for kickoff.kiwi. SOA (negative-cache time), CAA, DNSSEC DS, answers from
+// probe 23b (no waiting): why GitHub's DNS check fails for kickoff.kiwi. SOA (negative-cache time), CAA, DNSSEC DS, answers from
 // several public resolvers, then wait up to 30 minutes for the HTTPS certificate
 import { promises as dns } from 'node:dns';
 const R = s => { const r = new dns.Resolver(); r.setServers([s]); return r; };
@@ -11,10 +11,4 @@ const g = R('8.8.8.8');
 try { console.log('.kiwi zone SOA (negative-cache minttl):', JSON.stringify(await g.resolveSoa('kiwi'))); } catch (e) { console.log('kiwi SOA', e.code); }
 // DNSSEC: DS record for kickoff.kiwi and the AD flag, via Google's JSON API
 for (const t of ['DS', 'DNSKEY', 'A', 'CAA']) { try { const j = await (await fetch(`https://dns.google/resolve?name=kickoff.kiwi&type=${t}&do=1`)).json(); console.log('google-json', t, 'Status', j.Status, 'AD', j.AD, JSON.stringify(j.Answer || j.Authority || []).slice(0, 300)); } catch (e) { console.log(t, e.message); } }
-const t0 = Date.now(); let last = '';
-while (Date.now() - t0 < 30 * 60e3) {
-  try { const r = await fetch('https://kickoff.kiwi/', { redirect: 'manual', signal: AbortSignal.timeout(15000) }); console.log(new Date().toISOString(), 'HTTPS OK', r.status); process.exit(0); }
-  catch (e) { const m = e.cause?.code || e.message; if (m !== last) console.log(new Date().toISOString(), 'https not yet:', m); last = m; }
-  await new Promise(r => setTimeout(r, 30e3));
-}
-console.log('no certificate after 30 minutes');
+try { const r = await fetch('https://kickoff.kiwi/', { redirect: 'manual', signal: AbortSignal.timeout(15000) }); console.log('HTTPS', r.status); } catch (e) { console.log('HTTPS not yet:', e.cause?.code || e.message); }
