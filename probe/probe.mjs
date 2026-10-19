@@ -1,4 +1,4 @@
-// probe 8: mock-ups on the live site. Slightly bigger card text and crests, and four takes on the UFC icon, as screenshots
+// probe 8b (icon box no longer clips): mock-ups on the live site. Slightly bigger card text and crests, and four takes on the UFC icon, as screenshots
 import { chromium } from 'playwright';
 import { readFileSync, writeFileSync } from 'node:fs';
 const SITE = 'https://7n1k7.github.io/sports-feed/';
@@ -9,6 +9,7 @@ const BIG = `
 .ev .comp .ctitle { font-size: 14.5px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp { font-size: 12px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp .ctitle { font-size: 13.5px }
+.ev .comp .cicon { width: auto; height: auto; margin-right: 0; align-self: center; align-items: center }
 .ev .comp .sicon { width: 22px; height: 22px }
 .ev .teams.matchup:has(img) .side { grid-template-rows: 2.95em auto }
 .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.85em; height: 2.85em; max-width: 5.7em }
@@ -25,7 +26,7 @@ const VARIANTS = [
   ['3-octagon-big', 'Bigger, plus the current UFC octagon sized up to 30px', BIG + MMA('width: 30px; height: 30px'), null],
   ['4-octagon-bold', 'Bigger, plus a bolder octagon (light rim, thick fence, red centre) at 28px', BIG + MMA('width: 28px; height: 28px'), svg('mma-bold.svg')],
   ['5-ufc-octagon', 'Bigger, plus a red octagon with UFC across it, 28px', BIG + MMA('width: 28px; height: 28px'), svg('mma-ufc.svg')],
-  ['6-ufc-wordmark', 'Bigger, plus the UFC wordmark (public domain on Wikimedia Commons), 18px tall', BIG + MMA('width: auto; height: 18px'), svg('ufc-wordmark.svg')],
+  ['6-ufc-wordmark', 'Bigger, plus the UFC wordmark (public domain on Wikimedia Commons), 20px tall', BIG + MMA('width: auto; height: 20px'), svg('ufc-wordmark.svg')],
 ];
 const b = await chromium.launch();
 const log = [];
