@@ -660,9 +660,26 @@ async function addPlayerLinks(events) {
     }
     for (const [k, [q, title]] of Object.entries(qid)) cache[k] = { t: now, wp: title, ...(ci[q] ? { ci: ci[q] } : {}) };
   } catch (e) { diag.playersError = e.message; }
+  // each player's role (batter, bowler, all-rounder, keeper) from the "role" line of their article's infobox
+  const roleOf = v => /all.?round/i.test(v) ? 'ar' : /wicket|keeper/i.test(v) ? 'wk' : /bowl/i.test(v) ? 'bowl' : /bat/i.test(v) ? 'bat' : '';
+  const needRole = [...new Set(players.map(key))].filter(k => cache[k]?.wp && cache[k].rl === undefined).slice(0, 150);
+  try {
+    for (let i = 0; i < needRole.length; i += 20) {
+      const batch = needRole.slice(i, i + 20);
+      const byTitle = Object.fromEntries(batch.map(k => [cache[k].wp, k]));
+      const r = await get('en.wikipedia.org', 'action=query&prop=revisions&rvprop=content&rvslots=main&rvsection=0&titles=' + encodeURIComponent(Object.keys(byTitle).join('|')));
+      for (const pg of r.query?.pages || []) {
+        const k = byTitle[pg.title];
+        if (!k) continue;
+        const m = (pg.revisions?.[0]?.slots?.main?.content || '').match(/^\s*\|\s*role\s*=\s*(.+)$/im);
+        cache[k].rl = m ? roleOf(m[1].replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1')) : '';
+      }
+    }
+  } catch (e) { diag.playerRolesError = e.message; }
   let linked = 0;
-  for (const p of players) { const c = cache[key(p)]; if (c?.ci) { p.ci = c.ci; linked++; } if (c?.wp) p.wp = c.wp; delete p.w; }
-  diag.players = `${linked}/${players.length} squad places linked to Cricinfo; ${due.length} looked up`;
+  let roled = 0;
+  for (const p of players) { const c = cache[key(p)]; if (c?.ci) { p.ci = c.ci; linked++; } if (c?.wp) p.wp = c.wp; if (c?.rl) { p.role = c.rl; roled++; } delete p.w; }
+  diag.players = `${linked}/${players.length} squad places linked to Cricinfo, ${roled} with a role; ${due.length} looked up, ${needRole.length} roles read`;
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
 
@@ -779,5 +796,8 @@ const playing = feed.events.some(e => {
 if (process.env.GITHUB_OUTPUT) await writeFile(process.env.GITHUB_OUTPUT, `hot=${hot}\nevery=${playing ? 300 : 600}\n`, { flag: 'a' });
 console.log(playing ? 'A game is being played: next refresh in 5 minutes' : hot ? 'Games on or starting soon: next refresh in 10 minutes' : 'Nothing on: next refresh on the slower schedule');
 console.log(`feed.json: ${feed.events.length} events (${wiki.length} from Wikipedia, ${tsdbLive.length} from TheSportsDB), ${news.length} news`);
-// what the tennis reader found, as a run annotation (readable on the run page without the full log)
-if (process.env.GITHUB_ACTIONS) console.log(`::notice title=Tennis::${String(diag.tennis || 'not run').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
+// what the tennis and squad-role readers found, as run annotations (readable on the run page without the full log)
+if (process.env.GITHUB_ACTIONS) {
+  console.log(`::notice title=Players::${String(diag.players || '')} ${diag.playerRolesError || ''}`);
+  console.log(`::notice title=Tennis::${String(diag.tennis || 'not run').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
+}

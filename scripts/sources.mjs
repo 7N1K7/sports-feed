@@ -402,7 +402,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
       if (!pg) continue;
       if (!pg.title.includes(String(t.y))) continue; // a future year that only redirects to the main article
       const evs = tennisFinals(pg.text, pg.title, t);
-      const box = templates(stripRefs(pg.text), /^Infobox/i)[0];
+      const box = templates(stripRefs(pg.text), /^(Infobox|TennisEventInfo)/i)[0];
       const raw = box ? Object.entries(params(box.body).named).filter(([k]) => /date|champ.?s|single/i.test(k)).map(([k, v]) => `${k}=${v.slice(0, 70)}`).join(' | ') : 'no infobox: ' + pg.text.slice(0, 80);
       notes.push(`${pg.title}: ${evs.map(e => `${e.draw} ${e.startUTC.slice(0, 10)}${e.status === 'final' ? ' ' + e.score : ''}`).join(', ') || 'no dates'} [${box?.name || ''}: ${raw}]`);
       ten.push(...evs.map(({ draw, ...e }) => e));
@@ -599,16 +599,20 @@ function dateRange(v, year) {
   }
   m = t.match(/(\d{1,2}) ?[–-] ?(\d{1,2}) ([A-Za-z]{3,})(?: (\d{4}))?/);
   if (m && mo(m[3]) >= 0) return { start: [+(m[4] || year), mo(m[3]), +m[1]], end: [+(m[4] || year), mo(m[3]), +m[2]] };
-  m = t.match(/([A-Za-z]{3,}) (\d{1,2}) ?[–-] ?(?:([A-Za-z]{3,}) )?(\d{1,2}),? (\d{4})?/);
+  m = t.match(/([A-Za-z]{3,}) (\d{1,2}) ?[–-] ?(?:([A-Za-z]{3,}) )?(\d{1,2})(?:,? (\d{4}))?/);
   if (m && mo(m[1]) >= 0) { const y = +(m[5] || year), m2 = m[3] && mo(m[3]) >= 0 ? mo(m[3]) : mo(m[1]); return { start: [y, mo(m[1]), +m[2]], end: [y, m2, +m[4]] }; }
   return null;
 }
 function tennisFinals(text, title, t) {
-  const box = templates(stripRefs(text), /^Infobox tennis/i)[0];
+  const box = templates(stripRefs(text), /^(Infobox tennis|TennisEventInfo)/i)[0];
   if (!box) return [];
   const p = params(box.body).named;
-  const r = dateRange(p.date || p.dates || '', t.y);
+  const dv = p.date || p.dates || '';
+  const r = dateRange(dv, t.y);
   if (!r) return [];
+  // "5–11 January (women) <br> 12–17 January (men)": each draw's own last day
+  const own = {};
+  for (const part of dv.split(/<br\s*\/?>|;|\n/i)) { const k = /\bwomen/i.test(part) ? 'w' : /\bmen\b/i.test(part) ? 'm' : ''; const pr = k && dateRange(part, t.y); if (pr) own[k] = pr.end; }
   const champ = keys => { for (const k of keys) { const v = clean(p[k] || ''); if (v && !/^(tba|tbd|\?)$/i.test(v)) return v.replace(/\s*\(.*$/, ''); } return ''; };
   // singles champions; the Finals pages have one draw, so their plain "champs" is that tour's
   const champs = { w: champ(['champws', 'champ_ws', 'womens_singles', 'wsingles', ...(t.w && !t.m ? ['champs', 'champ'] : [])]), m: champ(['champms', 'champ_ms', 'mens_singles', 'msingles', ...(t.m && !t.w ? ['champs', 'champ'] : [])]) };
@@ -617,7 +621,7 @@ function tennisFinals(text, title, t) {
   for (const k of ['w', 'm']) {
     if (!t[k]) continue;
     const [dd, h, mi] = t[k];
-    const day = new Date(Date.UTC(end[0], end[1], end[2] + dd));
+    const last = own[k] || end, day = new Date(Date.UTC(last[0], last[1], last[2] + (own[k] ? 0 : dd)));
     const at = localToUTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), h, mi, t.tz);
     const who = champs[k], draw = k === 'w' ? "Women's" : "Men's";
     out.push({
