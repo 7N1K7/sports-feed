@@ -854,15 +854,19 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev.res .rtop { height: 46px }
 .ev.res .rtop .acts { flex-wrap: nowrap; white-space: nowrap }
 /* a card's competition title sits dead centre over the "v": its sport icon just to the left, its badges just to the right */
-/* the icon, title and tags centre as one group, so wide tags (TEST INTL) don't pull the row off to one side. The icon is
-   tied to the title: when the row doesn't fit, the title wraps beside its icon and only the tags drop to a line of
-   their own, centred under it */
+/* the icon, title and tags centre as one group, so wide tags (TEST INTL) don't pull the row off to one side. When they
+   don't fit on one row (phones, narrow columns), fitLines() stacks them: the title gets the top row to itself and the
+   icon moves down beside the badges */
 .ev .comp { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; column-gap: 7px; row-gap: 4px }
 .ev .comp .cmain { display: flex; align-items: center; justify-content: center; gap: 7px; min-width: 0; flex: 0 1 auto }
 .ev .comp .cicon { justify-self: end; display: flex; width: auto; height: auto; margin-right: 0; align-self: center; align-items: center }
 .ev .comp .ctitle { text-align: center; min-width: 0; flex: 0 1 auto }
 .ev .comp .ctitle { font-size: 14.5px }
 .ev .comp .ctitle .tp { white-space: nowrap }
+.ev .comp.wrapall .ctitle .tp { white-space: normal }
+.ev .comp .cicon2, .ev .comp.stack .cmain .cicon { display: none }
+.ev .comp.stack .cicon2 { display: flex }
+.ev .comp.stack .cmain { flex-basis: 100% }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp .ctitle { font-size: 13.5px }
 .ev .comp .ctags { flex: none; display: flex; align-items: center; gap: 5px }
 /* the "v" sits in the middle of its column whether or not a score is beside it */
@@ -886,6 +890,14 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
   :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side > .nm { grid-row: 2; align-self: start }
   :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) > .v { align-self: center }
 }
+/* a compact card whose names don't fit beside their crests (fitLines() adds .stackside): crest on top and name under
+   it on both sides, as on a phone, so each name gets its side's full width */
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup.stackside:has(img) { align-items: start; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); column-gap: 10px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev.res .teams.matchup.stackside > .v { min-width: 64px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup.stackside:has(img) .side { display: grid; grid-template-rows: 2.2em auto; justify-items: center; align-items: center; row-gap: 3px; text-align: center }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup.stackside:has(img) .side > img { grid-row: 1; order: 0; margin: 0 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup.stackside:has(img) .side > .nm { grid-row: 2; align-self: start }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup.stackside:has(img) > .v { align-self: center }
 /* a result's middle column is as wide covered as it is with a typical score in it, so the names beside it don't reflow on reveal */
 .ev.res .teams.matchup > .v { min-width: 110px; justify-self: center; justify-content: center }
 @media (max-width: 560px) { .ev.res .teams.matchup > .v { min-width: 64px } }
@@ -1397,7 +1409,7 @@ function evCard(e, now) {
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags">${compBadge(e)}${intlTag(e)}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${seriesLine(e, now)}
     </div>
@@ -1494,7 +1506,7 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags">${compBadge(e)}${intlTag(e)}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup${split ? ' scored' : ''}"><span class="side home ${fres('home')}">${teamName(e.home, e.homeLogo, e)}</span>${split ? `<span class="v vsc">${scoreTag(split[0], res('home'))}<span class="vv">v</span>${scoreTag(split[1], res('away'))}</span>` : fw ? `<span class="v vhow"><span>v</span>${howTxt ? `<small>${esc(howTxt)}</small>` : ''}</span>` : '<span class="v">v</span>'}<span class="side away ${fres('away')}">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${e.summary ? (hidden ? '<div class="summary" aria-hidden="true">&nbsp;</div>' : `<div class="summary" title="${esc(e.summary)}">${esc(e.summary)}</div>`) : ''}
     </div>
@@ -2452,25 +2464,47 @@ function fitTop() {
   if (!oneLine(document.querySelector('header.top .wrap')) || !oneLine(document.querySelector('.compbar'))) root.classList.add('tight');
 }
 addEventListener('resize', fitTop); document.fonts?.ready.then(fitTop);
-// Card titles and team names stay on one line on a phone: one that wraps gets its text a step smaller at a time, down to
-// 72%; past that it wraps at its normal size. Both sides of a game share the smaller size so the names stay balanced.
+// Card titles and team names stay on one line where they can. A title that doesn't fit beside its badges takes the top
+// row to itself (the sport icon moves down to the badges); then a title still too long gets its text a step smaller,
+// down to 72%. Past that it breaks between its parts ("South Africa v Australia" / "2nd Test"), and only if one part
+// alone is too wide does it wrap inside it. Team names that don't fit beside their crests on a compact card get the
+// crests above them instead; then they shrink too, to 56% at most, both sides of a game alike. Nothing runs off the card.
 function fitLines() {
-  const els = [...document.querySelectorAll('.ev .comp .ctitle > span, .ev .teams .nm')];
-  els.forEach(el => { el.style.fontSize = ''; });
-  const lineCount = el => {
-    const r = document.createRange(); r.selectNodeContents(el);
-    const ys = [...r.getClientRects()].filter(x => x.width > 0).map(x => x.top + x.height / 2).sort((a, b) => a - b);
-    return ys.reduce((n, y, i) => n + (i && y - ys[i - 1] > 6 ? 1 : 0), ys.length ? 1 : 0);
-  };
-  const scale = new Map(), noFit = new Set();
-  for (const el of els.filter(el => lineCount(el) > 1)) {
-    const base = parseFloat(getComputedStyle(el).fontSize), pair = el.closest('.teams');
-    let f = 1;
-    while (lineCount(el) > 1 && f > 0.73) { f -= 0.04; el.style.fontSize = (base * f).toFixed(2) + 'px'; }
-    if (lineCount(el) > 1) { el.style.fontSize = ''; if (pair) noFit.add(pair); continue; }
-    if (pair) scale.set(pair, Math.min(scale.get(pair) || 1, f));
+  const comps = [...document.querySelectorAll('.ev .comp')], titles = [...document.querySelectorAll('.ev .comp .ctitle > span')], names = [...document.querySelectorAll('.ev .teams .nm')];
+  comps.forEach(c => c.classList.remove('stack', 'wrapall'));
+  document.querySelectorAll('.ev .teams.stackside').forEach(t => t.classList.remove('stackside'));
+  [...titles, ...names].forEach(el => { el.style.fontSize = ''; });
+  const box = el => el.getBoundingClientRect();
+  comps.filter(c => { const m = c.querySelector('.cmain'), t = c.querySelector('.ctags'); return m && t && box(t).width && box(t).top >= box(m).bottom - 2; })
+    .forEach(c => c.classList.add('stack'));
+  const rects = el => { const r = document.createRange(); r.selectNodeContents(el); return [...r.getClientRects()].filter(x => x.width > 0); };
+  const lineCount = el => { const ys = rects(el).map(x => x.top + x.height / 2).sort((a, b) => a - b); return ys.reduce((n, y, i) => n + (i && y - ys[i - 1] > 6 ? 1 : 0), ys.length ? 1 : 0); };
+  // past the edge of what holds it: the title row, or the team's half of the card
+  const over = (el, holder) => { const h = box(holder), rs = rects(el); return rs.some(x => x.right > h.right + 1 || x.left < h.left - 1); };
+  const shrink = (el, bad, min = 0.72) => { const base = parseFloat(getComputedStyle(el).fontSize); let f = 1; while (bad() && f > min + 0.01) { f -= 0.04; el.style.fontSize = (base * f).toFixed(2) + 'px'; } return f; };
+  for (const el of titles) {
+    const row = el.closest('.comp'), bad1 = () => lineCount(el) > 1 || over(el, row);
+    if (!rects(el).length || !bad1()) continue;
+    shrink(el, bad1);
+    if (!bad1()) continue;
+    // two lines, split between its parts, at the normal size if that fits, else a little smaller
+    el.style.fontSize = '';
+    if (!over(el, row)) continue;
+    shrink(el, () => over(el, row));
+    if (over(el, row)) { el.style.fontSize = ''; row.classList.add('wrapall'); }
   }
-  for (const [pair, f] of scale) for (const nm of pair.querySelectorAll('.nm')) nm.style.fontSize = noFit.has(pair) ? '' : (parseFloat(getComputedStyle(pair).fontSize) * f).toFixed(2) + 'px';
+  // names, a game at a time: a compact card first puts its crests above the names; then both names share the size
+  // the longer one needs
+  for (const pair of document.querySelectorAll('.ev .teams')) {
+    const nms = [...pair.querySelectorAll('.nm')].filter(n => rects(n).length), bad = n => lineCount(n) > 1 || over(n, pair);
+    if (!nms.some(bad)) continue;
+    const side = pair.querySelector('.side');
+    if (side && pair.matches('.matchup:has(img)') && getComputedStyle(side).display !== 'grid') { pair.classList.add('stackside'); if (!nms.some(bad)) continue; }
+    let f = 1;
+    for (const n of nms) if (bad(n)) f = Math.min(f, shrink(n, () => bad(n), 0.56));
+    const size = (parseFloat(getComputedStyle(pair).fontSize) * f).toFixed(2) + 'px';
+    nms.forEach(n => { n.style.fontSize = f < 1 ? size : ''; });
+  }
 }
 let fitFrame = 0;
 addEventListener('resize', () => { cancelAnimationFrame(fitFrame); fitFrame = requestAnimationFrame(fitLines); });
