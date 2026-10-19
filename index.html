@@ -311,6 +311,8 @@ footer a { color: var(--muted) }
 @media (min-width: 561px) { .ev .series { position: absolute; left: 0; right: 0; bottom: 5px; pointer-events: none } }
 @media (max-width: 560px) { .ev .series { margin-top: 4px } }
 .ev .wx { font-size: 12px; font-weight: 700; color: #1c7ed6; margin-top: 4px }
+/* the score so far while spoilers are hidden: a small tap-to-show in the state-of-play line */
+.lsrev { border: 0; background: none; padding: 0; font: inherit; color: inherit; text-decoration: underline dotted; text-underline-offset: 2px; cursor: pointer }
 .ev .tv { color: var(--ink); font-weight: 600 }
 dialog#sheet { border: 0; padding: 0; margin: auto auto 0; width: min(640px, 100%); max-height: 88vh; border-radius: 16px 16px 0 0; background: var(--surface); color: var(--ink); box-shadow: 0 -8px 40px rgba(0,0,0,.25) }
 @media (min-width: 700px) { dialog#sheet { margin: auto; border-radius: 16px } }
@@ -1257,7 +1259,7 @@ function evCard(e, now) {
   // a state of play from an earlier day ("Tea, day 1" once day 2 is on) is stale, so drop it
   const today = +((live || paused || '').match(/Day (\d)/) || [])[1] || 0, pd = progDay(e);
   const fresh = !pd || !today || (live ? pd >= today : pd >= today - 1);
-  const play = fresh && (live || (paused && !/lunch|tea|drinks|innings break/i.test(e.progress || ''))) && e.progress ? `<div class="wx play">${esc(e.progress)}${!spoilers && e.liveScore ? ` · ${esc(e.liveScore)}` : ''}</div>` : '';
+  const play = fresh && (live || (paused && !/lunch|tea|drinks|innings break/i.test(e.progress || ''))) && e.progress ? `<div class="wx play">${esc(e.progress)}${!e.liveScore ? '' : !spoilers || revealed.has(e.id) ? ` · ${esc(e.liveScore)}` : ` · <button type="button" class="lsrev" data-reveal="${esc(e.id)}">Show score</button>`}</div>` : '';
   const local = overseas ? `<div class="loc num">${e.timeTBC ? (e.usual ? '≈' + time(d, e.tz) + ' ' : '') : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${wikiLink(cityOf(e))}</div>` : '';
   const tv = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : '';
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';

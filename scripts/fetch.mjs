@@ -477,7 +477,8 @@ async function addFaces(events) {
     .sort((x, y) => Math.abs(Date.parse(x.startUTC) - now) - Math.abs(Date.parse(y.startUTC) - now));
   // UFC cards are listed by surname ("Volkanovski vs. Evloev"); the fight card has the full names to look up
   const full = (e, side) => {
-    const n = e[side], last = s => strip(s).split(/\s+/).pop().toLowerCase();
+    // a rematch is billed "Van vs. Pantoja 2"
+    const n = String(e[side] || '').replace(/\s+\d+$/, ''), last = s => strip(s).split(/\s+/).pop().toLowerCase();
     // the surname can come first ("Wang Cong" is billed as "Wang"), so any word of the full name may match
     const m = (e.card || []).flatMap(b => [b.a, b.b]).find(x => x && strip(x).includes(' ') && (last(x) === last(n) || strip(x).toLowerCase().split(/\s+/).includes(last(n))));
     return /\s/.test(n || '') || !m ? strip(n) : strip(m);
@@ -633,6 +634,25 @@ async function addFaces(events) {
     Object.assign(cache[n], { src: best.src, file: x.foreign_landing_url, from: 'openverse', credit: `${x.creator || 'unknown'}, ${lic} / Flickr via Openverse`, t: now });
     ov.found++;
   }
+  // 6. TheSportsDB (the free API the site already reads fixtures from): its player photo for main-event fighters that
+  // Wikimedia and Openverse have none of. Only a "Fighting" player whose name matches in full; each re-asked weekly
+  const mainNames = [...new Set(near.filter(e => e.sport === 'mma').flatMap(e => [full(e, 'home'), full(e, 'away')]).filter(ok))];
+  const sdb = { asked: 0, found: 0 };
+  for (const n of mainNames.filter(n => !cache[n]?.src && (!cache[n]?.sdb || now - cache[n].sdb > 7 * DAY)).slice(0, 10)) {
+    try {
+      await new Promise(r => setTimeout(r, 1500));
+      const r = await fetch('https://www.thesportsdb.com/api/v1/json/123/searchplayers.php?p=' + encodeURIComponent(n), UA);
+      if (!r.ok) throw new Error(r.status);
+      const want = ovFold(n), list = (await r.json()).player || [];
+      sdb.asked++;
+      (cache[n] ||= { t: now, v: 5, src: null, why: 'not looked up' }).sdb = now;
+      const p = list.find(x => /fight/i.test(x.strSport || '') && (ovFold(x.strPlayer) === want || ovFold(x.strPlayer).split(' ').sort().join(' ') === want.split(' ').sort().join(' ')) && (x.strCutout || x.strThumb || x.strRender));
+      if (!p) continue;
+      Object.assign(cache[n], { src: (p.strCutout || p.strThumb || p.strRender) + '/small', file: `https://www.thesportsdb.com/player/${p.idPlayer}`, from: 'thesportsdb', credit: 'TheSportsDB', t: now });
+      sdb.found++;
+    } catch (e) { sdb.note = 'error ' + e.message; break; }
+  }
+  diag.facesSportsDB = `${sdb.asked} asked, ${sdb.found} found${sdb.note ? '; ' + sdb.note : ''}`;
   diag.facesOpenverse = `${ov.asked} asked (${ov.results || 0} photos back, ${ov.named || 0} naming the fighter), ${ov.found} found${ov.note ? '; ' + ov.note : ''}; ${names.filter(n => !cache[n]?.src && cache[n]?.v === 5 && !cache[n].ov).length} not asked yet`;
   for (const e of near) {
     for (const side of ['home', 'away']) {
@@ -647,7 +667,7 @@ async function addFaces(events) {
   const have = names.filter(n => cache[n]?.src);
   diag.faces = `${have.length}/${names.length} fighters with a free photo (${have.filter(n => cache[n].from === 'commons').length} from Commons search or categories, ${have.filter(n => cache[n].from === 'openverse').length} from Openverse); ${due.length} looked up`;
   // every main event's two fighters, with whether each has a photo and why not
-  diag.facesMain = near.filter(e => e.sport === 'mma').map(e => `${e.startUTC.slice(0, 10)} ${e.comp}: ` + ['home', 'away'].map(k => { const n = full(e, k), c = cache[n]; return `${e[k]}=>${n} ${c?.src ? 'OK' : c ? c.why || 'none' : 'not looked up'}`; }).join(' / ')).join(' ; ');
+  diag.facesMain = `TheSportsDB: ${diag.facesSportsDB} ; ` + near.filter(e => e.sport === 'mma').map(e => `${e.startUTC.slice(0, 10)} ${e.comp}: ` + ['home', 'away'].map(k => { const n = full(e, k), c = cache[n]; return `${e[k]}=>${n} ${c?.src ? 'OK' : c ? c.why || 'none' : 'not looked up'}`; }).join(' / ')).join(' ; ');
   diag.facesMissing = names.filter(n => !cache[n]?.src).map(n => `${n}: ${cache[n]?.v === 5 ? cache[n].why : 'not looked up yet'}`);
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
