@@ -1,16 +1,7 @@
-kickoff.kiwi NS ["ns1.crazydomains.com","ns2.crazydomains.com"]
-www.kickoff.kiwi NS ENODATA
-kickoff.kiwi A ["185.199.109.153","185.199.110.153","185.199.108.153","185.199.111.153"]
-www.kickoff.kiwi A ["185.199.108.153","185.199.110.153","185.199.111.153","185.199.109.153"]
-kickoff.kiwi AAAA ENODATA
-www.kickoff.kiwi AAAA ["2606:50c0:8000::153","2606:50c0:8001::153","2606:50c0:8002::153","2606:50c0:8003::153"]
-kickoff.kiwi CNAME ENODATA
-www.kickoff.kiwi CNAME ["7n1k7.github.io"]
-kickoff.kiwi TXT ENODATA
-www.kickoff.kiwi TXT []
-RDAP status add period,server transfer prohibited | events registration 2026-10-19T12:18:35Z, expiration 2027-10-19T12:18:35Z, last update of RDAP database 2026-10-19T12:31:36Z | nameservers ns1.crazydomains.com, ns2.crazydomains.com
-AUTH kickoff.kiwi A ["185.199.109.153","185.199.110.153","185.199.108.153","185.199.111.153"]
-AUTH kickoff.kiwi CNAME ENODATA
-AUTH www.kickoff.kiwi A []
-AUTH www.kickoff.kiwi CNAME ["7n1k7.github.io"]
-HTTP kickoff.kiwi 200 GitHub.com null
+http://kickoff.kiwi/ -> 200  | Kickoff Kiwi
+https://kickoff.kiwi/ -> ERR ERR_TLS_CERT_ALTNAME_INVALID
+https://www.kickoff.kiwi/ -> ERR ERR_TLS_CERT_ALTNAME_INVALID
+https://7n1k7.github.io/sports-feed/ -> 301 http://kickoff.kiwi/ | 
+https://7n1k7.github.io/sports-feed/data/cal/nz.ics -> 301 http://kickoff.kiwi/data/cal/nz.ics | 
+https://kickoff.kiwi/data/cal/nz.ics -> ERR ERR_TLS_CERT_ALTNAME_INVALID
+https://kickoff.kiwi/data/feed.json -> ERR ERR_TLS_CERT_ALTNAME_INVALID
