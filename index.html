@@ -759,6 +759,7 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
   /* the search box folds behind a magnifier button, and opens over the page just under the header (nothing moves) */
   .hbtns { grid-template-columns: repeat(4, minmax(0, 1fr)) 36px }
   .hbtns .sbtn { display: inline-flex; padding: 6px 0 }
+  #teamsBtn svg { display: none } /* the word alone, to leave room for the search button */
   .search { display: none; position: absolute; left: 16px; right: 16px; top: calc(100% + 6px); z-index: 6 }
   header.top.searching .search { display: block }
   header.top.searching .sbtn { background: var(--ink); color: var(--paper); border-color: var(--ink) }
