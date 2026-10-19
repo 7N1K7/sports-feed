@@ -169,9 +169,8 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .day .dots { display: flex; gap: 3px; justify-content: center; align-content: center; min-height: 17px; flex-wrap: wrap } /* room for two rows, so filtering never changes the strip's height */
 .dot { width: 7px; height: 7px; border-radius: 50% }
 /* the "+" is drawn, not typed, so it sits dead centre in a dot's spot */
-.dot.more { position: relative; border-radius: 0; color: var(--muted) }
-.dot.more::before, .dot.more::after { content: ''; position: absolute; left: 50%; top: 50%; width: 7px; height: 1.6px; background: currentColor; border-radius: 1px; transform: translate(-50%, -50%) }
-.dot.more::after { transform: translate(-50%, -50%) rotate(90deg) }
+/* the "+" is two bars painted from the same centre, so at any screen scaling the arms stay even rather than looking like a cross */
+.dot.more { border-radius: 0; --pc: var(--muted); background: linear-gradient(var(--pc), var(--pc)) center / 100% 2px no-repeat, linear-gradient(var(--pc), var(--pc)) center / 2px 100% no-repeat }
 .day.today { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
 .day.empty .dd { color: var(--muted) }
 
@@ -1952,6 +1951,21 @@ function renderNowBar(now) {
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
   $('nowBar').hidden = !on.length;
   $('nowBar').innerHTML = on.length ? `<span class="nowlbl">Current running series</span><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}</div>` : '';
+  balanceNow();
+}
+// when the series chips wrap (a narrow desktop window), narrow their box so the lines hold even counts, 3 and 2 rather than 4 and 1
+function balanceNow() {
+  const box = $('nowChips'); if (!box) return;
+  box.style.maxWidth = '';
+  if (getComputedStyle(box).flexWrap !== 'wrap') return;
+  const chips = [...box.children], lines = () => new Set(chips.map(c => c.offsetTop)).size, rows = lines();
+  if (rows < 2) return;
+  const gap = parseFloat(getComputedStyle(box).columnGap) || 0, pad = box.offsetWidth - box.clientWidth + parseFloat(getComputedStyle(box).paddingLeft) + parseFloat(getComputedStyle(box).paddingRight);
+  const w = chips.map(c => c.getBoundingClientRect().width), per = Math.ceil(chips.length / rows);
+  let widest = 0;
+  for (let i = 0; i < chips.length; i += per) widest = Math.max(widest, w.slice(i, i + per).reduce((a, b) => a + b, 0) + gap * (Math.min(per, chips.length - i) - 1));
+  box.style.maxWidth = Math.ceil(widest + pad + 1) + 'px';
+  if (lines() !== rows) box.style.maxWidth = '';
 }
 
 PHONE.addEventListener('change', () => render());
@@ -2232,7 +2246,7 @@ function dotCap() {
 }
 // redraw when the window changes how many fit
 let lastCap = 0;
-addEventListener('resize', () => { if (lastCap && dotCap() !== lastCap) render(); });
+addEventListener('resize', () => { if (lastCap && dotCap() !== lastCap) render(); else balanceNow(); });
 $('compMenu').addEventListener('click', ev => { const b = ev.target.closest('[data-comp]'); if (!b) return; ev.stopPropagation(); compSel = b.dataset.comp; store.set('comp', compSel); closeComp(); render(); });
 document.addEventListener('click', ev => { if (!ev.target.closest('.cmenu')) closeComp(); }, true);
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape') { closeComp(); closeSettings(); } });
