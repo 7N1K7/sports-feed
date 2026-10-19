@@ -655,6 +655,8 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 .trow .tr { text-align: right; white-space: nowrap; font-weight: 700 }
 .sheet-in .back { border: 0; background: none; padding: 0 0 10px; font: 600 14px var(--f-body); color: var(--muted); cursor: pointer }
 @media (max-width: 560px) {
+  /* phones always show Mixed, so the card-size buttons aren't offered there */
+  #viewSel { display: none }
   /* phone header: name, then the clock, then the four buttons as one even row, then search */
   .brand { flex: 1 1 100% }
   .clockcol { flex: 1 1 100% }
@@ -966,6 +968,7 @@ let picked = new Set(store.get('teams', ALL_KEYS));
 { const known = new Set(store.get('known', ALL_KEYS.filter(k => k !== 'epl' && k !== 'aucricket'))); const fresh = ALL_KEYS.filter(k => !known.has(k));
   if (fresh.length) { fresh.forEach(k => picked.add(k)); store.set('teams', [...picked]); } store.set('known', ALL_KEYS); }
 { const known = new Set(store.get('known', ALL_KEYS)); ALL_KEYS.filter(k => !known.has(k)).forEach(k => picked.add(k)); store.set('known', ALL_KEYS); store.set('teams', [...picked]); }
+const PHONE = matchMedia('(max-width: 560px)');
 let view = store.get('view', 'mixed');   // big, mixed (live big, today normal, the rest compact) or compact
 let spoilers = store.get('spoilers', true);   // true = hide recent results
 let spoilDays = store.get('spoilDaysSet', false) ? store.get('spoilDays', 4) : 4; // default 4 days covers Friday games checked on Monday
@@ -1667,6 +1670,7 @@ function renderNowBar(now) {
   $('nowBar').innerHTML = on.length ? `<span class="nowlbl">Current running series</span><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}</div>` : '';
 }
 
+PHONE.addEventListener('change', () => render());
 function render() {
   const now = Date.now();
   renderNowBar(now);
@@ -1837,7 +1841,7 @@ function render() {
   $('rankBtn').hidden = !(FEED.rankings || []).length;
   $('sportFilter').innerHTML = [['all','All'],['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['motor','F1'],['mma','MMA'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
   document.body.classList.remove('v-big', 'v-mixed', 'v-compact');
-  document.body.classList.add('v-' + view);
+  document.body.classList.add('v-' + (PHONE.matches ? 'mixed' : view)); // phones always use Mixed
   $('viewSel').innerHTML = [['big', 'Big'], ['mixed', 'Mixed'], ['compact', 'Compact']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${view === k}">${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   // an eye on each state (crossed out while results are hidden), and a gear on settings
