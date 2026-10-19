@@ -95,13 +95,15 @@ button { font: inherit; color: inherit }
 .num { font-variant-numeric: tabular-nums }
 
 header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line) }
-header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block: 10px; flex-wrap: wrap }
+header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block: 6px; flex-wrap: wrap }
+@media (max-width: 560px) { header.top .wrap { row-gap: 7px } }
 .brand { font-family: var(--f-display); font-weight: 700; font-size: 31px; letter-spacing: .02em; text-transform: uppercase; line-height: 1 }
 .brand span { color: var(--accent) }
 .brand { display: flex; align-items: center; color: inherit; text-decoration: none; cursor: pointer; -webkit-tap-highlight-color: transparent }
 .brand:hover .blogo { transform: rotate(-6deg) } .brand .blogo { transition: transform .15s }
 .brand:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 10px }
 .brand .bt { display: grid; gap: 3px }
+.brand .by { justify-self: end } /* tucked under "Kiwi" */
 .brand .bn { font-weight: inherit }
 .brand .by { font-family: var(--f-body); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: none; color: var(--muted); line-height: 1; white-space: nowrap }
 .hbtns { display: contents }
