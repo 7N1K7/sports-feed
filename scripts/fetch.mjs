@@ -255,6 +255,26 @@ const tsdbAll = await tsdbEvents(wikiCfg.thesportsdb, diag, tsdbCache, gapsFor);
 try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(tsdbCacheUrl, JSON.stringify(tsdbCache)); } catch {}
 const tsdbLive = tsdbAll.filter(e => !e.fill), tsdbFill = tsdbAll.filter(e => e.fill);
 
+// NRL clubs go by many names across sources ("Auckland", "New Zealand", "Warriors"; "Sydney" for the Roosters on
+// Wikipedia's finals pages). One full club name each, so the same club matches, finds its logo and opens one team page.
+const NRL_CLUBS = {
+  'Brisbane Broncos': ['brisbane', 'broncos'], 'Canberra Raiders': ['canberra', 'raiders'],
+  'Canterbury-Bankstown Bulldogs': ['canterbury', 'canterbury-bankstown', 'canterbury bankstown', 'bulldogs', 'canterbury bulldogs'],
+  'Cronulla-Sutherland Sharks': ['cronulla', 'cronulla-sutherland', 'cronulla sutherland', 'sharks', 'cronulla sharks'],
+  Dolphins: ['dolphins', 'the dolphins', 'redcliffe dolphins'], 'Gold Coast Titans': ['gold coast', 'titans'],
+  'Manly Warringah Sea Eagles': ['manly', 'manly warringah', 'manly-warringah', 'sea eagles', 'manly-warringah sea eagles', 'manly sea eagles'],
+  'Melbourne Storm': ['melbourne', 'storm'], 'Newcastle Knights': ['newcastle', 'knights'], 'North Queensland Cowboys': ['north queensland', 'cowboys'],
+  'Parramatta Eels': ['parramatta', 'eels'], 'Penrith Panthers': ['penrith', 'panthers'],
+  'South Sydney Rabbitohs': ['south sydney', 'souths', 'rabbitohs'], 'St George Illawarra Dragons': ['st george illawarra', 'st. george illawarra', 'dragons', 'st. george illawarra dragons'],
+  'Sydney Roosters': ['sydney', 'roosters', 'eastern suburbs'], 'Wests Tigers': ['wests', 'tigers'],
+  'New Zealand Warriors': ['warriors', 'new zealand', 'auckland', 'nz warriors', 'auckland warriors'], 'Perth Bears': ['perth', 'bears'],
+};
+const NRL_NAME = new Map(Object.entries(NRL_CLUBS).flatMap(([full, alts]) => [[full.toLowerCase(), full], ...alts.map(a => [a, full])]));
+const nrlName = n => NRL_NAME.get(String(n || '').trim().toLowerCase().replace(/\s+/g, ' ')) || n;
+const isNRL = e => e.sport === 'league' && !/NRLW|women/i.test(e.comp || '') && (/\bNRL\b/.test(e.comp || '') || (e.tags || []).includes('nrl') || e.team === 'nrl' || (e.team === 'warriors' && /NRL|finals/i.test(e.comp || '')));
+for (const e of [...tsdbAll, ...wiki, ...curated.events]) if (isNRL(e)) { e.home = nrlName(e.home); e.away = nrlName(e.away); }
+for (const t of tables) if (t.sport === 'league' && /^NRL\b/.test(t.comp || '') && !/women|NRLW/i.test(t.page || '')) for (const r of t.rows) r.name = nrlName(r.name);
+
 // TheSportsDB has exact times; Wikipedia has scores for more competitions. Merge both, then onto curated.
 const live = [];
 for (const e of [...tsdbLive, ...wiki]) {
@@ -730,10 +750,12 @@ const formAll = {};
 for (const e of events.filter(e => e.status === 'final' && /^(rugby|league|football|cricket)$/.test(e.sport)).sort((a, b) => a.startUTC.localeCompare(b.startUTC))) {
   const r = outcome(e);
   if (!r) continue;
-  for (const [me, them, res] of [[e.home, e.away, r[0]], [e.away, e.home, r[1]]]) (formAll[`${e.sport}|${me}`] ||= []).push({ id: e.id, d: e.startUTC.slice(0, 10), o: them, r: res, s: e.score || '' });
+  // cricket form is kept per format, so a Test shows Test results and a T20I shows T20I ones
+  const f = e.sport !== 'cricket' ? '' : (c => /\bT20/i.test(c) ? 'T20I' : /\bODI\b|one.day/i.test(c) ? 'ODI' : /\bTest\b/.test(c) ? 'Test' : '')(`${e.comp || ''} ${e.stage || ''}`);
+  for (const [me, them, res] of [[e.home, e.away, r[0]], [e.away, e.home, r[1]]]) (formAll[`${e.sport}|${me}`] ||= []).push({ id: e.id, d: e.startUTC.slice(0, 10), o: them, r: res, s: e.score || '', ...(f ? { f } : {}) });
 }
 const inFeed = new Set(events.filter(e => now - new Date(e.startUTC) < 21 * DAY).flatMap(e => [`${e.sport}|${e.home}`, `${e.sport}|${e.away}`]));
-const form = Object.fromEntries(Object.entries(formAll).filter(([k]) => inFeed.has(k)).map(([k, v]) => [k, v.slice(-6)]));
+const form = Object.fromEntries(Object.entries(formAll).filter(([k]) => inFeed.has(k)).map(([k, v]) => [k, v.slice(k.startsWith('cricket|') ? -20 : -6)]));
 diag.form = `${Object.keys(form).length} sides with a form guide`;
 
 // world rankings (Wikipedia), each page re-read every 12 hours
@@ -803,6 +825,7 @@ if (process.env.GITHUB_ACTIONS) {
   console.log(`::notice title=Players::${String(diag.players || '')} ${diag.playerRolesError || ''}`);
   console.log(`::notice title=NRLGF::${String(diag.nrlGF || '').replace(/[\r\n%]/g, ' ').slice(0, 3500)}`);
   console.log(`::notice title=Tables::${String(Array.isArray(diag.tables) ? diag.tables.join('; ') : diag.tables || '').replace(/[\r\n%]/g, ' ').slice(0, 3000)}`);
-  console.log(`::notice title=Finals::${events.filter(e => isFinal(e) && now - new Date(e.startUTC) > 0 && now - new Date(e.startUTC) < 150 * DAY).map(e => `${e.comp}|${e.stage || ''}|${e.home} v ${e.away}|${e.startUTC.slice(0, 10)}`).join('; ').replace(/[\r\n%]/g, ' ').slice(0, 3000)}`);
+  const nrl = feed.events.filter(e => e.sport === 'league' && /NRL/.test(`${e.comp} ${(e.tags || []).join(' ')} ${e.team}`)).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
+  console.log(`::notice title=NRL::${nrl.map(e => `${e.startUTC.slice(0, 10)} ${e.comp}${e.stage ? ' / ' + e.stage : ''}: ${e.home}${e.homeLogo ? '*' : ''} v ${e.away}${e.awayLogo ? '*' : ''} = ${e.score || '-'} [${e.status}] ${(e.summary || '').slice(0, 40)} <${(e.source || '').replace(/^https?:\/\/(www\.)?/, '').slice(0, 30)}>`).join(' ; ').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
   console.log(`::notice title=Tennis::${String(diag.tennis || 'not run').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
 }
