@@ -167,6 +167,7 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .day .dn { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted) }
 .day .dd { font-family: var(--f-display); font-size: 24px; font-weight: 700; line-height: 1 }
 .day .dots { display: flex; gap: 3px; justify-content: center; align-content: center; min-height: 17px; flex-wrap: wrap } /* room for two rows, so filtering never changes the strip's height */
+.photocred { margin: 18px 0 0; font-size: 11px; line-height: 1.45; color: var(--muted); opacity: .8 }
 .dot { width: 7px; height: 7px; border-radius: 50% }
 /* the "+" is drawn, not typed, so it sits dead centre in a dot's spot */
 /* the "+" is two bars painted from the same centre, so at any screen scaling the arms stay even rather than looking like a cross */
@@ -1765,18 +1766,16 @@ function detail(e) {
     e.note ? ['Note', e.note] : null,
     // the event article's opening lines (UFC); kept back while spoilers are hidden, as an intro can name the winner
     e.about && !hidden ? ['About', `${esc(e.about)} <a class="muted small" href="${esc(e.source)}" target="_blank" rel="noopener">Wikipedia ↗</a>`, true] : null,
-    (() => {
-      // every photo shown for this fight or card, once each
-      const seen = new Map();
-      for (const [img, n, c] of [[e.homeLogo, e.home, e.homeCredit], [e.awayLogo, e.away, e.awayCredit], ...(e.card || []).flatMap(b => [[b.aImg, b.a, b.aCredit], [b.bImg, b.b, b.bCredit]])])
-        if (c && (!seen.has(img) || !/\s/.test(seen.get(img)[0]))) seen.set(img, [n.replace(/\s*\(c\)$/, ''), c]);
-      return seen.size ? ['Photos', [...seen.values()].map(([n, c]) => `${n}: ${c}`).join('; ')] : null;
-    })(),
     e.weather ? ['Weather', e.weather] : null,
     // form going into this game; each name opens that side's page
     !solo(e) && /^(rugby|league|football|cricket)$/.test(e.sport) && [e.home, e.away].some(n => formOf(n, e.sport, formTo, cfmt).length)
       ? [cfmt ? `Form (${cfmt === 'Test' ? 'Tests' : cfmt + 's'})` : 'Form', `<div class="formrows">${[e.home, e.away].map(n => `<div><button type="button" class="tlink" data-teampage="${esc(n)}" data-tsport="${e.sport}">${nmSpan(n, e)}</button>${formHtml(n, e.sport, formTo, cfmt) || `<span class="muted small">no other ${cfmt ? (cfmt === 'Test' ? 'Test' : cfmt) + ' ' : ''}results on record</span>`}</div>`).join('')}</div>`, true] : null,
   ].filter(Boolean);
+  // every photo shown for this fight or card, once each; credited in small print at the very bottom
+  const seen = new Map();
+  for (const [img, n, c] of [[e.homeLogo, e.home, e.homeCredit], [e.awayLogo, e.away, e.awayCredit], ...(e.card || []).flatMap(b => [[b.aImg, b.a, b.aCredit], [b.bImg, b.b, b.bCredit]])])
+    if (c && (!seen.has(img) || !/\s/.test(seen.get(img)[0]))) seen.set(img, [n.replace(/\s*\(c\)$/, ''), c]);
+  const photos = seen.size ? `<p class="photocred">Photos: ${esc([...seen.values()].map(([n, c]) => `${n}: ${c}`).join('; '))}</p>` : '';
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
   const watch = [b && `<li><b>${linkWatch(b)}</b></li>`, e.watchAlt && `<li>${linkWatch(e.watchAlt)}</li>`,
     cricinfo(e) && `<li>Live scores and commentary on <a class="svc" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Cricinfo</a></li>`, e.watchNote && `<li class="muted">${esc(e.watchNote)}</li>`].filter(Boolean).join('')
@@ -1812,6 +1811,7 @@ function detail(e) {
     ${e.squads?.length ? `<h3 class="dh">Squads${e.squads.some(q => q.players.some(p => p.ci || p.wp)) ? ' <span class="muted small dhnote">tap a name for their profile</span>' : ''}</h3>${squadsHtml(e)}${cricinfo(e) ? `<p class="small"><a class="srclink" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Playing XIs on Cricinfo once announced ↗</a></p>` : ''}` : ''}
     <h3 class="dh">${solo(e) ? 'News' : 'Team news'}</h3>
     ${related.length ? `<div class="news">${related.map(n => `<a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener">${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '<span></span>'}<span class="dn-text"><span class="dn-meta"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span class="muted">${esc(n.source || '')}</span></span><b>${esc(n.title)}</b></span></a>`).join('')}</div>` : `<p class="muted">No recent news for this ${solo(e) ? 'race' : 'match'} yet.</p>`}
+    ${photos}
 `;
 }
 // Form guide: a side's last five results (oldest first) before a given date, from the feed's season-long list.
