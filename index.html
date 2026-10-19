@@ -97,7 +97,7 @@ button { font: inherit; color: inherit }
 
 header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line) }
 header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block: 6px; flex-wrap: wrap }
-@media (max-width: 560px) { header.top .wrap { row-gap: 7px } }
+@media (max-width: 560px) { header.top .wrap { row-gap: 6px } }
 .brand { font-family: var(--f-display); font-weight: 700; font-size: 31px; letter-spacing: .02em; text-transform: uppercase; line-height: 1 }
 .brand span { color: var(--accent) }
 .brand { display: flex; align-items: center; color: inherit; text-decoration: none; cursor: pointer; -webkit-tap-highlight-color: transparent }
@@ -753,10 +753,10 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
   /* the version goes with the byline on phones */
   .ver { display: none } .ver2 { display: inline }
   .hbtns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; flex: 1 1 100% }
-  .hbtns .btn { justify-content: center; padding: 6px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
+  .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
   .hbtns .btn svg { width: 14px; height: 14px; flex: none }
   .search { order: 10; flex: 1 1 100% }
-  #q { width: 100%; box-sizing: border-box }
+  #q { width: 100%; box-sizing: border-box; padding-block: 4px; font-size: 13px } /* a slimmer search row on phones */
   .qlist { left: 0; right: 0; width: auto }
   .trow { grid-template-columns: minmax(0, 1fr) auto } .trow .td { grid-column: 1 / -1 }
 }
