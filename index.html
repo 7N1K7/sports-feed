@@ -128,6 +128,10 @@ header.top .wrap { display: flex; align-items: center; justify-content: flex-end
 .ver:empty { display: none }
 .ver { color: var(--muted); font-size: 10px; border: 1px solid var(--line); border-radius: 999px; padding: 0 6px }
 .spacer { flex: 1 }
+/* phones draw a square grey flash over anything tapped, whatever its shape; buttons show their own rounded press instead */
+html { -webkit-tap-highlight-color: transparent }
+:is(button, .btn, .chip, .calgo a):active { filter: brightness(1.25); transform: scale(.97) }
+.ev[data-open]:active { filter: brightness(1.08) }
 .btn { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-size: 14px; display: inline-flex; gap: 6px; align-items: center }
 .btn:hover { border-color: var(--accent) }
 .btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
@@ -863,6 +867,9 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
 .ev .comp .ctitle { text-align: center; min-width: 0; flex: 0 1 auto }
 .ev .comp .ctitle { font-size: 14.5px }
 .ev .comp .ctitle .tp { white-space: nowrap }
+.ev .comp .ctitle > span { letter-spacing: .07em } /* in em on the text itself, so it shrinks with a fitted title */
+/* fitLines() measures with every title and name on one line; the names' text-wrap: balance would otherwise win */
+.fitm .ev .comp .ctitle > span, .fitm .ev .teams .nm { white-space: nowrap !important; text-wrap-mode: nowrap !important }
 .ev .comp.wrapall .ctitle .tp { white-space: normal }
 .ev .comp .cicon2, .ev .comp.stack .cmain .cicon { display: none }
 .ev .comp.stack .cicon2 { display: flex }
@@ -1251,8 +1258,12 @@ function compOf(e) {
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fmt = (d, tz, o) => new Intl.DateTimeFormat('en-NZ', { timeZone: tz, ...o }).format(d);
-const dayKey = (d, tz = NZ) => new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
+// date formatters are slow to make (a redraw used thousands, most of a tap's time on a phone), so each is made once
+const DTF = new Map();
+const dtf = (loc, o) => { const k = loc + JSON.stringify(o); let f = DTF.get(k); if (!f) DTF.set(k, f = new Intl.DateTimeFormat(loc, o)); return f; };
+const fmt = (d, tz, o) => dtf('en-NZ', { timeZone: tz, ...o }).format(d);
+const DAYKEY = new Map();
+const dayKey = (d, tz = NZ) => { let f = DAYKEY.get(tz); if (!f) DAYKEY.set(tz, f = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' })); return f.format(d); };
 const time = (d, tz) => fmt(d, tz, { hour: 'numeric', minute: '2-digit', hour12: true }).replace(' ', '').toLowerCase();
 const dayLabel = (d, tz) => fmt(d, tz, { weekday: 'short', day: 'numeric', month: 'short' });
 const cityOf = e => (e.city || '').split(',')[0];
@@ -1265,7 +1276,7 @@ const formatOf = e => e.format || (/\bTests?\b/.test(`${e.stage || ''} ${e.comp 
 // a Test with no start time listed: nearly all begin about 10am local, so show that as a guide ("≈9:00pm")
 function usualStart(e) {
   if (!e.timeTBC || e.sport !== 'cricket' || formatOf(e) !== 'Test' || !e.tz) return null;
-  const parts = d => Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: e.tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }).formatToParts(d).map(x => [x.type, +x.value]));
+  const parts = d => Object.fromEntries(dtf('en-US', { timeZone: e.tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }).formatToParts(d).map(x => [x.type, +x.value]));
   const p = parts(new Date(e.startUTC)), wall = Date.UTC(p.year, p.month - 1, p.day, 10, 0);
   const q = parts(new Date(wall)), off = Date.UTC(q.year, q.month - 1, q.day, q.hour % 24, q.minute) - wall;
   return new Date(wall - off);
@@ -2135,11 +2146,11 @@ function render() {
   $('weekRange').textContent = `${dayLabel(days[0], NZ)} to ${dayLabel(days[6], NZ)}`;
   // as many spots as two full rows hold; past that, the last spot becomes a "+"
   // a Test (or other multi-day game) still being played has a dot on each of its days, not just the first
-  const playsOn = (e, k) => {
-    const s = new Date(e.startUTC), n = e.sport === 'cricket' && e.status !== 'final' ? (DAYS[formatOf(e)] || 1) : 1;
-    for (let i = 0; i < n; i++) if (dayKey(new Date(+s + i * 864e5)) === k) return true;
-    return false;
-  };
+  const onDays = new Map(evs.map(e => {
+    const s = Date.parse(e.startUTC), n = e.sport === 'cricket' && e.status !== 'final' ? (DAYS[formatOf(e)] || 1) : 1;
+    return [e, new Set([...Array(n)].map((_, i) => dayKey(new Date(s + i * 864e5))))];
+  }));
+  const playsOn = (e, k) => onDays.get(e)?.has(k);
   const doneSet = new Set(finals); // games already played show as faded dots, so a day's bright dots are what's still to come
   const drawWeek = cap => $('week').innerHTML = days.map(d => {
     const k = dayKey(d);
@@ -2402,7 +2413,14 @@ function syncInfo() {
 
 document.addEventListener('click', ev => {
   // the logo and name go back to the main page: out of any competition page, results back to the newest, to the top
-  if (ev.target.closest('#home')) { ev.preventDefault(); if ($('sheet').open) $('sheet').close(); $('q').value = ''; closeSearch(); compSel = ''; store.set('comp', ''); hubTab = 'games'; resPage = 0; laterPage = 0; render(); scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  if (ev.target.closest('#home')) {
+    ev.preventDefault(); if ($('sheet').open) $('sheet').close();
+    // only redraw when there's a competition or page to reset; just going back to the top is then instant
+    const reset = compSel || hubTab !== 'games' || resPage || laterPage;
+    $('q').value = ''; closeSearch(); compSel = ''; store.set('comp', ''); hubTab = 'games'; resPage = 0; laterPage = 0;
+    if (reset) render();
+    scrollTo({ top: 0, behavior: 'smooth' }); return;
+  }
   if (ev.target.closest('a')) return;
   const t = ev.target.closest('button');
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) openDetail(card.dataset.open); else if (ev.target === $('sheet')) $('sheet').close(); return; }
@@ -2465,45 +2483,63 @@ function fitTop() {
 }
 addEventListener('resize', fitTop); document.fonts?.ready.then(fitTop);
 // Card titles and team names stay on one line where they can. A title that doesn't fit beside its badges takes the top
-// row to itself (the sport icon moves down to the badges); then a title still too long gets its text a step smaller,
-// down to 72%. Past that it breaks between its parts ("South Africa v Australia" / "2nd Test"), and only if one part
-// alone is too wide does it wrap inside it. Team names that don't fit beside their crests on a compact card get the
-// crests above them instead; then they shrink too, to 56% at most, both sides of a game alike. Nothing runs off the card.
+// row to itself (the sport icon moves down to the badges); then a title still too long gets its text smaller, down to
+// 72%. Past that it breaks between its parts ("South Africa v Australia" / "2nd Test"), and only if one part alone is
+// too wide does it wrap inside it. Team names that don't fit beside their crests on a compact card get the crests above
+// them instead; then they shrink too, to 56% at most, both sides of a game alike. Nothing runs off the card.
+// Everything is measured in one go (text laid out on one line, its width against the room it has) and each size worked
+// out directly, so a redraw costs a few layouts however many cards there are: phones redraw on every tap.
 function fitLines() {
-  const comps = [...document.querySelectorAll('.ev .comp')], titles = [...document.querySelectorAll('.ev .comp .ctitle > span')], names = [...document.querySelectorAll('.ev .teams .nm')];
+  const doc = document.documentElement;
+  const comps = [...document.querySelectorAll('.ev .comp')], pairs = [...document.querySelectorAll('.ev .teams')];
+  // 1. back to the plain layout, every title and name on one line, for measuring
   comps.forEach(c => c.classList.remove('stack', 'wrapall'));
-  document.querySelectorAll('.ev .teams.stackside').forEach(t => t.classList.remove('stackside'));
-  [...titles, ...names].forEach(el => { el.style.fontSize = ''; });
-  const box = el => el.getBoundingClientRect();
-  comps.filter(c => { const m = c.querySelector('.cmain'), t = c.querySelector('.ctags'); return m && t && box(t).width && box(t).top >= box(m).bottom - 2; })
-    .forEach(c => c.classList.add('stack'));
+  pairs.forEach(t => t.classList.remove('stackside'));
+  document.querySelectorAll('.ev .comp .ctitle > span, .ev .teams .nm').forEach(el => { el.style.fontSize = ''; });
+  doc.classList.add('fitm');
   const rects = el => { const r = document.createRange(); r.selectNodeContents(el); return [...r.getClientRects()].filter(x => x.width > 0); };
-  const lineCount = el => { const ys = rects(el).map(x => x.top + x.height / 2).sort((a, b) => a - b); return ys.reduce((n, y, i) => n + (i && y - ys[i - 1] > 6 ? 1 : 0), ys.length ? 1 : 0); };
-  // past the edge of what holds it: the title row, or the team's half of the card
-  const over = (el, holder) => { const h = box(holder), rs = rects(el); return rs.some(x => x.right > h.right + 1 || x.left < h.left - 1); };
-  const shrink = (el, bad, min = 0.72) => { const base = parseFloat(getComputedStyle(el).fontSize); let f = 1; while (bad() && f > min + 0.01) { f -= 0.04; el.style.fontSize = (base * f).toFixed(2) + 'px'; } return f; };
-  for (const el of titles) {
-    const row = el.closest('.comp'), bad1 = () => lineCount(el) > 1 || over(el, row);
-    if (!rects(el).length || !bad1()) continue;
-    shrink(el, bad1);
-    if (!bad1()) continue;
-    // two lines, split between its parts, at the normal size if that fits, else a little smaller
-    el.style.fontSize = '';
-    if (!over(el, row)) continue;
-    shrink(el, () => over(el, row));
-    if (over(el, row)) { el.style.fontSize = ''; row.classList.add('wrapall'); }
+  const textW = el => { const rs = rects(el); return rs.length ? Math.max(...rs.map(x => x.right)) - Math.min(...rs.map(x => x.left)) : 0; };
+  const inner = el => { const cs = getComputedStyle(el); return el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight); };
+  const fs = el => parseFloat(getComputedStyle(el).fontSize);
+  // 2. read everything
+  const titleJobs = [];
+  for (const c of comps) {
+    const m = c.querySelector('.cmain'), t = c.querySelector('.ctags'), span = c.querySelector('.ctitle > span'), icon = m?.querySelector('.cicon');
+    if (!span || !m.getClientRects().length) continue;
+    const mb = m.getBoundingClientRect(), tb = t?.getBoundingClientRect();
+    const stacked = !!(tb && tb.width && tb.top >= mb.bottom - 2);
+    const room = inner(c) - (stacked || !icon ? 0 : icon.getBoundingClientRect().width + 7), w = textW(span);
+    if (stacked || w > room + 0.5) titleJobs.push({ c, span, stacked, room, w, base: fs(span), parts: [...span.querySelectorAll('.tp')].map(textW) });
   }
-  // names, a game at a time: a compact card first puts its crests above the names; then both names share the size
-  // the longer one needs
-  for (const pair of document.querySelectorAll('.ev .teams')) {
-    const nms = [...pair.querySelectorAll('.nm')].filter(n => rects(n).length), bad = n => lineCount(n) > 1 || over(n, pair);
-    if (!nms.some(bad)) continue;
-    const side = pair.querySelector('.side');
-    if (side && pair.matches('.matchup:has(img)') && getComputedStyle(side).display !== 'grid') { pair.classList.add('stackside'); if (!nms.some(bad)) continue; }
-    let f = 1;
-    for (const n of nms) if (bad(n)) f = Math.min(f, shrink(n, () => bad(n), 0.56));
-    const size = (parseFloat(getComputedStyle(pair).fontSize) * f).toFixed(2) + 'px';
-    nms.forEach(n => { n.style.fontSize = f < 1 ? size : ''; });
+  const nameJobs = [];
+  for (const pair of pairs) {
+    const nms = [...pair.querySelectorAll('.nm')].filter(n => n.getClientRects().length);
+    if (!nms.length) continue;
+    // a name's room: its half of the card, less a crest beside it (not one above it)
+    const room = n => { const side = n.parentElement; if (side === pair || getComputedStyle(side).display === 'grid') return inner(side);
+      return inner(side) - [...side.children].filter(x => x !== n && x.getClientRects().length).reduce((a, x) => a + x.getBoundingClientRect().width, 0) - parseFloat(getComputedStyle(side).columnGap || 0) * (side.children.length - 1); };
+    const row = !!pair.querySelector('.side') && pair.matches('.matchup:has(img)') && getComputedStyle(pair.querySelector('.side')).display !== 'grid';
+    nameJobs.push({ pair, nms, row, need: nms.map(n => ({ n, w: textW(n), room: room(n), base: fs(n) })) });
+  }
+  doc.classList.remove('fitm');
+  // 3. compact cards whose names don't fit beside their crests: crests above, then measure the new room
+  const restack = nameJobs.filter(j => j.row && j.need.some(x => x.w > x.room + 0.5));
+  restack.forEach(j => j.pair.classList.add('stackside'));
+  if (restack.length) { doc.classList.add('fitm'); restack.forEach(j => j.need.forEach(x => { x.room = inner(x.n.parentElement); })); doc.classList.remove('fitm'); }
+  // 4. write the sizes
+  const px = v => v.toFixed(2) + 'px';
+  for (const j of titleJobs) {
+    if (j.stacked) j.c.classList.add('stack');
+    if (j.w <= j.room + 0.5) continue;
+    const f = j.room / j.w;
+    if (f >= 0.72) { j.span.style.fontSize = px(j.base * f * 0.995); continue; }
+    const fp = j.room / Math.max(...j.parts, 1);
+    if (fp >= 1) continue;
+    if (fp >= 0.72) j.span.style.fontSize = px(j.base * fp * 0.995); else j.c.classList.add('wrapall');
+  }
+  for (const j of nameJobs) {
+    const f = Math.max(0.56, Math.min(1, ...j.need.map(x => x.room / x.w * 0.995)));
+    if (f < 1) j.nms.forEach(n => { n.style.fontSize = px(fs(j.pair) * f); });
   }
 }
 let fitFrame = 0;
@@ -2595,6 +2631,7 @@ async function load(woke) {
 tick(); render(); load();
 setInterval(() => { tick(); render(); stamp(); }, 60000);
 setInterval(load, 5 * 60000);
+document.addEventListener('touchstart', () => {}, { passive: true }); // lets iPhone show the :active press
 let hiddenAt = 0;
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) { hiddenAt = Date.now(); return; }
