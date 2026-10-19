@@ -550,7 +550,7 @@ a.svc:hover { text-decoration-color: currentColor }
   #sportFilter .chip { font-size: 13px; padding: 2px 10px }
   #sportFilter { gap: 5px }
 }
-@media (max-width: 380px) { .nzonly, .rankbtn, .compbar .seg button { font-size: 12px; padding-inline: 8px } .nzonly img { width: 15px; height: auto } }
+@media (max-width: 380px) { header .hbtns .btn { font-size: 12px; gap: 3px; padding-inline: 2px } header .hbtns .btn svg { width: 13px; height: 13px } .nzonly, .rankbtn, .compbar .seg button { font-size: 12px; padding-inline: 8px } .nzonly img { width: 15px; height: auto } }
 .rankbtn:hover { background: color-mix(in srgb, var(--gold) 20%, var(--surface)) }
 .stable.rank td.num { white-space: nowrap }
 .stable.rank .rv { display: inline-flex; align-items: center; gap: 8px }
@@ -757,7 +757,7 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
   .hbtns .btn { justify-content: center; padding: 6px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
   .hbtns .btn svg { width: 14px; height: 14px; flex: none }
   /* the search box folds behind a magnifier button, and opens over the page just under the header (nothing moves) */
-  .hbtns { grid-template-columns: repeat(4, minmax(0, 1fr)) 36px }
+  .hbtns { grid-template-columns: repeat(4, minmax(0, 1fr)) 33px; gap: 5px }
   .hbtns .sbtn { display: inline-flex; padding: 6px 0 }
   #teamsBtn svg { display: none } /* the word alone, to leave room for the search button */
   .search { display: none; position: absolute; left: 16px; right: 16px; top: calc(100% + 6px); z-index: 6 }
