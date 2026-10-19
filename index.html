@@ -186,7 +186,7 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .ev { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); display: grid; grid-template-columns: 6px minmax(0, 1fr) auto; overflow: hidden }
 .ev .stripe { background: var(--sport) }
 .ev .body { padding: 10px 12px; min-width: 0; display: grid; gap: 2px }
-.ev .comp { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--sport); font-weight: 700 }
+.ev .comp { font-size: 13px; text-transform: uppercase; letter-spacing: .07em; color: var(--sport); font-weight: 700 }
 .ev .teams { font-family: var(--f-display); font-size: 21px; font-weight: 600; line-height: 1.15 }
 .ev .teams .v { color: var(--muted); font-weight: 500; padding-inline: 4px }
 .ev .meta { font-size: 13px; color: var(--muted) }
@@ -502,12 +502,12 @@ dialog#sheet { width: min(720px, 100%) }
 .dayclose { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 50%; width: 28px; height: 28px; font-size: 18px; line-height: 1; cursor: pointer }
 .livedot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #e03131; margin-right: 8px; vertical-align: 2px; box-shadow: 0 0 0 3px color-mix(in srgb, #e03131 25%, transparent) }
 /* crests sit in a fixed-height row so names line up whatever the flag shape */
-.ev .teams.matchup:has(img) .side { display: grid; grid-template-rows: 2.6em auto; justify-items: center; align-items: center; row-gap: 6px }
+.ev .teams.matchup:has(img) .side { display: grid; grid-template-rows: 2.95em auto; justify-items: center; align-items: center; row-gap: 6px }
 .ev .teams.matchup:has(img) .side > img { grid-row: 1 }
 .ev .teams.matchup:has(img) .side > .nm { grid-row: 2; align-self: start }
-.ev .teams.matchup .flagimg, .ev .teams.matchup .flagimg.after { width: auto; height: 1.6em; max-width: 3.4em; margin: 0 }
+.ev .teams.matchup .flagimg, .ev .teams.matchup .flagimg.after { width: auto; height: 1.8em; max-width: 3.9em; margin: 0 }
 /* wide crests (wordmarks like Canterbury's) get more width so they aren't shrunk to fit a square */
-.ev .teams.matchup .logo:not(.flagimg) { --lh: 2.5em; width: auto; height: 2.5em; max-width: 5em }
+.ev .teams.matchup .logo:not(.flagimg) { --lh: 2.85em; width: auto; height: 2.85em; max-width: 5.7em }
 
 a.svc { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 2px }
 a.svc:hover { text-decoration-color: currentColor }
@@ -515,7 +515,7 @@ a.svc:hover { text-decoration-color: currentColor }
 /* big events ahead: a row of tiles */
 .bigrow { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px }
 .ev .body { position: relative }
-.ev .comp .sicon { width: 18px; height: 18px; flex: none }
+.ev .comp .sicon { width: 22px; height: 22px; flex: none }
 .ev .comp { justify-content: center; text-align: center }
 /* time box: everything centred, top to bottom and side to side */
 @media (min-width: 561px) { .ev .when { align-content: center; justify-items: center; text-align: center; padding-top: 14px; padding-bottom: 14px } .ev .when > * { justify-self: center } .ev .when .score + .hl { margin-top: 6px } }
@@ -656,8 +656,8 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
   .tag { justify-self: start }
   .ev .teams { font-size: 25px }
-  .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.3em; width: auto; height: 2.3em; max-width: 4.4em }
-  .ev .teams.matchup .flagimg { width: auto; height: 1.6em }
+  .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.6em; width: auto; height: 2.6em; max-width: 5em }
+  .ev .teams.matchup .flagimg { width: auto; height: 1.8em }
   .ev .nz { font-size: 27px }
   .day .dd { font-size: 20px }
   .day { padding: 4px 2px }
@@ -670,10 +670,10 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 8px; text-align: center; grid-template-rows: none; row-gap: 0 }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side > * { grid-row: auto; align-self: center; order: 0 }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side.away > img { order: 2 }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.15em; height: 2.15em; max-width: 4em; margin-block: -0.3em }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .flagimg { height: 1.35em; max-width: 2.8em }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.45em; height: 2.45em; max-width: 4.6em; margin-block: -0.3em }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .flagimg { height: 1.55em; max-width: 3.2em }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .body { padding-top: 6px; padding-bottom: 6px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp { font-size: 11px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp { font-size: 12px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .summary, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .tvl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .nzl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .loc:not(.num) { display: none }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .when { padding-top: 6px; padding-bottom: 6px; gap: 0 }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .nz { font-size: 20px }
@@ -807,7 +807,7 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
    the name sits beside its logo and a long name grows in toward the "v" rather than pushing the logo out */
 @media (min-width: 561px) {
   :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) { grid-template-columns: minmax(0, 1fr) minmax(96px, auto) minmax(0, 1fr); width: min(100%, 760px); margin-inline: auto; box-sizing: border-box; padding-inline: 10px; justify-items: stretch; column-gap: 14px }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .logo:not(.face) { width: 2.8em; max-width: none; object-fit: contain }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .logo:not(.face) { width: 3.2em; max-width: none; object-fit: contain }
   :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side .logo { margin-inline: 0 }
   /* a zoomed crest grows around its own centre and only pushes its name, so the crests' centres still line up */
   :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side.home .logo.zoom { margin-right: calc((var(--z) - 1) * 1.4em) }
@@ -823,10 +823,10 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
 .ev.res .rtop .acts { flex-wrap: nowrap; white-space: nowrap }
 /* a card's competition title sits dead centre over the "v": its sport icon just to the left, its badges just to the right */
 .ev .comp { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: 7px }
-.ev .comp .cicon { justify-self: end; display: flex }
+.ev .comp .cicon { justify-self: end; display: flex; width: auto; height: auto; margin-right: 0; align-self: center; align-items: center }
 .ev .comp .ctitle { text-align: center; min-width: 0 }
-.ev .comp .ctitle { font-size: 13.5px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp .ctitle { font-size: 12.5px }
+.ev .comp .ctitle { font-size: 14.5px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp .ctitle { font-size: 13.5px }
 .ev .comp .ctags { justify-self: start; display: flex; align-items: center; gap: 5px }
 /* the "v" sits in the middle of its column whether or not a score is beside it */
 .matchup > .v { text-align: center }
