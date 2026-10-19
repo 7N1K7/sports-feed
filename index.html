@@ -1232,8 +1232,8 @@ function onNow(e, now) {
   // a live state of play checked in the last 90 minutes ("Match delayed by rain, day 2") keeps the match on whatever
   // the clock says, as a rain delay can run past the day's usual hours; "Stumps" ends the day as before
   if (e.liveState && now - Date.parse(e.liveAt) < 90 * 6e4 && !/^(stumps|end of day)/i.test(e.progress || '')) return days > 1 ? `Day ${progDay(e) || 1}` : 'On now';
-  // a rain note on the match ("Rain delayed the start", "reduced to 15 overs") buys two more hours
-  const wet = /\b(rain|wet|delay|bad light|reduced)/i.test(`${e.weather || ''} ${e.progress || ''}`) ? 2 : 0;
+  // a rain note on the match ("Rain delayed the start", "reduced to 15 overs") or a rain headline buys two more hours
+  const wet = /\b(rain|wet|delay|bad light|reduced)/i.test(`${e.weather || ''} ${e.progress || ''} ${e.wxNews?.title || ''}`) ? 2 : 0;
   // a day of a Test is set down to finish about 5pm local, with half an hour more to make up lost overs;
   // a one-day game can run long, so give it two more hours (one for a T20)
   const hrs = e.sport === 'cricket' ? (days > 1 ? 7.5 : (HOURS[f] || 8) + (/^T20/.test(f) ? 1 : 2)) + wet : 2;
