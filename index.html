@@ -1655,11 +1655,11 @@ function hubRankings() {
   const evs = (FEED.events || []).filter(e => compOf(e) === compSel);
   const sport = evs[0]?.sport;
   const lists = (FEED.rankings || []).filter(r => r.sport === sport);
-  return lists.length && (sport === 'mma' || evs.some(isIntl)) ? lists : [];
+  return lists.length && (sport === 'mma' || sport === 'tennis' || evs.some(isIntl)) ? lists : [];
 }
 function rankDefault(lists) {
   const evs = (FEED.events || []).filter(e => compOf(e) === compSel);
-  const women = evs.length && evs.every(e => genderOf(e) === 'women');
+  const women = evs.length && evs.every(e => genderOf(e) === 'w');
   const fmtWord = { Test: 'Tests', ODI: 'ODIs', T20I: 'T20Is', T20: 'T20Is' }[evs.map(e => e.format).find(Boolean)] || '';
   return lists.find(l => /Women/.test(l.title) === !!women && (!fmtWord || l.title.endsWith(fmtWord)))?.title || lists[0].title;
 }
@@ -1669,7 +1669,8 @@ const UFC_LIMIT = { strawweight: 115, flyweight: 125, bantamweight: 135, feather
 const wrange = lim => { const lo = Object.values(UFC_LIMIT).filter(v => v < lim).sort((a, b) => b - a)[0], kg = v => (v * 0.45359237).toFixed(1);
   return lo ? `${kg(lo + 1)}–${kg(lim)} kg (${lo + 1}–${lim} lb)` : `up to ${kg(lim)} kg (${lim} lb)`; };
 // a team's points or rating, big, with a bar running from the lowest side in the list to the top one
-const rankVal = (v, top, low) => { const n = parseFloat(v); return isNaN(n) || !top ? esc(v || '') : `<span class="rv"><span class="rbar" aria-hidden="true"><i style="width:${(top > low ? 12 + 88 * (n - low) / (top - low) : 100).toFixed(1)}%"></i></span><b>${esc(v)}</b></span>`; };
+const rankNum = v => parseFloat(String(v).replace(/,/g, ''));
+const rankVal = (v, top, low) => { const n = rankNum(v); return isNaN(n) || !top ? esc(v || '') : `<span class="rv"><span class="rbar" aria-hidden="true"><i style="width:${(top > low ? 12 + 88 * (n - low) / (top - low) : 100).toFixed(1)}%"></i></span><b>${esc(v)}</b></span>`; };
 function rankingsHtml(lists) {
   if (!lists.some(l => l.title === rankSel)) rankSel = rankDefault(lists);
   const l = lists.find(x => x.title === rankSel);
@@ -1682,21 +1683,22 @@ function rankingsHtml(lists) {
   ].filter(([, xs]) => xs.length);
   const chips = ufcRows ? `<div class="rankrows">${ufcRows.map(([h, xs]) => `<div class="rrow"><span class="rrh">${h}</span><div class="chips">${xs.map(x => chip(x, h ? x.title.replace(/^Women's\s+/i, '').replace(/^./, c => c.toUpperCase()) : x.title)).join('')}</div></div>`).join('')}</div>`
     : lists.length > 1 ? `<div class="chips rankchips">${lists.map(x => chip(x)).join('')}</div>` : '';
-  const fighters = l.sport === 'mma';
-  const ev = { sport: l.sport };
+  const fighters = l.sport === 'mma', people = fighters || l.kind === 'players';
+  // a women's list names its sides as women's teams (Black Ferns, Hockeyroos), not the men's nicknames
+  const ev = { sport: l.sport, ...(/women/i.test(l.title) ? { comp: "Women's" } : {}) };
   const hasPage = new Set((FEED.events || []).filter(e => e.sport === l.sport).flatMap(e => [e.home, e.away]));
-  const vals = l.rows.map(r => parseFloat(r.val)).filter(n => !isNaN(n)), top = Math.max(...vals), low = Math.min(...vals);
+  const vals = l.rows.map(r => rankNum(r.val)).filter(n => !isNaN(n)), top = Math.max(...vals), low = Math.min(...vals);
   const rows = l.rows.map(r => {
     const champ = r.rank === 'C' ? 'Champion' : r.rank === 'IC' ? 'Interim champion' : '';
     const gap = r.nz && l.rows.indexOf(r) > 0 && +r.rank > +l.rows[l.rows.indexOf(r) - 1].rank + 1 ? '<tr class="gap"><td colspan="4">…</td></tr>' : '';
     // a side with games in the feed has a team page, so its name opens it
-    const page = !fighters && [r.name, r.name.replace(/\s+Women('s)?$/, ''), r.name.replace(/\s+Women('s)?$/, '') + ' Women'].find(t => hasPage.has(t));
-    const name = fighters ? `<a class="plink" href="https://en.wikipedia.org/wiki/Special:Search?go=Go&search=${encodeURIComponent(r.name)}" target="_blank" rel="noopener" title="${esc(r.name)} on Wikipedia">${esc(r.name)}</a>${r.iso ? ` <span class="muted small">${esc(r.iso)}</span>` : ''}${champ ? ` <span class="tag">${champ}</span>` : ''}` : page ? `<button type="button" class="tlink rteam" data-teampage="${esc(page)}" data-tsport="${l.sport}" title="${esc(displayName(page, ev))}: games and form">${teamName(r.name.replace(/\s+Women('s)?$/, ''), '', ev)}</button>` : teamName(r.name.replace(/\s+Women('s)?$/, ''), '', ev);
-    return `${gap}<tr class="${r.nz || (fighters && /New Zealand|NZL/.test(r.iso)) ? 'mine' : ''}"><td class="pos">${l.rows.indexOf(r) < 3 ? `<span class="medal m${l.rows.indexOf(r) + 1}" title="${['Gold', 'Silver', 'Bronze'][l.rows.indexOf(r)]}">${champ ? 'C' : esc(r.rank === 'n' ? String(l.rows.indexOf(r) + 1) : r.rank)}</span>` : champ ? '' : esc(r.rank)}</td><td class="tn">${name}${fighters && r.note && !/^(Steady|–|-)?$/.test(r.note) ? `<div class="muted small rnote">${esc(r.note)}</div>` : ''}</td><td class="num">${fighters ? esc(r.rec || '') : rankVal(r.val, top, low)}</td></tr>`;
+    const page = !people && [r.name, r.name.replace(/\s+Women('s)?$/, ''), r.name.replace(/\s+Women('s)?$/, '') + ' Women'].find(t => hasPage.has(t));
+    const name = people ? `<a class="plink" href="https://en.wikipedia.org/wiki/Special:Search?go=Go&search=${encodeURIComponent(r.name)}" target="_blank" rel="noopener" title="${esc(r.name)} on Wikipedia">${esc(r.name)}</a>${r.iso ? ` <span class="muted small">${esc(r.iso)}</span>` : ''}${champ ? ` <span class="tag">${champ}</span>` : ''}` : page ? `<button type="button" class="tlink rteam" data-teampage="${esc(page)}" data-tsport="${l.sport}" title="${esc(displayName(page, ev))}: games and form">${teamName(r.name.replace(/\s+Women('s)?$/, ''), '', ev)}</button>` : teamName(r.name.replace(/\s+Women('s)?$/, ''), '', ev);
+    return `${gap}<tr class="${r.nz || (people && /New Zealand|NZL/.test(r.iso)) ? 'mine' : ''}"><td class="pos">${l.rows.indexOf(r) < 3 ? `<span class="medal m${l.rows.indexOf(r) + 1}" title="${['Gold', 'Silver', 'Bronze'][l.rows.indexOf(r)]}">${champ ? 'C' : esc(r.rank === 'n' ? String(l.rows.indexOf(r) + 1) : r.rank)}</span>` : champ ? '' : esc(r.rank)}</td><td class="tn">${name}${fighters && r.note && !/^(Steady|–|-)?$/.test(r.note) ? `<div class="muted small rnote">${esc(r.note)}</div>` : ''}</td><td class="num">${fighters ? esc(r.rec || '') : rankVal(r.val, top, low)}</td></tr>`;
   }).join('');
   const lim = fighters && UFC_LIMIT[(l.title.match(/(strawweight|flyweight|bantamweight|featherweight|lightweight|welterweight|middleweight|light heavyweight|heavyweight)\s*$/i) || [])[1]?.toLowerCase()];
-  return `${chips}<div class="stable rank sport-${l.sport}"><h3 class="dh">${esc(l.title)}${lim ? ` <span class="wlim">${wrange(lim)}</span>` : fighters ? ' <span class="wlim" aria-hidden="true" style="visibility:hidden">000.0–000.0 kg (000–000 lb)</span>' : ''}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), NZ, l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
-    <p class="muted small">Rankings from <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(l.page.replace(/ /g, '_'))}" target="_blank" rel="noopener">Wikipedia</a> (CC BY-SA), which follows the official ${fighters ? 'UFC' : l.sport === 'rugby' ? 'World Rugby' : l.sport === 'cricket' ? 'ICC' : 'IRL'} list.</p>`;
+  return `${chips}<div class="stable rank sport-${l.sport}"><h3 class="dh">${esc(l.title)}${lim ? ` <span class="wlim">${wrange(lim)}</span>` : fighters ? ' <span class="wlim" aria-hidden="true" style="visibility:hidden">000.0–000.0 kg (000–000 lb)</span>' : ''}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), 'UTC', l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : people ? 'Player' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+    <p class="muted small">Rankings from <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(l.page.replace(/ /g, '_'))}" target="_blank" rel="noopener">Wikipedia</a> (CC BY-SA), which follows the official ${{ mma: 'UFC', rugby: 'World Rugby', cricket: 'ICC', league: 'IRL', football: 'FIFA', hockey: 'FIH', tennis: /women/i.test(l.title) ? 'WTA' : 'ATP' }[l.sport] || ''} list.</p>`;
 }
 // Shows tab: the wider conversation around each sport (panel shows, YouTube breakdowns, podcasts), best known first.
 // t: tv / yt / pod. c: only for competitions matching it. url: a checked page; otherwise a YouTube search for q (or the name).
@@ -1982,12 +1984,14 @@ function openTeam(name, sport, fromRank = '') {
   if (!dlg.open) dlg.showModal();
   $('sheet').querySelector('.sheet-in')?.scrollTo?.(0, 0);
 }
+const RANK_SPORTS = ['rugby', 'cricket', 'league', 'football', 'hockey', 'tennis', 'mma'];
+const RANK_TAB = { mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', hockey: 'Hockey', tennis: 'Tennis' };
 function openRankings(sport) {
   const lists = (FEED.rankings || []).filter(r => r.sport === sport);
   if (!lists.length) return;
-  const sports = ['rugby', 'cricket', 'league', 'mma'].filter(k => (FEED.rankings || []).some(r => r.sport === k));
-  const tabs = sports.length > 1 ? `<div class="chips ranksports">${sports.map(k => `<button type="button" class="chip sportchip sport-${k}" data-rankings="${k}" aria-pressed="${k === sport}">${sIcon(k, 'cicon')}${{ mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'League' }[k]}</button>`).join('')}</div>` : '';
-  $('sheetBody').innerHTML = `${tabs}<div class="sheet-head sport-${sport}"><div class="comp">${sIcon(sport)}<span>World rankings</span></div><h2 class="dteams">${esc({ mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'Rugby league' }[sport] || sport)} rankings</h2></div><div class="rankbody">${rankingsHtml(lists)}</div>`;
+  const sports = RANK_SPORTS.filter(k => (FEED.rankings || []).some(r => r.sport === k));
+  const tabs = sports.length > 1 ? `<div class="chips ranksports">${sports.map(k => `<button type="button" class="chip sportchip sport-${k}" data-rankings="${k}" aria-pressed="${k === sport}">${sIcon(k, 'cicon')}${RANK_TAB[k]}</button>`).join('')}</div>` : '';
+  $('sheetBody').innerHTML = `${tabs}<div class="sheet-head sport-${sport}"><div class="comp">${sIcon(sport)}<span>World rankings</span></div><h2 class="dteams">${esc({ ...RANK_TAB, league: 'Rugby league' }[sport] || sport)} rankings</h2></div><div class="rankbody">${rankingsHtml(lists)}</div>`;
   const dlg = $('sheet');
   dlg.dataset.id = ''; dlg.dataset.rankings = sport;
   if (!dlg.open) dlg.showModal();
@@ -2396,7 +2400,7 @@ document.addEventListener('click', ev => {
     // the picked sport if it has rankings, else rugby, else whatever there is
     const have = k => (FEED.rankings || []).some(r => r.sport === k);
     const cs = compSel ? ((FEED.events || []).find(e => compOf(e) === compSel) || {}).sport : '';
-    const k = [...sportSel].find(have) || (have(cs) ? cs : '') || ['rugby', 'cricket', 'league', 'mma'].find(have);
+    const k = [...sportSel].find(have) || (have(cs) ? cs : '') || RANK_SPORTS.find(have);
     rankSel = ''; if (k) openRankings(k);
   }
   else if (t.dataset.respage != null) { resPage = Math.max(0, +t.dataset.respage); render(); toSec('resSec'); }
