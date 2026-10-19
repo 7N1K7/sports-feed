@@ -1,47 +1,9 @@
-version 251 | generated 2026-10-19T13:19:01.250Z
-rankings diag: FIFA Men's World Ranking: 5 tables, Men's 20 @2026-10-07; FIFA Women's World Ranking: 5 tables, Women's 20 @2026-06-16; FIH Men's World Ranking: 4 tables, Men's 20 @2026-10-04; FIH Women's World Ranking: 4 tables, Women's 20 @2026-10-03; ATP rankings: 35 tables, Men's singles 20 @2026-10-05; WTA rankings: 26 tables, Women's singles 20 @2026-10-12
-  rugby | Men's | - | 20 rows | South Africa, New Zealand | 2. New Zealand
-  rugby | Women's | - | 20 rows | England, Canada | 3. New Zealand
-  cricket | Men's Tests | - | 11 rows | Australia, South Africa | 3. New Zealand
-  cricket | Men's ODIs | - | 20 rows | India, New Zealand | 2. New Zealand
-  cricket | Men's T20Is | - | 20 rows | England, India | 4. New Zealand
-  cricket | Women's ODIs | - | 17 rows | Australia, England | 5. New Zealand
-  cricket | Women's T20Is | - | 17 rows | Australia, England | 5. New Zealand
-  league | Men's | 2026-04 | 20 rows | Australia, New Zealand | 2. New Zealand
-  league | Women's | 2026-08 | 20 rows | Australia, New Zealand | 2. New Zealand
-  league | Wheelchair | 2026-08 | 10 rows | England, France | 9. New Zealand
-  football | Men's | 2026-10-07 | 20 rows | Spain, Argentina | 
-  football | Women's | 2026-06-16 | 20 rows | Spain, United States | 
-  hockey | Men's | 2026-10-04 | 20 rows | Germany, Belgium | 9. New Zealand
-  hockey | Women's | 2026-10-03 | 20 rows | Netherlands, Argentina | 12. New Zealand
-  tennis | Men's singles | 2026-10-05 | 20 rows | Jannik Sinner, Alexander Zverev | 
-  tennis | Women's singles | 2026-10-12 | 20 rows | Elena Rybakina, Aryna Sabalenka | 
-  mma | Men's pound for pound | 2026-10-06 | 15 rows | Islam Makhachev, Alexander Volkanovski | 
-  mma | Heavyweight | 2026-10-10 | 16 rows | Ciryl Gane, Tom Aspinall | 
-  mma | Light heavyweight | 2026-10-10 | 16 rows | Carlos Ulberg, Alex Pereira | 
-  mma | Middleweight | 2026-10-10 | 16 rows | Sean Strickland, Khamzat Chimaev | 
-  mma | Welterweight | 2026-10-10 | 16 rows | Islam Makhachev, Carlos Prates | 
-  mma | Lightweight | 2026-10-10 | 16 rows | Justin Gaethje, Ilia Topuria | 
-  mma | Featherweight | 2026-10-10 | 16 rows | Alexander Volkanovski, Movsar Evloev | 
-  mma | Bantamweight | 2026-10-10 | 16 rows | Petr Yan, Merab Dvalishvili | 
-  mma | Flyweight | 2026-10-10 | 16 rows | Joshua Van, Manel Kape | 
-  mma | Women's pound for pound | 2026-10-06 | 15 rows | Valentina Shevchenko, Kayla Harrison | 
-  mma | Women's bantamweight | 2026-10-10 | 16 rows | Kayla Harrison, Joselyne Edwards | 
-  mma | Women's flyweight | 2026-10-10 | 16 rows | Natália Silva, Valentina Shevchenko | 
-  mma | Women's strawweight | 2026-10-10 | 16 rows | Mackenzie Dern, Zhang Weili | 
-200 application/manifest+json; charset=utf-8 https://kickoff.kiwi/manifest.webmanifest
-200 application/javascript; charset=utf-8 https://kickoff.kiwi/sw.js
-200 image/png                        https://kickoff.kiwi/apple-touch-icon.png
-200 image/png                        https://kickoff.kiwi/icons/app-512.png
-200 image/png                        https://kickoff.kiwi/icons/app-maskable-512.png
-200 image/svg+xml                    https://kickoff.kiwi/icons/hockey.svg
-200 text/calendar                    https://kickoff.kiwi/data/cal/nz.ics
-200 text/calendar                    https://kickoff.kiwi/data/cal/blacksticks.ics
-301 http://kickoff.kiwi/ -> https://kickoff.kiwi/
-301 http://www.kickoff.kiwi/ -> https://kickoff.kiwi/
-301 https://www.kickoff.kiwi/ -> https://kickoff.kiwi/
-301 https://7n1k7.github.io/sports-feed/ -> http://kickoff.kiwi/
-301 https://7n1k7.github.io/sports-feed/data/feed.json -> https://kickoff.kiwi/data/feed.json
-home 200 | hsts: none | manifest link: true | page has hockey: true
-cert for kickoff.kiwi | alt names DNS:kickoff.kiwi, DNS:www.kickoff.kiwi | issuer Let's Encrypt YR2 | valid to Jan 17 11:45:34 2027 GMT | trusted: true
-www cert alt names DNS:kickoff.kiwi, DNS:www.kickoff.kiwi | trusted: true
+version 252 | generated 2026-10-19T13:31:47.387Z
+alerts: 0 due, 0 sent
+calendars: nz 338; allblacks 11, blackferns 9, npc 79, fpc 2, wallabies 11, blues 32, chiefs 33, hurricanes 53, crusaders 32, highlanders 30, moana 5, aurugby 98, superrugby 166, blackcaps 24, whiteferns 13, nzdomestic 13, aucricket 27, intlcricket 64, bbl 48, wbbl 46, kiwis 9, kiwiferns 6, warriors 3, nrl 10, rlwc 66, phoenix 3, aucklandfc 3, aleague 18, epl 40, blacksticks 19, blacksticksw 19, f1 23, tennis 12, ufc 14, boxing 17, nzboxing 0
+ntfy kickoffkiwi-nz last 12h: (none)
+next games: 2026-10-19T19:00:00.000Z epl Tottenham Hotspur v Coventry City
+  2026-10-20T08:15:00.000Z whiteferns Australia Women v New Zealand Women
+  2026-10-22T07:00:00.000Z blackcaps New Zealand v India
+  2026-10-22T08:15:00.000Z whiteferns Australia Women v New Zealand Women
+  2026-10-23T06:50:00.000Z rlwc Samoa v Wales
