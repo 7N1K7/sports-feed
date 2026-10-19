@@ -1,15 +1,20 @@
-// probe 22: wait (up to 40 minutes) for https://kickoff.kiwi to have its certificate, then report
-const t0 = Date.now();
-let last = '';
-while (Date.now() - t0 < 40 * 60e3) {
-  try {
-    const r = await fetch('https://kickoff.kiwi/', { redirect: 'manual', signal: AbortSignal.timeout(15000) });
-    const t = await r.text();
-    console.log(new Date().toISOString(), 'HTTPS OK', r.status, (t.match(/<title>([^<]*)/) || [])[1] || '');
-    const h = await fetch('http://kickoff.kiwi/', { redirect: 'manual' });
-    console.log('http ->', h.status, h.headers.get('location') || '(no redirect: Enforce HTTPS not ticked yet)');
-    process.exit(0);
-  } catch (e) { const m = e.cause?.code || e.message; if (m !== last) console.log(new Date().toISOString(), 'not yet:', m); last = m; }
+// probe 23: why GitHub's DNS check fails for kickoff.kiwi. SOA (negative-cache time), CAA, DNSSEC DS, answers from
+// several public resolvers, then wait up to 30 minutes for the HTTPS certificate
+import { promises as dns } from 'node:dns';
+const R = s => { const r = new dns.Resolver(); r.setServers([s]); return r; };
+for (const [name, srv] of [['cloudflare', '1.1.1.1'], ['google', '8.8.8.8'], ['quad9', '9.9.9.9'], ['opendns', '208.67.222.222']]) {
+  const r = R(srv);
+  const q = async (n, f) => { try { return JSON.stringify(await r[f](n)); } catch (e) { return e.code; } };
+  console.log(name, '| A', await q('kickoff.kiwi', 'resolve4'), '| www CNAME', await q('www.kickoff.kiwi', 'resolveCname'), '| CAA', await q('kickoff.kiwi', 'resolveCaa'), '| SOA', await q('kickoff.kiwi', 'resolveSoa'));
+}
+const g = R('8.8.8.8');
+try { console.log('.kiwi zone SOA (negative-cache minttl):', JSON.stringify(await g.resolveSoa('kiwi'))); } catch (e) { console.log('kiwi SOA', e.code); }
+// DNSSEC: DS record for kickoff.kiwi and the AD flag, via Google's JSON API
+for (const t of ['DS', 'DNSKEY', 'A', 'CAA']) { try { const j = await (await fetch(`https://dns.google/resolve?name=kickoff.kiwi&type=${t}&do=1`)).json(); console.log('google-json', t, 'Status', j.Status, 'AD', j.AD, JSON.stringify(j.Answer || j.Authority || []).slice(0, 300)); } catch (e) { console.log(t, e.message); } }
+const t0 = Date.now(); let last = '';
+while (Date.now() - t0 < 30 * 60e3) {
+  try { const r = await fetch('https://kickoff.kiwi/', { redirect: 'manual', signal: AbortSignal.timeout(15000) }); console.log(new Date().toISOString(), 'HTTPS OK', r.status); process.exit(0); }
+  catch (e) { const m = e.cause?.code || e.message; if (m !== last) console.log(new Date().toISOString(), 'https not yet:', m); last = m; }
   await new Promise(r => setTimeout(r, 30e3));
 }
-console.log('gave up after 40 minutes');
+console.log('no certificate after 30 minutes');
