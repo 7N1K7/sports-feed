@@ -94,7 +94,9 @@ header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; b
 header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block: 10px; flex-wrap: wrap }
 .brand { font-family: var(--f-display); font-weight: 700; font-size: 31px; letter-spacing: .02em; text-transform: uppercase; line-height: 1 }
 .brand span { color: var(--accent) }
-.brand { display: flex; align-items: center }
+.brand { display: flex; align-items: center; color: inherit; text-decoration: none; cursor: pointer; -webkit-tap-highlight-color: transparent }
+.brand:hover .blogo { transform: rotate(-6deg) } .brand .blogo { transition: transform .15s }
+.brand:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 10px }
 .brand .bt { display: grid; gap: 3px }
 .brand .bn { font-weight: inherit }
 .brand .by { font-family: var(--f-body); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: none; color: var(--muted); line-height: 1; white-space: nowrap }
@@ -754,7 +756,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 
 <header class="top">
   <div class="wrap">
-    <div class="brand"><img class="blogo" src="logo.svg?v=b4" alt="" width="52" height="52"><div class="bt"><b class="bn">Kickoff <span>Kiwi</span></b><small class="by">by N1K<span class="ver2 num" id="ver2"></span></small></div></div>
+    <a class="brand" id="home" href="./" title="Back to the top"><img class="blogo" src="logo.svg?v=b4" alt="" width="52" height="52"><div class="bt"><b class="bn">Kickoff <span>Kiwi</span></b><small class="by">by N1K<span class="ver2 num" id="ver2"></span></small></div></a>
     <div class="clockcol"><div class="clockrow"><div class="clock num" id="clock"></div><div class="ver num" id="ver"></div></div><div class="fresh" id="fresh"></div></div>
     <div class="spacer"></div>
     <div class="search" role="search">
@@ -1941,6 +1943,8 @@ const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugb
 function tick() { $('clock').textContent = `${tzLabel()} ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}` }
 
 document.addEventListener('click', ev => {
+  // the logo and name go back to the main page: out of any competition page, results back to the newest, to the top
+  if (ev.target.closest('#home')) { ev.preventDefault(); if ($('sheet').open) $('sheet').close(); $('q').value = ''; closeSearch(); compSel = ''; store.set('comp', ''); hubTab = 'games'; resPage = 0; render(); scrollTo({ top: 0, behavior: 'smooth' }); return; }
   if (ev.target.closest('a')) return;
   const t = ev.target.closest('button');
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) openDetail(card.dataset.open); else if (ev.target === $('sheet')) $('sheet').close(); return; }
