@@ -1191,7 +1191,7 @@ function evCard(e, now) {
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><i class="cpad"></i><span class="ctitle"><span>${esc(cardComp(e))}</span>${seriesLine(e, now)}</span><span class="ctags">${compBadge(e)}${intlTag(e)}${sIcon(e.sport)}</span></div>
+      <div class="comp"><i class="cpad"></i><span class="ctitle"><span>${esc(cardComp(e))}</span>${seriesLine(e, now)}</span><span class="ctags">${sIcon(e.sport)}${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
     </div>
     <div class="when">
@@ -1283,7 +1283,7 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><i class="cpad"></i><span class="ctitle"><span>${esc(cardComp(e))}</span></span><span class="ctags">${compBadge(e)}${intlTag(e)}${sIcon(e.sport)}</span></div>
+      <div class="comp"><i class="cpad"></i><span class="ctitle"><span>${esc(cardComp(e))}</span></span><span class="ctags">${sIcon(e.sport)}${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup${split ? ' scored' : ''}"><span class="side home ${fres('home')}">${teamName(e.home, e.homeLogo, e)}</span>${split ? `<span class="v vsc">${scoreTag(split[0], res('home'))}<span class="vv">v</span>${scoreTag(split[1], res('away'))}</span>` : fw ? `<span class="v vhow"><span>v</span>${howTxt ? `<small>${esc(howTxt)}</small>` : ''}</span>` : '<span class="v">v</span>'}<span class="side away ${fres('away')}">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${e.summary ? (hidden ? '<div class="summary" aria-hidden="true">&nbsp;</div>' : `<div class="summary" title="${esc(e.summary)}">${esc(e.summary)}</div>`) : ''}
     </div>
