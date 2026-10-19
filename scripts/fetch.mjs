@@ -502,6 +502,15 @@ async function addLogos(events, extra = []) {
     cache.names[key] = { t: now, b, v: LOGO_V };
     found[key] = b;
   }
+  // Farah Palmer Cup sides TheSportsDB doesn't list wear their union's crest, already found for its NPC side:
+  // Wellington Pride gets Wellington's, Northland Kauri gets Northland's
+  const place = n => simple(String(n || '').replace(/\s+(Pride|Kauri|Storm|Tui|Spirit|Whio|Volcanix|Heat|Cyclones|Mako|Bulls|Stags|Steamers|Lions|Taniwha|Women)$/i, ''));
+  for (const e of events) if (e.team === 'fpc') for (const n of [e.home, e.away]) {
+    const k = `rugby|${n}`;
+    if (!n || found[k] || !want.has(k)) continue;
+    const u = Object.keys(found).find(x => x.startsWith('rugby|') && found[x] && place(x.slice(6)) === place(n));
+    if (u) found[k] = found[u];
+  }
   diag.cricketLogos = [...want.keys()].filter(k => k.startsWith('cricket|')).map(k => `${k.slice(8)}${found[k] ? '*' : ''}`).join(', ');
   for (const e of events) {
     const h = found[`${e.sport}|${e.home}`], a = found[`${e.sport}|${e.away}`];
@@ -515,7 +524,11 @@ async function addLogos(events, extra = []) {
   cache.nat ||= {};
   let natLooked = 0;
   const natWant = new Map();
-  for (const e of events) if (NAT[e.sport] && !isW(e)) for (const n of [e.home, e.away]) if (n && COUNTRY.test(n) && !/ (A|XI|Wheelchair|Women)$/i.test(n)) natWant.set(`${e.sport}|${n}`, [e.sport, n]);
+  // a side billed by its nickname ("All Blacks", "Kiwis") gets the same badge as when it's billed by country
+  const NAT_NICK = { rugby: { 'All Blacks': 'New Zealand', Wallabies: 'Australia', Springboks: 'South Africa', 'Los Pumas': 'Argentina', Pumas: 'Argentina' },
+    league: { Kiwis: 'New Zealand', Kangaroos: 'Australia' }, cricket: { 'Black Caps': 'New Zealand', BlackCaps: 'New Zealand', Proteas: 'South Africa' } };
+  const country = (sport, n) => NAT_NICK[sport]?.[n] || n;
+  for (const e of events) if (NAT[e.sport] && !isW(e)) for (const n0 of [e.home, e.away]) { const n = country(e.sport, n0); if (n && COUNTRY.test(n) && !/ (A|XI|Wheelchair|Women)$/i.test(n)) natWant.set(`${e.sport}|${n}`, [e.sport, n]); }
   for (const [key, [sport, name]] of natWant) {
     const fromFix = seen[`${sport}|${simple(name)}`];
     if (fromFix) { cache.nat[key] = { t: now, b: fromFix }; continue; }
@@ -530,7 +543,7 @@ async function addLogos(events, extra = []) {
     } catch { /* rate limited: next run */ }
   }
   for (const e of events) for (const side of ['home', 'away']) {
-    const b = !isW(e) && cache.nat[`${e.sport}|${e[side]}`]?.b;
+    const b = !isW(e) && cache.nat[`${e.sport}|${country(e.sport, e[side])}`]?.b;
     if (b) e[side + 'Badge'] = b + '/tiny';
   }
   diag.natBadges = `${Object.values(cache.nat).filter(x => x.b).length} national badges; ${natLooked} searched this run`;
