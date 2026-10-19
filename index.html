@@ -603,7 +603,7 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
   .day .dd { font-size: 20px }
   .day { padding: 6px 2px }
 }
-@media (prefers-reduced-motion: no-preference) { .ev, .ni { transition: border-color .15s } }
+@media (prefers-reduced-motion: no-preference) { .ni { transition: border-color .15s } } /* cards change border at once: a fade restarted every time a reveal redraws the card under the pointer */
 .ev:hover, .ni:hover { border-color: color-mix(in srgb, var(--sport, var(--accent)) 50%, var(--line)) }
 
 /* compact cards: one short row each. Compact view uses them everywhere; Mixed keeps live and today's games full size */
