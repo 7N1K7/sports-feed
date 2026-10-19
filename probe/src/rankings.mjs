@@ -1,8 +1,9 @@
-// World rankings from Wikipedia (CC BY-SA): rugby, cricket and league team rankings, and the UFC's pound-for-pound
-// and division rankings. Each page is read once every 12 hours (rankings move weekly at most) and kept in the cache.
+// World rankings from Wikipedia (CC BY-SA): rugby, cricket, league, football and hockey team rankings, the ATP and
+// WTA singles rankings, and the UFC's pound-for-pound and division rankings. Each page is read once every 12 hours (rankings move weekly at most) and kept in the cache.
 const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
 
-// page -> what to take from it. teams: tables with a rank, a team and points/rating; fighters: the UFC page
+// page -> what to take from it. teams: tables with a rank, a team and points/rating; players: a tennis singles table;
+// fighters: the UFC page
 export const RANK_PAGES = [
   { sport: 'rugby', page: 'World Rugby Rankings', kind: 'teams', titles: ["Men's"] },
   { sport: 'rugby', page: "World Rugby Women's World Rankings", kind: 'teams', titles: ["Women's"] },
@@ -14,6 +15,12 @@ export const RANK_PAGES = [
   { sport: 'league', page: "IRL Men's World Rankings", kind: 'teams', titles: ["Men's"] },
   { sport: 'league', page: "IRL Women's World Rankings", kind: 'teams', titles: ["Women's"] },
   { sport: 'league', page: 'IRL Wheelchair World Rankings', kind: 'teams', titles: ['Wheelchair'] },
+  { sport: 'football', page: "FIFA Men's World Ranking", kind: 'teams', titles: ["Men's"] },
+  { sport: 'football', page: "FIFA Women's World Ranking", kind: 'teams', titles: ["Women's"] },
+  { sport: 'hockey', page: "FIH Men's World Ranking", kind: 'teams', titles: ["Men's"] },
+  { sport: 'hockey', page: "FIH Women's World Ranking", kind: 'teams', titles: ["Women's"] },
+  { sport: 'tennis', page: 'ATP rankings', kind: 'players', titles: ["Men's singles"] },
+  { sport: 'tennis', page: 'WTA rankings', kind: 'players', titles: ["Women's singles"] },
   { sport: 'mma', page: 'UFC rankings', kind: 'fighters' },
 ];
 
@@ -101,6 +108,26 @@ function teamTables(tables, cfg) {
   return out;
 }
 
+// tennis: the singles table headed "ATP rankings (singles) as of 5 October 2026" (not the race to the Finals, not
+// doubles): number, player with country code ("Jannik Sinner (ITA)"), points
+function playerTables(tables, cfg) {
+  for (const t of tables) {
+    const head = t.heads.flat().join(' ');
+    if (!/rankings \(singles\) as of/i.test(head)) continue;
+    const h = t.heads[t.heads.length - 1];
+    const iRank = h.findIndex(x => /^(no|rank)/i.test(x)), iName = h.findIndex(x => /^player/i.test(x)), iVal = h.findIndex(x => /^points/i.test(x));
+    if (iRank < 0 || iName < 0 || iVal < 0) continue;
+    const rows = t.rows.map(r => {
+      const m = (r[iName] || '').match(/^(.*?)\s*\(([A-Z]{3})\)/);
+      return { rank: (r[iRank] || '').match(/^\d+/)?.[0] || '', name: (m ? m[1] : r[iName] || '').replace(/\s*✓\s*$/, '').trim(), iso: m ? m[2] : '', val: (r[iVal] || '').trim() };
+    }).filter(r => r.rank && r.name && /\d/.test(r.val)).slice(0, 20);
+    if (rows.length < 5) continue;
+    for (const r of rows) if (r.iso === 'NZL') r.nz = true;
+    return [{ sport: cfg.sport, kind: 'players', title: cfg.titles[0], page: cfg.page, asOf: dateIn(head), valLabel: 'Points', rows }];
+  }
+  return [];
+}
+
 // UFC: the page carries more than one release of the rankings; per list, keep the latest
 const DIVS = [[265, 'Heavyweight'], [205, 'Light heavyweight'], [185, 'Middleweight'], [170, 'Welterweight'], [155, 'Lightweight'], [145, 'Featherweight'], [135, 'Bantamweight'], [125, 'Flyweight'], [115, 'Strawweight']];
 function fighterTables(tables, cfg) {
@@ -146,7 +173,7 @@ export async function rankings(cache, diag) {
       const j = await r.json();
       if (j.error) throw new Error(j.error.code);
       const tables = tablesOf(j.parse?.text || '');
-      const lists = cfg.kind === 'fighters' ? fighterTables(tables, cfg) : teamTables(tables, cfg);
+      const lists = cfg.kind === 'fighters' ? fighterTables(tables, cfg) : cfg.kind === 'players' ? playerTables(tables, cfg) : teamTables(tables, cfg);
       notes.push(`${cfg.page}: ${tables.length} tables, ${lists.map(l => `${l.title} ${l.rows.length}${l.asOf ? ' @' + l.asOf : ''}`).join(', ') || 'nothing usable'}`);
       if (lists.length) cache[cfg.page] = { t: now, lists };
       out.push(...(lists.length ? lists : c?.lists || []));
@@ -155,4 +182,4 @@ export async function rankings(cache, diag) {
   diag.rankings = notes.join('; ') || 'all from cache';
   return out;
 }
-export { tablesOf as _tablesOf, teamTables as _teamTables, fighterTables as _fighterTables };
+export { tablesOf as _tablesOf, teamTables as _teamTables, fighterTables as _fighterTables, playerTables as _playerTables };
