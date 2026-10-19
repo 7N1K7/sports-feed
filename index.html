@@ -166,7 +166,8 @@ header.top .wrap { display: flex; align-items: center; justify-content: flex-end
 .calgo a:hover, .calgo button:hover { border-color: var(--accent) }
 .calhow { font-size: 13px; color: var(--muted); border-left: 3px solid var(--line); padding: 2px 0 2px 10px; margin-top: 4px }
 .calhow b { color: var(--ink) }
-.calhow ul { margin: 4px 0 0; padding-left: 18px; display: grid; gap: 3px }
+.calhow :is(ul, ol) { margin: 4px 0 0; padding-left: 18px; display: grid; gap: 3px }
+.calgo code { font-size: 12px; color: var(--muted); align-self: center }
 .calmore > summary { cursor: pointer; font-size: 14px; font-weight: 600; padding: 4px 2px; color: var(--ink) }
 .calmore[open] > summary { margin-bottom: 6px }
 .panel .ph .phnote { display: inline-block; margin-left: 8px; font-size: 13px; font-weight: 500; color: var(--muted); vertical-align: .1em }
@@ -861,6 +862,7 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
 .ev .comp .cicon { justify-self: end; display: flex; width: auto; height: auto; margin-right: 0; align-self: center; align-items: center }
 .ev .comp .ctitle { text-align: center; min-width: 0; flex: 0 1 auto }
 .ev .comp .ctitle { font-size: 14.5px }
+.ev .comp .ctitle .tp { white-space: nowrap }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp .ctitle { font-size: 13.5px }
 .ev .comp .ctags { flex: none; display: flex; align-items: center; gap: 5px }
 /* the "v" sits in the middle of its column whether or not a score is beside it */
@@ -940,6 +942,8 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
     <div class="cals" id="calList"></div>
     <h2 class="ph">Phone app <span class="phnote">Put Kickoff Kiwi on your home screen. It opens full-screen like an app. No app store, no account.</span></h2>
     <div class="cals" id="appInstall"></div>
+    <h2 class="ph">Phone alerts <span class="phnote">A heads-up on your phone before each game and when it's over. Never the score.</span></h2>
+    <div class="cals" id="alertList"></div>
   </div></div>
 </div>
 </header>
@@ -1193,6 +1197,8 @@ const DOMESTIC = /^(NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|Big Bash|Women'
 const COMP_LABEL = {};
 // one name per competition, so a whole tournament can be shown on its own
 // the card's header: Australia's tours read home side first, like the names below ("South Africa v Australia · 1st T20I")
+// a card title can only break between its parts ("South Africa v Australia" · "2nd Test"), never inside a side's name
+const titleParts = t => String(t || '').split(' · ').map(p => `<span class="tp">${esc(p)}</span>`).join('<span class="tsep"> · </span>');
 const cardComp = e => e.team === 'aucricket' || e.team === 'intlcricket' ? compOf(e) + (e.stage ? ' · ' + e.stage : '') : e.sport === 'hockey' ? plural(e.comp) + (e.stage ? ' · ' + e.stage : '') : plural(e.comp);
 function compOf(e) {
   const c = e.comp || '';
@@ -1391,7 +1397,7 @@ function evCard(e, now) {
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${esc(cardComp(e))}</span></span></span><span class="ctags">${compBadge(e)}${intlTag(e)}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags">${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${seriesLine(e, now)}
     </div>
@@ -1488,7 +1494,7 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${esc(cardComp(e))}</span></span></span><span class="ctags">${compBadge(e)}${intlTag(e)}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags">${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup${split ? ' scored' : ''}"><span class="side home ${fres('home')}">${teamName(e.home, e.homeLogo, e)}</span>${split ? `<span class="v vsc">${scoreTag(split[0], res('home'))}<span class="vv">v</span>${scoreTag(split[1], res('away'))}</span>` : fw ? `<span class="v vhow"><span>v</span>${howTxt ? `<small>${esc(howTxt)}</small>` : ''}</span>` : '<span class="v">v</span>'}<span class="side away ${fres('away')}">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${e.summary ? (hidden ? '<div class="summary" aria-hidden="true">&nbsp;</div>' : `<div class="summary" title="${esc(e.summary)}">${esc(e.summary)}</div>`) : ''}
     </div>
@@ -2325,7 +2331,23 @@ function render() {
       <li>To stop, delete or unsubscribe the calendar in your calendar app. The games disappear from it.</li>
     </ul></div>`;
   $('appInstall').innerHTML = appHtml();
-  fitTop(); syncPulse();
+  // phone alerts (sent by the feed builder through ntfy.sh): a topic for all NZ teams, and one per team picked above
+  const alertRow = (k, label) => `<div class="calrow"><span class="calname">${k === 'nz' ? '<span aria-hidden="true">🇳🇿</span>' : badge(k)}${esc(label)}</span><span class="calgo"><code>kickoffkiwi-${k}</code><button type="button" data-calcopy="kickoffkiwi-${k}">Copy name</button><a href="https://ntfy.sh/kickoffkiwi-${k}" target="_blank" rel="noopener">Open</a></span></div>`;
+  $('alertList').innerHTML = `<div class="calhow"><b>Set up once (about a minute)</b><ol>
+      <li>Get the free <b>ntfy</b> app: <a href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank" rel="noopener">iPhone</a> · <a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Android</a>.</li>
+      <li>In ntfy, tap <b>+</b> and type a topic name from below, such as <b>kickoffkiwi-nz</b>. Leave the server as ntfy.sh.</li>
+      <li>Allow notifications when it asks. On a computer, <b>Open</b> shows the alerts in your browser instead.</li>
+    </ol></div>`
+    + alertRow('nz', 'All NZ teams')
+    + (one.length ? `<details class="calmore"><summary>Or just one team or competition you follow (${one.length})</summary><div class="cals">${one.map(k => alertRow(k, TEAM_NAME[k])).join('')}</div></details>` : '')
+    + `<div class="calhow"><b>How it works</b><ul>
+      <li>You get "starts in 30 min" with the channel and ground, a rain delay on a live cricket game, and "full time" once the result is in. The score is never in the alert: tap it to open the game here.</li>
+      <li><b>It only goes one way.</b> No account or sign-in. This site doesn't know who has subscribed, and ntfy can't see anything else on your phone.</li>
+      <li>Topics are public: anyone with the name gets the same game alerts.</li>
+      <li>Late games: your phone's Do Not Disturb or Sleep settings still apply, and ntfy can mute a topic for a while.</li>
+      <li>To stop, unsubscribe from the topic in ntfy, or delete the app.</li>
+    </ul></div>`;
+  fitTop(); fitLines(); syncPulse();
 }
 // Phone app (manifest.webmanifest, sw.js): what to tap depends on the device. Chrome and Edge offer their own install
 // prompt, which is kept for the button here; Safari only adds to the home screen from its Share menu.
@@ -2377,7 +2399,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.goto) { const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
   if (t.id === 'toResults' || t.id === 'toNews') { const el = $(t.id === 'toNews' ? 'newsSec' : 'resSec'); scrollTo({ top: el.getBoundingClientRect().top + scrollY - document.querySelector('header.top').offsetHeight - 10, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
   if (t.dataset.install) { if (installEvt) installEvt.prompt().then(() => installEvt.userChoice).then(() => { installEvt = null; $('appInstall').innerHTML = appHtml(); }); return; }
-  if (t.dataset.calcopy) { const u = t.dataset.calcopy; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { t.textContent = 'Copied'; setTimeout(() => { t.textContent = 'Copy link'; }, 1600); }, () => prompt('Copy this calendar link', u)); return; }
+  if (t.dataset.calcopy) { const u = t.dataset.calcopy; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { const was = t.textContent; t.textContent = 'Copied'; setTimeout(() => { t.textContent = was; }, 1600); }, () => prompt('Copy this', u)); return; }
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); store.set('teams', [...picked]); render(); }
   else if (t.dataset.hideall) { ev.stopPropagation(); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); }
   else if (t.dataset.revealall) { ev.stopPropagation(); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); }
@@ -2430,6 +2452,29 @@ function fitTop() {
   if (!oneLine(document.querySelector('header.top .wrap')) || !oneLine(document.querySelector('.compbar'))) root.classList.add('tight');
 }
 addEventListener('resize', fitTop); document.fonts?.ready.then(fitTop);
+// Card titles and team names stay on one line on a phone: one that wraps gets its text a step smaller at a time, down to
+// 72%; past that it wraps at its normal size. Both sides of a game share the smaller size so the names stay balanced.
+function fitLines() {
+  const els = [...document.querySelectorAll('.ev .comp .ctitle > span, .ev .teams .nm')];
+  els.forEach(el => { el.style.fontSize = ''; });
+  const lineCount = el => {
+    const r = document.createRange(); r.selectNodeContents(el);
+    const ys = [...r.getClientRects()].filter(x => x.width > 0).map(x => x.top + x.height / 2).sort((a, b) => a - b);
+    return ys.reduce((n, y, i) => n + (i && y - ys[i - 1] > 6 ? 1 : 0), ys.length ? 1 : 0);
+  };
+  const scale = new Map(), noFit = new Set();
+  for (const el of els.filter(el => lineCount(el) > 1)) {
+    const base = parseFloat(getComputedStyle(el).fontSize), pair = el.closest('.teams');
+    let f = 1;
+    while (lineCount(el) > 1 && f > 0.73) { f -= 0.04; el.style.fontSize = (base * f).toFixed(2) + 'px'; }
+    if (lineCount(el) > 1) { el.style.fontSize = ''; if (pair) noFit.add(pair); continue; }
+    if (pair) scale.set(pair, Math.min(scale.get(pair) || 1, f));
+  }
+  for (const [pair, f] of scale) for (const nm of pair.querySelectorAll('.nm')) nm.style.fontSize = noFit.has(pair) ? '' : (parseFloat(getComputedStyle(pair).fontSize) * f).toFixed(2) + 'px';
+}
+let fitFrame = 0;
+addEventListener('resize', () => { cancelAnimationFrame(fitFrame); fitFrame = requestAnimationFrame(fitLines); });
+document.fonts?.ready.then(fitLines);
 // dots that fill exactly two rows of a day in the week strip (7px dots, 3px apart), measured from the strip itself, so
 // the "+" always lands in the last spot of the second row
 function dotCap() {
@@ -2479,6 +2524,14 @@ function stamp() {
   syncInfo();
   $('mockBar').hidden = true;
 }
+// a phone alert links to its game (kickoff.kiwi/#g=<game id>): open it once the feed is in, then tidy the address
+function openFromLink() {
+  const g = new URLSearchParams(location.hash.slice(1)).get('g');
+  if (!g || !(FEED.events || []).some(e => e.id === g)) return;
+  history.replaceState(null, '', location.pathname + location.search);
+  openDetail(g);
+}
+addEventListener('hashchange', () => { if (FEED.events) openFromLink(); });
 let pageV = null;
 async function load(woke) {
   try {
@@ -2500,7 +2553,7 @@ async function load(woke) {
       const u = usualStart(e); if (u) { e.startUTC = u.toISOString(); e.usual = true; }
     }
     $('foot').innerHTML = `Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)`;
-    render(); stamp();
+    render(); stamp(); openFromLink();
   } catch (e) {
     if (!FEED.generatedAt) { $('mockBar').hidden = false; $('mockNote').textContent = 'Could not load the feed. Check your connection and refresh the page.'; }
   }

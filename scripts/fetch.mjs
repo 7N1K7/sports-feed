@@ -1032,7 +1032,9 @@ async function teamLinks(events) {
 // moved times and new fixtures follow. Only what's known before a game goes in (time, where to watch, venue), never a
 // score or result, so a calendar can't spoil one. Each game has a reminder 30 minutes before (Apple and Outlook use it;
 // Google uses the calendar's own notification setting). Team names and the NZ-side rules are read from the page itself
-async function writeCalendars(events) {
+// The site's own team list (keys and labels) and its NZ test, read from index.html, so the calendars and phone alerts
+// follow the page's lists
+async function siteTeams() {
   const page = await readFile(new URL('index.html', ROOT), 'utf8');
   const block = (page.match(/const TEAMS = \[([\s\S]*?)\n\];/) || [])[1] || '';
   const LABEL = Object.fromEntries([...block.matchAll(/\['(\w+)','((?:[^'\\]|\\.)*)'\]/g)].map(m => [m[1], m[2].replace(/\\'/g, "'")]));
@@ -1040,9 +1042,25 @@ async function writeCalendars(events) {
   try { NZ_KEYS = new Set(JSON.parse(page.match(/const NZ_KEYS = new Set\((\[[^\]]*\])\)/)[1].replace(/'/g, '"'))); } catch {}
   try { const m = page.match(/const NZ_NAMES = \/(.*)\/([a-z]*);/); NZ_NAMES = new RegExp(m[1], m[2]); } catch {}
   const CLUBS = { blues: 'Blues', chiefs: 'Chiefs', hurricanes: 'Hurricanes', crusaders: 'Crusaders', highlanders: 'Highlanders', warriors: 'Warriors' };
-  const ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', hockey: '🏑', motor: '🏎️', tennis: '🎾', mma: '🥊', boxing: '🥊' };
+  return {
+    LABEL,
+    isNZ: e => NZ_KEYS.has(e.team) || !!e.nzEvent || [e.home, e.away].some(n => NZ_NAMES.test(n || '')),
+    // the team and competition keys a game is listed under (a club's games include its NZ derbies in other comps)
+    keysOf: e => Object.keys(LABEL).filter(k => e.team === k || (e.tags || []).includes(k) || (CLUBS[k] && [e.home, e.away].some(n => (n || '').includes(CLUBS[k])))),
+  };
+}
+const GAME_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', hockey: '🏑', motor: '🏎️', tennis: '🎾', mma: '🥊', boxing: '🥊' };
+const NZ_NICK = { 'rugby m': 'All Blacks', 'rugby w': 'Black Ferns', 'league m': 'Kiwis', 'league w': 'Kiwi Ferns', 'cricket m': 'Black Caps', 'cricket w': 'White Ferns', 'football m': 'All Whites', 'football w': 'Football Ferns', 'hockey m': 'Black Sticks', 'hockey w': 'Black Sticks Women' };
+// "Black Caps v India"; a race or tournament is just its name; a fight card leads with the event
+const gameTitle = e => {
+  const name = n => { const w = /\s+Women('s)?$/i.test(n || '') || isW(e); return /^New Zealand( Women('s)?)?$/i.test(n || '') && NZ_NICK[`${e.sport} ${w ? 'w' : 'm'}`] || n; };
+  return e.sport === 'motor' || e.sport === 'tennis' ? e.home : /^(mma|boxing)$/.test(e.sport) ? `${e.comp ? e.comp + ': ' : ''}${e.home} v ${e.away}` : `${name(e.home)} v ${name(e.away)}`;
+};
+
+async function writeCalendars(events) {
+  const { LABEL, isNZ, keysOf } = await siteTeams();
+  const ICON = GAME_ICON;
   const HOURS = { rugby: 2, league: 2, football: 2, hockey: 2, motor: 2, tennis: 4, mma: 5, boxing: 4 };
-  const NICK = { 'rugby m': 'All Blacks', 'rugby w': 'Black Ferns', 'league m': 'Kiwis', 'league w': 'Kiwi Ferns', 'cricket m': 'Black Caps', 'cricket w': 'White Ferns', 'football m': 'All Whites', 'football w': 'Football Ferns', 'hockey m': 'Black Sticks', 'hockey w': 'Black Sticks Women' };
   const site = process.env.SITE_URL || 'https://kickoff.kiwi/';
   const esc = t => String(t || '').replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
   // lines longer than 75 bytes continue on the next line after a space, without splitting a character
@@ -1053,12 +1071,10 @@ async function writeCalendars(events) {
   };
   const stamp = d => d.toISOString().replace(/[-:]/g, '').replace(/\.\d+Z$/, 'Z');
   const nzDate = d => d.toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }).replace(/-/g, '');
-  const name = (e, n) => { const w = /\s+Women('s)?$/i.test(n || '') || isW(e); return /^New Zealand( Women('s)?)?$/i.test(n || '') && NICK[`${e.sport} ${w ? 'w' : 'm'}`] || n; };
-  const solo = e => e.sport === 'motor' || e.sport === 'tennis';
   const vevents = e => {
     const start = new Date(e.startUTC);
     if (isNaN(start) || e.status === 'final' && now - start > 2 * DAY) return [];
-    const what = solo(e) ? e.home : /^(mma|boxing)$/.test(e.sport) ? `${e.comp ? e.comp + ': ' : ''}${e.home} v ${e.away}` : `${name(e, e.home)} v ${name(e, e.away)}`;
+    const what = gameTitle(e);
     const desc = [[e.comp, e.stage].filter(Boolean).join(' · '), e.broadcast && e.broadcast !== 'TBC' ? `Watch: ${e.broadcast}` : '', [e.venue, e.city].filter(Boolean).join(', '), `Kickoff Kiwi: ${site}`].filter(Boolean).join('\n');
     const where = [e.venue, e.city].filter(Boolean).join(', ');
     // a Test or first-class match is one entry a day of play; a one-day game runs eight hours, a T20 three and a half
@@ -1086,13 +1102,84 @@ async function writeCalendars(events) {
   const sorted = [...events].sort((a, b) => a.startUTC.localeCompare(b.startUTC));
   const counts = [];
   for (const [k, label] of Object.entries(LABEL)) {
-    const list = sorted.filter(e => e.team === k || (e.tags || []).includes(k) || (CLUBS[k] && [e.home, e.away].some(n => (n || '').includes(CLUBS[k]))));
+    const list = sorted.filter(e => keysOf(e).includes(k));
     await writeFile(new URL(`${k}.ics`, dir), cal(`${label} · Kickoff Kiwi`, list));
     counts.push(`${k} ${list.length}`);
   }
-  const nz = sorted.filter(e => NZ_KEYS.has(e.team) || e.nzEvent || [e.home, e.away].some(n => NZ_NAMES.test(n || '')));
+  const nz = sorted.filter(isNZ);
   await writeFile(new URL('nz.ics', dir), cal('NZ teams · Kickoff Kiwi', nz));
   diag.calendars = `nz ${nz.length}; ${counts.join(', ')}`;
+}
+
+// Phone alerts through ntfy (ntfy.sh: a free app, no account): "starts in 30 min" before each game with a set start time,
+// a rain delay on a live cricket game, and "full time" once a result is in, never with the score. Topics: kickoffkiwi-nz
+// for every NZ team's games, and kickoffkiwi-<key> for each team or competition in the site's list. Anyone who knows a
+// topic can read it, which is fine for fixtures. What was sent is kept in .cache/alerts.json; if that's lost, a topic's
+// own last 12 hours (ntfy keeps them) are checked before anything is sent to it again.
+const NTFY_ON = true, NTFY = 'https://ntfy.sh/', TOPIC = k => `kickoffkiwi-${k}`;
+const DONE_WORD = { cricket: 'Match over', tennis: 'Finished', motor: 'Race over', mma: 'Card over', boxing: 'Fight night over' };
+async function phoneAlerts(events) {
+  if (!NTFY_ON) return;
+  const { isNZ, keysOf } = await siteTeams();
+  const cacheUrl = new URL('.cache/alerts.json', ROOT);
+  let sent = {};
+  try { sent = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
+  for (const k of Object.keys(sent)) if (!k.startsWith('__') && now - sent[k] > 3 * DAY) delete sent[k];
+  const site = process.env.SITE_URL || 'https://kickoff.kiwi/';
+  const nzDay = new Date(now).toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' });
+  const due = [];
+  for (const e of events) {
+    const start = Date.parse(e.startUTC), mins = (start - now) / 6e4;
+    if (isNaN(start)) continue;
+    const what = `${GAME_ICON[e.sport] || ''} ${gameTitle(e)}`.trim();
+    const where = [e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '', [e.venue, e.city].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
+    // runs are 5 to 10 minutes apart, so the first one inside 40 minutes sends it
+    if (!e.timeTBC && e.status !== 'final' && mins > 0 && mins <= 40)
+      due.push({ e, kind: 'start', title: `${what} starts in ${Math.max(5, Math.round(mins / 5) * 5)} min`, message: where || 'Starting soon', priority: 4 });
+    // the same signs as the card's rain stamp: the state of play, or a fresh rain headline about the game; once a day
+    const wetPlay = /\b(rain|wet|bad light|delayed|no play)\b/i.test(e.progress || '');
+    const wetNews = e.wxNews && (!e.wxNews.at || now - Date.parse(e.wxNews.at) < 6 * 36e5);
+    if (e.sport === 'cricket' && e.status !== 'final' && start < now && now - start < 6 * DAY && (wetPlay || wetNews))
+      due.push({ e, kind: `rain-${nzDay}`, title: `🌧 Rain delay: ${gameTitle(e)}`, message: wetPlay ? e.progress : `${e.wxNews.title} (${e.wxNews.credit || 'news'})`, priority: 3 });
+    // a Test or first-class game ends days after it starts
+    const long = e.sport === 'cricket' && /\bTests?\b|first.class|Plunket/i.test(`${e.format || ''} ${e.stage || ''} ${e.comp || ''}`);
+    if (e.status === 'final' && start < now && now - start < (long ? 6 * DAY : 12 * 36e5) && !/postponed|cancel/i.test(`${e.score || ''} ${e.summary || ''}`))
+      due.push({ e, kind: 'end', title: `${DONE_WORD[e.sport] || 'Full time'}: ${gameTitle(e)}`, message: 'Tap to see the result (no score here)', priority: 3 });
+  }
+  // the very first run only notes the results already in, rather than announcing them all at once
+  if (!sent.__seeded) {
+    for (const d of due) if (d.kind === 'end') for (const topic of [...(isNZ(d.e) ? ['nz'] : []), ...keysOf(d.e)]) sent[`end|${d.e.id}|${topic}`] = now;
+    sent.__seeded = now;
+  }
+  const polled = {}, log = [];
+  const already = async topic => {
+    if (!polled[topic]) {
+      polled[topic] = new Set();
+      try {
+        const r = await fetch(`${NTFY}${TOPIC(topic)}/json?poll=1&since=12h`, { headers: { 'user-agent': 'KickoffKiwi/1.0 (https://kickoff.kiwi/)' } });
+        for (const line of (await r.text()).split('\n')) { try { const m = JSON.parse(line); if (m.click) polled[topic].add(m.click); } catch {} }
+      } catch {}
+    }
+    return polled[topic];
+  };
+  let posts = 0, failed = 0;
+  for (const d of due) {
+    const click = `${site}#g=${encodeURIComponent(d.e.id)}&a=${d.kind}`;
+    for (const topic of [...new Set([...(isNZ(d.e) ? ['nz'] : []), ...keysOf(d.e)])]) {
+      const key = `${d.kind}|${d.e.id}|${topic}`;
+      if (sent[key]) continue;
+      if ((await already(topic)).has(click)) { sent[key] = now; continue; }
+      if (posts >= 40) break;
+      try {
+        await new Promise(r => setTimeout(r, 400));
+        const r = await fetch(NTFY, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ topic: TOPIC(topic), title: d.title, message: d.message, click, priority: d.priority }) });
+        if (!r.ok) throw new Error(r.status);
+        sent[key] = now; posts++; log.push(`${topic}: ${d.title}`);
+      } catch (err) { failed++; log.push(`${topic}: failed (${err.message}) ${d.title}`); }
+    }
+  }
+  try { await writeFile(cacheUrl, JSON.stringify(sent)); } catch {}
+  diag.alerts = `${due.length} due, ${posts} sent${failed ? `, ${failed} failed` : ''}${log.length ? ': ' + log.slice(0, 12).join('; ') : ''}`;
 }
 
 // Squad names link to each player's Cricinfo profile: the Cricinfo id comes from Wikidata (ESPNcricinfo player ID, P2697),
@@ -1217,6 +1304,7 @@ try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFil
 // a season's finals stay up through the off-season (about five months), so a finished competition still shows how it ended
 const isFinal = e => /\bfinals?\b|semi.?final|grand final|qualifying final|elimination final|preliminary final/i.test(`${e.comp || ''} ${e.stage || ''} ${e.round || ''}`);
 try { await writeCalendars(events); } catch (e) { diag.calendars = 'error: ' + e.message; }
+try { await phoneAlerts(events); } catch (e) { diag.alerts = 'error: ' + e.message; }
 const feed = {
   generatedAt: new Date(now).toISOString(),
   ...(site ? { site } : {}),
