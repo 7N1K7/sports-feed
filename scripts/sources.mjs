@@ -78,7 +78,7 @@ const CODES = {
   NZ: 'New Zealand', NZL: 'New Zealand', AUS: 'Australia', FIJ: 'Fiji', FJI: 'Fiji', SAM: 'Samoa', SAMOA: 'Samoa', WSM: 'Samoa', TGA: 'Tonga', TON: 'Tonga', PNG: 'Papua New Guinea',
   COK: 'Cook Islands', CKI: 'Cook Islands', ENG: 'England', FRA: 'France', WAL: 'Wales', SCO: 'Scotland', IRE: 'Ireland', IRL: 'Ireland', ITA: 'Italy', RSA: 'South Africa', SA: 'South Africa',
   ZAF: 'South Africa', ARG: 'Argentina', JPN: 'Japan', JAP: 'Japan', USA: 'USA', CAN: 'Canada', IND: 'India', PAK: 'Pakistan', SL: 'Sri Lanka', SRI: 'Sri Lanka', LKA: 'Sri Lanka',
-  BAN: 'Bangladesh', BGD: 'Bangladesh', WI: 'West Indies', AFG: 'Afghanistan', ZIM: 'Zimbabwe', LBN: 'Lebanon', LEB: 'Lebanon', JAM: 'Jamaica', GEO: 'Georgia', POR: 'Portugal',
+  BAN: 'Bangladesh', BGD: 'Bangladesh', WI: 'West Indies', WIN: 'West Indies', AFG: 'Afghanistan', ZIM: 'Zimbabwe', LBN: 'Lebanon', LEB: 'Lebanon', JAM: 'Jamaica', GEO: 'Georgia', POR: 'Portugal',
   ESP: 'Spain', URU: 'Uruguay', CHI: 'Chile', NED: 'Netherlands', BRA: 'Brazil', KEN: 'Kenya', CZE: 'Czechia', POL: 'Poland', ROU: 'Romania', ROM: 'Romania', HKG: 'Hong Kong',
   KOR: 'South Korea', CHN: 'China', GER: 'Germany', BEL: 'Belgium', NAM: 'Namibia', UAE: 'United Arab Emirates', SCOT: 'Scotland', IRELAND: 'Ireland', SER: 'Serbia', GRE: 'Greece',
   MLT: 'Malta', ITY: 'Italy', NIR: 'Northern Ireland',
@@ -205,6 +205,8 @@ function eventsFromPage(title, text, cfg, cityTz) {
     // nearest heading above the box, e.g. "1st T20I" on a tour page
     const heads = cfg.seriesTitle ? [...text.slice(0, tpl.at).matchAll(/^={2,5}\s*([^=\n]+?)\s*={2,5}\s*$/gm)] : [];
     const stage = heads.length ? clean(heads[heads.length - 1][1]) : '';
+    // other nations' tours: the internationals only, not warm-ups against local XIs
+    if (cfg.classify === 'intlcricket' && /tour match|warm-?up|practice/i.test(stage)) continue;
     out.push({
       id: `wiki-${cls.team}-${new Date(t).toISOString().slice(0, 10)}-${(home + away).toLowerCase().replace(/[^a-z]/g, '').slice(0, 40)}`,
       team: cls.team, tags: cls.tags, sport: cfg.sport, comp: cfg.comp + (round && cfg.showRound ? ` · ${round}` : ''),
