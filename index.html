@@ -834,8 +834,11 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev.res .rtop { height: 46px }
 .ev.res .rtop .acts { flex-wrap: nowrap; white-space: nowrap }
 /* a card's competition title sits dead centre over the "v": its sport icon just to the left, its badges just to the right */
-/* the icon, title and tags centre as one group, so wide tags (TEST INTL) don't pull the row off to one side */
-.ev .comp { display: flex; justify-content: center; align-items: center; column-gap: 7px }
+/* the icon, title and tags centre as one group, so wide tags (TEST INTL) don't pull the row off to one side. The icon is
+   tied to the title: when the row doesn't fit, the title wraps beside its icon and only the tags drop to a line of
+   their own, centred under it */
+.ev .comp { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; column-gap: 7px; row-gap: 4px }
+.ev .comp .cmain { display: flex; align-items: center; justify-content: center; gap: 7px; min-width: 0; flex: 0 1 auto }
 .ev .comp .cicon { justify-self: end; display: flex; width: auto; height: auto; margin-right: 0; align-self: center; align-items: center }
 .ev .comp .ctitle { text-align: center; min-width: 0; flex: 0 1 auto }
 .ev .comp .ctitle { font-size: 14.5px }
@@ -1350,7 +1353,7 @@ function evCard(e, now) {
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${esc(cardComp(e))}</span></span><span class="ctags">${compBadge(e)}${intlTag(e)}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${esc(cardComp(e))}</span></span></span><span class="ctags">${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${seriesLine(e, now)}
     </div>
@@ -1443,7 +1446,7 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${esc(cardComp(e))}</span></span><span class="ctags">${compBadge(e)}${intlTag(e)}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${esc(cardComp(e))}</span></span></span><span class="ctags">${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup${split ? ' scored' : ''}"><span class="side home ${fres('home')}">${teamName(e.home, e.homeLogo, e)}</span>${split ? `<span class="v vsc">${scoreTag(split[0], res('home'))}<span class="vv">v</span>${scoreTag(split[1], res('away'))}</span>` : fw ? `<span class="v vhow"><span>v</span>${howTxt ? `<small>${esc(howTxt)}</small>` : ''}</span>` : '<span class="v">v</span>'}<span class="side away ${fres('away')}">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${e.summary ? (hidden ? '<div class="summary" aria-hidden="true">&nbsp;</div>' : `<div class="summary" title="${esc(e.summary)}">${esc(e.summary)}</div>`) : ''}
     </div>
