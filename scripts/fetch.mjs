@@ -216,6 +216,47 @@ async function fightNews() {
   return out;
 }
 
+// Cricket's state of play as it happens, from ESPN's score-strip feed (the one behind espncricinfo.com): "Match delayed
+// by rain", "Lunch", "Stumps", "Innings break", and the score. Wikipedia's editors add these late if at all, so a rain
+// delay never showed. ESPN's terms of use don't allow automated access without its permission, so like RNZ this stays
+// off unless the site's owner chooses to switch it on. It only adds to matches already on a card, never a card of its own
+const ESPN_ON = false;
+async function espnCricket(events) {
+  let d;
+  try {
+    const r = await fetch('https://site.web.api.espn.com/apis/v2/scoreboard/header?sport=cricket&lang=en&region=nz', { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' }, signal: AbortSignal.timeout(15000) });
+    if (!r.ok) throw new Error(r.status);
+    d = await r.json();
+  } catch (e) { diag.espnCricket = 'error ' + e.message; return; }
+  const list = (d.sports || []).flatMap(s => (s.leagues || []).flatMap(l => l.events || []));
+  // "Central Stags" is ESPN's "Central Districts", "Auckland Aces" its "Auckland": compare on the place
+  const key = n => norm(String(n || '').replace(/\b(aces|stags|hinds|volts|sparks|firebirds|blaze|kings|magicians|knights|brave|hearts|districts|wizards)\b/gi, ''));
+  const sameSide = (a, b) => { const x = key(a), y = key(b); return !!x && !!y && (x === y || x.startsWith(y) || y.startsWith(x)); };
+  const done = [];
+  for (const ev of list) {
+    const st = ev.fullStatus || {}, type = st.type || {};
+    const [c1, c2] = ev.competitors || [];
+    if (!c1 || !c2 || type.state === 'post' || (type.state === 'pre' && !/delay|rain|wet|inspection|light/i.test(type.description || ''))) continue;
+    const t = Date.parse(ev.date), w = /\bwomen\b/i.test(`${ev.name} ${c1.displayName} ${c2.displayName}`);
+    const hit = events.filter(e => e.sport === 'cricket' && e.status !== 'final' && isW(e) === w && Math.abs(Date.parse(e.startUTC) - t) < 30 * 36e5
+      && ((sameSide(e.home, c1.displayName) && sameSide(e.away, c2.displayName)) || (sameSide(e.home, c2.displayName) && sameSide(e.away, c1.displayName))))
+      .sort(near(t))[0];
+    if (!hit) continue;
+    // "Day 2" on a Test; the page reads the day from the state of play ("Stumps, day 1" ends day 1)
+    const day = /^Day \d$/.test(st.session || '') ? `, ${st.session.toLowerCase()}` : '';
+    const desc = type.description === 'Live' ? 'In play' : type.description || '';
+    if (!desc) continue;
+    const score = c => c.score ? `${sameSide(hit.home, c.displayName) ? hit.home : hit.away} ${c.score}` : '';
+    const homeFirst = sameSide(hit.home, c1.displayName) ? [c1, c2] : [c2, c1];
+    Object.assign(hit, { progress: desc + day, liveState: type.state, liveAt: new Date(now).toISOString() });
+    const ls = homeFirst.map(score).filter(Boolean).join(' v ');
+    if (ls) hit.liveScore = ls; else delete hit.liveScore;
+    if (!hit.cricinfo && ev.id) hit.cricinfo = `https://www.espncricinfo.com/ci/engine/match/${ev.id}.html`;
+    done.push(`${hit.home} v ${hit.away}: ${hit.progress}${ls ? ' / ' + ls : ''}`);
+  }
+  diag.espnCricket = `${list.length} on ESPN now, ${done.length} on our cards${done.length ? ': ' + done.join('; ') : ''}`;
+}
+
 // --- merge -------------------------------------------------------------
 const ALIAS = [[/all blacks|black ferns|kiwi ferns|\bkiwis\b|white ferns|black ?caps/gi, 'new zealand'], [/wallabies|kangaroos|jillaroos|wallaroos/gi, 'australia'], [/springboks/gi, 'south africa'], [/pumas/gi, 'argentina']];
 const norm = s => ALIAS.reduce((t, [re, to]) => t.replace(re, to), s || '').toLowerCase().replace(/women|bulls|stags|storm|pride|mako|steamers|heartland|rugby|the /g, '').replace(/[^a-z]/g, '');
@@ -362,6 +403,7 @@ for (const t of tsdbFill) {
   if (did.length) filled.push(`${hit.home} v ${hit.away} (${hit.id}): ${did.join(', ')}`);
 }
 if (tsdbFill.length) diag.tsdbFilled = filled;
+if (ESPN_ON) await espnCricket(events);
 // a hand correction in the curated files ("fix") wins over every live source, for when a source has a score wrong
 for (const e of events) if (e.fix) Object.assign(e, e.fix);
 events.forEach(e => applyBroadcast(e, rules));

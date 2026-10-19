@@ -1213,6 +1213,9 @@ function onNow(e, now) {
   const s = new Date(e.startUTC);
   const f = e.sport === 'cricket' ? formatOf(e) : '';
   const days = DAYS[f] || 1;
+  // a live state of play checked in the last 90 minutes ("Match delayed by rain, day 2") keeps the match on whatever
+  // the clock says, as a rain delay can run past the day's usual hours; "Stumps" ends the day as before
+  if (e.liveState && now - Date.parse(e.liveAt) < 90 * 6e4 && !/^(stumps|end of day)/i.test(e.progress || '')) return days > 1 ? `Day ${progDay(e) || 1}` : 'On now';
   // a rain note on the match ("Rain delayed the start", "reduced to 15 overs") buys two more hours
   const wet = /\b(rain|wet|delay|bad light|reduced)/i.test(`${e.weather || ''} ${e.progress || ''}`) ? 2 : 0;
   // a day of a Test is set down to finish about 5pm local, with half an hour more to make up lost overs;
@@ -1323,7 +1326,8 @@ function evCard(e, now) {
   // a state of play from an earlier day ("Tea, day 1" once day 2 is on) is stale, so drop it
   const today = +((live || paused || '').match(/Day (\d)/) || [])[1] || 0, pd = progDay(e);
   const fresh = !pd || !today || (live ? pd >= today : pd >= today - 1);
-  const play = fresh && (live || (paused && !/lunch|tea|drinks|innings break/i.test(e.progress || ''))) && e.progress ? `<div class="wx play">${esc(e.progress)}${!e.liveScore ? '' : !spoilers || revealed.has(e.id) ? ` · ${esc(e.liveScore)}` : ` · <button type="button" class="lsrev" data-reveal="${esc(e.id)}">Show score</button>`}</div>` : '';
+  const wet = /\b(rain|wet|drizzle|bad light|covers)\b/i.test(e.progress || '');
+  const play = fresh && (live || (paused && !/lunch|tea|drinks|innings break/i.test(e.progress || ''))) && e.progress ? `<div class="wx play">${wet ? '🌧 ' : ''}${esc(e.progress)}${!e.liveScore ? '' : !spoilers || revealed.has(e.id) ? ` · ${esc(e.liveScore)}` : ` · <button type="button" class="lsrev" data-reveal="${esc(e.id)}">Show score</button>`}</div>` : '';
   const local = overseas ? `<div class="loc num">${e.timeTBC ? (e.usual ? '≈' + time(d, e.tz) + ' ' : '') : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${wikiLink(cityOf(e))}</div>` : '';
   const tv = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : '';
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
@@ -1338,7 +1342,7 @@ function evCard(e, now) {
       <div class="nzl">${START_LABEL[e.sport] || 'Start'} ${esc(tzLabel())}</div>
       <div class="nz num"${e.usual ? ` title="${USUAL_NOTE}"` : ''}>${e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div><i class="wbr" aria-hidden="true"></i>
-      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${live && wxNote(e) ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
+      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${live && wxNote(e) && !(play && wet) ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
     </div>
   </article>`;
 }
