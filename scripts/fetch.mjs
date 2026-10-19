@@ -5,7 +5,7 @@
 //   Wikipedia (MediaWiki API)  -> fixtures and results from season pages listed in data/wiki-pages.json
 //   TheSportsDB free API       -> A-League, NRL, Super Rugby rounds, next/last UFC event, team logos
 //                                 and, fill only, final scores/start times Wikipedia lacks (RLWC, NPC, rugby tests)
-//   RNZ sport RSS              -> news, tagged to teams by keyword
+//   RNZ sport RSS              -> off (its terms don't allow it on a website); kept for if RNZ gives permission
 //   data/curated/*.json        -> fixtures the above lack (boxing, some tests), news, notes
 //   data/broadcast.json        -> where-to-watch rules by competition
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
@@ -349,9 +349,10 @@ const newsAll = [...curated.news];
   }
   EVENT_NAMES = [...pairs].map(([n, t]) => [new RegExp(`\\b${esc(n)}\\b`), t]);
 }
-// RNZ's RSS terms say "for personal use only" (rnz.co.nz/rss); the owner chose to show it on this non-commercial site,
-// with the feed's own summary and photo and a "Read at RNZ" link back. Set false to switch it off again
-const RNZ_ON = true;
+// RNZ's RSS terms (rnz.co.nz/rss) say "No audio or text from these may be posted to a web site ... without the express
+// permission of Radio New Zealand", so the feed stays off; the page links to RNZ Sport instead. Only switch this back on
+// with RNZ's written permission
+const RNZ_ON = false;
 for (const n of [...(RNZ_ON ? await rnzNews() : []), ...await heraldNews(), ...await fightNews()]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
 const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 

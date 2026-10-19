@@ -167,6 +167,7 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .day .dn { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted) }
 .day .dd { font-family: var(--f-display); font-size: 24px; font-weight: 700; line-height: 1 }
 .day .dots { display: flex; gap: 3px; justify-content: center; align-content: center; min-height: 17px; flex-wrap: wrap } /* room for two rows, so filtering never changes the strip's height */
+.morenews { margin: 10px 0 0; text-align: center; font-size: 13px; color: var(--muted) } .morenews a { color: var(--accent); white-space: nowrap }
 .photocred { margin: 18px 0 0; font-size: 11px; line-height: 1.45; color: var(--muted); opacity: .8 }
 .dot { width: 7px; height: 7px; border-radius: 50% }
 .dot.done { opacity: .3 }
@@ -948,6 +949,7 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
     <h2>News &amp; injuries</h2>
     <div class="filters" id="newsFilters"></div>
     <div id="news" class="news"></div>
+    <p class="morenews">More NZ sport news: <a href="https://www.rnz.co.nz/news/sport" target="_blank" rel="noopener">RNZ Sport ↗</a> · <a href="https://www.stuff.co.nz/sport" target="_blank" rel="noopener">Stuff ↗</a> · <a href="https://www.1news.co.nz/sport/" target="_blank" rel="noopener">1News ↗</a> · <a href="https://www.skysport.co.nz/" target="_blank" rel="noopener">Sky Sport ↗</a></p>
   </section>
   <section id="showSec" hidden>
     <h2>Shows &amp; podcasts</h2>
