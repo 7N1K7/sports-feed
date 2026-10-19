@@ -96,7 +96,7 @@ button { font: inherit; color: inherit }
 .num { font-variant-numeric: tabular-nums }
 
 header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line) }
-header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block: 6px; flex-wrap: wrap }
+header.top .wrap { display: flex; align-items: center; justify-content: flex-end; gap: 10px; padding-block: 6px; flex-wrap: wrap }
 @media (max-width: 560px) { header.top .wrap { row-gap: 4px; padding-bottom: 5px } }
 .brand { font-family: var(--f-display); font-weight: 700; font-size: 31px; letter-spacing: .02em; text-transform: uppercase; line-height: 1 }
 .brand span { color: var(--accent) }
@@ -842,7 +842,6 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
       <input id="q" type="search" placeholder="Find a team or game" autocomplete="off" spellcheck="false" aria-label="Find a team or game" aria-controls="qList" aria-expanded="false">
       <div id="qList" class="qlist" role="listbox" aria-label="Search results" hidden></div>
     </div>
-    <div class="spacer"></div>
     <div class="hbtns">
     <button class="btn" id="toResults" type="button" title="Jump to recent results">Results ↓</button>
     <button class="btn" id="toNews" type="button" title="Jump to the news">News ↓</button>
