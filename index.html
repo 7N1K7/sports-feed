@@ -169,9 +169,12 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .day .dots { display: flex; gap: 3px; justify-content: center; align-content: center; min-height: 17px; flex-wrap: wrap } /* room for two rows, so filtering never changes the strip's height */
 .photocred { margin: 18px 0 0; font-size: 11px; line-height: 1.45; color: var(--muted); opacity: .8 }
 .dot { width: 7px; height: 7px; border-radius: 50% }
+.dot.done { opacity: .3 }
 /* the "+" is drawn, not typed, so it sits dead centre in a dot's spot */
-/* the "+" is two bars painted from the same centre, so at any screen scaling the arms stay even rather than looking like a cross */
-.dot.more { border-radius: 0; --pc: var(--muted); background: linear-gradient(var(--pc), var(--pc)) center / 100% 2px no-repeat, linear-gradient(var(--pc), var(--pc)) center / 2px 100% no-repeat }
+/* the "+" is a text glyph: fonts snap their glyphs to the screen's pixels, so its arms stay even at any display scaling
+   (drawn bars came out wider than tall on scaled Windows screens) */
+.dot.more { border-radius: 0; display: inline-flex; align-items: center; justify-content: center; overflow: visible; color: var(--muted) }
+.dot.more::before { content: '+'; font: 700 12px/1 system-ui, -apple-system, 'Segoe UI', sans-serif }
 .day.today { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
 .day.empty .dd { color: var(--muted) }
 
@@ -779,6 +782,22 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
   .qlist { left: 0; right: 0; width: auto }
   .trow { grid-template-columns: minmax(0, 1fr) auto } .trow .td { grid-column: 1 / -1 }
 }
+/* a desktop window too narrow for the header or the filter row on one line takes the phone's compact layout for both,
+   rather than wrapping a button or two onto a line of their own (set by fitTop) */
+html.tight header.top .wrap { row-gap: 4px; padding-bottom: 5px }
+html.tight .brand { flex: none; font-size: 27px }
+html.tight .binfo { font-size: 9px } html.tight .brand .bt { gap: 4px }
+html.tight .hbtns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; flex: 1 1 100% }
+html.tight .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
+html.tight .hbtns .btn svg { width: 14px; height: 14px; flex: none }
+html.tight header.top .search { order: 10; flex: 1 1 100%; position: relative; left: auto; top: auto; transform: none }
+html.tight #q { width: 100%; box-sizing: border-box; padding-block: 4px; font-size: 13px }
+html.tight .qlist { left: 0; right: 0; width: auto }
+html.tight .compbar { gap: 6px }
+html.tight .compbar .lg { display: none } html.tight .compbar .sm { display: inline }
+html.tight .compbar .cmenu { flex: 0 0 100%; display: flex; justify-content: center }
+html.tight .nzonly, html.tight .rankbtn { padding: 3px 10px; gap: 5px; font-size: 13px }
+html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
 /* compact rows: the matchup is one fixed width on every card, so each logo sits on the same vertical line at its outer edge;
    the name sits beside its logo and a long name grows in toward the "v" rather than pushing the logo out */
 @media (min-width: 561px) {
@@ -1983,10 +2002,11 @@ function render() {
   const days = [...Array(7)].map((_, i) => new Date(now + i * 864e5));
   $('weekRange').textContent = `${dayLabel(days[0], NZ)} to ${dayLabel(days[6], NZ)}`;
   // as many spots as two full rows hold; past that, the last spot becomes a "+"
+  const doneSet = new Set(finals); // games already played show as faded dots, so a day's bright dots are what's still to come
   const drawWeek = cap => $('week').innerHTML = days.map(d => {
     const k = dayKey(d);
     const list = evs.filter(e => dayKey(new Date(e.startUTC)) === k);
-    const dots = (list.length > cap ? list.slice(0, cap - 1) : list).map(e => `<span class="dot" style="background:var(--${e.sport})"></span>`).join('') + (list.length > cap ? `<span class="dot more" title="${list.length - cap + 1} more" aria-hidden="true"></span>` : '');
+    const dots = (list.length > cap ? list.slice(0, cap - 1) : list).map(e => `<span class="dot${doneSet.has(e) ? ' done' : ''}" style="background:var(--${e.sport})"></span>`).join('') + (list.length > cap ? `<span class="dot more" title="${list.length - cap + 1} more" aria-hidden="true"></span>` : '');
     const wd = fmt(d, NZ, { weekday: 'short' });
     return `<button class="day ${k === todayK ? 'today' : ''} ${k === selDay ? 'sel' : ''} ${/Sat|Sun/.test(wd) ? 'wkend' : ''} ${list.length ? '' : 'empty'}" type="button" data-jump="${k}" aria-label="${dayLabel(d, NZ)}, ${list.length} games">
       <span class="dn">${k === todayK ? 'Today' : fmt(d, NZ, { weekday: 'short' })}</span>
@@ -2168,7 +2188,7 @@ function render() {
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
   $('teamGroups').innerHTML = TEAMS.map(g => `<div class="group"><h3>${g.g}</h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`).join('');
-  syncPulse();
+  fitTop(); syncPulse();
 }
 // Redrawn live tags and cards would restart their pulse on every click; run every pulse on the page's own clock instead
 function syncPulse() {
@@ -2238,6 +2258,15 @@ function closeComp() { $('compMenu').hidden = true; $('compSel').setAttribute('a
 const fitComp = () => { const m = $('compMenu'); if (!m.hidden) m.style.maxHeight = Math.max(220, innerHeight - $('compSel').getBoundingClientRect().bottom - 24) + 'px'; };
 $('compSel').addEventListener('click', ev => { ev.stopPropagation(); const open = $('compMenu').hidden; $('compMenu').hidden = !open; $('compSel').setAttribute('aria-expanded', String(open)); fitComp(); });
 addEventListener('resize', fitComp);
+// the full header and filter row while each fits on one line; otherwise the compact layout for both (phones have it anyway)
+function fitTop() {
+  const root = document.documentElement; root.classList.remove('tight');
+  if (PHONE.matches) return;
+  const oneLine = el => { const r = [...el.children].filter(c => c.offsetParent || getComputedStyle(c).display === 'contents').flatMap(c => getComputedStyle(c).display === 'contents' ? [...c.children] : [c]).map(c => c.getBoundingClientRect()).filter(r => r.width && r.height);
+    return !r.length || Math.max(...r.map(x => x.top)) < Math.min(...r.map(x => x.bottom)); };
+  if (!oneLine(document.querySelector('header.top .wrap')) || !oneLine(document.querySelector('.compbar'))) root.classList.add('tight');
+}
+addEventListener('resize', fitTop); document.fonts?.ready.then(fitTop);
 // dots that fill exactly two rows of a day in the week strip (7px dots, 3px apart), measured from the strip itself, so
 // the "+" always lands in the last spot of the second row
 function dotCap() {
