@@ -1,2 +1,1 @@
-using https://kickoff.kiwi/
-done
+fonts: Barlow Condensed 700, Source Sans 3 600, Source Sans 3 700
