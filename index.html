@@ -630,7 +630,8 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev .teams.matchup.scored:has(.ts) .side, :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev.res .teams.matchup .side { flex-wrap: wrap; row-gap: 2px }
 .ts .ov { font-size: .7em; font-weight: 600 }
 /* scores either side of the "v", so the crests and names stay where they'd be without them */
-.matchup .v.vsc { display: flex; align-items: baseline; gap: .45em; font-size: 1em; text-transform: none; color: inherit }
+.matchup .v.vsc { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: .45em; font-size: 1em; text-transform: none; color: inherit }
+.matchup .vsc > :first-child { justify-self: end } .matchup .vsc > :last-child { justify-self: start }
 .matchup .vsc .vv { color: var(--muted); font-weight: 500; font-size: .75em }
 .matchup .vsc .ts { padding: 0 }
 .matchup .v.vhow { display: grid; justify-items: center; line-height: 1.1 }
