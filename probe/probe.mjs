@@ -1,8 +1,15 @@
-// probe 21: kickoff.kiwi serving the site? http, https, www, the old github.io address, and the calendar files
-for (const u of ['http://kickoff.kiwi/', 'https://kickoff.kiwi/', 'https://www.kickoff.kiwi/', 'https://7n1k7.github.io/sports-feed/', 'https://7n1k7.github.io/sports-feed/data/cal/nz.ics', 'https://kickoff.kiwi/data/cal/nz.ics', 'https://kickoff.kiwi/data/feed.json']) {
+// probe 22: wait (up to 40 minutes) for https://kickoff.kiwi to have its certificate, then report
+const t0 = Date.now();
+let last = '';
+while (Date.now() - t0 < 40 * 60e3) {
   try {
-    const r = await fetch(u, { redirect: 'manual', signal: AbortSignal.timeout(15000) });
-    const t = r.status === 200 ? (await r.text()) : '';
-    console.log(u, '->', r.status, r.headers.get('location') || '', '|', (t.match(/<title>([^<]*)/) || [])[1] || (t.startsWith('BEGIN:VCALENDAR') ? 'calendar ok' : t.startsWith('{') ? 'json ok' : t.slice(0, 60).replace(/\s+/g, ' ')));
-  } catch (e) { console.log(u, '-> ERR', e.cause?.code || e.message); }
+    const r = await fetch('https://kickoff.kiwi/', { redirect: 'manual', signal: AbortSignal.timeout(15000) });
+    const t = await r.text();
+    console.log(new Date().toISOString(), 'HTTPS OK', r.status, (t.match(/<title>([^<]*)/) || [])[1] || '');
+    const h = await fetch('http://kickoff.kiwi/', { redirect: 'manual' });
+    console.log('http ->', h.status, h.headers.get('location') || '(no redirect: Enforce HTTPS not ticked yet)');
+    process.exit(0);
+  } catch (e) { const m = e.cause?.code || e.message; if (m !== last) console.log(new Date().toISOString(), 'not yet:', m); last = m; }
+  await new Promise(r => setTimeout(r, 30e3));
 }
+console.log('gave up after 40 minutes');
