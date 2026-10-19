@@ -1,9 +1,13 @@
-BBC 33.5h ago | Start delayed on second day of South Africa-Australia Test - scorecard
-BBC 69.9h ago | ECB abandons Rooney Rule for coach recruitment
-BBC 140.1h ago | Rusty or something more? South Africa's concern after Australia loss
-BBC 172.2h ago | New rule, no change - has cricket missed a trick again with bad light?
-NZH 17.1h ago | White Ferns fall to Australia in first T20
-NZH 87.5h ago | White Ferns: ‘The energy lifts a bit when you’re playing Australia’
-NZH 136.7h ago | Australia beat South Africa by 214 runs in first test as Josh Hazlewood takes six
-NZH 277.2h ago | Why New Zealand Cricket overlooked Australian Big Bash League offer to back Kiwi competition
-NZH 299.7h ago | NZ Cricket breaks silence on Deloitte report and why Australian Big Bash League offer wasn’t pursued
+revisions since day 1: 9
+2026-10-18T07:59:36Z | rain=[] result=[] | update
+2026-10-18T10:48:10Z | rain=[] result=[''Lunch, Day 1''] | /* 2nd Test */
+2026-10-18T13:22:06Z | rain=[] result=[''Tea, Day 1''] | /* 2nd Test */
+2026-10-18T15:17:31Z | rain=[] result=[''Stumps, Day 1''] | /* 2nd Test */
+
+BBC Start delayed on second day of South Africa-Australia Test - scorecard | pubDate Sun, 18 Oct 2026 00:00:00 GMT | https://www.bbc.co.uk/sport/cricket/scorecard/e-236998?at_medium=RSS&amp;at_campaign=rss
+   page times: 
+   page title: undefined
+
+BBC Rusty or something more? South Africa's concern after Australia loss | pubDate Tue, 13 Oct 2026 13:28:41 GMT | https://www.bbc.co.uk/sport/cricket/articles/cmd7qv2pg333o?at_medium=RSS&amp;at_campaign=rss
+   page times: datePublished=2026-10-13T13:28:41.919Z ; dateModified=2026-10-13T13:28:41.919Z
+   page title: undefined
