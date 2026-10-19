@@ -104,6 +104,13 @@ header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block:
 .brand:hover .blogo { transform: rotate(-6deg) } .brand .blogo { transition: transform .15s }
 .brand:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 10px }
 .brand .bt { display: grid; gap: 3px }
+/* "Kickoff Kiwi by N1K" on one line, and a small time · version · updated line under it that fits under the title; the
+   pair is centred on the logo */
+.btop { display: flex; align-items: baseline; gap: 8px }
+.binfo { font: 500 10px var(--f-body); letter-spacing: 0; text-transform: none; color: var(--muted); white-space: nowrap; line-height: 1.2 }
+.brand .bt { align-content: center; gap: 5px }
+.clockcol { display: none !important } .brand .ver2 { display: none !important }
+@media (max-width: 560px) { .binfo { font-size: 9px } .brand .bt { gap: 4px } }
 .brand .by { justify-self: end } /* tucked under "Kiwi" */
 .brand .bn { font-weight: inherit }
 .brand .by { font-family: var(--f-body); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: none; color: var(--muted); line-height: 1; white-space: nowrap }
@@ -823,7 +830,7 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" id="home" href="./" title="Back to the top"><img class="blogo" src="logo.svg?v=b4" alt="" width="52" height="52"><div class="bt"><b class="bn">Kickoff <span>Kiwi</span></b><small class="by">by N1K<span class="ver2 num" id="ver2"></span></small></div></a>
+    <a class="brand" id="home" href="./" title="Back to the top"><img class="blogo" src="logo.svg?v=b4" alt="" width="52" height="52"><div class="bt"><div class="btop"><b class="bn">Kickoff <span>Kiwi</span></b><small class="by">by N1K<span class="ver2 num" id="ver2"></span></small></div><div class="binfo num" id="binfo"></div></div></a>
     <div class="clockcol"><div class="clockrow"><div class="clock num" id="clock"></div><div class="ver num" id="ver"></div></div><div class="fresh" id="fresh"></div></div>
     <div class="spacer"></div>
     <div class="search" role="search">
@@ -2145,7 +2152,13 @@ function syncPulse() {
 const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1'], tennis: ['tennis'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
 
-function tick() { $('clock').textContent = `${tzLabel()} ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}` }
+function tick() { $('clock').textContent = `${tzLabel()} ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; syncInfo(); }
+// the small line under the title: the time, the site version and when results were last updated
+function syncInfo() {
+  const t = `${tzLabel()} ${fmt(new Date(), NZ, { hour: 'numeric', minute: '2-digit', hour12: true })}`;
+  $('binfo').textContent = [t, $('ver').textContent, $('fresh').textContent.replace(/^Results u/, 'u')].filter(Boolean).join(' · ');
+  $('binfo').title = $('fresh').title || '';
+}
 
 document.addEventListener('click', ev => {
   // the logo and name go back to the main page: out of any competition page, results back to the newest, to the top
@@ -2234,6 +2247,7 @@ function stamp() {
   // under the clock in the header; the grey bar below the header is only for loading and errors now
   $('fresh').textContent = `Results updated ${ago}`;
   $('fresh').title = `Updated ${stamp(FEED.generatedAt)}. Results update about every 10 minutes while games are on, and every half hour otherwise.`;
+  syncInfo();
   $('mockBar').hidden = true;
 }
 async function load() {
