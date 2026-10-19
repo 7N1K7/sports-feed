@@ -1,13 +1,8 @@
-// probe 20: kickoff.kiwi DNS after adding the records
-import { promises as dns } from 'node:dns';
-const r = new dns.Resolver(); r.setServers(['1.1.1.1', '8.8.8.8']);
-for (const [t, f] of [['NS', 'resolveNs'], ['A', 'resolve4'], ['AAAA', 'resolve6'], ['CNAME', 'resolveCname'], ['TXT', 'resolveTxt']])
-  for (const n of ['kickoff.kiwi', 'www.kickoff.kiwi']) { try { console.log(n, t, JSON.stringify(await r[f](n))); } catch (e) { console.log(n, t, e.code); } }
-const boot = await (await fetch('https://data.iana.org/rdap/dns.json')).json();
-const base = boot.services.find(([t]) => t.includes('kiwi'))[1][0];
-const j = await (await fetch(base + 'domain/kickoff.kiwi')).json().catch(() => ({}));
-console.log('RDAP status', (j.status || []).join(','), '| events', (j.events || []).map(e => `${e.eventAction} ${e.eventDate}`).join(', '), '| nameservers', (j.nameservers || []).map(n => n.ldhName).join(', '));
-// straight from Crazy Domains' own name servers, skipping any cached answers
-const ns = new dns.Resolver();
-try { ns.setServers((await Promise.all(['ns1.crazydomains.com', 'ns2.crazydomains.com'].map(h => dns.resolve4(h).catch(() => [])))).flat()); for (const n of ['kickoff.kiwi', 'www.kickoff.kiwi']) { try { console.log('AUTH', n, 'A', JSON.stringify(await ns.resolve4(n))); } catch (e) { console.log('AUTH', n, 'A', e.code); } try { console.log('AUTH', n, 'CNAME', JSON.stringify(await ns.resolveCname(n))); } catch (e) { console.log('AUTH', n, 'CNAME', e.code); } } } catch (e) { console.log('AUTH error', e.message); }
-try { const r = await fetch('http://kickoff.kiwi/', { redirect: 'manual' }); console.log('HTTP kickoff.kiwi', r.status, r.headers.get('server'), r.headers.get('location')); } catch (e) { console.log('HTTP', e.cause?.code || e.message); }
+// probe 21: kickoff.kiwi serving the site? http, https, www, the old github.io address, and the calendar files
+for (const u of ['http://kickoff.kiwi/', 'https://kickoff.kiwi/', 'https://www.kickoff.kiwi/', 'https://7n1k7.github.io/sports-feed/', 'https://7n1k7.github.io/sports-feed/data/cal/nz.ics', 'https://kickoff.kiwi/data/cal/nz.ics', 'https://kickoff.kiwi/data/feed.json']) {
+  try {
+    const r = await fetch(u, { redirect: 'manual', signal: AbortSignal.timeout(15000) });
+    const t = r.status === 200 ? (await r.text()) : '';
+    console.log(u, '->', r.status, r.headers.get('location') || '', '|', (t.match(/<title>([^<]*)/) || [])[1] || (t.startsWith('BEGIN:VCALENDAR') ? 'calendar ok' : t.startsWith('{') ? 'json ok' : t.slice(0, 60).replace(/\s+/g, ' ')));
+  } catch (e) { console.log(u, '-> ERR', e.cause?.code || e.message); }
+}
