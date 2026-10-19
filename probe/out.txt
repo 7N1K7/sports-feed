@@ -1,13 +1,7 @@
-revisions since day 1: 9
-2026-10-18T07:59:36Z | rain=[] result=[] | update
-2026-10-18T10:48:10Z | rain=[] result=[''Lunch, Day 1''] | /* 2nd Test */
-2026-10-18T13:22:06Z | rain=[] result=[''Tea, Day 1''] | /* 2nd Test */
-2026-10-18T15:17:31Z | rain=[] result=[''Stumps, Day 1''] | /* 2nd Test */
-
-BBC Start delayed on second day of South Africa-Australia Test - scorecard | pubDate Sun, 18 Oct 2026 00:00:00 GMT | https://www.bbc.co.uk/sport/cricket/scorecard/e-236998?at_medium=RSS&amp;at_campaign=rss
-   page times: 
-   page title: undefined
-
-BBC Rusty or something more? South Africa's concern after Australia loss | pubDate Tue, 13 Oct 2026 13:28:41 GMT | https://www.bbc.co.uk/sport/cricket/articles/cmd7qv2pg333o?at_medium=RSS&amp;at_campaign=rss
-   page times: datePublished=2026-10-13T13:28:41.919Z ; dateModified=2026-10-13T13:28:41.919Z
-   page title: undefined
+version 245 | calendars: nz 300; allblacks 11, blackferns 9, npc 79, fpc 2, wallabies 11, blues 32, chiefs 33, hurricanes 53, crusaders 32, highlanders 30, moana 5, aurugby 98, superrugby 166, blackcaps 24, whiteferns 13, nzdomestic 13, aucricket 27, intlcricket 64, bbl 48, wbbl 46, kiwis 9, kiwiferns 6, warriors 3, nrl 10, rlwc 66, phoenix 3, aucklandfc 3, aleague 18, epl 40, f1 23, tennis 12, ufc 14, boxing 17, nzboxing 0
+nz 200 text/calendar | 187 events | first: ⚽ Wellington Phoenix v Melbourne Victory ; 🏉 Canterbury v Taranaki Bulls ; 🏉 Kiwi Ferns v Fiji ; 🏏 Australia Women v White Ferns
+allblacks 200 text/calendar | 5 events | first: 🏉 Scotland v All Blacks ; 🏉 Wales v All Blacks ; 🏉 England v All Blacks ; 🏉 All Blacks v TBC (northern hemisphere side\, by standings) (ti
+whiteferns 200 text/calendar | 12 events | first: 🏏 Australia Women v White Ferns ; 🏏 Australia Women v White Ferns ; 🏏 Australia Women v White Ferns ; 🏏 White Ferns v Bangladesh Women (time TBC)
+blackcaps 200 text/calendar | 56 events | first: 🏏 Black Caps v India ; 🏏 Black Caps v India ; 🏏 Black Caps v India ; 🏏 Black Caps v India
+ufc 200 text/calendar | 10 events | first: 🥊 UFC Fight Night 291: Buckley v Malott ; 🥊 UFC 333: Volkanovski v Evloev ; 🥊 UFC Fight Night: Moicano v Nolan (time TBC) ; 🥊 UFC Fight Night: Bonfim v Brady (time TBC)
+warriors 200 text/calendar | 0 events | first: 
