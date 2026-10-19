@@ -128,6 +128,14 @@ header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block:
 .panel .pbox { position: relative; pointer-events: auto; margin-left: auto; width: min(720px, 100%); max-height: calc(100vh - 110px); max-height: calc(100dvh - 110px); overflow: auto; overscroll-behavior: contain;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; display: grid; gap: 14px; box-shadow: 0 16px 40px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.08) }
 .group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--f-body); font-weight: 700; margin-bottom: 6px }
+/* My teams, compact: the group name in a column on the left, smaller chips beside it */
+#teamGroups { gap: 6px !important }
+#teamGroups .group { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: start; column-gap: 10px; padding: 6px 0; border-top: 1px solid var(--line) }
+#teamGroups .group:first-child { border-top: 0; padding-top: 0 }
+#teamGroups .group h3 { margin: 0; padding-top: 6px; font-size: 11px; line-height: 1.25 }
+#teamGroups .chips { gap: 5px }
+#teamGroups .chip { padding: 3px 10px 3px 4px; font-size: 13px; gap: 6px }
+@media (max-width: 560px) { #teamGroups .group { grid-template-columns: 1fr; row-gap: 5px } #teamGroups .group h3 { padding-top: 0 } }
 .chips { display: flex; flex-wrap: wrap; gap: 6px }
 .chip { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 3px 11px; cursor: pointer; font-size: 14px }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
