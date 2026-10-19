@@ -1,54 +1,261 @@
-pages: {"New Zealand men's national field hockey team":19,"New Zealand women's national field hockey team":21,"2026–27 Men's FIH Pro League":0,"2026–27 Women's FIH Pro League":0,"Men's FIH Hockey Nations Cup":0,"2026 Men's FIH Hockey World Cup":6,"2026 Women's FIH Hockey World Cup":6,"Indian cricket team in New Zealand in 2026–27":12,"Sri Lankan cricket team in New Zealand in 2026–27":8,"New Zealand cricket team in Australia in 2026–27":4,"New Zealand women's cricket team in Australia in 2026–27":6,"English cricket team in Australia in 2026–27":9,"Australian cricket team in India in 2026–27":5,"Austr
-hockey events 52
-2025-09-04T02:00:00.000Z Thu, 4 Sept, 2:00 pm (TBC) | blacksticksw | Oceania Cup / Match 1 | Australia Women v New Zealand Women | final 0-1 | Marrara Hockey Centre  null
-2025-09-06T02:00:00.000Z Sat, 6 Sept, 2:00 pm (TBC) | blacksticksw | Oceania Cup / Match 2 | Australia Women v New Zealand Women | final 1-0 | Marrara Hockey Centre  null
-2025-09-07T02:00:00.000Z Sun, 7 Sept, 2:00 pm (TBC) | blacksticksw | Oceania Cup / Match 3 | Australia Women v New Zealand Women | final 1-1 | Marrara Hockey Centre  null
-2026-01-04T01:00:00.000Z Sun, 4 Jan, 2:00 pm (TBC) | blacksticks | Test series · Test 4  | New Zealand v Japan | final 3-3 | Gallagher Hockey Centre  null
-2026-01-21T01:00:00.000Z Wed, 21 Jan, 2:00 pm (TBC) | blacksticksw | Summer of Hockey Series / Match 1 | New Zealand Women v USA Women | final 1-2 | Alexander McMillan Hockey Centre  null
-2026-01-22T01:00:00.000Z Thu, 22 Jan, 2:00 pm (TBC) | blacksticksw | Summer of Hockey Series / Match 2 | New Zealand Women v New Zealand A Women | final 4-1 | Alexander McMillan Hockey Centre  null
-2026-01-24T01:00:00.000Z Sat, 24 Jan, 2:00 pm (TBC) | blacksticksw | Summer of Hockey Series / Match 3 | New Zealand Women v Japan Women | final 1-0 | Alexander McMillan Hockey Centre  null
-2026-01-25T01:00:00.000Z Sun, 25 Jan, 2:00 pm (TBC) | blacksticksw | Summer of Hockey Series / Final | USA Women v New Zealand Women | final 2-1 | Alexander McMillan Hockey Centre  null
-2026-01-30T01:00:00.000Z Fri, 30 Jan, 2:00 pm (TBC) | blacksticks | Test series · Test 1  | New Zealand v Japan | final 2-5 | Gallagher Hockey Centre  null
-2026-02-01T01:00:00.000Z Sun, 1 Feb, 2:00 pm (TBC) | blacksticks | Test series · Test 2  | New Zealand v Japan | final 5-1 | Gallagher Hockey Centre  null
-2026-02-02T01:00:00.000Z Mon, 2 Feb, 2:00 pm (TBC) | blacksticks | Test series · Test 3  | New Zealand v Japan | final 4-3 | Gallagher Hockey Centre  null
-2026-04-27T02:00:00.000Z Mon, 27 Apr, 2:00 pm (TBC) | blacksticksw | Test series  | Argentina Women v New Zealand Women | final 3-2 | Wujin Hockey Stadium  null
-2026-05-01T02:00:00.000Z Fri, 1 May, 2:00 pm (TBC) | blacksticksw | Test series  | Argentina Women v New Zealand Women | final 3-2 | Wujin Hockey Stadium  null
-2026-05-03T02:00:00.000Z Sun, 3 May, 2:00 pm (TBC) | blacksticksw | Test series  | Argentina Women v New Zealand Women | final 7-0 | Wujin Hockey Stadium  null
-2026-06-12T02:00:00.000Z Fri, 12 Jun, 2:00 pm (TBC) | blacksticks | FIH Hockey Nations Cup / Pool A | New Zealand v Scotland | final 1-0 | Hartleyvale Stadium  null
-2026-06-14T02:00:00.000Z Sun, 14 Jun, 2:00 pm (TBC) | blacksticks | FIH Hockey Nations Cup / Pool A | South Korea v New Zealand | final 2-6 | Hartleyvale Stadium  null
-2026-06-15T02:00:00.000Z Mon, 15 Jun, 2:00 pm (TBC) | blacksticksw | FIH Hockey Nations Cup / Pool B | New Zealand Women v South Korea Women | final 3-1 | National Hockey Centre  null
-2026-06-16T02:00:00.000Z Tue, 16 Jun, 2:00 pm (TBC) | blacksticks | FIH Hockey Nations Cup / Pool A | Malaysia v New Zealand | final 1-5 | Hartleyvale Stadium  null
-2026-06-16T02:00:00.000Z Tue, 16 Jun, 2:00 pm (TBC) | blacksticksw | FIH Hockey Nations Cup / Pool B | Chile Women v New Zealand Women | final 2-3 | National Hockey Centre  null
-2026-06-17T02:00:00.000Z Wed, 17 Jun, 2:00 pm (TBC) | blacksticks | FIH Hockey Nations Cup / Pool A | New Zealand v Japan | final 5-2 | Hartleyvale Stadium  null
-2026-06-18T02:00:00.000Z Thu, 18 Jun, 2:00 pm (TBC) | blacksticksw | FIH Hockey Nations Cup / Pool B | New Zealand Women v France Women | final 2-1 | National Hockey Centre  null
-2026-06-19T02:00:00.000Z Fri, 19 Jun, 2:00 pm (TBC) | blacksticks | FIH Hockey Nations Cup / Semi finals | New Zealand v South Africa | final 2-2 | Hartleyvale Stadium  null
-2026-06-20T02:00:00.000Z Sat, 20 Jun, 2:00 pm (TBC) | blacksticks | FIH Hockey Nations Cup / 3/4 classification | New Zealand v Japan | final 3-1 | Hartleyvale Stadium  null
-2026-06-20T02:00:00.000Z Sat, 20 Jun, 2:00 pm (TBC) | blacksticksw | FIH Hockey Nations Cup / Semi finals | New Zealand Women v USA Women | final 1-1 | National Hockey Centre  null
-2026-06-21T02:00:00.000Z Sun, 21 Jun, 2:00 pm (TBC) | blacksticksw | FIH Hockey Nations Cup / Final | India Women v New Zealand Women | final 2-0 | National Hockey Centre  null
-2026-08-16T02:00:00.000Z Sun, 16 Aug, 2:00 pm (TBC) | blacksticks | FIH Hockey World Cup / Pool A | Netherlands v New Zealand | final 5-1 | Wagener Stadium  null
-2026-08-16T02:00:00.000Z Sun, 16 Aug, 2:00 pm (TBC) | blacksticksw | FIH Hockey World Cup / Pool B | Belgium Women v New Zealand Women | final 5-2 | Belfius Hockey Arena  null
-2026-08-16T14:00:00.000Z Mon, 17 Aug, 2:00 am  | blacksticks | FIH Hockey World Cup  | Netherlands v New Zealand | final 5-1 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-16T15:30:00.000Z Mon, 17 Aug, 3:30 am  | blacksticksw | FIH Hockey World Cup  | Belgium Women v New Zealand Women | final 5-2 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-18T02:00:00.000Z Tue, 18 Aug, 2:00 pm (TBC) | blacksticks | FIH Hockey World Cup / Pool A | New Zealand v Japan | final 2-0 | Wagener Stadium  null
-2026-08-18T02:00:00.000Z Tue, 18 Aug, 2:00 pm (TBC) | blacksticksw | FIH Hockey World Cup / Pool B | New Zealand Women v Ireland Women | final 2-3 | Belfius Hockey Arena  null
-2026-08-18T07:30:00.000Z Tue, 18 Aug, 7:30 pm  | blacksticks | FIH Hockey World Cup  | New Zealand v Japan | final 2-0 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-18T09:00:00.000Z Tue, 18 Aug, 9:00 pm  | blacksticksw | FIH Hockey World Cup  | New Zealand Women v Ireland Women | final 2-3 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-20T02:00:00.000Z Thu, 20 Aug, 2:00 pm (TBC) | blacksticks | FIH Hockey World Cup / Pool A | New Zealand v Argentina | final 1-7 | Wagener Stadium  null
-2026-08-20T02:00:00.000Z Thu, 20 Aug, 2:00 pm (TBC) | blacksticksw | FIH Hockey World Cup / Pool B | New Zealand Women v Spain Women | final 0-3 | Belfius Hockey Arena  null
-2026-08-20T10:30:00.000Z Thu, 20 Aug, 10:30 pm  | blacksticks | FIH Hockey World Cup  | New Zealand v Argentina | final 1-7 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-20T12:00:00.000Z Fri, 21 Aug, 12:00 am  | blacksticksw | FIH Hockey World Cup  | New Zealand Women v Spain Women | final 0-3 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-22T02:00:00.000Z Sat, 22 Aug, 2:00 pm (TBC) | blacksticks | FIH Hockey World Cup / Pool G | New Zealand v Wales | final 7-2 | Wagener Stadium  null
-2026-08-22T02:00:00.000Z Sat, 22 Aug, 2:00 pm (TBC) | blacksticksw | FIH Hockey World Cup / Pool H | USA Women v New Zealand Women | final 1-1 | Belfius Hockey Arena  null
-2026-08-22T08:00:00.000Z Sat, 22 Aug, 8:00 pm  | blacksticks | FIH Hockey World Cup  | New Zealand v Wales | final 7-2 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-22T12:30:00.000Z Sun, 23 Aug, 12:30 am  | blacksticksw | FIH Hockey World Cup  | USA Women v New Zealand Women | final 1-1 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-24T02:00:00.000Z Mon, 24 Aug, 2:00 pm (TBC) | blacksticks | FIH Hockey World Cup / Pool G | New Zealand v Pakistan | final 4-2 | Wagener Stadium  null
-2026-08-24T02:00:00.000Z Mon, 24 Aug, 2:00 pm (TBC) | blacksticksw | FIH Hockey World Cup / Pool H | New Zealand Women v Scotland Women | final 1-2 | Belfius Hockey Arena  null
-2026-08-24T09:00:00.000Z Mon, 24 Aug, 9:00 pm  | blacksticksw | FIH Hockey World Cup  | New Zealand Women v Scotland Women | final 1-2 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-24T10:30:00.000Z Mon, 24 Aug, 10:30 pm  | blacksticks | FIH Hockey World Cup  | New Zealand v Pakistan | final 4-2 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-27T02:00:00.000Z Thu, 27 Aug, 2:00 pm (TBC) | blacksticksw | FIH Hockey World Cup / 15th place match | Chile Women v New Zealand Women | final 2-3 | Belfius Hockey Arena  null
-2026-08-27T09:00:00.000Z Thu, 27 Aug, 9:00 pm  | blacksticksw | FIH Hockey World Cup  | Chile Women v New Zealand Women | final 2-3 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-28T02:00:00.000Z Fri, 28 Aug, 2:00 pm (TBC) | blacksticks | FIH Hockey World Cup / 9th place match | New Zealand v Ireland | final 6-3 | Belfius Hockey Arena  null
-2026-08-28T12:00:00.000Z Sat, 29 Aug, 12:00 am  | blacksticks | FIH Hockey World Cup  | New Zealand v Ireland | final 6-3 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-11-19T01:00:00.000Z Thu, 19 Nov, 2:00 pm (TBC) | blacksticks | Test series · Match 1  | New Zealand v India | upcoming  | Lloyd Elsmore Park  null
-2026-11-21T01:00:00.000Z Sat, 21 Nov, 2:00 pm (TBC) | blacksticks | Test series · Match 2  | New Zealand v India | upcoming  | Lloyd Elsmore Park  null
-2026-11-22T01:00:00.000Z Sun, 22 Nov, 2:00 pm (TBC) | blacksticks | Test series · Match 3  | New Zealand v India | upcoming  | Lloyd Elsmore Park  null
+===== New Zealand men's national field hockey team 25844
+box names: football box collapsible 19
+{{football box collapsible
+|date    = 19 November 2026
+| round = Match 1
+|format=1
+|time    = 18:30
+|team1   = {{fh-rt|NZL}}
+|score   = 
+|team2   = {{fh|IND}}
+|report  = 
+|goals1  = 
+|goals2  = 
+|stadium = [[Lloyd Elsmore Park]]
+|location = [[Auckland]], New Zealand
+|result = 
+}}
+{{football box collapsible
+|date    = 21 November 2026
+| round = Match 2
+|format=1
+|time    = 16:00
+|team1   = {{fh-rt|NZL}}
+|score   = 
+|team2   = {{fh|IND}}
+|report  = 
+|goals1  = 
+|goals2  = 
+|stadium = [[Lloyd Elsmore Park]]
+|location = [[Auckland]], New Zealand
+|result = 
+}}
+{{football box collapsible
+|date    = 22 November 2026
+| round = Match 3
+|format=1
+|time    = 16:00
+|team1   = {{fh-rt|NZL}}
+|score   = 
+|team2   = {{fh|IND}}
+|report  = 
+|goals1  = 
+|goals2  = 
+|stadium = [[Lloyd Elsmore Park]]
+|location = [[Auckland]], New Zealand
+|result = 
+}}
+==Team==
+===Current squad===
+Roster for the [[2026 Men's FIH Hockey World Cup]].<ref>{{Cite web |url=https://www.blacksticksnz.co.nz/news/2026-fih-hockey-world-cup-vantage-black-sticks-mens-squad|title=2026 FIH HOCKEY WORLD CUP VANTAGE BLACK STICKS MEN'S S 
+---
+{{football box collapsible
+|date    = 21 November 2026
+| round = Match 2
+|format=1
+|time    = 16:00
+|team1   = {{fh-rt|NZL}}
+|score   = 
+|team2   = {{fh|IND}}
+|report  = 
+|goals1  = 
+|goals2  = 
+|stadium = [[Lloyd Elsmore Park]]
+|location = [[Auckland]], New Zealand
+|result = 
+}}
+{{football box collapsible
+|date    = 22 November 2026
+| round = Match 3
+|format=1
+|time    = 16:00
+|team1   = {{fh-rt|NZL}}
+|score   = 
+|team2   = {{fh|IND}}
+|report  = 
+|goals1  = 
+|goals2  = 
+|stadium = [[Lloyd Elsmore Park]]
+|location = [[Auckland]], New Zealand
+|result = 
+}}
+==Team==
+===Current squad===
+Roster for the [[2026 Men's FIH Hockey World Cup]].<ref>{{Cite web |url=https://www.blacksticksnz.co.nz/news/2026-fih-hockey-world-cup-vantage-black-sticks-mens-squad|title=2026 FIH HOCKEY WORLD CUP VANTAGE BLACK STICKS MEN'S SQUAD|publisher=blacksticksnz.co.nz |date=7 July 2026 |access-date=7 July 2026}}</ref><ref>{{Cite web|url=https://tms.fih.ch/competitions/1866/reports/teams|title=Team roster: New Zealand|publisher=fih.ch|date=15 August 2026|access-date=15 August 2026|page=12}}</ref>
+Head coach: [ 
+---
+{{football box collapsible
+|date    = 22 November 2026
+| round = Match 3
+|format=1
+|time    = 16:00
+|team1   = {{fh-rt|NZL}}
+|score   = 
+|team2   = {{fh|IND}}
+|report  = 
+|goals1  = 
+|goals2  = 
+|stadium = [[Lloyd Elsmore Park]]
+|location = [[Auckland]], New Zealand
+|result = 
+}}
+==Team==
+===Current squad===
+Roster for the [[2026 Men's FIH Hockey World Cup]].<ref>{{Cite web |url=https://www.blacksticksnz.co.nz/news/2026-fih-hockey-world-cup-vantage-black-sticks-mens-squad|title=2026 FIH HOCKEY WORLD CUP VANTAGE BLACK STICKS MEN'S SQUAD|publisher=blacksticksnz.co.nz |date=7 July 2026 |access-date=7 July 2026}}</ref><ref>{{Cite web|url=https://tms.fih.ch/competitions/1866/reports/teams|title=Team roster: New Zealand|publisher=fih.ch|date=15 August 2026|access-date=15 August 2026|page=12}}</ref>
+Head coach: [[Greg Nicol]]
+{{div col|colwidth=20em}}
+#<li value=1>[[Dominic Dixon]] <small>([[Goalkeeper (field hockey)|GK]])</small>
+#[[Scott Boyde]]
+#<li value=4>[[Dane Lett]]
+#<li value=8>[[Charlie Morrison (field hockey)|Charlie Morrison]]
+#<li value=12>[[Sam Lane (field hockey)|Sam Lane] 
+---
+WC box:
+{{football box collapsible
+|format = 1
+|round      = [[2026 Men's FIH Hockey World Cup|Pool A]]
+|date       = 16 August 2026
+|time       = 16:00
+|team1={{fh-rt|NED}}
+|score=5–1
+|team2={{fh|NZL}}
+|report=[https://tms.fih.ch/matches/22340/reports/matchreport Report]
+|goals1=[[Tjep Hoedemakers|Hoedemakers]] {{fhgoal|FG|35|FG|50}}<br/>[[Duco Telgenkamp|Telgenkamp]] {{fhgoal|PC|41}}<br/>[[Thierry Brinkman|Brinkman]] {{fhgoal|FG|49}}<br/>[[Koen Bijen|Bijen]] {{fhgoal|PC|52}}
+|goals2=[[James Hickson|Hickson]] {{fhgoal|FG|24}}
+|stadium    = [[Wagener Stadium]]
+|location   = [[Amstelveen]], [[Netherlands]]
+|result     = L
+}}
+{{football box collapsible
+|format = 1
+|round      = [[2026 Men's FIH Hockey World Cup|Pool A]]
+|date       = 18 August 2026
+|time       = 09:30
+|team1={{fh-rt|NZL}}
+|score=2–0
+|team2={{fh|JPN}}
+|report=[https://tms.fih.ch/matches/22346/reports/matchreport Report]
+|goals1=[[S
+===== New Zealand women's national field hockey team 35851
+box names: football box collapsible 21
+{{football box collapsible
+|format = 1
+|round      = [[2026 Women's FIH Hockey World Cup|Pool H]]
+|date       = 22 August 2026
+|time       = 14:30
+|team1      = {{fhw-rt|USA}}
+|score      = 1–1
+|report     = [https://tms.fih.ch/matches/22413/reports/matchreport Report]
+|team2      = {{fhw|NZL}}
+|goals1     = [[Claire Danahy|Danahy]] {{fhgoal|FG|39}}
+|goals2     = [[Emelia Surridge|Surridge]] {{fhgoal|FG|8}}
+|stadium    = [[Stade Justin Peeters|Belfius Hockey Arena]]
+|location   = [[Wavre]], Belgium
+|result     = D
+}}
+{{football box collapsible
+|format = 1
+|round      = [[2026 Women's FIH Hockey World Cup|Pool H]]
+|date       = 24 August 2026
+|time       = 11:00
+|team1      = {{fhw-rt|NZL}}
+|score      = 1–2
+|report     = [https://tms.fih.ch/matches/22420/reports/matchreport Report]
+|team2      = {{fhw|SCO}}
+|goals1     = [[Brittany Wang|Wang]] {{fhgoal|FG|23}}
+|goals2     = [[Fiona Burnet|Burnet]] {{fhgoal|FG|26}}<br/>[[Heather McEwan|McEwan]] {{fhgoal|PC|45}}
+|stadium    = [[Stade Justin Peeters|Belfius Hockey Arena]]
+|location   = [[Wavre]], Belgium
+|result     = L
+}}
+{{football bo 
+---
+{{football box collapsible
+|format = 1
+|round      = [[2026 Women's FIH Hockey World Cup|Pool H]]
+|date       = 24 August 2026
+|time       = 11:00
+|team1      = {{fhw-rt|NZL}}
+|score      = 1–2
+|report     = [https://tms.fih.ch/matches/22420/reports/matchreport Report]
+|team2      = {{fhw|SCO}}
+|goals1     = [[Brittany Wang|Wang]] {{fhgoal|FG|23}}
+|goals2     = [[Fiona Burnet|Burnet]] {{fhgoal|FG|26}}<br/>[[Heather McEwan|McEwan]] {{fhgoal|PC|45}}
+|stadium    = [[Stade Justin Peeters|Belfius Hockey Arena]]
+|location   = [[Wavre]], Belgium
+|result     = L
+}}
+{{football box collapsible
+|format = 1
+|round      = [[2026 Women's FIH Hockey World Cup|15th place match]]
+|date       = 27 August 2026
+|time       = 11:00
+|team1      = {{fhw-rt|CHI}}
+|score      = 2–3
+|report     = [https://tms.fih.ch/matches/22425/reports/matchreport Report]
+|team2      = {{fhw|NZL}}
+|goals1     = [[Manuela Urroz|Urroz]] {{fhgoal|FG|37|FG|45}}
+|goals2     = [[Kaitlin Cotter|Cotter]] {{fhgoal|PC|10}}<br/>[[Riana Pho|Pho]] {{fhgoal|PC|50}}<br/>[[Katie Doar|Doar]] {{fhgoal|FG|57}}
+|stadium    = [[Stade Justin Pee 
+---
+{{football box collapsible
+|format = 1
+|round      = [[2026 Women's FIH Hockey World Cup|15th place match]]
+|date       = 27 August 2026
+|time       = 11:00
+|team1      = {{fhw-rt|CHI}}
+|score      = 2–3
+|report     = [https://tms.fih.ch/matches/22425/reports/matchreport Report]
+|team2      = {{fhw|NZL}}
+|goals1     = [[Manuela Urroz|Urroz]] {{fhgoal|FG|37|FG|45}}
+|goals2     = [[Kaitlin Cotter|Cotter]] {{fhgoal|PC|10}}<br/>[[Riana Pho|Pho]] {{fhgoal|PC|50}}<br/>[[Katie Doar|Doar]] {{fhgoal|FG|57}}
+|stadium    = [[Stade Justin Peeters|Belfius Hockey Arena]]
+|location   = [[Wavre]], Belgium
+|result     = W
+}}
+==See also==
+*[[New Zealand men's national field hockey team]]
+*[[New Zealand women's national under-21 field hockey team]]
+==References==
+{{reflist}}
+==External links==
+{{commons}}
+*{{Official website}}
+*[https://www.fih.hockey/about-fih/ourmembers/dynamic/newzealand FIH profile]
+{{National sports teams of New Zealand}}
+{{Navboxes colour
+| title = Titles
+| bg    = gold
+| list1 =
+{{Commonwealth Games women's field hockey tournament winners}}
+{{Women's Oceania Cup winners}}
+}} 
+---
+WC box:
+{{football box collapsible
+|date    = 21 June 2026
+| round = [[2025–26 Women's FIH Hockey Nations Cup|Final]]
+|format=1
+|time    = 18:30
+|team1   = {{fhw-rt|IND}}
+|score   = 2–0
+|team2   = {{fhw|NZL}}
+|report  = [https://fih.altiusrt.com/matches/22547/reports/matchreport Report]
+|goals1  = [[Navneet Kaur (field hockey)|Navneet]] {{fhgoal|PC|4}}<br/>[[Sunelita Toppo|Sunelita]] {{fhgoal|PC|15}}
+|goals2  = 
+|stadium = National Hockey Centre 
+|location = [[Auckland]], New Zealand 
+|result = L
+}}
+
+====2026 Women's FIH Hockey World Cup====
+{{football box collapsible
+|format = 1
+|round      = [[2026 Women's FIH Hockey World Cup|Pool B]]
+|date       = 16 August 2026
+|time       = 17:30
+|team1      = {{fhw-rt|BEL}}
+|score      = 5–2
+|report     = [https://tms.fih.ch/matches/22390/reports/matchreport Report]
+|team2      = {{fhw|NZL}}
+|goals1     = [[Stephanie Vanden Borre|Vanden Borre]] {{fhgoal|P
