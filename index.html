@@ -695,10 +695,11 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   .ev .when .wbr { display: block; flex-basis: 100%; height: 0 }
   .ev .when .nzl { align-self: baseline }
   /* a result's panel: the button or the result, then the date, centred together; the left part keeps one width so the date never moves */
-  .ev.res .when, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev.res .when { flex-wrap: nowrap; align-items: center; column-gap: 16px }
+  .ev.res .when, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev.res .when { flex-wrap: nowrap; align-items: center; column-gap: 16px; justify-content: space-between }
   .ev.res .rtop { justify-items: center; flex: none; width: 160px }
   .ev.res .rtop .cover { width: 100% }
-  .ev.res .when > .rloc { flex: 0 1 auto; min-width: 0; text-align: left }
+  /* the button sits on the right, under the thumb, and the date on the left */
+  .ev.res .when > .rloc { flex: 0 1 auto; min-width: 0; text-align: left; order: -1 }
   /* phone rows with crests: crest on top and name under it on both sides, so both names sit on the same line */
   :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) { align-items: start }
   :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side { display: grid; grid-template-rows: 2.2em auto; justify-items: center; align-items: center; row-gap: 3px; text-align: center }
