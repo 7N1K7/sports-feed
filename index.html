@@ -335,10 +335,10 @@ footer a { color: var(--muted) }
 /* a rain headline from the news, word for word: two lines at most, its links in the note's colour */
 .ev .wx.wxnews { font-weight: 600; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden }
 .ev .wx.wxnews a { color: inherit }
-/* the rain stamp, pinned to the card's top-left corner */
-.ev .rainstamp { position: absolute; top: 8px; left: 10px; z-index: 1; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff; background: #1c7ed6; border-radius: 999px; padding: 3px 9px 3px 7px; box-shadow: 0 1px 4px rgb(0 0 0 / .3); pointer-events: none }
-/* on a phone the title fills the top row, so the stamp takes its own row above it, at the left */
-@media (max-width: 560px) { .ev .rainstamp { position: static; align-self: flex-start; margin-bottom: 2px; font-size: 10px; padding: 2px 7px 2px 5px } }
+/* the rain stamp never takes space of its own: in the card's empty top-left corner on a wide card, and on a phone
+   sitting on the dashed line above the time panel */
+.ev .rainstamp { position: absolute; top: 8px; left: 16px; z-index: 1; line-height: 1.2; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff; background: #1c7ed6; border-radius: 999px; padding: 3px 9px 3px 7px; box-shadow: 0 1px 4px rgb(0 0 0 / .3); pointer-events: none }
+@media (max-width: 560px) { .ev .when:has(> .rainstamp) { position: relative } .ev .when > .rainstamp { top: 0; left: 12px; transform: translateY(-50%); font-size: 9.5px; padding: 2px 7px 2px 5px } }
 /* the score so far while spoilers are hidden: a small tap-to-show in the state-of-play line */
 .lsrev { border: 0; background: none; padding: 0; font: inherit; color: inherit; text-decoration: underline dotted; text-underline-offset: 2px; cursor: pointer }
 .ev .tv { color: var(--ink); font-weight: 600 }
@@ -1346,12 +1346,12 @@ function evCard(e, now) {
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
-    <div class="body">${stamp ? `<span class="rainstamp">🌧 ${stamp}</span>` : ''}
+    <div class="body">
       <div class="comp"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${esc(cardComp(e))}</span></span><span class="ctags">${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${seriesLine(e, now)}
     </div>
-    <div class="when">
+    <div class="when">${stamp ? `<span class="rainstamp">🌧 ${stamp}</span>` : ''}
       <div class="nzl">${START_LABEL[e.sport] || 'Start'} ${esc(tzLabel())}</div>
       <div class="nz num"${e.usual ? ` title="${USUAL_NOTE}"` : ''}>${e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div><i class="wbr" aria-hidden="true"></i>
