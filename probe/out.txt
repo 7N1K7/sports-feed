@@ -1,5 +1,1 @@
-before: nick-the-hayward.workers.dev
-try kickoffkiwi: [{"code":10036,"message":"Account already has an associated subdomain."}]
-try kickoff-kiwi: [{"code":10036,"message":"Account already has an associated subdomain."}]
-try kickoffkiwi-nz: [{"code":10036,"message":"Account already has an associated subdomain."}]
-after: nick-the-hayward.workers.dev
+address renamed to kickoffkiwi.workers.dev: false
