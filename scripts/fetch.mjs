@@ -141,6 +141,42 @@ async function heraldNews() {
   return out;
 }
 
+// Scoop.co.nz: NZ press releases, free to reproduce for non-commercial use with Scoop credited (scoop.co.nz/about/terms.html
+// 3.1.1). It has no sport feed of its own; sport releases (Silver Ferns, Kiwi Ferns, the codes' own announcements) come
+// through the Culture feed, kept here when they name one of our teams
+const SCOOP_FEEDS = ['https://www.scoop.co.nz/storyindex/index.rss?s.c=CU', 'https://www.scoop.co.nz/storyindex/index.rss?s.c=SP'];
+async function scoopNews() {
+  const out = [], notes = [];
+  for (const feedUrl of SCOOP_FEEDS) {
+    let xml;
+    try {
+      const r = await fetch(feedUrl, { headers: { 'user-agent': 'sports-feed (personal non-commercial site)' }, signal: AbortSignal.timeout(10000) });
+      if (!r.ok) throw new Error(r.status);
+      xml = await r.text();
+    } catch (e) { notes.push(`${feedUrl.split('=').pop()}: error ${e.message}`); continue; }
+    let n = 0, all = 0;
+    for (const m of xml.matchAll(/<item[\s>]([\s\S]*?)<\/item>/g)) {
+      all++;
+      const raw = tag => (m[1].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1] || '';
+      const title = unxml(raw('title')), url = unxml(raw('link')), body = raw('description');
+      const summary = unxml(body.replace(/&lt;/g, '<').replace(/&gt;/g, '>')).replace(/\s+/g, ' ');
+      const team = teamFor(title + ' ' + summary);
+      if (!team || !url || out.some(x => x.url === url)) continue;
+      const image = (m[1].match(/<(?:media:content|media:thumbnail|enclosure)[^>]*url="([^"]+)"/) || body.replace(/&lt;/g, '<').replace(/&quot;/g, '"').match(/<img[^>]*src="([^"]+)"/) || [])[1];
+      const d = new Date(unxml(raw('pubDate')) || unxml(raw('dc:date')));
+      out.push({
+        id: 'scoop-' + url.split('/').filter(Boolean).slice(-1)[0].replace(/\W+/g, '-').slice(0, 80), team,
+        date: isNaN(d) ? new Date(now).toISOString().slice(0, 10) : d.toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }),
+        kind: kindOf(title + ' ' + summary), title, summary: summary.slice(0, 280), url, source: 'Scoop', ...(image ? { image: image.replace(/^http:/, 'https:') } : {}),
+      });
+      n++;
+    }
+    notes.push(`${feedUrl.split('=').pop()}: ${n} of ${all} matching`);
+  }
+  diag.scoop = notes.join('; ') + (out[0] ? ` | e.g. ${out[0].title} [${out[0].team}] img=${out[0].image ? 'yes' : 'no'}` : '');
+  return out;
+}
+
 // Fight news: NZ outlets rarely cover UFC or world boxing, so headlines come from the specialist sites' public RSS
 // feeds too. Headline and link only (as with the Herald), the newest few that are about a UFC or boxing card we list
 const FIGHT_FEEDS = [
@@ -353,7 +389,7 @@ const newsAll = [...curated.news];
 // permission of Radio New Zealand", so the feed stays off; the page links to RNZ Sport instead. Only switch this back on
 // with RNZ's written permission
 const RNZ_ON = false;
-for (const n of [...(RNZ_ON ? await rnzNews() : []), ...await heraldNews(), ...await fightNews()]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
+for (const n of [...(RNZ_ON ? await rnzNews() : []), ...await heraldNews(), ...await scoopNews(), ...await fightNews()]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
 const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 
 // Club logos from TheSportsDB's free API (badges used as-is, credited in the footer).
@@ -813,7 +849,7 @@ const feed = {
   tables,
   rankings,
   sources: [
-    { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })),
+    { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, { name: 'Press releases via Scoop Media', url: 'https://www.scoop.co.nz/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })),
     { name: 'NZ Rugby', url: 'https://www.allblacks.com' }, { name: 'NZ Cricket', url: 'https://www.nzc.nz' },
     { name: 'NRL', url: 'https://www.nrl.com' },
   ],
@@ -861,6 +897,7 @@ if (process.env.GITHUB_ACTIONS) {
   console.log(`::notice title=Tables::${String(Array.isArray(diag.tables) ? diag.tables.join('; ') : diag.tables || '').replace(/[\r\n%]/g, ' ').slice(0, 3000)}`);
   const intl = feed.events.filter(e => e.team === 'intlcricket').sort((a, b) => a.startUTC.localeCompare(b.startUTC));
   console.log(`::notice title=IntlCricket::${intl.length} games: ${intl.map(e => `${e.startUTC.slice(0, 10)} ${e.comp}${e.stage ? ' / ' + e.stage : ''}: ${e.home} v ${e.away} [${e.status}]`).join(' ; ').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
+  console.log(`::notice title=Scoop::${String(diag.scoop || 'not run').replace(/[\r\n%]/g, ' ').slice(0, 1000)}`);
   console.log(`::notice title=Faces::${String(diag.facesMain || '').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
   console.log(`::notice title=Tennis::${String(diag.tennis || 'not run').replace(/[\r\n%]/g, ' ').slice(0, 4000)}`);
 }

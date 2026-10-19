@@ -2020,10 +2020,16 @@ function render() {
   const days = [...Array(7)].map((_, i) => new Date(now + i * 864e5));
   $('weekRange').textContent = `${dayLabel(days[0], NZ)} to ${dayLabel(days[6], NZ)}`;
   // as many spots as two full rows hold; past that, the last spot becomes a "+"
+  // a Test (or other multi-day game) still being played has a dot on each of its days, not just the first
+  const playsOn = (e, k) => {
+    const s = new Date(e.startUTC), n = e.sport === 'cricket' && e.status !== 'final' ? (DAYS[formatOf(e)] || 1) : 1;
+    for (let i = 0; i < n; i++) if (dayKey(new Date(+s + i * 864e5)) === k) return true;
+    return false;
+  };
   const doneSet = new Set(finals); // games already played show as faded dots, so a day's bright dots are what's still to come
   const drawWeek = cap => $('week').innerHTML = days.map(d => {
     const k = dayKey(d);
-    const list = evs.filter(e => dayKey(new Date(e.startUTC)) === k);
+    const list = evs.filter(e => playsOn(e, k));
     const dots = (list.length > cap ? list.slice(0, cap - 1) : list).map(e => `<span class="dot${doneSet.has(e) ? ' done' : ''}" style="background:var(--${e.sport})"></span>`).join('') + (list.length > cap ? `<span class="dot more" title="${list.length - cap + 1} more" aria-hidden="true"></span>` : '');
     const wd = fmt(d, NZ, { weekday: 'short' });
     return `<button class="day ${k === todayK ? 'today' : ''} ${k === selDay ? 'sel' : ''} ${/Sat|Sun/.test(wd) ? 'wkend' : ''} ${list.length ? '' : 'empty'}" type="button" data-jump="${k}" aria-label="${dayLabel(d, NZ)}, ${list.length} games">
@@ -2046,7 +2052,7 @@ function render() {
   drawDayPick = () => {
   const pickK = selDay && selDay !== todayK ? selDay : '';
   document.querySelectorAll('.day').forEach(b => b.classList.toggle('sel', b.dataset.jump === pickK));
-  const pickList = pickK ? evs.filter(e => dayKey(new Date(e.startUTC)) === pickK && !lives.includes(e)) : [];
+  const pickList = pickK ? evs.filter(e => playsOn(e, pickK) && !lives.includes(e)) : [];
   $('dayPick').hidden = !pickK;
   $('dayPick').innerHTML = pickK ? `<div class="daypickhead"><span>${fmt(new Date(pickK + 'T12:00:00Z'), 'UTC', { weekday: 'long', day: 'numeric', month: 'long' })}</span><button type="button" class="dayclose" data-jump="${pickK}" aria-label="Close this day">×</button></div>${pickList.length ? pickList.map(e => finals.includes(e) ? resCard(e, now) : evCard(e, now)).join('') : '<div class="empty-note">Nothing on for your teams this day.</div>'}` : '';
     syncPulse();
