@@ -1,54 +1,81 @@
-pages: {"New Zealand men's national field hockey team":19,"New Zealand women's national field hockey team":21,"2026–27 Men's FIH Pro League":0,"2026–27 Women's FIH Pro League":0,"Men's FIH Hockey Nations Cup":0,"2026 Men's FIH Hockey World Cup":6,"2026 Women's FIH Hockey World Cup":6,"Indian cricket team in New Zealand in 2026–27":12,"Sri Lankan cricket team in New Zealand in 2026–27":8,"New Zealand cricket team in Australia in 2026–27":4,"New Zealand women's cricket team in Australia in 2026–27":6,"English cricket team in Australia in 2026–27":9,"Australian cricket team in India in 2026–27":5,"Austr
-hockey events 52
-2025-09-04T02:00:00.000Z Thu, 4 Sept, 2:00 pm (TBC) | blacksticksw | Oceania Cup / Match 1 | Australia Women v New Zealand Women | final 0-1 | Marrara Hockey Centre Darwin null
-2025-09-06T02:00:00.000Z Sat, 6 Sept, 2:00 pm (TBC) | blacksticksw | Oceania Cup / Match 2 | Australia Women v New Zealand Women | final 1-0 | Marrara Hockey Centre Darwin null
-2025-09-07T02:00:00.000Z Sun, 7 Sept, 2:00 pm (TBC) | blacksticksw | Oceania Cup / Match 3 | Australia Women v New Zealand Women | final 1-1 | Marrara Hockey Centre Darwin null
-2026-01-04T01:00:00.000Z Sun, 4 Jan, 2:00 pm (TBC) | blacksticks | Test series · Test 4  | New Zealand v Japan | final 3-3 | Gallagher Hockey Centre Hamilton) null
-2026-01-21T01:00:00.000Z Wed, 21 Jan, 2:00 pm (TBC) | blacksticksw | Summer of Hockey Series / Match 1 | New Zealand Women v USA Women | final 1-2 | Alexander McMillan Hockey Centre Dunedin null
-2026-01-22T01:00:00.000Z Thu, 22 Jan, 2:00 pm (TBC) | blacksticksw | Summer of Hockey Series / Match 2 | New Zealand Women v New Zealand A Women | final 4-1 | Alexander McMillan Hockey Centre Dunedin null
-2026-01-24T01:00:00.000Z Sat, 24 Jan, 2:00 pm (TBC) | blacksticksw | Summer of Hockey Series / Match 3 | New Zealand Women v Japan Women | final 1-0 | Alexander McMillan Hockey Centre Dunedin null
-2026-01-25T01:00:00.000Z Sun, 25 Jan, 2:00 pm (TBC) | blacksticksw | Summer of Hockey Series / Final | USA Women v New Zealand Women | final 2-1 | Alexander McMillan Hockey Centre Dunedin null
-2026-01-30T05:30:00.000Z Fri, 30 Jan, 6:30 pm  | blacksticks | Test series · Test 1  | New Zealand v Japan | final 2-5 | Gallagher Hockey Centre Hamilton Pacific/Auckland
-2026-02-01T03:30:00.000Z Sun, 1 Feb, 4:30 pm  | blacksticks | Test series · Test 2  | New Zealand v Japan | final 5-1 | Gallagher Hockey Centre Hamilton Pacific/Auckland
-2026-02-02T05:30:00.000Z Mon, 2 Feb, 6:30 pm  | blacksticks | Test series · Test 3  | New Zealand v Japan | final 4-3 | Gallagher Hockey Centre Hamilton Pacific/Auckland
-2026-04-27T06:00:00.000Z Mon, 27 Apr, 6:00 pm (TBC) | blacksticksw | Test series  | Argentina Women v New Zealand Women | final 3-2 | Wujin Hockey Stadium Changzhou Asia/Shanghai
-2026-05-01T06:00:00.000Z Fri, 1 May, 6:00 pm (TBC) | blacksticksw | Test series  | Argentina Women v New Zealand Women | final 3-2 | Wujin Hockey Stadium Changzhou Asia/Shanghai
-2026-05-03T06:00:00.000Z Sun, 3 May, 6:00 pm (TBC) | blacksticksw | Test series  | Argentina Women v New Zealand Women | final 7-0 | Wujin Hockey Stadium Changzhou Asia/Shanghai
-2026-06-12T17:00:00.000Z Sat, 13 Jun, 5:00 am  | blacksticks | FIH Hockey Nations Cup / Pool A | New Zealand v Scotland | final 1-0 | Hartleyvale Stadium Cape Town Africa/Johannesburg
-2026-06-14T15:00:00.000Z Mon, 15 Jun, 3:00 am  | blacksticks | FIH Hockey Nations Cup / Pool A | South Korea v New Zealand | final 2-6 | Hartleyvale Stadium Cape Town Africa/Johannesburg
-2026-06-15T06:00:00.000Z Mon, 15 Jun, 6:00 pm  | blacksticksw | FIH Hockey Nations Cup / Pool B | New Zealand Women v South Korea Women | final 3-1 | National Hockey Centre Auckland Pacific/Auckland
-2026-06-16T06:00:00.000Z Tue, 16 Jun, 6:00 pm  | blacksticksw | FIH Hockey Nations Cup / Pool B | Chile Women v New Zealand Women | final 2-3 | National Hockey Centre Auckland Pacific/Auckland
-2026-06-16T10:15:00.000Z Tue, 16 Jun, 10:15 pm  | blacksticks | FIH Hockey Nations Cup / Pool A | Malaysia v New Zealand | final 1-5 | Hartleyvale Stadium Cape Town Africa/Johannesburg
-2026-06-17T17:00:00.000Z Thu, 18 Jun, 5:00 am  | blacksticks | FIH Hockey Nations Cup / Pool A | New Zealand v Japan | final 5-2 | Hartleyvale Stadium Cape Town Africa/Johannesburg
-2026-06-18T06:00:00.000Z Thu, 18 Jun, 6:00 pm  | blacksticksw | FIH Hockey Nations Cup / Pool B | New Zealand Women v France Women | final 2-1 | National Hockey Centre Auckland Pacific/Auckland
-2026-06-19T14:45:00.000Z Sat, 20 Jun, 2:45 am  | blacksticks | FIH Hockey Nations Cup / Semi finals | New Zealand v South Africa | final 2-2 | Hartleyvale Stadium Cape Town Africa/Johannesburg
-2026-06-20T06:30:00.000Z Sat, 20 Jun, 6:30 pm  | blacksticksw | FIH Hockey Nations Cup / Semi finals | New Zealand Women v USA Women | final 1-1 | National Hockey Centre Auckland Pacific/Auckland
-2026-06-20T14:45:00.000Z Sun, 21 Jun, 2:45 am  | blacksticks | FIH Hockey Nations Cup / 3/4 classification | New Zealand v Japan | final 3-1 | Hartleyvale Stadium Cape Town Africa/Johannesburg
-2026-06-21T06:30:00.000Z Sun, 21 Jun, 6:30 pm  | blacksticksw | FIH Hockey Nations Cup / Final | India Women v New Zealand Women | final 2-0 | National Hockey Centre Auckland Pacific/Auckland
-2026-08-16T14:00:00.000Z Mon, 17 Aug, 2:00 am  | blacksticks | FIH Hockey World Cup / Pool A | Netherlands v New Zealand | final 5-1 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-16T14:00:00.000Z Mon, 17 Aug, 2:00 am  | blacksticks | FIH Hockey World Cup  | Netherlands v New Zealand | final 5-1 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-16T15:30:00.000Z Mon, 17 Aug, 3:30 am  | blacksticksw | FIH Hockey World Cup / Pool B | Belgium Women v New Zealand Women | final 5-2 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-16T15:30:00.000Z Mon, 17 Aug, 3:30 am  | blacksticksw | FIH Hockey World Cup  | Belgium Women v New Zealand Women | final 5-2 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-18T07:30:00.000Z Tue, 18 Aug, 7:30 pm  | blacksticks | FIH Hockey World Cup / Pool A | New Zealand v Japan | final 2-0 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-18T07:30:00.000Z Tue, 18 Aug, 7:30 pm  | blacksticks | FIH Hockey World Cup  | New Zealand v Japan | final 2-0 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-18T09:00:00.000Z Tue, 18 Aug, 9:00 pm  | blacksticksw | FIH Hockey World Cup / Pool B | New Zealand Women v Ireland Women | final 2-3 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-18T09:00:00.000Z Tue, 18 Aug, 9:00 pm  | blacksticksw | FIH Hockey World Cup  | New Zealand Women v Ireland Women | final 2-3 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-20T10:30:00.000Z Thu, 20 Aug, 10:30 pm  | blacksticks | FIH Hockey World Cup / Pool A | New Zealand v Argentina | final 1-7 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-20T10:30:00.000Z Thu, 20 Aug, 10:30 pm  | blacksticks | FIH Hockey World Cup  | New Zealand v Argentina | final 1-7 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-20T12:00:00.000Z Fri, 21 Aug, 12:00 am  | blacksticksw | FIH Hockey World Cup / Pool B | New Zealand Women v Spain Women | final 0-3 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-20T12:00:00.000Z Fri, 21 Aug, 12:00 am  | blacksticksw | FIH Hockey World Cup  | New Zealand Women v Spain Women | final 0-3 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-22T08:00:00.000Z Sat, 22 Aug, 8:00 pm  | blacksticks | FIH Hockey World Cup / Pool G | New Zealand v Wales | final 7-2 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-22T08:00:00.000Z Sat, 22 Aug, 8:00 pm  | blacksticks | FIH Hockey World Cup  | New Zealand v Wales | final 7-2 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-22T12:30:00.000Z Sun, 23 Aug, 12:30 am  | blacksticksw | FIH Hockey World Cup / Pool H | USA Women v New Zealand Women | final 1-1 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-22T12:30:00.000Z Sun, 23 Aug, 12:30 am  | blacksticksw | FIH Hockey World Cup  | USA Women v New Zealand Women | final 1-1 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-24T09:00:00.000Z Mon, 24 Aug, 9:00 pm  | blacksticksw | FIH Hockey World Cup / Pool H | New Zealand Women v Scotland Women | final 1-2 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-24T09:00:00.000Z Mon, 24 Aug, 9:00 pm  | blacksticksw | FIH Hockey World Cup  | New Zealand Women v Scotland Women | final 1-2 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-24T10:30:00.000Z Mon, 24 Aug, 10:30 pm  | blacksticks | FIH Hockey World Cup / Pool G | New Zealand v Pakistan | final 4-2 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-24T10:30:00.000Z Mon, 24 Aug, 10:30 pm  | blacksticks | FIH Hockey World Cup  | New Zealand v Pakistan | final 4-2 | Wagener Stadium Amstelveen Europe/Amsterdam
-2026-08-27T09:00:00.000Z Thu, 27 Aug, 9:00 pm  | blacksticksw | FIH Hockey World Cup / 15th place match | Chile Women v New Zealand Women | final 2-3 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-27T09:00:00.000Z Thu, 27 Aug, 9:00 pm  | blacksticksw | FIH Hockey World Cup  | Chile Women v New Zealand Women | final 2-3 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-28T12:00:00.000Z Sat, 29 Aug, 12:00 am  | blacksticks | FIH Hockey World Cup / 9th place match | New Zealand v Ireland | final 6-3 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-08-28T12:00:00.000Z Sat, 29 Aug, 12:00 am  | blacksticks | FIH Hockey World Cup  | New Zealand v Ireland | final 6-3 | Belfius Hockey Arena Wavre Europe/Brussels
-2026-11-19T05:30:00.000Z Thu, 19 Nov, 6:30 pm  | blacksticks | Test series · Match 1  | New Zealand v India | upcoming  | Lloyd Elsmore Park Auckland Pacific/Auckland
-2026-11-21T03:00:00.000Z Sat, 21 Nov, 4:00 pm  | blacksticks | Test series · Match 2  | New Zealand v India | upcoming  | Lloyd Elsmore Park Auckland Pacific/Auckland
-2026-11-22T03:00:00.000Z Sun, 22 Nov, 4:00 pm  | blacksticks | Test series · Match 3  | New Zealand v India | upcoming  | Lloyd Elsmore Park Auckland Pacific/Auckland
+live version 249 generated 2026-10-19T13:08:31.169Z
+hockey events 6
+  2026-06-19T14:45:00.000Z  blacksticks | FIH Hockey Nations Cup Semi finals | New Zealand v South Africa final 2-2 | Hartleyvale Stadium Cape Town
+  2026-11-19T05:30:00.000Z  blacksticks | Test series · Match 1  | New Zealand v India upcoming  | Lloyd Elsmore Park Auckland
+  2026-11-21T03:00:00.000Z  blacksticks | Test series · Match 2  | New Zealand v India upcoming  | Lloyd Elsmore Park Auckland
+  2026-11-22T03:00:00.000Z  blacksticks | Test series · Match 3  | New Zealand v India upcoming  | Lloyd Elsmore Park Auckland
+  2026-06-20T06:30:00.000Z  blacksticksw | FIH Hockey Nations Cup Semi finals | New Zealand Women v USA Women final 1-1 | National Hockey Centre Auckland
+  2026-06-21T06:30:00.000Z  blacksticksw | FIH Hockey Nations Cup Final | India Women v New Zealand Women final 2-0 | National Hockey Centre Auckland
+wiki diag [
+  `"New Zealand men's national field hockey team":19`,
+  `"New Zealand women's national field hockey team":21`,
+  `"Men's FIH Hockey Nations Cup":0`,
+  `"2026 Men's FIH Hockey World Cup":6`,
+  `"2026 Women's FIH Hockey World Cup":6`
+]
+teamLinks hockey {"hockey|New Zealand":{"wp":"New Zealand men's national field hockey team","site":"https://hockeynz.co.nz/"},"hockey|India":{"wp":"India men's national field hockey team","site":"https://www.hockeyindia.org/"}}
+blacksticks.ics 1558 [
+  'SUMMARY:🏑 Black Sticks v India',
+  'SUMMARY:🏑 Black Sticks v India',
+  'SUMMARY:🏑 Black Sticks v India'
+]
+
+##### FIH World Rankings -> FIH Men's World Ranking 4 tables
+  teamTables: Men's  Points 1. Germany 3720.42 | 2. Belgium 3692.9 | 3. Australia 3583.25 | 4. Argentina 3512.35 | 5. Netherlands 3481.3 NZ {"rank":"9","name":"New Zealand","val":"2965.89","nz":true}
+  t0 [Current rankings] heads=[["Rank","Change","Team","Points"]] rows=105 r0=["1","","Germany","3720.42"] notes=[edit]
+  t1 [Overview] heads=[["Year","Points percentage included"]] rows=5 r0=["Year 4","100%"] notes=lculation. However, the past results will be deducted by the percentage set by the FIH as shown by the tabulation below:
+  t2 [Rank leaders] heads=[["Men's at the end of each year","Men's at the end of each year"],["Year","Team"]] rows=24 r0=["Present","Germany"] notes=[edit]
+  t3 [Rank leaders] heads=[["Men's Leaderboard","Men's Leaderboard"],["Team","Years"]] rows=4 r0=["Australia","11"] notes=
+
+##### FIH Men's World Rankings ERROR missingtitle
+
+##### FIH Women's World Rankings ERROR missingtitle
+
+##### FIFA Men's World Ranking -> FIFA Men's World Ranking 5 tables
+  teamTables: Men's 2026-10-07 Points 1. Spain 2011.57 | 2. Argentina 1972.8 | 3. France 1958.86 | 4. England 1925.59 | 5. Portugal 1807.69 
+  t0 [] heads=[] rows=26 r0=["","","",""] notes=World ranking list This article is about the men's rankings. For the women's rankings, see FIFA Women's World Ranking.
+  t1 [Team of the Year] heads=[["Year","First place","Second place","Third place"]] rows=33 r0=["1993","Germany","Italy","Brazil"] notes=wins (seven, between 1994 and 2000) and most wins overall (thirteen). The table shows the three best teams of each year.
+  t2 [Performances by countries] heads=[["Team","First place","Second place","Third place"]] rows=13 r0=["Brazil","13 (1994, 1995, 1996, 1997, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2022)","5 (2007, 2009, 2016, 2017, 2021)","5 (1993, 2001, 2018, 2019, 2020)"] notes=[edit]
+  t3 [Best Mover of the Year] heads=[["Year","First place","Second place","Third place"]] rows=14 r0=["1993","Colombia","Portugal","Morocco"] notes=s not been an official part of the annual FIFA awards gala show, The Best FIFA Football Awards, since the show for 2006.
+  t4 [Best Mover of the Year] heads=[["Year","Best mover","Second best","Third best","Ref."]] rows=19 r0=["2007","Mozambique (+245 pts)","Norway (+240 pts)","New Caledonia (+220 pts)",""] notes=e year compared to 12 months earlier. The Best Mover results for all subsequent years are based on the same methodology.
+
+##### FIFA Women's World Ranking -> FIFA Women's World Ranking 5 tables
+  teamTables: Men's 2026-06-16 Points 1. Spain 2105.36 | 2. United States 2057.92 | 3. Germany 2028.99 | 4. England 2027.13 | 5. Japan 1998.83 
+  t0 [] heads=[] rows=26 r0=["","","",""] notes=orts team ranking list This article is about the women's rankings. For the men's rankings, see FIFA Men's World Ranking.
+  t1 [Actual result of the match] heads=[] rows=9 r0=["","Goal Difference","Goal Difference","Goal Difference","Goal Difference","Goal Difference","Goal Difference","Goal Difference"] notes= to 100%. For example, a 0–0 draw earns both teams 47% each, a 1–1 draw earns 50% each, and a 4–4 draw earns 52.5% each.
+  t2 [Importance of the match] heads=[["Match importance","Match importance factor (M)","K-value"]] rows=8 r0=["FIFA Women's World Cup match","4","60"] notes=[edit]
+  t3 [Leaders] heads=[["No.","Team","Confederation","Days at No. 1"]] rows=4 r0=["1","United States","CONCACAF","6,070 days"] notes= releases, when Germany was ranked third (only Norway, Brazil, England, and Sweden had reached second during this time).
+  t4 [All-time highs and lows for the leaders] heads=[["Rank","Nation","High rating (rank)","High rating date","High rank (first, last year)","Low rating (rank)","Low rating date","Low rank (first, last year)"]] rows=4 r0=["1","Germany","2234 (1st)","16 Dec 2005","1st (2003, 2017)","1987.25 (6th)","15 Dec 2023","6th (2023)"] notes=[edit]
+
+##### ATP rankings -> ATP rankings 35 tables
+  teamTables: Men's 2026-09-28 Points 1. Harri Heliövaara (FIN) ✓ Henry Patten (GBR) ✓ 7,880 | 2. Christian Harrison (USA) ✓ Neal Skupski (GBR) ✓ 5,890 | 3. Marcel Granollers (ESP) ✓ Horacio Zeballos (ARG) ✓ 5,330 | 4. Marcelo Arévalo 5,045 | 5. Simone Bolelli 4,480 
+  t0 [Points distribution (2024–present)] heads=[] rows=19 r0=["Tournament category","W","F","SF","QF","R16","R32","R64","R128","Q","Q3","Q2","Q1"] notes=[edit] Ranking points are awarded as follows:
+  t1 [Points distribution (2024–present)] heads=[["Round","Points per win vs. opponent ranked","Points per win vs. opponent ranked","Points per win vs. opponent ranked","Points per win vs. opponent ranked","Points per win vs. opponent ranked","Poin rows=4 r0=["Final","180","140","120","90","60","40","35"] notes=g points for won matches (up to 500 points for the entire tournament). Since 2024, the point distribution is as follows:
+  t2 [Points distribution (2009–2023)] heads=[] rows=13 r0=["Category","W","F","SF","QF","R16","R32","R64","R128","Q","Q3","Q2","Q1"] notes=[edit]
+  t3 [Singles] heads=[["Singles race rankings as of 14 September 2026","Singles race rankings as of 14 September 2026","Singles race rankings as of 14 September 2026","Singles race rankings as of 14 September 2026"],["No. rows=20 r0=["1","Alexander Zverev (GER) ✓","8,650","15"] notes=[edit]
+  t4 [Singles] heads=[["ATP rankings (singles) as of 5 October 2026","ATP rankings (singles) as of 5 October 2026","ATP rankings (singles) as of 5 October 2026","ATP rankings (singles) as of 5 October 2026"],["No.","Playe rows=20 r0=["1","Jannik Sinner (ITA)","11,000",""] notes=✓ Qualified for the 2026 ATP Finals. [vedit · edit section]
+  t5 [Doubles] heads=[["Doubles race rankings as of 28 September 2026","Doubles race rankings as of 28 September 2026","Doubles race rankings as of 28 September 2026","Doubles race rankings as of 28 September 2026"],["No. rows=10 r0=["1","Harri Heliövaara (FIN) ✓ Henry Patten (GBR) ✓","7,880","15"] notes=[edit]
+  t6 [Doubles] heads=[["ATP rankings (doubles) as of 5 October 2026","ATP rankings (doubles) as of 5 October 2026","ATP rankings (doubles) as of 5 October 2026","ATP rankings (doubles) as of 5 October 2026"],["No.","Playe rows=20 r0=["1","Harri Heliövaara (FIN)","10,540",""] notes=✓ Qualified for the 2026 ATP Finals. [vedit · edit section]
+  t7 [ATP No. 1 ranked singles players] heads=[["Weeks","World No. 1 player","First reached"]] rows=30 r0=["428","Novak Djokovic (SRB)","Jul 4, 2011"] notes=hold the top spot for over 200 consecutive weeks. Current world No. 1 as of 12 October 2026. Active former No. 1 player.
+
+##### WTA rankings -> WTA rankings 26 tables
+  t0 [Points table] heads=[] rows=32 r0=["Category","W","F","SF","QF","R16","R32","R64","R128","Q","Q3","Q2","Q1"] notes=[edit]
+  t1 [Singles] heads=[["Singles race rankings as of 14 September 2026","Singles race rankings as of 14 September 2026","Singles race rankings as of 14 September 2026","Singles race rankings as of 14 September 2026"],["No. rows=20 r0=["1","Elena Rybakina (KAZ) ✓","7,492","16"] notes=[edit]
+  t2 [Singles] heads=[["WTA rankings (singles) as of 12 October 2026","WTA rankings (singles) as of 12 October 2026","WTA rankings (singles) as of 12 October 2026","WTA rankings (singles) as of 12 October 2026"],["No.","P rows=20 r0=["1","Elena Rybakina (KAZ)","9,696",""] notes=✓ Qualified for the 2026 WTA Finals. [vedit · edit section]
+  t3 [Doubles] heads=[["Doubles race rankings as of 3 August 2026","Doubles race rankings as of 3 August 2026","Doubles race rankings as of 3 August 2026","Doubles race rankings as of 3 August 2026"],["No.","Player","Poin rows=10 r0=["1","Taylor Townsend (USA) ✓ Kateřina Siniaková (CZE) ✓","6,250","7"] notes=[edit]
+  t4 [Doubles] heads=[["WTA rankings (doubles) as of 12 October 2026","WTA rankings (doubles) as of 12 October 2026","WTA rankings (doubles) as of 12 October 2026","WTA rankings (doubles) as of 12 October 2026"],["No.","P rows=20 r0=["1","Kateřina Siniaková (CZE)","11,000",""] notes=✓ Qualified for the 2026 WTA Finals. [vedit · edit section]
+  t5 [Points breakdown] heads=[["Rank","Player","Grand Slam","Grand Slam","Grand Slam","Grand Slam","WTA 1000","WTA 1000","WTA 1000","WTA 1000","WTA 1000","WTA 1000","WTA 1000","WTA 1000","WTA 1000","WTA 1000","Best other","Best o rows=10 r0=["1","Elena Rybakina","W 2000","R64 70","R32 130","W 2000","QF 215","R16 120","F 650","SF 390","R16 120","QF 215","F 650","QF 215","R64 (10)","A 0","W 500","W 500","QF 108","SF 195 notes=layer received 0 points, are not shown. Points in brackets () don't count to total points by reason of tournament limit.
+  t6 [Number one ranked players] heads=[["No.","Player","Date reached","Total weeks"]] rows=30 r0=["1","Chris Evert","Nov 3, 1975","260"] notes=roducing computerized rankings on November 3, 1975: Current world No. 1 as of 14 September 2026. Active players in green
+  t7 [Singles] heads=[["Year","Player"]] rows=25 r0=["1975","Chris Evert (1)"] notes=[edit]
+
+##### List of current boxing rankings -> List of current boxing rankings 19 tables
+  t0 [Current boxing rankings] heads=[] rows=4 r0=["C","Champion"] notes=[edit] As of 23rd August 2025
+  t1 [Heavyweight (224 lbs+ - 101.60 kg+)] heads=[["Rank","BoxRec","TBRB","The Ring","","WBA","WBC","IBF","WBO"]] rows=11 r0=["C","Oleksandr Usyk","Oleksandr Usyk","Oleksandr Usyk","","Murat Gassiev","Agit Kabayel","Filip Hrgović","Daniel Dubois"] notes=[edit]
+  t2 [Bridgerweight (224 lbs - 101.60 kg)] heads=[["Rank","BoxRec","TBRB","The Ring","","WBA","WBC","IBF","WBO"]] rows=11 r0=["C","—N/a","—N/a","—N/a","","Muslim Gadzhimagomedov Georgiy Yunovidov (I)","Ryad Merhy Krzysztof Wlodarczyk (I)","—N/a","—N/a"] notes=[edit]
+  t3 [Cruiserweight (200 lbs - 90.72 kg)] heads=[["Rank","BoxRec","TBRB","The Ring","","WBA","WBC","IBF","WBO"]] rows=11 r0=["C","David Benavidez","Jai Opetaia","Jai Opetaia","","David Benavidez Jai Opetaia (R)","Noel Mikaelian Michał Cieślak (I)","Vacant","David Benavidez"] notes=[edit]
+  t4 [Light heavyweight (175 lbs - 79.38 kg)] heads=[["Rank","BoxRec","TBRB","The Ring","","WBA","WBC","IBF","WBO"]] rows=11 r0=["C","Dmitry Bivol","Dmitry Bivol","Dmitry Bivol","","Dmitry Bivol David Benavidez (R)","David Benavidez","Dmitry Bivol","Dmitry Bivol Callum Smith (I)"] notes=[edit]
+  t5 [Super middleweight (168 lbs - 76.2 kg)] heads=[["Rank","BoxRec","TBRB","The Ring","","WBA","WBC","IBF","WBO"]] rows=11 r0=["C","Canelo Álvarez","Terence Crawford","Terence Crawford","","Jaime Munguia","Christian M'billi Lester Martínez (I)","Osleys Iglesias","Hamzah Sheeraz"] notes=[edit]
+  t6 [Middleweight (160 lbs - 72.57 kg)] heads=[["Rank","BoxRec","TBRB","The Ring","","WBA","WBC","IBF","WBO"]] rows=11 r0=["C","Janibek Alimkhanuly","vacant","vacant","","Erislandy Lara","Carlos Adames Jesus Ramos (I)","Aaron McKenna","Janibek Alimkhanuly Denzel Bentley (I)"] notes=[edit]
+  t7 [Super Welterweight (154 lbs - 69.85 kg)] heads=[["Rank","BoxRec","TBRB","The Ring","","WBA","WBC","IBF","WBO"]] rows=11 r0=["C","Vergil Ortiz Jr.","Jermell Charlo","vacant","","Jaron Ennis","Sebastian Fundora Vergil Ortiz Jr. (I)","Josh Kelly","Jaron Ennis"] notes=[edit]
+
+##### The Ring pound for pound ERROR missingtitle
