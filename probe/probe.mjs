@@ -1,15 +1,22 @@
-// probe 32: the new rankings lists (football, hockey, tennis) through the site's own code
-import { RANK_PAGES, rankings } from './src/rankings.mjs';
-const keep = RANK_PAGES.filter(p => /football|hockey|tennis/.test(p.sport));
-RANK_PAGES.splice(0, RANK_PAGES.length, ...keep);
-const diag = {};
-const lists = await rankings({}, diag);
-console.log('diag:', diag.rankings);
-for (const l of lists) console.log(`\n${l.sport} | ${l.title} | asOf ${l.asOf} | ${l.valLabel} | ${l.rows.length} rows\n  ` + l.rows.map(r => `${r.rank}. ${r.name}${r.iso ? ' (' + r.iso + ')' : ''} ${r.val}${r.nz ? ' [NZ]' : ''}`).join('\n  '));
-// where does the hockey page say when its table is from?
+// probe 33: live v251 check: rankings, app files, and the HTTPS / redirect set-up for kickoff.kiwi
 const UA = { 'user-agent': 'KickoffKiwi/1.0 (https://kickoff.kiwi/; probe)' };
-for (const p of ["FIH Men's World Ranking", "FIH Women's World Ranking"]) {
-  const j = await (await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=parse&prop=text&redirects=1&page=' + encodeURIComponent(p), { headers: UA })).json();
-  const t = (j.parse?.text || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
-  console.log('\n' + p, 'as-of mentions:', (t.match(/.{60}(?:as of|updated|last update)[^.]{0,60}/gi) || []).slice(0, 5));
+const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now(), { headers: UA })).json();
+console.log('version', f.site?.version, '| generated', f.generatedAt);
+console.log('rankings diag:', f.diag?.rankings);
+for (const l of f.rankings || []) console.log(' ', l.sport, '|', l.title, '|', l.asOf || '-', '|', l.rows.length, 'rows |', l.rows.slice(0, 2).map(r => r.name).join(', '), '|', l.rows.filter(r => r.nz).map(r => r.rank + '. ' + r.name).join(', '));
+for (const u of ['https://kickoff.kiwi/manifest.webmanifest', 'https://kickoff.kiwi/sw.js', 'https://kickoff.kiwi/apple-touch-icon.png', 'https://kickoff.kiwi/icons/app-512.png', 'https://kickoff.kiwi/icons/app-maskable-512.png', 'https://kickoff.kiwi/icons/hockey.svg', 'https://kickoff.kiwi/data/cal/nz.ics', 'https://kickoff.kiwi/data/cal/blacksticks.ics']) {
+  const r = await fetch(u, { headers: UA });
+  console.log(r.status, (r.headers.get('content-type') || '').padEnd(32), u);
 }
+// redirects: follow nothing, show where each goes
+for (const u of ['http://kickoff.kiwi/', 'http://www.kickoff.kiwi/', 'https://www.kickoff.kiwi/', 'https://7n1k7.github.io/sports-feed/', 'https://7n1k7.github.io/sports-feed/data/feed.json']) {
+  try { const r = await fetch(u, { headers: UA, redirect: 'manual' }); console.log(r.status, u, '->', r.headers.get('location') || '(no redirect)'); }
+  catch (e) { console.log('ERR', u, e.cause?.code || e.message); }
+}
+const home = await fetch('https://kickoff.kiwi/', { headers: UA });
+const html = await home.text();
+console.log('home', home.status, '| hsts:', home.headers.get('strict-transport-security') || 'none', '| manifest link:', html.includes('rel="manifest"'), '| page has hockey:', html.includes("'blacksticks'"));
+// the certificate
+const tls = await import('node:tls');
+await new Promise(res => { const s = tls.connect(443, 'kickoff.kiwi', { servername: 'kickoff.kiwi' }, () => { const c = s.getPeerCertificate(); console.log('cert for', c.subject?.CN, '| alt names', c.subjectaltname, '| issuer', c.issuer?.O, c.issuer?.CN, '| valid to', c.valid_to, '| trusted:', s.authorized); s.end(); res(); }); s.on('error', e => { console.log('tls error', e.message); res(); }); });
+await new Promise(res => { const s = tls.connect(443, 'www.kickoff.kiwi', { servername: 'www.kickoff.kiwi' }, () => { const c = s.getPeerCertificate(); console.log('www cert alt names', c.subjectaltname, '| trusted:', s.authorized); s.end(); res(); }); s.on('error', e => { console.log('www tls error', e.message); res(); }); });
