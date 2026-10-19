@@ -257,6 +257,12 @@ async function bbcNews() {
 // delay never showed. ESPN's terms of use don't allow automated access without its permission; the site's owner chose
 // to switch it on for this non-commercial site (19 Oct 2026). It only adds to matches already on a card, never a card of its own
 const ESPN_ON = true;
+// "Central Stags" is ESPN's "Central Districts", "Auckland Aces" its "Auckland": compare on the place
+const sideKey = n => norm(String(n || '').replace(/\b(aces|stags|hinds|volts|sparks|firebirds|blaze|kings|magicians|knights|brave|hearts|districts|wizards)\b/gi, ''));
+const sameSide = (a, b) => { const x = sideKey(a), y = sideKey(b); return !!x && !!y && (x === y || x.startsWith(y) || y.startsWith(x)); };
+// the card a live source's match belongs to: same sides (either way round), men's or women's, starting within 30 hours
+const cricketCard = (events, t, a, b, w) => events.filter(e => e.sport === 'cricket' && e.status !== 'final' && isW(e) === w && Math.abs(Date.parse(e.startUTC) - t) < 30 * 36e5
+  && ((sameSide(e.home, a) && sameSide(e.away, b)) || (sameSide(e.home, b) && sameSide(e.away, a)))).sort(near(t))[0];
 async function espnCricket(events) {
   let d;
   try {
@@ -265,18 +271,13 @@ async function espnCricket(events) {
     d = await r.json();
   } catch (e) { diag.espnCricket = 'error ' + e.message; return; }
   const list = (d.sports || []).flatMap(s => (s.leagues || []).flatMap(l => l.events || []));
-  // "Central Stags" is ESPN's "Central Districts", "Auckland Aces" its "Auckland": compare on the place
-  const key = n => norm(String(n || '').replace(/\b(aces|stags|hinds|volts|sparks|firebirds|blaze|kings|magicians|knights|brave|hearts|districts|wizards)\b/gi, ''));
-  const sameSide = (a, b) => { const x = key(a), y = key(b); return !!x && !!y && (x === y || x.startsWith(y) || y.startsWith(x)); };
   const done = [];
   for (const ev of list) {
     const st = ev.fullStatus || {}, type = st.type || {};
     const [c1, c2] = ev.competitors || [];
     if (!c1 || !c2 || type.state === 'post' || (type.state === 'pre' && !/delay|rain|wet|inspection|light/i.test(type.description || ''))) continue;
     const t = Date.parse(ev.date), w = /\bwomen\b/i.test(`${ev.name} ${c1.displayName} ${c2.displayName}`);
-    const hit = events.filter(e => e.sport === 'cricket' && e.status !== 'final' && isW(e) === w && Math.abs(Date.parse(e.startUTC) - t) < 30 * 36e5
-      && ((sameSide(e.home, c1.displayName) && sameSide(e.away, c2.displayName)) || (sameSide(e.home, c2.displayName) && sameSide(e.away, c1.displayName))))
-      .sort(near(t))[0];
+    const hit = cricketCard(events, t, c1.displayName, c2.displayName, w);
     if (!hit) continue;
     // "Day 2" on a Test; the page reads the day from the state of play ("Stumps, day 1" ends day 1)
     const day = /^Day \d$/.test(st.session || '') ? `, ${st.session.toLowerCase()}` : '';
@@ -291,6 +292,46 @@ async function espnCricket(events) {
     done.push(`${hit.home} v ${hit.away}: ${hit.progress}${ls ? ' / ' + ls : ''}`);
   }
   diag.espnCricket = `${list.length} on ESPN now, ${done.length} on our cards${done.length ? ': ' + done.join('; ') : ''}`;
+}
+
+// Sportmonks Cricket (cricket.sportmonks.com): a licensed live-score API whose free plan covers T20 internationals, the
+// Big Bash and CSA T20 (not Tests, ODIs or NZ domestic cricket). Its match states include "Delayed" and "Int." (play
+// interrupted, usually by weather) besides lunch, tea, innings breaks and stumps. It needs the owner's free API token in
+// the SPORTMONKS_TOKEN secret, and is only asked while a cricket match is on. A match ESPN already gave a state this run
+// keeps ESPN's
+async function sportmonksCricket(events) {
+  const token = process.env.SPORTMONKS_TOKEN;
+  if (!token) { diag.sportmonks = 'no token (add the SPORTMONKS_TOKEN secret to switch it on)'; return; }
+  const on = events.some(e => e.sport === 'cricket' && e.status !== 'final' && now - Date.parse(e.startUTC) > -36e5 && now - Date.parse(e.startUTC) < 5.5 * DAY);
+  if (!on) { diag.sportmonks = 'no cricket on'; return; }
+  let d;
+  try {
+    const r = await fetch(`https://cricket.sportmonks.com/api/v2.0/livescores?api_token=${encodeURIComponent(token)}&include=localteam,visitorteam,runs`, { signal: AbortSignal.timeout(15000) });
+    if (!r.ok) throw new Error(r.status);
+    d = await r.json();
+  } catch (e) { diag.sportmonks = 'error ' + e.message; return; }
+  const done = [];
+  for (const m of d.data || []) {
+    const st = String(m.status || ''), note = String(m.note || '');
+    const rain = /rain|wet|weather|drizzle|light/i.test(note) ? ' by rain' : '';
+    const desc = /^\d\w* Innings$/i.test(st) ? 'In play' : /^Stump Day (\d)$/i.test(st) ? `Stumps, day ${st.match(/\d/)[0]}` : st === 'Innings Break' ? 'Innings break'
+      : st === 'Tea Break' ? 'Tea' : st === 'Lunch' ? 'Lunch' : st === 'Dinner' ? 'Dinner break' : st === 'Int.' ? 'Play interrupted' + rain : st === 'Delayed' ? 'Start delayed' + rain : '';
+    const a = m.localteam?.name, b = m.visitorteam?.name;
+    if (!desc || !a || !b) continue;
+    const hit = cricketCard(events, Date.parse(m.starting_at), a, b, /\bwomen\b/i.test(`${a} ${b}`));
+    if (!hit || (hit.liveAt === new Date(now).toISOString() && hit.liveState)) continue;
+    // each side's latest innings: "162/5 (20 ov)"
+    const score = (id, name) => {
+      const r = (m.runs || []).filter(x => x.team_id === id).sort((x, y) => (y.inning || 0) - (x.inning || 0))[0];
+      return r ? `${sameSide(hit.home, name) ? hit.home : hit.away} ${r.score}${r.wickets < 10 ? '/' + r.wickets : ''} (${r.overs} ov)` : '';
+    };
+    const sides = sameSide(hit.home, a) ? [[m.localteam_id, a], [m.visitorteam_id, b]] : [[m.visitorteam_id, b], [m.localteam_id, a]];
+    const ls = sides.map(([id, n]) => score(id, n)).filter(Boolean).join(' v ');
+    Object.assign(hit, { progress: desc, liveState: 'in', liveAt: new Date(now).toISOString() });
+    if (ls) hit.liveScore = ls; else delete hit.liveScore;
+    done.push(`${hit.home} v ${hit.away}: ${desc}${ls ? ' / ' + ls : ''}`);
+  }
+  diag.sportmonks = `${(d.data || []).length} live on Sportmonks, ${done.length} on our cards${done.length ? ': ' + done.join('; ') : ''}`;
 }
 
 // --- merge -------------------------------------------------------------
@@ -440,6 +481,7 @@ for (const t of tsdbFill) {
 }
 if (tsdbFill.length) diag.tsdbFilled = filled;
 if (ESPN_ON) await espnCricket(events);
+await sportmonksCricket(events);
 // a hand correction in the curated files ("fix") wins over every live source, for when a source has a score wrong
 for (const e of events) if (e.fix) Object.assign(e, e.fix);
 events.forEach(e => applyBroadcast(e, rules));

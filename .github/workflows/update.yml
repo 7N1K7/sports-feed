@@ -43,6 +43,9 @@ jobs:
           restore-keys: og-
       - id: fetch
         run: node scripts/fetch.mjs
+        env:
+          # Sportmonks' free cricket API token (live state for T20Is and the Big Bash); skipped when the secret isn't set
+          SPORTMONKS_TOKEN: ${{ secrets.SPORTMONKS_TOKEN }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
