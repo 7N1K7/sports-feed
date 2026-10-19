@@ -99,6 +99,7 @@ header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block:
 .brand .bn { font-weight: inherit }
 .brand .by { font-family: var(--f-body); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: none; color: var(--muted); line-height: 1; white-space: nowrap }
 .hbtns { display: contents }
+.ver2 { display: none } .brand .ver2 { color: var(--muted) }
 .brand .blogo { width: 1.7em; height: 1.7em; vertical-align: -0.48em; margin-right: .3em; border-radius: 10px }
 .clock { color: var(--muted); font-size: 13px }
 .ver:empty { display: none }
@@ -664,7 +665,9 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   .brand { flex: none; font-size: 27px }
   .clockcol { flex: 1 1 0; min-width: 0; justify-items: end; text-align: right }
   .clockrow { display: contents }
-  .clock { white-space: nowrap; order: 1 } .fresh { order: 2; font-size: 11px } .ver { order: 3; font-size: 10px; padding: 0 6px }
+  .clock { white-space: nowrap } .fresh { font-size: 11px }
+  /* the version goes with the byline on phones */
+  .ver { display: none } .ver2 { display: inline }
   .hbtns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; flex: 1 1 100% }
   .hbtns .btn { justify-content: center; padding: 6px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
   .hbtns .btn svg { width: 14px; height: 14px; flex: none }
@@ -691,17 +694,17 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 .ev.res .rtop { height: 54px; display: grid; align-content: center; justify-items: center; gap: 2px; min-width: 0 }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev.res .rtop { height: 46px }
 .ev.res .rtop .acts { flex-wrap: nowrap; white-space: nowrap }
-/* a card's competition title sits dead centre over the "v"; its sport icon and badges trail to the right of it */
-.ev .comp { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: 8px }
-.ev .comp .ctitle { grid-column: 2; text-align: center; min-width: 0 }
-.ev .comp .ctags { grid-column: 3; justify-self: start; display: flex; align-items: center; gap: 5px }
-.ev .comp .cpad { grid-column: 1 }
-@media (max-width: 560px) {
-  .ev .comp { grid-template-columns: auto auto; justify-content: center }
-  .ev .comp .cpad { display: none }
-  .ev .comp .ctitle { grid-column: 1 } .ev .comp .ctags { grid-column: 2 }
-  .ev .comp .series { display: block }
-}
+/* a card's competition title sits dead centre over the "v", with its sport icon and badges on a small line under it */
+.ev .comp { display: grid; grid-template-columns: minmax(0, auto); justify-content: center; justify-items: center; row-gap: 2px }
+.ev .comp .cpad { display: none }
+.ev .comp .ctitle { text-align: center; min-width: 0 }
+.ev .comp .ctags { display: flex; align-items: center; gap: 5px; line-height: 1 }
+.ev .comp .ctags .sicon { width: 15px; height: 15px }
+.ev .comp .ctags .badge { font-size: 9px; padding-block: 1px }
+@media (max-width: 560px) { .ev .comp .series { display: block } }
+/* the badge line uses the room the slim rows already had above and below the teams */
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup { padding-block: 0 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .body { gap: 2px }
 /* the "v" sits in the middle of its column whether or not a score is beside it */
 .matchup > .v { text-align: center }
 .ev .when .wbr { display: none }
@@ -739,7 +742,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 
 <header class="top">
   <div class="wrap">
-    <div class="brand"><img class="blogo" src="logo.svg?v=b4" alt="" width="52" height="52"><div class="bt"><b class="bn">Kickoff <span>Kiwi</span></b><small class="by">by N1K</small></div></div>
+    <div class="brand"><img class="blogo" src="logo.svg?v=b4" alt="" width="52" height="52"><div class="bt"><b class="bn">Kickoff <span>Kiwi</span></b><small class="by">by N1K<span class="ver2 num" id="ver2"></span></small></div></div>
     <div class="clockcol"><div class="clockrow"><div class="clock num" id="clock"></div><div class="ver num" id="ver"></div></div><div class="fresh" id="fresh"></div></div>
     <div class="spacer"></div>
     <div class="search" role="search">
@@ -1965,7 +1968,7 @@ $('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; st
 function stamp() {
   if (!FEED.generatedAt) return;
   const mins = Math.round((Date.now() - new Date(FEED.generatedAt)) / 6e4);
-  if (FEED.site) { $('ver').textContent = `v${FEED.site.version}`; $('ver').title = `Site last changed ${fmt(new Date(FEED.site.changedAt), NZ, { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; }
+  if (FEED.site) { $('ver').textContent = `v${FEED.site.version}`; $('ver2').textContent = ` · v${FEED.site.version}`; $('ver').title = `Site last changed ${fmt(new Date(FEED.site.changedAt), NZ, { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; }
   const stamp = d => fmt(new Date(d), NZ, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true });
   // just how fresh it is; how often it refreshes sits in the hover text
   const ago = mins < 1 ? 'just now' : mins < 60 ? `${mins} min ago` : mins < 24 * 60 ? `${Math.floor(mins / 60)} hr ago` : stamp(FEED.generatedAt);
