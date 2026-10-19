@@ -1,4 +1,4 @@
-// probe 38: is the workers.dev address renamed, and does the stats server answer there? Prints yes/no only, never
+// probe 39: renamed yet? does the stats server answer at kickoffkiwi.workers.dev? is the stats password secret set?
 // the old address, the token or the account id (this output is public).
 const tok = (process.env.CLOUDFLARE_API_TOKEN || '').trim(), acct = (process.env.CLOUDFLARE_ACCOUNT_ID || '').trim();
 const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${acct}/workers/subdomain`, { headers: { authorization: 'Bearer ' + tok } });
@@ -11,3 +11,4 @@ if (renamed) {
     try { const x = await fetch(url, opts); console.log(what, x.status, (await x.text()).slice(0, 80)); } catch (e) { console.log(what, 'error', e.cause?.code || e.message); }
   }
 }
+console.log('STATS_PASSWORD secret set:', process.env.HAS_STATS_PASSWORD === 'true');
