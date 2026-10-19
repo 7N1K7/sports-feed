@@ -1024,6 +1024,74 @@ async function teamLinks(events) {
   return out;
 }
 
+// Calendar subscriptions: data/cal/<team>.ics for each team or competition on the page's team list, and nz.ics for every
+// game a New Zealand side plays. Calendar apps re-read them on their own (Apple about hourly, Google up to a day), so
+// moved times and new fixtures follow. Only what's known before a game goes in (time, where to watch, venue), never a
+// score or result, so a calendar can't spoil one. Each game has a reminder 30 minutes before (Apple and Outlook use it;
+// Google uses the calendar's own notification setting). Team names and the NZ-side rules are read from the page itself
+async function writeCalendars(events) {
+  const page = await readFile(new URL('index.html', ROOT), 'utf8');
+  const block = (page.match(/const TEAMS = \[([\s\S]*?)\n\];/) || [])[1] || '';
+  const LABEL = Object.fromEntries([...block.matchAll(/\['(\w+)','((?:[^'\\]|\\.)*)'\]/g)].map(m => [m[1], m[2].replace(/\\'/g, "'")]));
+  let NZ_KEYS = new Set(), NZ_NAMES = /\bNew Zealand\b/;
+  try { NZ_KEYS = new Set(JSON.parse(page.match(/const NZ_KEYS = new Set\((\[[^\]]*\])\)/)[1].replace(/'/g, '"'))); } catch {}
+  try { const m = page.match(/const NZ_NAMES = \/(.*)\/([a-z]*);/); NZ_NAMES = new RegExp(m[1], m[2]); } catch {}
+  const CLUBS = { blues: 'Blues', chiefs: 'Chiefs', hurricanes: 'Hurricanes', crusaders: 'Crusaders', highlanders: 'Highlanders', warriors: 'Warriors' };
+  const ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', motor: '🏎️', tennis: '🎾', mma: '🥊', boxing: '🥊' };
+  const HOURS = { rugby: 2, league: 2, football: 2, motor: 2, tennis: 4, mma: 5, boxing: 4 };
+  const NICK = { 'rugby m': 'All Blacks', 'rugby w': 'Black Ferns', 'league m': 'Kiwis', 'league w': 'Kiwi Ferns', 'cricket m': 'Black Caps', 'cricket w': 'White Ferns', 'football m': 'All Whites', 'football w': 'Football Ferns' };
+  const site = process.env.GITHUB_REPOSITORY ? `https://${process.env.GITHUB_REPOSITORY.split('/')[0].toLowerCase()}.github.io/${process.env.GITHUB_REPOSITORY.split('/')[1]}/` : 'https://7n1k7.github.io/sports-feed/';
+  const esc = t => String(t || '').replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+  // lines longer than 75 bytes continue on the next line after a space, without splitting a character
+  const fold = line => {
+    const out = []; let cur = '', bytes = 0;
+    for (const ch of line) { const b = Buffer.byteLength(ch); if (bytes + b > (out.length ? 74 : 75)) { out.push(cur); cur = ''; bytes = 0; } cur += ch; bytes += b; }
+    return [...out, cur].join('\r\n ');
+  };
+  const stamp = d => d.toISOString().replace(/[-:]/g, '').replace(/\.\d+Z$/, 'Z');
+  const nzDate = d => d.toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }).replace(/-/g, '');
+  const name = (e, n) => { const w = /\s+Women('s)?$/i.test(n || '') || isW(e); return /^New Zealand( Women('s)?)?$/i.test(n || '') && NICK[`${e.sport} ${w ? 'w' : 'm'}`] || n; };
+  const solo = e => e.sport === 'motor' || e.sport === 'tennis';
+  const vevents = e => {
+    const start = new Date(e.startUTC);
+    if (isNaN(start) || e.status === 'final' && now - start > 2 * DAY) return [];
+    const what = solo(e) ? e.home : /^(mma|boxing)$/.test(e.sport) ? `${e.comp ? e.comp + ': ' : ''}${e.home} v ${e.away}` : `${name(e, e.home)} v ${name(e, e.away)}`;
+    const desc = [[e.comp, e.stage].filter(Boolean).join(' · '), e.broadcast && e.broadcast !== 'TBC' ? `Watch: ${e.broadcast}` : '', [e.venue, e.city].filter(Boolean).join(', '), `Kickoff Kiwi: ${site}`].filter(Boolean).join('\n');
+    const where = [e.venue, e.city].filter(Boolean).join(', ');
+    // a Test or first-class match is one entry a day of play; a one-day game runs eight hours, a T20 three and a half
+    const ctx = `${e.format || ''} ${e.stage || ''} ${e.comp || ''}`;
+    const days = e.sport !== 'cricket' ? 1 : /Plunket|first.class/i.test(ctx) ? 4 : /\bTests?\b/.test(ctx) ? (isW(e) ? 4 : 5) : 1;
+    const hrs = e.sport !== 'cricket' ? HOURS[e.sport] || 2 : days > 1 ? 7.5 : /\bT20|Super Smash|Big Bash|\bBBL|WBBL/i.test(ctx) ? 3.5 : 8;
+    const out = [];
+    for (let d = 0; d < days; d++) {
+      const s = new Date(start.getTime() + d * DAY), lines = ['BEGIN:VEVENT', `UID:${e.id}${days > 1 ? '-d' + (d + 1) : ''}@kickoff-kiwi`, `DTSTAMP:${stamp(new Date(now))}`];
+      if (e.timeTBC) lines.push(`DTSTART;VALUE=DATE:${nzDate(s)}`, `DTEND;VALUE=DATE:${nzDate(new Date(s.getTime() + DAY))}`);
+      else lines.push(`DTSTART:${stamp(s)}`, `DTEND:${stamp(new Date(s.getTime() + hrs * 36e5))}`);
+      lines.push(`SUMMARY:${esc(`${ICON[e.sport] || ''} ${what}${days > 1 ? ` (day ${d + 1})` : ''}${e.timeTBC ? ' (time TBC)' : ''}`.trim())}`, `DESCRIPTION:${esc(desc)}`);
+      if (where) lines.push(`LOCATION:${esc(where)}`);
+      if (/postponed|cancel/i.test(`${e.status} ${e.summary || ''}`)) lines.push('STATUS:CANCELLED');
+      if (!e.timeTBC) lines.push('BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${esc(what)}`, 'TRIGGER:-PT30M', 'END:VALARM');
+      lines.push('END:VEVENT');
+      out.push(...lines);
+    }
+    return out;
+  };
+  const cal = (title, list) => ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Kickoff Kiwi//Fixtures//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', `X-WR-CALNAME:${esc(title)}`,
+    'X-WR-TIMEZONE:Pacific/Auckland', 'REFRESH-INTERVAL;VALUE=DURATION:PT1H', 'X-PUBLISHED-TTL:PT1H', ...list.flatMap(vevents), 'END:VCALENDAR'].map(fold).join('\r\n') + '\r\n';
+  const dir = new URL('data/cal/', ROOT);
+  await mkdir(dir, { recursive: true });
+  const sorted = [...events].sort((a, b) => a.startUTC.localeCompare(b.startUTC));
+  const counts = [];
+  for (const [k, label] of Object.entries(LABEL)) {
+    const list = sorted.filter(e => e.team === k || (e.tags || []).includes(k) || (CLUBS[k] && [e.home, e.away].some(n => (n || '').includes(CLUBS[k]))));
+    await writeFile(new URL(`${k}.ics`, dir), cal(`${label} · Kickoff Kiwi`, list));
+    counts.push(`${k} ${list.length}`);
+  }
+  const nz = sorted.filter(e => NZ_KEYS.has(e.team) || e.nzEvent || [e.home, e.away].some(n => NZ_NAMES.test(n || '')));
+  await writeFile(new URL('nz.ics', dir), cal('NZ teams · Kickoff Kiwi', nz));
+  diag.calendars = `nz ${nz.length}; ${counts.join(', ')}`;
+}
+
 // Squad names link to each player's Cricinfo profile: the Cricinfo id comes from Wikidata (ESPNcricinfo player ID, P2697),
 // found through the player's Wikipedia article. Ids are kept for 30 days, players without one are re-asked weekly
 async function addPlayerLinks(events) {
@@ -1145,6 +1213,7 @@ try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFil
 
 // a season's finals stay up through the off-season (about five months), so a finished competition still shows how it ended
 const isFinal = e => /\bfinals?\b|semi.?final|grand final|qualifying final|elimination final|preliminary final/i.test(`${e.comp || ''} ${e.stage || ''} ${e.round || ''}`);
+try { await writeCalendars(events); } catch (e) { diag.calendars = 'error: ' + e.message; }
 const feed = {
   generatedAt: new Date(now).toISOString(),
   ...(site ? { site } : {}),

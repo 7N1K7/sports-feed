@@ -150,6 +150,15 @@ header.top .wrap { display: flex; align-items: center; justify-content: flex-end
 .chip { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 3px 11px; cursor: pointer; font-size: 14px }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
 .panel .ph { font-size: 20px; font-weight: 800; margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line) }
+/* calendar rows: the team on the left, the ways to add it on the right (under it on a phone) */
+.cals { display: grid; gap: 6px }
+.calrow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; padding: 7px 10px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface) }
+.calname { display: inline-flex; align-items: center; gap: 6px; font-weight: 700 }
+.calgo { display: flex; flex-wrap: wrap; gap: 6px }
+.calgo a, .calgo button { font: inherit; font-size: 13px; font-weight: 600; color: var(--ink); text-decoration: none; border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 4px 10px; cursor: pointer }
+.calgo a:hover, .calgo button:hover { border-color: var(--accent) }
+.calmore > summary { cursor: pointer; font-size: 14px; font-weight: 600; padding: 4px 2px; color: var(--ink) }
+.calmore[open] > summary { margin-bottom: 6px }
 .panel .ph .phnote { display: inline-block; margin-left: 8px; font-size: 13px; font-weight: 500; color: var(--muted); vertical-align: .1em }
 .panel .ph:first-of-type { border-top: 0; padding-top: 0; margin-top: 0 }
 .spoil-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 14px }
@@ -917,6 +926,8 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
     <h2 class="ph">My teams <span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news.</span></h2>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
     <div class="chips"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></div>
+    <h2 class="ph">Calendar <span class="phnote">Put the games in your phone or computer calendar, with a reminder before each one. It keeps itself up to date and never shows a score.</span></h2>
+    <div class="cals" id="calList"></div>
   </div></div>
 </div>
 </header>
@@ -2266,6 +2277,16 @@ function render() {
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
   $('teamGroups').innerHTML = TEAMS.map(g => `<div class="group"><h3>${g.g}</h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`).join('');
+  // calendar subscriptions (built with the feed, in data/cal/): every game an NZ side plays, then each team picked above.
+  // webcal: opens Apple's Calendar to subscribe; Google and Outlook take the address on their own add-by-URL pages
+  const calRow = (k, label) => {
+    const u = new URL(`data/cal/${k}.ics`, location.href).href, w = u.replace(/^https?:/, 'webcal:');
+    return `<div class="calrow"><span class="calname">${k === 'nz' ? '<span aria-hidden="true">🇳🇿</span>' : badge(k)}${esc(label)}</span><span class="calgo"><a href="${esc(w)}">iPhone / Mac</a><a href="https://calendar.google.com/calendar/r?cid=${encodeURIComponent(w)}" target="_blank" rel="noopener">Google</a><a href="https://outlook.live.com/calendar/0/addfromweb?url=${encodeURIComponent(u)}&name=${encodeURIComponent(`${label} · Kickoff Kiwi`)}" target="_blank" rel="noopener">Outlook</a><button type="button" class="calcopy" data-calcopy="${esc(u)}">Copy link</button></span></div>`;
+  };
+  const one = ALL_KEYS.filter(k => picked.has(k));
+  $('calList').innerHTML = calRow('nz', 'All NZ teams')
+    + (one.length ? `<details class="calmore"><summary>Or just one team or competition you follow (${one.length})</summary><div class="cals">${one.map(k => calRow(k, TEAM_NAME[k])).join('')}</div></details>` : '')
+    + `<p class="muted small">iPhone, Mac and Outlook remind you 30 minutes before each game. Google Calendar skips reminders in calendars added this way: in its settings for the calendar, set "Event notifications" to 30 minutes before. Google can take up to a day to pick up changes; Apple checks about hourly.</p>`;
   fitTop(); syncPulse();
 }
 // Redrawn live tags and cards would restart their pulse on every click; run every pulse on the page's own clock instead
@@ -2294,6 +2315,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.teampage) { closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport, t.classList.contains('rteam') ? $('sheet').dataset.rankings : ''); return; }
   if (t.dataset.goto) { const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
   if (t.id === 'toResults' || t.id === 'toNews') { const el = $(t.id === 'toNews' ? 'newsSec' : 'resSec'); scrollTo({ top: el.getBoundingClientRect().top + scrollY - document.querySelector('header.top').offsetHeight - 10, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
+  if (t.dataset.calcopy) { const u = t.dataset.calcopy; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { t.textContent = 'Copied'; setTimeout(() => { t.textContent = 'Copy link'; }, 1600); }, () => prompt('Copy this calendar link', u)); return; }
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); store.set('teams', [...picked]); render(); }
   else if (t.dataset.hideall) { ev.stopPropagation(); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); }
   else if (t.dataset.revealall) { ev.stopPropagation(); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); }
