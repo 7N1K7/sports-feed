@@ -1,139 +1,47 @@
-diag: FIFA Men's World Ranking: 5 tables, Men's 20 @2026-10-07; FIFA Women's World Ranking: 5 tables, Women's 20 @2026-06-16; FIH Men's World Ranking: 4 tables, Men's 20; FIH Women's World Ranking: 4 tables, Women's 20; ATP rankings: 35 tables, Men's singles 20 @2026-10-05; WTA rankings: 26 tables, Women's singles 20 @2026-10-12
-
-football | Men's | asOf 2026-10-07 | Points | 20 rows
-  1. Spain 2011.57
-  2. Argentina 1972.8
-  3. France 1958.86
-  4. England 1925.59
-  5. Portugal 1807.69
-  6. Brazil 1806.51
-  7. Morocco 1805.34
-  8. Belgium 1779.17
-  9. Netherlands 1778.61
-  10. Mexico 1738.48
-  11. Colombia 1735.8
-  12. Switzerland 1725.39
-  13. Germany 1717.52
-  14. Croatia 1714.74
-  15. Italy 1713.04
-  16. United States 1705.47
-  17. Japan 1684.75
-  18. Senegal 1648.84
-  19. Norway 1637.89
-  20. Uruguay 1635.54
-
-football | Women's | asOf 2026-06-16 | Points | 20 rows
-  1. Spain 2105.36
-  2. United States 2057.92
-  3. Germany 2028.99
-  4. England 2027.13
-  5. Japan 1998.83
-  6. France 1983.84
-  7. Brazil 1976.73
-  8. Sweden 1937.94
-  9. Canada 1936.9
-  10. Netherlands 1911.75
-  11. North Korea 1910.63
-  12. Denmark 1910.2
-  13. Italy 1891.83
-  14. Norway 1878.52
-  15. Australia 1830.66
-  16. China 1799.13
-  17. Iceland 1792.32
-  18. Belgium 1786.01
-  19. South Korea 1780.68
-  20. Colombia 1775.96
-
-hockey | Men's | asOf  | Points | 20 rows
-  1. Germany 3720.42
-  2. Belgium 3692.9
-  3. Australia 3583.25
-  4. Argentina 3512.35
-  5. Netherlands 3481.3
-  6. Spain 3473.06
-  7. England 3431.57
-  8. India 3145.99
-  9. New Zealand 2965.89 [NZ]
-  10. France 2841.88
-  11. Ireland 2645.55
-  12. Pakistan 2555.59
-  13. South Africa 2531.46
-  14. Malaysia 2527.58
-  15. Scotland 2371.44
-  16. Japan 2338.62
-  17. Egypt 2308.99
-  18. Wales 2299.73
-  19. Canada 2200.09
-  20. South Korea 2145.35
-
-hockey | Women's | asOf  | Points | 20 rows
-  1. Netherlands 4083.1
-  2. Argentina 3757
-  3. Belgium 3494.71
-  4. China 3118.34
-  5. Spain 3089.9
-  6. Germany 3063.32
-  7. India 3053.45
-  8. England 3044.18
-  9. Australia 2812.79
-  10. United States 2612.48
-  11. Japan 2467.91
-  12. New Zealand 2446.97 [NZ]
-  13. Ireland 2426.82
-  14. Scotland 2415.46
-  15. South Korea 2109.81
-  16. Chile 2108.84
-  17. France 2094.21
-  18. South Africa 2050.93
-  19. Uruguay 2003.01
-  20. Italy 1995.37
-
-tennis | Men's singles | asOf 2026-10-05 | Points | 20 rows
-  1. Jannik Sinner (ITA) 11,000
-  2. Alexander Zverev (GER) 9,720
-  3. Carlos Alcaraz (ESP) 5,560
-  4. Ben Shelton (USA) 4,680
-  5. Félix Auger-Aliassime (CAN) 3,890
-  6. Daniil Medvedev 3,860
-  7. Flavio Cobolli (ITA) 3,680
-  8. Novak Djokovic (SRB) 3,480
-  9. Alex de Minaur (AUS) 3,430
-  10. Frances Tiafoe (USA) 3,380
-  11. Arthur Fils (FRA) 3,275
-  12. Taylor Fritz (USA) 2,880
-  13. Rafael Jódar (ESP) 2,659
-  14. Valentin Vacherot (MON) 2,450
-  15. Jakub Menšík (CZE) 2,445
-  16. Jiri Lehecka (CZE) 2,440
-  17. Learner Tien (USA) 2,395
-  18. Tommy Paul (USA) 2,375
-  19. Brandon Nakashima (USA) 2,335
-  20. Francisco Cerúndolo (ARG) 2,220
-
-tennis | Women's singles | asOf 2026-10-12 | Points | 20 rows
-  1. Elena Rybakina (KAZ) 9,696
-  2. Aryna Sabalenka 7,550
-  3. Mirra Andreeva 6,371
-  4. Jessica Pegula (USA) 6,225
-  5. Coco Gauff (USA) 5,974
-  6. Elina Svitolina (UKR) 5,024
-  7. Karolína Muchová (CZE) 4,773
-  8. Linda Nosková (CZE) 4,679
-  9. Iga Świątek (POL) 3,999
-  10. Marta Kostyuk (UKR) 3,910
-  11. Iva Jovic (USA) 2,860
-  12. Belinda Bencic (SUI) 2,760
-  13. Diana Shnaider 2,643
-  14. Elise Mertens (BEL) 2,540
-  15. Victoria Mboko (CAN) 2,502
-  16. Sorana Cîrstea (ROU) 2,424
-  17. Amanda Anisimova (USA) 2,363
-  18. Naomi Osaka (JPN) 2,351
-  19. Alexandra Eala (PHL) 2,241
-  20. Madison Keys (USA) 2,110
-
-FIH Men's World Ranking as-of mentions: []
-
-FIH Women's World Ranking as-of mentions: [
-  "03. &#91; 1 &#93; Current rankings [ edit ] Women's Ranking as of 3 October 2026 &#91; 2 &#93; Rank Change Team Points 1 &#16"
-]
+version 251 | generated 2026-10-19T13:19:01.250Z
+rankings diag: FIFA Men's World Ranking: 5 tables, Men's 20 @2026-10-07; FIFA Women's World Ranking: 5 tables, Women's 20 @2026-06-16; FIH Men's World Ranking: 4 tables, Men's 20 @2026-10-04; FIH Women's World Ranking: 4 tables, Women's 20 @2026-10-03; ATP rankings: 35 tables, Men's singles 20 @2026-10-05; WTA rankings: 26 tables, Women's singles 20 @2026-10-12
+  rugby | Men's | - | 20 rows | South Africa, New Zealand | 2. New Zealand
+  rugby | Women's | - | 20 rows | England, Canada | 3. New Zealand
+  cricket | Men's Tests | - | 11 rows | Australia, South Africa | 3. New Zealand
+  cricket | Men's ODIs | - | 20 rows | India, New Zealand | 2. New Zealand
+  cricket | Men's T20Is | - | 20 rows | England, India | 4. New Zealand
+  cricket | Women's ODIs | - | 17 rows | Australia, England | 5. New Zealand
+  cricket | Women's T20Is | - | 17 rows | Australia, England | 5. New Zealand
+  league | Men's | 2026-04 | 20 rows | Australia, New Zealand | 2. New Zealand
+  league | Women's | 2026-08 | 20 rows | Australia, New Zealand | 2. New Zealand
+  league | Wheelchair | 2026-08 | 10 rows | England, France | 9. New Zealand
+  football | Men's | 2026-10-07 | 20 rows | Spain, Argentina | 
+  football | Women's | 2026-06-16 | 20 rows | Spain, United States | 
+  hockey | Men's | 2026-10-04 | 20 rows | Germany, Belgium | 9. New Zealand
+  hockey | Women's | 2026-10-03 | 20 rows | Netherlands, Argentina | 12. New Zealand
+  tennis | Men's singles | 2026-10-05 | 20 rows | Jannik Sinner, Alexander Zverev | 
+  tennis | Women's singles | 2026-10-12 | 20 rows | Elena Rybakina, Aryna Sabalenka | 
+  mma | Men's pound for pound | 2026-10-06 | 15 rows | Islam Makhachev, Alexander Volkanovski | 
+  mma | Heavyweight | 2026-10-10 | 16 rows | Ciryl Gane, Tom Aspinall | 
+  mma | Light heavyweight | 2026-10-10 | 16 rows | Carlos Ulberg, Alex Pereira | 
+  mma | Middleweight | 2026-10-10 | 16 rows | Sean Strickland, Khamzat Chimaev | 
+  mma | Welterweight | 2026-10-10 | 16 rows | Islam Makhachev, Carlos Prates | 
+  mma | Lightweight | 2026-10-10 | 16 rows | Justin Gaethje, Ilia Topuria | 
+  mma | Featherweight | 2026-10-10 | 16 rows | Alexander Volkanovski, Movsar Evloev | 
+  mma | Bantamweight | 2026-10-10 | 16 rows | Petr Yan, Merab Dvalishvili | 
+  mma | Flyweight | 2026-10-10 | 16 rows | Joshua Van, Manel Kape | 
+  mma | Women's pound for pound | 2026-10-06 | 15 rows | Valentina Shevchenko, Kayla Harrison | 
+  mma | Women's bantamweight | 2026-10-10 | 16 rows | Kayla Harrison, Joselyne Edwards | 
+  mma | Women's flyweight | 2026-10-10 | 16 rows | Natália Silva, Valentina Shevchenko | 
+  mma | Women's strawweight | 2026-10-10 | 16 rows | Mackenzie Dern, Zhang Weili | 
+200 application/manifest+json; charset=utf-8 https://kickoff.kiwi/manifest.webmanifest
+200 application/javascript; charset=utf-8 https://kickoff.kiwi/sw.js
+200 image/png                        https://kickoff.kiwi/apple-touch-icon.png
+200 image/png                        https://kickoff.kiwi/icons/app-512.png
+200 image/png                        https://kickoff.kiwi/icons/app-maskable-512.png
+200 image/svg+xml                    https://kickoff.kiwi/icons/hockey.svg
+200 text/calendar                    https://kickoff.kiwi/data/cal/nz.ics
+200 text/calendar                    https://kickoff.kiwi/data/cal/blacksticks.ics
+301 http://kickoff.kiwi/ -> https://kickoff.kiwi/
+301 http://www.kickoff.kiwi/ -> https://kickoff.kiwi/
+301 https://www.kickoff.kiwi/ -> https://kickoff.kiwi/
+301 https://7n1k7.github.io/sports-feed/ -> http://kickoff.kiwi/
+301 https://7n1k7.github.io/sports-feed/data/feed.json -> https://kickoff.kiwi/data/feed.json
+home 200 | hsts: none | manifest link: true | page has hockey: true
+cert for kickoff.kiwi | alt names DNS:kickoff.kiwi, DNS:www.kickoff.kiwi | issuer Let's Encrypt YR2 | valid to Jan 17 11:45:34 2027 GMT | trusted: true
+www cert alt names DNS:kickoff.kiwi, DNS:www.kickoff.kiwi | trusted: true
