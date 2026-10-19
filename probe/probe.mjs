@@ -1,11 +1,13 @@
-// probe 28: the new hockey support run on live Wikipedia, with the site's own parser
-import { readFileSync } from 'node:fs';
-import { wikiEvents } from './src/sources.mjs';
-const cfg = JSON.parse(readFileSync(new URL('./src/wiki-pages.json', import.meta.url))).pages.filter(p => p.sport === 'hockey');
-const TZ = { Auckland: 'Pacific/Auckland', Hamilton: 'Pacific/Auckland', Tauranga: 'Pacific/Auckland', Christchurch: 'Pacific/Auckland', 'Cape Town': 'Africa/Johannesburg', Amstelveen: 'Europe/Amsterdam', Wavre: 'Europe/Brussels', Changzhou: 'Asia/Shanghai' };
-const diag = {};
-const evs = await wikiEvents(cfg, c => TZ[c] || null, diag);
-console.log('pages:', JSON.stringify(diag.wikipedia || diag).slice(0, 600));
-const hockey = evs.filter(e => e.sport === 'hockey').sort((a, b) => a.startUTC.localeCompare(b.startUTC));
-console.log('hockey events', hockey.length);
-for (const e of hockey) console.log(e.startUTC, new Date(e.startUTC).toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }), e.timeTBC ? '(TBC)' : '', '|', e.team, '|', e.comp, e.stage ? '/ ' + e.stage : '', '|', e.home, 'v', e.away, '|', e.status, e.score || '', '|', e.venue, e.city, e.tz);
+// probe 29: raw match boxes on the Black Sticks pages (India tests, World Cup) to see where time and city sit
+const UA = 'KickoffKiwi/1.0 (https://kickoff.kiwi/; probe)';
+for (const t of ["New Zealand men's national field hockey team", "New Zealand women's national field hockey team"]) {
+  const r = await fetch(`https://en.wikipedia.org/w/index.php?title=${encodeURIComponent(t)}&action=raw`, { headers: { 'user-agent': UA } });
+  const s = await r.text();
+  console.log('=====', t, s.length);
+  const boxes = [...s.matchAll(/\{\{\s*(football box collapsible|footballbox collapsible|fb[^|\n]*|hockeybox[^|\n]*|field ?hockey ?box[^|\n]*)\s*\|/gi)];
+  console.log('box names:', [...new Set(boxes.map(m => m[1]))].join(', '), boxes.length);
+  for (const m of boxes.slice(-3)) console.log(s.slice(m.index, m.index + 1100).replace(/\n{2,}/g, '\n'), '\n---');
+  // and one World Cup box from the national page
+  const wc = boxes.find(m => /World Cup/.test(s.slice(m.index, m.index + 600)));
+  if (wc) console.log('WC box:\n' + s.slice(wc.index, wc.index + 900));
+}
