@@ -68,7 +68,7 @@ function clean(s) {
   let t = stripRefs(s);
   for (let k = 0; k < 4; k++) {
     t = t.replace(/\{\{\s*(?:nowrap|nobr|small|abbr|sort|rus|rut|ru stadium|stadium)\s*\|([^{}]*?)\}\}/gi, (_, a) => a.split('|').filter(x => !x.includes('=')).pop() || '')
-      .replace(/\{\{\s*(?:nbsp|snd|ndash|mdash|·|dot|efn|refn|notetag|cite[^|}]*|flagicon|flagdeco|flag decoration|colou?r box|vanchor|anchor)[^{}]*\}\}/gi, m => /ndash|snd/.test(m) ? '–' : /mdash/.test(m) ? '—' : /nbsp/.test(m) ? ' ' : '');
+      .replace(/\{\{\s*(?:nbsp|snd|spnd|spaced[ _]e?ndash|e?ndash|mdash|·|dot|efn|refn|notetag|cite[^|}]*|flagicon|flagdeco|flag decoration|colou?r box|vanchor|anchor)[^{}]*\}\}/gi, m => /ndash|snd|spnd/.test(m) ? '–' : /mdash/.test(m) ? '—' : /nbsp/.test(m) ? ' ' : '');
   }
   return t.replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1').replace(/\[https?:\S+\s+([^\]]*)\]/g, '$1').replace(/'''?/g, '')
     .replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\{\{[^{}]*\}\}/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
@@ -361,8 +361,6 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     if (!c.seriesTitle && !c.ufc) tableSrc.push({ c, title: pg.title, text: pg.text });
   }
   diag.wikipedia = per;
-  // temporary: what the NRL finals page says about its Grand Final
-  { const fin = Object.values(texts).find(t => /NRL finals series/.test(t.title)); const i = fin ? fin.text.search(/^=+\s*Grand Final/im) : -1; diag.nrlGF = (diag.sections || '') + ' || ' + (fin ? fin.text.slice(i, i + 1800) : 'no page'); }
   // standings: Sports table blocks on the page, or in a transcluded "... table" / "... standings" template
   const tables = [];
   try {

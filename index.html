@@ -110,18 +110,18 @@ header.top .wrap { display: flex; align-items: center; gap: 10px; padding-block:
 .hbtns { display: contents }
 .ver2 { display: none } .brand .ver2 { color: var(--muted) }
 .brand .blogo { width: 1.7em; height: 1.7em; vertical-align: -0.48em; margin-right: .3em; border-radius: 10px }
-.clock { color: var(--muted); font-size: 13px }
+.clock { color: var(--muted); font-size: 12px }
 .ver:empty { display: none }
-.ver { color: var(--muted); font-size: 11px; border: 1px solid var(--line); border-radius: 999px; padding: 1px 7px }
+.ver { color: var(--muted); font-size: 10px; border: 1px solid var(--line); border-radius: 999px; padding: 0 6px }
 .spacer { flex: 1 }
 .btn { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-size: 14px; display: inline-flex; gap: 6px; align-items: center }
 .btn:hover { border-color: var(--accent) }
 .btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
 
 .mock { background: var(--soft); color: var(--muted); font-size: 13px }
-.clockcol { display: grid; gap: 1px; line-height: 1.2 }
+.clockcol { display: grid; gap: 1px; line-height: 1.2; align-self: flex-end; margin-bottom: 2px } /* bottom lines up with "by N1K" */
 .clockrow { display: flex; align-items: center; gap: 6px }
-.fresh { color: var(--muted); font-size: 12px; cursor: help; white-space: nowrap }
+.fresh { color: var(--muted); font-size: 11px; cursor: help; white-space: nowrap }
 .mock .wrap { padding-block: 8px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 16px }
 .mock .siteinfo { margin-left: auto; text-align: right; opacity: .85 }
 
@@ -720,9 +720,9 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   #viewSel { display: none }
   /* phone header: name, then the clock, then the four buttons as one even row, then search */
   .brand { flex: none; font-size: 27px }
-  .clockcol { flex: 1 1 0; min-width: 0; justify-items: end; text-align: right }
+  .clockcol { flex: 1 1 0; min-width: 0; justify-items: end; text-align: right; margin-bottom: 1px }
   .clockrow { display: contents }
-  .clock { white-space: nowrap } .fresh { font-size: 11px }
+  .clock { white-space: nowrap } .fresh { font-size: 10px }
   /* the version goes with the byline on phones */
   .ver { display: none } .ver2 { display: inline }
   .hbtns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; flex: 1 1 100% }
@@ -1449,6 +1449,9 @@ function rankDefault(lists) {
 }
 // UFC division weight limits in pounds (the kilos are worked out from these)
 const UFC_LIMIT = { strawweight: 115, flyweight: 125, bantamweight: 135, featherweight: 145, lightweight: 155, welterweight: 170, middleweight: 185, 'light heavyweight': 205, heavyweight: 265 };
+// a division runs from just over the one below's limit up to its own ("146–155 lb"); strawweight is the lightest, so only a limit
+const wrange = lim => { const lo = Object.values(UFC_LIMIT).filter(v => v < lim).sort((a, b) => b - a)[0], kg = v => (v * 0.45359237).toFixed(1);
+  return lo ? `${kg(lo + 1)}–${kg(lim)} kg (${lo + 1}–${lim} lb)` : `up to ${kg(lim)} kg (${lim} lb)`; };
 // a team's points or rating, big, with a bar running from the lowest side in the list to the top one
 const rankVal = (v, top, low) => { const n = parseFloat(v); return isNaN(n) || !top ? esc(v || '') : `<span class="rv"><span class="rbar" aria-hidden="true"><i style="width:${(top > low ? 12 + 88 * (n - low) / (top - low) : 100).toFixed(1)}%"></i></span><b>${esc(v)}</b></span>`; };
 function rankingsHtml(lists) {
@@ -1476,7 +1479,7 @@ function rankingsHtml(lists) {
     return `${gap}<tr class="${r.nz || (fighters && /New Zealand|NZL/.test(r.iso)) ? 'mine' : ''}"><td class="pos">${l.rows.indexOf(r) < 3 ? `<span class="medal m${l.rows.indexOf(r) + 1}" title="${['Gold', 'Silver', 'Bronze'][l.rows.indexOf(r)]}">${champ ? 'C' : esc(r.rank === 'n' ? String(l.rows.indexOf(r) + 1) : r.rank)}</span>` : champ ? '' : esc(r.rank)}</td><td class="tn">${name}${fighters && r.note && !/^(Steady|–|-)?$/.test(r.note) ? `<div class="muted small rnote">${esc(r.note)}</div>` : ''}</td><td class="num">${fighters ? esc(r.rec || '') : rankVal(r.val, top, low)}</td></tr>`;
   }).join('');
   const lim = fighters && UFC_LIMIT[(l.title.match(/(strawweight|flyweight|bantamweight|featherweight|lightweight|welterweight|middleweight|light heavyweight|heavyweight)\s*$/i) || [])[1]?.toLowerCase()];
-  return `${chips}<div class="stable rank sport-${l.sport}"><h3 class="dh">${esc(l.title)}${lim ? ` <span class="wlim">up to ${(lim * 0.45359237).toFixed(1)} kg (${lim} lb)</span>` : fighters ? ' <span class="wlim" aria-hidden="true" style="visibility:hidden">up to 00.0 kg (000 lb)</span>' : ''}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), NZ, l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+  return `${chips}<div class="stable rank sport-${l.sport}"><h3 class="dh">${esc(l.title)}${lim ? ` <span class="wlim">${wrange(lim)}</span>` : fighters ? ' <span class="wlim" aria-hidden="true" style="visibility:hidden">000.0–000.0 kg (000–000 lb)</span>' : ''}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), NZ, l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
     <p class="muted small">Rankings from <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(l.page.replace(/ /g, '_'))}" target="_blank" rel="noopener">Wikipedia</a> (CC BY-SA), which follows the official ${fighters ? 'UFC' : l.sport === 'rugby' ? 'World Rugby' : l.sport === 'cricket' ? 'ICC' : 'IRL'} list.</p>`;
 }
 // Shows tab: the wider conversation around each sport (panel shows, YouTube breakdowns, podcasts), best known first.
@@ -1875,9 +1878,9 @@ function render() {
   const todays = upcoming.filter(e => !lives.includes(e) && !resting.includes(e) && dayKey(new Date(e.startUTC)) === todayK);
   $('todayLabel').textContent = dayLabel(nowD, NZ);
   // today's finished games stay in "On today" (spoiler rules still apply), latest first after the upcoming ones
-  // "Earlier": games that ended in the last 12 hours, whatever the day, so one that finished late last night stays up
-  // here into the morning. They're in Results below as well, and only there once the 12 hours are up.
-  const doneToday = finals.filter(e => now - endOf(e, now) < 12 * 36e5);
+  // "Earlier": games that ended in the last 16 hours, whatever the day, so one that finished late last night stays up
+  // here into the morning. They're in Results below as well, and only there once the 16 hours are up.
+  const doneToday = finals.filter(e => now - endOf(e, now) < 16 * 36e5);
   $('todaySec').hidden = !todays.length && !doneToday.length && !resting.length && lives.length > 0;
   $('today').innerHTML = todays.length || doneToday.length || resting.length
     ? `<div class="daygroup">${(() => {
