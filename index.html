@@ -1427,7 +1427,15 @@ const TEAM_COLOR = {
 };
 const COLOR_KEYS = Object.keys(TEAM_COLOR).sort((a, b) => b.length - a.length); // longest first: "Hobart Hurricanes" before "Hurricanes"
 const colorOf = n => { const k = COLOR_KEYS.find(k => n.includes(k)); return k ? TEAM_COLOR[k] : '' };
-const nmSpan = (n, e) => { const c = colorOf(n.replace(/\s+Women('s)?$/, '')); return `<span class="nm"${c ? ` style="--tc:${c}"` : ''}>${esc(displayName(n, e))}</span>` };
+// long club names in their usual short form, so a long name doesn't make its card squeeze the text earlier than
+// the rest (the full name shows on hover)
+const SHORT_NAME = { 'Brighton and Hove Albion': 'Brighton', 'Brighton & Hove Albion': 'Brighton', 'Wolverhampton Wanderers': 'Wolves', 'Tottenham Hotspur': 'Tottenham',
+  'Manchester United': 'Man United', 'Manchester City': 'Man City', 'Nottingham Forest': "Nott'm Forest", 'West Ham United': 'West Ham', 'Newcastle United': 'Newcastle',
+  'Leeds United': 'Leeds', 'Sheffield United': 'Sheffield Utd', 'Leicester City': 'Leicester', 'Ipswich Town': 'Ipswich', 'Coventry City': 'Coventry',
+  'Western Sydney Wanderers': 'WS Wanderers', 'Central Coast Mariners': 'CC Mariners', 'New Zealand Breakers': 'NZ Breakers', 'South East Melbourne Phoenix': 'SE Melbourne Phoenix',
+  'S.E. Melbourne Phoenix': 'SE Melbourne Phoenix' };
+const nmSpan = (n, e) => { const c = colorOf(n.replace(/\s+Women('s)?$/, '')), full = displayName(n, e), sh = SHORT_NAME[full] || full;
+  return `<span class="nm"${c ? ` style="--tc:${c}"` : ''}${sh !== full ? ` title="${esc(full)}"` : ''}>${esc(sh)}</span>` };
 // flag lookups use the plain country name, the label uses the nickname
 // a national side with a union badge shows the badge in place of its flag
 const badgeOf = (n, e) => e && (n === e.home ? e.homeBadge : n === e.away ? e.awayBadge : '') || '';
