@@ -6,7 +6,7 @@
 // GET /stats (with the owner's password) returns the totals for the private stats page.
 const SITE = /^https:\/\/(www\.)?kickoff\.kiwi$/;
 const BOT = /bot|crawl|spider|slurp|preview|headless|lighthouse|pingdom|monitor|facebookexternalhit|whatsapp|discord|telegram|curl|wget|python|node-fetch|go-http/i;
-const EVENTS = new Set(['install', 'cal', 'alerts', 'rankings', 'alert-open', 'team', 'game']);
+const EVENTS = new Set(['install', 'appfirst', 'cal', 'alerts', 'rankings', 'alert-open', 'team', 'game']);
 // events whose detail is counted too, each under its own name: the sport or competition picked, the team page opened,
 // the words searched (search0: searches with no results), a page error, the load time band
 const KEYED = { sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed' };

@@ -180,7 +180,7 @@ const store = { get(k, d) { try { const v = localStorage.getItem('sf.' + k); ret
 const fmtN = n => n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e4 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : n.toLocaleString('en-NZ');
 const dayLabel = (d, o = { weekday: 'short', day: 'numeric', month: 'short' }) => new Date(d + 'T12:00:00Z').toLocaleDateString('en-NZ', { timeZone: 'UTC', ...o });
 const COUNTRY = new Intl.DisplayNames(['en'], { type: 'region' });
-const EVENT_LABEL = { cal: 'Calendars', alerts: 'Alert topics', install: 'App installs', rankings: 'Rankings', 'alert-open': 'From an alert', team: 'Team pages', game: 'Games opened' };
+const EVENT_LABEL = { cal: 'Calendars', alerts: 'Alert topics', install: 'App installs (Android and computers)', appfirst: 'App opened for the first time (every phone, iPhone too)', rankings: 'Rankings', 'alert-open': 'From an alert', team: 'Team pages', game: 'Games opened' };
 const MODE_LABEL = { app: 'App', browser: 'Browser' };
 const DEVICE_LABEL = { phone: 'Phone', tablet: 'Tablet', computer: 'Computer' };
 const SPORT_LABEL = { cricket: 'Cricket', rugby: 'Rugby', league: 'League', football: 'Football', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', motor: 'F1', tennis: 'Tennis', mma: 'MMA', boxing: 'Boxing' };

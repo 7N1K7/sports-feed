@@ -3209,6 +3209,9 @@ async function load(woke) {
 }
 tick(); render(); load();
 { let ref = ''; try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch {} count({ app: standalone() ? 1 : 0, r: ref }); }
+// the home-screen app's first open on this device, counted once: iPhones never say when the app is added (Android and
+// computers do, as "install"), so this is how iPhone installs show up in the stats
+if (standalone() && !store.get('appSeen', false)) { store.set('appSeen', true); count({ e: 'appfirst' }); }
 setInterval(() => { tick(); render(); stamp(); }, 60000);
 setInterval(load, 5 * 60000);
 document.addEventListener('touchstart', () => {}, { passive: true }); // lets iPhone show the :active press
