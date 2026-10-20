@@ -154,9 +154,9 @@ html { -webkit-tap-highlight-color: transparent }
 .group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--f-body); font-weight: 700; margin-bottom: 6px }
 /* My teams, compact: the group name in a column on the left, smaller chips beside it */
 #teamGroups { gap: 6px !important }
-#teamGroups .group { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: start; column-gap: 10px; padding: 6px 0; border-top: 1px solid var(--line) }
+#teamGroups .group { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: center; column-gap: 10px; padding: 6px 0; border-top: 1px solid var(--line) }
 #teamGroups .group:first-child { border-top: 0; padding-top: 0 }
-#teamGroups .group h3 { margin: 0; padding-top: 6px; font-size: 11px; line-height: 1.25 }
+#teamGroups .group h3 { margin: 0; font-size: 11px; line-height: 1.25 }
 #teamGroups .ghide { display: flex; width: 80px; align-items: center; justify-content: center; gap: 4px; margin-top: 5px; font: inherit; font-size: 11px; font-weight: 600; line-height: 1.4; text-transform: none; letter-spacing: 0; color: var(--ink); background: color-mix(in srgb, #37b24d 14%, transparent); border: 1px solid color-mix(in srgb, #37b24d 65%, transparent); border-radius: 999px; padding: 1px 6px; cursor: pointer }
 #teamGroups .ghide:hover { border-color: var(--accent) }
 /* small, one width either way, and colour-coded: green with a green light while the sport is on, red with a red light
@@ -194,6 +194,9 @@ html { -webkit-tap-highlight-color: transparent }
 .calgo code { font-size: 12px; color: var(--muted); align-self: center }
 .calmore > summary { cursor: pointer; font-size: 14px; font-weight: 600; padding: 4px 2px; color: var(--ink) }
 .calmore[open] > summary { margin-bottom: 6px }
+/* Select all and Clear: small, at the right-hand end of the My teams title */
+.panel .ph .phbtns { float: right; display: flex; gap: 6px; margin: 2px 0 0 10px }
+.panel .ph .phbtns .btn { font: 600 12px var(--f-body); text-transform: none; letter-spacing: 0; padding: 3px 11px; color: var(--ink) }
 .panel .ph .phnote { display: block; margin-top: 2px; font-size: 13px; font-weight: 500; color: var(--muted) } /* its own line, flush with the title */
 .panel .ph:first-of-type { border-top: 0; padding-top: 0; margin-top: 0 }
 .spoil-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 14px }
@@ -1049,9 +1052,8 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
       <span>Theme</span>
       <div class="swatches" id="accentSel" role="group" aria-label="Theme"></div>
     </div>
-    <h2 class="ph">My teams <span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news. Not into a sport at all? Tap <b>Hide sport</b> beside its name to take it off your feed and out of the sport buttons; <b>Show sport</b> brings it back.</span></h2>
+    <h2 class="ph">My teams <span class="phbtns"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></span><span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news. Not into a sport at all? Tap <b>Hide sport</b> beside its name to take it off your feed and out of the sport buttons; <b>Show sport</b> brings it back.</span></h2>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
-    <div class="chips"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></div>
     <h2 class="ph">Phone app <span class="phnote">Put Kickoff Kiwi on your home screen. It opens full-screen like an app. No app store, no account.</span></h2>
     <div class="cals" id="appInstall"></div>
     <h2 class="ph">Calendar <span class="phnote">Put the games in your phone or computer calendar, with a reminder before each one.</span></h2>
