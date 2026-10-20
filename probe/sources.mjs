@@ -438,7 +438,8 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     }
     diag.f1 = `${f1.length} races, ${f1.filter(e => e.status === 'final').length} with results; standings: ${tables.filter(t => t.team === 'f1').map(t => `${t.title} ${t.rows.length} (top ${t.rows[0]?.name} ${t.rows[0]?.pts})`).join(', ') || 'none'}`;
   } catch (e) { diag.f1 = 'error: ' + e.message; }
-  // Tennis: the four Grand Slams, the ATP and WTA Finals and Auckland's ASB Classic, from each tournament's own page.
+  // Tennis: the four Grand Slams, the ATP and WTA Finals, Auckland's ASB Classic and the Australian summer's Brisbane,
+  // Adelaide and Hobart tournaments, from each tournament's own page.
   // Each gives a women's and a men's singles final (the tournament's last two days), with the champion once it's played.
   try {
     const titles = years.flatMap(y => TENNIS.map(t => ({ ...t, y, title: t.title.replace('{Y}', y) })));
@@ -640,6 +641,10 @@ const TENNIS = [
   { title: '{Y} ATP Finals', name: 'ATP Finals', city: 'Turin', venue: 'Inalpi Arena', tz: 'Europe/Rome', m: [0, 18, 0] },
   { title: '{Y} WTA Finals', name: 'WTA Finals', city: 'Riyadh', venue: '', tz: 'Asia/Riyadh', w: [0, 19, 0] },
   { title: '{Y} ASB Classic', name: 'ASB Classic', city: 'Auckland', venue: 'ASB Tennis Arena', tz: 'Pacific/Auckland', w: [-7, 14, 0], m: [0, 15, 0], nz: true },
+  // the Australian summer's lead-ins to the Australian Open: both finals on the last day (Hobart is women only)
+  { title: '{Y} Brisbane International', name: 'Brisbane International', city: 'Brisbane', venue: 'Pat Rafter Arena', tz: 'Australia/Brisbane', w: [0, 15, 0], m: [0, 18, 0] },
+  { title: '{Y} Adelaide International', name: 'Adelaide International', city: 'Adelaide', venue: 'Memorial Drive', tz: 'Australia/Adelaide', w: [0, 15, 0], m: [0, 18, 0] },
+  { title: '{Y} Hobart International', name: 'Hobart International', city: 'Hobart', venue: 'Domain Tennis Centre', tz: 'Australia/Hobart', w: [0, 15, 0] },
 ];
 // "12 January – 1 February 2026", "5–17 January", "January 12 – February 1, 2026", "29 December 2025 – 10 January 2026"
 function dateRange(v, year) {
@@ -951,7 +956,11 @@ export async function teamSquads(keys, diag) {
       const j = await r.json(), back = {};
       for (const m of [...(j.query?.normalized || []), ...(j.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
       const text = Object.fromEntries((j.query?.pages || []).map(pg => [back[pg.title] || pg.title, pg.revisions?.[0]?.slots?.main?.content || '']));
-      for (const k of part) { const players = readSquad(text[TEAM_PAGES[k]] || ''); const [sport, g, team] = k.split('|'); if (players.length >= 8) out.push({ sport, g, team, players }); }
+      for (const k of part) {
+        const players = readSquad(text[TEAM_PAGES[k]] || ''), [sport, g, team] = k.split('|');
+        // a table read in the wrong column gives the same name over and over (a club, not players): not a squad
+        if (players.length >= 8 && new Set(players.map(p => p.n)).size >= players.length * 0.8) out.push({ sport, g, team, players });
+      }
     }
     diag.teamSquads = `${out.length} of ${want.length}: ` + want.filter(k => !out.some(s => `${s.sport}|${s.g}|${s.team}` === k)).map(k => k.split('|')[2]).join(', ') + ' missing';
   } catch (e) { diag.teamSquads = 'error ' + e.message; }
