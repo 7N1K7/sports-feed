@@ -1,10 +1,68 @@
-rendered ocean
-rendered red
-rendered black
-rendered kowhai
-rendered paua
-rendered purple
-rendered orange
-rendered lime
-rendered pink
-rendered green
+events 575 | next 3 weeks 172
+
+== squads: games in the next 3 weeks without a squad, by competition (NZ sides)
+  6 | cricket | Ford Trophy (men)
+  5 | basketball | NBL
+  4 | cricket | Women's Big Bash League (WBBL|12)
+  3 | cricket | NZ A v India A
+  3 | league | Women's Rugby League World Cup
+  3 | football | A-League Men · Round 3
+  3 | league | Wheelchair Rugby League World Cup
+  2 | league | Rugby League World Cup
+  2 | rugby | WXV Global Series
+  2 | football | A-League Men · Round 1
+  2 | football | A-League Men · Round 2
+  2 | cricket | Sheffield Shield
+  1 | rugby | NPC Semi-final
+  1 | rugby | NPC Final
+  1 | rugby | Nations Championship
+  1 | cricket | Dean Jones Trophy
+  with squads: 2 cricket | Australia v South Africa; 2 cricket | Bangladesh v West Indies; 1 cricket | 1st T20I v Australia (Rose Bowl); 1 cricket | 2nd T20I v Australia (Rose Bowl); 1 cricket | 1st T20I v India; 1 cricket | 3rd T20I v Australia (Rose Bowl); 1 cricket | 2nd T20I v India; 1 cricket | 3rd T20I v India; 1 cricket | 4th T20I v India; 1 cricket | 5th T20I v India; 1 cricket | 1st ODI v India; 1 cricket | 2nd ODI v India; 1 cricket | 3rd ODI v India; 1 cricket | India v West Indies; 1 cricket | Pakistan v Sri Lanka
+
+== where to watch missing or TBC (next 3 weeks)
+  10 | football | Premier League · Round 7
+  10 | football | Premier League · Round 8
+  10 | football | Premier League · Round 9
+  6 | football | A-League Men · Round 2
+  6 | football | A-League Men · Round 3
+  6 | cricket | Sheffield Shield
+  5 | basketball | NBL
+  3 | cricket | NZ A v India A
+  2 | football | A-League Men · Round 1
+  2 | rugby | Test match
+  2 | cricket | Dean Jones Trophy
+  2 | mma | UFC Fight Night
+  2 | cricket | Australia v South Africa
+  2 | cricket | Bangladesh v West Indies
+  1 | mma | UFC 333
+  1 | mma | UFC Fight Night 291
+  1 | cricket | India v West Indies
+  1 | cricket | Pakistan v Sri Lanka
+  1 | motor | Formula 1 · Round 18
+  1 | motor | Formula 1 · Round 19
+  1 | motor | Formula 1 · Round 20
+
+== start time not set (next 3 weeks)
+  6 | cricket | Sheffield Shield
+  3 | league | Wheelchair Rugby League World Cup
+  2 | mma | UFC Fight Night
+  2 | cricket | Australia v South Africa
+  2 | cricket | Bangladesh v West Indies
+  1 | boxing | WBO heavyweight title
+  1 | boxing | Interim WBC light heavyweight title
+  1 | cricket | Pakistan v Sri Lanka
+
+== venue missing (next 3 weeks)
+
+== finished in the last 10 days with no score/summary
+  3 | cricket | Sheffield Shield
+  1 | cricket | Australia v South Africa
+
+== sides with no team links: 101 of 258 | e.g. boxing|Osleys Iglesias, boxing|Oliver Zaren, boxing|Floyd Schofield, boxing|Lucas Bahdi, boxing|Ricardo Sandoval, boxing|Sergio Mendoza, boxing|Daniel Dubois, boxing|Fabio Wardley, boxing|Sebastian Fundora, boxing|Ermal Hadribeaj, boxing|Emanuel Navarrete, boxing|O'Shaquie Foster, boxing|Dalton Smith, boxing|Alberto Puello, boxing|Christian Mbilli, boxing|Saul 'Canelo' Alvarez, boxing|Joshua Buatsi, boxing|Willy Hutchinson, boxing|Elif Nur Turhan, boxing|Alycia Baumgardner, boxing|Gabriela Fundora, boxing|Jasmina Zapotoczna, boxing|Masamichi Yabuki, boxing|Miel Fajardo, boxing|Agit Kabayel
+
+== teamLinks sample key/value: [["cricket|Melbourne Renegades",{"wp":"Melbourne Renegades","site":"http://www.melbournerenegades.com.au"}],["cricket|Sydney Thunder",{"wp":"Sydney Thunder","site":"http://www.sydneythunder.com.au"}]]
+
+== news items: 148 | by sport ? 148
+== tables (standings): 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47
+== rankings lists: 32
+== diag: {"sections":"2026 Men's Rugby League World Cup qualification: read; 2026 Men's Rugby League World Cup Pool A: read; 2026 Women's Rugby League World Cup qualification: read; 2026 NRL Grand Final: read; 2026 Men's FIH Hockey World Cup final: read; 2026 Women's FIH Hockey World Cup final: read","wikipedia":{"2026 Hilux NPC":79,"List of 2026 Super Rugby Pacific matches":77,"List of 2027 Super Rugby Pacific matches":80,"2026 Super Rugby Pacific season":6,"2027 Super Rugby Pacific season":5,"2026 Nations Championship":0,"The Rugby Championship":0,"2026 men's rugby union internationals":13,"2027 men's rugby union internationals":2,"2026 women's rugby union internationals":3,"2026 WXV Global Series":6,"2026 Men's Rugby League World Cup":18,"2026 Women's Rugby League World Cup":15,"2026 Wheelchair Rugby League World Cup":20,"2026–27 Big Bash League season":44,"2026–27 Women's Big Bash League season":43,"2026–27 Sheffield Shield season":30,"2026–27 Dean Jones Trophy":16,"2026–27 A-League Men":0,"2026–27 Premier League":0,"2026 NRL season":1,"2026 NRL finals series":9,"List of UFC events":14,"New Zealand men's national field hockey team":19,"New Zealand women's national field hockey team":21,"2026–27 Men's FIH Pro League":0,"2026–27 Women's FIH Pro League":0,"Men's FIH Hockey Nations Cup":0,"2026 Men's FIH Hockey World Cup":6,"2026 Women's FIH Hockey World Cup":6,"2026–27 NBL season":33,"2027 FIBA Basketball World Cup qualification (Asia)":12,"2027 FIBA Basketball World Cup":0,"2026 FIB
