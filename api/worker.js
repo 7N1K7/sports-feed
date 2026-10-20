@@ -14,7 +14,7 @@ const KEYED = { sport: 'sport', comp: 'comp', team: 'teampage', search: 'search'
 const USE = new Set(['Events button', 'Results button', 'News button', 'Series row chip', 'Running now tile', 'Events ahead tile', 'Results tab in a game', 'Day in the week strip', 'Dot in the week strip', 'Filters folded away', 'Filters opened', 'Hide sport', 'Show sport', 'Show all results']);
 // a visitor's settings, counted once a day each: results hidden or shown, card size, colour theme
 const OG_THEMES = ['green', 'black', 'ocean', 'paua', 'purple', 'pink', 'red', 'orange', 'kowhai', 'lime'];
-const VIEWS = new Set(['big', 'mixed', 'compact']), THEMES = new Set(['green', 'ocean', 'red', 'black', 'kowhai', 'paua', 'purple', 'orange', 'lime', 'pink']);
+const VIEWS = new Set(['big', 'mixed', 'compact']), THEMES = new Set(['green', 'ocean', 'red', 'black', 'kowhai', 'paua', 'purple', 'orange', 'lime', 'pink', 'kauri', 'silver', 'tui', 'navy', 'olive']);
 const keyOf = (e, k) => {
   let v = String(k ?? '').trim();
   if (e === 'search' || e === 'search0') v = v.toLowerCase().replace(/[^a-z0-9 '&.-]/g, '').replace(/\s+/g, ' ').trim().slice(0, 40);

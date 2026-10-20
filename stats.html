@@ -106,10 +106,15 @@ th { color: var(--muted); font-weight: 600 }
 :root[data-accent="orange"] { --paper: #140f0b; --surface: #1e1712; --ink: #f3e8de; --muted: #b09d8c; --line: #382a20; --accent: #ff8a4c; }
 :root[data-accent="lime"] { --paper: #0e120a; --surface: #161c10; --ink: #e8f0dc; --muted: #9cab89; --line: #2a3420; --accent: #a9e34b; }
 :root[data-accent="pink"] { --paper: #140c10; --surface: #1e1419; --ink: #f4e4eb; --muted: #b398a5; --line: #38242e; --accent: #f783ac; }
+:root[data-accent="kauri"] { --paper: #12100c; --surface: #1c1813; --ink: #f1e9df; --muted: #ab9d8d; --line: #342b21; --accent: #d9a26a; }
+:root[data-accent="silver"] { --paper: #0e1113; --surface: #171b1e; --ink: #e8edf0; --muted: #9aa6ae; --line: #2a3136; --accent: #c5d0d8; }
+:root[data-accent="tui"] { --paper: #0d0d18; --surface: #151524; --ink: #e7e7f8; --muted: #9d9dc0; --line: #27273f; --accent: #8f95ff; }
+:root[data-accent="navy"] { --paper: #0a0e16; --surface: #121826; --ink: #e3e9f4; --muted: #8e9bb3; --line: #222c40; --accent: #7d9fd6; }
+:root[data-accent="olive"] { --paper: #10110a; --surface: #191a10; --ink: #eef0dd; --muted: #a5a88a; --line: #2f3120; --accent: #bcc75e; }
 .thh { margin: 16px 0 8px; font: 700 13px var(--f-body); text-transform: uppercase; letter-spacing: .06em; color: var(--muted) }
-/* five a row (two on a phone), so the ten themes sit in even rows */
+/* five a row (three on a phone), so the fifteen themes sit in even rows */
 .swatches { display: grid; grid-template-columns: repeat(5, max-content); gap: 6px }
-@media (max-width: 760px) { .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+@media (max-width: 760px) { .swatches { grid-template-columns: repeat(3, minmax(0, 1fr)) } .swatches .swatch { font-size: 12px } } /* fifteen themes: five rows of three */
 .sw { display: inline-flex; align-items: center; gap: 6px; font: 600 13px var(--f-body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px 4px 6px; cursor: pointer }
 .sw i { width: 14px; height: 14px; border-radius: 50%; background: var(--c) }
 .sw[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
@@ -295,7 +300,7 @@ function draw() {
   for (const id of ['comp', 'teampage', 'search', 'search0', 'os', 'browser', 'watch', 'follow', 'unfollow', 'use']) bars(id, sums[id], k => k);
   bars('spoil', sums.spoil, k => ({ hidden: 'Results hidden', shown: 'Results shown' })[k] || k);
   bars('view', sums.view, k => ({ big: 'Big', mixed: 'Mixed', compact: 'Compact' })[k] || k);
-  bars('theme', sums.theme, k => ({ green: 'Kiwi green', ocean: 'Ocean blue', red: 'Pōhutukawa red', black: 'All Black', kowhai: 'Kōwhai gold', paua: 'Pāua teal', purple: 'Twilight purple', orange: 'Sunset orange', lime: 'Kawakawa lime', pink: 'Rātā pink' })[k] || k);
+  bars('theme', sums.theme, k => ({ green: 'Kiwi green', ocean: 'Ocean blue', red: 'Pōhutukawa red', black: 'All Black', kowhai: 'Kōwhai gold', paua: 'Pāua teal', purple: 'Twilight purple', orange: 'Sunset orange', lime: 'Kawakawa lime', pink: 'Rātā pink', kauri: 'Kauri brown', silver: 'Silver fern', tui: 'Tūī indigo', navy: 'Moana navy', olive: 'Harakeke olive' })[k] || k);
   bars('speed', sums.speed, k => k, SPEED_ORDER);
   bars('error', sums.error, k => k);
   // weekdays: each one's average visitors over the days of that weekday in the range
@@ -419,7 +424,8 @@ $('refresh').addEventListener('click', fetchStats);
 // colour themes, as on the main page
 const THEMES = [['green', 'Kiwi green', '#0d6b4d'], ['ocean', 'Ocean blue', '#1864ab'], ['red', 'Pōhutukawa red', '#c92a2a'], ['black', 'All Black', '#111111'],
   ['kowhai', 'Kōwhai gold', '#d9a400'], ['paua', 'Pāua teal', '#0b7a7e'], ['purple', 'Twilight purple', '#6741d9'], ['orange', 'Sunset orange', '#d9480f'],
-  ['lime', 'Kawakawa lime', '#5c940d'], ['pink', 'Rātā pink', '#c2255c']];
+  ['lime', 'Kawakawa lime', '#5c940d'], ['pink', 'Rātā pink', '#c2255c'],
+  ['kauri', 'Kauri brown', '#8a5a2b'], ['silver', 'Silver fern', '#7d8b96'], ['tui', 'Tūī indigo', '#3b3fb6'], ['navy', 'Moana navy', '#1c3a6e'], ['olive', 'Harakeke olive', '#6b7a1f']];
 const drawThemes = () => { const cur = store.get('statsAccent', store.get('accent', 'green'));
   $('themes').innerHTML = THEMES.map(([k, l, c]) => `<button type="button" class="sw" data-theme-k="${k}" aria-pressed="${k === cur}" style="--c:${c}"><i></i>${l}</button>`).join(''); };
 $('themes').addEventListener('click', ev => { const b = ev.target.closest('[data-theme-k]'); if (!b) return; const k = b.dataset.themeK; store.set('statsAccent', k);

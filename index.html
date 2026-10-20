@@ -80,11 +80,37 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
 :root[data-accent="pink"] { --paper: #f9f3f5; --surface: #ffffff; --ink: #2a1220; --muted: #705a66; --line: #ebd8e0; --accent: #c2255c; --accent-ink: #ffffff; --soft: #f5e4eb; }
 @media (prefers-color-scheme: dark) { :root[data-accent="pink"]:not([data-theme="light"]) { --paper: #140c10; --surface: #1e1419; --ink: #f4e4eb; --muted: #b398a5; --line: #38242e; --accent: #f783ac; --accent-ink: #22040f; --soft: #291a21; --cover: #38242e; } }
 :root[data-accent="pink"][data-theme="dark"] { --paper: #140c10; --surface: #1e1419; --ink: #f4e4eb; --muted: #b398a5; --line: #38242e; --accent: #f783ac; --accent-ink: #22040f; --soft: #291a21; --cover: #38242e; }
+:root[data-accent="kauri"] { --paper: #f7f4f0; --surface: #ffffff; --ink: #241a12; --muted: #6b5d50; --line: #e6dccf; --accent: #8a5a2b; --accent-ink: #ffffff; --soft: #f0e7dc; }
+@media (prefers-color-scheme: dark) { :root[data-accent="kauri"]:not([data-theme="light"]) { --paper: #12100c; --surface: #1c1813; --ink: #f1e9df; --muted: #ab9d8d; --line: #342b21; --accent: #d9a26a; --accent-ink: #1b0f04; --soft: #262019; --cover: #342b21; } }
+:root[data-accent="kauri"][data-theme="dark"] { --paper: #12100c; --surface: #1c1813; --ink: #f1e9df; --muted: #ab9d8d; --line: #342b21; --accent: #d9a26a; --accent-ink: #1b0f04; --soft: #262019; --cover: #342b21; }
+:root[data-accent="silver"] { --paper: #f4f6f7; --surface: #ffffff; --ink: #161d22; --muted: #5f6b74; --line: #dbe1e5; --accent: #556570; --accent-ink: #ffffff; --soft: #e8edf0; }
+@media (prefers-color-scheme: dark) { :root[data-accent="silver"]:not([data-theme="light"]) { --paper: #0e1113; --surface: #171b1e; --ink: #e8edf0; --muted: #9aa6ae; --line: #2a3136; --accent: #c5d0d8; --accent-ink: #0e1113; --soft: #1f2428; --cover: #2a3136; } }
+:root[data-accent="silver"][data-theme="dark"] { --paper: #0e1113; --surface: #171b1e; --ink: #e8edf0; --muted: #9aa6ae; --line: #2a3136; --accent: #c5d0d8; --accent-ink: #0e1113; --soft: #1f2428; --cover: #2a3136; }
+:root[data-accent="tui"] { --paper: #f4f4fa; --surface: #ffffff; --ink: #16163a; --muted: #5d5d80; --line: #dcdcee; --accent: #3b3fb6; --accent-ink: #ffffff; --soft: #e8e8f6; }
+@media (prefers-color-scheme: dark) { :root[data-accent="tui"]:not([data-theme="light"]) { --paper: #0d0d18; --surface: #151524; --ink: #e7e7f8; --muted: #9d9dc0; --line: #27273f; --accent: #8f95ff; --accent-ink: #0a0a24; --soft: #1c1c30; --cover: #27273f; } }
+:root[data-accent="tui"][data-theme="dark"] { --paper: #0d0d18; --surface: #151524; --ink: #e7e7f8; --muted: #9d9dc0; --line: #27273f; --accent: #8f95ff; --accent-ink: #0a0a24; --soft: #1c1c30; --cover: #27273f; }
+:root[data-accent="navy"] { --paper: #f2f4f8; --surface: #ffffff; --ink: #0f1a2e; --muted: #56627a; --line: #d5dce8; --accent: #1c3a6e; --accent-ink: #ffffff; --soft: #e3e8f2; }
+@media (prefers-color-scheme: dark) { :root[data-accent="navy"]:not([data-theme="light"]) { --paper: #0a0e16; --surface: #121826; --ink: #e3e9f4; --muted: #8e9bb3; --line: #222c40; --accent: #7d9fd6; --accent-ink: #08101e; --soft: #182032; --cover: #222c40; } }
+:root[data-accent="navy"][data-theme="dark"] { --paper: #0a0e16; --surface: #121826; --ink: #e3e9f4; --muted: #8e9bb3; --line: #222c40; --accent: #7d9fd6; --accent-ink: #08101e; --soft: #182032; --cover: #222c40; }
+:root[data-accent="olive"] { --paper: #f6f6ef; --surface: #ffffff; --ink: #1e2010; --muted: #64674c; --line: #e1e2cf; --accent: #5f6b1e; --accent-ink: #ffffff; --soft: #ecedda; }
+@media (prefers-color-scheme: dark) { :root[data-accent="olive"]:not([data-theme="light"]) { --paper: #10110a; --surface: #191a10; --ink: #eef0dd; --muted: #a5a88a; --line: #2f3120; --accent: #bcc75e; --accent-ink: #151804; --soft: #222416; --cover: #2f3120; } }
+:root[data-accent="olive"][data-theme="dark"] { --paper: #10110a; --surface: #191a10; --ink: #eef0dd; --muted: #a5a88a; --line: #2f3120; --accent: #bcc75e; --accent-ink: #151804; --soft: #222416; --cover: #2f3120; }
 .swatches { display: grid; grid-template-columns: repeat(5, max-content); justify-content: start; gap: 6px }
 /* the colour dot at the left, the name in the middle of the rest of the button */
 .swatch { white-space: nowrap }
 .swatches .swatch { display: grid; grid-template-columns: 18px minmax(0, 1fr); justify-items: center }
 @media (max-width: 700px) { .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+/* phones: one box with the chosen theme (its colour and name) that opens the list of all fifteen, like the times box */
+.accwrap { position: relative } .accpick { display: none }
+@media (max-width: 560px) {
+  .accpick { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 13em; font: inherit; font-size: 14px; padding: 5px 26px; border-radius: 8px; border: 1px solid var(--line); color: var(--ink); cursor: pointer;
+    background: var(--paper) no-repeat; background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: right 15px center, right 10px center; background-size: 5px 5px, 5px 5px }
+  .accpick i { width: 16px; height: 16px; border-radius: 50%; flex: none; box-shadow: 0 0 0 1px var(--line) }
+  .accwrap:not(.open) #accentSel { display: none }
+  .accwrap.open #accentSel { position: absolute; z-index: 40; top: calc(100% + 4px); left: 0; width: 13em; grid-template-columns: 1fr; gap: 2px; padding: 4px; max-height: min(50vh, 360px); overflow: auto;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 10px 28px rgba(0, 0, 0, .35) }
+  .accwrap.open #accentSel .swatch { border-color: transparent; border-radius: 6px; padding: 4px 8px } .accwrap.open #accentSel .swatch[aria-pressed="true"] { border-color: var(--ink) }
+}
 .swatch { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 3px 11px 3px 5px; font: inherit; font-size: 14px; cursor: pointer }
 .swatch i { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line) }
 .swatch[aria-pressed="true"] { border-color: var(--ink); font-weight: 600 }
@@ -1187,7 +1213,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
       </select></span>
     </div>
     <h2 class="ph">Theme</h2>
-    <div class="swatches" id="accentSel" role="group" aria-label="Theme"></div>
+    <div class="accwrap"><button type="button" class="dbtn accpick" id="accentPick" aria-haspopup="true" aria-expanded="false"><i id="accentDot"></i><span id="accentName"></span></button><div class="swatches" id="accentSel" role="group" aria-label="Theme"></div></div>
     <h2 class="ph">My teams <span class="phbtns"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></span><span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news. Not into a sport at all? Tap <b>Hide sport</b> beside its name to take it off your feed and out of the sport buttons; <b>Show sport</b> brings it back.</span></h2>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
     <h2 class="ph">Phone app <span class="phnote">Put Kickoff Kiwi on your home screen. It opens full-screen like an app. No app store, no account.</span></h2>
@@ -1401,8 +1427,10 @@ const NICK = {
   'rugby w': { 'New Zealand': 'Black Ferns', Australia: 'Wallaroos', England: 'Red Roses', Fiji: 'Fijiana', Samoa: 'Manusina', Japan: 'Sakura Fifteen' },
   'league m': { 'New Zealand': 'Kiwis', Australia: 'Kangaroos', 'Papua New Guinea': 'PNG Kumuls', Fiji: 'Fiji Bati', Samoa: 'Toa Samoa', 'Cook Islands': 'Cook Islands Aitu', Lebanon: 'Lebanon Cedars', Jamaica: 'Reggae Warriors' },
   'league w': { 'New Zealand': 'Kiwi Ferns', Australia: 'Jillaroos', 'Papua New Guinea': 'PNG Orchids', Fiji: 'Fiji Bulikula', Samoa: 'Fetu Samoa', 'Cook Islands': 'Cook Islands Moana' },
-  'cricket m': { 'New Zealand': 'Black Caps', 'South Africa': 'Proteas', 'West Indies': 'Windies' },
-  'cricket w': { 'New Zealand': 'White Ferns', 'South Africa': 'Proteas', 'West Indies': 'Windies' },
+  // NZ domestic sides go by their team names, like the Auckland Aces and Central Stags already do
+  'cricket m': { 'New Zealand': 'Black Caps', 'South Africa': 'Proteas', 'West Indies': 'Windies', Canterbury: 'Canterbury Kings', 'Northern Districts': 'Northern Brave' },
+  'cricket w': { 'New Zealand': 'White Ferns', 'South Africa': 'Proteas', 'West Indies': 'Windies', Auckland: 'Auckland Hearts', Canterbury: 'Canterbury Magicians',
+    'Northern Districts': 'Northern Brave', Otago: 'Otago Sparks', Wellington: 'Wellington Blaze', 'Central Districts': 'Central Hinds' },
   'football m': { 'New Zealand': 'All Whites', Australia: 'Socceroos', Fiji: 'Bula Boys', 'Papua New Guinea': 'Kapuls', 'Solomon Islands': 'Bonitos' },
   'football w': { 'New Zealand': 'Football Ferns', Australia: 'Matildas', England: 'Lionesses', Japan: 'Nadeshiko', Fiji: 'Kulas' },
   'hockey m': { 'New Zealand': 'Black Sticks', Australia: 'Kookaburras' },
@@ -3049,6 +3077,8 @@ function dselFor(sel) {
   return w;
 }
 const syncDsel = sel => { dselFor(sel).firstChild.textContent = sel.selectedOptions[0]?.text || ''; };
+$('accentPick').addEventListener('click', ev => { ev.stopPropagation(); const w = document.querySelector('.accwrap'); w.classList.toggle('open'); $('accentPick').setAttribute('aria-expanded', w.classList.contains('open')); });
+document.addEventListener('click', e => { if (!e.target.closest('.accwrap')) { document.querySelector('.accwrap')?.classList.remove('open'); $('accentPick')?.setAttribute('aria-expanded', 'false'); } });
 function closeDsels() { document.querySelectorAll('.dsel .dlist:not([hidden])').forEach(l => { l.hidden = true; l.previousElementSibling.setAttribute('aria-expanded', 'false'); }); }
 document.addEventListener('click', e => { if (!e.target.closest('.dsel')) closeDsels(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.querySelector('.dsel .dlist:not([hidden])')) { closeDsels(); e.stopImmediatePropagation(); } }); // Escape shuts an open list first, not the whole settings panel
@@ -3171,10 +3201,14 @@ $('nzOnly').addEventListener('click', ev => { ev.stopPropagation(); nzOnly = !nz
 // look: light/dark and a colour theme, saved in this browser
 const ACCENTS = [['green', 'Kiwi green', '#0d6b4d'], ['ocean', 'Ocean blue', '#1864ab'], ['red', 'Pōhutukawa red', '#c92a2a'], ['black', 'All Black', '#111111'],
   ['kowhai', 'Kōwhai gold', '#d9a400'], ['paua', 'Pāua teal', '#0b7a7e'], ['purple', 'Twilight purple', '#6741d9'], ['orange', 'Sunset orange', '#d9480f'],
-  ['lime', 'Kawakawa lime', '#5c940d'], ['pink', 'Rātā pink', '#c2255c']];
+  ['lime', 'Kawakawa lime', '#5c940d'], ['pink', 'Rātā pink', '#c2255c'],
+  ['kauri', 'Kauri brown', '#8a5a2b'], ['silver', 'Silver fern', '#7d8b96'], ['tui', 'Tūī indigo', '#3b3fb6'], ['navy', 'Moana navy', '#1c3a6e'], ['olive', 'Harakeke olive', '#6b7a1f']];
 function drawLook() {
   const t = store.get('theme', 'auto'), c = store.get('accent', 'green');
-  $('accentSel').innerHTML = ACCENTS.map(([k, l, col]) => `<button type="button" class="swatch" data-accent="${k}" aria-pressed="${k === c}"><i style="background:${col}"></i><span class="lb" data-l="${esc(l)}"><span>${esc(l)}</span></span></button>`).join('');
+  $('accentSel').innerHTML = ACCENTS.map(([k, l, col]) => `<button type="button" class="swatch" data-accent="${k}" aria-pressed="${k === c}" title="${esc(l)}" aria-label="${esc(l)}"><i style="background:${col}"></i><span class="lb" data-l="${esc(l)}"><span>${esc(l)}</span></span></button>`).join('');
+  const cur = ACCENTS.find(([k]) => k === c) || ACCENTS[0];
+  $('accentName').textContent = cur[1]; $('accentDot').style.background = cur[2];
+  document.querySelector('.accwrap').classList.remove('open'); $('accentPick').setAttribute('aria-expanded', 'false');
 }
 function setLook(t, c) {
   const root = document.documentElement;
