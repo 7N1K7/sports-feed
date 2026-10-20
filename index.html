@@ -564,7 +564,7 @@ dialog#sheet { width: min(max(720px, 76vw), 1040px, 100%) } /* wider in a big wi
 
 /* competition menu: soft rounded popover */
 .cmenu { position: relative }
-#compSel { appearance: none; border-radius: 999px; padding: 4px 32px 4px 16px; font-size: 14px; background-color: var(--surface); color: var(--ink); border: 1px solid var(--line); cursor: pointer; width: 250px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; font: inherit; font-size: 14px;
+#compSel { appearance: none; border-radius: 999px; padding: 4px 32px 4px 16px; font-size: 14px; background-color: var(--surface); color: var(--ink); border: 1px solid var(--line); cursor: pointer; width: 190px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; font: inherit; font-size: 14px;
   background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
   background-position: right 17px center, right 12px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat }
 #compSel.on { background-color: var(--ink); color: var(--paper); border-color: var(--ink) }
@@ -1287,10 +1287,13 @@ const ISO = { 'New Zealand': 'nz', 'All Blacks': 'nz', 'Black Ferns': 'nz', Aust
   Netherlands: 'nl', Belgium: 'be', Germany: 'de', 'Great Britain': 'gb', Malaysia: 'my', 'South Korea': 'kr', China: 'cn', Austria: 'at', Egypt: 'eg', Ukraine: 'ua', Poland: 'pl', Namibia: 'na',
   Philippines: 'ph', 'Chinese Taipei': 'tw', Qatar: 'qa', Iran: 'ir', Jordan: 'jo', Kazakhstan: 'kz', Syria: 'sy', Bahrain: 'bh', 'Saudi Arabia': 'sa', Guam: 'gu', Indonesia: 'id', Mongolia: 'mn', Thailand: 'th', Iraq: 'iq',
   Malawi: 'mw', Uganda: 'ug', Jamaica: 'jm', 'Trinidad and Tobago': 'tt', Singapore: 'sg' };
+// sides that play for no one country fly their own flag: the West Indies the cricket board's palm and island
+// (public domain, on Wikimedia Commons)
+const OWN_FLAG = { 'West Indies': 'https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg' };
 const flagOf = name => {
   const base = String(name || '').replace(/\s+(Women|A|XI|XV|U\d+|Wheelchair)$/i, '').trim();
   const c = ISO[base];
-  return c ? `https://flagcdn.com/${c}.svg` : '';
+  return c ? `https://flagcdn.com/${c}.svg` : OWN_FLAG[base] || '';
 };
 // away side: name first, then logo/flag, so both crests sit beside the "v"
 // "Wellington Phoenix FC" -> "Wellington Phoenix"; keeps short names like "Auckland FC"
@@ -2621,7 +2624,7 @@ function render() {
       const body = ks.length > 1 || live.length > 1 ? live.map(([h, list]) => `<div class="csub">${h}</div>${list.map(opt).join('')}`).join('') : cs.map(opt).join('');
       return `<div class="cgroup"><div class="chead"><span class="dot" style="background:var(--${ks[0]})"></span>${l}</div>${body}</div>`;
     }).join('');
-    $('compSel').textContent = COMP_LABEL[compSel] || compSel || 'All competitions';
+    $('compSel').textContent = $('compSel').title = COMP_LABEL[compSel] || compSel || 'All competitions'; // one width whatever's picked; a long name is cut short, and named in full on hover
     $('nzOnly').setAttribute('aria-pressed', String(nzOnly));
     renderHub(now);
     $('compSel').classList.toggle('on', !!compSel);
