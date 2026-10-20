@@ -603,14 +603,15 @@ a.svc:hover { text-decoration-color: currentColor }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --gold: #f2c94c } }
 :root[data-theme="dark"] { --gold: #f2c94c }
 .rankbtn { font-size: 14px; font-weight: 600; padding: 3px 14px; border: 1px solid var(--gold); color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--surface)) }
-/* once the top bar has compacted to two rows (search on its own row: phones, and narrower windows), a shallow tab
-   hangs off its bottom, ends curving out into the screen's edges, with an arrow in the middle. It's one drawn shape the
-   full width of the bar that takes the place of the bar's bottom line, so there are no joins to show (the path is sized
-   to the bar in syncFoldShape). It folds the series row, sport buttons and competition bar away and back, shows only at
-   the top of the page, where the filters are, and not while Settings is open. */
-.fold { display: none }
-header.top.stacked .fold { display: block; position: absolute; top: calc(100% - 1px); left: 0; right: 0; height: 22px; padding: 0; border: 0; background: none; cursor: pointer; transition: opacity .15s; -webkit-user-select: none; user-select: none }
+/* a tab hangs off the bottom of the top bar, with an arrow in the middle: it folds the series row, sport buttons and
+   competition bar away and back. Once the bar has compacted to two rows (phones, narrower windows) it's a band the full
+   width of the bar, flat across with round corners turning up into the screen's sides, standing in for the bar's bottom
+   line; on wide screens, a small tab in the middle whose top corners curve out into the bar's edge. Each is one drawn
+   shape (sized in syncFoldShape), so there are no joins to show. It shows only at the top of the page, where the
+   filters are, and not while Settings is open. */
+.fold { display: block; position: absolute; top: calc(100% - 1px); left: calc(50% - 40px); width: 80px; height: 22px; padding: 0; border: 0; background: none; cursor: pointer; transition: opacity .15s; -webkit-user-select: none; user-select: none }
 .fold:focus:not(:focus-visible) { outline: none }
+header.top.stacked .fold { left: 0; width: 100% }
 .fold .tab { position: absolute; left: 0; top: 0; width: 100%; height: 22px; overflow: visible }
 .fold .tf { fill: var(--surface) }
 .fold .ts { fill: none; stroke: var(--line); stroke-width: 1 }
@@ -621,8 +622,8 @@ header.top.stacked .fold { display: block; position: absolute; top: calc(100% - 
 .fold.on.filtering .tc { stroke: var(--accent) }
 .fold:active .tc { stroke: var(--ink) }
 header.top.scrolled .fold, header.top:has(#panel:not([hidden])) .fold { opacity: 0; pointer-events: none }
-header.top.stacked ~ main { padding-top: 30px }
-header.top.stacked ~ main.folded .nowbar, header.top.stacked ~ main.folded #sportFilter, header.top.stacked ~ main.folded .compbar { display: none !important }
+header.top ~ main { padding-top: 30px }
+main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: none !important }
 /* phones: short labels, so NZ only, men's/women's and rankings share one line, and tighter gaps so the day's first
    games are on screen sooner */
 .compbar .sm { display: none }
@@ -854,7 +855,7 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
   header.top .wrap { column-gap: 6px }
   .spacer { order: 1 } .ipair { order: 2; display: flex; gap: 6px; flex: none } .hbreak { display: block; order: 4; flex: 0 0 100%; height: 0 }
   #toResults { order: 5 } #toNews { order: 6 } .search { order: 7 }
-  #toResults, #toNews, .search { flex: 1 1 0; min-width: 0 }
+  #toResults, #toNews { flex: 1.4 1 0; min-width: 0 } .search { flex: 1 1 0; min-width: 0 } /* search the smallest: it opens over the row */
   .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
   .hbtns .btn svg { width: 14px; height: 14px; flex: none }
   .hbtns .ibtn { padding: 7px 9px } .hbtns .ibtn svg { width: 18px; height: 18px }
@@ -880,7 +881,7 @@ html.tight .binfo { font-size: 9px } html.tight .brand .bt { gap: 4px }
 html.tight header.top .wrap { column-gap: 6px }
 html.tight .spacer { order: 1 } html.tight .ipair { order: 2; display: flex; gap: 6px; flex: none } html.tight .hbreak { display: block; order: 4; flex: 0 0 100%; height: 0 }
 html.tight #toResults { order: 5 } html.tight #toNews { order: 6 } html.tight .search { order: 7 }
-html.tight :is(#toResults, #toNews, .search) { flex: 1 1 0; min-width: 0 }
+html.tight :is(#toResults, #toNews) { flex: 1.4 1 0; min-width: 0 } html.tight .search { flex: 1 1 0; min-width: 0 }
 html.tight .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
 html.tight .hbtns .btn svg { width: 14px; height: 14px; flex: none }
 html.tight .hbtns .ibtn { padding: 7px 9px } html.tight .hbtns .ibtn svg { width: 18px; height: 18px }
@@ -2536,12 +2537,18 @@ function render() {
 function syncFoldShape() {
   // the top bar has compacted once the search box sits below the logo
   const top = document.querySelector('header.top');
-  top.classList.toggle('stacked', document.querySelector('.search').getBoundingClientRect().top > document.querySelector('.brand').getBoundingClientRect().bottom - 5);
-  const b = $('foldBtn'), w = b.clientWidth, svg = b.querySelector('.tab');
-  if (!w || svg.dataset.w === String(w)) return;
-  svg.dataset.w = w; svg.setAttribute('viewBox', `0 0 ${w} 22`);
-  b.querySelector('.tf').setAttribute('d', `M0 0C6 0 9 2.5 9 7.5Q9 21.5 22 21.5H${w - 22}Q${w - 9} 21.5 ${w - 9} 7.5C${w - 9} 2.5 ${w - 6} 0 ${w} 0Z`);
-  b.querySelector('.ts').setAttribute('d', `M0 .5C6 .5 8.5 2.5 8.5 7.5Q8.5 21 22 21H${w - 22}Q${w - 8.5} 21 ${w - 8.5} 7.5C${w - 8.5} 2.5 ${w - 6} .5 ${w} .5`);
+  const stacked = document.querySelector('.search').getBoundingClientRect().top > document.querySelector('.brand').getBoundingClientRect().bottom - 5;
+  top.classList.toggle('stacked', stacked);
+  const b = $('foldBtn'), w = b.clientWidth, svg = b.querySelector('.tab'), key = `${stacked}|${w}`;
+  if (!w || svg.dataset.w === key) return;
+  svg.dataset.w = key; svg.setAttribute('viewBox', `0 0 ${w} 22`);
+  // compact: flat across, each end a round corner turning up into the side of the screen
+  // wide: a small tab whose top corners curve out into the bar's edge, with round bottom corners
+  const [fill, line] = stacked
+    ? [`M0 0C0 11.9 9.9 21.5 22 21.5H${w - 22}C${w - 9.9} 21.5 ${w} 11.9 ${w} 0Z`, `M.5 0C.5 12 10.4 21 22.5 21H${w - 22.5}C${w - 10.4} 21 ${w - .5} 12 ${w - .5} 0`]
+    : [`M0 0C6 0 9 2.5 9 7.5Q9 21.5 22 21.5H${w - 22}Q${w - 9} 21.5 ${w - 9} 7.5C${w - 9} 2.5 ${w - 6} 0 ${w} 0Z`, `M0 .5C6 .5 8.5 2.5 8.5 7.5Q8.5 21 22 21H${w - 22}Q${w - 8.5} 21 ${w - 8.5} 7.5C${w - 8.5} 2.5 ${w - 6} .5 ${w} .5`];
+  b.querySelector('.tf').setAttribute('d', fill);
+  b.querySelector('.ts').setAttribute('d', line);
 }
 new ResizeObserver(syncFoldShape).observe(document.querySelector('header.top .wrap'));
 // phones: the fold bar
