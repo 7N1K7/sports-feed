@@ -1,4 +1,4 @@
-// probe 58: render the share-preview image (1200x630) with the site's own fonts: bigger name, what it is, no sign-up
+// probe 59: the share image, sports in the app's order and colours
 import { chromium } from 'playwright';
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
