@@ -1,11 +1,96 @@
+{| class="wikitable" style="font-size:85%; text-align:center"
+! rowspan="2" |Pos
+! rowspan="2" |Driver
+! rowspan="2" |{{Tooltip|No.|Car Number}}
+! colspan="28" |Sprint Cup
+! rowspan="34" |
+! colspan="2" |[[Enduro Cup]]
+! rowspan="34" |
+! colspan="7" |Finals Series
+! rowspan="2" |{{Tooltip|Pen.|Penalty Points}}
+! rowspan="2" |Points
+|-
+! colspan="3" |[[Sydney SuperNight|SMP]]
+! colspan="4" |[[Melbourne SuperSprint|MEL]]
+! colspan="2" |[[Taupō Super400|TAU]]
+! colspan="4" |[[Christchurch Supercars round|CHC]]
+! colspan="3" |[[Tasmania Super400|SYM]]
+! colspan="3" |[[Darwin Triple Crown|HID]]
+! colspan="3" |[[Townsville 500|TOW]]
+! colspan="3" |[[Wanneroo Supercars round|BAR]]
+! colspan="3" |[[Ipswich Supercars round|QLD]]
+![[The Bend 500|BEN]]
+![[Bathurst 1000|BAT]]
+! colspan="2" |[[Gold Coast 500|SUR]]
+! colspan="2" |[[Sandown 500|SAN]]
+! colspan="3" |[[Adelaide 500|ADE]]
+|-
+!1
+| align="left"| {{Flagicon|NZL}} [[Matt Payne]]
+| 19
+| style="background:#dfffdf" |4
+| style="background:#ffdf9f" |3
+| style="background:#dfdfdf" |2
+| style="background:#dfdfdf" |2
+| style="background:#dfdfdf" |'''2'''
+| style="background:#efcfff" |Ret
+| style="background:#dfffdf" |''20''
+| style="background:#dfffdf" |5
+| style="background:#dfffdf" |5
+| style="background:#dfffdf" |'''4'''
+| style="background:#dfffdf" |''19''
+| style="background:#ffffbf" |''1''
+| style="background:#ffffbf" |'''''1'''''
+| style="background:#dfffdf" |8
+| style="background:#ffdf9f" |3
+| style="background:#dfdfdf" |2
+| style="background:#ffdf9f" |3
+| style="background:#dfffdf" |4
+| style="background:#dfdfdf" |2
+| style="background:#ffdf9f" |3
+| style="background:#ffffbf" |1
+| style="background:#dfdfdf" |2
+| style="background:#ffffbf" |'''1'''
+| style="background:#dfdfdf" |'''2'''
+| style="background:#ffffbf" |1
+| style="background:#dfdfdf" |'''2'''
+| style="background:#dfffdf" |'''6'''
+| style="background:#efcfff" |Ret
+| style="background:#dfffdf" |6
+| style="background:#dfffdf" |5
+| style="background:#" |
+| style="background:#" |
+| style="background:#" |
+| style="background:#" |
+| style="background:#" |
+| style="background:#" |
+| style="background:#" |
+|0
+!2278
+|-
+!2
+| align="left"| {{Flagicon|AUS}} [[Broc Feeney]] {{abbr|'''(SC)'''|Sprint Champion}}
+| 88
+| style="background:#ffffbf" |1
+| style="background:#dfffdf" |6
+| style="background:#ffffbf" |'''1'''
+| style="background:#ffdf9f" |3
+| style="background:#dfffdf" |7
+| style="background:#ffffbf" |'''1'''
+| style="background:#efcfff" |Ret
+| style="backgr
+... nested tables? 1
+<anonymous_script>:1
+The old '3' Free Sports API key is permanently disabled, Please use the new test key "123" or sign up to premium here https://www.thesportsdb.com/pricing
+^
 
+SyntaxError: Unexpected token 'T', "The old '3"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at parseJSONFromBytes (node:internal/deps/undici/undici:5895:19)
+    at successSteps (node:internal/deps/undici/undici:5876:27)
+    at fullyReadBody (node:internal/deps/undici/undici:4768:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async consumeBody (node:internal/deps/undici/undici:5885:7)
+    at async file:///home/runner/work/sports-feed/sports-feed/probe/probe.mjs:7:11
 
-generated 2026-10-20T10:00:26.757Z
-
-tvGuide: 
-
-supercars: 14 rounds, 11 with results: Round 1 Sydney 500 2026-02-22; Round 2 Melbourne SuperSprint 2026-03-08; Round 3 Taupō Super 440 2026-04-11; Round 4 Christchurch Super 440 2026-04-19; Round 5 Tasmania Super 440 2026-05-24; Round 6 Darwin Triple Crown 2026-06-21; Round 7 Townsville 500 2026-07-12; Round 8 Perth Super 440 2026-08-02; Round 9 Ipswich Super 440 2026-08-23; Round 10 The Bend 500 2026-09-13; Round 11 Bathurst 1000 2026-10-11; Round 12 Gold Coast 500 2026-10-25; Round 13 Sandown 500 2026-11-08; Round 14 Adelaide Grand Final 2026-11-29
-
-teamSquads: 74 of 88: Northern Districts, France, Lebanon, England, Wales, Ireland, USA, England, Wales, France, Scotland, Australia, Nottingham Forest, New Zealand missing
-
-youtube: streams per channel: NZ Cricket 12, Cricket Australia 26, Netball NZ 11, Hockey NZ 49, Basketball NZ 12, NZ Football 4, NZ Rugby League 1; matched 0
+Node.js v22.23.3
