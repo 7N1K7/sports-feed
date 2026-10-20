@@ -1,18 +1,21 @@
-// probe 81: rugby league squads: national team pages (men, women, wheelchair) read with the team squad reader
-import { readSquad } from './sources.mjs';
-const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
-const men = ['Australia', 'New Zealand', 'England', 'Tonga', 'Samoa', 'Fiji', 'Papua New Guinea', 'Cook Islands', 'Lebanon', 'France', 'Wales', 'Ireland', 'Scotland', 'Jamaica', 'Italy'];
-const women = ['Australia', 'New Zealand', 'England', 'Papua New Guinea', 'Fiji', 'Samoa', 'France', 'Wales', 'Cook Islands'];
-const wheel = ['England', 'France', 'Australia', 'Wales', 'Ireland', 'Scotland', 'United States', 'New Zealand'];
-const titles = [...men.map(t => `${t} national rugby league team`), ...women.map(t => `${t} women's national rugby league team`), ...wheel.map(t => `${t} national wheelchair rugby league team`)];
-for (let i = 0; i < titles.length; i += 50) {
-  const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(titles.slice(i, i + 50).join('|')), { headers: UA });
-  const j = await r.json(), back = {};
-  for (const m of [...(j.query?.normalized || []), ...(j.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
-  for (const pg of j.query.pages) {
-    const t = pg.revisions?.[0]?.slots?.main?.content || '';
-    const heads = [...t.matchAll(/^(==+)\s*([^=]*?(squad|roster|team|players)[^=]*?)\s*\1\s*$/gim)].map(m => m[2]).slice(0, 6);
-    const sq = t ? readSquad(t) : [];
-    console.log(`${back[pg.title] || pg.title}: ${t ? '' : 'MISSING '}${sq.length} players${sq.length ? ' e.g. ' + sq.slice(0, 3).map(p => p.n + (p.r ? `[${p.r}]` : '')).join(', ') : ''} | headings: ${heads.join(' / ')}`);
+// probe 82: (1) is the YouTube key reachable, which channels and streams can we see (key never printed);
+// (2) the league "Current squad" wikitext from a few national team pages, to write a reader for them
+const K = process.env.YOUTUBE_API_KEY || '';
+console.log('youtube key present:', K ? `yes (${K.length} chars)` : 'NO');
+const yt = async (path, q) => { const r = await fetch(`https://www.googleapis.com/youtube/v3/${path}?${q}&key=${K}`); const j = await r.json(); if (j.error) console.log('  api error:', j.error.code, j.error.message); return j; };
+if (K) {
+  for (const h of ['@BLACKCAPS', '@WhiteFerns', '@NZCricket', '@cricketcomau', '@CricketAustralia', '@SuperSmashNZ', '@nzrugbyleague', '@SkySportNZ']) {
+    const c = await yt('channels', `part=snippet,contentDetails&forHandle=${encodeURIComponent(h)}`);
+    const ch = c.items?.[0]; if (!ch) { console.log(h, 'not found'); continue; }
+    const up = ch.contentDetails.relatedPlaylists.uploads;
+    const pl = await yt('playlistItems', `part=contentDetails&maxResults=50&playlistId=${up}`);
+    const ids = (pl.items || []).map(x => x.contentDetails.videoId);
+    const v = ids.length ? await yt('videos', `part=snippet,liveStreamingDetails&id=${ids.join(',')}`) : {};
+    const live = (v.items || []).filter(x => x.liveStreamingDetails);
+    console.log(`${h} = ${ch.id} "${ch.snippet.title}" | of the last ${ids.length} uploads, ${live.length} were/are streams`);
+    for (const x of live.slice(0, 6)) console.log(`   ${x.snippet.liveBroadcastContent.padEnd(8)} ${x.liveStreamingDetails.scheduledStartTime || x.liveStreamingDetails.actualStartTime || ''} | ${x.snippet.title.slice(0, 90)}`);
   }
 }
+const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
+const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(['New Zealand national rugby league team', "New Zealand women's national rugby league team", 'Tonga national rugby league team'].join('|')), { headers: UA });
+for (const pg of (await r.json()).query.pages) { const t = pg.revisions[0].slots.main.content; const i = t.search(/^==+\s*current (squad|roster)\s*==+\s*$/im); console.log(`\n######## ${pg.title}\n${t.slice(i, i + 2200)}`); }
