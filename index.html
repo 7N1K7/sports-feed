@@ -1616,7 +1616,7 @@ const cityOf = e => (e.city || '').split(',')[0];
 const HOURS = { Test: 7 * 24 * 0 + 8, ODI: 8, 'List A': 8, T20I: 3.5, T20: 3.5, 'First-class': 8 };
 const DAYS = { Test: 5, 'First-class': 4 };
 // cricket format from the feed, or from the stage/comp name ("2nd Test", "1st T20I")
-const formatOf = e => e.format || (/\bTests?\b/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'Test' : /\bODI/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'ODI' : /\bT20/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'T20I' : '');
+const formatOf = e => e.format || (/\bTests?\b/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'Test' : /Sheffield Shield|Plunket Shield|first.class/i.test(`${e.stage || ''} ${e.comp || ''}`) ? 'First-class' : /\bODI/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'ODI' : /\bT20/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'T20I' : '');
 // a Test or first-class game with no start time listed: nearly all begin about 10am (Tests) or 10:30am local, so show
 // that as a guide ("≈9:00pm")
 function usualStart(e) {
