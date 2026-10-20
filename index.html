@@ -218,6 +218,12 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .photocred { margin: 18px 0 0; font-size: 11px; line-height: 1.45; color: var(--muted); opacity: .8 }
 .dot { width: 7px; height: 7px; border-radius: 50% }
 .dot.done { opacity: .3 }
+/* with a mouse, each dot is a link to its game: a slightly bigger target and a ring on hover, nothing moves */
+@media (pointer: fine) {
+  .day .dot[data-dot] { position: relative; cursor: pointer }
+  .day .dot[data-dot]::after { content: ""; position: absolute; inset: -2px; border-radius: 50% }
+  .day .dot[data-dot]:hover { box-shadow: 0 0 0 1.5px var(--surface), 0 0 0 3px color-mix(in srgb, var(--ink) 55%, transparent); opacity: 1 }
+}
 /* the "+": two solid bars, each a whole number of screen pixels long and thick, set out from the box's corner by whole
    screen pixels (sizes from snapPlus()). The browser snaps solid boxes to the screen's pixels, so both arms come out
    equally sharp and even at any display scaling (a text "+" sat low and lopsided; gradients and shifts came out soft) */
@@ -584,9 +590,14 @@ html::-webkit-scrollbar-thumb:active, body::-webkit-scrollbar-thumb:active { bac
 a.svc { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 2px }
 a.svc:hover { text-decoration-color: currentColor }
 
-/* big events ahead: a row of tiles */
+/* events ahead (and running now): a row of tiles */
 .bigrow { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px }
 .bigrow .bph { visibility: hidden }
+/* running now: how far through it is, as a thin bar in the sport's colour */
+.runev .rbar { display: block; height: 4px; border-radius: 2px; margin-top: 4px; background: color-mix(in srgb, var(--ink) 12%, transparent); overflow: hidden }
+.runev .rbar i { display: block; height: 100%; border-radius: 2px; background: var(--c) }
+.bph .rbar, .runev .rbar.none { display: block; height: 4px; margin-top: 4px; background: none }
+.runev .rlive { color: var(--live); font-weight: 700 }
 .ev .body { position: relative }
 .ev .comp .sicon { width: 22px; height: 22px; flex: none }
 /* the octagon's dark rim fades into a dark card, so it is drawn a little bigger to look the same size as the ball or bat */
@@ -893,20 +904,26 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
   .clock { white-space: nowrap } .fresh { font-size: 10px }
   /* the version goes with the byline on phones */
   .ver { display: none } .ver2 { display: inline }
-  /* the eye and the cog sit at the top right, beside the name; Results, News and the search box share the row below
-     evenly, and while you type the search box takes the whole row */
+  /* the eye and the cog sit at the top right, beside the name; Events, Results, News and the search box share the row
+     below, and while you type the search box takes the whole row */
   header.top .wrap { column-gap: 6px }
   .spacer { order: 1 } .ipair { order: 2; display: flex; gap: 6px; flex: none } .hbreak { display: block; order: 4; flex: 0 0 100%; height: 0 }
-  #toResults { order: 5 } #toNews { order: 6 } .search { order: 7 }
-  #toResults, #toNews { flex: 1.4 1 0; min-width: 0 } .search { flex: 1 1 0; min-width: 0 } /* search the smallest: it opens over the row */
+  #toEvents { order: 5 } #toResults { order: 6 } #toNews { order: 7 } .search { order: 8 }
+  #toEvents, #toResults, #toNews { flex: 1.4 1 0; min-width: 0 } .search { flex: 1 1 0; min-width: 0 } /* search the smallest: it opens over the row */
   .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
   .hbtns .btn svg { width: 14px; height: 14px; flex: none }
   .hbtns .ibtn { padding: 7px 9px } .hbtns .ibtn svg { width: 18px; height: 18px }
   /* one height for the row's buttons and the search box, so opening the search (which hides Results and News) moves nothing */
-  #toResults, #toNews, #q { height: 31px; box-sizing: border-box }
+  #toEvents, #toResults, #toNews, #q { height: 31px; box-sizing: border-box }
   #q { width: 100%; padding: 4px 8px 4px 27px; font-size: 13px }
   .search .qico { left: 10px; width: 13px; height: 13px; margin-top: -6.5px }
-  header.top .wrap:has(.search:focus-within) :is(#toResults, #toNews) { display: none }
+  header.top .wrap:has(.search:focus-within) :is(#toEvents, #toResults, #toNews) { display: none }
+}
+/* most phones: no room left for the word, so the search box is just its magnifier until tapped, and the three buttons
+   share the rest of the row */
+@media (max-width: 480px) {
+  #toEvents, #toResults, #toNews { flex: 1 1 0 } .search { flex: 0 0 33px } .search:focus-within { flex: 1 1 0 }
+  .search:not(:focus-within) #q { padding-right: 0; cursor: pointer } .search:not(:focus-within) #q::placeholder { color: transparent }
 }
 /* small phones: the eye and the cog a little smaller (and on the smallest, the name too), so both still fit beside the name */
 @media (max-width: 350px) { .brand { font-size: 22px !important } }
@@ -925,15 +942,15 @@ html.tight .brand { flex: none; font-size: 27px }
 html.tight .binfo { font-size: 9px } html.tight .brand .bt { gap: 4px }
 html.tight header.top .wrap { column-gap: 6px }
 html.tight .spacer { order: 1 } html.tight .ipair { order: 2; display: flex; gap: 6px; flex: none } html.tight .hbreak { display: block; order: 4; flex: 0 0 100%; height: 0 }
-html.tight #toResults { order: 5 } html.tight #toNews { order: 6 } html.tight .search { order: 7 }
-html.tight :is(#toResults, #toNews) { flex: 1.4 1 0; min-width: 0 } html.tight .search { flex: 1 1 0; min-width: 0 }
+html.tight #toEvents { order: 5 } html.tight #toResults { order: 6 } html.tight #toNews { order: 7 } html.tight .search { order: 8 }
+html.tight :is(#toEvents, #toResults, #toNews) { flex: 1.4 1 0; min-width: 0 } html.tight .search { flex: 1 1 0; min-width: 0 }
 html.tight .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
 html.tight .hbtns .btn svg { width: 14px; height: 14px; flex: none }
 html.tight .hbtns .ibtn { padding: 7px 9px } html.tight .hbtns .ibtn svg { width: 18px; height: 18px }
-html.tight :is(#toResults, #toNews, #q) { height: 31px; box-sizing: border-box }
+html.tight :is(#toEvents, #toResults, #toNews, #q) { height: 31px; box-sizing: border-box }
 html.tight #q { width: 100%; padding: 4px 8px 4px 27px; font-size: 13px }
 html.tight .search .qico { left: 10px; width: 13px; height: 13px; margin-top: -6.5px }
-html.tight header.top .wrap:has(.search:focus-within) :is(#toResults, #toNews) { display: none }
+html.tight header.top .wrap:has(.search:focus-within) :is(#toEvents, #toResults, #toNews) { display: none }
 html.tight .qlist { left: 0; right: 0; width: auto }
 html.tight .compbar { gap: 6px }
 html.tight .compbar .lg { display: none } html.tight .compbar .sm { display: inline }
@@ -1029,6 +1046,7 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
     <div class="spacer"></div>
     <div class="hbtns">
     <span class="hbreak" aria-hidden="true"></span>
+    <button class="btn" id="toEvents" type="button" title="Jump to the events running now and ahead">Events <span class="jarr" aria-hidden="true">↓</span></button>
     <button class="btn" id="toResults" type="button" title="Jump to recent results">Results <span class="jarr" aria-hidden="true">↓</span></button>
     <button class="btn" id="toNews" type="button" title="Jump to the news">News <span class="jarr" aria-hidden="true">↓</span></button>
     <div class="search" role="search"><svg class="qico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
@@ -1111,8 +1129,13 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
     <h2>Coming up this week <small>Times in <span id="tzWord">NZ</span>, with local time for overseas games</small></h2>
     <div id="upcoming"></div>
   </section>
+  <section id="runSec" hidden>
+    <h2>Running now <small>Tap one to see all its games</small></h2>
+    <div id="runEvents" class="bigrow"></div>
+    <div id="runPager"></div>
+  </section>
   <section id="bigSec" hidden>
-    <h2>Big events ahead <small>Tap one to see all its games</small></h2>
+    <h2>Events ahead <small>Tap one to see all its games</small></h2>
     <div id="bigEvents" class="bigrow"></div>
     <div id="bigPager"></div>
   </section>
@@ -1337,7 +1360,7 @@ let genderSel = store.get('gender', 'all');
 let nzOnly = store.get('nzOnly', false);
 let folded = store.get('folded', false);   // phones: filters folded away under one bar
 let selDay = '', drawDayPick = () => {};
-let hubTab = 'games', resPage = 0, laterPage = 0, bigPage = 0, rankSel = '';
+let hubTab = 'games', resPage = 0, laterPage = 0, bigPage = 0, runPage = 0, rankSel = '';
 const NZ_KEYS = new Set(['allblacks', 'blackferns', 'npc', 'fpc', 'blues', 'chiefs', 'hurricanes', 'crusaders', 'highlanders', 'moana', 'blackcaps', 'whiteferns', 'nzdomestic', 'kiwis', 'kiwiferns', 'warriors', 'phoenix', 'aucklandfc', 'nzboxing', 'blacksticks', 'blacksticksw', 'tallblacks', 'tallferns', 'breakers', 'silverferns', 'anzprem']);
 const NZ_NAMES = /\bNew Zealand\b|^(Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Moana Pasifika)$|Warriors|Wellington Phoenix|Auckland FC|All Blacks|Black Ferns|Black ?Caps|White Ferns|Black Sticks|Tall Blacks|Tall Ferns|Breakers|Silver Ferns|Kiwi/;
 const isNZ = x => NZ_KEYS.has(x.team) || !!x.nzEvent || [x.home, x.away].some(n => NZ_NAMES.test(n || ''));
@@ -2364,7 +2387,7 @@ function render() {
     // resting the mouse on a dot names its game (the browser's own label, which waits a moment, so passing over doesn't
     // set it off); the "+" names the rest. Names and times only, never a score
     const gname = e => `${solo(e) ? e.home : `${displayName(e.home, e)} v ${displayName(e.away, e)}`} · ${time(new Date(e.startUTC), NZ)}`;
-    const dots = (list.length > cap ? list.slice(0, cap - 1) : list).map(e => `<span class="dot${doneSet.has(e) ? ' done' : ''}" style="background:var(--${e.sport})" title="${esc(gname(e))}"></span>`).join('') + (list.length > cap ? `<span class="dot more" title="${esc(list.slice(cap - 1).map(gname).join('\n'))}" aria-hidden="true"></span>` : '');
+    const dots = (list.length > cap ? list.slice(0, cap - 1) : list).map(e => `<span class="dot${doneSet.has(e) ? ' done' : ''}" style="background:var(--${e.sport})" data-dot="${esc(e.id)}" title="${esc(gname(e))}"></span>`).join('') + (list.length > cap ? `<span class="dot more" title="${esc(list.slice(cap - 1).map(gname).join('\n'))}" aria-hidden="true"></span>` : '');
     const wd = fmt(d, NZ, { weekday: 'short' });
     return `<button class="day ${k === todayK ? 'today' : ''} ${k === selDay ? 'sel' : ''} ${/Sat|Sun/.test(wd) ? 'wkend' : ''} ${list.length ? '' : 'empty'}" type="button" data-jump="${k}" aria-label="${dayLabel(d, NZ)}, ${list.length} games">
       <span class="dn">${k === todayK ? 'Today' : fmt(d, NZ, { weekday: 'short' })}</span>
@@ -2439,7 +2462,35 @@ function render() {
   $('later').innerHTML = later;
   $('laterSec').hidden = !later;
 
-  // big events ahead: competitions not yet under way that start in the next five months
+  // running now: competitions under way (a game in the last ten days and the next within three weeks); how far through
+  // each is from the games listed, never a score. Ten a page
+  const runBy = new Map();
+  for (const e of evs) {
+    const c = compOf(e); if (/^(Test match|Women's test|Boxing|UFC|Black Caps|White Ferns|NZ domestic cricket)$/.test(c)) continue;
+    const t = new Date(e.startUTC) - now, v = runBy.get(c) || { sport: e.sport, played: 0, all: 0, next: null, last: -Infinity, nz: false, live: false };
+    v.all++; if (t < 0) { v.played++; v.last = Math.max(v.last, t); } else if (!v.next || t < new Date(v.next.startUTC) - now) v.next = e;
+    if (isNZ(e)) v.nz = true; if (e.status === 'live' || (e.status !== 'final' && onNow(e, now))) v.live = true;
+    runBy.set(c, v);
+  }
+  // the top row's series and tournaments first, in its order (international series, World Cups, the Big Bash), then the
+  // long leagues (Premier League, NBL, Shield), live and NZ ones first, then the soonest next game
+  const topOrder = [...onNowComps], topRank = c => { const i = topOrder.indexOf(c); return i < 0 ? 99 : i; };
+  const runList = [...runBy].filter(([c, v]) => topRank(c) < 99 || (v.played && v.last > -10 * 864e5 && (v.live || (v.next && new Date(v.next.startUTC) - now < 21 * 864e5))))
+    .sort((a, b) => topRank(a[0]) - topRank(b[0]) || b[1].live - a[1].live || b[1].nz - a[1].nz || (a[1].next ? new Date(a[1].next.startUTC) : 9e15) - (b[1].next ? new Date(b[1].next.startUTC) : 9e15));
+  const RPER = 10, rpages = Math.ceil(runList.length / RPER);
+  runPage = Math.max(0, Math.min(runPage, rpages - 1));
+  const runShow = runList.slice(runPage * RPER, runPage * RPER + RPER);
+  $('runEvents').innerHTML = runShow.map(([c, v]) => {
+    // a season-long league's games here are only a window of its season, so it shows its next game and no count
+    const d = v.next && new Date(v.next.startUTC), pct = Math.round(100 * v.played / v.all), prog = v.all > 1 && !GENERIC.test(c);
+    return `<button type="button" class="bigev runev" data-bigcomp="${esc(c)}" style="--c:var(--${v.sport})"><span class="bn">${esc(plural(c))}</span>`
+      + `<span class="bd">${v.live ? '<span class="rlive">Live now</span>' : d ? `Next ${esc(fmt(d, NZ, { weekday: 'short', day: 'numeric', month: 'short' }))} · ${esc(time(d, NZ))}` : 'Last game played'}</span>`
+      + `<span class="bc">${prog ? `${v.played} of ${v.all} played` : GENERIC.test(c) ? 'Season under way' : ''}</span>${prog ? `<span class="rbar" aria-hidden="true"><i style="width:${pct}%"></i></span>` : '<span class="rbar none" aria-hidden="true"></span>'}</button>`;
+  }).join('') + (rpages > 1 ? '<span class="bigev bph" aria-hidden="true"><span class="bn">&nbsp;</span><span class="bd">&nbsp;</span><span class="bc">&nbsp;</span><span class="rbar"></span></span>'.repeat(RPER - runShow.length) : '');
+  $('runPager').innerHTML = rpages > 1 ? `<div class="pager"><button type="button" class="btn" data-runpage="${runPage - 1}"${runPage ? '' : ' disabled'}>‹ Back</button><span class="num">Page ${runPage + 1} of ${rpages}</span><button type="button" class="btn" data-runpage="${runPage + 1}"${runPage < rpages - 1 ? '' : ' disabled'}>More ›</button></div>` : '';
+  $('runSec').hidden = !runList.length || !!compSel;
+
+  // events ahead: competitions not yet under way that start in the next five months
   const firsts = new Map();
   for (const e of rest) { const c = compOf(e); if (!firsts.has(c)) firsts.set(c, { first: e, count: 0, nz: 0 }); const f = firsts.get(c); f.count++; if (isNZ(e)) f.nz++; }
   // already under way: a game in the last six days, or a season-long competition with one in the last three weeks
@@ -2463,6 +2514,7 @@ function render() {
   }).join('') + (bpages > 1 ? '<span class="bigev bph" aria-hidden="true"><span class="bn">&nbsp;</span><span class="bd">&nbsp;</span><span class="bc">&nbsp;</span></span>'.repeat(BPER - big.length) : ''); // a short last page keeps its height
   $('bigPager').innerHTML = bpages > 1 ? `<div class="pager"><button type="button" class="btn" data-bigpage="${bigPage - 1}"${bigPage ? '' : ' disabled'}>‹ Sooner</button><span class="num">Page ${bigPage + 1} of ${bpages}</span><button type="button" class="btn" data-bigpage="${bigPage + 1}"${bigPage < bpages - 1 ? '' : ' disabled'}>Later ›</button></div>` : '';
   $('bigSec').hidden = !big.length || !!compSel;
+  $('toEvents').hidden = $('runSec').hidden && $('bigSec').hidden;
   $('upcoming').innerHTML = html || `<div class="empty-note">${later ? 'Nothing else this week for your picks.' : 'No fixtures for your teams yet. Pick more teams under My teams.'}</div>`;
 
   // results
@@ -2700,13 +2752,17 @@ document.addEventListener('click', ev => {
   const sub = ev.target.closest('#calList a, #alertList a');
   if (sub) count({ e: sub.closest('#calList') ? 'cal' : 'alerts' });
   if (ev.target.closest('a')) return;
+  // with a mouse, a week dot opens its game (anywhere else on the day opens the day); a finger is too broad for a dot,
+  // so a tap opens the day
+  const dot = ev.target.closest('.dot[data-dot]');
+  if (dot && matchMedia('(pointer: fine)').matches) { openDetail(dot.dataset.dot); return; }
   const t = ev.target.closest('button');
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) openDetail(card.dataset.open); else if (ev.target === $('sheet')) $('sheet').close(); return; }
   if (t.id === 'sheetClose') { $('sheet').close(); return; }
   if (t.dataset.teampage) { closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport, t.classList.contains('rteam') ? $('sheet').dataset.rankings : ''); return; }
   if (t.dataset.goto) { const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
-  if (t.id === 'toResults' || t.id === 'toNews') {
-    const el = $(t.id === 'toNews' ? 'newsSec' : 'resSec'), off = () => el.getBoundingClientRect().top - document.querySelector('header.top').offsetHeight - 10;
+  if (t.id === 'toResults' || t.id === 'toNews' || t.id === 'toEvents') {
+    const el = t.id === 'toEvents' ? ($('runSec').hidden ? $('bigSec') : $('runSec')) : $(t.id === 'toNews' ? 'newsSec' : 'resSec'), off = () => el.getBoundingClientRect().top - document.querySelector('header.top').offsetHeight - 10;
     scrollTo({ top: scrollY + off(), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     // pictures above that load (or fail) on the way move the section, so the scroll can stop short or overshoot: re-aim once it ends
     // the arrows hold still on the way and are set once it lands
@@ -2755,6 +2811,7 @@ document.addEventListener('click', ev => {
   else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
   else if (t.dataset.laterpage != null) { laterPage = Math.max(0, +t.dataset.laterpage); render(); toSec('laterSec'); }
   else if (t.dataset.bigpage != null) { bigPage = Math.max(0, +t.dataset.bigpage); render(); }
+  else if (t.dataset.runpage != null) { runPage = Math.max(0, +t.dataset.runpage); render(); }
   else if (t.dataset.view) { view = t.dataset.view; store.set('view', view); render(); }
   else if (t.id === 'nowMore') { const c = $('nowChips'); c.scrollBy({ left: c.clientWidth * 0.7, behavior: 'smooth' }); }
   else if (t.id === 'spoilBtn') { spoilers = !spoilers; store.set('spoilers', spoilers); if (spoilers && !spoilDays) { spoilDays = 4; store.set('spoilDays', 4); } render(); }
@@ -2871,7 +2928,7 @@ let jumping = 0;
 function syncJump() {
   if (jumping) return;
   const head = document.querySelector('header.top').getBoundingClientRect().bottom;
-  for (const [id, sec, what] of [['toResults', 'resSec', 'recent results'], ['toNews', 'newsSec', 'the news']]) {
+  for (const [id, sec, what] of [['toEvents', $('runSec').hidden ? 'bigSec' : 'runSec', 'the events'], ['toResults', 'resSec', 'recent results'], ['toNews', 'newsSec', 'the news']]) {
     const b = $(id), el = $(sec), arr = b?.querySelector('.jarr');
     if (!arr || !el) continue;
     const top = el.offsetParent ? el.getBoundingClientRect().top : Infinity;
