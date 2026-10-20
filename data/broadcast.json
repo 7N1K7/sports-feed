@@ -1,7 +1,8 @@
 [
+  { "team": "kiwis", "comp": "Rugby League World Cup", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Free on Three / ThreeNow" },
   { "comp": "NPC|Farah Palmer", "broadcast": "Sky Sport / TVNZ+ (free stream)" },
   { "comp": "Super Rugby", "broadcast": "Sky Sport / Sky Sport Now" },
-  { "team": "allblacks", "broadcast": "Sky Sport / Sky Sport Now" },
+  { "team": "allblacks", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Three (delayed) / ThreeNow (delayed)" },
   { "team": "blackferns", "broadcast": "Sky Sport / Sky Sport Now" },
   { "team": "warriors", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Free on Three / ThreeNow" },
   { "comp": "World Cup", "broadcast": "Sky Sport / Sky Sport Now" },
