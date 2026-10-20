@@ -445,7 +445,14 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     const pg = Object.fromEntries((r.query?.pages || []).filter(p => !p.missing).map(p => [p.title, p.revisions?.[0]?.slots?.main?.content || '']));
     const sc = ys.flatMap(y => supercarsSeason(pg[`${y} Supercars Championship`] || '', y));
     out.push(...sc);
-    diag.supercars = `${sc.length} rounds, ${sc.filter(e => e.status === 'final').length} with results: ${sc.map(e => `${e.round} ${e.home} ${e.startUTC.slice(0, 10)}`).join('; ')}`;
+    // this year's standings: the drivers' and teams' tables read like F1's (position, name, a cell a race, points last)
+    const txt = pg[`${Y} Supercars Championship`] || '';
+    for (const [re, title] of [[/===\s*Drivers?'?s?'? Championship\s*===/i, "Drivers' championship"], [/===\s*Teams?'?s?'? Championship\s*===/i, "Teams' championship"]]) {
+      const i = txt.search(re); if (i < 0) continue;
+      const rows = f1Standings(txt.slice(i)).filter(r => !isNaN(r.pts)).map(r => ({ ...r, name: r.name.replace(/\s*\((SC|EC|FS)\)\s*/g, ' ').replace(/\s+(Sprint|Enduro|Finals?) (Cup )?Champions?$/i, '').trim() })).sort((a, b) => b.pts - a.pts);
+      if (rows.length) tables.push({ comp: 'Supercars', sport: 'motor', team: 'supercars', page: `${Y} Supercars Championship`, title, style: 'points', rows });
+    }
+    diag.supercars = `standings: ${tables.filter(t => t.team === 'supercars').map(t => `${t.title} ${t.rows.length} (top ${t.rows[0]?.name} ${t.rows[0]?.pts})`).join(', ') || 'none'}; ${sc.length} rounds, ${sc.filter(e => e.status === 'final').length} with results: ${sc.map(e => `${e.round} ${e.home} ${e.startUTC.slice(0, 10)}`).join('; ')}`;
   } catch (e) { diag.supercars = 'error: ' + e.message; }
   // Tennis: the four Grand Slams, the ATP and WTA Finals, Auckland's ASB Classic and the Australian summer's Brisbane,
   // Adelaide and Hobart tournaments, from each tournament's own page.
@@ -832,6 +839,32 @@ export async function f1StartTimes(events, cache, diag) {
     if (c?.startUTC && c.gp === e.home && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 2 * DAY) { Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); n++; }
   }
   diag.f1Times = [...notes, `${n} of ${races.length} races with start times`].join('; ');
+}
+
+// Supercars: the round's last race (the Sunday main race) from TheSportsDB, whose round numbers match Wikipedia's.
+// One round a run, refreshed every 12 hours, kept in the same cache as F1's
+export async function supercarsStartTimes(events, cache, diag) {
+  const now = Date.now();
+  const rounds = events.filter(e => e.team === 'supercars');
+  const due = rounds.filter(e => e.status !== 'final' && Date.parse(e.startUTC) > now - DAY && Date.parse(e.startUTC) < now + 60 * DAY)
+    .find(e => !cache[e.id] || now - cache[e.id].t > 12 * 36e5);
+  const notes = [];
+  if (due) {
+    const [, season, round] = due.id.split('-');
+    try {
+      const d = await tsdb(`eventsround.php?id=4489&r=${round}&s=${season}`);
+      const t = (d.events || []).filter(ev => ev.strTimestamp && /\brace\b/i.test(ev.strEvent || '') && !/practice|qualifying|shootout/i.test(ev.strEvent || ''))
+        .map(ev => Date.parse(ev.strTimestamp.replace(/(\+00:00|Z)$/, '') + 'Z')).filter(t => Math.abs(t - Date.parse(due.startUTC)) < 3 * DAY).sort((a, b) => b - a)[0];
+      cache[due.id] = { t: now, gp: due.home, startUTC: t ? new Date(t).toISOString() : null };
+      notes.push(`${due.home}: ${t ? new Date(t).toISOString() : 'no time listed yet'}`);
+    } catch (e) { notes.push(`${due.home}: ${e.message}`); }
+  }
+  let n = 0;
+  for (const e of rounds) {
+    const c = cache[e.id];
+    if (c?.startUTC && c.gp === e.home && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 3 * DAY) { Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); n++; }
+  }
+  diag.supercarsTimes = [...notes, `${n} of ${rounds.length} rounds with start times`].join('; ');
 }
 
 // Cricket tour "Squads" tables: header rows give each column's team and/or format
