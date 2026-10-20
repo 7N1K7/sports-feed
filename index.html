@@ -347,7 +347,10 @@ footer a { color: var(--muted) }
 .ev { position: relative }
 .ev::after { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 6px; background: var(--sport); pointer-events: none }
 .ni .top .badge { margin-right: 2px }
-#sportFilter { margin-bottom: -6px; justify-content: center }
+/* the sports in rows of near even length too (balanceChips): 12 come out 6 and 6, not 11 and 1. Same number of rows as
+   before, so nothing below moves */
+#sportFilter { margin-bottom: -12px; display: block; text-align: center; font-size: 0 }
+#sportFilter .chip { margin: 0 3px 6px; vertical-align: top }
 #newsFilters { justify-content: center }
 
 
@@ -631,14 +634,20 @@ a.svc:hover { text-decoration-color: currentColor }
 .hubtabs button[aria-selected="true"] { background: var(--sport); border-color: var(--sport); color: var(--surface) }
 .hubhide { display: none !important }
 .stable { margin-bottom: 18px }
-.rankchips { margin: 4px 0 12px }
+.rankchips { margin: 4px 0 6px }
 .swap { display: inline-grid } .swap > span { grid-area: 1 / 1; text-align: center } .swap > .off { visibility: hidden }
 .bico { width: 1.05em; height: 1.05em; vertical-align: -0.17em; margin-left: 4px }
 /* Spoilers and Settings are just their icons (the eye, crossed out while results are hidden, and the cog); their names
    are in the tooltip and for screen readers */
 .ibtn { padding-inline: 10px }
 .ibtn .bico { margin: 0; width: 1.2em; height: 1.2em }
-.ranksports { margin: 2px 0 10px; padding-right: 34px }  /* clear of the close button */
+.ranksports { margin: 2px 0 4px }
+.ranksports.bare .cicon { display: none } /* without their pictures when that saves a row (the coloured outline still says which sport) */
+/* the sports, and each sport's lists, centred in rows of near even length (9 come out 5 and 4, not 7 and 2): each chip
+   sits in the line like a word, and balanceChips() puts the line breaks in. Zero-size spaces between them, so the gaps
+   are the margins alone. The sports' first row keeps clear of the close button (on both sides, so it stays centred) */
+:is(.ranksports, .rankchips) { display: block; text-align: center; font-size: 0 }
+:is(.ranksports, .rankchips) .chip { margin: 0 3px 6px; vertical-align: top }
 :root { --gold: #a87b00 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --gold: #f2c94c } }
 :root[data-theme="dark"] { --gold: #f2c94c }
@@ -683,14 +692,15 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
   .week { gap: 4px }
   .day .dn { font-size: 11px }
   .nowbar { margin-bottom: -5px; gap: 4px }
-  #sportFilter { margin-bottom: -3px }
+  #sportFilter { margin-bottom: -8px }
   .compbar { gap: 6px }
   .compbar .lg { display: none } .compbar .sm { display: inline }
   .compbar .cmenu { flex: 0 0 100%; display: flex; justify-content: center }
   .nzonly, .rankbtn { padding: 3px 10px; gap: 5px; font-size: 13px }
   .compbar .seg button { padding: 3px 9px; font-size: 13px }
-  #sportFilter .chip { font-size: 13px; padding: 2px 10px }
-  #sportFilter { gap: 5px }
+  #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px 5px } #sportFilter .cicon { margin-right: 4px }
+  /* the rankings' chips as compact as the sport row's, so they take three rows, not four or five */
+  :is(.ranksports, .rankchips) .chip { font-size: 13px; padding: 2px 9px; margin: 0 2px 5px } .ranksports .cicon { margin-right: 4px }
 }
 @media (max-width: 380px) { .nzonly, .rankbtn, .compbar .seg button { font-size: 12px; padding-inline: 8px } .nzonly img { width: 15px; height: auto } }
 .rankbtn:hover { background: color-mix(in srgb, var(--gold) 20%, var(--surface)) }
@@ -1190,10 +1200,10 @@ const count = (msg = {}) => {
   const report = msg => { msg = String(msg || '').slice(0, 160); if (msg && !seen.has(msg) && seen.size < 3) { seen.add(msg); count({ e: 'error', k: msg }); } };
   addEventListener('error', ev => { if (!ev.filename || ev.filename.startsWith(location.origin)) report(`${ev.message} (line ${ev.lineno})`); });
   addEventListener('unhandledrejection', ev => report(ev.reason?.message || ev.reason)); }
-const TEAMS = [
+const TEAMS = [ // in the sport row's order: cricket, rugby, league, football, hockey, basketball, netball, F1, tennis, fights
+  { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['aucricket','Australia men'],['audomestic','Aussie domestic'],['intlcricket','Other tours'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
   { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup'],['wallabies','Wallabies']] },
   { g: 'Super Rugby Pacific', items: [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika'],['aurugby','Australian teams'],['superrugby','Every game']] },
-  { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['aucricket','Australia men'],['audomestic','Aussie domestic'],['intlcricket','Other tours'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
   { g: 'Rugby league', items: [['kiwis','Kiwis'],['kiwiferns','Kiwi Ferns'],['warriors','Warriors'],['nrl','NRL'],['rlwc','League World Cup']] },
   { g: 'Football', items: [['phoenix','Wellington Phoenix'],['aucklandfc','Auckland FC'],['aleague','A-League Men'],['epl','Premier League']] },
   { g: 'Hockey', items: [['blacksticks','Black Sticks'],['blacksticksw','Black Sticks Women']] },
@@ -1906,7 +1916,7 @@ function rankingsHtml(lists) {
     ["Women's", lists.filter(x => !/pound/i.test(x.title) && /women/i.test(x.title))],
   ].filter(([, xs]) => xs.length);
   const chips = ufcRows ? `<div class="rankrows">${ufcRows.map(([h, xs]) => `<div class="rrow"><span class="rrh">${h}</span><div class="chips">${xs.map(x => chip(x, h ? x.title.replace(/^Women's\s+/i, '').replace(/^./, c => c.toUpperCase()) : x.title)).join('')}</div></div>`).join('')}</div>`
-    : lists.length > 1 ? `<div class="chips rankchips">${lists.map(x => chip(x)).join('')}</div>` : '';
+    : lists.length > 1 ? `<div class="chips rankchips">${lists.map(x => chip(x)).join(' ')}</div>` : '';
   const fighters = l.sport === 'mma', people = fighters || l.kind === 'players';
   // a women's list names its sides as women's teams (Black Ferns, Hockeyroos), not the men's nicknames
   const ev = { sport: l.sport, ...(/women/i.test(l.title) ? { comp: "Women's" } : {}) };
@@ -2242,11 +2252,12 @@ function openRankings(sport) {
   const lists = (FEED.rankings || []).filter(r => r.sport === sport);
   if (!lists.length) return;
   const sports = rankSports();
-  const tabs = sports.length > 1 ? `<div class="chips ranksports">${sports.map(k => `<button type="button" class="chip sportchip sport-${k}" data-rankings="${k}" aria-pressed="${k === sport}">${sIcon(k, 'cicon')}${RANK_TAB[k]}</button>`).join('')}</div>` : '';
+  const tabs = sports.length > 1 ? `<div class="chips ranksports">${sports.map(k => `<button type="button" class="chip sportchip sport-${k}" data-rankings="${k}" aria-pressed="${k === sport}">${sIcon(k, 'cicon')}${RANK_TAB[k]}</button>`).join(' ')}</div>` : '';
   $('sheetBody').innerHTML = `${tabs}<div class="sheet-head sport-${sport}"><div class="comp">${sIcon(sport)}<span>World rankings</span></div><h2 class="dteams">${esc({ ...RANK_TAB, league: 'Rugby league' }[sport] || sport)} rankings</h2></div><div class="rankbody">${rankingsHtml(lists)}</div>`;
   const dlg = $('sheet');
   dlg.dataset.id = ''; dlg.dataset.rankings = sport;
   if (!dlg.open) dlg.showModal();
+  watchChips();
 }
 function openDetail(id, fromTeam) {
   const e = (FEED.events || []).find(x => x.id === id);
@@ -2594,7 +2605,7 @@ function render() {
   $('rankBtn').hidden = !(FEED.rankings || []).length;
   const chips = shownSports();
   for (const k of [...sportSel]) if (!chips.some(([c]) => c === k)) sportSel.delete(k);
-  $('sportFilter').innerHTML = [['all','All'], ...chips].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
+  $('sportFilter').innerHTML = [['all','All'], ...chips].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join(' ');
   document.body.classList.remove('v-big', 'v-mixed', 'v-compact');
   document.body.classList.add('v-' + (PHONE.matches ? 'mixed' : view)); // phones always use Mixed
   $('viewSel').innerHTML = [['big', 'Big'], ['mixed', 'Mixed'], ['compact', 'Compact']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${view === k}">${l}</button>`).join('');
@@ -2645,7 +2656,7 @@ function render() {
       <li>Late games: your phone's Do Not Disturb or Sleep settings still apply, and ntfy can mute a topic for a while.</li>
       <li>To stop, unsubscribe from the topic in ntfy, or delete the app.</li>
     </ul></div>`;
-  fitTop(); fitLines(); syncPulse(); syncJump(); syncFold(); snapPlus();
+  fitTop(); fitLines(); syncPulse(); syncJump(); syncFold(); snapPlus(); watchChips();
 }
 // The week strip's "+": about 6px across with bars about 1.5px thick, both a whole number of screen pixels, and the
 // bars' offset from the corner whole too (the same odd/even for length and thickness keeps them dead centre)
@@ -2660,6 +2671,29 @@ function snapPlus() {
     d.style.left = (Math.round(x) - x) / r + 'px'; d.style.top = (Math.round(y) - y) / r + 'px';
   }
 }
+// A centred row of chips in as few lines as fit, the lines as even as can be: the narrowest width that still takes that
+// many lines, found by halving, then a break before each line's first chip (the browser's own balancing doesn't handle
+// buttons). The rankings' sports keep their first line 34px clear of each side, for the close button, and go without
+// their pictures when that takes a row fewer
+function balanceChips(box) {
+  box.querySelectorAll('br').forEach(b => b.remove());
+  const cs = [...box.children], W = box.clientWidth - 1, sports = box.classList.contains('ranksports'), first = W - (sports ? 68 : 0);
+  if (W < 1 || cs.length < 2) return;
+  const widths = () => { const st = getComputedStyle(cs[0]), m = parseFloat(st.marginLeft) + parseFloat(st.marginRight); return cs.map(c => c.getBoundingClientRect().width + m); };
+  const lay = (ws, t) => { const rows = [[]]; let x = 0; ws.forEach((w, i) => { if (x && x + w > (rows.length === 1 ? Math.min(t, first) : t)) { rows.push([]); x = 0; } rows.at(-1).push(i); x += w; }); return rows; };
+  if (sports) box.classList.remove('bare');
+  let ws = widths(), n = lay(ws, W).length;
+  if (sports && n > 1) { box.classList.add('bare'); const bws = widths(), bn = lay(bws, W).length; if (bn < n) { ws = bws; n = bn; } else box.classList.remove('bare'); }
+  let lo = 0, hi = W; while (hi - lo > 0.5) { const m = (lo + hi) / 2; lay(ws, m).length > n ? lo = m : hi = m; }
+  lay(ws, hi).slice(1).forEach(r => cs[r[0]].before(document.createElement('br')));
+}
+// again whenever a row's width changes (a turned phone, a resized window) and once the fonts are in
+const chipRO = new ResizeObserver(es => es.forEach(e => { const w = Math.round(e.contentRect.width); if (e.target.dataset.bw != w) { e.target.dataset.bw = w; balanceChips(e.target); } }));
+function watchChips() {
+  chipRO.disconnect();
+  document.querySelectorAll('.ranksports, .rankchips, #sportFilter').forEach(b => { if (!b.querySelector('br')) delete b.dataset.bw; chipRO.observe(b); });
+}
+document.fonts?.ready.then(() => document.querySelectorAll('.ranksports, .rankchips, #sportFilter').forEach(balanceChips));
 // the fold tab's outline, drawn to the bar's width: in from each edge with a curve, along the bottom, back out with a curve
 function syncFoldShape() {
   // the top bar has compacted once the search box sits below the logo
