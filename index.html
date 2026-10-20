@@ -2690,7 +2690,9 @@ addEventListener('resize', fitComp);
 function fitTop() {
   const root = document.documentElement; root.classList.remove('tight');
   if (PHONE.matches) return;
-  const oneLine = el => { const r = [...el.children].filter(c => c.offsetParent || getComputedStyle(c).display === 'contents').flatMap(c => getComputedStyle(c).display === 'contents' ? [...c.children] : [c]).map(c => c.getBoundingClientRect()).filter(r => r.width && r.height);
+  // every box in the row, looking through wrappers that have no box of their own (the buttons' group, the eye-and-cog pair)
+  const boxes = el => [...el.children].flatMap(c => getComputedStyle(c).display === 'contents' ? boxes(c) : c.offsetParent ? [c] : []);
+  const oneLine = el => { const r = boxes(el).map(c => c.getBoundingClientRect()).filter(r => r.width && r.height);
     return !r.length || Math.max(...r.map(x => x.top)) < Math.min(...r.map(x => x.bottom)); };
   if (!oneLine(document.querySelector('header.top .wrap')) || !oneLine(document.querySelector('.compbar'))) root.classList.add('tight');
 }
