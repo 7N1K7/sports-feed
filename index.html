@@ -462,6 +462,11 @@ dialog#sheet { width: min(720px, 100%) }
 .close:hover { color: var(--ink); border-color: var(--ink) }
 .sheet-in { position: relative }
 .sheet-head { padding-right: 40px; gap: 8px }
+/* the rankings' title centred, like the chips above and below it: the sport's colour as a short bar under the name
+   instead of down the side; the list's name and date centred too */
+.sheet-head.rhead { border-left: 0; padding: 0; justify-items: center; text-align: center }
+.sheet-head.rhead .dteams::after { content: ""; display: block; width: 44px; height: 4px; border-radius: 2px; background: var(--sport); margin: 8px auto 0 }
+.stable.rank > .dh { text-align: center }
 .dres { padding: 14px 16px; gap: 8px; justify-items: start }
 .facts { gap: 10px 18px; padding-block: 4px }
 .dh { margin-bottom: 8px }
@@ -2252,7 +2257,7 @@ function openRankings(sport) {
   if (!lists.length) return;
   const sports = rankSports();
   const tabs = sports.length > 1 ? `<div class="chips ranksports">${sports.map(k => `<button type="button" class="chip sportchip sport-${k}" data-rankings="${k}" aria-pressed="${k === sport}">${sIcon(k, 'cicon')}${RANK_TAB[k]}</button>`).join(' ')}</div>` : '';
-  $('sheetBody').innerHTML = `${tabs}<div class="sheet-head sport-${sport}"><div class="comp">${sIcon(sport)}<span>World rankings</span></div><h2 class="dteams">${esc({ ...RANK_TAB, league: 'Rugby league' }[sport] || sport)} rankings</h2></div><div class="rankbody">${rankingsHtml(lists)}</div>`;
+  $('sheetBody').innerHTML = `${tabs}<div class="sheet-head rhead sport-${sport}"><div class="comp">${sIcon(sport)}<span>World rankings</span></div><h2 class="dteams">${esc({ ...RANK_TAB, league: 'Rugby league' }[sport] || sport)} rankings</h2></div><div class="rankbody">${rankingsHtml(lists)}</div>`;
   const dlg = $('sheet');
   dlg.dataset.id = ''; dlg.dataset.rankings = sport;
   if (!dlg.open) dlg.showModal();
