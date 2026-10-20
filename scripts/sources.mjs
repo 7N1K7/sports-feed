@@ -449,7 +449,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     const txt = pg[`${Y} Supercars Championship`] || '';
     for (const [re, title] of [[/===\s*Drivers?'?s?'? Championship\s*===/i, "Drivers' championship"], [/===\s*Teams?'?s?'? Championship\s*===/i, "Teams' championship"]]) {
       const i = txt.search(re); if (i < 0) continue;
-      const rows = f1Standings(txt.slice(i)).filter(r => !isNaN(r.pts)).map(r => ({ ...r, name: r.name.replace(/\s*\((SC|EC|FS)\)\s*/g, ' ').trim() })).sort((a, b) => b.pts - a.pts);
+      const rows = f1Standings(txt.slice(i)).filter(r => !isNaN(r.pts)).map(r => ({ ...r, name: r.name.replace(/\s*\((SC|EC|FS)\)\s*/g, ' ').replace(/\s+(Sprint|Enduro|Finals?) (Cup )?Champions?$/i, '').trim() })).sort((a, b) => b.pts - a.pts);
       if (rows.length) tables.push({ comp: 'Supercars', sport: 'motor', team: 'supercars', page: `${Y} Supercars Championship`, title, style: 'points', rows });
     }
     diag.supercars = `standings: ${tables.filter(t => t.team === 'supercars').map(t => `${t.title} ${t.rows.length} (top ${t.rows[0]?.name} ${t.rows[0]?.pts})`).join(', ') || 'none'}; ${sc.length} rounds, ${sc.filter(e => e.status === 'final').length} with results: ${sc.map(e => `${e.round} ${e.home} ${e.startUTC.slice(0, 10)}`).join('; ')}`;

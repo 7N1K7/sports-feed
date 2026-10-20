@@ -452,9 +452,10 @@ async function tvGuide(events) {
       const when = v => Date.UTC(+v.slice(0, 4), +v.slice(4, 6) - 1, +v.slice(6, 8), +v.slice(8, 10), +v.slice(10, 12)) - (/([+-])(\d\d)(\d\d)/.test(v) ? (RegExp.$1 === '-' ? -1 : 1) * (+RegExp.$2 * 60 + +RegExp.$3) * 6e4 : 0);
       for (const m of xml.matchAll(/<programme start="([^"]+)" stop="[^"]*" channel="([^"]+)">([\s\S]*?)<\/programme>/g)) {
         const body = m[3], cats = [...body.matchAll(/<category[^>]*>([^<]+)/g)].map(x => x[1]).join(' ');
-        if (!/sport|rugby|cricket|league|football|netball|hockey|basketball|motor|tennis|ufc|boxing/i.test(cats)) continue;
         const at = when(m[1]); if (at < lo || at > hi || !ch[m[2]]) continue;
         const title = ent((body.match(/<title[^>]*>([^<]*)/) || [])[1] || ''), sub = ent((body.match(/<sub-title[^>]*>([^<]*)/) || [])[1] || ''), desc = ent((body.match(/<desc[^>]*>([^<]*)/) || [])[1] || '');
+        // a sport listing by its category, or by a "X v Y" title (free-to-air channels don't always give a category)
+        if (!/sport|rugby|cricket|league|football|netball|hockey|basketball|motor|tennis|ufc|boxing/i.test(cats) && !/\S \s*(v|vs|V)\.? \S/.test(`${title} ${sub}`)) continue;
         if (TV_SKIP.test(`${title} ${sub}`)) continue;
         items.push({ ch: ch[m[2]], at, text: `${title} | ${sub} | ${desc.slice(0, 240)}`, live: /\blive\b/i.test(`${title} ${sub} ${desc}`) });
       }
@@ -491,7 +492,9 @@ async function tvGuide(events) {
     // one entry a channel (its first listing: a pre-game show and the game are two), free channels first
     const byCh = new Map();
     for (const f of found.sort((a, b) => a.at < b.at ? -1 : 1)) if (!byCh.has(f.ch)) byCh.set(f.ch, f);
-    e.tv = [...byCh.values()].sort((a, b) => (TV_FREE.test(b.ch) - TV_FREE.test(a.ch)) || (a.delayed - b.delayed) || (a.at < b.at ? -1 : 1)).slice(0, 4);
+    // the live listings; a delayed one only when there's nothing live (repeats later in the week aren't worth listing)
+    const all = [...byCh.values()].sort((a, b) => (TV_FREE.test(b.ch) - TV_FREE.test(a.ch)) || (a.delayed - b.delayed) || (a.at < b.at ? -1 : 1));
+    e.tv = (all.some(x => !x.delayed) ? all.filter(x => !x.delayed) : all.slice(0, 1)).slice(0, 4);
     hits.push(`${e.home}${e.away ? ' v ' + e.away : ''}: ${e.tv.map(x => x.ch + (x.delayed ? ' (delayed)' : '')).join(', ')}`);
   }
   diag.tvGuide = `${items.length} sport listings (read ${new Date(cache.t).toISOString().slice(0, 16)}); ${hits.length} games listed: ${hits.slice(0, 30).join('; ')}`;
