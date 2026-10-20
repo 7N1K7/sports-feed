@@ -53,6 +53,13 @@ async function hit(req, env, body) {
   const n = await env.DB.prepare('INSERT INTO seen (day, h, n) VALUES (?1, ?2, 1) ON CONFLICT (day, h) DO UPDATE SET n = n + 1 RETURNING n').bind(day, h).first('n');
   if (n > MAX_PER_VISITOR) return;
   const writes = [];
+  // the home-screen app and the browser on the same phone look like one visitor (same address and browser), and that
+  // visitor's mode is set by whichever came first that day; so the app keeps its own tally of people who used it today
+  if (b.app) {
+    const ha = (await sha(`${salt}|${req.headers.get('cf-connecting-ip') || ''}|${ua}|app`)).slice(0, 20);
+    const na = await env.DB.prepare('INSERT INTO seen (day, h, n) VALUES (?1, ?2, 1) ON CONFLICT (day, h) DO UPDATE SET n = n + 1 RETURNING n').bind(day, ha).first('n');
+    if (na === 1) writes.push(bump(env, day, 'appvisitors'));
+  }
   // a visit: the page loaded, or someone came back to it after 10+ minutes away ('open'); counted per visitor too
   const visit = !b.e || b.e === 'open';
   if (visit) writes.push(bump(env, day, 'opens'), env.DB.prepare('INSERT INTO opens (day, h, n) VALUES (?1, ?2, 1) ON CONFLICT (day, h) DO UPDATE SET n = n + 1').bind(day, h));

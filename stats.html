@@ -246,7 +246,7 @@ async function fetchStats() {
 function shape() {
   const list = [], from = new Date(data.today + 'T12:00:00Z');
   for (let i = days - 1; i >= 0; i--) list.push(new Date(from - i * 864e5).toISOString().slice(0, 10));
-  const inRange = new Set(list), per = Object.fromEntries(list.map(d => [d, { visitors: 0, opens: 0, views: 0, appviews: 0 }])), sums = {};
+  const inRange = new Set(list), per = Object.fromEntries(list.map(d => [d, { visitors: 0, opens: 0, views: 0, appviews: 0, appvisitors: 0 }])), sums = {};
   for (const r of data.rows) {
     if (!inRange.has(r.day)) continue;
     if (r.metric in per[r.day]) per[r.day][r.metric] += r.n;
@@ -302,7 +302,7 @@ function draw() {
     + tile('Yesterday', fmtN(yday.visitors), `people · ${fmtN(yday.opens)} visits`)
     + tile('Average a day', fmtN(Math.round(people / days)), `people · ${fmtN(Math.round(visits / days))} visits`)
     + tile('Visits per person', people ? (visits / people).toFixed(1) : '–', 'a day, on average')
-    + tile('Using the app', app + br ? Math.round(100 * app / (app + br)) + '%' : '–', 'of visitors');
+    + tile('Using the app', people ? Math.round(100 * tot('appvisitors') / people) + '%' : '–', `of people · ${fmtN(tot('appvisitors'))} app users, ${fmtN(tot('appviews'))} app page views`);
   chart(list, per);
   $('table').innerHTML = `<table><thead><tr><th>Day</th><th>People</th><th>Visits</th><th>Page views</th></tr></thead><tbody>${list.slice().reverse().map(d => `<tr><td>${dayLabel(d)}</td><td>${per[d].visitors}</td><td>${per[d].opens}</td><td>${per[d].views}</td></tr>`).join('')}</tbody></table>`;
   bars('country', sums.country, k => k === '?' ? 'Unknown' : (() => { try { return COUNTRY.of(k); } catch { return k; } })());
