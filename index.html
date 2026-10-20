@@ -132,6 +132,7 @@ header.top .wrap { display: flex; align-items: center; justify-content: flex-end
 html { -webkit-tap-highlight-color: transparent }
 :is(button, .btn, .chip, .calgo a):active { filter: brightness(1.25); transform: scale(.97) }
 .ev[data-open]:active { filter: brightness(1.08) }
+.jarr { display: inline-block; width: .7em; text-align: center } /* the jump buttons' arrow: one width either way, so the button never shifts */
 .btn { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-size: 14px; display: inline-flex; gap: 6px; align-items: center }
 .btn:hover { border-color: var(--accent) }
 .btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
@@ -160,7 +161,7 @@ html { -webkit-tap-highlight-color: transparent }
 .chips { display: flex; flex-wrap: wrap; gap: 6px }
 .chip { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 3px 11px; cursor: pointer; font-size: 14px }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
-.panel .ph { font-size: 20px; font-weight: 800; margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line) }
+.panel .ph { font-size: 20px; font-weight: 800; margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line); color: var(--accent) } /* section titles in the chosen colour; their notes stay muted */
 /* calendar rows: the team on the left, the ways to add it on the right (under it on a phone) */
 .cals { display: grid; gap: 6px }
 .calrow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; padding: 7px 10px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface) }
@@ -174,7 +175,7 @@ html { -webkit-tap-highlight-color: transparent }
 .calgo code { font-size: 12px; color: var(--muted); align-self: center }
 .calmore > summary { cursor: pointer; font-size: 14px; font-weight: 600; padding: 4px 2px; color: var(--ink) }
 .calmore[open] > summary { margin-bottom: 6px }
-.panel .ph .phnote { display: inline-block; margin-left: 8px; font-size: 13px; font-weight: 500; color: var(--muted); vertical-align: .1em }
+.panel .ph .phnote { display: block; margin-top: 2px; font-size: 13px; font-weight: 500; color: var(--muted) } /* its own line, flush with the title */
 .panel .ph:first-of-type { border-top: 0; padding-top: 0; margin-top: 0 }
 .spoil-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 14px }
 /* the settings drop-downs share one snug width */
@@ -930,8 +931,8 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
       <div id="qList" class="qlist" role="listbox" aria-label="Search results" hidden></div>
     </div>
     <div class="hbtns">
-    <button class="btn" id="toResults" type="button" title="Jump to recent results">Results ↓</button>
-    <button class="btn" id="toNews" type="button" title="Jump to the news">News ↓</button>
+    <button class="btn" id="toResults" type="button" title="Jump to recent results">Results <span class="jarr" aria-hidden="true">↓</span></button>
+    <button class="btn" id="toNews" type="button" title="Jump to the news">News <span class="jarr" aria-hidden="true">↓</span></button>
     <button class="btn" id="spoilBtn" aria-pressed="false" type="button">Spoilers hidden</button>
     <button class="btn" id="teamsBtn" aria-expanded="false" aria-controls="panel" type="button">Settings</button>
     </div>
@@ -2383,7 +2384,7 @@ function render() {
       <li>Late games: your phone's Do Not Disturb or Sleep settings still apply, and ntfy can mute a topic for a while.</li>
       <li>To stop, unsubscribe from the topic in ntfy, or delete the app.</li>
     </ul></div>`;
-  fitTop(); fitLines(); syncPulse();
+  fitTop(); fitLines(); syncPulse(); syncJump();
 }
 // Phone app (manifest.webmanifest, sw.js): what to tap depends on the device. Chrome and Edge offer their own install
 // prompt, which is kept for the button here; Safari only adds to the home screen from its Share menu.
@@ -2576,7 +2577,19 @@ document.addEventListener('click', ev => { if (!ev.target.closest('.cmenu')) clo
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape') { closeComp(); closeSettings(); } });
 const closeSettings = () => { if (!$('panel').hidden) { $('panel').hidden = true; $('teamsBtn').setAttribute('aria-expanded', 'false'); } };
 document.addEventListener('pointerdown', ev => { if (!$('panel').hidden && !ev.target.closest('.pbox, #teamsBtn')) closeSettings(); });
-addEventListener('scroll', () => { $('toTop').hidden = scrollY < 700; }, { passive: true });
+addEventListener('scroll', () => { $('toTop').hidden = scrollY < 700; cancelAnimationFrame(jumpFrame); jumpFrame = requestAnimationFrame(syncJump); }, { passive: true });
+// the Results and News buttons point up once their section starts above the header (or the page is at its end with
+// the section showing), and down while it's still further on
+let jumpFrame = 0;
+function syncJump() {
+  const head = document.querySelector('header.top').getBoundingClientRect().bottom, end = innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
+  for (const [id, sec, what] of [['toResults', 'resSec', 'recent results'], ['toNews', 'newsSec', 'the news']]) {
+    const b = $(id), el = $(sec), arr = b?.querySelector('.jarr');
+    if (!arr || !el) continue;
+    const top = el.offsetParent ? el.getBoundingClientRect().top : Infinity, up = top <= head + 12 || (end && top < innerHeight);
+    if (arr.textContent !== (up ? '↑' : '↓')) { arr.textContent = up ? '↑' : '↓'; b.title = up ? `Back up to ${what}` : `Jump to ${what}`; }
+  }
+}
 $('nzOnly').addEventListener('click', ev => { ev.stopPropagation(); nzOnly = !nzOnly; store.set('nzOnly', nzOnly); render(); });
 // look: light/dark and a colour theme, saved in this browser
 const ACCENTS = [['green', 'Kiwi green', '#0d6b4d'], ['ocean', 'Ocean blue', '#1864ab'], ['red', 'Pōhutukawa red', '#c92a2a'], ['black', 'All Black', '#111111'],
