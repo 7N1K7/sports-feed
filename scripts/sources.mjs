@@ -950,7 +950,8 @@ function stateSquad(text) {
     if (lines.every(l => l.startsWith('!'))) {
       const heads = lines.flatMap(l => l.slice(1).split('!!')).map(c => clean(cellText(c)));
       // a second header row (the league tables' Debut, Matches, Tries...) keeps the name column found in the first
-      if (heads.length === 1) group = heads[0]; else { const k = heads.findIndex(h => /^(player|name)$/i.test(h)); if (k >= 0) nameCol = k; }
+      // one header cell is a group row (Batters, Bowlers...), unless it's the table's only column, "Player"
+      if (heads.length === 1 && !/^(player|name)s?$/i.test(heads[0])) group = heads[0]; else { const k = heads.findIndex(h => /^(player|name)s?$/i.test(h)); if (k >= 0) nameCol = k; }
       continue;
     }
     if (nameCol < 0 || /<s>/.test(row)) continue;
@@ -960,10 +961,13 @@ function stateSquad(text) {
     const sn = sqTemplates(cell, 'sortname')[0];
     if (sn) cell = `[[${sn.dab ? `${sn[1]} ${sn[2]} (${sn.dab})` : sn.link || `${sn[1]} ${sn[2]}`}|${sn[1]} ${sn[2]}]]`;
     const n = clean(cell).replace(/\s*\(.*?\)\s*$/, '');
-    if (!n || !/\[\[/.test(cell)) continue;
+    // a linked name, or a plain one that reads like a name (two to four words of letters): newer squads often list
+    // players without articles of their own
+    if (!n || (!/\[\[/.test(cell) && !/^[\p{L}'’.-]+( [\p{L}'’.-]+){1,3}$/u.test(n))) continue;
     const notes = clean(cells[cells.length - 1] || ''), w = (cell.match(/\[\[([^\]|#]+)/) || [])[1]?.trim();
     const role = /keeper/i.test(group) ? 'wk' : /all/i.test(group) ? 'ar' : /bowl/i.test(group) ? 'bowl' : /bat/i.test(group) ? 'bat' : '';
-    const r = [/vice[- ]?captain/i.test(notes) ? 'vc' : /\bcaptain\b/i.test(notes) ? 'c' : '', role === 'wk' ? 'wk' : ''].filter(Boolean).join(', ');
+    const capt = /\((c|captain)\)\s*$/i.test(clean(cell));
+    const r = [/vice[- ]?captain/i.test(notes) ? 'vc' : /\bcaptain\b/i.test(notes) || capt ? 'c' : '', role === 'wk' ? 'wk' : ''].filter(Boolean).join(', ');
     players.push({ n, ...(r ? { r } : {}), ...(role ? { role } : {}), ...(w && w !== n ? { w } : {}) });
   }
   return players;
@@ -1019,7 +1023,16 @@ function squadSection(text) {
   return end < 0 ? rest : rest.slice(0, end);
 }
 export function readSquad(text) {
-  const sec = squadSection(text);
+  const out = readSquadIn(squadSection(text));
+  if (out.length >= 8) return out;
+  // some national sides keep their squad under a plain "Players" heading
+  const m = text.match(/^(=+)\s*Players\s*\1\s*$/im);
+  if (!m) return out;
+  const rest = text.slice(m.index + m[0].length), end = rest.search(new RegExp(`^={1,${m[1].length}}[^=]`, 'm'));
+  const alt = readSquadIn(end < 0 ? rest : rest.slice(0, end));
+  return alt.length > out.length ? alt : out;
+}
+function readSquadIn(sec) {
   if (!sec) return [];
   let out = [];
   // national rugby: {{nat rs player|pos=HK|name={{sortname|Codie|Taylor|dab=...}}|...}}

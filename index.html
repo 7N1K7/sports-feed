@@ -1666,6 +1666,17 @@ function onNow(e, now) {
   return null;
 }
 // a Test between days of play (overnight, or after an early close) is still running, not finished
+// rain on a cricket match now: "Rain delay" when the current state of play says so; once play is on (or at a break)
+// older rain notes are history and show nothing; with no state of play, a rain headline from the last six hours or the
+// match box's weather note makes it "Rain affected". fresh: the state of play is from today
+function rainNow(e, now, fresh = true) {
+  const wet = /\b(rain|wet|drizzle|bad light|covers)\b/i.test(e.progress || '');
+  const current = fresh && (e.liveState ? now - Date.parse(e.liveAt) < 90 * 6e4 : !!e.progress);
+  if (current && wet) return 'Rain delay';
+  if (current && e.progress) return '';
+  const news = e.wxNews && (!e.wxNews.at || now - Date.parse(e.wxNews.at) < 6 * 36e5);
+  return news || /\b(rain|wet)/i.test(e.weather || '') ? 'Rain affected' : '';
+}
 function between(e, now) {
   if (e.status === 'final' || e.sport !== 'cricket') return null;
   const days = DAYS[formatOf(e)] || 1, s = new Date(e.startUTC).getTime();
@@ -1780,7 +1791,7 @@ function evCard(e, now) {
   const wet = /\b(rain|wet|drizzle|bad light|covers)\b/i.test(e.progress || '');
   // a rain stamp in the card's top corner while the match is on or between days: "Rain delay" when the live state says
   // so, "Rain affected" when a headline or Wikipedia's match box reports rain
-  const stamp = e.sport !== 'cricket' || !(live || paused) ? '' : wet && fresh ? 'Rain delay' : e.wxNews || /\b(rain|wet)/i.test(e.weather || '') ? 'Rain affected' : '';
+  const stamp = e.sport !== 'cricket' || !(live || paused) ? '' : rainNow(e, now, fresh);
   const play = fresh && (live || (paused && !/lunch|tea|drinks|innings break/i.test(e.progress || ''))) && e.progress ? `<div class="wx play">${wet ? '🌧 ' : ''}${esc(today && pd === today ? e.progress.replace(/,\s*day \d+\s*$/i, '') : e.progress)}${!e.liveScore ? '' : !spoilers ? ` · ${esc(e.liveScore)}` : revealed.has(e.id) ? ` · ${esc(e.liveScore)} · <button type="button" class="lsrev" data-rehide="${esc(e.id)}">Hide score</button>` : ` · <button type="button" class="lsrev" data-reveal="${esc(e.id)}">Show score</button>`}</div>` : '';
   const local = overseas ? `<div class="loc num">${e.timeTBC ? (e.usual ? '≈' + time(d, e.tz) + ' ' : '') : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${wikiLink(cityOf(e))}</div>` : '';
   const tv = (e.tv || []).find(x => !x.delayed)?.ch || (e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : '') || (e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt ? 'YouTube (free)' : '');
@@ -1796,7 +1807,7 @@ function evCard(e, now) {
       <div class="nzl">${START_LABEL[e.sport] || 'Start'} ${esc(tzLabel())}</div>
       <div class="nz num"${e.usual ? ` title="${USUAL_NOTE}"` : ''}>${e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div><i class="wbr" aria-hidden="true"></i>
-      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${(live || paused) && e.wxNews && !wet ? `<div class="wx wxnews">🌧 ${rainWord(e.wxNews.title)} · <a href="${esc(e.wxNews.url)}" target="_blank" rel="noopener" title="${esc(e.wxNews.title)}">${esc(e.wxNews.source || (/bbc/i.test(e.wxNews.credit || '') ? 'BBC Sport' : 'NZ Herald'))} ↗</a></div>` : ''}${live && wxNote(e) && !(play && wet) && !e.wxNews ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
+      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${stamp === 'Rain affected' && e.wxNews ? `<div class="wx wxnews">🌧 ${rainWord(e.wxNews.title)} · <a href="${esc(e.wxNews.url)}" target="_blank" rel="noopener" title="${esc(e.wxNews.title)}">${esc(e.wxNews.source || (/bbc/i.test(e.wxNews.credit || '') ? 'BBC Sport' : 'NZ Herald'))} ↗</a></div>` : ''}${live && stamp === 'Rain affected' && wxNote(e) && !e.wxNews ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
     </div>
   </article>`;
 }
@@ -2590,7 +2601,7 @@ function renderNowBar(now) {
     if (e.status === 'live' || (e.status !== 'final' && onNow(e, now))) {
       v.live = true;
       // the same signs as the card's rain stamp: the state of play, a rain headline or the match box's weather
-      if (e.sport === 'cricket' && (/\b(rain|wet|drizzle|bad light|covers)\b/i.test(e.progress || '') || e.wxNews || /\b(rain|wet)/i.test(e.weather || ''))) v.rain = true;
+      if (e.sport === 'cricket' && rainNow(e, now)) v.rain = true;
     }
     by.set(c, v);
   }
