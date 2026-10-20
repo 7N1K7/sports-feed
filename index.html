@@ -171,6 +171,9 @@ html { -webkit-tap-highlight-color: transparent }
 #teamGroups .chip { padding: 3px 10px 3px 4px; font-size: 13px; gap: 6px }
 /* phones: a short tip beside each Hide sport button saying what it does */
 #teamGroups .ghint { display: none }
+/* phones: chips a little narrower so more fit on a row, still their full height for the thumb */
+/* and each row's chips share out its width, so every row ends flush instead of leaving a ragged gap */
+@media (max-width: 560px) { #teamGroups .chips { gap: 5px 4px } #teamGroups .chip { font-size: 12.5px; padding: 3px 8px 3px 4px; gap: 5px; flex: 1 1 auto; justify-content: center } }
 @media (max-width: 560px) { #teamGroups .group { grid-template-columns: 1fr; row-gap: 5px } #teamGroups .group h3 { padding-top: 0 } #teamGroups .ghide { display: inline-flex; margin: 0 0 0 8px; vertical-align: 1px }
   /* on its own line, the same length whether the sport is on or off, so hiding one moves nothing */
   #teamGroups .ghint { display: block; margin-top: 4px; font-size: 11px; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted) } }
@@ -1157,11 +1160,11 @@ const count = (msg = {}) => {
 const TEAMS = [
   { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup'],['wallabies','Wallabies']] },
   { g: 'Super Rugby Pacific', items: [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika'],['aurugby','Australian teams'],['superrugby','Every game']] },
-  { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['aucricket','Australia (men\'s tours)'],['audomestic','Australian domestic (Shield, one-day)'],['intlcricket','Other international tours'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
-  { g: 'Rugby league', items: [['kiwis','Kiwis'],['kiwiferns','Kiwi Ferns'],['warriors','Warriors'],['nrl','NRL (every game)'],['rlwc','League World Cup (every game)']] },
-  { g: 'Football', items: [['phoenix','Wellington Phoenix'],['aucklandfc','Auckland FC'],['aleague','A-League Men (every game)'],['epl','Premier League (every game)']] },
+  { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['aucricket','Australia men'],['audomestic','Aussie domestic'],['intlcricket','Other tours'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
+  { g: 'Rugby league', items: [['kiwis','Kiwis'],['kiwiferns','Kiwi Ferns'],['warriors','Warriors'],['nrl','NRL'],['rlwc','League World Cup']] },
+  { g: 'Football', items: [['phoenix','Wellington Phoenix'],['aucklandfc','Auckland FC'],['aleague','A-League Men'],['epl','Premier League']] },
   { g: 'Hockey', items: [['blacksticks','Black Sticks'],['blacksticksw','Black Sticks Women']] },
-  { g: 'Basketball', items: [['tallblacks','Tall Blacks'],['tallferns','Tall Ferns'],['breakers','NZ Breakers (NBL)']] },
+  { g: 'Basketball', items: [['tallblacks','Tall Blacks'],['tallferns','Tall Ferns'],['breakers','NZ Breakers']] },
   { g: 'Netball', items: [['silverferns','Silver Ferns'],['anzprem','ANZ Premiership']] },
   { g: 'Motorsport', items: [['f1','Formula 1']] },
   { g: 'Tennis', items: [['tennis','Grand Slams, Finals and ASB Classic']] },
