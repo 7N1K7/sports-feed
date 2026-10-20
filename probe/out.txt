@@ -1,12 +1,22 @@
-version 293 | sides (next/last 60 days, team sports): 132
-club and domestic sides with a logo: 75/92 = 82%  (national sides show their flag: 40 more)
-
-cricket: 18/23 (78%) — missing: Governor-General's XI (Tour match v Governor-General's XI); Central Hinds (Hallyburton Johnstone Shield (women) ope); South Australia (Sheffield Shield/Dean Jones Trophy); Western Australia (Sheffield Shield/Dean Jones Trophy); South Africa Invitation XI (Australia v South Africa)
-
-league: 8/10 (80%) — missing: Pool A runners-up (Rugby League World Cup); Pool B & C runners-up (Rugby League World Cup)
-
-rugby: 17/18 (94%) — missing: United States XV (Test match)
-
-football: 32/32 (100%) — missing: none
-
-basketball: 0/9 (0%) — missing: New Zealand Breakers (NBL); Cairns Taipans (NBL); Adelaide 36ers (NBL); Perth Wildcats (NBL); Sydney Kings (NBL); Tasmania JackJumpers (NBL); Melbourne United (NBL); Brisbane Bullets (NBL); S.E. Melbourne Phoenix (NBL)
+tsdb league "Australian NBL": Adelaide 36ers*, Brisbane Bullets*, Cairns Taipans*, Canberra Cannons*, Gold Coast Blaze*, Hunter Pirates*, Illawarra Hawks*, Melbourne United*, New Zealand Breakers*, Perth Wildcats*
+tsdb league "NBL": none
+tsdb league "Australian National Basketball League": none
+tsdb league "ANZ Premiership": none
+tsdb league "Suncorp Super Netball": none
+tsdb league "New Zealand Netball": none
+tsdb team "New Zealand Breakers": New Zealand Breakers [Basketball/Australian NBL]*
+tsdb team "Northern Mystics": Northern Mystics [Netball/New Zealand Netball League]*
+tsdb team "Central Pulse": Central Pulse [Netball/New Zealand Netball League]*
+tsdb team "Central Hinds": none
+wikidata undefined: logo -
+wikidata undefined: logo -
+wikidata undefined: logo -
+wikidata New Zealand Breakers: logo New Zealand Breakers logo.svg
+wikidata Cairns Taipans: logo -
+wikidata Perth Wildcats: logo -
+wikidata Central Hinds: logo -
+wikidata Western Australia cricket team: logo -
+wikidata Northern Mystics: logo -
+wikidata Wellington Phoenix FC: logo -
+wikidata Hurricanes (rugby union): logo -
+  File:New Zealand Breakers logo.svg: Public domain
