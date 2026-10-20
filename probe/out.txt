@@ -1,2 +1,2 @@
 fonts: Barlow Condensed 700, Source Sans 3 400, Source Sans 3 600, Source Sans 3 700
-fits: {"head":[58.4375,1141.5625],"rows":[[139,1061],[275,925]],"chipsBottom":470,"footTop":540}
+fits: {"head":[84.09375,1115.90625],"rows":[[139,1061],[275,925]],"chipsBottom":470,"footTop":540}
