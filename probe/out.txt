@@ -1,2 +1,36 @@
-fonts: Barlow Condensed 700, Source Sans 3 400, Source Sans 3 600, Source Sans 3 700
-fits: {"head":[84.09375,1115.90625],"rows":[[139,1061],[275,925]],"chipsBottom":470,"footTop":540}
+category "Western Australia cricket team": 2 | Category:Western Australia cricket team cricketers | Category:Western Australia XI v South Africa national cricket team, 2005
+category "South Australia cricket team": 6 | Category:Ross Moyle | Category:New South Wales v South Australia Sheffield Shield, November 2011 | Category:South Australia cricket team cricketers | Category:Victoria V South Australia JLT Cup match, 30 September 2018 | Category:Victoria v South Australia, Sheffield Shield Final, March 2026
+category "Western Australian Cricket Association": 0 | 
+category "South Australian Cricket Association": 0 | 
+category "Cricket in Western Australia": 14 | File:Stan Twight Reserve, Rockingham, Western Australia, July 2019 01.jpg | Category:Shawn Brown's Cricket Coaching | Category:Cricket matches in Western Australia | Category:New Norcia cricket team | Category:Perth Scorchers | Category:Perth Scorchers (WBBL) | Category:WACA Ground
+category "Cricket in South Australia": 12 | File:South Australian Cricket(GN11864).jpg | Category:Adelaide Oval Curators | Category:Cricket matches in South Australia | Category:Adelaide Strikers | Category:Adelaide Strikers (WBBL)
+category "Cricket logos": 56 | File:2026 Women's Twenty20 Asia Cup text-only logo.png | File:ACC Men's Challenger Cup logo.jpeg | File:ACC Men's Premier Cup logo.png | File:ACC Men's Premier+Challenger Cup logos.png | File:ACC Women's Premier Cup logo.png | File:Asia cup 2008 logo.png | File:Asia cup 2008 logo.svg | File:Asia Cup 2014 Logo — text only.svg | File:Asia cup logo 1997.jpg | File:Cb-logo-sans-words-transparent-bg.png | File:CHOFLogo.jpg | File:Commonwealth XI cricket team emblem.jpg | File:Cricket easports logo.png | File:Cricket Modders Logo.png | File:CricTale logo.png | File:CricTracker Logo.svg | File:ESPNCricinfo Logo.png | File:Female Cricket Logo.jpg | File:Global Super League Logo.png | File:ICC logo.png | File:ICC logo.svg | File:WikiProject Cricket logo.png | Category:Cricket logos of Argentina | Category:Cricket logos of Australia | Category:Cricket logos of Austria
+category "Logos of cricket teams": 0 | 
+category "Sport logos of Australia": 0 | 
+category "Logos of sports teams of Australia": 0 | 
+commons search "Western Warriors logo": File:Logo of Chandela Kings at Khajuraho.jpg | File:Western Naval Command COVID-19 vaccination drive for Indian Naval personnel begins at INHS Asvini (8).jpg | File:Western Naval Command COVID-19 vaccination drive for Indian Naval personnel begins at INHS Asvini (6).jpg | File:Western Naval Command COVID-19 vaccination drive for Indian Naval personnel begins at INHS Asvini (2).jpg | File:Western Naval Command COVID-19 vaccination drive for Indian Naval personnel begins at INHS Asvini (7).jpg | File:Western Naval Command COVID-19 vaccination drive for Indian Naval personnel begins at INHS Asvini (1).jpg | File:Western Naval Command COVID-19 vaccination drive for Indian Naval personnel begins at INHS Asvini (3).jpg | File:Western Naval Command COVID-19 vaccination drive for Indian Naval personnel begins at INHS Asvini (5).jpg | File:Western Naval Command COVID-19 vaccination drive for Indian Naval personnel begins at INHS Asvini (4).jpg
+commons search "WACA logo cricket": none
+commons search "Western Australia cricket logo svg": none
+commons search "Redbacks cricket logo": none
+commons search "South Australia Redbacks logo": none
+commons search "SACA logo": File:Logo Saca la Bici.png | File:En-us-Elias Antonio Saca from El Salvador pronunciation (Voice of America).ogg | File:Jakarta Server Faces logo.tiff | File:Unidad El Salvador.gif | File:ResistHivethink.png | File:USSteelKosice3.jpg | File:CADRE ATLO Team Presents Completed Rovers.jpg
+commons search "West End Redbacks": File:T. A Caterer - 1882 2.jpg | File:Cricket Team(GN03601).jpg | File:Cricket Team(GN04166).jpg | File:South Australia Sheffield Shield 2025.jpg | File:Junction Oval Victoria V South Australia 30-09-2018 011.JPG | File:Junction Oval Victoria V South Australia 30-09-2018 017.JPG | File:Junction Oval Victoria V South Australia 30-09-2018 003.JPG | File:Junction Oval Victoria V South Australia 30-09-2018 006.JPG | File:Junction Oval Victoria V South Australia 30-09-2018 010.JPG | File:Junction Oval Victoria V South Australia 30-09-2018 004.JPG
+commons search "Western Fury logo": File:Burn Scars in Australia (MODIS 2020-02-04).jpg
+commons search "South Australian Scorpions logo": none
+commons search "Cricket Australia state logo": File:Southgate Adelaide Cricket Club green cricket cap.jpg | File:Y.M.C.A. women playing cricket, Sydney University, R. Donaldson, 23 April 1941.jpg | File:The Minister of State for Youth Affairs and Sports (IC), Water Resources, River Development and Ganga Rejuvenation, Shri Vijay Goel addressing at the launch of the India-Australia Sports Partnership, in Mumbai.jpg | File:Melbourne from ISS 2016.jpg
+wikidata -1: logo - | image -
+wikidata Q3589750: logo - | image -
+wikidata Q2726598: logo - | image -
+wikidata Q3590768: logo - | image -
+wikidata Q7566105: logo - | image -
+tsdb "Western Warriors": no cricket team
+tsdb "Western Australia Warriors": no cricket team
+tsdb "WA Warriors": no cricket team
+tsdb "Redbacks": no cricket team
+tsdb "West End Redbacks": no cricket team
+tsdb "South Australia Redbacks": no cricket team
+tsdb "Western Fury": no cricket team
+tsdb "Southern Scorpions": no cricket team
+tsdb "South Australian Scorpions": no cricket team
+tsdb "Western Australia": Western Australia [Sheffield Shield] badge no
+tsdb "South Australia": South Australia [Sheffield Shield] badge no
