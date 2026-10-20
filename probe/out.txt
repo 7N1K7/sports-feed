@@ -1,11 +1,15 @@
+not reading: 8 
+ cricket|m|Northern Districts (0)
+ league|m|Lebanon (0)
+ league|wc|France (16: Lionel Alazard (Montauban Pandas), Catalans Dragons, Catalans Dragons)
+ league|wc|Scotland (0)
+ league|wc|Ireland (0)
+ league|wc|USA (0)
+ league|wc|Spain (7: Eric Perez (Biganos Eagles), Anthony Martin (Biganos Eagles), Catalans Dragons)
+ league|wc|New Zealand (0)
 
-MISSING Taranaki rugby union team
-
-### Nottingham Forest F.C.: read 0 — 
-  headings: Players | First team | Current squad | [[Nottingham Forest F.C. Under-21s, Under-18s and Academy|B Team]] | Current squad | Notable former players | Player of the Season | International players | Other NFFC teams
-==Players==
-===First team===
-====Current squad====
+### Nottingham Forest F.C.
+Current squad====
 <!----------------------------------------------------------------------------------------------
   -- Do NOT add new players before their signing is officially announced by the club
   -- and do NOT assign unreferenced squad numbers as well.
@@ -14,125 +18,35 @@ MISSING Taranaki rugby union team
   – Any unconfirmed and unsourced signing/transfer will be reverted at sight.
   – Thanks in advance.
   ----------------------------------------------------------------------------------------------->
-{{updated|7 September 2026|<ref>{{cite web |url=https://ww
+{{updated|7 September 2026|<ref>{{cite web |url=https://www.nottinghamforest.co.uk/teams |title=Men's First Team |publisher=Nottingham Forest Football Club |access-date=9 July 2026}}</ref>}}
+{{Fs start|bg=DD0000|color=FFFFFF}}
+{{football squad player|no=2|nat=CIV|pos=DF|name=[[Ousmane Diomande]]}}
+{{football squad player|no=3|nat=WAL|pos=DF|name=[[Neco Williams]]}}
+{{football squad player|no=5|nat=BRA|pos=DF|name=[[Murillo (footballer)|Murillo]]}}
+{{football squad player|no=6|nat=CIV|pos=MF|name=[[Ibrahim Sangaré (Ivorian footballer)|Ibrahim Sangaré]]}}
+{{football squad player|no=7|nat=ENG|pos=FW|name=[[Callum Hudson-Odoi]]}}
+{{football squad player|no=8|nat=ARG|pos=MF|name=[[Nicolás Domínguez]]}}
+{{football squad player|no=9|nat=NZL|pos=FW|name=[[Chris Wood (footballer, born 1991)|Chris Wood]]}}
+{{football squad player|no=10|nat=ENG|pos=MF|name=[[Morgan Gibbs-White]]|other=[[vi
 
-### Lebanon national rugby league team: read 0 — 
-  headings: Return to the World Cup, player disputes (2015–19) | Current squad
-==Current squad==
-Squad named in October 2025, to play against Italy.<ref>{{Cite web |title=Italy and Lebanon Men and Women Name Squads For Weekend |url=https://europeanrugbyleague.com/articles/2560/italy-and-lebanon-men-and-women-name-squ... |access-date=2025-10-03 |website=europeanrugbyleague.com |language=en}}</ref>
-{| class="wikitable"
-|+
-!Name
-!Club
+### Northern Brave
+Current squad===
+Based on squad announced for the 2023–24 season. Players in '''bold''' have international caps.<ref name="squad">{{cite web |url=https://www.ndcricket.co.nz/news-item/strong-2023-24-contract-list-announced-for-northern-districts-women |title=Strong 2023-24 Contract List Announced for Northern Districts Women |publisher=Northern Districts |access-date=14 November 2023 |archive-date=14 November 2023 |archive-url=https://web.archive.org/web/20231114155453/https://www.ndcricket.co.nz/news-item/strong-2023-24-contract-list-announced-for-northern-districts-women |url-status=live }}</ref>
+{| class="wikitable"  style="font-size:95%;
 |-
-|Ibrahim El Cheikh
-|{{flagicon|AUS}} [[Blacktown Workers]]
+! style="background:#f05223; color:white; text-align:centre;"| No.
+! style="background:#f05223; color:white; text-align:centre;"| Name
+! style="background:#f05223; color:white; text-align:centre;"| Nationality
+! style="background:#f05223; color:white; text-align:centre;"| Birth date
+! style="background:#f05223; color:white; text-align:centre;"| Batting style
+! style="background:#f05223; color:white; text-align:centre;"| Bowling style
+! style="background:#f05223; color:white; text-align:centre;"| Notes
 |-
-|Ibrahim El Labban
-|{{flagicon|AUS}} [[Blacktown Workers]]
+! colspan="7" style="background:#dcdcdc" text-align:centre;"| Batters
 |-
-|Moustafa Dirani
-|{{flagicon|AUS}} [[Cronulla-Sutherland Sharks]]
+|style="text-align:center"|3|| Lucy Boucher || {{crw|NZL}} || {{Birth date and age|2001|10|23|df=y}} || Right-handed || Right-arm [[Fast bowling|medium]] ||
 |-
-|Daniel Ahmed Arahu
-|{{flagicon|AUS}} [[Glebe Dirty Reds]]
-|-
-|Mikael Ibrahim
-|{{flagicon|AUS}} [[Gold Coast Titans]]
-|-
-|Joshua Maree
-|{{flagicon|
+|style="text-align:center"|13|| Yasmeen Kareem || {{crw|NZL}} || {{Birth date and age|1999|9|8|df=y}} ||
 
-### Canterbury Rugby Football Union: read 0 — 
-  headings: 
-
-### Northland Rugby Union: read 0 — 
-  headings: 
-
-### Northern Districts: read 0 — 
-  headings: 
-
-### England women's national rugby league team: read 0 — 
-  headings: Players | Team
-==Players==
-{{main|List of England women's national rugby league players}}
-
-The squad for the [[2026 Women's Rugby League World Cup]] was announced on 28 September 2026.<ref>{{Cite web|url=https://www.rugby-league.com/article/65166/england-women-name-2026-rugby-league-world-cup-squad-|title=England Women name 2026 Rugby League World Cup squad|date=28 Sep 2026|website=Rugby-League.com|access-date=29 Sep 2026}}</ref><ref>{{Cite web|url=https://www.bbc.com/sport/rugby-league/articles/c64g714l7pn9o|title=Australia-born Strange in England World Cup squad|last=Whalley|first=Mike|date=28 Sep 2026|website=BBC|access-date=29 Sep 2026}}</ref><ref>{{Cite web|url=https://www.skysports.com/rugby-league/n
-
-### Tonga women's national rugby league team: read 0 — 
-  headings: Players
-== Players ==
-The Mate Ma'a Tonga squad for the upcoming match against the [[Cook Islands women's national rugby league team|Cook Islands]] was announced via social media on 29 September 2026.<ref>{{Cite web|url=https://www.facebook.com/photo/?fbid=1067854989340130&set=a.117837811008524|title=Tonga XIII Women's squad v Cook Islands|date=29 Jun 2026|website=facebook|publisher=Tonga Rugby League|access-date=30 Sep 2026}}</ref>
-{{clear}}
-Jersey numbers and tallies in the table reflect the match versus Cook Islands Moana on 10 October 2026.
-{{Table alignment}}
-{| class="sortable defaultright col2left col3center col4center col11left" border="0" cellspacing="2" cellpadding="2" style="width:100%; t
-
-### England national wheelchair rugby league team: read 5 — Jack Brown, Nathan Collins, Luis Domingos, Rob Hawkins
-  headings: Current squad
-== Current squad ==
-Squad selected for the [[2026 Wheelchair Rugby League World Cup]] in [[Australia]].<ref>https://www.bbc.co.uk/sport/rugby-league/articles/c8zxz2r57k0zo</ref>
-
-{| class="wikitable"
-! Player
-! Club
-|-
-|Mason Billington || {{leagueicon|London Roosters|14}} [[London Roosters]]
-|-
-|[[Jack Brown (wheelchair rugby league)|Jack Brown]]|| {{leagueicon|Halifax|14}} [[Halifax Panthers Wheelchair|Halifax Panthers]]
-|-
-|[[Nathan Collins (wheelchair rugby league)|Nathan Collins]]|| {{leagueicon|Leeds|14}} [[Leeds Rhinos Wheelchair|Leeds Rhinos]]
-|-
-|Joe Coyd || {{leagueicon|London Roosters|14}} [[London Roosters]]
-|-
-|[[Luis Domingos]]|| {{leagueicon|Sheffield|14}} [[Sheffield Eagles W
-
-### Australia national wheelchair rugby league team: read 0 — 
-  headings: Current squad
-==Current squad==
-
-The Australia squad for the [[2026 Wheelchair Rugby League World Cup]].<ref>https://www.nrl.com/news/2026/09/23/australian-wheelaroos-named-for-2026-rugby-league-world-cup/</ref>
-
-{| class="wikitable"
-! Player
-|-
-|Bayley McKenna (C)
-|-
-|Daniel Anstey
-|-
-|Peter Arbuckle
-|-
-|Cory Cannane
-|-
-|Diab Karim
-|-
-|Liam Luff
-|-
-|Toby Popple
-|-
-|Stephan Rochecouste
-|-
-|Zac Schumacher
-|-
-|Adam Tannock
-|}
-
-==Competitive record==
-{| class="wikitable" style="text-align: center;"
-|-
-!colspan=2|[[Wheelchair Rugby League World Cup|World Cup Record]]
-|-
-!Year
-!Finish
-|-
-|style="border: 3px solid red"|{{flagicon|Australia}} [[2008 Wheelchair Rugby League World Cup|2008]]
-| bgcolor=silver| Runn
-
-TBC times by sport:
-  cricket [["Sheffield Shield",3],["Bangladesh v West Indies",2],["Australia v South Africa",1],["Pakistan v Sri Lanka",1]]
-  boxing [["Interim WBC light heavyweight title",1]]
-  league [["Wheelchair Rugby League World Cup",3]]
-  mma [["UFC Fight Night",2]]
-  motor [["Supercars",2]]
-
-supercarsTimes: undefined
+### Northern Districts cricket team
+}
