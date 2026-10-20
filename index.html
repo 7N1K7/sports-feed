@@ -460,11 +460,23 @@ dialog#sheet::backdrop { background: rgba(10, 18, 15, .5) }
 .sheet-in { display: block; padding-top: 22px }
 .sheet-in > div > * + *, .sheet-in > div + div { margin-top: 18px }
 #sheetBody { display: flow-root }
-dialog#sheet { width: min(720px, 100%) }
+dialog#sheet { width: min(max(720px, 76vw), 1040px, 100%) } /* wider in a big window, up to 1040px */
 .close { position: absolute; top: 12px; right: max(12px, env(safe-area-inset-right, 0px)); width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 20px; line-height: 1; cursor: pointer; display: grid; place-items: center; z-index: 2 }
 .close:hover { color: var(--ink); border-color: var(--ink) }
 .sheet-in { position: relative }
+/* room for the scroll bar kept on both sides whether it shows or not, so a list long enough to scroll (switching rankings
+   tabs, say) never pushes everything across, and the contents stay centred */
+.sheet-in { scrollbar-gutter: stable both-edges }
 .sheet-head { padding-right: 40px; gap: 8px }
+/* "On now" over the live scores link, at the right of the title row (lined up under the close button); on phones a row of
+   their own under the title */
+.sheet-head:has(> .hlive) { grid-template-columns: minmax(0, 1fr) auto; column-gap: 14px }
+.sheet-head:has(> .hlive) > * { grid-column: 1 }
+.sheet-head > .hlive { grid-column: 2; grid-row: 2; align-self: center; display: grid; justify-items: end; gap: 5px; margin-right: -40px; text-align: right; font-size: 14px }
+@media (max-width: 560px) {
+  .sheet-head:has(> .hlive) { grid-template-columns: minmax(0, 1fr) }
+  .sheet-head > .hlive { grid-column: 1; grid-row: auto; display: flex; justify-content: space-between; align-items: center; margin-right: -28px }
+}
 /* the rankings' title centred, like the chips above and below it: the sport's colour as a short bar under the name
    instead of down the side; the list's name and date centred too */
 .sheet-head.rhead { border-left: 0; padding: 0; justify-items: center; text-align: center }
@@ -2163,13 +2175,15 @@ function detail(e) {
   const res = isPast ? (hidden
     ? `<button class="cover big" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>Spoilers are hidden</button>`
     : `<div class="dres">${split && e.summary ? '' : `<div class="score num ${/[a-z]{3}/i.test(e.score || '') ? 'long' : ''}">${esc(e.score || 'Result not in yet')}</div>`}${e.summary ? `<p${split ? ' class="dwin"' : ''}>${esc(e.summary)}</p>` : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
-  const live = e.status === 'live' || (e.status !== 'final' && onNow(e, now)) ? `<div class="dres"><span><span class="tag live">On now</span></span>${liveLink(e)}</div>` : '';
+  // a game under way: "On now" and the live scores link at the right of the title, not a box of their own
+  const live = e.status === 'live' || (e.status !== 'final' && onNow(e, now)) ? `<div class="hlive"><span class="tag live">On now</span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
       <div class="comp"><span>${esc(cardComp(e))}</span>${sIcon(e.sport)}${compBadge(e)}${intlTag(e)}</div>
       ${solo(e) ? `<h2 class="dteams solo">${esc(e.home)}${placeOf(e) ? `<small>${esc(placeOf(e))}</small>` : ''}</h2>` : split ? `<h2 class="dteams scored"><span class="dside">${ciWrap(e.home, e, teamName(e.home, e.homeLogo, e))}${scoreTag(split[0], wl('home'))}</span> <span class="v">v</span> <span class="dside">${ciWrap(e.away, e, teamName(e.away, e.awayLogo, e))}${scoreTag(split[1], wl('away'))}</span></h2>` : `<h2 class="dteams">${ciWrap(e.home, e, teamName(e.home, e.homeLogo, e))} <span class="v">v</span> ${ciWrap(e.away, e, teamName(e.away, e.awayLogo, e))}</h2>`}
       ${!isPast && e.status !== 'live' && countdown(e, now) ? `<span class="tag num ${d - now < 864e5 ? 'soon' : d - now < 3 * 864e5 ? 'near' : 'later'}" data-cd="${esc(e.startUTC)}">${countdown(e, now)}</span>` : ''}
+      ${live}
     </div>
-    ${res}${live}
+    ${res}
     <dl class="facts">${rows.map(([k, v, html]) => `<dt>${k}</dt><dd>${html ? v : esc(v)}</dd>`).join('')}</dl>
     <div class="dlinks">${[
       e.link && `<a href="${esc(e.link)}" target="_blank" rel="noopener">${cricinfo(e) === e.link ? 'Match page on Cricinfo' : e.sport === 'cricket' ? 'Scorecard' : FIGHT.test(e.sport) ? (isPast ? 'Fight results' : 'Fight page (results go up here after)') : e.sport === 'motor' ? (isPast ? 'Race results' : 'Race page') : isPast ? 'Match report and team lists' : 'Team lists and match centre'} ↗</a>`,
