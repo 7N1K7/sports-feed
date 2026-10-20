@@ -1,8 +1,18 @@
-version 268 | stateSquads: Queensland 24, New South Wales 28, Victoria 29, South Australia 26, Western Australia 33, Tasmania 26
-squads: Tasmania 26 (24 linked), Queensland 24 (23 linked), Victoria 29 (25 linked), South Australia 26 (25 linked), New South Wales 28 (27 linked), Western Australia 33 (30 linked)
-logos: {"Victoria":true,"South Australia":false,"Tasmania":true,"New South Wales":true,"Queensland":false,"Western Australia":false}
-Men's Tests as of 2026-10-13: 10 rows, last "Zimbabwe" 17
-Men's ODIs as of 2026-10-18: 20 rows, last "Canada" 12
-Men's T20Is as of 2026-10-14: 20 rows, last "Canada" 149
-Women's ODIs as of 2026-10-14: 16 rows, last "Papua New Guinea" 3
-Women's T20Is as of 2026-10-18: 20 rows, last "Tanzania" 95
+Tasmania cricket team | infobox files: [["image","Tasmaniancricketteamlogo.png"]]
+Queensland cricket team | infobox files: [["image","QueenslandBullsLogo.svg"]]
+Victoria cricket team | infobox files: [["image","VictoriaCricketTeamLogo.svg"]]
+South Australia cricket team | infobox files: []
+New South Wales cricket team | infobox files: [["image","NSW_Men's_cricket_team_logo.png"]]
+Western Australia cricket team | infobox files: [["image","Western_Australia_Women_Badge.png"]]
+  File:Tasmaniancricketteamlogo.png | repository: local | licence: Fair use | non-free: true | url: https://upload.wikimedia.org/wikipedia/en/c/c1/Tasmaniancricketteamlogo.png?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original
+  File:VictoriaCricketTeamLogo.svg | repository: local | licence: PD | non-free:  | url: https://upload.wikimedia.org/wikipedia/en/4/45/VictoriaCricketTeamLogo.svg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original
+  File:QueenslandBullsLogo.svg | repository: local | licence: Fair use | non-free: true | url: https://upload.wikimedia.org/wikipedia/en/2/29/QueenslandBullsLogo.svg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Western Australia Women Badge.png | repository: local | licence: Fair use | non-free: true | url: https://upload.wikimedia.org/wikipedia/en/4/4f/Western_Australia_Women_Badge.png?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original
+  File:NSW Men's cricket team logo.png | repository: local | licence: Fair use | non-free: true | url: https://upload.wikimedia.org/wikipedia/en/7/7c/NSW_Men%27s_cricket_team_logo.png?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original
+commons "Queensland Bulls logo": File:24February2009.pdf | File:9June2008.pdf | File:16July2006.pdf | File:25August2007.pdf | File:21May2006.pdf | File:09January2006.pdf
+commons "Queensland cricket logo": File:Queensland Cricket logo.png | File:22August2007.pdf | File:3June2007.pdf | File:26August2007.pdf | File:25August2007.pdf | File:1May2007.pdf
+commons "South Australia Redbacks": File:T. A Caterer - 1882 2.jpg | File:Cricket Team(GN03601).jpg | File:Cricket Team(GN04166).jpg | File:South Australia Sheffield Shield 2025.jpg | File:Junction Oval Victoria V South Australia 30-09-2018 013.JPG | File:Junction Oval Victoria V South Australia 30-09-2018 011.JPG
+commons "West End Redbacks logo": none
+commons "Western Warriors cricket": File:Western Warriors 2010.jpg | File:Mitchell Johnson.jpg | File:Cricket WA colour.svg | File:The western world. Picturesque sketches of nature and natural history in North and South America (IA westernworldpict00kingrich).pdf | File:The western world. Picturesque sketches of nature and natural history in North and South America (IA gri westernworld00king).pdf | File:Tales of the western tropics (IA talesofwesterntr00swanrich).pdf
+commons "Western Australia cricket logo": File:3June2007.pdf | File:15May2006.pdf | File:16November2006.pdf | File:16September2007.pdf | File:31March2006.pdf | File:25September2005.pdf
+commons "WACA logo": File:06December2006.pdf | File:17December2006.pdf | File:18January2008.pdf | File:Elementi di medicina (IA b22039314 0002).pdf | File:Prabawa (Pandom Wicara Basa Jawa).pdf | File:Works (IA dli.granth.36344).pdf
