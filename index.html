@@ -1223,7 +1223,7 @@ const ISO = { 'New Zealand': 'nz', 'All Blacks': 'nz', 'Black Ferns': 'nz', Aust
   Philippines: 'ph', 'Chinese Taipei': 'tw', Qatar: 'qa', Iran: 'ir', Jordan: 'jo', Kazakhstan: 'kz', Syria: 'sy', Bahrain: 'bh', 'Saudi Arabia': 'sa', Guam: 'gu', Indonesia: 'id', Mongolia: 'mn', Thailand: 'th', Iraq: 'iq',
   Malawi: 'mw', Uganda: 'ug', Jamaica: 'jm', 'Trinidad and Tobago': 'tt', Singapore: 'sg' };
 const flagOf = name => {
-  const base = String(name || '').replace(/\s+(Women|A|XI|U\d+|Wheelchair)$/i, '').trim();
+  const base = String(name || '').replace(/\s+(Women|A|XI|XV|U\d+|Wheelchair)$/i, '').trim();
   const c = ISO[base];
   return c ? `https://flagcdn.com/${c}.svg` : '';
 };

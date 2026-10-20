@@ -568,10 +568,13 @@ const LOGO_CODES = {
   league: { leagues: ['NRL', 'Australian National Rugby League'], ok: /NRL|Rugby League|Super League/i },
   football: { leagues: ['Australian A-League', 'Australian A-League Men'], ok: /A-League|Soccer|Football/i, sport: 'Soccer' },
   cricket: { leagues: ['Big Bash League', 'Womens Big Bash League', 'Super Smash', 'Plunket Shield', 'Ford Trophy', 'Sheffield Shield'], ok: /Big Bash|Super Smash|Plunket|Ford Trophy|Sheffield|Cricket/i, sport: 'Cricket' },
+  basketball: { leagues: ['Australian NBL'], ok: /NBL|Basketball/i, sport: 'Basketball' },
+  netball: { leagues: ['New Zealand Netball League'], ok: /Netball/i, sport: 'Netball' },
 };
 // NZ domestic cricket sides go by their association name in fixtures but their team name on TheSportsDB
 const LOGO_ALIAS = { 'cricket|Northern Districts': ['Northern Brave', 'Northern Knights'], 'cricket|Canterbury': ['Canterbury Kings', 'Canterbury Wizards'], 'cricket|Central Districts': ['Central Stags'],
-  'cricket|Auckland': ['Auckland Aces'], 'cricket|Wellington': ['Wellington Firebirds'], 'cricket|Otago': ['Otago Volts'] };
+  'cricket|Auckland': ['Auckland Aces'], 'cricket|Wellington': ['Wellington Firebirds'], 'cricket|Otago': ['Otago Volts'],
+  'basketball|S.E. Melbourne Phoenix': ['South East Melbourne Phoenix'], 'basketball|SE Melbourne Phoenix': ['South East Melbourne Phoenix'] };
 const LOGO_V = 2; // bump to re-ask names whose earlier miss is still cached
 // crests under a free licence on Wikimedia Commons, for sides TheSportsDB has no badge for; credited on the crest and in the footer
 const COMMONS_LOGOS = {
@@ -990,6 +993,48 @@ async function addFighterLinks(events) {
 // Zealand national rugby league team"); clubs are found with Wikipedia's search, keeping a result whose short description
 // is about that sport and whose title names the club's place. The website is the article's Wikidata "official website".
 // Kept two months, 30 searches a run
+// Crests TheSportsDB doesn't have: the side's Wikipedia article's logo on Wikidata (P154), used only when the file is on
+// Wikimedia Commons under a free licence (public domain or Creative Commons), credited on the crest and in the footer.
+// Looked up for sides with games within a month; found ones kept a month, misses asked again weekly.
+async function wikiLogos(events, links) {
+  const cacheUrl = new URL('.cache/wikilogos.json', ROOT);
+  let cache = {};
+  try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
+  const UA = { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } };
+  const get = async (host, q) => { await new Promise(r => setTimeout(r, 1000)); const r = await fetch(`https://${host}/w/api.php?format=json&formatversion=2&maxlag=5&` + q, UA); if (!r.ok) throw new Error(`${host} ${r.status}`); return r.json(); };
+  const need = new Map();
+  for (const e of events) if (Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY) for (const side of ['home', 'away']) {
+    const k = `${e.sport}|${e[side]}`, wp = links[k]?.wp;
+    if (!e[side + 'Logo'] && !e[side + 'Badge'] && wp) need.set(k, wp);
+  }
+  const due = [...need].filter(([k]) => !cache[k] || now - cache[k].t > (cache[k].src ? 30 : 7) * DAY).slice(0, 40);
+  try {
+    for (let i = 0; i < due.length; i += 40) {
+      const batch = due.slice(i, i + 40);
+      const r = await get('www.wikidata.org', 'action=wbgetentities&props=claims|sitelinks&sitefilter=enwiki&sites=enwiki&titles=' + encodeURIComponent(batch.map(([, wp]) => wp).join('|')));
+      const fileOf = {};
+      for (const ent of Object.values(r.entities || {})) { const t = ent.sitelinks?.enwiki?.title, f = ent.claims?.P154?.[0]?.mainsnak?.datavalue?.value; if (t && f) fileOf[t] = f; }
+      const files = [...new Set(Object.values(fileOf))], info = {};
+      if (files.length) {
+        const ii = await get('commons.wikimedia.org', 'action=query&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=160&titles=' + encodeURIComponent(files.map(f => 'File:' + f).join('|')));
+        const back = Object.fromEntries((ii.query?.normalized || []).map(x => [x.to, x.from]));
+        for (const pg of ii.query?.pages || []) {
+          const i0 = pg.imageinfo?.[0], m = i0?.extmetadata || {}, lic = m.LicenseShortName?.value || '';
+          if (pg.missing || !i0 || m.NonFree?.value || !/public domain|^pd|cc0|cc[ -]by/i.test(lic)) continue;
+          info[(back[pg.title] || pg.title).replace(/^File:/, '')] = { src: i0.thumburl || i0.url, page: i0.descriptionurl, lic };
+        }
+      }
+      for (const [k, wp] of batch) { const f = fileOf[wp], c = f && (info[f] || info[f.replace(/_/g, ' ')]); cache[k] = c ? { t: now, src: c.src, credit: `${f.replace(/\.[a-z]+$/i, '')} (${c.lic}), via Wikimedia Commons`, page: c.page } : { t: now }; }
+    }
+  } catch (e) { diag.wikiLogosError = e.message; }
+  let used = 0;
+  for (const e of events) for (const side of ['home', 'away']) {
+    const c = cache[`${e.sport}|${e[side]}`];
+    if (c?.src && !e[side + 'Logo'] && !e[side + 'Badge']) { e[side + 'Logo'] = c.src; e[side + 'LogoCredit'] = c.credit; logoCredits.set(c.credit, c.page); used++; }
+  }
+  diag.wikiLogos = `${Object.values(cache).filter(c => c.src).length} free crests known, ${used} sides given one; ${due.length} looked up`;
+  try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
+}
 async function teamLinks(events) {
   const cacheUrl = new URL('.cache/teamlinks.json', ROOT);
   let cache = {};
@@ -1289,6 +1334,7 @@ const stateList = events.some(e => e.team === 'audomestic' && Math.abs(Date.pars
 await addPlayerLinks(events, stateList);
 await addFighterLinks(events);
 const links = await teamLinks(events);
+await wikiLogos(events, links);
 
 // site version: the number of commits, and when the code last changed (needs the full git history in CI)
 let site = null;
