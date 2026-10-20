@@ -626,6 +626,10 @@ header.top.stacked .fold { left: 0; width: 100% }
 /* pressing it doesn't shrink it like other buttons (that would pull it off the bar and the screen's edges) */
 #foldBtn:active { transform: none; filter: none } .fold:active .tc { stroke: var(--ink) }
 header.top.scrolled .fold, header.top:has(#panel:not([hidden])) .fold { opacity: 0; pointer-events: none }
+/* while the tab shows, the bar has no bottom line, so bar and tab are one shape with nothing poking out where they meet;
+   the line comes back once the page scrolls (and the tab goes) */
+header.top { transition: border-color .15s }
+header.top:not(.scrolled):not(:has(#panel:not([hidden]))) { border-bottom-color: transparent }
 header.top ~ main { padding-top: 30px }
 main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: none !important }
 /* phones: short labels, so NZ only, men's/women's and rankings share one line, and tighter gaps so the day's first
