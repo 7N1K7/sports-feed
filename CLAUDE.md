@@ -18,7 +18,9 @@ behind a spoiler guard, no sign-up. Static GitHub Pages site plus a small Cloudf
 - Test in a local copy with Playwright (Chromium at `/opt/pw-browsers/...`), served by `python3 -m http.server`; check
   phone (412px, 360px), compact desktop (~700–900px) and full desktop. Screenshot changes before pushing.
 - Outside sites are blocked in the cloud container: read them through the `probe` branch (edit `probe/probe.mjs`, push,
-  read `probe/out.txt`). Probe output is public: never print secrets.
+  read `probe/out.txt`). Probe output is public: never print secrets. Browser probes of kickoff.kiwi set
+  `localStorage sf.nocount=true` so they don't count as visits.
+- After a big addition of data or a filled gap, add a line to `ADDED` in `stats.html` (the coverage hub).
 - No test suite; `node --check` the scripts.
 
 ## The user's rules
