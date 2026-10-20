@@ -30,6 +30,8 @@ const COUNTRY_TZ = {
   'South Africa': 'Africa/Johannesburg', Argentina: 'America/Argentina/Buenos_Aires', Japan: 'Asia/Tokyo',
   Fiji: 'Pacific/Fiji', Samoa: 'Pacific/Apia', Tonga: 'Pacific/Tongatapu', 'Papua New Guinea': 'Pacific/Port_Moresby',
 };
+// Australian domestic sides (Sheffield Shield, Dean Jones Trophy) play at home in their state's time zone
+Object.assign(CITY_TZ, { Queensland: 'Australia/Brisbane', 'New South Wales': 'Australia/Sydney', Victoria: 'Australia/Melbourne', 'South Australia': 'Australia/Adelaide', 'Western Australia': 'Australia/Perth', Tasmania: 'Australia/Hobart' });
 Object.assign(CITY_TZ, { Edmonton: 'America/Edmonton', Calgary: 'America/Edmonton', Vancouver: 'America/Vancouver', Montreal: 'America/Toronto', Gosford: 'Australia/Sydney', 'New South Wales': 'Australia/Sydney', Victoria: 'Australia/Melbourne', Queensland: 'Australia/Brisbane', 'Las Vegas': 'America/Los_Angeles', 'Los Angeles': 'America/Los_Angeles', 'New York': 'America/New_York', Newark: 'America/New_York', Miami: 'America/New_York', Houston: 'America/Chicago', Chicago: 'America/Chicago', Denver: 'America/Denver', 'Abu Dhabi': 'Asia/Dubai', Riyadh: 'Asia/Riyadh', London: 'Europe/London', Paris: 'Europe/Paris', 'Mexico City': 'America/Mexico_City', 'Rio de Janeiro': 'America/Sao_Paulo', 'São Paulo': 'America/Sao_Paulo', Singapore: 'Asia/Singapore', Shanghai: 'Asia/Shanghai', Macau: 'Asia/Macau', Toronto: 'America/Toronto', Perth: 'Australia/Perth', Auckland: 'Pacific/Auckland' });
 Object.assign(COUNTRY_TZ, { 'U.S.': 'America/New_York', 'United States of America': 'America/New_York', Qatar: 'Asia/Qatar', 'Saudi Arabia': 'Asia/Riyadh', 'United Arab Emirates': 'Asia/Dubai', Brazil: 'America/Sao_Paulo', Mexico: 'America/Mexico_City', China: 'Asia/Shanghai', Singapore: 'Asia/Singapore', Azerbaijan: 'Asia/Baku', Kazakhstan: 'Asia/Almaty', Germany: 'Europe/Berlin', Netherlands: 'Europe/Amsterdam', Pakistan: 'Asia/Karachi', India: 'Asia/Kolkata', 'Sri Lanka': 'Asia/Colombo', Bangladesh: 'Asia/Dhaka', 'West Indies': 'America/Barbados', Zimbabwe: 'Africa/Harare', 'Cook Islands': 'Pacific/Rarotonga' });
 // hockey grounds: the Pro League, World Cup and Nations Cup towns
@@ -61,7 +63,7 @@ const NEWS_TEAMS = [
   ['npc', /\bNPC\b|Ranfurly|provincial/i], ['fpc', /Farah Palmer/i],
   ['blues', /\bBlues\b/], ['chiefs', /\bChiefs\b/], ['hurricanes', /Hurricanes/], ['crusaders', /Crusaders/],
   ['highlanders', /Highlanders/], ['moana', /Moana Pasifika/i],
-  ['blackcaps', /Black ?Caps/i], ['whiteferns', /White Ferns/i], ['nzdomestic', /Plunket Shield|Ford Trophy|Super Smash|Hallyburton/i],
+  ['blackcaps', /Black ?Caps/i], ['whiteferns', /White Ferns/i], ['nzdomestic', /Plunket Shield|Ford Trophy|Super Smash|Hallyburton/i], ['audomestic', /Sheffield Shield|Dean Jones Trophy|One-Day Cup/i],
   ['kiwis', /\bKiwis\b/], ['kiwiferns', /Kiwi Ferns/i], ['warriors', /Warriors/],
   ['blacksticksw', /Black Sticks Women|Black Sticks women/i], ['blacksticks', /Black Sticks/i],
   ['f1', /Formula (One|1)\b|\bF1\b|Liam Lawson/i],

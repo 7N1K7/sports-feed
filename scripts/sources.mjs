@@ -84,14 +84,17 @@ const CODES = {
   MLT: 'Malta', ITY: 'Italy', NIR: 'Northern Ireland', IRE: 'Ireland', GBR: 'Great Britain', MAS: 'Malaysia', AUT: 'Austria', BLR: 'Belarus', UKR: 'Ukraine', EGY: 'Egypt',
 };
 // Team cell: {{Rut|Crusaders}}, {{rl-rt|AUS}}, {{crw|NZ}}, {{RuA-rt|ITA|name=Italy XV}}, [[Melbourne Renegades]] (H)
+// Australian domestic cricket's sides, as {{cr-Aus|QLD}} writes them
+const AU_STATES = { QLD: 'Queensland', NSW: 'New South Wales', VIC: 'Victoria', SA: 'South Australia', WA: 'Western Australia', TAS: 'Tasmania' };
 function teamOf(v) {
   const raw = stripRefs(v);
   const tpl = templates(raw, /^[A-Za-z][\w\- ]{0,14}$/).find(t => !/^(colou?r ?box|flag ?deco(ration)?|flagicon|nowrap|small|abbr|sort)$/i.test(t.name));
   if (tpl) {
     const p = params('x|' + tpl.body.slice(tpl.name.length + 1));
     const nm = tpl.name.toLowerCase();
-    let name = p.named.name || p.pos[0] || '';
-    name = CODES[name.toUpperCase()] || name.replace(/_/g, ' ');
+    // "QLD-h": a code with the page's home-side marker
+    let name = (p.named.name || p.pos[0] || '').replace(/-h$/i, '');
+    name = (nm.startsWith('cr-aus') && AU_STATES[name.toUpperCase()]) || CODES[name.toUpperCase()] || name.replace(/_/g, ' ');
     const women = /^(ruw|rlw|crw|fbw|fhw|wrl?w)/.test(nm) || /women/i.test(nm);
     if (name && !/\d{4}/.test(name)) return clean(name) + (women && !/Women/.test(name) ? ' Women' : '');
   }
@@ -174,7 +177,7 @@ function eventsFromPage(title, text, cfg, cityTz) {
     const loc = (p.stadium || p.venue) && p.location ? clean(p.location).split(',').map(s => s.trim()).filter(Boolean) : [];
     const city = parts.length > 1 ? parts[parts.length - 1] : loc[0] || '';
     const tm = timeOf(p.time || '');
-    const tz = (tm && tm.tz) || cityTz(city) || cityTz(parts[0]) || cfg.tz || null;
+    const tz = (tm && tm.tz) || cityTz(city) || cityTz(parts[0]) || (cfg.homeTz && cityTz(home)) || cfg.tz || null;
     let t, tbc = false;
     if (tm && tm.offsetMin != null) t = Date.UTC(d.y, d.m, d.d, tm.h, tm.mi) - tm.offsetMin * 6e4;
     else if (tm && tz) t = localToUTC(d.y, d.m, d.d, tm.h, tm.mi, tz);
@@ -217,7 +220,7 @@ function eventsFromPage(title, text, cfg, cityTz) {
     out.push({
       id: `wiki-${cls.team}-${new Date(t).toISOString().slice(0, 10)}-${(home + away).toLowerCase().replace(/[^a-z]/g, '').slice(0, 40)}`,
       team: cls.team, tags: cls.tags, sport: cfg.sport, comp: comp + (round && cfg.showRound && !linked && !/^test(?: match)?$/i.test(round) ? ` · ${round}` : ''),
-      home, away, startUTC: new Date(t).toISOString(), timeTBC: tbc, ...(stage ? { stage } : linked && round ? { stage: round } : {}),
+      home, away, startUTC: new Date(t).toISOString(), timeTBC: tbc, ...(stage ? { stage } : linked && round ? { stage: round } : {}), ...(cfg.format ? { format: cfg.format } : {}),
       venue: parts[0] || '', city, tz, status, score, summary,
       source: `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`, link: report, ...(/cricinfo\.com/.test(report || '') ? { cricinfo: report } : {}),
       // cricket boxes carry a "rain" note that editors fill in during the game ("Rain delayed the start of play")
