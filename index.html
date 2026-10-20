@@ -2023,7 +2023,9 @@ function openTeam(name, sport, fromRank = '') {
   if (!dlg.open) dlg.showModal();
   $('sheet').querySelector('.sheet-in')?.scrollTo?.(0, 0);
 }
-const RANK_SPORTS = ['rugby', 'cricket', 'league', 'football', 'hockey', 'tennis', 'mma'];
+// the sport buttons' order, which the rankings tabs follow too
+const SPORT_CHIPS = [['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['hockey','Hockey'],['motor','F1'],['tennis','Tennis'],['mma','MMA'],['boxing','Boxing']];
+const RANK_SPORTS = SPORT_CHIPS.map(([k]) => k);
 const RANK_TAB = { mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', hockey: 'Hockey', tennis: 'Tennis' };
 function openRankings(sport) {
   const lists = (FEED.rankings || []).filter(r => r.sport === sport);
@@ -2331,7 +2333,7 @@ function render() {
   }
   // one Rankings button that's always there (so nothing shifts); it opens on the picked sport
   $('rankBtn').hidden = !(FEED.rankings || []).length;
-  $('sportFilter').innerHTML = [['all','All'],['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['hockey','Hockey'],['motor','F1'],['tennis','Tennis'],['mma','MMA'],['boxing','Boxing']].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
+  $('sportFilter').innerHTML = [['all','All'], ...SPORT_CHIPS].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join('');
   document.body.classList.remove('v-big', 'v-mixed', 'v-compact');
   document.body.classList.add('v-' + (PHONE.matches ? 'mixed' : view)); // phones always use Mixed
   $('viewSel').innerHTML = [['big', 'Big'], ['mixed', 'Mixed'], ['compact', 'Compact']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${view === k}">${l}</button>`).join('');
@@ -2463,7 +2465,7 @@ document.addEventListener('click', ev => {
   else if (t.dataset.rankback) openRankings(t.dataset.rankback);
   else if (t.id === 'rankBtn') {
     count({ e: 'rankings' });
-    // the picked sport if it has rankings, else rugby, else whatever there is
+    // the picked sport if it has rankings, else the first sport in the row that has some
     const have = k => (FEED.rankings || []).some(r => r.sport === k);
     const cs = compSel ? ((FEED.events || []).find(e => compOf(e) === compSel) || {}).sport : '';
     const k = [...sportSel].find(have) || (have(cs) ? cs : '') || RANK_SPORTS.find(have);
