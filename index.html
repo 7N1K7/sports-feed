@@ -736,9 +736,11 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
   .ev .stripe { grid-row: span 2 }
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
   .tag { justify-self: start }
-  .ev .teams { font-size: 25px }
-  .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.6em; width: auto; height: 2.6em; max-width: 5em }
-  .ev .teams.matchup .flagimg { width: auto; height: 1.8em }
+  /* the big cards (live, today) on a phone: still big, but crests a size down and closer to the names */
+  .ev .teams { font-size: 23px }
+  .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.2em; width: auto; height: 2.2em; max-width: 4.3em }
+  .ev .teams.matchup .flagimg { width: auto; height: 1.5em }
+  .ev .teams.matchup:has(img) .side { grid-template-rows: 2.3em auto; row-gap: 4px }
   .ev .nz { font-size: 27px }
   .day .dd { font-size: 20px }
   .day { padding: 4px 2px }
@@ -953,12 +955,14 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
   .ev.res .rtop .cover { width: 100% }
   /* the button sits on the right, under the thumb, and the date on the left */
   .ev.res .when > .rloc { flex: 0 1 auto; min-width: 0; text-align: left; order: -1 }
-  /* phone rows with crests: crest on top and name under it on both sides, so both names sit on the same line */
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) { align-items: start }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side { display: grid; grid-template-rows: 2.2em auto; justify-items: center; align-items: center; row-gap: 3px; text-align: center }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side > img { grid-row: 1; order: 0; margin: 0 }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side > .nm { grid-row: 2; align-self: start }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) > .v { align-self: center }
+  /* phone compact cards, kept low: small crests beside the names (a card whose names don't fit beside them gets them
+     on top, from fitLines), and the time, date and countdown on one line; "Game 1 of 5" and the local time are in the
+     game's pop-up */
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { --lh: 1.5em; height: 1.5em; max-width: 2.4em; margin-block: 0 }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .flagimg { height: 1.05em; max-width: 1.6em }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .series, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .when .loc, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .when .wbr { display: none }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .body { padding-top: 8px; padding-bottom: 3px }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .when { align-items: baseline; padding-top: 3px; padding-bottom: 8px }
 }
 /* a compact card whose names don't fit beside their crests (fitLines() adds .stackside): crest on top and name under
    it on both sides, as on a phone, so each name gets its side's full width */
