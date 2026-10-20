@@ -1046,7 +1046,7 @@ function readSquadIn(sec) {
       for (const a of sqTemplates(line, 'RU squad player')) out.push(sqPlayer({ n: clean(a[2] || '') }, [group, a.captain ? 'c' : ''].filter(Boolean).join(', ')));
     }
   }
-  if (!out.length) out = sqTemplates(sec, 'fs player').map(a => sqPlayer(sqLink(a.name), [a.pos, /captain/i.test(a.other || '') ? 'c' : ''].filter(Boolean).join(', ')));
+  if (!out.length) out = [...sqTemplates(sec, 'fs player'), ...sqTemplates(sec, 'football squad player')].map(a => sqPlayer(sqLink(a.name), [a.pos, /captain/i.test(a.other || '') ? 'c' : ''].filter(Boolean).join(', ')));
   if (!out.length) out = sqTemplates(sec, 'player3').map(a => sqPlayer({ n: `${a.first || ''} ${a.last || ''}`.trim(), w: a.link || '' }, a.pos || ''));
   if (!out.length) out = stateSquad('==Squad==\n' + sec);
   if (!out.length) out = sec.split('\n').filter(l => /^\*\s*\S/.test(l)).map(l => sqPlayer(sqLink(l.replace(/^\*\s*/, '')), '')); // a plain list
