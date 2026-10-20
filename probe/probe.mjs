@@ -1,4 +1,4 @@
-// probe 59: the share image, sports in the app's order and colours
+// probe 60: the share image, two even rows of sports
 import { chromium } from 'playwright';
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
