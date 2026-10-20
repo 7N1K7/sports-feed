@@ -897,6 +897,12 @@ export const TEAM_PAGES = {
   'rugby|m|Wallabies': 'Australia national rugby union team', 'rugby|w|France': "France women's national rugby union team",
   'rugby|m|Blues': 'Blues (Super Rugby)', 'rugby|m|Chiefs': 'Chiefs (rugby union)', 'rugby|m|Hurricanes': 'Hurricanes (rugby union)', 'rugby|m|Crusaders': 'Crusaders (rugby union)',
   'rugby|m|Highlanders': 'Highlanders (rugby union)', 'rugby|m|Moana Pasifika': 'Moana Pasifika',
+  // Premier League clubs
+  ...Object.fromEntries(['Arsenal', 'Aston Villa', 'Brentford', 'Chelsea', 'Coventry City', 'Crystal Palace', 'Everton', 'Fulham', 'Ipswich Town', 'Leeds United',
+    'Liverpool', 'Manchester City', 'Manchester United', 'Newcastle United', 'Nottingham Forest', 'Tottenham Hotspur', 'Burnley', 'West Ham United',
+    'Wolverhampton Wanderers', 'Leicester City', 'Southampton'].map(t => [`football|m|${t}`, `${t} F.C.`])),
+  'football|m|Bournemouth': 'AFC Bournemouth', 'football|m|Brighton and Hove Albion': 'Brighton & Hove Albion F.C.', 'football|m|Hull City': 'Hull City A.F.C.',
+  'football|m|Sunderland': 'Sunderland A.F.C.',
   // the league World Cup sides: men (m), women (w) and wheelchair (wc)
   ...Object.fromEntries(['Australia', 'New Zealand', 'Tonga', 'Samoa', 'England', 'Papua New Guinea', 'Fiji', 'Cook Islands', 'France', 'Lebanon']
     .map(t => [`league|m|${t}`, `${t} national rugby league team`])),
@@ -918,7 +924,8 @@ const sqTemplates = (text, name) => { const out = [], re = new RegExp(`\\{\\{\\s
 const sqLink = v => { const m = String(v || '').match(/\[\[([^\]|#]+)(?:\|([^\]]+))?\]\]/); return m ? { n: clean(m[2] || m[1]), w: m[1].trim() } : { n: clean(v) }; };
 const sqPlayer = (who, r) => { const { n, w } = who; return n ? { n, ...(r ? { r } : {}), ...(w && w !== n ? { w } : {}) } : null; };
 function squadSection(text) {
-  const m = text.match(/^(=+)\s*(current squad|current roster|first[- ]team squad|senior squad|contracted players|squad)\s*\1\s*$/im);
+  // the heading may carry an anchor or a comment first: === <span class="anchor" id="Current squad"></span>First-team squad ===
+  const m = text.match(/^(=+)\s*(?:<span[^>]*><\/span>\s*|<!--[\s\S]*?-->\s*)*(current squad|current roster|first[- ]team squad|senior squad|contracted players|squad)\s*\1\s*$/im);
   if (!m) return '';
   const rest = text.slice(m.index + m[0].length), end = rest.search(new RegExp(`^={1,${m[1].length}}[^=]`, 'm'));
   return end < 0 ? rest : rest.slice(0, end);
