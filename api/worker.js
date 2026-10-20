@@ -13,6 +13,7 @@ const EVENTS = new Set(['install', 'appfirst', 'cal', 'alerts', 'rankings', 'ale
 const KEYED = { sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed', watch: 'watch', follow: 'follow', unfollow: 'unfollow', use: 'use' };
 const USE = new Set(['Events button', 'Results button', 'News button', 'Series row chip', 'Running now tile', 'Events ahead tile', 'Results tab in a game', 'Day in the week strip', 'Dot in the week strip', 'Filters folded away', 'Filters opened', 'Hide sport', 'Show sport', 'Show all results']);
 // a visitor's settings, counted once a day each: results hidden or shown, card size, colour theme
+const OG_THEMES = ['green', 'black', 'ocean', 'paua', 'purple', 'pink', 'red', 'orange', 'kowhai', 'lime'];
 const VIEWS = new Set(['big', 'mixed', 'compact']), THEMES = new Set(['green', 'ocean', 'red', 'black', 'kowhai', 'paua', 'purple', 'orange', 'lime', 'pink']);
 const keyOf = (e, k) => {
   let v = String(k ?? '').trim();
@@ -104,6 +105,13 @@ export default {
       const body = await req.text().catch(() => '');
       ctx.waitUntil(hit(req, env, body).catch(e => console.error('hit failed:', e.message)));
       return new Response(null, { status: 204, headers: cors(origin) });
+    }
+    // the link preview picture: one of the ten theme colours at random, fresh each time it's asked for (chat apps keep
+    // the one they got for a while, so a link shows the same colour there until their copy expires)
+    if (url.pathname === '/og.png' && req.method === 'GET') {
+      const t = OG_THEMES[Math.floor(Math.random() * OG_THEMES.length)];
+      const img = await fetch(`https://kickoff.kiwi/og/${t}.png`, { cf: { cacheTtl: 86400 } });
+      return new Response(img.body, { status: img.status, headers: { 'content-type': 'image/png', 'cache-control': 'no-store' } });
     }
     if (url.pathname === '/stats' && req.method === 'GET') {
       if (!env.STATS_PASSWORD) return json({ error: 'not-set-up' }, 503, origin);
