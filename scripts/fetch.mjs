@@ -9,7 +9,7 @@
 //   data/curated/*.json        -> fixtures the above lack (boxing, some tests), news, notes
 //   data/broadcast.json        -> where-to-watch rules by competition
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
-import { wikiEvents, tsdbEvents, tsdb, f1StartTimes, stateSquads, teamSquads } from './sources.mjs';
+import { wikiEvents, tsdbEvents, tsdb, f1StartTimes, supercarsStartTimes, stateSquads, teamSquads } from './sources.mjs';
 import { rankings as getRankings } from './rankings.mjs';
 import { execSync } from 'node:child_process';
 
@@ -524,6 +524,7 @@ const f1Url = new URL('.cache/f1-times.json', ROOT);
 let f1Cache = {};
 try { f1Cache = JSON.parse(await readFile(f1Url, 'utf8')); } catch {}
 await f1StartTimes(wiki, f1Cache, diag);
+await supercarsStartTimes(wiki, f1Cache, diag);
 try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(f1Url, JSON.stringify(f1Cache)); } catch {}
 // TheSportsDB often rate-limits shared GitHub runners, so keep each league's last good pull for up to 3 days
 const tsdbCacheUrl = new URL('.cache/tsdb-events.json', ROOT);

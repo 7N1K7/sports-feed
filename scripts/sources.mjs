@@ -841,6 +841,32 @@ export async function f1StartTimes(events, cache, diag) {
   diag.f1Times = [...notes, `${n} of ${races.length} races with start times`].join('; ');
 }
 
+// Supercars: the round's last race (the Sunday main race) from TheSportsDB, whose round numbers match Wikipedia's.
+// One round a run, refreshed every 12 hours, kept in the same cache as F1's
+export async function supercarsStartTimes(events, cache, diag) {
+  const now = Date.now();
+  const rounds = events.filter(e => e.team === 'supercars');
+  const due = rounds.filter(e => e.status !== 'final' && Date.parse(e.startUTC) > now - DAY && Date.parse(e.startUTC) < now + 60 * DAY)
+    .find(e => !cache[e.id] || now - cache[e.id].t > 12 * 36e5);
+  const notes = [];
+  if (due) {
+    const [, season, round] = due.id.split('-');
+    try {
+      const d = await tsdb(`eventsround.php?id=4489&r=${round}&s=${season}`);
+      const t = (d.events || []).filter(ev => ev.strTimestamp && /\brace\b/i.test(ev.strEvent || '') && !/practice|qualifying|shootout/i.test(ev.strEvent || ''))
+        .map(ev => Date.parse(ev.strTimestamp.replace(/(\+00:00|Z)$/, '') + 'Z')).filter(t => Math.abs(t - Date.parse(due.startUTC)) < 3 * DAY).sort((a, b) => b - a)[0];
+      cache[due.id] = { t: now, gp: due.home, startUTC: t ? new Date(t).toISOString() : null };
+      notes.push(`${due.home}: ${t ? new Date(t).toISOString() : 'no time listed yet'}`);
+    } catch (e) { notes.push(`${due.home}: ${e.message}`); }
+  }
+  let n = 0;
+  for (const e of rounds) {
+    const c = cache[e.id];
+    if (c?.startUTC && c.gp === e.home && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 3 * DAY) { Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); n++; }
+  }
+  diag.supercarsTimes = [...notes, `${n} of ${rounds.length} rounds with start times`].join('; ');
+}
+
 // Cricket tour "Squads" tables: header rows give each column's team and/or format
 // (Tests / ODIs / T20Is), the cell under it lists players. Struck-out players are left out.
 const FORMAT = s => /T20/i.test(s) ? 'T20I' : /ODI|One Day/i.test(s) ? 'ODI' : /Test/i.test(s) ? 'Test' : '';
