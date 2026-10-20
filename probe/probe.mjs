@@ -1,17 +1,27 @@
-// probe 73: the link preview card in each theme's colours (dark), for choosing
-import { chromium } from 'playwright';
-import { readFile, writeFile } from 'node:fs/promises';
-const THEMES = {"ocean": {"paper": "#0c1218", "surface": "#141c24", "ink": "#e4edf5", "muted": "#8fa2b5", "line": "#233142", "accent": "#5cb3ff"}, "red": {"paper": "#130e0e", "surface": "#1d1615", "ink": "#f1e7e5", "muted": "#ad9a97", "line": "#352927", "accent": "#ff7b72"}, "black": {"paper": "#0a0a0a", "surface": "#151515", "ink": "#eeeeee", "muted": "#9a9a9a", "line": "#2a2a2a", "accent": "#f1f1f1"}, "kowhai": {"paper": "#12100a", "surface": "#1c1910", "ink": "#f2ecdc", "muted": "#aba189", "line": "#332e1f", "accent": "#f5c542"}, "paua": {"paper": "#0a1314", "surface": "#111e1f", "ink": "#e0f0f0", "muted": "#8ba9aa", "line": "#1f3536", "accent": "#3ccfcf"}, "purple": {"paper": "#100d17", "surface": "#181422", "ink": "#ebe6f6", "muted": "#a39bb6", "line": "#2d2640", "accent": "#a98bff"}, "orange": {"paper": "#140f0b", "surface": "#1e1712", "ink": "#f3e8de", "muted": "#b09d8c", "line": "#382a20", "accent": "#ff8a4c"}, "lime": {"paper": "#0e120a", "surface": "#161c10", "ink": "#e8f0dc", "muted": "#9cab89", "line": "#2a3420", "accent": "#a9e34b"}, "pink": {"paper": "#140c10", "surface": "#1e1419", "ink": "#f4e4eb", "muted": "#b398a5", "line": "#38242e", "accent": "#f783ac"}, "green": {"paper": "#0e1412", "surface": "#161f1c", "ink": "#e6eeea", "muted": "#93a49d", "line": "#25322d", "accent": "#46c093"}};
-const src = await readFile(new URL('og/og.html', import.meta.url), 'utf8');
-const b = await chromium.launch();
-const p = await b.newPage({ viewport: { width: 1200, height: 630 } });
-for (const [k, t] of Object.entries(THEMES)) {
-  // the card's green-theme colours swapped for this theme's
-  const html = src.replace(/#0e1211/gi, t.paper).replace(/#141b19/gi, t.surface).replace(/#e9eeec|#e6eeea/gi, t.ink).replace(/#93a49d/gi, t.muted).replace(/#3b4a44/gi, t.line).replace(/#45c08f/gi, t.accent);
-  const f = new URL('og/og-' + k + '.html', import.meta.url);
-  await writeFile(f, html);
-  await p.goto(f.href, { waitUntil: 'networkidle' }); await p.evaluate(() => document.fonts.ready); await p.waitForTimeout(300);
-  await p.screenshot({ path: new URL('out-og-' + k + '.png', import.meta.url).pathname });
-  console.log('rendered', k);
-}
-await b.close();
+// probe 74: what the live feed is missing, to pick what to hunt for next
+const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
+const now = Date.now(), soon = e => { const t = Date.parse(e.startUTC) - now; return t > -3 * 864e5 && t < 21 * 864e5; };
+const NZ = /New Zealand|Black Caps|White Ferns|All Blacks|Black Ferns|Kiwis|Kiwi Ferns|Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Warriors|Phoenix|Auckland FC|Breakers|Silver Ferns|Tall Blacks|Black Sticks|Moana|Auckland|Wellington|Canterbury|Otago|Northern|Central|Waikato|Bay of Plenty|Taranaki|Tasman|Hawke|Manawatu|Southland|North Harbour|Counties|Northland/;
+const up = f.events.filter(soon);
+const by = (xs, k) => Object.entries(xs.reduce((a, e) => (a[k(e)] = (a[k(e)] || 0) + 1, a), {})).sort((a, b) => b[1] - a[1]);
+console.log('events', f.events.length, '| next 3 weeks', up.length);
+console.log('\n== squads: games in the next 3 weeks without a squad, by competition (NZ sides)');
+for (const [c, n] of by(up.filter(e => !e.squads && NZ.test(e.home + ' ' + e.away) && !/motor|tennis|mma|boxing/.test(e.sport)), e => e.sport + ' | ' + (e.comp || '').replace(/,.*$/, ''))) console.log(`  ${n} | ${c}`);
+console.log('  with squads:', by(up.filter(e => e.squads), e => e.sport + ' | ' + (e.comp || '').replace(/,.*$/, '')).map(([c, n]) => `${n} ${c}`).join('; '));
+console.log('\n== where to watch missing or TBC (next 3 weeks)');
+for (const [c, n] of by(up.filter(e => !e.broadcast || e.broadcast === 'TBC'), e => e.sport + ' | ' + (e.comp || '').replace(/,.*$/, ''))) console.log(`  ${n} | ${c}`);
+console.log('\n== start time not set (next 3 weeks)');
+for (const [c, n] of by(up.filter(e => e.timeTBC), e => e.sport + ' | ' + (e.comp || '').replace(/,.*$/, ''))) console.log(`  ${n} | ${c}`);
+console.log('\n== venue missing (next 3 weeks)');
+for (const [c, n] of by(up.filter(e => !e.venue), e => e.sport + ' | ' + (e.comp || '').replace(/,.*$/, ''))) console.log(`  ${n} | ${c}`);
+console.log('\n== finished in the last 10 days with no score/summary');
+for (const [c, n] of by(f.events.filter(e => { const t = now - Date.parse(e.startUTC); return t > 6 * 36e5 && t < 10 * 864e5 && !e.score && !e.summary && !/motor|tennis/.test(e.sport); }), e => e.sport + ' | ' + (e.comp || '').replace(/,.*$/, ''))) console.log(`  ${n} | ${c}`);
+const sides = new Set(); f.events.forEach(e => [e.home, e.away].forEach(t => t && sides.add(e.sport + '|' + t)));
+const links = f.teamLinks || {};
+const noLink = [...sides].filter(k => !links[k] && !links[k.split('|')[1]] && !/TBC|winner|loser|group|pool|placed|semi|final|runner|qualifier|^UFC/i.test(k));
+console.log('\n== sides with no team links:', noLink.length, 'of', sides.size, '| e.g.', noLink.slice(0, 25).join(', '));
+console.log('\n== teamLinks sample key/value:', JSON.stringify(Object.entries(links).slice(0, 2)).slice(0, 300));
+console.log('\n== news items:', (f.news || []).length, '| by sport', by(f.news || [], n => n.sport || '?').map(([c, n]) => c + ' ' + n).join(', '));
+console.log('== tables (standings):', Object.keys(f.tables || {}).join(', ') || 'none');
+console.log('== rankings lists:', (f.rankings || []).length);
+console.log('== diag:', JSON.stringify(f.diag || {}).slice(0, 1500));
