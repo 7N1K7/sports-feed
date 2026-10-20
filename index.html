@@ -199,9 +199,13 @@ html { -webkit-tap-highlight-color: transparent }
 .panel .ph .phbtns .btn { font: 600 12px var(--f-body); text-transform: none; letter-spacing: 0; padding: 3px 11px; color: var(--ink) }
 .panel .ph .phnote { display: block; margin-top: 2px; font-size: 13px; font-weight: 500; color: var(--muted) } /* its own line, flush with the title */
 .panel .ph:first-of-type { border-top: 0; padding-top: 0; margin-top: 0 }
+/* the panel's own title: a size up from its sections', in a lighter shade of the theme colour (deeper on a light page) */
+.panel .ph.ptitle { font-size: 25px; color: color-mix(in srgb, var(--accent) 45%, var(--ink)) }
 .spoil-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 14px }
 /* the settings drop-downs share one snug width */
-#tzSel, #spoilDays { width: 9.5em } .spoil-row > label { min-width: 7.6em }
+#tzSel, #spoilDays { width: 9.5em } .spoil-row > label, .spoil-row .sgrp > label { min-width: 7.6em }
+/* the times and the spoiler days share a line, each label with its box, and stack (lined up) when there isn't room */
+.spoil-row .sgrp { display: inline-flex; align-items: center; gap: 10px } .spoil-row:has(.sgrp) { column-gap: 28px }
 select { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink) }
 
 main { padding-block: 12px 48px; display: grid; gap: 18px }
@@ -1071,22 +1075,18 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
   </div>
   <div class="panel" id="panel" hidden>
   <div class="wrap"><div class="pbox" role="dialog" aria-label="Settings"><button type="button" class="pclose" id="panelClose" aria-label="Close settings">×</button>
-    <h2 class="ph">Settings <span class="phnote">Saved in this browser only (clearing site data resets them)</span></h2>
+    <h2 class="ph ptitle">Settings <span class="phnote">Saved in this browser only (clearing site data resets them)</span></h2>
     <div class="spoil-row">
-      <label for="spoilDays">Hide results for</label>
+      <span class="sgrp"><label for="tzSel">Show times for</label>
+      <select id="tzSel"></select></span>
+      <span class="sgrp"><label for="spoilDays">Hide results for</label>
       <select id="spoilDays">
         <option value="0">Never</option><option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option><option value="4">4 days</option>
         <option value="5">5 days</option><option value="7">7 days</option><option value="14">14 days</option>
-      </select>
+      </select></span>
     </div>
-    <div class="spoil-row">
-      <label for="tzSel">Show times for</label>
-      <select id="tzSel"></select>
-    </div>
-    <div class="spoil-row">
-      <span>Theme</span>
-      <div class="swatches" id="accentSel" role="group" aria-label="Theme"></div>
-    </div>
+    <h2 class="ph">Theme</h2>
+    <div class="swatches" id="accentSel" role="group" aria-label="Theme"></div>
     <h2 class="ph">My teams <span class="phbtns"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></span><span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news. Not into a sport at all? Tap <b>Hide sport</b> beside its name to take it off your feed and out of the sport buttons; <b>Show sport</b> brings it back.</span></h2>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
     <h2 class="ph">Phone app <span class="phnote">Put Kickoff Kiwi on your home screen. It opens full-screen like an app. No app store, no account.</span></h2>
