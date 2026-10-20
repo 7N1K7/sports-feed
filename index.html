@@ -466,7 +466,7 @@ dialog#sheet { width: min(720px, 100%) }
    instead of down the side; the list's name and date centred too */
 .sheet-head.rhead { border-left: 0; padding: 0; justify-items: center; text-align: center }
 .sheet-head.rhead .dteams::after { content: ""; display: block; width: 44px; height: 4px; border-radius: 2px; background: var(--sport); margin: 8px auto 0 }
-.stable.rank > .dh { text-align: center }
+.stable.rank > .dh, .rsrc { text-align: center }
 .dres { padding: 14px 16px; gap: 8px; justify-items: start }
 .facts { gap: 10px 18px; padding-block: 4px }
 .dh { margin-bottom: 8px }
@@ -1936,7 +1936,7 @@ function rankingsHtml(lists) {
   }).join('');
   const lim = fighters && UFC_LIMIT[(l.title.match(/(strawweight|flyweight|bantamweight|featherweight|lightweight|welterweight|middleweight|light heavyweight|heavyweight)\s*$/i) || [])[1]?.toLowerCase()];
   return `${chips}<div class="stable rank sport-${l.sport}"><h3 class="dh">${esc(l.title)}${lim ? ` <span class="wlim">${wrange(lim)}</span>` : fighters ? ' <span class="wlim" aria-hidden="true" style="visibility:hidden">000.0–000.0 kg (000–000 lb)</span>' : ''}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), 'UTC', l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : people ? 'Player' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
-    <p class="muted small">Rankings from <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(l.page.replace(/ /g, '_'))}" target="_blank" rel="noopener">Wikipedia</a> (CC BY-SA), which follows the official ${{ mma: 'UFC', rugby: 'World Rugby', cricket: 'ICC', league: 'IRL', football: 'FIFA', hockey: 'FIH', basketball: 'FIBA', netball: 'World Netball', tennis: /women/i.test(l.title) ? 'WTA' : 'ATP' }[l.sport] || ''} list.</p>`;
+    <p class="muted small rsrc">Rankings from <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(l.page.replace(/ /g, '_'))}" target="_blank" rel="noopener">Wikipedia</a> (CC BY-SA), which follows the official ${{ mma: 'UFC', rugby: 'World Rugby', cricket: 'ICC', league: 'IRL', football: 'FIFA', hockey: 'FIH', basketball: 'FIBA', netball: 'World Netball', tennis: /women/i.test(l.title) ? 'WTA' : 'ATP' }[l.sport] || ''} list.</p>`;
 }
 // Shows tab: the wider conversation around each sport (panel shows, YouTube breakdowns, podcasts), best known first.
 // t: tv / yt / pod. c: only for competitions matching it. url: a checked page; otherwise a YouTube search for q (or the name).
