@@ -942,12 +942,11 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 .search { position: relative }
 /* no built-in clear button: it takes room on the right (Esc still clears) */
 #q::-webkit-search-cancel-button, #q::-webkit-search-decoration { -webkit-appearance: none; appearance: none; display: none }
-#q { width: 112px; padding: 7px 12px 7px 29px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font: 14px var(--f-body); text-align: left }
-.search .qico { position: absolute; left: 11px; top: 50%; width: 14px; height: 14px; margin-top: -7px; color: var(--muted); pointer-events: none; z-index: 1 }
-/* empty and not in use, the magnifier and "Search" sit together in the middle of the box (an equal gap either side); once
-   you're typing it's an ordinary left-to-right box */
-.search:not(:focus-within):has(#q:placeholder-shown) .qico { left: calc(50% - 29px) }
-.search:not(:focus-within):has(#q:placeholder-shown) #q { padding-left: calc(50% - 11px) }
+#q { width: 112px; padding: 7px 12px 7px calc(50% - 11px); border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font: 14px var(--f-body); text-align: left }
+.search .qico { position: absolute; left: calc(50% - 29px); top: 50%; width: 14px; height: 14px; margin-top: -7px; color: var(--muted); pointer-events: none; z-index: 1 }
+/* the magnifier and "Search" sit together in the middle of the box (an equal gap either side) and stay there when it's
+   clicked: the cursor starts where the word starts and typing runs on from it, so nothing moves. (The compact layouts,
+   where the box widens across the row when tapped, type from the left; their rules are below) */
 #q:focus { outline: 2px solid color-mix(in srgb, var(--ink) 40%, transparent); outline-offset: 1px }
 .qlist { position: absolute; right: 0; top: calc(100% + 6px); width: min(440px, 92vw); max-height: 70vh; overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 32px rgb(0 0 0 / .18); z-index: 20; padding: 4px }
 .qi { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 8px 10px; border: 0; background: none; border-radius: 8px; font: 15px var(--f-body); color: inherit; cursor: pointer }
