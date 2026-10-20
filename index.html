@@ -400,6 +400,10 @@ dialog#sheet::backdrop { background: rgba(10, 18, 15, .5) }
 .facts dd { margin: 0 }
 .dh { font-family: var(--f-body); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-top: 4px }
 .watchlist { margin: 0; padding-left: 18px; display: grid; gap: 3px; font-size: 14px }
+.watchlist li.wopt { list-style: none; margin-left: -18px; display: grid; grid-template-columns: 7.2em minmax(0, 1fr); gap: 2px 10px; align-items: start; padding: 4px 0; border-top: 1px solid var(--line) }
+.watchlist li.wopt:first-child { border-top: 0; padding-top: 0 }
+.wkind { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding-top: 3px }
+.wkind.k-free { color: #51cf66 } .wkind.k-pay { color: #ff922b }
 .muted { color: var(--muted) }
 .dn-item { display: block; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 14px; line-height: 1.35 }
 .dn-item:hover { border-color: var(--accent) }
@@ -967,6 +971,12 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
     <div class="cals" id="calList"></div>
     <h2 class="ph">Phone alerts <span class="phnote">A heads-up on your phone before each game and when it's over. Never the score.</span></h2>
     <div class="cals" id="alertList"></div>
+    <h2 class="ph">Move your settings <span class="phnote">Copy this code, then paste it into Kickoff Kiwi on another browser, phone or the home-screen app to bring your teams and choices across.</span></h2>
+    <div class="cals">
+      <div class="calrow"><span class="calname">This browser's settings</span><span class="calgo"><button type="button" id="copySettings">Copy code</button></span></div>
+      <div class="calrow"><input id="settingsCode" type="text" placeholder="Paste a code here" aria-label="Settings code" autocomplete="off" spellcheck="false" style="flex:1 1 12em;min-width:0;font:inherit;font-size:13px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 12px"><span class="calgo"><button type="button" id="loadSettings">Use these settings</button></span></div>
+      <div class="note muted" id="moveNote" style="font-size:13px">Teams, sports, competition, men's or women's, NZ only, spoilers, time zone and colours. Results you've revealed stay on each device.</div>
+    </div>
   </div></div>
 </div>
 </header>
@@ -1474,6 +1484,34 @@ const SERVICES = {
 const SVC_RE = new RegExp(`(${Object.keys(SERVICES).sort((a, b) => b.length - a.length).map(k => k.replace(/[.+]/g, '\\$&')).join('|')})(?![\\w+])`, 'g');
 const linkWatch = t => esc(t).replace(SVC_RE, m => `<a class="svc" href="${SERVICES[m]}" target="_blank" rel="noopener">${m}</a>`);
 const LIVE_SITE = { cricket: ['Cricinfo', 'https://www.espncricinfo.com/live-cricket-score'] };
+// what each way to watch is, for the game's pop-up: its kind, and what you need for it
+const WATCH_INFO = {
+  'Sky Sport': ['TV', 'Sky TV with the Sport package'], 'Sky Sport Now': ['Streaming', "Sky's sport app: a weekly or monthly pass, no Sky box needed"],
+  'Sky Go': ['Streaming', 'Comes with a Sky TV subscription, on phones, tablets and laptops'], 'Sky Arena': ['Pay-per-view', 'Bought from Sky for this event'],
+  'TVNZ+': ['Free stream', 'Free with a TVNZ+ account: app, website or smart TV'], 'TVNZ 1': ['Free-to-air TV', 'On TVNZ 1, no subscription'], 'TVNZ 2': ['Free-to-air TV', 'On TVNZ 2, no subscription'],
+  Three: ['Free-to-air TV', 'On Three, no subscription'], ThreeNow: ['Free stream', 'Free on the ThreeNow app and website'],
+  'NZC YouTube': ['Free stream', "NZ Cricket's YouTube channel"], 'NZC live stream': ['Free stream', "NZ Cricket's website and YouTube channel"],
+  RNZ: ['Radio', 'Live commentary on RNZ National and the RNZ app'], 'Sport Nation': ['Radio', 'Live commentary on Sport Nation'],
+  'DAZN PPV': ['Pay-per-view', 'Bought on DAZN for this event'], DAZN: ['Streaming', 'A DAZN subscription'], Netflix: ['Streaming', 'A Netflix subscription'],
+  'ICC.tv': ['Streaming', "The ICC's own streaming service, where it's shown in NZ"], ESPN: ['TV', 'Sky TV, on the ESPN channels'], 'Kayo': ['Streaming', 'A Kayo subscription (Australia)'],
+};
+const WATCH_KEYS = Object.keys(WATCH_INFO).sort((a, b) => b.length - a.length);
+// "Sky Sport / Sky Sport Now", "Radio: RNZ / Sport Nation", "Free on Three / ThreeNow": one entry each, the kind and
+// what's needed for those it knows
+function watchOptions(e) {
+  const out = [];
+  for (const text of [e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '', e.watchAlt || '']) {
+    let radio = false;
+    for (let part of text.split(/\s*(?:\/|;)\s*/)) {
+      part = part.trim(); if (!part) continue;
+      if (/^Radio:\s*/i.test(part)) { radio = true; part = part.replace(/^Radio:\s*/i, ''); }
+      const key = WATCH_KEYS.find(k => part.toLowerCase().includes(k.toLowerCase()));
+      const [kind, need] = key ? WATCH_INFO[key] : radio ? ['Radio', ''] : /free/i.test(part) ? ['Free', ''] : ['', ''];
+      out.push({ label: part, kind: radio && kind !== 'Radio' ? 'Radio' : kind, need });
+    }
+  }
+  return out;
+}
 // the game's own Cricinfo page, when Wikipedia's match box links to it
 const FIGHT = /^(mma|boxing)$/;
 const cricinfo = e => e.cricinfo || (/cricinfo\.com/.test(e.link || '') ? e.link : '');
@@ -1958,7 +1996,9 @@ function detail(e) {
     if (c && (!seen.has(img) || !/\s/.test(seen.get(img)[0]))) seen.set(img, [n.replace(/\s*\(c\)$/, ''), c]);
   const photos = seen.size ? `<p class="photocred">Photos: ${esc([...seen.values()].map(([n, c]) => `${n}: ${c}`).join('; '))}</p>` : '';
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
-  const watch = [b && `<li><b>${linkWatch(b)}</b></li>`, e.watchAlt && `<li>${linkWatch(e.watchAlt)}</li>`,
+  // every way to watch, the card's one first, each with what it is and what you need for it
+  const opts = watchOptions(e);
+  const watch = [opts.map((o, i) => `<li class="wopt"><span class="wkind k-${(o.kind || 'other').split(/[ -]/)[0].toLowerCase()}">${esc(o.kind || 'Watch')}</span><div><b>${linkWatch(o.label)}</b>${i === 0 && opts.length > 1 ? ' <span class="muted small">(on the card)</span>' : ''}${o.need ? `<div class="muted small">${esc(o.need)}</div>` : ''}</div></li>`).join(''),
     cricinfo(e) && `<li>Live scores and commentary on <a class="svc" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Cricinfo</a></li>`, e.watchNote && `<li class="muted">${esc(e.watchNote)}</li>`].filter(Boolean).join('')
     || '<li class="muted">Broadcaster not confirmed yet</li>';
   const names = [e.home, e.away].map(n => String(n || '').replace(/ Women$/, ''));
@@ -2425,6 +2465,15 @@ function render() {
     </ul></div>`;
   fitTop(); fitLines(); syncPulse(); syncJump();
 }
+// Settings to another browser: a code holding this browser's choices (not revealed results, nor the stats page's own)
+const MOVE_KEYS = ['teams', 'view', 'spoilers', 'spoilDays', 'spoilDaysSet', 'sport', 'comp', 'gender', 'nzOnly', 'tz', 'accent', 'theme'];
+const settingsCode = () => 'KK1-' + btoa(unescape(encodeURIComponent(JSON.stringify(Object.fromEntries(MOVE_KEYS.map(k => [k, store.get(k, null)]).filter(([, v]) => v !== null)))))).replace(/=+$/, '');
+function useSettingsCode(code) {
+  const m = String(code).replace(/\s+/g, '').match(/^KK1-([A-Za-z0-9+/]+)$/);
+  if (!m) throw new Error('bad');
+  const b = m[1] + '='.repeat((4 - m[1].length % 4) % 4), o = JSON.parse(decodeURIComponent(escape(atob(b))));
+  for (const k of MOVE_KEYS) if (k in o) store.set(k, o[k]);
+}
 // Phone app (manifest.webmanifest, sw.js): what to tap depends on the device. Chrome and Edge offer their own install
 // prompt, which is kept for the button here; Safari only adds to the home screen from its Share menu.
 let installEvt = null;
@@ -2483,6 +2532,8 @@ document.addEventListener('click', ev => {
   if (t.dataset.teampage) { closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport, t.classList.contains('rteam') ? $('sheet').dataset.rankings : ''); return; }
   if (t.dataset.goto) { const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
   if (t.id === 'toResults' || t.id === 'toNews') { const el = $(t.id === 'toNews' ? 'newsSec' : 'resSec'); scrollTo({ top: el.getBoundingClientRect().top + scrollY - document.querySelector('header.top').offsetHeight - 10, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
+  if (t.id === 'copySettings') { const c = settingsCode(); (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { $('moveNote').textContent = 'Copied. Paste it into the box on the other browser, then tap "Use these settings".'; }, () => prompt('Copy this code', c)); return; }
+  if (t.id === 'loadSettings') { try { useSettingsCode($('settingsCode').value); location.reload(); } catch { $('moveNote').textContent = "That doesn't look like a settings code. Copy it again from the other browser, the whole thing."; } return; }
   if (t.dataset.install) { if (installEvt) installEvt.prompt().then(() => installEvt.userChoice).then(() => { installEvt = null; $('appInstall').innerHTML = appHtml(); }); return; }
   if (t.dataset.calcopy) { count({ e: t.closest('#alertList') ? 'alerts' : 'cal' }); const u = t.dataset.calcopy; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { const was = t.textContent; t.textContent = 'Copied'; setTimeout(() => { t.textContent = was; }, 1600); }, () => prompt('Copy this', u)); return; }
   if (t.classList.contains('ghide')) {
