@@ -9,7 +9,7 @@
 //   data/curated/*.json        -> fixtures the above lack (boxing, some tests), news, notes
 //   data/broadcast.json        -> where-to-watch rules by competition
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
-import { wikiEvents, tsdbEvents, tsdb, f1StartTimes } from './sources.mjs';
+import { wikiEvents, tsdbEvents, tsdb, f1StartTimes, stateSquads } from './sources.mjs';
 import { rankings as getRankings } from './rankings.mjs';
 import { execSync } from 'node:child_process';
 
@@ -567,7 +567,7 @@ const LOGO_CODES = {
   rugby: { leagues: ['Super Rugby', 'Super Rugby Pacific', 'Mitre 10 Cup', 'Bunnings NPC', 'NPC'], ok: /Super Rugby|Mitre 10|NPC|Provincial|Rugby Championship|Premiership Rugby|Top 14|United Rugby/i },
   league: { leagues: ['NRL', 'Australian National Rugby League'], ok: /NRL|Rugby League|Super League/i },
   football: { leagues: ['Australian A-League', 'Australian A-League Men'], ok: /A-League|Soccer|Football/i, sport: 'Soccer' },
-  cricket: { leagues: ['Big Bash League', 'Womens Big Bash League', 'Super Smash', 'Plunket Shield', 'Ford Trophy'], ok: /Big Bash|Super Smash|Plunket|Ford Trophy|Cricket/i, sport: 'Cricket' },
+  cricket: { leagues: ['Big Bash League', 'Womens Big Bash League', 'Super Smash', 'Plunket Shield', 'Ford Trophy', 'Sheffield Shield'], ok: /Big Bash|Super Smash|Plunket|Ford Trophy|Sheffield|Cricket/i, sport: 'Cricket' },
 };
 // NZ domestic cricket sides go by their association name in fixtures but their team name on TheSportsDB
 const LOGO_ALIAS = { 'cricket|Northern Districts': ['Northern Brave', 'Northern Knights'], 'cricket|Canterbury': ['Canterbury Kings', 'Canterbury Wizards'], 'cricket|Central Districts': ['Central Stags'],
@@ -1199,13 +1199,13 @@ async function phoneAlerts(events) {
 
 // Squad names link to each player's Cricinfo profile: the Cricinfo id comes from Wikidata (ESPNcricinfo player ID, P2697),
 // found through the player's Wikipedia article. Ids are kept for 30 days, players without one are re-asked weekly
-async function addPlayerLinks(events) {
+async function addPlayerLinks(events, more = []) {
   const cacheUrl = new URL('.cache/players.json', ROOT);
   let cache = {};
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
   const UA = { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } };
   const get = async (host, q) => { await new Promise(r => setTimeout(r, 1000)); const r = await fetch(`https://${host}/w/api.php?format=json&formatversion=2&maxlag=5&` + q, UA); if (!r.ok) throw new Error(`${host} ${r.status}`); return r.json(); };
-  const players = events.filter(e => e.squads && Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY).flatMap(e => e.squads.flatMap(s => s.players));
+  const players = [...events.filter(e => e.squads && Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY).flatMap(e => e.squads.flatMap(s => s.players)), ...more.flatMap(s => s.players)];
   const key = p => p.w || p.n;
   const due = [...new Set(players.map(key))].filter(k => !cache[k] || now - cache[k].t > (cache[k].ci ? 30 : 7) * DAY).slice(0, 150);
   try {
@@ -1246,7 +1246,7 @@ async function addPlayerLinks(events) {
   } catch (e) { diag.playerRolesError = e.message; }
   let linked = 0;
   let roled = 0;
-  for (const p of players) { const c = cache[key(p)]; if (c?.ci) { p.ci = c.ci; linked++; } if (c?.wp) p.wp = c.wp; if (c?.rl) { p.role = c.rl; roled++; } delete p.w; }
+  for (const p of players) { const c = cache[key(p)]; if (c?.ci) { p.ci = c.ci; linked++; } if (c?.wp) p.wp = c.wp; if (c?.rl) { p.role ||= c.rl; roled++; } delete p.w; }
   diag.players = `${linked}/${players.length} squad places linked to Cricinfo, ${roled} with a role; ${due.length} looked up, ${needRole.length} roles read`;
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
@@ -1273,7 +1273,11 @@ async function addImages(items) {
 await addImages(news);
 await addLogos(events, tsdbAll);
 await addFaces(events);
-await addPlayerLinks(events);
+// Australian state sides' squads, from their team pages while they have Shield or One-Day Cup games near. Kept once
+// in the feed rather than on every game; the page puts them on each game
+const stateList = events.some(e => e.team === 'audomestic' && Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY)
+  ? Object.entries(await stateSquads(diag)).map(([team, players]) => ({ team, players })) : [];
+await addPlayerLinks(events, stateList);
 await addFighterLinks(events);
 const links = await teamLinks(events);
 
@@ -1329,6 +1333,7 @@ const feed = {
   news,
   tables,
   rankings,
+  ...(stateList.length ? { stateSquads: stateList } : {}),
   teamLinks: links,
   sources: [
     { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(ESPN_ON ? [{ name: 'Live cricket: ESPNcricinfo', url: 'https://www.espncricinfo.com' }] : []), ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, { name: 'Press releases via Scoop Media', url: 'https://www.scoop.co.nz/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })),

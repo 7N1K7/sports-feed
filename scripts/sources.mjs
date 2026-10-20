@@ -835,6 +835,55 @@ function squadsFromPage(text) {
   }
   return out;
 }
+// Australian state sides (Sheffield Shield, One-Day Cup): the contracted squad from the "Squad" or "Current squad"
+// table on each state team's page. Its rows sit under group rows (Batters, All-rounders, Wicket-keepers, Bowlers),
+// and the captain is named in the notes column.
+export const STATE_PAGES = { Queensland: 'Queensland cricket team', 'New South Wales': 'New South Wales cricket team', Victoria: 'Victoria cricket team',
+  'South Australia': 'South Australia cricket team', 'Western Australia': 'Western Australia cricket team', Tasmania: 'Tasmania cricket team' };
+// a cell's attributes ('style="text-align:center"|17') end at a pipe that comes before any link or template
+const cellText = c => c.replace(/^[^[{|]*\|(?!\|)/, '').trim();
+function stateSquad(text) {
+  const i = text.search(/^==\s*(?:Current )?squad\s*==\s*$/im);
+  if (i < 0) return [];
+  const sec = text.slice(i).replace(/^[^\n]*\n/, ''), j = sec.search(/^==[^=]/m);
+  const tbl = ((j < 0 ? sec : sec.slice(0, j)).match(/\{\|[\s\S]*?\n\|\}/) || [])[0];
+  if (!tbl) return [];
+  const players = [];
+  let nameCol = -1, group = '';
+  for (const row of tbl.split(/\n\|-[^\n]*/).slice(1)) {
+    const lines = row.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('|}'));
+    if (!lines.length) continue;
+    if (lines.every(l => l.startsWith('!'))) {
+      const heads = lines.flatMap(l => l.slice(1).split('!!')).map(c => clean(cellText(c)));
+      if (heads.length === 1) group = heads[0]; else nameCol = heads.findIndex(h => /^(player|name)$/i.test(h));
+      continue;
+    }
+    if (nameCol < 0 || /<s>/.test(row)) continue;
+    const cells = lines.filter(l => l.startsWith('|')).flatMap(l => l.slice(1).split('||')).map(cellText);
+    const cell = cells[nameCol] || '', n = clean(cell).replace(/\s*\(.*?\)\s*$/, '');
+    if (!n || !/\[\[/.test(cell)) continue;
+    const notes = clean(cells[cells.length - 1] || ''), w = (cell.match(/\[\[([^\]|#]+)/) || [])[1]?.trim();
+    const role = /keeper/i.test(group) ? 'wk' : /all/i.test(group) ? 'ar' : /bowl/i.test(group) ? 'bowl' : /bat/i.test(group) ? 'bat' : '';
+    const r = [/vice[- ]?captain/i.test(notes) ? 'vc' : /\bcaptain\b/i.test(notes) ? 'c' : '', role === 'wk' ? 'wk' : ''].filter(Boolean).join(', ');
+    players.push({ n, ...(r ? { r } : {}), ...(role ? { role } : {}), ...(w && w !== n ? { w } : {}) });
+  }
+  return players;
+}
+// the six pages in one request; a state whose page has no squad table is left out
+export async function stateSquads(diag) {
+  try {
+    const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(Object.values(STATE_PAGES).join('|')), { headers: UA });
+    if (!r.ok) throw new Error(r.status);
+    const j = await r.json(), back = Object.fromEntries((j.query?.redirects || []).map(x => [x.to, x.from])), out = {};
+    for (const pg of j.query?.pages || []) {
+      const state = Object.keys(STATE_PAGES).find(k => STATE_PAGES[k] === (back[pg.title] || pg.title));
+      const players = state ? stateSquad(pg.revisions?.[0]?.slots?.main?.content || '') : [];
+      if (players.length >= 8) out[state] = players;
+    }
+    diag.stateSquads = Object.keys(STATE_PAGES).map(k => `${k} ${out[k]?.length || 0}`).join(', ');
+    return out;
+  } catch (e) { diag.stateSquads = 'error ' + e.message; return {}; }
+}
 function squadsFor(sq, e) {
   const f = FORMAT(e.stage || '') || FORMAT(e.comp || '');
   const base = t => (t || '').replace(/\s+Women('s)?$/, '');
@@ -1020,4 +1069,4 @@ export async function tsdbEvents(all, diag, cache = {}, gapsFor = null) {
   return out;
 }
 export { tennisFinals as _tennisFinals, dateRange as _dateRange, TENNIS as _TENNIS };
-export { fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
+export { stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };

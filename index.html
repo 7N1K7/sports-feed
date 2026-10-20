@@ -2048,7 +2048,7 @@ function detail(e) {
     ].filter(Boolean).join('')}</div>
     <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
     ${e.card?.length ? `<h3 class="dh">Fight card</h3>${fightCard(e, hidden)}` : ''}
-    ${e.squads?.length ? `<h3 class="dh">Squads${e.squads.some(q => q.players.some(p => p.ci || p.wp)) ? ' <span class="muted small dhnote">tap a name for their profile</span>' : ''}</h3>${squadsHtml(e)}${cricinfo(e) ? `<p class="small"><a class="srclink" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Playing XIs on Cricinfo once announced ↗</a></p>` : ''}` : ''}
+    ${e.squads?.length ? `<h3 class="dh">${e.seasonSquads ? 'Season squads' : 'Squads'}${e.seasonSquads ? ' <span class="muted small dhnote">each XI is picked from these</span>' : e.squads.some(q => q.players.some(p => p.ci || p.wp)) ? ' <span class="muted small dhnote">tap a name for their profile</span>' : ''}</h3>${squadsHtml(e)}${cricinfo(e) ? `<p class="small"><a class="srclink" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Playing XIs on Cricinfo once announced ↗</a></p>` : ''}` : ''}
     <h3 class="dh">${solo(e) ? 'News' : 'Team news'}</h3>
     ${related.length ? `<div class="news">${related.map(n => `<a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener">${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '<span></span>'}<span class="dn-text"><span class="dn-meta"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span class="muted">${esc(n.source || '')}</span></span><b>${esc(n.title)}</b></span></a>`).join('')}</div>` : `<p class="muted">No recent news for this ${solo(e) ? 'race' : 'match'} yet.</p>`}
     ${photos}
@@ -2786,6 +2786,8 @@ async function load(woke) {
       if (e.sport === 'cricket' && !e.tz && HOST_TZ[host]) { e.tz = HOST_TZ[host]; if (!e.city && !e.venue) e.city = host; }
       // Tests with no listed time sit at their usual 10am local start, so they land on the right day and countdown
       const u = usualStart(e); if (u) { e.startUTC = u.toISOString(); e.usual = true; }
+      // Shield and One-Day Cup games: the state sides' season squads, kept once in the feed
+      if (e.team === 'audomestic' && !e.squads) { const sq = (FEED.stateSquads || []).filter(s => s.team === e.home || s.team === e.away); if (sq.length) { e.squads = sq; e.seasonSquads = true; } }
     }
     $('foot').innerHTML = `Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)`;
     render(); stamp(); openFromLink();
