@@ -373,6 +373,57 @@ async function readCurated() {
   return { events, news };
 }
 
+// free live streams on the sports bodies' own YouTube channels: NZ Cricket streams domestic and Māori tournament games,
+// Cricket Australia the Shield and One-Day Cup, and so on. Two requests a channel a run (two of the key's 10,000 daily
+// units): its latest 50 uploads, which list scheduled and live streams too, then those videos' stream times. A stream
+// counts for a game when its title names both sides and it starts on one of the game's days. Off without the
+// YOUTUBE_API_KEY secret
+const YT_CHANNELS = [
+  ['cricket', 'NZ Cricket', 'UCuKowzPg2-A0FcmyPa3yWug'], ['cricket', 'Cricket Australia', 'UC2naOExy27J5Qz3SO-w6xkQ'],
+  ['netball', 'Netball NZ', 'UCBL_yvdSAenDVDAyfCQNOpQ'], ['hockey', 'Hockey NZ', 'UC3xM-N7a2Ad_WZOCcONDPmg'],
+  ['basketball', 'Basketball NZ', 'UC4OycSjzkovtoJPLC3YBo2w'], ['football', 'NZ Football', 'UCOlVcyI-9J8QiPkxjKhT5zg'],
+  ['league', 'NZ Rugby League', 'UCEztFfJS3r2MjXiHEdPDo9Q'],
+];
+// the word a title names a side by: "Central Stags" -> central, "New South Wales" -> new south wales, "NSW" too
+const ytSide = t => { const n = String(t || '').toLowerCase().replace(/\s+women('s)?$/, '').trim();
+  const two = /^(new|south|western|northern|north|central|sydney|melbourne|brisbane|perth|adelaide|hobart|papua|cook)\b/.test(n);
+  return n.split(/\s+/).slice(0, two ? (/^(new south|papua new)/.test(n) ? 3 : 2) : 1).join(' '); };
+const YT_ALIAS = { 'new south wales': ['nsw'], 'northern districts': ['northern brave', 'nd '], 'central stags': ['central districts', 'cd '], 'central': ['central districts'] };
+const WOMEN_TITLE = /women|wahine|wncl|wbbl|hearts|magicians|blaze|sparks|hinds|brave women|\bfire\b|meteors|scorpions|spirit|fury|breakers/i;
+async function youtubeStreams(events) {
+  const key = process.env.YOUTUBE_API_KEY;
+  if (!key) { diag.youtube = 'no key (add the YOUTUBE_API_KEY secret to switch it on)'; return; }
+  const yt = async (path, q) => { const r = await fetch(`https://www.googleapis.com/youtube/v3/${path}?${q}&key=${key}`); if (!r.ok) throw new Error(`${path} ${r.status}`); return r.json(); };
+  const found = [], notes = [];
+  for (const [sport, ch, id] of YT_CHANNELS) {
+    try {
+      const pl = await yt('playlistItems', `part=contentDetails&maxResults=50&playlistId=UU${id.slice(2)}`);
+      const ids = (pl.items || []).map(x => x.contentDetails.videoId);
+      if (!ids.length) continue;
+      const v = await yt('videos', `part=snippet,liveStreamingDetails&id=${ids.join(',')}`);
+      const streams = (v.items || []).filter(x => x.liveStreamingDetails).map(x => ({ id: x.id, title: x.snippet.title, state: x.snippet.liveBroadcastContent,
+        at: x.liveStreamingDetails.actualStartTime || x.liveStreamingDetails.scheduledStartTime || '' })).filter(x => x.at);
+      notes.push(`${ch} ${streams.length}`);
+      for (const st of streams) {
+        const title = ` ${st.title.toLowerCase()} `, at = Date.parse(st.at);
+        for (const e of events) {
+          if (e.sport !== sport || !e.home || !e.away || e.status === 'cancelled') continue;
+          const start = Date.parse(e.startUTC), days = /shield|plunket|test|first[- ]class|four[- ]day/i.test(`${e.comp} ${e.format || ''}`) ? 5 : 1;
+          if (at < start - 3 * 36e5 || at > start + (days - 1) * DAY + 12 * 36e5) continue;
+          const names = t => { const k = ytSide(t); return [k, ...(YT_ALIAS[k] || []), ...(YT_ALIAS[String(t).toLowerCase()] || [])]; };
+          if (![e.home, e.away].every(t => names(t).some(n => title.includes(n.endsWith(' ') ? ` ${n}` : n)))) continue;
+          const women = /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'wbbl', 'blacksticksw', 'kiwiferns', 'silverferns', 'tallferns', 'anzprem'].includes(e.team);
+          if (sport === 'cricket' && WOMEN_TITLE.test(st.title) !== women) continue;
+          (e.yt ||= []).push({ url: `https://www.youtube.com/watch?v=${st.id}`, ch, at: st.at, state: st.state });
+          found.push(`${e.home} v ${e.away} (${st.state})`);
+        }
+      }
+    } catch (err) { notes.push(`${ch} error ${err.message}`); }
+  }
+  for (const e of events) if (e.yt) e.yt.sort((a, b) => a.at < b.at ? -1 : 1);
+  diag.youtube = `streams per channel: ${notes.join(', ')}; matched ${found.length}${found.length ? ': ' + found.slice(0, 20).join('; ') : ''}`;
+}
+
 function applyBroadcast(e, rules) {
   const fits = r => (!r.team || r.team === e.team) && (!r.comp || new RegExp(r.comp, 'i').test(e.comp));
   // how to watch in Australia (many of the games are Australian): added whatever NZ coverage the game already has
@@ -505,6 +556,7 @@ await sportmonksCricket(events);
 // a hand correction in the curated files ("fix") wins over every live source, for when a source has a score wrong
 for (const e of events) if (e.fix) Object.assign(e, e.fix);
 events.forEach(e => applyBroadcast(e, rules));
+await youtubeStreams(events);
 for (const e of events) if (!e.tz && e.city) { const bits = e.city.split(',').map(x => x.trim()); e.tz = tzFor(bits[0], bits[bits.length - 1]); }
 
 const COUNTRY = /^(New Zealand|Australia|England|Scotland|Wales|Ireland|France|Italy|South Africa|Argentina|Japan|Fiji|Samoa|Tonga|Papua New Guinea|Cook Islands|India|Sri Lanka|Bangladesh|Pakistan|West Indies|Lebanon|Canada|USA|United States|Chile|Uruguay|Georgia|Portugal|Spain|Romania|Netherlands|Belgium|Germany|Great Britain|Malaysia|South Korea|China|Austria|Egypt|Namibia)( Women| A| XI| Wheelchair)?$/i;
@@ -1405,7 +1457,8 @@ for (const e of events.filter(x => { const t = Date.parse(x.startUTC) - now; ret
   const comp = String(e.comp || e.team || '').replace(/\s*[,·(].*$/, '').trim();
   c.games++;
   if (!e.timeTBC) c.time++; else bump(c.gaps.time, comp);
-  if ((e.broadcast && e.broadcast !== 'TBC') || e.watchAlt) c.watch++; else bump(c.gaps.watch, comp);
+  if ((e.broadcast && e.broadcast !== 'TBC') || e.watchAlt || e.yt) c.watch++; else bump(c.gaps.watch, comp);
+  if (e.yt) c.streams = (c.streams || 0) + 1;
   if (['motor', 'tennis'].includes(e.sport)) continue;
   const sides = [e.home, e.away].filter(t => t && !NOT_SIDE.test(t)), g = genderKey(e), base = t => String(t).replace(/\s+Women('s)?$/, '');
   if (!NO_SQUADS.has(e.sport) && sides.length) { c.sqGames++; if (e.squads?.length || sides.some(t => haveSquads.has(`${e.sport}|${g}|${base(t)}`))) c.squads++; else bump(c.gaps.squads, comp); }

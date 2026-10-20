@@ -537,7 +537,7 @@ dialog#sheet { width: min(720px, 100%) }
    their own under the title */
 .sheet-head:has(> .hlive) { grid-template-columns: minmax(0, 1fr) auto; column-gap: 14px }
 .sheet-head:has(> .hlive) > * { grid-column: 1 }
-.sheet-head > .hlive { grid-column: 2; grid-row: 2; align-self: center; display: grid; justify-items: end; gap: 5px; margin-right: -40px; text-align: right; font-size: 14px }
+.sheet-head > .hlive { grid-column: 2; grid-row: 2; align-self: end; display: grid; justify-items: end; gap: 5px; margin-right: -40px; text-align: right; font-size: 14px }
 @media (max-width: 560px) {
   .sheet-head:has(> .hlive) { grid-template-columns: minmax(0, 1fr) }
   .sheet-head > .hlive { grid-column: 1; grid-row: auto; display: flex; justify-content: space-between; align-items: center; margin-right: -28px }
@@ -1752,7 +1752,7 @@ function evCard(e, now) {
   const stamp = e.sport !== 'cricket' || !(live || paused) ? '' : wet && fresh ? 'Rain delay' : e.wxNews || /\b(rain|wet)/i.test(e.weather || '') ? 'Rain affected' : '';
   const play = fresh && (live || (paused && !/lunch|tea|drinks|innings break/i.test(e.progress || ''))) && e.progress ? `<div class="wx play">${wet ? '🌧 ' : ''}${esc(today && pd === today ? e.progress.replace(/,\s*day \d+\s*$/i, '') : e.progress)}${!e.liveScore ? '' : !spoilers ? ` · ${esc(e.liveScore)}` : revealed.has(e.id) ? ` · ${esc(e.liveScore)} · <button type="button" class="lsrev" data-rehide="${esc(e.id)}">Hide score</button>` : ` · <button type="button" class="lsrev" data-reveal="${esc(e.id)}">Show score</button>`}</div>` : '';
   const local = overseas ? `<div class="loc num">${e.timeTBC ? (e.usual ? '≈' + time(d, e.tz) + ' ' : '') : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${wikiLink(cityOf(e))}</div>` : '';
-  const tv = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : '';
+  const tv = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt ? 'YouTube (free)' : '';
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
@@ -2300,7 +2300,10 @@ function detail(e) {
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
   // every way to watch, the card's one first, each with what it is and what you need for it
   const opts = watchOptions(e);
-  const watch = [opts.map((o, i) => `<li class="wopt"><span class="wkind k-${(o.kind || 'other').split(/[ -]/)[0].toLowerCase()}">${esc(o.kind || 'Watch')}</span><div><b>${linkWatch(o.label)}</b>${i === 0 && opts.length > 1 ? ' <span class="muted small">(on the card)</span>' : ''}${o.need ? `<div class="muted small">${esc(o.need)}</div>` : ''}</div></li>`).join(''),
+  // a free stream on the sport body's own YouTube channel: the live one, else the next to start, else the last (a replay)
+  const yts = e.yt || [], yt = yts.find(x => x.state === 'live') || yts.find(x => x.state === 'upcoming' && new Date(x.at) > now - 6 * 36e5) || yts[yts.length - 1];
+  const ytLi = yt ? `<li class="wopt"><span class="wkind k-free">Free</span><div><b><a class="svc" data-watch="YouTube" href="${esc(yt.url)}" target="_blank" rel="noopener">YouTube</a></b> <span class="muted small">(${esc(yt.ch)})</span><div class="muted small">${yt.state === 'live' ? 'Streaming live now' : yt.state === 'upcoming' ? `Live stream from ${time(new Date(yt.at), NZ)} ${fmt(new Date(yt.at), NZ, { weekday: 'short' })}` : 'Stream replay'}</div></div></li>` : '';
+  const watch = [ytLi, opts.map((o, i) => `<li class="wopt"><span class="wkind k-${(o.kind || 'other').split(/[ -]/)[0].toLowerCase()}">${esc(o.kind || 'Watch')}</span><div><b>${linkWatch(o.label)}</b>${i === 0 && opts.length > 1 ? ' <span class="muted small">(on the card)</span>' : ''}${o.need ? `<div class="muted small">${esc(o.need)}</div>` : ''}</div></li>`).join(''),
     cricinfo(e) && `<li>Live scores and commentary on <a class="svc" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Cricinfo</a></li>`, e.watchNote && `<li class="muted">${esc(e.watchNote)}</li>`].filter(Boolean).join('')
     || '<li class="muted">Broadcaster not confirmed yet</li>';
   const names = [e.home, e.away].map(n => String(n || '').replace(/ Women$/, ''));
@@ -2462,7 +2465,21 @@ function openDetail(id, fromTeam, goingBack) {
   const dlg = $('sheet');
   dlg.dataset.id = id; dlg.dataset.rankings = '';
   if (!dlg.open) dlg.showModal();
+  alignLive();
 }
+// "On now" and the live scores link sit at the title's right, the link's text on the same line as the teams' names
+function alignLive() {
+  const h = document.querySelector('#sheetBody .sheet-head > .hlive'), nm = [...document.querySelectorAll('#sheetBody .sheet-head .dteams .nm')].pop();
+  if (!h) return;
+  h.style.translate = '';
+  if (PHONE.matches || !nm) return;
+  const base = el => { const z = document.createElement('span'); z.style.cssText = 'display:inline-block;width:0;height:0'; el.append(z); const y = z.getBoundingClientRect().top; z.remove(); return y; };
+  h.style.translate = `0 ${Math.round(base(nm) - base(h.lastElementChild))}px`;
+  // again once the flags and logos have loaded and the title row has its final height
+  liveRO.disconnect(); liveRO.observe(h.parentElement);
+}
+const liveRO = new ResizeObserver(() => requestAnimationFrame(alignLive));
+addEventListener('resize', alignLive);
 
 // Search: teams and games in the feed, matched on every word typed (accents and case ignored)
 const fold = x => String(x || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -2991,7 +3008,7 @@ document.addEventListener('click', ev => {
   if (sub) count({ e: sub.closest('#calList') ? 'cal' : 'alerts' });
   // which ways to watch people tap (the services, and the live scores link): just the service's name
   const svc = ev.target.closest('a.svc, a.livelink');
-  if (svc && (svc.classList.contains('livelink') || SERVICES[svc.textContent.trim()])) count({ e: 'watch', k: svc.classList.contains('livelink') ? 'Live scores link' : svc.textContent.trim() });
+  if (svc && (svc.classList.contains('livelink') || svc.dataset.watch || SERVICES[svc.textContent.trim()])) count({ e: 'watch', k: svc.classList.contains('livelink') ? 'Live scores link' : svc.dataset.watch || svc.textContent.trim() });
   if (ev.target.closest('a')) return;
   // with a mouse, a week dot opens its game (anywhere else on the day opens the day); a finger is too broad for a dot,
   // so a tap opens the day
