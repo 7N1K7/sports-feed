@@ -1,29 +1,24 @@
-// probe 66: TheSportsDB's NBL and netball team lists (badges), and Wikidata logos (P154) for teams still missing one
-const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-const T = 'https://www.thesportsdb.com/api/v1/json/123/';
-for (const l of ['Australian NBL', 'NBL', 'Australian National Basketball League', 'ANZ Premiership', 'Suncorp Super Netball', 'New Zealand Netball']) {
-  await sleep(2500);
-  const r = await fetch(T + 'search_all_teams.php?l=' + encodeURIComponent(l)); const d = r.ok ? await r.json() : { err: r.status };
-  console.log(`tsdb league "${l}":`, d.err || (d.teams || []).map(t => `${t.strTeam}${t.strBadge ? '*' : ''}`).join(', ') || 'none');
+// probe 67: logo coverage on the live feed after the NBL/netball and Wikidata additions
+const j = await (await fetch('https://kickoff.kiwi/data/feed.json', { cache: 'no-store' })).json();
+const now = Date.now(), DAY = 864e5, sides = new Map();
+const PH = /TBC|winner|loser|\bor\b|^[A-Z]\d$|qualifier|Group [A-Z]|\d(st|nd|rd|th) place|TBA|^\?/i;
+for (const e of j.events) {
+  if (['motor', 'tennis', 'mma', 'boxing'].includes(e.sport) || Math.abs(Date.parse(e.startUTC) - now) > 60 * DAY) continue;
+  for (const side of ['home', 'away']) {
+    const n = e[side]; if (!n || PH.test(n)) continue;
+    const k = `${e.sport}|${n}`, logo = e[side + 'Logo'] || e[side + 'Badge'];
+    const s = sides.get(k) || { sport: e.sport, n, logo: false, comps: new Set(), games: 0 };
+    s.logo ||= !!logo; s.comps.add(e.comp || ''); s.games++; sides.set(k, s);
+  }
 }
-for (const q of ['New Zealand Breakers', 'Northern Mystics', 'Central Pulse', 'Central Hinds']) {
-  await sleep(2500);
-  const r = await fetch(T + 'searchteams.php?t=' + encodeURIComponent(q)); const d = r.ok ? await r.json() : { err: r.status };
-  console.log(`tsdb team "${q}":`, d.err || (d.teams || []).map(t => `${t.strTeam} [${t.strSport}/${t.strLeague}]${t.strBadge ? '*' : ''}`).join('; ') || 'none');
-}
-// Wikidata logos for a spread of teams, and whether each file is on Commons (free) or not
-const titles = ['New Zealand Breakers', 'Cairns Taipans', 'Perth Wildcats', 'Central Hinds', 'United States national rugby union team', 'Western Australia cricket team', 'Northern Mystics', 'Wellington Phoenix FC', 'Canterbury Kings', 'Otago Volts', 'Hurricanes (rugby union)'];
-await sleep(1000);
-const wd = await (await fetch('https://www.wikidata.org/w/api.php?format=json&action=wbgetentities&sites=enwiki&props=claims|sitelinks&sitefilter=enwiki&titles=' + encodeURIComponent(titles.join('|')), { headers: UA })).json();
-const files = [];
-for (const e of Object.values(wd.entities || {})) {
-  const logo = (e.claims?.P154 || []).map(c => c.mainsnak?.datavalue?.value).filter(Boolean);
-  files.push(...logo);
-  console.log(`wikidata ${e.sitelinks?.enwiki?.title || e.id}: logo ${logo.join(', ') || '-'}`);
-}
-if (files.length) {
-  await sleep(1000);
-  const ii = await (await fetch('https://commons.wikimedia.org/w/api.php?format=json&formatversion=2&action=query&prop=imageinfo&iiprop=extmetadata&titles=' + encodeURIComponent(files.map(f => 'File:' + f).join('|')), { headers: UA })).json();
-  for (const pg of ii.query?.pages || []) console.log(`  ${pg.title}: ${pg.missing ? 'not on Commons' : (pg.imageinfo?.[0]?.extmetadata?.LicenseShortName?.value || '?')}`);
-}
+console.log('version', j.site?.version, '| sides (next/last 60 days, team sports):', sides.size);
+// countries show a flag in the page; count them apart
+const COUNTRY = /^(New Zealand|Australia|England|India|South Africa|Pakistan|Sri Lanka|Bangladesh|West Indies|Zimbabwe|Ireland|Scotland|Afghanistan|Netherlands|Wales|France|Italy|Argentina|Japan|Fiji|Samoa|Tonga|Georgia|Portugal|Uruguay|Chile|Canada|United States|USA|Namibia|Nepal|Oman|UAE|United Arab Emirates|Papua New Guinea|Cook Islands|Lebanon|Jamaica|Spain|Germany|Belgium|China|Korea|South Korea|Malaysia|Philippines|Chinese Taipei|Qatar|Iran|Jordan|Kazakhstan|Syria|Bahrain|Saudi Arabia|Guam|Indonesia|Mongolia|Thailand|Iraq|Malawi|Uganda|Kenya|Brazil|Mexico|Egypt|Nigeria|Hong Kong|Singapore)( Women| A)?$/;
+const nick = /^(All Blacks|Black Ferns|Black Caps|White Ferns|Kiwis|Kiwi Ferns|Wallabies|Wallaroos|Springboks|Proteas|Black Sticks|Tall Blacks|Tall Ferns|Silver Ferns|Kangaroos|Jillaroos|Los Pumas|Red Roses|Hockeyroos|Kookaburras|Boomers|Opals|Diamonds)/;
+const rows = [...sides.values()], clubs = rows.filter(s => !COUNTRY.test(s.n) && !nick.test(s.n));
+const by = {};
+for (const s of clubs) { const b = by[s.sport] ||= { have: 0, all: 0, missing: [] }; b.all++; if (s.logo) b.have++; else b.missing.push(`${s.n} (${[...s.comps].join('/').slice(0, 40)})`); }
+const tot = clubs.length, have = clubs.filter(s => s.logo).length;
+console.log(`club and domestic sides with a logo: ${have}/${tot} = ${Math.round(100 * have / tot)}%  (national sides show their flag: ${rows.length - clubs.length} more)`);
+for (const [sp, b] of Object.entries(by)) console.log(`\n${sp}: ${b.have}/${b.all} (${Math.round(100 * b.have / b.all)}%) — missing: ${b.missing.join('; ') || 'none'}`);
+console.log('\nlogo sources this run:', j.diag?.logos, '|', j.diag?.wikiLogos || 'no wikiLogos diag', '|', j.diag?.wikiLogosError || '');
