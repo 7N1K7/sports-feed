@@ -1,11 +1,24 @@
 // Kickoff Kiwi's stats server. The site sends a small "page viewed" (or "feature used") message; this counts it by
 // day. Unique visitors are counted without cookies: each visitor's address and browser are scrambled with a random
 // salt that changes every day and is deleted two days later, so the codes can't be traced back to anyone. Nothing
-// else about a visitor is kept: only totals by country, device, app or browser, and the site they came from.
+// else about a visitor is kept: only totals by country, device, system and browser, app or not, and the site they came
+// from; and, from the page, totals of what was picked or searched for, errors, load speed and the hour of the day.
 // GET /stats (with the owner's password) returns the totals for the private stats page.
 const SITE = /^https:\/\/(www\.)?kickoff\.kiwi$/;
 const BOT = /bot|crawl|spider|slurp|preview|headless|lighthouse|pingdom|monitor|facebookexternalhit|whatsapp|discord|telegram|curl|wget|python|node-fetch|go-http/i;
 const EVENTS = new Set(['install', 'cal', 'alerts', 'rankings', 'alert-open', 'team', 'game']);
+// events whose detail is counted too, each under its own name: the sport or competition picked, the team page opened,
+// the words searched (search0: searches with no results), a page error, the load time band
+const KEYED = { sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed' };
+const keyOf = (e, k) => {
+  let v = String(k ?? '').trim();
+  if (e === 'search' || e === 'search0') v = v.toLowerCase().replace(/[^a-z0-9 '&.-]/g, '').replace(/\s+/g, ' ').trim().slice(0, 40);
+  if (e === 'error') v = v.replace(/https?:\/\/\S+/g, '(link)').replace(/\s+/g, ' ').slice(0, 120);
+  return v.length >= 2 ? v : '';
+};
+const nzHour = () => new Intl.DateTimeFormat('en-NZ', { timeZone: 'Pacific/Auckland', hour: '2-digit', hourCycle: 'h23' }).format(new Date()).padStart(2, '0');
+const osOf = ua => /iPhone|iPad|iPod/.test(ua) ? 'iOS' : /Android/.test(ua) ? 'Android' : /Windows/.test(ua) ? 'Windows' : /CrOS/.test(ua) ? 'ChromeOS' : /Mac OS X|Macintosh/.test(ua) ? 'Mac' : /Linux/.test(ua) ? 'Linux' : 'Other';
+const browserOf = ua => /SamsungBrowser/.test(ua) ? 'Samsung' : /Edg(A|iOS)?\//.test(ua) ? 'Edge' : /OPR\/|Opera/.test(ua) ? 'Opera' : /Firefox|FxiOS/.test(ua) ? 'Firefox' : /CriOS|Chrome\//.test(ua) ? 'Chrome' : /Safari\//.test(ua) ? 'Safari' : 'Other';
 const MAX_PER_VISITOR = 300; // a day's hits from one visitor; past that it's a script, not a person
 
 const nzDay = (t = Date.now()) => new Date(t).toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' });
@@ -16,7 +29,7 @@ const cors = origin => ({
   'access-control-allow-methods': 'GET, POST, OPTIONS', 'access-control-allow-headers': 'content-type, authorization', vary: 'origin',
 });
 const json = (data, status, origin) => new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store', ...cors(origin) } });
-const bump = (env, day, metric, key = '') => env.DB.prepare('INSERT INTO daily (day, metric, key, n) VALUES (?1, ?2, ?3, 1) ON CONFLICT (day, metric, key) DO UPDATE SET n = n + 1').bind(day, metric, String(key).slice(0, 60));
+const bump = (env, day, metric, key = '') => env.DB.prepare('INSERT INTO daily (day, metric, key, n) VALUES (?1, ?2, ?3, 1) ON CONFLICT (day, metric, key) DO UPDATE SET n = n + 1').bind(day, metric, String(key).slice(0, 120));
 
 async function hit(req, env, body) {
   const ua = req.headers.get('user-agent') || '';
@@ -33,15 +46,19 @@ async function hit(req, env, body) {
   const n = await env.DB.prepare('INSERT INTO seen (day, h, n) VALUES (?1, ?2, 1) ON CONFLICT (day, h) DO UPDATE SET n = n + 1 RETURNING n').bind(day, h).first('n');
   if (n > MAX_PER_VISITOR) return;
   const writes = [];
-  if (b.e) { if (EVENTS.has(b.e)) writes.push(bump(env, day, 'event', b.e)); }
-  else {
-    writes.push(bump(env, day, 'views'));
+  if (b.e) {
+    if (EVENTS.has(b.e)) writes.push(bump(env, day, 'event', b.e));
+    const k = KEYED[b.e] && keyOf(b.e, b.k);
+    if (k) writes.push(bump(env, day, KEYED[b.e], k));
+  } else {
+    writes.push(bump(env, day, 'views'), bump(env, day, 'hour', nzHour()));
     if (b.app) writes.push(bump(env, day, 'appviews'));
     const ref = String(b.r || '').toLowerCase().replace(/^www\./, '');
     if (ref && !/(^|\.)kickoff\.kiwi$/.test(ref) && /^[a-z0-9.-]+$/.test(ref)) writes.push(bump(env, day, 'ref', ref));
     if (n === 1) { // first view today from this visitor
       const device = /iPad|Tablet/i.test(ua) ? 'tablet' : /Mobi|Android|iPhone/i.test(ua) ? 'phone' : 'computer';
-      writes.push(bump(env, day, 'visitors'), bump(env, day, 'country', req.cf?.country || '?'), bump(env, day, 'device', device), bump(env, day, 'mode', b.app ? 'app' : 'browser'));
+      writes.push(bump(env, day, 'visitors'), bump(env, day, 'country', req.cf?.country || '?'), bump(env, day, 'device', device), bump(env, day, 'mode', b.app ? 'app' : 'browser'),
+        bump(env, day, 'os', osOf(ua)), bump(env, day, 'browser', browserOf(ua)));
     }
   }
   if (writes.length) await env.DB.batch(writes);

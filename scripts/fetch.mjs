@@ -1322,6 +1322,8 @@ const feed = {
   ],
 };
 await writeFile(new URL('data/feed.json', ROOT), JSON.stringify(feed));
+// the version alone, for pages that only need that (the stats page)
+await writeFile(new URL('data/version.json', ROOT), JSON.stringify(site));
 // a small plain-text view of games around now, for checking the live site without reading the whole feed
 await writeFile(new URL('data/now.txt', ROOT), feed.events.filter(e => Math.abs(Date.parse(e.startUTC) - now) < 2 * DAY)
   .map(e => [e.id, e.team, e.status, e.startUTC, e.timeTBC ? 'TBC' : '', e.format || '', e.stage || '', e.city || '', e.tz || '', e.score || '', e.summary || '', e.weather || '', e.progress || '', e.liveScore || ''].join(' | ')).join('\n') + '\n');

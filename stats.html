@@ -54,6 +54,9 @@ button, input { font: inherit; color: inherit }
 .legend i { display: inline-block; width: 16px; height: 2px; border-radius: 1px; vertical-align: middle; margin-right: 6px }
 .chartbox { position: relative }
 .chartbox svg { display: block; width: 100%; height: 240px; overflow: visible; touch-action: pan-y }
+#hours svg { height: 170px }
+/* errors read as full sentences: no bar, the text wraps */
+#error .bar { grid-template-columns: minmax(0, 1fr) auto } #error .bar .t { display: none } #error .bar .k { white-space: normal; overflow-wrap: anywhere; font-size: 13px }
 .chartbox text { fill: var(--muted); font-size: 11px; font-family: var(--f-body) }
 .chartbox .end { font-size: 12px; font-weight: 600; fill: var(--ink) }
 .tip { position: absolute; top: 0; pointer-events: none; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; font-size: 13px; white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,.35); transform: translateX(-50%) }
@@ -81,7 +84,7 @@ th { color: var(--muted); font-weight: 600 }
 </head>
 <body>
 <div class="wrap">
-  <header><img src="logo.svg" alt=""><h1>Kickoff <span>Kiwi</span> stats</h1><a href="./">Back to the site</a></header>
+  <header><img src="icons/stats.svg" alt=""><div><h1>Kickoff <span>Kiwi</span> stats</h1><div class="note" id="ver"></div></div><a href="./">Back to the site</a></header>
   <p class="note">Private: the numbers need the stats password. Visits are counted with no cookies and nothing personal: a person counts once a day, whatever they look at.</p>
 
   <section class="card" id="gate">
@@ -111,11 +114,27 @@ th { color: var(--muted); font-weight: 600 }
       <details class="tbl"><summary>As a table</summary><div id="table"></div></details>
     </section>
 
+    <section class="card">
+      <h2>Busiest times</h2>
+      <p class="note" style="margin-top:-4px">Page views by hour of the day, NZ time, over the chosen days.</p>
+      <div class="chartbox" id="hours"></div>
+    </section>
+
     <div class="lists" style="margin-top:12px">
+      <section class="card"><h2>By day of the week</h2><div class="bars" id="weekday"></div><p class="note">Visitors a day, on average.</p></section>
       <section class="card"><h2>Countries</h2><div class="bars" id="country"></div><p class="note">Visitors, by the country their connection comes from.</p></section>
       <section class="card"><h2>Devices</h2><div class="bars" id="device"></div></section>
       <section class="card"><h2>App or browser</h2><div class="bars" id="mode"></div><p class="note">Visitors using the home-screen app, or a web browser.</p></section>
       <section class="card"><h2>Came from</h2><div class="bars" id="ref"></div><p class="note">Page views that arrived from a link on another site. Links opened from most chat apps arrive without one.</p></section>
+      <section class="card"><h2>Sports picked</h2><div class="bars" id="sport"></div><p class="note">Taps on a sport button.</p></section>
+      <section class="card"><h2>Competitions picked</h2><div class="bars" id="comp"></div><p class="note">Picked from the competitions menu.</p></section>
+      <section class="card"><h2>Team pages opened</h2><div class="bars" id="teampage"></div></section>
+      <section class="card"><h2>Searches</h2><div class="bars" id="search"></div><p class="note">Words typed into "Find a team or game".</p></section>
+      <section class="card"><h2>Searches that found nothing</h2><div class="bars" id="search0"></div><p class="note">Teams or games people looked for that the site doesn't have.</p></section>
+      <section class="card"><h2>Phone or computer system</h2><div class="bars" id="os"></div></section>
+      <section class="card"><h2>Browser</h2><div class="bars" id="browser"></div></section>
+      <section class="card"><h2>Load speed</h2><div class="bars" id="speed"></div><p class="note">How long until the first games were on screen.</p></section>
+      <section class="card"><h2>Errors on visitors' devices</h2><div class="bars" id="error"></div><p class="note">Problems in the site's own code; each is worth a look.</p></section>
       <section class="card"><h2>Features used</h2><div class="bars" id="event"></div><p class="note">Taps on each feature, all visitors together. Calendars and alert topics count taps on their links and copy buttons; from an alert counts games opened by tapping a phone alert.</p></section>
     </div>
 
@@ -139,6 +158,9 @@ const COUNTRY = new Intl.DisplayNames(['en'], { type: 'region' });
 const EVENT_LABEL = { cal: 'Calendars', alerts: 'Alert topics', install: 'App installs', rankings: 'Rankings', 'alert-open': 'From an alert', team: 'Team pages', game: 'Games opened' };
 const MODE_LABEL = { app: 'App', browser: 'Browser' };
 const DEVICE_LABEL = { phone: 'Phone', tablet: 'Tablet', computer: 'Computer' };
+const SPORT_LABEL = { cricket: 'Cricket', rugby: 'Rugby', league: 'League', football: 'Football', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', motor: 'F1', tennis: 'Tennis', mma: 'MMA', boxing: 'Boxing' };
+const SPEED_ORDER = ['under 1s', '1-2s', '2-4s', '4-8s', '8s or more'];
+const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 let days = store.get('statsDays', 30), data = null, pw = store.get('statspw', '');
 
@@ -193,15 +215,24 @@ function draw() {
   bars('mode', sums.mode, k => MODE_LABEL[k] || k);
   bars('ref', sums.ref, k => k);
   bars('event', sums.event, k => EVENT_LABEL[k] || k);
+  bars('sport', sums.sport, k => SPORT_LABEL[k] || k);
+  for (const id of ['comp', 'teampage', 'search', 'search0', 'os', 'browser']) bars(id, sums[id], k => k);
+  bars('speed', sums.speed, k => k, SPEED_ORDER);
+  bars('error', sums.error, k => k);
+  // weekdays: each one's average visitors over the days of that weekday in the range
+  const wd = {}, wn = {};
+  for (const d of list) { const k = dayLabel(d, { weekday: 'long' }); wd[k] = (wd[k] || 0) + per[d].visitors; wn[k] = (wn[k] || 0) + 1; }
+  bars('weekday', Object.fromEntries(Object.keys(wd).map(k => [k, Math.round(wd[k] / wn[k] * 10) / 10])), k => k, WEEKDAYS);
+  hours(sums.hour || {});
 }
 
 // a ranked list of horizontal bars, the top 7 and the rest as "Other"; names go in as text, never as markup
-function bars(id, obj, label) {
+function bars(id, obj, label, order) {
   const el = $(id);
-  const rows = Object.entries(obj || {}).sort((a, b) => b[1] - a[1]);
+  const rows = Object.entries(obj || {}).sort((a, b) => order ? order.indexOf(a[0]) - order.indexOf(b[0]) : b[1] - a[1]);
   el.replaceChildren();
   if (!rows.length) { const p = document.createElement('div'); p.className = 'empty'; p.textContent = 'Nothing yet in this range.'; el.append(p); return; }
-  const top = rows.slice(0, 7), rest = rows.slice(7).reduce((a, r) => a + r[1], 0);
+  const top = order ? rows : rows.slice(0, 7), rest = order ? 0 : rows.slice(7).reduce((a, r) => a + r[1], 0);
   if (rest) top.push(['', rest]);
   const max = Math.max(...top.map(r => r[1]));
   for (const [k, n] of top) {
@@ -209,9 +240,40 @@ function bars(id, obj, label) {
     const name = document.createElement('span'); name.className = 'k'; name.textContent = k === '' ? 'Other' : label(k); name.title = name.textContent;
     const track = document.createElement('span'); track.className = 't';
     const fill = document.createElement('i'); fill.style.width = (100 * n / max).toFixed(1) + '%'; track.append(fill);
-    const num = document.createElement('span'); num.className = 'n'; num.textContent = fmtN(n);
+    const num = document.createElement('span'); num.className = 'n'; num.textContent = Number.isInteger(n) ? fmtN(n) : n.toFixed(1);
     row.append(name, track, num); el.append(row);
   }
+}
+
+function hours(byHour) {
+  const box = $('hours'), W = Math.max(280, box.clientWidth), H = 170, m = { l: 34, r: 8, t: 8, b: 22 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b, slot = iw / 24, bw = Math.min(24, slot - 2);
+  const vals = [...Array(24)].map((_, h) => byHour[String(h).padStart(2, '0')] || 0), max = Math.max(4, ...vals);
+  const step = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000].find(s => max / s <= 3) || Math.ceil(max / 3), top = Math.ceil(max / step) * step;
+  const y = v => m.t + ih - v / top * ih;
+  let g = '';
+  for (let v = 0; v <= top; v += step) g += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${fmtN(v)}</text>`;
+  vals.forEach((v, h) => {
+    const x = m.l + h * slot + (slot - bw) / 2, yt = y(v), r = Math.min(4, (m.t + ih - yt) / 2);
+    if (v) g += `<path d="M${x},${m.t + ih} V${yt + r} Q${x},${yt} ${x + r},${yt} H${x + bw - r} Q${x + bw},${yt} ${x + bw},${yt + r} V${m.t + ih} Z" fill="var(--series-1)"/>`;
+    if (h % 3 === 0) g += `<text x="${x + bw / 2}" y="${H - 6}" text-anchor="middle">${h === 0 ? '12am' : h < 12 ? h + 'am' : h === 12 ? '12pm' : (h - 12) + 'pm'}</text>`;
+  });
+  g += `<rect x="${m.l}" y="0" width="${iw}" height="${H}" fill="transparent" class="hit"/>`;
+  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Page views by hour of the day, NZ time">${g}</svg><div class="tip" hidden></div>`;
+  const svg = box.querySelector('svg'), tip = box.querySelector('.tip');
+  const show = ev => {
+    const r = svg.getBoundingClientRect(), px = (ev.clientX - r.left) * W / r.width, h = Math.max(0, Math.min(23, Math.floor((px - m.l) / slot)));
+    const lab = h === 0 ? '12am' : h < 12 ? h + 'am' : h === 12 ? '12pm' : (h - 12) + 'pm', nxt = (h + 1) % 24, lab2 = nxt === 0 ? '12am' : nxt < 12 ? nxt + 'am' : nxt === 12 ? '12pm' : (nxt - 12) + 'pm';
+    tip.replaceChildren();
+    const dl = document.createElement('div'); dl.className = 'd'; dl.textContent = `${lab} to ${lab2}`;
+    const row = document.createElement('div'); row.className = 'row';
+    const b = document.createElement('b'); b.textContent = fmtN(vals[h]); const t = document.createElement('span'); t.textContent = 'page views';
+    row.append(b, t); tip.append(dl, row); tip.hidden = false;
+    const left = (m.l + (h + 0.5) * slot) / W * r.width, half = tip.offsetWidth / 2;
+    tip.style.left = Math.max(half, Math.min(r.width - half, left)) + 'px'; tip.style.top = '-8px'; tip.style.transform = 'translate(-50%, -100%)';
+  };
+  const hit = svg.querySelector('.hit');
+  hit.addEventListener('pointermove', show); hit.addEventListener('pointerdown', show); hit.addEventListener('pointerleave', () => { tip.hidden = true; });
 }
 
 // visitors and page views a day: two 2px lines on one count axis from zero, hairline grid, end labels, and a
@@ -279,6 +341,8 @@ $('noCount').addEventListener('click', () => { store.set('nocount', !store.get('
 syncMe();
 let rz = 0; addEventListener('resize', () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(() => data && draw()); });
 if (pw) fetchStats(); else $('pw').focus();
+// the site's version (written by the feed builder), as shown under the main page's title
+fetch('data/version.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(v => { if (v?.version) $('ver').textContent = `v${v.version}`; }).catch(() => {});
 })();
 </script>
 </body>
