@@ -1,5 +1,6 @@
-// probe 92: save TheSportsDB's Supercars badge and logo to look at (small previews)
-import { writeFile } from 'node:fs/promises';
-for (const [n, u] of [['sc-badge', 'https://r2.thesportsdb.com/images/media/league/badge/64f67s1770108650.png/small'], ['sc-logo', 'https://r2.thesportsdb.com/images/media/league/logo/pk55ch1614547894.png/small']]) {
-  const r = await fetch(u); const b = Buffer.from(await r.arrayBuffer()); console.log(n, r.status, b.length); if (r.ok) await writeFile(`probe/out-${n}.png`, b);
-}
+// probe 93: live feed TV guide, Supercars, squads
+await new Promise(r => setTimeout(r, 200000));
+const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
+console.log('generated', f.generatedAt);
+for (const k of ['tvGuide', 'supercars', 'teamSquads', 'youtube']) console.log(`\n${k}:`, String(f.diag?.[k] || '').slice(0, 2500));
+console.log('\ntables:', (f.tables || []).filter(t => t.team === 'supercars').map(t => `${t.title}: ${t.rows.slice(0, 3).map(r => r.name + ' ' + r.pts).join(', ')}`));
