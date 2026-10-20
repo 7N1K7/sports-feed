@@ -874,7 +874,9 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
   .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
   .hbtns .btn svg { width: 14px; height: 14px; flex: none }
   .hbtns .ibtn { padding: 7px 9px } .hbtns .ibtn svg { width: 18px; height: 18px }
-  #q { width: 100%; box-sizing: border-box; padding: 4px 8px 4px 27px; font-size: 13px }
+  /* one height for the row's buttons and the search box, so opening the search (which hides Results and News) moves nothing */
+  #toResults, #toNews, #q { height: 31px; box-sizing: border-box }
+  #q { width: 100%; padding: 4px 8px 4px 27px; font-size: 13px }
   .search .qico { left: 10px; width: 13px; height: 13px; margin-top: -6.5px }
   header.top .wrap:has(.search:focus-within) :is(#toResults, #toNews) { display: none }
 }
@@ -900,7 +902,8 @@ html.tight :is(#toResults, #toNews) { flex: 1.4 1 0; min-width: 0 } html.tight .
 html.tight .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
 html.tight .hbtns .btn svg { width: 14px; height: 14px; flex: none }
 html.tight .hbtns .ibtn { padding: 7px 9px } html.tight .hbtns .ibtn svg { width: 18px; height: 18px }
-html.tight #q { width: 100%; box-sizing: border-box; padding: 4px 8px 4px 27px; font-size: 13px }
+html.tight :is(#toResults, #toNews, #q) { height: 31px; box-sizing: border-box }
+html.tight #q { width: 100%; padding: 4px 8px 4px 27px; font-size: 13px }
 html.tight .search .qico { left: 10px; width: 13px; height: 13px; margin-top: -6.5px }
 html.tight header.top .wrap:has(.search:focus-within) :is(#toResults, #toNews) { display: none }
 html.tight .qlist { left: 0; right: 0; width: auto }
