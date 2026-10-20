@@ -1036,7 +1036,7 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
 .sheet-in .back { border: 0; background: none; padding: 0 0 10px; font: 600 14px var(--f-body); color: var(--muted); cursor: pointer }
 @media (max-width: 560px) {
   /* phones offer Mixed and Compact (Big there is Mixed: the live game's card is big already) */
-  #viewSel [data-view="big"] { display: none } #viewSel [data-view="mixed"] { border-left: 0 }
+  #viewSel [data-view="big"] { display: none }
   /* phone header: name, then the clock, then one row of buttons and the search box */
   .brand { flex: none; font-size: 27px }
   .clockcol { flex: 1 1 0; min-width: 0; justify-items: end; text-align: right; margin-bottom: 2px }
@@ -2826,7 +2826,7 @@ function render() {
   document.body.classList.remove('v-big', 'v-mixed', 'v-compact');
   const shownView = PHONE.matches && view === 'big' ? 'mixed' : view; // phones have no Big: it shows as Mixed there
   document.body.classList.add('v-' + shownView);
-  $('viewSel').innerHTML = [['big', 'Big'], ['mixed', 'Mixed'], ['compact', 'Compact']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${shownView === k}">${l}</button>`).join('');
+  $('viewSel').innerHTML = [['compact', 'Compact'], ['mixed', 'Mixed'], ['big', 'Big']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${shownView === k}">${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   // an eye on each state (crossed out while results are hidden), and a gear on settings
   const eye = '<path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/>';
