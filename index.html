@@ -1624,6 +1624,12 @@ function dayOver(e) {
 }
 // the day of play a progress line talks about ("Tea, day 1" is 1)
 const progDay = e => +((e.progress || '').match(/\bday (\d)/i) || [])[1] || 0;
+// a sport's competitions with games from two months back to four months ahead (as the All competitions menu lists them)
+function compsOfSport(k) {
+  const now = Date.now(), cs = new Set();
+  for (const e of FEED.events || []) { const t = new Date(e.startUTC) - now; if ((e.sport || sportOf(e.team)) === k && t > -60 * 864e5 && t < 120 * 864e5) cs.add(compOf(e)); }
+  return [...cs];
+}
 function onNow(e, now) {
   const s = new Date(e.startUTC);
   const f = e.sport === 'cricket' ? formatOf(e) : '';
@@ -2816,7 +2822,8 @@ function render() {
     renderHub(now);
     $('compSel').classList.toggle('on', !!compSel);
     $('genderSel').innerHTML = [['all', 'All'], ['m', "Men's"], ['w', "Women's"]].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
-    $('sportFilter').classList.toggle('dim', !!compSel);
+    // the sport row dims while a competition is picked, unless it's the lone sport button that opened it
+    $('sportFilter').classList.toggle('dim', !!compSel && !(sportSel.size === 1 && compsOfSport([...sportSel][0]).includes(compSel)));
   }
   // one Rankings button that's always there (so nothing shifts); it opens on the picked sport
   $('rankBtn').hidden = !(FEED.rankings || []).length;
@@ -3046,7 +3053,14 @@ document.addEventListener('click', ev => {
   else if (t.dataset.reveal) { ev.stopPropagation(); count({ e: 'reveal' }); revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
   else if (t.dataset.rehide) { ev.stopPropagation(); revealed.delete(t.dataset.rehide); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
   else if (t.dataset.gender) { genderSel = t.dataset.gender; store.set('gender', genderSel); render(); }
-  else if (t.dataset.sport) { compSel = ''; store.set('comp', ''); const k = t.dataset.sport; k === 'all' ? sportSel.clear() : sportSel.has(k) ? sportSel.delete(k) : (sportSel.add(k), count({ e: 'sport', k })); store.set('sport', [...sportSel]); render(); }
+  else if (t.dataset.sport) {
+    compSel = ''; const k = t.dataset.sport; k === 'all' ? sportSel.clear() : sportSel.has(k) ? sportSel.delete(k) : (sportSel.add(k), count({ e: 'sport', k })); store.set('sport', [...sportSel]);
+    // a sport picked on its own that is just one competition (F1, the UFC) opens that competition's own page, as
+    // picking it from All competitions does; a second sport goes back to the plain feed
+    const only = sportSel.size === 1 ? compsOfSport([...sportSel][0]) : [];
+    if (only.length === 1) { compSel = only[0]; hubTab = 'games'; }
+    store.set('comp', compSel); render();
+  }
   else if (t.dataset.kind) { newsKind = t.dataset.kind; render(); }
   else if (t.dataset.jump) { if (!t.classList.contains('dayclose')) count({ e: 'use', k: 'Day in the week strip' }); selDay = selDay === t.dataset.jump || t.dataset.jump === dayKey(new Date()) ? '' : t.dataset.jump; drawDayPick(); }
   else if (t.dataset.bigcomp) {
