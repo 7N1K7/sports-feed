@@ -897,7 +897,10 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .score { font-size: 20px }
 /* worded results ("Fundora won by KO (R12, 2:59)") read as text, not as a big scoreline, in every view */
 .ev .when .score.long, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .score.long, .dres .score.long { font-size: 15px; font-family: var(--f-body); font-weight: 600; line-height: 1.3 }
+/* compact cards sit 6px apart; big ones 8px whichever view is on, so Mixed's big cards (live now, today's games) don't
+   shift when switching to Big */
 :is(body.v-compact, body.v-mixed) :is(.daygroup, .donetoday) { gap: 6px }
+body.v-mixed :is(#live, #today > .daygroup) { gap: 8px }
 @media (max-width: 560px) { :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams { font-size: 17px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup .side { gap: 6px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup .logo:not(.flagimg) { --lh: 1.95em; height: 1.95em } }
 /* Mixed: today's games a little smaller than live ones */
 body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
@@ -2501,13 +2504,17 @@ function render() {
   const doneSet = new Set(finals); // games already played show as faded dots, so a day's bright dots are what's still to come
   const drawWeek = cap => $('week').innerHTML = days.map(d => {
     const k = dayKey(d);
-    const list = evs.filter(e => playsOn(e, k));
+    // in order of when each plays that day (a Test's later days by that day's start, not the day it began)
+    const onDay = e => { const t = Date.parse(e.startUTC); for (let i = 0; i < 6; i++) if (dayKey(new Date(t + i * 864e5)) === k) return t + i * 864e5; return t; };
+    const list = evs.filter(e => playsOn(e, k)).sort((a, b) => onDay(a) - onDay(b));
     // resting the mouse on a dot names its game (the browser's own label, which waits a moment, so passing over doesn't
     // set it off); the "+" names the rest. Names and times only, never a score
     const gname = e => `${solo(e) ? e.home : `${displayName(e.home, e)} v ${displayName(e.away, e)}`} · ${time(new Date(e.startUTC), NZ)}`;
     const dots = (list.length > cap ? list.slice(0, cap - 1) : list).map(e => `<span class="dot${doneSet.has(e) ? ' done' : ''}" style="background:var(--${e.sport})" data-dot="${esc(e.id)}" title="${esc(gname(e))}"></span>`).join('') + (list.length > cap ? `<span class="dot more" title="${esc(list.slice(cap - 1).map(gname).join('\n'))}" aria-hidden="true"></span>` : '');
     const wd = fmt(d, NZ, { weekday: 'short' });
-    return `<button class="day ${k === todayK ? 'today' : ''} ${k === selDay ? 'sel' : ''} ${/Sat|Sun/.test(wd) ? 'wkend' : ''} ${list.length ? '' : 'empty'}" type="button" data-jump="${k}" aria-label="${dayLabel(d, NZ)}, ${list.length} games">
+    // resting on the day itself (not a dot) lists all its games, the same way: the day, then each game and its time
+    const all = list.length ? `${dayLabel(d, NZ)}: ${list.length} game${list.length === 1 ? '' : 's'}\n${list.map(gname).join('\n')}` : `${dayLabel(d, NZ)}: no games`;
+    return `<button class="day ${k === todayK ? 'today' : ''} ${k === selDay ? 'sel' : ''} ${/Sat|Sun/.test(wd) ? 'wkend' : ''} ${list.length ? '' : 'empty'}" type="button" data-jump="${k}" title="${esc(all)}" aria-label="${dayLabel(d, NZ)}, ${list.length} games">
       <span class="dn">${k === todayK ? 'Today' : fmt(d, NZ, { weekday: 'short' })}</span>
       <span class="dd num">${fmt(d, NZ, { day: 'numeric' })}</span>
       <span class="dots">${dots}</span></button>`;
