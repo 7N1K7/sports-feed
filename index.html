@@ -592,7 +592,7 @@ a.svc:hover { text-decoration-color: currentColor }
 .rankchips { margin: 4px 0 12px }
 .swap { display: inline-grid } .swap > span { grid-area: 1 / 1; text-align: center } .swap > .off { visibility: hidden }
 .bico { width: 1.05em; height: 1.05em; vertical-align: -0.17em; margin-left: 4px }
-.ranksports { margin: 2px 0 10px }
+.ranksports { margin: 2px 0 10px; padding-right: 34px }  /* clear of the close button */
 :root { --gold: #a87b00 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --gold: #f2c94c } }
 :root[data-theme="dark"] { --gold: #f2c94c }
@@ -622,7 +622,8 @@ a.svc:hover { text-decoration-color: currentColor }
 .stable.rank .rv b { font-size: 16px; font-weight: 800; min-width: 3.4em; text-align: right }
 .stable.rank .rbar { width: 72px; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--ink) 10%, transparent); overflow: hidden }
 .stable.rank .rbar i { display: block; height: 100%; border-radius: 3px; background: var(--sport, var(--accent)) }
-@media (max-width: 560px) { .stable.rank .rbar { width: 44px } }
+/* phones: a long name wraps to a second line rather than pushing the points off the side */
+@media (max-width: 560px) { .stable.rank .rbar { width: 36px } .stable.rank .rv { gap: 6px } .stable.rank .tn { white-space: normal; overflow-wrap: break-word } }
 /* the rankings pop-up keeps one height whichever sport or list is picked; a long list scrolls inside it */
 dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback) { height: min(88vh, 780px) }
 .rankbody { padding-top: 6px }
@@ -2531,7 +2532,17 @@ document.addEventListener('click', ev => {
   if (t.id === 'sheetClose') { $('sheet').close(); return; }
   if (t.dataset.teampage) { closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport, t.classList.contains('rteam') ? $('sheet').dataset.rankings : ''); return; }
   if (t.dataset.goto) { const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
-  if (t.id === 'toResults' || t.id === 'toNews') { const el = $(t.id === 'toNews' ? 'newsSec' : 'resSec'); scrollTo({ top: el.getBoundingClientRect().top + scrollY - document.querySelector('header.top').offsetHeight - 10, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
+  if (t.id === 'toResults' || t.id === 'toNews') {
+    const el = $(t.id === 'toNews' ? 'newsSec' : 'resSec'), off = () => el.getBoundingClientRect().top - document.querySelector('header.top').offsetHeight - 10;
+    scrollTo({ top: scrollY + off(), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    // pictures above that load (or fail) on the way move the section, so the scroll can stop short or overshoot: re-aim once it ends
+    // the arrows hold still on the way and are set once it lands
+    const at = Date.now(), done = () => { if (jumping !== at) return; jumping = 0; syncJump(); };
+    jumping = at;
+    addEventListener('scrollend', () => { if (Date.now() - at < 3000 && Math.abs(off()) > 30) scrollTo({ top: scrollY + off(), behavior: 'auto' }); setTimeout(done, 150); }, { once: true });
+    setTimeout(done, 3000);
+    return;
+  }
   if (t.id === 'copySettings') { const c = settingsCode(); (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { $('moveNote').textContent = 'Copied. Paste it into the box on the other browser, then tap "Use these settings".'; }, () => prompt('Copy this code', c)); return; }
   if (t.id === 'loadSettings') { try { useSettingsCode($('settingsCode').value); location.reload(); } catch { $('moveNote').textContent = "That doesn't look like a settings code. Copy it again from the other browser, the whole thing."; } return; }
   if (t.dataset.install) { if (installEvt) installEvt.prompt().then(() => installEvt.userChoice).then(() => { installEvt = null; $('appInstall').innerHTML = appHtml(); }); return; }
@@ -2675,12 +2686,18 @@ addEventListener('scroll', () => { $('toTop').hidden = scrollY < 700; cancelAnim
 // the Results and News buttons point up once their section starts above the header (or the page is at its end with
 // the section showing), and down while it's still further on
 let jumpFrame = 0;
+// an arrow turns only once its section's heading has gone right off the screen: up when it's above, down when it's
+// below. While the heading is anywhere in view the arrow stays as it was, so it doesn't flick back and forth as you
+// scroll around the section itself.
+let jumping = 0;
 function syncJump() {
-  const head = document.querySelector('header.top').getBoundingClientRect().bottom, end = innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
+  if (jumping) return;
+  const head = document.querySelector('header.top').getBoundingClientRect().bottom;
   for (const [id, sec, what] of [['toResults', 'resSec', 'recent results'], ['toNews', 'newsSec', 'the news']]) {
     const b = $(id), el = $(sec), arr = b?.querySelector('.jarr');
     if (!arr || !el) continue;
-    const top = el.offsetParent ? el.getBoundingClientRect().top : Infinity, up = top <= head + 12 || (end && top < innerHeight);
+    const top = el.offsetParent ? el.getBoundingClientRect().top : Infinity;
+    const up = top < head - 40 ? true : top > innerHeight ? false : arr.textContent === '↑';
     if (arr.textContent !== (up ? '↑' : '↓')) { arr.textContent = up ? '↑' : '↓'; b.title = up ? `Back up to ${what}` : `Jump to ${what}`; }
   }
 }
