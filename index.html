@@ -597,22 +597,30 @@ a.svc:hover { text-decoration-color: currentColor }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --gold: #f2c94c } }
 :root[data-theme="dark"] { --gold: #f2c94c }
 .rankbtn { font-size: 14px; font-weight: 600; padding: 3px 14px; border: 1px solid var(--gold); color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--surface)) }
-/* phones: one bar the width of the page folds the series row, sport buttons and competition bar away and back,
-   and while they're folded it says which filters are still on */
+/* phones: a shallow tab almost the width of the screen hangs off the bottom edge of the top bar, its ends curving out
+   into that edge, with an arrow in the middle. It folds the series row, sport buttons and competition bar away and
+   back. It shows only at the top of the page, where the filters are, and not while Settings is open. */
 .fold { display: none }
 @media (max-width: 560px) {
-  .fold { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-width: 0; padding: 5px 14px; font: inherit; font-size: 13px; font-weight: 600; color: var(--muted); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; cursor: pointer; margin-bottom: -4px }
-  .fold .ftxt { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
-  .fold .farr { transition: transform .2s; transform: rotate(180deg) }
-  main.folded .fold { color: var(--ink) }
-  main.folded .fold .farr { transform: none }
+  .fold { display: flex; position: absolute; top: calc(100% - 1px); left: 8px; right: 8px; height: 22px; padding: 0; border: 0; background: none; cursor: pointer; transition: opacity .15s; align-items: flex-start }
+  .fold .cap { flex: none; display: block; width: 20px; height: 21px }
+  .fold .cap.r { transform: scaleX(-1) }
+  .fold .mid { flex: 1; display: grid; place-items: center; height: 21px; background: var(--surface); border-bottom: 1px solid var(--line); box-sizing: border-box }
+  .fold .tf { fill: var(--surface) }
+  .fold .ts { fill: none; stroke: var(--line) }
+  .fold .mid svg { width: 18px; height: 10px; margin-top: -1px }
+  .fold .tc { fill: none; stroke: var(--muted); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s; transform-origin: 9px 5px; transform: rotate(180deg) }
+  .fold.on .tc { transform: none }
+  .fold.on.filtering .tc { stroke: var(--accent) }
+  .fold:active .mid, .fold:active .tf { fill: color-mix(in srgb, var(--ink) 6%, var(--surface)); background: color-mix(in srgb, var(--ink) 6%, var(--surface)) }
+  header.top.scrolled .fold, header.top:has(#panel:not([hidden])) .fold { opacity: 0; pointer-events: none }
   main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: none !important }
 }
 /* phones: short labels, so NZ only, men's/women's and rankings share one line, and tighter gaps so the day's first
    games are on screen sooner */
 .compbar .sm { display: none }
 @media (max-width: 560px) {
-  main { padding-top: 10px; gap: 12px }
+  main { padding-top: 30px; gap: 12px }   /* room for the filters tab */
   section > h2 { font-size: 19px; margin-bottom: 6px }
   .week { gap: 4px }
   .day .dn { font-size: 11px }
@@ -991,10 +999,10 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
     </div>
   </div></div>
 </div>
+  <button type="button" class="fold" id="foldBtn" aria-expanded="true" aria-controls="nowBar sportFilter compBar" aria-label="Hide the filters"><svg class="cap" viewBox="0 0 20 21" aria-hidden="true"><path class="tf" d="M0 0C5 0 7 2 7 6V11Q7 20.5 16 20.5H20V0Z"/><path class="ts" d="M0 .5C5 .5 6.5 2.5 6.5 6V11Q6.5 20.5 16 20.5H20"/></svg><span class="mid"><svg viewBox="0 0 18 10" aria-hidden="true"><path class="tc" d="M2 2 9 8 16 2"/></svg></span><svg class="cap r" viewBox="0 0 20 21" aria-hidden="true"><path class="tf" d="M0 0C5 0 7 2 7 6V11Q7 20.5 16 20.5H20V0Z"/><path class="ts" d="M0 .5C5 .5 6.5 2.5 6.5 6V11Q6.5 20.5 16 20.5H20"/></svg></button>
 </header>
 <div class="mock" id="mockBar"><div class="wrap" id="mockNote">Loading the latest fixtures and scores…</div></div>
 <main class="wrap">
-  <button type="button" class="fold" id="foldBtn" aria-expanded="true" aria-controls="nowBar sportFilter compBar"><span class="ftxt">Hide filters</span><span class="farr" aria-hidden="true">▾</span></button>
   <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
   <div class="compbar" id="compBar"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9"><span class="lg">NZ teams only</span><span class="sm">NZ only</span></button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
@@ -2486,8 +2494,10 @@ function syncFold() {
   b.setAttribute('aria-expanded', String(!folded));
   const on = [...[...sportSel].map(k => (SPORT_CHIPS.find(([x]) => x === k) || [k, k])[1]), compSel && $('compSel').textContent.trim(),
     genderSel === 'm' ? "Men's" : genderSel === 'w' ? "Women's" : '', nzOnly && 'NZ only'].filter(Boolean);
-  b.querySelector('.ftxt').textContent = !folded ? 'Hide filters' : on.length ? 'Filters: ' + on.join(' · ') : 'Show filters';
-  b.title = folded ? 'Show the series, sports and competition filters' : 'Hide the series, sports and competition filters';
+  // no words on the tab: its arrow points the way the filters will go, and turns the theme colour while folded filters are still on
+  b.classList.toggle('on', folded); b.classList.toggle('filtering', folded && on.length > 0);
+  b.title = folded ? `Show the filters${on.length ? ' (on: ' + on.join(', ') + ')' : ''}` : 'Hide the filters';
+  b.setAttribute('aria-label', b.title);
 }
 $('foldBtn').addEventListener('click', ev => { ev.stopPropagation(); folded = !folded; store.set('folded', folded); syncFold(); });
 // Settings to another browser: a code holding this browser's choices (not revealed results, nor the stats page's own)
@@ -2706,7 +2716,7 @@ document.addEventListener('click', ev => { if (!ev.target.closest('.cmenu')) clo
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape') { closeComp(); closeSettings(); } });
 const closeSettings = () => { if (!$('panel').hidden) { $('panel').hidden = true; $('teamsBtn').setAttribute('aria-expanded', 'false'); } };
 document.addEventListener('pointerdown', ev => { if (!$('panel').hidden && !ev.target.closest('.pbox, #teamsBtn')) closeSettings(); });
-addEventListener('scroll', () => { $('toTop').hidden = scrollY < 700; cancelAnimationFrame(jumpFrame); jumpFrame = requestAnimationFrame(syncJump); }, { passive: true });
+addEventListener('scroll', () => { $('toTop').hidden = scrollY < 700; document.querySelector('header.top').classList.toggle('scrolled', scrollY > 24); cancelAnimationFrame(jumpFrame); jumpFrame = requestAnimationFrame(syncJump); }, { passive: true });
 // the Results and News buttons point up once their section starts above the header (or the page is at its end with
 // the section showing), and down while it's still further on
 let jumpFrame = 0;
