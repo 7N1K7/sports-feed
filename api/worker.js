@@ -6,14 +6,20 @@
 // GET /stats (with the owner's password) returns the totals for the private stats page.
 const SITE = /^https:\/\/(www\.)?kickoff\.kiwi$/;
 const BOT = /bot|crawl|spider|slurp|preview|headless|lighthouse|pingdom|monitor|facebookexternalhit|whatsapp|discord|telegram|curl|wget|python|node-fetch|go-http/i;
-const EVENTS = new Set(['install', 'appfirst', 'cal', 'alerts', 'rankings', 'alert-open', 'team', 'game']);
+const EVENTS = new Set(['install', 'appfirst', 'cal', 'alerts', 'rankings', 'alert-open', 'team', 'game', 'reveal']);
 // events whose detail is counted too, each under its own name: the sport or competition picked, the team page opened,
 // the words searched (search0: searches with no results), a page error, the load time band
-const KEYED = { sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed' };
+// and which way to watch was tapped, which team was followed or dropped in My teams, and which part of the site was used
+const KEYED = { sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed', watch: 'watch', follow: 'follow', unfollow: 'unfollow', use: 'use' };
+const USE = new Set(['Events button', 'Results button', 'News button', 'Series row chip', 'Running now tile', 'Events ahead tile', 'Results tab in a game', 'Day in the week strip', 'Dot in the week strip', 'Filters folded away', 'Filters opened', 'Hide sport', 'Show sport', 'Show all results']);
+// a visitor's settings, counted once a day each: results hidden or shown, card size, colour theme
+const VIEWS = new Set(['big', 'mixed', 'compact']), THEMES = new Set(['green', 'ocean', 'red', 'black', 'kowhai', 'paua', 'purple', 'orange', 'lime', 'pink']);
 const keyOf = (e, k) => {
   let v = String(k ?? '').trim();
   if (e === 'search' || e === 'search0') v = v.toLowerCase().replace(/[^a-z0-9 '&.-]/g, '').replace(/\s+/g, ' ').trim().slice(0, 40);
   if (e === 'error') v = v.replace(/https?:\/\/\S+/g, '(link)').replace(/\s+/g, ' ').slice(0, 120);
+  if (e === 'use' && !USE.has(v)) return '';
+  if (e === 'watch' || e === 'follow' || e === 'unfollow') v = v.replace(/[^\p{L}\p{N} '&.+()/-]/gu, '').slice(0, 40);
   return v.length >= 2 ? v : '';
 };
 const nzHour = () => new Intl.DateTimeFormat('en-NZ', { timeZone: 'Pacific/Auckland', hour: '2-digit', hourCycle: 'h23' }).format(new Date()).padStart(2, '0');
@@ -64,6 +70,9 @@ async function hit(req, env, body) {
     const device = /iPad|Tablet/i.test(ua) ? 'tablet' : /Mobi|Android|iPhone/i.test(ua) ? 'phone' : 'computer';
     writes.push(bump(env, day, 'visitors'), bump(env, day, 'country', req.cf?.country || '?'), bump(env, day, 'device', device), bump(env, day, 'mode', b.app ? 'app' : 'browser'),
       bump(env, day, 'os', osOf(ua)), bump(env, day, 'browser', browserOf(ua)));
+    if (b.sp === 0 || b.sp === 1) writes.push(bump(env, day, 'spoil', b.sp ? 'hidden' : 'shown'));
+    if (VIEWS.has(b.v)) writes.push(bump(env, day, 'view', b.v));
+    if (THEMES.has(b.th)) writes.push(bump(env, day, 'theme', b.th));
   }
   if (writes.length) await env.DB.batch(writes);
 }

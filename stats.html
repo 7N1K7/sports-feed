@@ -156,6 +156,13 @@ th { color: var(--muted); font-weight: 600 }
       <section class="card"><h2>Phone or computer system</h2><div class="bars" id="os"></div></section>
       <section class="card"><h2>Browser</h2><div class="bars" id="browser"></div></section>
       <section class="card"><h2>Load speed</h2><div class="bars" id="speed"></div><p class="note">How long until the first games were on screen.</p></section>
+      <section class="card"><h2>Where people watch</h2><div class="bars" id="watch"></div><p class="note">Taps on a way to watch, in a game's pop-up or on a card, and on the live scores link.</p></section>
+      <section class="card"><h2>Teams followed</h2><div class="bars" id="follow"></div><p class="note">Teams turned on in My teams.</p></section>
+      <section class="card"><h2>Teams dropped</h2><div class="bars" id="unfollow"></div><p class="note">Teams turned off in My teams.</p></section>
+      <section class="card"><h2>Parts of the site used</h2><div class="bars" id="use"></div><p class="note">Taps on each part, all visitors together.</p></section>
+      <section class="card"><h2>Spoilers</h2><div class="bars" id="spoil"></div><p class="note">Visitors, by whether they keep results hidden (counted once a day each).</p></section>
+      <section class="card"><h2>Card size</h2><div class="bars" id="view"></div><p class="note">Visitors, by the card size they use.</p></section>
+      <section class="card"><h2>Theme colour</h2><div class="bars" id="theme"></div><p class="note">Visitors, by the colour theme they picked.</p></section>
       <section class="card"><h2>Errors on visitors' devices</h2><div class="bars" id="error"></div><p class="note">Problems in the site's own code; each is worth a look.</p></section>
       <section class="card"><h2>Features used</h2><div class="bars" id="event"></div><p class="note">Taps on each feature, all visitors together. Calendars and alert topics count taps on their links and copy buttons; from an alert counts games opened by tapping a phone alert.</p></section>
     </div>
@@ -180,7 +187,7 @@ const store = { get(k, d) { try { const v = localStorage.getItem('sf.' + k); ret
 const fmtN = n => n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e4 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : n.toLocaleString('en-NZ');
 const dayLabel = (d, o = { weekday: 'short', day: 'numeric', month: 'short' }) => new Date(d + 'T12:00:00Z').toLocaleDateString('en-NZ', { timeZone: 'UTC', ...o });
 const COUNTRY = new Intl.DisplayNames(['en'], { type: 'region' });
-const EVENT_LABEL = { cal: 'Calendars', alerts: 'Alert topics', install: 'App installs (Android and computers)', appfirst: 'App opened for the first time (every phone, iPhone too)', rankings: 'Rankings', 'alert-open': 'From an alert', team: 'Team pages', game: 'Games opened' };
+const EVENT_LABEL = { cal: 'Calendars', alerts: 'Alert topics', install: 'App installs (Android and computers)', appfirst: 'App opened for the first time (every phone, iPhone too)', reveal: 'Results uncovered (Show result)', rankings: 'Rankings', 'alert-open': 'From an alert', team: 'Team pages', game: 'Games opened' };
 const MODE_LABEL = { app: 'App', browser: 'Browser' };
 const DEVICE_LABEL = { phone: 'Phone', tablet: 'Tablet', computer: 'Computer' };
 const SPORT_LABEL = { cricket: 'Cricket', rugby: 'Rugby', league: 'League', football: 'Football', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', motor: 'F1', tennis: 'Tennis', mma: 'MMA', boxing: 'Boxing' };
@@ -245,7 +252,10 @@ function draw() {
   bars('event', sums.event, k => EVENT_LABEL[k] || k);
   bars('sport', sums.sport, k => SPORT_LABEL[k] || k);
   bars('repeat', sums.repeat, k => REPEAT_LABEL[k] || k, REPEAT_ORDER);
-  for (const id of ['comp', 'teampage', 'search', 'search0', 'os', 'browser']) bars(id, sums[id], k => k);
+  for (const id of ['comp', 'teampage', 'search', 'search0', 'os', 'browser', 'watch', 'follow', 'unfollow', 'use']) bars(id, sums[id], k => k);
+  bars('spoil', sums.spoil, k => ({ hidden: 'Results hidden', shown: 'Results shown' })[k] || k);
+  bars('view', sums.view, k => ({ big: 'Big', mixed: 'Mixed', compact: 'Compact' })[k] || k);
+  bars('theme', sums.theme, k => ({ green: 'Kiwi green', ocean: 'Ocean blue', red: 'Pōhutukawa red', black: 'All Black', kowhai: 'Kōwhai gold', paua: 'Pāua teal', purple: 'Twilight purple', orange: 'Sunset orange', lime: 'Kawakawa lime', pink: 'Rātā pink' })[k] || k);
   bars('speed', sums.speed, k => k, SPEED_ORDER);
   bars('error', sums.error, k => k);
   // weekdays: each one's average visitors over the days of that weekday in the range

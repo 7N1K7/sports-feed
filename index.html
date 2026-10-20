@@ -2858,7 +2858,7 @@ function syncFold() {
   b.title = folded ? `Show the filters${on.length ? ' (on: ' + on.join(', ') + ')' : ''}` : 'Hide the filters';
   b.setAttribute('aria-label', b.title);
 }
-$('foldBtn').addEventListener('click', ev => { ev.stopPropagation(); folded = !folded; store.set('folded', folded); syncFold(); });
+$('foldBtn').addEventListener('click', ev => { ev.stopPropagation(); folded = !folded; store.set('folded', folded); syncFold(); count({ e: 'use', k: folded ? 'Filters folded away' : 'Filters opened' }); });
 // Settings to another browser: a code holding this browser's choices (not revealed results, nor the stats page's own)
 const MOVE_KEYS = ['teams', 'view', 'spoilers', 'spoilDays', 'spoilDaysSet', 'sport', 'comp', 'gender', 'nzOnly', 'tz', 'accent', 'theme'];
 const settingsCode = () => 'KK1-' + btoa(unescape(encodeURIComponent(JSON.stringify(Object.fromEntries(MOVE_KEYS.map(k => [k, store.get(k, null)]).filter(([, v]) => v !== null)))))).replace(/=+$/, '');
@@ -2919,17 +2919,21 @@ document.addEventListener('click', ev => {
   }
   const sub = ev.target.closest('#calList a, #alertList a');
   if (sub) count({ e: sub.closest('#calList') ? 'cal' : 'alerts' });
+  // which ways to watch people tap (the services, and the live scores link): just the service's name
+  const svc = ev.target.closest('a.svc, a.livelink');
+  if (svc && (svc.classList.contains('livelink') || SERVICES[svc.textContent.trim()])) count({ e: 'watch', k: svc.classList.contains('livelink') ? 'Live scores link' : svc.textContent.trim() });
   if (ev.target.closest('a')) return;
   // with a mouse, a week dot opens its game (anywhere else on the day opens the day); a finger is too broad for a dot,
   // so a tap opens the day
   const dot = ev.target.closest('.dot[data-dot]');
-  if (dot && matchMedia('(pointer: fine)').matches) { openDetail(dot.dataset.dot); return; }
+  if (dot && matchMedia('(pointer: fine)').matches) { count({ e: 'use', k: 'Dot in the week strip' }); openDetail(dot.dataset.dot); return; }
   const t = ev.target.closest('button');
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) openDetail(card.dataset.open); else if (ev.target === $('sheet')) $('sheet').close(); return; }
   if (t.id === 'sheetClose') { $('sheet').close(); return; }
   if (t.dataset.teampage) { closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport, t.classList.contains('rteam') ? $('sheet').dataset.rankings : ''); return; }
   if (t.dataset.goto) { const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
   if (t.id === 'toResults' || t.id === 'toNews' || t.id === 'toEvents') {
+    count({ e: 'use', k: { toEvents: 'Events button', toResults: 'Results button', toNews: 'News button' }[t.id] });
     const el = t.id === 'toEvents' ? ($('runSec').hidden ? $('bigSec') : $('runSec')) : $(t.id === 'toNews' ? 'newsSec' : 'resSec'), off = () => el.getBoundingClientRect().top - document.querySelector('header.top').offsetHeight - 10;
     scrollTo({ top: scrollY + off(), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     // pictures above that load (or fail) on the way move the section, so the scroll can stop short or overshoot: re-aim once it ends
@@ -2946,24 +2950,25 @@ document.addEventListener('click', ev => {
   if (t.dataset.calcopy) { count({ e: t.closest('#alertList') ? 'alerts' : 'cal' }); const u = t.dataset.calcopy; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { const was = t.textContent; t.textContent = 'Copied'; setTimeout(() => { t.textContent = was; }, 1600); }, () => prompt('Copy this', u)); return; }
   if (t.classList.contains('ghide')) {
     const keys = t.dataset.gsports.split(' ').flatMap(sp => SPORT[sp] || []), on = keys.some(k => picked.has(k));
-    keys.forEach(k => on ? picked.delete(k) : picked.add(k)); store.set('teams', [...picked]); render(); return;
+    keys.forEach(k => on ? picked.delete(k) : picked.add(k)); count({ e: 'use', k: on ? 'Hide sport' : 'Show sport' }); store.set('teams', [...picked]); render(); return;
   }
-  if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); store.set('teams', [...picked]); render(); }
+  if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); count({ e: picked.has(k) ? 'follow' : 'unfollow', k: TEAM_NAME[k] || k }); store.set('teams', [...picked]); render(); }
   else if (t.dataset.hideall) { ev.stopPropagation(); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
-  else if (t.dataset.revealall) { ev.stopPropagation(); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
-  else if (t.dataset.reveal) { ev.stopPropagation(); revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
+  else if (t.dataset.revealall) { ev.stopPropagation(); count({ e: 'use', k: 'Show all results' }); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
+  else if (t.dataset.reveal) { ev.stopPropagation(); count({ e: 'reveal' }); revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
   else if (t.dataset.rehide) { ev.stopPropagation(); revealed.delete(t.dataset.rehide); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
   else if (t.dataset.gender) { genderSel = t.dataset.gender; store.set('gender', genderSel); render(); }
   else if (t.dataset.sport) { compSel = ''; store.set('comp', ''); const k = t.dataset.sport; k === 'all' ? sportSel.clear() : sportSel.has(k) ? sportSel.delete(k) : (sportSel.add(k), count({ e: 'sport', k })); store.set('sport', [...sportSel]); render(); }
   else if (t.dataset.kind) { newsKind = t.dataset.kind; render(); }
-  else if (t.dataset.jump) { selDay = selDay === t.dataset.jump || t.dataset.jump === dayKey(new Date()) ? '' : t.dataset.jump; drawDayPick(); }
+  else if (t.dataset.jump) { if (!t.classList.contains('dayclose')) count({ e: 'use', k: 'Day in the week strip' }); selDay = selDay === t.dataset.jump || t.dataset.jump === dayKey(new Date()) ? '' : t.dataset.jump; drawDayPick(); }
   else if (t.dataset.bigcomp) {
     const again = compSel === t.dataset.bigcomp && t.classList.contains('nowchip');
+    count({ e: 'use', k: t.classList.contains('nowchip') ? 'Series row chip' : t.classList.contains('runev') ? 'Running now tile' : 'Events ahead tile' });
     hubTab = 'games'; compSel = again ? '' : t.dataset.bigcomp; store.set('comp', compSel); render();
     if (!t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; render(); }
-  else if (t.dataset.dtab) { dTab = t.dataset.dtab; $('sheetBody').classList.toggle('on-results', dTab === 'results'); t.parentNode.querySelectorAll('[data-dtab]').forEach(b => b.setAttribute('aria-selected', b === t)); }
+  else if (t.dataset.dtab) { if (t.dataset.dtab === 'results') count({ e: 'use', k: 'Results tab in a game' }); dTab = t.dataset.dtab; $('sheetBody').classList.toggle('on-results', dTab === 'results'); t.parentNode.querySelectorAll('[data-dtab]').forEach(b => b.setAttribute('aria-selected', b === t)); }
   else if (t.dataset.rank) { rankSel = t.dataset.rank; if ($('sheet').open && $('sheet').dataset.rankings) openRankings($('sheet').dataset.rankings); else render(); }
   else if (t.dataset.rankings) { rankSel = ''; openRankings(t.dataset.rankings); }
   else if (t.dataset.rankback) openRankings(t.dataset.rankback);
@@ -3208,7 +3213,7 @@ async function load(woke) {
   }
 }
 tick(); render(); load();
-{ let ref = ''; try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch {} count({ app: standalone() ? 1 : 0, r: ref }); }
+{ let ref = ''; try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch {} count({ app: standalone() ? 1 : 0, r: ref, sp: spoilers ? 1 : 0, v: view, th: store.get('accent', 'green') }); }
 // the home-screen app's first open on this device, counted once: iPhones never say when the app is added (Android and
 // computers do, as "install"), so this is how iPhone installs show up in the stats
 if (standalone() && !store.get('appSeen', false)) { store.set('appSeen', true); count({ e: 'appfirst' }); }
