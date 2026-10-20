@@ -1,4 +1,2 @@
-swipe up 300px: [0ms y0 - op1 tabTop95 hdrH97]
-swipe up 600px more: [2945ms y0 - op1 tabTop95 hdrH97]
-swipe down 200px: [6028ms y0 - op1 tabTop95 hdrH97]
-errors: none
+fonts: Barlow Condensed 700, Source Sans 3 600, Source Sans 3 700
+fits: {"head":1136,"chipsBottom":486,"freeTop":547,"urlTop":538}
