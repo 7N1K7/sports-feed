@@ -850,7 +850,8 @@ function stateSquad(text) {
   if (!tbl) return [];
   const players = [];
   let nameCol = -1, group = '';
-  for (const row of tbl.split(/\n\|-[^\n]*/).slice(1)) {
+  // the header row may come straight after the table's opening line, with no row marker before it
+  for (const row of tbl.replace(/^\{\|[^\n]*\n?/, '').split(/\n?\|-[^\n]*/)) {
     const lines = row.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('|}'));
     if (!lines.length) continue;
     if (lines.every(l => l.startsWith('!'))) {
@@ -868,6 +869,81 @@ function stateSquad(text) {
     players.push({ n, ...(r ? { r } : {}), ...(role ? { role } : {}), ...(w && w !== n ? { w } : {}) });
   }
   return players;
+}
+// Other sides' current squads, from their own Wikipedia pages, however the page sets them out: a table (NZ domestic
+// cricket, the Big Bash), a plain list, the football squad template, the basketball roster, a national rugby squad or a
+// Super Rugby squad. Each is the side's whole squad for the season, not a match-day team. sport|gender|name -> page
+export const TEAM_PAGES = {
+  'cricket|m|Auckland Aces': 'Auckland cricket team', 'cricket|m|Canterbury': 'Canterbury cricket team', 'cricket|m|Central Stags': 'Central Districts cricket team',
+  'cricket|m|Wellington Firebirds': 'Wellington cricket team', 'cricket|m|Otago Volts': 'Otago cricket team', 'cricket|m|Northern Districts': 'Northern Districts cricket team',
+  ...Object.fromEntries(['Adelaide Strikers', 'Brisbane Heat', 'Hobart Hurricanes', 'Melbourne Renegades', 'Melbourne Stars', 'Perth Scorchers', 'Sydney Sixers', 'Sydney Thunder']
+    .flatMap(t => [[`cricket|m|${t}`, t], [`cricket|w|${t}`, `${t} (WBBL)`]])),
+  ...Object.fromEntries(['New Zealand Breakers', 'Adelaide 36ers', 'Brisbane Bullets', 'Cairns Taipans', 'Illawarra Hawks', 'Melbourne United', 'Perth Wildcats', 'Sydney Kings', 'Tasmania JackJumpers']
+    .map(t => [`basketball|m|${t}`, t])), 'basketball|m|S.E. Melbourne Phoenix': 'South East Melbourne Phoenix',
+  ...Object.fromEntries(['Wellington Phoenix', 'Auckland FC', 'Brisbane Roar', 'Melbourne City', 'Western Sydney Wanderers', 'Central Coast Mariners', 'Melbourne Victory', 'Newcastle Jets',
+    'Sydney FC', 'Adelaide United', 'Perth Glory', 'Macarthur FC'].map(t => [`football|m|${t}`, /FC$/.test(t) ? t : `${t} FC`])),
+  'rugby|m|All Blacks': 'New Zealand national rugby union team', 'rugby|w|Black Ferns': "New Zealand women's national rugby union team",
+  ...Object.fromEntries(['Scotland', 'Wales', 'England', 'Ireland', 'France', 'South Africa', 'Argentina', 'Italy'].map(t => [`rugby|m|${t}`, `${t} national rugby union team`])),
+  'rugby|m|Wallabies': 'Australia national rugby union team', 'rugby|w|France': "France women's national rugby union team",
+  'rugby|m|Blues': 'Blues (Super Rugby)', 'rugby|m|Chiefs': 'Chiefs (rugby union)', 'rugby|m|Hurricanes': 'Hurricanes (rugby union)', 'rugby|m|Crusaders': 'Crusaders (rugby union)',
+  'rugby|m|Highlanders': 'Highlanders (rugby union)', 'rugby|m|Moana Pasifika': 'Moana Pasifika',
+};
+const sqTplArgs = t => { const a = {}, pos = []; let depth = 0, cur = '';
+  for (const ch of t) { if (ch === '{' || ch === '[') depth++; if (ch === '}' || ch === ']') depth--; if (ch === '|' && depth === 0) { pos.push(cur); cur = ''; } else cur += ch; }
+  pos.push(cur);
+  pos.slice(1).forEach((x, i) => { const m = x.match(/^\s*([\w ]+?)\s*=([\s\S]*)$/); if (m) a[m[1].toLowerCase()] = m[2].trim(); else a[i + 1] = x.trim(); });
+  return a; };
+// every {{name ...}} template in a text, with its arguments (nested templates kept whole)
+const sqTemplates = (text, name) => { const out = [], re = new RegExp(`\\{\\{\\s*${name}\\s*\\|`, 'gi'); let m;
+  while ((m = re.exec(text))) { let i = m.index + 2, depth = 1; while (i < text.length && depth) { if (text.startsWith('{{', i)) { depth++; i += 2; } else if (text.startsWith('}}', i)) { depth--; i += 2; } else i++; }
+    out.push(sqTplArgs(text.slice(m.index + 2, i - 2))); }
+  return out; };
+const sqLink = v => { const m = String(v || '').match(/\[\[([^\]|#]+)(?:\|([^\]]+))?\]\]/); return m ? { n: clean(m[2] || m[1]), w: m[1].trim() } : { n: clean(v) }; };
+const sqPlayer = (who, r) => { const { n, w } = who; return n ? { n, ...(r ? { r } : {}), ...(w && w !== n ? { w } : {}) } : null; };
+function squadSection(text) {
+  const m = text.match(/^(=+)\s*(current squad|current roster|first[- ]team squad|senior squad|contracted players|squad)\s*\1\s*$/im);
+  if (!m) return '';
+  const rest = text.slice(m.index + m[0].length), end = rest.search(new RegExp(`^={1,${m[1].length}}[^=]`, 'm'));
+  return end < 0 ? rest : rest.slice(0, end);
+}
+export function readSquad(text) {
+  const sec = squadSection(text);
+  if (!sec) return [];
+  let out = [];
+  // national rugby: {{nat rs player|pos=HK|name={{sortname|Codie|Taylor|dab=...}}|...}}
+  out = sqTemplates(sec, 'nat rs player').map(a => { const sn = sqTemplates(a.name || '', 'sortname')[0];
+    const who = sn ? { n: `${sn[1]} ${sn[2]}`.trim(), w: sn.dab ? `${sn[1]} ${sn[2]} (${sn.dab})` : '' } : sqLink(a.name);
+    return sqPlayer(who, [a.pos, /captain|\(c\)/i.test(a.other || a.note || '') ? 'c' : ''].filter(Boolean).join(', ')); });
+  if (!out.length) { // Super Rugby: '''Props''' then {{RU squad player|NZL|Name|captain=y}}
+    let group = '';
+    for (const line of sec.split('\n')) {
+      const g = line.match(/^'''([^']+)'''\s*$/); if (g) { group = g[1].replace(/s$/, ''); continue; }
+      for (const a of sqTemplates(line, 'RU squad player')) out.push(sqPlayer({ n: clean(a[2] || '') }, [group, a.captain ? 'c' : ''].filter(Boolean).join(', ')));
+    }
+  }
+  if (!out.length) out = sqTemplates(sec, 'fs player').map(a => sqPlayer(sqLink(a.name), [a.pos, /captain/i.test(a.other || '') ? 'c' : ''].filter(Boolean).join(', ')));
+  if (!out.length) out = sqTemplates(sec, 'player3').map(a => sqPlayer({ n: `${a.first || ''} ${a.last || ''}`.trim(), w: a.link || '' }, a.pos || ''));
+  if (!out.length) out = stateSquad('==Squad==\n' + sec);
+  if (!out.length) out = sec.split('\n').filter(l => /^\*\s*\S/.test(l)).map(l => sqPlayer(sqLink(l.replace(/^\*\s*/, '')), '')); // a plain list
+  return out.filter(Boolean).filter(p => p.n && !/^\{\{/.test(p.n));
+}
+// the pages of the sides given (sport|gender|name keys), in requests of 50
+export async function teamSquads(keys, diag) {
+  const want = keys.filter(k => TEAM_PAGES[k]), out = [];
+  try {
+    for (let i = 0; i < want.length; i += 50) {
+      const part = want.slice(i, i + 50), titles = [...new Set(part.map(k => TEAM_PAGES[k]))];
+      const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(titles.join('|')),
+        { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } });
+      if (!r.ok) throw new Error(r.status);
+      const j = await r.json(), back = {};
+      for (const m of [...(j.query?.normalized || []), ...(j.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
+      const text = Object.fromEntries((j.query?.pages || []).map(pg => [back[pg.title] || pg.title, pg.revisions?.[0]?.slots?.main?.content || '']));
+      for (const k of part) { const players = readSquad(text[TEAM_PAGES[k]] || ''); const [sport, g, team] = k.split('|'); if (players.length >= 8) out.push({ sport, g, team, players }); }
+    }
+    diag.teamSquads = `${out.length} of ${want.length}: ` + want.filter(k => !out.some(s => `${s.sport}|${s.g}|${s.team}` === k)).map(k => k.split('|')[2]).join(', ') + ' missing';
+  } catch (e) { diag.teamSquads = 'error ' + e.message; }
+  return out;
 }
 // the six pages in one request; a state whose page has no squad table is left out
 export async function stateSquads(diag) {
@@ -1069,4 +1145,4 @@ export async function tsdbEvents(all, diag, cache = {}, gapsFor = null) {
   return out;
 }
 export { tennisFinals as _tennisFinals, dateRange as _dateRange, TENNIS as _TENNIS };
-export { stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
+export { readSquad as _readSquad, stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };

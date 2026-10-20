@@ -9,7 +9,7 @@
 //   data/curated/*.json        -> fixtures the above lack (boxing, some tests), news, notes
 //   data/broadcast.json        -> where-to-watch rules by competition
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
-import { wikiEvents, tsdbEvents, tsdb, f1StartTimes, stateSquads } from './sources.mjs';
+import { wikiEvents, tsdbEvents, tsdb, f1StartTimes, stateSquads, teamSquads } from './sources.mjs';
 import { rankings as getRankings } from './rankings.mjs';
 import { execSync } from 'node:child_process';
 
@@ -1335,7 +1335,14 @@ await addFaces(events);
 // in the feed rather than on every game; the page puts them on each game
 const stateList = events.some(e => e.team === 'audomestic' && Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY)
   ? Object.entries(await stateSquads(diag)).map(([team, players]) => ({ team, players })) : [];
-await addPlayerLinks(events, stateList);
+// other sides' current squads (NZ domestic cricket, the Big Bash, NBL, A-League, national and Super Rugby sides), from
+// their own pages, for sides with a game within four weeks; kept once in the feed, the page puts them on each game
+const WOMEN = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
+const genderKey = e => WOMEN.has(e.team) || /women|\bWBBL\b/i.test(`${e.comp} ${e.home} ${e.away}`) ? 'w' : 'm';
+const squadKeys = [...new Set(events.filter(e => Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY)
+  .flatMap(e => [e.home, e.away].map(t => `${e.sport}|${genderKey(e)}|${String(t || '').replace(/\s+Women('s)?$/, '')}`)))];
+const teamList = await teamSquads(squadKeys, diag);
+await addPlayerLinks(events, [...stateList, ...teamList]);
 await addFighterLinks(events);
 const links = await teamLinks(events);
 await wikiLogos(events, links);
@@ -1393,6 +1400,7 @@ const feed = {
   tables,
   rankings,
   ...(stateList.length ? { stateSquads: stateList } : {}),
+  ...(teamList.length ? { teamSquads: teamList } : {}),
   teamLinks: links,
   sources: [
     { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(ESPN_ON ? [{ name: 'Live cricket: ESPNcricinfo', url: 'https://www.espncricinfo.com' }] : []), ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, { name: 'Press releases via Scoop Media', url: 'https://www.scoop.co.nz/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })),
