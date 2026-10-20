@@ -592,6 +592,10 @@ a.svc:hover { text-decoration-color: currentColor }
 .rankchips { margin: 4px 0 12px }
 .swap { display: inline-grid } .swap > span { grid-area: 1 / 1; text-align: center } .swap > .off { visibility: hidden }
 .bico { width: 1.05em; height: 1.05em; vertical-align: -0.17em; margin-left: 4px }
+/* Spoilers and Settings are just their icons (the eye, crossed out while results are hidden, and the cog); their names
+   are in the tooltip and for screen readers */
+.ibtn { padding-inline: 10px }
+.ibtn .bico { margin: 0; width: 1.2em; height: 1.2em }
 .ranksports { margin: 2px 0 10px; padding-right: 34px }  /* clear of the close button */
 :root { --gold: #a87b00 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --gold: #f2c94c } }
@@ -791,7 +795,8 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 @media (min-width: 1000px) { header.top .wrap { position: relative } header.top .search { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) } }
 /* no built-in clear button: it keeps space on the right, which pushed the centred text left (Esc still clears) */
 #q::-webkit-search-cancel-button, #q::-webkit-search-decoration { -webkit-appearance: none; appearance: none; display: none }
-#q { width: 162px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font: 14px var(--f-body); text-align: center }
+#q { width: 150px; padding: 7px 12px 7px 30px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font: 14px var(--f-body); text-align: center }
+.search .qico { position: absolute; left: 11px; top: 50%; width: 14px; height: 14px; margin-top: -7px; color: var(--muted); pointer-events: none; z-index: 1 }
 #q:focus { outline: 2px solid color-mix(in srgb, var(--ink) 40%, transparent); outline-offset: 1px }
 .qlist { position: absolute; right: 0; top: calc(100% + 6px); width: min(440px, 92vw); max-height: 70vh; overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 32px rgb(0 0 0 / .18); z-index: 20; padding: 4px }
 .qi { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 8px 10px; border: 0; background: none; border-radius: 8px; font: 15px var(--f-body); color: inherit; cursor: pointer }
@@ -837,18 +842,21 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
 @media (max-width: 560px) {
   /* phones always show Mixed, so the card-size buttons aren't offered there */
   #viewSel { display: none }
-  /* phone header: name, then the clock, then the four buttons as one even row, then search */
+  /* phone header: name, then the clock, then one row of buttons and the search box */
   .brand { flex: none; font-size: 27px }
   .clockcol { flex: 1 1 0; min-width: 0; justify-items: end; text-align: right; margin-bottom: 2px }
   .clockrow { display: contents }
   .clock { white-space: nowrap } .fresh { font-size: 10px }
   /* the version goes with the byline on phones */
   .ver { display: none } .ver2 { display: inline }
-  .hbtns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; flex: 1 1 100% }
+  /* one row: Results, News, the search box, then the eye and the cog; while you type, the search box spreads over the row */
+  .hbtns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.3fr) auto auto; gap: 6px; flex: 1 1 100%; position: relative }
   .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
   .hbtns .btn svg { width: 14px; height: 14px; flex: none }
-  .search { order: 10; flex: 1 1 100% }
-  #q { width: 100%; box-sizing: border-box; padding-block: 4px; font-size: 13px } /* a slimmer search row on phones */
+  .hbtns .ibtn { padding-inline: 9px } .hbtns .ibtn svg { width: 17px; height: 17px }
+  #q { width: 100%; height: 100%; box-sizing: border-box; padding: 4px 8px 4px 26px; font-size: 13px }
+  .search .qico { left: 9px; width: 13px; height: 13px; margin-top: -6.5px }
+  .hbtns .search:focus-within { position: absolute; inset: 0; z-index: 4 }
   .qlist { left: 0; right: 0; width: auto }
   .trow { grid-template-columns: minmax(0, 1fr) auto } .trow .td { grid-column: 1 / -1 }
 }
@@ -857,11 +865,14 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
 html.tight header.top .wrap { row-gap: 4px; padding-bottom: 5px }
 html.tight .brand { flex: none; font-size: 27px }
 html.tight .binfo { font-size: 9px } html.tight .brand .bt { gap: 4px }
-html.tight .hbtns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; flex: 1 1 100% }
+html.tight .hbtns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.3fr) auto auto; gap: 6px; flex: 1 1 100%; position: relative }
 html.tight .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
 html.tight .hbtns .btn svg { width: 14px; height: 14px; flex: none }
-html.tight header.top .search { order: 10; flex: 1 1 100%; position: relative; left: auto; top: auto; transform: none }
-html.tight #q { width: 100%; box-sizing: border-box; padding-block: 4px; font-size: 13px }
+html.tight .hbtns .ibtn { padding-inline: 9px } html.tight .hbtns .ibtn svg { width: 17px; height: 17px }
+html.tight header.top .search { position: relative; left: auto; top: auto; transform: none }
+html.tight #q { width: 100%; height: 100%; box-sizing: border-box; padding: 4px 8px 4px 26px; font-size: 13px }
+html.tight .search .qico { left: 9px; width: 13px; height: 13px; margin-top: -6.5px }
+html.tight header.top .hbtns .search:focus-within { position: absolute; inset: 0; z-index: 4 }
 html.tight .qlist { left: 0; right: 0; width: auto }
 html.tight .compbar { gap: 6px }
 html.tight .compbar .lg { display: none } html.tight .compbar .sm { display: inline }
@@ -953,15 +964,15 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
     <a class="brand" id="home" href="./" title="Back to the top"><img class="blogo" src="logo.svg?v=b4" alt="" width="52" height="52"><div class="bt"><div class="btop"><b class="bn">Kickoff <span>Kiwi</span></b><small class="by">by N1K<span class="ver2 num" id="ver2"></span></small></div><div class="binfo num" id="binfo"></div></div></a>
     <div class="clockcol"><div class="clockrow"><div class="clock num" id="clock"></div><div class="ver num" id="ver"></div></div><div class="fresh" id="fresh"></div></div>
     <div class="spacer"></div>
-    <div class="search" role="search">
-      <input id="q" type="search" placeholder="Find a team or game" autocomplete="off" spellcheck="false" aria-label="Find a team or game" aria-controls="qList" aria-expanded="false">
-      <div id="qList" class="qlist" role="listbox" aria-label="Search results" hidden></div>
-    </div>
     <div class="hbtns">
     <button class="btn" id="toResults" type="button" title="Jump to recent results">Results <span class="jarr" aria-hidden="true">↓</span></button>
     <button class="btn" id="toNews" type="button" title="Jump to the news">News <span class="jarr" aria-hidden="true">↓</span></button>
-    <button class="btn" id="spoilBtn" aria-pressed="false" type="button">Spoilers hidden</button>
-    <button class="btn" id="teamsBtn" aria-expanded="false" aria-controls="panel" type="button">Settings</button>
+    <div class="search" role="search"><svg class="qico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+      <input id="q" type="search" placeholder="Search" autocomplete="off" spellcheck="false" aria-label="Find a team or game" aria-controls="qList" aria-expanded="false">
+      <div id="qList" class="qlist" role="listbox" aria-label="Search results" hidden></div>
+    </div>
+    <button class="btn ibtn" id="spoilBtn" aria-pressed="false" type="button">Spoilers hidden</button>
+    <button class="btn ibtn" id="teamsBtn" aria-expanded="false" aria-controls="panel" aria-label="Settings" title="Settings" type="button">Settings</button>
     </div>
   </div>
   <div class="panel" id="panel" hidden>
@@ -2446,10 +2457,10 @@ function render() {
   const eye = '<path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/>';
   const ico = body => `<svg class="bico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
   // both labels sit in the same spot, the unused one invisible, so the button keeps one width and nothing beside it moves
-  $('spoilBtn').innerHTML = `Spoilers ${ico(spoilers ? eye + '<path d="M3 3l18 18"/>' : eye)}`;
+  $('spoilBtn').innerHTML = ico(spoilers ? eye + '<path d="M3 3l18 18"/>' : eye);
   $('spoilBtn').title = spoilers ? 'Results are hidden: tap to show them' : 'Results are showing: tap to hide them';
   $('spoilBtn').setAttribute('aria-label', spoilers ? 'Spoilers hidden' : 'Spoilers shown');
-  $('teamsBtn').innerHTML = `Settings ${ico('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>')}`;
+  $('teamsBtn').innerHTML = `${ico('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>')}`;
   $('spoilDays').value = String(spoilDays); $('spoilNote').style.visibility = spoilDays ? '' : 'hidden';
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
