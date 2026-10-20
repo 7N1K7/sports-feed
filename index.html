@@ -791,9 +791,6 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
   :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev .teams.matchup.scored .side .ts { order: 5; flex-basis: 100%; text-align: center } }
 /* search, form guide, team pages */
 .search { position: relative }
-/* wide screens: the search box sits in the middle of the page, in line with "Current running series" below; narrower
-   ones keep it beside Results */
-@media (min-width: 1000px) { header.top .wrap { position: relative } header.top .search { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) } }
 /* no built-in clear button: it keeps space on the right, which pushed the centred text left (Esc still clears) */
 #q::-webkit-search-cancel-button, #q::-webkit-search-decoration { -webkit-appearance: none; appearance: none; display: none }
 #q { width: 140px; padding: 7px 12px 7px 30px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font: 14px var(--f-body); text-align: center }
@@ -875,7 +872,6 @@ html.tight .hbtns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(
 html.tight .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
 html.tight .hbtns .btn svg { width: 14px; height: 14px; flex: none }
 html.tight .hbtns .ibtn { padding-inline: 9px } html.tight .hbtns .ibtn svg { width: 17px; height: 17px }
-html.tight header.top .search { position: relative; left: auto; top: auto; transform: none }
 html.tight .hbtns .search { width: 38px }
 html.tight #q { width: 100%; height: 100%; box-sizing: border-box; padding: 4px 8px 4px 28px; font-size: 13px; cursor: pointer }
 html.tight #q:not(:focus) { color: transparent } html.tight #q:not(:focus)::placeholder { color: transparent }
