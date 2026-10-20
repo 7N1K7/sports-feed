@@ -205,10 +205,19 @@ html { -webkit-tap-highlight-color: transparent }
 .panel .ph.ptitle { font-size: 25px; color: color-mix(in srgb, var(--accent) 45%, var(--ink)) }
 .spoil-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 14px }
 /* the settings drop-downs share one snug width */
-#tzSel, #spoilDays { width: 9.5em; text-align: center; text-align-last: center } /* the choice in the middle of its box */
-/* the browser's own arrow takes room from the text's side only, so the choice sat left of the middle of the box (and of
-   the list that opens under it): the box draws its own arrow inside equal padding on both sides instead */
-#tzSel, #spoilDays { appearance: none; -webkit-appearance: none; padding: 4px 26px; background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: right 15px center, right 10px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat } .spoil-row > label, .spoil-row .sgrp > label { min-width: 7.6em }
+/* the times and spoiler days: a box and a list drawn by the page (the browser's own <select> stays, hidden, holding the
+   value). A browser draws its own list its own way (Chrome on Windows set the choice to the left and the list in the
+   middle); drawn here, the choice and every line of the list under it share one centre line, on any browser */
+.dhide { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none }
+.dsel { position: relative; display: inline-block }
+.dsel .dbtn { width: 9.5em; font: inherit; padding: 4px 26px; border-radius: 8px; border: 1px solid var(--line); color: var(--ink); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer;
+  background: var(--paper) no-repeat; background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: right 15px center, right 10px center; background-size: 5px 5px, 5px 5px }
+.dsel .dbtn[aria-expanded="true"] { border-color: var(--ink) }
+.dsel .dlist { position: absolute; z-index: 40; top: calc(100% + 4px); left: 50%; transform: translateX(-50%); min-width: 100%; width: max-content; max-height: min(50vh, 330px); overflow: auto; box-sizing: border-box; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 10px 28px rgba(0, 0, 0, .35) }
+.dsel .dopt { display: block; width: 100%; border: 0; background: none; color: var(--ink); font: inherit; padding: 5px 12px; border-radius: 6px; text-align: center; white-space: nowrap; cursor: pointer }
+.dsel .dopt:hover { background: color-mix(in srgb, var(--ink) 9%, transparent) }
+.dsel .dopt[aria-selected="true"] { background: var(--ink); color: var(--paper); font-weight: 600 }
+.spoil-row .dbtn { min-width: 0 } .spoil-row > label, .spoil-row .sgrp > label { min-width: 7.6em }
 /* the times and the spoiler days share a line, each label with its box, and stack (lined up) when there isn't room */
 .spoil-row .sgrp { display: inline-flex; align-items: center; gap: 10px } .spoil-row:has(.sgrp) { column-gap: 28px }
 select { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink) }
@@ -2689,6 +2698,7 @@ function render() {
   $('spoilDays').value = String(spoilDays);
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
+  syncDsel($('spoilDays')); syncDsel($('tzSel'));
   $('teamGroups').innerHTML = TEAMS.map(g => { const ss = [...new Set(g.items.map(([k]) => sportOf(k)))], on = ss.some(followedSport);
     return `<div class="group${on ? '' : ' off'}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`; }).join('');
   // calendar subscriptions (built with the feed, in data/cal/): every game an NZ side plays, then each team picked above.
@@ -2923,6 +2933,34 @@ document.addEventListener('click', ev => {
   else if (t.id === 'allOff') { picked = new Set(); store.set('teams', []); render(); }
 });
 document.addEventListener('keydown', ev => { const c = ev.target.closest?.('[data-open]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openDetail(c.dataset.open); } });
+// the drawn dropdowns over the time and spoiler <select>s: the list is made from the select's options each time it
+// opens, and a choice sets the select and fires its "change", so everything else works as it did
+function dselFor(sel) {
+  let w = sel.nextElementSibling;
+  if (w?.classList.contains('dsel')) return w;
+  w = document.createElement('span'); w.className = 'dsel';
+  w.innerHTML = '<button type="button" class="dbtn" aria-haspopup="listbox" aria-expanded="false"></button><span class="dlist" role="listbox" hidden></span>';
+  sel.after(w); sel.classList.add('dhide'); sel.tabIndex = -1; sel.setAttribute('aria-hidden', 'true');
+  const btn = w.firstChild, list = w.lastChild;
+  btn.setAttribute('aria-label', sel.labels?.[0]?.textContent || '');
+  btn.addEventListener('click', () => {
+    const open = list.hidden; closeDsels(); if (!open) return;
+    list.innerHTML = [...sel.options].map(o => `<button type="button" class="dopt" role="option" data-v="${esc(o.value)}" aria-selected="${o.selected}">${esc(o.text)}</button>`).join('');
+    list.hidden = false; btn.setAttribute('aria-expanded', 'true');
+    const on = list.querySelector('[aria-selected="true"]'); if (on) list.scrollTop = on.offsetTop - (list.clientHeight - on.offsetHeight) / 2;
+  });
+  list.addEventListener('click', e => {
+    const o = e.target.closest('.dopt'); if (!o) return;
+    closeDsels(); btn.focus();
+    if (sel.value !== o.dataset.v) { sel.value = o.dataset.v; sel.dispatchEvent(new Event('change', { bubbles: true })); }
+    syncDsel(sel);
+  });
+  return w;
+}
+const syncDsel = sel => { dselFor(sel).firstChild.textContent = sel.selectedOptions[0]?.text || ''; };
+function closeDsels() { document.querySelectorAll('.dsel .dlist:not([hidden])').forEach(l => { l.hidden = true; l.previousElementSibling.setAttribute('aria-expanded', 'false'); }); }
+document.addEventListener('click', e => { if (!e.target.closest('.dsel')) closeDsels(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.querySelector('.dsel .dlist:not([hidden])')) { closeDsels(); e.stopImmediatePropagation(); } }); // Escape shuts an open list first, not the whole settings panel
 function closeComp() { $('compMenu').hidden = true; $('compSel').setAttribute('aria-expanded', 'false'); }
 // the menu runs down to just above the bottom of the window, so bigger windows show more of it
 const fitComp = () => { const m = $('compMenu'); if (!m.hidden) m.style.maxHeight = Math.max(220, innerHeight - $('compSel').getBoundingClientRect().bottom - 24) + 'px'; };
