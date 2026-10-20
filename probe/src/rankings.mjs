@@ -98,7 +98,8 @@ function teamTables(tables, cfg) {
     const iVal = col(heads, /^rating/i) >= 0 ? col(heads, /^rating/i) : col(heads, /^(points|pts)/i);
     if (iTeam < 0 || iVal < 0) continue;
     const rows = body.map(r => ({ rank: iRank >= 0 ? (r[iRank] || '').match(/^\d+/)?.[0] || '' : 'n', name: (r[iTeam] || '').replace(/\s*\(.*?\)\s*$/, '').trim(), val: (r[iVal] || '').replace(/^0+(?=\d)/, '') }))
-      .filter(r => r.rank && r.name && /\d/.test(r.val) && !/^(team|total)$/i.test(r.name));
+      // a footer row spanning the table ("Source: ICC Men's Test Team Rankings, 13 October 2026") is not a team
+      .filter(r => r.rank && r.name && /\d/.test(r.val) && r.name !== r.val && !/^(team|total)$|^source\b/i.test(r.name));
     rows.forEach((r, i) => { if (r.rank === 'n') r.rank = String(i + 1); });
     if (rows.length < 5) continue;
     const top = rows.slice(0, 20), nz = rows.find(r => NZ.test(r.name));
@@ -165,21 +166,27 @@ function fighterTables(tables, cfg) {
   return [...lists.values()].sort((a, b) => order(a.title) - order(b.title));
 }
 
+// bumped when the parser changes, so lists cached by the old one are read again
+const CACHE_V = 2;
 export async function rankings(cache, diag) {
   const now = Date.now(), out = [], notes = [];
   for (const cfg of RANK_PAGES) {
     const c = cache[cfg.page];
-    if (c && now - c.t < 12 * 36e5) { out.push(...c.lists); continue; }
+    if (c && c.v === CACHE_V && now - c.t < 12 * 36e5) { out.push(...c.lists); continue; }
     try {
       await new Promise(r => setTimeout(r, 1000));
       const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=parse&prop=text&redirects=1&disableeditsection=1&disablelimitreport=1&page=' + encodeURIComponent(cfg.page), { headers: UA });
       if (!r.ok) throw new Error(r.status);
       const j = await r.json();
       if (j.error) throw new Error(j.error.code);
-      const tables = tablesOf(j.parse?.text || '');
+      // a page merged into another arrives through a redirect to its section ("ICC Women's T20I Team Rankings" is now
+      // the T20I section of the ODI and T20I page): keep to that section's tables
+      const frag = (j.parse?.redirects || []).map(x => x.tofragment).filter(Boolean).pop()?.replace(/_/g, ' ').toLowerCase();
+      const all = tablesOf(j.parse?.text || ''), inFrag = frag ? all.filter(t => t.heading.toLowerCase() === frag) : [];
+      const tables = inFrag.length ? inFrag : all;
       const lists = cfg.kind === 'fighters' ? fighterTables(tables, cfg) : cfg.kind === 'players' ? playerTables(tables, cfg) : teamTables(tables, cfg);
       notes.push(`${cfg.page}: ${tables.length} tables, ${lists.map(l => `${l.title} ${l.rows.length}${l.asOf ? ' @' + l.asOf : ''}`).join(', ') || 'nothing usable'}`);
-      if (lists.length) cache[cfg.page] = { t: now, lists };
+      if (lists.length) cache[cfg.page] = { t: now, v: CACHE_V, lists };
       out.push(...(lists.length ? lists : c?.lists || []));
     } catch (e) { notes.push(`${cfg.page}: error ${e.message}`); out.push(...(c?.lists || [])); }
   }
