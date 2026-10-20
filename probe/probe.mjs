@@ -1,12 +1,5 @@
-// probe 99: the doubles race (teams) tables on the ATP and WTA rankings pages
-import { grid } from './rankings.mjs';
-const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
-for (const page of ['ATP rankings', 'WTA rankings']) {
-  const r = await (await fetch(`https://en.wikipedia.org/w/api.php?action=parse&format=json&formatversion=2&prop=text&redirects=1&page=${encodeURIComponent(page)}`, { headers: UA })).json();
-  for (const t of r.parse.text.match(/<table[\s\S]*?<\/table>/gi)) {
-    if (!/doubles race|rankings \(doubles\)/i.test(t)) continue;
-    const g = grid(t);
-    console.log(`\n### ${page}: heads ${JSON.stringify(g.heads)}`);
-    for (const row of g.rows.slice(0, 5)) console.log('   ', JSON.stringify(row));
-  }
-}
+// probe 100: tennis lists with the doubles teams
+import { rankings } from './rankings.mjs';
+const r = await rankings({}, {});
+for (const l of r.filter(l => l.sport === 'tennis')) console.log(`${l.title} (${l.asOf}) ${l.rows.length}: ${l.rows.slice(0, 3).map(x => `${x.rank} ${x.name} ${x.pair ? x.pair.map(p => p.iso).join('/') : x.iso} ${x.val}`).join(' | ')}`);
+console.log(JSON.stringify(r.find(l => /teams/.test(l.title))?.rows[0]));

@@ -22,8 +22,8 @@ export const RANK_PAGES = [
   { sport: 'basketball', page: "FIBA Men's World Ranking", kind: 'teams', titles: ["Men's"] },
   { sport: 'basketball', page: "FIBA Women's World Ranking", kind: 'teams', titles: ["Women's"] },
   { sport: 'netball', page: 'World Netball Rankings', kind: 'teams', titles: ["Women's"] },
-  { sport: 'tennis', page: 'ATP rankings', kind: 'players', titles: ["Men's singles", "Men's doubles"] },
-  { sport: 'tennis', page: 'WTA rankings', kind: 'players', titles: ["Women's singles", "Women's doubles"] },
+  { sport: 'tennis', page: 'ATP rankings', kind: 'players', titles: ["Men's singles", "Men's doubles", "Men's doubles teams"] },
+  { sport: 'tennis', page: 'WTA rankings', kind: 'players', titles: ["Women's singles", "Women's doubles", "Women's doubles teams"] },
   { sport: 'mma', page: 'UFC rankings', kind: 'fighters' },
 ];
 
@@ -117,7 +117,7 @@ function teamTables(tables, cfg) {
 // Finals): number, player with country code ("Jannik Sinner (ITA)"), points. Doubles players are ranked one by one too
 function playerTables(tables, cfg) {
   const out = [];
-  for (const [i, kind] of ['singles', 'doubles'].entries()) {
+  for (const [i, kind] of ['singles', 'doubles', 'race'].entries()) {
     const list = onePlayerTable(tables, cfg, kind, cfg.titles[i]);
     if (list) out.push(list);
   }
@@ -127,9 +127,19 @@ function onePlayerTable(tables, cfg, kind, title) {
   if (!title) return null;
   for (const t of tables) {
     const head = t.heads.flat().join(' ');
-    if (!new RegExp(`rankings \\(${kind}\\) as of`, 'i').test(head)) continue;
+    // the doubles race: the year's pairs, "Harri Heliövaara (FIN) ✓ Henry Patten (GBR) ✓" in one cell
+    if (!(kind === 'race' ? /doubles race rankings as of/i : new RegExp(`rankings \\(${kind}\\) as of`, 'i')).test(head)) continue;
     const h = t.heads[t.heads.length - 1];
-    const iRank = h.findIndex(x => /^(no|rank)/i.test(x)), iName = h.findIndex(x => /^player/i.test(x)), iVal = h.findIndex(x => /^points/i.test(x));
+    const iRank = h.findIndex(x => /^(no|rank)/i.test(x)), iName = h.findIndex(x => /^(player|team)/i.test(x)), iVal = h.findIndex(x => /^points/i.test(x));
+    if (kind === 'race' && iRank >= 0 && iName >= 0 && iVal >= 0) {
+      const rows = t.rows.map(r => {
+        const pair = [...(r[iName] || '').matchAll(/([^()✓]+?)\s*\(([A-Z]{3})\)/g)].map(m => ({ name: m[1].replace(/✓/g, '').trim(), iso: m[2] }));
+        return { rank: (r[iRank] || '').match(/^\d+/)?.[0] || '', name: pair.map(x => x.name).join(' / '), pair, iso: '', val: (r[iVal] || '').trim() };
+      }).filter(r => r.rank && r.pair.length === 2 && /\d/.test(r.val)).slice(0, 20);
+      if (rows.length < 5) continue;
+      for (const r of rows) if (r.pair.some(x => x.iso === 'NZL')) r.nz = true;
+      return { sport: cfg.sport, kind: 'players', title, page: cfg.page, asOf: dateIn(head), valLabel: 'Points', rows };
+    }
     if (iRank < 0 || iName < 0 || iVal < 0) continue;
     const rows = t.rows.map(r => {
       const m = (r[iName] || '').match(/^(.*?)\s*\(([A-Z]{3})\)/);
@@ -176,7 +186,7 @@ function fighterTables(tables, cfg) {
 }
 
 // bumped when the parser changes, so lists cached by the old one are read again
-const CACHE_V = 3;
+const CACHE_V = 4;
 export async function rankings(cache, diag) {
   const now = Date.now(), out = [], notes = [];
   for (const cfg of RANK_PAGES) {
