@@ -158,6 +158,8 @@ html { -webkit-tap-highlight-color: transparent }
 #teamGroups { gap: 6px !important }
 #teamGroups .group { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: center; column-gap: 10px; padding: 6px 0; border-top: 1px solid var(--line) }
 #teamGroups .group:first-child { border-top: 0; padding-top: 0 }
+/* a labelled line inside a group (Super Rugby Pacific under Rugby): starts its own row of chips */
+#teamGroups .chips .gsub { flex: 0 0 100%; margin-top: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); text-align: left }
 #teamGroups .group h3 { margin: 0; font-size: 11px; line-height: 1.25 }
 #teamGroups .ghide { display: flex; width: 80px; align-items: center; justify-content: center; gap: 4px; margin-top: 5px; font: inherit; font-size: 11px; font-weight: 600; line-height: 1.4; text-transform: none; letter-spacing: 0; color: var(--ink); background: color-mix(in srgb, #37b24d 14%, transparent); border: 1px solid color-mix(in srgb, #37b24d 65%, transparent); border-radius: 999px; padding: 1px 6px; cursor: pointer }
 #teamGroups .ghide:hover { border-color: var(--accent) }
@@ -1291,8 +1293,9 @@ const count = (msg = {}) => {
   addEventListener('unhandledrejection', ev => report(ev.reason?.message || ev.reason)); }
 const TEAMS = [ // in the sport row's order: cricket, rugby, league, football, hockey, basketball, netball, F1, tennis, fights
   { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['aucricket','Australia men'],['audomestic','Aussie domestic'],['intlcricket','Other tours'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
-  { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup'],['wallabies','Wallabies']] },
-  { g: 'Super Rugby Pacific', items: [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika'],['aurugby','Australian teams'],['superrugby','Every game']] },
+  // the Super Rugby clubs are rugby too: their own labelled line in the rugby group, not a sport of their own
+  { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup'],['wallabies','Wallabies']],
+    sub: { g: 'Super Rugby Pacific', items: [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika'],['aurugby','Australian teams'],['superrugby','Every game']] } },
   { g: 'Rugby league', items: [['kiwis','Kiwis'],['kiwiferns','Kiwi Ferns'],['warriors','Warriors'],['nrl','NRL'],['rlwc','League World Cup']] },
   { g: 'Football', items: [['phoenix','Wellington Phoenix'],['aucklandfc','Auckland FC'],['aleague','A-League Men'],['epl','Premier League']] },
   { g: 'Hockey', items: [['blacksticks','Black Sticks'],['blacksticksw','Black Sticks Women']] },
@@ -1302,7 +1305,8 @@ const TEAMS = [ // in the sport row's order: cricket, rugby, league, football, h
   { g: 'Tennis', items: [['tennis','Grand Slams, Finals and ASB Classic']] },
   { g: 'Fight sports', items: [['ufc','UFC events'],['boxing','Major boxing'],['nzboxing','NZ boxers']] },
 ];
-const TEAM_NAME = Object.fromEntries(TEAMS.flatMap(g => g.items));
+const groupItems = g => [...g.items, ...(g.sub?.items || [])];
+const TEAM_NAME = Object.fromEntries(TEAMS.flatMap(groupItems));
 // team badges (colours + short code) and country flags
 const BADGE = {
   allblacks: ['AB', '#000000', '#ffffff'], blackferns: ['BF', '#000000', '#ffffff'], npc: ['NPC', '#c8102e', '#ffffff'], fpc: ['FPC', '#6d2077', '#ffffff'],
@@ -1442,7 +1446,7 @@ const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="ic
 const START_LABEL = { rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight', boxing: 'Main card', motor: 'Lights out', tennis: 'Final', hockey: 'Push back', basketball: 'Tip-off', netball: 'Centre pass' };
 const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC', boxing: 'Boxing', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball' };
 
-const ALL_KEYS = TEAMS.flatMap(g => g.items.map(i => i[0]));
+const ALL_KEYS = TEAMS.flatMap(g => groupItems(g).map(i => i[0]));
 
 const store = {
   get(k, d) { try { const v = localStorage.getItem('sf.' + k); return v == null ? d : JSON.parse(v) } catch { return d } },
@@ -2743,8 +2747,9 @@ function render() {
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
   syncDsel($('spoilDays')); syncDsel($('tzSel'));
-  $('teamGroups').innerHTML = TEAMS.map(g => { const ss = [...new Set(g.items.map(([k]) => sportOf(k)))], on = ss.some(followedSport);
-    return `<div class="group${on ? '' : ' off'}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`; }).join('');
+  const tchip = ([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`;
+  $('teamGroups').innerHTML = TEAMS.map(g => { const ss = [...new Set(groupItems(g).map(([k]) => sportOf(k)))], on = ss.some(followedSport);
+    return `<div class="group${on ? '' : ' off'}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(tchip).join('')}${g.sub ? `<span class="gsub">${esc(g.sub.g)}</span>${g.sub.items.map(tchip).join('')}` : ''}</div></div>`; }).join('');
   // calendar subscriptions (built with the feed, in data/cal/): every game an NZ side plays, then each team picked above.
   // webcal: opens Apple's Calendar to subscribe; Google and Outlook take the address on their own add-by-URL pages
   const calRow = (k, label) => {
