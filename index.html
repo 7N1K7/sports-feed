@@ -123,6 +123,7 @@ header.top .wrap { display: flex; align-items: center; justify-content: flex-end
 .brand .by { font-family: var(--f-body); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: none; color: var(--muted); line-height: 1; white-space: nowrap }
 .hbtns { display: contents }
 .hbreak { display: none }
+.ipair { display: contents } /* the eye and the cog: a pair that stays together on compact layouts */
 .ver2 { display: none } .brand .ver2 { color: var(--muted) }
 .brand .blogo { width: 1.7em; height: 1.7em; vertical-align: -0.48em; margin-right: .3em; border-radius: 10px }
 .clock { color: var(--muted); font-size: 12px }
@@ -851,7 +852,7 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
   /* the eye and the cog sit at the top right, beside the name; Results, News and the search box share the row below
      evenly, and while you type the search box takes the whole row */
   header.top .wrap { column-gap: 6px }
-  .spacer { order: 1 } #spoilBtn { order: 2 } #teamsBtn { order: 3 } .hbreak { display: block; order: 4; flex: 0 0 100%; height: 0 }
+  .spacer { order: 1 } .ipair { order: 2; display: flex; gap: 6px; flex: none } .hbreak { display: block; order: 4; flex: 0 0 100%; height: 0 }
   #toResults { order: 5 } #toNews { order: 6 } .search { order: 7 }
   #toResults, #toNews, .search { flex: 1 1 0; min-width: 0 }
   .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
@@ -863,10 +864,11 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
 }
 /* small phones: the eye and the cog a little smaller (and on the smallest, the name too), so both still fit beside the name */
 @media (max-width: 350px) { .brand { font-size: 22px !important } }
+@media (max-width: 330px) { .brand { font-size: 19px !important } .ipair { gap: 4px !important } }
 /* small phones: the eye and the cog a little smaller, so both still fit beside the name */
 @media (max-width: 390px) {
   .hbtns .ibtn { padding: 6px 7px } .hbtns .ibtn svg { width: 16px; height: 16px }
-  header.top .wrap { column-gap: 4px }
+  header.top .wrap { column-gap: 4px } .ipair { gap: 4px }
   .qlist { left: 0; right: 0; width: auto }
   .trow { grid-template-columns: minmax(0, 1fr) auto } .trow .td { grid-column: 1 / -1 }
 }
@@ -876,7 +878,7 @@ html.tight header.top .wrap { row-gap: 4px; padding-bottom: 5px }
 html.tight .brand { flex: none; font-size: 27px }
 html.tight .binfo { font-size: 9px } html.tight .brand .bt { gap: 4px }
 html.tight header.top .wrap { column-gap: 6px }
-html.tight .spacer { order: 1 } html.tight #spoilBtn { order: 2 } html.tight #teamsBtn { order: 3 } html.tight .hbreak { display: block; order: 4; flex: 0 0 100%; height: 0 }
+html.tight .spacer { order: 1 } html.tight .ipair { order: 2; display: flex; gap: 6px; flex: none } html.tight .hbreak { display: block; order: 4; flex: 0 0 100%; height: 0 }
 html.tight #toResults { order: 5 } html.tight #toNews { order: 6 } html.tight .search { order: 7 }
 html.tight :is(#toResults, #toNews, .search) { flex: 1 1 0; min-width: 0 }
 html.tight .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
@@ -984,8 +986,10 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
       <input id="q" type="search" placeholder="Search" autocomplete="off" spellcheck="false" aria-label="Find a team or game" aria-controls="qList" aria-expanded="false">
       <div id="qList" class="qlist" role="listbox" aria-label="Search results" hidden></div>
     </div>
+    <span class="ipair">
     <button class="btn ibtn" id="spoilBtn" aria-pressed="false" type="button">Spoilers hidden</button>
     <button class="btn ibtn" id="teamsBtn" aria-expanded="false" aria-controls="panel" aria-label="Settings" title="Settings" type="button">Settings</button>
+    </span>
     </div>
   </div>
   <div class="panel" id="panel" hidden>
