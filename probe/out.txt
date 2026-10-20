@@ -1,16 +1,260 @@
-ICC Men's Test Team Rankings: 10 tables, Men's Tests 10; ICC Men's ODI Team Rankings: 12 tables, Men's ODIs 20; ICC Men's T20I Team Rankings: 8 tables, Men's T20Is 20; ICC Women's ODI Team Rankings: 1 tables, Women's ODIs 16; ICC Women's T20I Team Rankings: 1 tables, Women's T20Is 20
 
-Men's Tests (, Rating): 10 rows
-  1. Australia 126 | 2. South Africa 119 | 3. New Zealand 106 (NZ) | 4. India 105 | 5. England 102 | 6. Bangladesh 78 | 7. Sri Lanka 77 | 8. West Indies 74 | 9. Pakistan 71 | 10. Zimbabwe 17
+== Queensland cricket team -> Queensland cricket team | 22512 chars | headings: 2:History / 3:1824 to 1926/27 / 3:1926/27 to 1963/64 / 3:1964/65 to 1972/73 / 3:1973/74 to 1993/94 / 3:1994/95 to date / 2:Colours and mascot / 2:Home grounds / 2:Current squad / 2:Test players / 2:Titles / 3:[[Sheffield Shield]] / 3:[[Australian domestic limited-overs cricket tournament|Domestic One-Day Cup]] / 2:First-class records / 3:Batting records / 3:Bowling records / 2:See also / 2:References / 2:External links
+==Current squad==
+Players with international caps are listed in '''bold'''.
+{|class="wikitable"
+|-
+!style="background: #79001f; color:white" align=right| No.
+!style="background: #79001f; color:white" align=right| Name
+!style="background: #79001f; color:white" align=right| Nationality
+!style="background: #79001f; color:white" align=right| Birth date
+!style="background: #79001f; color:white" align=right| Batting style
+!style="background: #79001f; color:white" align=right| Bowling style
+!style="background: #79001f; color:white" align=right| Notes
+|-
 
-Men's ODIs (, Rating): 20 rows
-  1. India 115 | 2. New Zealand 109 (NZ) | 3. South Africa 104 | 4. Australia 102 | 5. Pakistan 102 | 6. England 95 | 7. Sri Lanka 94 | 8. Afghanistan 92 | 9. Bangladesh 82 | 10. West Indies 79 | 11. Zimbabwe 65 | 12. Ireland 51 | 13. Scotland 45 | 14. Netherlands 44 | 15. United States 41 | 16. Namibia 32 | 17. Nepal 29 | 18. Oman 24 | 19. United Arab Emirates 14 | 20. Canada 12
+|-
+! colspan=7 style="background: #DCDCDC" align=right| Batters
+|-
+|style="text-align:center"|17|| [[Max Bryant]] || {{cr|AUS}} || {{birth date and age|1999|10|3|df=y}} || Right-handed || Right-arm [[Fast bowling|medium]] ||
+|-
+|style="text-align:center"|29|| [[Hugo Burdon]] || {{cr|AUS}} || {{birth date and age|2001|11|29|df=y}}  || Right-handed ||  Right-arm [[Fast bowling|fast]] || 
+|-
+|style="text-align:center"|21|| [[Jack Clayton (cricketer)|Jack Clayton]] || {{cr|AUS}} || {{birth date and age|1999|2|25|df=yes}} || Left-handed ||  Left-arm [[wrist spin]] || 
+|-
+|style="text-align:center"|22|| [[Lachlan Hearne]] || {{cr|AUS}} || {{birth date and age|2000|10|14|df=y}} || Left-handed || {{n/a}} || 
+|-
+|style="text-align:center"|18|| '''[[Usman Khawaja]]''' || {{cr|AUS}} || {{Birth date and age|1986|12|18|df=y}} || Left-handed || Right-arm [[off break]] || [[Cricket Australia]] contract
+|-
+|style="text-align:center"|33|| '''[[Marnus Labuschagne]]''' || {{cr|AUS}} || {{Birth date and age|1994|6|22|df=y}} || Right-handed || Right-arm [[leg break]] || [[Captain (cricket)|Captain]] & [[Cricket Australia]] contract
+|-
+|style="text-align:center"|48 || [[Angus Lovell]]|| {{cr|AUS}} || {{birth date and age|1999|09|12|df=y}} || Right-handed || {{n/a}} || 
+|-
+|style="text-align:center"|77|| '''[[Matt Renshaw]]''' || {{cr|AUS}} || {{birth date and age|1996|03|28|df=y}} || Left-handed || Right-arm [[off break]] || 
+|-
+|23|| [[Hugh Weibgen]] || {{cr|AUS}} || {{birth date and age|2004|10|28|df=y}} || Right-handed || Right-arm [[off break]] ||
+|-
+! colspan=7 style="background: #DCDCDC" align=right| All-rounders
+|-
+|style="text-align:center"|20|| '''[[Michael Neser]]''' || {{cr|AUS}} || {{birth date and age|1990|3|29|df=y}} || Right-handed || Right-arm [[Fast bowling|medium-fast]] || [[Cricket Australia]] contract
+|-
+|style="text-align:center"|24|| '''[[Jack Wildermuth]]''' || {{cr|AUS}} || {{birth date and age|1993|09|01|df=y}} || Right-handed || Right-arm [[Fast bowling|medium-fast]] ||
+|-
+! colspan=7 style="background: #DC
 
-Men's T20Is (, Rating): 20 rows
-  1. England 269 | 2. India 267 | 3. Australia 260 | 4. New Zealand 247 (NZ) | 5. South Africa 243 | 6. Pakistan 241 | 7. West Indies 236 | 8. Bangladesh 222 | 9. Sri Lanka 221 | 10. Afghanistan 218 | 11. Ireland 205 | 12. Zimbabwe 202 | 13. United States 183 | 14. Nepal 181 | 15. Netherlands 180 | 16. Namibia 179 | 17. Scotland 179 | 18. United Arab Emirates 175 | 19. Oman 152 | 20. Canada 149
+== New South Wales cricket team -> New South Wales cricket team | 21786 chars | headings: 2:Colours and badge / 2:Notable players / 2:Honours / 2:Squad / 2:Records / 3:Most first-class matches played / 3:Most first-class runs / 3:Most first-class wickets / 2:See also / 2:References / 2:External links
+==Squad==
+Players with international caps are listed in '''bold'''.
 
-Women's ODIs (, Rating): 16 rows
-  1. Australia 164 | 2. England 126 | 3. India 124 | 4. South Africa 100 | 5. New Zealand 96 (NZ) | 6. Sri Lanka 89 | 7. Pakistan 73 | 8. West Indies 72 | 9. Bangladesh 72 | 10. Ireland 45 | 11. Scotland 44 | 12. Netherlands 42 | 13. Thailand 35 | 14. Zimbabwe 15 | 15. United Arab Emirates 10 | 16. Papua New Guinea 3
+Players contracted to New South Wales for the 2025/26 season are as follows:<ref>{{cite web |last1=Cricket NSW |title=Blues squad confirmed for season 2025/26 |url=https://www.cricketnsw.com.au/news/4269749/blues-squad-confirmed-for-season-202526 |website=Cricket Australia |publisher=Cricket NSW |access-date=1 June 2025 |date=21 May 2025}}</ref>
 
-Women's T20Is (, Rating): 20 rows
-  1. Australia 291 | 2. England 276 | 3. India 265 | 4. New Zealand 249 (NZ) | 5. South Africa 246 | 6. West Indies 238 | 7. Sri Lanka 238 | 8. Pakistan 212 | 9. Ireland 203 | 10. Bangladesh 195 | 11. Scotland 168 | 12. Thailand 153 | 13. Papua New Guinea 142 | 14. Netherlands 140 | 15. United Arab Emirates 137 | 16. Zimbabwe 120 | 17. Uganda 112 | 18. Namibia 110 | 19. United States 98 | 20. Tanzania 95
+{| class="wikitable" style="font-size:95%"
+|-
+! style="background:#5ca1ed; color:white; text-align:centre;"| No.
+! style="background:#5ca1ed; color:white; text-align:centre;"| Name
+! style="background:#5ca1ed; color:white; text-align:centre;"| {{Tooltip|Nat.|Sporting nationality}}
+! style="background:#5ca1ed; color:white; text-align:centre;"| Birth date
+! style="background:#5ca1ed; color:white; text-align:centre;"| [[NSW Premier Cricket|Premier Cricket]] club
+! style="background:#5ca1ed; color:white; text-align:centre;"| Batting style
+! style="background:#5ca1ed; color:white; text-align:centre;"| Bowling style
+! style="background:#5ca1ed; color:white; text-align:centre;"| Notes
+|-
+! colspan="8" style="background:#dcdcdc; text-align:centre;" | Batters
+|-
+|style="text-align:center"|14|| [[Oliver Davies (cricketer)|Oliver Davies]] || {{cricon|AUS}} || {{Birth date and age|2000|10|14|df=y}} 
+|[[Manly Warringah District Cricket Club|Manly Warringah]]|| Right-handed || Right-arm [[off break]] ||
+|-
+|style="text-align:center"|5|| '''[[Sam Konstas]]'''|| {{cricon|AUS}} || {{Birth date and age|2005|10|2|df=y}} 
+|[[Sutherland District Cricket Club|Sutherland]]|| Right-handed || {{n/a}} || [[Cricket Australia]] contract
+|-
+| style="text-align:center" |53||'''[[Nic Maddinson]]'''|| {{cricon|AUS}}||{{birth date and age|1991|12|21|df=y}}||[[Eastern Suburbs Cricket Club|Eastern Suburbs]]|| Left-handed || [[Slow left arm orthodox]] || 
+|-
+|style="text-align:center"|45|| [[Blake Nikitaras]] || {{cricon|AUS}} || {{Birth date and age|2000|4|29|df=y}} 
+|[[St George Cricket Club|St George]]|| Left-handed || {{n/a}} || 
+|-
+|style="text-align:center"|17|| '''[[Kurtis Patterson]]''' || {{cricon|AUS}} || {{Birth date and age|1993|5|5|df=y}} 
+|[[St George Cricket Club|St George]]|| Left-handed || {{n/a}} ||
+|-
+|style="text-align:center"|49|| [[Steve Smith (cricketer)|'''Steve Smith''']] || {{cricon|AUS}} || {{Birth date and age|1989|06|02|df=y}} 
+|[[Sutherland District Cricket Club|Sutherland]]|| Right-handed || Right-arm [[leg spin]] || [[Cricket Australia]] contract
+|-
+|style="text-align:center"| 26 || [[Riley Kingsell]] || {{cricon|AUS}} || {{Birth date and age|2005|
+
+== Victoria cricket team -> Victoria cricket team | 18310 chars | headings: 2:History / 2:Identity / 2:Honours / 2:Squad / 2:Records / 2:See also / 2:References / 2:External links
+==Squad==
+Squad for the 2024/25 domestic season. Players with international caps are listed in '''bold'''.
+{| class="wikitable"
+|-
+!No.
+!Name
+!Nationality
+!Birth date
+!Batting style
+!Bowling style
+!Notes
+|-
+! colspan="8" style="background: #DCDCDC" align="right" | Batters
+|-
+| style="text-align:center" |20|| [[Dylan Brasher]]|| {{cr|AUS}}||{{birth date and age|2001|03|15|df=y}}|| Left-handed || {{n/a}} ||
+|-
+| style="text-align:center" |23||[[Josh Brown (Australian cricketer)|Josh Brown]]|| {{cr|AUS}}||{{birth date and age|1993|12|26|df=y}}|| Right-handed || Right-arm [[off break]]|| 
+|-
+| style="text-align:center" |22||[[Ashley Chandrasinghe]]|| {{cr|AUS}}||{{birth date and age|2001|12|17|df=y}}|| Left-handed || {{n/a}} || 
+|-
+| style="text-align:center" |–||[[Harry Dixon (cricketer)|Harry Dixon]]|| {{cr|AUS}}||{{birth date and age|2005|2|16|df=y}}|| Left-handed || Right-arm [[off break]]|| 
+|-
+| style="text-align:center" |54||'''[[Peter Handscomb]]'''|| {{cr|AUS}}||{{birth date and age|1991|4|26|df=y}}|| Right-handed || {{n/a}} || Marsh Cup [[Captain (cricket)|captain]]
+|-
+| style="text-align:center" |14||'''[[Marcus Harris (cricketer)|Marcus Harris]]'''|| {{cr|AUS}}||{{birth date and age|1992|07|21|df=y}}|| Left-handed || Right-arm [[off break]]||
+|-
+| style="text-align:center" |37|| [[Campbell Kellaway]] || {{cr|AUS}}||{{birth date and age|2002|01|11|df=y}}|| Left-handed || {{n/a}} ||
+|-
+| style="text-align:center" |10||'''[[Will Pucovski]]'''|| {{cr|AUS}}||{{birth date and age|1998|2|2|df=y}}|| Right-handed || {{n/a}}|| 
+|-
+| style="text-align:center" |3||[[Tom Rogers (cricketer, born 1999)|Tom Rogers]]|| {{cr|AUS}}||{{birth date and age|1999|7|2|df=y}}|| Left-handed || {{n/a}} || 
+|-
+| style="text-align:center" |2||'''[[Matthew Short]]'''|| {{cr|AUS}}||{{birth date and age|1995|11|8|df=y}}|| Right-handed || Right-arm [[off break]]||[[Cricket Australia]] contract
+|-
+! colspan="7" style="background: #DCDCDC" align="right" | All-rounders
+|-
+| style="text-align:center" |32||'''[[Glenn Maxwell]]'''|| {{cr|AUS}}||{{birth date and age|1988|10|14|df=y}}|| Right-handed || Right-arm [[off break]]||[[Cricket Australia]] contract
+|-
+| style="text-align:center" |11||[[Jonathan Merlo]]|| {{cr|AUS}}||{{birth date and age|1998|12|15|df=y}}|| Right-handed || Right-arm [[Fast bowling|medium-fast]]|| 
+|-
+| style="text-align:center" |12||'''[[Will Sutherland]]'''|| {{cr|AUS}}||{{birth date and age|1999|10|27|df=y}}|| Right-handed || Right-arm [[Fast bowling|medium-fast]]|| Sheffield Shield [[captain (cricket)|captain]]
+|-
+! colspan="7" style="background: #DCDCDC" alig
+
+== South Australia cricket team -> South Australia cricket team | 19493 chars | headings: 2:History / 2:Squad / 2:Honours / 2:Records / 3:First-class Records / 3:List A Records / 2:'All Time Best Team' / 2:See also / 2:References / 2:External links
+==Squad==
+
+Squad for the 2024/25 domestic season.<ref>{{cite web |last1=Ramsey |first1=Andrew |title=SA turn to local talent to complete men's squad {{!}} cricket.com.au |url=https://www.cricket.com.au/news/3982929/south-australia-squad-2024-25-local-talent |website=www.cricket.com.au |access-date=26 April 2024 |language=en |date=25 April 2024}}</ref> Players with international caps are listed in '''bold'''.
+
+{| class="wikitable"
+|-
+!No.
+!Name
+!Nationality
+!Birth date
+!Batting style
+!Bowling style
+!Notes
+|-
+! colspan="7" style="background: #DCDCDC" align=right| Batters
+|-
+|style="text-align:center"|3|| [[Kyle Brazell]] || {{cr|AUS}} || {{birth date and age|2001|09|20|df=y}} || Left-handed || [[Left-arm orthodox spin|Slow left-arm orthodox]]|| Rookie contract
+|-
+|style="text-align:center"|15|| [[Mackenzie Harvey]] || {{cr|AUS}} || {{Birth date and age|2000|9|18|df=y}} || Left-handed || Right-arm [[Fast bowling|medium-fast]]||
+|-
+|style="text-align:center"|22|| [[Henry Hunt (cricketer)|Henry Hunt]] || {{cr|AUS}} || {{Birth date and age|1997|1|7|df=y}} || Right-handed || Right-arm [[Fast bowling|medium]] ||
+|-
+|style="text-align:center"|23|| '''[[Jake Fraser-McGurk]]''' || {{cr|AUS}}||{{birth date and age|2002|04|11|df=y}}|| Right-handed || Right-arm [[leg spin]]||
+|-
+|style="text-align:center"|31|| [[Thomas Kelly (cricketer, born 2000)|Thomas Kelly]] || {{cr|AUS}}||{{Birth date and age|2000|12|14|df=y}}|| Right-handed || {{n/a}} ||
+|-
+|style="text-align:center"|33|| [[Jake Lehmann]] || {{cr|AUS}} || {{Birth date and age|1992|7|8|df=y}} || Left-handed || [[Left-arm orthodox spin|Slow left-arm orthodox]] ||
+|-
+|style="text-align:center"|34|| '''[[Travis Head]]''' ||{{cr|AUS}} ||{{Birth date and age|1993|12|29|df=y}} || Left-handed || Right-arm [[Off spin|off break]]|| [[Cricket Australia]] contract
+|-
+|style="text-align:center"|37|| [[Conor McInerney]] ||{{cr|AUS}} ||{{Birth date and age|1994|3|30|df=y}} || Left-handed || [[Left-arm orthodox spin|Slow left-arm orthodox]]||
+|-
+|style="text-align:center"|47|| [[Daniel Drew (cricketer)|Daniel Drew]] || {{cr|AUS}} || {{Birth date and age|1996|5|22|df=y}} || Right-handed || Right–arm [[Off spin|off break]]||
+|-
+|style="text-align:center"|50|| [[Jason Sangha]] || {{cr|AUS}} || {{Birth date and age|1999|9|8|df=y}} || Right-handed || Right–arm [[Leg spin|leg break]]||
+|-
+! colspan="7" style="background: #DCDCDC" align=right| All-rounders
+|-
+|style="text-align:center"|6|| [[Liam Scott]] || {{cr|AUS}}||{{Birth date and age|2000|12|12|df=y}}|| Right-handed || Right-arm [[Fast bowling|fast-medium]]||
+|-
+|style="text-ali
+
+== Western Australia cricket team -> Western Australia cricket team | 18856 chars | headings: 2:History / 2:Honours / 2:Identity / 2:Current squad / 2:Coaching staff / 2:Lists of players / 2:See also / 2:References / 2:External links
+==Current squad==
+<small>Sources: [http://www.waca.com.au/cricket/warriors/warriors.asp WACA]</small>
+Players with international caps are listed in '''bold'''.
+{| class="wikitable"
+|-
+!No.
+!Name
+!Nationality
+!Birth date
+!Batting style
+!Bowling style
+!Contract Type & Notes
+|-
+! colspan="7" style="background: #DCDCDC" align=right| Batters
+|-
+|style="text-align:center"|35|| '''[[Hilton Cartwright]]''' || {{cr|AUS}} || {{birth date and age|1992|2|14|df=y}} || Right-handed || Right-arm [[Fast bowling|medium]] || 
+|-
+|style="text-align:center"|28|| [[Sam Fanning]] || {{cr|AUS}} || {{Birth date and age|2000|10|20|df=y}} || Left-handed || {{n/a}} || 
+|-
+|style="text-align:center"|7|| [[Jayden Goodwin]] || {{cr|AUS}} || {{Birth date and age|2001|12|13|df=y}} || Right-handed || Right-arm [[leg break]] || Rookie contract
+|-
+|style="text-align:center"|59|| [[Corey Wasley]] || {{cr|AUS}} || {{Birth date and age|2005|7|12|df=y}} || Left-handed ||Right-arm [[off break]] || 
+|-
+|style="text-align:center"|48|| [[Teague Wyllie]] || {{cr|AUS}} || {{Birth date and age|2004|4|14|df=y}} || Right-handed || {{n/a}} || 
+|-
+! colspan="7" style="background: #DCDCDC" align=right| All-rounders
+|-
+|style="text-align:center"|8|| '''[[Cooper Connolly]]''' || {{cr|AUS}} || {{Birth date and age|2003|8|22|df=y}} || Left-handed || [[Left-arm orthodox spin|Slow left-arm orthodox]] ||
+|-
+|style="text-align:center"|12||  [[Keaton Critchell]] || {{cr|AUS}} || {{Birth date and age|1997|1|11|df=y}} || Right-handed || Right-arm [[Fast bowling|fast-medium]] || 
+|-
+|style="text-align:center"|31|| '''[[Cameron Green]]'''|| {{cr|AUS}} || {{Birth date and age|1999|6|3|df=y}} || Right-handed || Right-arm [[Fast bowling|fast-medium]] || [[Cricket Australia]] contract
+|-
+|style="text-align:center"|21||  '''[[Aaron Hardie]]''' || {{cr|AUS}} || {{Birth date and age|1999|1|7|df=y}} || Right-handed || Right-arm [[Fast bowling|medium-fast]] || 
+|-
+|style="text-align:center"|10|| '''[[Mitchell Marsh|Mitch Marsh]]''' || {{cr|AUS}} || {{Birth date and age|1991|10|20|df=y}} || Right-handed || Right-arm [[Fast bowling|fast-medium]] || [[Cricket Australia]] contract
+|-
+|style="text-align:center"|23|| '''[[D'Arcy Short]]''' || {{cr|AUS}} || {{birth date and age|1990|8|9|df=y}} || Left-handed || [[Left-arm unorthodox spin|Left-arm unorthodox]] ||
+|-
+|style="text-align:center"|17|| '''[[Ashton Turner]]''' || {{cr|AUS}} || {{birth date and age|1993|1|25|df=y}} || Right-handed || Right-arm [[off break]] ||[[captain (cricket)|List A captain]]
+|-
+! colspan="7" style="background: #DCDCDC" align=right| Wicket-keepers
+|-
+|st
+
+== Tasmania cricket team -> Tasmania cricket team | 37414 chars | headings: 2:History / 3:Introduction of cricket to Tasmania / 3:Beginnings of first-class cricket in Australia / 3:Geographic and social isolation / 3:Sheffield Shield wilderness / 3:National competitiveness / 3:Tasmanian Tigers era / 3:Recent success / 2:Home grounds / 2:Squad / 2:Notable players / 3:Tasmanian captains / 3:All former players / 3:Other notable former players / 3:Cricket Tasmania Field of Fame / 3:Coaches / 2:Records / 3:Team records / 3:Honours / 2:References / 2:Further reading / 2:External links
+==Squad==
+Players with international caps are listed in '''bold''':
+{| class="wikitable"
+|-
+!No.
+!Name
+!Nationality
+!Birth date
+!Batting style
+!Bowling style
+!Notes
+|-
+! colspan="7" style="background: #DCDCDC" align=right| Batters
+|-
+|style="text-align:center"|-|| [[Nicholas Davis (cricketer)|Nick Davis]] || {{cr|AUS}} || {{birth date and age|2002|9|27|df=y}} || Right-handed || Right-arm [[off break]] || Rookie contract
+|-
+| style="text-align:center"|14|| [[Jordan Silk]] || {{cr|AUS}} || {{birth date and age|1992|4|13|df=y}} || Right-handed || Right-arm [[Fast bowling|medium]] || [[Captain (cricket)|Captain]]
+|-
+|style="text-align:center"|9|| [[Charlie Wakim]] || {{cr|AUS}} || {{birth date and age|1991|07|09|df=y}} || Right-handed || Right-arm [[off break]] || 
+|-
+|style="text-align:center"|61|| [[Tim Ward (cricketer)|Tim Ward]]||{{cr|AUS}} || {{birth date and age|1998|2|16|df=y}} || Left-handed || &ndash; || 
+|-
+|style="text-align:center"|11|| [[Jake Weatherald]] || {{cr|AUS}} || {{Birth date and age|1994|11|04|df=y}} || Left-handed || Right-arm [[leg break]] ||
+|-
+|style="text-align:center"|33|| [[Mac Wright (cricketer)|Mac Wright]] || {{cr|AUS}} || {{birth date and age|1998|1|22|df=y}} || Right-handed || Right-arm [[leg break]] ||
+|-
+! colspan="7" style="background: #DCDCDC" align=right| All-rounders
+|-
+|style="text-align:center"|30|| [[Bradley Hope|Brad Hope]] || {{cr|AUS}} || {{birth date and age|1999|7|13|df=y}} || Right-handed || Right-arm [[Fast bowling|medium]] ||
+|-
+|style="text-align:center"|17|| [[Raf MacMillan]] || {{cr|AUS}} || {{birth date and age|2005|2|1|df=y}} || Right-handed || Right-arm [[off break]] || Rookie contract
+|-
+|style="text-align:center"|46|| [[Aidan O'Connor (cricketer)|Aidan O'Connor]] || {{cr|AUS}} || {{birth date and age|2006|7|13|df=y}} || Right-handed || Right-arm [[Fast bowling|medium-fast]] || Rookie contract
+|-
+|style="text-align:center"|16|| [[Mitchell Owen|'''Mitch Owen''']] || {{cr|AUS}} || {{birth date and age|2001|9|16|df=y}} || Right-handed || Right-arm [[Fast bowling|medium]] ||
+|-
+|style="text-align:center"|3|| [[Nivethan Radhakrishnan]] || {{cr|AUS}} || {{birth date and age|2002|11|25|df=y}} || Left-handed || Right-arm [[off break]]/[[Slow left-arm orthodox]]|| Rookie contract
+|-
+|style="text-align:center"|20|| '''[[Beau Webster]]''' || {{cr|AUS}} || {{birth date and age|1993|12|1|df=y}} || Right-handed || Right-arm [[off-break]]/[[fast bowling|medium]]||
+|-
+! colspan="7" style="background: #DCDCDC" align=right| Wicket-keepers
+|-
+|style="text-align:center"|24|| [[Jake Doran]] || {{cr|AUS}} || {{birth date 
