@@ -856,12 +856,17 @@ function stateSquad(text) {
     if (!lines.length) continue;
     if (lines.every(l => l.startsWith('!'))) {
       const heads = lines.flatMap(l => l.slice(1).split('!!')).map(c => clean(cellText(c)));
-      if (heads.length === 1) group = heads[0]; else nameCol = heads.findIndex(h => /^(player|name)$/i.test(h));
+      // a second header row (the league tables' Debut, Matches, Tries...) keeps the name column found in the first
+      if (heads.length === 1) group = heads[0]; else { const k = heads.findIndex(h => /^(player|name)$/i.test(h)); if (k >= 0) nameCol = k; }
       continue;
     }
     if (nameCol < 0 || /<s>/.test(row)) continue;
     const cells = lines.filter(l => l.startsWith('|')).flatMap(l => l.slice(1).split('||')).map(cellText);
-    const cell = cells[nameCol] || '', n = clean(cell).replace(/\s*\(.*?\)\s*$/, '');
+    let cell = cells[nameCol] || '';
+    // league tables name players with {{sortname|Kalyn|Ponga}} rather than a link
+    const sn = sqTemplates(cell, 'sortname')[0];
+    if (sn) cell = `[[${sn.dab ? `${sn[1]} ${sn[2]} (${sn.dab})` : sn.link || `${sn[1]} ${sn[2]}`}|${sn[1]} ${sn[2]}]]`;
+    const n = clean(cell).replace(/\s*\(.*?\)\s*$/, '');
     if (!n || !/\[\[/.test(cell)) continue;
     const notes = clean(cells[cells.length - 1] || ''), w = (cell.match(/\[\[([^\]|#]+)/) || [])[1]?.trim();
     const role = /keeper/i.test(group) ? 'wk' : /all/i.test(group) ? 'ar' : /bowl/i.test(group) ? 'bowl' : /bat/i.test(group) ? 'bat' : '';
@@ -887,6 +892,13 @@ export const TEAM_PAGES = {
   'rugby|m|Wallabies': 'Australia national rugby union team', 'rugby|w|France': "France women's national rugby union team",
   'rugby|m|Blues': 'Blues (Super Rugby)', 'rugby|m|Chiefs': 'Chiefs (rugby union)', 'rugby|m|Hurricanes': 'Hurricanes (rugby union)', 'rugby|m|Crusaders': 'Crusaders (rugby union)',
   'rugby|m|Highlanders': 'Highlanders (rugby union)', 'rugby|m|Moana Pasifika': 'Moana Pasifika',
+  // the league World Cup sides: men (m), women (w) and wheelchair (wc)
+  ...Object.fromEntries(['Australia', 'New Zealand', 'Tonga', 'Samoa', 'England', 'Papua New Guinea', 'Fiji', 'Cook Islands', 'France', 'Lebanon']
+    .map(t => [`league|m|${t}`, `${t} national rugby league team`])),
+  ...Object.fromEntries(['Australia', 'New Zealand', 'England', 'Papua New Guinea', 'Samoa', 'Cook Islands', 'Fiji', 'France', 'Tonga', 'Wales']
+    .map(t => [`league|w|${t}`, `${t} women's national rugby league team`])),
+  ...Object.fromEntries(['England', 'France', 'Australia', 'Wales', 'Scotland', 'Ireland', 'USA', 'Spain', 'New Zealand']
+    .map(t => [`league|wc|${t}`, `${t === 'USA' ? 'United States' : t} national wheelchair rugby league team`])),
 };
 const sqTplArgs = t => { const a = {}, pos = []; let depth = 0, cur = '';
   for (const ch of t) { if (ch === '{' || ch === '[') depth++; if (ch === '}' || ch === ']') depth--; if (ch === '|' && depth === 0) { pos.push(cur); cur = ''; } else cur += ch; }
@@ -939,7 +951,11 @@ export async function teamSquads(keys, diag) {
       const j = await r.json(), back = {};
       for (const m of [...(j.query?.normalized || []), ...(j.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
       const text = Object.fromEntries((j.query?.pages || []).map(pg => [back[pg.title] || pg.title, pg.revisions?.[0]?.slots?.main?.content || '']));
-      for (const k of part) { const players = readSquad(text[TEAM_PAGES[k]] || ''); const [sport, g, team] = k.split('|'); if (players.length >= 8) out.push({ sport, g, team, players }); }
+      for (const k of part) {
+        const players = readSquad(text[TEAM_PAGES[k]] || ''), [sport, g, team] = k.split('|');
+        // a table read in the wrong column gives the same name over and over (a club, not players): not a squad
+        if (players.length >= 8 && new Set(players.map(p => p.n)).size >= players.length * 0.8) out.push({ sport, g, team, players });
+      }
     }
     diag.teamSquads = `${out.length} of ${want.length}: ` + want.filter(k => !out.some(s => `${s.sport}|${s.g}|${s.team}` === k)).map(k => k.split('|')[2]).join(', ') + ' missing';
   } catch (e) { diag.teamSquads = 'error ' + e.message; }

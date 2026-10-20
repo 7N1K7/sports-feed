@@ -22,8 +22,8 @@ export const RANK_PAGES = [
   { sport: 'basketball', page: "FIBA Men's World Ranking", kind: 'teams', titles: ["Men's"] },
   { sport: 'basketball', page: "FIBA Women's World Ranking", kind: 'teams', titles: ["Women's"] },
   { sport: 'netball', page: 'World Netball Rankings', kind: 'teams', titles: ["Women's"] },
-  { sport: 'tennis', page: 'ATP rankings', kind: 'players', titles: ["Men's singles"] },
-  { sport: 'tennis', page: 'WTA rankings', kind: 'players', titles: ["Women's singles"] },
+  { sport: 'tennis', page: 'ATP rankings', kind: 'players', titles: ["Men's singles", "Men's doubles"] },
+  { sport: 'tennis', page: 'WTA rankings', kind: 'players', titles: ["Women's singles", "Women's doubles"] },
   { sport: 'mma', page: 'UFC rankings', kind: 'fighters' },
 ];
 
@@ -113,12 +113,21 @@ function teamTables(tables, cfg) {
   return out;
 }
 
-// tennis: the singles table headed "ATP rankings (singles) as of 5 October 2026" (not the race to the Finals, not
-// doubles): number, player with country code ("Jannik Sinner (ITA)"), points
+// tennis: the singles and doubles tables headed "ATP rankings (singles) as of 5 October 2026" (not the races to the
+// Finals): number, player with country code ("Jannik Sinner (ITA)"), points. Doubles players are ranked one by one too
 function playerTables(tables, cfg) {
+  const out = [];
+  for (const [i, kind] of ['singles', 'doubles'].entries()) {
+    const list = onePlayerTable(tables, cfg, kind, cfg.titles[i]);
+    if (list) out.push(list);
+  }
+  return out;
+}
+function onePlayerTable(tables, cfg, kind, title) {
+  if (!title) return null;
   for (const t of tables) {
     const head = t.heads.flat().join(' ');
-    if (!/rankings \(singles\) as of/i.test(head)) continue;
+    if (!new RegExp(`rankings \\(${kind}\\) as of`, 'i').test(head)) continue;
     const h = t.heads[t.heads.length - 1];
     const iRank = h.findIndex(x => /^(no|rank)/i.test(x)), iName = h.findIndex(x => /^player/i.test(x)), iVal = h.findIndex(x => /^points/i.test(x));
     if (iRank < 0 || iName < 0 || iVal < 0) continue;
@@ -128,9 +137,9 @@ function playerTables(tables, cfg) {
     }).filter(r => r.rank && r.name && /\d/.test(r.val)).slice(0, 20);
     if (rows.length < 5) continue;
     for (const r of rows) if (r.iso === 'NZL') r.nz = true;
-    return [{ sport: cfg.sport, kind: 'players', title: cfg.titles[0], page: cfg.page, asOf: dateIn(head), valLabel: 'Points', rows }];
+    return { sport: cfg.sport, kind: 'players', title, page: cfg.page, asOf: dateIn(head), valLabel: 'Points', rows };
   }
-  return [];
+  return null;
 }
 
 // UFC: the page carries more than one release of the rankings; per list, keep the latest
@@ -167,7 +176,7 @@ function fighterTables(tables, cfg) {
 }
 
 // bumped when the parser changes, so lists cached by the old one are read again
-const CACHE_V = 2;
+const CACHE_V = 3;
 export async function rankings(cache, diag) {
   const now = Date.now(), out = [], notes = [];
   for (const cfg of RANK_PAGES) {

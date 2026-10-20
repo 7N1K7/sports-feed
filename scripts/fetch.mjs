@@ -1339,7 +1339,7 @@ const stateList = events.some(e => e.team === 'audomestic' && Math.abs(Date.pars
 // other sides' current squads (NZ domestic cricket, the Big Bash, NBL, A-League, national and Super Rugby sides), from
 // their own pages, for sides with a game within four weeks; kept once in the feed, the page puts them on each game
 const WOMEN = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
-const genderKey = e => WOMEN.has(e.team) || /women|\bWBBL\b/i.test(`${e.comp} ${e.home} ${e.away}`) ? 'w' : 'm';
+const genderKey = e => /wheelchair/i.test(e.comp || '') ? 'wc' : WOMEN.has(e.team) || /women|\bWBBL\b/i.test(`${e.comp} ${e.home} ${e.away}`) ? 'w' : 'm';
 const squadKeys = [...new Set(events.filter(e => Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY)
   .flatMap(e => [e.home, e.away].map(t => `${e.sport}|${genderKey(e)}|${String(t || '').replace(/\s+Women('s)?$/, '')}`)))];
 const teamList = await teamSquads(squadKeys, diag);

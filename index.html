@@ -3283,7 +3283,7 @@ async function load(woke) {
       // other sides' current squads, from their own pages (kept once in the feed): a game with no squads of its own gets
       // them, for the sides that have one
       if (!e.squads && FEED.teamSquads) {
-        const g = genderOf(e) === 'w' ? 'w' : 'm', sides = [e.home, e.away].map(t => String(t || '').replace(/\s+Women('s)?$/, ''));
+        const g = /wheelchair/i.test(e.comp || '') ? 'wc' : genderOf(e) === 'w' ? 'w' : 'm', sides = [e.home, e.away].map(t => String(t || '').replace(/\s+Women('s)?$/, ''));
         const sq = FEED.teamSquads.filter(s => s.sport === e.sport && s.g === g && sides.includes(s.team));
         if (sq.length) { e.squads = sq; e.seasonSquads = true; }
       }
