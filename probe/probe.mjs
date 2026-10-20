@@ -1,27 +1,23 @@
-// probe 64: free logos for the Western Australia and South Australia cricket sides: Commons categories and searches,
-// Wikidata's logo property, and TheSportsDB under other names
-const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-const get = async u => { await sleep(1200); const r = await fetch(u, { headers: UA }); return r.ok ? r.json() : { err: r.status }; };
-const commons = q => get('https://commons.wikimedia.org/w/api.php?format=json&formatversion=2&' + q);
-for (const cat of ['Western Australia cricket team', 'South Australia cricket team', 'Western Australian Cricket Association', 'South Australian Cricket Association', 'Cricket in Western Australia', 'Cricket in South Australia', 'Cricket logos', 'Logos of cricket teams', 'Sport logos of Australia', 'Logos of sports teams of Australia']) {
-  const r = await commons('action=query&list=categorymembers&cmlimit=100&cmtype=file|subcat&cmtitle=' + encodeURIComponent('Category:' + cat));
-  const xs = (r.query?.categorymembers || []).map(x => x.title);
-  console.log(`category "${cat}": ${xs.length} | ` + xs.filter(t => /logo|badge|crest|emblem|Category:/i.test(t) || /warrior|redback|waca|saca|western|south aus/i.test(t)).slice(0, 25).join(' | '));
+// probe 65: logo coverage on the live feed: every club/domestic side (countries have flags), with or without a logo
+const j = await (await fetch('https://kickoff.kiwi/data/feed.json', { cache: 'no-store' })).json();
+const now = Date.now(), DAY = 864e5, sides = new Map();
+const PH = /TBC|winner|loser|\bor\b|^[A-Z]\d$|qualifier|Group [A-Z]|\d(st|nd|rd|th) place|TBA|^\?/i;
+for (const e of j.events) {
+  if (['motor', 'tennis', 'mma', 'boxing'].includes(e.sport) || Math.abs(Date.parse(e.startUTC) - now) > 60 * DAY) continue;
+  for (const side of ['home', 'away']) {
+    const n = e[side]; if (!n || PH.test(n)) continue;
+    const k = `${e.sport}|${n}`, logo = e[side + 'Logo'] || e[side + 'Badge'];
+    const s = sides.get(k) || { sport: e.sport, n, logo: false, comps: new Set(), games: 0 };
+    s.logo ||= !!logo; s.comps.add(e.comp || ''); s.games++; sides.set(k, s);
+  }
 }
-for (const q of ['Western Warriors logo', 'WACA logo cricket', 'Western Australia cricket logo svg', 'Redbacks cricket logo', 'South Australia Redbacks logo', 'SACA logo', 'West End Redbacks', 'Western Fury logo', 'South Australian Scorpions logo', 'Cricket Australia state logo']) {
-  const r = await commons('action=query&list=search&srnamespace=6&srlimit=10&srsearch=' + encodeURIComponent(q));
-  console.log(`commons search "${q}": ` + ((r.query?.search || []).map(x => x.title).filter(t => !/\.pdf$/i.test(t)).join(' | ') || 'none'));
-}
-// Wikidata: the team items' logo (P154) and image (P18)
-const wd = await get('https://www.wikidata.org/w/api.php?format=json&action=wbgetentities&sites=enwiki&props=claims&titles=' + encodeURIComponent('Western Australia cricket team|South Australia cricket team|Queensland cricket team|Western Australian Cricket Association|South Australian Cricket Association'));
-for (const [id, e] of Object.entries(wd.entities || {})) {
-  const v = p => (e.claims?.[p] || []).map(c => c.mainsnak?.datavalue?.value).filter(Boolean).join(', ');
-  console.log(`wikidata ${id}: logo ${v('P154') || '-'} | image ${v('P18') || '-'}`);
-}
-// TheSportsDB under other names
-for (const q of ['Western Warriors', 'Western Australia Warriors', 'WA Warriors', 'Redbacks', 'West End Redbacks', 'South Australia Redbacks', 'Western Fury', 'Southern Scorpions', 'South Australian Scorpions', 'Western Australia', 'South Australia']) {
-  await sleep(2500);
-  const r = await get('https://www.thesportsdb.com/api/v1/json/123/searchteams.php?t=' + encodeURIComponent(q));
-  console.log(`tsdb "${q}": ` + (r.err || (r.teams || []).filter(t => t.strSport === 'Cricket').map(t => `${t.strTeam} [${t.strLeague}] badge ${t.strBadge ? 'YES' : 'no'}`).join('; ') || 'no cricket team'));
-}
+console.log('version', j.site?.version, '| sides (next/last 60 days, team sports):', sides.size);
+// countries show a flag in the page; count them apart
+const COUNTRY = /^(New Zealand|Australia|England|India|South Africa|Pakistan|Sri Lanka|Bangladesh|West Indies|Zimbabwe|Ireland|Scotland|Afghanistan|Netherlands|Wales|France|Italy|Argentina|Japan|Fiji|Samoa|Tonga|Georgia|Portugal|Uruguay|Chile|Canada|United States|USA|Namibia|Nepal|Oman|UAE|United Arab Emirates|Papua New Guinea|Cook Islands|Lebanon|Jamaica|Spain|Germany|Belgium|China|Korea|South Korea|Malaysia|Philippines|Chinese Taipei|Qatar|Iran|Jordan|Kazakhstan|Syria|Bahrain|Saudi Arabia|Guam|Indonesia|Mongolia|Thailand|Iraq|Malawi|Uganda|Kenya|Brazil|Mexico|Egypt|Nigeria|Hong Kong|Singapore)( Women| A)?$/;
+const nick = /^(All Blacks|Black Ferns|Black Caps|White Ferns|Kiwis|Kiwi Ferns|Wallabies|Wallaroos|Springboks|Proteas|Black Sticks|Tall Blacks|Tall Ferns|Silver Ferns|Kangaroos|Jillaroos|Los Pumas|Red Roses|Hockeyroos|Kookaburras|Boomers|Opals|Diamonds)/;
+const rows = [...sides.values()], clubs = rows.filter(s => !COUNTRY.test(s.n) && !nick.test(s.n));
+const by = {};
+for (const s of clubs) { const b = by[s.sport] ||= { have: 0, all: 0, missing: [] }; b.all++; if (s.logo) b.have++; else b.missing.push(`${s.n} (${[...s.comps].join('/').slice(0, 40)})`); }
+const tot = clubs.length, have = clubs.filter(s => s.logo).length;
+console.log(`club and domestic sides with a logo: ${have}/${tot} = ${Math.round(100 * have / tot)}%  (national sides show their flag: ${rows.length - clubs.length} more)`);
+for (const [sp, b] of Object.entries(by)) console.log(`\n${sp}: ${b.have}/${b.all} (${Math.round(100 * b.have / b.all)}%) — missing: ${b.missing.join('; ') || 'none'}`);
