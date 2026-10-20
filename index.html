@@ -161,7 +161,10 @@ html { -webkit-tap-highlight-color: transparent }
 #teamGroups .ghide:hover { color: var(--ink); border-color: var(--accent) }
 #teamGroups .chips { gap: 5px }
 #teamGroups .chip { padding: 3px 10px 3px 4px; font-size: 13px; gap: 6px }
-@media (max-width: 560px) { #teamGroups .group { grid-template-columns: 1fr; row-gap: 5px } #teamGroups .group h3 { padding-top: 0 } #teamGroups .ghide { display: inline-block; margin: 0 0 0 8px; vertical-align: 1px } }
+/* phones: a short tip beside each Hide sport button saying what it does */
+#teamGroups .ghint { display: none }
+@media (max-width: 560px) { #teamGroups .group { grid-template-columns: 1fr; row-gap: 5px } #teamGroups .group h3 { padding-top: 0 } #teamGroups .ghide { display: inline-block; margin: 0 0 0 8px; vertical-align: 1px }
+  #teamGroups .ghint { display: inline; margin-left: 6px; font-size: 11px; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted) } }
 .chips { display: flex; flex-wrap: wrap; gap: 6px }
 .chip { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 3px 11px; cursor: pointer; font-size: 14px }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
@@ -2497,7 +2500,7 @@ function render() {
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
   $('teamGroups').innerHTML = TEAMS.map(g => { const ss = [...new Set(g.items.map(([k]) => sportOf(k)))], on = ss.some(followedSport);
-    return `<div class="group"><h3>${g.g}<button type="button" class="ghide" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button></h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`; }).join('');
+    return `<div class="group"><h3>${g.g}<button type="button" class="ghide" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed'}</span></h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`; }).join('');
   // calendar subscriptions (built with the feed, in data/cal/): every game an NZ side plays, then each team picked above.
   // webcal: opens Apple's Calendar to subscribe; Google and Outlook take the address on their own add-by-URL pages
   const calRow = (k, label) => {
