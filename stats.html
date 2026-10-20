@@ -10,6 +10,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<script>
+// the colour theme before anything paints: this page's own pick, else the main page's
+try { const a = JSON.parse(localStorage.getItem('sf.statsAccent') || localStorage.getItem('sf.accent') || '"green"'); if (a !== 'green') document.documentElement.dataset.accent = a; } catch {}
+</script>
 <style>
 /* the site's own dark colours; chart series validated against the card surface (dataviz palette, dark steps) */
 :root {
@@ -81,6 +85,22 @@ th, td { text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--lin
 th:first-child, td:first-child { text-align: left }
 th { color: var(--muted); font-weight: 600 }
 .me { display: flex; gap: 10px; align-items: center; flex-wrap: wrap }
+/* the site's colour themes (dark), the same ten as the main page's Settings > Theme; this page keeps its own choice */
+:root[data-accent="ocean"] { --paper: #0c1218; --surface: #141c24; --ink: #e4edf5; --muted: #8fa2b5; --line: #233142; --accent: #5cb3ff; }
+:root[data-accent="red"] { --paper: #130e0e; --surface: #1d1615; --ink: #f1e7e5; --muted: #ad9a97; --line: #352927; --accent: #ff7b72; }
+:root[data-accent="black"] { --paper: #0a0a0a; --surface: #151515; --ink: #eeeeee; --muted: #9a9a9a; --line: #2a2a2a; --accent: #f1f1f1; }
+:root[data-accent="kowhai"] { --paper: #12100a; --surface: #1c1910; --ink: #f2ecdc; --muted: #aba189; --line: #332e1f; --accent: #f5c542; }
+:root[data-accent="paua"] { --paper: #0a1314; --surface: #111e1f; --ink: #e0f0f0; --muted: #8ba9aa; --line: #1f3536; --accent: #3ccfcf; }
+:root[data-accent="purple"] { --paper: #100d17; --surface: #181422; --ink: #ebe6f6; --muted: #a39bb6; --line: #2d2640; --accent: #a98bff; }
+:root[data-accent="orange"] { --paper: #140f0b; --surface: #1e1712; --ink: #f3e8de; --muted: #b09d8c; --line: #382a20; --accent: #ff8a4c; }
+:root[data-accent="lime"] { --paper: #0e120a; --surface: #161c10; --ink: #e8f0dc; --muted: #9cab89; --line: #2a3420; --accent: #a9e34b; }
+:root[data-accent="pink"] { --paper: #140c10; --surface: #1e1419; --ink: #f4e4eb; --muted: #b398a5; --line: #38242e; --accent: #f783ac; }
+.thh { margin: 16px 0 8px; font: 700 13px var(--f-body); text-transform: uppercase; letter-spacing: .06em; color: var(--muted) }
+.swatches { display: flex; flex-wrap: wrap; gap: 6px }
+.sw { display: inline-flex; align-items: center; gap: 6px; font: 600 13px var(--f-body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px 4px 6px; cursor: pointer }
+.sw i { width: 14px; height: 14px; border-radius: 50%; background: var(--c) }
+.sw[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
+
 </style>
 </head>
 <body>
@@ -131,7 +151,7 @@ th { color: var(--muted); font-weight: 600 }
       <section class="card"><h2>Sports picked</h2><div class="bars" id="sport"></div><p class="note">Taps on a sport button.</p></section>
       <section class="card"><h2>Competitions picked</h2><div class="bars" id="comp"></div><p class="note">Picked from the competitions menu.</p></section>
       <section class="card"><h2>Team pages opened</h2><div class="bars" id="teampage"></div></section>
-      <section class="card"><h2>Searches</h2><div class="bars" id="search"></div><p class="note">Words typed into "Find a team or game".</p></section>
+      <section class="card"><h2>Searches</h2><div class="bars" id="search"></div><p class="note">Words typed into the Search box.</p></section>
       <section class="card"><h2>Searches that found nothing</h2><div class="bars" id="search0"></div><p class="note">Teams or games people looked for that the site doesn't have.</p></section>
       <section class="card"><h2>Phone or computer system</h2><div class="bars" id="os"></div></section>
       <section class="card"><h2>Browser</h2><div class="bars" id="browser"></div></section>
@@ -145,6 +165,9 @@ th { color: var(--muted); font-weight: 600 }
       <div class="me"><button class="btn" type="button" id="noCount" aria-pressed="false">Don't count my visits</button><span class="note" id="noCountNote"></span></div>
       <p class="note">So your own checking doesn't add to the numbers. It's set for this browser only: turn it on on each phone, computer and the home-screen app.</p>
       <div class="me"><button class="btn" type="button" id="forget">Forget the password here</button></div>
+      <h3 class="thh">Theme</h3>
+      <div class="swatches" id="themes" role="group" aria-label="Theme"></div>
+      <p class="note">For this page on this device; it starts from the main page's theme.</p>
     </section>
   </div>
 </div>
@@ -343,6 +366,15 @@ function chart(list, per) {
 $('pwForm').addEventListener('submit', ev => { ev.preventDefault(); pw = $('pw').value.trim(); if (pw) fetchStats(); });
 document.querySelectorAll('[data-days]').forEach(b => b.addEventListener('click', () => { days = +b.dataset.days; store.set('statsDays', days); draw(); }));
 $('refresh').addEventListener('click', fetchStats);
+// colour themes, as on the main page
+const THEMES = [['green', 'Kiwi green', '#0d6b4d'], ['ocean', 'Ocean blue', '#1864ab'], ['red', 'Pōhutukawa red', '#c92a2a'], ['black', 'All Black', '#111111'],
+  ['kowhai', 'Kōwhai gold', '#d9a400'], ['paua', 'Pāua teal', '#0b7a7e'], ['purple', 'Twilight purple', '#6741d9'], ['orange', 'Sunset orange', '#d9480f'],
+  ['lime', 'Kawakawa lime', '#5c940d'], ['pink', 'Rātā pink', '#c2255c']];
+const drawThemes = () => { const cur = store.get('statsAccent', store.get('accent', 'green'));
+  $('themes').innerHTML = THEMES.map(([k, l, c]) => `<button type="button" class="sw" data-theme-k="${k}" aria-pressed="${k === cur}" style="--c:${c}"><i></i>${l}</button>`).join(''); };
+$('themes').addEventListener('click', ev => { const b = ev.target.closest('[data-theme-k]'); if (!b) return; const k = b.dataset.themeK; store.set('statsAccent', k);
+  if (k === 'green') delete document.documentElement.dataset.accent; else document.documentElement.dataset.accent = k; drawThemes(); if (typeof draw === 'function') try { draw(); } catch {} });
+drawThemes();
 $('forget').addEventListener('click', () => { store.del('statspw'); pw = ''; $('pw').value = ''; $('main').hidden = true; $('gate').hidden = false; $('gateMsg').textContent = 'Forgotten on this device.'; $('gateMsg').className = 'note'; });
 const syncMe = () => { const on = store.get('nocount', false); $('noCount').setAttribute('aria-pressed', String(on)); $('noCount').textContent = on ? 'Not counting my visits' : 'Don\'t count my visits'; $('noCountNote').textContent = on ? 'Your visits on this browser aren\'t counted.' : 'Your visits on this browser are counted like everyone\'s.'; };
 $('noCount').addEventListener('click', () => { store.set('nocount', !store.get('nocount', false)); syncMe(); });
