@@ -1,20 +1,41 @@
-2026-10-21 1 | Failed to execute 'matches' on 'Element': '.matchup:has(img)' is not a valid selector.
+generated 2026-10-20T13:25:59.698Z 
+tvGuide: 1064 sport listings (read 2026-10-20T11:04); 28 games listed: New Zealand v India: Sky Sport Select; New Zealand v India: Sky Sport Select; Samoa v Wales: Sky Sport 1; Tonga v Lebanon: Sky Sport 1; Fiji v Papua New Guinea: Sky Sport 2; Papua New Guinea v Samoa: Sky Sport 2; England v France: Sky Sport 2; Australia v England: Sky Sport 2; Australia v Fiji: Sky Sport 1; Black Ferns v France: Sky Sport 1; Brisbane Roar v Perth Glory: Sky Sport 3; Newcastle Jets v Macarthur FC: Sky Sport Select; Western Sydney Wanderers v Auckland FC: Sky Sport 4; Wellington Phoenix v Central Coast Mariners: Sky Sport 3; Sydney FC v Adelaide United: Sky Sport 5; Ipswich Town v Nottingham Forest: Sky Sport 5 (delayed); Arsenal v Everton: Sky Sport 5 (delayed); Chelsea v Tottenham Hotspur: Sky Sport 6 (delayed); Aston Villa v Manchester City: Sky Sport 6 (delayed); Coventry City v Fulham: Sky Sport 7; Manchester United v Bournemouth: Sky Sport 3; Liverpool v Brighton and Hove Albion: Sky Sport 1; Crystal Palace v Newcastle United: Sky Sport 4; Hull City v Brentford: Sky Sport 5; Tasmania v Victoria: Sky Sport 7 (delayed); South Australia v Queensland: Sky Sport 6 (delayed); New South Wales v Western Australia: Sky Sport 5 (delayed); Western Australia v New South Wales: Sky Sport 9
 
-context (today/yesterday):
-  2026-10-21 browser Other 1
-  2026-10-21 device computer 1
-  2026-10-21 os Other 1
-  2026-10-21 view mixed 1
-  2026-10-20 browser Safari 4
-  2026-10-20 browser Firefox 1
-  2026-10-20 browser Edge 1
-  2026-10-20 browser Chrome 14
-  2026-10-20 device phone 13
-  2026-10-20 device computer 9
-  2026-10-20 event reveal 4
-  2026-10-20 event game 7
-  2026-10-20 os iOS 7
-  2026-10-20 os Windows 7
-  2026-10-20 os Linux 2
-  2026-10-20 os Android 4
-  2026-10-20 view mixed 6
+next 3 weeks: 148 games, 36 with a free option, 32 free and live
+cricket 17/44, boxing 0/5, league 7/49, rugby 2/6, mma 3/3, football 4/32, basketball 0/4, motor 3/5
+  10-22T07:00 cricket | New Zealand v India | rule: Sky Sport / Sky Sport Now Sport Nation (free-to-air radio); ACC digital channels; live scoring scoring.n
+  10-23T21:30 cricket | New Zealand A v India A | rule:  NZC live stream (nzc.nz / YouTube)
+  10-24T07:00 cricket | New Zealand v India | rule: Sky Sport / Sky Sport Now Sport Nation (free-to-air radio); ACC digital channels; live scoring scoring.n
+  10-27T07:00 cricket | New Zealand v India | rule: Sky Sport / Sky Sport Now Sport Nation (free-to-air radio); ACC digital channels; live scoring scoring.n
+  10-27T21:30 cricket | Auckland Aces v Canterbury | rule: NZC YouTube (free stream)
+  10-27T21:30 cricket | Central Stags v Northern Districts | rule: NZC YouTube (free stream)
+  10-27T21:30 cricket | Wellington Firebirds v Otago Volts | rule: NZC YouTube (free stream)
+  10-30T07:00 cricket | New Zealand v India | rule: Sky Sport / Sky Sport Now Sport Nation (free-to-air radio); ACC digital channels; live scoring scoring.n
+  10-30T21:30 cricket | New Zealand A v India A | rule:  NZC live stream (nzc.nz / YouTube)
+  10-30T21:30 cricket | Northern Districts v Auckland Aces | rule: NZC YouTube (free stream)
+  10-30T21:30 cricket | Wellington Firebirds v Canterbury | rule: NZC YouTube (free stream)
+  10-30T21:30 cricket | Otago Volts v Central Stags | rule: NZC YouTube (free stream)
+  11-01T07:00 cricket | New Zealand v India | rule: Sky Sport / Sky Sport Now Sport Nation (free-to-air radio); ACC digital channels; live scoring scoring.n
+  11-04T02:00 cricket | New Zealand v India | rule: Sky Sport / Sky Sport Now Sport Nation (free-to-air radio); ACC digital channels; live scoring scoring.n
+  11-06T21:30 cricket | New Zealand A v India A | rule:  NZC live stream (nzc.nz / YouTube)
+  11-07T02:00 cricket | New Zealand v India | rule: Sky Sport / Sky Sport Now Sport Nation (free-to-air radio); ACC digital channels; live scoring scoring.n
+  11-10T02:00 cricket | New Zealand v India | rule: Sky Sport / Sky Sport Now Sport Nation (free-to-air radio); ACC digital channels; live scoring scoring.n
+  10-25T06:05 league | New Zealand v Cook Islands | rule: Sky Sport / Sky Sport Now Free on Three / ThreeNow
+  10-31T04:45 league | New Zealand v Fiji | rule: Sky Sport / Sky Sport Now Free on Three / ThreeNow
+  11-07T09:05 league | TBC v TBC | rule: Sky Sport / Sky Sport Now Free on Three / ThreeNow
+  11-08T09:05 league | TBC v TBC | rule: Sky Sport / Sky Sport Now Free on Three / ThreeNow
+  10-26T01:10 rugby | Northland v Canterbury | rule: Sky Sport / TVNZ+ (every match streamed free)
+  11-07T14:10 rugby | Scotland v All Blacks | rule: Sky Sport / Sky Sport Now Three (delayed) / ThreeNow (delayed)
+  10-24T16:00 mma | Volkanovski v Evloev | rule: Sky Arena (pay-per-view) / UFC Fight Pass (pay-per-view) Prelims free on TVNZ+ / TVNZ Duke
+  10-24T06:00 football | Western Sydney Wanderers v Auckland FC | rule: Sky Sport / Sky Sport Now Some games free on Sky Open
+  10-25T02:00 football | Wellington Phoenix v Central Coast Mariners | rule: Sky Sport / Sky Sport Now Some games free on Sky Open
+  10-30T09:00 football | Brisbane Roar v Auckland FC | rule: Sky Sport / Sky Sport Now Some games free on Sky Open
+  10-31T04:00 football | Newcastle Jets v Wellington Phoenix | rule: Sky Sport / Sky Sport Now Some games free on Sky Open
+  10-31T06:30 league | Australia v New Zealand | rule: Sky Sport / Sky Sport Now Free on Three / ThreeNow
+  11-03T00:00 league | France v New Zealand | rule: Sky Sport / Sky Sport Now Free on Three / ThreeNow
+  11-06T00:00 league | Scotland v New Zealand | rule: Sky Sport / Sky Sport Now Free on Three / ThreeNow
+  11-08T02:00 mma | Bonfim v Brady | rule: TVNZ+ (free) / TVNZ Duke (free) / UFC Fight Pass
+  11-01T01:00 mma | Moicano v Nolan | rule: TVNZ+ (free) / TVNZ Duke (free) / UFC Fight Pass
+  10-25T20:00 motor | United States Grand Prix  | rule: Sky Sport / Sky Sport Now Highlights free on Sky Open
+  11-01T20:00 motor | Mexico City Grand Prix  | rule: Sky Sport / Sky Sport Now Highlights free on Sky Open
+  11-08T17:00 motor | São Paulo Grand Prix  | rule: Sky Sport / Sky Sport Now Highlights free on Sky Open
