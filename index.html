@@ -597,30 +597,31 @@ a.svc:hover { text-decoration-color: currentColor }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --gold: #f2c94c } }
 :root[data-theme="dark"] { --gold: #f2c94c }
 .rankbtn { font-size: 14px; font-weight: 600; padding: 3px 14px; border: 1px solid var(--gold); color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--surface)) }
-/* phones: a shallow tab almost the width of the screen hangs off the bottom edge of the top bar, its ends curving out
-   into that edge, with an arrow in the middle. It folds the series row, sport buttons and competition bar away and
-   back. It shows only at the top of the page, where the filters are, and not while Settings is open. */
+/* once the top bar has compacted to two rows (search on its own row: phones, and narrower windows), a shallow tab
+   hangs off its bottom, ends curving out into the screen's edges, with an arrow in the middle. It's one drawn shape the
+   full width of the bar that takes the place of the bar's bottom line, so there are no joins to show (the path is sized
+   to the bar in syncFoldShape). It folds the series row, sport buttons and competition bar away and back, shows only at
+   the top of the page, where the filters are, and not while Settings is open. */
 .fold { display: none }
-@media (max-width: 560px) {
-  .fold { display: flex; position: absolute; top: calc(100% - 1px); left: 8px; right: 8px; height: 22px; padding: 0; border: 0; background: none; cursor: pointer; transition: opacity .15s; align-items: flex-start }
-  .fold .cap { flex: none; display: block; width: 20px; height: 21px }
-  .fold .cap.r { transform: scaleX(-1) }
-  .fold .mid { flex: 1; display: grid; place-items: center; height: 21px; background: var(--surface); border-bottom: 1px solid var(--line); box-sizing: border-box }
-  .fold .tf { fill: var(--surface) }
-  .fold .ts { fill: none; stroke: var(--line) }
-  .fold .mid svg { width: 18px; height: 10px; margin-top: -1px }
-  .fold .tc { fill: none; stroke: var(--muted); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s; transform-origin: 9px 5px; transform: rotate(180deg) }
-  .fold.on .tc { transform: none }
-  .fold.on.filtering .tc { stroke: var(--accent) }
-  .fold:active .mid, .fold:active .tf { fill: color-mix(in srgb, var(--ink) 6%, var(--surface)); background: color-mix(in srgb, var(--ink) 6%, var(--surface)) }
-  header.top.scrolled .fold, header.top:has(#panel:not([hidden])) .fold { opacity: 0; pointer-events: none }
-  main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: none !important }
-}
+header.top.stacked .fold { display: block; position: absolute; top: calc(100% - 1px); left: 0; right: 0; height: 22px; padding: 0; border: 0; background: none; cursor: pointer; transition: opacity .15s; -webkit-user-select: none; user-select: none }
+.fold:focus:not(:focus-visible) { outline: none }
+.fold .tab { position: absolute; left: 0; top: 0; width: 100%; height: 22px; overflow: visible }
+.fold .tf { fill: var(--surface) }
+.fold .ts { fill: none; stroke: var(--line); stroke-width: 1 }
+.fold .chev { position: absolute; left: 50%; top: 5px; width: 18px; height: 10px; margin-left: -9px; overflow: visible }
+/* the arrow flips (up: hide, down: show) rather than spinning, so it never passes through a sideways shape */
+.fold .tc { fill: none; stroke: var(--muted); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform .18s ease-in-out, stroke .2s; transform-origin: 9px 5px; transform: scaleY(-1) }
+.fold.on .tc { transform: none }
+.fold.on.filtering .tc { stroke: var(--accent) }
+.fold:active .tc { stroke: var(--ink) }
+header.top.scrolled .fold, header.top:has(#panel:not([hidden])) .fold { opacity: 0; pointer-events: none }
+header.top.stacked ~ main { padding-top: 30px }
+header.top.stacked ~ main.folded .nowbar, header.top.stacked ~ main.folded #sportFilter, header.top.stacked ~ main.folded .compbar { display: none !important }
 /* phones: short labels, so NZ only, men's/women's and rankings share one line, and tighter gaps so the day's first
    games are on screen sooner */
 .compbar .sm { display: none }
 @media (max-width: 560px) {
-  main { padding-top: 30px; gap: 12px }   /* room for the filters tab */
+  main { padding-top: 10px; gap: 12px }
   section > h2 { font-size: 19px; margin-bottom: 6px }
   .week { gap: 4px }
   .day .dn { font-size: 11px }
@@ -999,7 +1000,7 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
     </div>
   </div></div>
 </div>
-  <button type="button" class="fold" id="foldBtn" aria-expanded="true" aria-controls="nowBar sportFilter compBar" aria-label="Hide the filters"><svg class="cap" viewBox="0 0 20 21" aria-hidden="true"><path class="tf" d="M0 0C5 0 7 2 7 6V11Q7 20.5 16 20.5H20V0Z"/><path class="ts" d="M0 .5C5 .5 6.5 2.5 6.5 6V11Q6.5 20.5 16 20.5H20"/></svg><span class="mid"><svg viewBox="0 0 18 10" aria-hidden="true"><path class="tc" d="M2 2 9 8 16 2"/></svg></span><svg class="cap r" viewBox="0 0 20 21" aria-hidden="true"><path class="tf" d="M0 0C5 0 7 2 7 6V11Q7 20.5 16 20.5H20V0Z"/><path class="ts" d="M0 .5C5 .5 6.5 2.5 6.5 6V11Q6.5 20.5 16 20.5H20"/></svg></button>
+  <button type="button" class="fold" id="foldBtn" aria-expanded="true" aria-controls="nowBar sportFilter compBar" aria-label="Hide the filters"><svg class="tab" aria-hidden="true"><path class="tf"/><path class="ts"/></svg><svg class="chev" viewBox="0 0 18 10" aria-hidden="true"><path class="tc" d="M2 2 9 8 16 2"/></svg></button>
 </header>
 <div class="mock" id="mockBar"><div class="wrap" id="mockNote">Loading the latest fixtures and scores…</div></div>
 <main class="wrap">
@@ -2487,6 +2488,18 @@ function render() {
     </ul></div>`;
   fitTop(); fitLines(); syncPulse(); syncJump(); syncFold();
 }
+// the fold tab's outline, drawn to the bar's width: in from each edge with a curve, along the bottom, back out with a curve
+function syncFoldShape() {
+  // the top bar has compacted once the search box sits below the logo
+  const top = document.querySelector('header.top');
+  top.classList.toggle('stacked', document.querySelector('.search').getBoundingClientRect().top > document.querySelector('.brand').getBoundingClientRect().bottom - 5);
+  const b = $('foldBtn'), w = b.clientWidth, svg = b.querySelector('.tab');
+  if (!w || svg.dataset.w === String(w)) return;
+  svg.dataset.w = w; svg.setAttribute('viewBox', `0 0 ${w} 22`);
+  b.querySelector('.tf').setAttribute('d', `M0 0C6 0 9 2.5 9 7.5Q9 21.5 22 21.5H${w - 22}Q${w - 9} 21.5 ${w - 9} 7.5C${w - 9} 2.5 ${w - 6} 0 ${w} 0Z`);
+  b.querySelector('.ts').setAttribute('d', `M0 .5C6 .5 8.5 2.5 8.5 7.5Q8.5 21 22 21H${w - 22}Q${w - 8.5} 21 ${w - 8.5} 7.5C${w - 8.5} 2.5 ${w - 6} .5 ${w} .5`);
+}
+new ResizeObserver(syncFoldShape).observe(document.querySelector('header.top .wrap'));
 // phones: the fold bar
 function syncFold() {
   const b = $('foldBtn');
