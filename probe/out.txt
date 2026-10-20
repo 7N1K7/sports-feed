@@ -1,20 +1,32 @@
-league: games 48 | times 94% | watch 100% | squads 0% | pictures 100% (14/14) | links 100%
-   no time: Wheelchair Rugby League World Cup (3)
-   no squads: Wheelchair Rugby League World Cup (12), Rugby League World Cup (10), Women's Rugby League World Cup (8)
-cricket: games 44 | times 84% | watch 89% | squads 93% | pictures 94% (30/32) | links 100%
-   no time: Sheffield Shield (3), Bangladesh v West Indies (2), Australia v South Africa (1), Pakistan v Sri Lanka (1)
-   no watch: Dean Jones Trophy (2), Bangladesh v West Indies (2), Pakistan v Sri Lanka (1)
-   no squads: NZ A v India A (3)
-   no pic: South Australia, Western Australia
-football: games 32 | times 100% | watch 100% | squads 38% | pictures 100% (31/31) | links 100%
-   no squads: Premier League (20)
-rugby: games 6 | times 100% | watch 67% | squads 50% | pictures 100% (8/8) | links 100%
-   no watch: Test match (2)
-   no squads: Test match (2), NPC Final (1)
-boxing: games 5 | times 80% | watch 100% | squads - | pictures 70% (7/10) | links 0%
-   no time: Interim WBC light heavyweight title (1)
-   no pic: Dalton Smith, Alberto Puello, Elif Nur Turhan
-basketball: games 4 | times 100% | watch 100% | squads 100% | pictures 100% (5/5) | links 100%
-mma: games 3 | times 33% | watch 100% | squads - | pictures 100% (6/6) | links 0%
-   no time: UFC Fight Night (2)
-motor: games 3 | times 100% | watch 100% | squads - | pictures - (0/0) | links -
+Ireland national rugby league team: 8 players e.g. George King, Harry Rushton, Brendan O’Hagan | headings: Current squad
+Australia national rugby league team: 7 players e.g. A bold number in the NRL Matches column indicates that the player has played all their NRL appearances at their current club., Five members of the squad have previously played for other nations:, Mitchell Moses | headings: Players / Current squad / Most capped players / Team records / Team of the Century (1908–2008)
+New Zealand national rugby league team: 8 players e.g. A bold number in the NRL Matches column indicates that the player has played all their NRL appearances at their current club., Six members of the squad had previously played for other nations:, Clark | headings: Team image / Players / Current roster / Team of the Century (1907–2006) / Team
+France national rugby league team: 4 players e.g. Bold numbers in the club matches column indicate that the player has played all his games for his current club., Super League, Albi | headings: Players / Current squad
+England national rugby league team: 23 players e.g. Matty Ashton, AJ Brimson, Ben Currie | headings: Current squad / Most capped players / Team records
+Wales national rugby league team: 5 players e.g. Connor Davies, Curtis Davies, Ant Walker | headings: Players / Current squad / Notable former players / Most capped players
+Scotland national rugby league team: 18 players e.g. Pete Burns, Brett Carter, Andrew Brown | headings: Players / Current squad / Most capped players / Team / Other Scottish teams
+Papua New Guinea national rugby league team: 6 players e.g. Alex Max, 2026 RFL Championship, 2026 Super League season | headings: Players / Current squad / Most capped players / Other Papua New Guinean teams
+Tonga national rugby league team: 10 players e.g. Five members of the squad have previously played for other international teams:, Wong, Fonua-Blake | headings: Players / Current squad / Notable former players / Most capped players
+Cook Islands national rugby league team: 14 players e.g. Brody Tamarua was initially omitted but was named in the squad to play in the Round 1 match against Fiji., Marata Niukore, Valentine Holmes | headings: Players / Current squad
+Fiji national rugby league team: 3 players e.g. Age is as at the last update, 14 October 2026., NRL, Jimmy Ngutlik | headings: Players / Current squad / Most capped players
+Samoa national rugby league team: 11 players e.g. A bold number is the NRL Matches column indicates that the player has made all his NRL appearances for his current club., Jazz Tevaga, Five members of the squad have previously played for other international teams: | headings: Players / Current squad / Notable players and coaches / Most capped players
+Italy national rugby league team: 0 players | headings: Players / Current squad
+Lebanon national rugby league team: 0 players | headings: Current squad
+Jamaica national rugby league team: 5 players e.g. Ashton Golding, Ben Jones-Bishop, Kieran Rush | headings: Current squad
+New Zealand women's national rugby league team: 11 players e.g. 2026 NRL Women's season, Three members of the squad have previously played for another nation:, Mato | headings: Players / Current squad / Team records / Past squads
+Australia women's national rugby league team: 12 players e.g. Ali Brigginshaw, Two members of the squad have previously played for other nations:, Sarah Togatuki | headings: Players / Current squad
+England women's national rugby league team: 0 players | headings: Players / Team
+France women's national rugby league team: 0 players | headings: Players
+Samoa women's national rugby league team: 10 players e.g. 2026 NRL Women's season, Three members of the squad have previously played for another nation:, Fuimaono | headings: Current squad / Teams / 2011 squad / 2008 World Cup squad / Team
+Papua New Guinea women's national rugby league team: 5 players e.g. The Other Reps columns include matches:, Australian Prime Minister's XIII, Brisbane Broncos | headings: Notable players / Current squad / Team
+Cook Islands women's national rugby league team: 14 players e.g. The shading in the Clubs column of the above table indicates players selected from teams outside the 2026 NRLW., QRL BMD WP, Brisbane Tigers | headings: Current squad / Past squads
+Fiji women's national rugby league team: 0 players | headings: Current squad / Past squads
+Wales women's national rugby league team: 0 players | headings: Players
+England national wheelchair rugby league team: 5 players e.g. Jack Brown, Nathan Collins, Luis Domingos | headings: Current squad
+Scotland national wheelchair rugby league team: 0 players | headings: Squad
+Wales national wheelchair rugby league team: 1 players e.g. Jodie Boyd-Ward | headings: Squad
+Ireland national wheelchair rugby league team: 0 players | headings: Squad
+United States national wheelchair rugby league team: 0 players | headings: 
+Australia national wheelchair rugby league team: 0 players | headings: Current squad
+France national wheelchair rugby league team: 16 players e.g. Lionel Alazard (Montauban Pandas), Catalans Dragons, Catalans Dragons | headings: Current squad
+New Zealand national wheelchair rugby league team: 0 players | headings: 
