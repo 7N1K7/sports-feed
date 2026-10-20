@@ -1,2 +1,14 @@
-sc-badge 200 16185
-sc-logo 200 13124
+generated 2026-10-20T10:48:09.501Z
+
+tvGuide: 1042 sport listings (read 2026-10-20T10:06); 26 games listed: Samoa v Wales: Sky Sport 1, Sky Sport Select (delayed), Sky Sport 7 (delayed); Tonga v Lebanon: Sky Sport 1, Sky Sport Select (delayed), Sky Sport 7 (delayed); Fiji v Papua New Guinea: Sky Sport 2, Sky Sport Select (delayed); Papua New Guinea v Samoa: Sky Sport 2, Sky Sport Select (delayed); England v France: Sky Sport 2, Sky Sport Select (delayed); Australia v England: Sky Sport 2, Sky Sport Select (delayed); Australia v Fiji: Sky Sport 1; Black Ferns v France: Sky Sport 1, Sky Sport 2 (delayed), Sky Sport 3 (delayed); Brisbane Roar v Perth Glory: Sky Sport 3, Sky Sport 9 (delayed); Newcastle Jets v Macarthur FC: Sky Sport Select; Western Sydney Wanderers v Auckland FC: Sky Sport 4, Sky Sport 6 (delayed); Wellington Phoenix v Central Coast Mariners: Sky Sport 3; Sydney FC v Adelaide United: Sky Sport 5; Ipswich Town v Nottingham Forest: Sky Sport 5 (delayed), Sky Sport 4 (delayed); Arsenal v Everton: Sky Sport 5 (delayed); Chelsea v Tottenham Hotspur: Sky Sport 6 (delayed); Aston Villa v Manchester City: Sky Sport 6 (delayed); Coventry City v Fulham: Sky Sport 7, Sky Sport 5 (delayed); Manchester United v Bournemouth: Sky Sport 3; Liverpool v Brighton and Hove Albion: Sky Sport 1; Crystal Palace v Newcastle United: Sky Sport 4; Hull City v Brentford: Sky Sport 5; Tasmania v Victoria: Sky Sport 7 (delayed); South Australia v Queensland: Sky Sport 6 (delayed); New South Wales v Western Australia: Sky Sport 5 (delayed); Western Australia v New South Wales: Sky Sport 9
+
+supercars: standings: Drivers' championship 30 (top Matt Payne 2278), Teams' championship 17 (top Grove Racing 4561); 14 rounds, 11 with results: Round 1 Sydney 500 2026-02-22; Round 2 Melbourne SuperSprint 2026-03-08; Round 3 Taupō Super 440 2026-04-11; Round 4 Christchurch Super 440 2026-04-19; Round 5 Tasmania Super 440 2026-05-24; Round 6 Darwin Triple Crown 2026-06-21; Round 7 Townsville 500 2026-07-12; Round 8 Perth Super 440 2026-08-02; Round 9 Ipswich Super 440 2026-08-23; Round 10 The Bend 500 2026-09-13; Round 11 Bathurst 1000 2026-10-11; Round 12 Gold Coast 500 2026-10-25; Round 13 Sandown 500 2026-11-08; Round 14 Adelaide Grand Final 2026-11-29
+
+teamSquads: 74 of 88: Northern Districts, France, Lebanon, England, Wales, Ireland, USA, England, Wales, France, Scotland, Australia, Nottingham Forest, New Zealand missing
+
+youtube: streams per channel: NZ Cricket 12, Cricket Australia 26, Netball NZ 11, Hockey NZ 49, Basketball NZ 12, NZ Football 4, NZ Rugby League 1; matched 0
+
+tables: [
+  "Drivers' championship: Matt Payne 2278, Broc Feeney Sprint Champion 2155, Kai Allen 2069",
+  "Teams' championship: Grove Racing 4561, Triple Eight Race Engineering 4371, Tickford Racing 3480"
+]
