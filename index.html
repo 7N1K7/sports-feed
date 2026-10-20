@@ -428,7 +428,7 @@ footer a { color: var(--muted) }
 .rankrows .rrow .chips { display: block; text-align: center; font-size: 0; justify-self: stretch } .rankrows .rrow .chip { margin: 0 3px 6px; vertical-align: top }
 .stable .dh .wlim { white-space: nowrap }
 .stable .dh .wlim { text-transform: none; letter-spacing: 0; font-weight: 700; color: var(--sport); margin-left: 4px }
-@media (min-width: 561px) { .revall { right: 106px; transform: translateX(50%); white-space: nowrap } } /* centred over the cards' 210px time column */
+@media (min-width: 561px) { .revall { right: 106px; translate: 50% 0; white-space: nowrap } } /* centred over the cards' 210px time column */
 .dayhead::after { content: ""; display: block; height: 2px; width: 32px; background: var(--accent); margin-top: 4px; border-radius: 2px }
 
 
@@ -2570,7 +2570,7 @@ function renderNowBar(now) {
   onNowComps = new Set(on.map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
   $('nowBar').hidden = !on.length;
-  $('nowBar').innerHTML = on.length ? `<span class="nowlbl">Current running series</span><div class="nowwrap" id="nowWrap"><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}</div><button type="button" class="nowmore" id="nowMore" tabindex="-1" aria-hidden="true">›</button></div>` : '';
+  into($('nowBar')).html = on.length ? `<span class="nowlbl">Current running series</span><div class="nowwrap" id="nowWrap"><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}</div><button type="button" class="nowmore" id="nowMore" tabindex="-1" aria-hidden="true">›</button></div>` : '';
   balanceNow();
   if ($('nowChips')) { $('nowChips').addEventListener('scroll', syncNowMore, { passive: true }); syncNowMore(); }
 }
@@ -2595,6 +2595,29 @@ function balanceNow() {
 }
 
 PHONE.addEventListener('change', () => render());
+// put new markup into a section by changing only what differs from what's there, so cards that stay the same (and
+// their pictures) are left alone: revealing one result, or the minute's redraw, no longer flashes and shuffles the page
+const shownHTML = new WeakMap();
+const into = el => ({ set html(h) {
+  if (shownHTML.get(el) === h) return;
+  el.querySelectorAll(':scope > br').forEach(b => b.remove()); // the chip rows' line breaks: balanceChips puts them back
+  const t = document.createElement('template'); t.innerHTML = h;
+  morphKids(el, t.content); shownHTML.set(el, h);
+} });
+function morphKids(a, b) {
+  const an = [...a.childNodes], bn = [...b.childNodes];
+  bn.forEach((y, i) => {
+    const x = an[i];
+    if (!x) { a.appendChild(y); return; }
+    if (x.nodeType !== y.nodeType || x.nodeName !== y.nodeName || (x.nodeName === 'IMG' && x.getAttribute('src') !== y.getAttribute('src'))) { a.replaceChild(y, x); return; }
+    if (x.nodeType !== 1) { if (x.nodeValue !== y.nodeValue) x.nodeValue = y.nodeValue; return; }
+    if (x.isEqualNode(y)) return;
+    for (const at of [...x.attributes]) if (!y.hasAttribute(at.name)) x.removeAttribute(at.name);
+    for (const at of [...y.attributes]) if (x.getAttribute(at.name) !== at.value) x.setAttribute(at.name, at.value);
+    morphKids(x, y);
+  });
+  for (let i = an.length - 1; i >= bn.length; i--) an[i].remove();
+}
 function render() {
   const now = Date.now();
   renderNowBar(now);
@@ -2651,7 +2674,7 @@ function render() {
   document.querySelectorAll('.day').forEach(b => b.classList.toggle('sel', b.dataset.jump === pickK));
   const pickList = pickK ? evs.filter(e => playsOn(e, pickK) && !lives.includes(e)) : [];
   $('dayPick').hidden = !pickK;
-  $('dayPick').innerHTML = pickK ? `<div class="daypickhead"><span>${fmt(new Date(pickK + 'T12:00:00Z'), 'UTC', { weekday: 'long', day: 'numeric', month: 'long' })}</span><button type="button" class="dayclose" data-jump="${pickK}" aria-label="Close this day">×</button></div>${pickList.length ? pickList.map(e => finals.includes(e) ? resCard(e, now) : evCard(e, now)).join('') : '<div class="empty-note">Nothing on for your teams this day.</div>'}` : '';
+  into($('dayPick')).html = pickK ? `<div class="daypickhead"><span>${fmt(new Date(pickK + 'T12:00:00Z'), 'UTC', { weekday: 'long', day: 'numeric', month: 'long' })}</span><button type="button" class="dayclose" data-jump="${pickK}" aria-label="Close this day">×</button></div>${pickList.length ? pickList.map(e => finals.includes(e) ? resCard(e, now) : evCard(e, now)).join('') : '<div class="empty-note">Nothing on for your teams this day.</div>'}` : '';
     syncPulse();
   };
   drawDayPick();
@@ -2665,7 +2688,7 @@ function render() {
   // here into the morning. They're in Results below as well, and only there once the 16 hours are up.
   const doneToday = finals.filter(e => now - endOf(e, now) < 16 * 36e5);
   $('todaySec').hidden = !todays.length && !doneToday.length && !resting.length && lives.length > 0;
-  $('today').innerHTML = todays.length || doneToday.length || resting.length
+  into($('today')).html = todays.length || doneToday.length || resting.length
     ? `<div class="daygroup">${(() => {
         // a Test between days waits with the upcoming games, at the time its next day starts
         const later = [...resting, ...todays].sort((a, b) => nextAt(a, now) - nextAt(b, now));
@@ -2685,7 +2708,7 @@ function render() {
   const toms = rest.filter(e => dayKey(new Date(e.startUTC)) === tomK);
   $('tomSec').hidden = !toms.length;
   $('tomLabel').textContent = dayLabel(new Date(now + 864e5), NZ);
-  $('tomorrow').innerHTML = toms.map(e => evCard(e, now)).join('');
+  into($('tomorrow')).html = toms.map(e => evCard(e, now)).join('');
   rest.filter(e => !toms.includes(e)).forEach(e => { const k = dayKey(new Date(e.startUTC)); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(e) });
   const weekEnd = dayKey(new Date(now + 6 * 864e5));
   const dayGroup = (k, list) => `<div class="daygroup"><div class="dayhead" id="d-${k}">${fmt(new Date(list[0].startUTC), NZ, { weekday: 'long', day: 'numeric', month: 'long' })}</div>${list.map(e => evCard(e, now)).join('')}</div>`;
@@ -2699,7 +2722,7 @@ function render() {
   ahead.slice(laterPage * LPER, laterPage * LPER + LPER).forEach(e => { const k = dayKey(new Date(e.startUTC)); if (!lgroups.has(k)) lgroups.set(k, []); lgroups.get(k).push(e); });
   for (const [k, list] of lgroups) later += dayGroup(k, list);
   if (lpages > 1) later += `<div class="pager"><button type="button" class="btn" data-laterpage="${laterPage - 1}"${laterPage ? '' : ' disabled'}>‹ Sooner</button><span class="num">Page ${laterPage + 1} of ${lpages}</span><button type="button" class="btn" data-laterpage="${laterPage + 1}"${laterPage < lpages - 1 ? '' : ' disabled'}>Later ›</button></div>`;
-  $('later').innerHTML = later;
+  into($('later')).html = later;
   $('laterSec').hidden = !later;
 
   // running now: competitions under way (a game in the last ten days and the next within three weeks); how far through
@@ -2720,7 +2743,7 @@ function render() {
   const RPER = 10, rpages = Math.ceil(runList.length / RPER);
   runPage = Math.max(0, Math.min(runPage, rpages - 1));
   const runShow = runList.slice(runPage * RPER, runPage * RPER + RPER);
-  $('runEvents').innerHTML = runShow.map(([c, v]) => {
+  into($('runEvents')).html = runShow.map(([c, v]) => {
     // a season-long league's games here are only a window of its season, so it shows its next game and no count
     const d = v.next && new Date(v.next.startUTC), pct = Math.round(100 * v.played / v.all), prog = v.all > 1 && !GENERIC.test(c);
     return `<button type="button" class="bigev runev" data-bigcomp="${esc(c)}" style="--c:var(--${v.sport})"><span class="bn">${esc(plural(c))}</span>`
@@ -2748,14 +2771,14 @@ function render() {
   const allBig = [...first, ...ahead8.filter(x => !first.includes(x))], bpages = Math.ceil(allBig.length / BPER);
   bigPage = Math.max(0, Math.min(bigPage, bpages - 1));
   const big = allBig.slice(bigPage * BPER, bigPage * BPER + BPER);
-  $('bigEvents').innerHTML = big.map(([c, v]) => {
+  into($('bigEvents')).html = big.map(([c, v]) => {
     const d = new Date(v.first.startUTC), days = Math.round((d - now) / 864e5);
     return `<button type="button" class="bigev" data-bigcomp="${esc(c)}" style="--c:var(--${v.first.sport})"><span class="bn">${esc(plural(c))}</span><span class="bd">Starts ${fmt(d, NZ, { weekday: 'short', day: 'numeric', month: 'short' })}</span><span class="bc">${days < 60 ? `in ${days} days` : `in ${Math.round(days / 7)} weeks`}${v.count > 1 ? ` · ${v.count} games` : ''}</span></button>`;
   }).join('') + (bpages > 1 ? '<span class="bigev bph" aria-hidden="true"><span class="bn">&nbsp;</span><span class="bd">&nbsp;</span><span class="bc">&nbsp;</span></span>'.repeat(BPER - big.length) : ''); // a short last page keeps its height
   $('bigPager').innerHTML = bpages > 1 ? `<div class="pager"><button type="button" class="btn" data-bigpage="${bigPage - 1}"${bigPage ? '' : ' disabled'}>‹ Sooner</button><span class="num">Page ${bigPage + 1} of ${bpages}</span><button type="button" class="btn" data-bigpage="${bigPage + 1}"${bigPage < bpages - 1 ? '' : ' disabled'}>Later ›</button></div>` : '';
   $('bigSec').hidden = !big.length || !!compSel;
   $('toEvents').hidden = $('runSec').hidden && $('bigSec').hidden;
-  $('upcoming').innerHTML = html || `<div class="empty-note">${later ? 'Nothing else this week for your picks.' : 'No fixtures for your teams yet. Pick more teams under My teams.'}</div>`;
+  into($('upcoming')).html = html || `<div class="empty-note">${later ? 'Nothing else this week for your picks.' : 'No fixtures for your teams yet. Pick more teams under My teams.'}</div>`;
 
   // results
   const pastFinals = finals;
@@ -2773,7 +2796,7 @@ function render() {
   resPage = Math.min(resPage, pages - 1);
   const shown = pastFinals.slice(resPage * PER, resPage * PER + PER);
   shown.forEach(e => { const g = groupOf(e); if (!rgroups.has(g)) rgroups.set(g, []); rgroups.get(g).push(e); });
-  $('results').innerHTML = (rgroups.size
+  into($('results')).html = (rgroups.size
     ? [...rgroups].map(([g, list]) => `<div class="daygroup"><div class="dayhead">${esc(g)}${revealAll(list, now)}</div>${list.map(e => resCard(e, now)).join('')}</div>`).join('')
     : `<div class="empty-note">No recent results for your teams.</div>`)
     + (pages > 1 ? `<div class="pager"><button type="button" class="btn" data-respage="${resPage - 1}"${resPage ? '' : ' disabled'}>‹ Newer</button><span class="num">Page ${resPage + 1} of ${pages}</span><button type="button" class="btn" data-respage="${resPage + 1}"${resPage < pages - 1 ? '' : ' disabled'}>Older ›</button></div>` : '');
@@ -2787,7 +2810,7 @@ function render() {
   const kinds = [['all', 'All'], ['injury', 'Injuries'], ['squad', 'Squads'], ['result', 'Results'], ['news', 'Other']];
   $('newsFilters').innerHTML = kinds.map(([k, l]) => `<button class="chip" type="button" data-kind="${k}" aria-pressed="${newsKind === k}">${l}</button>`).join('');
   const items = (FEED.news || []).filter(n => compSel ? hubNews(n) : visible(n)).filter(n => newsKind === 'all' || n.kind === newsKind).sort((a, b) => b.date.localeCompare(a.date));
-  $('news').innerHTML = items.length ? items.slice(0, 30).map(n => {
+  into($('news')).html = items.length ? items.slice(0, 30).map(n => {
     const hide = spoilers && n.kind === 'result' && !revealed.has('n:' + n.id) && (now - new Date(n.date + 'T12:00:00+13:00')) < spoilDays * 864e5;
     const sport = sportOf(n.team);
     const img = n.image && !hide ? `<img class="thumb" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
@@ -2835,7 +2858,7 @@ function render() {
   $('rankBtn').hidden = !(FEED.rankings || []).length;
   const chips = shownSports();
   for (const k of [...sportSel]) if (!chips.some(([c]) => c === k)) sportSel.delete(k);
-  $('sportFilter').innerHTML = [['all','All'], ...chips].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join(' ');
+  into($('sportFilter')).html = [['all','All'], ...chips].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join(' ');
   document.body.classList.remove('v-big', 'v-mixed', 'v-compact');
   const shownView = PHONE.matches && view === 'big' ? 'mixed' : view; // phones have no Big: it shows as Mixed there
   document.body.classList.add('v-' + shownView);
