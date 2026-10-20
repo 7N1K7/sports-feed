@@ -1,20 +1,13 @@
-// probe 46: basketball and netball through the site's own parser (this season's NBL and qualifiers; last
-// Constellation Cup and this year's finished ANZ Premiership to check the netball layout)
-import { wikiEvents } from './src/sources.mjs';
-const cfg = [
-  { title: '2026–27 NBL season', sport: 'basketball', comp: 'NBL', classify: 'nbl', headingStage: true },
-  { title: '2027 FIBA Basketball World Cup qualification (Asia)', sport: 'basketball', comp: 'FIBA World Cup qualifiers', classify: 'basketball', headingStage: true },
-  { title: '2025 Constellation Cup', sport: 'netball', comp: 'Constellation Cup', classify: 'netball' },
-  { title: '2026 ANZ Premiership season', sport: 'netball', comp: 'ANZ Premiership', team: 'anzprem', tz: 'Pacific/Auckland', headingStage: true },
-];
-const TZ = { Auckland: 'Pacific/Auckland', Wellington: 'Pacific/Auckland', Christchurch: 'Pacific/Auckland', Adelaide: 'Australia/Adelaide', Brisbane: 'Australia/Brisbane', Cairns: 'Australia/Brisbane', Wollongong: 'Australia/Sydney', Hobart: 'Australia/Hobart', Melbourne: 'Australia/Melbourne', Perth: 'Australia/Perth', Sydney: 'Australia/Sydney',
-  Manila: 'Asia/Manila', Tokyo: 'Asia/Tokyo', Seoul: 'Asia/Seoul', Taipei: 'Asia/Taipei', Beirut: 'Asia/Beirut', Doha: 'Asia/Qatar', Zhuji: 'Asia/Shanghai', Jakarta: 'Asia/Jakarta' };
-const diag = {};
-const evs = (await wikiEvents(cfg, c => TZ[c] || null, diag)).filter(e => /basketball|netball/.test(e.sport)).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
-console.log('pages:', JSON.stringify(diag.wikipedia).match(/[^,{]*(NBL|FIBA|Constellation|ANZ)[^,}]*/g));
-for (const sp of ['basketball', 'netball']) {
-  const xs = evs.filter(e => e.sport === sp);
-  console.log(`\n${sp}: ${xs.length} events; teams:`, [...new Set(xs.map(e => e.team))].join(', '), '| no time zone:', xs.filter(e => !e.tz).length, '| TBC:', xs.filter(e => e.timeTBC).length);
-  const pick = sp === 'basketball' ? [...xs.filter(e => e.status === 'final').slice(-3), ...xs.filter(e => e.status !== 'final').slice(0, 6)] : xs.slice(0, 4);
-  for (const e of pick) console.log(' ', e.startUTC, new Date(e.startUTC).toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }), e.timeTBC ? '(TBC)' : '', '|', e.team, '|', e.comp, e.stage ? '/ ' + e.stage : '', '|', e.home, 'v', e.away, '|', e.status, e.score || '', '|', e.venue, '/', e.city, '/', e.tz);
+// probe 47: the ICC women's ranking pages — which tables each one has, and what the parser takes from them
+import { _tablesOf, _teamTables } from './src/rankings.mjs';
+const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
+for (const page of ["ICC Women's ODI Team Rankings", "ICC Women's T20I Team Rankings", "ICC Men's Test Team Rankings"]) {
+  const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=parse&prop=text&redirects=1&page=' + encodeURIComponent(page), { headers: UA });
+  const j = await r.json();
+  console.log('\n==', page, '-> resolved title:', j.parse?.title, '| redirects:', JSON.stringify(j.parse?.redirects || []));
+  const tables = _tablesOf(j.parse?.text || '');
+  tables.forEach((t, i) => console.log(`  table ${i}: heading "${t.heading}" | notes "${t.notes.slice(-160)}" | heads ${JSON.stringify(t.heads)} | ${t.rows.length} rows | first ${JSON.stringify(t.rows[0])} | last ${JSON.stringify(t.rows[t.rows.length - 1])}`));
+  const lists = _teamTables(tables, { sport: 'cricket', page, titles: ['X'] });
+  for (const l of lists) console.log('  parsed:', l.title, l.asOf, l.rows.length, 'rows; last:', JSON.stringify(l.rows[l.rows.length - 1]));
+  await new Promise(r => setTimeout(r, 1500));
 }
