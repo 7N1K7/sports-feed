@@ -102,7 +102,11 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
 @media (max-width: 700px) { .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
 /* phones: one box with the chosen theme (its colour and name) that opens the list of all fifteen, like the times box */
 .accwrap { position: relative } .accpick { display: none }
+.throw { display: contents }
 @media (max-width: 560px) {
+  /* the theme box sits on the Theme title's line, at its right */
+  .panel .throw { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line) }
+  .panel .throw .ph { margin: 0; padding: 0; border: 0 }
   .accpick { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 13em; font: inherit; font-size: 14px; padding: 5px 26px; border-radius: 8px; border: 1px solid var(--line); color: var(--ink); cursor: pointer;
     background: var(--paper) no-repeat; background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: right 15px center, right 10px center; background-size: 5px 5px, 5px 5px }
   .accpick i { width: 16px; height: 16px; border-radius: 50%; flex: none; box-shadow: 0 0 0 1px var(--line) }
@@ -783,6 +787,8 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
 .compbar .sm { display: none }
 /* the competition menu and the card-size buttons are one line of their own once the bar wraps (phones, small windows) */
 .compbar .crow { display: contents }
+/* while the bar is one line the card-size buttons sit at its right end, before Rankings */
+#viewSel { order: 1 } #rankBtn { order: 2 }
 @media (max-width: 560px) {
   main { padding-top: 10px; gap: 12px }
   section > h2 { font-size: 19px; margin-bottom: 6px }
@@ -1214,8 +1220,8 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
         <option value="5">5 days</option><option value="7">7 days</option><option value="14">14 days</option>
       </select></span>
     </div>
-    <h2 class="ph">Theme</h2>
-    <div class="accwrap"><button type="button" class="dbtn accpick" id="accentPick" aria-haspopup="true" aria-expanded="false"><i id="accentDot"></i><span id="accentName"></span></button><div class="swatches" id="accentSel" role="group" aria-label="Theme"></div></div>
+    <div class="throw"><h2 class="ph">Theme</h2>
+    <div class="accwrap"><button type="button" class="dbtn accpick" id="accentPick" aria-haspopup="true" aria-expanded="false"><i id="accentDot"></i><span id="accentName"></span></button><div class="swatches" id="accentSel" role="group" aria-label="Theme"></div></div></div>
     <h2 class="ph">My teams <span class="phbtns"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></span><span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news. Not into a sport at all? Tap <b>Hide sport</b> beside its name to take it off your feed and out of the sport buttons; <b>Show sport</b> brings it back.</span></h2>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
     <h2 class="ph">Phone app <span class="phnote">Put Kickoff Kiwi on your home screen. It opens full-screen like an app. No app store, no account.</span></h2>
