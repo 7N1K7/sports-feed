@@ -2353,7 +2353,10 @@ function render() {
   const drawWeek = cap => $('week').innerHTML = days.map(d => {
     const k = dayKey(d);
     const list = evs.filter(e => playsOn(e, k));
-    const dots = (list.length > cap ? list.slice(0, cap - 1) : list).map(e => `<span class="dot${doneSet.has(e) ? ' done' : ''}" style="background:var(--${e.sport})"></span>`).join('') + (list.length > cap ? `<span class="dot more" title="${list.length - cap + 1} more" aria-hidden="true"></span>` : '');
+    // resting the mouse on a dot names its game (the browser's own label, which waits a moment, so passing over doesn't
+    // set it off); the "+" names the rest. Names and times only, never a score
+    const gname = e => `${solo(e) ? e.home : `${displayName(e.home, e)} v ${displayName(e.away, e)}`} · ${time(new Date(e.startUTC), NZ)}`;
+    const dots = (list.length > cap ? list.slice(0, cap - 1) : list).map(e => `<span class="dot${doneSet.has(e) ? ' done' : ''}" style="background:var(--${e.sport})" title="${esc(gname(e))}"></span>`).join('') + (list.length > cap ? `<span class="dot more" title="${esc(list.slice(cap - 1).map(gname).join('\n'))}" aria-hidden="true"></span>` : '');
     const wd = fmt(d, NZ, { weekday: 'short' });
     return `<button class="day ${k === todayK ? 'today' : ''} ${k === selDay ? 'sel' : ''} ${/Sat|Sun/.test(wd) ? 'wkend' : ''} ${list.length ? '' : 'empty'}" type="button" data-jump="${k}" aria-label="${dayLabel(d, NZ)}, ${list.length} games">
       <span class="dn">${k === todayK ? 'Today' : fmt(d, NZ, { weekday: 'short' })}</span>
