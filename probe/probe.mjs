@@ -1,4 +1,4 @@
-// probe 61: the share image, centred
+// probe 62: the share image, centred, with "by N1K"
 import { chromium } from 'playwright';
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
