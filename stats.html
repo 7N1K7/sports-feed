@@ -314,7 +314,7 @@ function draw() {
   bars('repeat', sums.repeat, k => REPEAT_LABEL[k] || k, REPEAT_ORDER);
   for (const id of ['comp', 'teampage', 'search', 'search0', 'os', 'browser', 'watch', 'follow', 'unfollow', 'use']) bars(id, sums[id], k => k);
   bars('spoil', sums.spoil, k => ({ hidden: 'Results hidden', shown: 'Results shown' })[k] || k);
-  bars('view', sums.view, k => ({ big: 'Big', mixed: 'Mixed', compact: 'Compact' })[k] || k);
+  bars('view', sums.view, k => ({ big: 'Large', mixed: 'Mixed', compact: 'Compact' })[k] || k);
   bars('theme', sums.theme, k => ({ green: 'Kiwi green', ocean: 'Ocean blue', red: 'Pōhutukawa red', black: 'All Black', kowhai: 'Kōwhai gold', paua: 'Pāua teal', purple: 'Twilight purple', orange: 'Sunset orange', lime: 'Kawakawa lime', pink: 'Rātā pink', kauri: 'Kauri brown', silver: 'Silver fern', tui: 'Tūī indigo', navy: 'Moana navy', olive: 'Harakeke olive' })[k] || k);
   bars('speed', sums.speed, k => k, SPEED_ORDER);
   bars('error', sums.error, k => k);
