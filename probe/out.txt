@@ -1,2 +1,2 @@
-4489 V8 Supercars | badge https://r2.thesportsdb.com/images/media/league/badge/64f67s1770108650.png | logo https://r2.thesportsdb.com/images/media/league/logo/pk55ch1614547894.png
-
+sc-badge 200 16185
+sc-logo 200 13124
