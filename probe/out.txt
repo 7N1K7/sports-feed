@@ -1,6 +1,4 @@
-900 loaded: vv285 scrollY 0 scroller HTML | header "top stacked" | tab opacity 1 events auto | at tab: svg.chev
-900 after 4 wheel notches: vv285 scrollY 480 scroller HTML | header "top stacked scrolled" | tab opacity 0 events none | at tab: DIV.body
-900 errors: none
-520 loaded: vv285 scrollY 0 scroller HTML | header "top stacked" | tab opacity 1 events auto | at tab: svg.chev
-520 after 4 wheel notches: vv285 scrollY 480 scroller HTML | header "top stacked scrolled" | tab opacity 0 events none | at tab: DIV.when
-520 errors: none
+swipe up 300px: [0ms y0 - op1 tabTop95 hdrH97]
+swipe up 600px more: [2945ms y0 - op1 tabTop95 hdrH97]
+swipe down 200px: [6028ms y0 - op1 tabTop95 hdrH97]
+errors: none
