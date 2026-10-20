@@ -685,6 +685,7 @@ dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback) { height: min(88vh, 780
 .dlinks a { font-size: 13px; font-weight: 600; text-decoration: none; color: var(--ink); border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 11px }
 .dlinks a:hover { border-color: var(--accent) }
 .squads { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px }
+.squads.solo { grid-template-columns: 1fr } .squads.solo ul { columns: 2; column-gap: 14px } .squads.solo li { break-inside: avoid }
 .squad { border: 1px solid var(--line); border-radius: var(--r); padding: 8px 10px; background: var(--surface) }
 .sqh { font-family: var(--f-display); font-size: 18px; font-weight: 600; margin-bottom: 4px }
 .squad ul { list-style: none; margin: 0; padding: 0; font-size: 14px; line-height: 1.55 }
@@ -795,7 +796,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 @media (min-width: 1000px) { header.top .wrap { position: relative } header.top .search { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) } }
 /* no built-in clear button: it keeps space on the right, which pushed the centred text left (Esc still clears) */
 #q::-webkit-search-cancel-button, #q::-webkit-search-decoration { -webkit-appearance: none; appearance: none; display: none }
-#q { width: 150px; padding: 7px 12px 7px 30px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font: 14px var(--f-body); text-align: center }
+#q { width: 140px; padding: 7px 12px 7px 30px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font: 14px var(--f-body); text-align: center }
 .search .qico { position: absolute; left: 11px; top: 50%; width: 14px; height: 14px; margin-top: -7px; color: var(--muted); pointer-events: none; z-index: 1 }
 #q:focus { outline: 2px solid color-mix(in srgb, var(--ink) 40%, transparent); outline-offset: 1px }
 .qlist { position: absolute; right: 0; top: calc(100% + 6px); width: min(440px, 92vw); max-height: 70vh; overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 32px rgb(0 0 0 / .18); z-index: 20; padding: 4px }
@@ -850,13 +851,18 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
   /* the version goes with the byline on phones */
   .ver { display: none } .ver2 { display: inline }
   /* one row: Results, News, the search box, then the eye and the cog; while you type, the search box spreads over the row */
-  .hbtns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.3fr) auto auto; gap: 6px; flex: 1 1 100%; position: relative }
+  .hbtns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto auto auto; gap: 6px; flex: 1 1 100%; position: relative }
   .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
   .hbtns .btn svg { width: 14px; height: 14px; flex: none }
   .hbtns .ibtn { padding-inline: 9px } .hbtns .ibtn svg { width: 17px; height: 17px }
-  #q { width: 100%; height: 100%; box-sizing: border-box; padding: 4px 8px 4px 26px; font-size: 13px }
-  .search .qico { left: 9px; width: 13px; height: 13px; margin-top: -6.5px }
-  .hbtns .search:focus-within { position: absolute; inset: 0; z-index: 4 }
+  /* the search box is a small magnifier button the size of the eye and the cog; tapped, it opens over the whole row */
+  .hbtns .search { width: 38px }
+  #q { width: 100%; height: 100%; box-sizing: border-box; padding: 4px 8px 4px 28px; font-size: 13px; cursor: pointer }
+  #q:not(:focus) { color: transparent } #q:not(:focus)::placeholder { color: transparent }
+  .search .qico { left: 50%; width: 15px; height: 15px; margin: -7.5px 0 0 -7.5px; color: var(--ink) }
+  .hbtns .search:focus-within { position: absolute; inset: 0; z-index: 4; width: auto }
+  .hbtns .search:focus-within .qico { left: 10px; margin-left: 0; color: var(--muted) }
+  .hbtns .search:focus-within #q { cursor: text }
   .qlist { left: 0; right: 0; width: auto }
   .trow { grid-template-columns: minmax(0, 1fr) auto } .trow .td { grid-column: 1 / -1 }
 }
@@ -865,14 +871,18 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
 html.tight header.top .wrap { row-gap: 4px; padding-bottom: 5px }
 html.tight .brand { flex: none; font-size: 27px }
 html.tight .binfo { font-size: 9px } html.tight .brand .bt { gap: 4px }
-html.tight .hbtns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.3fr) auto auto; gap: 6px; flex: 1 1 100%; position: relative }
+html.tight .hbtns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto auto auto; gap: 6px; flex: 1 1 100%; position: relative }
 html.tight .hbtns .btn { justify-content: center; padding: 5px 4px; font-size: 13px; gap: 4px; white-space: nowrap; min-width: 0 }
 html.tight .hbtns .btn svg { width: 14px; height: 14px; flex: none }
 html.tight .hbtns .ibtn { padding-inline: 9px } html.tight .hbtns .ibtn svg { width: 17px; height: 17px }
 html.tight header.top .search { position: relative; left: auto; top: auto; transform: none }
-html.tight #q { width: 100%; height: 100%; box-sizing: border-box; padding: 4px 8px 4px 26px; font-size: 13px }
-html.tight .search .qico { left: 9px; width: 13px; height: 13px; margin-top: -6.5px }
-html.tight header.top .hbtns .search:focus-within { position: absolute; inset: 0; z-index: 4 }
+html.tight .hbtns .search { width: 38px }
+html.tight #q { width: 100%; height: 100%; box-sizing: border-box; padding: 4px 8px 4px 28px; font-size: 13px; cursor: pointer }
+html.tight #q:not(:focus) { color: transparent } html.tight #q:not(:focus)::placeholder { color: transparent }
+html.tight .search .qico { left: 50%; width: 15px; height: 15px; margin: -7.5px 0 0 -7.5px; color: var(--ink) }
+html.tight header.top .hbtns .search:focus-within { position: absolute; inset: 0; z-index: 4; width: auto }
+html.tight .hbtns .search:focus-within .qico { left: 10px; margin-left: 0; color: var(--muted) }
+html.tight .hbtns .search:focus-within #q { cursor: text }
 html.tight .qlist { left: 0; right: 0; width: auto }
 html.tight .compbar { gap: 6px }
 html.tight .compbar .lg { display: none } html.tight .compbar .sm { display: inline }
@@ -2094,21 +2104,34 @@ const SPORT_WORD = { rugby: 'rugby union', league: 'rugby league', football: 'fo
 let teamBack = null;
 function teamPage(name, sport) {
   const now = Date.now();
-  const games = (FEED.events || []).filter(e => e.sport === sport && (e.home === name || e.away === name)).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
+  // a side can be listed by country in one game and by nickname in the next ("New Zealand", "All Blacks"): a game is the
+  // side's when one of its teams shows under the same name, men's and women's kept apart
+  const first = (FEED.events || []).find(e => e.sport === sport && (e.home === name || e.away === name)), shown = first ? displayName(name, first) : name;
+  const mine = (n, e) => n === name || (!!first && displayName(n, e) === shown && genderOf(e) === genderOf(first));
+  const side = e => mine(e.home, e) ? e.home : e.away;
+  const games = (FEED.events || []).filter(e => e.sport === sport && (mine(e.home, e) || mine(e.away, e))).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
   const done = e => e.status === 'final' || (new Date(e.startUTC) < now && !running(e, now) && e.status !== 'live');
   const next = games.filter(e => !done(e)).slice(0, 6), past = games.filter(done).reverse().slice(0, 6);
   const e0 = games[0] || { sport };
   // the side's own Wikipedia article and official site, when the feed found them; otherwise a Wikipedia search
   const tl = FEED.teamLinks?.[`${sport}|${name}`] || {};
-  const logo = e0.home === name ? (e0.homeBadge || e0.homeLogo) : (e0.awayBadge || e0.awayLogo);
+  const logo = mine(e0.home, e0) ? (e0.homeBadge || e0.homeLogo) : (e0.awayBadge || e0.awayLogo);
   const row = (e, res) => {
-    const opp = e.home === name ? e.away : e.home, d = new Date(e.startUTC), hid = res && isHidden(e, now);
-    const r = res && !hid && (FEED.form?.[`${sport}|${name}`] || []).find(f => f.id === e.id);
+    const opp = mine(e.home, e) ? e.away : e.home, d = new Date(e.startUTC), hid = res && isHidden(e, now);
+    const r = res && !hid && (FEED.form?.[`${sport}|${side(e)}`] || []).find(f => f.id === e.id);
     return `<button type="button" class="trow" data-goto="${esc(e.id)}"><span class="td num">${esc(fmt(d, NZ, { weekday: 'short', day: 'numeric', month: 'short' }))}${res ? '' : ` · ${esc(time(d, NZ))}`}</span>`
-      + `<span class="to">${e.home === name ? 'v' : '@'} ${nmSpan(opp, e)}<small class="muted">${esc(cardComp(e))}</small></span>`
+      + `<span class="to">${mine(e.home, e) ? 'v' : '@'} ${nmSpan(opp, e)}<small class="muted">${esc(cardComp(e))}</small></span>`
       + `<span class="tr">${res ? (hid ? '<span class="muted small">Result hidden</span>' : `${r ? `<span class="fd ${r.r}">${r.r}</span> ` : ''}<span class="num">${esc(e.score || '')}</span>`) : (countdown(e, now) ? `<span class="muted small num" data-cd="${esc(e.startUTC)}">${countdown(e, now)}</span>` : '')}</span></button>`;
   };
-  const f = formHtml(name, sport);
+  // the form guide under whichever of the side's names has the most games
+  const fname = [...new Set(games.map(side))].sort((a, b) => (FEED.form?.[`${sport}|${b}`]?.length || 0) - (FEED.form?.[`${sport}|${a}`]?.length || 0))[0] || name;
+  const f = formHtml(fname, sport);
+  // the side's squad from its next game that has one (else its latest): a cricket tour's, or a state side's season squad
+  const sqFrom = [...next, ...past].find(e => e.squads?.some(q => mine(q.team, e) || q.team === side(e)));
+  const squad = sqFrom ? `<h3 class="dh">${sqFrom.seasonSquads ? 'Season squad' : 'Squad'} <span class="muted small dhnote">${esc(cardComp(sqFrom))}${sqFrom.seasonSquads ? '' : ` · ${esc(fmt(new Date(sqFrom.startUTC), NZ, { day: 'numeric', month: 'short' }))}`}</span></h3>`
+    + squadsHtml({ ...sqFrom, squads: sqFrom.squads.filter(q => mine(q.team, sqFrom) || q.team === side(sqFrom)) }).replace('<div class="squads">', '<div class="squads solo">') : '';
+  // a national cricket side's page on Cricinfo, under whichever of its names Cricinfo knows
+  const ci = sport === 'cricket' ? [...new Set([name, ...games.map(side)])].map(n => ciTeam(n, first || e0)).find(Boolean) || '' : '';
   return `<div class="sheet-head sport-${sport}">
       <div class="comp">${sIcon(sport)}<span>${esc((next[0] || past[0]) ? compOf(next[0] || past[0]) : '')}</span></div>
       <h2 class="dteams">${teamName(name, logo, e0)}</h2>
@@ -2116,7 +2139,8 @@ function teamPage(name, sport) {
     ${f ? `<dl class="facts"><dt>Form</dt><dd>${f}<span class="muted small"> oldest to newest</span></dd></dl>` : ''}
     <h3 class="dh">Next games</h3>${next.length ? `<div class="tlist">${next.map(e => row(e, false)).join('')}</div>` : '<p class="muted">No games listed yet.</p>'}
     <h3 class="dh">Recent results</h3>${past.length ? `<div class="tlist">${past.map(e => row(e, true)).join('')}</div>` : '<p class="muted">No recent results.</p>'}
-    <div class="dlinks">${tl.site ? `<a class="srclink" href="${esc(tl.site)}" target="_blank" rel="noopener">Official site ↗</a>` : ''}<a class="srclink" href="${tl.wp ? `https://en.wikipedia.org/wiki/${encodeURIComponent(tl.wp.replace(/ /g, '_'))}` : `https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(`${name.replace(/\s+Women$/, " women's")} ${SPORT_WORD[sport] || ''}`)}`}" target="_blank" rel="noopener">${esc(displayName(name, e0))} on Wikipedia ↗</a></div>`;
+    ${squad}
+    <div class="dlinks">${ci ? `<a class="srclink" href="${esc(ci)}" target="_blank" rel="noopener">${esc(displayName(name, e0))} on Cricinfo ↗</a>` : ''}${tl.site ? `<a class="srclink" href="${esc(tl.site)}" target="_blank" rel="noopener">Official site ↗</a>` : ''}<a class="srclink" href="${tl.wp ? `https://en.wikipedia.org/wiki/${encodeURIComponent(tl.wp.replace(/ /g, '_'))}` : `https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(`${name.replace(/\s+Women$/, " women's")} ${SPORT_WORD[sport] || ''}`)}`}" target="_blank" rel="noopener">${esc(displayName(name, e0))} on Wikipedia ↗</a></div>`;
 }
 function openTeam(name, sport, fromRank = '') {
   count({ e: 'team', k: name });
@@ -2164,7 +2188,7 @@ function search(q) {
   const hit = x => { const t = fold(x); return words.every(w => t.includes(w)); };
   const teams = new Map();
   for (const e of FEED.events || []) if (!solo(e)) for (const n of [e.home, e.away])
-    if (n && !/TBC|winner|\bor\b/i.test(n) && hit(`${n} ${displayName(n, e)}`) && !teams.has(`${e.sport}|${n}`)) teams.set(`${e.sport}|${n}`, { n, e });
+    if (n && !/TBC|winner|\bor\b/i.test(n) && hit(`${n} ${displayName(n, e)}`) && !teams.has(`${e.sport}|${displayName(n, e)}`)) teams.set(`${e.sport}|${displayName(n, e)}`, { n, e });
   const soon = e => { const t = Date.parse(e.startUTC) - now; return t > -6 * 36e5 ? t : 1e13 - t; };
   const games = (FEED.events || []).filter(e => hit(`${e.home} ${e.away} ${displayName(e.home, e)} ${displayName(e.away, e)} ${cardComp(e)} ${compOf(e)} ${e.venue || ''} ${e.city || ''}`))
     .sort((a, b) => soon(a) - soon(b));
