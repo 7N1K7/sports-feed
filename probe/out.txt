@@ -1,107 +1,12 @@
-generated undefined | sides 244 | with logo 138
-basketball | Iran | 1 games | FIBA World Cup qualifiers
-basketball | Jordan | 2 games | FIBA World Cup qualifiers
-basketball | New Zealand | 3 games | FIBA World Cup qualifiers
-boxing | Alberto Puello | 1 games | WBC super lightweight title
-boxing | Anthony Cacace | 1 games | WBA super featherweight title
-boxing | Callum Smith | 1 games | WBA, IBF & WBO light heavyweight titles
-boxing | Dalton Smith | 1 games | WBC super lightweight title
-boxing | Elif Nur Turhan | 1 games | IBF women's lightweight title
-boxing | Floyd Schofield | 1 games | Vacant WBA lightweight title
-boxing | Jasmina Zapotoczna | 1 games | Undisputed women's flyweight titles
-boxing | Lucas Bahdi | 1 games | Vacant WBA lightweight title
-boxing | Masamichi Yabuki | 1 games | IBF flyweight title
-boxing | Nelson Hysa | 1 games | WBC heavyweight title
-boxing | Nick Ball | 1 games | WBA super featherweight title
-boxing | Oliver Zaren | 1 games | IBF super middleweight title
-boxing | Osleys Iglesias | 1 games | IBF super middleweight title
-boxing | Ricardo Sandoval | 1 games | WBA & WBC flyweight titles
-boxing | Sebastian Fundora | 1 games | WBC super welterweight title
-cricket | 1st placed team | 2 games | Big Bash League / Women's Big Bash League
-cricket | 2nd placed team | 2 games | Big Bash League / Women's Big Bash League
-cricket | 3rd placed team | 2 games | Big Bash League / Women's Big Bash League
-cricket | 4th placed team | 2 games | Big Bash League / Women's Big Bash League
-cricket | Australia | 23 games | 1st Test v Australia / 2nd Test v Australia / 3rd Test v Australia
-cricket | Australia Women | 6 games | 1st T20I v Australia (Rose Bowl) / 2nd T20I v Australia (Rose Bowl) / 3rd T20I v Australia (Rose Bowl)
-cricket | Bangladesh | 10 games | South Africa v Bangladesh / Bangladesh v West Indies
-cricket | Bangladesh Women | 6 games | 1st T20I v Bangladesh / 2nd T20I v Bangladesh / 3rd T20I v Bangladesh
-cricket | Central Hinds | 1 games | Hallyburton Johnstone Shield (women) opener
-cricket | England | 15 games | Australia v England / South Africa v England
-cricket | Governor-General's XI | 1 games | Tour match v Governor-General's XI
-cricket | India | 33 games | 1st T20I v India / 2nd T20I v India / 3rd T20I v India
-cricket | India A | 3 games | NZ A v India A, 1st four-day match / NZ A v India A, 2nd four-day match / NZ A v India A, 3rd four-day match
-cricket | Loser of Qualifier | 1 games | Big Bash League
-cricket | New Zealand | 24 games | 1st T20I v India / 2nd T20I v India / 3rd T20I v India
-cricket | New Zealand A | 3 games | NZ A v India A, 1st four-day match / NZ A v India A, 2nd four-day match / NZ A v India A, 3rd four-day match
-cricket | New Zealand Women | 13 games | Tour match v Governor-General's XI / 1st T20I v Australia (Rose Bowl) / 2nd T20I v Australia (Rose Bowl)
-cricket | South Africa | 18 games | Australia v South Africa / South Africa v England / South Africa v Bangladesh
-cricket | South Africa Invitation XI | 1 games | Australia v South Africa
-cricket | South Australia | 15 games | Sheffield Shield / Dean Jones Trophy
-cricket | Sri Lanka | 19 games | 1st ODI v Sri Lanka / 2nd ODI v Sri Lanka / 3rd ODI v Sri Lanka
-cricket | West Indies | 9 games | India v West Indies / Bangladesh v West Indies
-cricket | Western Australia | 15 games | Sheffield Shield / Dean Jones Trophy
-cricket | Winner of Challenger | 2 games | Big Bash League / Women's Big Bash League
-cricket | Winner of Knockout | 2 games | Big Bash League / Women's Big Bash League
-cricket | Winner of Qualifier | 1 games | Big Bash League
-cricket | Zimbabwe | 3 games | India v Zimbabwe
-hockey | India | 3 games | Test series · Match 1 / Test series · Match 2 / Test series · Match 3
-hockey | India Women | 1 games | FIH Hockey Nations Cup
-hockey | New Zealand | 4 games | FIH Hockey Nations Cup / Test series · Match 1 / Test series · Match 2
-hockey | New Zealand Women | 2 games | FIH Hockey Nations Cup
-hockey | South Africa | 1 games | FIH Hockey Nations Cup
-hockey | USA Women | 1 games | FIH Hockey Nations Cup
-league | Australia | 9 games | Rugby League World Cup, Group A, Round 1 / Women's Rugby League World Cup, Group A, Round 1 / Women's Rugby League World Cup, Group A, Round 2
-league | Cook Islands | 3 games | Rugby League World Cup, Group A, Round 2 / Rugby League World Cup, Group A, Round 1 / Rugby League World Cup, Group A, Round 3
-league | England | 9 games | Women's Rugby League World Cup, Group A, Round 1 / Rugby League World Cup, Group B/C, Round 1 / Rugby League World Cup, Group B/C, Round 2
-league | Fiji | 6 games | Women's Rugby League World Cup, Group B, Round 1 / Rugby League World Cup, Group A, Round 3 / Rugby League World Cup, Group A, Round 1
-league | First ranking semi-final loser | 1 games | Wheelchair Rugby League World Cup
-league | First ranking semi-final winner | 1 games | Wheelchair Rugby League World Cup
-league | First semi-final loser | 1 games | Wheelchair Rugby League World Cup
-league | First semi-final winner | 2 games | Rugby League World Cup / Wheelchair Rugby League World Cup
-league | First semi-final winner Women | 1 games | Women's Rugby League World Cup
-league | France | 9 games | Women's Rugby League World Cup, Group B, Round 2 / Rugby League World Cup, Group B/C, Round 1 / Women's Rugby League World Cup, Group B, Round 1
-league | Group A 3rd place | 1 games | Wheelchair Rugby League World Cup
-league | Group A 4th place | 1 games | Wheelchair Rugby League World Cup
-league | Group A Runner Up | 1 games | Wheelchair Rugby League World Cup
-league | Group A Runner Up Women | 1 games | Women's Rugby League World Cup
-league | Group A Winner Women | 1 games | Women's Rugby League World Cup
-league | Group B 3rd place | 1 games | Wheelchair Rugby League World Cup
-league | Group B 4th place | 1 games | Wheelchair Rugby League World Cup
-league | Group B Runner Up Women | 1 games | Women's Rugby League World Cup
-league | Group B Winner | 1 games | Wheelchair Rugby League World Cup
-league | Group B Winner Women | 1 games | Women's Rugby League World Cup
-league | Ireland | 3 games | Wheelchair Rugby League World Cup, Group A, Round 1 / Wheelchair Rugby League World Cup, Group A, Round 2 / Wheelchair Rugby League World Cup, Group A, Round 3
-league | Lebanon | 3 games | Rugby League World Cup, Group B/C, Round 1 / Rugby League World Cup, Group B/C, Round 2 / Rugby League World Cup, Group B/C, Round 3
-league | New Zealand | 9 games | Rugby League World Cup, Group A, Round 1 / Women's Rugby League World Cup, Group B, Round 1 / Women's Rugby League World Cup, Group B, Round 2
-league | Papua New Guinea | 6 games | Women's Rugby League World Cup, Group B, Round 3 / Women's Rugby League World Cup, Group B, Round 1 / Rugby League World Cup, Group B/C, Round 1
-league | Pool A runners-up | 1 games | Rugby League World Cup
-league | Pool A winner | 1 games | Rugby League World Cup
-league | Pool B & C runners-up | 1 games | Rugby League World Cup
-league | Pool B & C winner | 1 games | Rugby League World Cup
-league | Samoa | 6 games | Rugby League World Cup, Group B/C, Round 1 / Women's Rugby League World Cup, Group A, Round 1 / Women's Rugby League World Cup, Group A, Round 2
-league | Scotland | 3 games | Wheelchair Rugby League World Cup, Group B, Round 1 / Wheelchair Rugby League World Cup, Group B, Round 2 / Wheelchair Rugby League World Cup
-league | Second ranking semi-final loser | 1 games | Wheelchair Rugby League World Cup
-league | Second ranking semi-final winner | 1 games | Wheelchair Rugby League World Cup
-league | Second semi-final loser | 1 games | Wheelchair Rugby League World Cup
-league | Second semi-final winner | 2 games | Rugby League World Cup / Wheelchair Rugby League World Cup
-league | Second semi-final winner Women | 1 games | Women's Rugby League World Cup
-league | Tonga | 3 games | Rugby League World Cup, Group B/C, Round 1 / Rugby League World Cup, Group B/C, Round 2 / Rugby League World Cup, Group B/C, Round 3
-league | USA | 3 games | Wheelchair Rugby League World Cup, Group A, Round 1 / Wheelchair Rugby League World Cup, Group A, Round 2 / Wheelchair Rugby League World Cup, Group A, Round 3
-league | Wales | 6 games | Women's Rugby League World Cup, Group A, Round 1 / Women's Rugby League World Cup, Group A, Round 2 / Wheelchair Rugby League World Cup, Group A, Round 1
-mma | UFC 336 | 1 games | UFC 336
-mma | UFC Fight Night 296 | 1 games | UFC Fight Night 296
-rugby | 1st/2nd | 1 games | Super Rugby Pacific
-rugby | 3rd/4th | 1 games | Super Rugby Pacific
-rugby | All Blacks | 6 games | Bledisloe Cup / Nations Championship / Nations Championship Finals Weekend
-rugby | Australia | 4 games | Test match
-rugby | Black Ferns | 3 games | WXV Global Series
-rugby | Drua | 15 games | Super Rugby Pacific
-rugby | England | 1 games | Nations Championship
-rugby | Force | 15 games | Super Rugby Pacific
-rugby | France | 3 games | WXV Global Series
-rugby | Ireland | 1 games | Test match
-rugby | New Zealand | 1 games | Test match
-rugby | Scotland | 1 games | Nations Championship
-rugby | TBC (northern hemisphere side, by standings) | 1 games | Nations Championship Finals Weekend
-rugby | Wales | 1 games | Nations Championship
-rugby | Wallabies | 2 games | Bledisloe Cup
+
+==== https://helptvnz.zendesk.com/hc/en-us/articles/19886850107801-Sport-on-TVNZ-Overview (403)
+Just a moment... Enable JavaScript and cookies to continue
+
+==== https://cybernews.com/stream-online/how-to-watch-rugby-league-world-cup-2026-for-free-from-anywhere/ (403)
+Just a moment... Enable JavaScript and cookies to continue
+
+==== https://www.sky.co.nz/skyopen (200)
+Welcome to Sky Sky Broadband is made for entertainment; unlimited lightning fast fibre that can stream all the on demand entertainment and sport your family wants, plus online gaming, music, and video calls. You need to enable JavaScript to run this app.
+
+==== https://www.rnz.co.nz/news/sport/571030/a-gamechanger-tvnz-to-screen-2026-fifa-world-cup (200)
+A ‘gamechanger’- TVNZ to screen 2026 FIFA World Cup | RNZ Skip to main content News Life News Life Radio Podcasts Video Sections Search all of RNZ Rapua News Pitopito kōrero Show Hide Politics World Business Personal finance Sport Crime / Justice Health Education Environment Science / Tech Emergencies Community Regions Country Weather Te Ao Māori Pacific IndoNZ 中文 News Pitopito kōrero Show Hide Politics World Business Personal finance Sport Crime / Justice Health Education Environment Science / Tech Emergencies Community Regions Country Weather Te Ao Māori Pacific IndoNZ 中文 Life Tauoranga Show Hide Browse all Screens Books Culture Music Food Wellbeing Lifestyle Relationships People Life Tauoranga Show Hide Browse all Screens Books Culture Music Food Wellbeing Lifestyle Relationships People Radio Irirangi Show Hide RNZ National RNZ Concert RNZ Pacific Parliament More ways to listen Radio Irirangi Show Hide RNZ National RNZ Concert RNZ Pacific Parliament More ways to listen Podcasts Kōnae ipurangi Video Ataata Storytime Puna tamariki News sections Show Hide Politics World Business Personal finance Sport Crime / Justice Health Education Environment Science / Tech Emergencies Community Regions Country Weather Te Ao Māori Pacific IndoNZ 中文 News sections Show Hide Politics World Business Personal finance Sport Crime / Justice Health Education Environment Science / Tech Emergencies Community Regions Country Weather Te Ao Māori Pacific IndoNZ 中文 Follow the news Show Hide Sign up for our Daily Newsletter Subscribe to RNZ News with RSS Get the RNZ App Facebook Instagram YouTube TikTok Follow the news Show Hide Sign up for our Daily Newsletter Subscribe to RNZ News with RSS Get the RNZ App Facebook Instagram YouTube TikTok Listen to the news Show Hide RNZ National RNZ Pacific Parliament More ways to listen Listen to the news Show Hide RNZ National RNZ Pacific Parliament More ways to listen World Politics Crime / Justice Business Sport Health Education Environment Community Country Weather Te Ao Māori Pacific IndoNZ 中文 RNZ / News / Sport Link: https://www.rnz.co.nz/news/eyJhbGciOiJIUzI1NiJ9._f0.YIZs2-J2FpwgcBcJJb29s1vXmFAWHLh_p1oUyv-l-RA/sport/571030%2Fa-gamechanger-tvnz-to-screen-2026-fifa-world-cup News Sport 25 August 2025, 8:13pm A ‘gamechanger’- TVNZ to screen 2026 FIFA World Cup Caption: Portugal&#x27;s forward Cristiano Ronaldo celebrates scoring his team&#x27;s goal. Photo credit: PHOTOSPORT TVNZ has secured the rights to next year&#x27;s FIFA World Cup, one of the biggest sporting events in the world - but it will charge viewers to watch some matches. The football world cup is being hosted in the United States, Canada and Mexico and the 2026 tournament will see the All Whites compete for the first time since 2010. A range of games will be available free-to-air on TVNZ 1, including all New Zealand matches. A comprehensive one-off event pass on TVNZ+ will be available to buy for fans who want to watch every match, live and on demand. With 48 teams playing 104 matches over 39 days, it&#x27;s the biggest FIFA World Cup to date. TVNZ chief executive Jodi O&#x27;Donnell described securing comprehensive rights to the tournament as a huge moment for TVNZ. &quot;Football is one of the fastest growing sports in New Zealand. The UEFA EUROs and Wrexham FC matches saw big audiences for TVNZ. With the All Whites in the mix, we are so excited to bring the FIFA World Cup 26™ to Kiwis next year and give them more opportunity to get swept up in football fev
