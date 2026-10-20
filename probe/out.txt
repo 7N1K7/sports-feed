@@ -1,6 +1,6 @@
-loaded: vv285 | scrollY 0 | header "top stacked" | tab opacity 1 events auto display block | box 0,95,412,22 | top element at the tab: svg.chev# | filters folded: false
-after tapping the tab: vv285 | scrollY 0 | header "top stacked" | tab opacity 1 events auto display block | box 0,95,412,22 | top element at the tab: svg.chev# | filters folded: true
-after tapping again: vv285 | scrollY 0 | header "top stacked" | tab opacity 1 events auto display block | box 0,95,412,22 | top element at the tab: svg.chev# | filters folded: false
-scrolled down: vv285 | scrollY 700 | header "top stacked scrolled" | tab opacity 0 events none display block | box 0,95,412,22 | top element at the tab: DIV.nz num# | filters folded: false
-back at the top: vv285 | scrollY 0 | header "top stacked" | tab opacity 1 events auto display block | box 0,95,412,22 | top element at the tab: svg.chev# | filters folded: false
-errors: none
+900 loaded: vv285 scrollY 0 scroller HTML | header "top stacked" | tab opacity 1 events auto | at tab: svg.chev
+900 after 4 wheel notches: vv285 scrollY 480 scroller HTML | header "top stacked scrolled" | tab opacity 0 events none | at tab: DIV.body
+900 errors: none
+520 loaded: vv285 scrollY 0 scroller HTML | header "top stacked" | tab opacity 1 events auto | at tab: svg.chev
+520 after 4 wheel notches: vv285 scrollY 480 scroller HTML | header "top stacked scrolled" | tab opacity 0 events none | at tab: DIV.when
+520 errors: none
