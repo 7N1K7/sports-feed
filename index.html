@@ -635,7 +635,7 @@ header.top:has(#panel:not([hidden])) .fold { opacity: 0; pointer-events: none }
    the line comes back once the page scrolls (and the tab goes) */
 header.top { transition: border-color .15s }
 header.top:not(.scrolled):not(:has(#panel:not([hidden]))) { border-bottom-color: transparent }
-header.top ~ main { padding-top: 38px }
+header.top ~ main { padding-top: 26px } /* just clear of the tab; its tap area reaches over the heading below, which is plain text */
 main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: none !important }
 /* phones: short labels, so NZ only, men's/women's and rankings share one line, and tighter gaps so the day's first
    games are on screen sooner */
