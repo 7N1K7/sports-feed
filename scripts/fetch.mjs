@@ -71,7 +71,7 @@ const NEWS_TEAMS = [
   ['kiwis', /\bKiwis\b/], ['kiwiferns', /Kiwi Ferns/i], ['warriors', /Warriors/],
   ['blacksticksw', /Black Sticks Women|Black Sticks women/i], ['blacksticks', /Black Sticks/i],
   ['tallferns', /Tall Ferns/i], ['tallblacks', /Tall Blacks/i], ['breakers', /\bBreakers\b/], ['silverferns', /Silver Ferns/i], ['anzprem', /ANZ Premiership/i],
-  ['f1', /Formula (One|1)\b|\bF1\b|Liam Lawson/i],
+  ['f1', /Formula (One|1)\b|\bF1\b|Liam Lawson/i], ['supercars', /Supercars|Bathurst 1000/i],
   ['wallabies', /Wallabies/], ['superrugby', /Super Rugby/i],
   ['rlwc', /Rugby League World Cup|\bRLWC\b/i], ['nrl', /\bNRL\b/],
   ['wbbl', /\bWBBL\b|Women's Big Bash/i], ['bbl', /\bBBL\b|Big Bash/i],

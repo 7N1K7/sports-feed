@@ -438,6 +438,15 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     }
     diag.f1 = `${f1.length} races, ${f1.filter(e => e.status === 'final').length} with results; standings: ${tables.filter(t => t.team === 'f1').map(t => `${t.title} ${t.rows.length} (top ${t.rows[0]?.name} ${t.rows[0]?.pts})`).join(', ') || 'none'}`;
   } catch (e) { diag.f1 = 'error: ' + e.message; }
+  // Supercars: this year's rounds, and next year's from October (dates there are mostly still to come)
+  try {
+    const ys = [Y, ...(M >= 9 ? [Y + 1] : [])];
+    const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(ys.map(y => `${y} Supercars Championship`).join('|')));
+    const pg = Object.fromEntries((r.query?.pages || []).filter(p => !p.missing).map(p => [p.title, p.revisions?.[0]?.slots?.main?.content || '']));
+    const sc = ys.flatMap(y => supercarsSeason(pg[`${y} Supercars Championship`] || '', y));
+    out.push(...sc);
+    diag.supercars = `${sc.length} rounds, ${sc.filter(e => e.status === 'final').length} with results: ${sc.map(e => `${e.round} ${e.home} ${e.startUTC.slice(0, 10)}`).join('; ')}`;
+  } catch (e) { diag.supercars = 'error: ' + e.message; }
   // Tennis: the four Grand Slams, the ATP and WTA Finals, Auckland's ASB Classic and the Australian summer's Brisbane,
   // Adelaide and Hobart tournaments, from each tournament's own page.
   // Each gives a women's and a men's singles final (the tournament's last two days), with the champion once it's played.
@@ -722,6 +731,52 @@ function f1Season(text, year, cityTz) {
       home: gp, away: '', startUTC: new Date(t).toISOString(), timeTBC: true, venue: place[0] || '', city, tz,
       status: w?.winner ? 'final' : 'upcoming', ...(w?.winner ? { score: w.winner.split(' ').slice(-1)[0] + ' wins', summary: `${w.winner} won for ${w.team}. Pole: ${w.pole}. Fastest lap: ${w.fl}.` } : {}),
       source: `https://en.wikipedia.org/wiki/${encodeURIComponent(`${year} Formula One World Championship`.replace(/ /g, '_'))}`, ...(w?.report ? { link: w.report } : {}),
+    });
+  }
+  return out;
+}
+// Supercars: one event a round, on its last day (the Sunday race), from the season page's calendar table; each race's
+// winner from the season summary. A round's row: ! round | ! race | event | circuit | location | dates; the round's
+// other races follow as rows of just "! race"
+const SC_TZ = [[/New South Wales|\bNSW\b/i, 'Australia/Sydney'], [/\bVIC\b|Victoria/i, 'Australia/Melbourne'], [/\bQLD\b|Queensland/i, 'Australia/Brisbane'],
+  [/South Australia|\bSA\b/i, 'Australia/Adelaide'], [/Western Australia|\bWA\b/i, 'Australia/Perth'], [/Northern Territory|\bNT\b/i, 'Australia/Darwin'],
+  [/Tasmania|\bTAS\b/i, 'Australia/Hobart'], [/NZL|New Zealand|Waikato|Canterbury|Auckland/i, 'Pacific/Auckland']];
+function supercarsSeason(text, year) {
+  const tableAfter = re => { const i = text.search(re); return i < 0 ? '' : (text.slice(i).match(/\{\|[\s\S]*?\n\|\}/) || [''])[0]; };
+  const rowsIn = tbl => tbl.split(/\n\|-[^\n]*/).slice(1).map(r => r.split('\n').map(l => l.trim()).filter(l => /^[|!]/.test(l) && !l.startsWith('|}')));
+  // a cell's own text (after any rowspan="3" |), links read as their labels so a {{nowrap|...}} round them comes apart cleanly
+  const cellOf = l => l.replace(/^[|!]\s*/, '').replace(/^[^[{|]*?\|(?!\|)/, '').replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1').trim();
+  const num = l => /^!/.test(l) && /^\d+$/.test(clean(cellOf(l))) ? +clean(cellOf(l)) : 0;
+  // winners: round -> [{ race, winner }], plus the round's report page
+  const wins = {}, reports = {};
+  let cur = 0;
+  for (const r of rowsIn(tableAfter(/===\s*Season summary\s*===/i))) {
+    const nums = r.filter(l => num(l)).map(num), cells = r.filter(l => l.startsWith('|')).map(cellOf);
+    if (!nums.length) continue;
+    let race = nums[nums.length - 1], who;
+    if (nums.length >= 2) { cur = nums[0]; who = cells[3]; const rep = (r.filter(l => l.startsWith('|'))[5] || '').match(/\[\[([^\]|]+)\|/); if (rep) reports[cur] = 'https://en.wikipedia.org/wiki/' + encodeURIComponent(rep[1].replace(/ /g, '_')); }
+    else who = cells[2];
+    const w = clean(who || '').trim();
+    if (cur && w) (wins[cur] ||= []).push({ race, w });
+  }
+  const out = [];
+  for (const r of rowsIn(tableAfter(/^==\s*Calendar\s*==/im))) {
+    const nums = r.filter(l => num(l)).map(num), raw = r.filter(l => l.startsWith('|')).map(cellOf);
+    if (nums.length < 2 || raw.length < 4) continue;
+    const round = nums[0];
+    const span = +((r[0].match(/rowspan="?(\d+)/) || [])[1] || 1);
+    const ev = clean(raw[0]).replace(/\s+/g, ' '), circuit = clean(raw[1]), place = clean(raw[2]).split(',')[0].trim();
+    const dr = dateRange(raw[3], year);
+    if (!ev || !dr) continue;
+    const tz = (SC_TZ.find(([re]) => re.test(raw[1] + ' ' + raw[2])) || [, 'Australia/Sydney'])[1];
+    const [y, m, d] = dr.end, at = localToUTC(y, m, d, 14, 0, tz), w = wins[round] || [];
+    const done = w.length >= span && at < Date.now();
+    out.push({
+      id: `supercars-${year}-${round}`, team: 'supercars', tags: [], sport: 'motor', comp: `Supercars · Round ${round}`, round: `Round ${round}`,
+      home: ev, away: '', startUTC: new Date(at).toISOString(), openUTC: new Date(localToUTC(...dr.start, 9, 0, tz)).toISOString(), timeTBC: true,
+      venue: circuit, city: place, tz, status: done ? 'final' : 'upcoming',
+      ...(done ? { score: w.length === 1 ? `${w[0].w.split(' ').slice(-1)[0]} wins` : `${w.length} races`, summary: w.map(x => `Race ${x.race}: ${x.w}`).join('. ') + '.' } : {}),
+      source: `https://en.wikipedia.org/wiki/${encodeURIComponent(`${year} Supercars Championship`.replace(/ /g, '_'))}`, ...(reports[round] ? { link: reports[round] } : {}),
     });
   }
   return out;
@@ -1173,4 +1228,4 @@ export async function tsdbEvents(all, diag, cache = {}, gapsFor = null) {
   return out;
 }
 export { tennisFinals as _tennisFinals, dateRange as _dateRange, TENNIS as _TENNIS };
-export { readSquad as _readSquad, stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
+export { supercarsSeason as _supercarsSeason, readSquad as _readSquad, stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
