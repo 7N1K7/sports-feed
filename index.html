@@ -1717,6 +1717,10 @@ const SERVICES = {
   'TVNZ+': 'https://www.tvnz.co.nz', 'TVNZ 1': 'https://www.tvnz.co.nz', 'ThreeNow': 'https://www.threenow.co.nz', 'Three': 'https://www.threenow.co.nz',
   'scoring.nzc.nz': 'https://scoring.nzc.nz', 'NZC YouTube': 'https://www.youtube.com/@blackcaps', 'NZC live stream': 'https://www.nzc.nz', 'nzc.nz': 'https://www.nzc.nz',
   RNZ: 'https://www.rnz.co.nz/live', DAZN: 'https://www.dazn.com', Netflix: 'https://www.netflix.com', 'ICC.tv': 'https://www.icc.tv',
+  'TVNZ Duke': 'https://www.tvnz.co.nz', 'Sky Open': 'https://www.sky.co.nz/skyopen', 'UFC Fight Pass': 'https://ufcfightpass.com',
+  // in Australia
+  Kayo: 'https://kayosports.com.au', 'Paramount+': 'https://www.paramountplus.com/au/', 'Network 10': 'https://10.com.au', '9Now': 'https://www.9now.com.au',
+  'Fox Cricket': 'https://www.foxsports.com.au/cricket', 'Channel 7': 'https://7plus.com.au', '7plus': 'https://7plus.com.au', 'Disney+': 'https://www.disneyplus.com', 'cricket.com.au': 'https://www.cricket.com.au',
 };
 const SVC_RE = new RegExp(`(${Object.keys(SERVICES).sort((a, b) => b.length - a.length).map(k => k.replace(/[.+]/g, '\\$&')).join('|')})(?![\\w+])`, 'g');
 const linkWatch = t => esc(t).replace(SVC_RE, m => `<a class="svc" href="${SERVICES[m]}" target="_blank" rel="noopener">${m}</a>`);
@@ -1731,6 +1735,8 @@ const WATCH_INFO = {
   RNZ: ['Radio', 'Live commentary on RNZ National and the RNZ app'], 'Sport Nation': ['Radio', 'Live commentary on Sport Nation'],
   'DAZN PPV': ['Pay-per-view', 'Bought on DAZN for this event'], DAZN: ['Streaming', 'A DAZN subscription'], Netflix: ['Streaming', 'A Netflix subscription'],
   'ICC.tv': ['Streaming', "The ICC's own streaming service, where it's shown in NZ"], ESPN: ['TV', 'Sky TV, on the ESPN channels'], 'Kayo': ['Streaming', 'A Kayo subscription (Australia)'],
+  'TVNZ Duke': ['Free-to-air TV', 'On TVNZ Duke (Freeview 6, Sky 23), no subscription'], 'Sky Open': ['Free-to-air TV', "Sky's free channel: Freeview 8, ThreeNow and Sky Go"],
+  'UFC Fight Pass': ['Streaming', "The UFC's own streaming service (a pay-per-view for numbered events)"],
 };
 const WATCH_KEYS = Object.keys(WATCH_INFO).sort((a, b) => b.length - a.length);
 // "Sky Sport / Sky Sport Now", "Radio: RNZ / Sport Nation", "Free on Three / ThreeNow": one entry each, the kind and
@@ -2273,6 +2279,7 @@ function detail(e) {
       Math.abs(d - now) < 864e5 && redditSub(e) && `<a href="https://www.reddit.com/r/${redditSub(e)}/search/?q=${encodeURIComponent(e.sport === 'cricket' ? 'Match Thread' : e.sport === 'motor' ? 'Race Discussion' : /^(mma|boxing)$/.test(e.sport) ? 'Live Discussion' : 'Match Thread')}&restrict_sr=1&sort=new" target="_blank" rel="noopener">Match thread on r/${redditSub(e)} ↗</a>`,
     ].filter(Boolean).join('')}</div>
     <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
+    ${e.watchAU ? `<h3 class="dh">In Australia</h3><ul class="watchlist au">${e.watchAU.split(/\s*\/\s*/).map(p => `<li>${linkWatch(p)}</li>`).join('')}</ul>` : ''}
     ${e.card?.length ? `<h3 class="dh">Fight card</h3>${fightCard(e, hidden)}` : ''}
     ${e.squads?.length ? `<h3 class="dh">${e.seasonSquads ? 'Season squads' : 'Squads'}${e.seasonSquads ? ' <span class="muted small dhnote">each XI is picked from these</span>' : e.squads.some(q => q.players.some(p => p.ci || p.wp)) ? ' <span class="muted small dhnote">tap a name for their profile</span>' : ''}</h3>${squadsHtml(e)}${cricinfo(e) ? `<p class="small"><a class="srclink" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Playing XIs on Cricinfo once announced ↗</a></p>` : ''}` : ''}
     <h3 class="dh">${solo(e) ? 'News' : 'Team news'}</h3>

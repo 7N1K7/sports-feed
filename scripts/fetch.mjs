@@ -374,8 +374,11 @@ async function readCurated() {
 }
 
 function applyBroadcast(e, rules) {
+  const fits = r => (!r.team || r.team === e.team) && (!r.comp || new RegExp(r.comp, 'i').test(e.comp));
+  // how to watch in Australia (many of the games are Australian): added whatever NZ coverage the game already has
+  if (!e.watchAU) { const a = rules.find(r => r.au && fits(r)); if (a) e.watchAU = a.au; }
   if (e.broadcast && e.broadcast !== 'TBC') return;
-  const r = rules.find(r => (!r.team || r.team === e.team) && (!r.comp || new RegExp(r.comp, 'i').test(e.comp)));
+  const r = rules.find(r => 'broadcast' in r && fits(r));
   if (r) { e.broadcast = r.broadcast; if (r.watchAlt && !e.watchAlt) e.watchAlt = r.watchAlt; if (r.watchNote && !e.watchNote) e.watchNote = r.watchNote; }
 }
 
