@@ -157,13 +157,13 @@ html { -webkit-tap-highlight-color: transparent }
 #teamGroups .group { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: start; column-gap: 10px; padding: 6px 0; border-top: 1px solid var(--line) }
 #teamGroups .group:first-child { border-top: 0; padding-top: 0 }
 #teamGroups .group h3 { margin: 0; padding-top: 6px; font-size: 11px; line-height: 1.25 }
-#teamGroups .ghide { display: flex; width: max-content; align-items: center; gap: 6px; margin-top: 6px; font: inherit; font-size: 13px; font-weight: 400; line-height: 1.45; text-transform: none; letter-spacing: 0; color: var(--paper); background: var(--ink); border: 1px solid var(--ink); border-radius: 999px; padding: 3px 10px 3px 8px; min-width: 98px; justify-content: center; cursor: pointer } /* one width for Hide and Show */
+#teamGroups .ghide { display: flex; width: 80px; align-items: center; justify-content: center; gap: 4px; margin-top: 5px; font: inherit; font-size: 11px; font-weight: 600; line-height: 1.4; text-transform: none; letter-spacing: 0; color: var(--ink); background: color-mix(in srgb, #37b24d 14%, transparent); border: 1px solid color-mix(in srgb, #37b24d 65%, transparent); border-radius: 999px; padding: 1px 6px; cursor: pointer }
 #teamGroups .ghide:hover { border-color: var(--accent) }
-/* sized and coloured like a team chip: light with a green light while the sport is on, dark once it's hidden (and the
-   sport's name fades), so it changes colour, never size */
-#teamGroups .ghide::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #2f9e44 }
-#teamGroups .ghide.off { background: transparent; color: var(--ink); border-color: var(--line) }
-#teamGroups .ghide.off::before { background: var(--muted) }
+/* small, one width either way, and colour-coded: green with a green light while the sport is on, red with a red light
+   once it's hidden (and the sport's name fades) */
+#teamGroups .ghide::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #37b24d; flex: none }
+#teamGroups .ghide.off { background: color-mix(in srgb, #fa5252 14%, transparent); border-color: color-mix(in srgb, #fa5252 65%, transparent) }
+#teamGroups .ghide.off::before { background: #fa5252 }
 #teamGroups .group h3 .gt { color: var(--gc, var(--muted)); display: inline-flex; align-items: center; gap: 6px }
 #teamGroups .group h3 .gico { width: 15px; height: 15px; flex: none }
 #teamGroups .group.off h3 .gt { opacity: .5 }
