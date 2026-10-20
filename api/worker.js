@@ -46,6 +46,9 @@ async function hit(req, env, body) {
   const n = await env.DB.prepare('INSERT INTO seen (day, h, n) VALUES (?1, ?2, 1) ON CONFLICT (day, h) DO UPDATE SET n = n + 1 RETURNING n').bind(day, h).first('n');
   if (n > MAX_PER_VISITOR) return;
   const writes = [];
+  // a visit: the page loaded, or someone came back to it after 10+ minutes away ('open'); counted per visitor too
+  const visit = !b.e || b.e === 'open';
+  if (visit) writes.push(bump(env, day, 'opens'), env.DB.prepare('INSERT INTO opens (day, h, n) VALUES (?1, ?2, 1) ON CONFLICT (day, h) DO UPDATE SET n = n + 1').bind(day, h));
   if (b.e) {
     if (EVENTS.has(b.e)) writes.push(bump(env, day, 'event', b.e));
     const k = KEYED[b.e] && keyOf(b.e, b.k);
@@ -55,19 +58,31 @@ async function hit(req, env, body) {
     if (b.app) writes.push(bump(env, day, 'appviews'));
     const ref = String(b.r || '').toLowerCase().replace(/^www\./, '');
     if (ref && !/(^|\.)kickoff\.kiwi$/.test(ref) && /^[a-z0-9.-]+$/.test(ref)) writes.push(bump(env, day, 'ref', ref));
-    if (n === 1) { // first view today from this visitor
-      const device = /iPad|Tablet/i.test(ua) ? 'tablet' : /Mobi|Android|iPhone/i.test(ua) ? 'phone' : 'computer';
-      writes.push(bump(env, day, 'visitors'), bump(env, day, 'country', req.cf?.country || '?'), bump(env, day, 'device', device), bump(env, day, 'mode', b.app ? 'app' : 'browser'),
-        bump(env, day, 'os', osOf(ua)), bump(env, day, 'browser', browserOf(ua)));
-    }
+  }
+  // the visitor's first message today, whatever it is (an app left open since yesterday may start with a tap)
+  if (n === 1) {
+    const device = /iPad|Tablet/i.test(ua) ? 'tablet' : /Mobi|Android|iPhone/i.test(ua) ? 'phone' : 'computer';
+    writes.push(bump(env, day, 'visitors'), bump(env, day, 'country', req.cf?.country || '?'), bump(env, day, 'device', device), bump(env, day, 'mode', b.app ? 'app' : 'browser'),
+      bump(env, day, 'os', osOf(ua)), bump(env, day, 'browser', browserOf(ua)));
   }
   if (writes.length) await env.DB.batch(writes);
 }
 
+const REPEAT = n => n <= 1 ? '1' : n <= 3 ? '2-3' : n <= 9 ? '4-9' : '10+';
+async function repeats(env, day) {
+  const { results } = await env.DB.prepare('SELECT n FROM opens WHERE day = ?1').bind(day).all();
+  const out = {};
+  for (const r of results) out[REPEAT(r.n)] = (out[REPEAT(r.n)] || 0) + 1;
+  return out;
+}
 async function stats(env, url) {
   const days = Math.min(400, Math.max(1, +url.searchParams.get('days') || 60));
   const from = nzDay(Date.now() - (days - 1) * 864e5);
   const { results } = await env.DB.prepare('SELECT day, metric, key, n FROM daily WHERE day >= ?1 ORDER BY day').bind(from).all();
+  // days whose visits per visitor are still held (today, yesterday) and not summed yet: work them out now
+  const summed = new Set(results.filter(r => r.metric === 'repeat').map(r => r.day));
+  const { results: held } = await env.DB.prepare('SELECT DISTINCT day FROM opens WHERE day >= ?1').bind(from).all();
+  for (const { day } of held) if (!summed.has(day)) for (const [key, n] of Object.entries(await repeats(env, day))) results.push({ day, metric: 'repeat', key, n });
   return { from, today: nzDay(), rows: results };
 }
 
@@ -91,7 +106,15 @@ export default {
   },
   // daily: the visitor codes and salts older than two days go, so old codes can never be matched to anyone
   async scheduled(event, env) {
-    const keep = nzDay(Date.now() - 2 * 864e5);
-    await env.DB.batch([env.DB.prepare('DELETE FROM seen WHERE day < ?1').bind(keep), env.DB.prepare('DELETE FROM salt WHERE day < ?1').bind(keep)]);
+    // sum up the visits per visitor of each finished day still held, then let the codes go
+    const keep = nzDay(Date.now() - 2 * 864e5), today = nzDay();
+    const { results: held } = await env.DB.prepare('SELECT DISTINCT day FROM opens WHERE day < ?1').bind(today).all();
+    for (const { day } of held) {
+      const done = await env.DB.prepare("SELECT 1 FROM daily WHERE day = ?1 AND metric = 'repeat' LIMIT 1").bind(day).first();
+      if (done) continue;
+      const rows = Object.entries(await repeats(env, day));
+      if (rows.length) await env.DB.batch(rows.map(([key, n]) => env.DB.prepare("INSERT INTO daily (day, metric, key, n) VALUES (?1, 'repeat', ?2, ?3) ON CONFLICT (day, metric, key) DO UPDATE SET n = ?3").bind(day, key, n)));
+    }
+    await env.DB.batch(['seen', 'salt', 'opens'].map(t => env.DB.prepare(`DELETE FROM ${t} WHERE day < ?1`).bind(keep)));
   },
 };

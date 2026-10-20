@@ -1051,7 +1051,7 @@ const tzLabel = () => (TZ_LIST.find(([z]) => z === NZ) || [, tzPick === 'device'
 const STATS_API = 'https://kickoff-api.kickoffkiwi.workers.dev';
 const count = (msg = {}) => {
   if (!STATS_API || !/^(www\.)?kickoff\.kiwi$/.test(location.hostname)) return;
-  try { if (localStorage.getItem('sf.nocount') === 'true') return; navigator.sendBeacon(STATS_API + '/hit', JSON.stringify(msg)); } catch {}
+  try { if (localStorage.getItem('sf.nocount') === 'true') return; navigator.sendBeacon(STATS_API + '/hit', JSON.stringify({ app: matchMedia('(display-mode: standalone)').matches || navigator.standalone === true ? 1 : 0, ...msg })); } catch {}
 };
 // errors in this page's own code (not browser add-ons), so a breakage on someone's phone shows up: three a visit at most
 { const seen = new Set();
@@ -2124,7 +2124,9 @@ document.addEventListener('click', ev => { if (!ev.target.closest('.search')) cl
 
 // short tournaments and series under way right now (first game played, more to come), NZ ones first.
 // Season-long leagues and catch-all groups stay in the competition menu.
-const GENERIC = /^(Test match|Women's test|Boxing|UFC|NZ domestic cricket|Black Caps|White Ferns|NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|A-League Men|Premier League|Big Bash|Women's Big Bash|Formula 1)$/;
+// long seasons and catch-alls stay out of the running-series row, which is for international series and short tournaments
+// (World Cups, the Big Bash)
+const GENERIC = /^(Test match|Women's test|Boxing|UFC|NZ domestic cricket|Black Caps|White Ferns|NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|A-League Men|Premier League|Formula 1|Sheffield Shield|Dean Jones Trophy|NBL|ANZ Premiership)$/;
 // short names for the Current bar: "SA v AUS", "RLWC"
 const SHORT = [[/Women's Rugby League World Cup/, "Women's RLWC"], [/Wheelchair Rugby League World Cup/, 'Wheelchair RLWC'], [/Rugby League World Cup/, 'RLWC'], [/Nations Championship/, 'Nations Champ.'], [/Rugby Championship/, 'Rugby Champ.'], [/WXV Global Series/, 'WXV'],
   [/\bSouth Africa\b/, 'SA'], [/\bAustralia\b/, 'AUS'], [/\bNew Zealand\b/, 'NZ'], [/\bIndia\b/, 'IND'], [/\bEngland\b/, 'ENG'], [/\bSri Lanka\b/, 'SL'], [/\bPakistan\b/, 'PAK'], [/\bBangladesh\b/, 'BAN'], [/\bWest Indies\b/, 'WI'], [/\bAfghanistan\b/, 'AFG'], [/\bZimbabwe\b/, 'ZIM'], [/\bIreland\b/, 'IRE']];
@@ -2284,7 +2286,7 @@ function render() {
   // already under way: a game in the last six days, or a season-long competition with one in the last three weeks
   // (between rounds, not about to start). A series starting in the next few days still counts as ahead.
   const ongoing = new Set(evs.filter(e => { const t = new Date(e.startUTC) - now; return t < 0 && (t > -6 * 864e5 || (t > -21 * 864e5 && GENERIC.test(compOf(e)))); }).map(compOf));
-  const big = [...firsts].filter(([c, v]) => !ongoing.has(c) && !/^(Test match|Women's test|Boxing|UFC|Black Caps|White Ferns|NZ domestic cricket)$/.test(c) && (v.count >= 4 || BIG_EVENT.test(c)) && new Date(v.first.startUTC) - now < 150 * 864e5)
+  const big = [...firsts].filter(([c, v]) => !ongoing.has(c) && !/^(Test match|Women's test|Boxing|UFC|Black Caps|White Ferns|NZ domestic cricket|Sheffield Shield|Dean Jones Trophy)$/.test(c) && (v.count >= 4 || BIG_EVENT.test(c)) && new Date(v.first.startUTC) - now < 150 * 864e5)
     .sort((a, b) => a[1].first.startUTC.localeCompare(b[1].first.startUTC)).slice(0, 8);
   $('bigEvents').innerHTML = big.map(([c, v]) => {
     const d = new Date(v.first.startUTC), days = Math.round((d - now) / 864e5);
@@ -2710,6 +2712,8 @@ let hiddenAt = 0;
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) { hiddenAt = Date.now(); return; }
   if (hiddenAt && Date.now() - hiddenAt > 60000) { tick(); render(); load(true); }
+  // back after 10+ minutes away: another visit (someone checking a start time or a result again)
+  if (hiddenAt && Date.now() - hiddenAt > 600000) count({ e: 'open' });
 });
 })();
 </script>
