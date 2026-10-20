@@ -460,7 +460,7 @@ dialog#sheet::backdrop { background: rgba(10, 18, 15, .5) }
 .sheet-in { display: block; padding-top: 22px }
 .sheet-in > div > * + *, .sheet-in > div + div { margin-top: 18px }
 #sheetBody { display: flow-root }
-dialog#sheet { width: min(max(720px, 76vw), 1040px, 100%) } /* wider in a big window, up to 1040px */
+dialog#sheet { width: min(720px, 100%) }
 .close { position: absolute; top: 12px; right: max(12px, env(safe-area-inset-right, 0px)); width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 20px; line-height: 1; cursor: pointer; display: grid; place-items: center; z-index: 2 }
 .close:hover { color: var(--ink); border-color: var(--ink) }
 .sheet-in { position: relative }
@@ -742,6 +742,13 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
 @media (max-width: 560px) { .stable.rank .rbar { width: 36px } .stable.rank .rv { gap: 6px } .stable.rank .tn { white-space: normal; overflow-wrap: break-word } }
 /* the rankings pop-up keeps one height whichever sport or list is picked; a long list scrolls inside it */
 dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback) { height: min(88vh, 780px) }
+/* in a desktop window: up to nearly the window's height, so a tall window shows a whole list with no scroll bar. The
+   rankings (and a team page opened from them) are as tall as their list and hang from a fixed top, so switching lists
+   only moves the bottom edge, never the tabs */
+@media (min-width: 700px) {
+  dialog#sheet { max-height: 94vh }
+  dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback) { height: auto; margin: 0 auto; top: 3vh; bottom: auto } /* unpinned from the bottom, or it stretches to fill */
+}
 .rankbody { padding-top: 6px }
 .stable.rank .rnote { font-weight: 400; white-space: normal }
 .stable.rank .medal { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; font-size: 12px; font-weight: 800; color: #3b2a00; box-shadow: inset 0 -2px 0 rgba(0,0,0,.18) }
