@@ -1,4 +1,4 @@
-// probe 62: the share image, centred, with "by N1K"
+// probe 63: the share image, centred, "by N1K", no live scores
 import { chromium } from 'playwright';
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
