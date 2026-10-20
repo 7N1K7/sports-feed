@@ -1,3 +1,370 @@
-og:image https://(stats server)/og.png
-status 200 image/png no-store
-distinct images over 12 asks (by size): 7 {"87231":1,"90550":2,"90653":2,"90666":3,"90695":1,"90709":1,"90867":2}
+
+######## New Zealand national rugby union team
+===Current squad===
+<!-- don't add training squads, only official squads. Use NZ English (half-back rather than scrum-half etc), see talk page for any queries-->
+On 29 September, New Zealand named a 36-player squad ahead of the [[Bledisloe Cup|2026 Bledisloe Cup]].<ref>{{cite web|title=All Blacks squad confirmed for Bledisloe Cup|url=https://www.allblacks.com/news/all-blacks/all-blacks-squad-confirmed-for-bledisloe-cup|website=allblacks.com|date=September 29, 2026}}</ref>
+
+Unavailable due to injury: [[Tamaiti Williams]], [[Ruben Love]], [[Patrick Tuipulotu]], [[Ardie Savea]], [[Luke Jacobson]], [[Anton Lienert-Brown]], [[Billy Proctor]], [[Caleb Clarke (rugby union)|Caleb Clarke]], [[Ollie Norris]].
+
+[[Richie Mo'unga]] was originally part of the squad but was ruled out before the first test with a calf injury. He was replaced by [[Emoni Narawa]].<ref name="Mo'unga/Fehi">{{cite news |last1=Rollo |first1=Phillip |title=All Blacks injury blow: Richie Mo’unga and Fehi Fineanganofo out |url=https://www.stuff.co.nz/sport/361043660/richie-mounga-and-fehi-fineanganofo-ruled-out-bledisloe-cup-tests |access-date=8 October 2026 |agency=Stuff |date=8 October 2026}}</ref><ref name="Narawa">{{cite web |title=Welcome back Emoni Narawa ☝🏼 |url=https://www.facebook.com/share/p/1BxAdK8zHB/ |website=Facebook |publisher=All Blacks |access-date=8 October 2026}}</ref> [[Fehi Fineanganofo]] was also originally part of the squad but was ruled out before the first test after he suffered a concussion playing in the [[2026 Hilux NPC|National Provincial Championship]]. He was replaced by [[Chay Fihaki]].<ref name="Mo'unga/Fehi"/>
+
+{{nat rs start|hidenote=yes|franchise=yes}}
+{{nat rs player|pos=HK|name={{sortname|Asafo|Aumua}}|age={{Birth date and age2|2026|10|10|1997|5|5|df=y}}|caps=27|club={{Rut|Hurricanes}} / {{Rut|Wellington}}|clubnat=NZL}}
+{{nat rs player|pos=HK|name={{sortname|Codie|Taylor}}|age={{Birth date and age2|2026|10|10|1991|3|31|df=y}}|caps=113|club={{Rut|Crusaders}} / {{Rut|Canterbury}}|clubnat=NZL}}
+{{nat rs player|pos=HK|name={{sortname|Samisoni|Taukei'aho}}|age={{Birth date and age2|2026|10|10|1997|8|8|df=y}}|caps=45|club={{Rut|Chiefs}} / {{Rut|Waikato}}|clubnat=NZL}}
+{{nat rs player|pos=PR|name={{sortname|George|Bower|dab=rugby union}}|age={{Birth date and age2|2026|10|10|1992|5|28|df=y}}|caps=30|club={{Rut|Crusaders}} / {{Rut|Otago}}|clubnat=NZL}}
+{{nat rs player|pos=PR|name={{sortname|Ethan|de Groot}}|age={{Birth date and age2|2026|10|10|1998|7|22|df=y}}|caps=46|club={{Rut|Highlanders}} / {{Rut|Southland}}|clubnat=NZL}}
+{{nat rs player|pos=PR|name={{sortname|T
+
+######## Blues (Super Rugby)
+==Current squad==
+
+{{for|player movements before and during the [[2026 Super Rugby Pacific season|2026 season]]|List of 2025–26 Super Rugby transfers#Blues}}
+
+The squad for the [[2026 Super Rugby Pacific season]] is:{{efn|group="Squad"|name=Suafoa|[[Cameron Suafoa]] was announced as a non-playing member in the original Blues squad, but announced his retirement in April 2026.<ref name="Cam Suafoa retires from rugby">{{cite press release | url=https://www.blues.rugby/blues-rugby-news/cam-suafoa-retires-from-rugby | title=Cam Suafoa retires from rugby | work=Blues | date=2 April 2026 | access-date=2 April 2026}}</ref>}}
+
+{{Rugby union squad start
+ | title = 2026 Blues squad
+ | width = 70%
+}}
+'''Props'''
+{{RU squad player|NZL|Ben Ake}}
+{{RU squad player|NZL|Josh Fusitu'a}}
+{{RU squad player|SAM|Jordan Lay|cap=y}}
+{{RU squad player|NZL|Marcel Renata}}
+{{RU squad player|NZL|Ofa Tuʻungafasi|cap=y}}
+{{RU squad player|NZL|Flyn Yates}}
+{{RU squad player|NZL|Sam Matenga|wtg=y|ex=Promoted from wider training group ahead of Round 3.<ref name="Blues set for test against Brumbies">{{cite press release | url=https://www.blues.rugby/blues-rugby-news/blues-go-against-red-hot-brumbies | title=Blues set for test against Brumbies | work=Blues | date=25 February 2026 | access-date=25 February 2026}}</ref>}}
+{{RU squad player|NZL|Mason Tupaea|wtg=y|ex=Promoted from wider training group ahead of Round 1.<ref name="Blues named for season opener against Chiefs">{{cite press release | url=https://www.blues.rugby/blues-rugby-news/blues-named-2026-season-opener | title=Blues named for season opener against Chiefs | work=Blues | date=11 February 2026 | access-date=11 February 2026}}</ref>}}
+
+'''Hookers'''
+{{RU squad player|NZL|Kurt Eklund}}
+{{RU squad player|NZL|James Mullan}}
+{{RU squad player|NZL|Bradley Slater}}
+{{RU squad player|NZL|Eli Oudenryn|wtg=y|ex=Promoted from wider training group ahead of Round 16.<ref name="Blues ready for key match-up with Chiefs">{{cite press release | url=https://www.blues.rugby/blues-rugby-news/blues-ready-key-round16-matchup-chiefs | title=Blues ready for key match-up with Chiefs | work=Blues | date=27 May 2026 | access-date=27 May 2026}}</ref>}}
+
+'''Locks'''
+{{RU squad player|NZL|Josh Beehre}}
+{{RU squad player|NZL|Tristyn Cook}}
+{{RU squad player|NZL|Sam Darry|cap=y}}
+{{RU squad player|NZL|Laghlan McWhannell}}
+{{RU squad player|NZL|Patrick Tuipulotu|cap=y|captain=y}}
+
+||
+
+'''Loose forwards'''
+{{RU squad player|NZL|Cam Christie|ru=y|inj=y|ex=Ruled out for the season through injury in February 2026.<ref name="Blues named for season opener against C
+
+######## New Zealand Breakers
+== Current roster ==
+<section begin=roster />{{Basketball roster nationality note}}
+{{Basketball roster header|type=NBL|age=n
+| team=New Zealand Breakers}}
+<!-- list of players -->
+{{player3 | pos = F | num = 0 | nat = NZL | first = Carlin | last = Davison | m = 1.97 | kgs = 96 }}
+{{player3 | pos = G | num = 1 | nat = AUS | first = Preston | last = Le Gassick | m = 1.85 | kgs = 79 }}
+{{player3 | pos = G | num = 2 | nat = NZL | first = Izayah | last = Le'afa | m = 1.88 | kgs = 90 }}
+{{player3 | pos = F/C | num = 3 | nat = NZL | first = Sam | last = Mennenga | m = 2.06 | kgs = 109 }}
+{{player3 | pos = G | num = 4 | nat = NZL | first = Tukaha | last = Cooper | m = 1.87 | kgs = | note = DP }}
+{{player3 | pos = G | num = 5 | nat = NZL | first = Kazlo | last = Evans | m = 1.80 | kgs = | note = DP }}
+{{player3 | pos = G | num = 6 | nat = USA | first = Parker | last = Jackson-Cartwright | m = 1.80 | kgs = 74 | note = I & C | inj = yes }}
+{{player3 | pos = G/F | num = 7 | nat = NZL | first = Reuben | last = Te Rangi | m = 1.98 | kgs = 105 }}
+{{player3 | pos = C | num = 8 | nat = CAN | first = Charles | last = Bediako | m = 2.11 | kgs = 102 | note = I }}
+{{player3 | pos = G | num = 9 | nat = NZL | first = Mojave | last = King | m = 1.96 | kgs = 88 | note = NRP }}
+{{player3 | pos = G | num = 11 | nat = GER | first = Nelson | last = Weidemann | m = 1.91 | kgs = 75 | note = I }}
+{{player3 | pos = F | num = 12 | nat = SSD | first = Kouat | last = Noi | m = 2.01 | kgs = 103 }}
+{{player3 | pos = F/C | num = 13 | nat = NZL | first = Anzac | last = Rissetto | m = 2.08 | kgs = 116 }}
+{{player3 | pos = F | num = 21 | nat = NZL | first = Kael | last = Robinson | m = 2.01 | kgs = 100 | note = DP }}
+{{player3 | pos = F | num = 30 | nat = USA | first = Josiah-Jordan | last = James | m = 1.98 | kgs = 97 | note = I | inj = yes }}
+{{player3 | pos = G | num = 34 | nat = AUS | first = Dejan | last = Vasiljevic | m = 1.90 | kgs = 94 }}
+{{player3 | pos = G | num = | nat = NZL | first = Tobias | last = Cameron | m = 1.96 | kgs = | note = TP }}
+<!-- end list of players -->
+{{Basketball roster footer
+| head_coach = 
+* {{player||CAN|[[Gordon Herbert]]}}
+| asst_coach = 
+* {{player||NZL|Quinn Clinton}}
+* {{player||GER|Sebastian Gleim}}
+* {{player||NZL|Matt Lacey}}
+* {{player||NZL|Josiah Maama}}
+<!--
+| str_cond =
+* {{player||USA|Shane Connolly}}-->
+| DP = y
+| NS = y
+| I = y
+| SRP = y
+| roster_url = https://www.nzbreakers.basketball/player-roster
+| accessdate = 18 October 2026
+}}<section end=roster />
+
+=== All-time roster ===
+{{Main|New Zealand Breakers all-time roster}}
+
+=== Notable past pla
+
+######## Auckland cricket team
+==Current squad==
+{{Updated|February 2026}}
+*[[Finn Allen]]
+*[[Adithya Ashok]]
+*[[Mark Chapman (cricketer)|Mark Chapman]]
+*[[Sid Dixit]]
+*[[Cam Fletcher]]
+*[[Lockie Ferguson]]
+*Matt Gibson
+*[[Rohit Gulati]]
+*[[Martin Guptill]]
+*[[Ryan Harrison (cricketer)|Ryan Harrison]]
+*[[Bevon Jacobs]]
+*[[Harrish Kannan]]
+*[[Simon Keene]]
+*[[Ben Lister]]
+*[[Jock McKenzie (sportsperson, born 2001)|Jock McKenzie]]
+*[[James Neesham]]
+*Will O'Donnell
+*[[Angus Olliver]]
+*[[Dale Phillips]]
+*[[Sean Solia]]
+*[[Lachie Stackpole]]
+*Samrath Singh
+*[[Jordan Sussex|Jodan Sussex]]
+[https://www.aucklandcricket.co.nz/our-teams/aces-player-profiles/aces-player-profiles Source: Auckland cricket]
+
+==Notable players==
+{{see also|List of Auckland representative cricketers}}
+{{col-begin}}
+{{col-4}}
+'''New Zealand'''
+*[[Andre Adams]]
+*[[Michael Bates (cricketer, born 1983)|Michael Bates]]
+*[[John Bracewell]]
+*[[Mark Burgess (cricketer)|Mark Burgess]]
+*[[Jeff Crowe]]
+*[[Bob Cunis]]
+*[[Ces Dacre]]
+*[[Colin de Grandhomme]]
+*[[Lachlan Ferguson]]
+*[[Martin Guptill]]
+*[[Gareth Hopkins (cricketer)|Gareth Hopkins]]
+*[[Matt Horne]]
+*[[Hedley Howarth]]
+*[[Terry Jarvis]]
+*[[Richard Jones (New Zealand cricketer)|Richard Jones]]
+*[[Mitchell McClenaghan]]
+*[[Tim McIntosh (cricketer)|Tim McIntosh]]
+*[[Bruce Martin (cricketer)|Bruce Martin]]
+*[[Chris Martin (cricketer)|Chris Martin]]
+
+{{col-4}}
+*[[Kyle Mills]]
+*[[Danny Morrison (cricketer)|Danny Morrison]]
+*[[Colin Munro]]
+*[[Dion Nash]]
+*[[Adam Parore]]
+*[[Dipak Patel (cricketer, born 1958)|Dipak Patel]]
+*[[Chris Pringle]]
+*[[Jeet Raval]]
+*[[John Fulton Reid|John Reid]]
+*[[Mark Richardson (cricketer)|Mark Richardson]]
+*[[Ian Smith (New Zealand cricketer)|Ian Smith]]
+*[[Martin Snedden]]
+*[[John Sparling]]
+*[[Craig Spearman]]
+*[[Scott Styris]]
+*[[Daryl Tuffey]]
+*[[Justin Vaughan]]
+*[[Lou Vincent]]
+*[[Merv Wallace]]
+*[[Willie Watson (New Zealand cricketer)|Willie Watson]]
+*[[Paul Wiseman]]
+
+{{col-4}}
+'''England'''
+
+*[[James Anderson (cricketer)|James Anderson]]
+*[[Ravi Bopara]]
+*[[Steven Croft (cricketer)|Steven Croft]]
+*[[Sam Curran]]
+*[[Graeme Hick]]
+*[[Jim Laker]]
+*[[Mal Loye]]
+*[[Tymal Mills]]
+* [[David Willey (cricketer)|David Willey]]
+* [[Luke Wright]]
+
+'''Sri Lanka'''
+*[[Aravinda de Silva]]
+
+'''Canada'''
+*[[Ian Billcliff]]
+'''West Indies'''
+*[[Kieron Pollard]]
+
+'''Australia'''
+*[[Aaron Finch]]
+*[[Brad Hodge]]
+
+'''Hong Kong'''
+*[[Mark Chapman (cricketer)|Mark Chapman]]
+
+{{col-end}}
+
+==Records==
+See [[List of New Zealand first-class cricket records]]
+
+==References==
+{{reflist}}
+
+==External links==
+* {{Official website}}
+
+{{Cricket in New Zealand}}
+{{New
+
+######## Canterbury cricket team
+==Current squad==
+{{updated|29 December 2023}}<ref>[https://www.canterburycricket.org.nz/news/canterbury-cricket-announce-first-round-of-contracted-players-2/ Mitchell moving south], Canterbury Cricket, 15 June 2020. Retrieved 21 July 2020.</ref><ref>[https://www.canterburycricket.org.nz/news/davey-and-lortan-earn-first-professional-contracts/ Davey and Lortan earn first professional contracts], Canterbury Cricket, 30 June 2020. Retrieved 21 July 2020.</ref><ref>
+[https://www.stuff.co.nz/sport/cricket/300920868/michael-rippon-michael-rae-join-canterbury-as-cam-fletcher-heads-to-auckland], Stuff, 4 July 2023. Retrieved 29 December 2023.</ref>
+
+* No. denotes the player's squad number, as worn on the back of their shirt.
+* {{double-dagger}} denotes players with international caps.
+
+{| class="wikitable"  style="font-size:95%;"
+|-
+! No.
+! Name
+! Nationality
+! Birth date
+! Batting style
+! Bowling style
+! Notes
+|-
+! colspan="7" | Batsmen
+|-
+|style="text-align:center" | 77 ||[[Leo Carter]]||{{cr|NZL}}||{{birth date and age|1994|12|10|df=y}}|| Left-handed ||  ||
+|-
+|style="text-align:center" | 3 ||[[Chad Bowes]] {{Double-dagger}}||{{cr|New Zealand}}||{{birth date and age|1992|10|19|df=y}}||Right-handed|| ||
+|-
+|style="text-align:center" | 8 ||[[Ken McClure]]||{{cr|NZL}}||{{birth date and age|1994|10|25|df=y}}|| Right-handed ||  ||
+|-
+|style="text-align:center" | 36 ||[[Matt Boyle]]||{{cr|NZL}}||{{birth date and age|2003|01|12|df=y}}||Left-handed||Right-arm [[leg break]]||
+|-
+|style="text-align:center" | 27 ||[[Henry Nicholls (cricketer)|Henry Nicholls]]&nbsp;{{double-dagger}}||{{cr|NZL}}||{{birth date and age|1991|11|15|df=y}}|| Left-handed || Right-arm [[off break]]||[[New Zealand Cricket|NZC]] contract
+|-
+! colspan="7" | All-rounders
+|-
+|2
+|[[Zak Foulkes]]
+|{{cr|NZL}}
+|{{birth date and age|2002|6|5|df=y}}
+|Right-handed
+|Right-arm medium
+|
+|-
+|style="text-align:center" | 88||[[Cole McConchie]]&nbsp;{{double-dagger}}||{{cr|NZL}}||{{birth date and age|1992|1|12|df=y}}|| Right-handed || Right arm [[off break]]|| '''Captain'''
+|-
+|style="text-align:center" |46||[[Henry Shipley]] {{Double-dagger}}||{{cr|NZL}}||{{birth date and age|1996|05|10|df=y}}
+|Right-handed||Right-arm medium-fast||
+|-
+|style="text-align:center" |47||[[Daryl Mitchell (New Zealand cricketer)|Daryl Mitchell]]&nbsp;{{double-dagger}}||{{cr|NZL}}||{{birth date and age|1991|05|20|df=y}}||Right-handed||Right-arm medium-fast|| [[New Zealand Cricket|NZC]] contract
+|-
+|
+|[[Michael Rippon]] {{Double-dagger}}
+|{{Cr|New Zealand}}
+|{{Birth date and age|1991|09|14|df=yes}}
+|Right-handed
+|Left-arm [[leg break]]
+
+
+######## Wellington Phoenix FC
+===First-team squad===
+{{Updated|7 October 2026}}
+{{for|recent transfers|2026–27 Wellington Phoenix FC season}}
+
+{{fs start}}
+{{fs player|no=5 |nat=AUS|pos=DF|name=[[Walter Scott (soccer)|Walter Scott]]}}
+{{fs player|no=6 |nat=NZL|pos=MF|name=[[Fin Roa Conchie]]}}
+{{fs player|no=7 |nat=USA|pos=MF|name=[[Bryce Duke]]}}
+{{fs player|no=8 |nat=SCO|pos=MF|name=[[Max Anderson (footballer)|Max Anderson]]}}
+{{fs player|no=9 |nat=MEX|pos=FW|name=[[Rafael Durán (footballer)|Rafael Durán]]}}
+{{fs player|no=11|nat=NZL|pos=FW|name=[[Riley Bidois]]|other=on loan from [[Monterey Bay FC|Monterey Bay]]}}
+{{fs player|no=13|nat=NZL|pos=GK|name=[[Henry Gray (footballer)|Henry Gray]]|other=on loan from [[Ipswich Town FC|Ipswich Town]]}}
+{{fs player|no=14|nat=NZL|pos=MF|name=[[Alex Rufer]]|other=[[Captain (association football)|captain]]}}
+{{fs player|no=15|nat=NZL|pos=DF|name=[[Isaac Hughes (footballer)|Isaac Hughes]]}}
+{{fs player|no=17|nat=NZL|pos=FW|name=[[Nathan Walker (footballer)|Nathan Walker]]}}
+{{fs player|no=18|nat=NZL|pos=DF|name=[[Lukas Kelly-Heald]]}}
+{{fs mid}}
+{{fs player|no=23|nat=NZL|pos=DF|name=[[James McGarry (footballer)|James McGarry]]}}
+{{fs player|no=24|nat=NZL|pos=DF|name=[[Xuan Loke]]}}
+{{fs player|no=25|nat=JPN|pos=MF|name=[[Kazuki Nagasawa]]}}
+{{fs player|no=27|nat=NZL|pos=DF|name=[[Matthew Sheridan]]}}
+{{fs player|no=28|nat=NZL|pos=DF|name=[[Bill Tuiloma]]}}
+{{fs player|no=30|nat=NZL|pos=GK|name=[[Alby Kelly-Heald]]}}
+{{fs player|no=32|nat=NZL|pos=MF|name=[[Ben Trenberth]]|other=[[A-League#Squad formation and salary cap|scholarship]]}}
+{{fs player|no=37|nat=NZL|pos=MF|name=[[Anaru Cassidy]]|other=[[A-League#Squad formation and salary cap|scholarship]]}}
+{{fs player|no=39|nat=NZL|pos=DF|name=[[Jayden Smith]]}}
+{{fs player|no=40|nat=NZL|pos=GK|name=[[Eamonn McCarron]]}}
+{{fs player|no=99|nat=NZL|pos=FW|name=[[Corban Piper]]}}
+{{fs end}}
+
+===Youth===
+:Players to have been featured in a first-team matchday squad for Wellington Phoenix
+
+{{fs start}}
+{{fs player|no=34|nat=NZL|pos=DF|name=[[Dylan Gardiner]]}}
+{{fs player|no=35|nat=NZL|pos=MF|name=[[Luke Mitchell (footballer, born 2006)|Luke Mitchell]]}}
+{{fs end}}
+
+===Reserves and youth academy===
+{{main|Wellington Phoenix FC Reserves}}
+
+Wellington Phoenix's academy system was formed in 2013, absorbing the prolific [[Christchurch]]-based Asia-Pacific Football Academy. Since then, Wellington Phoenix have developed a number of notable players, including several New Zealand internationals.<ref>{{Cite web|url=https://www.wellingtonphoenix.com/about-us-academy|title = About Us &#124; Academy|date = 30 August 
+
+######## Sydney Sixers (WBBL)
+==Current squad==
+The squad of the Sydney Sixers for the [[2026–27 Women's Big Bash League season|2026 Women's Big Bash League season]] as of 8 October 2026.<ref>{{Cite web |title=Full squads: How each club's list is shaping up for WBBL{{!}}12|url=https://www.cricket.com.au/news/4434038/wbbl12-player-squads-lists-movement-signings-contracts-womens-big-bash-renegades-stars-hurricanes-heat-scorchers-strikers-thunder-sixers|website=cricket.com.au|access-date=2026-10-08|language=en}}</ref><ref>{{Cite web |title=WBBL Players|url=https://www.sydneysixers.com.au/wbbl-players|website=sydneysixers.com.au|access-date=2026-10-08|language=en}}</ref>
+*Players with international caps are listed in '''bold'''.
+
+{| class="wikitable" style="font-size:95%;" 
+! style="background:#ff0090; color:black;" |{{Tooltip|No.|Shirt number}}
+! style="background:#ff0090; color:black;" |Name
+! style="background:#ff0090; color:black;" |{{Tooltip|[[Sporting nationality|Nat.]]|Sporting nationality}}
+! style="background:#ff0090; color:black;" |Birth Date
+! style="background:#ff0090; color:black;" |Batting Style
+! style="background:#ff0090; color:black;" |Bowling Style
+! style="background:#ff0090; color:black;" |Additional Info.
+|-
+! colspan="7" style="background: #DCDCDC; text-align:center;" |Batters
+|- align="center"
+|47
+|'''[[Sophia Dunkley]]'''
+|{{cr|ENG}}
+|{{Birth date and age|1998|07|16|df=yes}}
+|Right-handed
+|Right-arm [[leg spin]]
+|{{nowrap|International Signing}}
+|- align="center"
+|26
+|'''[[Elsa Hunter]]'''
+|{{cr|MYS}} {{cr|AUS}}
+|{{Birth date and age|2005|02|15|df=yes}}
+|{{nowrap|Right-handed}}
+|Right-arm [[off spin]]
+|Signed as a local player<ref>{{cite web |title=Sixers squad named for clash with Strikers |url=https://www.sydneysixers.com.au/news/4157468/sixers-squad-named-for-clash-with-strikers |website=Sydney Sixers |access-date=27 August 2025 |language=en |date=28 October 2024}}</ref><ref>{{cite news |last1=Taylor |first1=Nathan |title=Sixers in the hunt as Penrith cricketer Elsa signs new deal |url=http://westernweekender.com.au/2025/04/sixers-in-the-hunt-as-penrith-cricketer-elsa-signs-new-deal/#:~:text=Called%20into%20the%20side%20last,will%20remain%20with%20the%20Sixers. |access-date=27 August 2025 |work=The Western Weekender |date=30 April 2025}}</ref>
+|-
+! colspan="7" style="background: #DCDCDC; text-align:center;" |All-rounders
+|- align="center"
+|88
+|[[Maitlan Brown]]
+|{{cr|AUS}}
+|{{Birth date and age|1997|06|05|df=yes}}
+|Right-handed
+|Right-arm [[Fast bowling|fast]]
+|
+|- align="center"
+|29
+|'''[[Erin Burns]]'''
+|{{cr|AUS}}
+|{{Birth date and age|1988|06|22|df=yes}}
+|R
