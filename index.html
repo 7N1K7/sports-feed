@@ -343,6 +343,7 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 40px }
 footer a { color: var(--muted) }
 
 
+.badge.bimg { width: 22px; height: 22px; min-width: 0; padding: 0; box-shadow: none; object-fit: contain; display: inline-block; vertical-align: middle; margin-block: -2px }
 .badge { display: inline-grid; place-items: center; min-width: 30px; height: 18px; padding: 0 4px; border-radius: 4px; font: 700 10px/1 var(--f-body); letter-spacing: .03em; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 18%, transparent); flex: none }
 .badge.intl { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink) 55%, transparent) }
 .ev .comp { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px }
@@ -642,6 +643,7 @@ dialog#sheet { width: min(720px, 100%) }
 .cmenu-list { position: absolute; z-index: 30; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); width: max-content; min-width: 250px; max-width: calc(100vw - 32px); max-height: 70vh; overflow: auto;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 8px; box-shadow: 0 12px 32px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.08) }
 .csub { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 6px 12px 2px 26px }
+.ctip { padding: 6px 12px 8px; font-size: 12px; line-height: 1.35; color: var(--muted); text-align: center; max-width: 250px; margin: 0 auto; border-bottom: 1px solid var(--line); margin-bottom: 4px }
 .copt { display: block; width: 100%; text-align: left; border: 0; background: none; color: var(--ink); font: inherit; font-size: 14px; padding: 8px 12px 8px 26px; border-radius: 10px; cursor: pointer }
 .cmenu-list > .copt:first-child { padding-left: 12px; font-weight: 600 }
 .copt[data-comp=""] { text-align: center; padding-left: 12px }
@@ -1374,8 +1376,11 @@ const COMP_BADGE = { NPC: 'npc', 'Farah Palmer Cup': 'fpc', 'Super Rugby Pacific
   NBL: ['NBL', '#e4002b', '#ffffff'], 'FIBA World Cup qualifiers': ['FIBA', '#1d3c87', '#ffffff'], 'FIBA World Cup': ['FIBA', '#1d3c87', '#ffffff'], "FIBA Women's World Cup": ['FIBA', '#1d3c87', '#ffffff'],
   'ANZ Premiership': ['ANZP', '#5b2a86', '#ffffff'], 'Constellation Cup': ['CC', '#1b1f1d', '#ffffff'], 'Taini Jamison Trophy': ['TJT', '#1b1f1d', '#ffffff'], 'Netball Nations Cup': ['NNC', '#7048e8', '#ffffff'], 'Netball World Cup': ['NWC', '#7048e8', '#ffffff'], 'FIH Hockey World Cup': ['WC', '#0b7285', '#ffffff'], 'FIH Hockey Nations Cup': ['NC', '#0b7285', '#ffffff'] };
 const FORMAT_BADGE = { Test: ['TEST', '#ffffff', '#111111'], ODI: ['ODI', '#1864ab', '#ffffff'], T20I: ['T20I', '#c2255c', '#ffffff'] };
+// competitions whose own logo stands in for the text badge (from TheSportsDB's league art)
+const COMP_IMG = { Supercars: 'https://r2.thesportsdb.com/images/media/league/badge/64f67s1770108650.png/small' };
 function compBadge(e) {
   const c = compOf(e);
+  if (COMP_IMG[c]) return `<img class="badge bimg" src="${COMP_IMG[c]}" alt="" aria-hidden="true" referrerpolicy="no-referrer">`;
   let b = e.sport === 'cricket' && /^(blackcaps|whiteferns|aucricket|intlcricket)$/.test(e.team) ? FORMAT_BADGE[formatOf(e)]
     : e.sport === 'hockey' && /^Test series/.test(e.comp || '') ? COMP_BADGE['Test match'] : COMP_BADGE[c] || COMP_BADGE[c.replace(/^Women's /, '')];
   if (typeof b === 'string') b = BADGE[b];
@@ -2223,7 +2228,7 @@ function renderHub(now) {
   if (!on) { $('hubBody').innerHTML = ''; return; }
   const sample = (FEED.events || []).find(e => compOf(e) === compSel);
   $('hubName').textContent = plural(compSel);
-  $('hubIcon').innerHTML = sIcon(sample?.team === 'f1' ? 'f1' : sample?.sport, 'hubimg');
+  $('hubIcon').innerHTML = COMP_IMG[compSel] ? `<img class="hubimg" src="${COMP_IMG[compSel]}" alt="" referrerpolicy="no-referrer">` : sIcon(sample?.team === 'f1' ? 'f1' : sample?.sport, 'hubimg');
   $('hubSec').style.setProperty('--sport', `var(--${sample?.sport || 'rugby'})`);
   $('hubTabs').innerHTML = tabs.map(([k, l]) => `<button type="button" role="tab" data-hubtab="${k}" aria-selected="${hubTab === k}">${l}</button>`).join('');
   if (hubTab === 'table') {
@@ -2786,7 +2791,7 @@ function render() {
   $('bigSec').hidden = !big.length || !!compSel;
   // with no events to jump to (a filter that leaves none, or while the feed loads) the button greys out but keeps its
   // place, so the row never changes
-  $('toEvents').disabled = $('runSec').hidden && $('bigSec').hidden;
+  $('toEvents').disabled = (FEED.events || []).length > 0 && $('runSec').hidden && $('bigSec').hidden;
   into($('upcoming')).html = html || `<div class="empty-note">${later ? 'Nothing else this week for your picks.' : 'No fixtures for your teams yet. Pick more teams under My teams.'}</div>`;
 
   // results
@@ -2845,7 +2850,7 @@ function render() {
       .sort((a, b) => rank(a) - rank(b) || (nextOf.get(a) - nextOf.get(b)) || a.localeCompare(b));
     const groups = [[['rugby'], 'Rugby'], [['league'], 'Rugby league'], [['cricket'], 'Cricket'], [['football'], 'Football'], [['hockey'], 'Hockey'], [['basketball'], 'Basketball'], [['netball'], 'Netball'], [['motor'], 'Motorsport'], [['tennis'], 'Tennis'], [['mma', 'boxing'], 'Fighting']].sort((a, b) => a[1].localeCompare(b[1])); // sports A to Z: Cricket, Fighting, Football…
     const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}"><span class="lb" data-l="${esc(COMP_LABEL[c] || c)}"><span>${esc(COMP_LABEL[c] || c)}</span></span>${liveComps.has(c) ? '<span class="onnow">Live</span>' : onNowComps.has(c) ? '<span class="current">Current</span>' : !c || nextOf.get(c) < Infinity ? '' : '<span class="ended">Season over</span>'}</button>`;
-    $('compMenu').innerHTML = opt('') .replace('></button>', '>All competitions</button>') + groups.map(([ks, l]) => {
+    $('compMenu').innerHTML = `<div class="ctip">Pick one for its own page: every game, plus its table, playoffs, rankings and news where it has them</div>` + opt('') .replace('></button>', '>All competitions</button>') + groups.map(([ks, l]) => {
       const cs = comps.filter(c => ks.includes(sportOfComp.get(c))).sort((a, b) => ks.indexOf(sportOfComp.get(a)) - ks.indexOf(sportOfComp.get(b)));
       if (!cs.length) return '';
       // subheadings: MMA and Boxing under Fighting; International and Leagues within each team sport
