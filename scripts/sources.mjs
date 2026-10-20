@@ -75,6 +75,8 @@ function clean(s) {
 }
 
 const CODES = {
+  PHI: 'Philippines', TPE: 'Chinese Taipei', QAT: 'Qatar', IRI: 'Iran', JOR: 'Jordan', KAZ: 'Kazakhstan', SYR: 'Syria', BRN: 'Bahrain', KSA: 'Saudi Arabia',
+  GUM: 'Guam', INA: 'Indonesia', MGL: 'Mongolia', THA: 'Thailand', IRQ: 'Iraq', MAW: 'Malawi', UGA: 'Uganda',
   NZ: 'New Zealand', NZL: 'New Zealand', AUS: 'Australia', FIJ: 'Fiji', FJI: 'Fiji', SAM: 'Samoa', SAMOA: 'Samoa', WSM: 'Samoa', TGA: 'Tonga', TON: 'Tonga', PNG: 'Papua New Guinea',
   COK: 'Cook Islands', CKI: 'Cook Islands', ENG: 'England', FRA: 'France', WAL: 'Wales', SCO: 'Scotland', IRE: 'Ireland', IRL: 'Ireland', ITA: 'Italy', RSA: 'South Africa', SA: 'South Africa',
   ZAF: 'South Africa', ARG: 'Argentina', JPN: 'Japan', JAP: 'Japan', USA: 'USA', CAN: 'Canada', IND: 'India', PAK: 'Pakistan', SL: 'Sri Lanka', SRI: 'Sri Lanka', LKA: 'Sri Lanka',
@@ -95,7 +97,7 @@ function teamOf(v) {
     // "QLD-h": a code with the page's home-side marker
     let name = (p.named.name || p.pos[0] || '').replace(/-h$/i, '');
     name = (nm.startsWith('cr-aus') && AU_STATES[name.toUpperCase()]) || CODES[name.toUpperCase()] || name.replace(/_/g, ' ');
-    const women = /^(ruw|rlw|crw|fbw|fhw|wrl?w)/.test(nm) || /women/i.test(nm);
+    const women = /^(ruw|rlw|crw|fbw|fhw|wrl?w|bkw)/.test(nm) || /women/i.test(nm);
     if (name && !/\d{4}/.test(name)) return clean(name) + (women && !/Women/.test(name) ? ' Women' : '');
   }
   return clean(raw).replace(/\s*\((H|A|N)\)\s*$/i, '').trim();
@@ -150,6 +152,9 @@ export function classify(kind, home, away) {
     case 'nzcricket': return nz ? { team: women ? 'whiteferns' : 'blackcaps', tags: [] } : null;
     case 'nrl': return { team: /Warriors/.test(names) ? 'warriors' : 'nrl', tags: ['nrl'] };
     case 'hockey': return nz ? { team: women ? 'blacksticksw' : 'blacksticks', tags: [] } : null;
+    case 'basketball': return nz ? { team: women ? 'tallferns' : 'tallblacks', tags: [] } : null;
+    case 'nbl': return /Breakers/.test(names) ? { team: 'breakers', tags: [] } : null;
+    case 'netball': return nz ? { team: 'silverferns', tags: [] } : null;
     case 'epl': return { team: 'epl', tags: ['epl'] };
     case 'aleague': return { team: /Wellington Phoenix/.test(names) ? 'phoenix' : /Auckland FC/.test(names) ? 'aucklandfc' : 'aleague', tags: ['aleague'] };
     default: return null;
@@ -157,7 +162,7 @@ export function classify(kind, home, away) {
 }
 
 // ---------- Wikipedia -------------------------------------------------------
-const BOX = /^(rugby ?box|rugby ?league ?box|rlbox|single-innings cricket match|two-innings cricket match|limited overs international|footballbox|football box(?: collapsible)?|field ?hockey ?box|hockey ?box)$/i;
+const BOX = /^(rugby ?box|rugby ?league ?box|rlbox|single-innings cricket match|two-innings cricket match|limited overs international|footballbox|football box(?: collapsible)?|field ?hockey ?box|hockey ?box|basketball ?box(?: collapsible)?|netball ?box)$/i;
 
 function eventsFromPage(title, text, cfg, cityTz) {
   const year = +(title.match(/\b(20\d\d)/) || [])[1] || new Date().getUTCFullYear();
@@ -167,14 +172,14 @@ function eventsFromPage(title, text, cfg, cityTz) {
     const isCricket = /cricket|overs/i.test(tpl.name);
     // women's tours use plain team templates, so tag names from the page itself
     const fix = n => cfg.women && n && !/Women/.test(n) ? n + ' Women' : n;
-    const home = fix(teamOf(p.home || p.team1 || '')), away = fix(teamOf(p.away || p.team2 || ''));
+    const home = fix(teamOf(p.home || p.team1 || p.teama || '')), away = fix(teamOf(p.away || p.team2 || p.teamb || ''));
     if (!home || !away) continue;
     const d = dateOf(p.date || '', year);
     if (!d || d.m < 0) continue;
-    const venueRaw = clean(p.stadium || p.venue || p.location || '');
+    const venueRaw = clean(p.stadium || p.venue || p.arena || p.location || p.place || '');
     const parts = venueRaw.split(',').map(s => s.trim()).filter(Boolean);
     // some boxes give the ground and the town separately ("stadium = Lloyd Elsmore Park", "location = Auckland, New Zealand")
-    const loc = (p.stadium || p.venue) && p.location ? clean(p.location).split(',').map(s => s.trim()).filter(Boolean) : [];
+    const loc = (p.stadium || p.venue || p.arena) && (p.location || p.place) ? clean(p.location || p.place).split(',').map(s => s.trim()).filter(Boolean) : [];
     const city = parts.length > 1 ? parts[parts.length - 1] : loc[0] || '';
     const tm = timeOf(p.time || '');
     const tz = (tm && tm.tz) || cityTz(city) || cityTz(parts[0]) || (cfg.homeTz && cityTz(home)) || cfg.tz || null;
@@ -199,6 +204,9 @@ function eventsFromPage(title, text, cfg, cityTz) {
         const a = sc(1), b = sc(2);
         score = a && b ? `${a} v ${b}` : result.length < 40 ? result : 'Result in';
       }
+    } else if (/^\d+$/.test(clean(p.scorea || p.score1 || '')) && /^\d+$/.test(clean(p.scoreb || p.score2 || ''))) {
+      // basketball (scoreA / scoreB) and netball (score1 / score2) give each side's score on its own
+      status = 'final'; score = `${clean(p.scorea || p.score1)}-${clean(p.scoreb || p.score2)}`;
     } else {
       const s = clean(p.score || '');
       if (/\d+\s*[–—-]\s*\d+/.test(s)) { status = 'final'; score = s.match(/\d+\s*[–—-]\s*\d+/)[0].replace(/\s*[–—]\s*/, '-'); }
@@ -213,7 +221,7 @@ function eventsFromPage(title, text, cfg, cityTz) {
     const linked = cfg.compFromRound && (stripRefs(p.round || '').match(/\[\[([^\]|]+)\|?[^\]]*\]\]/) || [])[1];
     const comp = !cfg.compFromRound ? cfg.comp : linked ? linked.replace(/^\d{4}(?:[–-]\d{2,4})?\s+/, '').replace(/^(Men's|Women's)\s+/, '') : cfg.comp;
     // nearest heading above the box, e.g. "1st T20I" on a tour page
-    const heads = cfg.seriesTitle ? [...text.slice(0, tpl.at).matchAll(/^={2,5}\s*([^=\n]+?)\s*={2,5}\s*$/gm)] : [];
+    const heads = cfg.seriesTitle || cfg.headingStage ? [...text.slice(0, tpl.at).matchAll(/^={2,5}\s*([^=\n]+?)\s*={2,5}\s*$/gm)] : [];
     const stage = heads.length ? clean(heads[heads.length - 1][1]) : '';
     // other nations' tours: the internationals only, not warm-ups against local XIs
     if (cfg.classify === 'intlcricket' && /tour match|warm-?up|practice/i.test(stage)) continue;

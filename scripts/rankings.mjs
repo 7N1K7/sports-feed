@@ -1,4 +1,4 @@
-// World rankings from Wikipedia (CC BY-SA): rugby, cricket, league, football and hockey team rankings, the ATP and
+// World rankings from Wikipedia (CC BY-SA): rugby, cricket, league, football, hockey, basketball and netball team rankings, the ATP and
 // WTA singles rankings, and the UFC's pound-for-pound and division rankings. Each page is read once every 12 hours (rankings move weekly at most) and kept in the cache.
 const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
 
@@ -19,6 +19,9 @@ export const RANK_PAGES = [
   { sport: 'football', page: "FIFA Women's World Ranking", kind: 'teams', titles: ["Women's"] },
   { sport: 'hockey', page: "FIH Men's World Ranking", kind: 'teams', titles: ["Men's"] },
   { sport: 'hockey', page: "FIH Women's World Ranking", kind: 'teams', titles: ["Women's"] },
+  { sport: 'basketball', page: "FIBA Men's World Ranking", kind: 'teams', titles: ["Men's"] },
+  { sport: 'basketball', page: "FIBA Women's World Ranking", kind: 'teams', titles: ["Women's"] },
+  { sport: 'netball', page: 'World Netball Rankings', kind: 'teams', titles: ["Women's"] },
   { sport: 'tennis', page: 'ATP rankings', kind: 'players', titles: ["Men's singles"] },
   { sport: 'tennis', page: 'WTA rankings', kind: 'players', titles: ["Women's singles"] },
   { sport: 'mma', page: 'UFC rankings', kind: 'fighters' },

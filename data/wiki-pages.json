@@ -31,7 +31,16 @@
     { "title": "{S} Men's FIH Hockey Nations Cup", "sport": "hockey", "comp": "FIH Hockey Nations Cup", "classify": "hockey" },
     { "title": "{S} Women's FIH Hockey Nations Cup", "sport": "hockey", "comp": "FIH Hockey Nations Cup", "classify": "hockey", "women": true },
     { "title": "{Y} Men's FIH Hockey World Cup", "sport": "hockey", "comp": "FIH Hockey World Cup", "classify": "hockey" },
-    { "title": "{Y} Women's FIH Hockey World Cup", "sport": "hockey", "comp": "FIH Hockey World Cup", "classify": "hockey", "women": true }
+    { "title": "{Y} Women's FIH Hockey World Cup", "sport": "hockey", "comp": "FIH Hockey World Cup", "classify": "hockey", "women": true },
+    { "title": "{S} NBL season", "sport": "basketball", "comp": "NBL", "classify": "nbl", "headingStage": true },
+    { "title": "{Y} FIBA Basketball World Cup qualification (Asia)", "sport": "basketball", "comp": "FIBA World Cup qualifiers", "classify": "basketball", "headingStage": true },
+    { "title": "{Y} FIBA Basketball World Cup", "sport": "basketball", "comp": "FIBA World Cup", "classify": "basketball", "headingStage": true },
+    { "title": "{Y} FIBA Women's Basketball World Cup", "sport": "basketball", "comp": "FIBA Women's World Cup", "classify": "basketball", "women": true, "headingStage": true },
+    { "title": "{Y} ANZ Premiership season", "sport": "netball", "comp": "ANZ Premiership", "team": "anzprem", "tz": "Pacific/Auckland", "headingStage": true },
+    { "title": "{Y} Constellation Cup", "sport": "netball", "comp": "Constellation Cup", "classify": "netball" },
+    { "title": "{Y} Taini Jamison Trophy Series", "sport": "netball", "comp": "Taini Jamison Trophy", "classify": "netball", "tz": "Pacific/Auckland" },
+    { "title": "{Y} Netball Nations Cup", "sport": "netball", "comp": "Netball Nations Cup", "classify": "netball" },
+    { "title": "{Y} Netball World Cup", "sport": "netball", "comp": "Netball World Cup", "classify": "netball", "headingStage": true }
   ],
   "thesportsdb": [
     { "id": 4356, "sport": "football", "comp": "A-League Men", "classify": "aleague" },
