@@ -850,7 +850,8 @@ function stateSquad(text) {
   if (!tbl) return [];
   const players = [];
   let nameCol = -1, group = '';
-  for (const row of tbl.split(/\n\|-[^\n]*/).slice(1)) {
+  // the header row may come straight after the table's opening line, with no row marker before it
+  for (const row of tbl.replace(/^\{\|[^\n]*\n?/, '').split(/\n?\|-[^\n]*/)) {
     const lines = row.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('|}'));
     if (!lines.length) continue;
     if (lines.every(l => l.startsWith('!'))) {
