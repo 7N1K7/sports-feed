@@ -2876,7 +2876,7 @@ function render() {
   document.body.classList.remove('v-big', 'v-mixed', 'v-compact');
   const shownView = PHONE.matches && view === 'big' ? 'mixed' : view; // phones have no Big: it shows as Mixed there
   document.body.classList.add('v-' + shownView);
-  $('viewSel').innerHTML = [['compact', 'Compact'], ['mixed', 'Mixed'], ['big', 'Large']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${shownView === k}">${l}</button>`).join('');
+  $('viewSel').innerHTML = [['compact', 'Compact'], ['mixed', 'Standard'], ['big', 'Large']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${shownView === k}">${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   // an eye on each state (crossed out while results are hidden), and a gear on settings
   const eye = '<path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/>';
