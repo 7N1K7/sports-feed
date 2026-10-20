@@ -1,68 +1,64 @@
-events 575 | next 3 weeks 172
 
-== squads: games in the next 3 weeks without a squad, by competition (NZ sides)
-  6 | cricket | Ford Trophy (men)
-  5 | basketball | NBL
-  4 | cricket | Women's Big Bash League (WBBL|12)
-  3 | cricket | NZ A v India A
-  3 | league | Women's Rugby League World Cup
-  3 | football | A-League Men · Round 3
-  3 | league | Wheelchair Rugby League World Cup
-  2 | league | Rugby League World Cup
-  2 | rugby | WXV Global Series
-  2 | football | A-League Men · Round 1
-  2 | football | A-League Men · Round 2
-  2 | cricket | Sheffield Shield
-  1 | rugby | NPC Semi-final
-  1 | rugby | NPC Final
-  1 | rugby | Nations Championship
-  1 | cricket | Dean Jones Trophy
-  with squads: 2 cricket | Australia v South Africa; 2 cricket | Bangladesh v West Indies; 1 cricket | 1st T20I v Australia (Rose Bowl); 1 cricket | 2nd T20I v Australia (Rose Bowl); 1 cricket | 1st T20I v India; 1 cricket | 3rd T20I v Australia (Rose Bowl); 1 cricket | 2nd T20I v India; 1 cricket | 3rd T20I v India; 1 cricket | 4th T20I v India; 1 cricket | 5th T20I v India; 1 cricket | 1st ODI v India; 1 cricket | 2nd ODI v India; 1 cricket | 3rd ODI v India; 1 cricket | India v West Indies; 1 cricket | Pakistan v Sri Lanka
+== Ford Trophy
+  Central Districts cricket team -> Central Districts cricket team: section 4023 chars, 31 links, table yes, templates: double-dagger, birth date and age
+     headings: Current squad | Notable players
+  Auckland cricket team -> Auckland cricket team: section 656 chars, 20 links, table no, templates: Updated
+     headings: Current squad | Notable players
+  Canterbury cricket team -> Canterbury cricket team: section 4527 chars, 39 links, table yes, templates: updated, double-dagger, birth date and age, Double-dagger, Birth date and age
+     headings: Current squad
+  Otago cricket team -> Otago cricket team: no squad section
+     headings: Team totals | Contracted players | Notable former players
+  Wellington cricket team -> Wellington cricket team: section 4699 chars, 43 links, table yes, templates: cite web, Birth date and age
+     headings: Current squad | Notable players
+  Northern Districts cricket team -> Northern Districts: no squad section
+     headings: 
 
-== where to watch missing or TBC (next 3 weeks)
-  10 | football | Premier League · Round 7
-  10 | football | Premier League · Round 8
-  10 | football | Premier League · Round 9
-  6 | football | A-League Men · Round 2
-  6 | football | A-League Men · Round 3
-  6 | cricket | Sheffield Shield
-  5 | basketball | NBL
-  3 | cricket | NZ A v India A
-  2 | football | A-League Men · Round 1
-  2 | rugby | Test match
-  2 | cricket | Dean Jones Trophy
-  2 | mma | UFC Fight Night
-  2 | cricket | Australia v South Africa
-  2 | cricket | Bangladesh v West Indies
-  1 | mma | UFC 333
-  1 | mma | UFC Fight Night 291
-  1 | cricket | India v West Indies
-  1 | cricket | Pakistan v Sri Lanka
-  1 | motor | Formula 1 · Round 18
-  1 | motor | Formula 1 · Round 19
-  1 | motor | Formula 1 · Round 20
+== Breakers (NBL)
+  New Zealand Breakers -> New Zealand Breakers: section 7229 chars, 69 links, table yes, templates: Basketball roster header, player3, Basketball roster footer, player, Main, columns-list, flagicon, Basketball color cell
+     headings: Current roster | All-time roster | Notable past players
 
-== start time not set (next 3 weeks)
-  6 | cricket | Sheffield Shield
-  3 | league | Wheelchair Rugby League World Cup
-  2 | mma | UFC Fight Night
-  2 | cricket | Australia v South Africa
-  2 | cricket | Bangladesh v West Indies
-  1 | boxing | WBO heavyweight title
-  1 | boxing | Interim WBC light heavyweight title
-  1 | cricket | Pakistan v Sri Lanka
+== WBBL
+  Sydney Sixers (WBBL) -> Sydney Sixers (WBBL): section 4284 chars, 29 links, table yes, templates: Cite web, Tooltip, Birth date and age, nowrap, cite web, cite news
+     headings: Current squad | Players | Team Stats
+  Melbourne Stars (WBBL) -> Melbourne Stars (WBBL): section 3418 chars, 24 links, table yes, templates: Cite web, Tooltip, Birth date and age, nowrap
+     headings: Current squad | Players | Team Stats
+  Perth Scorchers (WBBL) -> Perth Scorchers (WBBL): section 3496 chars, 26 links, table yes, templates: Cite web, Tooltip, nowrap, Birth date and age
+     headings: Current squad | Players | Team Stats
 
-== venue missing (next 3 weeks)
+== A-League
+  Wellington Phoenix FC -> Wellington Phoenix FC: section 3683 chars, 47 links, table no, templates: Updated, for, fs start, fs player, fs mid, fs end, main, Cite web
+     headings: Players | First-team squad | Women's team | Team
+  Auckland FC -> Auckland FC: section 4043 chars, 45 links, table no, templates: updated, fs start, fs player, fs mid, Fs player, fs end, for
+     headings: OFC Pro League Team | Reserves team | Women's team | Players | First-team squad | Other players with first-team appearances | OFC Professional League squad
 
-== finished in the last 10 days with no score/summary
-  3 | cricket | Sheffield Shield
-  1 | cricket | Australia v South Africa
+== NPC
+  Canterbury Rugby Football Union -> Canterbury Rugby Football Union: no squad section
+     headings: 
+  Auckland Rugby Union -> Auckland Rugby Union: no squad section
+     headings: Other representative teams
+  Wellington Rugby Football Union -> Wellington Rugby Football Union: no squad section
+     headings: 
+  Waikato Rugby Union -> Waikato Rugby Union: no squad section
+     headings: Notable players
+  Taranaki Rugby Football Union -> Taranaki Rugby Football Union: no squad section
+     headings: Taranaki provincial team | Notable players
 
-== sides with no team links: 101 of 258 | e.g. boxing|Osleys Iglesias, boxing|Oliver Zaren, boxing|Floyd Schofield, boxing|Lucas Bahdi, boxing|Ricardo Sandoval, boxing|Sergio Mendoza, boxing|Daniel Dubois, boxing|Fabio Wardley, boxing|Sebastian Fundora, boxing|Ermal Hadribeaj, boxing|Emanuel Navarrete, boxing|O'Shaquie Foster, boxing|Dalton Smith, boxing|Alberto Puello, boxing|Christian Mbilli, boxing|Saul 'Canelo' Alvarez, boxing|Joshua Buatsi, boxing|Willy Hutchinson, boxing|Elif Nur Turhan, boxing|Alycia Baumgardner, boxing|Gabriela Fundora, boxing|Jasmina Zapotoczna, boxing|Masamichi Yabuki, boxing|Miel Fajardo, boxing|Agit Kabayel
+== All Blacks / Black Ferns
+  New Zealand national rugby union team -> New Zealand national rugby union team: section 32534 chars, 167 links, table yes, templates: cite web, cite news, nat rs start, nat rs player, sortname, Birth date and age2, Rut, nat rs end
+     headings: Players | Current squad | Notable players
+  New Zealand women's national rugby union team -> New Zealand women's national rugby union team: section 18089 chars, 125 links, table yes, templates: Cite web, nat rs start, nat rs player, sortname, Birth date and age2, nwrut7, nat rs end, Main
+     headings: Team's name | Players | Current squad | Notable players
 
-== teamLinks sample key/value: [["cricket|Melbourne Renegades",{"wp":"Melbourne Renegades","site":"http://www.melbournerenegades.com.au"}],["cricket|Sydney Thunder",{"wp":"Sydney Thunder","site":"http://www.sydneythunder.com.au"}]]
+== RLWC squads
+  2026 Wheelchair Rugby League World Cup squads: MISSING
+  2026 Rugby League World Cup squads: MISSING
+  2026 Men's Rugby League World Cup squads -> 2026 Men's Rugby League World Cup squads: no squad section
+     headings: 
+  2026 Women's Rugby League World Cup squads -> 2026 Women's Rugby League World Cup squads: no squad section
+     headings: 
 
-== news items: 148 | by sport ? 148
-== tables (standings): 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47
-== rankings lists: 32
-== diag: {"sections":"2026 Men's Rugby League World Cup qualification: read; 2026 Men's Rugby League World Cup Pool A: read; 2026 Women's Rugby League World Cup qualification: read; 2026 NRL Grand Final: read; 2026 Men's FIH Hockey World Cup final: read; 2026 Women's FIH Hockey World Cup final: read","wikipedia":{"2026 Hilux NPC":79,"List of 2026 Super Rugby Pacific matches":77,"List of 2027 Super Rugby Pacific matches":80,"2026 Super Rugby Pacific season":6,"2027 Super Rugby Pacific season":5,"2026 Nations Championship":0,"The Rugby Championship":0,"2026 men's rugby union internationals":13,"2027 men's rugby union internationals":2,"2026 women's rugby union internationals":3,"2026 WXV Global Series":6,"2026 Men's Rugby League World Cup":18,"2026 Women's Rugby League World Cup":15,"2026 Wheelchair Rugby League World Cup":20,"2026–27 Big Bash League season":44,"2026–27 Women's Big Bash League season":43,"2026–27 Sheffield Shield season":30,"2026–27 Dean Jones Trophy":16,"2026–27 A-League Men":0,"2026–27 Premier League":0,"2026 NRL season":1,"2026 NRL finals series":9,"List of UFC events":14,"New Zealand men's national field hockey team":19,"New Zealand women's national field hockey team":21,"2026–27 Men's FIH Pro League":0,"2026–27 Women's FIH Pro League":0,"Men's FIH Hockey Nations Cup":0,"2026 Men's FIH Hockey World Cup":6,"2026 Women's FIH Hockey World Cup":6,"2026–27 NBL season":33,"2027 FIBA Basketball World Cup qualification (Asia)":12,"2027 FIBA Basketball World Cup":0,"2026 FIB
+== Super Rugby
+  Blues (Super Rugby) -> Blues (Super Rugby): section 6143 chars, 17 links, table no, templates: for, efn, cite press release, Rugby union squad start, RU squad player, Rugby union squad end, efn-ua, div col
+     headings: Current squad | Team records | Players that have represented the All Blacks
+  Chiefs (rugby union) -> Chiefs (Super Rugby): section 6177 chars, 15 links, table no, templates: for, Rugby union squad start, RU squad player, cite press release, Rugby union squad end, div col, Flagicon, div col end
+     headings: Current squad
