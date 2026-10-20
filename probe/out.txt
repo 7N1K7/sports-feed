@@ -1,7 +1,23 @@
-Men's singles (2026-10-05) 20: 1 Jannik Sinner ITA 11,000 | 2 Alexander Zverev GER 9,720 | 3 Carlos Alcaraz ESP 5,560
-Men's doubles (2026-10-05) 18: 1 Harri Heliövaara FIN 10,540 | 3 Neal Skupski GBR 6,890 | 4 Christian Harrison USA 6,050
-Men's doubles teams (2026-09-28) 10: 1 Harri Heliövaara / Henry Patten FIN/GBR 7,880 | 2 Christian Harrison / Neal Skupski USA/GBR 5,890 | 3 Marcel Granollers / Horacio Zeballos ESP/ARG 5,330
-Women's singles (2026-10-12) 20: 1 Elena Rybakina KAZ 9,696 | 2 Aryna Sabalenka  7,550 | 3 Mirra Andreeva  6,371
-Women's doubles (2026-10-19) 20: 1 Kateřina Siniaková CZE 11,260 | 2 Taylor Townsend USA 9,415 | 3 Luisa Stefani BRA 9,220
-Women's doubles teams (2026-08-03) 10: 1 Taylor Townsend / Kateřina Siniaková USA/CZE 6,250 | 2 Gabriela Dabrowski / Luisa Stefani CAN/BRA 5,723 | 3 Aleksandra Krunic / Anna Danilina SRB/KAZ 5,389
-{"rank":"1","name":"Harri Heliövaara / Henry Patten","pair":[{"name":"Harri Heliövaara","iso":"FIN"},{"name":"Henry Patten","iso":"GBR"}],"iso":"","val":"7,880"}
+generated 2026-10-20T14:20:45.329Z
+cricket: pic 30/32 links 32/32 | no pic: South Australia, Western Australia | no link: 
+boxing: pic 7/10 links 0/10 | no pic: Dalton Smith, Alberto Puello, Elif Nur Turhan | no link: 
+league: pic 14/14 links 14/14 | no pic:  | no link: 
+rugby: pic 8/8 links 8/8 | no pic:  | no link: 
+football: pic 31/31 links 31/31 | no pic:  | no link: 
+mma: pic 6/6 links 0/6 | no pic:  | no link: 
+basketball: pic 5/5 links 5/5 | no pic:  | no link: 
+motor: pic 0/0 links 0/0 | no pic:  | no link: 
+
+supercarsTimes: 3 of 14 rounds with start times 
+tvGuide: 1064 sport listings (read 2026-10-20T11:04); 31 games listed: New Zealand v India: Sky Sport 1, Sky Sport Select; Australia Women v New Zealand Women: Sky Sport 2; New Zealand v India: Sky Sport 1, Sky Sport Select; New Zealand v France: Sky Sport 1, Sky Sport Select; New Zealand v Cook Islands: Sky Sport Select, Sky Sport 1; Samoa v Wales: Sky Sport 1; Tonga v Lebanon: Sky Sport 1; Fiji v Papua New Guinea: Sky Sport 2; Papua New Guinea v Samoa: Sky Sport 2; England v France: Sky Sport 2; Australia v England: Sky Sport 2; Australia v Fiji: Sky Sport 1; Black Ferns v France: Sky Sport 1; Brisba
+boxing 2026-10-25 Emanuel Navarrete | O'Shaquie Foster | pic pic https://boxingschedule.co/emanuel-navarrete-vs-oshaquie-foster-what-time-is-the-fight-on-oct-24/
+boxing 2026-10-24 Dalton Smith | Alberto Puello | - - https://www.welcometosheffield.co.uk/content/events/smith-v-puello/
+boxing 2026-11-01 Christian Mbilli | Saul 'Canelo' Alvarez | pic pic https://www.forbes.com/sites/brianmazique/2026/10/15/canelo-hasnt-fought-since-losing-to-crawford---now-he-faces-an-unbeaten-champion-with-24-kos/
+boxing 2026-11-07 Joshua Buatsi | Willy Hutchinson | pic pic https://queensberry.co.uk/pages/joshua-buatsi-vs-willy-hutchinson-2-point-to-prove
+boxing 2026-11-09 Elif Nur Turhan | Alycia Baumgardner | - pic https://schedule.fightmag.com/events/elif-nur-turhan-vs-alycia-baumgardner/
+boxing 2026-11-20 Gabriela Fundora | Jasmina Zapotoczna | pic - https://www.fightmag.com/amari-jones-faces-deaundre-pettus-in-indio-in-november/
+boxing 2026-11-26 Masamichi Yabuki | Miel Fajardo | - pic https://fightnews.com/world-title-twinbill-in-november-announced-in-japan/197427
+boxing 2026-11-28 Agit Kabayel | Nelson Hysa | pic - https://www.thestar.com.my/sport/boxing/2026/10/02/boxing-wbc-heavyweight-champion-kabayel039s-first-defence-confirmed-for-duesseldorf-on-november-28
+boxing 2026-12-11 Tyson Fury | Anthony Joshua | pic pic https://www.boxing247.com/boxing-news/official-joshua-vs-fury-confirmed-for-december-11-in-cardiff-on-netflix/310070
+boxing 2026-12-12 Dmitry Bivol | Callum Smith | pic - https://boxingnewsonline.net/news/bivol-vs-smith-title-fight-announced/
+boxing 2026-12-19 Anthony Cacace | Nick Ball | - pic https://news.bet365.com/en-gb/article/anthony-cacace-vs-nick-ball-world-title-fight-confirmed-for-december-19/2026100812265362984
