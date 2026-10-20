@@ -417,15 +417,15 @@ footer a { color: var(--muted) }
    centred: a flag is shorter than its slot, so a flag card has spare room above it, and a series line takes room at
    the foot. Measured per kind of card; only the sides move, the card keeps its height */
 @media (min-width: 561px) {
-  .ev:not(.res) .teams.matchup { position: relative; top: var(--lift, -0.125em) }
-  .ev:not(.res) .teams.matchup:has(.flagimg) { --lift: -0.4em }
-  .ev:not(.res) .teams.matchup:has(img:not(.flagimg)) { --lift: -0.16em }
-  .ev:not(.res) .body:has(.series) .teams.matchup { --lift: -0.35em }
-  .ev:not(.res) .body:has(.series) .teams.matchup:has(.flagimg) { --lift: -0.53em }
-  .ev:not(.res) .body:has(.series) .teams.matchup:has(img:not(.flagimg)) { --lift: -0.3em }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev:not(.res) .teams.matchup:has(.flagimg) { --lift: -0.17em }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev:not(.res) .teams.matchup:has(img:not(.flagimg)) { --lift: -0.1em } /* a logo nearly fills its row: just off the foot */
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev:not(.res) .body:has(.series) .teams.matchup { --lift: -0.41em }
+  .ev .teams.matchup { position: relative; top: var(--lift, -0.125em) }
+  .ev .teams.matchup:has(.flagimg) { --lift: -0.4em }
+  .ev .teams.matchup:has(img:not(.flagimg)) { --lift: -0.16em }
+  .ev .body:has(.series) .teams.matchup { --lift: -0.35em }
+  .ev .body:has(.series) .teams.matchup:has(.flagimg) { --lift: -0.53em }
+  .ev .body:has(.series) .teams.matchup:has(img:not(.flagimg)) { --lift: -0.3em }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .teams.matchup:has(.flagimg) { --lift: -0.17em }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .teams.matchup:has(img:not(.flagimg)) { --lift: -0.1em } /* a logo nearly fills its row: just off the foot */
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .body:has(.series) .teams.matchup { --lift: -0.41em }
 }
 @media (max-width: 560px) { .ev .series { margin-top: 4px } }
 .ev .wx { font-size: 12px; font-weight: 700; color: #1c7ed6; margin-top: 4px }
@@ -457,7 +457,7 @@ dialog#sheet::backdrop { background: rgba(10, 18, 15, .5) }
 .dteams.scored { display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap }
 .dteams.scored .v { padding-top: .1em }
 .dteams .dside { display: inline-grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 0; min-width: 0 }
-.dteams .dside .ts { grid-column: 1 / -1; font-size: .78em; padding: 4px 0 0; justify-self: start }
+.dteams .dside .ts { grid-column: 1 / -1; font-size: .78em; padding: 4px 0 0; justify-self: center } /* under the middle of its side's name */
 .dres .dwin { font-weight: 700; font-size: 16px; margin-top: 0 }
 @media (max-width: 560px) { .dteams.scored { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; font-size: 22px } .dteams.scored .dside { display: flex; flex-direction: column; align-items: flex-start } .dteams.scored .dside:last-child { align-items: flex-end; text-align: right } .dteams.scored .dside .ts { padding-top: 2px } }
 .sheet-head .tag { justify-self: start }
@@ -496,6 +496,9 @@ dialog#sheet { width: min(720px, 100%) }
 .close { position: absolute; top: 12px; right: max(12px, env(safe-area-inset-right, 0px)); width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 20px; line-height: 1; cursor: pointer; display: grid; place-items: center; z-index: 2 }
 .close:hover { color: var(--ink); border-color: var(--ink) }
 .sheet-in { position: relative }
+.sback { position: absolute; top: 12px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 40px); width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 22px; line-height: 1; padding: 0 0 3px; cursor: pointer; z-index: 2 }
+.sback:hover { color: var(--ink); border-color: var(--ink) }
+#sheetBody:has(> .sback) .sheet-head { padding-right: 84px }
 /* room for the scroll bar kept on both sides whether it shows or not, so a list long enough to scroll (switching rankings
    tabs, say) never pushes everything across, and the contents stay centred */
 .sheet-in { scrollbar-gutter: stable both-edges }
@@ -711,6 +714,9 @@ a.svc:hover { text-decoration-color: currentColor }
    are the margins alone. The sports' first row keeps clear of the close button (on both sides, so it stays centred) */
 :is(.ranksports, .rankchips) { display: block; text-align: center; font-size: 0 }
 :is(.ranksports, .rankchips) .chip { margin: 0 3px 6px; vertical-align: top }
+/* a sport's lists (Men's, Women's, Wheelchair...) in that sport's colour, like its button above */
+:is(.rankchips, .rankrows) .chip { border-color: color-mix(in srgb, var(--sport) 60%, var(--line)) }
+:is(.rankchips, .rankrows) .chip[aria-pressed="true"] { background: var(--sport); border-color: var(--sport); color: var(--surface); font-weight: 600 }
 :root { --gold: #a87b00 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --gold: #f2c94c } }
 :root[data-theme="dark"] { --gold: #f2c94c }
@@ -786,6 +792,7 @@ dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback), dialog#sheet:has(.dtab
 #sheetBody.on-results .dpane { display: grid; gap: 6px }
 #sheetBody.on-results > :not(.back, .sheet-head, .dtabs, .dpane) { display: none }
 .dpane .dayhead:empty { display: none }
+.dpane .ev .teams { font-size: 20px } .dpane .ts .ov { display: none }
 .dpane .dpdate { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-top: 6px }
 /* in a desktop window: up to nearly the window's height, so a tall window shows a whole list with no scroll bar. The
    rankings (and a team page opened from them) are as tall as their list and hang from a fixed top, so switching lists
@@ -2033,8 +2040,8 @@ function rankingsHtml(lists) {
     ["Men's", lists.filter(x => !/pound|women/i.test(x.title))],
     ["Women's", lists.filter(x => !/pound/i.test(x.title) && /women/i.test(x.title))],
   ].filter(([, xs]) => xs.length);
-  const chips = ufcRows ? `<div class="rankrows">${ufcRows.map(([h, xs]) => `<div class="rrow"><span class="rrh">${h}</span><div class="chips">${xs.map(x => chip(x, h ? x.title.replace(/^Women's\s+/i, '').replace(/^./, c => c.toUpperCase()) : x.title)).join(' ')}</div></div>`).join('')}</div>`
-    : lists.length > 1 ? `<div class="chips rankchips">${lists.map(x => chip(x)).join(' ')}</div>` : '';
+  const chips = ufcRows ? `<div class="rankrows sport-${l.sport}">${ufcRows.map(([h, xs]) => `<div class="rrow"><span class="rrh">${h}</span><div class="chips">${xs.map(x => chip(x, h ? x.title.replace(/^Women's\s+/i, '').replace(/^./, c => c.toUpperCase()) : x.title)).join(' ')}</div></div>`).join('')}</div>`
+    : lists.length > 1 ? `<div class="chips rankchips sport-${l.sport}">${lists.map(x => chip(x)).join(' ')}</div>` : '';
   const fighters = l.sport === 'mma', people = fighters || l.kind === 'players';
   // a women's list names its sides as women's teams (Black Ferns, Hockeyroos), not the men's nicknames
   const ev = { sport: l.sport, ...(/women/i.test(l.title) ? { comp: "Women's" } : {}) };
@@ -2384,15 +2391,19 @@ function openRankings(sport) {
 // the game pop-up's Results tab: the games of its series or tournament already played, newest first (in a season-long
 // league, just the two sides' games), as result cards, so the spoiler setting covers them as it does everywhere
 let dTab = 'game', dTabId = '';
+// games opened from inside the pop-up (a result in the Results tab, say): the way back, newest last; emptied on close
+let sheetTrail = [];
 function seriesResults(e, now) {
   const c = compOf(e), league = GENERIC.test(c), sides = [e.home, e.away];
   return (FEED.events || []).filter(x => x.id !== e.id && compOf(x) === c && (!league || [x.home, x.away].some(t => sides.includes(t)))
     && (x.status === 'final' || (x.status !== 'live' && new Date(x.startUTC) < now && !running(x, now) && (!x.timeTBC || now - new Date(x.startUTC) > 12 * 36e5))))
     .sort((a, b) => b.startUTC.localeCompare(a.startUTC));
 }
-function openDetail(id, fromTeam) {
+function openDetail(id, fromTeam, goingBack) {
   const e = (FEED.events || []).find(x => x.id === id);
   if (!e) return;
+  const dlg0 = $('sheet');
+  if (!goingBack && dlg0.open && dlg0.dataset.id && dlg0.dataset.id !== id) sheetTrail.push({ id: dlg0.dataset.id, tab: dTab });
   if (id !== dTabId) { count({ e: 'game' }); dTab = 'game'; dTabId = id; } // a fresh game opens on its own tab; a redraw keeps the tab
   if (!fromTeam) teamBack = null;
   $('sheetBody').innerHTML = (teamBack ? `<button type="button" class="back" data-teampage="${esc(teamBack.name)}" data-tsport="${teamBack.sport}">‹ ${esc(displayName(teamBack.name, e))}</button>` : '') + detail(e);
@@ -2403,6 +2414,9 @@ function openDetail(id, fromTeam) {
       + `<div class="dpane daygroup">${res.length > 1 ? `<div class="dayhead">${revealAll(res, now)}</div>` : ''}${res.map(x => `<div class="dpdate">${esc(fmt(new Date(x.startUTC), NZ, { weekday: 'short', day: 'numeric', month: 'short' }))}</div>${resCard(x, now)}`).join('')}</div>`);
   }
   $('sheetBody').classList.toggle('on-results', !!res.length && dTab === 'results');
+  // a small back arrow beside the close button, only after moving on from the game first opened
+  if (sheetTrail.length) { const prev = (FEED.events || []).find(x => x.id === sheetTrail.at(-1).id);
+    $('sheetBody').insertAdjacentHTML('afterbegin', `<button type="button" class="sback" data-sback="1" aria-label="Back" title="Back to ${esc(prev ? titleOf(prev) : 'the last game')}">‹</button>`); }
   const dlg = $('sheet');
   dlg.dataset.id = id; dlg.dataset.rankings = '';
   if (!dlg.open) dlg.showModal();
@@ -2868,6 +2882,7 @@ function syncFold() {
   b.title = folded ? `Show the filters${on.length ? ' (on: ' + on.join(', ') + ')' : ''}` : 'Hide the filters';
   b.setAttribute('aria-label', b.title);
 }
+$('sheet').addEventListener('close', () => { sheetTrail = []; dTabId = ''; }); // a closed pop-up starts afresh next time, on the game's own tab
 $('foldBtn').addEventListener('click', ev => { ev.stopPropagation(); folded = !folded; store.set('folded', folded); syncFold(); count({ e: 'use', k: folded ? 'Filters folded away' : 'Filters opened' }); });
 // Settings to another browser: a code holding this browser's choices (not revealed results, nor the stats page's own)
 const MOVE_KEYS = ['teams', 'view', 'spoilers', 'spoilDays', 'spoilDaysSet', 'sport', 'comp', 'gender', 'nzOnly', 'tz', 'accent', 'theme'];
@@ -2940,6 +2955,7 @@ document.addEventListener('click', ev => {
   const t = ev.target.closest('button');
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) openDetail(card.dataset.open); else if (ev.target === $('sheet')) $('sheet').close(); return; }
   if (t.id === 'sheetClose') { $('sheet').close(); return; }
+  if (t.dataset.sback) { const prev = sheetTrail.pop(); if (prev) { dTab = prev.tab; dTabId = prev.id; openDetail(prev.id, false, true); } return; }
   if (t.dataset.teampage) { closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport, t.classList.contains('rteam') ? $('sheet').dataset.rankings : ''); return; }
   if (t.dataset.goto) { const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
   if (t.id === 'toResults' || t.id === 'toNews' || t.id === 'toEvents') {
