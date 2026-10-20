@@ -1,155 +1,77 @@
+== Players ==
+=== <span class="anchor" id="Current squad"></span><!--Keep this as there are links to it-->First-team squad ===
+<!----------------------------- READ THIS NOTICE FIRST BEFORE EDITING ----------------------------------
+&nbsp;– Do ''not'' add new players before his signing is OFFICIALLY announced by the club, including medical
+&nbsp;– Do ''not'' remove players before their exit is OFFICIALLY announced by the club
+&nbsp;– Do ''not'' change or add squad numbers until it is OFFICIAL on the club website's squad list
+&nbsp;– This is Wikipedia, not a football gazette. Anything unconfirmed and unsourced will be removed ON SIGHT
+&nbsp;– Vandals WILL be blessed with the {{uw-vandalism}} template. THANK YOU.
+------------------------------------------------------------------------------------------------------>
+{{updated|1 September 2026}}<ref name="Liverpool FC Mens">{{cite web |url=ht
 
-https://i.mjh.nz/nz/epg.xml: 200 text/plain; charset=utf-8 12645530 bytes
-  channels: 44 mjh-sky-hgtv=HGTV, mjh-sky-ptcn=CNN Headlines International, mjh-sky-ptms=MovieSphere, mjh-sky-fast3=Below Deck Vault, mjh-sky-ptmb=MythBusters, mjh-sky-fast4=Warner Bros TV True Crime, mjh-sky-fast5=Warner Bros TV Paranormal, mjh-sky-fast1=Warner Bros TV Motorheads, mjh-sky-fast2=Warner Bros TV Deadliest Catch, mjh-sky-fast6=Warner Bros TV House Hunters, mjh-mood-1290=JuiceTV, mjh-mood-1289=J2, mjh-mood-1286=Big Rig, mjh-mood-1288=Melo, mjh-mood-1287=The Groat, mjh-tvnz-1=TVNZ 1, mjh-tvnz-2=TVNZ 2, mjh-three=Three, mjh-bravo=Bravo, mjh-maori-tv=Whakaata Māori, mjh-tvnz-duke=DUKE, mjh-tvnz-2-plus1=TVNZ 2 plus 1, mjh-prime=Sky Open, mjh-rush-nz=RUSH, mjh-te-reo=Te Reo, mjh-tvnz-1-plus1=TVNZ 1 plus 1, mjh-tvnz-duke-plus1=TVNZ DUKE+1, mjh-three-plus1=ThreePlus1, mjh-bravo-plus1=Bravo PLUS 1, mjh-eden=eden, mjh-al-jazeera=Al Jazeera, mjh-trackside-1=Trackside 1, mjh-trackside-2=Trackside 2, mjh-shine-tv=Shine TV, mjh-firstlight=Firstlight, mjh-hope-channel=Hope Channel, mjh-parliament-tv=Parliament TV, mjh-wairarapa-tv=Wairarapa TV, mjh-ch200=CH200, mjh-trackside-premier=Trackside Premier
-    20261026003000 mjh-tvnz-1 | NPC Rugby Grand Final
-    20261022060000 mjh-three | Blackcaps v India: 1st T20
-    20261023083000 mjh-three | RLWC: Australia v England
-    20261023090000 mjh-three | RLWC: Australia v England
-    20261024013000 mjh-three | Black Ferns V France
-    20261024020000 mjh-three | Black Ferns V France
-    20261024083000 mjh-three | RLWC: Australia v England
-    20261024090000 mjh-three | RLWC: Australia v England
-    20261025083000 mjh-three | RLWC: Australia v England
-    20261025090000 mjh-three | RLWC: Australia v England
-    20261030090000 mjh-three | Rugby League World Cup
-    20261031053000 mjh-three | WXV Global Series
-    20261031060000 mjh-three | WXV Global Series
-    20261031083000 mjh-three | Rugby League World Cup
-    20261031090000 mjh-three | Rugby League World Cup
-    20261101083000 mjh-three | Rugby League World Cup
-    20261101090000 mjh-three | Rugby League World Cup
-    20261024160000 mjh-tvnz-duke | UFC Fight Night
-    20261021030000 mjh-prime | NPC Highlights: Semifinal 2
-    20261021031500 mjh-prime | NPC Highlights: Semifinal 2
-    20261021033000 mjh-prime | A-League Men's Highlights
-    20261021083000 mjh-prime | Netball: Constellation Cup 3rd test
-    20261024033000 mjh-prime | A-League Men's Highlights
-    20261024210000 mjh-prime | Premier League: Arsenal v Everton
-    20261024230000 mjh-prime | A-League Women: Wellington Phoenix V...
-    20261025040000 mjh-prime | Explore TV Cruising
-    20261025063000 mjh-prime | Netball: Constellation Cup 3rd test
-    20261025200000 mjh-prime | Highlights: A-League: Western Sydney...
-    20261025203000 mjh-prime | Highlights: A-League: Western Sydney...
-    20261026020000 mjh-prime | Explore TV Cruising
-    20261027033500 mjh-prime | A-League Men's Highlights
-    20261028031500 mjh-prime | Rugby: Hilux NPC
-    20261028033000 mjh-prime | A-League Highlights
-    20261028093000 mjh-prime | Netball: Constellation Cup 4th Test
-    20261031032500 mjh-prime | A-League: Men
-    20261031035500 mjh-prime | A-League: Men
-    20261031210000 mjh-prime | Premier League: Goal Rush
-    20261031231500 mjh-prime | A-League: Men
-    20261101040000 mjh-prime | Explore TV Cruising
-    20261102020000 mjh-prime | Explore TV Cruising
+Sky Go channel elements: <channel id="sky.1">
+    <display-name lang="en_NZ">TVNZ 1</display-name>
+    <icon src="https://images.skyone.co.nz/contentful/dcojl03mw8gy/1ybupjLwcsXmhQZTaxYXmy/6b6fb3ebba539cf750be4ccef75374f6/TVNZ_1.png"/>
+    <!-- Start NZXMLTV Custom Tags -->
+    <lcn>1</lcn>
+    <!-- End NZXMLTV Custom Tags -->
+  </channel>
+  <channel id="sky.2">
+    <display-name lang="en_NZ">TVNZ 2</display-name>
+    <icon src="https://images.skyone.co.nz/contentful/dcojl03mw8gy/7bJVCIgfRIVOX6GD1ARMLL/392246c9157c7cb158567619c56329d9/TVNZ_2.png"/>
+    <!-- Start NZXMLTV Custom Tags -->
+    <lcn>2</lcn>
+    <!-- End N
+channels 83 sky.1=TVNZ 1, sky.2=TVNZ 2, sky.3=Three, sky.4=Sky Open, sky.5=Sky 5, sky.6=Vibe, sky.7=BBC UKTV, sky.8=JONES!, sky.9=Sky Drama, sky.10=Living, sky.11=Sky Comedy, sky.12=Bravo, sky.13=eden, sky.14=Sky Factual, sky.16=TLC, sky.18=ID, sky.19=Whakaata Māori, sky.20=Sky Arts, sky.21=HGTV, sky.23=TVNZ DUKE, sky.24=Rush, sky.25=Juice TV, sky.26=J2, sky.30=Sky Movies Premiere, sky.31=Sky Movies Comedy, sky.32=Sky Movies Action, sky.33=Sky Movies Greats, sky.34=Sky Movies Classics, sky.36=Sky Movies Family, sky.39=Rialto, sky.50=Sky Sport Select, sky.51=Sky Sport 1, sky.52=Sky Sport 2, sky.53=Sky Sport 3, sky.54=Sky Sport 4, sky.55=Sky Sport 5, sky.56=Sky Sport 6, sky.57=Sky Sport 7, sky.58=Sky Sport Premier League, sky.59=Sky Sport 9, sky.60=ESPN , sky.61=ESPN2, sky.62=Trackside 1, sky.63=Trackside 2, sky.65=Sky Arena, sky.70=Discovery, sky.71=Real Crime, sky.73=Real History, sky.74=BBC Earth, sky.75=Discovery Turbo, sky.76=Animal Planet, sky.81=Country TV, sky.83=Face TV, sky.85=News24, sky.86=Parliament, sky.87=CNN, sky.88=Fox News, sky.89=BBC World News, sky.90=Al Jazeera, sky.91=CNBC
 
-https://i.mjh.nz/nz/epg.xml.gz: 200 application/octet-stream 12645530 bytes
-  channels: 44 mjh-sky-hgtv=HGTV, mjh-sky-ptcn=CNN Headlines International, mjh-sky-ptms=MovieSphere, mjh-sky-fast3=Below Deck Vault, mjh-sky-ptmb=MythBusters, mjh-sky-fast4=Warner Bros TV True Crime, mjh-sky-fast5=Warner Bros TV Paranormal, mjh-sky-fast1=Warner Bros TV Motorheads, mjh-sky-fast2=Warner Bros TV Deadliest Catch, mjh-sky-fast6=Warner Bros TV House Hunters, mjh-mood-1290=JuiceTV, mjh-mood-1289=J2, mjh-mood-1286=Big Rig, mjh-mood-1288=Melo, mjh-mood-1287=The Groat, mjh-tvnz-1=TVNZ 1, mjh-tvnz-2=TVNZ 2, mjh-three=Three, mjh-bravo=Bravo, mjh-maori-tv=Whakaata Māori, mjh-tvnz-duke=DUKE, mjh-tvnz-2-plus1=TVNZ 2 plus 1, mjh-prime=Sky Open, mjh-rush-nz=RUSH, mjh-te-reo=Te Reo, mjh-tvnz-1-plus1=TVNZ 1 plus 1, mjh-tvnz-duke-plus1=TVNZ DUKE+1, mjh-three-plus1=ThreePlus1, mjh-bravo-plus1=Bravo PLUS 1, mjh-eden=eden, mjh-al-jazeera=Al Jazeera, mjh-trackside-1=Trackside 1, mjh-trackside-2=Trackside 2, mjh-shine-tv=Shine TV, mjh-firstlight=Firstlight, mjh-hope-channel=Hope Channel, mjh-parliament-tv=Parliament TV, mjh-wairarapa-tv=Wairarapa TV, mjh-ch200=CH200, mjh-trackside-premier=Trackside Premier
-    20261026003000 mjh-tvnz-1 | NPC Rugby Grand Final
-    20261022060000 mjh-three | Blackcaps v India: 1st T20
-    20261023083000 mjh-three | RLWC: Australia v England
-    20261023090000 mjh-three | RLWC: Australia v England
-    20261024013000 mjh-three | Black Ferns V France
-    20261024020000 mjh-three | Black Ferns V France
-    20261024083000 mjh-three | RLWC: Australia v England
-    20261024090000 mjh-three | RLWC: Australia v England
-    20261025083000 mjh-three | RLWC: Australia v England
-    20261025090000 mjh-three | RLWC: Australia v England
-    20261030090000 mjh-three | Rugby League World Cup
-    20261031053000 mjh-three | WXV Global Series
-    20261031060000 mjh-three | WXV Global Series
-    20261031083000 mjh-three | Rugby League World Cup
-    20261031090000 mjh-three | Rugby League World Cup
-    20261101083000 mjh-three | Rugby League World Cup
-    20261101090000 mjh-three | Rugby League World Cup
-    20261024160000 mjh-tvnz-duke | UFC Fight Night
-    20261021030000 mjh-prime | NPC Highlights: Semifinal 2
-    20261021031500 mjh-prime | NPC Highlights: Semifinal 2
-    20261021033000 mjh-prime | A-League Men's Highlights
-    20261021083000 mjh-prime | Netball: Constellation Cup 3rd test
-    20261024033000 mjh-prime | A-League Men's Highlights
-    20261024210000 mjh-prime | Premier League: Arsenal v Everton
-    20261024230000 mjh-prime | A-League Women: Wellington Phoenix V...
-    20261025040000 mjh-prime | Explore TV Cruising
-    20261025063000 mjh-prime | Netball: Constellation Cup 3rd test
-    20261025200000 mjh-prime | Highlights: A-League: Western Sydney...
-    20261025203000 mjh-prime | Highlights: A-League: Western Sydney...
-    20261026020000 mjh-prime | Explore TV Cruising
-    20261027033500 mjh-prime | A-League Men's Highlights
-    20261028031500 mjh-prime | Rugby: Hilux NPC
-    20261028033000 mjh-prime | A-League Highlights
-    20261028093000 mjh-prime | Netball: Constellation Cup 4th Test
-    20261031032500 mjh-prime | A-League: Men
-    20261031035500 mjh-prime | A-League: Men
-    20261031210000 mjh-prime | Premier League: Goal Rush
-    20261031231500 mjh-prime | A-League: Men
-    20261101040000 mjh-prime | Explore TV Cruising
-    20261102020000 mjh-prime | Explore TV Cruising
+ <programme start="20261022060000 +0000" stop="20261022110000 +0000" channel="mjh-three"> <title>Blackcaps v India: 1st T20</title> <sub-title>BLACKCAPS v India: 1st T20</sub-title> <desc>LIVE coverage of the first T20 International between the BLACKCAPS and India at Hagley Oval, Christchurch.</desc> <category>UHD</category> <category>Cricket</category> <category>Sports</category> <icon src="https://images.skyone.co.nz/mac/479214/DAM/80427FB2-94C8-40CE-A3E27FB15FE1B3F2.jpg"/> <url>https://www.skygo.co.nz/show/mac_sh_183528</url> <episode-num system="dd_progid">EP/1007856./SNZ11964269</episode-num> <episode-num system="xmltv_ns">2025.0.0</episode-num> <episode-num system="original-air-date">20
 
-https://i.mjh.nz/SkyGo/epg.xml: 200 text/plain; charset=utf-8 66676991 bytes
-  channels: 0 
-    20261003010000 sky.1 | NPC Rugby
-    20261003060000 sky.1 | NPC Rugby
-    20261004010000 sky.1 | NPC Rugby
-    20261009060000 sky.1 | NPC Rugby
-    20261015083000 sky.3 | Rugby League World Cup
-    20261015090000 sky.3 | Rugby League World Cup
-    20261001203000 sky.4 | League Lounge With Shaun Johnson‎
-    20261003210000 sky.4 | Cricket Australia Documentaries‎
-    20261004040000 sky.4 | Explore TV Cruising
-    20261005203000 sky.4 | League Lounge With Shaun Johnson
-    20261006000000 sky.4 | Super Rugby Pacific
-    20261008030000 sky.4 | Rugby Highlights
-    20261008031500 sky.4 | Rugby Highlights
-    20261008203000 sky.4 | League Lounge With Shaun Johnson
-    20261010210000 sky.4 | Premier League
-    20261010231500 sky.4 | Rugby: Hilux NPC Highlights
-    20261011030000 sky.4 | Cricket Australia Documentaries‎
-    20261011040000 sky.4 | Explore TV Cruising
-    20261013020000 sky.4 | Super Rugby Pacific
-    20261014033000 sky.4 | Rugby: Hilux NPC Highlights
-    20261014034500 sky.4 | Rugby: Hilux NPC Highlights
-    20261014040000 sky.4 | Rugby: Hilux NPC Highlights
-    20261014041500 sky.4 | Rugby: Hilux NPC Highlights
-    20261003023000 sky.10 | Alex vs America
-    20261010023000 sky.10 | Alex vs America
-    20261017023000 sky.10 | Alex vs America
-    20261002230000 sky.19 | 2026 1st XV Super 8 CNI Rugby
-    20261003003000 sky.19 | Maori All Blacks: Bound by Blood
-    20261002101000 sky.20 | Copy + Paste +  Steal: AI Vs Art
-    20261002181000 sky.20 | Copy + Paste +  Steal: AI Vs Art
-    20261003021000 sky.20 | Copy + Paste +  Steal: AI Vs Art
-    20261004063000 sky.20 | Liv Ullmann: A Road Less Travelled
-    20261004143000 sky.20 | Liv Ullmann: A Road Less Travelled
-    20261004223000 sky.20 | Liv Ullmann: A Road Less Travelled
-    20261007060000 sky.20 | Odeonsplatz 2024: Lahav Shani &amp; Anne-Sophie Mutter
-    20261007140000 sky.20 | Odeonsplatz 2024: Lahav Shani &amp; Anne-Sophie Mutter
-    20261007220000 sky.20 | Odeonsplatz 2024: Lahav Shani &amp; Anne-Sophie Mutter
-    20261021043000 sky.20 | Odeonsplatz Concert 2025: Lahav Shani &amp; Lisa Batiashvili
-    20261021123000 sky.20 | Odeonsplatz Concert 2025: Lahav Shani &amp; Lisa Batiashvili
-    20261021203000 sky.20 | Odeonsplatz Concert 2025: Lahav Shani &amp; Lisa Batiashvili
+ <programme start="20261024013000 +0000" stop="20261024020000 +0000" channel="mjh-three"> <title>Black Ferns V France</title> <sub-title>Black Ferns V France - Pre-game</sub-title> <desc>Coverage from Round 5 of the WXV Global Series between the Black Ferns and France at Semenoff Stadium, Whangarei.</desc> <category>Sport</category> <category>Rugby Union</category> <category>Sports</category> <icon src="https://images.skyone.co.nz/mac/479214/DAM/A0542561-4F1B-4248-BEFF23A674C7D71B.jpg"/> <url>https://www.skygo.co.nz/show/mac_sh_182647</url> <episode-num system="dd_progid">EP/1005938./SNZ11954745</episode-num> <episode-num system="xmltv_ns">2025.97.0</episode-num> <episode-num system="original
 
-https://i.mjh.nz/Sky/epg.xml: 404 text/html; charset=utf-8 265267 bytes
-    <!DOCTYPE html> <html lang="en" data-color-mode="auto" data-light-theme="light" data-dark-theme="dark" data-a11y-animated-images="system" data-a11y-link-underlines="true" > <head> <meta charset="utf-8"> <link rel="dns-prefetch" href="https://github.githubassets.com"
+ <programme start="20261024210000 +0000" stop="20261024230000 +0000" channel="mjh-prime"> <title>Premier League: Arsenal v Everton</title> <sub-title>Premier League Goal Rush</sub-title> <desc>Coverage from the Premier League Matchweek 8, focusing on Arsenal v Everton and also bringing you key moments from around the grounds.</desc> <category>Sport</category> <category>Football</category> <category>Sports</category> <icon src="https://images.skyone.co.nz/mac/479214/DAM/5FF2BAC7-32FD-4899-9BE716D77F1C5A28.jpg"/> <url>https://www.skygo.co.nz/show/mac_sh_16047</url> <episode-num system="dd_progid">EP/1006137./SNZ11955840</episode-num> <episode-num system="xmltv_ns">2025.19.0</episode-num> <episo
 
-https://i.mjh.nz/nz/: 200 text/html 2326 bytes
-   <html> <head><title>Index of /nz/</title></head> <body> <h1>Index of /nz/</h1><hr><pre><a href="../">../</a> <a href="epg.xml">epg.xml</a> 20-Oct-2026 22:08 12649119 <a href="epg.xml.gz">epg.xml.gz</a> 
+ <programme start="20261026003000 +0000" stop="20261026033000 +0000" channel="mjh-tvnz-1"> <title>NPC Rugby Grand Final</title> <sub-title>Canterbury v Northland: Final</sub-title> <desc>Join us for coverage of the NPC final between hosts Canterbury and Northland from One NZ Stadium in Christchurch.</desc> <date>2026</date> <category>Sports</category> <category>Rugby</category> <icon src="https://image-resizer-cloud-cdn.cms-api.tvnz.co.nz/image/488B6680-B5DC-42B4-81C4-0C004D8FBBFA/2-1x1.png?width=1000&amp;updatedTime=0&amp;dt=Web"/> <episode-num system="dd_progid">EP/1040578./10774731</episode-num> <episode-num system="xmltv_ns">2025.76.0</episode-num> <episode-num system="original-air-date">
 
-https://www.freeviewnz.tv/tvguide/: 200 text/html; charset=utf-8 1396073 bytes
-    <!DOCTYPE html> <html class="no-touch whats-on no-heading" lang="en"> <head> <title>Freeview TV Guide | Freeview</title> <meta charset="utf-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name
+ <programme start="20261024160000 +0000" stop="20261024180000 +0000" channel="mjh-tvnz-duke"> <title>UFC Fight Night</title> <sub-title>UFC 333 (Prelims)</sub-title> <desc>Live coverage of the Prelim Fights for UFC 333 from the Etihad Arena in Abu Dhabi before the main card starts on TVNZ+ at 7pm.</desc> <date>2026</date> <category>Sports</category> <category>UFC</category> <icon src="https://images.skyone.co.nz/mac/479214/DAM/FF13E93F-DC66-40CB-8BB4F7440C84C4CD.jpg"/> <episode-num system="dd_progid">EP/1039885./10775958#1</episode-num> <episode-num system="xmltv_ns">2025.64.0</episode-num> <episode-num system="original-air-date">2026-10-24 16:00:00</episode-num> <video> <present>yes</present
 
-https://www.freeviewnz.tv/api/tvguide: 404 text/html; charset=utf-8 16858 bytes
-    <!DOCTYPE html> <html class="no-touch standard-page transparent-header" lang="en"> <head> <title>Page 404 | Freeview</title> <meta charset="utf-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta http-equiv="X-UA-Compatible" content="IE=edg
-
-Arsenal F.C.: 25 — David Raya (GK), William Saliba (DF), Cristhian Mosquera (DF), Ben White (DF), Piero Hincapié (DF)
-
-Liverpool F.C.: 0 — 
-
-Manchester United F.C.: 32 — Senne Lammens (GK), Diogo Dalot (DF), Noussair Mazraoui (DF), Matthijs de Ligt (DF), Harry Maguire (DF)
-
-Brighton & Hove Albion F.C.: 30 — Bart Verbruggen (GK), Jaouen Hadjam (DF), Pascal Struijk (DF), Lewis Dunk (DF, c), Kaoru Mitoma (MF)
-
-Ipswich Town F.C.: 35 — Alex Palmer (GK), Darnell Furlong (DF), Leif Davis (DF), Cédric Kipré (DF), Azor Matusiwa (MF)
-
-https://api.football-data.org/v4/competitions/PL/teams: 403 {"message":"The resource you are looking for is restricted and apparently not within your permissions. Please check your subscription.","errorCode":403}
-
-https://v3.football.api-sports.io/status: 403 {"get": "","parameters": [],"errors": {"token": "Missing application key, Check our documentation on how to add your API key in headers.","error": "4xHe"},"results": 0,"paging": {"current": 1,"total":
+Sky Go sport titles:
+   20261021174500 sky.50 | A-League Highlights
+   20261021190000 sky.50 | NPC
+   20261022065000 sky.50 | LIVE: NZL v IND: T20
+   20261022193000 sky.50 | NPC MOTW Archive
+   20261023000000 sky.50 | NPC MOTW Archive
+   20261023020000 sky.50 | A-League Highlights
+   20261023021500 sky.50 | A-League Highlights
+   20261023023000 sky.50 | A-League Highlights
+   20261023214500 sky.50 | IND W v ZIM W: 1st ODI Highlights
+   20261023220000 sky.50 | A-League Highlights
+   20261024040000 sky.50 | A-League
+   20261024065000 sky.50 | LIVE: NZL v IND: T20
+   20261020163000 sky.51 | Rugby: Hilux NPC Highlights
+   20261020164500 sky.51 | Rugby: Hilux NPC Highlights
+   20261020171500 sky.51 | A-League Highlights
+   20261020213000 sky.51 | Rugby: Hilux NPC Highlights
+   20261020214500 sky.51 | Rugby: Hilux NPC Highlights
+   20261021090000 sky.51 | A-League Week 1 Highlights
+   20261021233000 sky.51 | Rugby: Hilux NPC
+   20261022013000 sky.51 | Rugby: Hilux NPC
+   20261022033000 sky.51 | NPC MOTW Archive
+   20261023194500 sky.51 | A-League Highlights
+   20261023201500 sky.51 | IND W v ZIM W: 1st ODI Highlights
+   20261024044500 sky.51 | A-League Highlights
+   20261024150000 sky.51 | A-League
+   20261024194500 sky.51 | A-League Highlights
+   20261025073000 sky.51 | Rugby: Hilux NPC Highlights
+   20261025084500 sky.51 | A-League Highlights
+   20261025111000 sky.51 | Rugby: Hilux NPC Highlights
+   20261025122500 sky.51 | Rugby: Hilux NPC Highlights
+   20261021223000 sky.52 | NPC MOTW Archive
+   20261022003000 sky.52 | A-League
+   20261022023000 sky.52 | A-League
+   20261023010000 sky.52 | A-League Highlights
+   20261023011500 sky.52 | A-League Highlights
+   20261023110000 sky.52 | NPC MOTW Archive
+   20261023210000 sky.52 | A-League Highlights
+   20261023213000 sky.52 | IND W v ZIM W: 1st ODI Highlights
+   20261024132500 sky.52 | Rugby: Hilux NPC Highlights
+   20261024134000 sky.52 | Rugby: Hilux NPC Highlights
