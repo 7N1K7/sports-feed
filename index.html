@@ -81,7 +81,9 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
 @media (prefers-color-scheme: dark) { :root[data-accent="pink"]:not([data-theme="light"]) { --paper: #140c10; --surface: #1e1419; --ink: #f4e4eb; --muted: #b398a5; --line: #38242e; --accent: #f783ac; --accent-ink: #22040f; --soft: #291a21; --cover: #38242e; } }
 :root[data-accent="pink"][data-theme="dark"] { --paper: #140c10; --surface: #1e1419; --ink: #f4e4eb; --muted: #b398a5; --line: #38242e; --accent: #f783ac; --accent-ink: #22040f; --soft: #291a21; --cover: #38242e; }
 .swatches { display: grid; grid-template-columns: repeat(5, max-content); justify-content: start; gap: 6px }
-.swatch { justify-content: flex-start; white-space: nowrap }
+/* the colour dot at the left, the name in the middle of the rest of the button */
+.swatch { white-space: nowrap }
+.swatches .swatch { display: grid; grid-template-columns: 18px minmax(0, 1fr); justify-items: center }
 @media (max-width: 700px) { .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
 .swatch { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 3px 11px 3px 5px; font: inherit; font-size: 14px; cursor: pointer }
 .swatch i { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line) }
@@ -203,7 +205,7 @@ html { -webkit-tap-highlight-color: transparent }
 .panel .ph.ptitle { font-size: 25px; color: color-mix(in srgb, var(--accent) 45%, var(--ink)) }
 .spoil-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 14px }
 /* the settings drop-downs share one snug width */
-#tzSel, #spoilDays { width: 9.5em } .spoil-row > label, .spoil-row .sgrp > label { min-width: 7.6em }
+#tzSel, #spoilDays { width: 9.5em; text-align: center; text-align-last: center } /* the choice in the middle of its box */ .spoil-row > label, .spoil-row .sgrp > label { min-width: 7.6em }
 /* the times and the spoiler days share a line, each label with its box, and stack (lined up) when there isn't room */
 .spoil-row .sgrp { display: inline-flex; align-items: center; gap: 10px } .spoil-row:has(.sgrp) { column-gap: 28px }
 select { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink) }
@@ -373,9 +375,10 @@ footer a { color: var(--muted) }
 .revall { position: absolute; right: 0; top: 3px; font: inherit; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 4px 10px; cursor: pointer }
 .revall:hover { border-color: var(--muted) }
 .rankrows { display: grid; gap: 8px; margin: 4px 0 14px }
-.rankrows .rrow { display: grid; grid-template-columns: 5.6em minmax(0, 1fr); align-items: start; column-gap: 6px }
-.rankrows .rrh { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding-top: 8px }
-@media (max-width: 560px) { .rankrows .rrow { grid-template-columns: 1fr; row-gap: 4px } .rankrows .rrh { padding-top: 0 } .rankrows .rrh:empty { display: none } }
+/* the UFC's lists: each row's name above its divisions, all centred and balanced like the rest */
+.rankrows .rrow { display: grid; row-gap: 4px; justify-items: center; text-align: center }
+.rankrows .rrh { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted) } .rankrows .rrh:empty { display: none }
+.rankrows .rrow .chips { display: block; text-align: center; font-size: 0; justify-self: stretch } .rankrows .rrow .chip { margin: 0 3px 6px; vertical-align: top }
 .stable .dh .wlim { white-space: nowrap }
 .stable .dh .wlim { text-transform: none; letter-spacing: 0; font-weight: 700; color: var(--sport); margin-left: 4px }
 @media (min-width: 561px) { .revall { right: 106px; transform: translateX(50%); white-space: nowrap } } /* centred over the cards' 210px time column */
@@ -467,6 +470,11 @@ dialog#sheet { width: min(720px, 100%) }
 .sheet-head.rhead { border-left: 0; padding: 0; justify-items: center; text-align: center }
 .sheet-head.rhead .dteams::after { content: ""; display: block; width: 44px; height: 4px; border-radius: 2px; background: var(--sport); margin: 8px auto 0 }
 .stable.rank > .dh, .rsrc { text-align: center }
+/* a UFC list's name on one line, its weight range (pound for pound: all divisions) and date on the next, so every list's
+   heading is the same two lines and the table never moves when you switch; phones leave out the pounds so it fits */
+.stable .dh .wlim.wl2 { display: block; margin: 3px 0 0; white-space: nowrap }
+.stable .dh .wl2 .muted { color: var(--muted); font-weight: 700 }
+@media (max-width: 560px) { .stable .dh .wl2 .wlb { display: none } }
 .dres { padding: 14px 16px; gap: 8px; justify-items: start }
 .facts { gap: 10px 18px; padding-block: 4px }
 .dh { margin-bottom: 8px }
@@ -709,7 +717,7 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
   .compbar .seg button { padding: 3px 9px; font-size: 13px }
   #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px 5px } #sportFilter .cicon { margin-right: 4px }
   /* the rankings' chips as compact as the sport row's, so they take three rows, not four or five */
-  :is(.ranksports, .rankchips) .chip { font-size: 13px; padding: 2px 9px; margin: 0 2px 5px } .ranksports .cicon { margin-right: 4px }
+  :is(.ranksports, .rankchips, .rankrows .chips) .chip { font-size: 13px; padding: 2px 9px; margin: 0 2px 5px } .ranksports .cicon { margin-right: 4px }
 }
 @media (max-width: 380px) { .nzonly, .rankbtn, .compbar .seg button { font-size: 12px; padding-inline: 8px } .nzonly img { width: 15px; height: auto } }
 .rankbtn:hover { background: color-mix(in srgb, var(--gold) 20%, var(--surface)) }
@@ -1905,7 +1913,7 @@ function rankDefault(lists) {
 const UFC_LIMIT = { strawweight: 115, flyweight: 125, bantamweight: 135, featherweight: 145, lightweight: 155, welterweight: 170, middleweight: 185, 'light heavyweight': 205, heavyweight: 265 };
 // a division runs from just over the one below's limit up to its own ("146–155 lb"); strawweight is the lightest, so only a limit
 const wrange = lim => { const lo = Object.values(UFC_LIMIT).filter(v => v < lim).sort((a, b) => b - a)[0], kg = v => (v * 0.45359237).toFixed(1);
-  return lo ? `${kg(lo + 1)}–${kg(lim)} kg (${lo + 1}–${lim} lb)` : `up to ${kg(lim)} kg (${lim} lb)`; };
+  return lo ? `${kg(lo + 1)}–${kg(lim)} kg<span class="wlb"> (${lo + 1}–${lim} lb)</span>` : `up to ${kg(lim)} kg<span class="wlb"> (${lim} lb)</span>`; };
 // a team's points or rating, big, with a bar running from the lowest side in the list to the top one
 const rankNum = v => parseFloat(String(v).replace(/,/g, ''));
 const rankVal = (v, top, low) => { const n = rankNum(v); return isNaN(n) || !top ? esc(v || '') : `<span class="rv"><span class="rbar" aria-hidden="true"><i style="width:${(top > low ? 12 + 88 * (n - low) / (top - low) : 100).toFixed(1)}%"></i></span><b>${esc(v)}</b></span>`; };
@@ -1919,7 +1927,7 @@ function rankingsHtml(lists) {
     ["Men's", lists.filter(x => !/pound|women/i.test(x.title))],
     ["Women's", lists.filter(x => !/pound/i.test(x.title) && /women/i.test(x.title))],
   ].filter(([, xs]) => xs.length);
-  const chips = ufcRows ? `<div class="rankrows">${ufcRows.map(([h, xs]) => `<div class="rrow"><span class="rrh">${h}</span><div class="chips">${xs.map(x => chip(x, h ? x.title.replace(/^Women's\s+/i, '').replace(/^./, c => c.toUpperCase()) : x.title)).join('')}</div></div>`).join('')}</div>`
+  const chips = ufcRows ? `<div class="rankrows">${ufcRows.map(([h, xs]) => `<div class="rrow"><span class="rrh">${h}</span><div class="chips">${xs.map(x => chip(x, h ? x.title.replace(/^Women's\s+/i, '').replace(/^./, c => c.toUpperCase()) : x.title)).join(' ')}</div></div>`).join('')}</div>`
     : lists.length > 1 ? `<div class="chips rankchips">${lists.map(x => chip(x)).join(' ')}</div>` : '';
   const fighters = l.sport === 'mma', people = fighters || l.kind === 'players';
   // a women's list names its sides as women's teams (Black Ferns, Hockeyroos), not the men's nicknames
@@ -1935,7 +1943,8 @@ function rankingsHtml(lists) {
     return `${gap}<tr class="${r.nz || (people && /New Zealand|NZL/.test(r.iso)) ? 'mine' : ''}"><td class="pos">${l.rows.indexOf(r) < 3 ? `<span class="medal m${l.rows.indexOf(r) + 1}" title="${['Gold', 'Silver', 'Bronze'][l.rows.indexOf(r)]}">${champ ? 'C' : esc(r.rank === 'n' ? String(l.rows.indexOf(r) + 1) : r.rank)}</span>` : champ ? '' : esc(r.rank)}</td><td class="tn">${name}${fighters && r.note && !/^(Steady|–|-)?$/.test(r.note) ? `<div class="muted small rnote">${esc(r.note)}</div>` : ''}</td><td class="num">${fighters ? esc(r.rec || '') : rankVal(r.val, top, low)}</td></tr>`;
   }).join('');
   const lim = fighters && UFC_LIMIT[(l.title.match(/(strawweight|flyweight|bantamweight|featherweight|lightweight|welterweight|middleweight|light heavyweight|heavyweight)\s*$/i) || [])[1]?.toLowerCase()];
-  return `${chips}<div class="stable rank sport-${l.sport}"><h3 class="dh">${esc(l.title)}${lim ? ` <span class="wlim">${wrange(lim)}</span>` : fighters ? ' <span class="wlim" aria-hidden="true" style="visibility:hidden">000.0–000.0 kg (000–000 lb)</span>' : ''}${l.asOf ? ` <span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), 'UTC', l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : people ? 'Player' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+  const asOf = l.asOf ? `<span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), 'UTC', l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : '';
+  return `${chips}<div class="stable rank sport-${l.sport}"><h3 class="dh">${esc(l.title)}${fighters ? `<span class="wlim wl2">${lim ? wrange(lim) : 'All divisions'}${asOf ? ` · ${asOf}` : ''}</span>` : asOf ? ` ${asOf}` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : people ? 'Player' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
     <p class="muted small rsrc">Rankings from <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(l.page.replace(/ /g, '_'))}" target="_blank" rel="noopener">Wikipedia</a> (CC BY-SA), which follows the official ${{ mma: 'UFC', rugby: 'World Rugby', cricket: 'ICC', league: 'IRL', football: 'FIFA', hockey: 'FIH', basketball: 'FIBA', netball: 'World Netball', tennis: /women/i.test(l.title) ? 'WTA' : 'ATP' }[l.sport] || ''} list.</p>`;
 }
 // Shows tab: the wider conversation around each sport (panel shows, YouTube breakdowns, podcasts), best known first.
@@ -2695,9 +2704,9 @@ function balanceChips(box) {
 const chipRO = new ResizeObserver(es => es.forEach(e => { const w = Math.round(e.contentRect.width); if (e.target.dataset.bw != w) { e.target.dataset.bw = w; balanceChips(e.target); } }));
 function watchChips() {
   chipRO.disconnect();
-  document.querySelectorAll('.ranksports, .rankchips, #sportFilter').forEach(b => { if (!b.querySelector('br')) delete b.dataset.bw; chipRO.observe(b); });
+  document.querySelectorAll('.ranksports, .rankchips, .rankrows .chips, #sportFilter').forEach(b => { if (!b.querySelector('br')) delete b.dataset.bw; chipRO.observe(b); });
 }
-document.fonts?.ready.then(() => document.querySelectorAll('.ranksports, .rankchips, #sportFilter').forEach(balanceChips));
+document.fonts?.ready.then(() => document.querySelectorAll('.ranksports, .rankchips, .rankrows .chips, #sportFilter').forEach(balanceChips));
 // the fold tab's outline, drawn to the bar's width: in from each edge with a curve, along the bottom, back out with a curve
 function syncFoldShape() {
   // the top bar has compacted once the search box sits below the logo
