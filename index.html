@@ -1759,7 +1759,7 @@ function evCard(e, now) {
   const stamp = e.sport !== 'cricket' || !(live || paused) ? '' : wet && fresh ? 'Rain delay' : e.wxNews || /\b(rain|wet)/i.test(e.weather || '') ? 'Rain affected' : '';
   const play = fresh && (live || (paused && !/lunch|tea|drinks|innings break/i.test(e.progress || ''))) && e.progress ? `<div class="wx play">${wet ? '🌧 ' : ''}${esc(today && pd === today ? e.progress.replace(/,\s*day \d+\s*$/i, '') : e.progress)}${!e.liveScore ? '' : !spoilers ? ` · ${esc(e.liveScore)}` : revealed.has(e.id) ? ` · ${esc(e.liveScore)} · <button type="button" class="lsrev" data-rehide="${esc(e.id)}">Hide score</button>` : ` · <button type="button" class="lsrev" data-reveal="${esc(e.id)}">Show score</button>`}</div>` : '';
   const local = overseas ? `<div class="loc num">${e.timeTBC ? (e.usual ? '≈' + time(d, e.tz) + ' ' : '') : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${wikiLink(cityOf(e))}</div>` : '';
-  const tv = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt ? 'YouTube (free)' : '';
+  const tv = (e.tv || []).find(x => !x.delayed)?.ch || (e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : '') || (e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt ? 'YouTube (free)' : '');
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
@@ -2310,7 +2310,12 @@ function detail(e) {
   // a free stream on the sport body's own YouTube channel: the live one, else the next to start, else the last (a replay)
   const yts = e.yt || [], yt = yts.find(x => x.state === 'live') || yts.find(x => x.state === 'upcoming' && new Date(x.at) > now - 6 * 36e5) || yts[yts.length - 1];
   const ytLi = yt ? `<li class="wopt"><span class="wkind k-free">Free</span><div><b><a class="svc" data-watch="YouTube" href="${esc(yt.url)}" target="_blank" rel="noopener">YouTube</a></b> <span class="muted small">(${esc(yt.ch)})</span><div class="muted small">${yt.state === 'live' ? 'Streaming live now' : yt.state === 'upcoming' ? `Live stream from ${time(new Date(yt.at), NZ)} ${fmt(new Date(yt.at), NZ, { weekday: 'short' })}` : 'Stream replay'}</div></div></li>` : '';
-  const watch = [ytLi, opts.map((o, i) => `<li class="wopt"><span class="wkind k-${(o.kind || 'other').split(/[ -]/)[0].toLowerCase()}">${esc(o.kind || 'Watch')}</span><div><b>${linkWatch(o.label)}</b>${i === 0 && opts.length > 1 ? ' <span class="muted small">(on the card)</span>' : ''}${o.need ? `<div class="muted small">${esc(o.need)}</div>` : ''}</div></li>`).join(''),
+  // what the TV guide lists for this game (free channels first), each with when its coverage starts
+  const tvFree = /^(TVNZ 1|TVNZ 2|Three|Sky Open|TVNZ DUKE|Whakaata Māori|Rush|Bravo|eden)$/;
+  // the card shows the first live listing when there is one, so that's the one marked
+  const onCard = (e.tv || []).find(x => !x.delayed);
+  const tvLi = (e.tv || []).map(x => `<li class="wopt"><span class="wkind k-${tvFree.test(x.ch) ? 'free' : 'pay'}">TV guide</span><div><b>${linkWatch(x.ch)}</b> <span class="muted small">from ${time(new Date(x.at), NZ)} ${fmt(new Date(x.at), NZ, { weekday: 'short' })}${x.delayed ? ' · delayed' : ''}${x === onCard ? ' (on the card)' : ''}</span></div></li>`).join('');
+  const watch = [tvLi, ytLi, opts.map((o, i) => `<li class="wopt"><span class="wkind k-${(o.kind || 'other').split(/[ -]/)[0].toLowerCase()}">${esc(o.kind || 'Watch')}</span><div><b>${linkWatch(o.label)}</b>${i === 0 && opts.length > 1 && !onCard ? ' <span class="muted small">(on the card)</span>' : ''}${o.need ? `<div class="muted small">${esc(o.need)}</div>` : ''}</div></li>`).join(''),
     cricinfo(e) && `<li>Live scores and commentary on <a class="svc" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Cricinfo</a></li>`, e.watchNote && `<li class="muted">${esc(e.watchNote)}</li>`].filter(Boolean).join('')
     || '<li class="muted">Broadcaster not confirmed yet</li>';
   const names = [e.home, e.away].map(n => String(n || '').replace(/ Women$/, ''));
@@ -2347,7 +2352,7 @@ function detail(e) {
       Math.abs(d - now) < 864e5 && redditSub(e) && `<a href="https://www.reddit.com/r/${redditSub(e)}/search/?q=${encodeURIComponent(e.sport === 'cricket' ? 'Match Thread' : e.sport === 'motor' ? 'Race Discussion' : /^(mma|boxing)$/.test(e.sport) ? 'Live Discussion' : 'Match Thread')}&restrict_sr=1&sort=new" target="_blank" rel="noopener">Match thread on r/${redditSub(e)} ↗</a>`,
     ].filter(Boolean).join('')}</div>
     <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
-    ${e.watchRule ? '<p class="muted small wnote">Who usually shows this competition in NZ, not a listing for this game: check the TV guide closer to the day.</p>' : ''}
+    ${e.watchRule && !(e.tv || []).some(x => !x.delayed) ? '<p class="muted small wnote">Who usually shows this competition in NZ, not a listing for this game: check the TV guide closer to the day.</p>' : ''}
     ${e.watchAU ? `<h3 class="dh">In Australia</h3><ul class="watchlist au">${e.watchAU.split(/\s*\/\s*/).map(p => `<li>${linkWatch(p)}</li>`).join('')}</ul>` : ''}
     ${e.card?.length ? `<h3 class="dh">Fight card</h3>${fightCard(e, hidden)}` : ''}
     ${e.squads?.length ? `<h3 class="dh">${e.seasonSquads ? (e.sport === 'cricket' ? 'Season squads' : 'Current squads') : 'Squads'}${e.seasonSquads ? ` <span class="muted small dhnote">${e.sport === 'cricket' ? 'each XI is picked from these' : "each game's team is picked from these"}</span>` : e.squads.some(q => q.players.some(p => p.ci || p.wp)) ? ' <span class="muted small dhnote">tap a name for their profile</span>' : ''}</h3>${squadsHtml(e)}${cricinfo(e) ? `<p class="small"><a class="srclink" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Playing XIs on Cricinfo once announced ↗</a></p>` : ''}` : ''}

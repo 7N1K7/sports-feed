@@ -424,6 +424,80 @@ async function youtubeStreams(events) {
   diag.youtube = `streams per channel: ${notes.join(', ')}; matched ${found.length}${found.length ? ': ' + found.slice(0, 20).join('; ') : ''}`;
 }
 
+// the TV guide: what's actually listed for a game on NZ channels (TVNZ 1 and 2, Three, Sky Open, DUKE, Whakaata Māori
+// and the Sky Sport channels), from the community-run NZ XMLTV guide at i.mjh.nz (the Sky Go guide, which carries all of
+// them). The file is big (60MB+), so it's read at most every six hours and only its sport listings kept. A listing
+// counts for a game when it names both sides (or the race or fight night) and starts within two hours before to an hour
+// after the game; one starting later the same day or the next is the game shown delayed
+const TV_FREE = /^(TVNZ 1|TVNZ 2|Three|Sky Open|TVNZ DUKE|Whakaata Māori|Rush|Bravo|eden)$/;
+const TV_SKIP = /highlights|archive|replay|review|classic|documentar|magazine|lounge|preview show|the breakdown|rewind|best of|motw|goal rush|countdown|press conference|weigh-in/i;
+const TV_NICK = { 'black caps': ['blackcaps', 'black caps', 'new zealand', 'nzl'], 'white ferns': ['white ferns', 'new zealand', 'nzl'], 'all blacks': ['all blacks', 'new zealand'],
+  'black ferns': ['black ferns', 'new zealand'], kiwis: ['kiwis', 'new zealand', 'nzl'], 'kiwi ferns': ['kiwi ferns', 'new zealand'], 'silver ferns': ['silver ferns', 'new zealand'],
+  'all whites': ['all whites', 'new zealand'], 'football ferns': ['football ferns', 'new zealand'], 'tall blacks': ['tall blacks', 'new zealand'], 'tall ferns': ['tall ferns', 'new zealand'],
+  'black sticks': ['black sticks', 'new zealand'], wallabies: ['wallabies', 'australia', 'aus'], wallaroos: ['wallaroos', 'australia'], springboks: ['springboks', 'south africa'],
+  proteas: ['proteas', 'south africa', 'rsa'], jillaroos: ['jillaroos', 'australia'], kangaroos: ['kangaroos', 'australia'] };
+const TV_CODE = { india: 'ind', australia: 'aus', england: 'eng', 'south africa': 'rsa', pakistan: 'pak', 'sri lanka': 'sl', bangladesh: 'ban', 'west indies': 'wi', ireland: 'ire',
+  zimbabwe: 'zim', afghanistan: 'afg', 'new zealand': 'nzl', scotland: 'sco', france: 'fra', fiji: 'fij', samoa: 'sam', tonga: 'ton' };
+async function tvGuide(events) {
+  const cacheUrl = new URL('.cache/tvguide.json', ROOT);
+  let cache = {};
+  try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
+  if (!cache.t || Date.now() - cache.t > 6 * 36e5) {
+    try {
+      const r = await fetch('https://i.mjh.nz/SkyGo/epg.xml', { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } });
+      if (!r.ok) throw new Error(r.status);
+      const xml = await r.text(), ent = x => x.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'");
+      const ch = Object.fromEntries([...xml.matchAll(/<channel id="([^"]+)"[^>]*>\s*<display-name[^>]*>([^<]+)/g)].map(m => [m[1], ent(m[2]).trim()]));
+      const items = [], lo = Date.now() - 2 * DAY, hi = Date.now() + 15 * DAY;
+      const when = v => Date.UTC(+v.slice(0, 4), +v.slice(4, 6) - 1, +v.slice(6, 8), +v.slice(8, 10), +v.slice(10, 12)) - (/([+-])(\d\d)(\d\d)/.test(v) ? (RegExp.$1 === '-' ? -1 : 1) * (+RegExp.$2 * 60 + +RegExp.$3) * 6e4 : 0);
+      for (const m of xml.matchAll(/<programme start="([^"]+)" stop="[^"]*" channel="([^"]+)">([\s\S]*?)<\/programme>/g)) {
+        const body = m[3], cats = [...body.matchAll(/<category[^>]*>([^<]+)/g)].map(x => x[1]).join(' ');
+        if (!/sport|rugby|cricket|league|football|netball|hockey|basketball|motor|tennis|ufc|boxing/i.test(cats)) continue;
+        const at = when(m[1]); if (at < lo || at > hi || !ch[m[2]]) continue;
+        const title = ent((body.match(/<title[^>]*>([^<]*)/) || [])[1] || ''), sub = ent((body.match(/<sub-title[^>]*>([^<]*)/) || [])[1] || ''), desc = ent((body.match(/<desc[^>]*>([^<]*)/) || [])[1] || '');
+        if (TV_SKIP.test(`${title} ${sub}`)) continue;
+        items.push({ ch: ch[m[2]], at, text: `${title} | ${sub} | ${desc.slice(0, 240)}`, live: /\blive\b/i.test(`${title} ${sub} ${desc}`) });
+      }
+      cache = { t: Date.now(), items };
+      try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
+    } catch (err) { diag.tvGuide = 'error ' + err.message; if (!cache.items) return; }
+  }
+  const items = cache.items || [], hits = [];
+  const sideNames = t => { const n = String(t || '').toLowerCase().replace(/\s+women('s)?$/, '').trim();
+    return [...new Set([n, ...(TV_NICK[n] || []), ...(TV_CODE[n] ? [TV_CODE[n]] : []), ytSide(t)])].filter(x => x.length > 1); };
+  // a name as a whole word, or as its adjective ("Australian Diamonds")
+  const has = (text, w) => new RegExp(`(^|[^a-z])${w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}n?([^a-z]|$)`, 'i').test(text);
+  for (const e of events) {
+    if (e.status === 'final' || !e.startUTC) continue;
+    const start = Date.parse(e.startUTC), solo = !e.away || /^(motor|tennis|mma|boxing)$/.test(e.sport);
+    const women = /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'blackferns', 'kiwiferns', 'silverferns', 'tallferns', 'blacksticksw', 'wbbl', 'fpc', 'anzprem'].includes(e.team);
+    const found = [];
+    for (const it of items) {
+      const d = it.at - start;
+      if (d < -2.5 * 36e5 || d > 30 * 36e5) continue;
+      const t = it.text;
+      if (solo) {
+        const key = e.sport === 'mma' ? 'ufc' : e.team === 'supercars' ? 'supercars' : e.team === 'f1' ? '(formula 1|f1)' : String(compOf0(e)).toLowerCase();
+        if (!new RegExp(key, 'i').test(t) || (e.team === 'f1' && !has(t, String(e.home).replace(/ grand prix$/i, '').toLowerCase()))) continue;
+      } else {
+        if (![e.home, e.away].every(s => sideNames(s).some(n => has(t, n)))) continue;
+        const wt = /women|\bw\b|ferns|wahine|wbbl|wncl|nrlw|jillaroos|wallaroos|wxv|aupiki/i.test(t);
+        if (wt !== women) continue;
+      }
+      // more than an hour after the start: shown delayed (or the next day's coverage of a Test)
+      found.push({ ch: it.ch, at: new Date(it.at).toISOString(), delayed: d > 60 * 6e4 });
+    }
+    if (!found.length) continue;
+    // one entry a channel (its first listing: a pre-game show and the game are two), free channels first
+    const byCh = new Map();
+    for (const f of found.sort((a, b) => a.at < b.at ? -1 : 1)) if (!byCh.has(f.ch)) byCh.set(f.ch, f);
+    e.tv = [...byCh.values()].sort((a, b) => (TV_FREE.test(b.ch) - TV_FREE.test(a.ch)) || (a.delayed - b.delayed) || (a.at < b.at ? -1 : 1)).slice(0, 4);
+    hits.push(`${e.home}${e.away ? ' v ' + e.away : ''}: ${e.tv.map(x => x.ch + (x.delayed ? ' (delayed)' : '')).join(', ')}`);
+  }
+  diag.tvGuide = `${items.length} sport listings (read ${new Date(cache.t).toISOString().slice(0, 16)}); ${hits.length} games listed: ${hits.slice(0, 30).join('; ')}`;
+}
+const compOf0 = e => String(e.comp || '').replace(/\s*[·,(].*$/, '').trim();
+
 function applyBroadcast(e, rules) {
   const fits = r => (!r.team || r.team === e.team) && (!r.comp || new RegExp(r.comp, 'i').test(e.comp));
   // how to watch in Australia (many of the games are Australian): added whatever NZ coverage the game already has
@@ -557,6 +631,7 @@ await sportmonksCricket(events);
 for (const e of events) if (e.fix) Object.assign(e, e.fix);
 events.forEach(e => applyBroadcast(e, rules));
 await youtubeStreams(events);
+await tvGuide(events);
 for (const e of events) if (!e.tz && e.city) { const bits = e.city.split(',').map(x => x.trim()); e.tz = tzFor(bits[0], bits[bits.length - 1]); }
 
 const COUNTRY = /^(New Zealand|Australia|England|Scotland|Wales|Ireland|France|Italy|South Africa|Argentina|Japan|Fiji|Samoa|Tonga|Papua New Guinea|Cook Islands|India|Sri Lanka|Bangladesh|Pakistan|West Indies|Lebanon|Canada|USA|United States|Chile|Uruguay|Georgia|Portugal|Spain|Romania|Netherlands|Belgium|Germany|Great Britain|Malaysia|South Korea|China|Austria|Egypt|Namibia)( Women| A| XI| Wheelchair)?$/i;
@@ -1457,7 +1532,8 @@ for (const e of events.filter(x => { const t = Date.parse(x.startUTC) - now; ret
   const comp = String(e.comp || e.team || '').replace(/\s*[,·(].*$/, '').trim();
   c.games++;
   if (!e.timeTBC) c.time++; else bump(c.gaps.time, comp);
-  if ((e.broadcast && e.broadcast !== 'TBC') || e.watchAlt || e.yt) c.watch++; else bump(c.gaps.watch, comp);
+  if ((e.broadcast && e.broadcast !== 'TBC') || e.watchAlt || e.yt || e.tv) c.watch++; else bump(c.gaps.watch, comp);
+  if (e.tv) c.guide = (c.guide || 0) + 1;
   if (e.yt) c.streams = (c.streams || 0) + 1;
   if (['motor', 'tennis'].includes(e.sport)) continue;
   const sides = [e.home, e.away].filter(t => t && !NOT_SIDE.test(t)), g = genderKey(e), base = t => String(t).replace(/\s+Women('s)?$/, '');
@@ -1485,7 +1561,7 @@ const feed = {
   teamLinks: links,
   coverage,
   sources: [
-    { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(ESPN_ON ? [{ name: 'Live cricket: ESPNcricinfo', url: 'https://www.espncricinfo.com' }] : []), ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, { name: 'Press releases via Scoop Media', url: 'https://www.scoop.co.nz/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })),
+    { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, { name: 'TV guide: i.mjh.nz (NZ XMLTV)', url: 'https://i.mjh.nz/' }, { name: 'Streams: YouTube', url: 'https://www.youtube.com' }, ...(ESPN_ON ? [{ name: 'Live cricket: ESPNcricinfo', url: 'https://www.espncricinfo.com' }] : []), ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, { name: 'Press releases via Scoop Media', url: 'https://www.scoop.co.nz/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })),
     { name: 'NZ Rugby', url: 'https://www.allblacks.com' }, { name: 'NZ Cricket', url: 'https://www.nzc.nz' },
     { name: 'NRL', url: 'https://www.nrl.com' },
     ...[...logoCredits].map(([name, url]) => ({ name, url })),

@@ -267,19 +267,22 @@ async function drawCoverage() {
   const cell = (n, d) => { if (!d) return '<td class="c na">–</td>'; const p = Math.round(100 * n / d); return `<td class="c ${p >= 90 ? 'ok' : p >= 60 ? 'mid' : 'low'}" title="${n} of ${d}">${p}%<small>${n}/${d}</small></td>`; };
   const rows = Object.entries(cov).sort((a, b) => b[1].games - a[1].games), sum = k => rows.reduce((a, [, c]) => a + c[k], 0);
   const name = k => SPORT_LABEL[k] || k[0].toUpperCase() + k.slice(1);
-  const line = (l, c) => `<tr${l === 'All sports' ? ' class="tot"' : ''}><td>${esc(l)}</td><td>${c.games}</td>${cell(c.time, c.games)}${cell(c.watch, c.games)}<td class="c">${c.streams || 0}</td>${cell(c.squads, c.sqGames)}${cell(c.pic, c.sides)}${cell(c.links, c.sidesL ?? c.sides)}</tr>`;
-  const all = { streams: rows.reduce((a, [, c]) => a + (c.streams || 0), 0), games: sum('games'), time: sum('time'), watch: sum('watch'), squads: sum('squads'), sqGames: sum('sqGames'), pic: sum('pic'), sides: sum('sides'), links: sum('links'),
+  const line = (l, c) => `<tr${l === 'All sports' ? ' class="tot"' : ''}><td>${esc(l)}</td><td>${c.games}</td>${cell(c.time, c.games)}${cell(c.watch, c.games)}<td class="c">${c.guide || 0}</td><td class="c">${c.streams || 0}</td>${cell(c.squads, c.sqGames)}${cell(c.pic, c.sides)}${cell(c.links, c.sidesL ?? c.sides)}</tr>`;
+  const all = { guide: rows.reduce((a, [, c]) => a + (c.guide || 0), 0), streams: rows.reduce((a, [, c]) => a + (c.streams || 0), 0), games: sum('games'), time: sum('time'), watch: sum('watch'), squads: sum('squads'), sqGames: sum('sqGames'), pic: sum('pic'), sides: sum('sides'), links: sum('links'),
     sidesL: rows.filter(([k]) => !['mma', 'boxing'].includes(k)).reduce((a, [, c]) => a + c.sides, 0) };
   for (const [k, c] of rows) if (['mma', 'boxing'].includes(k)) c.sidesL = 0;
   const list = xs => xs.map(x => Array.isArray(x) ? `${esc(x[0])}${x[1] > 1 ? ` (${x[1]})` : ''}` : esc(x)).join(', ');
   const gaps = rows.map(([k, c]) => { const g = c.gaps, parts = [['No start time yet', g.time], ['No way to watch', g.watch], ['No squads', g.squads], ['No picture', g.pic], ['No team links', ['mma', 'boxing'].includes(k) ? [] : g.links]].filter(([, x]) => x.length);
     const n = parts.reduce((a, [, x]) => a + x.length, 0);
     return n ? `<details><summary>${esc(name(k))} · ${n} gap${n === 1 ? '' : 's'}</summary>${parts.map(([l, x]) => `<p><b>${l}:</b> ${list(x)}</p>`).join('')}</details>` : ''; }).join('');
-  $('cov').innerHTML = `<div class="covwrap"><table class="cov"><thead><tr><th>Sport</th><th>Games</th><th>Start times</th><th>Where to watch</th><th title="Games with a free stream on a sports body's YouTube channel">Free streams</th><th>Squads</th><th>Pictures</th><th>Team links</th></tr></thead><tbody>`
+  $('cov').innerHTML = `<div class="covwrap"><table class="cov"><thead><tr><th>Sport</th><th>Games</th><th>Start times</th><th>Where to watch</th><th title="Games listed in the NZ TV guide (i.mjh.nz)">In TV guide</th><th title="Games with a free stream on a sports body's YouTube channel">Free streams</th><th>Squads</th><th>Pictures</th><th>Team links</th></tr></thead><tbody>`
     + rows.map(([k, c]) => line(name(k), c)).join('') + line('All sports', all) + `</tbody></table></div><div class="gaps">${gaps}</div>`;
 }
 // the big additions of data, newest first: kept by hand, a line each time a gap is filled or a new kind of data comes in
 const ADDED = [
+  ['21 Oct 2026', "TV guide listings for each game (TVNZ, Three, Sky Open, DUKE and the Sky Sport channels), from the NZ XMLTV guide at i.mjh.nz"],
+  ['21 Oct 2026', 'Supercars: every round, with race winners'],
+  ['21 Oct 2026', 'Premier League squads from the clubs\' pages'],
   ['20 Oct 2026', "Free live streams from the sports bodies' YouTube channels (NZ Cricket, Cricket Australia, Netball NZ, Hockey NZ, Basketball NZ, NZ Football, NZ Rugby League)"],
   ['20 Oct 2026', "League World Cup squads: 16 sides (men's and women's)"],
   ['20 Oct 2026', "Tennis doubles rankings, men's and women's"],
