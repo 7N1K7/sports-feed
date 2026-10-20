@@ -444,13 +444,16 @@ async function tvGuide(events) {
   const cacheUrl = new URL('.cache/tvguide.json', ROOT);
   let cache = {};
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
-  if (!cache.t || cache.v !== 2 || Date.now() - cache.t > 6 * 36e5) {
+  if (!cache.t || cache.v !== 3 || Date.now() - cache.t > 6 * 36e5) {
     try {
-      const r = await fetch('https://i.mjh.nz/SkyGo/epg.xml', { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } });
-      if (!r.ok) throw new Error(r.status);
+      const items = [], seen = new Set(), lo = Date.now() - 2 * DAY, hi = Date.now() + 15 * DAY;
+      // the Sky Go guide (every Sky channel and the free ones), then the free-to-air guide, which has some free-to-air
+      // listings the Sky one lacks (Three's cricket); a listing in both is kept once
+      for (const url of ['https://i.mjh.nz/SkyGo/epg.xml', 'https://i.mjh.nz/nz/epg.xml']) {
+      const r = await fetch(url, { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } });
+      if (!r.ok) throw new Error(`${url} ${r.status}`);
       const xml = await r.text(), ent = x => x.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'");
-      const ch = Object.fromEntries([...xml.matchAll(/<channel id="([^"]+)"[^>]*>\s*<display-name[^>]*>([^<]+)/g)].map(m => [m[1], ent(m[2]).trim()]));
-      const items = [], lo = Date.now() - 2 * DAY, hi = Date.now() + 15 * DAY;
+      const ch = Object.fromEntries([...xml.matchAll(/<channel id="([^"]+)"[^>]*>\s*<display-name[^>]*>([^<]+)/g)].map(m => [m[1], ent(m[2]).trim().replace(/^DUKE$/, 'TVNZ DUKE')]));
       const when = v => Date.UTC(+v.slice(0, 4), +v.slice(4, 6) - 1, +v.slice(6, 8), +v.slice(8, 10), +v.slice(10, 12)) - (/([+-])(\d\d)(\d\d)/.test(v) ? (RegExp.$1 === '-' ? -1 : 1) * (+RegExp.$2 * 60 + +RegExp.$3) * 6e4 : 0);
       for (const m of xml.matchAll(/<programme start="([^"]+)" stop="[^"]*" channel="([^"]+)">([\s\S]*?)<\/programme>/g)) {
         const body = m[3], cats = [...body.matchAll(/<category[^>]*>([^<]+)/g)].map(x => x[1]).join(' ');
@@ -459,9 +462,12 @@ async function tvGuide(events) {
         // a sport listing by its category, or by a "X v Y" title (free-to-air channels don't always give a category)
         if (!/sport|rugby|cricket|league|football|netball|hockey|basketball|motor|tennis|ufc|boxing/i.test(cats) && !/\S \s*(v|vs|V)\.? \S/.test(`${title} ${sub}`)) continue;
         if (TV_SKIP.test(`${title} ${sub}`)) continue;
+        if (seen.has(`${ch[m[2]]}|${at}`)) continue;
+        seen.add(`${ch[m[2]]}|${at}`);
         items.push({ ch: ch[m[2]], at, text: `${title} | ${sub} | ${desc.slice(0, 240)}`, live: /\blive\b/i.test(`${title} ${sub} ${desc}`) });
       }
-      cache = { t: Date.now(), v: 2, items }; // v: bumped when what's kept changes, so an old cache is read again
+      }
+      cache = { t: Date.now(), v: 3, items }; // v: bumped when what's kept changes, so an old cache is read again
       try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
     } catch (err) { diag.tvGuide = 'error ' + err.message; if (!cache.items) return; }
   }
