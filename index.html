@@ -1078,7 +1078,6 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
         <option value="0">Never</option><option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option><option value="4">4 days</option>
         <option value="5">5 days</option><option value="7">7 days</option><option value="14">14 days</option>
       </select>
-      <span id="spoilNote" style="color:var(--muted)">after the match, while spoilers are hidden</span>
     </div>
     <div class="spoil-row">
       <label for="tzSel">Show times for</label>
@@ -2618,7 +2617,7 @@ function render() {
   $('spoilBtn').title = spoilers ? 'Results are hidden: tap to show them' : 'Results are showing: tap to hide them';
   $('spoilBtn').setAttribute('aria-label', spoilers ? 'Spoilers hidden' : 'Spoilers shown');
   $('teamsBtn').innerHTML = `${ico('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>')}`;
-  $('spoilDays').value = String(spoilDays); $('spoilNote').style.visibility = spoilDays ? '' : 'hidden';
+  $('spoilDays').value = String(spoilDays);
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
   $('teamGroups').innerHTML = TEAMS.map(g => { const ss = [...new Set(g.items.map(([k]) => sportOf(k)))], on = ss.some(followedSport);
