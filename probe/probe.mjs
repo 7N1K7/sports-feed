@@ -1,6 +1,4 @@
-// probe 78: the new team squad reader on every listed page
-import { teamSquads, TEAM_PAGES } from './sources.mjs';
-const diag = {};
-const out = await teamSquads(Object.keys(TEAM_PAGES), diag);
-console.log(diag.teamSquads);
-for (const s of out) console.log(`${s.sport}|${s.g}|${s.team}: ${s.players.length} | ${s.players.slice(0, 5).map(p => p.n + (p.r ? ` [${p.r}]` : '') + (p.w ? ` {${p.w}}` : '')).join('; ')}`);
+// probe 79: the team squads in the live feed
+const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
+console.log('diag:', f.diag?.teamSquads);
+console.log((f.teamSquads || []).map(s => `${s.sport}|${s.g}|${s.team} ${s.players.length} (links ${s.players.filter(p => p.wp || p.ci).length})`).join('\n'));
