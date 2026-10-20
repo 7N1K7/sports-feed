@@ -625,12 +625,17 @@ header.top.stacked .fold { left: 0; width: 100% }
 .fold.on.filtering .tc { stroke: var(--accent) }
 /* pressing it doesn't shrink it like other buttons (that would pull it off the bar and the screen's edges) */
 #foldBtn:active { transform: none; filter: none } .fold:active .tc { stroke: var(--ink) }
-header.top.scrolled .fold, header.top:has(#panel:not([hidden])) .fold { opacity: 0; pointer-events: none }
+/* hidden once the page scrolls, and while Settings is open (two rules: a browser that can't read :has() would drop
+   a shared one, and the tab would never hide) */
+header.top.scrolled .fold { opacity: 0; pointer-events: none }
+header.top:has(#panel:not([hidden])) .fold { opacity: 0; pointer-events: none }
+/* a finger-sized target: the tap area reaches a little below the drawn tab */
+.fold::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 36px }
 /* while the tab shows, the bar has no bottom line, so bar and tab are one shape with nothing poking out where they meet;
    the line comes back once the page scrolls (and the tab goes) */
 header.top { transition: border-color .15s }
 header.top:not(.scrolled):not(:has(#panel:not([hidden]))) { border-bottom-color: transparent }
-header.top ~ main { padding-top: 30px }
+header.top ~ main { padding-top: 38px }
 main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: none !important }
 /* phones: short labels, so NZ only, men's/women's and rankings share one line, and tighter gaps so the day's first
    games are on screen sooner */
