@@ -1,31 +1,138 @@
 
-eventsseason.php?id=4489&s=2026: 15
-   1 2026-02-21 08:25:00 2026-02-21T08:25:00 | DUNLOP Sydney 500 Race 2
-   1 2026-02-22 05:05:00 2026-02-22T05:05:00 | DUNLOP Sydney 500 Race 3
-   2 2026-03-05 06:00:00 2026-03-05T06:00:00 | Melbourne SuperSprint  Race 4
-   2 2026-03-06 06:30:00 2026-03-06T06:30:00 | Melbourne SuperSprint  Race 5
-   2 2026-03-07 06:30:00 2026-03-07T06:30:00 | Melbourne SuperSprint  Race 6
-   2 2026-03-07 23:10:00 2026-03-07T23:10:00 | Melbourne SuperSprint  Race 7
-   3 2026-04-11 00:20:00 2026-04-11T00:20:00 | ITM Taupo Super 440  Race 8
-   3 2026-04-11 03:30:00 2026-04-11T03:30:00 | ITM Taupo Super 440  Race 9
-   4 2026-04-17 04:35:00 2026-04-17T04:35:00 | ITM Christchurch Super 440 Race 10
-   4 2026-04-18 00:00:00 2026-04-18T00:00:00 | ITM Christchurch Super 440 Race 11
-   4 2026-04-18 00:00:00 2026-04-18T00:00:00 | ITM Christchurch Super 440 Race 12
-   4 2026-04-19 00:00:00 2026-04-19T00:00:00 | ITM Christchurch Super 440 Race 13
-   5 2026-05-22 00:00:00 2026-05-22T00:00:00 | Tyrepower Tasmania Super 440  Race  14
-   5 2026-05-23 00:00:00 2026-05-23T00:00:00 | Tyrepower Tasmania Super 440  Race  15
+MISSING Taranaki rugby union team
 
-eventsround.php?id=4489&r=12&s=2026: 8
-   12 2026-10-23 01:45:00 2026-10-23T01:45:00 | Boost Mobile Gold Coast 500 Practice 1
-   12 2026-10-23 03:50:00 2026-10-23T03:50:00 | Boost Mobile Gold Coast 500 Practice 2
-   12 2026-10-23 06:05:00 2026-10-23T06:05:00 | Boost Mobile Gold Coast 500 Qualifying Race 31
-   12 2026-10-24 05:15:00 2026-10-24T05:15:00 | Boost Mobile Gold Coast 500  Race 31
-   12 2026-10-24 02:35:00 2026-10-24T02:35:00 | Boost Mobile Gold Coast 500 Top 10 Shootout Race 31
-   12 2026-10-25 04:45:00 2026-10-25T04:45:00 | Boost Mobile Gold Coast 500  Race 32
-   12 2026-10-25 01:20:00 2026-10-25T01:20:00 | Boost Mobile Gold Coast 500 Qualifying Race 32
-   12 2026-10-25 02:05:00 2026-10-25T02:05:00 | Boost Mobile Gold Coast 500 Top 10 Shootout Race 32
+### Nottingham Forest F.C.: read 0 — 
+  headings: Players | First team | Current squad | [[Nottingham Forest F.C. Under-21s, Under-18s and Academy|B Team]] | Current squad | Notable former players | Player of the Season | International players | Other NFFC teams
+==Players==
+===First team===
+====Current squad====
+<!----------------------------------------------------------------------------------------------
+  -- Do NOT add new players before their signing is officially announced by the club
+  -- and do NOT assign unreferenced squad numbers as well.
+  – Players with international caps should NOT be bolded – as per Wikipedia:WikiProject_Football/Clubs
+  – This is Wikipedia, not a football gazette.
+  – Any unconfirmed and unsourced signing/transfer will be reverted at sight.
+  – Thanks in advance.
+  ----------------------------------------------------------------------------------------------->
+{{updated|7 September 2026|<ref>{{cite web |url=https://ww
 
-eventsround.php?id=4489&r=33&s=2026: 0
+### Lebanon national rugby league team: read 0 — 
+  headings: Return to the World Cup, player disputes (2015–19) | Current squad
+==Current squad==
+Squad named in October 2025, to play against Italy.<ref>{{Cite web |title=Italy and Lebanon Men and Women Name Squads For Weekend |url=https://europeanrugbyleague.com/articles/2560/italy-and-lebanon-men-and-women-name-squ... |access-date=2025-10-03 |website=europeanrugbyleague.com |language=en}}</ref>
+{| class="wikitable"
+|+
+!Name
+!Club
+|-
+|Ibrahim El Cheikh
+|{{flagicon|AUS}} [[Blacktown Workers]]
+|-
+|Ibrahim El Labban
+|{{flagicon|AUS}} [[Blacktown Workers]]
+|-
+|Moustafa Dirani
+|{{flagicon|AUS}} [[Cronulla-Sutherland Sharks]]
+|-
+|Daniel Ahmed Arahu
+|{{flagicon|AUS}} [[Glebe Dirty Reds]]
+|-
+|Mikael Ibrahim
+|{{flagicon|AUS}} [[Gold Coast Titans]]
+|-
+|Joshua Maree
+|{{flagicon|
 
-eventsnextleague.php?id=4489: 1
-   12 2026-10-23 01:45:00 2026-10-23T01:45:00 | Boost Mobile Gold Coast 500 Practice 1
+### Canterbury Rugby Football Union: read 0 — 
+  headings: 
+
+### Northland Rugby Union: read 0 — 
+  headings: 
+
+### Northern Districts: read 0 — 
+  headings: 
+
+### England women's national rugby league team: read 0 — 
+  headings: Players | Team
+==Players==
+{{main|List of England women's national rugby league players}}
+
+The squad for the [[2026 Women's Rugby League World Cup]] was announced on 28 September 2026.<ref>{{Cite web|url=https://www.rugby-league.com/article/65166/england-women-name-2026-rugby-league-world-cup-squad-|title=England Women name 2026 Rugby League World Cup squad|date=28 Sep 2026|website=Rugby-League.com|access-date=29 Sep 2026}}</ref><ref>{{Cite web|url=https://www.bbc.com/sport/rugby-league/articles/c64g714l7pn9o|title=Australia-born Strange in England World Cup squad|last=Whalley|first=Mike|date=28 Sep 2026|website=BBC|access-date=29 Sep 2026}}</ref><ref>{{Cite web|url=https://www.skysports.com/rugby-league/n
+
+### Tonga women's national rugby league team: read 0 — 
+  headings: Players
+== Players ==
+The Mate Ma'a Tonga squad for the upcoming match against the [[Cook Islands women's national rugby league team|Cook Islands]] was announced via social media on 29 September 2026.<ref>{{Cite web|url=https://www.facebook.com/photo/?fbid=1067854989340130&set=a.117837811008524|title=Tonga XIII Women's squad v Cook Islands|date=29 Jun 2026|website=facebook|publisher=Tonga Rugby League|access-date=30 Sep 2026}}</ref>
+{{clear}}
+Jersey numbers and tallies in the table reflect the match versus Cook Islands Moana on 10 October 2026.
+{{Table alignment}}
+{| class="sortable defaultright col2left col3center col4center col11left" border="0" cellspacing="2" cellpadding="2" style="width:100%; t
+
+### England national wheelchair rugby league team: read 5 — Jack Brown, Nathan Collins, Luis Domingos, Rob Hawkins
+  headings: Current squad
+== Current squad ==
+Squad selected for the [[2026 Wheelchair Rugby League World Cup]] in [[Australia]].<ref>https://www.bbc.co.uk/sport/rugby-league/articles/c8zxz2r57k0zo</ref>
+
+{| class="wikitable"
+! Player
+! Club
+|-
+|Mason Billington || {{leagueicon|London Roosters|14}} [[London Roosters]]
+|-
+|[[Jack Brown (wheelchair rugby league)|Jack Brown]]|| {{leagueicon|Halifax|14}} [[Halifax Panthers Wheelchair|Halifax Panthers]]
+|-
+|[[Nathan Collins (wheelchair rugby league)|Nathan Collins]]|| {{leagueicon|Leeds|14}} [[Leeds Rhinos Wheelchair|Leeds Rhinos]]
+|-
+|Joe Coyd || {{leagueicon|London Roosters|14}} [[London Roosters]]
+|-
+|[[Luis Domingos]]|| {{leagueicon|Sheffield|14}} [[Sheffield Eagles W
+
+### Australia national wheelchair rugby league team: read 0 — 
+  headings: Current squad
+==Current squad==
+
+The Australia squad for the [[2026 Wheelchair Rugby League World Cup]].<ref>https://www.nrl.com/news/2026/09/23/australian-wheelaroos-named-for-2026-rugby-league-world-cup/</ref>
+
+{| class="wikitable"
+! Player
+|-
+|Bayley McKenna (C)
+|-
+|Daniel Anstey
+|-
+|Peter Arbuckle
+|-
+|Cory Cannane
+|-
+|Diab Karim
+|-
+|Liam Luff
+|-
+|Toby Popple
+|-
+|Stephan Rochecouste
+|-
+|Zac Schumacher
+|-
+|Adam Tannock
+|}
+
+==Competitive record==
+{| class="wikitable" style="text-align: center;"
+|-
+!colspan=2|[[Wheelchair Rugby League World Cup|World Cup Record]]
+|-
+!Year
+!Finish
+|-
+|style="border: 3px solid red"|{{flagicon|Australia}} [[2008 Wheelchair Rugby League World Cup|2008]]
+| bgcolor=silver| Runn
+
+TBC times by sport:
+  cricket [["Sheffield Shield",3],["Bangladesh v West Indies",2],["Australia v South Africa",1],["Pakistan v Sri Lanka",1]]
+  boxing [["Interim WBC light heavyweight title",1]]
+  league [["Wheelchair Rugby League World Cup",3]]
+  mma [["UFC Fight Night",2]]
+  motor [["Supercars",2]]
+
+supercarsTimes: undefined
