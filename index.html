@@ -538,6 +538,8 @@ dialog#sheet { width: min(720px, 100%) }
 .ev .nz { font-size: 22px }
 .ev .teams { font-size: 20px }
 /* rounded by clipping 1px inside the edge: the flag files paint a white base under the stripes, which bleeds through as a pale rim at the very edge */
+/* the stand-in for a missing logo: the sport's icon, small, grey and faint inside the logo's box */
+.logo.ph { object-fit: contain; box-sizing: border-box; padding: .42em; opacity: .4; filter: grayscale(1) }
 .flagimg { width: 1.25em; height: auto; vertical-align: -0.08em; clip-path: inset(1px round 3px) }
 
 /* on now: red ring with a soft pulse; starting within 3 hours: orange ring */
@@ -1367,8 +1369,14 @@ const shortName = n => n.split(' ').length > 2 ? n.replace(/\s+FC$/, '') : n;
 const CREDITS = {}; // fighter photo -> its Commons credit, filled when the feed loads
 const LOGO_CREDITS = {}; // a crest from Commons -> its credit
 const LOGO_ZOOM = { 'rugby|Canterbury': 1.8 };
+// a real side we have no logo or flag for yet shows its sport's icon, greyed, as a placeholder (not a slot still to be
+// decided, "Winner of...", nor a fighter, who has a photo or nothing)
+const NOT_SIDE = /^(TBC|TBA|TBD)\b|\b(winner|loser|placed|group|pool|semi-final|runners?[- ]up|qualifier|knockout|challenger)\b|^\d(st|nd|rd|th)\/|\bXI$/i;
+const placeholder = (n, after, sport) => sport && !FIGHT.test(sport) && !['motor', 'tennis'].includes(sport) && n && !NOT_SIDE.test(n)
+  ? `<img class="logo ph ${after ? 'after' : ''}" src="icons/${sport}.svg?v=3" alt="" title="No logo for ${esc(n)} yet">` : '';
 const crest = (n, logo, after, sport) => {
   const src = logo || flagOf(n);
+  if (!src) return placeholder(n, after, sport);
   const zf = logo && LOGO_ZOOM[`${sport}|${n}`];
   const z = zf ? ` style="--z:${zf}"` : '';
   const face = logo && CREDITS[logo];
