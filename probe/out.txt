@@ -1,45 +1,42 @@
-44 of 62: Northern Districts, Adelaide Strikers, Adelaide Strikers, Brisbane Heat, Brisbane Heat, Hobart Hurricanes, Hobart Hurricanes, Melbourne Renegades, Melbourne Renegades, Melbourne Stars, Melbourne Stars, Perth Scorchers, Perth Scorchers, Sydney Sixers, Sydney Sixers, Sydney Thunder, Sydney Thunder, Moana Pasifika missing
-cricket|m|Auckland Aces: 23 | Finn Allen; Adithya Ashok; Mark Chapman {Mark Chapman (cricketer)}; Sid Dixit; Cam Fletcher
-cricket|m|Canterbury: 21 | Leo Carter; Chad Bowes; Ken McClure; Matt Boyle; Henry Nicholls {Henry Nicholls (cricketer)}
-cricket|m|Central Stags: 14 | Dane Cleaver [wk]; Curtis Heaphy [wk]; Tom Bruce {Tom Bruce (cricketer)}; Dean Foxcroft; Brad Schmulian
-cricket|m|Wellington Firebirds: 20 | Troy Johnson {Troy Johnson (cricketer)}; Muhammad Abbas {Muhammad Abbas (cricketer, born 2003)}; Tim Robinson {Tim Robinson (New Zealand cricketer)}; Nick Greenwood {Nick Greenwood (cricketer)}; Gareth Severin
-cricket|m|Otago Volts: 18 | Matt Bacon {Matthew Bacon (cricketer)}; Jack Boyle {Jack Boyle (cricketer)}; Max Chu; Mason Clarke; Jacob Cumming
-basketball|m|New Zealand Breakers: 17 | Carlin Davison [F]; Preston Le Gassick [G]; Izayah Le'afa [G]; Sam Mennenga [F/C]; Tukaha Cooper [G]
-basketball|m|Adelaide 36ers: 15 | Matt Kenyon [G]; Flynn Cameron [G]; Isaac White [G]; Corey Webster [G]; Bryce Cotton [G]
-basketball|m|Brisbane Bullets: 17 | Taine Murray [G]; Arnas Velička [G]; Jaylin Williams [F]; Max Mackinnon [G]; Nate Hinton [G/F]
-basketball|m|Cairns Taipans: 15 | Lloyd McVeigh [G]; Reyne Smith [G]; Jaylon Brown [G]; Brody Nunn [G]; Jaylin Galloway [F]
-basketball|m|Illawarra Hawks: 16 | Tyler Harvey [G]; Kyle Adnam [G]; William Hickey [G]; Wani Swaka Lo Buluk [G/F]; Brodie McGregor [G]
-basketball|m|Melbourne United: 18 | Josh Oduro [F/C]; Cole Anthony [G]; Austin Shelley [G]; Joe Ingles [G/F]; Malith Machar [F]
-basketball|m|Perth Wildcats: 15 | Jo Lual-Acuil [C]; Blake Nielsen [G/F]; Anthony Dell'Orso [G]; Dylan Windler [G/F]; Kristian Doolittle [F]
-basketball|m|Sydney Kings: 15 | Kendric Davis [G]; Torrey Craig [F]; Tyler Robertson [G/F]; Will Johnston [G]; Bailey Hanson [G]
-basketball|m|Tasmania JackJumpers: 15 | Bryce Hamilton [G]; Taran Armstrong [G]; Jed Richardson [F]; Majok Deng [F]; Kody Stattmann [G]
-basketball|m|S.E. Melbourne Phoenix: 14 | Jordan Hunter [C]; Pat Ryan [G]; Sam Davidson [G]; Dash Daniels [G]; Angus Glover [G]
-football|m|Wellington Phoenix: 22 | Walter Scott [DF] {Walter Scott (soccer)}; Fin Roa Conchie [MF]; Bryce Duke [MF]; Max Anderson [MF] {Max Anderson (footballer)}; Rafael Durán [FW] {Rafael Durán (footballer)}
-football|m|Auckland FC: 24 | Michael Woud [GK]; Hiroki Sakai [DF, c]; Nando Pijnaker [DF]; Cameron Howieson [MF]; Luis Felipe Gallegos [MF]
-football|m|Brisbane Roar: 25 | Dean Bouzanis [GK]; Jacob Nasso [DF]; Dimitri Valkanis [DF]; Tom Aldred [DF, c]; Noah Maieroni [MF]
-football|m|Melbourne City: 33 | Macklin Freke [GK]; Harrison Delbridge [DF]; Liam Bonetig [DF]; Matheus Rossetto [MF]; Mathew Leckie [FW]
-football|m|Western Sydney Wanderers: 29 | Alex Gersbach [DF, c]; Steven Ugarkovic [MF]; Aydan Hammond [FW]; Dylan Scicluna [MF]; Hiroshi Ibusuki [FW]
-football|m|Central Coast Mariners: 31 | Diesel Herrington [DF]; Trent Sainsbury [DF, c]; Lucas Mauragis [DF]; Haine Eames [MF]; Chris Donnell [MF]
-football|m|Melbourne Victory: 25 | Jack Warshawsky [GK]; Jason Davidson [DF, c]; Philipp Ziereis [DF, c]; Brendan Hamill [DF] {Brendan Hamill (soccer)}; Louis D'Arrigo [MF]
-football|m|Newcastle Jets: 26 | James Delianov [GK]; Alex Grant [DF] {Alex Grant (soccer)}; Joe Shaughnessy [DF, c]; Zane Schreiber [MF]; Patrick Wood [FW]
-football|m|Sydney FC: 28 | Gus Hoefsloot [GK]; James Overy [DF]; Jordan Courtney-Perkins [DF]; Jacob Farrell [DF]; Akol Akon [FW]
-football|m|Adelaide United: 30 | Bart Vriends [DF, c]; Panagiotis Kikianis [DF]; Ryan Kitto [DF]; Juan Muñiz [MF] {Juan Muñiz (footballer, born 1992)}; Craig Goodwin [FW, c]
-football|m|Perth Glory: 27 | Matt Sutton [GK] {Matt Sutton (soccer)}; Charbel Shamoon [DF]; Sam Sutton [DF] {Sam Sutton (footballer)}; Lachlan Jackson [DF]; Stefan Colakovski [FW]
-football|m|Macarthur FC: 27 | Alexander Robinson [GK] {Alexander Robinson (soccer)}; Tatsuki Nara [DF]; Jonathan Aspropotamitis [DF]; Kai Kennedy [FW]; Connor Pain [MF]
-rugby|m|All Blacks: 34 | Asafo Aumua [HK]; Codie Taylor [HK]; Samisoni Taukei'aho [HK]; George Bower [PR] {George Bower (rugby union)}; Ethan de Groot [PR]
-rugby|w|Black Ferns: 30 | Vici-Rose Green [HK]; Atlanta Lolohea [HK]; Georgia Ponsonby [HK]; Maddison Robinson [PR]; Awhina Tangen-Wainohu [PR]
-rugby|m|Scotland: 36 | Ewan Ashman [HK]; Gregor Hiddleston [HK]; Seb Stephen [HK]; Zander Fagerson [PR]; Will Hurd [PR] {Will Hurd (rugby union)}
-rugby|m|Wales: 33 | Ryan Elias [HK]; Dewi Lake [HK]; Evan Lloyd [HK]; Rhys Carré [PR]; Dillon Lewis [PR]
-rugby|m|England: 37 | Jamie George [HK]; Luke Cowan-Dickie [HK]; Theo Dan [HK]; Ellis Genge [PR]; Joe Heyes [PR]
-rugby|m|Ireland: 56 | Rónan Kelleher [HK]; Dan Sheehan [HK] {Dan Sheehan (rugby union)}; Tom Stewart [HK] {Tom Stewart (rugby union)}; Billy Bohan [PR]; Jeremy Loughman [PR]
-rugby|m|France: 112 | Maxime Lamothe [HK]; Barnabé Massa [HK]; Peato Mauvaka [HK]; Moses Alo-Emile [PR]; Demba Bamba [PR]
-rugby|m|South Africa: 51 | Deon Fourie [HK]; Johan Grobbelaar [HK]; Malcolm Marx [HK]; Jan-Hendrik Wessels [HK]; Thomas du Toit [PR]
-rugby|m|Argentina: 36 | Leonel Oviedo [HK]; Ignacio Ruiz [HK] {Ignacio Ruiz (rugby union)}; Martín Vaca [HK]; Pedro Delgado [PR] {Pedro Delgado (rugby union)}; Rodrigo Martínez [PR] {Rodrigo Martínez (rugby union)}
-rugby|m|Italy: 33 | Tommaso Di Bartolomeo [HK]; Pablo Dimcheff [HK]; Gianmarco Lucchesi [HK]; Danilo Fischetti [PR]; Muhamed Hasa [PR]
-rugby|m|Wallabies: 34 | Josh Nasser [HK]; Brandon Paenga-Amosa [HK]; Billy Pollard [HK]; Allan Alaalatoa [PR]; Angus Bell [PR]
-rugby|w|France: 32 | Manon Bigot [HK]; Agathe Gérin [HK]; Élisa Riffonneau [HK]; Makarita Baleinadogo [PR]; Rose Bernadou [PR]
-rugby|m|Blues: 43 | Ben Ake [Prop]; Josh Fusitu'a [Prop]; Jordan Lay [Prop]; Marcel Renata [Prop]; Ofa Tuʻungafasi [Prop]
-rugby|m|Chiefs: 42 | Sione Ahio [Prop]; George Dyer [Prop]; Benet Kumeroa [Prop]; Ollie Norris [Prop]; Reuben O'Neill [Prop]
-rugby|m|Hurricanes: 43 | Siale Lauaki [Prop]; Tyrel Lomax [Prop]; Tevita Mafileo [Prop]; Xavier Numia [Prop]; Pouri Rakete-Stones [Prop]
-rugby|m|Crusaders: 47 | George Bower [Prop]; Finlay Brewis [Prop]; Seb Calder [Prop]; Fletcher Newell [Prop]; Kershawl Sykes-Martin [Prop]
-rugby|m|Highlanders: 42 | Josh Bartlett [Prop]; Ethan de Groot [Prop]; Sefo Kautai [Prop]; Daniel Lienert-Brown [Prop]; Saula Ma'u [Prop]
+diag: 41 of 42: Northern Districts missing
+cricket|w|Melbourne Renegades 14 (links 14)
+cricket|w|Sydney Thunder 13 (links 13)
+cricket|w|Melbourne Stars 11 (links 10)
+cricket|w|Hobart Hurricanes 14 (links 13)
+cricket|w|Brisbane Heat 14 (links 14)
+cricket|w|Sydney Sixers 14 (links 14)
+cricket|w|Adelaide Strikers 14 (links 14)
+cricket|w|Perth Scorchers 13 (links 13)
+cricket|m|Auckland Aces 23 (links 18)
+cricket|m|Canterbury 21 (links 21)
+cricket|m|Central Stags 14 (links 14)
+cricket|m|Wellington Firebirds 20 (links 9)
+cricket|m|Otago Volts 18 (links 2)
+rugby|w|Black Ferns 30 (links 0)
+rugby|m|All Blacks 34 (links 0)
+rugby|m|Wallabies 34 (links 0)
+rugby|w|France 32 (links 0)
+rugby|m|Scotland 36 (links 0)
+rugby|m|Wales 33 (links 0)
+football|m|Sydney FC 28 (links 0)
+football|m|Western Sydney Wanderers 29 (links 0)
+football|m|Auckland FC 24 (links 0)
+football|m|Melbourne City 33 (links 0)
+football|m|Macarthur FC 27 (links 0)
+football|m|Perth Glory 27 (links 0)
+football|m|Central Coast Mariners 31 (links 0)
+football|m|Newcastle Jets 26 (links 0)
+football|m|Wellington Phoenix 22 (links 0)
+football|m|Melbourne Victory 25 (links 0)
+football|m|Brisbane Roar 25 (links 0)
+football|m|Adelaide United 30 (links 0)
+rugby|m|South Africa 51 (links 0)
+basketball|m|Brisbane Bullets 17 (links 0)
+basketball|m|New Zealand Breakers 17 (links 0)
+basketball|m|Perth Wildcats 15 (links 0)
+basketball|m|Cairns Taipans 15 (links 0)
+basketball|m|Adelaide 36ers 15 (links 0)
+basketball|m|Sydney Kings 15 (links 0)
+basketball|m|Tasmania JackJumpers 15 (links 0)
+basketball|m|Melbourne United 18 (links 0)
+basketball|m|S.E. Melbourne Phoenix 14 (links 0)
