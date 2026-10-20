@@ -442,7 +442,7 @@ async function tvGuide(events) {
   const cacheUrl = new URL('.cache/tvguide.json', ROOT);
   let cache = {};
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
-  if (!cache.t || Date.now() - cache.t > 6 * 36e5) {
+  if (!cache.t || cache.v !== 2 || Date.now() - cache.t > 6 * 36e5) {
     try {
       const r = await fetch('https://i.mjh.nz/SkyGo/epg.xml', { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } });
       if (!r.ok) throw new Error(r.status);
@@ -459,7 +459,7 @@ async function tvGuide(events) {
         if (TV_SKIP.test(`${title} ${sub}`)) continue;
         items.push({ ch: ch[m[2]], at, text: `${title} | ${sub} | ${desc.slice(0, 240)}`, live: /\blive\b/i.test(`${title} ${sub} ${desc}`) });
       }
-      cache = { t: Date.now(), items };
+      cache = { t: Date.now(), v: 2, items }; // v: bumped when what's kept changes, so an old cache is read again
       try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
     } catch (err) { diag.tvGuide = 'error ' + err.message; if (!cache.items) return; }
   }
