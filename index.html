@@ -34,7 +34,7 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
 :root {
   --paper: #f3f6f4; --surface: #ffffff; --ink: #14211c; --muted: #5a6a64; --line: #d9e2de;
   --accent: #0d6b4d; --accent-ink: #ffffff; --soft: #e6efeb;
-  --rugby: #1b1f1d; --cricket: #b88a00; --league: #e8590c; --football: #2b8a3e; --mma: #d32f2f; --boxing: #d6336c; --motor: #1c7ed6; --tennis: #7a8c00; --hockey: #0b7285; --basketball: #a5653a; --netball: #7048e8;
+  --rugby: #1b1f1d; --rugbyt: #9a5428; --cricket: #b88a00; --league: #e8590c; --football: #2b8a3e; --mma: #d32f2f; --boxing: #d6336c; --motor: #1c7ed6; --tennis: #7a8c00; --hockey: #0b7285; --basketball: #a5653a; --netball: #7048e8;
   --live: #c8322a; --cover: #dfe6e3;
   --soon: #d9480f; --near: #7048e8; --later: #5a6a64; --local: #1971c2;
   --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
@@ -44,12 +44,12 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
   --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
-  --rugby: #d5dbd8; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7; --tennis: #c0d32a; --hockey: #3bc9db; --basketball: #e4a672; --netball: #9775fa;
+  --rugby: #d5dbd8; --rugbyt: #dc8e5c; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7; --tennis: #c0d32a; --hockey: #3bc9db; --basketball: #e4a672; --netball: #9775fa;
   --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark } }
 :root[data-theme="dark"] {
   --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
   --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
-  --rugby: #d5dbd8; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7; --tennis: #c0d32a; --hockey: #3bc9db; --basketball: #e4a672; --netball: #9775fa;
+  --rugby: #d5dbd8; --rugbyt: #dc8e5c; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7; --tennis: #c0d32a; --hockey: #3bc9db; --basketball: #e4a672; --netball: #9775fa;
   --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark }
 
 /* colour themes: Settings picks one; Kiwi green is the default above */
@@ -157,14 +157,23 @@ html { -webkit-tap-highlight-color: transparent }
 #teamGroups .group { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: start; column-gap: 10px; padding: 6px 0; border-top: 1px solid var(--line) }
 #teamGroups .group:first-child { border-top: 0; padding-top: 0 }
 #teamGroups .group h3 { margin: 0; padding-top: 6px; font-size: 11px; line-height: 1.25 }
-#teamGroups .ghide { display: block; margin-top: 5px; font: inherit; font-size: 11px; font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; cursor: pointer }
-#teamGroups .ghide:hover { color: var(--ink); border-color: var(--accent) }
+#teamGroups .ghide { display: flex; width: max-content; align-items: center; gap: 6px; margin-top: 6px; font: inherit; font-size: 13px; font-weight: 400; line-height: 1.45; text-transform: none; letter-spacing: 0; color: var(--paper); background: var(--ink); border: 1px solid var(--ink); border-radius: 999px; padding: 3px 10px 3px 8px; min-width: 98px; justify-content: center; cursor: pointer } /* one width for Hide and Show */
+#teamGroups .ghide:hover { border-color: var(--accent) }
+/* sized and coloured like a team chip: light with a green light while the sport is on, dark once it's hidden (and the
+   sport's name fades), so it changes colour, never size */
+#teamGroups .ghide::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #2f9e44 }
+#teamGroups .ghide.off { background: transparent; color: var(--ink); border-color: var(--line) }
+#teamGroups .ghide.off::before { background: var(--muted) }
+#teamGroups .group h3 .gt { color: var(--gc, var(--muted)); display: inline-flex; align-items: center; gap: 6px }
+#teamGroups .group h3 .gico { width: 15px; height: 15px; flex: none }
+#teamGroups .group.off h3 .gt { opacity: .5 }
 #teamGroups .chips { gap: 5px }
 #teamGroups .chip { padding: 3px 10px 3px 4px; font-size: 13px; gap: 6px }
 /* phones: a short tip beside each Hide sport button saying what it does */
 #teamGroups .ghint { display: none }
-@media (max-width: 560px) { #teamGroups .group { grid-template-columns: 1fr; row-gap: 5px } #teamGroups .group h3 { padding-top: 0 } #teamGroups .ghide { display: inline-block; margin: 0 0 0 8px; vertical-align: 1px }
-  #teamGroups .ghint { display: inline; margin-left: 6px; font-size: 11px; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted) } }
+@media (max-width: 560px) { #teamGroups .group { grid-template-columns: 1fr; row-gap: 5px } #teamGroups .group h3 { padding-top: 0 } #teamGroups .ghide { display: inline-flex; margin: 0 0 0 8px; vertical-align: 1px }
+  /* on its own line, the same length whether the sport is on or off, so hiding one moves nothing */
+  #teamGroups .ghint { display: block; margin-top: 4px; font-size: 11px; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted) } }
 .chips { display: flex; flex-wrap: wrap; gap: 6px }
 .chip { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 3px 11px; cursor: pointer; font-size: 14px }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
@@ -203,11 +212,12 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .photocred { margin: 18px 0 0; font-size: 11px; line-height: 1.45; color: var(--muted); opacity: .8 }
 .dot { width: 7px; height: 7px; border-radius: 50% }
 .dot.done { opacity: .3 }
-/* the "+" is drawn, not typed, so it sits dead centre in a dot's spot */
-/* the "+" is a text glyph: fonts snap their glyphs to the screen's pixels, so its arms stay even at any display scaling
-   (drawn bars came out wider than tall on scaled Windows screens) */
-.dot.more { border-radius: 0; display: inline-flex; align-items: center; justify-content: center; overflow: visible; color: var(--muted) }
-.dot.more::before { content: '+'; font: 700 12px/1 system-ui, -apple-system, 'Segoe UI', sans-serif }
+/* the "+" is a small shape filling exactly a dot's square (a mask, in the muted colour): a text "+" sat low and lopsided
+   in its line box, and bars drawn with borders came out wider than tall on scaled Windows screens */
+.dot.more { border-radius: 0; display: inline-flex; align-items: center; justify-content: center; color: var(--muted) }
+.dot.more::before { content: ""; width: 7px; height: 7px; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M5.5 0h3v14h-3zM0 5.5h14v3H0z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M5.5 0h3v14h-3zM0 5.5h14v3H0z'/%3E%3C/svg%3E") center / 100% 100% no-repeat }
 .day.today { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
 .day.empty .dd { color: var(--muted) }
 
@@ -561,6 +571,7 @@ a.svc:hover { text-decoration-color: currentColor }
 
 /* big events ahead: a row of tiles */
 .bigrow { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px }
+.bigrow .bph { visibility: hidden }
 .ev .body { position: relative }
 .ev .comp .sicon { width: 22px; height: 22px; flex: none }
 /* the octagon's dark rim fades into a dark card, so it is drawn a little bigger to look the same size as the ball or bat */
@@ -732,6 +743,8 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
 .bigev { text-align: left; border: 1px solid var(--line); border-left: 5px solid var(--c); border-radius: var(--r); background: color-mix(in srgb, var(--c) 6%, var(--surface)); color: var(--ink); padding: 12px 14px; display: grid; gap: 3px; cursor: pointer; font: inherit }
 .bigev:hover { border-color: var(--c) }
 .bigev .bn { font-family: var(--f-display); font-size: 20px; font-weight: 700; line-height: 1.1 }
+/* every tile keeps room for a two-line name (longer ones end in …), so all rows and all pages are one height */
+.bigev .bn { min-height: 2.2em; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden }
 .bigev .bd { font-size: 14px; font-weight: 600 }
 .bigev .bc { font-size: 13px; color: var(--muted) }
 .totop { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 40; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: var(--ink); color: var(--paper); font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.2) }
@@ -1029,8 +1042,8 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
       <select id="tzSel"></select>
     </div>
     <div class="spoil-row">
-      <span>Colours</span>
-      <div class="swatches" id="accentSel" role="group" aria-label="Colours"></div>
+      <span>Theme</span>
+      <div class="swatches" id="accentSel" role="group" aria-label="Theme"></div>
     </div>
     <h2 class="ph">My teams <span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news. Not into a sport at all? Tap <b>Hide sport</b> beside its name to take it off your feed and out of the sport buttons; <b>Show sport</b> brings it back.</span></h2>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
@@ -1045,7 +1058,7 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
     <div class="cals">
       <div class="calrow"><span class="calname">This browser's settings</span><span class="calgo"><button type="button" id="copySettings">Copy code</button></span></div>
       <div class="calrow"><input id="settingsCode" type="text" placeholder="Paste a code here" aria-label="Settings code" autocomplete="off" spellcheck="false" style="flex:1 1 12em;min-width:0;font:inherit;font-size:13px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 12px"><span class="calgo"><button type="button" id="loadSettings">Use these settings</button></span></div>
-      <div class="note muted" id="moveNote" style="font-size:13px">Teams, sports, competition, men's or women's, NZ only, spoilers, time zone and colours. Results you've revealed stay on each device.</div>
+      <div class="note muted" id="moveNote" style="font-size:13px">Teams, sports, competition, men's or women's, NZ only, spoilers, time zone and theme. Results you've revealed stay on each device.</div>
     </div>
   </div></div>
 </div>
@@ -1087,6 +1100,7 @@ html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
   <section id="bigSec" hidden>
     <h2>Big events ahead <small>Tap one to see all its games</small></h2>
     <div id="bigEvents" class="bigrow"></div>
+    <div id="bigPager"></div>
   </section>
   <section id="laterSec" hidden>
     <h2>Further ahead</h2>
@@ -1309,7 +1323,7 @@ let genderSel = store.get('gender', 'all');
 let nzOnly = store.get('nzOnly', false);
 let folded = store.get('folded', false);   // phones: filters folded away under one bar
 let selDay = '', drawDayPick = () => {};
-let hubTab = 'games', resPage = 0, laterPage = 0, rankSel = '';
+let hubTab = 'games', resPage = 0, laterPage = 0, bigPage = 0, rankSel = '';
 const NZ_KEYS = new Set(['allblacks', 'blackferns', 'npc', 'fpc', 'blues', 'chiefs', 'hurricanes', 'crusaders', 'highlanders', 'moana', 'blackcaps', 'whiteferns', 'nzdomestic', 'kiwis', 'kiwiferns', 'warriors', 'phoenix', 'aucklandfc', 'nzboxing', 'blacksticks', 'blacksticksw', 'tallblacks', 'tallferns', 'breakers', 'silverferns', 'anzprem']);
 const NZ_NAMES = /\bNew Zealand\b|^(Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Moana Pasifika)$|Warriors|Wellington Phoenix|Auckland FC|All Blacks|Black Ferns|Black ?Caps|White Ferns|Black Sticks|Tall Blacks|Tall Ferns|Breakers|Silver Ferns|Kiwi/;
 const isNZ = x => NZ_KEYS.has(x.team) || !!x.nzEvent || [x.home, x.away].some(n => NZ_NAMES.test(n || ''));
@@ -2417,15 +2431,20 @@ function render() {
   // a series of 4 or more games, a big one-off (World Cups, finals, Grand Slams), or an NZ side's series of 2 or more
   const ahead8 = [...firsts].filter(([c, v]) => !ongoing.has(c) && !/^(Test match|Women's test|Boxing|UFC|Black Caps|White Ferns|NZ domestic cricket|Sheffield Shield|Dean Jones Trophy)$/.test(c) && (v.count >= 4 || BIG_EVENT.test(c) || v.nz >= 2) && new Date(v.first.startUTC) - now < 150 * 864e5)
     .sort((a, b) => a[1].first.startUTC.localeCompare(b[1].first.startUTC));
-  // soonest first, ten at most and no more than four from one sport while others are waiting, so cricket can't fill the row
-  const perSport = {}, big = [];
-  for (const x of ahead8) if (big.length < 10 && (perSport[x[1].first.sport] = (perSport[x[1].first.sport] || 0) + 1) <= 4) big.push(x);
-  for (const x of ahead8) if (big.length < 10 && !big.includes(x)) big.push(x);
-  big.sort((a, b) => a[1].first.startUTC.localeCompare(b[1].first.startUTC));
+  // ten a page. The first page: the soonest, no more than four from one sport while others are waiting, so cricket
+  // can't fill it; later pages: the rest, soonest first
+  const BPER = 10, perSport = {}, first = [];
+  for (const x of ahead8) if (first.length < BPER && (perSport[x[1].first.sport] = (perSport[x[1].first.sport] || 0) + 1) <= 4) first.push(x);
+  for (const x of ahead8) if (first.length < BPER && !first.includes(x)) first.push(x);
+  first.sort((a, b) => a[1].first.startUTC.localeCompare(b[1].first.startUTC));
+  const allBig = [...first, ...ahead8.filter(x => !first.includes(x))], bpages = Math.ceil(allBig.length / BPER);
+  bigPage = Math.max(0, Math.min(bigPage, bpages - 1));
+  const big = allBig.slice(bigPage * BPER, bigPage * BPER + BPER);
   $('bigEvents').innerHTML = big.map(([c, v]) => {
     const d = new Date(v.first.startUTC), days = Math.round((d - now) / 864e5);
     return `<button type="button" class="bigev" data-bigcomp="${esc(c)}" style="--c:var(--${v.first.sport})"><span class="bn">${esc(plural(c))}</span><span class="bd">Starts ${fmt(d, NZ, { weekday: 'short', day: 'numeric', month: 'short' })}</span><span class="bc">${days < 60 ? `in ${days} days` : `in ${Math.round(days / 7)} weeks`}${v.count > 1 ? ` · ${v.count} games` : ''}</span></button>`;
-  }).join('');
+  }).join('') + (bpages > 1 ? '<span class="bigev bph" aria-hidden="true"><span class="bn">&nbsp;</span><span class="bd">&nbsp;</span><span class="bc">&nbsp;</span></span>'.repeat(BPER - big.length) : ''); // a short last page keeps its height
+  $('bigPager').innerHTML = bpages > 1 ? `<div class="pager"><button type="button" class="btn" data-bigpage="${bigPage - 1}"${bigPage ? '' : ' disabled'}>‹ Sooner</button><span class="num">Page ${bigPage + 1} of ${bpages}</span><button type="button" class="btn" data-bigpage="${bigPage + 1}"${bigPage < bpages - 1 ? '' : ' disabled'}>Later ›</button></div>` : '';
   $('bigSec').hidden = !big.length || !!compSel;
   $('upcoming').innerHTML = html || `<div class="empty-note">${later ? 'Nothing else this week for your picks.' : 'No fixtures for your teams yet. Pick more teams under My teams.'}</div>`;
 
@@ -2523,7 +2542,7 @@ function render() {
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
   $('teamGroups').innerHTML = TEAMS.map(g => { const ss = [...new Set(g.items.map(([k]) => sportOf(k)))], on = ss.some(followedSport);
-    return `<div class="group"><h3>${g.g}<button type="button" class="ghide" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed'}</span></h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`; }).join('');
+    return `<div class="group${on ? '' : ' off'}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`).join('')}</div></div>`; }).join('');
   // calendar subscriptions (built with the feed, in data/cal/): every game an NZ side plays, then each team picked above.
   // webcal: opens Apple's Calendar to subscribe; Google and Outlook take the address on their own add-by-URL pages
   const calRow = (k, label) => {
@@ -2705,6 +2724,7 @@ document.addEventListener('click', ev => {
   else if (t.id === 'hubClose') { compSel = ''; store.set('comp', ''); hubTab = 'games'; render(); }
   else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
   else if (t.dataset.laterpage != null) { laterPage = Math.max(0, +t.dataset.laterpage); render(); toSec('laterSec'); }
+  else if (t.dataset.bigpage != null) { bigPage = Math.max(0, +t.dataset.bigpage); render(); }
   else if (t.dataset.view) { view = t.dataset.view; store.set('view', view); render(); }
   else if (t.id === 'nowMore') { const c = $('nowChips'); c.scrollBy({ left: c.clientWidth * 0.7, behavior: 'smooth' }); }
   else if (t.id === 'spoilBtn') { spoilers = !spoilers; store.set('spoilers', spoilers); if (spoilers && !spoilDays) { spoilDays = 4; store.set('spoilDays', 4); } render(); }
