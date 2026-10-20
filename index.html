@@ -366,6 +366,9 @@ footer a { color: var(--muted) }
 .nowchips { display: contents }
 .nowlbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 0; white-space: nowrap; flex: none; display: inline-flex; align-items: center; gap: 6px }
 .nowchip.is-live { border-color: #e03131 }
+/* a series with a game on: a red dot on the chip's corner, taking no room in the row */
+.nowchip { position: relative } .nowchip .livedot { position: absolute; top: -2px; right: -2px; width: 9px; height: 9px; border-radius: 50%; background: #e03131; box-shadow: 0 0 0 2px var(--paper) }
+@media (prefers-reduced-motion: no-preference) { .nowchip.is-live .livedot { animation: tagpulse 2s ease-in-out infinite } }
 .livetag { margin-left: 6px; font-size: 9px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff; background: #e03131; border-radius: 4px; padding: 1px 5px }
 @media (prefers-reduced-motion: no-preference) { .nowchip.is-live .livetag { animation: tagpulse 2s ease-in-out infinite } @keyframes tagpulse { 50% { opacity: .55 } } }
 .copt .current { white-space: nowrap; margin-left: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--accent) }
@@ -1493,9 +1496,10 @@ const placeOf = e => [e.venue, cityOf(e)].filter(Boolean).join(', ');
 const soloTitle = e => `<div class="teams solo"><span class="nm">${esc(e.home)}</span>${placeOf(e) ? `<span class="where">${esc(placeOf(e))}</span>` : ''}</div>`;
 // Tournaments that tint the week strip on the days they're on
 const BIG_EVENT = /World Cup|Nations Championship|Olympic|Commonwealth Games|Lions Tour|Champions Trophy|ATP Finals|WTA Finals|Australian Open|French Open|Roland Garros|Wimbledon|US Open|Constellation Cup|Taini Jamison|Nations Cup|Pro League|Asia Cup/i;
-const SPORT_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', mma: '🥋', boxing: '🥊', motor: '🏎️', tennis: '🎾', hockey: '🏑', basketball: '🏀', netball: '🏐' };
+// motorsport's button and most of its cards carry a chequered flag; Formula 1's own cards and page keep the F1 car
+const SPORT_ICON = { f1: '🏎️', rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', mma: '🥋', boxing: '🥊', motor: '🏁', tennis: '🎾', hockey: '🏑', basketball: '🏀', netball: '🏐' };
 // same-size icons on every device (Twemoji, CC BY 4.0), rather than each system's own emoji
-const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/${s}.svg?v=3" alt="" aria-hidden="true">` : '';
+const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/${s}.svg?v=4" alt="" aria-hidden="true">` : '';
 const START_LABEL = { rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight', boxing: 'Main card', motor: 'Lights out', tennis: 'Final', hockey: 'Push back', basketball: 'Tip-off', netball: 'Centre pass' };
 const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC', boxing: 'Boxing', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball' };
 
@@ -1764,7 +1768,7 @@ function evCard(e, now) {
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${seriesLine(e, now)}
     </div>
@@ -1895,7 +1899,7 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup${split ? ' scored' : ''}"><span class="side home ${fres('home')}">${teamName(e.home, e.homeLogo, e)}</span>${split ? `<span class="v vsc">${scoreTag(split[0], res('home'))}<span class="vv">v</span>${scoreTag(split[1], res('away'))}</span>` : fw ? `<span class="v vhow"><span>v</span>${howTxt ? `<small>${esc(howTxt)}</small>` : ''}</span>` : '<span class="v">v</span>'}<span class="side away ${fres('away')}">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${e.summary ? (hidden ? '<div class="summary" aria-hidden="true">&nbsp;</div>' : `<div class="summary" title="${esc(e.summary)}">${esc(e.summary)}</div>`) : ''}
     </div>
@@ -2219,7 +2223,7 @@ function renderHub(now) {
   if (!on) { $('hubBody').innerHTML = ''; return; }
   const sample = (FEED.events || []).find(e => compOf(e) === compSel);
   $('hubName').textContent = plural(compSel);
-  $('hubIcon').innerHTML = sIcon(sample?.sport, 'hubimg');
+  $('hubIcon').innerHTML = sIcon(sample?.team === 'f1' ? 'f1' : sample?.sport, 'hubimg');
   $('hubSec').style.setProperty('--sport', `var(--${sample?.sport || 'rugby'})`);
   $('hubTabs').innerHTML = tabs.map(([k, l]) => `<button type="button" role="tab" data-hubtab="${k}" aria-selected="${hubTab === k}">${l}</button>`).join('');
   if (hubTab === 'table') {
@@ -2335,7 +2339,7 @@ function detail(e) {
   // a game under way: "On now" and the live scores link at the right of the title, not a box of their own
   const live = e.status === 'live' || (e.status !== 'final' && onNow(e, now)) ? `<div class="hlive"><span class="tag live">On now</span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
-      <div class="comp"><span>${esc(cardComp(e))}</span>${sIcon(e.sport)}${compBadge(e)}${intlTag(e)}</div>
+      <div class="comp"><span>${esc(cardComp(e))}</span>${sIcon(e.team === 'f1' ? 'f1' : e.sport)}${compBadge(e)}${intlTag(e)}</div>
       ${solo(e) ? `<h2 class="dteams solo">${esc(e.home)}${placeOf(e) ? `<small>${esc(placeOf(e))}</small>` : ''}</h2>` : split ? `<h2 class="dteams scored"><span class="dside">${ciWrap(e.home, e, teamName(e.home, e.homeLogo, e))}${scoreTag(split[0], wl('home'))}</span> <span class="v">v</span> <span class="dside">${ciWrap(e.away, e, teamName(e.away, e.awayLogo, e))}${scoreTag(split[1], wl('away'))}</span></h2>` : `<h2 class="dteams">${ciWrap(e.home, e, teamName(e.home, e.homeLogo, e))} <span class="v">v</span> ${ciWrap(e.away, e, teamName(e.away, e.awayLogo, e))}</h2>`}
       ${!isPast && e.status !== 'live' && countdown(e, now) ? `<span class="tag num ${d - now < 864e5 ? 'soon' : d - now < 3 * 864e5 ? 'near' : 'later'}" data-cd="${esc(e.startUTC)}">${countdown(e, now)}</span>` : ''}
       ${live}
@@ -2547,12 +2551,14 @@ const shortComp = c => SHORT.reduce((t, [re, r]) => t.replace(re, r), c);
 // tournaments played in windows across the year: listed whenever the next window is near
 const WINDOWED = /^(Nations Championship|Rugby Championship)$/;
 let onNowComps = new Set(), liveComps = new Set();
+const nowWatched = new WeakSet();
 function renderNowBar(now) {
   const by = new Map();
   for (const e of FEED.events || []) {
     if (!visibleTeam(e)) continue;
     const c = compOf(e);
-    if (GENERIC.test(c)) continue;
+    // season-long championships (F1, Supercars) aren't a series: they're under Running now
+    if (GENERIC.test(c) || e.sport === 'motor') continue;
     const t = new Date(e.startUTC) - now;
     const v = by.get(c) || { started: false, next: Infinity, nz: false, sport: e.sport, first: Infinity, last: -Infinity };
     v.first = Math.min(v.first, t); v.last = Math.max(v.last, t);
@@ -2570,9 +2576,10 @@ function renderNowBar(now) {
   onNowComps = new Set(on.map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
   $('nowBar').hidden = !on.length;
-  into($('nowBar')).html = on.length ? `<span class="nowlbl">Current running series</span><div class="nowwrap" id="nowWrap"><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livetag">Live</span>' : ''}</button>`).join('')}</div><button type="button" class="nowmore" id="nowMore" tabindex="-1" aria-hidden="true">›</button></div>` : '';
+  into($('nowBar')).html = on.length ? `<span class="nowlbl">Current running series</span><div class="nowwrap" id="nowWrap"><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}${v.live ? ' (live now)' : ''}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livedot" role="img" aria-label="live"></span>' : ''}</button>`).join('')}</div><button type="button" class="nowmore" id="nowMore" tabindex="-1" aria-hidden="true">›</button></div>` : '';
   balanceNow();
-  if ($('nowChips')) { $('nowChips').addEventListener('scroll', syncNowMore, { passive: true }); syncNowMore(); }
+  // once per row of chips (redraws keep the same element now)
+  if ($('nowChips')) { if (!nowWatched.has($('nowChips'))) { nowWatched.add($('nowChips')); $('nowChips').addEventListener('scroll', syncNowMore, { passive: true }); } syncNowMore(); }
 }
 // on a phone the chips scroll sideways; a small arrow at the right edge shows there are more, until the end is reached
 function syncNowMore() {
@@ -3019,7 +3026,7 @@ if ('serviceWorker' in navigator && isSecureContext) navigator.serviceWorker.reg
 // Redrawn live tags and cards would restart their pulse on every click; run every pulse on the page's own clock instead
 function syncPulse() {
   if (!document.getAnimations) return;
-  document.querySelectorAll('.nowchip.is-live .livetag, .ev.is-live').forEach(el => el.getAnimations().forEach(a => { if (a.startTime !== 0) a.startTime = 0; }));
+  document.querySelectorAll('.nowchip.is-live .livedot, .ev.is-live').forEach(el => el.getAnimations().forEach(a => { if (a.startTime !== 0) a.startTime = 0; }));
 }
 const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','audomestic','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], hockey: ['blacksticks','blacksticksw'], basketball: ['tallblacks','tallferns','breakers'], netball: ['silverferns','anzprem'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1', 'supercars'], tennis: ['tennis'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
