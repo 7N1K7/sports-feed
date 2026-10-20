@@ -1,42 +1,20 @@
-diag: 41 of 42: Northern Districts missing
-cricket|w|Melbourne Renegades 14 (links 14)
-cricket|w|Sydney Thunder 13 (links 13)
-cricket|w|Melbourne Stars 11 (links 10)
-cricket|w|Hobart Hurricanes 14 (links 13)
-cricket|w|Brisbane Heat 14 (links 14)
-cricket|w|Sydney Sixers 14 (links 14)
-cricket|w|Adelaide Strikers 14 (links 14)
-cricket|w|Perth Scorchers 13 (links 13)
-cricket|m|Auckland Aces 23 (links 18)
-cricket|m|Canterbury 21 (links 21)
-cricket|m|Central Stags 14 (links 14)
-cricket|m|Wellington Firebirds 20 (links 9)
-cricket|m|Otago Volts 18 (links 2)
-rugby|w|Black Ferns 30 (links 0)
-rugby|m|All Blacks 34 (links 0)
-rugby|m|Wallabies 34 (links 0)
-rugby|w|France 32 (links 0)
-rugby|m|Scotland 36 (links 0)
-rugby|m|Wales 33 (links 0)
-football|m|Sydney FC 28 (links 0)
-football|m|Western Sydney Wanderers 29 (links 0)
-football|m|Auckland FC 24 (links 0)
-football|m|Melbourne City 33 (links 0)
-football|m|Macarthur FC 27 (links 0)
-football|m|Perth Glory 27 (links 0)
-football|m|Central Coast Mariners 31 (links 0)
-football|m|Newcastle Jets 26 (links 0)
-football|m|Wellington Phoenix 22 (links 0)
-football|m|Melbourne Victory 25 (links 0)
-football|m|Brisbane Roar 25 (links 0)
-football|m|Adelaide United 30 (links 0)
-rugby|m|South Africa 51 (links 0)
-basketball|m|Brisbane Bullets 17 (links 0)
-basketball|m|New Zealand Breakers 17 (links 0)
-basketball|m|Perth Wildcats 15 (links 0)
-basketball|m|Cairns Taipans 15 (links 0)
-basketball|m|Adelaide 36ers 15 (links 0)
-basketball|m|Sydney Kings 15 (links 0)
-basketball|m|Tasmania JackJumpers 15 (links 0)
-basketball|m|Melbourne United 18 (links 0)
-basketball|m|S.E. Melbourne Phoenix 14 (links 0)
+league: games 48 | times 94% | watch 100% | squads 0% | pictures 100% (14/14) | links 100%
+   no time: Wheelchair Rugby League World Cup (3)
+   no squads: Wheelchair Rugby League World Cup (12), Rugby League World Cup (10), Women's Rugby League World Cup (8)
+cricket: games 44 | times 84% | watch 89% | squads 93% | pictures 94% (30/32) | links 100%
+   no time: Sheffield Shield (3), Bangladesh v West Indies (2), Australia v South Africa (1), Pakistan v Sri Lanka (1)
+   no watch: Dean Jones Trophy (2), Bangladesh v West Indies (2), Pakistan v Sri Lanka (1)
+   no squads: NZ A v India A (3)
+   no pic: South Australia, Western Australia
+football: games 32 | times 100% | watch 100% | squads 38% | pictures 100% (31/31) | links 100%
+   no squads: Premier League (20)
+rugby: games 6 | times 100% | watch 67% | squads 50% | pictures 100% (8/8) | links 100%
+   no watch: Test match (2)
+   no squads: Test match (2), NPC Final (1)
+boxing: games 5 | times 80% | watch 100% | squads - | pictures 70% (7/10) | links 0%
+   no time: Interim WBC light heavyweight title (1)
+   no pic: Dalton Smith, Alberto Puello, Elif Nur Turhan
+basketball: games 4 | times 100% | watch 100% | squads 100% | pictures 100% (5/5) | links 100%
+mma: games 3 | times 33% | watch 100% | squads - | pictures 100% (6/6) | links 0%
+   no time: UFC Fight Night (2)
+motor: games 3 | times 100% | watch 100% | squads - | pictures - (0/0) | links -
