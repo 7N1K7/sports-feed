@@ -92,8 +92,8 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
 .swatch .lb::after, .copt .lb::after { content: attr(data-l); grid-area: 1 / 1; font-weight: 600; visibility: hidden; height: 0; overflow: hidden }
 
 * { box-sizing: border-box }
-/* keep room for the scrollbar always, so pages don't jump sideways when it appears */
-html { scrollbar-gutter: stable }
+/* no scrollbar on the page itself (the wheel, trackpad, keys and touch still scroll it); pop-ups and menus keep their slim ones */
+html { scrollbar-width: none } html::-webkit-scrollbar { display: none; width: 0; height: 0 }
 body { background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.45; padding-top: env(safe-area-inset-top, 0px) } /* the home-screen app on iPhone draws under the status bar */
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface) }
 .wrap { max-width: 860px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
