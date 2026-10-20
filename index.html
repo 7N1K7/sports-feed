@@ -280,9 +280,12 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .ev .tvl a { color: inherit }
 .tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 1px 6px; background: var(--soft); color: var(--ink); justify-self: end }
 .tag.live { background: var(--live); color: #fff }
-.pager { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 14px auto 0; font-size: 14px; color: var(--muted) }
+/* every pager (results, later games, running now, events ahead): slim buttons close in on the page count, which keeps
+   room for "Page 10 of 12" so the buttons never shift as the number grows */
+.pager { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 12px auto 0; font-size: 14px; color: var(--muted) }
+.pager .btn { padding: 3px 11px; font-size: 13px }
 .pager .btn[disabled] { opacity: .4; cursor: default }
-.pager > .num { min-width: 8em; text-align: center }
+.pager > .num { min-width: 6.6em; text-align: center }
 .tag.paused { background: color-mix(in srgb, var(--live) 15%, transparent); color: var(--live); border: 1px solid color-mix(in srgb, var(--live) 40%, transparent) }
 .sport-rugby { --sport: var(--rugby) } .sport-cricket { --sport: var(--cricket) } .sport-league { --sport: var(--league) } .sport-football { --sport: var(--football) } .sport-mma { --sport: var(--mma) } .sport-boxing { --sport: var(--boxing) } .sport-motor { --sport: var(--motor) } .sport-tennis { --sport: var(--tennis) } .sport-hockey { --sport: var(--hockey) } .sport-basketball { --sport: var(--basketball) } .sport-netball { --sport: var(--netball) }
 
