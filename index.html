@@ -1003,6 +1003,10 @@ html.tight .compbar .lg { display: none } html.tight .compbar .sm { display: inl
 html.tight .compbar .cmenu { flex: 0 0 100%; display: flex; justify-content: center }
 html.tight .nzonly, html.tight .rankbtn { padding: 3px 10px; gap: 5px; font-size: 13px }
 html.tight .compbar .seg button { padding: 3px 9px; font-size: 13px }
+/* the sport buttons at the phones' size too, so narrowing the window only ever adds rows (full-size buttons here took
+   three rows where the smaller phone ones, just narrower, fit in two) */
+html.tight #sportFilter { margin-bottom: -11px }
+html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px 5px } html.tight #sportFilter .cicon { margin-right: 4px }
 /* compact rows: the matchup is one fixed width on every card, so each logo sits on the same vertical line at its outer edge;
    the name sits beside its logo and a long name grows in toward the "v" rather than pushing the logo out */
 @media (min-width: 561px) {
