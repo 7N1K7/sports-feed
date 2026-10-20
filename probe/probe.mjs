@@ -1,27 +1,33 @@
-// probe 74: what the live feed is missing, to pick what to hunt for next
-const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
-const now = Date.now(), soon = e => { const t = Date.parse(e.startUTC) - now; return t > -3 * 864e5 && t < 21 * 864e5; };
-const NZ = /New Zealand|Black Caps|White Ferns|All Blacks|Black Ferns|Kiwis|Kiwi Ferns|Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Warriors|Phoenix|Auckland FC|Breakers|Silver Ferns|Tall Blacks|Black Sticks|Moana|Auckland|Wellington|Canterbury|Otago|Northern|Central|Waikato|Bay of Plenty|Taranaki|Tasman|Hawke|Manawatu|Southland|North Harbour|Counties|Northland/;
-const up = f.events.filter(soon);
-const by = (xs, k) => Object.entries(xs.reduce((a, e) => (a[k(e)] = (a[k(e)] || 0) + 1, a), {})).sort((a, b) => b[1] - a[1]);
-console.log('events', f.events.length, '| next 3 weeks', up.length);
-console.log('\n== squads: games in the next 3 weeks without a squad, by competition (NZ sides)');
-for (const [c, n] of by(up.filter(e => !e.squads && NZ.test(e.home + ' ' + e.away) && !/motor|tennis|mma|boxing/.test(e.sport)), e => e.sport + ' | ' + (e.comp || '').replace(/,.*$/, ''))) console.log(`  ${n} | ${c}`);
-console.log('  with squads:', by(up.filter(e => e.squads), e => e.sport + ' | ' + (e.comp || '').replace(/,.*$/, '')).map(([c, n]) => `${n} ${c}`).join('; '));
-console.log('\n== where to watch missing or TBC (next 3 weeks)');
-for (const [c, n] of by(up.filter(e => !e.broadcast || e.broadcast === 'TBC'), e => e.sport + ' | ' + (e.comp || '').replace(/,.*$/, ''))) console.log(`  ${n} | ${c}`);
-console.log('\n== start time not set (next 3 weeks)');
-for (const [c, n] of by(up.filter(e => e.timeTBC), e => e.sport + ' | ' + (e.comp || '').replace(/,.*$/, ''))) console.log(`  ${n} | ${c}`);
-console.log('\n== venue missing (next 3 weeks)');
-for (const [c, n] of by(up.filter(e => !e.venue), e => e.sport + ' | ' + (e.comp || '').replace(/,.*$/, ''))) console.log(`  ${n} | ${c}`);
-console.log('\n== finished in the last 10 days with no score/summary');
-for (const [c, n] of by(f.events.filter(e => { const t = now - Date.parse(e.startUTC); return t > 6 * 36e5 && t < 10 * 864e5 && !e.score && !e.summary && !/motor|tennis/.test(e.sport); }), e => e.sport + ' | ' + (e.comp || '').replace(/,.*$/, ''))) console.log(`  ${n} | ${c}`);
-const sides = new Set(); f.events.forEach(e => [e.home, e.away].forEach(t => t && sides.add(e.sport + '|' + t)));
-const links = f.teamLinks || {};
-const noLink = [...sides].filter(k => !links[k] && !links[k.split('|')[1]] && !/TBC|winner|loser|group|pool|placed|semi|final|runner|qualifier|^UFC/i.test(k));
-console.log('\n== sides with no team links:', noLink.length, 'of', sides.size, '| e.g.', noLink.slice(0, 25).join(', '));
-console.log('\n== teamLinks sample key/value:', JSON.stringify(Object.entries(links).slice(0, 2)).slice(0, 300));
-console.log('\n== news items:', (f.news || []).length, '| by sport', by(f.news || [], n => n.sport || '?').map(([c, n]) => c + ' ' + n).join(', '));
-console.log('== tables (standings):', Object.keys(f.tables || {}).join(', ') || 'none');
-console.log('== rankings lists:', (f.rankings || []).length);
-console.log('== diag:', JSON.stringify(f.diag || {}).slice(0, 1500));
+// probe 75: which Wikipedia pages have a current squad we could read, and in what form (table rows, templates)
+const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const GROUPS = {
+  'Ford Trophy': ['Auckland cricket team', 'Northern Districts cricket team', 'Central Districts cricket team', 'Canterbury cricket team', 'Wellington cricket team', 'Otago cricket team'],
+  'Breakers (NBL)': ['New Zealand Breakers'],
+  'WBBL': ['Sydney Sixers (WBBL)', 'Perth Scorchers (WBBL)', 'Melbourne Stars (WBBL)'],
+  'A-League': ['Wellington Phoenix FC', 'Auckland FC'],
+  'NPC': ['Auckland Rugby Union', 'Canterbury Rugby Football Union', 'Wellington Rugby Football Union', 'Taranaki Rugby Football Union', 'Waikato Rugby Union'],
+  'All Blacks / Black Ferns': ['New Zealand national rugby union team', "New Zealand women's national rugby union team"],
+  'RLWC squads': ['2026 Rugby League World Cup squads', "2026 Women's Rugby League World Cup squads", '2026 Wheelchair Rugby League World Cup squads', "2026 Men's Rugby League World Cup squads"],
+  'Super Rugby': ['Blues (Super Rugby)', 'Chiefs (rugby union)'],
+};
+for (const [g, titles] of Object.entries(GROUPS)) {
+  await sleep(1500);
+  const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(titles.join('|')), { headers: UA });
+  const j = r.ok ? await r.json() : {};
+  const back = Object.fromEntries((j.query?.redirects || []).map(x => [x.to, x.from]));
+  console.log(`\n== ${g}`);
+  for (const pg of j.query?.pages || []) {
+    const t = pg.revisions?.[0]?.slots?.main?.content || '';
+    if (!t) { console.log(`  ${back[pg.title] || pg.title}: MISSING`); continue; }
+    const heads = [...t.matchAll(/^(==+)\s*([^=]*?(squad|roster|players|team)[^=]*?)\s*\1\s*$/gim)].map(m => m[2]).slice(0, 8);
+    const i = t.search(/^==+\s*(current |first[- ]team |senior )?(squad|roster)\b[^=]*==+\s*$/im);
+    let info = 'no squad section';
+    if (i >= 0) {
+      const sec = t.slice(i).replace(/^[^\n]*\n/, ''), j2 = sec.search(/^==[^=]/m), body = j2 < 0 ? sec : sec.slice(0, j2);
+      const tpl = [...new Set([...body.matchAll(/\{\{\s*([A-Za-z][\w -]{2,30}?)\s*[|}]/g)].map(m => m[1].trim()))].slice(0, 8);
+      info = `section ${body.length} chars, ${(body.match(/\[\[/g) || []).length} links, table ${/\{\|/.test(body) ? 'yes' : 'no'}, templates: ${tpl.join(', ')}`;
+    }
+    console.log(`  ${back[pg.title] || pg.title} -> ${pg.title}: ${info}\n     headings: ${heads.join(' | ')}`);
+  }
+}
