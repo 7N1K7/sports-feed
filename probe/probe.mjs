@@ -1,22 +1,22 @@
-// probe 42: Wikipedia pages for Australian domestic cricket, netball and basketball: do they exist, which match
-// templates do they use, and what do upcoming boxes look like
+// probe 43: find where the Silver Ferns' next games are listed, the Dean Jones Trophy's match template, and sample
+// boxes: an upcoming Breakers NBL game, a Tall Blacks qualifier, a Sheffield Shield match
 const UA = { 'user-agent': 'KickoffKiwi/1.0 (https://kickoff.kiwi/; probe)' };
-const pages = ['2026–27 Sheffield Shield season', '2026–27 One-Day Cup', '2026–27 Marsh One-Day Cup', '2026–27 Australian domestic one-day cricket season',
-  'New Zealand national netball team', '2026 Constellation Cup', '2026 ANZ Premiership season', '2027 Netball World Cup', '2026 Netball Nations Cup', '2026 Taini Jamison Trophy Series',
-  "New Zealand men's national basketball team", "New Zealand women's national basketball team", '2026–27 NBL season', '2026–27 New Zealand Breakers season', '2027 FIBA Basketball World Cup qualification (Asia)', '2027 FIBA Basketball World Cup Asian qualifiers', '2026 National Basketball League (New Zealand) season'];
-for (const t of pages) {
-  await new Promise(r => setTimeout(r, 1200));
-  const r = await fetch(`https://en.wikipedia.org/w/index.php?title=${encodeURIComponent(t)}&action=raw&redirect=yes`, { headers: UA });
-  if (!r.ok) { console.log(`\n##### ${t}: HTTP ${r.status}`); continue; }
-  const s = await r.text();
-  const redirect = (s.match(/^#REDIRECT\s*\[\[([^\]]+)\]\]/i) || [])[1];
-  if (redirect) { console.log(`\n##### ${t}: redirect -> ${redirect}`); continue; }
-  const names = {};
-  for (const m of s.matchAll(/\{\{\s*([^|}\n]{3,40}?)\s*\|/g)) { const n = m[1].trim(); if (/box|match|cricket|innings|netball|basketball|fixture|result|game/i.test(n)) names[n] = (names[n] || 0) + 1; }
-  console.log(`\n##### ${t}: ${s.length} chars | templates: ${JSON.stringify(names)}`);
-  // the first box dated October 2026 or later, raw
-  const boxes = [...s.matchAll(/\{\{\s*(?:[^|}\n]*(?:box|match|innings)[^|}\n]*)\s*\|/gi)];
-  const later = boxes.find(m => /(October|November|December) 2026|2027|\b(1[0-2])\/2026|2026-1[0-2]/.test(s.slice(m.index, m.index + 700)));
-  const show = later || boxes[0];
-  if (show) console.log(s.slice(show.index, show.index + 900).replace(/\n{2,}/g, '\n'));
+const raw = async t => { await new Promise(r => setTimeout(r, 1100)); const r = await fetch(`https://en.wikipedia.org/w/index.php?title=${encodeURIComponent(t)}&action=raw`, { headers: UA }); return r.ok ? r.text() : ''; };
+for (const q of ['Constellation Cup 2026 netball', 'Silver Ferns 2026 netball series', 'Taini Jamison Trophy 2026', 'Netball Nations Cup 2026', '2027 ANZ Premiership', 'Silver Ferns fixtures 2026']) {
+  await new Promise(r => setTimeout(r, 1100));
+  const j = await (await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srlimit=6&srsearch=${encodeURIComponent(q)}`, { headers: UA })).json();
+  console.log(`search "${q}":`, (j.query?.search || []).map(x => x.title).join(' | '));
 }
+const sample = (s, re, n = 900) => { const m = [...s.matchAll(re)]; return m.length ? s.slice(m[0].index, m[0].index + n).replace(/\n{2,}/g, '\n') : '(none)'; };
+const djt = await raw('2026–27 Dean Jones Trophy');
+const names = {}; for (const m of djt.matchAll(/\{\{\s*([^|}\n]{3,40}?)\s*\|/g)) { const n = m[1].trim(); if (/box|match|cricket|innings/i.test(n)) names[n] = (names[n] || 0) + 1; }
+console.log('\n##### Dean Jones Trophy templates:', JSON.stringify(names), '\n' + sample(djt, /\{\{\s*Single-innings cricket match/gi));
+const nbl = await raw('2026–27 NBL season');
+const bk = [...nbl.matchAll(/\{\{\s*basketballbox collapsible/gi)].map(m => nbl.slice(m.index, m.index + 1200)).filter(b => /Breakers/.test(b) && /(October|November|December) 2026|2027/.test(b));
+console.log('\n##### NBL box with the Breakers, upcoming:\n' + (bk[0] || '(none)').replace(/\n{2,}/g, '\n'));
+const fiba = await raw('2027 FIBA Basketball World Cup qualification (Asia)');
+const fb = [...fiba.matchAll(/\{\{\s*basketballbox collapsible/gi)].map(m => fiba.slice(m.index, m.index + 1300)).filter(b => /NZL|New Zealand/.test(b));
+console.log(`\n##### FIBA qualifier boxes with NZ: ${fb.length}; the last:\n` + (fb[fb.length - 1] || '(none)').replace(/\n{2,}/g, '\n'));
+const ss = await raw('2026–27 Sheffield Shield season');
+const sb = [...ss.matchAll(/\{\{\s*Two-innings cricket match/gi)].map(m => ss.slice(m.index, m.index + 1100)).filter(b => /(November|December) 2026/.test(b));
+console.log('\n##### Sheffield Shield box, upcoming:\n' + (sb[0] || '(none)').replace(/\n{2,}/g, '\n'));
