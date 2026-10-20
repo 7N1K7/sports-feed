@@ -1,20 +1,86 @@
-pages: [
-  '"2026–27 Sheffield Shield season":30',
-  '"2026–27 Dean Jones Trophy":16'
-]
-events 207
-2026-10-11T01:00:00.000Z Sun, 11 Oct, 2:00 pm (TBC) | India v West Indies undefined | India v West Indies | final 223 (20 overs) v 209/7 (20 overs) | Holkar Stadium / Indore / null
-2026-10-11T01:00:00.000Z Sun, 11 Oct, 2:00 pm (TBC) | Pakistan v Sri Lanka undefined | Pakistan v Sri Lanka | final 215/3 (20 overs) v 133/7 (20 overs) | Rawalpindi Cricket Stadium / Rawalpindi / null
-2026-10-11T15:00:00.000Z Mon, 12 Oct, 4:00 am (TBC) | Formula 1 · Round 17 undefined | Singapore Grand Prix v  | final Verstappen wins | Marina Bay Street Circuit / Singapore / null
-2026-10-12T03:00:00.000Z Mon, 12 Oct, 4:00 pm  | Dean Jones Trophy List A | South Australia v Victoria | final 311 (49.3 overs) v 241 (43.5 overs) | Junction Oval / Melbourne / Australia/Melbourne
-2026-10-12T23:00:00.000Z Tue, 13 Oct, 12:00 pm  | Dean Jones Trophy List A | Tasmania v New South Wales | final 203 (29.1 overs) v 158 (26 overs) | Cricket Central / Sydney / Australia/Sydney
-2026-10-13T01:00:00.000Z Tue, 13 Oct, 2:00 pm (TBC) | Pakistan v Sri Lanka undefined | Pakistan v Sri Lanka | final 168/8 (20 overs) v 172/2 (17.1 overs) | Rawalpindi Cricket Stadium / Rawalpindi / null
-2026-10-13T06:00:00.000Z Tue, 13 Oct, 7:00 pm  | Dean Jones Trophy List A | Queensland v Western Australia | final 261 (45.2 overs) v 246 (44 overs) | WACA Ground / Perth / Australia/Perth
-2026-10-14T01:00:00.000Z Wed, 14 Oct, 2:00 pm (TBC) | India v West Indies undefined | India v West Indies | final 223 (19.3 overs) v 247/3 (20 overs) | Rajiv Gandhi International Cricket Stadium / Hyderabad / null
-2026-10-17T00:00:00.000Z Sat, 17 Oct, 1:00 pm  | Dean Jones Trophy List A | South Australia v Queensland | final 7/397 (50 overs) v 271 (40.1 overs) | Karen Rolton Oval / Adelaide / Australia/Adelaide
-2026-10-17T01:00:00.000Z Sat, 17 Oct, 2:00 pm (TBC) | India v West Indies undefined | India v West Indies | final No result | M. Chinnaswamy Stadium / Bengaluru / null
-2026-10-18T01:00:00.000Z Sun, 18 Oct, 2:00 pm (TBC) | Australia v South Africa undefined | South Africa v Australia | upcoming  | St George's Park Cricket Ground / Gqeberha / null
-2026-10-18T08:15:00.000Z Sun, 18 Oct, 9:15 pm  | White Ferns v Australia undefined | Australia Women v New Zealand Women | final 8/168 (18.5 overs) v 2/162 (20 overs) | North Sydney Oval / Sydney / Australia/Sydney
-2026-10-19T03:00:00.000Z Mon, 19 Oct, 4:00 pm (TBC) | Sheffield Shield First-class | Tasmania v Victoria | upcoming  | Bellerive Oval / Hobart / Australia/Hobart
-2026-10-19T03:30:00.000Z Mon, 19 Oct, 4:30 pm (TBC) | Sheffield Shield First-class | South Australia v Queensland | upcoming  | Adelaide Oval / Adelaide / Australia/Adelaide
-without a time zone: 132 Chinese Grand Prix v  @ Shanghai International Circuit; Japanese Grand Prix v  @ Suzuka Circuit; Miami Grand Prix v  @ Miami International Autodrome
+
+##### 2026 ANZ Premiership season: 2 netballbox; template names: ["Infobox sports season","netballbox"]
+{{netballbox
+ | bg         = DCDCDC
+ | date       = 21 June 2026
+ | time       = 
+ | report     = 
+ | stats      = 
+ | team1      = '''[[Southern Steel (netball)|Southern Steel]]'''
+ | score1     = 60
+ | team2      = [[Mainland Tactix]]
+ | score2     = 54
+ | Q1         = 
+ | Q2         = 
+ | Q3         = 
+ | Q4         = 
+ | goals1     = 
+ | goals2     = 
+ | venue      = [[Stadium Southland]]
+ | attendance = 
+ | TV         = [[TVNZ]]
+}}
+{{small|'''Source''':<ref name="rnzelimfinal2026">{{cite web |last1=Tunnicliffe |first1=Bridget |title=Netball: Southern Steel book first ANZ Premiership grand final in eight years |url=https://www.rnz.co.nz/news/sport/612074/netball-southern-steel-book-first-anz-premiership-grand-final-in-eight-years |website=RNZ |access-date=27 September 2026}}</ref>}}
+===Grand final===
+{{netballbox
+ | bg         = DCDCDC
+ | date       = 27 June 2026
+ | time       = 
+
+
+##### 2025 Constellation Cup: 5 netballbox; template names: ["netballbox"]
+{{netballbox
+ | bg         = #EEEEEE
+ | date       = Friday, 17 October 2025
+ | time       = 19:30 [[Time in Australia|AEDT]]
+ | stats      = https://mc.championdata.com/netball_nz/index.html?competitionid=12918&matchid=129180101
+ | team1      = '''{{nb|Australia}}'''
+ | score1     = 69	
+ | team2      = {{nb|New Zealand}}
+ | score2     = 52		 	
+ | Q1         = 13–13
+ | Q2         = 30–28
+ | Q3         = 45–41
+ | Q4         = 69–52
+ | goals1     = [[Sophie Garbin]] {{nb-goal|42|45}}<br>[[Kiera Austin]] {{nb-goal|27|32}}
+ | goals2     = [[Grace Nweke]] {{nb-goal|37|41}}<br>Martina Salmon {{nb-goal|12|15}}<br>Amelia Walmsley {{nb-goal|3|4}}
+ | venue      = [[John Cain Arena]] 
+ | attendance = 
+}}
+{{small|'''Sources''':<ref name=sf171025>{{cite web|url=https://www.silverferns.co.nz/silver-ferns/news/latest-news/silver-ferns-outplayed-in-opening-constellation-cup-clash.html|title=Silver Ferns
+
+##### FIBA Men's World Ranking -> FIBA Men's World Ranking: 2 tables
+   Rank Change Team Points || 1 United States 952.3 || 2 Germany 877.4 || 3 1 France 870.9
+   Competition stage Continental championship &#91; a &#93; Olympics FIBA Basketball World Cup || Pre-qualifiers 0.4 0.15 0.4 || Qualifiers 0.8 0.30 Q1: 1.0 &#91; b &#93; Q2: 1.2 &#91; b &#93; || Final tournament Group stage 1.0 1.75 2.0
+   as-of:   Top 20 Rankings as of 1 September 2026    &#91; 1 &#93;   
+ 
+  
+ Rank
+ 
+
+##### FIBA World Ranking -> FIBA Men's World Ranking: 2 tables
+   Rank Change Team Points || 1 United States 952.3 || 2 Germany 877.4 || 3 1 France 870.9
+   Competition stage Continental championship &#91; a &#93; Olympics FIBA Basketball World Cup || Pre-qualifiers 0.4 0.15 0.4 || Qualifiers 0.8 0.30 Q1: 1.0 &#91; b &#93; Q2: 1.2 &#91; b &#93; || Final tournament Group stage 1.0 1.75 2.0
+   as-of:   Top 20 Rankings as of 1 September 2026    &#91; 1 &#93;   
+ 
+  
+ Rank
+ 
+
+##### FIBA Women's World Ranking -> FIBA Women's World Ranking: 2 tables
+   Rank Change Team Points || 1 United States 1076.1 || 2 France 936.4 || 3 1 Spain 885.1
+   Competition stage Continental championship Olympics FIBA Women's Basketball World Cup || Pre-qualifiers 0.25 0.350 0.5 || Qualifiers 0.50 0.800 1.0 || Final tournament Group stage 1.00 1.750 2.0
+   as-of:   Top 20 Rankings as of 14 September 2026    &#91; 1 &#93;   
+ 
+  
+ Rank
+
+
+##### World Netball Rankings -> World Netball Rankings: 1 tables
+   Rank Change Team Played Weighted Points Rating || 1 Australia 43 30 6,269 209 || 2 New Zealand 45 32 6,503 203 || 3 England 47 31 5,744 185
+   as-of:  Top 20 rankings as of 1 September 2026   &#91; 8 &#93;   
+ 
+  
+ Rank
+ 
+
