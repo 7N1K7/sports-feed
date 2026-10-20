@@ -1,98 +1,69 @@
-youtube key present: yes (39 chars)
-@BLACKCAPS not found
-@WhiteFerns not found
-  api error: 404 The playlist identified with the request's <code>playlistId</code> parameter cannot be found.
-@NZCricket = UClnloXu2UHUv9JZlTFT_N-Q "NZCricket" | of the last 0 uploads, 0 were/are streams
-@cricketcomau = UCkBY0aHJP9BwjZLDYxAQrKg "cricket.com.au" | of the last 50 uploads, 1 were/are streams
-   upcoming 2026-10-19T23:30:00Z | Cricket Gold - 24/7 LIVE Channel
-@CricketAustralia not found
-@SuperSmashNZ not found
-@nzrugbyleague = UCEztFfJS3r2MjXiHEdPDo9Q "NZ Rugby League" | of the last 50 uploads, 1 were/are streams
-   none     2026-10-13T05:30:00Z | Behind the Black and White | The Road to the World Cup
-@SkySportNZ = UC8f1U3h2TAcKOktgonnL0Yw "Sky Sport NZ" | of the last 50 uploads, 0 were/are streams
+feed tennis events:
+  2026-11-22 upcoming ATP Finals | Men's final v 
+  2026-11-15 upcoming WTA Finals | Women's final v 
+tennis rankings: [ "Men's singles", "Women's singles" ]
 
-######## New Zealand national rugby league team
-===Current roster===
-The New Zealand national team squad selected for the [[2026 Rugby League World Cup]].<ref>{{Cite web|url=https://nzrl.co.nz/news/new-zealand-kiwis-announce-blockbuster-squad-for-rugby-league-world-cup|title=New Zealand Kiwis announce blockbuster squad for Rugby League World Cup|date=6 Oct 2026|website=NZRL|access-date=6 Oct 2026}}</ref> [[James Fisher-Harris]] was appointed captain and [[Joseph Tapine]] was appointed vice-captain.<ref>{{Cite web|url=https://nzrl.co.nz/news/ponga-and-gagai-to-debut-in-kiwis-rlwc-opener|title=Ponga and Gagai to debut in Kiwis' RLWC opener|date=13 Oct 2026|website=NZRL|access-date=13 Oct 2026}}</ref>
-{{clear}}
-Jersey numbers in the table reflect team selection for the Round 1 match against Australia.<ref>[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-1/australia-v-new-zealand/ Round 1 Australia v New Zealand]</ref>
-{{clear}}
-Statistics in this table are compiled from the website, ''Rugby League Project''.<ref>[https://www.rugbyleagueproject.org/teams/new-zealand/players.html Rugby League Project]</ref> <!-- Tallies include the match versus Toa Samoa on 9 November 2025. -->
-{{Table alignment}}
-{| class="sortable defaultright col2left col3center col4center col11left" border="0" cellspacing="2" cellpadding="2" 
-|- style="background:black; color:white;" 
-! rowspan=2| J#
-! rowspan=2 align=left   | Player
-! rowspan=2 align=center | Age
-! rowspan=2 align=center | Position(s)
-! colspan=6 align=center | Kiwis
-! rowspan=2 align=center | Club
-! rowspan=2 align=center | NRL <br /> Matches
-! rowspan=2 align=center | Other Reps
-|- style="background:black; color:white;"
-!{{tooltip|Dbt|Debut}}
-!{{tooltip|M|Matches}}
-!{{tooltip|T|Tries}}
-!{{tooltip|G|Goals}}
-!{{tooltip|F|Field Goals}}
-!{{tooltip|P|Points}}
-|-
-| 1 ||  {{sortname|Kalyn|Ponga}} || 28 || {{rlp|FB}} || 2026 || 1 || 2 || style="color:lightgray" | 0 || style="color:lightgray" | 0 || 8 || {{flagdeco|AUS}} {{leagueicon|Newcastle|14}} [[Newcastle Knights]] || 164 || align=left | {{flagdeco|Samoa}} 1 {{leagueicon|Queensland|14}} 13 {{flagdeco|Maori}} 3
-|-
-| 2 ||  {{sortname|Jamayne|Isaako}} || 30 || {{rlp|WG|FB}} || 2018 || 15 || 9 || 57 || 1 || 151 || {{flag
+ATP rankings: captions/headers mentioning doubles:
+    th Singles race rankings as of 14&#160;September&#160;2026&#91;update&#93;&#91;26&#93;&#91;27&#93;
+    th ATP rankings (singles) as of 5&#160;October&#160;2026&#91;update&#93;&#91;28&#93;
+    th Doubles race rankings as of 28&#160;September&#160;2026&#91;update&#93;&#91;29&#93;&#91;30&#93;
+    th ATP rankings (doubles) as of 5&#160;October&#160;2026&#91;update&#93;&#91;31&#93;
+    th Doubles
+    th vteWorld Top 10 tennis players as of 12&#160;October&#160;2026&#91;update&#93;
+    th ATP doubles
+    th WTA doubles
+    th vteTennis world No. 1 men's doubles players
+    th Doubles
+    th Doubles
+    th Doubles
 
-######## Tonga national rugby league team
-===Current squad===
-The Tongan squad for the [[2026 Rugby League World Cup]]. The squad was announced on 6 October 2026.<ref>{{Cite web|url=https://www.facebook.com/photo/?fbid=1074653121993650&set=pcb.1074653151993647|title=Tonga Men's Squad|date=6 Oct 2026|website=facebook|publisher=Tonga Rugby League|access-date=6 Oct 2026}}</ref><ref>{{Cite web|url=https://www.nrl.com/news/2026/10/06/frizell-joins-powerful-side-tonga-for-third-world-cup/|title=Frizell joins powerful side Tonga for third World Cup|last=Walter|first=Brad|date=6 Oct 2026|website=NRL|publisher=Tonga Rugby League|access-date=6 Oct 2026}}</ref>
-{{clear}}
-Jersey numbers in the table reflect the team selected for the Round 1 match versus England.<ref>{{Cite web|url=https://www.facebook.com/photo/?fbid=1081418961317066&set=a.117837801008525|title=Tonga XIII Men's Squad v England|date=13 Oct 2026|website=facebook|publisher=Tonga Rugby League|access-date=13 Oct 2026}}</ref>
-{{clear}}
-Statistics in this table are compiled from the website, [https://www.rugbyleagueproject.org/teams/tonga/players.html Rugby League Project]. They include the match against England on 17 October 2026.
-{{Table alignment}}
-{| class="sortable defaultright col2left  col3center col4center col11left" border="0" cellspacing="2" cellpadding="2" 
-|- style="background:red; color:white;" 
-! rowspan=2| J#
-! rowspan=2 align=left   | Player
-! rowspan=2 align=center | Age
-! rowspan=2 align=center | Position(s)
-! colspan=6 align=center | Tonga
-! rowspan=2 align=center | Club
-! rowspan=2 align=center | NRL <br> Matches
-! rowspan=2 align=center | Other Reps
-|- style="background:red; color:white;"
-!{{tooltip|Dbt|Debut}}
-!{{tooltip|M|Matches}}
-!{{tooltip|T|Tries}}
-!{{tooltip|G|Goals}}
-!{{tooltip|F|Field Goals}}
-!{{tooltip|P|Points}}
-|-
-| 1 ||  {{sortname|Lehi|Hopoate}} || 21 || {{rlp|FB|WG}} || 2024 || 6 || style="color:lightgray" | 0 || style="color:lightgray" | 0 || style="color:lightgray" | 0 || style="color:lightgray" | 0 || {{flagdeco|AUS}} {{leagueicon|Manly|14}} [[Manly Warringah Sea Eagles]] || '''59''' ||  
-|-
-| 2 ||  {{sortname|Dallin|Watene-Zelezniak}} || 31 || {{rlp|WG}} || 2026 || 1 || style="color:lightgray" | 0 || style="color:li
+WTA rankings: captions/headers mentioning doubles:
+    th Singles race rankings as of 14&#160;September&#160;2026&#91;update&#93;&#91;6&#93;&#91;7&#93;
+    th WTA rankings (singles) as of 12&#160;October&#160;2026&#91;update&#93;&#91;8&#93;
+    th Doubles race rankings as of 3&#160;August&#160;2026&#91;update&#93;&#91;9&#93;&#91;10&#93;
+    th WTA rankings (doubles) as of 12&#160;October&#160;2026&#91;update&#93;&#91;11&#93;
+    th Start Date Doubles No.1
+    th End Date Doubles No.1
+    th First Date Doubles No.1
+    th Last Date Doubles No.1
+    th N. of Weeks Doubles No.1
+    th vteWorld Top 10 tennis players as of 12&#160;October&#160;2026&#91;update&#93;
+    th ATP doubles
+    th WTA doubles
+    th Doubles
+    th Doubles
+    th Doubles
 
-######## New Zealand women's national rugby league team
-===Current squad===
-<!-- {{Details|List of New Zealand women's national rugby league team players}} -->
+upcoming tennis pages:
+  MISSING 2026 Brisbane International (ATP Challenger)
+  MISSING 2026 Sydney Challenger
+  MISSING 2026 Playford International
+  MISSING 2026 NSW Open
+  MISSING 2026 Davis Cup Finals
+  MISSING 2026 Billie Jean King Cup Finals
+  MISSING 2027 Hobart International
+  MISSING 2027 Adelaide International
+  MISSING 2027 ASB Classic – Women's singles
+  MISSING 2027 ASB Classic
+  MISSING 2027 Brisbane International
+  MISSING 2027 United Cup
+   Australian Open | date: March 2012}} | len 84703
+   2026 ATP Challenger Tour | date: 24 October 2025}}</ref> It is the 49th edition of Challenger tournaments cycle,  | len 342261
+        |rowspan=12|November 23||rowspan=2|[[Florianópolis Challenger]]<br/>[[Florianópolis]], Brazil <br/> Clay – Challenger 75 – 32S/24Q/16D<br/>Singles – Doubles || colspan=2 align=center| {{flagicon|}} vs {{flagicon|}} ||ro
+   2026 Canberra Tennis International | date: 5 – 10 January  | len 7134
+   2026 ITF Women's World Tennis Tour | date: 25 June 2026}}</ref> | len 286475
 
-The Kiwi Ferns squad for the [[2026 Rugby League World Cup]] was announced on 6 October 2026.<ref>{{Cite web|url=https://www.facebook.com/photo?fbid=1807744968018057&set=pcb.1807745001351387|title=Kiwi Ferns|date=6 Oct 2026|website=facebook|publisher=Kiwi Ferns|access-date=6 Oct 2026}}</ref><ref>{{Cite web|url=https://nzrl.co.nz/news/star-studded-kiwi-ferns-squad-announced-for-rugby-league-world-cup|title=Star-studded Kiwi Ferns squad announced for Rugby League World Cup|date=6 Oct 2026|website=NZRL|access-date=6 Oct 2026}}</ref>
-{{clear}}
-Jersey numbers in the table reflect selections for the Round 1 match against Fiji.<ref>[https://www.nrl.com/draw/womens-rugby-league-world-cup/2026/round-1/new-zealand-v-fiji/ Round 1 New Zealand v Fiji]</ref><ref>{{Cite web|url=https://www.nrl.com/news/2026/10/13/world-cup-team-lists-womens-round-1/|title=World Cup team lists: Women's Round 1|date=13 Oct 2026|website=NRL|access-date=13 Oct 2026}}</ref><ref>{{Cite web|url=https://www.facebook.com/photo/?fbid=1815360703923150&set=pcb.1815360733923147|title=Team List vs Fiji|date=13 Oct 2026|website=facebook|publisher=Kiwi Ferns|access-date=13 Oct 2026}}</ref><ref>{{Cite web|url=https://nzrl.co.nz/news/kiwi-ferns-name-accomplished-side-to-face-fiji-bulikula|title=Kiwi Ferns name accomplished side to face Fiji Bulikula|date=13 Oct 2026|website=NZRL|access-date=13 Oct 2026}}</ref>
-{{clear}}
-Players' ages are as at the date that the table was last updated, 13 October 2026.
-{{Table alignment}}
-{| class="sortable defaultright col2left col3center col4center col11left" border="0" cellspacing="2" cellpadding="2" style="width:100%;" 
-|- style="background:black; color:white;" 
-! rowspan=2| J#
-! rowspan=2 align=left   | Player
-! rowspan=2 align=center | Age
-! rowspan=2 align=center | Position(s)
-! colspan=6 align=center | Kiwi Ferns
-! colspan=7 align=center | NRLW
-! rowspan=2 align=center | Other Reps
-|- style="background:black; color:white;"
-!{{tooltip|Dbt|Debut}}
-!{{tooltip|M|Matches}}
-!{{tooltip|T|Tries}}
-! class="unsortable" | {{tooltip|G|Goals}}
-! class="unsortable" | {{tooltip|F|F
+channel search:
+  BLACKCAPS → UCuKowzPg2-A0FcmyPa3yWug "New Zealand Cricket" ; UCgOuy-6gRkdSR7yW6oKe2HA "Blackcaps vlogs " ; UCSod8uUgEkkmXA7vwj7l1Lw "BLACKCAPS"
+  White Ferns → UCYlXMztErvJfKkbxThs3Rrw "White Ferns" ; UC6pXb84GEJGgNm3p3RU83Iw "Road To The White Ferns 🏏" ; UCh1UvbOcWflfQKWL1iC6rhg "Road to the White Ferns #1"
+  New Zealand Cricket → UCuKowzPg2-A0FcmyPa3yWug "New Zealand Cricket" ; UCpea_hFrNBBEQDJMgEfaZTA "Fantail Cricket" ; UCUi9OpU8JGCL5X2O81mFHBw "New Zealand Over 50's Cricket"
+  Cricket Australia → UCkBY0aHJP9BwjZLDYxAQrKg "cricket.com.au" ; UCEiCmSMqNJ-qqeW9fEUcA4g "The Grade Cricketer" ; UC2naOExy27J5Qz3SO-w6xkQ "Cricket Australia"
+  Super Smash → UChyV_J-avTCV78G_qonimGw "Super Smash" ; UCqrmQDcMWU252eWUNa4zU9w "Super Smash Bros. Ultimate - Topic" ; UCVFWJkN7L45x8gZTMXu2UWw "YEET Smash"
+  Netball New Zealand → UCBL_yvdSAenDVDAyfCQNOpQ "Netball New Zealand" ; UCMlnIn80Yys9aDD-cJnS4NQ "ANZPremiershipTV" ; UCBfq7h4L1kKY6yHp8-e1ZRA "Silver Ferns TV"
+  Basketball New Zealand → UC4OycSjzkovtoJPLC3YBo2w "Basketball New Zealand" ; UC312w6Cin5kXvBemaH2YA8A "Coach Mav" ; UC7m3OcR4cI7lqLqe4_9XDHA "Sal's NBL"
+  Hockey New Zealand → UC6KBQ-fvtX1qx0MgfS9H6cg "New Zealand Ice Hockey League (NZIHL)" ; UC3xM-N7a2Ad_WZOCcONDPmg "Hockey New Zealand" ; UC4f-t5G1yktnzvS81LLO9AA "Inline Hockey New Zealand"
+  Tennis Australia → UCgUrLyvzsRqgGSmTBbxL84A "Tennis Australia" ; UCeTKJSW1NTAkf27nNmjWt5A "Australian Open" ; UCvzu_uUhPlH86jSQW9DLIrw "Tennis Australia"
+  Football Ferns → UCOlVcyI-9J8QiPkxjKhT5zg "New Zealand Football" ; UCHBuhS7GSvWT8VQwFqPCyOg "Friends of Football NZ" ; UCuJsNHX7YEpt7q1rp1XWC8Q "paultemple17"
+
+upcoming on UCkBY0aHJP9BwjZLDYxAQrKg 1
+    2026-10-19T22:18:28Z Cricket Gold - 24/7 LIVE Channel
