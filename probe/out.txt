@@ -1,86 +1,23 @@
+pages: [
+  '"2026–27 NBL season":33',
+  '"2027 FIBA Basketball World Cup qualification (Asia)":12',
+  '"2025 Constellation Cup":4',
+  '"2026 ANZ Premiership season":2'
+]
 
-##### 2026 ANZ Premiership season: 2 netballbox; template names: ["Infobox sports season","netballbox"]
-{{netballbox
- | bg         = DCDCDC
- | date       = 21 June 2026
- | time       = 
- | report     = 
- | stats      = 
- | team1      = '''[[Southern Steel (netball)|Southern Steel]]'''
- | score1     = 60
- | team2      = [[Mainland Tactix]]
- | score2     = 54
- | Q1         = 
- | Q2         = 
- | Q3         = 
- | Q4         = 
- | goals1     = 
- | goals2     = 
- | venue      = [[Stadium Southland]]
- | attendance = 
- | TV         = [[TVNZ]]
-}}
-{{small|'''Source''':<ref name="rnzelimfinal2026">{{cite web |last1=Tunnicliffe |first1=Bridget |title=Netball: Southern Steel book first ANZ Premiership grand final in eight years |url=https://www.rnz.co.nz/news/sport/612074/netball-southern-steel-book-first-anz-premiership-grand-final-in-eight-years |website=RNZ |access-date=27 September 2026}}</ref>}}
-===Grand final===
-{{netballbox
- | bg         = DCDCDC
- | date       = 27 June 2026
- | time       = 
+basketball: 45 events; teams: tallblacks, breakers | no time zone: 12 | TBC: 31
+  2026-10-10T10:30:00.000Z Sat, 10 Oct, 11:30 pm  | breakers | NBL / Round 4 | Perth Wildcats v New Zealand Breakers | final 100-84 | Perth Arena / Perth / Australia/Perth
+  2026-10-14T01:00:00.000Z Wed, 14 Oct, 2:00 pm (TBC) | breakers | NBL / Round 5 | Sydney Kings v New Zealand Breakers | final 101-102 | AIS Arena / Canberra / null
+  2026-10-18T04:00:00.000Z Sun, 18 Oct, 5:00 pm  | breakers | NBL / Round 5 | Tasmania JackJumpers v New Zealand Breakers | final 98-92 | Derwent Entertainment Centre / Hobart / Australia/Hobart
+  2026-10-25T04:00:00.000Z Sun, 25 Oct, 5:00 pm  | breakers | NBL / Round 6 | Cairns Taipans v New Zealand Breakers | upcoming  | Cairns Convention Centre / Cairns / Australia/Brisbane
+  2026-10-30T06:30:00.000Z Fri, 30 Oct, 7:30 pm  | breakers | NBL / Round 7 | New Zealand Breakers v Adelaide 36ers | upcoming  | Spark Arena / Auckland / Pacific/Auckland
+  2026-11-02T08:30:00.000Z Mon, 2 Nov, 9:30 pm  | breakers | NBL / Round 7 | Melbourne United v New Zealand Breakers | upcoming  | John Cain Arena / Melbourne / Australia/Melbourne
+  2026-11-06T01:00:00.000Z Fri, 6 Nov, 2:00 pm (TBC) | breakers | NBL / Round 8 | Tasmania JackJumpers v New Zealand Breakers | upcoming  | Silverdome / Launcerston / null
+  2026-11-13T01:00:00.000Z Fri, 13 Nov, 2:00 pm (TBC) | breakers | NBL / Round 9 | New Zealand Breakers v Brisbane Bullets | upcoming  | Spark Arena / Auckland / Pacific/Auckland
+  2026-11-15T03:00:00.000Z Sun, 15 Nov, 4:00 pm (TBC) | breakers | NBL / Round 9 | Sydney Kings v New Zealand Breakers | upcoming  | Sydney SuperDome / Sydney / Australia/Sydney
 
-
-##### 2025 Constellation Cup: 5 netballbox; template names: ["netballbox"]
-{{netballbox
- | bg         = #EEEEEE
- | date       = Friday, 17 October 2025
- | time       = 19:30 [[Time in Australia|AEDT]]
- | stats      = https://mc.championdata.com/netball_nz/index.html?competitionid=12918&matchid=129180101
- | team1      = '''{{nb|Australia}}'''
- | score1     = 69	
- | team2      = {{nb|New Zealand}}
- | score2     = 52		 	
- | Q1         = 13–13
- | Q2         = 30–28
- | Q3         = 45–41
- | Q4         = 69–52
- | goals1     = [[Sophie Garbin]] {{nb-goal|42|45}}<br>[[Kiera Austin]] {{nb-goal|27|32}}
- | goals2     = [[Grace Nweke]] {{nb-goal|37|41}}<br>Martina Salmon {{nb-goal|12|15}}<br>Amelia Walmsley {{nb-goal|3|4}}
- | venue      = [[John Cain Arena]] 
- | attendance = 
-}}
-{{small|'''Sources''':<ref name=sf171025>{{cite web|url=https://www.silverferns.co.nz/silver-ferns/news/latest-news/silver-ferns-outplayed-in-opening-constellation-cup-clash.html|title=Silver Ferns
-
-##### FIBA Men's World Ranking -> FIBA Men's World Ranking: 2 tables
-   Rank Change Team Points || 1 United States 952.3 || 2 Germany 877.4 || 3 1 France 870.9
-   Competition stage Continental championship &#91; a &#93; Olympics FIBA Basketball World Cup || Pre-qualifiers 0.4 0.15 0.4 || Qualifiers 0.8 0.30 Q1: 1.0 &#91; b &#93; Q2: 1.2 &#91; b &#93; || Final tournament Group stage 1.0 1.75 2.0
-   as-of:   Top 20 Rankings as of 1 September 2026    &#91; 1 &#93;   
- 
-  
- Rank
- 
-
-##### FIBA World Ranking -> FIBA Men's World Ranking: 2 tables
-   Rank Change Team Points || 1 United States 952.3 || 2 Germany 877.4 || 3 1 France 870.9
-   Competition stage Continental championship &#91; a &#93; Olympics FIBA Basketball World Cup || Pre-qualifiers 0.4 0.15 0.4 || Qualifiers 0.8 0.30 Q1: 1.0 &#91; b &#93; Q2: 1.2 &#91; b &#93; || Final tournament Group stage 1.0 1.75 2.0
-   as-of:   Top 20 Rankings as of 1 September 2026    &#91; 1 &#93;   
- 
-  
- Rank
- 
-
-##### FIBA Women's World Ranking -> FIBA Women's World Ranking: 2 tables
-   Rank Change Team Points || 1 United States 1076.1 || 2 France 936.4 || 3 1 Spain 885.1
-   Competition stage Continental championship Olympics FIBA Women's Basketball World Cup || Pre-qualifiers 0.25 0.350 0.5 || Qualifiers 0.50 0.800 1.0 || Final tournament Group stage 1.00 1.750 2.0
-   as-of:   Top 20 Rankings as of 14 September 2026    &#91; 1 &#93;   
- 
-  
- Rank
-
-
-##### World Netball Rankings -> World Netball Rankings: 1 tables
-   Rank Change Team Played Weighted Points Rating || 1 Australia 43 30 6,269 209 || 2 New Zealand 45 32 6,503 203 || 3 England 47 31 5,744 185
-   as-of:  Top 20 rankings as of 1 September 2026   &#91; 8 &#93;   
- 
-  
- Rank
- 
-
+netball: 6 events; teams: silverferns, anzprem | no time zone: 0 | TBC: 2
+  2025-10-17T08:30:00.000Z Fri, 17 Oct, 9:30 pm  | silverferns | Constellation Cup  | Australia v New Zealand | final 69-52 | John Cain Arena /  / Australia/Sydney
+  2025-10-22T08:30:00.000Z Wed, 22 Oct, 9:30 pm  | silverferns | Constellation Cup  | Australia v New Zealand | final 68-51 | Qudos Bank Arena /  / Australia/Sydney
+  2025-10-26T03:10:00.000Z Sun, 26 Oct, 4:10 pm  | silverferns | Constellation Cup  | New Zealand v Australia | final 61-52 | Globox Arena /  / Pacific/Auckland
+  2025-10-29T06:40:00.000Z Wed, 29 Oct, 7:40 pm  | silverferns | Constellation Cup  | New Zealand v Australia | final 62-57 | Wolfbrook Arena /  / Pacific/Auckland
