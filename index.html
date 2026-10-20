@@ -212,12 +212,13 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .photocred { margin: 18px 0 0; font-size: 11px; line-height: 1.45; color: var(--muted); opacity: .8 }
 .dot { width: 7px; height: 7px; border-radius: 50% }
 .dot.done { opacity: .3 }
-/* the "+" is a small shape filling exactly a dot's square (a mask, in the muted colour): a text "+" sat low and lopsided
-   in its line box, and bars drawn with borders came out wider than tall on scaled Windows screens */
-.dot.more { border-radius: 0; display: inline-flex; align-items: center; justify-content: center; color: var(--muted) }
-.dot.more::before { content: ""; width: 7px; height: 7px; background: currentColor;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M5.5 0h3v14h-3zM0 5.5h14v3H0z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M5.5 0h3v14h-3zM0 5.5h14v3H0z'/%3E%3C/svg%3E") center / 100% 100% no-repeat }
+/* the "+": two solid bars, each a whole number of screen pixels long and thick, set out from the box's corner by whole
+   screen pixels (sizes from snapPlus()). The browser snaps solid boxes to the screen's pixels, so both arms come out
+   equally sharp and even at any display scaling (a text "+" sat low and lopsided; gradients and shifts came out soft) */
+.dot.more { position: relative; border-radius: 0; width: var(--pl, 6px); height: var(--pl, 6px); color: var(--muted); align-self: center }
+.dot.more::before, .dot.more::after { content: ""; position: absolute; background: currentColor }
+.dot.more::before { left: 0; top: var(--po, 2px); width: var(--pl, 6px); height: var(--pt, 2px) }
+.dot.more::after { left: var(--po, 2px); top: 0; width: var(--pt, 2px); height: var(--pl, 6px) }
 .day.today { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
 .day.empty .dd { color: var(--muted) }
 
@@ -1293,7 +1294,7 @@ const soloTitle = e => `<div class="teams solo"><span class="nm">${esc(e.home)}<
 const BIG_EVENT = /World Cup|Nations Championship|Olympic|Commonwealth Games|Lions Tour|Champions Trophy|ATP Finals|WTA Finals|Australian Open|French Open|Roland Garros|Wimbledon|US Open|Constellation Cup|Taini Jamison|Nations Cup|Pro League|Asia Cup/i;
 const SPORT_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', mma: '🥋', boxing: '🥊', motor: '🏎️', tennis: '🎾', hockey: '🏑', basketball: '🏀', netball: '🏐' };
 // same-size icons on every device (Twemoji, CC BY 4.0), rather than each system's own emoji
-const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/${s}.svg?v=2" alt="" aria-hidden="true">` : '';
+const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/${s}.svg?v=3" alt="" aria-hidden="true">` : '';
 const START_LABEL = { rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight', boxing: 'Main card', motor: 'Lights out', tennis: 'Final', hockey: 'Push back', basketball: 'Tip-off', netball: 'Centre pass' };
 const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC', boxing: 'Boxing', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball' };
 
@@ -2576,7 +2577,20 @@ function render() {
       <li>Late games: your phone's Do Not Disturb or Sleep settings still apply, and ntfy can mute a topic for a while.</li>
       <li>To stop, unsubscribe from the topic in ntfy, or delete the app.</li>
     </ul></div>`;
-  fitTop(); fitLines(); syncPulse(); syncJump(); syncFold();
+  fitTop(); fitLines(); syncPulse(); syncJump(); syncFold(); snapPlus();
+}
+// The week strip's "+": about 6px across with bars about 1.5px thick, both a whole number of screen pixels, and the
+// bars' offset from the corner whole too (the same odd/even for length and thickness keeps them dead centre)
+function snapPlus() {
+  const r = devicePixelRatio || 1, t = Math.max(1, Math.round(1.5 * r)), want = 6.2 * r;
+  let l = Math.round(want); if ((l - t) % 2) l = l + (want > l ? 1 : -1);
+  for (const d of document.querySelectorAll('.dot.more')) {
+    d.style.setProperty('--pl', l / r + 'px'); d.style.setProperty('--pt', t / r + 'px'); d.style.setProperty('--po', (l - t) / 2 / r + 'px');
+    // and the box itself onto whole screen pixels (a plain offset, which the browser draws sharp; a transform comes out soft)
+    d.style.left = d.style.top = '0px';
+    const b = d.getBoundingClientRect(), x = b.left * r, y = b.top * r;
+    d.style.left = (Math.round(x) - x) / r + 'px'; d.style.top = (Math.round(y) - y) / r + 'px';
+  }
 }
 // the fold tab's outline, drawn to the bar's width: in from each edge with a curve, along the bottom, back out with a curve
 function syncFoldShape() {
@@ -2749,7 +2763,9 @@ function fitTop() {
     return !r.length || Math.max(...r.map(x => x.top)) < Math.min(...r.map(x => x.bottom)); };
   if (!oneLine(document.querySelector('header.top .wrap')) || !oneLine(document.querySelector('.compbar'))) root.classList.add('tight');
 }
-addEventListener('resize', fitTop); document.fonts?.ready.then(fitTop);
+addEventListener('resize', () => { fitTop(); snapPlus(); }); // browser zoom changes the screen pixel size too
+// anything above the week strip changing height (a crest loading, a section opening) moves the "+" off whole pixels: again
+let plusFrame = 0; new ResizeObserver(() => { cancelAnimationFrame(plusFrame); plusFrame = requestAnimationFrame(snapPlus); }).observe(document.body); document.fonts?.ready.then(fitTop);
 // Card titles and team names stay on one line where they can. A title that doesn't fit beside its badges takes the top
 // row to itself (the sport icon moves down to the badges); then a title still too long gets its text smaller, down to
 // 72%. Past that it breaks between its parts ("South Africa v Australia" / "2nd Test"), and only if one part alone is
