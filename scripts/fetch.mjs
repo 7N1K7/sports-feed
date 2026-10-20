@@ -1338,7 +1338,13 @@ async function phoneAlerts(events) {
     const start = Date.parse(e.startUTC), mins = (start - now) / 6e4;
     if (isNaN(start)) continue;
     const what = `${GAME_ICON[e.sport] || ''} ${gameTitle(e)}`.trim();
-    const where = [e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '', [e.venue, e.city].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
+    // where to watch: the TV guide's live listings with the time coverage starts ("On Three from 7:00pm"), a free
+    // YouTube stream, else the usual broadcaster
+    const nzTime = t => new Date(t).toLocaleTimeString('en-NZ', { timeZone: 'Pacific/Auckland', hour: 'numeric', minute: '2-digit' }).replace(/\s/g, '').toLowerCase();
+    const tvLive = (e.tv || []).filter(x => !x.delayed);
+    const watch = tvLive.length ? 'On ' + tvLive.map(x => `${x.ch} from ${nzTime(x.at)}`).join(', ')
+      : e.yt?.length ? `Free on YouTube (${e.yt[0].ch})` : e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
+    const where = [watch, [e.venue, e.city].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
     // runs are 5 to 10 minutes apart, so the first one inside 40 minutes sends it
     if (!e.timeTBC && e.status !== 'final' && mins > 0 && mins <= 40)
       due.push({ e, kind: 'start', title: `${what} starts in ${Math.max(5, Math.round(mins / 5) * 5)} min`, message: where || 'Starting soon', priority: 4 });
