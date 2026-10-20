@@ -1276,7 +1276,7 @@ const titleOf = e => solo(e) ? e.home : `${displayName(e.home, e)} v ${displayNa
 const placeOf = e => [e.venue, cityOf(e)].filter(Boolean).join(', ');
 const soloTitle = e => `<div class="teams solo"><span class="nm">${esc(e.home)}</span>${placeOf(e) ? `<span class="where">${esc(placeOf(e))}</span>` : ''}</div>`;
 // Tournaments that tint the week strip on the days they're on
-const BIG_EVENT = /World Cup|Nations Championship|Olympic|Commonwealth Games|Lions Tour|Champions Trophy/i;
+const BIG_EVENT = /World Cup|Nations Championship|Olympic|Commonwealth Games|Lions Tour|Champions Trophy|ATP Finals|WTA Finals|Australian Open|French Open|Roland Garros|Wimbledon|US Open|Constellation Cup|Taini Jamison|Nations Cup|Pro League|Asia Cup/i;
 const SPORT_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', mma: '🥋', boxing: '🥊', motor: '🏎️', tennis: '🎾', hockey: '🏑', basketball: '🏀', netball: '🏐' };
 // same-size icons on every device (Twemoji, CC BY 4.0), rather than each system's own emoji
 const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/${s}.svg?v=2" alt="" aria-hidden="true">` : '';
@@ -2410,15 +2410,21 @@ function render() {
 
   // big events ahead: competitions not yet under way that start in the next five months
   const firsts = new Map();
-  for (const e of rest) { const c = compOf(e); if (!firsts.has(c)) firsts.set(c, { first: e, count: 0 }); firsts.get(c).count++; }
+  for (const e of rest) { const c = compOf(e); if (!firsts.has(c)) firsts.set(c, { first: e, count: 0, nz: 0 }); const f = firsts.get(c); f.count++; if (isNZ(e)) f.nz++; }
   // already under way: a game in the last six days, or a season-long competition with one in the last three weeks
   // (between rounds, not about to start). A series starting in the next few days still counts as ahead.
   const ongoing = new Set(evs.filter(e => { const t = new Date(e.startUTC) - now; return t < 0 && (t > -6 * 864e5 || (t > -21 * 864e5 && GENERIC.test(compOf(e)))); }).map(compOf));
-  const big = [...firsts].filter(([c, v]) => !ongoing.has(c) && !/^(Test match|Women's test|Boxing|UFC|Black Caps|White Ferns|NZ domestic cricket|Sheffield Shield|Dean Jones Trophy)$/.test(c) && (v.count >= 4 || BIG_EVENT.test(c)) && new Date(v.first.startUTC) - now < 150 * 864e5)
-    .sort((a, b) => a[1].first.startUTC.localeCompare(b[1].first.startUTC)).slice(0, 8);
+  // a series of 4 or more games, a big one-off (World Cups, finals, Grand Slams), or an NZ side's series of 2 or more
+  const ahead8 = [...firsts].filter(([c, v]) => !ongoing.has(c) && !/^(Test match|Women's test|Boxing|UFC|Black Caps|White Ferns|NZ domestic cricket|Sheffield Shield|Dean Jones Trophy)$/.test(c) && (v.count >= 4 || BIG_EVENT.test(c) || v.nz >= 2) && new Date(v.first.startUTC) - now < 150 * 864e5)
+    .sort((a, b) => a[1].first.startUTC.localeCompare(b[1].first.startUTC));
+  // soonest first, ten at most and no more than four from one sport while others are waiting, so cricket can't fill the row
+  const perSport = {}, big = [];
+  for (const x of ahead8) if (big.length < 10 && (perSport[x[1].first.sport] = (perSport[x[1].first.sport] || 0) + 1) <= 4) big.push(x);
+  for (const x of ahead8) if (big.length < 10 && !big.includes(x)) big.push(x);
+  big.sort((a, b) => a[1].first.startUTC.localeCompare(b[1].first.startUTC));
   $('bigEvents').innerHTML = big.map(([c, v]) => {
     const d = new Date(v.first.startUTC), days = Math.round((d - now) / 864e5);
-    return `<button type="button" class="bigev" data-bigcomp="${esc(c)}" style="--c:var(--${v.first.sport})"><span class="bn">${esc(plural(c))}</span><span class="bd">Starts ${fmt(d, NZ, { weekday: 'short', day: 'numeric', month: 'short' })}</span><span class="bc">${days < 60 ? `in ${days} days` : `in ${Math.round(days / 7)} weeks`} · ${v.count} games</span></button>`;
+    return `<button type="button" class="bigev" data-bigcomp="${esc(c)}" style="--c:var(--${v.first.sport})"><span class="bn">${esc(plural(c))}</span><span class="bd">Starts ${fmt(d, NZ, { weekday: 'short', day: 'numeric', month: 'short' })}</span><span class="bc">${days < 60 ? `in ${days} days` : `in ${Math.round(days / 7)} weeks`}${v.count > 1 ? ` · ${v.count} games` : ''}</span></button>`;
   }).join('');
   $('bigSec').hidden = !big.length || !!compSel;
   $('upcoming').innerHTML = html || `<div class="empty-note">${later ? 'Nothing else this week for your picks.' : 'No fixtures for your teams yet. Pick more teams under My teams.'}</div>`;
