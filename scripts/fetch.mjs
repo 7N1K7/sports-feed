@@ -379,7 +379,8 @@ function applyBroadcast(e, rules) {
   if (!e.watchAU) { const a = rules.find(r => r.au && fits(r)); if (a) e.watchAU = a.au; }
   if (e.broadcast && e.broadcast !== 'TBC') return;
   const r = rules.find(r => 'broadcast' in r && fits(r));
-  if (r) { e.broadcast = r.broadcast; if (r.watchAlt && !e.watchAlt) e.watchAlt = r.watchAlt; if (r.watchNote && !e.watchNote) e.watchNote = r.watchNote; }
+  // from a rule for the whole competition, not this game's own listing: the page says so
+  if (r) { e.broadcast = r.broadcast; e.watchRule = true; if (r.watchAlt && !e.watchAlt) e.watchAlt = r.watchAlt; if (r.watchNote && !e.watchNote) e.watchNote = r.watchNote; }
 }
 
 const curated = await readCurated();

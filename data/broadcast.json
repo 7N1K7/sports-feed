@@ -20,5 +20,5 @@
   { "team": "nzdomestic", "broadcast": "", "watchAlt": "NZC live stream (nzc.nz / YouTube)", "watchNote": "Not on TV in NZ" },
   { "team": "blackcaps", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Radio: RNZ / Sport Nation" },
   { "team": "whiteferns", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Radio: RNZ / Sport Nation" },
-  { "comp": "^Australia v ", "broadcast": "Sky Sport / Sky Sport Now", "au": "Channel 7 and 7plus / Fox Cricket and Kayo" }
+  { "comp": "^Australia v ", "au": "Channel 7 and 7plus / Fox Cricket and Kayo" }
 ]
