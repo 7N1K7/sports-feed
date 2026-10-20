@@ -1,6 +1,8 @@
-// probe 93: live feed TV guide, Supercars, squads
-await new Promise(r => setTimeout(r, 200000));
-const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
-console.log('generated', f.generatedAt);
-for (const k of ['tvGuide', 'supercars', 'teamSquads', 'youtube']) console.log(`\n${k}:`, String(f.diag?.[k] || '').slice(0, 2500));
-console.log('\ntables:', (f.tables || []).filter(t => t.team === 'supercars').map(t => `${t.title}: ${t.rows.slice(0, 3).map(r => r.name + ' ' + r.pts).join(', ')}`));
+// probe 94: the page errors the stats have recorded (message text only; the token is never printed)
+const T = process.env.CLOUDFLARE_API_TOKEN, A = process.env.CLOUDFLARE_ACCOUNT_ID;
+const cf = async (path, body) => (await fetch(`https://api.cloudflare.com/client/v4/accounts/${A}/${path}`, { method: body ? 'POST' : 'GET', headers: { authorization: `Bearer ${T}`, 'content-type': 'application/json' }, body: body && JSON.stringify(body) })).json();
+const dbs = await cf('d1/database?name=kickoff-stats'); const id = dbs.result?.[0]?.uuid;
+const q = await cf(`d1/database/${id}/query`, { sql: "SELECT day, key, n FROM daily WHERE metric = 'error' ORDER BY day DESC LIMIT 40" });
+for (const r of q.result?.[0]?.results || []) console.log(r.day, r.n, '|', r.key);
+const v = await cf(`d1/database/${id}/query`, { sql: "SELECT day, metric, key, n FROM daily WHERE day >= date('now','-1 day') AND metric IN ('browser','os','device','view','use','event') ORDER BY day DESC, metric" });
+console.log('\ncontext (today/yesterday):'); for (const r of v.result?.[0]?.results || []) console.log(' ', r.day, r.metric, r.key, r.n);
