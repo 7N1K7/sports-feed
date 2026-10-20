@@ -1,15 +1,9 @@
-// probe 71: every side in the live feed that has no logo (national sides use flags, so they're listed apart)
-const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
-const sides = new Map();
-for (const e of f.events) {
-  if (['motor', 'tennis'].includes(e.sport)) continue;
-  for (const [n, logo] of [[e.home, e.homeLogo], [e.away, e.awayLogo]]) {
-    if (!n || /^(TBC|TBA|TBD)$/i.test(n)) continue;
-    const k = e.sport + '|' + n, v = sides.get(k) || { sport: e.sport, n, logo: false, comps: new Set(), games: 0 };
-    v.logo ||= !!logo; v.comps.add(e.comp || ''); v.games++; sides.set(k, v);
-  }
+// probe 72: what TVNZ, Three and Sky Open say they show (one-off reading of public pages, for the where-to-watch rules)
+const UA = { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130 Safari/537.36' };
+const text = h => h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&nbsp;|&#160;/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&rsquo;/g, "'").replace(/\s+/g, ' ').trim();
+for (const u of ['https://helptvnz.zendesk.com/hc/en-us/articles/19886850107801-Sport-on-TVNZ-Overview',
+  'https://cybernews.com/stream-online/how-to-watch-rugby-league-world-cup-2026-for-free-from-anywhere/',
+  'https://www.sky.co.nz/skyopen',
+  'https://www.rnz.co.nz/news/sport/571030/a-gamechanger-tvnz-to-screen-2026-fifa-world-cup']) {
+  try { const r = await fetch(u, { headers: UA }); const t = text(await r.text()); console.log(`\n==== ${u} (${r.status})\n${t.slice(0, 3500)}`); } catch (e) { console.log(`\n==== ${u} ERR ${e.message}`); }
 }
-const all = [...sides.values()];
-console.log('generated', f.generated || f.updated, '| sides', all.length, '| with logo', all.filter(v => v.logo).length);
-for (const v of all.filter(v => !v.logo).sort((a, b) => a.sport.localeCompare(b.sport) || a.n.localeCompare(b.n)))
-  console.log(`${v.sport} | ${v.n} | ${v.games} games | ${[...v.comps].slice(0, 3).join(' / ')}`);
