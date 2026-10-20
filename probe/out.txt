@@ -1,230 +1,151 @@
+search "Constellation Cup 2026 netball": Australia national netball team | Constellation Cup | New Zealand national netball team | 2025 Constellation Cup | Liz Watson (netball) | Jane Watson (netball)
+search "Silver Ferns 2026 netball series": Silver fern | New Zealand national netball team | Australia national netball team | World Netball Rankings | Jamaica national netball team | 2026 Suncorp Super Netball season
+search "Taini Jamison Trophy 2026": 2010 Taini Jamison Trophy Series | New Zealand national netball team | Maddy Gordon | Jamaica national netball team | Karin Burger | List of England international netball players
+search "Netball Nations Cup 2026": Netball World Cup | Netball Singapore Nations Cup | Africa Netball Cup | Republic of Ireland national netball team | 2027 Netball World Cup | Uganda national netball team
+search "2027 ANZ Premiership": Stadium Australia | Grace Nweke | 2019 NRL Finals Series | National Rugby League | Karin Burger | Adelaide Thunderbirds
+search "Silver Ferns fixtures 2026": Netball at the 2026 Commonwealth Games | New Zealand national team nomenclature based on the "All Blacks" | Samoa women's national rugby league team | New Zealand women's national rugby union team | Jamaica national netball team | Ruby Tui
 
-##### 2026–27 Sheffield Shield season: 28581 chars | templates: {"Infobox cricket tournament":1,"Two-innings cricket match":31,"box":1}
-{{Infobox cricket tournament
-| name                 = 2026–27 Sheffield Shield
-| image                =
-| caption              =
-| fromdate             = 7 October 2026
-| todate               = 29 March 2027
-| administrator        = [[Cricket Australia]]
-| cricket format       = [[First-class cricket|First-class]]
-| tournament format    = [[Round-robin tournament|Double round-robin]] and [[Final (competition)|final]]
-| champions            =
-| count                =
-| participants         = 6
-| matches              = 31
-| attendance           =
-| player of the series =
-| most runs            =
-| most wickets         =
-|website               = [https://www.cricket.com.au/matches/series/CA:4689?isCompleted=0&category=0&statistic=1&type=0 2026–27 Sheffield Shield]
-| previous_year        = 2025–26
-| previous_tournament  = 2025–26 Sheffield Shield season
-| next_year            = 2027–28
-| nex
+##### Dean Jones Trophy templates: {"Infobox cricket tournament":1,"Limited overs matches":6,"Single-innings cricket match":16} 
+{{Single-innings cricket match
+| date = 19 September 2026
+| time = 14:00
+| daynight = y
+| team1 = {{cr-Aus|QLD-h|l}}
+| team2 = {{cr-Aus|VIC}}
+| score1 = 7/335 (50 overs)
+| runs1 = [[Hugo Burdon]] 73 (70)
+| wickets1 = [[Doug Warren (cricketer)|Doug Warren]] 2/54 (10 overs)
+| score2 = 7/339 (49.5 overs)
+| runs2 = [[Liam Blackford]] 149[[not out|*]] (113)
+| wickets2 = [[Tom Straker]] 4/50 (10 overs)
+| result = Victoria won by 3 wickets
+| report = {{multiref
+ |[https://www.cricinfo.com/ci/engine/match/1544843.html Scorecard]|<ref>{{cite web|url=https://www.cricinfo.com/series/one-day-cup-aus-2026-27-1544840/queensland-vs-victoria-2nd-match-1544843/match-report|title=Liam Blackford's stunning debut 149* pulls of remarkable Victoria chase|access-date=19 September 2026|work=Cricinfo}}</ref><ref>{{Cite web|url=https://www.cricket.com.au/news/4578672/queensland-v-victoria-one-day-cup-2026-27-repo
 
-##### 2026–27 One-Day Cup: redirect -> 2026–27 Dean Jones Trophy
-
-##### 2026–27 Marsh One-Day Cup: HTTP 404
-
-##### 2026–27 Australian domestic one-day cricket season: HTTP 404
-
-##### New Zealand national netball team: 94673 chars | templates: {"Infobox national netball team":1,"Navboxes":1}
-{{Infobox national netball team
-| country       = New Zealand
-| image         = Silver Ferns logo.svg
-| imagesize     = 220px
-| caption       = 
-| nickname      = [[Silver fern|Silver Fern]]s
-| association   = [[Netball New Zealand]]
-| confederation = [[Oceania Netball Federation]]
-| coach         = [[Yvette McCausland-Durie]]
-| asst coach    = [[Liana Leota]]
-| manager       =
-| captain       = [[Karin Burger]]
-| vice-captain  = 
-| caps          = [[Laura Langman]] (163)
-| top scorer    =
-| rank          = 2 {{steady}}
-| kitlabel1     =
-| body1         = #000000
-| pattern_b1    =
-| skirt1        = #000000
-| pattern_sk1   =
-| first game    = {{nnt|Australia|noflag=1}} 40–11 New Zealand<br /><small>[[Royal Park, Melbourne]], 20 August 1938</small>
-| largest win   =
-| largest loss  =
-| WNC apps      = 15
-| WNC debut     = 1963
-| WNC prev      = 2023
-| WNC recent    = 4th
-| WNC best      = 
-
-##### 2026 Constellation Cup: HTTP 404
-
-##### 2026 ANZ Premiership season: 3831 chars | templates: {"Infobox sports season":1,"netballbox":2}
-{{Infobox sports season
-| league= [[ANZ Premiership]]
-| sport= [[Netball]]
-| no_of_teams = 6
-| duration = 11 April – 27 June 2026
-| TV= [[TVNZ]]
-| minor_premiers = [[Northern Mystics]]
-| MVP= 
-| top_scorer = 
-| finals_link = #Finals Series
-| finals = Finals
-| finals_champ = [[Northern Mystics]]
-| finals_runner-up = [[Southern Steel (netball)|Southern Steel]]
-| seasonslistnames = ANZ Premiership
-| prevseason_year=2025
-| prevseason_link=2025 ANZ Premiership season
-| nextseason_year=
-| nextseason_link=
+##### NBL box with the Breakers, upcoming:
+{{basketballbox collapsible|bg=#eee
+ | date = 4 October 2026
+ | time = 16:30
+ | report = [https://www.nbl.com.au/matches/adelaide-36ers-v-nz-breakers-men-04-10-2026 boxscore]<br>[https://www.nbl.com.au/news/clinical-breakers-win-big-in-adelaide report]
+ | teamA = [[2026–27 Adelaide 36ers season|Adelaide 36ers]]
+ | scoreA = 72
+ | scoreB = '''88'''
+ | teamB = '''[[2026–27 New Zealand Breakers season|New Zealand Breakers]]'''
+ | Q1 = 19–'''23'''
+ | Q2 = 23–'''25'''
+ | Q3 = '''15'''–12
+ | Q4 = 15–'''28'''
+ | points1 = [[Nick Rakocevic|Rakocevic]] 29
+ | rebounds1 = Rakocevic 16
+ | assist1 = [[Bryce Cotton|Cotton]] 6
+ | points2 = [[Parker Jackson-Cartwright|Jackson-Cartwright]] 27
+ | rebounds2 = Jackson-Cartwright 9
+ | assist2 = Jackson-Cartwright 10
+ | arena = [[Adelaide Entertainment Centre]]
+ | place = [[Adelaide]]
+ | attendance = 10,044
+ | TV = [[ESPN Australia|ESPN]]
 }}
-The '''2026 ANZ Premiership season''' was the tenth season of [[Netball New Zealand]]'s [[ANZ Premiership]]. [[Northern Mystics]] won the minor premiership by finishing top of the table at the conclusion of the regular season. In the Elimination final, the [[Southern Steel (netball) | Southern Steel]] defeated the [[Mainland Tactix]] 60–54. The Mystics then went on to defeat the Steel 56–
+=== Round 4 ===
+{{basketballbox collapsible|bg=#eee
+ | date = 7 October 2026
+ | time = 19:00
+ | report = [https://www.nbl.com.au/matches/adelaide-36ers-v-melbourne-united-men-07-10-2026 boxscore]<br>[https://www.nbl.com.au/news/united-survive-furious-36ers-fightback report]
+ | teamA = [[2026–27 Adelaide 36ers season
 
-##### 2027 Netball World Cup: 14880 chars | templates: {"Infobox World Netball Championship":1}
-{{Infobox World Netball Championship
-| image = File:2027 Netball World Cup Sydney bid logo.jpg
-| image_size =300px 
-| dates = {{start and end dates|2027|08|25|2027|09|05|df=y}}
-| host_country = Australia
-| num_teams = 
-| winners =
-| count = 
-| second = 
-| third = 
-| scoring_leader = 
-| matches = 
-| attendance =
-| prev_season = [[2023 Netball World Cup|2023]]
-| next_season = 
-|city=Sydney}}
-The '''2027 Netball World Cup''' will be the seventeenth staging of the [[Netball World Cup]], the premier competition in international [[netball]], contested every four years. The tournament will be held in [[Sydney]], [[Australia]].<ref name="auto1">{{Cite web|url=https://netball.com.au/news/sydney-confirmed-2027-netball-world-cup-host-city|title=Sydney confirmed as 2027 Netball World Cup host city|website=Netball Australia}}</ref>
-==Host selection==
-*'''{{AUS}}'''
-[[Netball Australia]] announced t
-
-##### 2026 Netball Nations Cup: HTTP 404
-
-##### 2026 Taini Jamison Trophy Series: HTTP 404
-
-##### New Zealand men's national basketball team: 61512 chars | templates: {"Infobox national basketball team":1}
-{{Infobox national basketball team
-| country            = New Zealand
-| logo               = Bball New Zealand.png
-| logo_width         = 180px
-| nickname           = Tall Blacks
-| coach              = [[Judd Flavell]]
-| fiba_ranking       = {{FIBA World Rankings|NZL}}
-| joined_fiba        = 1951
-| fiba_zone          = FIBA Asia
-| national_fed       = Basketball New Zealand
-| oly_appearances    = 2
-| oly_medals         = 
-| wc_appearances     = 7
-| wc_medals          = 
-| zone_championship  = [[FIBA Asia Cup]]
-| zone_appearances   = 3
-| zone_medals        = {{bronze3}} ''Bronze:'' ([[2022 FIBA Asia Cup|2022]])
-| zone_championship2 = [[FIBA Oceania Championship]]
-| zone_appearances2  = 22
-| zone_medals2       = {{gold1}} ''Gold:'' ([[FIBA Oceania Championship 1999|1999]], [[FIBA Oceania Championship 2001|2001]], [[FIBA Oceania Championship 2009|2009]])<br />{{silver2}} ''Silver:'' ([[FIBA
-
-##### New Zealand women's national basketball team: 13042 chars | templates: {"Infobox national basketball team":1}
-{{Infobox national basketball team
-| type               = Women
-| country            = New Zealand
-| coach              = [[Natalie Hurst]]
-| fiba_ranking       = {{FIBA Women's World Rankings|NZL}}
-| fiba_zone          = FIBA Oceania
-| national_fed       = Basketball New Zealand
-| logo               = Bball New Zealand.png
-| logo_width         = 140px
-| nickname           = Tall Ferns
-| oly_appearances    = 3
-| oly_medals         = 
-| wc_appearances     = 1
-| wc_medals          = 
-| zone_championship  = [[FIBA Women's Asia Cup|Asia Cup]]
-| zone_appearances   = 5
-| zone_medals        = None
-| zone_championship2 = [[FIBA Oceania Women's Championship|Oceania Championship]]
-| zone_appearances2  = 15
-| zone_medals2       = {{gold1}} ''Gold:'' ([[1993 FIBA Oceania Championship for Women|1993]])<br>{{silver2}} ''Silver:'' ([[1974 FIBA Oceania Championship for Women|1974]], [[1978 FIBA Oceania 
-
-##### 2026–27 NBL season: 111106 chars | templates: {"Infobox sports season":1,"basketballbox collapsible":165}
-{{Infobox sports season
-| title              = 2026–27 NBL season
-| league             = [[National Basketball League (Australia)|National Basketball League]]
-| sport              = Basketball
-| logo               = NBL Hungry Jack's 2024.png
-| logo_size          = 240px
-| caption            = Logo of the league sponsored by [[Hungry Jack's]]
-| duration           = {{Plainlist|
-* 19 September 2026 – 14 February 2027
-* 30 September 2026 – 21 February 2027<br>([[2026–27 NBL Ignite Cup|NBL Ignite Cup]])
-* February 2027<br>(Play-in tournament)
-* March 2027 (Semifinals)
-* March 2027 (Finals)
+##### FIBA qualifier boxes with NZ: 38; the last:
+{{basketballbox collapsible
+|id="Japan v Qatar"
+|date=31 August 2026
+|time=19:10
+|teamA='''{{bk-rt|JPN}}'''
+|scoreA='''123'''
+|teamB={{bk|QAT}}
+|scoreB=70
+|Q1='''29'''–11
+|Q2='''24'''–23
+|Q3='''40'''–11
+|Q4='''30'''–25
+|report={{FIBA game|126960}}
+|points1=[[Rui Hachimura|Hachimura]] 30
+|rebounds1=[[Josh Hawkinson|Hawkinson]] 8
+|assist1=[[Yuki Kawamura|Kawamura]] 10
+|points2=[[Abdulla Mousa (basketball)|Mousa]] 14
+|rebounds2=[[Mohammed Abbasher|Abbasher]] 8
+|assist2=[[Abdelrahman Abdelhaleem|Abdelhaleem]] 4
+|arena=[[Toyota Arena Tokyo]]
+|location=[[Tokyo]]
+|attendance=9,153
+|referee=Glenn Cornelio (PHI), Yuen Chun Yip (HKG), Ryan Jones (NZL)
 }}
-| no_of_games        = 165
-| no_of_teams        = 10
-| attendance         = 
-| average_attendance = 
-| TV                 = [[ESPN Australia|ESPN]]/[[Foxtel]], [[Nine Network]]/[[9Go!]], [[Sky Sport (New Zealand)|Sky Sport]]
-| streaming          = [[Disney+]], [[Kayo Sports]], [[9Now]], [[NBL TV]], [[S
-
-##### 2026–27 New Zealand Breakers season: 9936 chars | templates: {"Infobox NBL season":1,"Basketball depth chart":1,"NBL game log start":2,"NBL game log section":7,"Game log end":1}
-{{Infobox NBL season
-| NBLyear = [[2026–27 NBL season|<span style="color:#FFFFFF;">2026–27</span>]] 
-| clubname = [[New Zealand Breakers|<span style="color:#FFFFFF;">New Zealand Breakers</span>]]
-| color1 = #000000
-| color2 = #7AC8ED
-| color3 = #FFFFFF
-| coach = [[Gordon Herbert]]
-| coach_n = CAN
-| captain = [[Parker Jackson-Cartwright]]
-| captain_n = USA
-| arena = [[Spark Arena]]
-| wins = 4
-| losses = 4
-| ladder = 4th
-| finals = 
-| ignite_wins = 2
-| ignite_losses = 0
-| ignite_ladder = 1st
-| ignite = 
-| top_scorer = 
-| ppg_n = 
-| ppg = 
-| rebounds_leader = 
-| rpg_n = 
-| rpg = 
-| assists_leader = 
-| apg_n = 
-| apg = 
-| prevseason = [[2025–26 New Zealand Breakers season|2025–26]]
-| nextseason = 2027–28
-| updated = 18 October 2026
+{{basketballbox collapsible
+|id="China v Lebanon"
+|date=31 August 2026
+|time=19:30
+|teamA='''{{bk-rt|CHN}}'''
+|scoreA='''89'''
+|teamB={{bk|LBN}}
+|scoreB=87
+|Q1='''23'''–14
+|Q2=23–'''28'''
+|Q3=21–'''27'''
+|Q4='''22'''–18
+|report={{FIBA game|126966}}
+|points1=[[Yang Hansen|Yang]] 19
+|rebounds1=Yang 9
+|assist1=[[Zhao Jiwei|Zhao Jiw.]] 5
+|points2=[[Omar Jamaleddine|Jamaleddine]] 19
+|rebounds2=Jamaleddine 11
+|assist2=[[Sergio El Darwich|El Darwich]] 5
+|arena=[[Xishi Basketball Center]]
+|location=[[Zhuji]]
+|attendance=12,127
+|referee=James Boyer (AUS), Budi Marfan (INA), Suebpong Wichaiphin (THA)
 }}
-The '''2026–27 New Zealand Breakers season''' is the 24th season of the franchise in the [[National Basketball League (Australia)|National Basketball League]]
+{{basketballbox collapsible
+|id="Lebanon v Jap
 
-##### 2027 FIBA Basketball World Cup qualification (Asia): 70038 chars | templates: {"Infobox FIBA tourney":1,"basketballbox collapsible":84,"FIBA game":84}
-{{Infobox FIBA tourney
-| continent      = Asia
-| title          = 2027 FIBA Basketball World Cup
-| subtitle       = Asian Qualifiers
-| dates          = 27 November 2025 – March 2027
-| teams          = 16
-| confederations = 2
-| website        = [https://www.fiba.basketball/en/events/fiba-basketball-world-cup-2027-asian-qualifiers Asian qualifiers website]
-| prevseason     = [[2023 FIBA Basketball World Cup qualification (Asia)|2023]]
-| nextseason     = ''2031''
+##### Sheffield Shield box, upcoming:
+{{Two-innings cricket match
+| date = 28–31 October 2026
+| team1 = {{Cr-Aus|SA-h|l}}
+| team2 = {{Cr-Aus|WA}}
+| score-team1-inns1 = 
+| runs-team1-inns1 = 
+| wickets-team1-inns1 = 
+| score-team2-inns1 = 
+| runs-team2-inns1 = 
+| wickets-team2-inns1 = 
+| score-team1-inns2 = 
+| runs-team1-inns2 = 
+| wickets-team1-inns2 = 
+| score-team2-inns2 = 
+| runs-team2-inns2 = 
+| wickets-team2-inns2 = 
+| result = 
+| venue = [[Adelaide Oval]], [[Adelaide]]
+| toss = 
+| umpires = 
+| motm = 
+| report = [https://www.cricinfo.com/series/sheffield-shield-2026-27-1544841/south-australia-vs-western-australia-7th-match-1544870/full-scorecard Scorecard]
+| notes = 
 }}
-The '''[[2027 FIBA Basketball World Cup qualification]]''' for the '''[[FIBA Asia]]-[[FIBA Oceania|Oceania]]''' region, began in November 2025 and will conclude in March 2027. The process will determine the seven teams that will join the automatically qualified host Qatar at the [[2027 FIBA Basketball World Cup|2027 FIBA World Cup]].<ref>{{cite web|url=https://www.fiba.basketball/mens-calendar/qualifiers|publisher=FIBA|access-d
-
-##### 2027 FIBA Basketball World Cup Asian qualifiers: HTTP 404
-
-##### 2026 National Basketball League (New Zealand) season: HTTP 404
+----
+{{Two-innings cricket match
+| date = 30 October – 2 November 2026
+| team1 = {{Cr-Aus|TAS-h|l}}
+| team2 = {{Cr-Aus|NSW}}
+| score-team1-inns1 = 
+| runs-team1-inns1 = 
+| wickets-team1-inns1 = 
+| score-team2-inns1 = 
+| runs-team2-inns1 = 
+| wickets-team2-inns1 = 
+| score-team1-inns2 = 
+| runs-team1-inns2 = 
+| wickets-team1-inns2 = 
+| score-team2-inns2 = 
+| runs-team2-inns2 = 
+| wickets-team2-inns2 = 
+| result = 
+| venue = [[Bellerive Oval
