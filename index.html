@@ -1349,7 +1349,7 @@ const ISO = { 'New Zealand': 'nz', 'All Blacks': 'nz', 'Black Ferns': 'nz', Aust
 // (public domain, on Wikimedia Commons)
 const OWN_FLAG = { 'West Indies': 'https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg' };
 const flagOf = name => {
-  const base = String(name || '').replace(/\s+(Women|A|XI|XV|U\d+|Wheelchair)$/i, '').trim();
+  const base = String(name || '').replace(/\s+(Invitation XI|Women|A|XI|XV|U\d+|Wheelchair)$/i, '').trim();
   const c = ISO[base];
   return c ? `https://flagcdn.com/${c}.svg` : OWN_FLAG[base] || '';
 };

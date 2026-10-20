@@ -574,8 +574,9 @@ const LOGO_CODES = {
 // NZ domestic cricket sides go by their association name in fixtures but their team name on TheSportsDB
 const LOGO_ALIAS = { 'cricket|Northern Districts': ['Northern Brave', 'Northern Knights'], 'cricket|Canterbury': ['Canterbury Kings', 'Canterbury Wizards'], 'cricket|Central Districts': ['Central Stags'],
   'cricket|Auckland': ['Auckland Aces'], 'cricket|Wellington': ['Wellington Firebirds'], 'cricket|Otago': ['Otago Volts'],
-  'basketball|S.E. Melbourne Phoenix': ['South East Melbourne Phoenix'], 'basketball|SE Melbourne Phoenix': ['South East Melbourne Phoenix'] };
-const LOGO_V = 3; // bump to re-ask names whose earlier miss is still cached
+  'basketball|S.E. Melbourne Phoenix': ['South East Melbourne Phoenix'], 'basketball|SE Melbourne Phoenix': ['South East Melbourne Phoenix'],
+  'rugby|Drua': ['Fijian Drua'], 'rugby|Force': ['Western Force'] };
+const LOGO_V = 4; // bump to re-ask names whose earlier miss is still cached
 // crests under a free licence on Wikimedia Commons, for sides TheSportsDB has no badge for; credited on the crest and in the footer
 const COMMONS_LOGOS = {
   'cricket|Queensland': { src: 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Queensland_Cricket_logo.png', credit: 'Queensland Cricket logo by OzJourno99, CC BY-SA 4.0, via Wikimedia Commons', page: 'https://commons.wikimedia.org/wiki/File:Queensland_Cricket_logo.png' },
