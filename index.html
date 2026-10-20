@@ -3224,7 +3224,7 @@ function fitLines() {
     // a name's room: its half of the card, less a crest beside it (not one above it)
     const room = n => { const side = n.parentElement; if (side === pair || getComputedStyle(side).display === 'grid') return inner(side);
       return inner(side) - [...side.children].filter(x => x !== n && x.getClientRects().length).reduce((a, x) => a + x.getBoundingClientRect().width, 0) - parseFloat(getComputedStyle(side).columnGap || 0) * (side.children.length - 1); };
-    const row = !!pair.querySelector('.side') && pair.matches('.matchup:has(img)') && getComputedStyle(pair.querySelector('.side')).display !== 'grid';
+    const row = !!pair.querySelector('.side') && pair.matches('.matchup') && !!pair.querySelector('img') && getComputedStyle(pair.querySelector('.side')).display !== 'grid';
     nameJobs.push({ pair, nms, row, need: nms.map(n => ({ n, w: textW(n), room: room(n), base: fs(n) })) });
   }
   doc.classList.remove('fitm');
