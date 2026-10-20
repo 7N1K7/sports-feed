@@ -17,6 +17,8 @@
     { "title": "{Y} Rugby League Pacific Championships", "sport": "league", "comp": "Pacific Championships", "classify": "leaguetests" },
     { "title": "{S} Big Bash League season", "sport": "cricket", "comp": "Big Bash League", "team": "bbl", "tz": "Australia/Sydney", "showRound": true },
     { "title": "{S} Women's Big Bash League season", "sport": "cricket", "comp": "Women's Big Bash League", "team": "wbbl", "tz": "Australia/Sydney", "showRound": true },
+    { "title": "{S} Sheffield Shield season", "sport": "cricket", "comp": "Sheffield Shield", "team": "audomestic", "format": "First-class", "homeTz": true },
+    { "title": "{S} Dean Jones Trophy", "sport": "cricket", "comp": "Dean Jones Trophy", "team": "audomestic", "format": "List A", "homeTz": true },
     { "title": "{S} A-League Men", "sport": "football", "comp": "A-League Men", "classify": "aleague" },
     { "title": "{S} Premier League", "sport": "football", "comp": "Premier League", "classify": "epl" },
     { "title": "{Y} NRL season", "sport": "league", "comp": "NRL", "classify": "nrl" },
