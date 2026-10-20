@@ -355,7 +355,7 @@ footer a { color: var(--muted) }
 .teams.solo .nm, .dteams.solo { overflow-wrap: anywhere; text-wrap: balance }
 .teams.solo .where, .dteams.solo small { display: block; font-family: var(--f-body); font-size: 13px; font-weight: 600; line-height: 1.3; letter-spacing: 0; color: var(--muted) }
 .dteams.solo small { font-size: 14px; margin-top: 4px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.solo .where { display: none }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.solo .where { display: none }
 /* points-only standings (drivers, constructors) sit side by side when there's room */
 #hubBody:has(> .stable.points) { display: flex; flex-wrap: wrap; align-items: flex-start; column-gap: 18px }
 #hubBody > .stable.points { flex: 1 1 320px; min-width: 0 }
@@ -418,9 +418,9 @@ footer a { color: var(--muted) }
   .ev:not(.res) .body:has(.series) .teams.matchup { --lift: -0.35em }
   .ev:not(.res) .body:has(.series) .teams.matchup:has(.flagimg) { --lift: -0.53em }
   .ev:not(.res) .body:has(.series) .teams.matchup:has(img:not(.flagimg)) { --lift: -0.3em }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev:not(.res) .teams.matchup:has(.flagimg) { --lift: -0.17em }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev:not(.res) .teams.matchup:has(img:not(.flagimg)) { --lift: -0.1em } /* a logo nearly fills its row: just off the foot */
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev:not(.res) .body:has(.series) .teams.matchup { --lift: -0.41em }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev:not(.res) .teams.matchup:has(.flagimg) { --lift: -0.17em }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev:not(.res) .teams.matchup:has(img:not(.flagimg)) { --lift: -0.1em } /* a logo nearly fills its row: just off the foot */
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev:not(.res) .body:has(.series) .teams.matchup { --lift: -0.41em }
 }
 @media (max-width: 560px) { .ev .series { margin-top: 4px } }
 .ev .wx { font-size: 12px; font-weight: 700; color: #1c7ed6; margin-top: 4px }
@@ -768,13 +768,24 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
 /* phones: a long name wraps to a second line rather than pushing the points off the side */
 @media (max-width: 560px) { .stable.rank .rbar { width: 36px } .stable.rank .rv { gap: 6px } .stable.rank .tn { white-space: normal; overflow-wrap: break-word } }
 /* the rankings pop-up keeps one height whichever sport or list is picked; a long list scrolls inside it */
-dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback) { height: min(88vh, 780px) }
+dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback), dialog#sheet:has(.dtabs) { height: min(88vh, 780px) }
+/* a game's two tabs: this game, and its series' results so far; switching shows one or the other, the title stays */
+.dtabs { display: flex; gap: 8px; margin: 12px 0 2px }
+.dtabs button { border: 1px solid var(--line); background: var(--paper); font: inherit; font-weight: 700; font-size: 14px; color: var(--ink); padding: 4px 14px; border-radius: 999px; cursor: pointer }
+.dtabs button:hover { border-color: var(--sport) }
+.dtabs button[aria-selected="true"] { background: var(--sport); border-color: var(--sport); color: var(--surface) }
+.dtabs .dn { font-size: 12px; opacity: .8; margin-left: 2px }
+.dpane { display: none; margin-top: 10px }
+#sheetBody.on-results .dpane { display: grid; gap: 6px }
+#sheetBody.on-results > :not(.back, .sheet-head, .dtabs, .dpane) { display: none }
+.dpane .dayhead:empty { display: none }
+.dpane .dpdate { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-top: 6px }
 /* in a desktop window: up to nearly the window's height, so a tall window shows a whole list with no scroll bar. The
    rankings (and a team page opened from them) are as tall as their list and hang from a fixed top, so switching lists
    only moves the bottom edge, never the tabs */
 @media (min-width: 700px) {
   dialog#sheet { max-height: 94vh }
-  dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback) { height: auto; margin: 0 auto; top: 3vh; bottom: auto } /* unpinned from the bottom, or it stretches to fill */
+  dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback), dialog#sheet:has(.dtabs) { height: auto; margin: 0 auto; top: 3vh; bottom: auto } /* unpinned from the bottom, or it stretches to fill */
 }
 .rankbody { padding-top: 6px }
 .stable.rank .rnote { font-weight: 400; white-space: normal }
@@ -866,25 +877,25 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
 .ev:hover, .ni:hover { border-color: color-mix(in srgb, var(--sport, var(--accent)) 50%, var(--line)) }
 
 /* compact cards: one short row each. Compact view uses them everywhere; Mixed keeps live and today's games full size */
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams { font-size: 23px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 8px; text-align: center; grid-template-rows: none; row-gap: 0 }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side > * { grid-row: auto; align-self: center; order: 0 }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side.away > img { order: 2 }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.45em; height: 2.45em; max-width: 4.6em; margin-block: -0.3em }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .flagimg { height: 1.55em; max-width: 3.2em }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .body { padding-top: 6px; padding-bottom: 6px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp { font-size: 12px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .summary, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .tvl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .nzl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .loc:not(.num) { display: none }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .when { padding-top: 6px; padding-bottom: 6px; gap: 0 }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .nz { font-size: 20px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .cover { padding: 4px 8px; font-size: 12px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .cover b { font-size: 13px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .rloc { margin-top: 2px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .score { font-size: 20px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams { font-size: 23px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup .side, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup:has(img) .side { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 8px; text-align: center; grid-template-rows: none; row-gap: 0 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup .side > * { grid-row: auto; align-self: center; order: 0 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup .side.away > img { order: 2 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.45em; height: 2.45em; max-width: 4.6em; margin-block: -0.3em }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup .flagimg { height: 1.55em; max-width: 3.2em }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .body { padding-top: 6px; padding-bottom: 6px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .comp { font-size: 12px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .summary, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .tvl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .nzl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .loc:not(.num) { display: none }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .when { padding-top: 6px; padding-bottom: 6px; gap: 0 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .nz { font-size: 20px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .cover { padding: 4px 8px; font-size: 12px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .cover b { font-size: 13px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .rloc { margin-top: 2px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .score { font-size: 20px }
 /* worded results ("Fundora won by KO (R12, 2:59)") read as text, not as a big scoreline, in every view */
-.ev .when .score.long, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .score.long, .dres .score.long { font-size: 15px; font-family: var(--f-body); font-weight: 600; line-height: 1.3 }
+.ev .when .score.long, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .score.long, .dres .score.long { font-size: 15px; font-family: var(--f-body); font-weight: 600; line-height: 1.3 }
 :is(body.v-compact, body.v-mixed) :is(.daygroup, .donetoday) { gap: 6px }
-@media (max-width: 560px) { :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams { font-size: 17px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .side { gap: 6px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { --lh: 1.95em; height: 1.95em } }
+@media (max-width: 560px) { :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams { font-size: 17px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup .side { gap: 6px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup .logo:not(.flagimg) { --lh: 1.95em; height: 1.95em } }
 /* Mixed: today's games a little smaller than live ones */
 body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 @media (max-width: 560px) { body.v-mixed #today .daygroup > .ev .teams { font-size: 22px } }
@@ -1046,20 +1057,20 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
 /* compact rows: the matchup is one fixed width on every card, so each logo sits on the same vertical line at its outer edge;
    the name sits beside its logo and a long name grows in toward the "v" rather than pushing the logo out */
 @media (min-width: 561px) {
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) { grid-template-columns: minmax(0, 1fr) minmax(96px, auto) minmax(0, 1fr); width: min(100%, 760px); margin-inline: auto; box-sizing: border-box; padding-inline: 10px; justify-items: stretch; column-gap: 14px }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .logo:not(.face) { width: 3.2em; max-width: none; object-fit: contain }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side .logo { margin-inline: 0 }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup:has(img) { grid-template-columns: minmax(0, 1fr) minmax(96px, auto) minmax(0, 1fr); width: min(100%, 760px); margin-inline: auto; box-sizing: border-box; padding-inline: 10px; justify-items: stretch; column-gap: 14px }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup:has(img) .logo:not(.face) { width: 3.2em; max-width: none; object-fit: contain }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup:has(img) .side .logo { margin-inline: 0 }
   /* a zoomed crest grows around its own centre and only pushes its name, so the crests' centres still line up */
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side.home .logo.zoom { margin-right: calc((var(--z) - 1) * 1.4em) }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side.away .logo.zoom { margin-left: calc((var(--z) - 1) * 1.4em) }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .nm { overflow-wrap: normal; text-wrap: balance }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side.home { justify-content: flex-start; text-align: left }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) .side.away { justify-content: flex-end; text-align: right }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup:has(img) > .v { justify-self: center }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup:has(img) .side.home .logo.zoom { margin-right: calc((var(--z) - 1) * 1.4em) }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup:has(img) .side.away .logo.zoom { margin-left: calc((var(--z) - 1) * 1.4em) }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup:has(img) .nm { overflow-wrap: normal; text-wrap: balance }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup:has(img) .side.home { justify-content: flex-start; text-align: left }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup:has(img) .side.away { justify-content: flex-end; text-align: right }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup:has(img) > .v { justify-self: center }
 }
 /* a result's side panel keeps one height whether the result is covered or shown, so the date line under it never moves */
 .ev.res .rtop { height: 54px; display: grid; align-content: center; justify-items: center; gap: 2px; min-width: 0 }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev.res .rtop { height: 46px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev.res .rtop { height: 46px }
 .ev.res .rtop .acts { flex-wrap: nowrap; white-space: nowrap }
 /* a card's competition title sits dead centre over the "v": its sport icon just to the left, its badges just to the right */
 /* the icon, title and tags centre as one group, so wide tags (TEST INTL) don't pull the row off to one side. When they
@@ -1078,18 +1089,18 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
 .ev .comp .cicon2, .ev .comp.stack .cmain .cicon { display: none }
 .ev .comp.stack .cicon2 { display: flex }
 .ev .comp.stack .cmain { flex-basis: 100% }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .comp .ctitle { font-size: 13.5px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .comp .ctitle { font-size: 13.5px }
 .ev .comp .ctags { flex: none; display: flex; align-items: center; gap: 5px }
 /* the "v" sits in the middle of its column whether or not a score is beside it */
 .matchup > .v { text-align: center }
 .ev .when .wbr { display: none }
 @media (max-width: 560px) {
   /* phone time panel: centred, the time and date on one line and the extras (day, stumps, channel) on the next */
-  .ev .when, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .when { justify-content: center; text-align: center; column-gap: 12px; row-gap: 3px }
+  .ev .when, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .when { justify-content: center; text-align: center; column-gap: 12px; row-gap: 3px }
   .ev .when .wbr { display: block; flex-basis: 100%; height: 0 }
   .ev .when .nzl { align-self: baseline }
   /* a result's panel: the button or the result, then the date, centred together; the left part keeps one width so the date never moves */
-  .ev.res .when, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev.res .when { flex-wrap: nowrap; align-items: center; column-gap: 16px; justify-content: space-between }
+  .ev.res .when, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev.res .when { flex-wrap: nowrap; align-items: center; column-gap: 16px; justify-content: space-between }
   .ev.res .rtop { justify-items: center; flex: none; width: 160px }
   .ev.res .rtop .cover { width: 100% }
   /* the button sits on the right, under the thumb, and the date on the left */
@@ -1097,26 +1108,26 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
   /* phone compact cards, kept low: small crests beside the names (a card whose names don't fit beside them gets them
      on top, from fitLines), and the time, date and countdown on one line; "Game 1 of 5" and the local time are in the
      game's pop-up */
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .logo:not(.flagimg) { --lh: 1.5em; height: 1.5em; max-width: 2.4em; margin-block: 0 }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup .flagimg { height: 1.05em; max-width: 1.6em }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .series, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .when .loc, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .when .wbr { display: none }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .body { padding-top: 8px; padding-bottom: 3px }
-  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .when { align-items: baseline; padding-top: 3px; padding-bottom: 8px }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup .logo:not(.flagimg) { --lh: 1.5em; height: 1.5em; max-width: 2.4em; margin-block: 0 }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup .flagimg { height: 1.05em; max-width: 1.6em }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .series, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .when .loc, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .when .wbr { display: none }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .body { padding-top: 8px; padding-bottom: 3px }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .when { align-items: baseline; padding-top: 3px; padding-bottom: 8px }
 }
 /* a compact card whose names don't fit beside their crests (fitLines() adds .stackside): crest on top and name under
    it on both sides, as on a phone, so each name gets its side's full width */
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup.stackside:has(img) { align-items: start; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); column-gap: 10px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev.res .teams.matchup.stackside > .v { min-width: 64px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup.stackside:has(img) .side { display: grid; grid-template-rows: 2.2em auto; justify-items: center; align-items: center; row-gap: 3px; text-align: center }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup.stackside:has(img) .side > img { grid-row: 1; order: 0; margin: 0 }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup.stackside:has(img) .side > .nm { grid-row: 2; align-self: start }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev .teams.matchup.stackside:has(img) > .v { align-self: center }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup.stackside:has(img) { align-items: start; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); column-gap: 10px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev.res .teams.matchup.stackside > .v { min-width: 64px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup.stackside:has(img) .side { display: grid; grid-template-rows: 2.2em auto; justify-items: center; align-items: center; row-gap: 3px; text-align: center }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup.stackside:has(img) .side > img { grid-row: 1; order: 0; margin: 0 }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup.stackside:has(img) .side > .nm { grid-row: 2; align-self: start }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev .teams.matchup.stackside:has(img) > .v { align-self: center }
 /* a result's middle column is as wide covered as it is with a typical score in it, so the names beside it don't reflow on reveal */
 .ev.res .teams.matchup > .v { min-width: 110px; justify-self: center; justify-content: center }
 @media (max-width: 560px) { .ev.res .teams.matchup > .v { min-width: 64px } }
 /* a result row lets a long name drop under its crest the same way whether the score is covered or shown */
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev.res .teams.matchup .side { flex-wrap: wrap; row-gap: 2px }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev.res .teams.matchup .side.away { flex-wrap: wrap-reverse }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev.res .teams.matchup .side { flex-wrap: wrap; row-gap: 2px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody), .dpane) .ev.res .teams.matchup .side.away { flex-wrap: wrap-reverse }
 /* a fight's method ("KO R12") hangs under the v without making the card taller when the result is shown */
 .matchup .v.vhow { position: relative }
 .matchup .vhow small { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) }
@@ -2336,12 +2347,28 @@ function openRankings(sport) {
   if (!dlg.open) dlg.showModal();
   watchChips();
 }
+// the game pop-up's Results tab: the games of its series or tournament already played, newest first (in a season-long
+// league, just the two sides' games), as result cards, so the spoiler setting covers them as it does everywhere
+let dTab = 'game', dTabId = '';
+function seriesResults(e, now) {
+  const c = compOf(e), league = GENERIC.test(c), sides = [e.home, e.away];
+  return (FEED.events || []).filter(x => x.id !== e.id && compOf(x) === c && (!league || [x.home, x.away].some(t => sides.includes(t)))
+    && (x.status === 'final' || (x.status !== 'live' && new Date(x.startUTC) < now && !running(x, now) && (!x.timeTBC || now - new Date(x.startUTC) > 12 * 36e5))))
+    .sort((a, b) => b.startUTC.localeCompare(a.startUTC));
+}
 function openDetail(id, fromTeam) {
   const e = (FEED.events || []).find(x => x.id === id);
   if (!e) return;
-  count({ e: 'game' });
+  if (id !== dTabId) { count({ e: 'game' }); dTab = 'game'; dTabId = id; } // a fresh game opens on its own tab; a redraw keeps the tab
   if (!fromTeam) teamBack = null;
   $('sheetBody').innerHTML = (teamBack ? `<button type="button" class="back" data-teampage="${esc(teamBack.name)}" data-tsport="${teamBack.sport}">‹ ${esc(displayName(teamBack.name, e))}</button>` : '') + detail(e);
+  const now = Date.now(), res = seriesResults(e, now);
+  if (res.length) {
+    const word = GENERIC.test(compOf(e)) ? 'Results' : /World Cup|Championship|Cup|Series|Trophy|League|Finals/i.test(compOf(e)) ? 'Results so far' : 'Series results';
+    $('sheetBody').querySelector('.sheet-head').insertAdjacentHTML('afterend', `<div class="dtabs sport-${e.sport}" role="tablist"><button type="button" role="tab" data-dtab="game" aria-selected="${dTab === 'game'}">This game</button><button type="button" role="tab" data-dtab="results" aria-selected="${dTab === 'results'}">${word} <span class="dn">${res.length}</span></button></div>`
+      + `<div class="dpane daygroup">${res.length > 1 ? `<div class="dayhead">${revealAll(res, now)}</div>` : ''}${res.map(x => `<div class="dpdate">${esc(fmt(new Date(x.startUTC), NZ, { weekday: 'short', day: 'numeric', month: 'short' }))}</div>${resCard(x, now)}`).join('')}</div>`);
+  }
+  $('sheetBody').classList.toggle('on-results', !!res.length && dTab === 'results');
   const dlg = $('sheet');
   dlg.dataset.id = id; dlg.dataset.rankings = '';
   if (!dlg.open) dlg.showModal();
@@ -2893,8 +2920,8 @@ document.addEventListener('click', ev => {
     keys.forEach(k => on ? picked.delete(k) : picked.add(k)); store.set('teams', [...picked]); render(); return;
   }
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); store.set('teams', [...picked]); render(); }
-  else if (t.dataset.hideall) { ev.stopPropagation(); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); }
-  else if (t.dataset.revealall) { ev.stopPropagation(); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); }
+  else if (t.dataset.hideall) { ev.stopPropagation(); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
+  else if (t.dataset.revealall) { ev.stopPropagation(); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.reveal) { ev.stopPropagation(); revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
   else if (t.dataset.rehide) { ev.stopPropagation(); revealed.delete(t.dataset.rehide); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
   else if (t.dataset.gender) { genderSel = t.dataset.gender; store.set('gender', genderSel); render(); }
@@ -2907,6 +2934,7 @@ document.addEventListener('click', ev => {
     if (!t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; render(); }
+  else if (t.dataset.dtab) { dTab = t.dataset.dtab; $('sheetBody').classList.toggle('on-results', dTab === 'results'); t.parentNode.querySelectorAll('[data-dtab]').forEach(b => b.setAttribute('aria-selected', b === t)); }
   else if (t.dataset.rank) { rankSel = t.dataset.rank; if ($('sheet').open && $('sheet').dataset.rankings) openRankings($('sheet').dataset.rankings); else render(); }
   else if (t.dataset.rankings) { rankSel = ''; openRankings(t.dataset.rankings); }
   else if (t.dataset.rankback) openRankings(t.dataset.rankback);
