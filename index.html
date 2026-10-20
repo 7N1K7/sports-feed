@@ -1647,6 +1647,9 @@ function between(e, now) {
   return `Day ${Math.min(days, Math.floor((now - s) / 864e5) + 2)} next`;
 }
 const running = (e, now) => onNow(e, now) || between(e, now);
+// a game with a set time joins Live now ten minutes before it starts, its countdown ticking down to the first ball
+const SOON = 10 * 6e4;
+const startsSoon = (e, now) => e.status !== 'final' && e.status !== 'live' && !e.timeTBC && !e.usual && new Date(e.startUTC) - now > 0 && new Date(e.startUTC) - now <= SOON;
 // when a game next gets under way: its start, or for a Test between days the start of the next day's play
 const nextAt = (e, now) => { const b = between(e, now); return new Date(+new Date(e.startUTC) + (b ? (+b.match(/\d+/)[0] - 1) * 864e5 : 0)); };
 // roughly when a finished game ended, so one that ran past midnight counts as that day's result;
@@ -1674,6 +1677,8 @@ setInterval(() => {
   for (const el of document.querySelectorAll('[data-cd]')) {
     const ms = new Date(el.dataset.cd) - now;
     if (ms > 0 && ms < 36e5) el.textContent = countdown({ startUTC: el.dataset.cd }, now);
+    // a game in Live now that reaches its start turns to On now straight away, not at the next minute's redraw
+    else if (ms <= 0 && ms > -1500 && el.closest('#live')) { render(); break; }
   }
 }, 1000);
 function canRehide(id, start, now) { return spoilers && revealed.has(id) && now - new Date(start) < spoilDays * 864e5; }
@@ -2598,7 +2603,7 @@ function render() {
   const cap = dotCap(); drawWeek(cap); lastCap = dotCap(); if (lastCap !== cap) drawWeek(lastCap);
 
   // live now: games under way, in their own section above the week
-  const lives = upcoming.filter(e => e.status === 'live' || onNow(e, now));
+  const lives = upcoming.filter(e => e.status === 'live' || onNow(e, now) || startsSoon(e, now));
   // a Test between days of play (overnight, or after rain ended the day) waits with the upcoming games until the next day starts
   const resting = upcoming.filter(e => !lives.includes(e) && between(e, now));
   $('liveSec').hidden = !lives.length;
