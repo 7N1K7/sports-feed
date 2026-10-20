@@ -11,7 +11,7 @@ const EVENTS = new Set(['install', 'appfirst', 'cal', 'alerts', 'rankings', 'ale
 // the words searched (search0: searches with no results), a page error, the load time band
 // and which way to watch was tapped, which team was followed or dropped in My teams, and which part of the site was used
 const KEYED = { sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed', watch: 'watch', follow: 'follow', unfollow: 'unfollow', use: 'use' };
-const USE = new Set(['Events button', 'Results button', 'News button', 'Series row chip', 'Running now tile', 'Events ahead tile', 'Results tab in a game', 'Day in the week strip', 'Dot in the week strip', 'Filters folded away', 'Filters opened', 'Hide sport', 'Show sport', 'Show all results']);
+const USE = new Set(['Free to watch', 'Events button', 'Results button', 'News button', 'Series row chip', 'Running now tile', 'Events ahead tile', 'Results tab in a game', 'Day in the week strip', 'Dot in the week strip', 'Filters folded away', 'Filters opened', 'Hide sport', 'Show sport', 'Show all results']);
 // a visitor's settings, counted once a day each: results hidden or shown, card size, colour theme
 const OG_THEMES = ['green', 'black', 'ocean', 'paua', 'purple', 'pink', 'red', 'orange', 'kowhai', 'lime'];
 const VIEWS = new Set(['big', 'mixed', 'compact']), THEMES = new Set(['green', 'ocean', 'red', 'black', 'kowhai', 'paua', 'purple', 'orange', 'lime', 'pink', 'kauri', 'silver', 'tui', 'navy', 'olive']);

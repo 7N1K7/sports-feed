@@ -435,7 +435,9 @@ const TV_NICK = { 'black caps': ['blackcaps', 'black caps', 'new zealand', 'nzl'
   'black ferns': ['black ferns', 'new zealand'], kiwis: ['kiwis', 'new zealand', 'nzl'], 'kiwi ferns': ['kiwi ferns', 'new zealand'], 'silver ferns': ['silver ferns', 'new zealand'],
   'all whites': ['all whites', 'new zealand'], 'football ferns': ['football ferns', 'new zealand'], 'tall blacks': ['tall blacks', 'new zealand'], 'tall ferns': ['tall ferns', 'new zealand'],
   'black sticks': ['black sticks', 'new zealand'], wallabies: ['wallabies', 'australia', 'aus'], wallaroos: ['wallaroos', 'australia'], springboks: ['springboks', 'south africa'],
-  proteas: ['proteas', 'south africa', 'rsa'], jillaroos: ['jillaroos', 'australia'], kangaroos: ['kangaroos', 'australia'] };
+  proteas: ['proteas', 'south africa', 'rsa'], jillaroos: ['jillaroos', 'australia'], kangaroos: ['kangaroos', 'australia'],
+  // a side named "New Zealand" in the feed goes by its nickname in the guide ("Blackcaps v India: 1st T20")
+  'new zealand': ['new zealand', 'nzl', 'nz', 'blackcaps', 'black caps', 'white ferns', 'all blacks', 'black ferns', 'kiwis', 'kiwi ferns', 'silver ferns', 'all whites', 'football ferns', 'tall blacks', 'tall ferns', 'black sticks'] };
 const TV_CODE = { india: 'ind', australia: 'aus', england: 'eng', 'south africa': 'rsa', pakistan: 'pak', 'sri lanka': 'sl', bangladesh: 'ban', 'west indies': 'wi', ireland: 'ire',
   zimbabwe: 'zim', afghanistan: 'afg', 'new zealand': 'nzl', scotland: 'sco', france: 'fra', fiji: 'fij', samoa: 'sam', tonga: 'ton' };
 async function tvGuide(events) {
