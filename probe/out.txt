@@ -1,14 +1,7 @@
-version 297 | sides (next/last 60 days, team sports): 132
-club and domestic sides with a logo: 84/92 = 91%  (national sides show their flag: 40 more)
-
-cricket: 18/23 (78%) — missing: Governor-General's XI (Tour match v Governor-General's XI); Central Hinds (Hallyburton Johnstone Shield (women) ope); South Australia (Sheffield Shield/Dean Jones Trophy); Western Australia (Sheffield Shield/Dean Jones Trophy); South Africa Invitation XI (Australia v South Africa)
-
-league: 8/10 (80%) — missing: Pool A runners-up (Rugby League World Cup); Pool B & C runners-up (Rugby League World Cup)
-
-rugby: 18/18 (100%) — missing: none
-
-football: 32/32 (100%) — missing: none
-
-basketball: 8/9 (89%) — missing: S.E. Melbourne Phoenix (NBL)
-
-logo sources this run: 101/149 teams; 8 searched this run | 3 free crests known, 10 sides given one; 28 looked up | 
+"South East Melbourne Phoenix": South East Melbourne Phoenix [Basketball/Australian NBL] badge YES
+"S.E. Melbourne Phoenix": South East Melbourne Phoenix [Basketball/Australian NBL] badge YES
+"SE Melbourne Phoenix": South East Melbourne Phoenix [Basketball/Australian NBL] badge YES
+"Melbourne Phoenix": South East Melbourne Phoenix [Basketball/Australian NBL] badge YES
+"Central Hinds": none
+"Central Districts Hinds": none
+"Central Stags": Central Stags [Cricket/New Zealand Super Smash] badge YES
