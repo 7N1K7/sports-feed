@@ -96,7 +96,9 @@ th { color: var(--muted); font-weight: 600 }
 :root[data-accent="lime"] { --paper: #0e120a; --surface: #161c10; --ink: #e8f0dc; --muted: #9cab89; --line: #2a3420; --accent: #a9e34b; }
 :root[data-accent="pink"] { --paper: #140c10; --surface: #1e1419; --ink: #f4e4eb; --muted: #b398a5; --line: #38242e; --accent: #f783ac; }
 .thh { margin: 16px 0 8px; font: 700 13px var(--f-body); text-transform: uppercase; letter-spacing: .06em; color: var(--muted) }
-.swatches { display: flex; flex-wrap: wrap; gap: 6px }
+/* five a row (two on a phone), so the ten themes sit in even rows */
+.swatches { display: grid; grid-template-columns: repeat(5, max-content); gap: 6px }
+@media (max-width: 760px) { .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
 .sw { display: inline-flex; align-items: center; gap: 6px; font: 600 13px var(--f-body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px 4px 6px; cursor: pointer }
 .sw i { width: 14px; height: 14px; border-radius: 50%; background: var(--c) }
 .sw[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
