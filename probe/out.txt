@@ -1,52 +1,14 @@
-not reading: 8 
- cricket|m|Northern Districts (0)
- league|m|Lebanon (0)
- league|wc|France (16: Lionel Alazard (Montauban Pandas), Catalans Dragons, Catalans Dragons)
- league|wc|Scotland (0)
- league|wc|Ireland (0)
- league|wc|USA (0)
- league|wc|Spain (7: Eric Perez (Biganos Eagles), Anthony Martin (Biganos Eagles), Catalans Dragons)
- league|wc|New Zealand (0)
 
-### Nottingham Forest F.C.
-Current squad====
-<!----------------------------------------------------------------------------------------------
-  -- Do NOT add new players before their signing is officially announced by the club
-  -- and do NOT assign unreferenced squad numbers as well.
-  – Players with international caps should NOT be bolded – as per Wikipedia:WikiProject_Football/Clubs
-  – This is Wikipedia, not a football gazette.
-  – Any unconfirmed and unsourced signing/transfer will be reverted at sight.
-  – Thanks in advance.
-  ----------------------------------------------------------------------------------------------->
-{{updated|7 September 2026|<ref>{{cite web |url=https://www.nottinghamforest.co.uk/teams |title=Men's First Team |publisher=Nottingham Forest Football Club |access-date=9 July 2026}}</ref>}}
-{{Fs start|bg=DD0000|color=FFFFFF}}
-{{football squad player|no=2|nat=CIV|pos=DF|name=[[Ousmane Diomande]]}}
-{{football squad player|no=3|nat=WAL|pos=DF|name=[[Neco Williams]]}}
-{{football squad player|no=5|nat=BRA|pos=DF|name=[[Murillo (footballer)|Murillo]]}}
-{{football squad player|no=6|nat=CIV|pos=MF|name=[[Ibrahim Sangaré (Ivorian footballer)|Ibrahim Sangaré]]}}
-{{football squad player|no=7|nat=ENG|pos=FW|name=[[Callum Hudson-Odoi]]}}
-{{football squad player|no=8|nat=ARG|pos=MF|name=[[Nicolás Domínguez]]}}
-{{football squad player|no=9|nat=NZL|pos=FW|name=[[Chris Wood (footballer, born 1991)|Chris Wood]]}}
-{{football squad player|no=10|nat=ENG|pos=MF|name=[[Morgan Gibbs-White]]|other=[[vi
+### ATP rankings: heads [["Doubles race rankings as of 28 September 2026","Doubles race rankings as of 28 September 2026","Doubles race rankings as of 28 September 2026","Doubles race rankings as of 28 September 2026"],["No.","Team","Points","Tourn"]]
+    ["1","Harri Heliövaara (FIN) ✓ Henry Patten (GBR) ✓","7,880","15"]
+    ["2","Christian Harrison (USA) ✓ Neal Skupski (GBR) ✓","5,890","19"]
+    ["3","Marcel Granollers (ESP) ✓ Horacio Zeballos (ARG) ✓","5,330","12"]
+    ["4","Marcelo Arévalo (ESA) Mate Pavić (CRO)","5,045","17"]
+    ["5","Simone Bolelli (ITA) Andrea Vavassori (ITA)","4,480","15"]
 
-### Northern Brave
-Current squad===
-Based on squad announced for the 2023–24 season. Players in '''bold''' have international caps.<ref name="squad">{{cite web |url=https://www.ndcricket.co.nz/news-item/strong-2023-24-contract-list-announced-for-northern-districts-women |title=Strong 2023-24 Contract List Announced for Northern Districts Women |publisher=Northern Districts |access-date=14 November 2023 |archive-date=14 November 2023 |archive-url=https://web.archive.org/web/20231114155453/https://www.ndcricket.co.nz/news-item/strong-2023-24-contract-list-announced-for-northern-districts-women |url-status=live }}</ref>
-{| class="wikitable"  style="font-size:95%;
-|-
-! style="background:#f05223; color:white; text-align:centre;"| No.
-! style="background:#f05223; color:white; text-align:centre;"| Name
-! style="background:#f05223; color:white; text-align:centre;"| Nationality
-! style="background:#f05223; color:white; text-align:centre;"| Birth date
-! style="background:#f05223; color:white; text-align:centre;"| Batting style
-! style="background:#f05223; color:white; text-align:centre;"| Bowling style
-! style="background:#f05223; color:white; text-align:centre;"| Notes
-|-
-! colspan="7" style="background:#dcdcdc" text-align:centre;"| Batters
-|-
-|style="text-align:center"|3|| Lucy Boucher || {{crw|NZL}} || {{Birth date and age|2001|10|23|df=y}} || Right-handed || Right-arm [[Fast bowling|medium]] ||
-|-
-|style="text-align:center"|13|| Yasmeen Kareem || {{crw|NZL}} || {{Birth date and age|1999|9|8|df=y}} ||
-
-### Northern Districts cricket team
-}
+### WTA rankings: heads [["Doubles race rankings as of 3 August 2026","Doubles race rankings as of 3 August 2026","Doubles race rankings as of 3 August 2026","Doubles race rankings as of 3 August 2026"],["No.","Player","Points","Tourn"]]
+    ["1","Taylor Townsend (USA) ✓ Kateřina Siniaková (CZE) ✓","6,250","7"]
+    ["2","Gabriela Dabrowski (CAN) ✓ Luisa Stefani (BRA)✓","5,723","11"]
+    ["3","Aleksandra Krunic (SRB) ✓ Anna Danilina (KAZ)✓","5,389","11"]
+    ["4","Kristina Mladenovic (FRA) Guo Hanyu (CHN)","3,331","7"]
+    ["5","Elise Mertens (BEL) Zhang Shuai (CHN)","3,018","9"]
