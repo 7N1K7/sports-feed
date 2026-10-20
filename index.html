@@ -398,6 +398,21 @@ footer a { color: var(--muted) }
 .ev .series { text-align: center; font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.2 }
 /* desktop: the series line sits in the spare room at the card's foot, so the card keeps its height */
 @media (min-width: 561px) { .ev .series { position: absolute; left: 0; right: 0; bottom: 3px; pointer-events: none } }
+/* the sides (pictures, names and the "v") sit in the middle of the room between the competition line and the card's
+   foot (or the series line, when there is one), a touch above true centre (4px more room below), which reads as
+   centred: a flag is shorter than its slot, so a flag card has spare room above it, and a series line takes room at
+   the foot. Measured per kind of card; only the sides move, the card keeps its height */
+@media (min-width: 561px) {
+  .ev:not(.res) .teams.matchup { position: relative; top: var(--lift, -0.125em) }
+  .ev:not(.res) .teams.matchup:has(.flagimg) { --lift: -0.4em }
+  .ev:not(.res) .teams.matchup:has(img:not(.flagimg)) { --lift: -0.16em }
+  .ev:not(.res) .body:has(.series) .teams.matchup { --lift: -0.35em }
+  .ev:not(.res) .body:has(.series) .teams.matchup:has(.flagimg) { --lift: -0.53em }
+  .ev:not(.res) .body:has(.series) .teams.matchup:has(img:not(.flagimg)) { --lift: -0.3em }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev:not(.res) .teams.matchup:has(.flagimg) { --lift: -0.17em }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev:not(.res) .teams.matchup:has(img:not(.flagimg)) { --lift: -0.1em } /* a logo nearly fills its row: just off the foot */
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody)) .ev:not(.res) .body:has(.series) .teams.matchup { --lift: -0.41em }
+}
 @media (max-width: 560px) { .ev .series { margin-top: 4px } }
 .ev .wx { font-size: 12px; font-weight: 700; color: #1c7ed6; margin-top: 4px }
 /* a rain headline from the news, word for word: two lines at most, its links in the note's colour */
@@ -556,7 +571,7 @@ dialog#sheet { width: min(720px, 100%) }
 
 .compbar { gap: 10px; flex-wrap: wrap; align-items: center }
 .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--surface) }
-.seg button { border: 0; background: none; padding: 2px 14px; font-size: 14px; cursor: pointer; color: var(--muted) }
+.seg button { border: 0; background: none; padding: 2px 10px; font-size: 14px; cursor: pointer; color: var(--muted) }
 .seg button + button { border-left: 1px solid var(--line) }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper) }
 
@@ -567,9 +582,9 @@ dialog#sheet { width: min(720px, 100%) }
 
 /* competition menu: soft rounded popover */
 .cmenu { position: relative }
-#compSel { appearance: none; border-radius: 999px; padding: 2px 32px 2px 16px; font-size: 14px; background-color: var(--surface); color: var(--ink); border: 1px solid var(--line); cursor: pointer; width: 190px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; font: inherit; font-size: 14px;
+#compSel { appearance: none; border-radius: 999px; padding: 2px 26px 2px 12px; font-size: 14px; background-color: var(--surface); color: var(--ink); border: 1px solid var(--line); cursor: pointer; width: 148px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; font: inherit; font-size: 14px;
   background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
-  background-position: right 17px center, right 12px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat }
+  background-position: right 15px center, right 10px center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat }
 #compSel.on { background-color: var(--ink); color: var(--paper); border-color: var(--ink) }
 /* as wide as its longest entry, never narrower than the button above it */
 .cmenu-list { position: absolute; z-index: 30; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); width: max-content; min-width: 250px; max-width: calc(100vw - 32px); max-height: 70vh; overflow: auto;
@@ -602,7 +617,7 @@ html::-webkit-scrollbar-thumb:active, body::-webkit-scrollbar-thumb:active { bac
 .cgroup { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--line) }
 .chead { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 4px 12px }
 .chead .dot { width: 8px; height: 8px; border-radius: 50% }
-.nzonly { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 2px 14px; font: inherit; font-size: 14px; cursor: pointer }
+.nzonly { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 2px 10px; font: inherit; font-size: 14px; cursor: pointer }
 .nzonly img { border-radius: 2px }
 .nzonly[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
 /* week strip: weekends tinted, big tournaments get a coloured bar, picked day filled */
@@ -683,7 +698,7 @@ a.svc:hover { text-decoration-color: currentColor }
 :root { --gold: #a87b00 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --gold: #f2c94c } }
 :root[data-theme="dark"] { --gold: #f2c94c }
-.rankbtn { font-size: 14px; font-weight: 600; padding: 2px 14px; border: 1px solid var(--gold); color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--surface)) }
+.rankbtn { font-size: 14px; font-weight: 600; padding: 2px 11px; border: 1px solid var(--gold); color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--surface)) }
 /* a tab hangs off the bottom of the top bar, with an arrow in the middle: it folds the series row, sport buttons and
    competition bar away and back. Once the bar has compacted to two rows (phones, narrower windows) it's a band the full
    width of the bar, flat across with round corners turning up into the screen's sides, standing in for the bar's bottom
@@ -728,13 +743,13 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
   .compbar { gap: 6px }
   .compbar .lg { display: none } .compbar .sm { display: inline }
   .compbar .cmenu { flex: 0 0 100%; display: flex; justify-content: center }
-  .nzonly, .rankbtn { padding: 2px 10px; gap: 5px; font-size: 13px }
-  .compbar .seg button { padding: 2px 9px; font-size: 13px }
+  .nzonly, .rankbtn { padding: 2px 8px; gap: 5px; font-size: 13px }
+  .compbar .seg button { padding: 2px 7px; font-size: 13px }
   #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px 5px } #sportFilter .cicon { margin-right: 4px }
   /* the rankings' chips as compact as the sport row's, so they take three rows, not four or five */
   :is(.ranksports, .rankchips, .rankrows .chips) .chip { font-size: 13px; padding: 2px 9px; margin: 0 2px 5px } .ranksports .cicon { margin-right: 4px }
 }
-@media (max-width: 380px) { .nzonly, .rankbtn, .compbar .seg button { font-size: 12px; padding-inline: 8px } .nzonly img { width: 15px; height: auto } }
+@media (max-width: 380px) { .nzonly, .rankbtn, .compbar .seg button { font-size: 12px; padding-inline: 6px } .nzonly img { width: 15px; height: auto } }
 .rankbtn:hover { background: color-mix(in srgb, var(--gold) 20%, var(--surface)) }
 .stable.rank td.num { white-space: nowrap }
 .stable.rank .rv { display: inline-flex; align-items: center; gap: 8px }
@@ -1013,8 +1028,8 @@ html.tight .qlist { left: 0; right: 0; width: auto }
 html.tight .compbar { gap: 6px }
 html.tight .compbar .lg { display: none } html.tight .compbar .sm { display: inline }
 html.tight .compbar .cmenu { flex: 0 0 100%; display: flex; justify-content: center }
-html.tight .nzonly, html.tight .rankbtn { padding: 2px 10px; gap: 5px; font-size: 13px }
-html.tight .compbar .seg button { padding: 2px 9px; font-size: 13px }
+html.tight .nzonly, html.tight .rankbtn { padding: 2px 8px; gap: 5px; font-size: 13px }
+html.tight .compbar .seg button { padding: 2px 7px; font-size: 13px }
 /* the sport buttons at the phones' size too, so narrowing the window only ever adds rows (full-size buttons here took
    three rows where the smaller phone ones, just narrower, fit in two) */
 html.tight #sportFilter { margin-bottom: -11px }
