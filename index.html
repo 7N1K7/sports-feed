@@ -316,7 +316,7 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
    room for "Page 10 of 12" so the buttons never shift as the number grows */
 .pager { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 12px auto 0; font-size: 14px; color: var(--muted) }
 .pager .btn { padding: 3px 11px; font-size: 13px }
-.pager .btn[disabled] { opacity: .4; cursor: default }
+.pager .btn[disabled], #toEvents[disabled] { opacity: .4; cursor: default }
 .pager > .num { min-width: 6.6em; text-align: center }
 .tag.paused { background: color-mix(in srgb, var(--live) 15%, transparent); color: var(--live); border: 1px solid color-mix(in srgb, var(--live) 40%, transparent) }
 .sport-rugby { --sport: var(--rugby) } .sport-cricket { --sport: var(--cricket) } .sport-league { --sport: var(--league) } .sport-football { --sport: var(--football) } .sport-mma { --sport: var(--mma) } .sport-boxing { --sport: var(--boxing) } .sport-motor { --sport: var(--motor) } .sport-tennis { --sport: var(--tennis) } .sport-hockey { --sport: var(--hockey) } .sport-basketball { --sport: var(--basketball) } .sport-netball { --sport: var(--netball) }
@@ -2777,7 +2777,9 @@ function render() {
   }).join('') + (bpages > 1 ? '<span class="bigev bph" aria-hidden="true"><span class="bn">&nbsp;</span><span class="bd">&nbsp;</span><span class="bc">&nbsp;</span></span>'.repeat(BPER - big.length) : ''); // a short last page keeps its height
   $('bigPager').innerHTML = bpages > 1 ? `<div class="pager"><button type="button" class="btn" data-bigpage="${bigPage - 1}"${bigPage ? '' : ' disabled'}>‹ Sooner</button><span class="num">Page ${bigPage + 1} of ${bpages}</span><button type="button" class="btn" data-bigpage="${bigPage + 1}"${bigPage < bpages - 1 ? '' : ' disabled'}>Later ›</button></div>` : '';
   $('bigSec').hidden = !big.length || !!compSel;
-  $('toEvents').hidden = $('runSec').hidden && $('bigSec').hidden;
+  // with no events to jump to (a filter that leaves none, or while the feed loads) the button greys out but keeps its
+  // place, so the row never changes
+  $('toEvents').disabled = $('runSec').hidden && $('bigSec').hidden;
   into($('upcoming')).html = html || `<div class="empty-note">${later ? 'Nothing else this week for your picks.' : 'No fixtures for your teams yet. Pick more teams under My teams.'}</div>`;
 
   // results
