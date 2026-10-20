@@ -73,6 +73,17 @@ button, input { font: inherit; color: inherit }
 .lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px }
 .lists .card { margin-top: 0 }
 .bars { display: grid; gap: 7px }
+/* data coverage: a row a sport, each figure coloured by how complete it is */
+.cov { width: 100%; border-collapse: collapse; font-size: 14px }
+.cov th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; text-align: center; padding: 4px 6px }
+.cov th:first-child, .cov td:first-child { text-align: left }
+.cov td { padding: 6px; border-top: 1px solid var(--line); text-align: center; white-space: nowrap }
+.cov td.c { font-weight: 700 } .cov td.c small { display: block; font-size: 11px; font-weight: 500; color: var(--muted) }
+.cov td.ok { color: #2f9e44 } .cov td.mid { color: #e8890c } .cov td.low { color: #e03131 } .cov td.na { color: var(--muted) }
+.cov tr.tot td { font-weight: 800; border-top: 2px solid var(--line) }
+.covwrap { overflow-x: auto }
+.gaps details { border-top: 1px solid var(--line); padding: 6px 0 } .gaps summary { cursor: pointer; font-weight: 700; font-size: 14px }
+.gaps p { margin: 6px 0 0 14px; font-size: 13px } .gaps b { color: var(--muted); font-weight: 700 }
 .bar { display: grid; grid-template-columns: minmax(0, 8em) minmax(0, 1fr) auto; align-items: center; gap: 8px; font-size: 14px }
 .bar .k { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 .bar .t { height: 10px; position: relative }
@@ -128,6 +139,12 @@ th { color: var(--muted); font-weight: 600 }
     <section class="card" aria-live="polite">
       <div class="hero"><span class="big" id="heroN">0</span><span class="lbl" id="heroL">visits</span></div>
       <div class="tiles" id="tiles"></div>
+    </section>
+
+    <section class="card">
+      <h2>Data coverage <span class="note" style="text-transform:none;letter-spacing:0;font-weight:500">the next three weeks, from the latest feed</span></h2>
+      <div id="cov"></div>
+      <p class="note">How much the site has filled in, by sport: games with a set start time, a way to watch and squads; sides with a picture (logo, flag or photo) and team links. Green 90% and up, amber 60% and up. Open a sport to see exactly what's missing.</p>
     </section>
 
     <section class="card">
@@ -231,7 +248,28 @@ function shape() {
   return { list, per, sums };
 }
 
+const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+// what the site has and hasn't filled in, from the public feed (worked out when the feed was built)
+async function drawCoverage() {
+  let f; try { f = await (await fetch('data/feed.json', { cache: 'no-store' })).json(); } catch { $('cov').innerHTML = '<p class="note">Couldn\'t load the feed.</p>'; return; }
+  const cov = f.coverage;
+  if (!cov) { $('cov').innerHTML = '<p class="note">Not in the feed yet: it comes with the next feed update.</p>'; return; }
+  const cell = (n, d) => { if (!d) return '<td class="c na">–</td>'; const p = Math.round(100 * n / d); return `<td class="c ${p >= 90 ? 'ok' : p >= 60 ? 'mid' : 'low'}" title="${n} of ${d}">${p}%<small>${n}/${d}</small></td>`; };
+  const rows = Object.entries(cov).sort((a, b) => b[1].games - a[1].games), sum = k => rows.reduce((a, [, c]) => a + c[k], 0);
+  const name = k => SPORT_LABEL[k] || k[0].toUpperCase() + k.slice(1);
+  const line = (l, c) => `<tr${l === 'All sports' ? ' class="tot"' : ''}><td>${esc(l)}</td><td>${c.games}</td>${cell(c.time, c.games)}${cell(c.watch, c.games)}${cell(c.squads, c.sqGames)}${cell(c.pic, c.sides)}${cell(c.links, c.sidesL ?? c.sides)}</tr>`;
+  const all = { games: sum('games'), time: sum('time'), watch: sum('watch'), squads: sum('squads'), sqGames: sum('sqGames'), pic: sum('pic'), sides: sum('sides'), links: sum('links'),
+    sidesL: rows.filter(([k]) => !['mma', 'boxing'].includes(k)).reduce((a, [, c]) => a + c.sides, 0) };
+  for (const [k, c] of rows) if (['mma', 'boxing'].includes(k)) c.sidesL = 0;
+  const list = xs => xs.map(x => Array.isArray(x) ? `${esc(x[0])}${x[1] > 1 ? ` (${x[1]})` : ''}` : esc(x)).join(', ');
+  const gaps = rows.map(([k, c]) => { const g = c.gaps, parts = [['No start time yet', g.time], ['No way to watch', g.watch], ['No squads', g.squads], ['No picture', g.pic], ['No team links', ['mma', 'boxing'].includes(k) ? [] : g.links]].filter(([, x]) => x.length);
+    const n = parts.reduce((a, [, x]) => a + x.length, 0);
+    return n ? `<details><summary>${esc(name(k))} · ${n} gap${n === 1 ? '' : 's'}</summary>${parts.map(([l, x]) => `<p><b>${l}:</b> ${list(x)}</p>`).join('')}</details>` : ''; }).join('');
+  $('cov').innerHTML = `<div class="covwrap"><table class="cov"><thead><tr><th>Sport</th><th>Games</th><th>Start times</th><th>Where to watch</th><th>Squads</th><th>Pictures</th><th>Team links</th></tr></thead><tbody>`
+    + rows.map(([k, c]) => line(name(k), c)).join('') + line('All sports', all) + `</tbody></table></div><div class="gaps">${gaps}</div>`;
+}
 function draw() {
+  drawCoverage();
   document.querySelectorAll('[data-days]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.days === days)));
   const { list, per, sums } = shape();
   const tot = k => list.reduce((a, d) => a + per[d][k], 0);

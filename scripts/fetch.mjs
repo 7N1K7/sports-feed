@@ -1390,6 +1390,33 @@ try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFil
 const isFinal = e => /\bfinals?\b|semi.?final|grand final|qualifying final|elimination final|preliminary final/i.test(`${e.comp || ''} ${e.stage || ''} ${e.round || ''}`);
 try { await writeCalendars(events); } catch (e) { diag.calendars = 'error: ' + e.message; }
 try { await phoneAlerts(events); } catch (e) { diag.alerts = 'error: ' + e.message; }
+// Coverage, for the stats page: of the games in the next three weeks, how many have a set start time, a way to watch
+// and squads, and of the sides playing them how many have a picture (logo, flag or photo) and team links; with what's
+// missing, by sport, so the gaps are easy to see and hunt down
+const NATIONAL = /^(All Blacks|Black Ferns|Black Caps|White Ferns|Kiwis|Kiwi Ferns|Wallabies|Wallaroos|Kangaroos|Jillaroos|Springboks|Proteas|Windies|Silver Ferns|Tall Blacks|Tall Ferns|Black Sticks|Socceroos|Matildas|All Whites|Football Ferns|Diamonds|Boomers|Opals|Kookaburras|Hockeyroos|PNG .+|Fiji .+|Toa Samoa|Cook Islands .+|Lebanon Cedars)$/;
+const NOT_SIDE = /^(TBC|TBA|TBD)\b|winner|loser|placed|group|pool|semi-final|runners?[- ]up|qualifier|knockout|challenger|^\d(st|nd|rd|th)\b|\bXI$/i;
+const NO_SQUADS = new Set(['motor', 'tennis', 'mma', 'boxing']);
+const haveSquads = new Set([...teamList.map(s => `${s.sport}|${s.g}|${s.team}`), ...stateList.map(s => `cricket|m|${s.team}`)]);
+const coverage = {}, seenSide = new Set();
+const bump = (o, k) => { o[k] = (o[k] || 0) + 1; };
+for (const e of events.filter(x => { const t = Date.parse(x.startUTC) - now; return t > -DAY && t < 21 * DAY && x.status !== 'final'; })) {
+  const c = coverage[e.sport] ||= { games: 0, time: 0, watch: 0, sqGames: 0, squads: 0, sides: 0, pic: 0, links: 0, gaps: { time: {}, watch: {}, squads: {}, pic: [], links: [] } };
+  const comp = String(e.comp || e.team || '').replace(/\s*[,·(].*$/, '').trim();
+  c.games++;
+  if (!e.timeTBC) c.time++; else bump(c.gaps.time, comp);
+  if ((e.broadcast && e.broadcast !== 'TBC') || e.watchAlt) c.watch++; else bump(c.gaps.watch, comp);
+  if (['motor', 'tennis'].includes(e.sport)) continue;
+  const sides = [e.home, e.away].filter(t => t && !NOT_SIDE.test(t)), g = genderKey(e), base = t => String(t).replace(/\s+Women('s)?$/, '');
+  if (!NO_SQUADS.has(e.sport) && sides.length) { c.sqGames++; if (e.squads?.length || sides.some(t => haveSquads.has(`${e.sport}|${g}|${base(t)}`))) c.squads++; else bump(c.gaps.squads, comp); }
+  for (const t of sides) {
+    const k = `${e.sport}|${t}`; if (seenSide.has(k)) continue; seenSide.add(k); c.sides++;
+    const pic = (t === e.home ? e.homeLogo || e.homeBadge : e.awayLogo || e.awayBadge) || COUNTRY.test(base(t).replace(/\s+(A|XV)$/, '')) || NATIONAL.test(base(t));
+    if (pic) c.pic++; else c.gaps.pic.push(t);
+    if (!NO_SQUADS.has(e.sport)) { if (links[k] || links[`${e.sport}|${base(t)}`] || COUNTRY.test(base(t)) || NATIONAL.test(base(t))) c.links++; else c.gaps.links.push(t); }
+  }
+}
+for (const c of Object.values(coverage)) for (const k of ['time', 'watch', 'squads']) c.gaps[k] = Object.entries(c.gaps[k]).sort((a, b) => b[1] - a[1]);
+
 const feed = {
   generatedAt: new Date(now).toISOString(),
   ...(site ? { site } : {}),
@@ -1402,6 +1429,7 @@ const feed = {
   ...(stateList.length ? { stateSquads: stateList } : {}),
   ...(teamList.length ? { teamSquads: teamList } : {}),
   teamLinks: links,
+  coverage,
   sources: [
     { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(ESPN_ON ? [{ name: 'Live cricket: ESPNcricinfo', url: 'https://www.espncricinfo.com' }] : []), ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, { name: 'Press releases via Scoop Media', url: 'https://www.scoop.co.nz/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })),
     { name: 'NZ Rugby', url: 'https://www.allblacks.com' }, { name: 'NZ Cricket', url: 'https://www.nzc.nz' },
