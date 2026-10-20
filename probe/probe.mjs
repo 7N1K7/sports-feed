@@ -1,19 +1,10 @@
-// probe 57: the filters tab on the live site after a real finger swipe on a phone, watched every 100ms
+// probe 58: render the share-preview image (1200x630) with the site's own fonts: bigger name, what it is, no sign-up
 import { chromium } from 'playwright';
 const b = await chromium.launch();
-const ctx = await b.newContext({ viewport: { width: 412, height: 915 }, deviceScaleFactor: 2.625, colorScheme: 'dark', isMobile: true, hasTouch: true,
-  userAgent: 'Mozilla/5.0 (Linux; Android 14; SM-A346E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36' });
-const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
-await p.goto('https://kickoff.kiwi/', { waitUntil: 'networkidle', timeout: 60000 }); await p.waitForTimeout(3000);
-const cdp = await ctx.newCDPSession(p);
-await p.evaluate(() => { window.__log = []; const h = document.querySelector('header.top'), b = document.getElementById('foldBtn'), t0 = performance.now();
-  const tick = () => { const s = `y${Math.round(scrollY)} ${h.classList.contains('scrolled') ? 'S' : '-'} op${getComputedStyle(b).opacity.slice(0, 4)} tabTop${Math.round(b.getBoundingClientRect().top)} hdrH${Math.round(h.getBoundingClientRect().height)}`;
-    if (window.__log.at(-1)?.s !== s) window.__log.push({ t: Math.round(performance.now() - t0), s }); requestAnimationFrame(tick); }; tick(); });
-for (const [label, dist] of [['swipe up 300px', -300], ['swipe up 600px more', -600], ['swipe down 200px', 200]]) {
-  await cdp.send('Input.synthesizeScrollGesture', { x: 200, y: 600, yDistance: dist, speed: 1500, gestureSourceType: 'touch' });
-  await p.waitForTimeout(2500);
-  const log = await p.evaluate(() => { const l = window.__log; window.__log = []; return l; });
-  console.log(`${label}: ` + log.map(x => `[${x.t}ms ${x.s}]`).join(' '));
-}
-console.log('errors:', errs.join(' | ') || 'none');
+const p = await b.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
+await p.goto('file://' + new URL('og/og.html', import.meta.url).pathname, { waitUntil: 'networkidle' });
+await p.evaluate(() => document.fonts.ready); await p.waitForTimeout(800);
+console.log('fonts:', await p.evaluate(() => [...document.fonts].filter(f => f.status === 'loaded').map(f => f.family + ' ' + f.weight).join(', ')));
+console.log('fits:', await p.evaluate(() => { const r = s => document.querySelector(s).getBoundingClientRect(); return JSON.stringify({ head: r('.head').right, chipsBottom: r('.chips').bottom, freeTop: r('.free').top, urlTop: r('.url').top }); }));
+await p.screenshot({ path: new URL('out-og.png', import.meta.url).pathname });
 await b.close();

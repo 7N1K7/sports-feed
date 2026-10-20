@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+  <!-- the octagon cage, seen from above: black posts and fence, canvas mat, red centre -->
+  <defs><clipPath id="o"><polygon points="33.34,24.35 24.35,33.34 11.65,33.34 2.66,24.35 2.66,11.65 11.65,2.66 24.35,2.66 33.34,11.65"/></clipPath><pattern id="m" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0v3M0 0h3" stroke="#8a8f96" stroke-width=".7"/></pattern></defs>
+  <polygon points="34.08,24.66 24.66,34.08 11.34,34.08 1.92,24.66 1.92,11.34 11.34,1.92 24.66,1.92 34.08,11.34" fill="#1f1f1f"/>
+  <polygon points="33.34,24.35 24.35,33.34 11.65,33.34 2.66,24.35 2.66,11.65 11.65,2.66 24.35,2.66 33.34,11.65" fill="#3a3d42"/>
+  <polygon points="33.34,24.35 24.35,33.34 11.65,33.34 2.66,24.35 2.66,11.65 11.65,2.66 24.35,2.66 33.34,11.65" fill="url(#m)"/>
+  <polygon points="29.46,22.75 22.75,29.46 13.25,29.46 6.54,22.75 6.54,13.25 13.25,6.54 22.75,6.54 29.46,13.25" fill="#ece6d8" stroke="#1f1f1f" stroke-width="1.4"/>
+  <circle cx="18" cy="18" r="4.6" fill="#d32f2f"/>
+  <circle cx="18" cy="18" r="2" fill="#ece6d8"/>
+</svg>

@@ -3,25 +3,29 @@
 <style>
 html,body{margin:0;width:1200px;height:630px;background:#0e1211;overflow:hidden}
 body{font-family:"Source Sans 3",sans-serif;color:#e6eeea;position:relative}
-.wrap{position:absolute;left:90px;right:90px;top:120px}
-.head{display:flex;align-items:center;gap:34px}
-.head img{width:150px;height:150px;border-radius:30px}
-.name{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:150px;letter-spacing:.015em;line-height:.9;text-transform:uppercase;color:#e9eeec}
+.wrap{position:absolute;left:64px;right:64px;top:44px}
+.head{display:flex;align-items:center;gap:30px}
+.head img{width:178px;height:178px;border-radius:36px;flex:none}
+.name{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:186px;letter-spacing:.012em;line-height:.86;text-transform:uppercase;color:#e9eeec;white-space:nowrap}
 .name span{color:#45c08f}
-.tag{margin-top:34px;font-size:32px;color:#93a49d;font-weight:600}
-.chips{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px;max-width:1020px}
-.chip{font-weight:700;font-size:25px;color:#121816;border-radius:999px;padding:9px 21px}
-.url{position:absolute;right:90px;bottom:54px;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:44px;letter-spacing:.02em;color:#e9eeec}
+.what{margin-top:30px;font-size:42px;font-weight:700;color:#e9eeec;letter-spacing:-.005em}
+.tag{margin-top:6px;font-size:28px;color:#93a49d;font-weight:600}
+.chips{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:23px;color:#e9eeec;border:2.5px solid var(--c);background:color-mix(in srgb,var(--c) 12%,#141b19);border-radius:999px;padding:5px 16px 5px 9px}
+.chip img{width:27px;height:27px}
+.free{position:absolute;left:64px;bottom:44px;font-size:27px;font-weight:700;color:#45c08f}
+.free span{color:#93a49d;font-weight:600}
+.url{position:absolute;right:64px;bottom:34px;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:48px;letter-spacing:.02em;color:#e9eeec}
 .url b{color:#45c08f}
-.cal{position:absolute;left:90px;bottom:62px;font-size:24px;color:#93a49d;font-weight:600}
 </style></head><body>
 <div class="wrap">
-  <div class="head"><img src="logo.svg"><div class="name">Kickoff <span>Kiwi</span></div></div>
-  <div class="tag">NZ start times · where to watch · rain delays · no spoilers</div>
+  <div class="head"><img src="logo.svg"><div class="name" id="nm">Kickoff <span>Kiwi</span></div></div>
+  <div class="what">Kick-off times for every NZ team, all in one feed</div>
+  <div class="tag">NZ start times · where to watch · live scores · no spoilers</div>
   <div class="chips">
-    <span class="chip" style="background:#45c08f">Rugby</span><span class="chip" style="background:#7fb6ea">Cricket</span><span class="chip" style="background:#f0a160">League</span><span class="chip" style="background:#b9a0f5">Football</span><span class="chip" style="background:#6cc3e0">F1</span><span class="chip" style="background:#cfe05a">Tennis</span><span class="chip" style="background:#f283a8">UFC</span><span class="chip" style="background:#ff8f7a">Boxing</span>
+    <span class="chip" style="--c:#d5dbd8"><img src="icons/rugby.svg">Rugby</span><span class="chip" style="--c:#fcc419"><img src="icons/cricket.svg">Cricket</span><span class="chip" style="--c:#ff922b"><img src="icons/league.svg">League</span><span class="chip" style="--c:#51cf66"><img src="icons/football.svg">Football</span><span class="chip" style="--c:#3bc9db"><img src="icons/hockey.svg">Hockey</span><span class="chip" style="--c:#e4a672"><img src="icons/basketball.svg">Basketball</span><span class="chip" style="--c:#9775fa"><img src="icons/netball.svg">Netball</span><span class="chip" style="--c:#4dabf7"><img src="icons/motor.svg">F1</span><span class="chip" style="--c:#c0d32a"><img src="icons/tennis.svg">Tennis</span><span class="chip" style="--c:#ff6b6b"><img src="icons/mma.svg">UFC</span><span class="chip" style="--c:#f783ac"><img src="icons/boxing.svg">Boxing</span>
   </div>
 </div>
-<div class="cal">📅 Games in your calendar, with reminders</div>
+<div class="free">Free · <span>no sign-up, no account, no app store</span></div>
 <div class="url">kickoff<b>.</b>kiwi</div>
 </body></html>
