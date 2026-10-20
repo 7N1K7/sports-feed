@@ -1164,13 +1164,15 @@ const shortName = n => n.split(' ').length > 2 ? n.replace(/\s+FC$/, '') : n;
 // crests whose image file has a lot of empty space around a small wordmark, by sport: the
 // Canterbury rugby crest needs it, the Canterbury Kings cricket badge already fills its image
 const CREDITS = {}; // fighter photo -> its Commons credit, filled when the feed loads
+const LOGO_CREDITS = {}; // a crest from Commons -> its credit
 const LOGO_ZOOM = { 'rugby|Canterbury': 1.8 };
 const crest = (n, logo, after, sport) => {
   const src = logo || flagOf(n);
   const zf = logo && LOGO_ZOOM[`${sport}|${n}`];
   const z = zf ? ` style="--z:${zf}"` : '';
   const face = logo && CREDITS[logo];
-  return src ? `<img class="logo ${logo ? '' : 'flagimg'} ${after ? 'after' : ''} ${z ? 'zoom' : ''} ${face ? 'face' : ''}"${face ? ` title="Photo: ${esc(face)}"` : ''}${z} src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
+  const lc = logo && LOGO_CREDITS[logo];
+  return src ? `<img class="logo ${logo ? '' : 'flagimg'} ${after ? 'after' : ''} ${z ? 'zoom' : ''} ${face ? 'face' : ''}"${face ? ` title="Photo: ${esc(face)}"` : lc ? ` title="${esc(lc)}"` : ''}${z} src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
 };
 // National side nicknames by sport and men's/women's, e.g. New Zealand cricket (men's) -> Black Caps
 const NICK = {
@@ -2804,6 +2806,8 @@ async function load(woke) {
     for (const e of FEED.events || []) {
       if (e.homeCredit) CREDITS[e.homeLogo] = e.homeCredit;
       if (e.awayCredit) CREDITS[e.awayLogo] = e.awayCredit;
+      if (e.homeLogoCredit) LOGO_CREDITS[e.homeLogo] = e.homeLogoCredit;
+      if (e.awayLogoCredit) LOGO_CREDITS[e.awayLogo] = e.awayLogoCredit;
       // a tour game with no ground listed is still in the host country (listed first), so use its time zone
       const host = String(e.home || '').replace(/\s+(Women|A|XI)$/i, '').trim();
       if (e.sport === 'cricket' && !e.tz && HOST_TZ[host]) { e.tz = HOST_TZ[host]; if (!e.city && !e.venue) e.city = host; }

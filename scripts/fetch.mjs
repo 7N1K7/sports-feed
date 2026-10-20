@@ -573,6 +573,11 @@ const LOGO_CODES = {
 const LOGO_ALIAS = { 'cricket|Northern Districts': ['Northern Brave', 'Northern Knights'], 'cricket|Canterbury': ['Canterbury Kings', 'Canterbury Wizards'], 'cricket|Central Districts': ['Central Stags'],
   'cricket|Auckland': ['Auckland Aces'], 'cricket|Wellington': ['Wellington Firebirds'], 'cricket|Otago': ['Otago Volts'] };
 const LOGO_V = 2; // bump to re-ask names whose earlier miss is still cached
+// crests under a free licence on Wikimedia Commons, for sides TheSportsDB has no badge for; credited on the crest and in the footer
+const COMMONS_LOGOS = {
+  'cricket|Queensland': { src: 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Queensland_Cricket_logo.png', credit: 'Queensland Cricket logo by OzJourno99, CC BY-SA 4.0, via Wikimedia Commons', page: 'https://commons.wikimedia.org/wiki/File:Queensland_Cricket_logo.png' },
+};
+const logoCredits = new Map();
 const simple = n => String(n || '').toLowerCase().replace(/\b(fc|rugby|league|club|women|cricket)\b/g, '').replace(/[^a-z]/g, '');
 async function addLogos(events, extra = []) {
   // badges that came with TheSportsDB fixtures (Premier League, A-League...): reuse them for that club everywhere
@@ -641,6 +646,10 @@ async function addLogos(events, extra = []) {
     const h = found[`${e.sport}|${e.home}`], a = found[`${e.sport}|${e.away}`];
     if (h && !e.homeLogo) e.homeLogo = h + '/tiny';
     if (a && !e.awayLogo) e.awayLogo = a + '/tiny';
+    for (const side of ['home', 'away']) {
+      const c = !e[side + 'Logo'] && COMMONS_LOGOS[`${e.sport}|${e[side]}`];
+      if (c) { e[side + 'Logo'] = c.src; e[side + 'LogoCredit'] = c.credit; logoCredits.set(c.credit, c.page); }
+    }
   }
   // National men's sides keep their flag; their union's badge (when TheSportsDB has one) shows beside it.
   // From fixtures already pulled, else one name search each (a few a run, remembered for a month).
@@ -1339,6 +1348,7 @@ const feed = {
     { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, ...(ESPN_ON ? [{ name: 'Live cricket: ESPNcricinfo', url: 'https://www.espncricinfo.com' }] : []), ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, { name: 'Press releases via Scoop Media', url: 'https://www.scoop.co.nz/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })),
     { name: 'NZ Rugby', url: 'https://www.allblacks.com' }, { name: 'NZ Cricket', url: 'https://www.nzc.nz' },
     { name: 'NRL', url: 'https://www.nrl.com' },
+    ...[...logoCredits].map(([name, url]) => ({ name, url })),
   ],
 };
 await writeFile(new URL('data/feed.json', ROOT), JSON.stringify(feed));
