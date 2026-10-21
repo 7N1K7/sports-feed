@@ -2733,6 +2733,7 @@ function render() {
   // "Earlier": games that ended in the last 16 hours, whatever the day, so one that finished late last night stays up
   // here into the morning. They're in Results below as well, and only there once the 16 hours are up.
   const doneToday = finals.filter(e => now - endOf(e, now) < 16 * 36e5);
+  const doneDay = e => dayKey((DAYS[formatOf(e)] || 1) > 1 ? endOf(e, now) : new Date(e.startUTC));
   $('todaySec').hidden = !todays.length && !doneToday.length && !resting.length && lives.length > 0;
   into($('today')).html = todays.length || doneToday.length || resting.length
     ? `<div class="daygroup">${(() => {
@@ -2743,7 +2744,10 @@ function render() {
         const tonight = +fmt(nowD, NZ, { hour: 'numeric', hour12: false }) >= 17 || (tod.length && tod.every(e => !e.timeTBC && hourNZ(e) >= 17));
         return (lives.length && tod.length ? `<div class="dayhead">${tonight ? 'Later tonight' : 'Later today'}</div>` : '') + tod.map(e => evCard(e, now)).join('')
           + (early.length ? `<div class="dayhead">Early tomorrow</div><div class="early">${early.map(e => evCard(e, now)).join('')}</div>` : '');
-      })()}${doneToday.length ? `<div class="dayhead">Earlier${revealAll(doneToday, now)}</div><div class="donetoday">${doneToday.map(e => resCard(e, now)).join('')}</div>` : ''}</div>`
+      })()}${[['Earlier today', doneToday.filter(e => doneDay(e) === todayK)], ['Yesterday', doneToday.filter(e => doneDay(e) !== todayK)]]
+        // the games just finished, today's first, then last night's: a game belongs to the day it started (one that ran
+        // past midnight is still last night's game), a Test or first-class game to the day it ended
+        .filter(([, list]) => list.length).map(([h, list]) => `<div class="dayhead">${h}${revealAll(list, now)}</div><div class="donetoday">${list.map(e => resCard(e, now)).join('')}</div>`).join('')}</div>`
     : `<div class="empty-note">Nothing on for your teams today. ${upcoming[0] ? `Next up: <b>${esc(titleOf(upcoming[0]))}</b>, ${dayLabel(new Date(upcoming[0].startUTC), NZ)}.` : ''}</div>`;
 
   // coming up this week, then further ahead, grouped by NZ day
