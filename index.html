@@ -1252,7 +1252,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
 <main class="wrap">
   <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
-  <div class="compbar" id="compBar"><div class="crow"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" id="freeOnly" class="nzonly freeonly" aria-pressed="false" title="Free-to-air: only games you can watch for free (TVNZ, Three, Sky Open, DUKE, Whakaata Māori, or a free stream like TVNZ+ or YouTube)"><span class="lg">Free-to-air</span><span class="sm">FTA</span></button></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9"><span>NZ only</span></button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
+  <div class="compbar" id="compBar"><div class="crow"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" id="freeOnly" class="nzonly freeonly" aria-pressed="false" title="Free to watch: only games you can watch for free (TVNZ, Three, Sky Open, DUKE, Whakaata Māori, or a free stream like TVNZ+ or YouTube)"><span aria-hidden="true">📺</span><span>Free</span></button></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9"><span>NZ only</span></button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
   <section id="hubSec" hidden>
     <div class="hub">
       <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
@@ -3021,7 +3021,7 @@ function syncFold() {
   document.querySelector('main').classList.toggle('folded', folded);
   b.setAttribute('aria-expanded', String(!folded));
   const on = [...[...sportSel].map(k => (SPORT_CHIPS.find(([x]) => x === k) || [k, k])[1]), compSel && $('compSel').textContent.trim(),
-    genderSel === 'm' ? "Men's" : genderSel === 'w' ? "Women's" : '', nzOnly && 'NZ only', freeOnly && 'Free-to-air'].filter(Boolean);
+    genderSel === 'm' ? "Men's" : genderSel === 'w' ? "Women's" : '', nzOnly && 'NZ only', freeOnly && 'Free to watch'].filter(Boolean);
   // no words on the tab: its arrow points the way the filters will go, and turns the theme colour while folded filters are still on
   b.classList.toggle('on', folded); b.classList.toggle('filtering', folded && on.length > 0);
   b.title = folded ? `Show the filters${on.length ? ' (on: ' + on.join(', ') + ')' : ''}` : 'Hide the filters';
