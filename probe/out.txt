@@ -1,24 +1,272 @@
-generated 2026-10-22T16:21:22.558Z version 377 events 581
-homeSides: home side put first: New South Wales v Tasmania (Sydney); Western Australia v Queensland (Perth); Western Australia v New South Wales (Perth); Victoria v South Australia (Melbourne); New South Wales v Tasmania (Sydney); Western Australia v Queensland (Perth)
-form: 99 sides with a form guide
-cricket|New Zealand ["2026-03-15 L v South Africa T20I","2026-03-17 W v South Africa T20I","2026-03-20 W v South Africa T20I","2026-03-22 L v South Africa T20I","2026-03-25 L v South Africa T20I","2026-10-22 L v India T20I"]
-cricket|India ["2026-10-03 L v West Indies ODI","2026-10-06 W v West Indies T20I","2026-10-09 L v West Indies T20I","2026-10-11 W v West Indies T20I","2026-10-14 L v West Indies T20I","2026-10-22 W v New Zealand T20I"]
-cricket|New Zealand Women ["2026-03-29 L v South Africa Women ODI","2026-03-31 W v South Africa Women ODI","2026-04-03 W v South Africa Women ODI","2026-10-15 L v Governor-General's XI ","2026-10-18 L v Australia Women T20I","2026-10-20 L v Australia Women T20I"]
-cricket|Australia Women ["2026-10-18 W v New Zealand Women T20I","2026-10-20 W v New Zealand Women T20I"]
-wikipedia pages: Australian cricket team in New Zealand in 2025–26: 3; Zimbabwe women's cricket team in New Zealand in 2025–26: 6; English cricket team in New Zealand in 2025–26: 6; South Africa women's cricket team in New Zealand in 2025–26: 8; South African cricket team in New Zealand in 2025–26: 5; West Indian cricket team in New Zealand in 2025–26: 12; New Zealand cricket team in India in 2025–26: 8; Indian cricket team in Australia in 2025–26: 8; Australian cricket team in Pakistan in 2025–26: 3
-formOnly in feed: 0
-2026-10-07 Victoria v South Australia | Melbourne final
-2026-10-08 New South Wales v Tasmania | Sydney final
-2026-10-08 Western Australia v Queensland | Perth final
-2026-10-19 Tasmania v Victoria | Hobart upcoming
-2026-10-19 South Australia v Queensland | Adelaide final
-2026-10-19 Western Australia v New South Wales | Perth upcoming
-2026-10-28 South Australia v Western Australia | Adelaide upcoming
-2026-10-30 Tasmania v New South Wales | Hobart upcoming
-2026-10-31 Queensland v Victoria | Brisbane upcoming
-2026-11-11 New South Wales v South Australia | Sydney upcoming
-2026-11-11 Victoria v Western Australia | Melbourne upcoming
-2026-11-11 Queensland v Tasmania | Brisbane upcoming
-2026-11-22 New South Wales v Queensland | Sydney upcoming
-2026-11-23 Western Australia v Tasmania | Perth upcoming
-2026-11-24 South Australia v Victoria | Adelaide upcoming
+LPGA section 6851 
+==Schedule and results==
+The number in parentheses after each winners' name is the player's total number of wins in official money individual events on the LPGA Tour, including that event. Tournament and winner names '''in bold''' indicate [[LPGA majors]]. The schedule and purse amount for each tournament is listed on the LPGA website. The LPGA has a standard formula for payout percentages and distribution of its purse and prize money for every event. The winner typically gets 15% of the total, second place gets 9.3%, third place 6.75%, etc.
+
+The total purse for 2026 is $132 million.
+
+;Key
+{|class=wikitable style="font-size:95%"
+|- style="background:#e5d1cb;"
+|Major championships
+|- style="background:#fff;"
+|Regular events
+<!-- |- style="background:#D4F1C5;"
+|Team championships -->
+|}
+
+{{table alignment}}
+{| class="wikitable sortable defaultleft col5center col7right col8right" style="font-size: 95%;"
+!Date
+!Tournament
+!Location
+!Winner(s){{efn|The number in brackets after each winner's name is the number of LPGA Tour events he had won up to and including that tournament. This information is only shown for LPGA Tour members.}}
+![[Women's World Golf Rankings|WWGR]]<br />points
+!Other<br>tours{{efn|CLPGA − [[China LPGA Tour]], JLPGA − [[LPGA of Japan Tour]], LET − [[Ladies European Tour]].}}
+!Purse<br />(US$)
+!Winner's<br />share ($)
+|-
+| Feb 1
+| [[Hilton Grand Vacations Tournament of Champions]]
+| Florida
+| {{flagicon|USA}} [[Nelly Korda]] (16)
+| 39.60
+|
+| 2,100,000	
+| 315,000 
+|-
+| Feb 22
+| [[Honda LPGA Thailand]]
+| Thailand	
+| {{flagicon|THA}} [[Jeeno Thitikul]] (8) 
+| 50.80
+|
+| 1,800,000
+| 270,000
+|-
+| Mar 1
+| [[HSBC Women's World Championship]]
+| Singapore
+| {{flagicon|AUS}} [[Hannah Green (golfer)|Hannah Green]] (7)
+| 58.08
+|
+| 3,000,000
+| 450,000 
+|-
+| Mar 8
+| [[Blue Bay LPGA]]
+| China	
+| {{flagicon|KOR}} [[Lee Mi-hyang]] (3) 
+| 19.70
+| [[China LPGA Tour|CLPGA]]
+| 2,600,000
+| 390,000 
+|-
+| Mar 22
+| [[Fortinet Founders Cup]]
+| California
+| {{flagicon|KOR}} [[Kim Hyo-joo]] (8)
+| 59.28
+|
+| 3,000,000	
+| 450,000  	
+|-
+| Mar 29
+| [[Ford Championship]]
+| Arizona
+| {{f
+
+LPGA rows near Oct: 
+|-
+| Oct 4
+| [[Lotte Championship]]
+| Hawaii
+| {{flagicon|THA}} [[Jeeno Thitikul]] (11)
+| 35.40
+|
+| 3,000,000
+| 450,000
+|-
+| Oct 18
+| [[Buick LPGA Shanghai]]
+| China
+| {{flagicon|CHN}} [[Yin Ruoning]] (7)
+| 32.90
+| [[China LPGA Tour|CLPGA]]
+| 3,200,000
+| 480,000
+|-
+| Oct 25
+| [[BMW Ladies Championship]]
+| South Korea
+| {{flagicon|}} 
+| 
+|
+| 2,350,000
+| 367,500
+|-
+| Nov 1
+| [[Maybank Championship (LPGA)|Ma
+---
+
+|-
+| Nov 8
+| [[Toto Japan Classic]]
+| Japan
+| {{flagicon|}} 
+| 
+| [[2026 LPGA of Japan Tour|JLPGA]]
+| 2,100,000
+| 315,000
+|-
+| Nov 15
+| [[The Annika]]
+| Florida
+| {{flagicon|}} 
+| 
+|
+| 3,250,000
+| 487,500
+|-
+| Nov 22
+| [[CME Group Tour Championship]]
+| Florida
+| {{flagicon|}}
+| 
+|
+| 11,000,000
+| 4,000,000 
+|}
+
+===Unofficial events===
+The following events appear on the schedule, but do not carry official m
+
+PGA rows 2-6:
+
+|Jan 18 
+|[[Sony Open in Hawaii]] 
+|Hawaii
+|align=right|9,100,000
+|{{flagicon|USA}} [[Chris Gotterup]] (3) 
+|align=center|46.95
+|
+|
+|-
+|Jan 25 
+|[[The American Express]] 
+|California
+|align=right|9,200,000
+|{{flagicon|USA}} [[Scottie Scheffler]] (20) 
+|align=center|65.23
+|
+|
+|-
+|Feb 1 
+|[[Farmers Insurance Open]] 
+|California
+|align=right|9,600,000
+|{{flagicon|ENG}} [[Justin Rose]] (13) 
+|align=center|56.96
+|
+|
+|-
+|Feb 8 
+|[[WM Phoenix Open]] 
+|Arizona
+|align=right|9,600,000
+|{{flagicon|USA}} [[Chris Gotterup]] (4) 
+|align=center|58.09
+|
+|
+|-style="background:#D6E8FF;"
+|Feb 15 
+|[[AT&T Pebble Beach Pro-Am]] 
+|California
+|align=right|20,000,000
+|{{flagicon|USA}} [[Collin Morikawa]] (7) 
+|align=center|71.31
+|
+|Signature event
+
+PGA rows Aug-Dec:
+
+|-
+|Aug 2 
+|[[Rocket Classic]] 
+|Michigan
+|align=right|10,000,000
+|{{flagicon|USA}} [[Michael Thorbjornsen]] (1) 
+|align=center|52.82
+|
+|
+|-
+|Aug 9 
+|[[Wyndham Championship]] 
+|North Carolina
+|align=right|8,500,000
+|{{flagicon|USA}} [[Michael Brennan (golfer)|Michael Brennan]] (2)
+|align=center|49.90
+|
+|
+|
+|- style="background:thistle;"
+|Aug 23 
+|[[BMW Championship (PGA Tour)|BMW Championship]]
+|Missouri
+|align=right|20,000,000
+|{{flagicon|USA}} [[Wyndham Clark]] (6) 
+|align=center|57.48
+|
+|[[2026 FedEx Cup Playoffs|FedEx Cup playoff event]]
+|- style="background:thistle;"
+|Aug 30 
+|[[Tour Championship]] 
+|Georgia
+|align=right|40,000,00
+|-
+|Sep 20
+|[[Biltmore Championship Asheville]]
+|North Carolina
+|align=right|5,000,000
+|{{flagicon|USA}} [[Jacob Bridgeman]] (2)
+|align=center|31.88
+|
+|FedEx Cup Fall
+|-
+|Oct 4
+|[[Bank of Utah Championship]]
+|Utah
+|align=right|6,000,000
+|{{flagicon|USA}} [[Austin Smotherman]] (1)
+|align=center|31.06
+|
+|Fed
+|-
+|Oct 11
+|[[Baycurrent Classic]]
+|Japan
+|align=right|8,000,000
+|{{flagicon|USA}} [[Michael Brennan (golfer)|Michael Brennan]] (3)
+|align=center|39.62
+|[[2026 Japan Golf Tour|JPN]]
+|FedEx Cup Fall
+|-
+|Oct 25
+|[[Butterfield Bermuda Championship]]
+|Bermuda
+|align=right|6,000,000
+|{{flagicon|}}
+|align=center
+exists 2027 PGA Tour 8582
+exists 2027 LPGA Tour 7646
+exists 2025–26 PGA Tour of Australasia 9338
+icon sailing 200 515
+icon golf 200 657
+
+ATP "doubles" context: ofessionals" title="Association of Tennis Professionals">Association of Tennis Professionals· (ATP) for determining the qualification for entry as well as the seeding of players in all singles and doubles tournaments.···&#91;·2·&#93;</span
+(doubles) at 119576
+<tr> <th>Weeks</th> <th>World No. 1 player</th> <th>First reached </th></tr>
+<tr> <th>428 </th> <td style="background:#ddfddd;">&#160;Novak Djokovic&#160;(<abbr title="Serbia">SRB</abbr>)</td> <td>Jul 4, 2011 </td></tr>
+<tr> <th>310 </th> <td>&#160;&#160;&#160;Roger Federer&#160;(<abbr title="Switzerland">SUI</abbr>)</td> <td>Feb 2, 2004 </td></tr>
+<tr> <th>286 </th> <td>&#160;Pete Sampras&#160;(<abbr title="United States">USA</abbr>)</td> <td>Apr 12, 1993 </td></tr>
+<tr> <th>270 </th> <td>&#160;&#160;Ivan Lendl&#160;(<abbr title="United States">USA</abbr>)&#160;(<abbr title="Czechoslovakia">TCH</abbr>)</td> <td>Feb 28, 1983 </td></tr>
+<tr> <th>268 </th> <td>&#160;Jimmy Connors&#160;(<abbr title="United States">USA</abbr>)</td> <td>Jul 29, 1974 </td></tr>
