@@ -1,12 +1,11 @@
-// probe 102: the live feed (saved whole for local testing) and the page errors the stats recorded
+// probe 103: the live feed after v377 (saved whole for local testing): home sides turned, form from last season's tours
 import { writeFileSync } from 'node:fs';
 const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
 writeFileSync('probe/out-feed.json', JSON.stringify(f));
-console.log('generated', f.generatedAt, 'events', f.events?.length);
-const T = process.env.CLOUDFLARE_API_TOKEN, A = process.env.CLOUDFLARE_ACCOUNT_ID;
-const cf = async (path, body) => (await fetch(`https://api.cloudflare.com/client/v4/accounts/${A}/${path}`, { method: body ? 'POST' : 'GET', headers: { authorization: `Bearer ${T}`, 'content-type': 'application/json' }, body: body && JSON.stringify(body) })).json();
-const dbs = await cf('d1/database?name=kickoff-stats'); const id = dbs.result?.[0]?.uuid;
-const q = await cf(`d1/database/${id}/query`, { sql: "SELECT day, key, n FROM daily WHERE metric = 'error' ORDER BY day DESC LIMIT 60" });
-console.log('\nerrors:'); for (const r of q.result?.[0]?.results || []) console.log(r.day, r.n, '|', r.key);
-const m = await cf(`d1/database/${id}/query`, { sql: "SELECT metric, COUNT(*) c, SUM(n) n FROM daily WHERE day >= date('now','-3 day') GROUP BY metric ORDER BY metric" });
-console.log('\nmetrics (3 days):'); for (const r of m.result?.[0]?.results || []) console.log(' ', r.metric, r.c, r.n);
+console.log('generated', f.generatedAt, 'version', f.site?.version, 'events', f.events?.length);
+console.log('homeSides:', f.diag?.homeSides);
+console.log('form:', f.diag?.form);
+for (const k of ['cricket|New Zealand', 'cricket|India', 'cricket|New Zealand Women', 'cricket|Australia Women']) console.log(k, JSON.stringify((f.form?.[k] || []).slice(-6).map(x => `${x.d} ${x.r} v ${x.o} ${x.f || ''}`)));
+console.log('wikipedia pages:', Object.entries(f.diag?.wikipedia || {}).filter(([t]) => /2025–26/.test(t)).map(([t, n]) => `${t}: ${n}`).join('; '));
+console.log('formOnly in feed:', f.events.filter(e => e.formOnly).length);
+for (const e of f.events.filter(e => e.comp === 'Sheffield Shield' && Math.abs(Date.parse(e.startUTC) - Date.now()) < 40 * 864e5)) console.log(e.startUTC.slice(0, 10), e.home, 'v', e.away, '|', e.city, e.status);
