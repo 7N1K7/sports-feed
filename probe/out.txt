@@ -1,23 +1,27 @@
-generated 2026-10-20T14:20:45.329Z
-cricket: pic 30/32 links 32/32 | no pic: South Australia, Western Australia | no link: 
-boxing: pic 7/10 links 0/10 | no pic: Dalton Smith, Alberto Puello, Elif Nur Turhan | no link: 
-league: pic 14/14 links 14/14 | no pic:  | no link: 
-rugby: pic 8/8 links 8/8 | no pic:  | no link: 
-football: pic 31/31 links 31/31 | no pic:  | no link: 
-mma: pic 6/6 links 0/6 | no pic:  | no link: 
-basketball: pic 5/5 links 5/5 | no pic:  | no link: 
-motor: pic 0/0 links 0/0 | no pic:  | no link: 
+generated 2026-10-22T15:08:14.464Z events 581
 
-supercarsTimes: 3 of 14 rounds with start times 
-tvGuide: 1064 sport listings (read 2026-10-20T11:04); 31 games listed: New Zealand v India: Sky Sport 1, Sky Sport Select; Australia Women v New Zealand Women: Sky Sport 2; New Zealand v India: Sky Sport 1, Sky Sport Select; New Zealand v France: Sky Sport 1, Sky Sport Select; New Zealand v Cook Islands: Sky Sport Select, Sky Sport 1; Samoa v Wales: Sky Sport 1; Tonga v Lebanon: Sky Sport 1; Fiji v Papua New Guinea: Sky Sport 2; Papua New Guinea v Samoa: Sky Sport 2; England v France: Sky Sport 2; Australia v England: Sky Sport 2; Australia v Fiji: Sky Sport 1; Black Ferns v France: Sky Sport 1; Brisba
-boxing 2026-10-25 Emanuel Navarrete | O'Shaquie Foster | pic pic https://boxingschedule.co/emanuel-navarrete-vs-oshaquie-foster-what-time-is-the-fight-on-oct-24/
-boxing 2026-10-24 Dalton Smith | Alberto Puello | - - https://www.welcometosheffield.co.uk/content/events/smith-v-puello/
-boxing 2026-11-01 Christian Mbilli | Saul 'Canelo' Alvarez | pic pic https://www.forbes.com/sites/brianmazique/2026/10/15/canelo-hasnt-fought-since-losing-to-crawford---now-he-faces-an-unbeaten-champion-with-24-kos/
-boxing 2026-11-07 Joshua Buatsi | Willy Hutchinson | pic pic https://queensberry.co.uk/pages/joshua-buatsi-vs-willy-hutchinson-2-point-to-prove
-boxing 2026-11-09 Elif Nur Turhan | Alycia Baumgardner | - pic https://schedule.fightmag.com/events/elif-nur-turhan-vs-alycia-baumgardner/
-boxing 2026-11-20 Gabriela Fundora | Jasmina Zapotoczna | pic - https://www.fightmag.com/amari-jones-faces-deaundre-pettus-in-indio-in-november/
-boxing 2026-11-26 Masamichi Yabuki | Miel Fajardo | - pic https://fightnews.com/world-title-twinbill-in-november-announced-in-japan/197427
-boxing 2026-11-28 Agit Kabayel | Nelson Hysa | pic - https://www.thestar.com.my/sport/boxing/2026/10/02/boxing-wbc-heavyweight-champion-kabayel039s-first-defence-confirmed-for-duesseldorf-on-november-28
-boxing 2026-12-11 Tyson Fury | Anthony Joshua | pic pic https://www.boxing247.com/boxing-news/official-joshua-vs-fury-confirmed-for-december-11-in-cardiff-on-netflix/310070
-boxing 2026-12-12 Dmitry Bivol | Callum Smith | pic - https://boxingnewsonline.net/news/bivol-vs-smith-title-fight-announced/
-boxing 2026-12-19 Anthony Cacace | Nick Ball | - pic https://news.bet365.com/en-gb/article/anthony-cacace-vs-nick-ball-world-title-fight-confirmed-for-december-19/2026100812265362984
+errors:
+2026-10-21 1 | Script error. (line 0)
+2026-10-21 1 | Failed to execute 'matches' on 'Element': '.matchup:has(img)' is not a valid selector.
+
+metrics (3 days):
+  browser 14 61
+  comp 2 2
+  country 19 63
+  device 7 63
+  error 2 2
+  event 4 16
+  hour 32 74
+  mode 4 63
+  opens 4 87
+  os 15 61
+  repeat 9 60
+  speed 12 71
+  spoil 4 46
+  sport 11 12
+  theme 4 46
+  use 7 9
+  view 4 46
+  views 4 76
+  visitors 4 63
+  watch 3 3
