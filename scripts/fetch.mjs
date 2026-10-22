@@ -478,16 +478,18 @@ async function tvGuide(events) {
   const has = (text, w) => new RegExp(`(^|[^a-z])${w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}n?([^a-z]|$)`, 'i').test(text);
   for (const e of events) {
     if (e.status === 'final' || !e.startUTC) continue;
-    const start = Date.parse(e.startUTC), solo = !e.away || /^(motor|tennis|mma|boxing)$/.test(e.sport);
-    const women = /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'blackferns', 'kiwiferns', 'silverferns', 'tallferns', 'blacksticksw', 'wbbl', 'fpc', 'anzprem'].includes(e.team);
+    const start = Date.parse(e.startUTC), solo = !e.away || /^(motor|tennis|mma|boxing|sailing|golf)$/.test(e.sport);
+    const women = /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'blackferns', 'kiwiferns', 'silverferns', 'tallferns', 'blacksticksw', 'wbbl', 'fpc', 'anzprem', 'lpga'].includes(e.team);
     const found = [];
     for (const it of items) {
       const d = it.at - start;
       if (d < -2.5 * 36e5 || d > 30 * 36e5) continue;
       const t = it.text;
       if (solo) {
-        const key = e.sport === 'mma' ? 'ufc' : e.team === 'supercars' ? 'supercars' : e.team === 'f1' ? '(formula 1|f1)' : String(compOf0(e)).toLowerCase();
+        const key = e.sport === 'mma' ? 'ufc' : e.team === 'supercars' ? 'supercars' : e.team === 'sailgp' ? 'sailgp' : e.sport === 'golf' ? '(golf|pga|lpga)' : e.team === 'f1' ? '(formula 1|f1)' : String(compOf0(e)).toLowerCase();
         if (!new RegExp(key, 'i').test(t) || (e.team === 'f1' && !has(t, String(e.home).replace(/ grand prix$/i, '').toLowerCase()))) continue;
+        // a golf listing names the tournament: one of its own words ("Bermuda", "Annika"), not "Open" or "Championship"
+        if (e.sport === 'golf') { const ws = String(e.home).toLowerCase().split(/[^a-z]+/).filter(w => w.length > 3 && !/^(open|championship|classic|tour|golf|ladies|women|invitational|presented|tournament|champions|the)$/.test(w)); if (!(ws.length ? ws : [String(e.home).toLowerCase()]).some(w => has(t, w))) continue; }
       } else {
         if (![e.home, e.away].every(s => sideNames(s).some(n => has(t, n)))) continue;
         const wt = /women|\bw\b|ferns|wahine|wbbl|wncl|nrlw|jillaroos|wallaroos|wxv|aupiki/i.test(t);
@@ -1284,7 +1286,7 @@ async function siteTeams() {
     keysOf: e => Object.keys(LABEL).filter(k => e.team === k || (e.tags || []).includes(k) || (CLUBS[k] && [e.home, e.away].some(n => (n || '').includes(CLUBS[k])))),
   };
 }
-const GAME_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', hockey: '🏑', basketball: '🏀', netball: '🏐', motor: '🏎️', tennis: '🎾', mma: '🥊', boxing: '🥊' };
+const GAME_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', hockey: '🏑', basketball: '🏀', netball: '🏐', motor: '🏎️', tennis: '🎾', mma: '🥊', boxing: '🥊', sailing: '⛵', golf: '⛳' };
 const NZ_NICK = { 'rugby m': 'All Blacks', 'rugby w': 'Black Ferns', 'league m': 'Kiwis', 'league w': 'Kiwi Ferns', 'cricket m': 'Black Caps', 'cricket w': 'White Ferns', 'football m': 'All Whites', 'football w': 'Football Ferns', 'hockey m': 'Black Sticks', 'hockey w': 'Black Sticks Women', 'basketball m': 'Tall Blacks', 'basketball w': 'Tall Ferns', 'netball w': 'Silver Ferns' };
 // "Black Caps v India"; a race or tournament is just its name; a fight card leads with the event
 const gameTitle = e => {
@@ -1295,7 +1297,7 @@ const gameTitle = e => {
 async function writeCalendars(events) {
   const { LABEL, isNZ, keysOf } = await siteTeams();
   const ICON = GAME_ICON;
-  const HOURS = { rugby: 2, league: 2, football: 2, hockey: 2, basketball: 2.5, netball: 1.5, motor: 2, tennis: 4, mma: 5, boxing: 4 };
+  const HOURS = { rugby: 2, league: 2, football: 2, hockey: 2, basketball: 2.5, netball: 1.5, motor: 2, tennis: 4, mma: 5, boxing: 4, sailing: 2.5, golf: 5 };
   const site = process.env.SITE_URL || 'https://kickoff.kiwi/';
   const esc = t => String(t || '').replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
   // lines longer than 75 bytes continue on the next line after a space, without splitting a character

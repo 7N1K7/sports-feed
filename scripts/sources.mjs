@@ -469,6 +469,30 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     }
     diag.supercars = `standings: ${tables.filter(t => t.team === 'supercars').map(t => `${t.title} ${t.rows.length} (top ${t.rows[0]?.name} ${t.rows[0]?.pts})`).join(', ') || 'none'}; ${sc.length} rounds, ${sc.filter(e => e.status === 'final').length} with results: ${sc.map(e => `${e.round} ${e.home} ${e.startUTC.slice(0, 10)}`).join('; ')}`;
   } catch (e) { diag.supercars = 'error: ' + e.message; }
+  // SailGP and golf: each season page's calendar or schedule table, one card an event on its last day, with the winner
+  // once it's in. Next year's SailGP page joins from September; golf seasons by their own naming
+  const seasonPages = async names => {
+    const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(names.join('|')));
+    const back = Object.fromEntries([...(r.query?.redirects || []), ...(r.query?.normalized || [])].map(x => [x.to, x.from]));
+    return Object.fromEntries((r.query?.pages || []).filter(p => !p.missing).map(p => [back[back[p.title]] || back[p.title] || p.title, p.revisions?.[0]?.slots?.main?.content || '']));
+  };
+  try {
+    const ys = [Y, ...(M >= 8 ? [Y + 1] : [])], pg = await seasonPages(ys.map(y => `${y} SailGP championship`));
+    const sg = ys.flatMap(y => sailgpSeason(pg[`${y} SailGP championship`] || '', y));
+    out.push(...sg);
+    diag.sailgp = `${sg.length} events, ${sg.filter(e => e.status === 'final').length} with winners`;
+  } catch (e) { diag.sailgp = 'error: ' + e.message; }
+  try {
+    const tours = [
+      ...[Y, ...(M >= 10 ? [Y + 1] : [])].flatMap(y => [{ title: `${y} PGA Tour`, team: 'pgatour', comp: 'PGA Tour', y, tz: 'America/New_York' }, { title: `${y} LPGA Tour`, team: 'lpga', comp: 'LPGA Tour', y, tz: 'America/New_York' }]),
+      // the Australasian season runs across the New Year ("2026–27"), from about August
+      ...[M >= 6 ? Y : Y - 1].map(y => ({ title: `${y}–${String(y + 1).slice(2)} PGA Tour of Australasia`, team: 'golfanz', comp: 'PGA Tour of Australasia', y, y2: y + 1, tz: 'Australia/Sydney' })),
+    ];
+    const pg = await seasonPages(tours.map(t => t.title));
+    const per = {};
+    for (const t of tours) { const evs = golfSeason(pg[t.title] || '', t); per[t.title] = evs.length; out.push(...evs); }
+    diag.golf = per;
+  } catch (e) { diag.golf = 'error: ' + e.message; }
   // Tennis: the four Grand Slams, the ATP and WTA Finals, Auckland's ASB Classic and the Australian summer's Brisbane,
   // Adelaide and Hobart tournaments, from each tournament's own page.
   // Each gives a women's and a men's singles final (the tournament's last two days), with the champion once it's played.
@@ -788,6 +812,96 @@ function f1Season(text, year, cityTz) {
 const SC_TZ = [[/New South Wales|\bNSW\b/i, 'Australia/Sydney'], [/\bVIC\b|Victoria/i, 'Australia/Melbourne'], [/\bQLD\b|Queensland/i, 'Australia/Brisbane'],
   [/South Australia|\bSA\b/i, 'Australia/Adelaide'], [/Western Australia|\bWA\b/i, 'Australia/Perth'], [/Northern Territory|\bNT\b/i, 'Australia/Darwin'],
   [/Tasmania|\bTAS\b/i, 'Australia/Hobart'], [/NZL|New Zealand|Waikato|Canterbury|Auckland/i, 'Pacific/Auckland']];
+// SailGP "Calendar" table: round, host ("Perth, Australia"), title (sponsors and all: "ITM New Zealand Sail Grand
+// Prix"), dates ("28 February – 1 March 2026"), winning team. A card for the last day, racing about 3pm local
+const SAIL_TZ = { Perth: 'Australia/Perth', Auckland: 'Pacific/Auckland', Christchurch: 'Pacific/Auckland', Lyttelton: 'Pacific/Auckland', Sydney: 'Australia/Sydney', 'Rio de Janeiro': 'America/Sao_Paulo',
+  Bermuda: 'Atlantic/Bermuda', 'New York': 'America/New_York', Halifax: 'America/Halifax', Portsmouth: 'Europe/London', Plymouth: 'Europe/London', Sassnitz: 'Europe/Berlin', Valencia: 'Europe/Madrid',
+  Cádiz: 'Europe/Madrid', Geneva: 'Europe/Zurich', 'Saint-Tropez': 'Europe/Paris', Taranto: 'Europe/Rome', Dubai: 'Asia/Dubai', 'Abu Dhabi': 'Asia/Dubai', 'Los Angeles': 'America/Los_Angeles',
+  'San Francisco': 'America/Los_Angeles', Chicago: 'America/Chicago', Copenhagen: 'Europe/Copenhagen', Singapore: 'Asia/Singapore', Aarhus: 'Europe/Copenhagen', Hamilton: 'Atlantic/Bermuda' };
+function sailgpSeason(text, year) {
+  const i = text.search(/==\s*Calendar\s*==/i);
+  if (i < 0) return [];
+  const out = [], src = `https://en.wikipedia.org/wiki/${encodeURIComponent(`${year} SailGP championship`.replace(/ /g, '_'))}`;
+  for (const r of rowsOf((text.slice(i).match(/\{\|[\s\S]*?\n\|\}/) || [''])[0])) {
+    const rnd = +clean(r[0] || '').match(/^\d+/)?.[0];
+    const host = clean(r[1] || '').trim(), d = dateRange(r[3] || '', year);
+    if (!rnd || !host || !d) continue;
+    const city = host.split(',')[0].trim(), tz = Object.entries(SAIL_TZ).find(([k]) => host.includes(k))?.[1] || 'UTC';
+    // the place before "Sail Grand Prix", without the sponsors in front: the longest ending of up to three words the
+    // host names ("Mubadala New York" -> New York, "Apex Group Bermuda" -> Bermuda)
+    const words = clean(r[2] || '').split(/Sail Grand Prix/i)[0].trim().split(/\s+/).filter(Boolean);
+    const place = [3, 2, 1].map(k => words.slice(-k).join(' ')).find(w => w && host.toLowerCase().includes(w.toLowerCase())) || city;
+    const win = (r[4] || '').match(/\[\[([^\]|]+?) SailGP Team(?:\|([^\]]+))?\]\]/);
+    const [ey, em, ed] = d.end, [sy, sm, sd] = d.start;
+    out.push({
+      id: `sailgp-${year}-${rnd}`, team: 'sailgp', tags: [], sport: 'sailing', comp: `SailGP · Round ${rnd}`, round: `Round ${rnd}`,
+      home: `${place} Sail Grand Prix`, away: '', startUTC: new Date(localToUTC(ey, em, ed, 15, 0, tz)).toISOString(), openUTC: new Date(localToUTC(sy, sm, sd, 15, 0, tz)).toISOString(),
+      timeTBC: true, usual: true, venue: '', city, tz, ...(/New Zealand/.test(host) ? { nzEvent: true } : {}),
+      status: win ? 'final' : 'upcoming', ...(win ? { score: `${win[1]} wins`, summary: `${win[1]}${win[2] ? ` (${clean(win[2])})` : ''} won the ${place} Sail Grand Prix.` } : {}),
+      source: src,
+    });
+  }
+  return out;
+}
+
+// golf season pages' "Schedule" table: date (the last day: "Jan 11", "30 Aug", or a range), tournament, location (a US
+// state, an Australian state or a country), purse, winner. A card for the final round, leaders out about 2pm local;
+// play starts three days before. Cancelled events (date struck through) are left out
+const GOLF_TZ = [
+  [/Western Australia/, 'Australia/Perth'], [/South Australia/, 'Australia/Adelaide'], [/Northern Territory/, 'Australia/Darwin'], [/Queensland/, 'Australia/Brisbane'], [/Victoria/, 'Australia/Melbourne'], [/Tasmania/, 'Australia/Hobart'],
+  [/New South Wales|Capital Territory/, 'Australia/Sydney'], [/New Zealand/, 'Pacific/Auckland'], [/Papua New Guinea/, 'Pacific/Port_Moresby'], [/Fiji/, 'Pacific/Fiji'], [/British Columbia/, 'America/Vancouver'],
+  [/Hawaii/, 'Pacific/Honolulu'], [/California|Nevada|Oregon|Washington(?! D)/, 'America/Los_Angeles'], [/Arizona/, 'America/Phoenix'], [/Colorado|Utah|New Mexico|Idaho|Montana|Wyoming/, 'America/Denver'],
+  [/Texas|Louisiana|Oklahoma|Minnesota|Illinois|Tennessee|Alabama|Mississippi|Missouri|Wisconsin|Iowa|Kansas|Arkansas|Nebraska/, 'America/Chicago'],
+  [/Florida|Georgia|Carolina|Ohio|Michigan|Pennsylvania|New York|New Jersey|Virginia|Kentucky|Massachusetts|Maryland|Connecticut|Indiana|Delaware|Rhode Island|Maine|New Hampshire|Vermont|District of Columbia/, 'America/New_York'],
+  [/Mexico/, 'America/Mexico_City'], [/Puerto Rico/, 'America/Puerto_Rico'], [/Dominican/, 'America/Santo_Domingo'], [/Bermuda/, 'Atlantic/Bermuda'], [/Bahamas/, 'America/Nassau'], [/Canada|Ontario|Quebec/, 'America/Toronto'],
+  [/Scotland|England|Northern Ireland|Wales/, 'Europe/London'], [/Ireland/, 'Europe/Dublin'], [/France/, 'Europe/Paris'], [/Spain/, 'Europe/Madrid'], [/Japan/, 'Asia/Tokyo'], [/Korea/, 'Asia/Seoul'],
+  [/China/, 'Asia/Shanghai'], [/Taiwan/, 'Asia/Taipei'], [/Thailand/, 'Asia/Bangkok'], [/Singapore/, 'Asia/Singapore'], [/Malaysia/, 'Asia/Kuala_Lumpur'], [/India/, 'Asia/Kolkata'], [/Emirates|Dubai|Abu Dhabi/, 'Asia/Dubai'], [/Saudi/, 'Asia/Riyadh'], [/South Africa/, 'Africa/Johannesburg'],
+];
+function golfSeason(text, t) {
+  const i = text.search(/==\s*Schedule(?: and results)?\s*==/i);
+  if (i < 0) return [];
+  const out = [], seen = new Set(), src = `https://en.wikipedia.org/wiki/${encodeURIComponent(t.title.replace(/ /g, '_'))}`;
+  // the first table headed Tournament (the LPGA's page has a colour key before it); columns found by their headings, as
+  // the tours order them differently (the LPGA's winner comes before the purse)
+  const tbl = [...text.slice(i).matchAll(/\{\|[\s\S]*?\n\|\}/g)].map(m => m[0]).find(x => /\n!\s*Tournament/i.test(x)) || '';
+  const head = tbl.split(/\n\|-[^\n]*/)[0].split('\n').filter(l => /^!/.test(l)).flatMap(l => l.slice(1).split('!!')).map(h => clean(h.replace(/<br\s*\/?>/gi, ' ')).trim());
+  const at = re => head.findIndex(h => re.test(h));
+  const iD = at(/^date/i), iT = at(/^tournament/i), iL = at(/^location/i), iW = at(/^winner/i);
+  if (iD < 0 || iT < 0) return [];
+  let prev = null, rolled = false;
+  for (const row of rowsOf(tbl)) {
+    const r = [row[iD], row[iT], row[iL] ?? '', '', row[iW] ?? ''];
+    if (!r[0] || !r[1] || /<s>/i.test(r[0])) continue;
+    const dv = clean(r[0]).replace(/\s+/g, ' ').trim();
+    // the last day: "Jan 11", "30 Aug", or the end of a range ("Jan 8–11", "29 Jan – 1 Feb")
+    const m = dv.match(/(?:^|[–-]\s*)(?:([A-Za-z]{3,})\.? (\d{1,2})|(\d{1,2}) ([A-Za-z]{3,}))\s*$/) || dv.match(/^([A-Za-z]{3,})\.? (\d{1,2})\s*[–-]\s*(\d{1,2})$/);
+    let mon, day;
+    if (m && m[3] && !m[4]) { mon = MONTHS.indexOf(m[1].slice(0, 3).toLowerCase()); day = +m[3]; }
+    else if (m) { mon = MONTHS.indexOf((m[1] || m[4]).slice(0, 3).toLowerCase()); day = +(m[2] || m[3]); }
+    if (!m || mon < 0 || !day) continue;
+    // a season across the New Year: once the months go back (December to January), dates are the second year's
+    if (t.y2 && (prev == null ? mon < 6 : mon < prev - 6)) rolled = true;
+    const y = rolled ? t.y2 : t.y;
+    prev = mon;
+    const name = clean(r[1] || '').replace(/\s*\(.*?\)\s*$/, '').trim(), where = clean(r[2] || '').trim();
+    if (!name || /^tba$/i.test(name)) continue;
+    const tz = GOLF_TZ.find(([re]) => re.test(where))?.[1] || t.tz;
+    const end = localToUTC(y, mon, day, 14, 0, tz), open = new Date(end - 3 * 864e5).toISOString();
+    const id = `golf-${t.team}-${y}-${name.toLowerCase().replace(/\W+/g, '-')}`;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    const winner = clean(r[4] || '').replace(/\s*\(\d+\)/g, '').replace(/\s+/g, ' ').trim();
+    const won = winner && !/^(tba|tbd|cancel+ed|postponed)$/i.test(winner) && end < Date.now();
+    out.push({
+      id, team: t.team, tags: [], sport: 'golf', comp: t.comp, home: name, away: '', startUTC: new Date(end).toISOString(), openUTC: new Date(open).toISOString(),
+      timeTBC: true, usual: true, venue: '', city: where, tz, ...(/New Zealand/.test(where) ? { nzEvent: true } : {}),
+      status: won ? 'final' : 'upcoming', ...(won ? { score: `${winner} won`, summary: `${winner} won the ${name}.` } : {}),
+      source: src,
+    });
+  }
+  return out;
+}
+
 function supercarsSeason(text, year) {
   const tableAfter = re => { const i = text.search(re); return i < 0 ? '' : (text.slice(i).match(/\{\|[\s\S]*?\n\|\}/) || [''])[0]; };
   const rowsIn = tbl => tbl.split(/\n\|-[^\n]*/).slice(1).map(r => r.split('\n').map(l => l.trim()).filter(l => /^[|!]/.test(l) && !l.startsWith('|}')));
@@ -1197,8 +1311,8 @@ export async function tsdb(q) {
   }
 }
 const STATUS = s => /^(FT|AET|AP|PEN|Match Finished|After Over Time|Final)$/i.test(s || '') ? 'final' : /^(NS|Not Started|TBD|PST|Postponed|CANC)$/i.test(s || '') || !s ? 'upcoming' : 'live';
-// "Crusaders Super Rugby", "Fiji Rugby League", "New Zealand Rugby" -> "Crusaders", "Fiji", "New Zealand"
-const tsdbTeam = s => (s || '').replace(/\s+(Super Rugby|Rugby League|Rugby Union|Rugby)$/, '');
+// "Crusaders Super Rugby", "Fiji Rugby League", "New Zealand Rugby", "Australia Netball" -> "Crusaders", "Fiji", "New Zealand", "Australia"
+const tsdbTeam = s => (s || '').replace(/\s+(Super Rugby|Rugby League|Rugby Union|Rugby|Netball)$/, '');
 function fromTsdb(ev, l) {
   const home = tsdbTeam(ev.strHomeTeam), away = tsdbTeam(ev.strAwayTeam);
   const cls = l.team ? { team: l.team, tags: l.tags || [] } : classify(l.classify, home, away);

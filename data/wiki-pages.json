@@ -47,6 +47,18 @@
     { "id": 4328, "sport": "football", "comp": "Premier League", "classify": "epl" },
     { "id": 4416, "sport": "league", "comp": "NRL", "classify": "nrl" },
     { "id": 4551, "sport": "rugby", "comp": "Super Rugby Pacific", "classify": "superrugby" },
+    {
+      "id": 5793,
+      "sport": "netball",
+      "comp": "Constellation Cup",
+      "classify": "netball"
+    },
+    {
+      "id": 5794,
+      "sport": "netball",
+      "comp": "Taini Jamison Trophy",
+      "classify": "netball"
+    },
     { "id": 4443, "sport": "mma", "comp": "UFC", "ufc": true },
     { "id": 5806, "sport": "league", "comp": "Rugby League World Cup", "classify": "rlwc", "fill": { "teams": ["kiwis", "rlwc"], "comp": "^Rugby League World Cup" } },
     { "id": 5278, "sport": "rugby", "comp": "NPC", "team": "npc", "fill": { "teams": ["npc"] } },
