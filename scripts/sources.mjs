@@ -301,6 +301,9 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
   const s0 = M >= 6 ? Y : Y - 1;
   const seasons = [`${s0}–${String(s0 + 1).slice(2)}`, ...(M >= 4 && M < 6 ? [`${s0 + 1}–${String(s0 + 2).slice(2)}`] : [])];
   const years = [...(M === 0 ? [Y - 1] : []), Y, ...(M >= 8 ? [Y + 1] : [])];
+  // last season's NZ and Australian tours too, only for the form guide (a T20I series early in the summer otherwise shows
+  // "no other T20I results"); their games stay out of the feed itself
+  const prev = `${s0 - 1}–${String(s0).slice(2)}`;
   const api = async q => {
     const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&' + q, { headers: UA });
     if (!r.ok) throw new Error(`wikipedia ${r.status}`);
@@ -313,24 +316,27 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     for (const t of ts) want.set(t, c);
   }
   // NZ cricket tours change name every summer, so find them by search
-  for (const q of [...seasons, ...years.map(String)].flatMap(s => [`intitle:"in New Zealand in ${s}"`, `intitle:"New Zealand" intitle:"cricket team in" "${s}"`])) {
+  for (const q of [...seasons, ...years.map(String), prev].flatMap(s => [`intitle:"in New Zealand in ${s}"`, `intitle:"New Zealand" intitle:"cricket team in" "${s}"`])) {
     try {
       const r = await api('action=query&list=search&srlimit=20&srnamespace=0&srsearch=' + encodeURIComponent(q));
       for (const { title } of r.query?.search || []) {
         if (!/cricket team/.test(title) || !/New Zealand/.test(title) || !/\b20\d\d\b/.test(title)) continue;
-        if (![...seasons, ...years.map(String)].some(s => title.endsWith(s))) continue;
-        want.set(title, { sport: 'cricket', comp: /women/i.test(title) ? "White Ferns" : 'Black Caps', classify: 'nzcricket', women: /women's cricket team/i.test(title), seriesTitle: true });
+        const old = title.endsWith(prev);
+        if (![...seasons, ...years.map(String)].some(s => title.endsWith(s)) && !old) continue;
+        if (old && want.has(title)) continue;
+        want.set(title, { sport: 'cricket', comp: /women/i.test(title) ? "White Ferns" : 'Black Caps', classify: 'nzcricket', women: /women's cricket team/i.test(title), seriesTitle: true, ...(old ? { formOnly: true } : {}) });
       }
     } catch (e) { diag.wikiSearch = e.message; }
   }
   // Australian men's tours, home and away (NZ ones are already in)
-  for (const q of [...seasons, ...years.map(String)].flatMap(s => [`intitle:"cricket team in Australia in ${s}"`, `intitle:"Australian cricket team in" "${s}"`])) {
+  for (const q of [...seasons, ...years.map(String), prev].flatMap(s => [`intitle:"cricket team in Australia in ${s}"`, `intitle:"Australian cricket team in" "${s}"`])) {
     try {
       const r = await api('action=query&list=search&srlimit=20&srnamespace=0&srsearch=' + encodeURIComponent(q));
       for (const { title } of r.query?.search || []) {
         if (!/^[A-Z][\w ]+ cricket team in [\w ]+ in 20\d\d/.test(title) || /New Zealand|women|under-19|\bA cricket/i.test(title) || !/Australia/.test(title)) continue;
-        if (![...seasons, ...years.map(String)].some(s => title.endsWith(s)) || want.has(title)) continue;
-        want.set(title, { sport: 'cricket', comp: 'Australia', classify: 'aucricket', seriesTitle: true });
+        const old = title.endsWith(prev);
+        if ((![...seasons, ...years.map(String)].some(s => title.endsWith(s)) && !old) || want.has(title)) continue;
+        want.set(title, { sport: 'cricket', comp: 'Australia', classify: 'aucricket', seriesTitle: true, ...(old ? { formOnly: true } : {}) });
       }
     } catch (e) { diag.wikiSearch = e.message; }
   }
@@ -386,6 +392,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     if (!pg) continue;
     const evs = c.ufc ? ufcFromList(pg.text, cityTz) : eventsFromPage(pg.title, pg.text, c.seriesTitle ? { ...c, comp: seriesComp(pg.title, c) } : c, cityTz);
     if (c.seriesTitle) for (const e of evs) hostFirst(e, pg.title);
+    if (c.formOnly) for (const e of evs) e.formOnly = true;
     per[pg.title] = evs.length;
     if (c.seriesTitle) {
       const sq = squadsFromPage(pg.text);

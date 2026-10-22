@@ -637,6 +637,28 @@ for (const t of tsdbFill) {
   if (did.length) filled.push(`${hit.home} v ${hit.away} (${hit.id}): ${did.join(', ')}`);
 }
 if (tsdbFill.length) diag.tsdbFilled = filled;
+// Wikipedia's Sheffield Shield table lists some games away side first (New South Wales v Western Australia at the
+// WACA): a state or NZ domestic side playing at its own ground goes on the left. Only when the ground is plainly one
+// side's and not the other's; the card's id stays as it was, so a revealed result stays revealed
+{
+  const HOME_GROUND = { 'Western Australia': /Perth/, 'New South Wales': /Sydney|Newcastle|Wollongong|Coffs Harbour|Bowral/, Victoria: /Melbourne|Geelong|Ballarat/,
+    Queensland: /Brisbane|Mackay|Cairns|Townsville|Gold Coast/, 'South Australia': /Adelaide/, Tasmania: /Hobart|Launceston/,
+    Auckland: /Auckland/, Canterbury: /Christchurch|Rangiora|Lincoln|Timaru|Ashburton/, Wellington: /Wellington|Hutt|Porirua/, Otago: /Dunedin|Queenstown|Alexandra|Invercargill|Oamaru/,
+    'Northern Districts': /Hamilton|Mount Maunganui|Tauranga|Whangārei|Whangarei|Gisborne|Rotorua/, 'Central Districts': /Napier|Nelson|New Plymouth|Palmerston North|Whanganui|Hastings|Masterton/ };
+  const base = n => String(n || '').replace(/\s+(Women('s)?|Aces|Stags|Hinds|Volts|Sparks|Firebirds|Blaze|Kings|Magicians|Knights|Brave|Hearts|Wizards)$/i, '').trim();
+  const at = (n, e) => HOME_GROUND[base(n)]?.test(`${e.city || ''} ${e.venue || ''}`);
+  const turned = [];
+  for (const e of events) {
+    if (e.sport !== 'cricket' || !HOME_GROUND[base(e.home)] || !HOME_GROUND[base(e.away)] || at(e.home, e) || !at(e.away, e)) continue;
+    [e.home, e.away] = [e.away, e.home];
+    for (const k of ['Logo', 'Credit', 'LogoCredit', 'Badge']) [e['home' + k], e['away' + k]] = [e['away' + k], e['home' + k]];
+    for (const k of ['home', 'away', 'homeLogo', 'awayLogo', 'homeCredit', 'awayCredit', 'homeLogoCredit', 'awayLogoCredit', 'homeBadge', 'awayBadge']) if (e[k] === undefined) delete e[k];
+    const sides = (e.score || '').split(' v ');
+    if (sides.length === 2) e.score = `${sides[1]} v ${sides[0]}`;
+    turned.push(`${e.home} v ${e.away} (${e.city || e.venue})`);
+  }
+  diag.homeSides = turned.length ? `home side put first: ${turned.join('; ')}` : 'none turned';
+}
 if (ESPN_ON) await espnCricket(events);
 await sportmonksCricket(events);
 // a hand correction in the curated files ("fix") wins over every live source, for when a source has a score wrong
@@ -1569,7 +1591,7 @@ const feed = {
   generatedAt: new Date(now).toISOString(),
   ...(site ? { site } : {}),
   diag: { ...diag, liveSourceEvents: live.length, eventsByTeam: events.reduce((m, e) => (m[e.team] = (m[e.team] || 0) + 1, m), {}) },
-  events: events.filter(e => now - new Date(e.startUTC) < (isFinal(e) ? 150 : 21) * DAY),
+  events: events.filter(e => !e.formOnly && now - new Date(e.startUTC) < (isFinal(e) ? 150 : 21) * DAY),
   form,
   news,
   tables,

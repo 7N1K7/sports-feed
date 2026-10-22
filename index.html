@@ -99,14 +99,16 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
 /* the colour dot at the left, the name in the middle of the rest of the button */
 .swatch { white-space: nowrap }
 .swatches .swatch { display: grid; grid-template-columns: 18px minmax(0, 1fr); justify-items: center }
-@media (max-width: 700px) { .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+@media (max-width: 700px) { .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  /* two even columns; an odd last theme sits centred under them, a column wide */
+  .swatches .swatch:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 3px) } }
 /* phones: one box with the chosen theme (its colour and name) that opens the list of all fifteen, like the times box */
 .accwrap { position: relative } .accpick { display: none }
 .throw { display: contents }
 @media (max-width: 560px) {
-  /* the theme box sits on the Theme title's line, at its right */
-  .panel .throw { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line) }
-  .panel .throw .ph { margin: 0; padding: 0; border: 0 }
+  /* the theme box sits on the Theme title's line, lined up with the times and results boxes above it */
+  .panel .throw { display: flex; align-items: center; justify-content: flex-start; gap: 10px; margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line) }
+  .panel .throw .ph { margin: 0; padding: 0; border: 0; flex: none; width: calc(14px * 7.6) }
   .accpick { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 13em; font: inherit; font-size: 14px; padding: 5px 26px; border-radius: 8px; border: 1px solid var(--line); color: var(--ink); cursor: pointer;
     background: var(--paper) no-repeat; background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: right 15px center, right 10px center; background-size: 5px 5px, 5px 5px }
   .accpick i { width: 16px; height: 16px; border-radius: 50%; flex: none; box-shadow: 0 0 0 1px var(--line) }
@@ -625,9 +627,10 @@ dialog#sheet { width: min(720px, 100%) }
 .ev .teams .logo.after { margin: 0 0 0 8px }
 
 
-.compbar { gap: 10px; flex-wrap: wrap; align-items: center }
+.compbar { gap: 8px; flex-wrap: wrap; align-items: center }
 .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--surface) }
 .seg button { border: 0; background: none; padding: 2px 10px; font-size: 14px; cursor: pointer; color: var(--muted) }
+.compbar .seg button { padding-inline: 8px }
 .seg button + button { border-left: 1px solid var(--line) }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper) }
 
@@ -686,6 +689,8 @@ html::-webkit-scrollbar-thumb:active, body::-webkit-scrollbar-thumb:active { bac
 .daypickhead { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted) }
 .dayclose { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 50%; width: 28px; height: 28px; font-size: 18px; line-height: 1; cursor: pointer }
 .livedot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #e03131; margin-right: 8px; vertical-align: 2px; box-shadow: 0 0 0 3px color-mix(in srgb, #e03131 25%, transparent) }
+.livedot.soondot { background: var(--soon); box-shadow: 0 0 0 3px color-mix(in srgb, var(--soon) 25%, transparent) }
+#soon .ev.is-soon { box-shadow: 0 0 0 1.5px var(--soon), 0 0 14px 1px color-mix(in srgb, var(--soon) 35%, transparent) }
 /* crests sit in a fixed-height row so names line up whatever the flag shape */
 .ev .teams.matchup:has(img) .side { display: grid; grid-template-rows: 2.95em auto; justify-items: center; align-items: center; row-gap: 6px }
 .ev .teams.matchup:has(img) .side > img { grid-row: 1 }
@@ -732,8 +737,8 @@ a.svc:hover { text-decoration-color: currentColor }
 .hubtop h2 { margin: 0; flex: 1; font-size: 26px }
 .hubicon { line-height: 0 }
 .hubclose { border: 1px solid var(--line); background: var(--surface); color: var(--ink); width: 34px; height: 34px; border-radius: 50%; font-size: 20px; line-height: 1; cursor: pointer }
-.hubtabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; padding-bottom: 12px }
-.hubtabs button { border: 1px solid var(--line); background: var(--paper); font: inherit; font-weight: 700; font-size: 15px; color: var(--ink); padding: 7px 18px; border-radius: 999px; cursor: pointer; transition: background .15s, border-color .15s }
+.hubtabs { margin-top: 12px; padding-bottom: 4px; font-size: 0 } /* rows of near even length, by balanceChips (3 and 3, not 4 and 2) */
+.hubtabs button { margin: 0 8px 8px 0; vertical-align: top; border: 1px solid var(--line); background: var(--paper); font: inherit; font-weight: 700; font-size: 15px; color: var(--ink); padding: 7px 18px; border-radius: 999px; cursor: pointer; transition: background .15s, border-color .15s }
 .hubtabs button:hover { border-color: var(--sport); background: color-mix(in srgb, var(--sport) 12%, var(--paper)) }
 .hubtabs button[aria-selected="true"] { background: var(--sport); border-color: var(--sport); color: var(--surface) }
 .hubhide { display: none !important }
@@ -793,10 +798,9 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
 /* phones: short labels, so NZ only, men's/women's and rankings share one line, and tighter gaps so the day's first
    games are on screen sooner */
 .compbar .sm { display: none }
-/* the competition menu and the card-size buttons are one line of their own once the bar wraps (phones, small windows) */
+/* in order: competitions, men's or women's, card size, NZ only, Free, Rankings. Once the bar wraps (phones, small
+   windows) the competition menu and men's/women's are the first line, the rest the second */
 .compbar .crow { display: contents }
-/* while the bar is one line the card-size buttons sit at its right end, before Rankings */
-#viewSel, #freeOnly { order: 1 } #rankBtn { order: 2 }
 @media (max-width: 560px) {
   main { padding-top: 10px; gap: 12px }
   section > h2 { font-size: 19px; margin-bottom: 6px }
@@ -888,6 +892,9 @@ dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback), dialog#sheet:has(.dtab
 .squad li.hasri { display: grid; grid-template-columns: 31px minmax(0, 1fr); align-items: start }
 .squad .ri { display: flex; align-items: center; gap: 0; height: 1.55em }
 .squad .ri svg { width: 13px; height: 13px; flex: none }
+.squad .ri .wkd { width: 13px; text-align: center; font: 700 14px/1 Georgia, 'Times New Roman', serif; color: var(--ink) }
+.hubsquads { grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)) }
+.sqf { font: 700 11px var(--f-body); text-transform: uppercase; letter-spacing: .04em; color: var(--muted); vertical-align: 2px }
 a.tlink { color: inherit; text-decoration: none }
 a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px }
 .dteams.scored .dside > a.tlink { display: contents }
@@ -1254,7 +1261,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
 <main class="wrap">
   <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
-  <div class="compbar" id="compBar"><div class="crow"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" id="freeOnly" class="nzonly freeonly" aria-pressed="false" title="Free to watch: only games you can watch for free (TVNZ, Three, Sky Open, DUKE, Whakaata Māori, or a free stream like TVNZ+ or YouTube)"><span aria-hidden="true">📺</span><span>Free</span></button></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9"><span>NZ only</span></button><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
+  <div class="compbar" id="compBar"><div class="crow"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false" title="NZ only: just New Zealand's teams" aria-label="NZ only"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9"><span>NZ</span></button><button type="button" id="freeOnly" class="nzonly freeonly" aria-pressed="false" title="Free to watch: only games you can watch for free (TVNZ, Three, Sky Open, DUKE, Whakaata Māori, or a free stream like TVNZ+ or YouTube)"><span aria-hidden="true">📺</span><span>Free</span></button><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
   <section id="hubSec" hidden>
     <div class="hub">
       <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
@@ -1265,6 +1272,10 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
   <section id="liveSec" hidden>
     <h2><span class="livedot" aria-hidden="true"></span>Live now</h2>
     <div id="live" class="daygroup"></div>
+  </section>
+  <section id="soonSec" hidden>
+    <h2><span class="livedot soondot" aria-hidden="true"></span>Starting soon</h2>
+    <div id="soon" class="daygroup"></div>
   </section>
   <section id="weekSec">
     <h2>This week <small id="weekRange"></small></h2>
@@ -1646,6 +1657,20 @@ function compsOfSport(k) {
   for (const e of FEED.events || []) { const t = new Date(e.startUTC) - now; if ((e.sport || sportOf(e.team)) === k && t > -60 * 864e5 && t < 120 * 864e5) cs.add(compOf(e)); }
   return [...cs];
 }
+// rain notes that are about a given day of play. Wikipedia's match box keeps every day's note ("Only 12.2 overs were
+// played on Day 1 due to rain. * Only 30.4 overs on Day 2..."), so on a Test only the sentences naming that day count
+// (or, naming no day, the first day); on a one-day game every rain note is about the game
+const WET_RE = /\b(rain\w*|wet|drizzle|showers?|bad light|covers|washed out|no play|reduced)\b/i;
+const ORD = { one: 1, two: 2, three: 3, four: 4, five: 5, first: 1, opening: 1, second: 2, third: 3, fourth: 4, fifth: 5 };
+const daysNamed = t => [...String(t).matchAll(/\bday (\d|one|two|three|four|five)\b|\b(first|opening|second|third|fourth|fifth|final|last) day\b/gi)]
+  .map(m => +(m[1] && /\d/.test(m[1]) ? m[1] : ORD[(m[1] || m[2]).toLowerCase()]) || ((m[2] || '').match(/final|last/i) ? 9 : 0)).filter(Boolean);
+function wetOn(text, day, days) {
+  return String(text || '').split(/\s*\*\s*|(?<=[.;])\s+/).filter(x => WET_RE.test(x)).filter(x => {
+    if (days < 2) return true;
+    const n = daysNamed(x).map(d => d === 9 ? days : d);
+    return n.length ? n.includes(day) : day === 1;
+  }).join(' ');
+}
 function onNow(e, now) {
   const s = new Date(e.startUTC);
   const f = e.sport === 'cricket' ? formatOf(e) : '';
@@ -1653,16 +1678,17 @@ function onNow(e, now) {
   // a live state of play checked in the last 90 minutes ("Match delayed by rain, day 2") keeps the match on whatever
   // the clock says, as a rain delay can run past the day's usual hours; "Stumps" ends the day as before
   if (e.liveState && now - Date.parse(e.liveAt) < 90 * 6e4 && !/^(stumps|end of day)/i.test(e.progress || '')) return days > 1 ? `Day ${progDay(e) || 1}` : 'On now';
-  // a rain note on the match ("Rain delayed the start", "reduced to 15 overs") or a rain headline buys two more hours
-  const wet = /\b(rain|wet|delay|bad light|reduced)/i.test(`${e.weather || ''} ${e.progress || ''} ${e.wxNews?.title || ''}`) ? 2 : 0;
+  // a rain note about that day ("Rain delayed the start", "reduced to 15 overs") or a rain headline buys two more hours
+  const wet = i => e.sport === 'cricket' && (wetOn(`${e.weather || ''}. ${e.progress || ''}. ${e.wxNews?.title || ''}`, i + 1, days) || /\bdelay/i.test(e.progress || '')) ? 2 : 0;
   // a day of a Test is set down to finish about 5pm local, with half an hour more to make up lost overs;
   // a one-day game can run long, so give it two more hours (one for a T20)
-  const hrs = e.sport === 'cricket' ? (days > 1 ? 7.5 : (HOURS[f] || 8) + (/^T20/.test(f) ? 1 : 2)) + wet : 2;
-  // a Test placed at its usual 10am start gets an hour's leeway; a game with no time at all sits at 2pm, so widen both ways
-  const early = e.usual ? 36e5 : e.timeTBC ? 5 * 36e5 : 0, late = e.usual ? 0 : e.timeTBC ? 4 * 36e5 : 0;
+  const hrs = i => e.sport === 'cricket' ? (days > 1 ? 7.5 : (HOURS[f] || 8) + (/^T20/.test(f) ? 1 : 2)) + wet(i) : 2;
+  // a Test placed at its usual 10am start isn't on until then (it waits under Starting soon); a game with no time at
+  // all sits at 2pm, so widen both ways
+  const early = e.usual ? 0 : e.timeTBC ? 5 * 36e5 : 0, late = e.usual ? 0 : e.timeTBC ? 4 * 36e5 : 0;
   const over = dayOver(e);
   for (let i = over; i < days; i++) {
-    const a = s.getTime() + i * 864e5 - early, b = a + early + hrs * 36e5 + late;
+    const a = s.getTime() + i * 864e5 - early, b = a + early + hrs(i) * 36e5 + late;
     if (now >= a && now <= b) return days > 1 ? `Day ${i + 1}` : 'On now';
   }
   return null;
@@ -1670,27 +1696,39 @@ function onNow(e, now) {
 // a Test between days of play (overnight, or after an early close) is still running, not finished
 // rain on a cricket match now: "Rain delay" when the current state of play says so; once play is on (or at a break)
 // older rain notes are history and show nothing; with no state of play, a rain headline from the last six hours or the
-// match box's weather note makes it "Rain affected". fresh: the state of play is from today
+// match box's weather note makes it "Rain affected", as long as it's about the day being played (or, between days, the
+// day coming up): rain on day 1 of a Test says nothing about day 4. fresh: the state of play is from today
+function wxToday(e, now) {
+  const days = DAYS[formatOf(e)] || 1, lbl = onNow(e, now) || between(e, now) || '';
+  return { day: +(lbl.match(/Day (\d)/) || [])[1] || 1, days };
+}
 function rainNow(e, now, fresh = true) {
   const wet = /\b(rain|wet|drizzle|bad light|covers)\b/i.test(e.progress || '');
   const current = fresh && (e.liveState ? now - Date.parse(e.liveAt) < 90 * 6e4 : !!e.progress);
   if (current && wet) return 'Rain delay';
   if (current && e.progress) return '';
-  const news = e.wxNews && (!e.wxNews.at || now - Date.parse(e.wxNews.at) < 6 * 36e5);
-  return news || /\b(rain|wet)/i.test(e.weather || '') ? 'Rain affected' : '';
+  const { day, days } = wxToday(e, now);
+  // a headline naming a day counts on that day; one naming none, for three hours after it came out
+  const named = e.wxNews && daysNamed(e.wxNews.title).map(d => d === 9 ? days : d);
+  const news = e.wxNews && (named.length ? days > 1 && named.includes(day) : !e.wxNews.at || now - Date.parse(e.wxNews.at) < 3 * 36e5);
+  return news || /\b(rain|wet)/i.test(wetOn(e.weather, day, days)) ? 'Rain affected' : '';
 }
 function between(e, now) {
   if (e.status === 'final' || e.sport !== 'cricket') return null;
   const days = DAYS[formatOf(e)] || 1, s = new Date(e.startUTC).getTime();
   if (days < 2 || now < s || now > s + (days - 1) * 864e5 + 14 * 36e5 || onNow(e, now)) return null;
-  return `Day ${Math.min(days, Math.floor((now - s) / 864e5) + 2)} next`;
+  // the evening after the last day's play has no next day: the match is over, its result just not in yet
+  const next = Math.floor((now - s) / 864e5) + 2;
+  return next > days ? null : `Day ${next} next`;
 }
 const running = (e, now) => onNow(e, now) || between(e, now);
-// a game with a set time joins Live now ten minutes before it starts, its countdown ticking down to the first ball
-const SOON = 10 * 6e4;
+// a game with a set time joins Live now five minutes before it starts, its countdown ticking down to the first ball;
+// in the hour before that it waits under Starting soon
+const SOON = 5 * 6e4, SOON_SEC = 60 * 6e4;
 const startsSoon = (e, now) => e.status !== 'final' && e.status !== 'live' && !e.timeTBC && !e.usual && new Date(e.startUTC) - now > 0 && new Date(e.startUTC) - now <= SOON;
 // when a game next gets under way: its start, or for a Test between days the start of the next day's play
-const nextAt = (e, now) => { const b = between(e, now); return new Date(+new Date(e.startUTC) + (b ? (+b.match(/\d+/)[0] - 1) * 864e5 : 0)); };
+// (or, while a later day is being played, when that day began: day 4 of a Test shows day 4's date, not the first day's)
+const nextAt = (e, now) => { const b = between(e, now) || (e.sport === 'cricket' && /^Day [2-9]/.test(onNow(e, now) || '') ? onNow(e, now) : ''); return new Date(+new Date(e.startUTC) + (b ? (+b.match(/\d+/)[0] - 1) * 864e5 : 0)); };
 // roughly when a finished game ended, so one that ran past midnight counts as that day's result;
 // a Test's last day isn't known, so take its scheduled last day, but never later than now
 const LEN_H = { rugby: 2, league: 2, football: 2, mma: 5, boxing: 4, motor: 2, tennis: 3, hockey: 2, basketball: 2.5, netball: 1.5 };
@@ -1718,6 +1756,8 @@ setInterval(() => {
     if (ms > 0 && ms < 36e5) el.textContent = countdown({ startUTC: el.dataset.cd }, now);
     // a game in Live now that reaches its start turns to On now straight away, not at the next minute's redraw
     else if (ms <= 0 && ms > -1500 && el.closest('#live')) { render(); break; }
+    // and one under Starting soon moves up to Live now as it reaches five minutes to go
+    if (ms <= SOON && ms > SOON - 1500 && el.closest('#soon')) { render(); break; }
   }
 }, 1000);
 function canRehide(id, start, now) { return spoilers && revealed.has(id) && now - new Date(start) < spoilDays * 864e5; }
@@ -1809,7 +1849,7 @@ function evCard(e, now) {
       <div class="nzl">${START_LABEL[e.sport] || 'Start'} ${esc(tzLabel())}</div>
       <div class="nz num"${e.usual ? ` title="${USUAL_NOTE}"` : ''}>${e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div><i class="wbr" aria-hidden="true"></i>
-      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${stamp === 'Rain affected' && e.wxNews ? `<div class="wx wxnews">🌧 ${rainWord(e.wxNews.title)} · <a href="${esc(e.wxNews.url)}" target="_blank" rel="noopener" title="${esc(e.wxNews.title)}">${esc(e.wxNews.source || (/bbc/i.test(e.wxNews.credit || '') ? 'BBC Sport' : 'NZ Herald'))} ↗</a></div>` : ''}${live && stamp === 'Rain affected' && wxNote(e) && !e.wxNews ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
+      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${stamp === 'Rain affected' && e.wxNews ? `<div class="wx wxnews">🌧 ${rainWord(e.wxNews.title)} · <a href="${esc(e.wxNews.url)}" target="_blank" rel="noopener" title="${esc(e.wxNews.title)}">${esc(e.wxNews.source || (/bbc/i.test(e.wxNews.credit || '') ? 'BBC Sport' : 'NZ Herald'))} ↗</a></div>` : ''}${live && stamp === 'Rain affected' && wxNote(e, now) && !e.wxNews ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e, now))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
     </div>
   </article>`;
 }
@@ -1867,7 +1907,9 @@ const wikiLink = n => `<a class="svc" href="https://en.wikipedia.org/wiki/Specia
 const rainWord = t => /start (is |was )?delayed|delayed start|delay(s|ed)? (the )?start/i.test(t) ? 'Start delayed' : /washed out|wash-?out/i.test(t) ? 'Washed out'
   : /\bno play\b/i.test(t) ? 'No play' : /abandon/i.test(t) ? 'Abandoned' : /bad light/i.test(t) ? 'Bad light' : /rain (stops|halts|interrupts|ends)|interrupt|stoppage/i.test(t) ? 'Rain stops play' : 'Rain delay';
 // Wikipedia's match box notes rain during a game; a short label for the card
-const wxNote = e => !e.weather ? '' : /no play|abandon/i.test(e.weather) ? 'No play yet' : /bad light/i.test(e.weather) && !/rain/i.test(e.weather) ? 'Bad light' : /rain|wet/i.test(e.weather) ? 'Rain affected' : '';
+// the match box's weather note, only what it says about the day being played
+const wxNote = (e, now) => { const { day, days } = wxToday(e, now), w = wetOn(e.weather, day, days);
+  return !w ? '' : /no play|abandon/i.test(w) ? 'No play yet' : /bad light/i.test(w) && !/rain/i.test(w) ? 'Bad light' : /rain|wet/i.test(w) ? 'Rain affected' : ''; };
 function liveLink(e) {
   let [name, url] = LIVE_SITE[e.sport] || ['match centre', e.link || e.source];
   if (cricinfo(e)) [name, url] = ['Cricinfo', cricinfo(e)];
@@ -2251,16 +2293,19 @@ function renderHub(now) {
   $('hubSec').hidden = !on;
   const shows = on ? hubShows((FEED.events || []).find(e => compOf(e) === compSel)?.sport) : [];
   const ranks = on ? hubRankings() : [];
-  const tabs = on ? [['games', FIGHT.test((FEED.events || []).find(e => compOf(e) === compSel)?.sport || '') ? 'Fights' : (FEED.events || []).find(e => compOf(e) === compSel)?.sport === 'motor' ? 'Races' : 'Games'], ...(hubTables().length ? [['table', 'Table']] : []), ...(ranks.length ? [['rank', 'Rankings']] : []), ...(BRACKETS[compSel] || hubFinals().length ? [['playoffs', 'Playoffs']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
+  const squads = on ? hubSquads(now) : [], played = on && (FEED.events || []).some(e => compOf(e) === compSel && visible(e) && isDone(e, now));
+  const tabs = on ? [['games', FIGHT.test((FEED.events || []).find(e => compOf(e) === compSel)?.sport || '') ? 'Fights' : (FEED.events || []).find(e => compOf(e) === compSel)?.sport === 'motor' ? 'Races' : 'Games'], ...(played ? [['results', 'Results']] : []), ...(squads.length ? [['squads', 'Squads']] : []), ...(hubTables().length ? [['table', 'Table']] : []), ...(ranks.length ? [['rank', 'Rankings']] : []), ...(BRACKETS[compSel] || hubFinals().length ? [['playoffs', 'Playoffs']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
   if (!tabs.some(([k]) => k === hubTab)) hubTab = 'games';
   const other = on && hubTab !== 'games';
-  for (const id of ['liveSec', 'weekSec', 'todaySec', 'tomSec', 'upSec', 'laterSec', 'resSec', 'newsSec', 'showSec']) $(id).classList.toggle('hubhide', other || (on && (id === 'newsSec' || id === 'showSec')));
+  // the Results tab is the Results section on its own (this competition's, paged, spoilers as everywhere)
+  for (const id of ['liveSec', 'soonSec', 'weekSec', 'todaySec', 'tomSec', 'upSec', 'laterSec', 'resSec', 'newsSec', 'showSec']) $(id).classList.toggle('hubhide', (other && !(hubTab === 'results' && id === 'resSec')) || (on && (id === 'newsSec' || id === 'showSec')));
   if (!on) { $('hubBody').innerHTML = ''; return; }
   const sample = (FEED.events || []).find(e => compOf(e) === compSel);
   $('hubName').textContent = plural(compSel);
   $('hubIcon').innerHTML = COMP_IMG[compSel] ? `<img class="hubimg" src="${COMP_IMG[compSel]}" alt="" referrerpolicy="no-referrer">` : sIcon(sample?.team === 'f1' ? 'f1' : sample?.sport, 'hubimg');
   $('hubSec').style.setProperty('--sport', `var(--${sample?.sport || 'rugby'})`);
   $('hubTabs').innerHTML = tabs.map(([k, l]) => `<button type="button" role="tab" data-hubtab="${k}" aria-selected="${hubTab === k}">${l}</button>`).join('');
+  if (tabs.length) { balanceChips($('hubTabs')); chipRO.observe($('hubTabs')); }
   if (hubTab === 'table') {
     const ts = hubTables();
     $('hubBody').innerHTML = ts.map(tableHtml).join('') + `<p class="muted small">Standings from Wikipedia.${ts.some(t => t.rows.some(r => r.q)) ? ' Highlighted rows are in a qualifying spot.' : ''}${ts.some(t => t.rows.some(r => r.nz)) ? ' New Zealanders highlighted.' : ''}</p>`;
@@ -2272,7 +2317,29 @@ function renderHub(now) {
     $('hubBody').innerHTML = `<div class="newslist">${$('news').innerHTML}</div>`;
   } else if (hubTab === 'shows') {
     $('hubBody').innerHTML = showsHtml(shows);
+  } else if (hubTab === 'squads') {
+    const icons = squads.some(({ s }) => s.players.some(p => p.role || /\bwk\b/.test(p.r || '')));
+    $('hubBody').innerHTML = `<div class="squads hubsquads">${squads.map(({ s, e, f }) => squadBlock(s, e, icons, f ? `${f} squad` : '')).join('')}</div><p class="muted small">Squads from Wikipedia: the tour's page, or each side's own.</p>`;
   } else $('hubBody').innerHTML = '';
+}
+// a game that's over (or should be): the same test as the Results section's
+const isDone = (e, now) => e.status === 'final' || (e.status !== 'live' && new Date(e.startUTC) < now && !running(e, now) && (!e.timeTBC || now - new Date(e.startUTC) > 12 * 36e5));
+// the squads named for a competition's games, nearest game first: one per side and format (a tour names one for its
+// Tests, ODIs and T20Is), from the tour's page or the side's own
+function hubSquads(now) {
+  const evs = (FEED.events || []).filter(e => compOf(e) === compSel && e.squads?.length && visible(e))
+    .sort((a, b) => Math.abs(new Date(a.startUTC) - now) - Math.abs(new Date(b.startUTC) - now));
+  const seen = new Set(), out = [];
+  for (const e of evs) {
+    const f = e.sport === 'cricket' ? fmtOf(`${e.comp || ''} ${e.stage || ''}`) : '';
+    // home side first, as on the game's own pop-up
+    const base = t => (t || '').replace(/\s+Women('s)?$/, '');
+    for (const s of [...e.squads].sort((a, b) => (base(a.team) === base(e.away)) - (base(b.team) === base(e.away)))) {
+      const k = `${base(s.team)}|${f}`;
+      if (!seen.has(k) && s.players?.length) { seen.add(k); out.push({ s, e, f }); }
+    }
+  }
+  return out;
 }
 
 // a squad name opens the player's Cricinfo profile (id from Wikidata), else their Wikipedia article
@@ -2282,10 +2349,9 @@ const playerLink = p => p.ci ? `<a class="plink" href="https://www.espncricinfo.
 // a player's job, from their Wikipedia infobox (a keeper marked "wk" in the squad list counts as one whatever it says)
 const BAT = '<svg viewBox="0 0 16 16" aria-hidden="true"><g transform="rotate(40 8 8)"><rect x="5.6" y="5.2" width="4.8" height="10.3" rx="1.4" fill="#d9b46c"/><rect x="7.1" y=".4" width="1.8" height="5.4" rx=".7" fill="#6e5230"/></g></svg>';
 const BALL = '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#c63a2f"/><path d="M3.6 3.9Q8 8 12.4 12.1M2.6 5.6Q7 9.7 10.4 13.4" stroke="#f3e6d6" stroke-width=".8" fill="none" stroke-dasharray="1 .9" transform="translate(.6 -.8)"/></svg>';
-// a pair of wicket-keeping gloves: padded mitts with the tan webbing between thumb and fingers, the left one behind
-const MITT = '<path d="M3.2 3.6a1.9 1.9 0 013.8 0V5h.2a1.6 1.6 0 011.6 1.6v3.6a3.1 3.1 0 01-3.1 3.1H5a2.3 2.3 0 01-2.3-2.3V9.3L1.6 7.9A1.05 1.05 0 013.1 6.5l.1.1z" fill="#f2ede1" stroke="#7d7466" stroke-width=".55" stroke-linejoin="round"/><path d="M3.25 6.6 4.3 7.9V5.2z" fill="#b5793a"/><path d="M4.2 4.5h2.6M4.3 6h3.6M4.4 7.5h3.5" stroke="#cfc6b6" stroke-width=".5" stroke-linecap="round"/><rect x="3.2" y="12.6" width="4.6" height="2.1" rx=".7" fill="#2c3230"/>';
-const GLOVE = `<svg viewBox="0 0 16 16" aria-hidden="true"><g transform="translate(-0.4 0.9) rotate(-12 5 9)" opacity=".92">${MITT}</g><g transform="translate(16.4 -0.2) scale(-1 1) rotate(-12 5 9)">${MITT}</g></svg>`;
-const ROLE = { bat: ['Batter', BAT], bowl: ['Bowler', BALL], ar: ['All-rounder', BAT + BALL], wk: ['Wicket-keeper', GLOVE] };
+// a keeper the way scorecards mark one, with a dagger (Tom Latham †), beside the bat: keepers bat too
+const DAGGER = '<b class="wkd" aria-hidden="true">†</b>';
+const ROLE = { bat: ['Batter', BAT], bowl: ['Bowler', BALL], ar: ['All-rounder', BAT + BALL], wk: ['Wicket-keeper', BAT + DAGGER] };
 const roleIcon = p => { const k = /\bwk\b/.test(p.r || '') ? 'wk' : p.role, r = ROLE[k]; return `<span class="ri"${r ? ` title="${r[0]}"` : ''}>${r ? r[1] : ''}</span>`; };
 // a national side's page on Cricinfo (men's teams; the number is Cricinfo's own id for the side)
 const CI_TEAM = { 'england': 'england-1', 'australia': 'australia-2', 'south africa': 'south-africa-3', 'west indies': 'west-indies-4', 'new zealand': 'new-zealand-5', 'india': 'india-6', 'pakistan': 'pakistan-7', 'sri lanka': 'sri-lanka-8', 'zimbabwe': 'zimbabwe-9', 'bangladesh': 'bangladesh-25', 'ireland': 'ireland-29', 'scotland': 'scotland-30', 'afghanistan': 'afghanistan-40', 'netherlands': 'netherlands-15' };
@@ -2296,8 +2362,9 @@ function squadsHtml(e) {
   const base = t => (t || '').replace(/\s+Women('s)?$/, '');
   const sides = [e.home, e.away].map(t => e.squads.find(s => base(s.team) === base(t))).filter(Boolean);
   const icons = sides.some(s => s.players.some(p => p.role || /\bwk\b/.test(p.r || '')));
-  return `<div class="squads">${sides.map(s => `<div class="squad"><div class="sqh">${ciWrap(s.team, e, nmSpan(s.team, e))}</div><ul>${s.players.map(p => `<li${icons ? ' class="hasri"' : ''}>${icons ? roleIcon(p) : ''}<span>${playerLink(p)}${p.r ? ` <span class="role">${esc(p.r)}</span>` : ''}</span></li>`).join('')}</ul></div>`).join('')}</div>`;
+  return `<div class="squads">${sides.map(s => squadBlock(s, e, icons)).join('')}</div>`;
 }
+const squadBlock = (s, e, icons, label = '') => `<div class="squad"><div class="sqh">${ciWrap(s.team, e, nmSpan(s.team, e))}${label ? ` <span class="sqf">${esc(label)}</span>` : ''}</div><ul>${s.players.map(p => `<li${icons ? ' class="hasri"' : ''}>${icons ? roleIcon(p) : ''}<span>${playerLink(p)}${p.r ? ` <span class="role">${esc(p.r)}</span>` : ''}</span></li>`).join('')}</ul></div>`;
 
 // UFC card grouped by section; winners hidden while spoilers are on
 // a fighter's name opens their Wikipedia article, else their UFC.com, Sherdog, BoxRec or Tapology page (ids from Wikidata)
@@ -2706,14 +2773,21 @@ function render() {
   // the first draw has to guess the width; once the boxes exist, redraw if two rows actually hold a different number
   const cap = dotCap(); drawWeek(cap); lastCap = dotCap(); if (lastCap !== cap) drawWeek(lastCap);
 
-  // live now: games under way, in their own section above the week
-  const lives = upcoming.filter(e => e.status === 'live' || onNow(e, now) || startsSoon(e, now));
+  // live now: games under way, in their own section above the week; New Zealand's games first, then other
+  // internationals, then the rest, each by start time
+  const rank = e => isNZ(e) ? 0 : isIntl(e) ? 1 : 2;
+  const byRank = (a, b) => rank(a) - rank(b) || nextAt(a, now) - nextAt(b, now);
+  const lives = upcoming.filter(e => e.status === 'live' || onNow(e, now) || startsSoon(e, now)).sort(byRank);
+  // starting soon: games (or a Test's next day) getting under way within the hour, a time known or the usual one
+  const soons = upcoming.filter(e => !lives.includes(e) && !(e.timeTBC && !e.usual) && (ms => ms > 0 && ms <= SOON_SEC)(nextAt(e, now) - now)).sort(byRank);
   // a Test between days of play (overnight, or after rain ended the day) waits with the upcoming games until the next day starts
-  const resting = upcoming.filter(e => !lives.includes(e) && between(e, now));
+  const resting = upcoming.filter(e => !lives.includes(e) && !soons.includes(e) && between(e, now));
   $('liveSec').hidden = !lives.length;
+  $('soonSec').hidden = !soons.length;
   // only rewrite the live cards when they change, so their glow doesn't restart on every click
   const liveHtml = lives.map(e => evCard(e, now)).join('');
   if ($('live').dataset.h !== liveHtml) { $('live').innerHTML = liveHtml; $('live').dataset.h = liveHtml; }
+  into($('soon')).html = soons.map(e => evCard(e, now)).join('');
   // a picked day's games, shown right under the week strip (redrawn on its own when a day is clicked)
   drawDayPick = () => {
   const pickK = selDay && selDay !== todayK ? selDay : '';
@@ -2727,14 +2801,14 @@ function render() {
 
   // today
   // today, plus anything starting in the next 12 hours (an overnight game shows tonight, under "Early tomorrow")
-  const todays = upcoming.filter(e => !lives.includes(e) && !resting.includes(e) && (dayKey(new Date(e.startUTC)) === todayK || new Date(e.startUTC) - now < 12 * 36e5));
+  const todays = upcoming.filter(e => !lives.includes(e) && !soons.includes(e) && !resting.includes(e) && (dayKey(new Date(e.startUTC)) === todayK || new Date(e.startUTC) - now < 12 * 36e5));
   $('todayLabel').textContent = dayLabel(nowD, NZ);
   // today's finished games stay in "On today" (spoiler rules still apply), latest first after the upcoming ones
   // "Earlier": games that ended in the last 16 hours, whatever the day, so one that finished late last night stays up
   // here into the morning. They're in Results below as well, and only there once the 16 hours are up.
   const doneToday = finals.filter(e => now - endOf(e, now) < 16 * 36e5);
   const doneDay = e => dayKey((DAYS[formatOf(e)] || 1) > 1 ? endOf(e, now) : new Date(e.startUTC));
-  $('todaySec').hidden = !todays.length && !doneToday.length && !resting.length && lives.length > 0;
+  $('todaySec').hidden = !todays.length && !doneToday.length && !resting.length && lives.length + soons.length > 0;
   into($('today')).html = todays.length || doneToday.length || resting.length
     ? `<div class="daygroup">${(() => {
         // a Test between days waits with the upcoming games, at the time its next day starts
@@ -2742,8 +2816,9 @@ function render() {
         const hourNZ = e => +fmt(nextAt(e, now), NZ, { hour: 'numeric', hour12: false });
         const isToday = e => dayKey(nextAt(e, now)) === todayK, tod = later.filter(isToday), early = later.filter(e => !isToday(e));
         const tonight = +fmt(nowD, NZ, { hour: 'numeric', hour12: false }) >= 17 || (tod.length && tod.every(e => !e.timeTBC && hourNZ(e) >= 17));
-        return (lives.length && tod.length ? `<div class="dayhead">${tonight ? 'Later tonight' : 'Later today'}</div>` : '') + tod.map(e => evCard(e, now)).join('')
-          + (early.length ? `<div class="dayhead">Early tomorrow</div><div class="early">${early.map(e => evCard(e, now)).join('')}</div>` : '');
+        // "Early tomorrow" for the small hours; a Test's next day starting at lunchtime tomorrow is just "Tomorrow"
+        return (lives.length + soons.length && tod.length ? `<div class="dayhead">${tonight ? 'Later tonight' : 'Later today'}</div>` : '') + tod.map(e => evCard(e, now)).join('')
+          + (early.length ? `<div class="dayhead">${early.every(e => hourNZ(e) < 11) ? 'Early tomorrow' : 'Tomorrow'}</div><div class="early">${early.map(e => evCard(e, now)).join('')}</div>` : '');
       })()}${[['Earlier today', doneToday.filter(e => doneDay(e) === todayK)], ['Yesterday', doneToday.filter(e => doneDay(e) !== todayK)]]
         // the games just finished, today's first, then last night's: a game belongs to the day it started (one that ran
         // past midnight is still last night's game), a Test or first-class game to the day it ended
@@ -2751,7 +2826,7 @@ function render() {
     : `<div class="empty-note">Nothing on for your teams today. ${upcoming[0] ? `Next up: <b>${esc(titleOf(upcoming[0]))}</b>, ${dayLabel(new Date(upcoming[0].startUTC), NZ)}.` : ''}</div>`;
 
   // coming up this week, then further ahead, grouped by NZ day
-  const rest = upcoming.filter(e => !todays.includes(e) && !lives.includes(e) && !resting.includes(e));
+  const rest = upcoming.filter(e => !todays.includes(e) && !lives.includes(e) && !soons.includes(e) && !resting.includes(e));
   const groups = new Map();
   // tomorrow gets its own section, right after today
   const tomK = dayKey(new Date(now + 864e5));
@@ -3076,7 +3151,7 @@ const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','h
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
 
 function tick() { $('clock').textContent = `${tzLabel()} ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; syncInfo(); }
-// the small line under the title: the time, the site version and when results were last updated
+// the small line under the title: the time and when results were last updated
 function syncInfo() {
   const t = `${tzLabel()} ${fmt(new Date(), NZ, { hour: 'numeric', minute: '2-digit', hour12: true })}`;
   $('binfo').textContent = [t, $('ver').textContent, $('fresh').textContent.replace(/^Results u/, 'u')].filter(Boolean).join(' · ');
@@ -3352,7 +3427,7 @@ $('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; st
 function stamp() {
   if (!FEED.generatedAt) return;
   const mins = Math.round((Date.now() - new Date(FEED.generatedAt)) / 6e4);
-  if (FEED.site) { $('ver').textContent = `v${FEED.site.version}`; $('ver2').textContent = ` · v${FEED.site.version}`; $('ver').title = `Site last changed ${fmt(new Date(FEED.site.changedAt), NZ, { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; }
+  // the version number is only on the stats page now, leaving the line under the name to the time and the last update
   const stamp = d => fmt(new Date(d), NZ, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true });
   // just how fresh it is; how often it refreshes sits in the hover text
   const ago = mins < 1 ? 'just now' : mins < 60 ? `${mins} min ago` : mins < 24 * 60 ? `${Math.floor(mins / 60)} hr ago` : stamp(FEED.generatedAt);
