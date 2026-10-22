@@ -1,24 +1,9 @@
-generated 2026-10-22T16:21:22.558Z version 377 events 581
-homeSides: home side put first: New South Wales v Tasmania (Sydney); Western Australia v Queensland (Perth); Western Australia v New South Wales (Perth); Victoria v South Australia (Melbourne); New South Wales v Tasmania (Sydney); Western Australia v Queensland (Perth)
-form: 99 sides with a form guide
-cricket|New Zealand ["2026-03-15 L v South Africa T20I","2026-03-17 W v South Africa T20I","2026-03-20 W v South Africa T20I","2026-03-22 L v South Africa T20I","2026-03-25 L v South Africa T20I","2026-10-22 L v India T20I"]
-cricket|India ["2026-10-03 L v West Indies ODI","2026-10-06 W v West Indies T20I","2026-10-09 L v West Indies T20I","2026-10-11 W v West Indies T20I","2026-10-14 L v West Indies T20I","2026-10-22 W v New Zealand T20I"]
-cricket|New Zealand Women ["2026-03-29 L v South Africa Women ODI","2026-03-31 W v South Africa Women ODI","2026-04-03 W v South Africa Women ODI","2026-10-15 L v Governor-General's XI ","2026-10-18 L v Australia Women T20I","2026-10-20 L v Australia Women T20I"]
-cricket|Australia Women ["2026-10-18 W v New Zealand Women T20I","2026-10-20 W v New Zealand Women T20I"]
-wikipedia pages: Australian cricket team in New Zealand in 2025–26: 3; Zimbabwe women's cricket team in New Zealand in 2025–26: 6; English cricket team in New Zealand in 2025–26: 6; South Africa women's cricket team in New Zealand in 2025–26: 8; South African cricket team in New Zealand in 2025–26: 5; West Indian cricket team in New Zealand in 2025–26: 12; New Zealand cricket team in India in 2025–26: 8; Indian cricket team in Australia in 2025–26: 8; Australian cricket team in Pakistan in 2025–26: 3
-formOnly in feed: 0
-2026-10-07 Victoria v South Australia | Melbourne final
-2026-10-08 New South Wales v Tasmania | Sydney final
-2026-10-08 Western Australia v Queensland | Perth final
-2026-10-19 Tasmania v Victoria | Hobart upcoming
-2026-10-19 South Australia v Queensland | Adelaide final
-2026-10-19 Western Australia v New South Wales | Perth upcoming
-2026-10-28 South Australia v Western Australia | Adelaide upcoming
-2026-10-30 Tasmania v New South Wales | Hobart upcoming
-2026-10-31 Queensland v Victoria | Brisbane upcoming
-2026-11-11 New South Wales v South Australia | Sydney upcoming
-2026-11-11 Victoria v Western Australia | Melbourne upcoming
-2026-11-11 Queensland v Tasmania | Brisbane upcoming
-2026-11-22 New South Wales v Queensland | Sydney upcoming
-2026-11-23 Western Australia v Tasmania | Perth upcoming
-2026-11-24 South Australia v Victoria | Adelaide upcoming
+generated 2026-10-22T17:11:16.417Z version 384 events 718
+NBL tables: ["wdl 10: Melbourne United 2-0 undefined, S.E. Melbourne Phoenix 2-0 undefined, Adelaide 36ers 1-1 undefined, Brisbane Bullets 1-1 undefined","wdl 10: New Zealand Breakers 2-0 undefined, Sydney Kings 1-1 undefined, Tasmania JackJumpers 1-0 undefined, Melbourne United 1-0 undefined"]
+tables diag NBL: [
+  '2026–27 NBL season / NBL Blitz: 10',
+  '2026–27 NBL season / NBL Ignite Cup: 10'
+]
+Men's doubles: 1 Harri Heliövaara; 1 Henry Patten; 3 Neal Skupski; 4 Horacio Zeballos
+motor: F1 drivers 2026 Formula One World Championship: 20 (top Kimi Antonelli); F1 teams 2026 Formula One World Championship: 11 (top Mercedes); Supercars drivers 2026 Supercars Championship: 20 (top Matt Payne); Supercars teams 2026 Supercars Championship: 17 (top Grove Racing)
+wikiRetries: undefined | golf: {"2026 PGA Tour":45,"2026 LPGA Tour":31,"2026–27 PGA Tour of Australasia":18} | sailgp: 13 events, 11 with winners
