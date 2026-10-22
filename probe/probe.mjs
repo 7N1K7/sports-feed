@@ -1,6 +1,12 @@
-// probe 101: remaining picture and team-link gaps, and the TV guide / Supercars times after the latest runs
+// probe 102: the live feed (saved whole for local testing) and the page errors the stats recorded
+import { writeFileSync } from 'node:fs';
 const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
-console.log('generated', f.generatedAt);
-for (const [k, c] of Object.entries(f.coverage || {})) console.log(`${k}: pic ${c.pic}/${c.sides} links ${c.links}/${c.sidesL ?? c.sides} | no pic: ${c.gaps.pic.join(', ')} | no link: ${(c.gaps.links || []).join(', ')}`);
-console.log('\nsupercarsTimes:', f.diag?.supercarsTimes, '\ntvGuide:', String(f.diag?.tvGuide || '').slice(0, 600));
-for (const e of f.events.filter(e => e.sport === 'boxing' && Date.parse(e.startUTC) > Date.now() - 864e5)) console.log('boxing', e.startUTC.slice(0, 10), e.home, '|', e.away, '|', e.homeLogo ? 'pic' : '-', e.awayLogo ? 'pic' : '-', e.source);
+writeFileSync('probe/out-feed.json', JSON.stringify(f));
+console.log('generated', f.generatedAt, 'events', f.events?.length);
+const T = process.env.CLOUDFLARE_API_TOKEN, A = process.env.CLOUDFLARE_ACCOUNT_ID;
+const cf = async (path, body) => (await fetch(`https://api.cloudflare.com/client/v4/accounts/${A}/${path}`, { method: body ? 'POST' : 'GET', headers: { authorization: `Bearer ${T}`, 'content-type': 'application/json' }, body: body && JSON.stringify(body) })).json();
+const dbs = await cf('d1/database?name=kickoff-stats'); const id = dbs.result?.[0]?.uuid;
+const q = await cf(`d1/database/${id}/query`, { sql: "SELECT day, key, n FROM daily WHERE metric = 'error' ORDER BY day DESC LIMIT 60" });
+console.log('\nerrors:'); for (const r of q.result?.[0]?.results || []) console.log(r.day, r.n, '|', r.key);
+const m = await cf(`d1/database/${id}/query`, { sql: "SELECT metric, COUNT(*) c, SUM(n) n FROM daily WHERE day >= date('now','-3 day') GROUP BY metric ORDER BY metric" });
+console.log('\nmetrics (3 days):'); for (const r of m.result?.[0]?.results || []) console.log(' ', r.metric, r.c, r.n);
