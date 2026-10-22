@@ -1,24 +1,237 @@
-generated 2026-10-22T16:21:22.558Z version 377 events 581
-homeSides: home side put first: New South Wales v Tasmania (Sydney); Western Australia v Queensland (Perth); Western Australia v New South Wales (Perth); Victoria v South Australia (Melbourne); New South Wales v Tasmania (Sydney); Western Australia v Queensland (Perth)
-form: 99 sides with a form guide
-cricket|New Zealand ["2026-03-15 L v South Africa T20I","2026-03-17 W v South Africa T20I","2026-03-20 W v South Africa T20I","2026-03-22 L v South Africa T20I","2026-03-25 L v South Africa T20I","2026-10-22 L v India T20I"]
-cricket|India ["2026-10-03 L v West Indies ODI","2026-10-06 W v West Indies T20I","2026-10-09 L v West Indies T20I","2026-10-11 W v West Indies T20I","2026-10-14 L v West Indies T20I","2026-10-22 W v New Zealand T20I"]
-cricket|New Zealand Women ["2026-03-29 L v South Africa Women ODI","2026-03-31 W v South Africa Women ODI","2026-04-03 W v South Africa Women ODI","2026-10-15 L v Governor-General's XI ","2026-10-18 L v Australia Women T20I","2026-10-20 L v Australia Women T20I"]
-cricket|Australia Women ["2026-10-18 W v New Zealand Women T20I","2026-10-20 W v New Zealand Women T20I"]
-wikipedia pages: Australian cricket team in New Zealand in 2025–26: 3; Zimbabwe women's cricket team in New Zealand in 2025–26: 6; English cricket team in New Zealand in 2025–26: 6; South Africa women's cricket team in New Zealand in 2025–26: 8; South African cricket team in New Zealand in 2025–26: 5; West Indian cricket team in New Zealand in 2025–26: 12; New Zealand cricket team in India in 2025–26: 8; Indian cricket team in Australia in 2025–26: 8; Australian cricket team in Pakistan in 2025–26: 3
-formOnly in feed: 0
-2026-10-07 Victoria v South Australia | Melbourne final
-2026-10-08 New South Wales v Tasmania | Sydney final
-2026-10-08 Western Australia v Queensland | Perth final
-2026-10-19 Tasmania v Victoria | Hobart upcoming
-2026-10-19 South Australia v Queensland | Adelaide final
-2026-10-19 Western Australia v New South Wales | Perth upcoming
-2026-10-28 South Australia v Western Australia | Adelaide upcoming
-2026-10-30 Tasmania v New South Wales | Hobart upcoming
-2026-10-31 Queensland v Victoria | Brisbane upcoming
-2026-11-11 New South Wales v South Australia | Sydney upcoming
-2026-11-11 Victoria v Western Australia | Melbourne upcoming
-2026-11-11 Queensland v Tasmania | Brisbane upcoming
-2026-11-22 New South Wales v Queensland | Sydney upcoming
-2026-11-23 Western Australia v Tasmania | Perth upcoming
-2026-11-24 South Australia v Victoria | Adelaide upcoming
+SEARCH Constellation Cup 2026 => Constellation Cup | 2025 Constellation Cup | Aquarius (constellation) | Cassiopeia (constellation) | 2026 | Aquila (constellation) | New Zealand national netball team | Australia national netball team
+SEARCH Silver Ferns 2026 netball => New Zealand national netball team | Silver fern | Silver fern flag | Netball at the 2026 Commonwealth Games | Australia national netball team | Netball in New Zealand | World Netball Rankings | Temepara Bailey
+SEARCH netball 2026 Australia New Zealand series => New Zealand national netball team | Australia national netball team | Netball in New Zealand | 2026 in New Zealand | World Netball Rankings | 2026 Suncorp Super Netball season | Netball in Australia | Super Netball
+SEARCH SailGP 2026 season => 2026 SailGP championship | SailGP | United States SailGP Team | Australia SailGP Team | Canada SailGP Team | Spain SailGP Team | Great Britain SailGP Team | Statistics of SailGP
+SEARCH SailGP Season 7 => SailGP | 2026 SailGP championship | Statistics of SailGP | Australia SailGP Team | Great Britain SailGP Team | 2024–25 SailGP championship | China SailGP Team | New Zealand SailGP Team
+SEARCH 2026 PGA Tour => 2026 PGA Tour | 2026 PGA Tour Americas | 2026 PGA Tour Champions season | PGA Tour Champions | PGA Tour | 2026–27 PGA Tour of Australasia | 2026 European Tour | 2027 PGA Tour
+SEARCH 2026 Ryan Fox => Ryan Fox | 2026 Open Championship | 9-1-1 (TV series) | 2026 Northwestern Wildcats football team | 2026 in New Zealand | Ryan Destiny | Mayday (2026 film) | Ryan Routh
+SEARCH 2025–26 NBA season => 2025–26 NBA season | List of 2025–26 NBA season transactions | 2025–26 NBA G League season | 2025–26 Dallas Mavericks season | 2025 NBA Cup | 2025 NBA draft | 2025–26 Miami Heat season | 2025–26 Philadelphia 76ers season
+SEARCH 2026–27 NBA season => 2026–27 NBA season | List of 2026–27 NBA season transactions | 2026–27 Golden State Warriors season | 2026 NBA Cup | 2026–27 New York Knicks season | 2026–27 Philadelphia 76ers season | 2026–27 Phoenix Suns season | 2026–27 Chicago Bulls season
+
+NBL headings: 2:Teams / 3:Personnel and sponsorship / 3:Stadiums and locations / 3:Player transactions / 3:Import players / 3:Coaching transactions / 2:Pre-season / 3:NBL Blitz / 2:Regular season / 3:Round 1 / 3:Round 2 / 3:Round 3 / 3:Round 4 / 3:Round 5 / 3:Round 6 / 3:Round 7 / 3:Round 8 / 3:Round 9 / 3:Round 10 / 3:Round 11 / 3:Round 12 / 3:Round 13 / 3:Round 14 / 3:Round 15 / 3:Round 16 / 3:Round 17 / 3:Round 18 / 3:Round 19 / 3:Round 20 / 3:Round 21 / 2:Ladder / 3:Ladder progression / 2:NBL Ignite Cup / 2:Finals / 2:Awards / 3:Pre-season / 3:Regular season / 4:Awards Night / 3:Postseason / 2:References / 2:External links
+NBL ladder section:
+== Ladder ==
+{{NBL Ladder 2026–27}}
+
+=== Ladder progression ===
+{{NBL Ladder Progression 2026–27}}
+
+templates in ladder section: NBL Ladder 2026–27 | NBL Ladder Progression 2026–27
+TEMPLATE NBL Ladder 2026–27 2948 
+<noinclude>{{main|2026–27 NBL season}}</noinclude>
+{| class="wikitable" style="width:55em;font-size:95%; text-align:center" 
+|-
+! width="5%" rowspan=2| {{Abbr| Pos | Position}}
+! colspan="12" style="text-align:center"  | '''2026–27 NBL season'''  {{navbar|Template:NBL Ladder 2026–27|mini=1|nodiv=1}}
+|-
+! width="35%" | Team
+! width="5%"  | {{Abbr| Pld | Played}}
+! width="5%"  | {{Abbr| W | Games won}}
+! width="5%"  | {{Abbr| L | Games lost}}
+! width="5%"  | {{Abbr| PCT | Winning percentage}}
+! width="8%"  | Last 5
+! width="5%"  | {{Abbr| Streak | Current streak}}
+! width="5%"  | {{Abbr| Home | Home record}}
+! width="5%"  | {{Abbr| Away | Away record}}
+! width="5%"  | {{Abbr| PF | Points for}}
+! width="5%"  | {{Abbr| PA | Points against}}
+! width="5%"  | {{Abbr| PP | Points percentage}}
+|-
+|- style="background-color:#BBF3BB;"
+! 1
+| style="text-align:left;" | [[2026–27 Tasmania JackJumpers season|Tasmania JackJumpers]] 
+| 8
+| 6
+| 2
+| 75.00%
+| 4–1
+| W2
+| 4–1
+| 2–1
+| 790
+| 748
+| 105.61%
+|- style="background-color:#BBF3BB;"
+! 2
+| style="text-align:left;" | [[2026–27 Sydney Kings season|Sydney Kings]]
+| 6
+| 4
+| 2
+| 66.67%
+| 3–2
+| W1
+| 4–2
+| 0–0
+| 606
+| 535
+| 113.27%
+|- style="background-color:#CCCCCC"
+| || || || || || || || || || || || ||
+|- style="background-color:#BBF3FF;"
+! 3
+| style="text-align:left;" | [[2026–27 Perth Wildcats season|Perth Wildcats]]
+| 6
+| 4
+| 2
+| 66.67%
+| 4–1
+| L1
+| 4–1
+| 0–1
+| 547
+| 564
+| 96.99%
+|- style="background-color:#BBF3FF;"
+! 4
+| style="text-align:left;" | [[2026–27 New Zealand Breakers season|New Zealand Breakers]]
+| 8
+| 4
+| 4
+| 50.00%
+| 3–2
+| L1
+| 2–0
+| 2–4
+| 737
+| 712
+| 103.51%
+|- style="background-color:#BBF3FF;"
+! 5
+| style="text-align:left;" | [[2026–27 Adelaide 36ers season|Adelaide 36ers]]
+| 8
+| 4
+| 4
+| 50.00%
+| 2–3
+| W2
+| 1–2
+| 3–2
+| 710
+| 726
+| 97.80%
+|- style="background-color:#BBF3FF;"
+! 6
+| style="text-align:left;" | [[2026–27 Cairns Taipans season|Cairns Taipans]]
+| 8
+| 4
+| 4
+| 50.00%
+| 3–2
+| L1
+| 2–0
+| 2–4
+| 724
+| 780
+| 92.82%
+|- style="background-color:#CCCCCC"
+| || || || || || || || || || || || ||
+|-
+! 7
+| style="text-align:left;" | [[2026–27 Melbourne United season|Melbourne United]]
+| 7
+| 3
+| 4
+| 42.86%
+| 2–3
+| L1
+| 0–3
+| 3–1
+| 647
+| 630
+| 102.70%
+|-
+! 8
+| style="text-align:left;" | [[2026–27 Brisbane Bullets season|Brisbane Bullets]]
+| 7
+| 3
+| 4
+| 42.86%
+| 1–4
+| L1
+| 3–1
+| 0–3
+| 659
+| 690
+| 95.51%
+|-
+! 9
+| style="text-align:left;" | [[2026–27 S.E. Melbourne Phoenix season|S.E. Melbourne Phoenix]]
+| 8
+| 3
+| 5
+| 3
+TEMPLATE NBL Ladder Progression 2026–27 1714 
+{{#invoke:Sports rbr table|table
+| title = 2026–27 NBL season
+| sortable = y
+| team1 = ADL | team2 = BNE | team3 = CNS | team4 = ILL | team5 = MEL
+| team6 = NZB | team7 = PER | team8 = SEM | team9 = SYD | team10 = TAS 
+| name_ADL = [[2026–27 Adelaide 36ers season|Adelaide 36ers]]
+| pos_ADL  = 4/3/7/7/6////////////////
+| name_BNE = [[2026–27 Brisbane Bullets season|Brisbane Bullets]]
+| pos_BNE  = 3/2/5/8/5////////////////
+| name_CNS = [[2026–27 Cairns Taipans season|Cairns Taipans]]
+| pos_CNS  = 9/9/8/4/7////////////////
+| name_ILL = [[2026–27 Illawarra Hawks season|Illawarra Hawks]]
+| pos_ILL  = 8/10/10/10/10////////////////
+| name_MEL = [[2026–27 Melbourne United season|Melbourne United]]
+| pos_MEL  = 7/5/9/6/8////////////////
+| name_NZB = [[2026–27 New Zealand Breakers season|New Zealand Breakers]]
+| pos_NZB  = 6/7/4/5/4////////////////
+| name_PER = [[2026–27 Perth Wildcats season|Perth Wildcats]]
+| pos_PER  = 10/4/3/2/3////////////////
+| name_SEM = [[2026–27 S.E. Melbourne Phoenix season|S.E. Melbourne Phoenix]]
+| pos_SEM  = 5/8/6/9/9////////////////
+| name_SYD = [[2026–27 Sydney Kings season|Sydney Kings]]
+| pos_SYD  = 1/1/1/3/2////////////////
+| name_TAS = [[2026–27 Tasmania JackJumpers season|Tasmania JackJumpers]]
+| pos_TAS  = 2/6/2/1/1////////////////
+| color_1 = gold
+| text_1 = Leader and qualification to semifinals 
+| color_2 = green1
+| text_2 = Qualification to semifinals
+| color_3-6 = blue1
+| text_3-6 = Qualification to play-in
+| color_10- = red1
+| text_10- = Last place
+| update = 18 October 2026
+| source = [https://nbl.com.au/ladder NBL.com.au]
+}}<noinclude>
+[[Category:2026–27 NBL season]]
+[[Category:National Basketball League (Australia) standings templates]]
+</noinclude>
+
+NBL results section start:
+== Regular season ==
+The regular season will begin on 19 September 2026.<ref>{{cite web|last1=Uluc|first1=Olgun|title=NBL schedule release: difficulty ratings, analysis, must-watch games|url=https://www.espn.com.au/nbl/story/_/id/48898902/nbl-schedule-release-2026-27-fixture-games-analysis-olgun-uluc|publisher=[[ESPN Australia]]|access-date=30 May 2026|date=29 May 2026}}</ref> It will consist of 165 games (33 games each) spread across 21 rounds, with the final game being played on 14 February 2027.<ref>{{cite web|last1=Shadlow|first1=Jai|url=https://www.foxsports.com.au/basketball/nbl/nbl-fixture-2026-full-details-as-13-games-in-nine-days-begin-202627-nbl-season-best-games-to-watch-details-latest-news/news-story/113d5cfa3a40b4d777eca6c7feb63499|title=Mega 13-game extravaganza to launch season as biggest games of ‘26-27 NBL season revealed|publisher=[[Fox Sports (Australia)|Fox Sports]]|date=29 May 2026|access-date=30 May 2026}}</ref>
+
+=== Round 1 ===
+{{basketballbox collapsible|bg=#eee
+ | date = 19 September 2026
+ | time = 19:30
+ | report = [https://www.nbl.com.au/matches/melbourne-united-v-adelaide-36ers-men-19-09-2026 boxscore]<br>[https://www.nbl.com.au/news/sixers-gleeson-era-starts-impressively report]
+ | teamA = [[2026–27 Melbourne United season|Melbourne United]]
+ | scoreA = 95
+ | scoreB = '''97'''
+ | teamB = '''[[2026–27 Adelaide 36ers season|Adelaide 36ers]]'''
+ | Q1 = 23–'''25'''
+ | Q2 = '''25'''–24
+ | Q3 = 22–'''26'''
+ | Q4 = '''25'''–22
+ | points1 = [[Cole Anthony
+
+PAGE 2026 Constellation Cup 0 
+
+PAGE 2026 Netball Nations Cup 0 
+
+PAGE 2026 Taini Jamison Trophy Series 0 
+
+TSDB Basketball 4734 Argentine LNB [Argentina]; 4434 Australian NBL [Australia]; 5113 Australian WNBL [Australia]; 5351 NBL1 West [Australia]; 5667 NBL1 Central [Australia]
+
+TSDB Netball 4540 Australian Super Netball League [Australia]; 5793 Constellation Cup [International]; 5794 Taini Jamison Trophy [International]; 4538 New Zealand Netball League [New Zealand]; 5791 Celtic Cup [Scotland]
+
+TSDB Golf 4761 PGA Tour of Australasia [Australia]; 4765 PGA Tour Canada [Canada]; 4774 PGA Tour China [China]; 5557 China Tour [China]; 4758 European Challenge Tour [Europe]
+
+TSDB Sailing {"countries":null}
+
+TSDB all_leagues matching: 
