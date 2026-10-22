@@ -1,172 +1,24 @@
-TSDB season 5793 2026: 2026-10-18 06:40:00 New Zealand Netball vs Australia Netball [] - @Spark Arena r1 ; 2026-10-21 06:40:00 New Zealand Netball vs Australia Netball [] - @Športni park Svoboda r2 ; 2026-10-25 05:00:00 Australia Netball vs New Zealand Netball [] - @Afterpay Arena r3 ; 2026-10-28 08:30:00 Australia Netball vs New Zealand Netball [] - @John Cain Arena r4
-TSDB season 5793 2025: 2025-10-17 09:30:00 Australia Netball vs New Zealand Netball [FT] 69-52 @John Cain Arena r1 ; 2025-10-22 09:30:00 Australia Netball vs New Zealand Netball [FT] 68-51 @Qudos Bank Arena r2 ; 2025-10-26 03:10:00 New Zealand Netball vs Australia Netball [FT] 61-52 @Claudelands Arena r3 ; 2025-10-29 06:40:00 New Zealand Netball vs Australia Netball [FT] 62-57 @Wolfbrook Arena r4
-TSDB season 5794 2026: {"events":null}
-TSDB season 5794 2027: {"events":null}
-TSDB season 4538 2026: 2026-04-11 04:00:00 Central Pulse vs Waikato Bay of Plenty Magic [NS] - @TSB Arena r1 ; 2026-04-11 07:00:00 Mainland Tactix vs Southern Steel [NS] - @Wolfbrook Arena r1 ; 2026-04-12 04:00:00 Northern Stars vs Northern Mystics [NS] - @Pulman Arena r1 ; 2026-04-18 04:00:00 Southern Steel vs Northern Stars [NS] - @ILT Stadium Southland r2 ; 2026-04-18 07:00:00 Waikato Bay of Plenty Magic vs Northern Mystics [NS] - @Mercury Baypark Arena r2 ; 2026-04-19 04:00:00 Mainland Tactix vs Central Pulse [NS] - @Wolfbrook Arena r2 ; 2026-04-25 04:00:00 Central Pulse vs Northern Stars [NS] - @TSB Arena r3 ; 2026-04-25 07:00:00 Waikato Bay of Plenty Magic vs Mainland Tactix [NS] - @Claudelands Arena r3 ; 2026-04-26 04:00:00 Northern Mystics vs Southern Steel [NS] - @Eventfinda Stadium r3 ; 2026-05-02 04:00:00 Northern Mystics vs Mainland Tactix [NS] - @The Trusts Arena r4 ; 2026-05-02 07:00:00 Southern Steel vs Central Pulse [NS] - @ILT Stadium Southland r4 ; 2026-05-03 04:00:00 Northern Stars vs Waikato Bay of Plenty Magic [NS] - @Pulman Arena r4 ; 2026-05-09 04:00:00 Waikato Bay of Plenty Magic vs Southern Steel [NS] - @Mercury Baypark Arena r5 ; 2026-05-09 07:00:00 Central Pulse vs Northern Mystics [NS] - @Te Rauparaha Arena r5 ; 2026-05-10 04:00:00 Mainland Tactix vs Northern Stars [NS] - @Wolfbrook Arena r5
-TSDB 5793 next 1: 2026-10-25 05:00:00 Australia Netball vs New Zealand Netball [] - @Afterpay Arena r3
-TSDB 5793 past 1: 2026-10-21 06:40:00 New Zealand Netball vs Australia Netball [] - @Športni park Svoboda r2
-TSDB 5794 next 0: 
-TSDB 5794 past 1: 2025-09-28 06:40:00 New Zealand Netball vs South Africa Netball [FT] 57-56 @ILT Stadium Southland r3
-TSDB 4387 next 1: 2026-10-22 23:00:00 Philadelphia 76ers vs Cleveland Cavaliers [NS] - @Xfinity Mobile Arena r0
-TSDB 4387 past 1: 2026-10-22 02:30:00 Los Angeles Clippers vs Sacramento Kings [FT] 121-96 @Intuit Dome r0
-TSDB 4434 next 1: 2026-10-23 10:30:00 Perth Wildcats vs Melbourne United [NS] - @RAC Arena r6
-TSDB 4434 past 1: 2026-10-22 08:30:00 Illawarra Hawks vs Sydney Kings [FT] 82-108 @WIN Entertainment Centre r6
-NBA table: {"error":"Unexpected end of JSON input"}
-NBA day 2026-10-23: 0 
-league 4425 PGA Tour (Golf) season 2026
-league 4426 European Tour (Golf) season 2025
-league 4427 Can-Am (Baseball) season 2019
-league 4761 PGA Tour of Australasia (Golf) season 2025-2026
-golf leagues United%20States 4763 Korn Ferry Tour; 5851 LPGA Futures Tour
-golf leagues Europe 4758 European Challenge Tour
-golf leagues World 
-4425 next: 
-
-PAGE 2026 SailGP championship 25047 2:Entries / 3:Team changes / 2:Calendar / 2:Season / 3:Round 1: Oracle Perth Sail Grand Prix presented by KPMG / 3:Round 2: ITM New Zealand Sail Grand Prix / 2:Results / 2:Impact League / 3:Standings / 2:Notes / 2:References / 2:External links
-== Calendar ==
-The first look at the Race Calendar for 2026 was announced on April 16, 2025, and features new stops in Perth, Australia and Rio De Janeiro as well as the awaited return to Halifax.<ref name=cal>{{Cite web |title=FIRST LOOK: SailGP reveals first details of 2026 Season calendar |url=https://sailgp.com/news/25/revealed-sailgp-previews-first-details-2026-season-calendar |date=2025-04-16 |access-date=2025-04-22 |website=SailGP}}</ref>
-
-{| class="wikitable"
-!{{Abbr|Rnd|Round|align=center}}
-!Host
-!Title
-!Dates
-!Winning team
-|-
-!1
-|{{Flagicon|AUS}} [[Perth]], Australia
-|[[Oracle Corporation|Oracle]] Perth Sail Grand Prix presented by [[KPMG]]
-|17–18 January 2026
-|{{Flagicon|GBR}} [[Great Britain SailGP Team|Emirates GBR]]
-|-
-!2
-|{{Flagicon|NZL}} [[Auckland]], New Zealand
-|[[Independent Timber Merchants|ITM]] [[New Zealand Sail Grand Prix]]
-|14–15 February 2026
-|{{Flag icon|AUS}} [[Australia SailGP Team|Bonds Flying Roos]]
-|-
-!3
-|{{Flagicon|AUS}} [[Sydney]], Australia
-|[[KPMG]] [[Sydney Sail Grand Prix]]
-|28 February – 1 March 2026
-|{{Flag icon|USA}} [[United States SailGP Team|US SailGP Team]]
-|-
-!4
-|{{Flagicon|BRA}} [[Rio de Janeiro]], Brazil
-|[[Enel]] Rio Sail Grand Prix
-|11–12 April 2026
-|{{Flag icon|AUS}} [[Australia SailGP Team|Bonds Flying Roos]]
-|-
-!5
-|{{Flagicon|BMU}} [[Bermuda]]
-|Apex Group Bermuda Sail Grand Prix
-|10–11 May 2026
-|{{Flag icon|AUS}} [[Australia SailGP Team|Bonds Flying Roos]]
-|-
-!6
-|{{Flagicon|USA}} [[New York City]], United States
-|[[Mubadala Investment Company|Mubadala]] New York Sail Grand Prix
-|31 May – 1 June 2026
-|{{Flag icon|AUS}} [[Australia SailGP Team|Bonds Flying Roos]]
-|-
-!7
-|{{Flagicon|CAN}} [[Halifax, Nova Scotia|Halifax]], Canada
-| Canada Sail Grand Prix{{!}} Canada Sail Grand Prix
-|21–22 June 2026
-|{{Flag icon|ESP}} [[Spain SailGP Team|Los Gallos]]
-|-
-!8
-|{{Flagicon|Great Britain}} [[Portsmouth]], Great Britain
-|[[Emirates (airline)|Emirates]] Great Britain Sail Grand Prix
-|26–27 July 2026
-|{{Flag icon|ESP}} [[Spain SailGP Team|Los Gallos]]
-|-
-!9
-|{{Flagicon|Germany}} [[Sassnitz]], Germany
-|Germany Sail Grand Prix
-|23–24 August 2026
-|{{Flag icon|AUS}} [[Australia SailGP Team|Bonds Flying Roos]]
-|-
-!10
-|{{Flagicon|Spain}} [[Valencia]], Spain
-|Spain Sail Grand Prix
-|5-6 September 2026
-|{{Flagicon|United States}} [[United States SailGP Team|US SailGP Team]]
-|-
-!11
-|{{Flagicon|Switzerland}} [[Geneva]], Switzerland
-|[[Rolex]] Switzerland Sail Grand Prix
-|19–20 September 2026
-|{{Flag icon|ESP}} [[Spain SailGP Team|Los Gallos]]
-|-
-!12
-|{{Flagicon|UAE}} [[Dubai]], United Arab Emirates
-|[[Emirates (airline)|Emirates]] Dubai Sail Grand Prix presented by [[DP World]]
-|21–22 November 2026
-|{{Flagicon image|Flag of none.svg}} TBD
-|-
-!13
-|{{Flagicon|UAE}} [[Abu Dhabi]], United Arab Emirates
-|[[Mubadala Investment Company|Mubadala]] Abu Dhabi Sail Grand Prix 2026 Season Grand Final, presented by Abu Dhabi Sport Council
-|28–29 November 2026
-|{{Flagicon image|Flag of none.svg}} TBD
-|-
-! colspan="5" |Citations:<ref 
-
-PAGE 2027 SailGP championship 0 
-
-
-PAGE 2026 PGA Tour 12836 2:Changes for 2026 / 2:Schedule / 3:Unofficial events / 2:See also / 2:Notes / 2:References / 2:External links
-==Schedule==
-The following table lists official events during the 2026 season.<ref>{{cite web |url=https://www.pgatour.com/schedule/2026 |title=2026 Tournament schedule |publisher=PGA Tour |access-date=20 August 2024}}</ref><ref name=annouce2026>{{cite web |title=2026 PGA Tour schedule celebrates 20th year of FedExCup  |url=https://www.pgatour.com/article/news/latest/2025/08/19/2026-pga-tour-schedule-events-tournaments-players-championship-20th-year-fedexcup-championship-dates-venues-signature-majors |publisher=PGA Tour |date=August 19, 2024 |access-date=August 20, 2024}}</ref>
-
-{| class="wikitable" style="font-size:95%" 
-!Date
-!Tournament
-!Location
-!Purse<br>([[United States dollar|US$]])
-!Winner(s){{efn|The number in parentheses after each winner's name is the number of PGA Tour events they had won up to and including that tournament. This information is only shown for PGA Tour members.}}
-![[Official World Golf Ranking|OWGR]]<br>points
-!Other<br>tours{{efn|EUR − [[European Tour]]; JPN − [[Japan Golf Tour]].}}
-!Notes
-|-style="background:#D6E8FF;"
-|<s>Jan 11</s>
-|[[The Sentry (Hawaii)|The Sentry]]
-|Hawaii
-|align=center|–
-|''Canceled''{{efn|In September 2025, the PGA Tour announced that The Sentry would not take place at its usual venue, the [[Kapalua Resort]] in [[Hawaii]], due to a drought and a water dispute with the [[Maui Land & Pineapple Company]] that left the golf course in poor condition.<ref>{{cite web |url=https://www.pgatour.com/article/news/latest/2025/09/16/pga-tour-announces-the-sentry-will-not-be-contested-at-kapalua-in-2026 |title=PGA Tour announces The Sentry will not be contested at Kapalua in 2026 |publisher=PGA Tour |date=16 September 2025 |access-date=17 September 2025}}</ref> In October 2025, the PGA Tour announced that the event would be canceled, with players who were tournament winners in 2025 and did not finish inside the Top 50 of the FedEx Cup, eligible to play in the [[RBC Heritage]] instead.<ref name=sentry2>{{cite magazine |url=https://www.si.com/golf/pga-tour-makes-tough-decision-2026-season-opener |title=PGA Tour Makes Tough Decision About 2026 Season Opener |magazine=Sports Illustrated |first=Bob |last=Harig |date=22 October 202
-
-PAGE 2026–27 PGA Tour of Australasia 7182 2:Schedule / 3:Unofficial events / 2:Order of Merit / 2:Awards / 2:Notes / 2:References / 2:External links
-==Schedule==
-The following table lists official events during the 2026–27 season.<ref>{{cite web |url=https://golf.com.au/pga-tour-aus |title=2026/27 Tournament schedule |publisher=PGA Tour of Australasia |access-date=24 July 2026}}</ref><ref>{{cite web |url=https://golf.com.au/news/challenger-pga-tour-of-australasia-unveils-schedule |title=Challenger PGA Tour of Australasia unveils schedule |website=golf.com.au |first=Paul |last=Munnings |date=3 August 2026 |access-date=13 August 2026}}</ref>
-
-{| class="wikitable" style="font-size:95%"
-!Date
-!Tournament
-!Location
-!Purse<br>([[Australian dollar|A$]])
-!Winner{{efn|name=totals|The number in brackets after each winner's name is the number of PGA Tour of Australasia events they had won up to and including that tournament. This information is only shown for PGA Tour of Australasia members.}}
-![[Official World Golf Ranking|OWGR]]<br>points
-!Other<br>tours{{efn|name=tours|ASA − [[Asian Tour]]; EUR − [[European Tour]]; JPN − [[Japan Golf Tour]]; WANZ − [[WPGA Tour of Australasia]].}}
-!Notes
-|-
-| 30 Aug || [[PNG Open]] || Papua New Guinea || align=right|225,000 || {{flagicon|AUS}} [[Josh Armstrong]] (1) || align=center|1.82 ||  || 
-|-
-| 11 Oct || [[CKB WA PGA Championship]] || Western Australia || align=right|250,000 || {{flagicon|AUS}} [[Justin Warren (golfer)|Justin Warren]] (1) || align=center|3.04 ||  || 
-|-
-| 18 Oct || [[WA Open]] || Western Australia || align=right|200,000 || {{flagicon|AUS}} [[James Marchesani]] (1) || align=center|3.09 ||  || 
-|-
-| 25 Oct || [[Players Series SA]] || South Australia || align=right|200,000 || {{flagicon|}}  || align=center| || [[2026 WPGA Tour of Australasia|WANZ]] || Mixed event
-|-
-| 15 Nov || [[Ford NSW Open]] || New South Wales || align=right|800,000 || {{flagicon|}}  || align=center| ||  || 
-|-
-| 22 Nov || [[Queensland PGA Championship]] || Queensland || align=right|250,000 || {{flagicon|}}  || align=center| ||  || 
-|-
-| 29 Nov || [[BMW Australian PGA Championship]] || New South Wales || align=right|2,500,000 || {{flagicon|}}  || align=center| || [[2027 European Tour|EUR]] || 
-|-
-| 6 Dec || [[Capital.com Australian Open]] || Victoria || align=right|2,000,000 || {{flagicon|}}  |
-
-PAGE 2026 LPGA Tour 8568 2:Schedule and results / 3:Unofficial events / 2:See also / 2:Notes / 2:References
-
-
-ATP doubles at -1
+generated 2026-10-22T16:21:22.558Z version 377 events 581
+homeSides: home side put first: New South Wales v Tasmania (Sydney); Western Australia v Queensland (Perth); Western Australia v New South Wales (Perth); Victoria v South Australia (Melbourne); New South Wales v Tasmania (Sydney); Western Australia v Queensland (Perth)
+form: 99 sides with a form guide
+cricket|New Zealand ["2026-03-15 L v South Africa T20I","2026-03-17 W v South Africa T20I","2026-03-20 W v South Africa T20I","2026-03-22 L v South Africa T20I","2026-03-25 L v South Africa T20I","2026-10-22 L v India T20I"]
+cricket|India ["2026-10-03 L v West Indies ODI","2026-10-06 W v West Indies T20I","2026-10-09 L v West Indies T20I","2026-10-11 W v West Indies T20I","2026-10-14 L v West Indies T20I","2026-10-22 W v New Zealand T20I"]
+cricket|New Zealand Women ["2026-03-29 L v South Africa Women ODI","2026-03-31 W v South Africa Women ODI","2026-04-03 W v South Africa Women ODI","2026-10-15 L v Governor-General's XI ","2026-10-18 L v Australia Women T20I","2026-10-20 L v Australia Women T20I"]
+cricket|Australia Women ["2026-10-18 W v New Zealand Women T20I","2026-10-20 W v New Zealand Women T20I"]
+wikipedia pages: Australian cricket team in New Zealand in 2025–26: 3; Zimbabwe women's cricket team in New Zealand in 2025–26: 6; English cricket team in New Zealand in 2025–26: 6; South Africa women's cricket team in New Zealand in 2025–26: 8; South African cricket team in New Zealand in 2025–26: 5; West Indian cricket team in New Zealand in 2025–26: 12; New Zealand cricket team in India in 2025–26: 8; Indian cricket team in Australia in 2025–26: 8; Australian cricket team in Pakistan in 2025–26: 3
+formOnly in feed: 0
+2026-10-07 Victoria v South Australia | Melbourne final
+2026-10-08 New South Wales v Tasmania | Sydney final
+2026-10-08 Western Australia v Queensland | Perth final
+2026-10-19 Tasmania v Victoria | Hobart upcoming
+2026-10-19 South Australia v Queensland | Adelaide final
+2026-10-19 Western Australia v New South Wales | Perth upcoming
+2026-10-28 South Australia v Western Australia | Adelaide upcoming
+2026-10-30 Tasmania v New South Wales | Hobart upcoming
+2026-10-31 Queensland v Victoria | Brisbane upcoming
+2026-11-11 New South Wales v South Australia | Sydney upcoming
+2026-11-11 Victoria v Western Australia | Melbourne upcoming
+2026-11-11 Queensland v Tasmania | Brisbane upcoming
+2026-11-22 New South Wales v Queensland | Sydney upcoming
+2026-11-23 Western Australia v Tasmania | Perth upcoming
+2026-11-24 South Australia v Victoria | Adelaide upcoming
