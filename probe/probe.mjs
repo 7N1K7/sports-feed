@@ -1,4 +1,4 @@
-// probe 108: the live feed after v384: NBL ladder, doubles ranks, golf and sailing
+// probe 109: the live feed after v385: NBL ladder, doubles ranks, golf and sailing
 import { writeFileSync } from 'node:fs';
 const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
 writeFileSync('probe/out-feed.json', JSON.stringify(f));
