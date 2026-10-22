@@ -413,7 +413,8 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
   const tables = [];
   try {
     const tplNames = new Map();
-    for (const src of tableSrc) for (const m of src.text.matchAll(/\{\{\s*([^{}|#\n]{4,90}?(?:table|standings|ladder))\s*\}\}/gi))
+    // the name can end in its season ("NBL Ladder 2026–27")
+    for (const src of tableSrc) for (const m of src.text.matchAll(/\{\{\s*([^{}|#\n]{4,90}?(?:table|standings|ladder)(?:\s+\d{4}(?:[–-]\d{2,4})?)?)\s*\}\}/gi))
       if (!/^(wide table|table alignment)/i.test(m[1])) tplNames.set('Template:' + m[1].trim(), src);
     const tplTexts = {};
     const tn = [...tplNames.keys()].slice(0, 40);
@@ -425,7 +426,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     for (const src of tableSrc) {
       let text = src.text;
       // inline the transcluded table templates where they sit, so headings still apply
-      text = text.replace(/\{\{\s*([^{}|#\n]{4,90}?(?:table|standings|ladder))\s*\}\}/gi, (m, n) => tplTexts['Template:' + n.trim()] || m);
+      text = text.replace(/\{\{\s*([^{}|#\n]{4,90}?(?:table|standings|ladder)(?:\s+\d{4}(?:[–-]\d{2,4})?)?)\s*\}\}/gi, (m, n) => tplTexts['Template:' + n.trim()] || m);
       const st = sportsTables(text, src.title, src.c);
       tables.push(...(st.length || src.c.sport !== 'basketball' ? st : wikiLadder(text, src.title, src.c)));
     }
