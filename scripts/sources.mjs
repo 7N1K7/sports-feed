@@ -153,7 +153,7 @@ export function classify(kind, home, away) {
     case 'nrl': return { team: /Warriors/.test(names) ? 'warriors' : 'nrl', tags: ['nrl'] };
     case 'hockey': return nz ? { team: women ? 'blacksticksw' : 'blacksticks', tags: [] } : null;
     case 'basketball': return nz ? { team: women ? 'tallferns' : 'tallblacks', tags: [] } : null;
-    case 'nbl': return /Breakers/.test(names) ? { team: 'breakers', tags: [] } : null;
+    case 'nbl': return { team: /Breakers/.test(names) ? 'breakers' : 'nbl', tags: ['nbl'] };
     case 'netball': return nz ? { team: 'silverferns', tags: [] } : null;
     case 'epl': return { team: 'epl', tags: ['epl'] };
     case 'aleague': return { team: /Wellington Phoenix/.test(names) ? 'phoenix' : /Auckland FC/.test(names) ? 'aucklandfc' : 'aleague', tags: ['aleague'] };
@@ -426,7 +426,8 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
       let text = src.text;
       // inline the transcluded table templates where they sit, so headings still apply
       text = text.replace(/\{\{\s*([^{}|#\n]{4,90}?(?:table|standings|ladder))\s*\}\}/gi, (m, n) => tplTexts['Template:' + n.trim()] || m);
-      tables.push(...sportsTables(text, src.title, src.c));
+      const st = sportsTables(text, src.title, src.c);
+      tables.push(...(st.length || src.c.sport !== 'basketball' ? st : wikiLadder(text, src.title, src.c)));
     }
   } catch (e) { diag.tables = 'error: ' + e.message; }
   if (!diag.tables) diag.tables = tables.map(t => `${t.page} / ${t.title}: ${t.rows.length}`);
@@ -527,6 +528,31 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
       diag.ufcCards = ufcSoon.map(e => `${e.comp}: ${(e.card || []).length} bouts${e.about ? ', intro' : ''}`);
     }
   } catch (e) { diag.ufcCards = 'error: ' + e.message; }
+  return out;
+}
+
+// a ladder set out as a plain wikitable (the NBL's "NBL Ladder 2026–27" template): a header row naming Team, Played, W,
+// L, Points for and against; then a row a team, its position first. Rows without a team (spacers) are skipped
+function wikiLadder(text, page, c) {
+  const out = [];
+  for (const m of text.matchAll(/\{\|[^\n]*wikitable[\s\S]*?\n\|\}/g)) {
+    const rows = m[0].split(/\n\|-[^\n]*/).slice(1).map(r => r.split('\n').filter(l => /^[|!]/.test(l)).flatMap(l => l.slice(1).split(/\|\||!!/))
+      .map(x => ({ link: /\[\[/.test(x), v: clean(x.replace(/^\s*(?:[a-z-]+\s*=\s*(?:"[^"]*"|[^\s|]+)\s*)+\|(?!\|)/i, '')).trim() })));
+    const hi = rows.findIndex(r => r.some(x => /^team$/i.test(x.v)));
+    if (hi < 0) continue;
+    const head = rows[hi].map(x => x.v), at = re => head.findIndex(h => re.test(h));
+    const iT = at(/^team$/i), iP = at(/^(pld|played|gp)$/i), iW = at(/^(w|won|games won|wins)$/i), iL = at(/^(l|lost|games lost|losses)$/i);
+    const iF = at(/^(pf|points for)$/i), iA = at(/^(pa|points against)$/i), iPct = at(/^(pct|win%|winning percentage)$/i);
+    if (iP < 0 || iW < 0 || iL < 0) continue;
+    const list = [];
+    for (const r of rows.slice(hi + 1)) {
+      const dT = r.findIndex(x => x.link);
+      if (dT < 0) continue;
+      const off = dT - iT, n = i => i < 0 ? 0 : parseFloat(String(r[i + off]?.v || '').replace(/[^\d.]/g, '')) || 0;
+      list.push({ name: r[dT].v, p: n(iP), w: n(iW), d: 0, l: n(iL), f: n(iF), a: n(iA), bp: 0, nr: 0, nrr: '', pct: iPct < 0 ? '' : String(r[iPct + off]?.v || '').replace(/%$/, ''), pts: n(iW), q: '', champ: false });
+    }
+    if (list.length >= 4) out.push({ comp: c.comp, sport: c.sport, team: c.team || '', page, title: '', style: 'wl', rows: list });
+  }
   return out;
 }
 
