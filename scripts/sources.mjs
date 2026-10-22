@@ -304,10 +304,17 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
   // last season's NZ and Australian tours too, only for the form guide (a T20I series early in the summer otherwise shows
   // "no other T20I results"); their games stay out of the feed itself
   const prev = `${s0 - 1}–${String(s0).slice(2)}`;
+  // a lagged or busy Wikipedia answers "maxlag" (with a 200) or a 429/5xx: wait and ask again, so a page's games don't
+  // drop out of the feed for a run (F1's races went missing now and then)
   const api = async q => {
-    const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&' + q, { headers: UA });
-    if (!r.ok) throw new Error(`wikipedia ${r.status}`);
-    return r.json();
+    for (let i = 0; ; i++) {
+      const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&' + q, { headers: UA }).catch(e => ({ ok: false, status: e.message }));
+      const j = r.ok ? await r.json().catch(() => null) : null;
+      if (j && !/maxlag|ratelimit|readonly/i.test(j.error?.code || '')) return j;
+      if (i >= 3) { if (j) return j; throw new Error(`wikipedia ${r.status}`); }
+      diag.wikiRetries = (diag.wikiRetries || 0) + 1;
+      await new Promise(res => setTimeout(res, 2000 * 2 ** i));
+    }
   };
   // expand {Y} and {S} into concrete titles
   const want = new Map();

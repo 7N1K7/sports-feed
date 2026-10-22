@@ -1554,6 +1554,27 @@ let rankings = [];
 try { rankings = await getRankings(rankCache, diag); } catch (e) { diag.rankings = 'error: ' + e.message; }
 try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(rankUrl, JSON.stringify(rankCache)); } catch {}
 
+// motorsport has no world rankings, so its Rankings are the championship standings: this season's once a race has been
+// run, else last season's final table (each series' last full table is kept in .cache/motor-standings.json)
+try {
+  const motorUrl = new URL('.cache/motor-standings.json', ROOT);
+  let motorCache = {};
+  try { motorCache = JSON.parse(await readFile(motorUrl, 'utf8')); } catch {}
+  const lastRace = comp => events.filter(e => (e.comp || '').startsWith(comp) && e.status === 'final').map(e => e.startUTC.slice(0, 10)).sort().pop() || '';
+  const out = [], Y = new Date(now).getUTCFullYear();
+  for (const [comp, from, title, head, org] of [['Formula 1', "Drivers' championship", 'F1 drivers', 'Driver', 'FIA'], ['Formula 1', "Constructors' championship", 'F1 teams', 'Team', 'FIA'], ['Supercars', "Drivers' championship", 'Supercars drivers', 'Driver', 'Supercars'], ['Supercars', "Teams' championship", 'Supercars teams', 'Team', 'Supercars']]) {
+    const t = tables.find(x => x.comp === comp && x.title === from), asOf = lastRace(comp);
+    // standings with points before this year's first race are last season's, still on Wikipedia's template
+    const season = asOf.startsWith(String(Y)) ? Y : Y - 1;
+    if (t && t.rows.some(r => r.pts > 0)) motorCache[title] = { season, page: t.page.replace(/^\d{4}/, season), asOf: asOf || motorCache[title]?.asOf || '', rows: t.rows.slice(0, 20).map((r, i) => ({ rank: String(i + 1), name: r.name, val: String(r.pts), ...(r.nz ? { nz: true } : {}) })) };
+    const c = motorCache[title];
+    if (c) out.push({ sport: 'motor', kind: 'players', head, org, title: c.season < Y ? `${title} ${c.season}` : title, page: c.page, asOf: c.asOf, valLabel: 'Points', rows: c.rows });
+  }
+  rankings.push(...out);
+  diag.motorRankings = out.map(l => `${l.title} ${l.page}: ${l.rows.length} (top ${l.rows[0]?.name})`).join('; ') || 'none';
+  await writeFile(motorUrl, JSON.stringify(motorCache));
+} catch (e) { diag.motorRankings = 'error: ' + e.message; }
+
 // a season's finals stay up through the off-season (about five months), so a finished competition still shows how it ended
 const isFinal = e => /\bfinals?\b|semi.?final|grand final|qualifying final|elimination final|preliminary final/i.test(`${e.comp || ''} ${e.stage || ''} ${e.round || ''}`);
 try { await writeCalendars(events); } catch (e) { diag.calendars = 'error: ' + e.message; }

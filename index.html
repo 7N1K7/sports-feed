@@ -2202,8 +2202,8 @@ function rankingsHtml(lists) {
   }).join('');
   const lim = fighters && UFC_LIMIT[(l.title.match(/(strawweight|flyweight|bantamweight|featherweight|lightweight|welterweight|middleweight|light heavyweight|heavyweight)\s*$/i) || [])[1]?.toLowerCase()];
   const asOf = l.asOf ? `<span class="muted small">as of ${fmt(new Date((l.asOf.length === 7 ? l.asOf + '-15' : l.asOf) + 'T12:00:00Z'), 'UTC', l.asOf.length === 7 ? { month: 'short', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : '';
-  return `${chips}<div class="stable rank sport-${l.sport}"><h3 class="dh">${esc(l.title)}${fighters ? `<span class="wlim wl2">${lim ? wrange(lim) : 'All divisions'}${asOf ? ` · ${asOf}` : ''}</span>` : asOf ? ` ${asOf}` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : l.rows[0]?.pair ? 'Pair' : people ? 'Player' : 'Team'}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
-    <p class="muted small rsrc">Rankings from <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(l.page.replace(/ /g, '_'))}" target="_blank" rel="noopener">Wikipedia</a> (CC BY-SA), which follows the official ${{ mma: 'UFC', rugby: 'World Rugby', cricket: 'ICC', league: 'IRL', football: 'FIFA', hockey: 'FIH', basketball: 'FIBA', netball: 'World Netball', tennis: /women/i.test(l.title) ? 'WTA' : 'ATP' }[l.sport] || ''} list.</p>`;
+  return `${chips}<div class="stable rank sport-${l.sport}"><h3 class="dh">${esc(l.title)}${fighters ? `<span class="wlim wl2">${lim ? wrange(lim) : 'All divisions'}${asOf ? ` · ${asOf}` : ''}</span>` : asOf ? ` ${asOf}` : ''}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${fighters ? 'Fighter' : l.head || (l.rows[0]?.pair ? 'Pair' : people ? 'Player' : 'Team')}</th><th>${fighters ? 'Record' : esc(l.valLabel || 'Points')}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+    <p class="muted small rsrc">${l.sport === 'motor' ? 'Standings' : 'Rankings'} from <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(l.page.replace(/ /g, '_'))}" target="_blank" rel="noopener">Wikipedia</a> (CC BY-SA), which follows the official ${l.org || { mma: 'UFC', rugby: 'World Rugby', cricket: 'ICC', league: 'IRL', football: 'FIFA', hockey: 'FIH', basketball: 'FIBA', netball: 'World Netball', tennis: /women/i.test(l.title) ? 'WTA' : 'ATP' }[l.sport] || ''} ${l.sport === 'motor' ? 'standings' : 'list'}.</p>`;
 }
 // Shows tab: the wider conversation around each sport (panel shows, YouTube breakdowns, podcasts), best known first.
 // t: tv / yt / pod. c: only for competitions matching it. url: a checked page; otherwise a YouTube search for q (or the name).
@@ -2558,13 +2558,13 @@ const RANK_SPORTS = SPORT_CHIPS.map(([k]) => k);
 const followedSport = sp => (SPORT[sp] || []).some(k => picked.has(k));
 const shownSports = () => { const f = SPORT_CHIPS.filter(([k]) => followedSport(k)); return f.length ? f : SPORT_CHIPS; };
 const rankSports = () => { const have = RANK_SPORTS.filter(k => (FEED.rankings || []).some(r => r.sport === k)), f = have.filter(followedSport); return f.length ? f : have; };
-const RANK_TAB = { mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', tennis: 'Tennis' };
+const RANK_TAB = { mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', motor: 'Motorsport', tennis: 'Tennis' };
 function openRankings(sport) {
   const lists = (FEED.rankings || []).filter(r => r.sport === sport);
   if (!lists.length) return;
   const sports = rankSports();
   const tabs = sports.length > 1 ? `<div class="chips ranksports">${sports.map(k => `<button type="button" class="chip sportchip sport-${k}" data-rankings="${k}" aria-pressed="${k === sport}">${sIcon(k, 'cicon')}${RANK_TAB[k]}</button>`).join(' ')}</div>` : '';
-  $('sheetBody').innerHTML = `${tabs}<div class="sheet-head rhead sport-${sport}"><div class="comp">${sIcon(sport)}<span>World rankings</span></div><h2 class="dteams">${esc({ ...RANK_TAB, league: 'Rugby league' }[sport] || sport)} rankings</h2></div><div class="rankbody">${rankingsHtml(lists)}</div>`;
+  $('sheetBody').innerHTML = `${tabs}<div class="sheet-head rhead sport-${sport}"><div class="comp">${sIcon(sport)}<span>${sport === 'motor' ? 'Championship standings' : 'World rankings'}</span></div><h2 class="dteams">${esc({ ...RANK_TAB, league: 'Rugby league' }[sport] || sport)} ${sport === 'motor' ? 'standings' : 'rankings'}</h2></div><div class="rankbody">${rankingsHtml(lists)}</div>`;
   const dlg = $('sheet');
   dlg.dataset.id = ''; dlg.dataset.rankings = sport;
   if (!dlg.open) dlg.showModal();
