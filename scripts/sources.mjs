@@ -427,8 +427,8 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
       let text = src.text;
       // inline the transcluded table templates where they sit, so headings still apply
       text = text.replace(/\{\{\s*([^{}|#\n]{4,90}?(?:table|standings|ladder)(?:\s+\d{4}(?:[–-]\d{2,4})?)?)\s*\}\}/gi, (m, n) => tplTexts['Template:' + n.trim()] || m);
-      const st = sportsTables(text, src.title, src.c);
-      tables.push(...(st.length || src.c.sport !== 'basketball' ? st : wikiLadder(text, src.title, src.c)));
+      // a basketball league's ladder can be a plain wikitable (the NBL's), ahead of its cup tables (Blitz, Ignite Cup)
+      tables.push(...(src.c.classify === 'nbl' ? wikiLadder(text, src.title, src.c) : []), ...sportsTables(text, src.title, src.c));
     }
   } catch (e) { diag.tables = 'error: ' + e.message; }
   if (!diag.tables) diag.tables = tables.map(t => `${t.page} / ${t.title}: ${t.rows.length}`);
@@ -576,7 +576,7 @@ function wikiLadder(text, page, c) {
       const off = dT - iT, n = i => i < 0 ? 0 : parseFloat(String(r[i + off]?.v || '').replace(/[^\d.]/g, '')) || 0;
       list.push({ name: r[dT].v, p: n(iP), w: n(iW), d: 0, l: n(iL), f: n(iF), a: n(iA), bp: 0, nr: 0, nrr: '', pct: iPct < 0 ? '' : String(r[iPct + off]?.v || '').replace(/%$/, ''), pts: n(iW), q: '', champ: false });
     }
-    if (list.length >= 4) out.push({ comp: c.comp, sport: c.sport, team: c.team || '', page, title: '', style: 'wl', rows: list });
+    if (list.length >= 4) out.push({ comp: c.comp, sport: c.sport, team: c.team || '', page, title: 'Ladder', style: 'wl', rows: list });
   }
   return out;
 }
