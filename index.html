@@ -359,8 +359,9 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .fta { display: inline-block; font: 800 10px/1 var(--f-body); letter-spacing: .06em; color: #fff; background: #2b8a3e; border-radius: 4px; padding: 3px 5px 2px; vertical-align: 1px }
 .fta.fpre { background: transparent; color: #37b24d; box-shadow: inset 0 0 0 1.5px #37b24d } /* only part of it is free: outlined */
 .ev .ctags .ftac { display: none; margin-left: 4px }
-#freeOnly .fta { vertical-align: 0; letter-spacing: .03em; padding-inline: 4px }
-#freeOnly { padding-inline: 4px } /* "FREE TV" in the space "FREE" had: the badge nearly fills the button */
+#freeOnly .fta { vertical-align: 0; letter-spacing: .03em; padding-inline: 5px }
+#freeOnly { padding-inline: 6px } /* "freeTV", a small lowercase free on the TV, in about the space "FREE" had */
+#freeOnly .ffree { font-size: 9px; font-weight: 700; letter-spacing: 0; margin-right: 1px }
 .ev .tvl a { color: inherit }
 .tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 1px 6px; background: var(--soft); color: var(--ink); justify-self: end }
 .tag.live { background: var(--live); color: #fff }
@@ -1381,7 +1382,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
 <main class="wrap">
   <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
-  <div class="compbar" id="compBar"><div class="crow"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false" title="NZ only: just New Zealand's teams" aria-label="NZ only"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9"><span>NZ</span></button><button type="button" id="freeOnly" class="nzonly freeonly" aria-pressed="false" aria-label="Free to watch" title="Free to watch: only games you can watch for free (TVNZ, Three, Sky Open, DUKE, Whakaata Māori, or a free stream like TVNZ+ or YouTube)"><span class="fta" aria-hidden="true">FREE TV</span></button><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
+  <div class="compbar" id="compBar"><div class="crow"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false" title="NZ only: just New Zealand's teams" aria-label="NZ only"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9"><span>NZ</span></button><button type="button" id="freeOnly" class="nzonly freeonly" aria-pressed="false" aria-label="Free to watch" title="Free to watch: only games you can watch for free (TVNZ, Three, Sky Open, DUKE, Whakaata Māori, or a free stream like TVNZ+ or YouTube)"><span class="fta" aria-hidden="true"><span class="ffree">free</span>TV</span></button><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
   <section id="hubSec" hidden>
     <div class="hub">
       <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
