@@ -640,6 +640,16 @@ for (const t of tsdbFill) {
   if (did.length) filled.push(`${hit.home} v ${hit.away} (${hit.id}): ${did.join(', ')}`);
 }
 if (tsdbFill.length) diag.tsdbFilled = filled;
+// Women's events with no Kiwi in them are left out for now (the owner's call, 23 Oct 2026): the women's World Cup's
+// other games, world title fights, the WTA Finals and Slam finals, and LPGA events other than the five majors, which
+// Lydia Ko plays every year. The WBBL stays (White Ferns play in it), as does the ASB Classic in Auckland
+{
+  const LPGA_MAJOR = /Chevron Championship|U\.?S\.? Women.s Open|Women.s PGA Championship|Evian Championship|AIG Women.s Open|Women.s (British )?Open Championship/i;
+  const noKiwi = e => e.team === 'lpga' ? !LPGA_MAJOR.test(e.home) : /women/i.test([e.comp, e.home, e.away].join(' ')) && (e.team === 'rlwc' || e.team === 'boxing' || (e.sport === 'tennis' && !e.nzEvent));
+  const dropped = events.filter(noKiwi);
+  for (let i = events.length; i--;) if (noKiwi(events[i])) events.splice(i, 1);
+  diag.womenNoKiwi = `${dropped.length} left out: ${dropped.map(e => e.away ? `${e.home} v ${e.away}` : `${e.comp} ${e.home}`).slice(0, 12).join('; ')}`;
+}
 // Wikipedia's Sheffield Shield table lists some games away side first (New South Wales v Western Australia at the
 // WACA): a state or NZ domestic side playing at its own ground goes on the left. Only when the ground is plainly one
 // side's and not the other's; the card's id stays as it was, so a revealed result stays revealed
