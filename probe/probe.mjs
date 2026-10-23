@@ -1,8 +1,5 @@
-// probe 113: TheSportsDB's F1 and Supercars sessions for coming weekends (free key)
-const get = async p => (await (await fetch('https://www.thesportsdb.com/api/v1/json/123/' + p)).json());
-for (const [id, r] of [[4370, 18], [4370, 19], [4370, 20], [4489, 12], [4489, 13], [4489, 14]]) {
-  const d = await get(`eventsround.php?id=${id}&r=${r}&s=2026`);
-  console.log(`\n${id} round ${r}: ${(d.events || []).length} events`);
-  for (const e of d.events || []) console.log('  ', e.strEvent, '|', e.strTimestamp, '|', e.dateEvent, e.strTime, '| status', e.strStatus, '| result', (e.strResult || '').slice(0, 60).replace(/\s+/g, ' '), '| venue', e.strVenue);
-  await new Promise(r => setTimeout(r, 2500));
-}
+// probe 114: v390 live: motor sessions in the feed
+const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
+console.log('generated', f.generatedAt);
+console.log('f1Times:', f.diag.f1Times, '\nsupercarsTimes:', f.diag.supercarsTimes);
+for (const e of f.events.filter(e => e.session)) console.log(e.id, '|', e.comp, '|', e.startUTC, e.minor ? 'minor' : 'MAIN', '|', e.broadcast || '', (e.tv || []).map(x => x.ch).join(','));
