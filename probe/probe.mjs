@@ -1,10 +1,9 @@
-// probe 138: where Samoa v Wales (women's league World Cup) got its kick-off time
+// probe 139: Samoa v Wales (women) in Wikipedia's match boxes and on TheSportsDB
 const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
-const f = await (await fetch('https://kickoff.kiwi/data/feed.json?t=' + Date.now())).json();
-for (const e of (f.events || []).filter(e => /Samoa/.test(`${e.home} ${e.away}`) && /Wales/.test(`${e.home} ${e.away}`))) {
-  const { squads, card, ...rest } = e; console.log(JSON.stringify(rest).slice(0, 1500)); }
-const j = await (await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent("2026 Women's Rugby League World Cup"), { headers: UA })).json();
-const c = j.query?.pages?.[0]?.revisions?.[0]?.slots?.main?.content || '';
-const i = c.search(/Samoa[^\n]*\n?[^\n]*Wales|Wales[^\n]*\n?[^\n]*Samoa/);
-let k = c.indexOf('{{', Math.max(0, c.lastIndexOf('{{Rugby league', i) >= 0 ? c.lastIndexOf('{{Rugby league', i) : i - 600));
-console.log('\nwiki around the match:\n' + c.slice(Math.max(0, i - 700), i + 900));
+const j = await (await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent("2026 Women's Rugby League World Cup|2026 Women's Rugby League World Cup Group A"), { headers: UA })).json();
+for (const p of j.query?.pages || []) { const c = p.revisions?.[0]?.slots?.main?.content || '';
+  console.log(`##### ${p.title}${p.missing ? ' MISSING' : ''} ${c.length}`);
+  for (const m of c.matchAll(/\{\{\s*(?:Rugby ?league ?box|RLbox|rugbyleaguebox)[\s\S]*?\n\}\}/gi)) if (/Samoa/.test(m[0]) && /Wales/.test(m[0])) console.log(m[0].slice(0, 900)); }
+const r = await fetch('https://www.thesportsdb.com/api/v1/json/123/searchevents.php?e=' + encodeURIComponent('Samoa vs Wales') + '&s=2026');
+const t = await r.json().catch(() => ({}));
+console.log('\ntsdb:', (t.event || []).map(e => `${e.strEvent} | ${e.strLeague} | ${e.dateEvent} ${e.strTime} | ${e.strTimestamp}`).join('\n'));
