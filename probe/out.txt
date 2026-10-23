@@ -1,24 +1,79 @@
-Sheffield Shield: New South Wales; Queensland (no badge); South Australia (no badge); Tasmania; Victoria; Western Australia (no badge)
-Australian NBL: Adelaide 36ers / Adelaide; Brisbane Bullets / Brisbane; Cairns Taipans / Cairns; Canberra Cannons; Gold Coast Blaze / Gold Coast; Hunter Pirates; Illawarra Hawks / Wollongong Hawks; Melbourne United / Melbourne Utd.; New Zealand Breakers; Perth Wildcats / Perth
-NBA: Atlanta Hawks; Boston Celtics; Brooklyn Nets; Charlotte Hornets; Chicago Bulls; Cleveland Cavaliers / Cavs; Dallas Mavericks / Mavs; Denver Nuggets; Detroit Pistons; Golden State Warriors
-Q South Australia: South Australia [Cricket/Sheffield Shield]
-Q Western Australia: Western Australia [Cricket/Sheffield Shield]
-Q South Australia Redbacks: 
-Q Western Australia Warriors: 
-Q Los Angeles Clippers: Los Angeles Clippers [Basketball/NBA] badge
-Q Central Hinds: 
-Q Central Districts Hinds: 
-Q Central Districts: Central Districts Lions [Basketball/NBL1 Central] badge
-Q South East Melbourne Phoenix: 
-|[[2026–27 Brisbane Bullets season|Brisbane Bullets]]
-'''[[Brisbane Bullets|Bullets]]'''
-|[[2026–27 Brisbane Bullets season|Brisbane Bullets]]
-| [[Brisbane Bullets]]
-| [[Brisbane Bullets]] || [[Darryl McDonald]]<ref>{{cite news|title=Bullets Provide Coaching Staff Update {{!}} Brisbane Bullets|url=https://www.brisbanebullets.com.au/news/bullets-provide-coaching-staff-update|access-date=28 May 2026|work=brisbanebullets.com.au|date=17 March 2026|language=en}}</ref> || colspan=2 | [[Will Weaver (basketball)|Will Weaver]]<ref>{{cite web|last1=Uluc|first1=Olgun|title='Old-school principles': Will Weaver determined to restore Bullets to glory says|url=https://www.espn.com.au/nbl/story/_/id/48167415/nbl-weaver-determined-restore-brisbane-bullets-glory-days|publisher=[[ESPN Australia]]|access-date=28 May 2026|date=11 March 2026}}</ref>
- | teamA = '''[[2026–27 Brisbane Bullets season|Brisbane Bullets]]'''
-|[[2026–27 S.E. Melbourne Phoenix season|S.E. Melbourne Phoenix]]
-| rowspan="2" |[[2026–27 S.E. Melbourne Phoenix season|S.E. Melbourne Phoenix]]
-| [[S.E. Melbourne Phoenix]]
-| [[S.E. Melbourne Phoenix]] || colspan=3 | [[Josh King (basketball)|Josh King]]<ref>{{cite web|title=King of the Castle: Phoenix extend head coach|url=https://www.nbl.com.au/news/josh-king-signs-extension-with-south-east-melbourne-phoenix|publisher=[[National Basketball League (Australia)|National Basketball League]]|access-date=24 July 2026|date=24 July 2026|language=en}}</ref>
- | teamB = '''[[2026–27 S.E. Melbourne Phoenix season|S.E. Melbourne Phoenix]]'''
- | teamB = [[2026–27 S.E. Melbourne Phoenix season|S.E. Melbourne Phoenix]]
+Q South Australia cricket logo:
+  File:Y.M.C.A. women playing cricket, Sydney University, R. Donaldson, 23 April 1941.jpg — No restrictions https://upload.wikimedia.org/wikipedia/commons/a/a8/Y.M.C.A._women_playing_cricket%2C_Sydney_University%2C_R._Donaldson%2C_23_April_1941.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:31March2006.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/6/67/31March2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:27March2008.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/8/86/27March2008.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:28August2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/9/9e/28August2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:20March2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/8/87/20March2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:29June2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/9/92/29June2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:19September2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/6/6d/19September2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:29March2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/9/9e/29March2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+Q Redbacks cricket logo:
+  
+Q Western Australia cricket logo:
+  File:28August2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/9/9e/28August2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:20March2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/8/87/20March2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:25September2005.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/9/93/25September2005.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:31March2006.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/6/67/31March2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:22August2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/d/d3/22August2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:19November2008.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/8/8f/19November2008.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:12March2008.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/4/47/12March2008.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:20July2006.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/d/dc/20July2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+Q Western Warriors cricket:
+  File:Western Warriors 2010.jpg — CC BY-SA 3.0 https://upload.wikimedia.org/wikipedia/commons/1/1b/Western_Warriors_2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Mitchell Johnson.jpg — CC BY 2.0 https://upload.wikimedia.org/wikipedia/commons/8/84/Mitchell_Johnson.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Cricket WA colour.svg — Public domain https://upload.wikimedia.org/wikipedia/commons/e/ea/Cricket_WA_colour.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:The western world. Picturesque sketches of nature and natural history in North and South America (IA westernworldpict00kingrich).pdf — Public domain https://upload.wikimedia.org/wikipedia/commons/f/ff/The_western_world._Picturesque_sketches_of_nature_and_natural_history_in_North_and_South_America_%28IA_westernworldpict00kingrich%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:The western world. Picturesque sketches of nature and natural history in North and South America (IA gri westernworld00king).pdf — Public domain https://upload.wikimedia.org/wikipedia/commons/e/e3/The_western_world._Picturesque_sketches_of_nature_and_natural_history_in_North_and_South_America_%28IA_gri_westernworld00king%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Tales of the western tropics (IA talesofwesterntr00swanrich).pdf — Public domain https://upload.wikimedia.org/wikipedia/commons/5/5c/Tales_of_the_western_tropics_%28IA_talesofwesterntr00swanrich%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Poems of the western land (IA cu31924022035194).pdf — Public domain https://upload.wikimedia.org/wikipedia/commons/b/bf/Poems_of_the_western_land_%28IA_cu31924022035194%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Poems of the Western land (IA poemsofwestern00richrich).pdf — Public domain https://upload.wikimedia.org/wikipedia/commons/1/1e/Poems_of_the_Western_land_%28IA_poemsofwestern00richrich%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+Q WACA logo:
+  File:06December2006.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/6/68/06December2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:17December2006.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/1/11/17December2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:18January2008.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/a/a2/18January2008.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Elementi di medicina (IA b22039314 0002).pdf — Public domain https://upload.wikimedia.org/wikipedia/commons/e/e9/Elementi_di_medicina_%28IA_b22039314_0002%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Prabawa (Pandom Wicara Basa Jawa).pdf — Public domain https://upload.wikimedia.org/wikipedia/commons/7/71/Prabawa_%28Pandom_Wicara_Basa_Jawa%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Works (IA dli.granth.36344).pdf — Public domain https://upload.wikimedia.org/wikipedia/commons/5/50/Works_%28IA_dli.granth.36344%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Scientific papers (manuscript) (IA scientificpaper00aldia).pdf — Public domain https://upload.wikimedia.org/wikipedia/commons/d/d5/Scientific_papers_%28manuscript%29_%28IA_scientificpaper00aldia%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+Q Central Districts cricket logo:
+  File:KDRU Logo.png — CC BY-SA 4.0 https://upload.wikimedia.org/wikipedia/commons/4/49/KDRU_Logo.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:The Central Region (Electoral Arrangements) Order 1993 (UKSI 1993-340).pdf — OGL 3 https://upload.wikimedia.org/wikipedia/commons/d/db/The_Central_Region_%28Electoral_Arrangements%29_Order_1993_%28UKSI_1993-340%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:29June2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/9/92/29June2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:19September2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/6/6d/19September2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:27June2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/0/01/27June2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:16September2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/2/28/16September2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:10April2008.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/a/a3/10April2008.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:9September2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/c/c8/9September2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+Q Central Hinds:
+  File:Samuel S Hinds in Grand Central Murder trailer.jpg — Public domain https://upload.wikimedia.org/wikipedia/commons/3/3f/Samuel_S_Hinds_in_Grand_Central_Murder_trailer.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Samuel S. Hinds-Patricia Dane in Grand Central Murder trailer.jpg — Public domain https://upload.wikimedia.org/wikipedia/commons/3/3b/Samuel_S._Hinds-Patricia_Dane_in_Grand_Central_Murder_trailer.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Hinds Courthouse.jpg — CC BY-SA 3.0 https://upload.wikimedia.org/wikipedia/commons/9/9f/Hinds_Courthouse.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Hinds courthouse2.jpg — CC BY-SA 3.0 https://upload.wikimedia.org/wikipedia/commons/3/38/Hinds_courthouse2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Hinds courthouse1.jpg — CC BY-SA 3.0 https://upload.wikimedia.org/wikipedia/commons/2/2e/Hinds_courthouse1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Hinds Armory1.jpg — CC BY-SA 3.0 https://upload.wikimedia.org/wikipedia/commons/4/45/Hinds_Armory1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:History of Hinds County, Mississippi, 1821-1922 (IA historyofhindsco00rowl).pdf — Public domain https://upload.wikimedia.org/wikipedia/commons/4/4f/History_of_Hinds_County%2C_Mississippi%2C_1821-1922_%28IA_historyofhindsco00rowl%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Birkenhead Central station with Hind Street sign.jpg — CC BY 3.0 https://upload.wikimedia.org/wikipedia/commons/5/58/Birkenhead_Central_station_with_Hind_Street_sign.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+Q Central Stags logo:
+  File:The North and Central London (London Borough Boundaries) Order 1993 (UKSI 1993-1351).pdf — OGL 3 https://upload.wikimedia.org/wikipedia/commons/9/95/The_North_and_Central_London_%28London_Borough_Boundaries%29_Order_1993_%28UKSI_1993-1351%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:Holle Lists, Vocabularies in languages of Indonesia, Vol. 3-4, Central Moluccas, Ambon 2, Buru, Nusa Laut, Saparua.pdf — CC BY-SA 4.0 https://upload.wikimedia.org/wikipedia/commons/6/68/Holle_Lists%2C_Vocabularies_in_languages_of_Indonesia%2C_Vol._3-4%2C_Central_Moluccas%2C_Ambon_2%2C_Buru%2C_Nusa_Laut%2C_Saparua.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:The condition and trend of aspen communities on BLM administered lands in north-central Nevada with recommendations for management - final report (IA conditiontrendof02kayc).pdf — Public domain https://upload.wikimedia.org/wikipedia/commons/b/bf/The_condition_and_trend_of_aspen_communities_on_BLM_administered_lands_in_north-central_Nevada_with_recommendations_for_management_-_final_report_%28IA_conditiontrendof02kayc%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:016,081 Masarete, Ambon.djvu — CC BY-SA 4.0 https://upload.wikimedia.org/wikipedia/commons/b/be/016%2C081_Masarete%2C_Ambon.djvu?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:22August2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/d/d3/22August2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:The GLA Side Roads (City of Westminster) Designation Order 2000 (UKSI 2000-1379).pdf — OGL 3 https://upload.wikimedia.org/wikipedia/commons/c/c8/The_GLA_Side_Roads_%28City_of_Westminster%29_Designation_Order_2000_%28UKSI_2000-1379%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:EUR 2011-1212.pdf — OGL 3 https://upload.wikimedia.org/wikipedia/commons/6/6a/EUR_2011-1212.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:EUD 2000-146.pdf — OGL 3 https://upload.wikimedia.org/wikipedia/commons/9/9f/EUD_2000-146.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+Q Otago Sparks logo:
+  
+Q Wellington Blaze logo:
+  File:29March2008.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/d/d5/29March2008.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:05August2006.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/7/79/05August2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:21June2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/7/78/21June2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:18August2006.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/f/fd/18August2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:19June2007.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/c/cd/19June2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:27April2008.pdf — CC BY 2.5 https://upload.wikimedia.org/wikipedia/commons/9/99/27April2008.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:A Crystal Age - W. H. Hudson.pdf — Public domain https://upload.wikimedia.org/wikipedia/commons/c/c0/A_Crystal_Age_-_W._H._Hudson.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+  File:The unsearchable riches (IA unsearchablerich00mcle).pdf — Public domain https://upload.wikimedia.org/wikipedia/commons/e/e0/The_unsearchable_riches_%28IA_unsearchablerich00mcle%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+WP South Australia cricket team -> South Australia cricket team wikidata Q2726598 img South_Australia_Cricket_Team_Logo.webp
+WP Western Australia cricket team -> Western Australia cricket team wikidata Q3589750 img Western_Australia_Women_Badge.png
+WP Central Districts women's cricket team -> Central Hinds wikidata Q5060998 img Central_Districts_Hinds_logo.png
+WP Central Districts cricket team -> Central Districts cricket team wikidata Q5061000 img Central_Stags_logo_transparent.png
