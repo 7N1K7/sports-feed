@@ -94,5 +94,10 @@ jobs:
             left=$(( deadline - $(date +%s) )); [ "$left" -le 0 ] && break
             sleep $(( left < 20 ? left : 20 ))
           done
-          gh workflow run update.yml --repo "$REPO" --ref main
-          echo "Started the next run."
+          # GitHub's API sometimes answers 502 for a moment: try again, and if it's still down, leave it to the
+          # half-hourly schedule to restart the chain rather than fail the run (and send a failure email)
+          for wait in 5 15 45 0; do
+            if gh workflow run update.yml --repo "$REPO" --ref main; then echo "Started the next run."; exit 0; fi
+            [ "$wait" -gt 0 ] && sleep "$wait"
+          done
+          echo "::warning::Couldn't start the next run; the half-hourly schedule restarts the chain."
