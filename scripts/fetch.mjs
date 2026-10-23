@@ -120,7 +120,7 @@ async function rnzNews() {
 // NZ Herald sport headlines. Its RSS licence lets a website show the headlines exactly as received, each linked
 // to the story and credited "supplied by nzherald.co.nz"; summaries and images are not covered, so neither is kept.
 const HERALD_FEEDS = ['https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/sport/?outputType=xml&_website=nzh',
-  ...['cricket', 'rugby-league', 'football', 'boxing', 'motorsport'].map(s => `https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/sport/${s}/?outputType=xml&_website=nzh`),
+  ...['cricket', 'rugby-league', 'football', 'boxing', 'motorsport', 'golf'].map(s => `https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/sport/${s}/?outputType=xml&_website=nzh`),
   'https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/sport/rugby/?outputType=xml&_website=nzh'];
 async function heraldNews() {
   const out = [], notes = [];
@@ -136,6 +136,7 @@ async function heraldNews() {
       const get = tag => unxml((m[1].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1]);
       const title = get('title'), url = get('link');
       const d = new Date(get('pubDate'));
+      if (url && !isNaN(d)) HEADLINES.push({ title, at: d.toISOString() });
       if (/\/cricket\//.test(feedUrl) && url && !isNaN(d)) CRICKET_HEADLINES.push({ title, url, at: d.toISOString(), credit: 'Headline supplied by nzherald.co.nz' });
       const team = teamFor(title);
       if (!team || !url || out.some(x => x.url === url)) continue;
@@ -172,6 +173,7 @@ async function scoopNews() {
       const title = unxml(raw('title')), url = unxml(raw('link')), body = raw('description');
       const summary = unxml(body.replace(/&lt;/g, '<').replace(/&gt;/g, '>')).replace(/\s+/g, ' ');
       const team = teamFor(title + ' ' + summary);
+      { const d = new Date(unxml(raw('pubDate')) || unxml(raw('dc:date'))); if (!isNaN(d)) HEADLINES.push({ title: `${title} ${summary}`, at: d.toISOString() }); }
       if (!team || !url || out.some(x => x.url === url)) continue;
       const image = (m[1].match(/<(?:media:content|media:thumbnail|enclosure)[^>]*url="([^"]+)"/) || body.replace(/&lt;/g, '<').replace(/&quot;/g, '"').match(/<img[^>]*src="([^"]+)"/) || [])[1];
       const d = new Date(unxml(raw('pubDate')) || unxml(raw('dc:date')));
@@ -233,6 +235,8 @@ async function fightNews() {
 // Only stories that name one of our teams (or a fixture's teams) are kept
 // every cricket headline, matched to our teams or not, for spotting rain on any match we list
 const CRICKET_HEADLINES = [];
+// every sport headline read this run (Herald, BBC, Scoop), for finding a Kiwi in an event we'd otherwise leave out
+const HEADLINES = [];
 const BBC_FEEDS = ['rugby-union', 'rugby-league', 'cricket', 'boxing', 'mixed-martial-arts', 'formula1', 'tennis', 'football/premier-league']
   .map(s => [s, `https://feeds.bbci.co.uk/sport/${s}/rss.xml`]);
 async function bbcNews() {
@@ -250,6 +254,7 @@ async function bbcNews() {
       const get = tag => unxml((m[1].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1]);
       const title = get('title'), summary = get('description'), url = get('link').replace(/\?at_medium=RSS.*$/, '');
       const d = new Date(get('pubDate'));
+      if (url && !isNaN(d)) HEADLINES.push({ title: `${title} ${summary}`, at: d.toISOString() });
       if (name === 'cricket' && url && !isNaN(d)) CRICKET_HEADLINES.push({ title, url, at: d.toISOString(), credit: 'From BBC Sport', creditUrl: 'https://www.bbc.com/sport' });
       const team = teamFor(title + ' ' + summary);
       // the newest eight stories a feed has for us, so a busy one (the Premier League) doesn't crowd out the rest
@@ -365,12 +370,12 @@ function sameMatch(a, b) {
 
 async function readCurated() {
   const dir = new URL('data/curated/', ROOT);
-  const events = [], news = [];
+  const events = [], news = [], kiwisIn = [];
   for (const f of (await readdir(dir)).filter(f => f.endsWith('.json'))) {
     const d = JSON.parse(await readFile(new URL(f, dir), 'utf8'));
-    events.push(...(d.events || [])); news.push(...(d.news || []));
+    events.push(...(d.events || [])); news.push(...(d.news || [])); kiwisIn.push(...(d.kiwisIn || []));
   }
-  return { events, news };
+  return { events, news, kiwisIn };
 }
 
 // free live streams on the sports bodies' own YouTube channels: NZ Cricket streams domestic and Māori tournament games,
@@ -642,14 +647,10 @@ for (const t of tsdbFill) {
 if (tsdbFill.length) diag.tsdbFilled = filled;
 // Women's events with no Kiwi in them are left out for now (the owner's call, 23 Oct 2026): world title fights, and LPGA
 // events other than the five majors, which Lydia Ko plays every year. The women's Rugby League World Cup, the tennis
-// finals and the WBBL (White Ferns play in it) stay
-{
-  const LPGA_MAJOR = /Chevron Championship|U\.?S\.? Women.s Open|Women.s PGA Championship|Evian Championship|AIG Women.s Open|Women.s (British )?Open Championship/i;
-  const noKiwi = e => e.team === 'lpga' ? !LPGA_MAJOR.test(e.home) : e.team === 'boxing' && /women/i.test([e.comp, e.home, e.away].join(' '));
-  const dropped = events.filter(noKiwi);
-  for (let i = events.length; i--;) if (noKiwi(events[i])) events.splice(i, 1);
-  diag.womenNoKiwi = `${dropped.length} left out: ${dropped.map(e => e.away ? `${e.home} v ${e.away}` : `${e.comp} ${e.home}`).slice(0, 12).join('; ')}`;
-}
+// finals and the WBBL (White Ferns play in it) stay. Marked here and dropped once the headlines are in, unless a Kiwi
+// turns out to be in one (see KIWI_IN below)
+const LPGA_MAJOR = /Chevron Championship|U\.?S\.? Women.s Open|Women.s PGA Championship|Evian Championship|AIG Women.s Open|Women.s (British )?Open Championship/i;
+for (const e of events) if (e.team === 'lpga' ? !LPGA_MAJOR.test(e.home) : e.team === 'boxing' && /women/i.test([e.comp, e.home, e.away].join(' '))) e.noKiwi = true;
 // Wikipedia's Sheffield Shield table lists some games away side first (New South Wales v Western Australia at the
 // WACA): a state or NZ domestic side playing at its own ground goes on the left. Only when the ground is plainly one
 // side's and not the other's; the card's id stays as it was, so a revealed result stays revealed
@@ -688,7 +689,7 @@ const newsAll = [...curated.news];
   const pairs = new Map();
   for (const e of events) {
     const age = now - Date.parse(e.startUTC);
-    if (age > 2 * DAY || age < -14 * DAY) continue;
+    if (age > 2 * DAY || age < -14 * DAY || e.noKiwi) continue;
     const card = (e.card || []).slice(0, 4).flatMap(b => [b.a, b.b]).map(n => String(n || '').replace(/\s*\(c\)$/, ''));
     for (const n of [e.home, e.away, ...card]) {
       if (!n || n.length < 6 || /TBC|winner|^UFC|Fight Night|\bor\b/i.test(n) || COUNTRY.test(n)) continue;
@@ -713,6 +714,30 @@ const newsAll = [...curated.news];
 const RNZ_ON = false;
 for (const n of [...(RNZ_ON ? await rnzNews() : []), ...await heraldNews(), ...await scoopNews(), ...await fightNews(), ...await bbcNews()]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
 const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
+// A left-out event comes back when a Kiwi is in it: named in data/curated's kiwisIn ({ event, year, who }), or in a
+// headline from two days before it starts to a day after it ends that also names the event, its place or its tour
+// (and isn't about pulling out). It then shows like any other, with a note saying who's in it
+{
+  const KIWI_IN = { golf: /\b(Lydia Ko|Momoka Kobori|Amelia Garvey)\b/i, boxing: /\b(Mea Motu|Lani Daniels|Alrie Meleisea|Sequoia Graham)\b/i };
+  const words = e => [...String(e.home).split(/[^A-Za-z]+/).filter(w => w.length > 3 && !/^(open|championship|classic|tour|golf|ladies|women|invitational|presented|tournament|champions|the|title|titles|world)$/i.test(w)),
+    ...String(e.city || '').split(/[^A-Za-z]+/).filter(w => w.length > 3), e.team === 'lpga' ? 'LPGA' : ''].filter(Boolean);
+  const back = [], left = [];
+  for (const e of events.filter(e => e.noKiwi)) {
+    const year = e.startUTC.slice(0, 4), name = String(e.away ? `${e.home} v ${e.away}` : e.home);
+    const hand = curated.kiwisIn.find(k => String(k.year || year) === year && norm(name).includes(norm(k.event)));
+    let who = hand?.who;
+    if (!who && KIWI_IN[e.sport]) {
+      const from = Date.parse(e.openUTC || e.startUTC) - 2 * DAY, to = Date.parse(e.startUTC) + DAY, ws = words(e);
+      const h = HEADLINES.find(h => { const t = Date.parse(h.at); return t >= from && t <= to && KIWI_IN[e.sport].test(h.title) && !/withdr|pull(s|ed)? out|skip/i.test(h.title)
+        && ws.some(w => new RegExp(`\\b${w}\\b`, 'i').test(h.title)); });
+      if (h) who = h.title.match(KIWI_IN[e.sport])[1];
+    }
+    if (who) { delete e.noKiwi; e.note = [e.note, `${who} is ${e.sport === 'golf' ? 'playing' : 'fighting'}`].filter(Boolean).join('. '); back.push(`${name} (${who})`); }
+    else left.push(name);
+  }
+  for (let i = events.length; i--;) if (events[i].noKiwi) events.splice(i, 1);
+  diag.womenNoKiwi = `${left.length} left out (${HEADLINES.length} headlines read); back with a Kiwi: ${back.join('; ') || 'none'}; left out: ${left.slice(0, 10).join('; ')}`;
+}
 // Rain on a cricket match from the headlines, for when no live feed has it: a BBC Sport or Herald headline published
 // during the match that names both sides and rain, a delay or bad light. BBC's scorecard pages ("Start delayed on second
 // day of South Africa-Australia Test - scorecard") are set up before play and retitled as it goes, so their publish
