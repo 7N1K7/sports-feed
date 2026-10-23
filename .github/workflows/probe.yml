@@ -15,5 +15,6 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           HAS_STATS_PASSWORD: ${{ secrets.STATS_PASSWORD != '' }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          BALLDONTLIE_KEY: ${{ secrets.BALLDONTLIE_KEY }}
       # save the output; a run whose output didn't change has nothing to save, which isn't a failure
       - run: git -c user.name=bot -c user.email=bot@x add -A probe/out* && (git diff --cached --quiet || (git -c user.name=bot -c user.email=bot@x commit -m out && git push))

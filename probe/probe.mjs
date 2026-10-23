@@ -1,12 +1,28 @@
-// probe 120: MLB standings templates, a played series page's summary and linescore, NPB standings section
-const UA = { 'user-agent': 'sports-feed probe (personal site)' };
-const raw = async t => { const r = await fetch(`https://en.wikipedia.org/w/index.php?title=${encodeURIComponent(t)}&action=raw`, { headers: UA }); return [r.status, await r.text()]; };
-{ const [st, x] = await raw('Template:2026 AL East standings'); console.log('===== AL East', st, x.length); console.log(x.slice(0, 3500)); }
-for (const t of ['2026 American League Championship Series', '2026 American League Wild Card Series', '2026 National League Division Series']) {
-  const [st, x] = await raw(t);
-  console.log('=====', t, st, x.length);
-  const i = x.search(/\{\{\s*MLB Playoff Summary/i); if (i >= 0) console.log(x.slice(i, i + 900));
-  const j = x.search(/\{\{\s*linescore/i); if (j >= 0) console.log('--- linescore\n' + x.slice(j, j + 900));
-  console.log('summaries:', (x.match(/\{\{\s*MLB Playoff Summary/gi) || []).length, 'linescores:', (x.match(/\{\{\s*linescore/gi) || []).length);
+// probe 121: does the balldontlie key work (never print it): NBA and MLB games, free-tier limits
+const KEY = process.env.BALLDONTLIE_KEY || '';
+const red = s => KEY ? String(s).split(KEY).join('***') : String(s);
+console.log('key present:', !!KEY, 'length:', KEY.length);
+const get = async path => {
+  const r = await fetch('https://api.balldontlie.io' + path, { headers: { Authorization: KEY } });
+  const lim = ['x-ratelimit-limit', 'x-ratelimit-remaining', 'retry-after'].map(h => `${h}=${r.headers.get(h)}`).join(' ');
+  const t = await r.text(); let j = null; try { j = JSON.parse(t); } catch {}
+  return { status: r.status, lim, j, t };
+};
+for (const [label, path] of [
+  ['NBA games 23-24 Oct', '/v1/games?dates[]=2026-10-22&dates[]=2026-10-23&per_page=100'],
+  ['NBA season 2026 page 1', '/v1/games?seasons[]=2026&per_page=100'],
+  ['NBA teams', '/v1/teams'],
+  ['MLB games World Series dates', '/mlb/v1/games?dates[]=2026-10-23&dates[]=2026-10-24&per_page=100'],
+  ['MLB teams', '/mlb/v1/teams'],
+]) {
+  try {
+    const { status, lim, j, t } = await get(path);
+    console.log(`== ${label}: ${status} ${lim}`);
+    if (!j) { console.log(red(t.slice(0, 200))); continue; }
+    const d = j.data || [];
+    console.log('rows', d.length, 'meta', JSON.stringify(j.meta || {}));
+    for (const g of d.slice(0, 4)) console.log(red(JSON.stringify(g).slice(0, 500)));
+    if (!d.length) console.log(red(t.slice(0, 300)));
+  } catch (e) { console.log(`== ${label}: error ${red(e.message)}`); }
+  await new Promise(r => setTimeout(r, 13000));
 }
-{ const [st, x] = await raw('2026 Nippon Professional Baseball season'); const i = x.search(/==\s*Regular season standings/); console.log('===== NPB standings', st); console.log(x.slice(i, i + 3500)); }
