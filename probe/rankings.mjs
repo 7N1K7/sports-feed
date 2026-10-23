@@ -141,9 +141,13 @@ function onePlayerTable(tables, cfg, kind, title) {
       return { sport: cfg.sport, kind: 'players', title, page: cfg.page, asOf: dateIn(head), valLabel: 'Points', rows };
     }
     if (iRank < 0 || iName < 0 || iVal < 0) continue;
+    // a tie is marked "=" (doubles partners level on points): it shares the rank above
+    let last = '';
     const rows = t.rows.map(r => {
-      const m = (r[iName] || '').match(/^(.*?)\s*\(([A-Z]{3})\)/);
-      return { rank: (r[iRank] || '').match(/^\d+/)?.[0] || '', name: (m ? m[1] : r[iName] || '').replace(/\s*✓\s*$/, '').trim(), iso: m ? m[2] : '', val: (r[iVal] || '').trim() };
+      const m = (r[iName] || '').match(/^(.*?)\s*\(([A-Z]{3})\)/), cell = (r[iRank] || '').trim();
+      const rank = cell.match(/^\d+/)?.[0] || (/^(=|T)\s*$/i.test(cell) ? last : '');
+      if (rank) last = rank;
+      return { rank, name: (m ? m[1] : r[iName] || '').replace(/\s*✓\s*$/, '').trim(), iso: m ? m[2] : '', val: (r[iVal] || '').trim() };
     }).filter(r => r.rank && r.name && /\d/.test(r.val)).slice(0, 20);
     if (rows.length < 5) continue;
     for (const r of rows) if (r.iso === 'NZL') r.nz = true;
@@ -186,7 +190,7 @@ function fighterTables(tables, cfg) {
 }
 
 // bumped when the parser changes, so lists cached by the old one are read again
-const CACHE_V = 4;
+const CACHE_V = 5;
 export async function rankings(cache, diag) {
   const now = Date.now(), out = [], notes = [];
   for (const cfg of RANK_PAGES) {
