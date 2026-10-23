@@ -1,4 +1,300 @@
-generated 2026-10-23T03:13:25.609Z
-womenNoKiwi: 28 left out (444 headlines read); back with a Kiwi: none; left out: Elif Nur Turhan v Alycia Baumgardner; Gabriela Fundora v Jasmina Zapotoczna; Hilton Grand Vacations Tournament of Champions; Honda LPGA Thailand; HSBC Women's World Championship; Blue Bay LPGA; Fortinet Founders Cup; Ford Championship; Aramco Championship; JM Eagle LA Championship
-herald: sport: 5 matching; sport/cricket: 5 matching; sport/rugby-league: 9 matching; sport/football: 7 matching; sport/boxing: 9 matching; sport/motorsport: 8 matching; sport/golf: 1 matching; sport/rugby: 4 matching
-coffee in settings: true | footer fcof: true
+===== 2026 World Series 200 40913
+{{Short description|122nd edition of Major League Baseball's championship series}}
+<!--{{current sport|sport=baseball|date=October 2026|event=World Series}}-->
+
+{{Use mdy dates|date=October 2026}}
+{{Use American English|date=October 2026}}
+{{Infobox baseball championship series
+| country = World
+| year = 2026
+| image =  File:2026 World Series logo.svg
+| image_size =
+| alt =
+| caption =
+| champion = [[2026 Milwaukee Brewers season|Milwaukee Brewers]] (0)
+| champion_manager = [[Pat Murphy (baseball manager)|Pat Murphy]]
+| champion_games = {{winpct|103|59|record=y}}, GA: 14
+| runnerup = [[2026 Tampa Bay Rays season|Tampa Bay Rays]] (0)
+| runnerup_manager = [[Kevin Cash]]
+| runnerup_games = {{winpct|98|64|record=y}}, GA: 4.5
+| date = October 23 – October 31{{efn|World Series Game 7, if necessary, will be played October 31; the soonest the postseason could end is October 27, the date of a World Series Game 4.}}
+| venue = [[American Family Field]] (Milwaukee)<br>[[Tropicana Field]] (St. Petersburg)
+| MVP = 
+| umpires = [[Dan Bellino]], [[Vic Carapazza]], [[Tripp Gibson]], [[James Hoye]] (crew chief), [[Nic Lentz]], [[Gabe Morales]], [[Jim Wolf]]
+| HOFers =
+| ALCS = [[2026 Tampa Bay Rays season|Tampa Bay Rays]] over [[2026 Cleveland Guardians season|Cleveland Guardians]] (4–2)
+| NLCS = [[2026 Milwaukee Brewers season|Milwaukee Brewers]] over [[2026 Los Angeles Dodgers season|Los Angeles Dodgers]] (4–0)
+| television = [[MLB on Fox|Fox]] ([[United States]] – [[English language|English
+----- from summaries 24681
+==Summary==
+{{MLB Playoff Summary
+| summary =
+| winner = 
+| leader = 
+| score = 0–0
+| date1 = October 23
+| score1 = Tampa Bay Rays at Milwaukee Brewers
+| loc1 = [[American Family Field]]
+| time1 = 7:00 PM ([[Central Time Zone|CDT]]) 
+| att1 = 
+| ref1 = <!--<ref>{{cite web|title=Rays at Brewers|url=https://www.mlb.com/gameday/rays-vs-brewers/2026/10/23/849805/final|website=MLB.com|date=October 23, 2026|access-date=October 23, 2026}}</ref>-->
+| date2 = October 24
+| score2 = Tampa Bay Rays at Milwaukee Brewers
+| loc2 = American Family Field
+| time2 = 7:00 PM ([[Central Time Zone|CDT]]) 
+| att2 = 
+| ref2 = <!--<ref>{{cite web|title=Rays at Brewers|url=https://www.mlb.com/gameday/rays-vs-brewers/2026/10/24/849802/final|website=MLB.com|date=October 24, 2026|access-date=October 24, 2026}}</ref>-->
+| date3 = October 26
+| score3 = Milwaukee Brewers at Tampa Bay Rays
+| loc3 = [[Tropicana Field]]
+| time3 = 8:00 PM ([[Eastern Time Zone|EDT]]) 
+| att3 = 
+| ref3 = <!--<ref>{{cite web|title=Brewers at Rays|url=https://www.mlb.com/gameday/brewers-vs-rays/2026/10/26/849804/final|website=MLB.com|date=October 26, 2026|access-date=October 26, 2026}}</ref>-->
+| date4 = October 27
+| score4 = Milwaukee Brewers at Tampa Bay Rays
+| loc4 = Tropicana Field
+| time4 = 8:00 PM ([[Eastern Time Zone|EDT]]) 
+| att4 = 
+| ref4 = <!--<ref>{{cite web|title=Brewers at Rays|url=https://www.mlb.com/gameday/brewers-vs-rays/2026/10/27/849803/final|website=MLB.com|date=October 27, 2026|access-date=October 27, 2026}}</ref>-->
+| date5 = October 28{{dagger}}
+| score5 = Milwaukee Brewers at Tampa Bay Rays
+| loc5 = Tropicana Field
+| time5 = 8:00 PM ([[Eastern Time Zone|EDT]]) 
+| att5 = 
+| ref5 = <!--<ref>{{cite web|title=Brewers at Rays|url=https://www.mlb.com/gameday/brewers-vs-al-rays/2026/10/28/849799/final|website=MLB.com|date=October 28, 2026|access-date=October 28, 2026}}</ref>-->
+| date6 = October 30{{dagger}}
+| score6 = Tampa Bay Rays at Milwaukee Brewers
+| loc6 = American Family Field
+| time6 = 7:00 PM ([[Central Time Zone|CDT]]) 
+| att6 = 
+| ref6 = <!--<ref>{{cite web|title=Rays at Brewers|url=https://www.mlb.com/gameday/rays-vs-brewers/2026/10/30/849801/final|website=MLB.com|date=October 30, 2026|access-date=October 30, 2026}}</ref>-->
+| date7 = October 31{{dagger}}
+| score7 = Tampa Bay Rays at Milwaukee Brewers
+| loc7 = American Family Field
+| time7 = 7:00 PM ([[Central Time Zone|CDT]]) 
+| att7 = 
+| ref7 = <!--<ref>{{cite web|title=Rays at Brewers|url=https://www.mlb.com/gameday/rays-vs-brewers/2026/10/31/849800/final|website=MLB.com|date=October 31, 2026|access-date=October 31, 2026}}</ref>-->
+}}
+{{dagger}} '''If necessary'''
+
+==Game summaries==
+
+===Game 1===
+{{linescore|
+|Date = October 23, 2026
+|Time = 7:00{{nbsp}}pm ([[Central Time Zone|CDT]])
+|Location = [[American Family Field]] in [[Milwaukee]], [[Wisconsin]]
+|Other = 
+|Road=Tampa Bay|RoadAbr=TB
+|R1=-|R2=-|R3=-|R4=-|R5=-|R6=-|R7=-|R8=-|R9=-|RR=0|RH=0|RE=0
+|Home=Milwaukee|HomeAbr=MIL
+|H1=-|H2=-|H3=-|H4=-|H5=-|H6=-|H7=-|H8=-|H9=-|HR=0|HH=0|HE=0
+|HSP=[[Jacob Misiorowski]] (0–0) |RSP=[[Nick Martinez (baseball)|Nick Martinez]] (0–0)
+|WP= |LP= |SV=
+|HomeHR= |RoadHR=
+|Attendance=
+|BoxURL = https://www.mlb.com/gameday/rays-vs-brewers/2026/10/23/849805/final
+}}
+Game 1 of the 2026 World Series will mark the first time that a World Series game will take place at [[American Family Field]]. The last time a World Series game took place in Milwaukee was at [[Milwaukee County Stadium]] in [[1982 World Series#Game 5|Game 5 of its 1982 edition]]. The [[National Basketball Association]]'s [[Milwaukee Bucks]] moved the time of their home opener to 3&nbsp;p.m. CT in order to not conflict with Game 1.<ref>{{Cite web |date=October 16, 2026 |title=Bucks adjust home opener to avoid World Series time conflict |url=https://www.espn.com/nba/story/_/id/50196749/bucks-adjust-home-opener-avoid-world-series-conflict |access-date=October 18, 2026 |website=espn.com}}</ref> The Brewers named [[Jacob Misiorowski]] as their starter for Game 1, with the Rays countering with veteran [[Nick Martinez (baseball)|Nick Martinez]].<ref>{{Cite web |last=Berry |first=Adam |title=Rays tab Martinez over Rasmussen in Game 1 |url=https://www.mlb.com/news/rays-name-nick-martinez-world-series-game-1-starter |access-date=2026-10-22 |website=MLB.com}}</ref><ref>{{cite web | last=Axisa | first=Mike | title=Jacob Misiorowski gets World Series Game 1 start for Brewers as he looks to reclaim his ace stuff | publisher=CBS Sports | date=2026-10-21 | url=https://www.cbssports.com/mlb/news/world-series-game-1-jacob-misiorowski-brewers-start/ | access-date=2026-10-22}}</ref> [[Robin Yount]] and [[Bud Selig]] will throw out the [[ceremonial first pitch]].<ref>{{cite web | title=Robin Yount, Bud Selig to throw out ceremonial first pitch at World Series Game 1 | website=CBS58 | date=2026-10-20 | url=https://www.cbs58.com/news/robin-yount-bud-selig-to-throw-out-ceremonial-first-pitch-at-world-series-game-1 | access-date=2026-10-22}}</ref>
+
+===Game 2===
+{{linescore|
+|Date = October 24, 2026
+|Time = 7:00{{nbsp}}pm ([[Central Time Zone|CDT]])
+|Location = [[American Family Field]] in [[Milwaukee]], [[Wisconsin]]
+|Other = 
+|Road=Tampa Bay|RoadAbr=TB
+|R1=-|R2=-|R3=-|R4=-|R5=-|R6=-|R7=-|R8=-|R9=-|RR=0|RH=0|RE=0
+|Home=Milwaukee|HomeAbr=MIL
+|H1=-|H2=-|H3=-|H4=-|H5=-|H6=-|H7=-|H8=-|H9=-|HR=0|HH=0|HE=0
+|HSP=TBD |RSP=[[Drew Rasmussen]] (0–0)
+|WP= |LP= |SV=
+|HomeHR= |RoadHR=
+|Attendance=
+|BoxURL = https://www.mlb.com/gameday/rays-vs-brewers/2026/10/24/849802/final
+}}
+
+===Game 3===
+{{linescore|
+|Date = October 26, 2026
+|Time = 8:00{{nbsp}}pm ([[Eastern Time Zone|EDT]])
+|Location = [[Tropicana Field]] in [[St. Petersburg, Florida|St. Petersburg]], [[Florida]]
+|Other =, [[List of indoor stadiums|Dome]] 
+|Road=Milwaukee|RoadAbr=MIL
+|R1=-|R2=-|R3=-|R4=-|R5=-|R6=-|R7=-|R8=-|R9=-|RR=0|RH=0|RE=0
+|Home=Tampa Bay|HomeAbr=TB
+|H1=-|H2=-|H3=-|H4=-|H5=-|H6=-|H7=-|H8=-|H9=-|HR=0|HH=0|HE=0
+|HSP=TBD |RSP=TBD
+|WP= |LP= |SV=
+|HomeHR= |RoadHR=
+|Attendance=
+|BoxURL 
+===== 2026 Japan Series 200 12512
+{{Short description|Nippon Professional Baseball's championship series}}
+
+{{refimprove|date=October 2026}}
+
+{{Use mdy dates|date=October 2026}}
+{{Use American English|date=October 2026}}
+{{Infobox baseball championship series
+| image            = 2026 Japan Series logo.png
+| image_size = 175
+| caption          =
+| year             = 2026
+| country          = Japan
+| runnerup         = {{wraplink|Fukuoka SoftBank Hawks|Fukuoka SoftBank Hawks}}&nbsp;(0)
+| runnerup_manager = [[Hiroki Kokubo]]
+| runnerup_games   = {{win-loss record|w=91|l=49|t=3}} (.650), 11½&nbsp;{{abbr|GA|Games ahead}}
+| champion         = {{wraplink|Yokohama DeNA BayStars|Yokohama DeNA BayStars}}&nbsp;(0)
+| champion_manager = [[Ryoji Aikawa]]
+| champion_games   = {{win-loss record|w=71|l=69|t=3}} (.507), 7½&nbsp;{{abbr|GB|Games back}}
+| date             = October 24 – November 1
+| venue            = [[Yokohama Stadium]] (DeNA)<br>[[Mizuho PayPay Dome]] (SoftBank)
+| MVP              =  
+| FSA              =  
+<!--| television       = [[TBS Television (Japan)|TBS]], [[NHK|NHK-BS]], [[Fuji TV]], [[TV Asahi]], [[Asahi Broadcasting Corporation|ABC]], [[Nippon News Network|NNN]], [[TVer (streaming service)|TVer]], [[U-Next]], [[Abema]], [[Hulu]]
+| announcers       = [[Norihiro Akahoshi]], [[Koji Akiyama]], [[jp:平松翔馬|Shoma Hiramatsu]], [[jp:井口謙|Ken Iguchi]], [[jp:池田親興|Chikafusa Ikeda]], [[jp:井上雅雄|Masao Inoue]], [[Masayuki Kakefu]], [[Munenori Kawasaki]], [[Hiromi Makihara]], [[Nobuhiro Matsuda]], [[Akinobu Okada]], [
+----- from summaries 7995
+==Summary==
+{{Baseball playoff summary
+| summary =
+| winner = 
+| leader = 
+| score = 
+| date1 = October 24
+| score1 = Fukuoka SoftBank Hawks at Yokohama DeNA BayStars
+| loc1 = [[Yokohama Stadium]]
+| time1 = 6:30{{nbsp}}pm ([[Japan Standard Time|JST]])
+| att1 = 
+| ref1 = 
+| date2 = October 25
+| score2 = Fukuoka SoftBank Hawks at Yokohama DeNA BayStars
+| loc2 = Yokohama Stadium
+| time2 = 6:00{{nbsp}}pm ([[Japan Standard Time|JST]])
+| att2 = 
+| ref2 = 
+| date3 = October 27
+| score3 = Yokohama DeNA BayStars at Fukuoka SoftBank Hawks
+| loc3 = [[Mizuho PayPay Dome]]
+| time3 = 6:00{{nbsp}}pm ([[Japan Standard Time|JST]])
+| att3 = 
+| ref3 = 
+| date4 = October 28
+| score4 = Yokohama DeNA BayStars at Fukuoka SoftBank Hawks
+| loc4 = Mizuho PayPay Dome
+| time4 = 6:00{{nbsp}}pm ([[Japan Standard Time|JST]])
+| att4 = 
+| ref4 = 
+| date5 = October 29{{dagger}}
+| score5 = Yokohama DeNA BayStars at Fukuoka SoftBank Hawks
+| loc5 = Mizuho PayPay Dome
+| time5 = 6:00{{nbsp}}pm ([[Japan Standard Time|JST]])
+| att5 = 
+| ref5 = 
+| date6 = October 31{{dagger}}
+| score6 = Fukuoka SoftBank Hawks at Yokohama DeNA BayStars
+| loc6 = Yokohama Stadium
+| time6 = 6:30{{nbsp}}pm ([[Japan Standard Time|JST]])
+| att6 = 
+| ref6 = 
+| date7 = November 1{{dagger}}
+| score7 = Fukuoka SoftBank Hawks at Yokohama DeNA BayStars
+| loc7 = Yokohama Stadium
+| time7 = 6:00{{nbsp}}pm ([[Japan Standard Time|JST]])
+| att7 = 
+| ref7 = 
+}}
+{{dagger}}if necessary
+* The series only ends when one team claims four wins. If neither team gets four wins after Game 7 ends, extra games will be held until the winning criteria is met.
+** In such case, the team hosting Game 7 will host Game 8 in the next day. If Game 9 is necessary, then it will be held two days after Game 8, with the other team hosting.
+* For the first seven games, maximum length for each game is 12 innings, thus the game may end in a tie. Starting from Game 8, there will be no length restrictions.
+* For Game 3, 4, and 5, there will be [[designated hitters]], while for Game 1, 2, 6 and 7, the [[pitchers]] have to hit.
+
+== Game summaries ==
+=== Game 1 ===
+{{linescore|
+|Date = Saturday, October 24, 2026,
+|Time = 6:30{{nbsp}}pm ([[Japan Standard Time|JST]])
+|Location = [[Yokohama Stadium]] in [[Yokohama]], [[Kanagawa Prefecture|Kanagawa]]
+|Road=SoftBank|RoadAbr=SBH
+|R1=　|R2=　|R3=　|R4=　|R5=　|R6=　|R7=　|R8=　|R9=　|RR=　|RH=　|RE=　
+|Home=DeNA|HomeAbr=DNA
+|H1=　|H2=　|H3=　|H4=　|H5=　|H6=　|H7=　|H8=　|H9=　|HR=　|HH=　|HE=　
+|RSP= |HSP=
+<!--|WP=[[Shoki Murakami]] (1–0) |LP=[[Kohei Arihara]] (0–1) |SV= [[Daichi Ishii]] (1)-->
+|Attendance=
+|BoxURL=
+}}
+
+=== Game 2 ===
+{{linescore|
+|Date = Sunday, October 25, 2026,
+|Time = 6:00{{nbsp}}pm ([[Japan Standard Time|JST]])
+|Location = Yokohama Stadium in Yokohama, Kanagawa
+|Road=SoftBank|RoadAbr=SBH
+|R1=　|R2=　|R3=　|R4=　|R5=　|R6=　|R7=　|R8=　|R9=　|RR=　|RH=　|RE=　
+|Home=DeNA|HomeAbr=DNA
+|H1=　|H2=　|H3=　|H4=　|H5=　|H6=　|H7=　|H8=　|H9=　|HR=　|HH=　|HE=　
+|RSP= |HSP=
+<!--|WP=[[Shoki Murakami]] (1–0) |LP=[[Kohei Arihara]] (0–1) |SV= [[Daichi Ishii]] (1)-->
+|Attendance=
+|BoxURL=
+}}
+
+=== Game 3 ===
+{{linescore|
+|Date = Tuesday, October 27, 2026,
+|Time = 6:00{{nbsp}}pm ([[Japan Standard Time|JST]])
+|Location = [[Mizuho PayPay Dome]] in [[Fukuoka]], [[Fukuoka Prefecture|Fukuoka]]
+|Road=DeNA|RoadAbr=DNA
+|R1=　|R2=　|R3=　|R4=　|R5=　|R6=　|R7=　|R8=　|R9=　|RR=　|RH=　|RE=　
+|Home=SoftBank|HomeAbr=SBH
+|H1=　|H2=　|H3=　|H4=　|H5=　|H6=　|H7=　|H8=　|H9=　|HR=　|HH=　|HE=　
+|RSP= |HSP=
+<!--|WP=[[Shoki Murakami]] (1–0) |LP=[[Kohei Arihara]] (0–1) |SV= [[Daichi Ishii]] (1)-->
+|Attendance=
+|BoxURL=
+}}
+
+=== Game 4 ===
+{{linescore|
+|Date = Wednesday, October 28, 2026,
+|Time = 6:00{{nbsp}}pm ([[Japan Standard Time|JST]])
+|Location = Mizuho PayPay Dome in Fukuoka, Fukuoka
+|Road=DeNA|RoadAbr=DNA
+|R1=　|R2=　|R3=　|R4=　|R5=　|R6=　|R7=　|R8=　|R9=　|RR=　|RH=　|RE=　
+|Home=SoftBank|HomeAbr=SBH
+|H1=　|H2=　|H3=　|H4=　|H5=　|H6=　|H7=　|H8=　|H9=　|HR=　|HH=　|HE=　
+|RSP= |HSP=
+<!--|WP=[[Shoki Murakami]] (1–0) |LP=[[Kohei Arihara]] (0–1) |SV= [[Daichi Ishii]] (1)-->
+|Attendance=
+|BoxURL=
+}}
+
+=== Game 5 ===
+=== Game 6 ===
+=== Game 7 ===
+
+== Aftermath ==
+
+
+==Media coverage==
+
+
+==See also==
+*[[2026 World Series]]
+*[[2026 Korean Series]]
+
+==References==
+{{Reflist}}
+
+{{Japan Series}}
+{{Fukuoka SoftBank Hawks}}
+{{Yokohama DeNA BayStars}}
+
+{{DEFAULTSORT:Japan Series, 2026}}
+[[Category:2026 Nippon Professional Baseball season]]
+[[Category:Japan Series|2026]]
+[[Category:October 2026 sports events in Japan]]
+[[Category:Yokohama DeNA BayStars postseason]]
+[[Category:Fukuoka SoftBank Hawks postseason]]
