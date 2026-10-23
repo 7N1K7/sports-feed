@@ -302,6 +302,9 @@ select { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid 
 main { padding-block: 12px 22px; display: grid; gap: 18px }
 section > h2 { font-size: 22px; text-transform: uppercase; letter-spacing: .04em; display: flex; flex-wrap: wrap; column-gap: 10px; align-items: baseline; gap: 10px; margin-bottom: 10px }
 section > h2 small { font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 13px; color: var(--muted); font-weight: 400 }
+/* FREE TV on: each list of games it narrows says so, in green at the heading's end */
+.freenote { display: none; margin-left: auto; font: 700 12px var(--f-body); letter-spacing: .03em; color: #40c057; white-space: nowrap }
+body.freeon .freenote { display: inline }
 
 .week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px }
 .day { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 6px 4px; text-align: center; cursor: pointer; display: grid; gap: 2px; min-width: 0 }
@@ -360,6 +363,7 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .fta.fpre { background: transparent; color: #37b24d; box-shadow: inset 0 0 0 1.5px #37b24d } /* only part of it is free: outlined */
 .ev .ctags .ftac { margin-left: 4px }
 .fta .fch { font-weight: 700; letter-spacing: .02em; text-transform: none } /* the channel after FREE, in its own case */
+a.fta { text-decoration: none } a.fta:hover { filter: brightness(1.15) } /* a card's FREE tag opens where it plays */
 /* "FREE TV", the words as the badge had them: off, a green outline and green words; on, filled green like the other
    buttons when they're on */
 #freeOnly { padding-inline: 8px; background: var(--surface); border-color: #2b8a3e; color: #40c057 }
@@ -1393,11 +1397,11 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
     <div id="hubBody"></div>
   </section>
   <section id="liveSec" hidden>
-    <h2><span class="livedot" aria-hidden="true"></span>Live now</h2>
+    <h2><span class="livedot" aria-hidden="true"></span>Live now<span class="freenote">Free broadcasts only</span></h2>
     <div id="live" class="daygroup"></div>
   </section>
   <section id="soonSec" hidden>
-    <h2><span class="livedot soondot" aria-hidden="true"></span>Starting soon <small>in the next hour</small></h2>
+    <h2><span class="livedot soondot" aria-hidden="true"></span>Starting soon <small>in the next hour</small><span class="freenote">Free broadcasts only</span></h2>
     <div id="soon" class="daygroup"></div>
   </section>
   <section id="weekSec">
@@ -1406,15 +1410,15 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
     <div id="dayPick" class="daypick" hidden></div>
   </section>
   <section id="todaySec">
-    <h2>On today <small id="todayLabel"></small></h2>
+    <h2>On today <small id="todayLabel"></small><span class="freenote">Free broadcasts only</span></h2>
     <div id="today"></div>
   </section>
   <section id="tomSec" hidden>
-    <h2>Tomorrow <small id="tomLabel"></small></h2>
+    <h2>Tomorrow <small id="tomLabel"></small><span class="freenote">Free broadcasts only</span></h2>
     <div id="tomorrow" class="daygroup"></div>
   </section>
   <section id="upSec">
-    <h2>Coming up this week <small>Times in <span id="tzWord">NZ</span>, with local time for overseas games</small></h2>
+    <h2>Coming up this week <small>Times in <span id="tzWord">NZ</span>, with local time for overseas games</small><span class="freenote">Free broadcasts only</span></h2>
     <div id="upcoming"></div>
   </section>
   <section id="runSec" hidden>
@@ -1428,7 +1432,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
     <div id="bigPager"></div>
   </section>
   <section id="laterSec" hidden>
-    <h2>Further ahead</h2>
+    <h2>Further ahead<span class="freenote">Free broadcasts only</span></h2>
     <div id="later"></div>
   </section>
   <section id="resSec">
@@ -2037,13 +2041,14 @@ function evCard(e, now) {
   // a free way to watch goes on the card ahead of a paid one: Three over Sky Sport 1 when both show it
   const free = freeTo(e).replace(/^free\s*(?:on|to watch on|:)?\s*/i, '').replace(/\s*\(free\)$/i, '').replace(/\s*\([^)]*$/, '');
   const tv = free || (e.tv || []).find(x => !x.delayed && !(prelimsOnly(e) && freeCh(x.ch)))?.ch || (e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : '') || (e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt ? 'YouTube (free)' : '');
-  // the free channel up top with the competition's tags, on every card ("FREE on Three"): short, what's in brackets dropped
-  const freeTag = free.replace(/\s*\(.*$/, '').replace(/ live stream$/, ' stream').trim();
+  // the free channel up top with the competition's tags, on every card ("FREE on Three"): short, what's in brackets
+  // dropped, and a link to where it plays
+  const freeTag = free.replace(/\s*\(.*$/, '').replace(/ live stream$/, ' stream').trim(), freeAt = free && freeHref(e, free);
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}${free ? `<span class="fta ftac" title="Free to watch on ${esc(free)}">FREE<span class="fch"> on ${esc(freeTag)}</span></span>` : freePrelims(e) ? '<span class="fta ftac fpre" title="The prelims are free to watch; the main card is pay-per-view">FREE PRELIMS</span>' : ''}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}${free ? `<${freeAt ? `a href="${esc(freeAt)}" target="_blank" rel="noopener" class="fta ftac" data-watch="${esc(freeTag)}"` : 'span class="fta ftac"'} title="Free to watch on ${esc(free)}">FREE<span class="fch"> on ${esc(freeTag)}</span></${freeAt ? 'a' : 'span'}>` : freePrelims(e) ? (h => `<${h ? `a href="${esc(h)}" target="_blank" rel="noopener" data-watch="${esc(freePrelims(e))}"` : 'span'} class="fta ftac fpre" title="The prelims are free to watch; the main card is pay-per-view">FREE PRELIMS</${h ? 'a' : 'span'}>`)(freeHref(e, freePrelims(e))) : ''}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${seriesLine(e, now)}
     </div>
@@ -2068,6 +2073,15 @@ const SERVICES = {
 };
 const SVC_RE = new RegExp(`(${Object.keys(SERVICES).sort((a, b) => b.length - a.length).map(k => k.replace(/[.+]/g, '\\$&')).join('|')})(?![\\w+])`, 'g');
 const linkWatch = t => esc(t).replace(SVC_RE, m => `<a class="svc" href="${SERVICES[m]}" target="_blank" rel="noopener">${m}</a>`);
+// where a game's free way to watch plays: its own YouTube stream, else the free channel's site (or the service named in
+// the option, "NZC YouTube")
+const FREE_SITE = { 'TVNZ 1': 'https://www.tvnz.co.nz', 'TVNZ 2': 'https://www.tvnz.co.nz', 'TVNZ DUKE': 'https://www.tvnz.co.nz', Three: 'https://www.threenow.co.nz',
+  Rush: 'https://www.threenow.co.nz', Bravo: 'https://www.threenow.co.nz', eden: 'https://www.threenow.co.nz', 'Sky Open': 'https://www.sky.co.nz/skyopen', 'Whakaata Māori': 'https://www.whakaatamaori.co.nz' };
+function freeHref(e, f) {
+  if (f === 'YouTube') { const ys = e.yt || []; return (ys.find(x => x.state === 'live') || ys.find(x => x.state === 'upcoming') || ys[ys.length - 1])?.url || ''; }
+  const m = String(f).match(SVC_RE);
+  return FREE_SITE[f] || SERVICES[f] || (m ? SERVICES[m[0]] : '');
+}
 const LIVE_SITE = { cricket: ['Cricinfo', 'https://www.espncricinfo.com/live-cricket-score'] };
 // what each way to watch is, for the game's pop-up: its kind, and what you need for it
 const WATCH_INFO = {
@@ -3276,7 +3290,7 @@ function render() {
     $('compSel').textContent = COMP_LABEL[compSel] || compSel || 'All competitions'; // one width whatever's picked; a long name is cut short, and named in full on hover
     $('compSel').title = compSel ? $('compSel').textContent : 'Pick a competition for far more data!'; // (with none picked, a tip that each has its own page)
     $('nzOnly').setAttribute('aria-pressed', String(nzOnly));
-    $('freeOnly').setAttribute('aria-pressed', String(freeOnly));
+    $('freeOnly').setAttribute('aria-pressed', String(freeOnly)); document.body.classList.toggle('freeon', freeOnly);
     renderHub(now);
     $('compSel').classList.toggle('on', !!compSel);
     $('genderSel').innerHTML = [['all', 'All'], ['m', "Men's"], ['w', "Women's"]].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
@@ -3498,7 +3512,7 @@ document.addEventListener('click', ev => {
   const sub = ev.target.closest('#calList a, #alertList a');
   if (sub) count({ e: sub.closest('#calList') ? 'cal' : 'alerts' });
   // which ways to watch people tap (the services, and the live scores link): just the service's name
-  const svc = ev.target.closest('a.svc, a.livelink');
+  const svc = ev.target.closest('a.svc, a.livelink, a.fta[data-watch]');
   if (svc && (svc.classList.contains('livelink') || svc.dataset.watch || SERVICES[svc.textContent.trim()])) count({ e: 'watch', k: svc.classList.contains('livelink') ? 'Live scores link' : svc.dataset.watch || svc.textContent.trim() });
   if (ev.target.closest('a')) return;
   // with a mouse, a week dot opens its game (anywhere else on the day opens the day); a finger is too broad for a dot,
