@@ -153,7 +153,7 @@ export function classify(kind, home, away) {
     case 'nrl': return { team: /Warriors/.test(names) ? 'warriors' : 'nrl', tags: ['nrl'] };
     case 'hockey': return nz ? { team: women ? 'blacksticksw' : 'blacksticks', tags: [] } : null;
     case 'basketball': return nz ? { team: women ? 'tallferns' : 'tallblacks', tags: [] } : null;
-    case 'nbl': return /Breakers/.test(names) ? { team: 'breakers', tags: [] } : null;
+    case 'nbl': return { team: /Breakers/.test(names) ? 'breakers' : 'nbl', tags: ['nbl'] };
     case 'netball': return nz ? { team: 'silverferns', tags: [] } : null;
     case 'epl': return { team: 'epl', tags: ['epl'] };
     case 'aleague': return { team: /Wellington Phoenix/.test(names) ? 'phoenix' : /Auckland FC/.test(names) ? 'aucklandfc' : 'aleague', tags: ['aleague'] };
@@ -301,10 +301,20 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
   const s0 = M >= 6 ? Y : Y - 1;
   const seasons = [`${s0}–${String(s0 + 1).slice(2)}`, ...(M >= 4 && M < 6 ? [`${s0 + 1}–${String(s0 + 2).slice(2)}`] : [])];
   const years = [...(M === 0 ? [Y - 1] : []), Y, ...(M >= 8 ? [Y + 1] : [])];
+  // last season's NZ and Australian tours too, only for the form guide (a T20I series early in the summer otherwise shows
+  // "no other T20I results"); their games stay out of the feed itself
+  const prev = `${s0 - 1}–${String(s0).slice(2)}`;
+  // a lagged or busy Wikipedia answers "maxlag" (with a 200) or a 429/5xx: wait and ask again, so a page's games don't
+  // drop out of the feed for a run (F1's races went missing now and then)
   const api = async q => {
-    const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&' + q, { headers: UA });
-    if (!r.ok) throw new Error(`wikipedia ${r.status}`);
-    return r.json();
+    for (let i = 0; ; i++) {
+      const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&' + q, { headers: UA }).catch(e => ({ ok: false, status: e.message }));
+      const j = r.ok ? await r.json().catch(() => null) : null;
+      if (j && !/maxlag|ratelimit|readonly/i.test(j.error?.code || '')) return j;
+      if (i >= 3) { if (j) return j; throw new Error(`wikipedia ${r.status}`); }
+      diag.wikiRetries = (diag.wikiRetries || 0) + 1;
+      await new Promise(res => setTimeout(res, 2000 * 2 ** i));
+    }
   };
   // expand {Y} and {S} into concrete titles
   const want = new Map();
@@ -313,24 +323,27 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     for (const t of ts) want.set(t, c);
   }
   // NZ cricket tours change name every summer, so find them by search
-  for (const q of [...seasons, ...years.map(String)].flatMap(s => [`intitle:"in New Zealand in ${s}"`, `intitle:"New Zealand" intitle:"cricket team in" "${s}"`])) {
+  for (const q of [...seasons, ...years.map(String), prev].flatMap(s => [`intitle:"in New Zealand in ${s}"`, `intitle:"New Zealand" intitle:"cricket team in" "${s}"`])) {
     try {
       const r = await api('action=query&list=search&srlimit=20&srnamespace=0&srsearch=' + encodeURIComponent(q));
       for (const { title } of r.query?.search || []) {
         if (!/cricket team/.test(title) || !/New Zealand/.test(title) || !/\b20\d\d\b/.test(title)) continue;
-        if (![...seasons, ...years.map(String)].some(s => title.endsWith(s))) continue;
-        want.set(title, { sport: 'cricket', comp: /women/i.test(title) ? "White Ferns" : 'Black Caps', classify: 'nzcricket', women: /women's cricket team/i.test(title), seriesTitle: true });
+        const old = title.endsWith(prev);
+        if (![...seasons, ...years.map(String)].some(s => title.endsWith(s)) && !old) continue;
+        if (old && want.has(title)) continue;
+        want.set(title, { sport: 'cricket', comp: /women/i.test(title) ? "White Ferns" : 'Black Caps', classify: 'nzcricket', women: /women's cricket team/i.test(title), seriesTitle: true, ...(old ? { formOnly: true } : {}) });
       }
     } catch (e) { diag.wikiSearch = e.message; }
   }
   // Australian men's tours, home and away (NZ ones are already in)
-  for (const q of [...seasons, ...years.map(String)].flatMap(s => [`intitle:"cricket team in Australia in ${s}"`, `intitle:"Australian cricket team in" "${s}"`])) {
+  for (const q of [...seasons, ...years.map(String), prev].flatMap(s => [`intitle:"cricket team in Australia in ${s}"`, `intitle:"Australian cricket team in" "${s}"`])) {
     try {
       const r = await api('action=query&list=search&srlimit=20&srnamespace=0&srsearch=' + encodeURIComponent(q));
       for (const { title } of r.query?.search || []) {
         if (!/^[A-Z][\w ]+ cricket team in [\w ]+ in 20\d\d/.test(title) || /New Zealand|women|under-19|\bA cricket/i.test(title) || !/Australia/.test(title)) continue;
-        if (![...seasons, ...years.map(String)].some(s => title.endsWith(s)) || want.has(title)) continue;
-        want.set(title, { sport: 'cricket', comp: 'Australia', classify: 'aucricket', seriesTitle: true });
+        const old = title.endsWith(prev);
+        if ((![...seasons, ...years.map(String)].some(s => title.endsWith(s)) && !old) || want.has(title)) continue;
+        want.set(title, { sport: 'cricket', comp: 'Australia', classify: 'aucricket', seriesTitle: true, ...(old ? { formOnly: true } : {}) });
       }
     } catch (e) { diag.wikiSearch = e.message; }
   }
@@ -386,6 +399,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     if (!pg) continue;
     const evs = c.ufc ? ufcFromList(pg.text, cityTz) : eventsFromPage(pg.title, pg.text, c.seriesTitle ? { ...c, comp: seriesComp(pg.title, c) } : c, cityTz);
     if (c.seriesTitle) for (const e of evs) hostFirst(e, pg.title);
+    if (c.formOnly) for (const e of evs) e.formOnly = true;
     per[pg.title] = evs.length;
     if (c.seriesTitle) {
       const sq = squadsFromPage(pg.text);
@@ -399,7 +413,8 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
   const tables = [];
   try {
     const tplNames = new Map();
-    for (const src of tableSrc) for (const m of src.text.matchAll(/\{\{\s*([^{}|#\n]{4,90}?(?:table|standings|ladder))\s*\}\}/gi))
+    // the name can end in its season ("NBL Ladder 2026–27")
+    for (const src of tableSrc) for (const m of src.text.matchAll(/\{\{\s*([^{}|#\n]{4,90}?(?:table|standings|ladder)(?:\s+\d{4}(?:[–-]\d{2,4})?)?)\s*\}\}/gi))
       if (!/^(wide table|table alignment)/i.test(m[1])) tplNames.set('Template:' + m[1].trim(), src);
     const tplTexts = {};
     const tn = [...tplNames.keys()].slice(0, 40);
@@ -411,8 +426,9 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     for (const src of tableSrc) {
       let text = src.text;
       // inline the transcluded table templates where they sit, so headings still apply
-      text = text.replace(/\{\{\s*([^{}|#\n]{4,90}?(?:table|standings|ladder))\s*\}\}/gi, (m, n) => tplTexts['Template:' + n.trim()] || m);
-      tables.push(...sportsTables(text, src.title, src.c));
+      text = text.replace(/\{\{\s*([^{}|#\n]{4,90}?(?:table|standings|ladder)(?:\s+\d{4}(?:[–-]\d{2,4})?)?)\s*\}\}/gi, (m, n) => tplTexts['Template:' + n.trim()] || m);
+      // a basketball league's ladder can be a plain wikitable (the NBL's), ahead of its cup tables (Blitz, Ignite Cup)
+      tables.push(...(src.c.classify === 'nbl' ? wikiLadder(text, src.title, src.c) : []), ...sportsTables(text, src.title, src.c));
     }
   } catch (e) { diag.tables = 'error: ' + e.message; }
   if (!diag.tables) diag.tables = tables.map(t => `${t.page} / ${t.title}: ${t.rows.length}`);
@@ -454,6 +470,43 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     }
     diag.supercars = `standings: ${tables.filter(t => t.team === 'supercars').map(t => `${t.title} ${t.rows.length} (top ${t.rows[0]?.name} ${t.rows[0]?.pts})`).join(', ') || 'none'}; ${sc.length} rounds, ${sc.filter(e => e.status === 'final').length} with results: ${sc.map(e => `${e.round} ${e.home} ${e.startUTC.slice(0, 10)}`).join('; ')}`;
   } catch (e) { diag.supercars = 'error: ' + e.message; }
+  // SailGP and golf: each season page's calendar or schedule table, one card an event on its last day, with the winner
+  // once it's in. Next year's SailGP page joins from September; golf seasons by their own naming
+  const seasonPages = async names => {
+    const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(names.join('|')));
+    const back = Object.fromEntries([...(r.query?.redirects || []), ...(r.query?.normalized || [])].map(x => [x.to, x.from]));
+    return Object.fromEntries((r.query?.pages || []).filter(p => !p.missing).map(p => [back[back[p.title]] || back[p.title] || p.title, p.revisions?.[0]?.slots?.main?.content || '']));
+  };
+  try {
+    const ys = [Y, ...(M >= 8 ? [Y + 1] : [])], pg = await seasonPages(ys.map(y => `${y} SailGP championship`));
+    const sg = ys.flatMap(y => sailgpSeason(pg[`${y} SailGP championship`] || '', y));
+    out.push(...sg);
+    diag.sailgp = `${sg.length} events, ${sg.filter(e => e.status === 'final').length} with winners`;
+  } catch (e) { diag.sailgp = 'error: ' + e.message; }
+  try {
+    const tours = [
+      ...[Y, ...(M >= 10 ? [Y + 1] : [])].flatMap(y => [{ title: `${y} PGA Tour`, team: 'pgatour', comp: 'PGA Tour', y, tz: 'America/New_York' }, { title: `${y} LPGA Tour`, team: 'lpga', comp: 'LPGA Tour', y, tz: 'America/New_York' }]),
+      // the Australasian season runs across the New Year ("2026–27"), from about August
+      ...[M >= 6 ? Y : Y - 1].map(y => ({ title: `${y}–${String(y + 1).slice(2)} PGA Tour of Australasia`, team: 'golfanz', comp: 'PGA Tour of Australasia', y, y2: y + 1, tz: 'Australia/Sydney' })),
+    ];
+    const pg = await seasonPages(tours.map(t => t.title));
+    const per = {};
+    for (const t of tours) { const evs = golfSeason(pg[t.title] || '', t); per[t.title] = evs.length; out.push(...evs); }
+    diag.golf = per;
+  } catch (e) { diag.golf = 'error: ' + e.message; }
+  // Baseball, September to December: this year's MLB playoffs (a page a series) and the Japan Series, with the final
+  // standings from the season pages
+  if (M >= 8) try {
+    const series = [...['World Series', ...['American', 'National'].flatMap(l => ['Championship', 'Division', 'Wild Card'].map(r => `${l} League ${r} Series`))]
+      .map(s => ({ title: `${Y} ${s}`, team: 'mlb', comp: 'MLB playoffs', tz: 'America/New_York', y: Y })), { title: `${Y} Japan Series`, team: 'npb', comp: 'Japan Series', tz: 'Asia/Tokyo', y: Y }];
+    const divs = ['AL East', 'AL Central', 'AL West', 'NL East', 'NL Central', 'NL West'], npb = `${Y} Nippon Professional Baseball season`;
+    const pg = await seasonPages([...series.map(s => s.title), ...divs.map(d => `Template:${Y} ${d} standings`), npb]);
+    const per = {};
+    for (const s of series) { const evs = baseballSeries(pg[s.title] || '', s); per[s.title.slice(5)] = `${evs.length} (${evs.filter(e => e.status === 'final').length} played)`; out.push(...evs); }
+    for (const d of divs) for (const tb of mlbStandings(pg[`Template:${Y} ${d} standings`] || '', d)) tables.push({ comp: 'MLB playoffs', sport: 'baseball', team: 'mlb', page: `${Y} Major League Baseball season`, ...tb });
+    for (const tb of npbStandings(pg[npb] || '')) tables.push({ comp: 'Japan Series', sport: 'baseball', team: 'npb', page: npb, ...tb });
+    diag.baseball = `${Object.entries(per).map(([k, v]) => `${k}: ${v}`).join('; ')}; standings: ${tables.filter(t => t.sport === 'baseball').map(t => `${t.title} ${t.rows.length} (top ${t.rows[0].name} ${t.rows[0].w}-${t.rows[0].l})`).join(', ') || 'none'}`;
+  } catch (e) { diag.baseball = 'error: ' + e.message; }
   // Tennis: the four Grand Slams, the ATP and WTA Finals, Auckland's ASB Classic and the Australian summer's Brisbane,
   // Adelaide and Hobart tournaments, from each tournament's own page.
   // Each gives a women's and a men's singles final (the tournament's last two days), with the champion once it's played.
@@ -513,6 +566,31 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
       diag.ufcCards = ufcSoon.map(e => `${e.comp}: ${(e.card || []).length} bouts${e.about ? ', intro' : ''}`);
     }
   } catch (e) { diag.ufcCards = 'error: ' + e.message; }
+  return out;
+}
+
+// a ladder set out as a plain wikitable (the NBL's "NBL Ladder 2026–27" template): a header row naming Team, Played, W,
+// L, Points for and against; then a row a team, its position first. Rows without a team (spacers) are skipped
+function wikiLadder(text, page, c) {
+  const out = [];
+  for (const m of text.matchAll(/\{\|[^\n]*wikitable[\s\S]*?\n\|\}/g)) {
+    const rows = m[0].split(/\n\|-[^\n]*/).slice(1).map(r => r.split('\n').filter(l => /^[|!]/.test(l)).flatMap(l => l.slice(1).split(/\|\||!!/))
+      .map(x => ({ link: /\[\[/.test(x), v: clean(x.replace(/^\s*(?:[a-z-]+\s*=\s*(?:"[^"]*"|[^\s|]+)\s*)+\|(?!\|)/i, '')).trim() })));
+    const hi = rows.findIndex(r => r.some(x => /^team$/i.test(x.v)));
+    if (hi < 0) continue;
+    const head = rows[hi].map(x => x.v), at = re => head.findIndex(h => re.test(h));
+    const iT = at(/^team$/i), iP = at(/^(pld|played|gp)$/i), iW = at(/^(w|won|games won|wins)$/i), iL = at(/^(l|lost|games lost|losses)$/i);
+    const iF = at(/^(pf|points for)$/i), iA = at(/^(pa|points against)$/i), iPct = at(/^(pct|win%|winning percentage)$/i);
+    if (iP < 0 || iW < 0 || iL < 0) continue;
+    const list = [];
+    for (const r of rows.slice(hi + 1)) {
+      const dT = r.findIndex(x => x.link);
+      if (dT < 0) continue;
+      const off = dT - iT, n = i => i < 0 ? 0 : parseFloat(String(r[i + off]?.v || '').replace(/[^\d.]/g, '')) || 0;
+      list.push({ name: r[dT].v, p: n(iP), w: n(iW), d: 0, l: n(iL), f: n(iF), a: n(iA), bp: 0, nr: 0, nrr: '', pct: iPct < 0 ? '' : String(r[iPct + off]?.v || '').replace(/%$/, ''), pts: n(iW), q: '', champ: false });
+    }
+    if (list.length >= 4) out.push({ comp: c.comp, sport: c.sport, team: c.team || '', page, title: 'Ladder', style: 'wl', rows: list });
+  }
   return out;
 }
 
@@ -748,6 +826,100 @@ function f1Season(text, year, cityTz) {
 const SC_TZ = [[/New South Wales|\bNSW\b/i, 'Australia/Sydney'], [/\bVIC\b|Victoria/i, 'Australia/Melbourne'], [/\bQLD\b|Queensland/i, 'Australia/Brisbane'],
   [/South Australia|\bSA\b/i, 'Australia/Adelaide'], [/Western Australia|\bWA\b/i, 'Australia/Perth'], [/Northern Territory|\bNT\b/i, 'Australia/Darwin'],
   [/Tasmania|\bTAS\b/i, 'Australia/Hobart'], [/NZL|New Zealand|Waikato|Canterbury|Auckland/i, 'Pacific/Auckland']];
+// SailGP "Calendar" table: round, host ("Perth, Australia"), title (sponsors and all: "ITM New Zealand Sail Grand
+// Prix"), dates ("28 February – 1 March 2026"), winning team. A card for the last day, racing about 3pm local
+const SAIL_TZ = { Perth: 'Australia/Perth', Auckland: 'Pacific/Auckland', Christchurch: 'Pacific/Auckland', Lyttelton: 'Pacific/Auckland', Sydney: 'Australia/Sydney', 'Rio de Janeiro': 'America/Sao_Paulo',
+  Bermuda: 'Atlantic/Bermuda', 'New York': 'America/New_York', Halifax: 'America/Halifax', Portsmouth: 'Europe/London', Plymouth: 'Europe/London', Sassnitz: 'Europe/Berlin', Valencia: 'Europe/Madrid',
+  Cádiz: 'Europe/Madrid', Geneva: 'Europe/Zurich', 'Saint-Tropez': 'Europe/Paris', Taranto: 'Europe/Rome', Dubai: 'Asia/Dubai', 'Abu Dhabi': 'Asia/Dubai', 'Los Angeles': 'America/Los_Angeles',
+  'San Francisco': 'America/Los_Angeles', Chicago: 'America/Chicago', Copenhagen: 'Europe/Copenhagen', Singapore: 'Asia/Singapore', Aarhus: 'Europe/Copenhagen', Hamilton: 'Atlantic/Bermuda' };
+function sailgpSeason(text, year) {
+  const i = text.search(/==\s*Calendar\s*==/i);
+  if (i < 0) return [];
+  const out = [], src = `https://en.wikipedia.org/wiki/${encodeURIComponent(`${year} SailGP championship`.replace(/ /g, '_'))}`;
+  for (const r of rowsOf((text.slice(i).match(/\{\|[\s\S]*?\n\|\}/) || [''])[0])) {
+    const rnd = +clean(r[0] || '').match(/^\d+/)?.[0];
+    const host = clean(r[1] || '').trim(), d = dateRange(r[3] || '', year);
+    if (!rnd || !host || !d) continue;
+    const city = host.split(',')[0].trim(), tz = Object.entries(SAIL_TZ).find(([k]) => host.includes(k))?.[1] || 'UTC';
+    // the place before "Sail Grand Prix", without the sponsors in front: the longest ending of up to three words the
+    // host names ("Mubadala New York" -> New York, "Apex Group Bermuda" -> Bermuda)
+    const words = clean(r[2] || '').split(/Sail Grand Prix/i)[0].trim().split(/\s+/).filter(Boolean);
+    const place = [3, 2, 1].map(k => words.slice(-k).join(' ')).find(w => w && host.toLowerCase().includes(w.toLowerCase())) || city;
+    const win = (r[4] || '').match(/\[\[([^\]|]+?) SailGP Team(?:\|([^\]]+))?\]\]/);
+    const [ey, em, ed] = d.end, [sy, sm, sd] = d.start;
+    out.push({
+      id: `sailgp-${year}-${rnd}`, team: 'sailgp', tags: [], sport: 'sailing', comp: `SailGP · Round ${rnd}`, round: `Round ${rnd}`,
+      home: `${place} Sail Grand Prix`, away: '', startUTC: new Date(localToUTC(ey, em, ed, 15, 0, tz)).toISOString(), openUTC: new Date(localToUTC(sy, sm, sd, 15, 0, tz)).toISOString(),
+      timeTBC: true, usual: true, venue: '', city, tz, ...(/New Zealand/.test(host) ? { nzEvent: true } : {}),
+      status: win ? 'final' : 'upcoming', ...(win ? { score: `${win[1]} wins`, summary: `${win[1]}${win[2] ? ` (${clean(win[2])})` : ''} won the ${place} Sail Grand Prix.` } : {}),
+      source: src,
+    });
+  }
+  return out;
+}
+
+// golf season pages' "Schedule" table: date (the last day: "Jan 11", "30 Aug", or a range), tournament, location (a US
+// state, an Australian state or a country), purse, winner. A card for the final round, leaders out about 2pm local;
+// play starts three days before. Cancelled events (date struck through) are left out
+const GOLF_TZ = [
+  [/Western Australia/, 'Australia/Perth'], [/South Australia/, 'Australia/Adelaide'], [/Northern Territory/, 'Australia/Darwin'], [/Queensland/, 'Australia/Brisbane'], [/Victoria/, 'Australia/Melbourne'], [/Tasmania/, 'Australia/Hobart'],
+  [/New South Wales|Capital Territory/, 'Australia/Sydney'], [/New Zealand/, 'Pacific/Auckland'], [/Papua New Guinea/, 'Pacific/Port_Moresby'], [/Fiji/, 'Pacific/Fiji'], [/British Columbia/, 'America/Vancouver'],
+  [/Hawaii/, 'Pacific/Honolulu'], [/California|Nevada|Oregon|Washington(?! D)/, 'America/Los_Angeles'], [/Arizona/, 'America/Phoenix'], [/Colorado|Utah|New Mexico|Idaho|Montana|Wyoming/, 'America/Denver'],
+  [/Texas|Louisiana|Oklahoma|Minnesota|Illinois|Tennessee|Alabama|Mississippi|Missouri|Wisconsin|Iowa|Kansas|Arkansas|Nebraska/, 'America/Chicago'],
+  [/Florida|Georgia|Carolina|Ohio|Michigan|Pennsylvania|New York|New Jersey|Virginia|Kentucky|Massachusetts|Maryland|Connecticut|Indiana|Delaware|Rhode Island|Maine|New Hampshire|Vermont|District of Columbia/, 'America/New_York'],
+  [/Mexico/, 'America/Mexico_City'], [/Puerto Rico/, 'America/Puerto_Rico'], [/Dominican/, 'America/Santo_Domingo'], [/Bermuda/, 'Atlantic/Bermuda'], [/Bahamas/, 'America/Nassau'], [/Canada|Ontario|Quebec/, 'America/Toronto'],
+  [/Scotland|England|Northern Ireland|Wales/, 'Europe/London'], [/Ireland/, 'Europe/Dublin'], [/France/, 'Europe/Paris'], [/Spain/, 'Europe/Madrid'], [/Japan/, 'Asia/Tokyo'], [/Korea/, 'Asia/Seoul'],
+  [/China/, 'Asia/Shanghai'], [/Taiwan/, 'Asia/Taipei'], [/Thailand/, 'Asia/Bangkok'], [/Singapore/, 'Asia/Singapore'], [/Malaysia/, 'Asia/Kuala_Lumpur'], [/India/, 'Asia/Kolkata'], [/Emirates|Dubai|Abu Dhabi/, 'Asia/Dubai'], [/Saudi/, 'Asia/Riyadh'], [/South Africa/, 'Africa/Johannesburg'],
+];
+function golfSeason(text, t) {
+  const i = text.search(/==\s*Schedule(?: and results)?\s*==/i);
+  if (i < 0) return [];
+  const out = [], seen = new Set(), src = `https://en.wikipedia.org/wiki/${encodeURIComponent(t.title.replace(/ /g, '_'))}`;
+  // the first table headed Tournament (the LPGA's page has a colour key before it); columns found by their headings, as
+  // the tours order them differently (the LPGA's winner comes before the purse)
+  const tbl = [...text.slice(i).matchAll(/\{\|[\s\S]*?\n\|\}/g)].map(m => m[0]).find(x => /\n!\s*Tournament/i.test(x)) || '';
+  const head = tbl.split(/\n\|-[^\n]*/)[0].split('\n').filter(l => /^!/.test(l)).flatMap(l => l.slice(1).split('!!')).map(h => clean(h.replace(/<br\s*\/?>/gi, ' ')).trim());
+  const at = re => head.findIndex(h => re.test(h));
+  const iD = at(/^date/i), iT = at(/^tournament/i), iL = at(/^location/i), iW = at(/^winner/i);
+  if (iD < 0 || iT < 0) return [];
+  let prev = null, rolled = false;
+  for (const row of rowsOf(tbl)) {
+    const r = [row[iD], row[iT], row[iL] ?? '', '', row[iW] ?? ''];
+    if (!r[0] || !r[1] || /<s>/i.test(r[0])) continue;
+    const dv = clean(r[0]).replace(/\s+/g, ' ').trim();
+    // the last day: "Jan 11", "30 Aug", or the end of a range ("Jan 8–11", "29 Jan – 1 Feb")
+    const m = dv.match(/(?:^|[–-]\s*)(?:([A-Za-z]{3,})\.? (\d{1,2})|(\d{1,2}) ([A-Za-z]{3,}))\s*$/) || dv.match(/^([A-Za-z]{3,})\.? (\d{1,2})\s*[–-]\s*(\d{1,2})$/);
+    let mon, day;
+    if (m && m[3] && !m[4]) { mon = MONTHS.indexOf(m[1].slice(0, 3).toLowerCase()); day = +m[3]; }
+    else if (m) { mon = MONTHS.indexOf((m[1] || m[4]).slice(0, 3).toLowerCase()); day = +(m[2] || m[3]); }
+    if (!m || mon < 0 || !day) continue;
+    // a season across the New Year: once the months go back (December to January), dates are the second year's
+    if (t.y2 && (prev == null ? mon < 6 : mon < prev - 6)) rolled = true;
+    const y = rolled ? t.y2 : t.y;
+    prev = mon;
+    const name = clean(r[1] || '').replace(/\s*\(.*?\)\s*$/, '').trim(), where = clean(r[2] || '').trim();
+    if (!name || /^tba$/i.test(name)) continue;
+    const tz = GOLF_TZ.find(([re]) => re.test(where))?.[1] || t.tz;
+    // the first day from a range ("Jan 8–11", "29 Jan – 1 Feb", "8–11 Jan"): most events are four rounds, some three
+    const f = dv.match(/^(?:([A-Za-z]{3,})\.? (\d{1,2})|(\d{1,2})(?: ([A-Za-z]{3,}))?)\s*[–-]/);
+    const fm = f ? (f[1] || f[4] ? MONTHS.indexOf((f[1] || f[4]).slice(0, 3).toLowerCase()) : mon) : -1, fd = f ? +(f[2] || f[3]) : 0;
+    const span = fm >= 0 && fd ? Math.round((Date.UTC(y, mon, day) - Date.UTC(fm > mon ? y - 1 : y, fm, fd)) / 864e5) + 1 : 4;
+    const end = localToUTC(y, mon, day, 14, 0, tz), open = new Date(end - ((span >= 2 && span <= 5 ? span : 4) - 1) * 864e5).toISOString();
+    const id = `golf-${t.team}-${y}-${name.toLowerCase().replace(/\W+/g, '-')}`;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    const winner = clean(r[4] || '').replace(/\s*\(\d+\)/g, '').replace(/\s+/g, ' ').trim();
+    const won = winner && !/^(tba|tbd|cancel+ed|postponed)$/i.test(winner) && end < Date.now();
+    out.push({
+      id, team: t.team, tags: [], sport: 'golf', comp: t.comp, home: name, away: '', startUTC: new Date(end).toISOString(), openUTC: new Date(open).toISOString(),
+      timeTBC: true, usual: true, venue: '', city: where, tz, ...(/New Zealand/.test(where) ? { nzEvent: true } : {}),
+      status: won ? 'final' : 'upcoming', ...(won ? { score: `${winner} won`, summary: `${winner} won the ${name}.` } : {}),
+      source: src,
+    });
+  }
+  return out;
+}
+
 function supercarsSeason(text, year) {
   const tableAfter = re => { const i = text.search(re); return i < 0 ? '' : (text.slice(i).match(/\{\|[\s\S]*?\n\|\}/) || [''])[0]; };
   const rowsIn = tbl => tbl.split(/\n\|-[^\n]*/).slice(1).map(r => r.split('\n').map(l => l.trim()).filter(l => /^[|!]/.test(l) && !l.startsWith('|}')));
@@ -814,13 +986,183 @@ function f1Standings(text) {
   return rows;
 }
 
+// Baseball's playoffs, one page a series. Its summary ({{MLB Playoff Summary}}, {{Baseball playoff summary}}) lists the
+// games: dateN, scoreN ("Tampa Bay Rays at Milwaukee Brewers" ahead; "'''Cleveland Guardians''' – 7, Tampa Bay Rays – 3"
+// once played, the road side first either way), locN, and timeN (the start, until it's played and becomes the game's
+// length). Start times come from the page's {{linescore}} boxes when there are any, matched by date and ground. A date
+// marked {{dagger}} is only played if the series needs it; those drop out once a side has won it
+const SERIES = [[/World Series/, 'World Series', 4], [/American League Championship/, 'ALCS', 4], [/National League Championship/, 'NLCS', 4], [/American League Division/, 'ALDS', 3],
+  [/National League Division/, 'NLDS', 3], [/American League Wild Card/, 'AL Wild Card', 2], [/National League Wild Card/, 'NL Wild Card', 2], [/Japan Series/, 'Japan Series', 4]];
+function baseballSeries(text, t) {
+  const [, name, need] = SERIES.find(([re]) => re.test(t.title)) || [, t.title, 4];
+  const src = `https://en.wikipedia.org/wiki/${encodeURIComponent(t.title.replace(/ /g, '_'))}`;
+  const tx = stripRefs(text);
+  const boxes = templates(tx, /^linescore$/i).map(x => params(x.body).named);
+  const out = [];
+  templates(tx, /^(MLB Playoff Summary|Baseball playoff summary)$/i).forEach((tpl, si) => {
+    const p = params(tpl.body).named, wins = {}, games = [];
+    for (let n = 1; p[`date${n}`] != null; n++) {
+      const d = dateOf(p[`date${n}`], t.y), s = clean(p[`score${n}`] || '');
+      if (!d || !s) continue;
+      const played = s.match(/^(.+?)\s*[–—-]\s*(\d+)\s*,\s*(.+?)\s*[–—-]\s*(\d+)\s*(?:\((\d+)(?: innings)?\))?/), ahead = s.match(/^(.+?)\s+(?:at|@)\s+(.+)$/);
+      if (!played && !ahead) continue;
+      const away = (played ? played[1] : ahead[1]).trim(), home = (played ? played[3] : ahead[2]).trim();
+      const venue = clean(p[`loc${n}`] || '');
+      const box = boxes.find(b => { const bd = dateOf(b.date || '', t.y); return bd && bd.m === d.m && bd.d === d.d && (!venue || clean(b.location || '').startsWith(venue)); });
+      const where = clean(box?.location || ''), city = (where.split(/\s+in\s+/)[1] || '').split(',')[0].trim();
+      // a start with its zone or am/pm; a bare "3:13" is how long the game took
+      const ok = v => { const c = clean(v || ''); return /[ap]\.?m\b/i.test(c) || /\b[A-Z]{3,4}\b/.test(c) ? timeOf(v) : null; };
+      const tm = ok(box?.time) || ok(p[`time${n}`]);
+      const tz = tm?.tz || GOLF_TZ.find(([re]) => re.test(where))?.[1] || t.tz;
+      const startUTC = new Date(localToUTC(d.y, d.m, d.d, tm ? tm.h : 19, tm ? tm.mi : 0, tz)).toISOString();
+      games.push({ n, d, away, home, venue, city, tz, startUTC, timed: !!tm, ifNeeded: /\{\{\s*dagger/i.test(p[`date${n}`]),
+        runs: played ? [+played[2], +played[4]] : null, inn: played?.[5] || '', link: (box?.boxurl || '').trim() });
+    }
+    // a ground's town from another game there with a box score
+    for (const g of games) if (!g.city) g.city = games.find(x => x.venue === g.venue && x.city)?.city || '';
+    let over = false;
+    for (const g of games) {
+      if (over && !g.runs) continue;
+      const e = { id: `${t.team}-${t.y}-${name.toLowerCase().replace(/[^a-z]+/g, '')}${si ? si + 1 : ''}-${g.n}`, team: t.team, tags: [], sport: 'baseball', comp: t.comp,
+        stage: `${t.comp === name ? 'Game' : name + ', game'} ${g.n}${g.ifNeeded && !g.runs ? ' (if needed)' : ''}`, home: g.home, away: g.away,
+        startUTC: g.startUTC, timeTBC: !g.timed, ...(g.timed ? {} : { usual: true }), venue: g.venue, city: g.city, tz: g.tz, status: 'upcoming', source: src, ...(/^https?:/.test(g.link) ? { link: g.link } : {}) };
+      if (g.runs) {
+        const [ar, hr] = g.runs, win = hr > ar ? g.home : ar > hr ? g.away : '';
+        if (win) wins[win] = (wins[win] || 0) + 1;
+        const [a, b] = [g.home, g.away].map(x => wins[x] || 0), lead = a === b ? `Series level ${a}–${b}` : `${a > b ? g.home : g.away} ${Math.max(a, b) >= need ? 'win' : 'lead'} the series ${Math.max(a, b)}–${Math.min(a, b)}`;
+        over = Math.max(a, b) >= need;
+        Object.assign(e, { status: 'final', score: `${hr}-${ar}`, summary: `${win ? `${win} won ${Math.max(hr, ar)}–${Math.min(hr, ar)}` : `Tied ${hr}–${ar}`}${g.inn ? ` in ${g.inn} innings` : ''}. ${lead}.` });
+      } else if (g.ifNeeded) e.note = 'Only played if the series needs it';
+      out.push(e);
+    }
+  });
+  return out;
+}
+// Final standings. MLB's six divisions, each a {{MLB standings}} template: a team, then its home wins and losses, then its
+// road ones. Ranked by wins less losses, games behind the leader worked out
+function mlbStandings(text, title) {
+  const tpl = templates(stripRefs(text), /^MLB standings$/i)[0];
+  if (!tpl) return [];
+  const pos = params(tpl.body).pos.map(x => clean(x));
+  const rows = [];
+  for (let i = 0; i + 4 < pos.length; i += 5) {
+    const [nm, hw, hl, rw, rl] = pos.slice(i, i + 5);
+    if (!nm || [hw, hl, rw, rl].some(x => !/^\d+$/.test(x))) break;
+    const w = +hw + +rw, l = +hl + +rl;
+    rows.push({ name: nm, p: w + l, w, d: 0, l, f: 0, a: 0, bp: 0, nr: 0, nrr: '', q: '', champ: false });
+  }
+  return baseballRows(rows, title);
+}
+// Nippon Professional Baseball's two leagues: wikitables captioned "... Central League regular season standings", a row a
+// team with games, wins, losses and ties
+function npbStandings(text) {
+  const out = [];
+  for (const m of stripRefs(text).matchAll(/\{\|[^\n]*wikitable[\s\S]*?\n\|\}/g)) {
+    const cap = clean((m[0].match(/\n\|\+([^\n]*)/) || [])[1] || '');
+    const lg = (cap.match(/(Central|Pacific) League/) || [])[0];
+    if (!lg || !/standings/i.test(cap)) continue;
+    const rows = [];
+    for (const c of rowsOf(m[0])) {
+      const name = clean(c[1] || '').replace(/^[a-z]+\s*[–-]\s*/i, '').trim(), n = c.slice(2, 6).map(x => +clean(x));
+      if (!+clean(c[0] || '') || !name || n.some(isNaN)) continue;
+      rows.push({ name, p: n[0], w: n[1], d: n[3], l: n[2], f: 0, a: 0, bp: 0, nr: 0, nrr: '', q: '', champ: false });
+    }
+    out.push(...baseballRows(rows, lg));
+  }
+  return out;
+}
+// winning percentage (".605", ties left out) and games behind ("2½", "—" for the leader)
+function baseballRows(rows, title) {
+  if (rows.length < 4) return [];
+  const pct = r => r.w + r.l ? r.w / (r.w + r.l) : 0;
+  rows.sort((a, b) => pct(b) - pct(a));
+  const top = rows[0];
+  for (const r of rows) {
+    r.wpct = pct(r).toFixed(3).replace(/^0/, '');
+    const gb = ((top.w - r.w) + (r.l - top.l)) / 2;
+    r.gb = r === top || gb <= 0 ? '—' : `${Math.floor(gb) || ''}${gb % 1 ? '½' : ''}`;
+  }
+  return [{ title, style: 'baseball', rows }];
+}
+
+// The NBA from balldontlie's free API (key in BALLDONTLIE_KEY, 5 requests a minute, so at most 4 a run): each run the
+// games from a week back to ten days ahead; every result is kept in `cache` (saved by fetch.mjs) for the conference
+// standings, which a cold cache fills a page of the season at a time. The teams are asked for once a week
+// the teams named for a state or region, and their home city
+const NBA_CITY = { GSW: 'San Francisco', IND: 'Indianapolis', UTA: 'Salt Lake City', MIN: 'Minneapolis', LAC: 'Los Angeles' };
+const NBA_TZ = { ATL: 'America/New_York', BOS: 'America/New_York', BKN: 'America/New_York', CHA: 'America/New_York', CHI: 'America/Chicago', CLE: 'America/New_York',
+  DAL: 'America/Chicago', DEN: 'America/Denver', DET: 'America/Detroit', GSW: 'America/Los_Angeles', HOU: 'America/Chicago', IND: 'America/Indiana/Indianapolis',
+  LAC: 'America/Los_Angeles', LAL: 'America/Los_Angeles', MEM: 'America/Chicago', MIA: 'America/New_York', MIL: 'America/Chicago', MIN: 'America/Chicago',
+  NOP: 'America/Chicago', NYK: 'America/New_York', OKC: 'America/Chicago', ORL: 'America/New_York', PHI: 'America/New_York', PHX: 'America/Phoenix',
+  POR: 'America/Los_Angeles', SAC: 'America/Los_Angeles', SAS: 'America/Chicago', TOR: 'America/Toronto', UTA: 'America/Denver', WAS: 'America/New_York' };
+export async function nbaGames(cache, diag) {
+  const key = process.env.BALLDONTLIE_KEY;
+  if (!key) { diag.nba = 'no key'; return { events: [], tables: [] }; }
+  const now = Date.now(), y = new Date(now).getUTCFullYear(), m = new Date(now).getUTCMonth();
+  const season = m >= 8 ? y : y - 1; // named for the year it starts: 2026 is 2026–27
+  let calls = 0;
+  const get = async path => {
+    calls++;
+    const r = await fetch('https://api.balldontlie.io' + path, { headers: { Authorization: key } });
+    if (!r.ok) throw new Error(`balldontlie ${r.status}`);
+    return r.json();
+  };
+  if (cache.season !== season) Object.assign(cache, { season, games: {}, fill: { cursor: '', done: false } });
+  const notes = [];
+  try {
+    if (!cache.teams || now - cache.teams.t > 7 * DAY) {
+      const j = await get('/v1/teams');
+      const list = (j.data || []).filter(t => t.id <= 30 && /^(East|West)$/.test(t.conference)).map(t => ({ id: t.id, name: t.full_name, abbr: t.abbreviation, city: t.city, conf: t.conference }));
+      if (list.length === 30) cache.teams = { t: now, list };
+    }
+    // the games around now, then (while the cache is still filling) the season from its start
+    const day = t => new Date(t).toISOString().slice(0, 10), dates = [];
+    for (let t = now - 7 * DAY; t <= now + 10 * DAY; t += DAY) dates.push(day(t));
+    const slim = g => ({ id: g.id, at: g.datetime || g.date, st: g.status_state || (/^final$/i.test(g.status) ? 'final' : 'scheduled'), hs: g.home_team_score, vs: g.visitor_team_score,
+      h: g.home_team?.id, v: g.visitor_team?.id, ...(g.postseason ? { post: true } : {}), ...(g.postponed ? { off: true } : {}) });
+    let cursor = '';
+    do {
+      const j = await get(`/v1/games?${dates.map(d => `dates[]=${d}`).join('&')}&per_page=100${cursor ? `&cursor=${cursor}` : ''}`);
+      for (const g of j.data || []) cache.games[g.id] = slim(g);
+      cursor = j.meta?.next_cursor || '';
+    } while (cursor && calls < 4);
+    while (!cache.fill.done && calls < 4) {
+      const j = await get(`/v1/games?seasons[]=${season}&per_page=100${cache.fill.cursor ? `&cursor=${cache.fill.cursor}` : ''}`);
+      for (const g of j.data || []) cache.games[g.id] = slim(g);
+      cache.fill.cursor = j.meta?.next_cursor || '';
+      cache.fill.done = !cache.fill.cursor;
+    }
+  } catch (e) { notes.push('error: ' + e.message); }
+  const T = Object.fromEntries((cache.teams?.list || []).map(t => [t.id, t]));
+  const usDay = t => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }).format(new Date(t));
+  const events = Object.values(cache.games).filter(g => T[g.h] && T[g.v] && g.at && Date.parse(g.at) > now - 7.5 * DAY && Date.parse(g.at) < now + 11 * DAY).map(g => {
+    const h = T[g.h], v = T[g.v], fin = g.st === 'final', timed = /T\d\d:\d\d/.test(g.at);
+    return { id: `nba-${g.id}`, team: 'nba', tags: [], sport: 'basketball', comp: 'NBA', ...(g.post ? { stage: 'Playoffs' } : {}), home: h.name, away: v.name,
+      startUTC: new Date(timed ? g.at : `${g.at.slice(0, 10)}T23:30:00Z`).toISOString(), timeTBC: !timed, venue: '', city: NBA_CITY[h.abbr] || h.city, tz: NBA_TZ[h.abbr] || 'America/New_York',
+      status: g.off ? 'postponed' : fin ? 'final' : g.st === 'in_progress' ? 'live' : 'upcoming', ...(fin ? { score: `${g.hs}-${g.vs}` } : {}),
+      source: `https://www.nba.com/games?date=${usDay(g.at)}` };
+  });
+  // conference standings from every regular-season result: wins, losses, points for and against
+  const rec = {};
+  for (const g of Object.values(cache.games)) if (g.st === 'final' && !g.post && T[g.h] && T[g.v])
+    for (const [id, f, a] of [[g.h, g.hs, g.vs], [g.v, g.vs, g.hs]]) { const r = rec[id] ||= { w: 0, l: 0, f: 0, a: 0 }; r[f > a ? 'w' : 'l']++; r.f += f; r.a += a; }
+  const tables = !Object.keys(rec).length ? [] : ['East', 'West'].map(c => ({ comp: 'NBA', sport: 'basketball', team: 'nba', page: `${season}–${String(season + 1).slice(2)} NBA season`,
+    title: `${c}ern Conference`, style: 'wl', rows: (cache.teams?.list || []).filter(t => t.conf === c).map(t => { const r = rec[t.id] || { w: 0, l: 0, f: 0, a: 0 };
+      return { name: t.name, p: r.w + r.l, w: r.w, d: 0, l: r.l, f: r.f, a: r.a, bp: 0, nr: 0, nrr: '', pct: r.w + r.l ? (100 * r.w / (r.w + r.l)).toFixed(1) : '', pts: r.w, q: '', champ: false }; })
+      .sort((a, b) => (+b.pct || 0) - (+a.pct || 0) || b.w - a.w || (b.f - b.a) - (a.f - a.a)) }));
+  const all = Object.values(cache.games);
+  diag.nba = `${calls} calls; ${all.length} games kept (${all.filter(g => g.st === 'final').length} results), season ${cache.fill.done ? 'complete' : 'still filling'}; ${events.length} in the feed (${events.filter(e => e.status === 'final').length} results, ${events.filter(e => e.status === 'live').length} live); ${tables.length ? `standings: East top ${tables[0].rows[0]?.name} ${tables[0].rows[0]?.w}-${tables[0].rows[0]?.l}, West top ${tables[1].rows[0]?.name} ${tables[1].rows[0]?.w}-${tables[1].rows[0]?.l}` : 'no standings yet'}${notes.length ? '; ' + notes.join('; ') : ''}`;
+  return { events, tables };
+}
+
 // Wikipedia's calendar has race dates only; TheSportsDB (free key) has start times. At most one call a run:
-// the weekend of the next race not looked up in the last 12 hours. Answers are kept in `cache` (fetch.mjs saves it).
+// the weekend of the next race not looked up in the last 12 hours (or not since sessions were kept too). Answers are kept
+// in `cache` (fetch.mjs saves it), with the weekend's practice, qualifying and sprint times.
 export async function f1StartTimes(events, cache, diag) {
   const now = Date.now();
   const races = events.filter(e => e.team === 'f1');
   const due = races.filter(e => e.status !== 'final' && Date.parse(e.startUTC) > now - DAY && Date.parse(e.startUTC) < now + 60 * DAY)
-    .find(e => !cache[e.id] || now - cache[e.id].t > 12 * 36e5);
+    .find(e => !cache[e.id]?.sessions || now - cache[e.id].t > 12 * 36e5);
   const notes = [];
   if (due) {
     const [, season, round] = due.id.split('-');
@@ -829,16 +1171,41 @@ export async function f1StartTimes(events, cache, diag) {
       // the race itself, not practice, sprint or qualifying, within two days of Wikipedia's date
       const t = (d.events || []).filter(ev => ev.strTimestamp && !/practice|qualifying|sprint|shootout|testing/i.test(ev.strEvent || ''))
         .map(ev => Date.parse(ev.strTimestamp.replace(/(\+00:00|Z)$/, '') + 'Z')).find(t => Math.abs(t - Date.parse(due.startUTC)) < 2 * DAY);
-      cache[due.id] = { t: now, gp: due.home, startUTC: t ? new Date(t).toISOString() : null };
-      notes.push(`${due.home}: ${t ? new Date(t).toISOString() : 'no time listed yet'}`);
+      const main = t ? new Date(t).toISOString() : null, sessions = main ? sessionsOf(d, main, F1_SESSION) : [];
+      cache[due.id] = { t: now, gp: due.home, startUTC: main, sessions };
+      notes.push(`${due.home}: ${main || 'no time listed yet'}${sessions.length ? ` and ${sessions.length} sessions` : ''}`);
     } catch (e) { notes.push(`${due.home}: ${e.message}`); }
   }
-  let n = 0;
-  for (const e of races) {
+  let n = 0, k = 0;
+  for (const e of [...races]) {
     const c = cache[e.id];
-    if (c?.startUTC && c.gp === e.home && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 2 * DAY) { Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); n++; }
+    if (c?.startUTC && c.gp === e.home && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 2 * DAY) {
+      Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); n++;
+      k += addSessions(events, e, c.sessions, s => /^qualifying$/i.test(s), now);
+    }
   }
-  diag.f1Times = [...notes, `${n} of ${races.length} races with start times`].join('; ');
+  diag.f1Times = [...notes, `${n} of ${races.length} races with start times, ${k} sessions coming`].join('; ');
+}
+// a race weekend's other sessions in the same TheSportsDB round (practice, qualifying, sprints, the round's other races),
+// named by `name` (blank for the main race), within four days of the main race: [{ n: 'Qualifying', t: iso }]
+const F1_SESSION = ev => ((ev.match(/\b(Practice \d|Sprint Qualifying|Sprint Shootout|Sprint|Qualifying)\b/i) || [])[1] || '').replace(/^sprint shootout$/i, 'Sprint Qualifying');
+const SC_SESSION = ev => { const m = ev.match(/\b(Practice \d+|Qualifying Race \d+|Top 10 Shootout Race \d+|Race \d+)\b/i);
+  return m ? m[1].replace(/^Qualifying Race (\d+)/i, 'Qualifying (Race $1)').replace(/^Top 10 Shootout Race (\d+)/i, 'Top 10 Shootout (Race $1)') : ''; };
+const tsdbISO = ts => new Date(Date.parse(String(ts).replace(/(\+00:00|Z)$/, '') + 'Z')).toISOString();
+const sessionsOf = (d, main, name) => (d.events || []).filter(ev => ev.strTimestamp).map(ev => ({ n: name(ev.strEvent || ''), t: tsdbISO(ev.strTimestamp) }))
+  .filter(s => s.n && s.t !== main && Math.abs(Date.parse(s.t) - Date.parse(main)) < 4 * DAY).sort((a, b) => a.t < b.t ? -1 : 1);
+// the sessions as events of their own, while they're still to come: `isMain` ones (F1 qualifying) get a card in the feed,
+// the rest (practice, sprints, Supercars' other races and qualifying) show only on the competition's own page
+function addSessions(events, e, sessions, isMain, now) {
+  let k = 0;
+  for (const s of sessions || []) {
+    if (Date.parse(s.t) < now - 3 * 36e5) continue;
+    events.push({ id: `${e.id}-${s.n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '')}`, team: e.team, tags: e.tags || [], sport: e.sport,
+      comp: `${e.comp} · ${s.n}`, round: e.round, home: e.home, away: '', session: s.n, ...(isMain(s.n) ? {} : { minor: true }),
+      startUTC: s.t, timeTBC: false, venue: e.venue, city: e.city, tz: e.tz, status: 'upcoming', source: e.source, ...(e.nzEvent ? { nzEvent: true } : {}) });
+    k++;
+  }
+  return k;
 }
 
 // Supercars: the round's last race (the Sunday main race) from TheSportsDB, whose round numbers match Wikipedia's.
@@ -847,7 +1214,7 @@ export async function supercarsStartTimes(events, cache, diag) {
   const now = Date.now();
   const rounds = events.filter(e => e.team === 'supercars');
   const due = rounds.filter(e => e.status !== 'final' && Date.parse(e.startUTC) > now - DAY && Date.parse(e.startUTC) < now + 60 * DAY)
-    .find(e => !cache[e.id] || now - cache[e.id].t > 12 * 36e5);
+    .find(e => !cache[e.id]?.sessions || now - cache[e.id].t > 12 * 36e5);
   const notes = [];
   if (due) {
     const [, season, round] = due.id.split('-');
@@ -855,16 +1222,20 @@ export async function supercarsStartTimes(events, cache, diag) {
       const d = await tsdb(`eventsround.php?id=4489&r=${round}&s=${season}`);
       const t = (d.events || []).filter(ev => ev.strTimestamp && /\brace\b/i.test(ev.strEvent || '') && !/practice|qualifying|shootout/i.test(ev.strEvent || ''))
         .map(ev => Date.parse(ev.strTimestamp.replace(/(\+00:00|Z)$/, '') + 'Z')).filter(t => Math.abs(t - Date.parse(due.startUTC)) < 3 * DAY).sort((a, b) => b - a)[0];
-      cache[due.id] = { t: now, gp: due.home, startUTC: t ? new Date(t).toISOString() : null };
-      notes.push(`${due.home}: ${t ? new Date(t).toISOString() : 'no time listed yet'}`);
+      const main = t ? new Date(t).toISOString() : null, sessions = main ? sessionsOf(d, main, SC_SESSION) : [];
+      cache[due.id] = { t: now, gp: due.home, startUTC: main, sessions };
+      notes.push(`${due.home}: ${main || 'no time listed yet'}${sessions.length ? ` and ${sessions.length} sessions` : ''}`);
     } catch (e) { notes.push(`${due.home}: ${e.message}`); }
   }
-  let n = 0;
+  let n = 0, k = 0;
   for (const e of rounds) {
     const c = cache[e.id];
-    if (c?.startUTC && c.gp === e.home && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 3 * DAY) { Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); n++; }
+    if (c?.startUTC && c.gp === e.home && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 3 * DAY) {
+      Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); n++;
+      k += addSessions(events, e, c.sessions, () => false, now);
+    }
   }
-  diag.supercarsTimes = [...notes, `${n} of ${rounds.length} rounds with start times`].join('; ');
+  diag.supercarsTimes = [...notes, `${n} of ${rounds.length} rounds with start times, ${k} sessions coming`].join('; ');
 }
 
 // Cricket tour "Squads" tables: header rows give each column's team and/or format
@@ -1002,7 +1373,34 @@ export const TEAM_PAGES = {
     .map(t => [`league|w|${t}`, `${t} women's national rugby league team`])),
   ...Object.fromEntries(['England', 'France', 'Australia', 'Wales', 'Scotland', 'Ireland', 'USA', 'Spain', 'New Zealand']
     .map(t => [`league|wc|${t}`, `${t === 'USA' ? 'United States' : t} national wheelchair rugby league team`])),
+  // NBA, MLB and Japanese sides: each club's roster template, the list its own page shows (balldontlie's "LA Clippers")
+  ...Object.fromEntries(['Atlanta Hawks', 'Boston Celtics', 'Brooklyn Nets', 'Charlotte Hornets', 'Chicago Bulls', 'Cleveland Cavaliers', 'Dallas Mavericks', 'Denver Nuggets',
+    'Detroit Pistons', 'Golden State Warriors', 'Houston Rockets', 'Indiana Pacers', 'LA Clippers', 'Los Angeles Lakers', 'Memphis Grizzlies', 'Miami Heat', 'Milwaukee Bucks',
+    'Minnesota Timberwolves', 'New Orleans Pelicans', 'New York Knicks', 'Oklahoma City Thunder', 'Orlando Magic', 'Philadelphia 76ers', 'Phoenix Suns', 'Portland Trail Blazers',
+    'Sacramento Kings', 'San Antonio Spurs', 'Toronto Raptors', 'Utah Jazz', 'Washington Wizards'].map(t => [`basketball|m|${t}`, `Template:${t.replace(/^LA /, 'Los Angeles ')} roster`])),
+  ...Object.fromEntries(['Arizona Diamondbacks', 'Athletics', 'Atlanta Braves', 'Baltimore Orioles', 'Boston Red Sox', 'Chicago Cubs', 'Chicago White Sox', 'Cincinnati Reds',
+    'Cleveland Guardians', 'Colorado Rockies', 'Detroit Tigers', 'Houston Astros', 'Kansas City Royals', 'Los Angeles Angels', 'Los Angeles Dodgers', 'Miami Marlins',
+    'Milwaukee Brewers', 'Minnesota Twins', 'New York Mets', 'New York Yankees', 'Philadelphia Phillies', 'Pittsburgh Pirates', 'San Diego Padres', 'San Francisco Giants',
+    'Seattle Mariners', 'St. Louis Cardinals', 'Tampa Bay Rays', 'Texas Rangers', 'Toronto Blue Jays', 'Washington Nationals',
+    'Yomiuri Giants', 'Hanshin Tigers', 'Chunichi Dragons', 'Yokohama DeNA BayStars', 'Hiroshima Toyo Carp', 'Tokyo Yakult Swallows', 'Fukuoka SoftBank Hawks',
+    'Hokkaido Nippon-Ham Fighters', 'Chiba Lotte Marines', 'Tohoku Rakuten Golden Eagles', 'Orix Buffaloes', 'Saitama Seibu Lions'].map(t => [`baseball|m|${t}`, `Template:${t} roster`])),
 };
+// a roster template: the NBA's {{player2|first=|last=|pos=}} lines, or MLB and Japanese baseball's |Pitchers= / |Catchers=
+// groups of {{MLBplayer|8|[[Name]]}} (the active players only: not the injured list, the manager or the coaches)
+const NBA_POS = { G: 'Guard', F: 'Forward', C: 'Centre', GF: 'Guard/forward', FC: 'Forward/centre', PG: 'Point guard', SG: 'Shooting guard', SF: 'Small forward', PF: 'Power forward' };
+const BB_GROUP = { Starters: 'Pitcher', Pitchers: 'Pitcher', Bullpen: 'Pitcher', Closer: 'Closer', Catchers: 'Catcher', Infielders: 'Infielder', Outfielders: 'Outfielder', DH: 'Designated hitter' };
+function rosterTemplate(text) {
+  if (/\{\{\s*NBA roster header/i.test(text)) return sqTemplates(text, 'player2').map(a => { const n = `${clean(a.first || '')} ${clean(a.last || '')}`.trim();
+    return sqPlayer({ n, w: a.link || (a.dab ? `${n} (${a.dab})` : '') }, NBA_POS[String(a.pos || '').toUpperCase()] || a.pos || ''); });
+  if (!/\{\{\s*(MLB|NPB) roster\s*\|/i.test(text)) return [];
+  const out = []; let group = null;
+  for (const line of text.split('\n')) {
+    const g = line.match(/^\s*\|\s*(\w+)\s*=/); if (g) group = BB_GROUP[g[1]] ?? null;
+    if (group == null) continue;
+    for (const a of [...sqTemplates(line, 'MLBplayer'), ...sqTemplates(line, 'NPBplayer')]) out.push(sqPlayer(sqLink(a[2]), group));
+  }
+  return out;
+}
 const sqTplArgs = t => { const a = {}, pos = []; let depth = 0, cur = '';
   for (const ch of t) { if (ch === '{' || ch === '[') depth++; if (ch === '}' || ch === ']') depth--; if (ch === '|' && depth === 0) { pos.push(cur); cur = ''; } else cur += ch; }
   pos.push(cur);
@@ -1023,6 +1421,8 @@ function squadSection(text) {
   return end < 0 ? rest : rest.slice(0, end);
 }
 export function readSquad(text) {
+  const tpl = rosterTemplate(text).filter(Boolean);
+  if (tpl.length) return tpl;
   const out = readSquadIn(squadSection(text));
   if (out.length >= 8) return out;
   // some national sides keep their squad under a plain "Players" heading
@@ -1046,7 +1446,7 @@ function readSquadIn(sec) {
       for (const a of sqTemplates(line, 'RU squad player')) out.push(sqPlayer({ n: clean(a[2] || '') }, [group, a.captain ? 'c' : ''].filter(Boolean).join(', ')));
     }
   }
-  if (!out.length) out = sqTemplates(sec, 'fs player').map(a => sqPlayer(sqLink(a.name), [a.pos, /captain/i.test(a.other || '') ? 'c' : ''].filter(Boolean).join(', ')));
+  if (!out.length) out = [...sqTemplates(sec, 'fs player'), ...sqTemplates(sec, 'football squad player')].map(a => sqPlayer(sqLink(a.name), [a.pos, /captain/i.test(a.other || '') ? 'c' : ''].filter(Boolean).join(', ')));
   if (!out.length) out = sqTemplates(sec, 'player3').map(a => sqPlayer({ n: `${a.first || ''} ${a.last || ''}`.trim(), w: a.link || '' }, a.pos || ''));
   if (!out.length) out = stateSquad('==Squad==\n' + sec);
   if (!out.length) out = sec.split('\n').filter(l => /^\*\s*\S/.test(l)).map(l => sqPlayer(sqLink(l.replace(/^\*\s*/, '')), '')); // a plain list
@@ -1057,13 +1457,17 @@ export async function teamSquads(keys, diag) {
   const want = keys.filter(k => TEAM_PAGES[k]), out = [];
   try {
     for (let i = 0; i < want.length; i += 50) {
-      const part = want.slice(i, i + 50), titles = [...new Set(part.map(k => TEAM_PAGES[k]))];
-      const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(titles.join('|')),
-        { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } });
-      if (!r.ok) throw new Error(r.status);
-      const j = await r.json(), back = {};
-      for (const m of [...(j.query?.normalized || []), ...(j.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
-      const text = Object.fromEntries((j.query?.pages || []).map(pg => [back[pg.title] || pg.title, pg.revisions?.[0]?.slots?.main?.content || '']));
+      const part = want.slice(i, i + 50), titles = [...new Set(part.map(k => TEAM_PAGES[k]))], text = {};
+      // a batch of big pages comes back in parts (the rest after "continue"), so ask until it's all in
+      for (let cont = {}, n = 0; cont && n < 10; n++) {
+        const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(titles.join('|'))
+          + Object.entries(cont).map(([k, v]) => `&${k}=${encodeURIComponent(v)}`).join(''), { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } });
+        if (!r.ok) throw new Error(r.status);
+        const j = await r.json(), back = {};
+        for (const m of [...(j.query?.normalized || []), ...(j.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
+        for (const pg of j.query?.pages || []) { const c = pg.revisions?.[0]?.slots?.main?.content; if (c) text[back[pg.title] || pg.title] = c; }
+        cont = j.continue?.rvcontinue ? j.continue : null;
+      }
       for (const k of part) {
         const players = readSquad(text[TEAM_PAGES[k]] || ''), [sport, g, team] = k.split('|');
         // a table read in the wrong column gives the same name over and over (a club, not players): not a squad
@@ -1157,8 +1561,8 @@ export async function tsdb(q) {
   }
 }
 const STATUS = s => /^(FT|AET|AP|PEN|Match Finished|After Over Time|Final)$/i.test(s || '') ? 'final' : /^(NS|Not Started|TBD|PST|Postponed|CANC)$/i.test(s || '') || !s ? 'upcoming' : 'live';
-// "Crusaders Super Rugby", "Fiji Rugby League", "New Zealand Rugby" -> "Crusaders", "Fiji", "New Zealand"
-const tsdbTeam = s => (s || '').replace(/\s+(Super Rugby|Rugby League|Rugby Union|Rugby)$/, '');
+// "Crusaders Super Rugby", "Fiji Rugby League", "New Zealand Rugby", "Australia Netball" -> "Crusaders", "Fiji", "New Zealand", "Australia"
+const tsdbTeam = s => (s || '').replace(/\s+(Super Rugby|Rugby League|Rugby Union|Rugby|Netball)$/, '');
 function fromTsdb(ev, l) {
   const home = tsdbTeam(ev.strHomeTeam), away = tsdbTeam(ev.strAwayTeam);
   const cls = l.team ? { team: l.team, tags: l.tags || [] } : classify(l.classify, home, away);
