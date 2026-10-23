@@ -1,40 +1,5 @@
-200
-2026-10-23T08:05:18.3591804Z 24.04.5
-2026-10-23T08:05:18.3592246Z LTS
-2026-10-23T08:05:18.3592673Z ##[endgroup]
-2026-10-23T08:05:18.3593184Z ##[group]Runner Image
-2026-10-23T08:05:18.3593684Z Image: ubuntu-24.04
-2026-10-23T08:05:18.3594128Z Version: 20261012.334.1
-2026-10-23T08:05:18.3595417Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
-2026-10-23T08:05:18.3596765Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
-2026-10-23T08:05:18.3597553Z ##[endgroup]
-2026-10-23T08:05:18.3600064Z Actions: write
-2026-10-23T08:05:18.3600936Z Metadata: read
-2026-10-23T08:05:18.3601457Z ##[endgroup]
-2026-10-23T08:05:18.3604450Z Cache mode: write
-2026-10-23T08:05:18.3605343Z Prepare workflow directory
-2026-10-23T08:05:18.4034367Z Prepare all required actions
-2026-10-23T08:05:18.4084672Z Complete job name: chain
-2026-10-23T08:05:18.4608911Z ##[group]Run secs=$(( ${STARTED:-0} + EVERY - 10 - $(date +%s) ))
-2026-10-23T08:05:18.4609875Z [36;1msecs=$(( ${STARTED:-0} + EVERY - 10 - $(date +%s) ))[0m
-2026-10-23T08:05:18.4610669Z [36;1mif [ "$secs" -gt "$EVERY" ] || [ -z "$STARTED" ]; then secs=$(( EVERY - 180 )); fi[0m
-2026-10-23T08:05:18.4611524Z [36;1mdeadline=$(( $(date +%s) + secs ))[0m
-2026-10-23T08:05:18.4612351Z [36;1mbusy() { gh api "repos/$REPO/actions/workflows/update.yml/runs?per_page=30" --jq \[0m
-2026-10-23T08:05:18.4613437Z [36;1m  '[.workflow_runs[] | select(.id != 39921768192 and .status != "completed" and .created_at > (now - 7200 | todate))] | length'; }[0m
-2026-10-23T08:05:18.4614687Z [36;1m# Wait, but give way at once to a push or scheduled run waiting behind this one: it carries the chain on.[0m
-2026-10-23T08:05:18.4615778Z [36;1mwhile :; do[0m
-2026-10-23T08:05:18.4616652Z [36;1m  if [ "$(busy)" -gt 0 ]; then echo "Another run is queued or running; it carries the chain on."; exit 0; fi[0m
-2026-10-23T08:05:18.4617557Z [36;1m  left=$(( deadline - $(date +%s) )); [ "$left" -le 0 ] && break[0m
-2026-10-23T08:05:18.4618315Z [36;1m  sleep $(( left < 20 ? left : 20 ))[0m
-2026-10-23T08:05:18.4618877Z [36;1mdone[0m
-2026-10-23T08:05:18.4619496Z [36;1mgh workflow run update.yml --repo "$REPO" --ref main[0m
-2026-10-23T08:05:18.4620146Z [36;1mecho "Started the next run."[0m
-2026-10-23T08:05:18.5796709Z shell: /usr/bin/bash -e {0}
-2026-10-23T08:05:18.5797669Z env:
-2026-10-23T08:05:18.5801367Z   REPO: 7N1K7/sports-feed
-2026-10-23T08:05:18.5801900Z   STARTED: 1792742521
-2026-10-23T08:05:18.5802379Z   EVERY: 300
-2026-10-23T08:05:18.5802835Z ##[endgroup]
-2026-10-23T08:06:58.0467198Z HTTP 502: We had issues producing the response to your request. Sorry about that. Please try resubmitting your request and contact us if the problem persists. (https://api.github.com/repos/7N1K7/sports-feed/actions/workflows/update.yml)
-2026-10-23T08:06:58.0487957Z ##[error]Process completed with exit code 1.
-2026-10-23T08:06:58.0628316Z Cleaning up orphan processes
+generatedAt 2026-10-23T15:42:57.986Z
+{"Pakistan ODI Tri-Series":".......","Afghanistan Tri-Nation Series":"mmmm","Oman Tri-Nation Series":"mmm","United Arab Emirates Tri-Nation Series":"mmmmmm","United States Tri-Nation Series":"mmm"}
+version v147
+running: MLB playoffs | Black Caps v India | Rugby League World Cup | Constellation Cup | WXV Global Series | Nations Championship
+menu tri: United Arab Emirates Tri-Nation Series | Pakistan ODI Tri-Series | Afghanistan Tri-Nation Series | Oman Tri-Nation Series | United States Tri-Nation Series
