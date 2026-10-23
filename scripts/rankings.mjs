@@ -184,14 +184,16 @@ function golfTables(tables, cfg) {
     let iRank = -1; h.forEach((x, i) => { if (/^final rank/i.test(x)) iRank = i; });
     const iName = find(h, /^player/i);
     if (iRank < 0 || iName < 0) return [];
-    return finish(t.rows.map(r => ({ rank: +(r[iRank] || '').replace(/^T/, '') || 0, name: (r[iName] || '').trim(), val: '' })), '', '');
+    return finish(t.rows.map(r => ({ rank: +(r[iRank] || '').replace(/^T/, '') || 0, name: (r[iName] || '').replace(/\*$/, '').trim(), val: '' })), '', '');
   }
   const t = tables.find(x => cfg.kind === 'oom' ? /order of merit/i.test(x.heading) : /^current top (10|ten)$/i.test(x.heading));
   if (!t) return [];
   const h = last(t.heads), iRank = find(h, /^(rank|position|pos)/i), iName = find(h, /^player/i), iVal = find(h, /^points/i), iCountry = find(h, /^country/i);
   if (iRank < 0 || iName < 0 || iVal < 0) return [];
   return finish(t.rows.map(r => ({ rank: +(r[iRank] || '').match(/\d+/)?.[0] || 0, name: (r[iName] || '').replace(/\*$/, '').trim(), ...(iCountry >= 0 ? { iso: (r[iCountry] || '').trim() } : {}), val: (r[iVal] || '').trim() })),
-    dateIn(t.notes) || dateIn(t.heading), 'Points');
+    // the world rankings rate a player by average points a tournament over two years (Scheffler's 16.68), the Order of Merit
+    // by the season's total
+    dateIn(t.notes) || dateIn(t.heading), cfg.kind === 'oom' ? 'Points' : 'Avg points');
 }
 
 // UFC: the page carries more than one release of the rankings; per list, keep the latest
@@ -228,7 +230,7 @@ function fighterTables(tables, cfg) {
 }
 
 // bumped when the parser changes, so lists cached by the old one are read again
-const CACHE_V = 5;
+const CACHE_V = 6;
 export async function rankings(cache, diag) {
   const now = Date.now(), out = [], notes = [];
   for (const cfg of RANK_PAGES) {
