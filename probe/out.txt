@@ -1,19 +1,33 @@
-Central Districts women's cricket team => Central Hinds 15845 | squad 0  | ==Players== / ==2026/27 squad== / ===Notable players===
-Auckland women's cricket team => Auckland Hearts 18361 | squad 20 Cate Pedersen, Maddy Green (c), Saachi Shahri | ==Players== / ===Current squad=== / ===Notable players===
-Otago women's cricket team => Otago Sparks 16535 | squad 17 Caitlin Blakely, Hayley Jensen, Paige Loggenberg | ==Players== / ===Current squad=== / ===Notable players===
-Canterbury women's cricket team => Canterbury Magicians 20861 | squad 20 Izzy Sharp, Natalie Cox, Harriet Graham | ==Players== / ===Current squad=== / ===Notable players===
-Wellington women's cricket team => Wellington Blaze 17368 | squad 17 Georgia Plimmer, Caitlin King, Rebecca Burns | ==Players== / ===Current squad=== / ===Notable players===
-Waikato (women's rugby union team) => Waikato (women's rugby union team) MISSING 0 | squad 0  | 
-Taranaki Whio => Taranaki Whio MISSING 0 | squad 0  | 
-Hawke's Bay Tui => Hawke's Bay Tui MISSING 0 | squad 0  | 
-Counties Manukau Heat => Counties Manukau Heat MISSING 0 | squad 0  | 
-Bay of Plenty Volcanix => Bay of Plenty Volcanix MISSING 0 | squad 0  | 
-Waikato (Farah Palmer Cup) => Waikato (Farah Palmer Cup) MISSING 0 | squad 0  | 
-Canterbury women's rugby union team => Canterbury women's rugby union team MISSING 0 | squad 0  | 
-Canterbury (Farah Palmer Cup) => Canterbury (Farah Palmer Cup) MISSING 0 | squad 0  | 
-Auckland Storm => Auckland Storm MISSING 0 | squad 0  | 
-Northland Kauri => Northland Kauri MISSING 0 | squad 0  | 
-Wellington Pride => Wellington Pride MISSING 0 | squad 0  | 
-Otago Spirit => Otago Rugby Football Union 63257 | squad 0  | ===Individual and team records===
-Manawatu Cyclones => Manawatu Rugby Union 50624 | squad 0  | ==Manawatu representative players== / ===Manawatu players in Super Rugby=== / ===Other distinguished players===
-Matatū => Matatū 23423 | squad 0  | == Current squad ==
+32 of 32:  missing
+rugby|m|Auckland: 49 · Sione Ahio (Prop), Tamiano Ahloo (Prop), Ben Ake (Prop), Sam Davies (Prop)
+rugby|m|Bay of Plenty: 45 · Josh Bartlett (Prop), Benet Kumeroa (Prop), Tevita Mafileo (Prop), Jaya More (Prop)
+rugby|m|Canterbury: 48 · Jermaine Ainsley (Prop), Finlay Brewis (Prop), Gus Brown (Prop), Seb Calder (Prop)
+rugby|m|Counties Manukau: 50 · Jarred Adams (Prop), Vainikolo Fifita (Prop), Olive Lam-Yuen (Prop), Ezekiel Lindenmuth (Prop)
+rugby|m|Hawke's Bay: 40 · Joe Apikotoa (Prop), Clément Castets (Prop), Lolani Faleiva (Prop), Manahi Goulton (Prop)
+rugby|m|Manawatu: 50 · Joseph Gavigan (Prop), Malakai Hala-Ngatai (Prop), Darius Mafileo (Prop), Liam Pratt (Prop)
+rugby|m|North Harbour: 45 · Oscar Cowley-Andrea (Prop), Bradley Fifita (Prop), Toma Laumalili (Prop), Brody Savage (Prop)
+rugby|m|Northland: 47 · Daniel Botha (Prop), Junior Fifita (Prop), Esile Fono (Prop), Ricki Heremaia (Prop)
+rugby|m|Otago: 41 · Cam Allan-McNeill (Prop), George Bower (Prop), Ben Lopas (Prop), Saula Ma'u (Prop)
+rugby|m|Southland: 54 · Jack Barrett (Prop), Sef Fa'agase (Prop), Hunter Fahey (Prop), Darius Fidow (Prop)
+rugby|m|Taranaki: 49 · Dane Johnston (Prop), Perry Lawrence (Prop), Reuben O'Neill (Prop), Marika Parker (Prop)
+rugby|m|Tasman: 46 · Ryan Coxon (Prop), Tom Heywood (Prop), Tyrel Lomax (Prop), Sione Mafi (Prop)
+rugby|m|Waikato: 48 · George Dyer (Prop), Sefo Kautai (Prop), Will Martin (Prop), Ollie Norris (Prop)
+rugby|m|Wellington: 47 · Geordie Bean (Prop), Bradley Crichton (Prop), Alex Hewitt (Prop), Siale Lauaki (Prop)
+rugby|m|Tasman Mako: 46 · Ryan Coxon (Prop), Tom Heywood (Prop), Tyrel Lomax (Prop), Sione Mafi (Prop)
+rugby|m|Taranaki Bulls: 49 · Dane Johnston (Prop), Perry Lawrence (Prop), Reuben O'Neill (Prop), Marika Parker (Prop)
+rugby|m|Australia: 34 · Josh Nasser (HK), Brandon Paenga-Amosa (HK), Billy Pollard (HK), Allan Alaalatoa (PR)
+rugby|m|Japan: 36 · Mamoru Harada (HK), Kenji Sato (HK), Sho Furuhata (PR), Kanato Hirano (PR)
+rugby|m|Fiji: 28 · Penaia Cakobau (HK), Tevita Ikanivere (HK), Kavaia Tagivetaua (HK), Mesake Doge (PR)
+rugby|m|Samoa: 30 · Richie Asiata (HK), Sama Malolo (HK), Mills Sanerivi (HK), Michael Alaalatoa (PR)
+rugby|m|Tonga: 30 · Sekope Lopeti-Moli (HK), Efi Ma'afu (HK), Siua Maile (HK), Siegfried Fisiʻihoi (PR)
+rugby|m|Georgia: 36 · Luka Goginava (HK), Vano Karkadze (HK), Vakhtang Jincharadze (HK), Giorgi Akhaladze (PR)
+rugby|m|United States: 57 · Shilo Klein (HK), Campbell Robb (HK), Joe Taufeteʻe (HK), Tonga Kofe (PR)
+rugby|m|United States XV: 57 · Shilo Klein (HK), Campbell Robb (HK), Joe Taufeteʻe (HK), Tonga Kofe (PR)
+cricket|m|India A: 54 · Shreyas Iyer, Vaibhav Sooryavanshi, Ricky Bhui, Abhimanyu Easwaran
+cricket|w|Auckland Hearts: 20 · Cate Pedersen, Maddy Green (c), Saachi Shahri, Brooke Halliday
+cricket|w|Central Hinds: 16 · Yasmeen Kareem, Emma McLeod, Cate Pedersen, Kerry-Anne Tomlinson
+cricket|w|Canterbury Magicians: 20 · Izzy Sharp, Natalie Cox, Harriet Graham, Emma Irwin
+cricket|w|Otago Sparks: 17 · Caitlin Blakely, Hayley Jensen, Paige Loggenberg, Suzie Bates (vc)
+cricket|w|Wellington Blaze: 17 · Georgia Plimmer, Caitlin King, Rebecca Burns, Amelia Kerr (c)
+cricket|w|Northern Districts: 17 · Lucy Boucher, Yasmeen Kareem, Caitlin Gurrey, Samantha Barriball
+cricket|w|Northern Brave: 17 · Lucy Boucher, Yasmeen Kareem, Caitlin Gurrey, Samantha Barriball
