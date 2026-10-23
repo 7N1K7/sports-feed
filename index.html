@@ -2018,6 +2018,12 @@ function watchLine(e) {
   const note = e.watchNote && /not on|no tv|not televised/i.test(e.watchNote) ? `<span class="muted">${esc(e.watchNote)}</span>` : '';
   return `<div class="watch"><span class="wl">Watch</span>${b ? `<span>${linkWatch(b)}</span>` : ''}${alt}${note}</div>`;
 }
+// after a game shown free on Three, Sky Open or TVNZ: the channel's own free app, where the replay or highlights go up
+// (Sky Open streams on ThreeNow). From the TV guide's listings or the broadcast line; a link only, nothing read from them
+function replayOn(e) {
+  const free = [...(e.tv || []).map(x => x.ch), ...watchOptions(e).filter(o => /^(Free|Free stream|Free-to-air TV)$/.test(o.kind)).map(o => o.label)].join(' | ');
+  return /\b(Three|ThreeNow|Sky Open)\b/.test(free) ? 'ThreeNow' : /\b(TVNZ|DUKE)\b/.test(free) ? 'TVNZ+' : '';
+}
 // a YouTube search for the match, so it works whenever the official highlights go up
 function highlights(e, now) {
   const age = now - new Date(e.startUTC);
@@ -2521,7 +2527,9 @@ function detail(e) {
   // the card shows the first live listing when there is one, so that's the one marked
   const onCard = (e.tv || []).find(x => !x.delayed);
   const tvLi = (e.tv || []).map(x => `<li class="wopt"><span class="wkind k-${tvFree.test(x.ch) ? 'free' : 'pay'}">TV guide</span><div><b>${linkWatch(x.ch)}</b> <span class="muted small">from ${time(new Date(x.at), NZ)} ${fmt(new Date(x.at), NZ, { weekday: 'short' })}${x.delayed ? ' · delayed' : ''}${x === onCard ? ' (on the card)' : ''}</span></div></li>`).join('');
-  const watch = [tvLi, ytLi, opts.map((o, i) => `<li class="wopt"><span class="wkind k-${(o.kind || 'other').split(/[ -]/)[0].toLowerCase()}">${esc(o.kind || 'Watch')}</span><div><b>${linkWatch(o.label)}</b>${i === 0 && opts.length > 1 && !onCard ? ' <span class="muted small">(on the card)</span>' : ''}${o.need ? `<div class="muted small">${esc(o.need)}</div>` : ''}</div></li>`).join(''),
+  const rp = isPast && now - d < 30 * 864e5 ? replayOn(e) : '';
+  const rpLi = rp ? `<li class="wopt"><span class="wkind k-free">Replay</span><div><b>${linkWatch(rp)}</b><div class="muted small">Free on demand: the full ${evWord(e.sport)} or highlights, once ${rp === 'ThreeNow' ? 'Three' : 'TVNZ'} puts it up</div></div></li>` : '';
+  const watch = [rpLi, tvLi, ytLi, opts.map((o, i) => `<li class="wopt"><span class="wkind k-${(o.kind || 'other').split(/[ -]/)[0].toLowerCase()}">${esc(o.kind || 'Watch')}</span><div><b>${linkWatch(o.label)}</b>${i === 0 && opts.length > 1 && !onCard ? ' <span class="muted small">(on the card)</span>' : ''}${o.need ? `<div class="muted small">${esc(o.need)}</div>` : ''}</div></li>`).join(''),
     cricinfo(e) && `<li>Live scores and commentary on <a class="svc" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Cricinfo</a></li>`, e.watchNote && `<li class="muted">${esc(e.watchNote)}</li>`].filter(Boolean).join('')
     || '<li class="muted">Broadcaster not confirmed yet</li>';
   const names = [e.home, e.away].map(n => String(n || '').replace(/ Women$/, ''));
