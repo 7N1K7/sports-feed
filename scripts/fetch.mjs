@@ -647,7 +647,8 @@ const same = (a, b) => a.team === b.team && isW(a) === isW(b) && (a.session || '
 const near = t => (a, b) => Math.abs(Date.parse(a.startUTC) - t) - Math.abs(Date.parse(b.startUTC) - t);
 
 // Fill-only TheSportsDB leagues: which Wikipedia or curated cards could one complete? Men's games of its teams and
-// competition that started 110 minutes to 12 hours ago with no score yet, or start within 2 days with no exact time.
+// competition that started 110 minutes to 12 hours ago with no score yet, or start within 2 days (or the league's own
+// "days") with no exact time.
 // `known` = games the league already gave (cached), so a gap it has filled before costs no more calls.
 const pre = [...curated.events, ...wiki];
 function gapsFor(l, known) {
@@ -661,7 +662,7 @@ function gapsFor(l, known) {
     const timed = [...twins, k].find(x => x && !x.timeTBC);
     const age = now - Date.parse((timed || e).startUTC);
     if (timed ? age > 110 * 6e4 && age < 12 * 36e5 : age > 0 && age < 12 * 36e5) gaps.push({ e, need: 'score', known: k });
-    else if (!timed && age <= 0 && age > -2 * DAY) gaps.push({ e, need: 'time', known: k });
+    else if (!timed && age <= 0 && age > -(l.fill.days || 2) * DAY) gaps.push({ e, need: 'time', known: k });
   }
   return gaps;
 }

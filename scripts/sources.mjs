@@ -1683,6 +1683,8 @@ async function fillLeague(l, out, diag, cache, gapsFor, left) {
     if (need('time') && calls < max) {
       const [next] = await call(`eventsnextleague.php?id=${l.id}`); add([next]);
       if (next && need('time')) await round(next.intRound, next.strSeason);
+      // a league filled further ahead (the NBL, a week) may need the round after too
+      if (next && need('time') && l.fill.days) await round(+next.intRound + 1, next.strSeason);
     }
   } catch (e) { err = `; error: ${e.message}`; }
   if (calls) for (const g of open) if (asking.some(a => a.e === g.e) && !(g.need === 'score' && g.known)) miss[g.e.id] = now;
