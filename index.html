@@ -187,11 +187,10 @@ html { -webkit-tap-highlight-color: transparent }
 /* settings: a dropdown under the header, over the page, so nothing below moves */
 .panel { position: absolute; top: calc(100% + 6px); left: 0; right: 0; pointer-events: none }
 .pclose { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 20px; line-height: 1; cursor: pointer; z-index: 1 }
-.pcoffee { position: absolute; top: 12px; right: 54px; height: 30px; display: inline-flex; align-items: center; gap: 5px; padding: 0 11px; border-radius: 999px; border: 1px solid var(--line);
-  background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; z-index: 1 }
+/* small, in the top row just left of the × and level with it */
+.pcoffee { position: absolute; top: 14px; right: 54px; height: 26px; display: inline-flex; align-items: center; gap: 4px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink); font-size: 12px; font-weight: 600; text-decoration: none; white-space: nowrap; z-index: 1 }
 .pcoffee:hover { border-color: var(--accent) }
-/* in the top row, level with the ×: centred, or just left of the × on a narrow phone where the middle would touch the title */
-@media (min-width: 400px) { .pcoffee { right: auto; left: 50%; transform: translateX(-50%) } }
 .panel .pbox { position: relative; pointer-events: auto; margin-left: auto; width: min(720px, 100%); max-height: calc(100vh - 110px); max-height: calc(100dvh - 110px); overflow: auto; overscroll-behavior: contain;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; box-shadow: 0 16px 40px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.08) }
 .group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--f-body); font-weight: 700; margin-bottom: 6px }
