@@ -887,7 +887,11 @@ function golfSeason(text, t) {
     const name = clean(r[1] || '').replace(/\s*\(.*?\)\s*$/, '').trim(), where = clean(r[2] || '').trim();
     if (!name || /^tba$/i.test(name)) continue;
     const tz = GOLF_TZ.find(([re]) => re.test(where))?.[1] || t.tz;
-    const end = localToUTC(y, mon, day, 14, 0, tz), open = new Date(end - 3 * 864e5).toISOString();
+    // the first day from a range ("Jan 8–11", "29 Jan – 1 Feb", "8–11 Jan"): most events are four rounds, some three
+    const f = dv.match(/^(?:([A-Za-z]{3,})\.? (\d{1,2})|(\d{1,2})(?: ([A-Za-z]{3,}))?)\s*[–-]/);
+    const fm = f ? (f[1] || f[4] ? MONTHS.indexOf((f[1] || f[4]).slice(0, 3).toLowerCase()) : mon) : -1, fd = f ? +(f[2] || f[3]) : 0;
+    const span = fm >= 0 && fd ? Math.round((Date.UTC(y, mon, day) - Date.UTC(fm > mon ? y - 1 : y, fm, fd)) / 864e5) + 1 : 4;
+    const end = localToUTC(y, mon, day, 14, 0, tz), open = new Date(end - ((span >= 2 && span <= 5 ? span : 4) - 1) * 864e5).toISOString();
     const id = `golf-${t.team}-${y}-${name.toLowerCase().replace(/\W+/g, '-')}`;
     if (seen.has(id)) continue;
     seen.add(id);

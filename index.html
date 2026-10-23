@@ -1666,6 +1666,8 @@ function usualStart(e) {
 const HOST_TZ = { 'South Africa': 'Africa/Johannesburg', Australia: 'Australia/Sydney', 'New Zealand': 'Pacific/Auckland', England: 'Europe/London', India: 'Asia/Kolkata', 'Sri Lanka': 'Asia/Colombo',
   Pakistan: 'Asia/Karachi', Bangladesh: 'Asia/Dhaka', Zimbabwe: 'Africa/Harare', 'West Indies': 'America/Port_of_Spain', Ireland: 'Europe/Dublin', 'United Arab Emirates': 'Asia/Dubai' };
 const USUAL_NOTE = 'Start time not listed yet; Tests usually begin about 10am local time, first-class games about 10:30am';
+// a golf round, a day's sailing or a tennis final placed at its usual time says that time, not a Test's
+const usualNote = (e, d) => e.sport === 'cricket' ? USUAL_NOTE : `Time not listed yet; usually about ${time(d, e.tz || NZ)} local time`;
 // the last day the editors say is over ("Stumps, day 2", "No play on day 1", "Day 3 washed out")
 function dayOver(e) {
   let n = 0;
@@ -1694,7 +1696,26 @@ function wetOn(text, day, days) {
     return n.length ? n.includes(day) : day === 1;
   }).join(' ');
 }
+// a golf tournament or a SailGP weekend is played over several days: startUTC is the last day's usual time and openUTC
+// the first day's, so day i is the last less the days after it. Each day is on from its usual time (about 2pm local
+// for golf's leaders, 3pm for the racing) for its window, and between days the card waits under On today like a Test
+const STAGE = { golf: { hrs: 4, name: (i, n) => i < n - 1 ? `Round ${i + 1}` : '' }, sailing: { hrs: 2, name: (i, n) => i < n - 1 ? `Day ${i + 1}` : '' } };
+const stagesOf = e => STAGE[e.sport] && e.openUTC && e.status !== 'final' ? Math.round((Date.parse(e.startUTC) - Date.parse(e.openUTC)) / 864e5) + 1 : 0;
+const stageAt = (e, i, n) => Date.parse(e.startUTC) - (n - 1 - i) * 864e5;
+const stageName = (e, st) => STAGE[e.sport].name(st.i, st.n) || START_LABEL[e.sport];
+// the day being played now ({ on: true }), or else the next day to come, from 12 hours before the first; null after
+function stageNow(e, now) {
+  const n = stagesOf(e), hrs = STAGE[e.sport]?.hrs;
+  if (n < 2 || now < stageAt(e, 0, n) - 12 * 36e5) return null;
+  for (let i = 0; i < n; i++) {
+    const a = stageAt(e, i, n);
+    if (now < a) return { i, n, on: false };
+    if (now <= a + hrs * 36e5) return { i, n, on: true };
+  }
+  return null;
+}
 function onNow(e, now) {
+  if (stagesOf(e) > 1) { const st = stageNow(e, now); return st?.on ? stageName(e, st) : null; }
   const s = new Date(e.startUTC);
   const f = e.sport === 'cricket' ? formatOf(e) : '';
   const days = DAYS[f] || 1;
@@ -1737,6 +1758,7 @@ function rainNow(e, now, fresh = true) {
   return news || /\b(rain|wet)/i.test(wetOn(e.weather, day, days)) ? 'Rain affected' : '';
 }
 function between(e, now) {
+  if (stagesOf(e) > 1) { const st = stageNow(e, now); return st && !st.on ? `${stageName(e, st)} next` : null; }
   if (e.status === 'final' || e.sport !== 'cricket') return null;
   const days = DAYS[formatOf(e)] || 1, s = new Date(e.startUTC).getTime();
   if (days < 2 || now < s || now > s + (days - 1) * 864e5 + 14 * 36e5 || onNow(e, now)) return null;
@@ -1751,7 +1773,8 @@ const SOON = 5 * 6e4, SOON_SEC = 60 * 6e4;
 const startsSoon = (e, now) => e.status !== 'final' && e.status !== 'live' && !e.timeTBC && !e.usual && new Date(e.startUTC) - now > 0 && new Date(e.startUTC) - now <= SOON;
 // when a game next gets under way: its start, or for a Test between days the start of the next day's play
 // (or, while a later day is being played, when that day began: day 4 of a Test shows day 4's date, not the first day's)
-const nextAt = (e, now) => { const b = between(e, now) || (e.sport === 'cricket' && /^Day [2-9]/.test(onNow(e, now) || '') ? onNow(e, now) : ''); return new Date(+new Date(e.startUTC) + (b ? (+b.match(/\d+/)[0] - 1) * 864e5 : 0)); };
+const nextAt = (e, now) => { const st = stagesOf(e) > 1 && stageNow(e, now); if (st) return new Date(stageAt(e, st.i, st.n));
+  const b = between(e, now) || (e.sport === 'cricket' && /^Day [2-9]/.test(onNow(e, now) || '') ? onNow(e, now) : ''); return new Date(+new Date(e.startUTC) + (b ? (+b.match(/\d+/)[0] - 1) * 864e5 : 0)); };
 // roughly when a finished game ended, so one that ran past midnight counts as that day's result;
 // a Test's last day isn't known, so take its scheduled last day, but never later than now
 const LEN_H = { rugby: 2, league: 2, football: 2, mma: 5, boxing: 4, motor: 2, tennis: 3, hockey: 2, basketball: 2.5, netball: 1.5, sailing: 2.5, golf: 5 };
@@ -1841,7 +1864,9 @@ function seriesLine(e, now) {
 }
 
 function evCard(e, now) {
-  const live = e.status === 'live' ? 'On now' : onNow(e, now), paused = !live && between(e, now);
+  // a golf round or a day's racing names itself where the start time's label goes ("Round 2"), so the tag needn't
+  const stg = stagesOf(e) > 1 && stageNow(e, now), slbl = stg ? stageName(e, stg) : START_LABEL[e.sport] || 'Start';
+  const on = onNow(e, now), live = e.status === 'live' || (stg && on) ? 'On now' : on, paused = !live && !stg && between(e, now);
   // a Test between days shows when the next day starts, not when the match began
   const d = nextAt(e, now);
   const overseas = e.tz && e.tz !== NZ;
@@ -1872,8 +1897,8 @@ function evCard(e, now) {
       ${seriesLine(e, now)}
     </div>
     <div class="when">${stamp ? `<span class="rainstamp">🌧 ${stamp}</span>` : ''}
-      <div class="nzl">${START_LABEL[e.sport] || 'Start'} ${esc(tzLabel())}</div>
-      <div class="nz num" data-l="${esc(START_LABEL[e.sport] || 'Start')}"${e.usual ? ` title="${USUAL_NOTE}"` : ''}>${e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ)}</div>
+      <div class="nzl">${esc(slbl)} ${esc(tzLabel())}</div>
+      <div class="nz num" data-l="${esc(slbl)}"${e.usual ? ` title="${esc(usualNote(e, d))}"` : ''}>${e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div><i class="wbr" aria-hidden="true"></i>
       ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${stamp === 'Rain affected' && e.wxNews ? `<div class="wx wxnews">🌧 ${rainWord(e.wxNews.title)} · <a href="${esc(e.wxNews.url)}" target="_blank" rel="noopener" title="${esc(e.wxNews.title)}">${esc(e.wxNews.source || (/bbc/i.test(e.wxNews.credit || '') ? 'BBC Sport' : 'NZ Herald'))} ↗</a></div>` : ''}${live && stamp === 'Rain affected' && wxNote(e, now) && !e.wxNews ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e, now))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl">${free ? ftaMark('') : '<span aria-hidden="true">📺</span>'} ${linkWatch(tv)}</div>` : ''}
     </div>
@@ -1936,9 +1961,12 @@ const rainWord = t => /start (is |was )?delayed|delayed start|delay(s|ed)? (the 
 // the match box's weather note, only what it says about the day being played
 const wxNote = (e, now) => { const { day, days } = wxToday(e, now), w = wetOn(e.weather, day, days);
   return !w ? '' : /no play|abandon/i.test(w) ? 'No play yet' : /bad light/i.test(w) && !/rain/i.test(w) ? 'Bad light' : /rain|wet/i.test(w) ? 'Rain affected' : ''; };
+// the tours' and SailGP's own live pages (the Australasian tour's site turns away link checks, so it has none)
+const LIVE_TEAM = { pgatour: ['pgatour.com', 'https://www.pgatour.com/leaderboard'], lpga: ['lpga.com', 'https://www.lpga.com/tournaments'], golfanz: ['', ''], sailgp: ['sailgp.com', 'https://sailgp.com/races/'] };
 function liveLink(e) {
-  let [name, url] = LIVE_SITE[e.sport] || ['match centre', e.link || e.source];
+  let [name, url] = LIVE_TEAM[e.team] || LIVE_SITE[e.sport] || ['match centre', e.link || e.source];
   if (cricinfo(e)) [name, url] = ['Cricinfo', cricinfo(e)];
+  if (LIVE_TEAM[e.team]) return url ? `<a class="livelink" href="${esc(url)}" target="_blank" rel="noopener">Live ${e.sport === 'golf' ? 'scores' : 'racing'} on ${esc(name)} ↗</a>` : '';
   return url ? `<a class="livelink" href="${esc(e.sport === 'cricket' ? url : url)}" target="_blank" rel="noopener">Live ${FIGHT.test(e.sport) ? 'on the fight page' : e.sport === 'motor' ? 'timing on the race page' : `scores on ${esc(e.sport === 'cricket' ? name : 'match page')}`} ↗</a>` : '';
 }
 function watchLine(e) {
@@ -2418,7 +2446,7 @@ function detail(e) {
   const overseas = e.tz && e.tz !== NZ;
   const isPast = e.status === 'final' || (d < now && !running(e, now) && e.status !== 'live');
   const hidden = isPast && isHidden(e, now);
-  const when = e.timeTBC ? `${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}, ${e.usual ? `time not listed yet (Tests usually start about 10am local, so ≈${time(d, NZ)} ${tzLabel()})` : 'time to be confirmed'}`
+  const when = e.timeTBC ? `${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}, ${e.usual ? `time not listed yet (${e.sport === 'cricket' ? 'Tests usually start about 10am' : `usually about ${time(d, e.tz || NZ)}`} local, so ≈${time(d, NZ)} ${tzLabel()})` : 'time to be confirmed'}`
     : `${time(d, NZ)} ${fmt(d, NZ, { weekday: 'long', day: 'numeric', month: 'long' })}`;
   // form up to this game, or including it once it's finished and the result is showing
   const formTo = isPast && !hidden ? new Date(d.getTime() + 864e5).toISOString() : e.startUTC;
@@ -2469,11 +2497,13 @@ function detail(e) {
     ? `<button class="cover big" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>Spoilers are hidden</button>`
     : `<div class="dres">${split && e.summary ? '' : `<div class="score num ${/[a-z]{3}/i.test(e.score || '') ? 'long' : ''}">${esc(e.score || 'Result not in yet')}</div>`}${e.summary ? `<p${split ? ' class="dwin"' : ''}>${esc(e.summary)}</p>` : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
   // a game under way: "On now" and the live scores link at the right of the title, not a box of their own
+  // the countdown is to the next round of a golf tournament (or day of a Test), named for a tournament: "Round 3 in 20h"
+  const nd = nextAt(e, now), cd = countdown({ startUTC: nd.toISOString() }, now), stg = stagesOf(e) > 1 && stageNow(e, now);
   const live = e.status === 'live' || (e.status !== 'final' && onNow(e, now)) ? `<div class="hlive"><span class="tag live">On now</span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
       <div class="comp"><span>${esc(cardComp(e))}</span>${sIcon(e.team === 'f1' ? 'f1' : e.sport)}${compBadge(e)}${intlTag(e)}</div>
       ${solo(e) ? `<h2 class="dteams solo">${esc(e.home)}${placeOf(e) ? `<small>${esc(placeOf(e))}</small>` : ''}</h2>` : split ? `<h2 class="dteams scored"><span class="dside">${ciWrap(e.home, e, teamName(e.home, e.homeLogo, e))}${scoreTag(split[0], wl('home'))}</span> <span class="v">v</span> <span class="dside">${ciWrap(e.away, e, teamName(e.away, e.awayLogo, e))}${scoreTag(split[1], wl('away'))}</span></h2>` : `<h2 class="dteams">${ciWrap(e.home, e, teamName(e.home, e.homeLogo, e))} <span class="v">v</span> ${ciWrap(e.away, e, teamName(e.away, e.awayLogo, e))}</h2>`}
-      ${!isPast && e.status !== 'live' && countdown(e, now) ? `<span class="tag num ${d - now < 864e5 ? 'soon' : d - now < 3 * 864e5 ? 'near' : 'later'}" data-cd="${esc(e.startUTC)}">${countdown(e, now)}</span>` : ''}
+      ${!isPast && !live && cd ? `<span class="tag num ${nd - now < 864e5 ? 'soon' : nd - now < 3 * 864e5 ? 'near' : 'later'}">${stg ? `${esc(stageName(e, stg))} ` : ''}<span data-cd="${esc(nd.toISOString())}">${cd}</span></span>` : ''}
       ${live}
     </div>
     ${res}
@@ -2777,9 +2807,9 @@ function render() {
   const days = [...Array(7)].map((_, i) => new Date(now + i * 864e5));
   $('weekRange').textContent = `${dayLabel(days[0], NZ)} to ${dayLabel(days[6], NZ)}`;
   // as many spots as two full rows hold; past that, the last spot becomes a "+"
-  // a Test (or other multi-day game) still being played has a dot on each of its days, not just the first
+  // a Test (or other multi-day game, a golf tournament's rounds) still being played has a dot on each of its days, not just the first
   const onDays = new Map(evs.map(e => {
-    const s = Date.parse(e.startUTC), n = e.sport === 'cricket' && e.status !== 'final' ? (DAYS[formatOf(e)] || 1) : 1;
+    const g = stagesOf(e), s = Date.parse(e.startUTC) - Math.max(g - 1, 0) * 864e5, n = g > 1 ? g : e.sport === 'cricket' && e.status !== 'final' ? (DAYS[formatOf(e)] || 1) : 1;
     return [e, new Set([...Array(n)].map((_, i) => dayKey(new Date(s + i * 864e5))))];
   }));
   const playsOn = (e, k) => onDays.get(e)?.has(k);
@@ -2787,7 +2817,7 @@ function render() {
   const drawWeek = cap => $('week').innerHTML = days.map(d => {
     const k = dayKey(d);
     // in order of when each plays that day (a Test's later days by that day's start, not the day it began)
-    const onDay = e => { const t = Date.parse(e.startUTC); for (let i = 0; i < 6; i++) if (dayKey(new Date(t + i * 864e5)) === k) return t + i * 864e5; return t; };
+    const onDay = e => { const t = Date.parse(e.startUTC) - Math.max(stagesOf(e) - 1, 0) * 864e5; for (let i = 0; i < 6; i++) if (dayKey(new Date(t + i * 864e5)) === k) return t + i * 864e5; return t; };
     const list = evs.filter(e => playsOn(e, k)).sort((a, b) => onDay(a) - onDay(b));
     // resting the mouse on a dot names its game (the browser's own label, which waits a moment, so passing over doesn't
     // set it off); the "+" names the rest. Names and times only, never a score
