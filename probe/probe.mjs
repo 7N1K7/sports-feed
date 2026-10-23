@@ -1,10 +1,9 @@
 import fs from 'fs';
 const out = [];
-const api = async q => (await fetch('https://en.wikipedia.org/w/api.php?format=json&' + q, { headers: { 'user-agent': 'KickoffKiwi/1.0 (https://kickoff.kiwi)' } })).json();
-for (const s of ['2026–27', '2026', '2027']) for (const q of [`intitle:tri cricket "${s}"`, `intitle:tri-nation cricket "${s}"`, `intitle:"tri-series" "${s}"`]) {
-  const r = await api('action=query&list=search&srlimit=50&srnamespace=0&srsearch=' + encodeURIComponent(q));
-  out.push(`${q}: ${r.query?.searchinfo?.totalhits} hits: ` + (r.query?.search || []).map(x => x.title).join(' ; '));
-}
 const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
-out.push(JSON.stringify(f.diag).match(/.{0,200}Tri.{0,300}/g)?.join('\n') || 'no tri in diag');
+out.push('generatedAt ' + f.generatedAt + ' events ' + f.events.length + ' tables ' + f.tables.length);
+for (const e of f.events.filter(e => /Tri-(Series|Nation)/i.test(e.comp || ''))) out.push([e.startUTC.slice(0, 10), e.comp, e.home, 'v', e.away, e.minor ? 'MINOR' : '', e.watchNote || ''].join(' | '));
+for (const t of f.tables.filter(t => /Tri/.test(t.comp))) out.push('TABLE ' + t.comp + ': ' + t.rows.map(r => r.name).join(', '));
+const sc = f.events.filter(e => /Scotland Women/.test(e.home + e.away));
+for (const e of sc) out.push(['SCOT', e.home, e.away, e.homeLogo || '-', e.awayLogo || '-'].join(' | '));
 fs.writeFileSync(new URL('./out.txt', import.meta.url), out.join('\n'));
