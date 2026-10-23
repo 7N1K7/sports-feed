@@ -1,5 +1,4 @@
-version 388 | golf {"2026 PGA Tour":45,"2026 LPGA Tour":31,"2026–27 PGA Tour of Australasia":18}
-rounds: [["4",31]]
-3-round: 
-now: Butterfield Bermuda Championship 4; BMW Ladies Championship 4; Players Series SA 4
-page has stageNow: true | LIVE_TEAM: true | theme box 11em: true
+report (short note): 400 https://kickoff.kiwi
+report (other site): 403
+page: version undefined | report dialog: true | Const. Cup: true
+stats page reports list: true
