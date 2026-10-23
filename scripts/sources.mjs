@@ -240,15 +240,16 @@ function eventsFromPage(title, text, cfg, cityTz) {
       ...(progress ? { progress } : {}), ...(liveScore ? { liveScore } : {}),
     });
   }
-  // a tri-series of the smaller cricket nations (UAE, Netherlands, Oman) is listed under All competitions but kept off
-  // the main feed: it's minor unless two of its sides are Test nations
+  // a tri-series of the smaller cricket nations (UAE, Netherlands, Oman; Afghanistan, Zimbabwe, Bangladesh) is listed
+  // under All competitions but kept off the main feed and the running series: it's minor unless New Zealand or
+  // Australia play in it, or two of the big cricket nations do
   if (cfg.classify === 'tricricket') {
-    const sides = new Set(out.flatMap(e => [e.home, e.away]));
-    if ([...sides].filter(n => TEST_NATIONS.test(n)).length < 2) for (const e of out) e.minor = true;
+    const sides = [...new Set(out.flatMap(e => [e.home, e.away]))];
+    if (!sides.some(n => /^(New Zealand|Australia)\b/.test(n)) && sides.filter(n => BIG_CRICKET.test(n)).length < 2) for (const e of out) e.minor = true;
   }
   return out;
 }
-const TEST_NATIONS = /^(New Zealand|Australia|England|India|Pakistan|Sri Lanka|South Africa|West Indies|Bangladesh|Zimbabwe|Afghanistan|Ireland)$/;
+const BIG_CRICKET = /^(New Zealand|Australia|England|India|Pakistan|Sri Lanka|South Africa|West Indies)$/;
 
 // Simple wikitable reader with rowspan support: rows of cell strings
 function tableRows(table) {
