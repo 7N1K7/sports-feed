@@ -1,40 +1,72 @@
-Tasman rugby union team => Tasman rugby union team MISSING 0 | squad 0  | 
-Taranaki rugby union team => Taranaki rugby union team MISSING 0 | squad 0  | 
-Southland rugby union team => Southland rugby union team MISSING 0 | squad 0  | 
-Otago rugby union team => Otago rugby union team MISSING 0 | squad 0  | 
-Manawatu rugby union team => Manawatu rugby union team MISSING 0 | squad 0  | 
-Hawke's Bay rugby union team => Hawke's Bay rugby union team MISSING 0 | squad 0  | 
-North Harbour rugby union team => North Harbour Rugby Union 15716 | squad 0  | === Notable former players ===
-Canterbury rugby union team => Canterbury Rugby Football Union 51751 | squad 0  | 
-Wellington rugby union team => Wellington Rugby Football Union 16683 | squad 0  | 
-Waikato rugby union team => Waikato Rugby Union 29696 | squad 0  | === Notable players ===
-Northland rugby union team => Northland Rugby Union 23366 | squad 0  | 
-Bay of Plenty rugby union team => Bay of Plenty (National Provincial Championship) 11716 | squad 45 Josh Bartlett (Prop), Benet Kumeroa (Prop), Tevita Mafileo (Prop) | ==Current squad== / ==Current Super Rugby players==
-Auckland rugby union team => Auckland (National Provincial Championship) 13509 | squad 49 Sione Ahio (Prop), Tamiano Ahloo (Prop), Ben Ake (Prop) | ==Current squad== / ==Current Super Rugby players==
-Counties Manukau rugby union team => Counties Manukau Rugby Football Union 13990 | squad 0  | 
-Bay of Plenty (National Provincial Championship) => Bay of Plenty (National Provincial Championship) 11716 | squad 45 Josh Bartlett (Prop), Benet Kumeroa (Prop), Tevita Mafileo (Prop) | ==Current squad== / ==Current Super Rugby players==
-Auckland (National Provincial Championship) => Auckland (National Provincial Championship) 13509 | squad 49 Sione Ahio (Prop), Tamiano Ahloo (Prop), Ben Ake (Prop) | ==Current squad== / ==Current Super Rugby players==
-Canterbury (National Provincial Championship) => Canterbury (National Provincial Championship) 14878 | squad 48 Jermaine Ainsley (Prop), Finlay Brewis (Prop), Gus Brown (Prop) | ==Current squad== / ==Current Super Rugby players==
-North Harbour (National Provincial Championship) => North Harbour (National Provincial Championship) 11184 | squad 45 Oscar Cowley-Andrea (Prop), Bradley Fifita (Prop), Toma Laumalili (Prop) | ==Current squad== / ==Current Super Rugby players==
-Tasman (National Provincial Championship) => Tasman (National Provincial Championship) 14645 | squad 46 Ryan Coxon (Prop), Tom Heywood (Prop), Tyrel Lomax (Prop) | ==Current squad== / ==Current Super Rugby players==
-Waikato (National Provincial Championship) => Waikato (National Provincial Championship) 12827 | squad 48 George Dyer (Prop), Sefo Kautai (Prop), Will Martin (Prop) | ==Current squad== / ==Current Super Rugby players==
-Wellington (National Provincial Championship) => Wellington (National Provincial Championship) 12157 | squad 47 Geordie Bean (Prop), Bradley Crichton (Prop), Alex Hewitt (Prop) | ==Current squad== / ==Current Super Rugby players==
-Counties Manukau (National Provincial Championship) => Counties Manukau (National Provincial Championship) 9982 | squad 50 Jarred Adams (Prop), Vainikolo Fifita (Prop), Olive Lam-Yuen (Prop) | ==Current squad== / ==Current Super Rugby players==
-Hawke's Bay (National Provincial Championship) => Hawke's Bay (National Provincial Championship) 9913 | squad 40 Joe Apikotoa (Prop), Clément Castets (Prop), Lolani Faleiva (Prop) | ==Current squad== / ==Current Super Rugby players==
-Manawatu (National Provincial Championship) => Manawatu (National Provincial Championship) 9918 | squad 50 Joseph Gavigan (Prop), Malakai Hala-Ngatai (Prop), Darius Mafileo (Prop) | ==Current squad== / ==Current Super Rugby players==
-Northland (National Provincial Championship) => Northland (National Provincial Championship) 9574 | squad 47 Daniel Botha (Prop), Junior Fifita (Prop), Esile Fono (Prop) | ==Current squad== / ==Current Super Rugby players==
-Otago (National Provincial Championship) => Otago (National Provincial Championship) 11398 | squad 41 Cam Allan-McNeill (Prop), George Bower (Prop), Ben Lopas (Prop) | ==Current squad== / ==Current Super Rugby players==
-Southland (National Provincial Championship) => Southland (National Provincial Championship) 12146 | squad 54 Jack Barrett (Prop), Sef Fa'agase (Prop), Hunter Fahey (Prop) | ==Current squad== / ==Current Super Rugby players==
-Taranaki (National Provincial Championship) => Taranaki (National Provincial Championship) 12267 | squad 49 Dane Johnston (Prop), Perry Lawrence (Prop), Reuben O'Neill (Prop) | == Current squad == / == Current Super Rugby players ==
-Georgia national rugby union team => Georgia national rugby union team 92013 | squad 36 Luka Goginava (HK), Vano Karkadze (HK), Vakhtang Jincharadze (HK) | ==Players== / ===Current squad=== / ===Notable former players===
-Australia national rugby union team => Australia national rugby union team 199909 | squad 34 Josh Nasser (HK), Brandon Paenga-Amosa (HK), Billy Pollard (HK) | ==Players== / ===Current squad=== / ===Notable players===
-Japan national rugby union team => Japan national rugby union team 87242 | squad 36 Mamoru Harada (HK), Kenji Sato (HK), Sho Furuhata (PR) | ==Current squad== / ==Notable former players==
-New Zealand national netball team => New Zealand national netball team 94664 | squad 7 Laura Langman, Maria Folau, Irene van Dyk | == Players == / ===Current squad=== / ===Notable past players===
-Samoa national rugby union team => Samoa national rugby union team 56582 | squad 30 Richie Asiata (HK), Sama Malolo (HK), Mills Sanerivi (HK) | ==Players== / ===Current squad===
-Fiji national rugby union team => Fiji national rugby union team 63889 | squad 28 Penaia Cakobau (HK), Tevita Ikanivere (HK), Kavaia Tagivetaua (HK) | ==Players== / ===Current squad=== / ==Notable players==
-Tonga national rugby union team => Tonga national rugby union team 51694 | squad 30 Sekope Lopeti-Moli (HK), Efi Ma'afu (HK), Siua Maile (HK) | ==Players== / ===Current squad=== / ===Youngest players=== / ===Oldest players=== / ==Notable former players==
-United States national rugby union team => United States men's national rugby union team 106416 | squad 57 Shilo Klein (HK), Campbell Robb (HK), Joe Taufeteʻe (HK) | ===Record against Tier 1 teams=== / ==Players== / ===Current squad=== / ==Other U.S. national teams== / ===Women's national team===
-New Zealand A cricket team => New Zealand A cricket team 3921 | squad 0  | 
-India A cricket team => India A cricket team 14659 | squad 54 Shreyas Iyer, Vaibhav Sooryavanshi, Ricky Bhui | ==Current squad==
-Northern Districts women's cricket team => Northern Districts women's cricket team 15502 | squad 17 Lucy Boucher, Yasmeen Kareem, Caitlin Gurrey | ==Players== / ===Current squad=== / ===Notable players===
-Australia national netball team => Australia national netball team 76317 | squad 0  | ==Notable players== / ===Current squad=== / ===Notable past players===
+
+##### New Zealand national netball team
+===Current squad===
+{{New Zealand national netball team current squad}}
+
+===Notable past players===
+{{main|List of New Zealand international netball players}}
+
+====Most-capped internationals====
+[[File:Irene van Dyk (cropped).jpg|150px|thumb|right|[[Irene van Dyk]] made 145 appearances for New Zealand between 2000 and 2014. ]]
+
+{| class="wikitable collapsible" border="1"
+|-
+! style="background:black;" |<span style="color:white">Player</span>
+! style="background:black;" |<span style="color:white">Appearances</span>
+! style="background:black;" |<span style="color:white">Years</span>
+|-
+|[[Laura Langman]]<ref name="sfll133"/><ref name="nzherald101018">{{cite web|url=https://www.nzherald.co.nz/sport/news/article.cfm?c_id=4&objectid=12140419|title=Netball: Silver Ferns suffer another loss to Australian Diamonds in Constellation Cup|publisher=www.nzherald.co.nz|date=10 October 2018}}</ref>||165||2005–2020
+|-
+|[[Maria Folau]]<ref name="sfmf134">{{Cite web|url=https://www.silverferns.co.nz/silver-ferns/history/centurions/maria-tutaia.html|title=Maria Folau (nee Tutaia)|publisher=www.silverferns.co.nz|accessdate=9 April 2022}}</ref>||150||2005–2019
+|-
+|[[Irene van Dyk]]<ref name="sfivd122">{{Cite web|url=https://www.silverferns.co.nz/silver-ferns/history/centurions/irene-van-dyk.html|title=Irene van Dyk (nee Viljoen)|publisher=www.silverferns.co.nz|accessdate=9 April 2022}}</ref><ref name="gwr63821">{{cite web|url=https://www.guinnessworldrecords.com/world-records/63821-most-international-netball-appearances|title=Most international netball appearances|publisher=www.guinnessworldrecords.com|access-date=24 August 2024}}</ref>||145||2000–2014
+|-
+|[[Katrina Rore]]<ref name="sfkr140">{{Cite web|url=https://www.silverferns.co.nz/silver-ferns/history/players/katrina-rore.html|title=Katrina Rore (nee Grant)|publisher=www.silverferns.co.nz|accessdate=8 April 2022}}</ref>||137||2008–2022
+|-
+|[[Casey Kopua|Casey Kopua (née Williams)]]<ref name="sfck135"/>||135||2005–2019
+|-
+|[[Lesley Rumball]]<ref name="sflr107">{{Cite web|url=https://www.silverferns.co.nz/silver-ferns/history/players/lesley-rumball.html|title=Lesley Rumball (nee Nicol)|publisher=www.silverferns.co.nz|accessdate=7 April 2022}}</ref>||110||1994–2005
+|-
+|[[Leana de Bruin]]<ref name="sflvb129">{{Cite web|url=https://www.silverferns.co.nz/silver-ferns/history/centurions/leana-de-bruin.html|title=Leana de Bruin (nee du Plooy)|publisher=www.silverferns.co.nz|accessdate=9 April 2022}}</ref>||104||2003–2016
+|-
+|}
+
+{{small|'''Sources''':<ref name="sfcenturions">{{cite web|url=https://www.silverferns.co.nz/silver-ferns/history/centurions.html|title=
+Centurions – A tribute to our Centurions|publisher=www.silverferns.co.nz|access-date=9 April 2022}}</ref><ref name=stuff110917>{{cite news|author=[[Brendon Egan]]|url=https://www.stuff.co.nz/sport/netball/96696162/silver-ferns-captain-katrina-grant-to-become-seventh-centurion|title=Silver Ferns captain Katrina Grant to notch her 100th test|publisher=stuff.co.nz|date=11 September 2017|access-date=7 December 2023}}</ref><ref name=sf130917b>{{cite news|url=https://www.silverferns.co.nz/silver-ferns/news/latest-news/silver-ferns-captain-celebrates-100-test-milestone-with-series-win.html|title=Silver Ferns captain celebrates 100-Test milestone with Series win|publisher=silverferns.co.nz|date=13 September 2017|access-date=7 December 2023}}</ref><ref name=sf140917>{{cite news|url=https://www.silverferns.co.nz/silver-ferns/news/latest-news/popular-captain-joins
+
+##### Australia national netball team
+===Current squad===
+The current squad was selected for the [[2025 Constellation Cup]].<ref name="na0211025a">{{cite web |date=2 October 2025 |title=Diamonds teams confirmed for ITS |url=https://netball.com.au/news/diamonds-teams-confirmed-its |access-date=3 November 2025 |publisher=netball.com.au}}</ref><ref name="na021025b">{{cite web |date=2 October 2025 |title=Diamonds lock in captaincy duo |url=https://netball.com.au/news/diamonds-lock-captaincy-duo |access-date=3 November 2025 |publisher=netball.com.au}}</ref>{{Australia national netball team current squad}}
+===Notable past players===
+;Captains
+{{main|List of Australia national netball team captains}}
+;Award winners, Most capped
+{{see|List of Australia international netball players}}
+
+==Head coaches==
+{{see also|List of netball coaches in Australia}}
+{| class="wikitable collapsible"
+! Years
+! Head coaches 
+|-
+|1956, 1963||[[Lorna McConchie]]<ref name="wa1956"/><ref name="1963todor66"/><ref name="awr250107">{{Cite web|url=https://www.womenaustralia.info/biogs/AWE2269b.htm|title=McConchie, Lorna Jean (1914 - 2001)|publisher=www.womenaustralia.info|work=[[The Australian Women's Register]]|date=25 January 2007|accessdate=25 August 2017}}</ref><ref name="vic.netball1">{{Cite web|url=https://vic.netball.com.au/team-century|title=Team Of The Century|publisher=vic.netball.com.au|access-date=21 August 2020}}</ref>
+|-
+|1960||[[Eunice Gill]]<ref name="sahofgill">{{cite web|url=https://sahof.org.au/hall-of-fame-member/eunice-gill/|title=Eunice Gill|publisher=sahof.org.au|access-date=5 July 2021}}</ref>
+|-
+|1967||Margaret Pewtress<ref name="1967todor66"/>
+|-
+|1971, 1979, 1987–1989||[[Wilma Shakespear]]<ref name="1971todor66"/><ref name="1979todor66"/><ref name="1987todor66"/><ref name="1989todor66"/><ref name="vic.netball1"/>
+|-
+|1975, 1983, 1991–1993||[[Joyce Brown (netball)|Joyce Brown]]<ref name="1975todor66"/><ref name="1983todor66"/><ref name="1991todor66"/><ref name="1993todor66"/><ref name="sahof"/><ref name="vic.netball1"/>
+|-
+|1985||[[Pamela Barham]]<ref name="1985todor66"/>
+|-
+|1990||Margaret Corbett<ref name="1990todor66"/>
+|-
+|1990||[[Gaye Teede]]<ref name="diamondsteede">{{Cite web|url=https://diamonds.netball.com.au/player/gaye-teede|title=Gaye Teede|publisher=diamonds.netball.com.au|accessdate=24 August 2020}}</ref>
+|-
+|1995–2003||[[Jill McIntosh]]<ref name="sahof041220">{{cite web|url=https://sahof.org.au/hall-of-fame-member/jill-mcintosh/|title=Jill McIntosh|publisher=sahof.org.au|date=4 December 2020|access-date=7 February 2021}}</ref><ref name="coachinglife">{{cite web|url=https://www.coachinglife.com.au/jill-mcintosh/|title=Jill McIntosh|publisher=www.coachinglife.com.au|access-date=7 February 2021}}</ref><ref name="diamondsmcintosh">{{cite web|url=https://diamonds.netball.com.au/player/jill-mcintosh|title=Jill McIntosh|publisher=diamonds.netball.com.au|access-date=1 October 2020}}</ref>
+|-
+|2003–2011||[[Norma Plummer]]<ref name="2007todor66"/><ref name="netballau2006"/><ref name="netballau2007"/><ref name="netballau2010"/><ref name="netballau2011"/><ref name="2011todor66"/><ref name="diamondsplummer">{{cite web|url=https://diamonds.netball.com.au/player/norma-plummer-oam|title=Norma Plummer|publisher=diamonds.netball.com.au|access-date=1 October 2020}}</ref>
+|-
+|2011–2020||[[Lisa Alexander (netball)|Lisa Alexander]]<ref name="smh110811">{{Cite web|url=https://www.smh.com.au/sport/alexander-is-new-australia-netball-coach-20110811-1intu.html|title=Alexander is new Australia n
