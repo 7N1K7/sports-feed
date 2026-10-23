@@ -1361,6 +1361,15 @@ export const TEAM_PAGES = {
   'rugby|m|Wallabies': 'Australia national rugby union team', 'rugby|w|France': "France women's national rugby union team",
   'rugby|m|Blues': 'Blues (Super Rugby)', 'rugby|m|Chiefs': 'Chiefs (rugby union)', 'rugby|m|Hurricanes': 'Hurricanes (rugby union)', 'rugby|m|Crusaders': 'Crusaders (rugby union)',
   'rugby|m|Highlanders': 'Highlanders (rugby union)', 'rugby|m|Moana Pasifika': 'Moana Pasifika',
+  // the NPC sides (the feed's "Tasman Mako" and "Taranaki Bulls" too), more rugby nations, India A and the NZ women's
+  // domestic cricket sides
+  ...Object.fromEntries(['Auckland', 'Bay of Plenty', 'Canterbury', 'Counties Manukau', "Hawke's Bay", 'Manawatu', 'North Harbour', 'Northland', 'Otago', 'Southland',
+    'Taranaki', 'Tasman', 'Waikato', 'Wellington'].map(t => [`rugby|m|${t}`, `${t} (National Provincial Championship)`])),
+  'rugby|m|Tasman Mako': 'Tasman (National Provincial Championship)', 'rugby|m|Taranaki Bulls': 'Taranaki (National Provincial Championship)',
+  ...Object.fromEntries(['Australia', 'Japan', 'Fiji', 'Samoa', 'Tonga', 'Georgia', 'United States'].map(t => [`rugby|m|${t}`, `${t} national rugby union team`])),
+  'rugby|m|United States XV': 'United States national rugby union team', 'cricket|m|India A': 'India A cricket team',
+  ...Object.fromEntries(['Auckland Hearts', 'Central Hinds', 'Canterbury Magicians', 'Otago Sparks', 'Wellington Blaze'].map(t => [`cricket|w|${t}`, t])),
+  'cricket|w|Northern Districts': "Northern Districts women's cricket team", 'cricket|w|Northern Brave': "Northern Districts women's cricket team",
   // Premier League clubs
   ...Object.fromEntries(['Arsenal', 'Aston Villa', 'Brentford', 'Chelsea', 'Coventry City', 'Crystal Palace', 'Everton', 'Fulham', 'Ipswich Town', 'Leeds United',
     'Liverpool', 'Manchester City', 'Manchester United', 'Newcastle United', 'Nottingham Forest', 'Tottenham Hotspur', 'Burnley', 'West Ham United',
@@ -1419,7 +1428,9 @@ const sqLink = v => { const m = String(v || '').match(/\[\[([^\]|#]+)(?:\|([^\]]
 const sqPlayer = (who, r) => { const { n, w } = who; return n ? { n, ...(r ? { r } : {}), ...(w && w !== n ? { w } : {}) } : null; };
 function squadSection(text) {
   // the heading may carry an anchor or a comment first: === <span class="anchor" id="Current squad"></span>First-team squad ===
-  const m = text.match(/^(=+)\s*(?:<span[^>]*><\/span>\s*|<!--[\s\S]*?-->\s*)*(current squad|current roster|first[- ]team squad|senior squad|contracted players|squad)\s*\1\s*$/im);
+  // or name the season ("2026/27 squad"), this season's or last
+  const m = [...text.matchAll(/^(=+)\s*(?:<span[^>]*><\/span>\s*|<!--[\s\S]*?-->\s*)*(current squad|current roster|first[- ]team squad|senior squad|contracted players|squad|(20\d\d)(?:[/–-]\d{2,4})? squad)\s*\1\s*$/gim)]
+    .find(x => !x[3] || +x[3] >= new Date().getUTCFullYear() - 1);
   if (!m) return '';
   const rest = text.slice(m.index + m[0].length), end = rest.search(new RegExp(`^={1,${m[1].length}}[^=]`, 'm'));
   return end < 0 ? rest : rest.slice(0, end);
