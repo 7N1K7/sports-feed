@@ -1,15 +1,4 @@
-// probe 141: the live feed saved for local tests (it's public anyway), and the live site's Standard view on a phone
-import { writeFile } from 'node:fs/promises';
-import { chromium } from 'playwright';
-const t = await (await fetch('https://kickoff.kiwi/data/feed.json?t=' + Date.now())).text();
-await writeFile('probe/out-feed.json', t);
-console.log('feed saved', t.length);
-const b = await chromium.launch();
-for (const w of [360, 412]) {
-  const ctx = await b.newContext({ viewport: { width: w, height: 1300 }, deviceScaleFactor: 2 });
-  await ctx.addInitScript(() => { localStorage.setItem('sf.nocount', 'true'); localStorage.setItem('sf.view', '"mixed"'); });
-  const p = await ctx.newPage(); await p.goto('https://kickoff.kiwi/'); await p.waitForTimeout(4000);
-  console.log(w, await p.evaluate(() => [...document.querySelectorAll('.ev')].filter(e => e.offsetParent).slice(0, 6).map(c => Math.round(c.getBoundingClientRect().height)).join(' ')));
-  await p.screenshot({ path: `probe/out-live-${w}.png` }); await ctx.close();
-}
-await b.close();
+// probe 142: the netball sides' current squad templates
+const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
+const j = await (await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent('Template:New Zealand national netball team current squad|Template:Australia national netball team current squad'), { headers: UA })).json();
+for (const p of j.query?.pages || []) { const c = p.revisions?.[0]?.slots?.main?.content || ''; console.log(`\n##### ${p.title}${p.missing ? ' MISSING' : ''} ${c.length}\n` + c.slice(0, 2500)); }
