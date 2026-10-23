@@ -1,32 +1,30 @@
-// probe 147: a full feed build with the new form guide (last season's pages, kept results, earlier rounds), and which
-// A-League rounds TheSportsDB has for last season
-import { spawnSync } from 'node:child_process';
-import { readFile, writeFile, stat } from 'node:fs/promises';
-const lines = [], t0 = Date.now();
-const run = spawnSync('node', ['scripts/fetch.mjs'], { encoding: 'utf8', timeout: 25 * 60e3, maxBuffer: 64e6 });
-lines.push(`fetch exit ${run.status} in ${Math.round((Date.now() - t0) / 1000)} s`);
-for (const l of (run.stderr || '').split('\n').filter(l => /Error|at file|\.mjs:\d+/.test(l)).slice(0, 15)) lines.push('  ' + l.slice(0, 200));
+// probe 148: UFC's latest YouTube uploads (the key's length only, never the key); which box templates the 2026 Nations
+// Championship page uses; the titles of 2025's rugby internationals pages and this year's Farah Palmer Cup; the WXV page
+// read with the new "every game" rule
+import { writeFile } from 'node:fs/promises';
+import { wikiEvents } from '../scripts/sources.mjs';
+const lines = [], UA = { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } };
+const key = process.env.YOUTUBE_API_KEY || '';
+lines.push(`key length ${key.length}`);
+const yt = async (path, q) => { const r = await fetch(`https://www.googleapis.com/youtube/v3/${path}?${q}&key=${key}`); if (!r.ok) throw new Error(`${path} ${r.status}`); return r.json(); };
 try {
-  const f = JSON.parse(await readFile('data/feed.json', 'utf8'));
-  lines.push('form: ' + f.diag.form, 'formNames: ' + (f.diag.formNames || 'ok'));
-  for (const k of Object.keys(f.diag)) if (/^tsdb/.test(k)) lines.push(`${k}: ${JSON.stringify(f.diag[k]).slice(0, 160)}`);
-  lines.push('wikipedia: ' + JSON.stringify(f.diag.wikipedia));
-  const now = Date.now();
-  const by = {};
-  for (const e of f.events.filter(e => now - Date.parse(e.startUTC) < 21 * 864e5 && /^(rugby|league|football|cricket|netball|basketball|hockey)$/.test(e.sport)))
-    for (const t of [e.home, e.away]) { const k = `${e.sport}|${t}`, n = (f.form[k] || f.form[k + '|w'] || f.form[k + '|wc'] || []).length; const c = `${e.sport} · ${e.comp.split(' · ')[0]}`; (by[c] ||= new Map()).set(t, n); }
-  for (const [c, m] of Object.entries(by).sort()) lines.push(`${c.padEnd(44)} ${[...m.values()].join(',')}`);
-  lines.push(`form ${JSON.stringify(f.form).length} bytes, feed ${JSON.stringify(f).length}, results.json ${(await stat('.cache/results.json')).size}`);
-  for (const k of ['rugby|All Blacks', 'rugby|Black Ferns|w', 'rugby|Wallabies', 'football|Wellington Phoenix', 'football|Auckland FC', 'football|Arsenal', 'league|New Zealand', 'league|Kiwis', 'cricket|New Zealand', 'cricket|Sydney Sixers', 'cricket|Sydney Sixers|w', 'netball|Silver Ferns|w', 'basketball|New Zealand Breakers', 'hockey|New Zealand'])
-    lines.push(`${k}: ${(f.form[k] || []).map(x => `${x.d.slice(2)} ${x.r} ${x.o}${x.f ? ' ' + x.f : ''}${x.id ? '' : ' (no id)'}`).join(' · ') || 'none'}`);
-  lines.push('keys: ' + Object.keys(f.form).filter(k => /Ferns|Kiwi|Blacks|Silver|Breakers|Phoenix|Sticks/.test(k)).join(', '));
-} catch (e) { lines.push('read failed: ' + e.message); }
-// A-League last season: which rounds exist (regular season's end, finals)
-const T = 'https://www.thesportsdb.com/api/v1/json/123/', sleep = ms => new Promise(r => setTimeout(r, ms));
-for (const r of [26, 27, 28, 29, 30, 100, 125, 150, 160, 170, 200]) {
-  const j = await fetch(`${T}eventsround.php?id=4356&r=${r}&s=2025-2026`).then(r => r.ok ? r.json() : { err: r.status }).catch(e => ({ err: e.message }));
-  const ev = j.events || [];
-  lines.push(`A-League 2025-2026 r${r}: ${j.err || ''}${ev.length} games${ev.length ? ` ${ev[0].dateEvent}–${ev.at(-1).dateEvent} ${ev[0].strEvent} ${ev[0].intHomeScore}-${ev[0].intAwayScore}` : ''}`);
-  await sleep(6500);
-}
+  const ch = await yt('channels', 'part=snippet&id=UCvgfXK4nTYKudb0rFR6noLA');
+  lines.push(`channel: ${ch.items?.[0]?.snippet?.title}`);
+  const ids = ((await yt('playlistItems', 'part=contentDetails&maxResults=50&playlistId=UUvgfXK4nTYKudb0rFR6noLA')).items || []).map(x => x.contentDetails.videoId);
+  for (const x of (await yt('videos', `part=snippet,liveStreamingDetails&id=${ids.join(',')}`)).items || []) { const ls = x.liveStreamingDetails || {}; lines.push(`  ${x.snippet.publishedAt.slice(0, 16)} ${x.snippet.liveBroadcastContent.padEnd(8)} ${ls.scheduledStartTime ? 'sched ' + ls.scheduledStartTime.slice(0, 16) : ''} ${x.snippet.title}`); }
+} catch (e) { lines.push('youtube error ' + e.message); }
+const wp = q => fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&' + q, UA).then(r => r.json());
+try {
+  const t = (await wp('action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=2026_Nations_Championship')).query.pages[0].revisions[0].slots.main.content;
+  const c = {}; for (const m of t.matchAll(/\{\{\s*([^|}\n]+?)\s*[|\n]/g)) if (/box|match|fixture|result/i.test(m[1])) c[m[1]] = (c[m[1]] || 0) + 1;
+  lines.push('Nations Championship templates: ' + JSON.stringify(c), 'length ' + t.length);
+  const i = t.search(/\{\{\s*[Rr]ugby ?box/); lines.push('first box: ' + JSON.stringify(t.slice(i, i + 500)));
+} catch (e) { lines.push('nc error ' + e.message); }
+for (const q of ['2025 end-of-year rugby union', '2025 mid-year rugby union', '2025 July rugby union', '2025 rugby union internationals', '2026 Farah Palmer Cup', '2025 Farah Palmer Cup', "2025 women's rugby union", '2025–26 Plunket Shield', '2025–26 Ford Trophy', '2025–26 Super Smash'])
+  try { const r = await wp('action=opensearch&limit=6&namespace=0&search=' + encodeURIComponent(q)); lines.push(`${q}: ${JSON.stringify(r[1])}`); } catch (e) { lines.push(q + ' error'); }
+try {
+  const d = {}, ev = await wikiEvents([{ title: '{Y} WXV Global Series', sport: 'rugby', comp: 'WXV Global Series', classify: 'wxv', women: true }], () => 'Europe/London', d, { prevDue: () => false });
+  lines.push(`WXV: ${ev.filter(e => e.comp === 'WXV Global Series').length} games`);
+  for (const e of ev.filter(e => e.comp === 'WXV Global Series')) lines.push(`  ${e.startUTC} ${e.team} ${e.home} v ${e.away} ${e.status} ${e.score || ''} ${e.stage || ''} ${e.venue || ''}`);
+} catch (e) { lines.push('wxv error ' + e.message); }
 await writeFile(new URL('./out.txt', import.meta.url), lines.join('\n') + '\n');

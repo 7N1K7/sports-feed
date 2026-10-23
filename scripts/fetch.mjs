@@ -63,7 +63,7 @@ async function getJSON(url) {
 
 // --- news from RNZ RSS -------------------------------------------------
 const NEWS_TEAMS = [
-  ['allblacks', /All Blacks|Razor|Scott Robertson/i], ['blackferns', /Black Ferns/i],
+  ['allblacks', /All Blacks|Razor|Scott Robertson/i], ['blackferns', /Black Ferns/i], ['wxv', /\bWXV\b/],
   ['npc', /\bNPC\b|Ranfurly|provincial/i], ['fpc', /Farah Palmer/i],
   ['blues', /\bBlues\b/], ['chiefs', /\bChiefs\b/], ['hurricanes', /Hurricanes/], ['crusaders', /Crusaders/],
   ['highlanders', /Highlanders/], ['moana', /Moana Pasifika/i],
@@ -453,6 +453,57 @@ async function youtubeStreams(events) {
   for (const e of events) if (e.yt) e.yt.sort((a, b) => a.at < b.at ? -1 : 1);
   diag.youtube = `streams per channel: ${notes.join(', ')}; matched ${found.length}${found.length ? ': ' + found.slice(0, 20).join('; ') : ''}`;
 }
+// UFC's fight-week videos on its own YouTube channel, free to watch: Embedded, Countdown, the press conference, media
+// day, open workouts, the weigh-ins. Two requests a run (its latest 50 uploads, then their times); what's matched is
+// kept in .cache/ufc-yt.json, since the channel posts so much that Monday's Embedded is soon out of the latest 50. A
+// video counts for an event when its title names the event ("UFC 334", "UFC Vegas 111", "UFC Perth") or both of the
+// main event's fighters, and it went up (or is set to stream) in the 16 days before the event. Nothing from after the
+// start: the post-fight press conference and the highlights would give results away
+const UFC_YT = 'UCvgfXK4nTYKudb0rFR6noLA';
+const UFC_KIND = [[/post[- ]?fight|highlights?|full fight|free fight|results?\b|reacts?|winner|recap/i, ''], [/#shorts?\b/i, ''],
+  [/embedded/i, 'Embedded'], [/ceremonial weigh/i, 'Ceremonial weigh-ins'], [/weigh[- ]?ins?/i, 'Weigh-ins'], [/press conference|presser/i, 'Press conference'],
+  [/media day|media scrum/i, 'Media day'], [/open workouts?/i, 'Open workouts'], [/countdown/i, 'Countdown'], [/face[- ]?offs?/i, 'Face-offs']];
+async function ufcBuildup(events) {
+  const key = process.env.YOUTUBE_API_KEY;
+  if (!key) return;
+  const url = new URL('.cache/ufc-yt.json', ROOT);
+  let seen = {};
+  try { seen = JSON.parse(await readFile(url, 'utf8')); } catch {}
+  const soon = events.filter(e => e.team === 'ufc' && e.status !== 'final' && Date.parse(e.startUTC) > now - 12 * 36e5 && Date.parse(e.startUTC) < now + 16 * DAY);
+  try {
+    if (soon.length) {
+      const yt = async (path, q) => { const r = await fetch(`https://www.googleapis.com/youtube/v3/${path}?${q}&key=${key}`); if (!r.ok) throw new Error(`${path} ${r.status}`); return r.json(); };
+      const ids = ((await yt('playlistItems', `part=contentDetails&maxResults=50&playlistId=UU${UFC_YT.slice(2)}`)).items || []).map(x => x.contentDetails.videoId);
+      for (const v of ids.length ? (await yt('videos', `part=snippet,liveStreamingDetails&id=${ids.join(',')}`)).items || [] : []) {
+        const ls = v.liveStreamingDetails || {};
+        seen[v.id] = { t: v.snippet.title, pub: v.snippet.publishedAt, at: ls.actualStartTime || ls.scheduledStartTime || v.snippet.publishedAt, state: v.snippet.liveBroadcastContent, ...(ls.actualEndTime ? { end: ls.actualEndTime } : {}) };
+      }
+    }
+  } catch (err) { diag.ufcVideos = 'error: ' + err.message; }
+  for (const [id, v] of Object.entries(seen)) if (now - Date.parse(v.pub) > 40 * DAY) delete seen[id];
+  try { await writeFile(url, JSON.stringify(seen)); } catch {}
+  let n = 0;
+  for (const e of soon) {
+    const start = Date.parse(e.startUTC);
+    // the event's names: its number, and the others its article gives ("also known as UFC Fight Night 293 and UFC Vegas 111")
+    const names = [/^UFC \d+$/.test(e.comp) ? e.comp : '', ...((e.about || '').match(/also known as ([^)]*)\)/)?.[1] || '').split(/,\s*|\s+and\s+/)]
+      .map(s => s.trim()).filter(s => /^UFC\b/.test(s) && !/^UFC Fight Night( \d+)?$/.test(s));
+    const named = t => names.some(s => new RegExp(`\\b${s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?!\\d)`, 'i').test(t))
+      || (e.home && e.away && e.away !== 'TBC' && [e.home, e.away].every(f => new RegExp(`\\b${String(f).split(' ').pop().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(t)));
+    const list = [];
+    for (const [id, v] of Object.entries(seen)) {
+      const at = Date.parse(v.at);
+      if (!(at > start - 16 * DAY && at < start) || !named(v.t)) continue;
+      const kind = UFC_KIND.find(([re]) => re.test(v.t))?.[1];
+      if (!kind) continue;
+      list.push({ k: kind + (kind === 'Embedded' ? ((m => m ? ` ${+(m[1] || m[2])}` : '')(v.t.match(/episode\s*(\d+)|\bep\.?\s*(\d+)/i))) : ''), t: v.t, url: `https://www.youtube.com/watch?v=${id}`, at: v.at, ...(v.state === 'live' || v.state === 'upcoming' ? { state: v.state } : {}) });
+    }
+    // one of each (Embedded episodes each), the latest of any repeats, in order
+    const one = Object.values(Object.fromEntries(list.sort((a, b) => a.at.localeCompare(b.at)).map(x => [x.k, x]))).sort((a, b) => a.at.localeCompare(b.at));
+    if (one.length) { e.buildup = one; n += one.length; }
+  }
+  diag.ufcVideos ||= `${Object.keys(seen).length} recent UFC videos known; ${n} fight-week videos on ${soon.filter(e => e.buildup).length} of ${soon.length} events`;
+}
 
 // the TV guide: what's actually listed for a game on NZ channels (TVNZ 1 and 2, Three, Sky Open, DUKE, Whakaata Māori
 // and the Sky Sport channels), from the community-run NZ XMLTV guide at i.mjh.nz (the Sky Go guide, which carries all of
@@ -585,7 +636,7 @@ let tsdbCache = {};
 try { tsdbCache = JSON.parse(await readFile(tsdbCacheUrl, 'utf8')); } catch {}
 
 // same fixture from two sources? UFC cards match on date alone
-const WOMEN_KEYS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'fpc', 'wbbl', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
+const WOMEN_KEYS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'fpc', 'wxv', 'wbbl', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
 const isW = e => WOMEN_KEYS.has(e.team) || /women|wheelchair/i.test([e.comp, e.home, e.away].join(' '));
 // a race weekend's sessions (qualifying, practice, Supercars' Saturday race) are never the race itself
 const same = (a, b) => a.team === b.team && isW(a) === isW(b) && (a.session || '') === (b.session || '') && (a.team === 'ufc' ? Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) < 1.5 * DAY : sameMatch(a, b));
@@ -724,6 +775,7 @@ await sportmonksCricket(events);
 for (const e of events) if (e.fix) Object.assign(e, e.fix);
 events.forEach(e => applyBroadcast(e, rules));
 await youtubeStreams(events);
+await ufcBuildup(events);
 await tvGuide(events);
 for (const e of events) if (!e.tz && e.city) { const bits = e.city.split(',').map(x => x.trim()); e.tz = tzFor(bits[0], bits[bits.length - 1]); }
 
@@ -1617,7 +1669,7 @@ const stateList = events.some(e => e.team === 'audomestic' && Math.abs(Date.pars
   ? Object.entries(await stateSquads(diag)).map(([team, players]) => ({ team, players })) : [];
 // other sides' current squads (NZ domestic cricket, the Big Bash, NBL, A-League, national and Super Rugby sides), from
 // their own pages, for sides with a game within four weeks; kept once in the feed, the page puts them on each game
-const WOMEN = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
+const WOMEN = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc', 'wxv', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
 const genderKey = e => /wheelchair/i.test(e.comp || '') ? 'wc' : WOMEN.has(e.team) || /women|\bWBBL\b/i.test(`${e.comp} ${e.home} ${e.away}`) ? 'w' : 'm';
 const squadKeys = [...new Set(events.filter(e => Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY)
   .flatMap(e => [e.home, e.away].map(t => `${e.sport}|${genderKey(e)}|${String(t || '').replace(/\s+Women('s)?$/, '')}`)))];

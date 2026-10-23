@@ -145,6 +145,8 @@ export function classify(kind, home, away) {
       if (tags.length) return { team: 'wallabies', tags };
       return null;
     }
+    // the WXV: every game, the Black Ferns' as theirs
+    case 'wxv': return { team: nz ? 'blackferns' : 'wxv', tags: ['wxv'] };
     case 'rlwc': return { team: nz ? (women ? 'kiwiferns' : 'kiwis') : 'rlwc', tags: ['rlwc'] };
     case 'leaguetests': return nz ? { team: women ? 'kiwiferns' : 'kiwis', tags: [] } : null;
     case 'aucricket': return /\bAustralia\b/.test(names) && !women ? { team: 'aucricket', tags: [] } : null;
