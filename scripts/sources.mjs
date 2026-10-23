@@ -145,10 +145,13 @@ export function classify(kind, home, away) {
       if (tags.length) return { team: 'wallabies', tags };
       return null;
     }
+    // the WXV: every game, the Black Ferns' as theirs
+    case 'wxv': return { team: nz ? 'blackferns' : 'wxv', tags: ['wxv'] };
     case 'rlwc': return { team: nz ? (women ? 'kiwiferns' : 'kiwis') : 'rlwc', tags: ['rlwc'] };
     case 'leaguetests': return nz ? { team: women ? 'kiwiferns' : 'kiwis', tags: [] } : null;
     case 'aucricket': return /\bAustralia\b/.test(names) && !women ? { team: 'aucricket', tags: [] } : null;
     case 'intlcricket': return !nz && !women && !/\bAustralia\b/.test(names) ? { team: 'intlcricket', tags: [] } : null;
+    case 'tricricket': return nz ? { team: women ? 'whiteferns' : 'blackcaps', tags: [] } : women ? null : /\bAustralia\b/.test(names) ? { team: 'aucricket', tags: [] } : { team: 'intlcricket', tags: [] };
     case 'nzcricket': return nz ? { team: women ? 'whiteferns' : 'blackcaps', tags: [] } : null;
     case 'nrl': return { team: /Warriors/.test(names) ? 'warriors' : 'nrl', tags: ['nrl'] };
     case 'hockey': return nz ? { team: women ? 'blacksticksw' : 'blacksticks', tags: [] } : null;
@@ -295,7 +298,7 @@ function ufcFromList(text, cityTz) {
   return out;
 }
 
-export async function wikiEvents(pageCfgs, cityTz, diag) {
+export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true } = {}) {
   const nowD = new Date();
   const Y = nowD.getUTCFullYear(), M = nowD.getUTCMonth();
   const s0 = M >= 6 ? Y : Y - 1;
@@ -322,6 +325,10 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     const ts = c.title.includes('{S}') ? seasons.map(s => c.title.replace('{S}', s)) : c.title.includes('{Y}') ? years.map(y => c.title.replace('{Y}', y)) : [c.title];
     for (const t of ts) want.set(t, c);
   }
+  // last season's or last year's page too where the config says formPrev, only for the form guide (a side early in a
+  // season, or in a tournament, otherwise has two results or none); asked for after this season's pages, and only when
+  // the feed says it's due (its results are kept, so once a week is plenty)
+  const formPrev = pageCfgs.filter(c => c.formPrev).map(c => [c.title.includes('{S}') ? c.title.replace('{S}', prev) : c.title.replace('{Y}', Math.min(...years) - 1), c]).filter(([t]) => prevDue(t));
   // NZ cricket tours change name every summer, so find them by search
   for (const q of [...seasons, ...years.map(String), prev].flatMap(s => [`intitle:"in New Zealand in ${s}"`, `intitle:"New Zealand" intitle:"cricket team in" "${s}"`])) {
     try {
@@ -360,19 +367,35 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
       }
     } catch (e) { diag.wikiSearch = e.message; }
   }
+  // tri-series ("2026–27 Pakistan T20I Tri-Series", "2026 Tri-Nation Series in Sri Lanka"): every men's game, and the NZ
+  // women's, with the series' table
+  for (const s of [...seasons, ...years.map(String)]) {
+    try {
+      const r = await api('action=query&list=search&srlimit=20&srnamespace=0&srsearch=' + encodeURIComponent(`intitle:tri cricket "${s}"`));
+      for (const { title } of r.query?.search || []) {
+        if (!title.startsWith(s + ' ') || !/\btri-?(nation|series)|triangular/i.test(title) || /under-19|\bU19\b|\bA team|domestic/i.test(title) || want.has(title)) continue;
+        want.set(title, { sport: 'cricket', comp: title.slice(s.length + 1), classify: 'tricricket', women: /women/i.test(title) });
+      }
+    } catch (e) { diag.wikiSearch = e.message; }
+  }
+  for (const [t, c] of formPrev) if (!want.has(t)) want.set(t, { ...c, formOnly: true });
   const titles = [...want.keys()];
   const texts = {};
   for (let i = 0; i < titles.length; i += 20) {
     const batch = titles.slice(i, i + 20);
-    const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(batch.join('|')));
-    const redir = Object.fromEntries((r.query?.redirects || []).map(x => [x.to, x.from]));
-    const normd = Object.fromEntries((r.query?.normalized || []).map(x => [x.to, x.from]));
-    for (const pg of r.query?.pages || []) {
-      if (pg.missing) continue;
-      const key = redir[pg.title] || normd[pg.title] || pg.title;
-      texts[normd[key] || key] = { title: pg.title, text: pg.revisions?.[0]?.slots?.main?.content || '' };
+    // a batch of big pages comes back in parts (the rest after "continue"), so ask until it's all in
+    for (let cont = {}, n = 0; cont && n < 10; n++) {
+      const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(batch.join('|')) + Object.entries(cont).map(([k, v]) => `&${k}=${encodeURIComponent(v)}`).join(''));
+      const redir = Object.fromEntries((r.query?.redirects || []).map(x => [x.to, x.from]));
+      const normd = Object.fromEntries((r.query?.normalized || []).map(x => [x.to, x.from]));
+      for (const pg of r.query?.pages || []) {
+        if (pg.missing) continue;
+        const key = redir[pg.title] || normd[pg.title] || pg.title, text = pg.revisions?.[0]?.slots?.main?.content;
+        if (text != null || !texts[normd[key] || key]) texts[normd[key] || key] = { title: pg.title, text: text || '' };
+      }
+      cont = r.continue?.rvcontinue ? r.continue : null;
+      await sleep(300);
     }
-    await sleep(300);
   }
   // labelled-section transclusions, as the NRL finals page shows its Grand Final: {{#section:2026 NRL Grand Final|scoreboard}}
   // reads <section begin=scoreboard /> ... <section end=scoreboard /> from that page, so fetch those pages and put the section in
@@ -406,9 +429,10 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
       if (sq.length) for (const e of evs) { const s = squadsFor(sq, e); if (s.length) e.squads = s; }
     }
     out.push(...evs);
-    if (!c.seriesTitle && !c.ufc) tableSrc.push({ c, title: pg.title, text: pg.text });
+    if (!c.seriesTitle && !c.ufc && !c.formOnly) tableSrc.push({ c, title: pg.title, text: pg.text });
   }
   diag.wikipedia = per;
+  if (formPrev.length) diag.formPrev = formPrev.map(([t]) => `${t}: ${texts[t] ? `${per[texts[t].title] ?? 0} games${texts[t].text ? '' : ' (no text)'}` : 'no page'}`).join('; ');
   // standings: Sports table blocks on the page, or in a transcluded "... table" / "... standings" template
   const tables = [];
   try {
@@ -534,6 +558,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     diag.tennis = notes.join('; ') || 'no pages yet';
   } catch (e) { diag.tennis = 'error: ' + e.message; }
   out.tables = tables;
+  out.prevRead = formPrev.map(([t]) => t);
   // UFC: read each event's own article (two months out) for the fight card, and the main event's full names for photos
   const ufcSoon = out.filter(e => e.team === 'ufc' && /\/wiki\/UFC/.test(e.source) && Math.abs(new Date(e.startUTC) - Date.now()) < 60 * DAY);
   try {
@@ -1691,13 +1716,55 @@ export async function tsdbEvents(all, diag, cache = {}, gapsFor = null) {
         }
       }
       diag[`tsdb ${l.comp}`] = `${n} games, season ${season}, rounds ${rounds.join(',')}`;
-      cache[l.comp] = { t: Date.now(), events: out.slice(start) };
+      cache[l.comp] = { t: Date.now(), events: out.slice(start), season, r0 };
     } catch (e) {
       out.length = start;
       const c = cache[l.comp];
       if (c && Date.now() - c.t < 3 * DAY) { out.push(...c.events.filter(x => !out.some(o => o.id === x.id))); diag[`tsdb ${l.comp}`] = `error: ${e.message}; using saved copy (${c.events.length} games)`; }
       else diag[`tsdb ${l.comp}`] = 'error: ' + e.message;
     }
+  }
+  return out;
+}
+// Earlier rounds, for the form guide only (each round's results are kept a year by the feed): a couple of rounds a run,
+// this season's back to round 1, then while this season is young the end of the last one, its finals first
+// (TheSportsDB numbers finals rounds 160 elimination, 150 semis, 200 the final) and its last regular rounds. Each round
+// is asked once; what's left to ask is kept in the cache. "rounds" in the config = the regular season's rounds
+export async function tsdbBackfill(all, cache, diag, max = 2) {
+  const out = [];
+  let calls = 0;
+  for (const l of all.filter(l => !l.fill && !l.ufc)) {
+    // only a league being played now (its rounds read in the last two days)
+    const c = cache[l.comp];
+    if (!c?.season || !c.r0 || Date.now() - c.t > 2 * DAY) continue;
+    const bf = cache[`backfill ${l.id}`] ||= {};
+    if (bf.season !== c.season || !bf.todo) {
+      const prev = c.season.replace(/\d{4}/g, y => +y - 1);
+      bf.season = c.season;
+      bf.todo = [...Array(Math.max(0, c.r0 - 2)).keys()].map(i => [c.season, c.r0 - 2 - i]);
+      if (c.r0 < 8 && l.rounds) bf.todo.push(...[200, 150, 160, ...[0, 1, 2, 3, 4].map(i => l.rounds - i)].map(r => [prev, r]));
+    }
+    while (bf.todo.length && calls < max) {
+      const [s, r] = bf.todo[0];
+      calls++;
+      try {
+        for (const ev of (await tsdb(`eventsround.php?id=${l.id}&r=${r}&s=${encodeURIComponent(s)}`, { extra: true })).events || []) { const e = fromTsdb(ev, l); if (e?.status === 'final') out.push(e); }
+        bf.todo.shift();
+      } catch (e) { diag.tsdbBackfill = e.message; return out; }
+    }
+    diag[`tsdb backfill ${l.comp}`] = `${bf.todo.length} rounds still to ask`;
+  }
+  // a league marked formSeason (the Nations Championship, whose July tests are on no page the feed reads): this year's
+  // first 15 games, all the free key gives, once a week
+  for (const l of all.filter(l => l.formSeason)) {
+    const k = `season ${l.id}`, s = String(new Date().getUTCFullYear()), c = cache[k];
+    if (calls >= max + 1 || (c?.s === s && Date.now() - c.t < 7 * DAY)) continue;
+    calls++;
+    try {
+      const evs = ((await tsdb(`eventsseason.php?id=${l.id}&s=${s}`, { extra: true })).events || []).map(ev => fromTsdb(ev, l)).filter(e => e?.status === 'final');
+      out.push(...evs); cache[k] = { t: Date.now(), s };
+      diag[`tsdb season ${l.comp}`] = `${evs.length} results`;
+    } catch (e) { diag.tsdbBackfill = e.message; }
   }
   return out;
 }

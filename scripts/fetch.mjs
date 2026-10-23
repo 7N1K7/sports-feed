@@ -9,7 +9,7 @@
 //   data/curated/*.json        -> fixtures the above lack (boxing, some tests), news, notes
 //   data/broadcast.json        -> where-to-watch rules by competition
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
-import { wikiEvents, tsdbEvents, tsdb, f1StartTimes, supercarsStartTimes, nbaGames, stateSquads, teamSquads } from './sources.mjs';
+import { wikiEvents, tsdbEvents, tsdbBackfill, tsdb, f1StartTimes, supercarsStartTimes, nbaGames, stateSquads, teamSquads } from './sources.mjs';
 import { rankings as getRankings, KIWI_GOLF } from './rankings.mjs';
 import { execSync } from 'node:child_process';
 
@@ -63,7 +63,7 @@ async function getJSON(url) {
 
 // --- news from RNZ RSS -------------------------------------------------
 const NEWS_TEAMS = [
-  ['allblacks', /All Blacks|Razor|Scott Robertson/i], ['blackferns', /Black Ferns/i],
+  ['allblacks', /All Blacks|Razor|Scott Robertson/i], ['blackferns', /Black Ferns/i], ['wxv', /\bWXV\b/],
   ['npc', /\bNPC\b|Ranfurly|provincial/i], ['fpc', /Farah Palmer/i],
   ['blues', /\bBlues\b/], ['chiefs', /\bChiefs\b/], ['hurricanes', /Hurricanes/], ['crusaders', /Crusaders/],
   ['highlanders', /Highlanders/], ['moana', /Moana Pasifika/i],
@@ -453,6 +453,61 @@ async function youtubeStreams(events) {
   for (const e of events) if (e.yt) e.yt.sort((a, b) => a.at < b.at ? -1 : 1);
   diag.youtube = `streams per channel: ${notes.join(', ')}; matched ${found.length}${found.length ? ': ' + found.slice(0, 20).join('; ') : ''}`;
 }
+// UFC's fight-week videos on its own YouTube channel, free to watch: Embedded, Countdown, the press conference, media
+// day, open workouts, the weigh-ins. Two requests a run (its latest 50 uploads, then their times); what's matched is
+// kept in .cache/ufc-yt.json, since the channel posts so much that Monday's Embedded is soon out of the latest 50. A
+// video counts for an event when its title starts with the event ("UFC 333 Embedded: Vlog Series - Episode 4", "UFC
+// Vegas 111: ...") or names UFC and both of the main event's fighters, and it went up (or is set to stream) in the 16
+// days before the event. Fan clips and shorts ("... | UFC 333 Media Day", "#ufc333") don't start that way. Nothing from
+// after the start: the post-fight press conference and the highlights would give results away
+const UFC_YT = 'UCvgfXK4nTYKudb0rFR6noLA';
+const UFC_KIND = [[/free fight marathon/i, 'Free fight marathon'], [/post[- ]?fight|highlights?|full fight|free fight|results?\b|reacts?|winner|recap|betting/i, ''], [/#shorts?\b/i, ''],
+  [/embedded/i, 'Embedded'], [/countdown/i, 'Countdown'], [/fight promo|official trailer/i, 'Fight promo'], [/ceremonial weigh/i, 'Ceremonial weigh-ins'], [/weigh[- ]?ins?/i, 'Weigh-ins'], [/press conference|presser/i, 'Press conference'],
+  [/media day|media scrum/i, 'Media day'], [/open workouts?/i, 'Open workouts'], [/face[- ]?offs?/i, 'Face-offs']];
+async function ufcBuildup(events) {
+  const key = process.env.YOUTUBE_API_KEY;
+  if (!key) return;
+  const url = new URL('.cache/ufc-yt.json', ROOT);
+  let seen = {};
+  try { seen = JSON.parse(await readFile(url, 'utf8')); } catch {}
+  const soon = events.filter(e => e.team === 'ufc' && e.status !== 'final' && Date.parse(e.startUTC) > now - 12 * 36e5 && Date.parse(e.startUTC) < now + 16 * DAY);
+  try {
+    if (soon.length) {
+      const yt = async (path, q) => { const r = await fetch(`https://www.googleapis.com/youtube/v3/${path}?${q}&key=${key}`); if (!r.ok) throw new Error(`${path} ${r.status}`); return r.json(); };
+      const ids = ((await yt('playlistItems', `part=contentDetails&maxResults=50&playlistId=UU${UFC_YT.slice(2)}`)).items || []).map(x => x.contentDetails.videoId);
+      for (const v of ids.length ? (await yt('videos', `part=snippet,liveStreamingDetails&id=${ids.join(',')}`)).items || [] : []) {
+        const ls = v.liveStreamingDetails || {};
+        seen[v.id] = { t: v.snippet.title, pub: v.snippet.publishedAt, at: ls.actualStartTime || ls.scheduledStartTime || v.snippet.publishedAt, state: v.snippet.liveBroadcastContent, ...(ls.actualEndTime ? { end: ls.actualEndTime } : {}) };
+      }
+    }
+  } catch (err) { diag.ufcVideos = 'error: ' + err.message; }
+  for (const [id, v] of Object.entries(seen)) if (now - Date.parse(v.pub) > 40 * DAY) delete seen[id];
+  try { await writeFile(url, JSON.stringify(seen)); } catch {}
+  let n = 0;
+  for (const e of soon) {
+    const start = Date.parse(e.startUTC);
+    // the event's names: its number, and the others its article gives ("also known as UFC Fight Night 293 and UFC Vegas 111")
+    const names = [/^UFC \d+$/.test(e.comp) ? e.comp : '', ...((e.about || '').match(/also known as ([^)]*)\)/)?.[1] || '').split(/,\s*|\s+and\s+/)]
+      .map(s => s.trim()).filter(s => /^UFC\b/.test(s) && !/^UFC Fight Night( \d+)?$/.test(s));
+    const named = t => names.some(s => new RegExp(`^${s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?!\\d)`, 'i').test(t.trim()))
+      || (/^UFC\b/i.test(t.trim()) && e.home && e.away && e.away !== 'TBC' && [e.home, e.away].every(f => new RegExp(`\\b${String(f).split(' ').pop().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(t)));
+    const list = [];
+    for (const [id, v] of Object.entries(seen)) {
+      const at = Date.parse(v.at);
+      if (!(at > start - 16 * DAY && at < start) || !named(v.t)) continue;
+      const kind = UFC_KIND.find(([re]) => re.test(v.t))?.[1];
+      if (!kind) continue;
+      // "Embedded 4"; a countdown names its fight ("Countdown: Yan vs Dvalishvili 3"), as there's one for each big fight
+      const sub = kind === 'Embedded' ? (m => m ? ` ${+(m[1] || m[2])}` : '')(v.t.match(/episode\s*(\d+)|\bep\.?\s*(\d+)/i))
+        : kind === 'Countdown' ? (m => m ? `: ${m[1].trim()}` : '')(v.t.match(/countdown\s*[-–:|]\s*(.+?\bvs?\.?\b.+?)(?:\s*[|]|$)/i)) : '';
+      list.push({ k: kind + sub, t: v.t, url: `https://www.youtube.com/watch?v=${id}`, at: v.at, ...(v.state === 'live' || v.state === 'upcoming' ? { state: v.state } : {}) });
+    }
+    // one of each (Embedded episodes each), the latest of any repeats, in order
+    const one = Object.values(Object.fromEntries(list.sort((a, b) => a.at.localeCompare(b.at)).map(x => [x.k, x]))).sort((a, b) => a.at.localeCompare(b.at));
+    if (one.length) { e.buildup = one; n += one.length; }
+  }
+  diag.ufcVideos ||= `${Object.keys(seen).length} recent UFC videos known; ${n} fight-week videos on ${soon.filter(e => e.buildup).length} of ${soon.length} events`;
+}
 
 // the TV guide: what's actually listed for a game on NZ channels (TVNZ 1 and 2, Three, Sky Open, DUKE, Whakaata Māori
 // and the Sky Sport channels), from the community-run NZ XMLTV guide at i.mjh.nz (the Sky Go guide, which carries all of
@@ -556,7 +611,16 @@ const rules = JSON.parse(await readFile(new URL('data/broadcast.json', ROOT), 'u
 const wikiCfg = JSON.parse(await readFile(new URL('data/wiki-pages.json', ROOT), 'utf8'));
 let wiki = [];
 let tables = [];
-try { wiki = await wikiEvents(wikiCfg.pages, n => tzFor(n, n), diag); tables = wiki.tables || []; } catch (e) { console.warn('Wikipedia failed:', e.message); diag.wikipedia = 'error: ' + e.message; }
+// every result seen, kept a year for the form guide (the feed itself keeps five months), and when each of last season's
+// pages was last read for it
+const resUrl = new URL('.cache/results.json', ROOT);
+let resCache = {};
+try { resCache = JSON.parse(await readFile(resUrl, 'utf8')); } catch {}
+const prevRead = resCache.prevRead ||= {};
+try { wiki = await wikiEvents(wikiCfg.pages, n => tzFor(n, n), diag, { prevDue: t => !(Date.now() - (prevRead[t] || 0) < 7 * DAY) }); tables = wiki.tables || []; for (const t of wiki.prevRead || []) prevRead[t] = Date.now(); } catch (e) { console.warn('Wikipedia failed:', e.message); diag.wikipedia = 'error: ' + e.message; }
+// last season's games (and last summer's tours) count only toward the form guide, so they skip everything else
+const formPast = wiki.filter(e => e.formOnly);
+wiki = wiki.filter(e => !e.formOnly);
 // Formula 1 start times from TheSportsDB, one weekend per run, remembered in .cache/f1-times.json
 const f1Url = new URL('.cache/f1-times.json', ROOT);
 let f1Cache = {};
@@ -576,7 +640,7 @@ let tsdbCache = {};
 try { tsdbCache = JSON.parse(await readFile(tsdbCacheUrl, 'utf8')); } catch {}
 
 // same fixture from two sources? UFC cards match on date alone
-const WOMEN_KEYS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'fpc', 'wbbl', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
+const WOMEN_KEYS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'fpc', 'wxv', 'wbbl', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
 const isW = e => WOMEN_KEYS.has(e.team) || /women|wheelchair/i.test([e.comp, e.home, e.away].join(' '));
 // a race weekend's sessions (qualifying, practice, Supercars' Saturday race) are never the race itself
 const same = (a, b) => a.team === b.team && isW(a) === isW(b) && (a.session || '') === (b.session || '') && (a.team === 'ufc' ? Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) < 1.5 * DAY : sameMatch(a, b));
@@ -602,6 +666,8 @@ function gapsFor(l, known) {
   return gaps;
 }
 const tsdbAll = await tsdbEvents(wikiCfg.thesportsdb, diag, tsdbCache, gapsFor);
+// earlier rounds of the leagues being played now, a couple a run, for the form guide only
+const tsdbBack = await tsdbBackfill(wikiCfg.thesportsdb.filter(l => /^(rugby|league|football|netball|basketball)$/.test(l.sport)), tsdbCache, diag);
 try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(tsdbCacheUrl, JSON.stringify(tsdbCache)); } catch {}
 const tsdbLive = tsdbAll.filter(e => !e.fill), tsdbFill = tsdbAll.filter(e => e.fill);
 
@@ -622,7 +688,7 @@ const NRL_CLUBS = {
 const NRL_NAME = new Map(Object.entries(NRL_CLUBS).flatMap(([full, alts]) => [[full.toLowerCase(), full], ...alts.map(a => [a, full])]));
 const nrlName = n => NRL_NAME.get(String(n || '').trim().toLowerCase().replace(/\s+/g, ' ')) || n;
 const isNRL = e => e.sport === 'league' && !/NRLW|women/i.test(e.comp || '') && (/\bNRL\b/.test(e.comp || '') || (e.tags || []).includes('nrl') || e.team === 'nrl' || (e.team === 'warriors' && /NRL|finals/i.test(e.comp || '')));
-for (const e of [...tsdbAll, ...wiki, ...curated.events]) if (isNRL(e)) { e.home = nrlName(e.home); e.away = nrlName(e.away); }
+for (const e of [...tsdbAll, ...tsdbBack, ...wiki, ...formPast, ...curated.events]) if (isNRL(e)) { e.home = nrlName(e.home); e.away = nrlName(e.away); }
 for (const t of tables) if (t.sport === 'league' && /^NRL\b/.test(t.comp || '') && !/women|NRLW/i.test(t.page || '')) for (const r of t.rows) r.name = nrlName(r.name);
 
 // TheSportsDB has exact times; Wikipedia has scores for more competitions. Merge both, then onto curated.
@@ -713,6 +779,7 @@ await sportmonksCricket(events);
 for (const e of events) if (e.fix) Object.assign(e, e.fix);
 events.forEach(e => applyBroadcast(e, rules));
 await youtubeStreams(events);
+await ufcBuildup(events);
 await tvGuide(events);
 for (const e of events) if (!e.tz && e.city) { const bits = e.city.split(',').map(x => x.trim()); e.tz = tzFor(bits[0], bits[bits.length - 1]); }
 
@@ -1606,7 +1673,7 @@ const stateList = events.some(e => e.team === 'audomestic' && Math.abs(Date.pars
   ? Object.entries(await stateSquads(diag)).map(([team, players]) => ({ team, players })) : [];
 // other sides' current squads (NZ domestic cricket, the Big Bash, NBL, A-League, national and Super Rugby sides), from
 // their own pages, for sides with a game within four weeks; kept once in the feed, the page puts them on each game
-const WOMEN = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
+const WOMEN = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc', 'wxv', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
 const genderKey = e => /wheelchair/i.test(e.comp || '') ? 'wc' : WOMEN.has(e.team) || /women|\bWBBL\b/i.test(`${e.comp} ${e.home} ${e.away}`) ? 'w' : 'm';
 const squadKeys = [...new Set(events.filter(e => Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY)
   .flatMap(e => [e.home, e.away].map(t => `${e.sport}|${genderKey(e)}|${String(t || '').replace(/\s+Women('s)?$/, '')}`)))];
@@ -1620,9 +1687,11 @@ await wikiLogos(events, links);
 let site = null;
 try { site = { version: +execSync('git rev-list --count HEAD').toString().trim(), changedAt: execSync('git log -1 --format=%cI').toString().trim() }; } catch {}
 
-// Form guide: each side's last five results, oldest first, from every finished game the sources gave this season (not
-// just the three weeks the feed keeps). Scores decide rugby, league and football; cricket goes by "X won by". Only sides
-// still in the feed are kept, and the page hides any result that spoilers cover.
+// Form guide: each side's last ten results, oldest first, from every finished game the sources give (this season's, last
+// season's pages read for it, earlier TheSportsDB rounds) and every result kept from earlier runs (.cache/results.json, a
+// year back). Scores decide most sports; cricket goes by "X won by". Men's, women's ("|w") and wheelchair ("|wc") sides
+// are kept apart, and a national side's names are one list ("All Blacks" and "New Zealand"). Only sides in the feed go
+// out, and the page hides any result that spoilers cover.
 const outcome = e => {
   if (e.sport === 'cricket') {
     const t = e.summary || '';
@@ -1635,17 +1704,51 @@ const outcome = e => {
   if (!m) return null;
   return +m[1] > +m[2] ? ['W', 'L'] : +m[1] < +m[2] ? ['L', 'W'] : ['D', 'D'];
 };
-const formAll = {};
-for (const e of events.filter(e => e.status === 'final' && /^(rugby|league|football|cricket)$/.test(e.sport)).sort((a, b) => a.startUTC.localeCompare(b.startUTC))) {
+const FORM_SPORTS = /^(rugby|league|football|cricket|netball|basketball|hockey)$/;
+// men's, women's or wheelchair, as the page's genderOf tells them
+const formG = e => { const t = [e.comp, e.home, e.away, e.title].join(' '); return WOMEN.has(e.team) ? '|w' : /wheelchair/i.test(t) ? '|wc' : /women|ferns|wbbl|jillaroos|wallaroos|bulikula|nrlw|aupiki/i.test(t) ? '|w' : ''; };
+// the page's own nickname list (New Zealand rugby, men's: All Blacks), so a side's names make one form list
+let NICK = {};
+try { NICK = Function(`return ${(await readFile(new URL('index.html', ROOT), 'utf8')).match(/\nconst NICK = (\{[\s\S]*?\n\});/)[1]}`)(); } catch (e) { diag.formNames = 'nicknames not read: ' + e.message; }
+const formSide = k => {
+  const [sport, n, g = ''] = k.split('|'), base = n.replace(/\s+Women('s)?$/, ''), tbl = NICK[`${sport} ${g === 'w' ? 'w' : 'm'}`] || {};
+  return `${sport}|${tbl[base] ? base : Object.keys(tbl).find(c => tbl[c] === n || tbl[c] === base) || base}|${g}`;
+};
+const sameOpp = (a, b) => { const x = norm(a), y = norm(b); return a === b || (!!x && !!y && (x.includes(y) || y.includes(x))); };
+const formAll = resCache.form ||= {};
+for (const e of [...formPast, ...tsdbBack, ...events].filter(e => e.status === 'final' && FORM_SPORTS.test(e.sport) && e.startUTC)) {
   const r = outcome(e);
   if (!r) continue;
   // cricket form is kept per format, so a Test shows Test results and a T20I shows T20I ones
   const f = e.sport !== 'cricket' ? '' : (c => /\bT20/i.test(c) ? 'T20I' : /\bODI\b|one.day/i.test(c) ? 'ODI' : /\bTest\b/.test(c) ? 'Test' : '')(`${e.comp || ''} ${e.stage || ''}`);
-  for (const [me, them, res] of [[e.home, e.away, r[0]], [e.away, e.home, r[1]]]) (formAll[`${e.sport}|${me}`] ||= []).push({ id: e.id, d: e.startUTC.slice(0, 10), o: them, r: res, s: e.score || '', ...(f ? { f } : {}) });
+  for (const [me, them, res] of [[e.home, e.away, r[0]], [e.away, e.home, r[1]]]) {
+    const l = formAll[`${e.sport}|${me}${formG(e)}`] ||= [], x = { id: e.id, d: e.startUTC.slice(0, 10), o: them, r: res, s: e.score || '', ...(f ? { f } : {}) };
+    // the same game again takes the newer word: the same id, the same opponent that day, or (from another source, whose
+    // date can be a day out) the next or day before
+    const i = l.findIndex(o => o.id === x.id || (sameOpp(o.o, x.o) && (o.d === x.d || (e.sport !== 'cricket' && String(o.id).split('-')[0] !== String(x.id).split('-')[0] && Math.abs(Date.parse(o.d) - Date.parse(x.d)) <= DAY))));
+    if (i >= 0) l[i] = x; else l.push(x);
+  }
 }
-const inFeed = new Set(events.filter(e => now - new Date(e.startUTC) < 21 * DAY).flatMap(e => [`${e.sport}|${e.home}`, `${e.sport}|${e.away}`]));
-const form = Object.fromEntries(Object.entries(formAll).filter(([k]) => inFeed.has(k)).map(([k, v]) => [k, v.slice(k.startsWith('cricket|') ? -20 : -6)]));
-diag.form = `${Object.keys(form).length} sides with a form guide`;
+// a year and a month back, at most 60 a side
+for (const [k, l] of Object.entries(formAll)) {
+  const keep = l.filter(x => now - Date.parse(x.d) < 400 * DAY).sort((a, b) => a.d.localeCompare(b.d)).slice(-60);
+  if (keep.length) formAll[k] = keep; else delete formAll[k];
+}
+try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(resUrl, JSON.stringify(resCache)); } catch {}
+// out: each side's last ten (a cricket side's last ten in each format), merged across its names; ids only where the page
+// needs them (spoilers, and a game still in the feed)
+const formBy = {};
+for (const [k, l] of Object.entries(formAll)) (formBy[formSide(k)] ||= []).push(...l);
+const inFeed = new Set(events.filter(e => now - new Date(e.startUTC) < 21 * DAY && FORM_SPORTS.test(e.sport)).flatMap(e => [e.home, e.away].filter(Boolean).map(n => `${e.sport}|${n}${formG(e)}`)));
+const form = {};
+for (const k of inFeed) {
+  const all = (formBy[formSide(k)] || []).sort((a, b) => a.d.localeCompare(b.d)), seen = [], per = {};
+  for (const x of all) if (!seen.some(o => o.id === x.id || (Math.abs(Date.parse(o.d) - Date.parse(x.d)) <= DAY && formSide(`${k.split('|')[0]}|${o.o}|${k.split('|')[2] || ''}`) === formSide(`${k.split('|')[0]}|${x.o}|${k.split('|')[2] || ''}`)))) seen.push(x);
+  const out = seen.reverse().filter(x => (per[x.f || ''] = (per[x.f || ''] || 0) + 1) <= 10).reverse()
+    .map(({ id, ...x }) => now - Date.parse(x.d) < 160 * DAY ? { id, ...x } : x);
+  if (out.length) form[k] = out;
+}
+diag.form = `${Object.keys(form).length} sides with a form guide; ${Object.keys(formAll).length} sides' results kept; ${formPast.length} of last season's games read, ${tsdbBack.length} earlier rounds' games`;
 
 // world rankings (Wikipedia), each page re-read every 12 hours
 const rankUrl = new URL('.cache/rankings.json', ROOT);
