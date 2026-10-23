@@ -1,33 +1,17 @@
-32 of 32:  missing
-rugby|m|Auckland: 49 · Sione Ahio (Prop), Tamiano Ahloo (Prop), Ben Ake (Prop), Sam Davies (Prop)
-rugby|m|Bay of Plenty: 45 · Josh Bartlett (Prop), Benet Kumeroa (Prop), Tevita Mafileo (Prop), Jaya More (Prop)
-rugby|m|Canterbury: 48 · Jermaine Ainsley (Prop), Finlay Brewis (Prop), Gus Brown (Prop), Seb Calder (Prop)
-rugby|m|Counties Manukau: 50 · Jarred Adams (Prop), Vainikolo Fifita (Prop), Olive Lam-Yuen (Prop), Ezekiel Lindenmuth (Prop)
-rugby|m|Hawke's Bay: 40 · Joe Apikotoa (Prop), Clément Castets (Prop), Lolani Faleiva (Prop), Manahi Goulton (Prop)
-rugby|m|Manawatu: 50 · Joseph Gavigan (Prop), Malakai Hala-Ngatai (Prop), Darius Mafileo (Prop), Liam Pratt (Prop)
-rugby|m|North Harbour: 45 · Oscar Cowley-Andrea (Prop), Bradley Fifita (Prop), Toma Laumalili (Prop), Brody Savage (Prop)
-rugby|m|Northland: 47 · Daniel Botha (Prop), Junior Fifita (Prop), Esile Fono (Prop), Ricki Heremaia (Prop)
-rugby|m|Otago: 41 · Cam Allan-McNeill (Prop), George Bower (Prop), Ben Lopas (Prop), Saula Ma'u (Prop)
-rugby|m|Southland: 54 · Jack Barrett (Prop), Sef Fa'agase (Prop), Hunter Fahey (Prop), Darius Fidow (Prop)
-rugby|m|Taranaki: 49 · Dane Johnston (Prop), Perry Lawrence (Prop), Reuben O'Neill (Prop), Marika Parker (Prop)
-rugby|m|Tasman: 46 · Ryan Coxon (Prop), Tom Heywood (Prop), Tyrel Lomax (Prop), Sione Mafi (Prop)
-rugby|m|Waikato: 48 · George Dyer (Prop), Sefo Kautai (Prop), Will Martin (Prop), Ollie Norris (Prop)
-rugby|m|Wellington: 47 · Geordie Bean (Prop), Bradley Crichton (Prop), Alex Hewitt (Prop), Siale Lauaki (Prop)
-rugby|m|Tasman Mako: 46 · Ryan Coxon (Prop), Tom Heywood (Prop), Tyrel Lomax (Prop), Sione Mafi (Prop)
-rugby|m|Taranaki Bulls: 49 · Dane Johnston (Prop), Perry Lawrence (Prop), Reuben O'Neill (Prop), Marika Parker (Prop)
-rugby|m|Australia: 34 · Josh Nasser (HK), Brandon Paenga-Amosa (HK), Billy Pollard (HK), Allan Alaalatoa (PR)
-rugby|m|Japan: 36 · Mamoru Harada (HK), Kenji Sato (HK), Sho Furuhata (PR), Kanato Hirano (PR)
-rugby|m|Fiji: 28 · Penaia Cakobau (HK), Tevita Ikanivere (HK), Kavaia Tagivetaua (HK), Mesake Doge (PR)
-rugby|m|Samoa: 30 · Richie Asiata (HK), Sama Malolo (HK), Mills Sanerivi (HK), Michael Alaalatoa (PR)
-rugby|m|Tonga: 30 · Sekope Lopeti-Moli (HK), Efi Ma'afu (HK), Siua Maile (HK), Siegfried Fisiʻihoi (PR)
-rugby|m|Georgia: 36 · Luka Goginava (HK), Vano Karkadze (HK), Vakhtang Jincharadze (HK), Giorgi Akhaladze (PR)
-rugby|m|United States: 57 · Shilo Klein (HK), Campbell Robb (HK), Joe Taufeteʻe (HK), Tonga Kofe (PR)
-rugby|m|United States XV: 57 · Shilo Klein (HK), Campbell Robb (HK), Joe Taufeteʻe (HK), Tonga Kofe (PR)
-cricket|m|India A: 54 · Shreyas Iyer, Vaibhav Sooryavanshi, Ricky Bhui, Abhimanyu Easwaran
-cricket|w|Auckland Hearts: 20 · Cate Pedersen, Maddy Green (c), Saachi Shahri, Brooke Halliday
-cricket|w|Central Hinds: 16 · Yasmeen Kareem, Emma McLeod, Cate Pedersen, Kerry-Anne Tomlinson
-cricket|w|Canterbury Magicians: 20 · Izzy Sharp, Natalie Cox, Harriet Graham, Emma Irwin
-cricket|w|Otago Sparks: 17 · Caitlin Blakely, Hayley Jensen, Paige Loggenberg, Suzie Bates (vc)
-cricket|w|Wellington Blaze: 17 · Georgia Plimmer, Caitlin King, Rebecca Burns, Amelia Kerr (c)
-cricket|w|Northern Districts: 17 · Lucy Boucher, Yasmeen Kareem, Caitlin Gurrey, Samantha Barriball
-cricket|w|Northern Brave: 17 · Lucy Boucher, Yasmeen Kareem, Caitlin Gurrey, Samantha Barriball
+detail v432 at 2026-10-23T07:37:05.533Z: 317 games, 145 sides, 56138 bytes
+feed v432 at 2026-10-23T07:37:05.533Z
+teamSquads: 154 of 155: Northern Districts missing
+cricket: games 50 time 40 watch 44 squads 50/50 pic 29/31 links 31 | detail squads 50/50 time 40
+boxing: games 4 time 3 watch 4 squads 0/0 pic 6/8 links 0 | detail squads 0/0 time 3
+league: games 56 time 49 watch 56 squads 30/30 pic 14/14 links 14 | detail squads 30/30 time 49
+netball: games 2 time 2 watch 2 squads 0/2 pic 2/2 links 2 | detail squads 0/2 time 2
+rugby: games 6 time 6 watch 4 squads 6/6 pic 8/8 links 8 | detail squads 6/6 time 6
+football: games 32 time 32 watch 32 squads 32/32 pic 31/31 links 31 | detail squads 32/32 time 32
+mma: games 3 time 1 watch 3 squads 0/0 pic 6/6 links 6 | detail squads 0/0 time 1
+basketball: games 117 time 112 watch 117 squads 117/117 pic 26/41 links 41 | detail squads 117/117 time 112
+motor: games 29 time 29 watch 29 squads 0/0 pic 0/0 links 0 | detail squads 0/0 time 29
+golf: games 4 time 0 watch 4 squads 0/0 pic 0/0 links 0 | detail squads 0/0 time 0
+baseball: games 14 time 14 watch 7 squads 14/14 pic 4/4 links 4 | detail squads 14/14 time 14
+squad gaps: {"cricket":[],"boxing":[],"league":[],"netball":[["Constellation Cup",2]],"rugby":[],"football":[],"mma":[],"basketball":[],"motor":[],"golf":[],"baseball":[]}
+sample games: [{"s":"cricket","c":"Women's Big Bash League","n":"Melbourne Renegades v Sydney Thunder","at":"2026-10-29T04:40:00Z","f":15,"w":"Sky Sport / Sky Sport Now"},{"s":"cricket","c":"Women's Big Bash League","n":"Melbourne Stars v Hobart Hurricanes","at":"2026-10-29T08:10:00Z","f":15,"w":"Sky Sport / Sky Sport Now"},{"s":"cricket","c":"Women's Big Bash League","n":"Brisbane Heat v Sydney Sixers","at":"2026-10-30T09:40:00.000Z","f":15,"w":"Sky Sport / Sky Sport Now"}]
+sample sides: [{"s":"cricket","c":"Women's Big Bash League","n":"Melbourne Renegades","f":7},{"s":"cricket","c":"Women's Big Bash League","n":"Sydney Thunder","f":7},{"s":"cricket","c":"Women's Big Bash League","n":"Melbourne Stars","f":7}]
