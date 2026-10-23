@@ -187,6 +187,9 @@ html { -webkit-tap-highlight-color: transparent }
 /* settings: a dropdown under the header, over the page, so nothing below moves */
 .panel { position: absolute; top: calc(100% + 6px); left: 0; right: 0; pointer-events: none }
 .pclose { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 20px; line-height: 1; cursor: pointer; z-index: 1 }
+.pcoffee { position: absolute; top: 12px; right: 54px; height: 30px; display: inline-flex; align-items: center; gap: 5px; padding: 0 11px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; z-index: 1 }
+.pcoffee:hover { border-color: var(--accent) }
 .panel .pbox { position: relative; pointer-events: auto; margin-left: auto; width: min(720px, 100%); max-height: calc(100vh - 110px); max-height: calc(100dvh - 110px); overflow: auto; overscroll-behavior: contain;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; box-shadow: 0 16px 40px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.08) }
 .group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--f-body); font-weight: 700; margin-bottom: 6px }
@@ -352,13 +355,14 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .more { justify-self: start }
 footer { color: var(--muted); font-size: 13px; padding-block: 0 40px }
 footer a { color: var(--muted) } footer p { margin: 0 0 6px }
-/* Report, Suggest and Coffee: buttons on their own row above the sources; on phones two across, the coffee one full width */
+/* Coffee, then Report and Suggest: buttons on their own rows above the sources; on phones Report and Suggest two across, Coffee full width */
 footer .fbtns { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 6px 0 14px }
 footer .fbtn { font: inherit; font-size: 14px; font-weight: 600; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 7px 15px;
   cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 7px; white-space: nowrap }
 footer .fbtn:hover { border-color: var(--accent) }
 footer .fbtn.coffee { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
 footer .fbtn.coffee:hover { filter: brightness(1.08) }
+footer .fbtns.fcof { margin-bottom: 8px }
 footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 @media (max-width: 560px) { footer .fbtns { display: grid; grid-template-columns: 1fr 1fr } footer .fbtn.coffee { grid-column: 1 / -1 } }
 
@@ -1265,7 +1269,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
     </div>
   </div>
   <div class="panel" id="panel" hidden>
-  <div class="wrap"><div class="pbox" role="dialog" aria-label="Settings"><button type="button" class="pclose" id="panelClose" aria-label="Close settings">×</button>
+  <div class="wrap"><div class="pbox" role="dialog" aria-label="Settings"><button type="button" class="pclose" id="panelClose" aria-label="Close settings">×</button><a class="pcoffee" href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="settings">☕ Buy me a coffee</a>
     <h2 class="ph ptitle">Settings <span class="phnote">Saved in this browser only (clearing site data resets them)</span></h2>
     <div class="spoil-row">
       <span class="sgrp"><label for="tzSel">Show times for</label>
@@ -3577,7 +3581,7 @@ document.addEventListener('click', ev => {
   $('reportDlg').showModal(); $('reportNote').focus();
   count({ e: 'use', k: reportIdea ? 'Suggest opened' : 'Report opened' });
 });
-$('foot').addEventListener('click', ev => { if (ev.target.closest('[data-coffee]')) count({ e: 'use', k: 'Coffee link' }); });
+document.addEventListener('click', ev => { const c = ev.target.closest('[data-coffee]'); if (c) count({ e: 'use', k: c.dataset.coffee === 'settings' ? 'Coffee in Settings' : 'Coffee link' }); });
 $('reportCancel').addEventListener('click', () => $('reportDlg').close());
 $('reportDlg').addEventListener('click', ev => { if (ev.target === $('reportDlg')) $('reportDlg').close(); });
 $('reportForm').addEventListener('submit', async ev => {
@@ -3636,7 +3640,7 @@ async function load(woke) {
         if (sq.length) { e.squads = sq; e.seasonSquads = true; }
       }
     }
-    $('foot').innerHTML = `<div class="fbtns"><button type="button" class="fbtn" data-report="">Report a problem</button><button type="button" class="fbtn" data-suggest="">Suggest an idea</button><a class="fbtn coffee" href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="">☕ Buy me a coffee</a></div><p class="fsrc">Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)</p>`;
+    $('foot').innerHTML = `<div class="fbtns fcof"><a class="fbtn coffee" href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="">☕ Buy me a coffee</a></div><div class="fbtns"><button type="button" class="fbtn" data-report="">Report a problem</button><button type="button" class="fbtn" data-suggest="">Suggest an idea</button></div><p class="fsrc">Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)</p>`;
     render(); stamp(); openFromLink();
     // how long until the first games were on screen, in bands
     if (!load.timed) { load.timed = true; const t = performance.now() / 1000; count({ e: 'speed', k: t < 1 ? 'under 1s' : t < 2 ? '1-2s' : t < 4 ? '2-4s' : t < 8 ? '4-8s' : '8s or more' }); }
