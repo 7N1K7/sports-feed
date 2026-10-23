@@ -1,232 +1,28 @@
-===== AL East 200 384
-{{MLB standings
-|division=AL East
-|division_link=American League East
-|year=2026
-|seeds={{{seeds|}}}
-|highlight={{{highlight|}}}
-<!-- HOME record is listed first, then ROAD record.-->
-|Tampa Bay Rays
-|55|26
-|43|38
-|New York Yankees
-|46|34
-|47|34
-|Boston Red Sox
-|41|40
-|46|35
-|Baltimore Orioles
-|39|42
-|40|40
-|Toronto Blue Jays
-|42|39
-|37|44
-}}<noinclude>{{documentation}}</noinclude>
-===== 2026 American League Championship Series 200 26133
-{{MLB Playoff Summary
-| summary =
-| winner = Tampa Bay
-| leader = 
-| score = 4–2
-| date1 = October 12
-| score1 = '''Cleveland Guardians''' – 7, Tampa Bay Rays – 3
-| loc1 = [[Tropicana Field]]
-| time1 = 2:57
-| att1 = 35,361
-| ref1 = <ref>{{cite web|title=Guardians 7, Rays 3 Final|url=https://www.mlb.com/gameday/guardians-vs-rays/2026/10/12/849820/final|website=MLB.com|date=October 12, 2026|access-date=October 12, 2026}}</ref>
-| date2 = October 13
-| score2 = Cleveland Guardians – 1, '''Tampa Bay Rays''' – 3
-| loc2 = Tropicana Field
-| time2 = 2:42
-| att2 = 32,125
-| ref2 = <ref>{{cite web|title=Guardians 1, Rays 3 Final|url=https://www.mlb.com/gameday/guardians-vs-rays/2026/10/13/849813/final|website=MLB.com|date=October 13, 2026|access-date=October 13, 2026}}</ref>
-| date3 = October 15
-| score3 = Tampa Bay Rays – 2, '''Cleveland Guardians''' – 3
-| loc3 = [[Progressive Field]]
-| time3 = 2:28
---- linescore
-{{linescore|
-|Date = October 12, 2026
-|Time = 8:08{{nbsp}}pm ([[Eastern Time Zone|EDT]])
-|Location = [[Tropicana Field]] in [[St. Petersburg, Florida]]
-|Other = {{convert|72|F|C}}, Dome
-|Road='''Cleveland'''|RoadAbr=CLE
-|R1=0|R2=0|R3=0|R4=0|R5=0|R6=1|R7=1|R8=2|R9=3|RR=7|RH=14|RE=0
-|Home=Tampa Bay|HomeAbr=TB
-|H1=2|H2=0|H3=0|H4=0|H5=0|H6=0|H7=0|H8=1|H9=0|HR=3|HH=7|HE=0
-|WP=[[Hunter Gaddis]] (1–0) |LP=[[Tyler Wells]] (0–1) |SV=
-|HomeHR=[[Cedric Mullins]] (1) |RoadHR=[[Chase DeLauter]] (1), [[Patrick Bailey]] (1)
-|Attendance=35,361
-|BoxURL = https://www.mlb.com/gameday/guardians-vs-rays/2026/10/12/849820/final
-}}
-The Rays scored first in the bottom of the first inning, plating a pair of runs on consecutive RBI singles from [[Junior Caminero]] and [[Jonny DeLuca]]. [[Foster Griffin]] gave Cleveland four innings, scattering five hits and two runs while punching out three.
-
-The Guardians broke 
-summaries: 1 linescores: 7
-===== 2026 American League Wild Card Series 200 31451
-{{MLB Playoff Summary
-| summary =
-| winner = Chicago
-| leader = 
-| score = 2–0
-| date1 = September 29
-| score1 = '''Chicago White Sox''' – 6, Houston Astros – 3
-| loc1 = [[Daikin Park]]
-| time1 = 3:13
-| att1 = 34,011
-| ref1 = <ref>{{cite web|title=White Sox 6, Astros 3 Final|url=https://www.mlb.com/gameday/white-sox-vs-astros/2026/09/29/849849/final|website=MLB.com|date=September 29, 2026|access-date=September 29, 2026}}</ref>
-| date2 = September 30
-| score2 = '''Chicago White Sox''' – 7, Houston Astros – 3
-| loc2 = Daikin Park
-| time2 = 3:05
-| att2 = 36,015
-| ref2 = <ref>{{cite web|title=White Sox 7 Astros 3 Final|url=https://www.mlb.com/gameday/white-sox-vs-astros/2026/09/30/849846/final|website=MLB.com|date=September 30, 2026|access-date=September 30, 2026}}</ref>
-}}
-
-===New York Yankees vs. Boston Red Sox===
-{{MLB Playoff Summary
-| summary =
-| winner = New York
-| leader = 
-| score = 
---- linescore
-{{linescore|
-|Date = September 29, 2026
-|Time = 4:10{{nbsp}}pm ([[Central time zone|CDT]])
-|Location = [[Daikin Park]] in [[Houston]], [[Texas]]
-|Other = {{convert|72|F|C}}, Roof Closed
-|Road='''Chicago'''|RoadAbr=CWS
-|R1=1|R2=2|R3=0|R4=1|R5=1|R6=0|R7=1|R8=0|R9=0|RR=6|RH=11|RE=1
-|Home=Houston|HomeAbr=HOU
-|H1=0|H2=0|H3=0|H4=0|H5=2|H6=0|H7=0|H8=1|H9=0|HR=3|HH=6|HE=1
-|WP=[[Jordan Hicks (baseball)|Jordan Hicks]] (1–0) |LP=[[AJ Blubaugh]] (0–1) |SV=
-|HomeHR=[[Nelson Velázquez]] (1) |RoadHR=[[Colson Montgomery]] (1)
-|Attendance= 34,011
-|BoxURL = https://www.mlb.com/gameday/white-sox-vs-astros/2026/09/29/849849/final
-}}
-Prior to the game, [[Pope Leo XIV]], an avid White Sox fan, sent a supportive letter and blessed the team before their first playoff game since [[2021 Chicago White Sox season|2021]].<ref>{{Cite web |date=September 29, 2026 |title=Pope Leo XIV sends blessings to White Sox ahead 
-summaries: 2 linescores: 6
-===== 2026 National League Division Series 200 44248
-{{MLB Playoff Summary
-| summary =
-| winner = Milwaukee
-| leader = 
-| score = 3–1
-| date1 = October 3
-| score1 = San Diego Padres – 2, '''Milwaukee Brewers''' – 3
-| loc1 = [[American Family Field]]
-| time1 = 3:28
-| att1 = 42,843
-| ref1 = <ref>{{cite web|title=Padres 2, Brewers 3 Final|url=https://www.mlb.com/gameday/padres-vs-brewers/2026/10/03/849830/final|website=MLB.com|date=October 3, 2026|access-date=October 3, 2026}}</ref>
-| date2 = October 4
-| score2 = San Diego Padres – 3, '''Milwaukee Brewers''' – 4
-| loc2 = American Family Field
-| time2 = 3:14
-| att2 = 41,683
-| ref2 = <ref>{{cite web|title=Padres 3, Brewers 4 Final|url=https://www.mlb.com/gameday/padres-vs-brewers/2026/10/04/849825/final|website=MLB.com|date=October 4, 2026|access-date=October 4, 2026}}</ref>
-| date3 = October 6
-| score3 = Milwaukee Brewers – 3, '''San Diego Padres''' – 4
-| loc3 = [[Petco Park]]
-| time3 = 3:22
-|
---- linescore
-{{linescore|
-|Date = October 3, 2026
-|Time = 7:38{{nbsp}}pm ([[Central Time Zone|CDT]])
-|Location = [[American Family Field]] in [[Milwaukee]], [[Wisconsin]]
-|Other ={{convert|68|F|C}}, Roof Closed 
-|Road=San Diego|RoadAbr=SD
-|R1=0|R2=2|R3=0|R4=0|R5=0|R6=0|R7=0|R8=0|R9=0|RR=2|RH=9|RE=1
-|Home='''Milwaukee'''|HomeAbr=MIL
-|H1=0|H2=0|H3=2|H4=0|H5=0|H6=0|H7=1|H8=0|H9=X|HR=3|HH=7|HE=0
-|WP=[[DL Hall]] (1–0) |LP=[[Adrián Morejón]] (0–1) |SV=[[Trevor Megill]] (1)
-|HomeHR=[[Jackson Chourio]] (1), [[William Contreras]] (1) |RoadHR=
-|Attendance=42,843
-|BoxURL = https://www.mlb.com/gameday/padres-vs-brewers/2026/10/03/849830/final
-}}
-
-In the top of the second inning, [[Luis Campusano]] hit an RBI single off [[Jacob Misiorowski]] to drive in [[Xander Bogaerts]], putting the Padres on the board 1–0. Then, [[Jake Cronenworth]] drove in [[Ethan Salas]] on a fielder's choice to extend the Padres' lead to 
-summaries: 2 linescores: 10
-===== NPB standings 200
-==Regular season standings==
-{| class="wikitable plainrowheaders" style="text-align:center;"
-|+ 2026 [[Central League]] regular season standings<ref name="auto">{{cite web|title=2026 Central League Standings|url=https://npb.jp/bis/eng/2026/stats/std_c.html |access-date=September 17, 2026 |publisher=[[Nippon Professional Baseball]]}}</ref>
-!scope="col"| {{abbr|Pos|Position}}
-!scope="col"| Team
-!scope="col"| {{abbrlink|G|Games played}}
-!scope="col"| {{abbr|W|Games won}}
-!scope="col"| {{abbr|L|Games lost}}
-!scope="col"| [[Tie (draw)|{{abbr|T|Games tied}}]] 
-!scope="col"| [[Winning percentage|{{abbr|Pct.|Winning percentage}}]] 
-!scope="col"| {{abbrlink|GB|Games behind}}
-!scope="col"| {{abbr|Home|Home record}}
-!scope="col"| {{abbr|Road|Road record}}
-|-
-|1
-| style="text-align:left;" |'''z –''' [[Hanshin Tigers]]
-|143||79||62||2||{{Winning percentage|79|62}}||—||37–33–2||42–29–0
-|-
-|2
-| style="text-align:left;" |'''y –''' [[Yomiuri Giants]]
-|143||76||64||3||{{Winning percentage|76|64}}||2½||39–31–2||37–33–1
-|-
-|3
-| style="text-align:left;" |'''y –''' [[Yokohama DeNA BayStars]]
-|143||71||69||3||{{Winning percentage|71|69}}||7½||39–30–3||32–39–0
-|-
-! colspan="10" |
-|-
-|4
-| style="text-align:left;" |[[Hiroshima Toyo Carp]]
-|143||61||78||4||{{Winning percentage|61|78}}||17||34–36–1||27–42–3
-|-
-|5
-| style="text-align:left;" |[[Tokyo Yakult Swallows]]
-|143||61||80||2||{{Winning percentage|61|80}}||18||29–40–2||32–40–0
-|-
-|6
-| style="text-align:left;" |[[Chunichi Dragons]]
-|143||60||81||2||{{Winning percentage|60|81}}||19||38–33–0||22–48–2
-|}
-:<small>'''y''' – Clinched [[2026 Central League Climax Series|Climax Series]] berth; '''z''' – Clinched Central League pennant</small>
-
-{| class="wikitable plainrowheaders" style="text-align:center;"
-|+ 2026 [[Pacific League]] regular season standings<ref name="auto1">{{cite web|title=2026 Pacific League Standings |url=https://npb.jp/bis/eng/2026/stats/std_p.html |access-date=September 17, 2026 |publisher=[[Nippon Professional Baseball]]}}</ref>
-!scope="col"| {{abbr|Pos|Position}}
-!scope="col"| Team
-!scope="col"| {{abbrlink|G|Games played}}
-!scope="col"| {{abbr|W|Games won}}
-!scope="col"| {{abbr|L|Games lost}}
-!scope="col"| [[Tie (draw)|{{abbr|T|Games tied}}]] 
-!scope="col"| [[Winning percentage|{{abbr|Pct.|Winning percentage}}]] 
-!scope="col"| {{abbrlink|GB|Games behind}}
-!scope="col"| {{abbr|Home|Home record}}
-!scope="col"| {{abbr|Road|Road record}}
-|-
-|1
-| style="text-align:left;"|'''za –''' [[Fukuoka SoftBank Hawks]]
-|143||91||49||3||{{Winning percentage|91|49}}||—||49–23–0||42–26–3
-|-
-|2
-| style="text-align:left;" |'''y –''' [[Saitama Seibu Lions]]
-|143||79||60||4||{{Winning percentage|79|60}}||11½||41–29–2||38–31–2
-|-
-|3
-| style="text-align:left;" |'''y –''' [[Hokkaido Nippon-Ham Fighters]]
-|143||78||62||3||{{Winning percentage|78|62}}||13||42–28–2||36–34–1
-|-
-! colspan="10" |
-|-
-|4
-| style="text-align:left;" |[[Orix Buffaloes]]
-|143||65||76||2||{{Winning percentage|65|76}}||26½||41–29–1||24–47–1
-|-
-|5
-| style="text-align:left;" |[[Chiba Lotte Marines]]
-|143||63||77||3||{{Winning percentage|63|77}}||28||37–33–1||26–44–2
-|- 
-|6
-| style="text-align:left;" |[[2026 Tohoku Rakuten Golden Eagles season|Tohoku Rakuten Golden Eagles]]
-|143||58||84||1||{{Winning percentage|58|84}}||34||34–37–0||24–47–1
-|}
-:<small>'''y''' – Clinched [[2026 Pacific League Climax Series|Climax Series]] berth; '''z''' – Clinched Pacific League pennant; '''a''' – Clinched two-game advantage in [[2026 Pacific League Climax Series|Pacifi
+key present: true length: 36
+== NBA games 23-24 Oct: 200 x-ratelimit-limit=5 x-ratelimit-remaining=4 retry-after=null
+rows 14 meta {"per_page":100}
+{"id":21717860,"date":"2026-10-22","season":2026,"status":"Final","status_state":"final","period":4,"time":"Final","postseason":false,"postponed":false,"home_team_score":114,"visitor_team_score":106,"datetime":"2026-10-22T23:00:00.000Z","home_q1":18,"home_q2":27,"home_q3":37,"home_q4":32,"home_ot1":null,"home_ot2":null,"home_ot3":null,"home_timeouts_remaining":2,"home_in_bonus":true,"visitor_q1":35,"visitor_q2":34,"visitor_q3":21,"visitor_q4":16,"visitor_ot1":null,"visitor_ot2":null,"visitor_ot3
+{"id":21717861,"date":"2026-10-22","season":2026,"status":"4th Qtr","status_state":"in_progress","period":4,"time":"Q4 5:18","postseason":false,"postponed":false,"home_team_score":81,"visitor_team_score":73,"datetime":"2026-10-23T01:30:00.000Z","home_q1":24,"home_q2":20,"home_q3":26,"home_q4":11,"home_ot1":null,"home_ot2":null,"home_ot3":null,"home_timeouts_remaining":4,"home_in_bonus":false,"visitor_q1":27,"visitor_q2":21,"visitor_q3":16,"visitor_q4":9,"visitor_ot1":null,"visitor_ot2":null,"vis
+{"id":21717862,"date":"2026-10-23","season":2026,"status":"2026-10-23T23:00:00Z","status_state":"scheduled","period":0,"time":null,"postseason":false,"postponed":false,"home_team_score":0,"visitor_team_score":0,"datetime":"2026-10-23T23:00:00.000Z","home_q1":null,"home_q2":null,"home_q3":null,"home_q4":null,"home_ot1":null,"home_ot2":null,"home_ot3":null,"home_timeouts_remaining":null,"home_in_bonus":null,"visitor_q1":null,"visitor_q2":null,"visitor_q3":null,"visitor_q4":null,"visitor_ot1":null,
+{"id":21717863,"date":"2026-10-23","season":2026,"status":"2026-10-24T01:30:00Z","status_state":"scheduled","period":0,"time":null,"postseason":false,"postponed":false,"home_team_score":0,"visitor_team_score":0,"datetime":"2026-10-24T01:30:00.000Z","home_q1":null,"home_q2":null,"home_q3":null,"home_q4":null,"home_ot1":null,"home_ot2":null,"home_ot3":null,"home_timeouts_remaining":null,"home_in_bonus":null,"visitor_q1":null,"visitor_q2":null,"visitor_q3":null,"visitor_q4":null,"visitor_ot1":null,
+== NBA season 2026 page 1: 200 x-ratelimit-limit=5 x-ratelimit-remaining=3 retry-after=null
+rows 100 meta {"next_cursor":21718019,"per_page":100}
+{"id":21717855,"date":"2026-10-20","season":2026,"status":"Final","status_state":"final","period":4,"time":"Final","postseason":false,"postponed":false,"home_team_score":121,"visitor_team_score":113,"datetime":"2026-10-20T19:00:00.000Z","home_q1":27,"home_q2":18,"home_q3":37,"home_q4":39,"home_ot1":null,"home_ot2":null,"home_ot3":null,"home_timeouts_remaining":2,"home_in_bonus":true,"visitor_q1":28,"visitor_q2":30,"visitor_q3":30,"visitor_q4":25,"visitor_ot1":null,"visitor_ot2":null,"visitor_ot3
+{"id":21717856,"date":"2026-10-20","season":2026,"status":"Final","status_state":"final","period":4,"time":"Final","postseason":false,"postponed":false,"home_team_score":100,"visitor_team_score":106,"datetime":"2026-10-20T23:00:00.000Z","home_q1":25,"home_q2":33,"home_q3":18,"home_q4":24,"home_ot1":null,"home_ot2":null,"home_ot3":null,"home_timeouts_remaining":0,"home_in_bonus":false,"visitor_q1":23,"visitor_q2":31,"visitor_q3":29,"visitor_q4":23,"visitor_ot1":null,"visitor_ot2":null,"visitor_ot
+{"id":21717857,"date":"2026-10-20","season":2026,"status":"Final","status_state":"final","period":4,"time":"Final","postseason":false,"postponed":false,"home_team_score":104,"visitor_team_score":116,"datetime":"2026-10-21T01:30:00.000Z","home_q1":28,"home_q2":16,"home_q3":36,"home_q4":24,"home_ot1":null,"home_ot2":null,"home_ot3":null,"home_timeouts_remaining":2,"home_in_bonus":true,"visitor_q1":34,"visitor_q2":31,"visitor_q3":28,"visitor_q4":23,"visitor_ot1":null,"visitor_ot2":null,"visitor_ot3
+{"id":21717858,"date":"2026-10-21","season":2026,"status":"Final","status_state":"final","period":4,"time":"Final","postseason":false,"postponed":false,"home_team_score":106,"visitor_team_score":131,"datetime":"2026-10-21T23:30:00.000Z","home_q1":32,"home_q2":27,"home_q3":22,"home_q4":25,"home_ot1":null,"home_ot2":null,"home_ot3":null,"home_timeouts_remaining":1,"home_in_bonus":true,"visitor_q1":34,"visitor_q2":35,"visitor_q3":30,"visitor_q4":32,"visitor_ot1":null,"visitor_ot2":null,"visitor_ot3
+== NBA teams: 200 x-ratelimit-limit=5 x-ratelimit-remaining=2 retry-after=null
+rows 89 meta {}
+{"id":1,"conference":"East","division":"Southeast","city":"Atlanta","name":"Hawks","full_name":"Atlanta Hawks","abbreviation":"ATL"}
+{"id":2,"conference":"East","division":"Atlantic","city":"Boston","name":"Celtics","full_name":"Boston Celtics","abbreviation":"BOS"}
+{"id":3,"conference":"East","division":"Atlantic","city":"Brooklyn","name":"Nets","full_name":"Brooklyn Nets","abbreviation":"BKN"}
+{"id":4,"conference":"East","division":"Southeast","city":"Charlotte","name":"Hornets","full_name":"Charlotte Hornets","abbreviation":"CHA"}
+== MLB games World Series dates: 200 x-ratelimit-limit=5 x-ratelimit-remaining=4 retry-after=null
+rows 1 meta {"per_page":100}
+{"id":15467432,"home_team_name":"Milwaukee Brewers","away_team_name":"Tampa Bay Rays","home_team":{"id":16,"slug":"milwaukee-brewers","abbreviation":"MIL","display_name":"Milwaukee Brewers","short_display_name":"Brewers","name":"Brewers","location":"Milwaukee","league":"National","division":"Central"},"away_team":{"id":27,"slug":"tampa-bay-rays","abbreviation":"TB","display_name":"Tampa Bay Rays","short_display_name":"Rays","name":"Rays","location":"Tampa Bay","league":"American","division":"Eas
+== MLB teams: 200 x-ratelimit-limit=5 x-ratelimit-remaining=3 retry-after=null
+rows 30 meta {}
+{"id":1,"slug":"arizona-diamondbacks","abbreviation":"ARI","display_name":"Arizona Diamondbacks","short_display_name":"Diamondbacks","name":"Diamondbacks","location":"Arizona","league":"National","division":"West"}
+{"id":20,"slug":"oakland-athletics","abbreviation":"OAK","display_name":"Oakland Athletics","short_display_name":"Athletics","name":"Athletics","location":"Oakland","league":"American","division":"West"}
+{"id":2,"slug":"atlanta-braves","abbreviation":"ATL","display_name":"Atlanta Braves","short_display_name":"Braves","name":"Braves","location":"Atlanta","league":"National","division":"East"}
+{"id":3,"slug":"baltimore-orioles","abbreviation":"BAL","display_name":"Baltimore Orioles","short_display_name":"Orioles","name":"Orioles","location":"Baltimore","league":"American","division":"East"}
