@@ -190,7 +190,8 @@ html { -webkit-tap-highlight-color: transparent }
 .pcoffee { position: absolute; top: 12px; right: 54px; height: 30px; display: inline-flex; align-items: center; gap: 5px; padding: 0 11px; border-radius: 999px; border: 1px solid var(--line);
   background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; z-index: 1 }
 .pcoffee:hover { border-color: var(--accent) }
-@media (max-width: 700px) { .pcoffee { position: static; width: max-content; margin: 10px auto 2px } } /* phones: centred under the title, clear of the × */
+/* in the top row, level with the ×: centred, or just left of the × on a narrow phone where the middle would touch the title */
+@media (min-width: 400px) { .pcoffee { right: auto; left: 50%; transform: translateX(-50%) } }
 .panel .pbox { position: relative; pointer-events: auto; margin-left: auto; width: min(720px, 100%); max-height: calc(100vh - 110px); max-height: calc(100dvh - 110px); overflow: auto; overscroll-behavior: contain;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; box-shadow: 0 16px 40px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.08) }
 .group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--f-body); font-weight: 700; margin-bottom: 6px }
@@ -233,7 +234,8 @@ html { -webkit-tap-highlight-color: transparent }
 #teamGroups .ghint { display: none }
 /* phones: chips a little narrower so more fit on a row, still their full height for the thumb */
 /* and each row's chips share out its width, so every row ends flush instead of leaving a ragged gap */
-@media (max-width: 560px) { #teamGroups .chips { gap: 5px 4px } #teamGroups .chip { font-size: 12.5px; padding: 3px 8px 3px 4px; gap: 5px; flex: 1 1 auto; justify-content: center } }
+@media (max-width: 560px) { #teamGroups .chips { gap: 5px 4px } #teamGroups .chip { font-size: 12.5px; padding: 3px 8px 3px 4px; gap: 5px; flex: 1 1 auto; justify-content: center }
+  #teamGroups .chip.lone { flex-grow: 0; margin: 0 auto; padding-right: 12px } }
 @media (max-width: 560px) { #teamGroups .group { grid-template-columns: 1fr; row-gap: 5px } #teamGroups .group h3 { padding-top: 0 } #teamGroups .ghide { display: inline-flex; margin: 0 0 0 8px; vertical-align: 1px }
   /* on its own line, the same length whether the sport is on or off, so hiding one moves nothing */
   #teamGroups .ghint { display: block; margin-top: 4px; font-size: 11px; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted) } }
@@ -254,20 +256,19 @@ html { -webkit-tap-highlight-color: transparent }
 .calgo code { font-size: 12px; color: var(--muted); align-self: center }
 .calmore > summary { cursor: pointer; font-size: 14px; font-weight: 600; padding: 4px 2px; color: var(--ink) }
 .calmore[open] > summary { margin-bottom: 6px }
-/* Select all and Clear: small, at the right-hand end of the My teams title */
-.panel .ph .phbtns { float: right; display: flex; gap: 6px; margin: 2px 0 0 10px }
-.panel .ph .phbtns .btn { font: 600 12px var(--f-body); text-transform: none; letter-spacing: 0; padding: 3px 11px; color: var(--ink) }
+/* My teams' buttons, a row under its intro and above what's hidden: Men's and Women's at the left, Select all and Clear
+   at the right, all small */
+.panel .phbtns { display: flex; align-items: center; gap: 6px; margin-top: -4px }
+.panel .phbtns .btn { font: 600 12px var(--f-body); text-transform: none; letter-spacing: 0; padding: 3px 11px; color: var(--ink); white-space: nowrap; flex: none }
 /* Men's and Women's: each turns that side's teams off or back on; a green dot when some are on, red when all are off */
-.panel .ph .gsw { display: flex; gap: 6px; margin-right: 4px }
-.panel .ph .gsw .btn { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px }
-.panel .ph .gsw .btn::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #37b24d; flex: none }
-.panel .ph .gsw .btn.off { background: color-mix(in srgb, #fa5252 14%, transparent); border-color: color-mix(in srgb, #fa5252 65%, transparent) }
-.panel .ph .gsw .btn.off::before { background: #fa5252 }
-.panel .ph .gsw .btn[aria-pressed] { background: var(--paper); color: var(--ink); border-color: var(--line) }
-.panel .ph .gsw .btn.off[aria-pressed] { background: color-mix(in srgb, #fa5252 14%, var(--paper)); border-color: color-mix(in srgb, #fa5252 65%, transparent) }
-/* phones: the switches and Select all / Clear on their own line under the title, the switches at the left */
-@media (max-width: 560px) { .panel .ph .phbtns { float: none; margin: 8px 0 0; gap: 5px } .panel .ph .gsw { margin-right: auto; gap: 5px }
-  .panel .ph .phbtns .btn { white-space: nowrap; flex: none; padding: 3px 9px } }
+.panel .gsw { display: flex; gap: 6px; margin-right: auto }
+.panel .gsw .btn { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px }
+.panel .gsw .btn::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #37b24d; flex: none }
+.panel .gsw .btn.off { background: color-mix(in srgb, #fa5252 14%, transparent); border-color: color-mix(in srgb, #fa5252 65%, transparent) }
+.panel .gsw .btn.off::before { background: #fa5252 }
+.panel .gsw .btn[aria-pressed] { background: var(--paper); color: var(--ink); border-color: var(--line) }
+.panel .gsw .btn.off[aria-pressed] { background: color-mix(in srgb, #fa5252 14%, var(--paper)); border-color: color-mix(in srgb, #fa5252 65%, transparent) }
+@media (max-width: 560px) { .panel .phbtns, .panel .gsw { gap: 5px } .panel .phbtns .btn { padding: 3px 9px } }
 .panel .ph .phnote { display: block; margin-top: 2px; font-size: 13px; font-weight: 500; color: var(--muted) } /* its own line, flush with the title */
 .panel .ph:first-of-type { border-top: 0; padding-top: 0; margin-top: 0 }
 /* the panel's own title: a size up from its sections', in a lighter shade of the theme colour (deeper on a light page) */
@@ -1327,7 +1328,8 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
     </div>
     <div class="throw"><h2 class="ph">Theme</h2>
     <div class="accwrap"><button type="button" class="dbtn accpick" id="accentPick" aria-haspopup="true" aria-expanded="false"><i id="accentDot"></i><span id="accentName"></span></button><div class="swatches" id="accentSel" role="group" aria-label="Theme"></div></div></div>
-    <h2 class="ph">My teams <span class="phbtns"><span class="gsw" id="genSw" role="group" aria-label="Men's and women's teams"></span><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></span><span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news. Not into a sport at all? Tap <b>Hide sport</b> beside its name to take it off your feed and out of the sport buttons; <b>Show sport</b> brings it back.<span id="optNote"></span></span></h2>
+    <h2 class="ph">My teams <span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news. Not into a sport at all? Tap <b>Hide sport</b> beside its name to take it off your feed and out of the sport buttons; <b>Show sport</b> brings it back.<span id="optNote"></span></span></h2>
+    <div class="phbtns"><span class="gsw" id="genSw" role="group" aria-label="Men's and women's teams"></span><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></div>
     <div class="hidrow"><p class="hidnote" id="hidNote"></p></div>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
     <div class="pextras" role="group" aria-label="Extras"><div class="pxhead"><b>Extras</b><span>Optional. You don't need any of these to use the site</span></div>
@@ -1680,7 +1682,7 @@ let folded = store.get('folded', false);   // phones: filters folded away under 
 let selDay = '', drawDayPick = () => {};
 let hubTab = 'games', resPage = 0, laterPage = 0, bigPage = 0, runPage = 0, rankSel = '';
 const NZ_KEYS = new Set(['allblacks', 'blackferns', 'npc', 'fpc', 'blues', 'chiefs', 'hurricanes', 'crusaders', 'highlanders', 'moana', 'blackcaps', 'whiteferns', 'nzdomestic', 'kiwis', 'kiwiferns', 'warriors', 'phoenix', 'aucklandfc', 'nzboxing', 'blacksticks', 'blacksticksw', 'tallblacks', 'tallferns', 'breakers', 'silverferns', 'anzprem']);
-const NZ_NAMES = /\bNew Zealand\b|^(Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Moana Pasifika)$|Warriors|Wellington Phoenix|Auckland FC|All Blacks|Black Ferns|Black ?Caps|White Ferns|Black Sticks|Tall Blacks|Tall Ferns|Breakers|Silver Ferns|Kiwi/;
+const NZ_NAMES = /\bNew Zealand\b|^(Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Moana Pasifika)$|^(One NZ |NZ )?Warriors$|Wellington Phoenix|Auckland FC|All Blacks|Black Ferns|Black ?Caps|White Ferns|Black Sticks|Tall Blacks|Tall Ferns|Breakers|Silver Ferns|Kiwi/;
 const isNZ = x => NZ_KEYS.has(x.team) || !!x.nzEvent || [x.home, x.away].some(n => NZ_NAMES.test(n || ''));
 const WOMEN_TEAMS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem', 'lpga']);
 // 'w' women's, 'm' men's, '' mixed or unknown (shown either way)
@@ -3263,6 +3265,7 @@ function render() {
   const tchip = ([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`;
   $('teamGroups').innerHTML = TEAMS_AZ.map(g => { const ss = [...new Set(groupItems(g).map(([k]) => sportOf(k)))], on = ss.some(followedSport);
     return `<div class="group${on ? '' : ' off'}" data-g="${esc(g.g)}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(tchip).join('')}${g.sub ? `<span class="gsub">${esc(g.sub.g)}</span>${g.sub.items.map(tchip).join('')}` : ''}</div></div>`; }).join('');
+  markLone();
   // the sports off the feed, named under My teams so nobody wonders where they went (one line, so it never pushes the list
   // down), and the busy competitions that start off; a name jumps to its group
   $('genSw').innerHTML = [['m', "Men's"], ['w', "Women's"]].map(([g, l]) => { const on = sideKeys(g).some(k => picked.has(k));
@@ -3330,6 +3333,16 @@ function snapPlus() {
 // many lines, found by halving, then a break before each line's first chip (the browser's own balancing doesn't handle
 // buttons). The rankings' sports keep their first line 34px clear of each side, for the close button, and go without
 // their pictures when that takes a row fewer
+// My teams on a phone: a row's chips stretch to fill it, but a chip alone on its row keeps its own size, centred. Again
+// whenever the list's width changes (Settings opened, a turned phone)
+function markLone() {
+  document.querySelectorAll('#teamGroups .chips').forEach(box => {
+    const cs = [...box.querySelectorAll('.chip')], rows = {};
+    cs.forEach(c => { c.classList.remove('lone'); (rows[c.offsetTop] = rows[c.offsetTop] || []).push(c); });
+    Object.values(rows).forEach(r => { if (r.length === 1) r[0].classList.add('lone'); });
+  });
+}
+if (window.ResizeObserver) new ResizeObserver(markLone).observe($('teamGroups'));
 function balanceChips(box) {
   box.querySelectorAll('br').forEach(b => b.remove());
   const cs = [...box.children], W = box.clientWidth - 1, sports = box.classList.contains('ranksports'), first = W - (sports ? 68 : 0);
@@ -3479,8 +3492,10 @@ document.addEventListener('click', ev => {
   // a name in the hidden-sports line: its group (a sport's own, or the one holding that competition), scrolled to and lit
   if (t.dataset.hidgo) { const n = t.dataset.hidgo, gn = (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([, l]) => l === n)))?.g;
     const g = [...document.querySelectorAll('#teamGroups .group')].find(x => x.dataset.g === gn);
-    if (g) { g.scrollIntoView({ block: 'center', behavior: 'smooth' }); g.classList.remove('flash'); void g.offsetWidth; g.classList.add('flash'); }
-    else if (/teams$/.test(n)) $('genSw').scrollIntoView({ block: 'center', behavior: 'smooth' }); return; }
+    // scroll the Settings box only (scrollIntoView would move the page behind it too)
+    const box = document.querySelector('.panel .pbox'), to = el => box.scrollTo({ top: box.scrollTop + el.getBoundingClientRect().top - box.getBoundingClientRect().top - (box.clientHeight - el.offsetHeight) / 2, behavior: 'smooth' });
+    if (g) { to(g); g.classList.remove('flash'); void g.offsetWidth; g.classList.add('flash'); }
+    else if (/teams$/.test(n)) to($('genSw')); return; }
   if (t.dataset.gsw) { const ks = sideKeys(t.dataset.gsw), on = ks.some(k => picked.has(k));
     // off: all of them; back on: all but the busy ones that start off (the NBA)
     if (on) ks.forEach(k => picked.delete(k)); else ks.filter(k => !OPT_IN.has(k)).forEach(k => picked.add(k));
