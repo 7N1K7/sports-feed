@@ -20,12 +20,16 @@
   { "team": "mlb", "broadcast": "ESPN on Sky / Sky Sport Now", "au": "ESPN on Kayo or Foxtel" },
   { "team": "npb", "broadcast": "", "watchNote": "Not on TV or streamed in NZ: Japanese TV only" },
   { "comp": "Sheffield Shield", "broadcast": "Sky Sport / Sky Sport Now", "au": "Kayo (every game) / Fox Cricket (selected games) / cricket.com.au" },
-  { "comp": "Dean Jones Trophy", "au": "Kayo / cricket.com.au" },
-  { "comp": "Big Bash", "au": "Fox Cricket and Kayo (every game) / Channel 7 and 7plus (most games)" },
+  { "comp": "Dean Jones Trophy", "broadcast": "Sky Sport (selected games)", "au": "Kayo / cricket.com.au" },
+  { "comp": "Big Bash", "broadcast": "Sky Sport / Sky Sport Now", "au": "Fox Cricket and Kayo (every game) / Channel 7 and 7plus (most games)" },
   { "comp": "World Cup", "broadcast": "Sky Sport / Sky Sport Now" },
   { "team": "nzdomestic", "broadcast": "", "watchAlt": "NZC live stream (nzc.nz / YouTube)", "watchNote": "Not on TV in NZ" },
   { "team": "blackcaps", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Radio: RNZ / Sport Nation" },
   { "team": "whiteferns", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Radio: RNZ / Sport Nation" },
   { "comp": "^Australia v ", "au": "Channel 7 and 7plus / Fox Cricket and Kayo" },
+  { "sport": "cricket", "home": "^Australia( Women)?$", "broadcast": "Sky Sport / Sky Sport Now" },
+  { "sport": "cricket", "home": "^India$", "broadcast": "Sky Sport / Sky Sport Now" },
+  { "team": "sailgp", "broadcast": "ThreeNow (free stream)", "watchAlt": "Three (delayed, the next afternoon)" },
+  { "comp": "^ATP Finals", "broadcast": "Disney+ (ESPN)" },
   { "comp": "Pakistan ODI Tri-Series", "broadcast": "", "watchNote": "Not on TV in NZ", "au": "Fox Cricket and Kayo" }
 ]

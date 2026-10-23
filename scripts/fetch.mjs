@@ -597,7 +597,7 @@ async function tvGuide(events) {
 const compOf0 = e => String(e.comp || '').replace(/\s*[·,(].*$/, '').trim();
 
 function applyBroadcast(e, rules) {
-  const fits = r => (!r.team || r.team === e.team) && (!r.comp || new RegExp(r.comp, 'i').test(e.comp));
+  const fits = r => (!r.team || r.team === e.team) && (!r.sport || r.sport === e.sport) && (!r.comp || new RegExp(r.comp, 'i').test(e.comp)) && (!r.home || new RegExp(r.home).test(e.home || ''));
   // how to watch in Australia (many of the games are Australian): added whatever NZ coverage the game already has
   if (!e.watchAU) { const a = rules.find(r => r.au && fits(r)); if (a) e.watchAU = a.au; }
   if (e.broadcast && e.broadcast !== 'TBC') return;
@@ -1666,6 +1666,35 @@ await addImages(news);
     } catch (err) { note = ' (' + err.message + ')'; break; }
   }
   diag.golfTop10 = `${got} of ${done.length} finished tournaments have a top 10; ${asked} looked up${note}`;
+  try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(url, JSON.stringify(cache)); } catch {}
+}
+// golf: the course, from the infobox of this year's edition of the tournament on Wikipedia (the right one for events
+// that move), else the tournament's own article. Events under way or within 60 days, ten a run, kept a week
+// (a miss a day) in .cache/golf-courses.json
+{
+  const url = new URL('.cache/golf-courses.json', ROOT);
+  let cache = {}; try { cache = JSON.parse(await readFile(url, 'utf8')); } catch {}
+  for (const [k, c] of Object.entries(cache)) if (now - c.t > 30 * DAY) delete cache[k];
+  const golf = events.filter(e => e.sport === 'golf' && e.wikiPage && !e.venue && Date.parse(e.startUTC) > now - DAY && Date.parse(e.startUTC) < now + 60 * DAY);
+  const due = golf.filter(e => !cache[e.id] || now - cache[e.id].t > (cache[e.id].venue ? 7 : 1) * DAY).slice(0, 10);
+  let note = '';
+  if (due.length) try {
+    const UA = { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } };
+    const ed = e => /^\d{4} /.test(e.wikiPage) ? e.wikiPage : `${e.startUTC.slice(0, 4)} ${e.wikiPage}`;
+    const titles = [...new Set(due.flatMap(e => [ed(e), e.wikiPage]))];
+    const r = await (await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=query&prop=revisions&rvprop=content&rvslots=main&rvsection=0&redirects=1&titles=' + encodeURIComponent(titles.join('|')), UA)).json();
+    const back = Object.fromEntries([...(r.query?.redirects || []), ...(r.query?.normalized || [])].map(x => [x.to, x.from]));
+    const text = {};
+    for (const p of r.query?.pages || []) if (!p.missing) text[back[back[p.title]] || back[p.title] || p.title] = p.revisions?.[0]?.slots?.main?.content || '';
+    // "[[Kingston Heath]]", "Sea Island Golf Club<br>(Seaside Course)<br>(Plantation Course)": the club's name
+    const course = t => { const m = String(t || '').match(/\n\s*\|\s*(?:course|venue)\s*=\s*([^\n]*)/i); if (!m) return '';
+      return m[1].split(/<br\s*\/?>|\{\{|<ref/i)[0].replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1').replace(/'{2,}|<[^>]+>/g, '').replace(/\s+/g, ' ').trim(); };
+    for (const e of due) cache[e.id] = { t: now, venue: course(text[ed(e)]) || course(text[e.wikiPage]) };
+  } catch (err) { note = ` (${err.message})`; }
+  let got = 0;
+  for (const e of golf) if (cache[e.id]?.venue) { e.venue = cache[e.id].venue; got++; }
+  for (const e of events) delete e.wikiPage;
+  diag.golfCourses = `${got} of ${golf.length} tournaments near have a course; ${due.length} looked up${note}`;
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(url, JSON.stringify(cache)); } catch {}
 }
 await addLogos(events, tsdbAll);

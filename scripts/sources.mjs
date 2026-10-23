@@ -950,10 +950,13 @@ function golfSeason(text, t) {
     if (seen.has(id)) continue;
     seen.add(id);
     const winner = clean(r[4] || '').replace(/\s*\(\d+\)/g, '').replace(/\s+/g, ' ').trim();
+    const art = ((r[1] || '').match(/\[\[([^\]|#]+)/) || [])[1]?.trim();
     const won = winner && !/^(tba|tbd|cancel+ed|postponed)$/i.test(winner) && end < Date.now();
     out.push({
       id, team: t.team, tags: [], sport: 'golf', comp: t.comp, home: name, away: '', startUTC: new Date(end).toISOString(), openUTC: new Date(open).toISOString(),
       timeTBC: true, usual: true, venue: '', city: where, tz, ...(/New Zealand/.test(where) ? { nzEvent: true } : {}),
+      // the tournament's own article, where fetch.mjs finds the course (and drops this)
+      ...(art ? { wikiPage: art } : {}),
       status: won ? 'final' : 'upcoming', ...(won ? { score: `${winner} won`, summary: `${winner} won the ${name}.` } : {}),
       source: src,
     });
@@ -1156,6 +1159,23 @@ export async function nbaGames(cache, diag) {
       const list = (j.data || []).filter(t => t.id <= 30 && /^(East|West)$/.test(t.conference)).map(t => ({ id: t.id, name: t.full_name, abbr: t.abbreviation, city: t.city, conf: t.conference }));
       if (list.length === 30) cache.teams = { t: now, list };
     }
+    // each club's arena, from Wikipedia's table of current NBA arenas, once a week: nickname ("Clippers") -> arena
+    if (!cache.arenas || now - cache.arenas.t > 7 * DAY) try {
+      const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=List_of_National_Basketball_Association_arenas', { headers: UA });
+      const text = r.ok ? (await r.json()).query?.pages?.[0]?.revisions?.[0]?.slots?.main?.content || '' : '';
+      const i = text.search(/==\s*Current arenas\s*==/i), tbl = i < 0 ? '' : (text.slice(i).match(/\{\|[\s\S]*?\n\|\}/) || [''])[0];
+      const link = c => (c.match(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/) || [])[1] || '';
+      const map = {};
+      for (const row of tbl.split(/\n\|-[^\n]*/).slice(1)) {
+        const cells = row.split('\n').filter(l => /^\|(?!\})/.test(l)).flatMap(l => l.slice(1).split('||')).map(c => c.trim());
+        const at = cells.findIndex(c => /^'''\s*\[\[/.test(c));
+        if (at < 0 || !cells[at + 2]) continue;
+        const arena = link(cells[at]), team = link(cells[at + 2]);
+        if (arena && team) map[team.split(' ').pop()] = arena;
+      }
+      if (Object.keys(map).length >= 28) cache.arenas = { t: now, map };
+      else notes.push(`arenas: ${Object.keys(map).length} read`);
+    } catch (e) { notes.push('arenas: ' + e.message); }
     // the games around now, then (while the cache is still filling) the season from its start
     const day = t => new Date(t).toISOString().slice(0, 10), dates = [];
     for (let t = now - 7 * DAY; t <= now + 10 * DAY; t += DAY) dates.push(day(t));
@@ -1179,7 +1199,7 @@ export async function nbaGames(cache, diag) {
   const events = Object.values(cache.games).filter(g => T[g.h] && T[g.v] && g.at && Date.parse(g.at) > now - 7.5 * DAY && Date.parse(g.at) < now + 11 * DAY).map(g => {
     const h = T[g.h], v = T[g.v], fin = g.st === 'final', timed = /T\d\d:\d\d/.test(g.at);
     return { id: `nba-${g.id}`, team: 'nba', tags: [], sport: 'basketball', comp: 'NBA', ...(g.post ? { stage: 'Playoffs' } : {}), home: h.name, away: v.name,
-      startUTC: new Date(timed ? g.at : `${g.at.slice(0, 10)}T23:30:00Z`).toISOString(), timeTBC: !timed, venue: '', city: NBA_CITY[h.abbr] || h.city, tz: NBA_TZ[h.abbr] || 'America/New_York',
+      startUTC: new Date(timed ? g.at : `${g.at.slice(0, 10)}T23:30:00Z`).toISOString(), timeTBC: !timed, venue: cache.arenas?.map[h.name.split(' ').pop()] || '', city: NBA_CITY[h.abbr] || h.city, tz: NBA_TZ[h.abbr] || 'America/New_York',
       status: g.off ? 'postponed' : fin ? 'final' : g.st === 'in_progress' ? 'live' : 'upcoming', ...(fin ? { score: `${g.hs}-${g.vs}` } : {}),
       source: `https://www.nba.com/games?date=${usDay(g.at)}` };
   });
@@ -1192,7 +1212,7 @@ export async function nbaGames(cache, diag) {
       return { name: t.name, p: r.w + r.l, w: r.w, d: 0, l: r.l, f: r.f, a: r.a, bp: 0, nr: 0, nrr: '', pct: r.w + r.l ? (100 * r.w / (r.w + r.l)).toFixed(1) : '', pts: r.w, q: '', champ: false }; })
       .sort((a, b) => (+b.pct || 0) - (+a.pct || 0) || b.w - a.w || (b.f - b.a) - (a.f - a.a)) }));
   const all = Object.values(cache.games);
-  diag.nba = `${calls} calls; ${all.length} games kept (${all.filter(g => g.st === 'final').length} results), season ${cache.fill.done ? 'complete' : 'still filling'}; ${events.length} in the feed (${events.filter(e => e.status === 'final').length} results, ${events.filter(e => e.status === 'live').length} live); ${tables.length ? `standings: East top ${tables[0].rows[0]?.name} ${tables[0].rows[0]?.w}-${tables[0].rows[0]?.l}, West top ${tables[1].rows[0]?.name} ${tables[1].rows[0]?.w}-${tables[1].rows[0]?.l}` : 'no standings yet'}${notes.length ? '; ' + notes.join('; ') : ''}`;
+  diag.nba = `${calls} calls; ${Object.keys(cache.arenas?.map || {}).length} arenas; ${all.length} games kept (${all.filter(g => g.st === 'final').length} results), season ${cache.fill.done ? 'complete' : 'still filling'}; ${events.length} in the feed (${events.filter(e => e.status === 'final').length} results, ${events.filter(e => e.status === 'live').length} live); ${tables.length ? `standings: East top ${tables[0].rows[0]?.name} ${tables[0].rows[0]?.w}-${tables[0].rows[0]?.l}, West top ${tables[1].rows[0]?.name} ${tables[1].rows[0]?.w}-${tables[1].rows[0]?.l}` : 'no standings yet'}${notes.length ? '; ' + notes.join('; ') : ''}`;
   return { events, tables };
 }
 
