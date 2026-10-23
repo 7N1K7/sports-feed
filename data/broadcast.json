@@ -15,6 +15,7 @@
   { "comp": "Formula 1", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Highlights free on Sky Open" },
   { "team": "supercars", "broadcast": "Sky Sport / Sky Sport Now", "au": "Kayo / Fox Sports / Seven / 7plus (free, selected rounds)" },
   { "comp": "^(PGA Tour|LPGA Tour)", "broadcast": "Sky Sport / Sky Sport Now" },
+  { "team": "nba", "broadcast": "ESPN on Sky / Sky Sport Now / NBA League Pass", "au": "ESPN on Kayo or Foxtel / NBA League Pass" },
   { "team": "mlb", "broadcast": "ESPN on Sky / Sky Sport Now", "au": "ESPN on Kayo or Foxtel" },
   { "team": "npb", "broadcast": "", "watchNote": "Not on TV or streamed in NZ: Japanese TV only" },
   { "comp": "Sheffield Shield", "broadcast": "Sky Sport / Sky Sport Now", "au": "Kayo (every game) / Fox Cricket (selected games) / cricket.com.au" },

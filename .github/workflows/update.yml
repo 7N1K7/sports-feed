@@ -48,6 +48,8 @@ jobs:
           SPORTMONKS_TOKEN: ${{ secrets.SPORTMONKS_TOKEN }}
           # YouTube Data API key: free live streams on the sports bodies' channels; skipped when the secret isn't set
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          # balldontlie's free API key: the NBA's games and results; skipped when the secret isn't set
+          BALLDONTLIE_KEY: ${{ secrets.BALLDONTLIE_KEY }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .

@@ -111,7 +111,7 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
   .panel .throw .ph { margin: 0; padding: 0; border: 0; flex: none; width: calc(14px * 6.6) }
   /* the three boxes share one width and one left edge, close to their titles and clear of the panel's edge at 340px;
      the theme's dot sits at the box's left so its name is centred like the times and results */
-  .panel .spoil-row .sgrp > label { min-width: 6.6em } .panel .spoil-row .dbtn { width: 11em }
+  .panel .spoil-row .sgrp > label, .panel .spoil-row .sgrp > .slab { min-width: 6.6em } .panel .spoil-row .dbtn, .panel .spoil-row .ordsel { width: 11em }
   .accpick { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 11em; font: inherit; font-size: 14px; padding: 5px 26px; border-radius: 8px; border: 1px solid var(--line); color: var(--ink); cursor: pointer;
     background: var(--paper) no-repeat; background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: right 15px center, right 10px center; background-size: 5px 5px, 5px 5px }
   .accpick i { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 0 1px var(--line) }
@@ -196,8 +196,8 @@ html { -webkit-tap-highlight-color: transparent }
 .group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--f-body); font-weight: 700; margin-bottom: 6px }
 /* My teams: which sports are hidden, on one line that never wraps (the full list in its tooltip) */
 .panel .hidrow { display: flex; align-items: center; gap: 10px; min-width: 0 }
-.panel .hidrow .ordsel { flex: none; margin-left: auto }
-.panel .hidrow .ordsel button { font-size: 12px; padding: 1px 9px }
+/* the sport buttons' order: two halves of one box as wide as the times and results boxes */
+.spoil-row .ordsel { display: inline-flex; width: 9.5em; border-radius: 8px } .spoil-row .ordsel button { flex: 1 1 0; padding: 4px 6px }
 .panel .hidnote { flex: 1 1 auto; min-width: 0; margin: 0; font-size: 13px; line-height: 20px; height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted) }
 .panel .hidnote b { color: var(--ink); font-weight: 600 }
 @media (max-width: 560px) { .panel .hidnote .hfull { display: none } }
@@ -255,6 +255,12 @@ html { -webkit-tap-highlight-color: transparent }
 .panel .ph .phnote { display: block; margin-top: 2px; font-size: 13px; font-weight: 500; color: var(--muted) } /* its own line, flush with the title */
 .panel .ph:first-of-type { border-top: 0; padding-top: 0; margin-top: 0 }
 /* the panel's own title: a size up from its sections', in a lighter shade of the theme colour (deeper on a light page) */
+.panel .pextras { margin-top: 18px; padding: 12px 14px 14px; border-radius: var(--r); border: 1px dashed var(--line); background: color-mix(in srgb, var(--ink) 3%, transparent); display: grid; gap: 8px }
+.panel .pextras .pxhead { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 2px }
+.panel .pextras .pxhead b { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
+.panel .pextras .pxhead span { font-size: 13px; color: var(--muted) }
+.panel .pextras .ph { margin-top: 0 }
+@media (max-width: 560px) { .panel .pextras { padding: 10px 10px 12px } }
 .panel .ph.ptitle { font-size: 25px; color: color-mix(in srgb, var(--accent) 45%, var(--ink)) }
 .spoil-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 14px }
 /* the settings drop-downs share one snug width */
@@ -270,7 +276,7 @@ html { -webkit-tap-highlight-color: transparent }
 .dsel .dopt { display: block; width: 100%; border: 0; background: none; color: var(--ink); font: inherit; padding: 5px 12px; border-radius: 6px; text-align: center; white-space: nowrap; cursor: pointer }
 .dsel .dopt:hover { background: color-mix(in srgb, var(--ink) 9%, transparent) }
 .dsel .dopt[aria-selected="true"] { background: var(--ink); color: var(--paper); font-weight: 600 }
-.spoil-row .dbtn { min-width: 0 } .spoil-row > label, .spoil-row .sgrp > label { min-width: 7.6em }
+.spoil-row .dbtn { min-width: 0 } .spoil-row > label, .spoil-row .sgrp > label, .spoil-row .sgrp > .slab { min-width: 7.6em }
 /* the times and the spoiler days share a line, each label with its box, and stack (lined up) when there isn't room */
 .spoil-row .sgrp { display: inline-flex; align-items: center; gap: 10px } .spoil-row:has(.sgrp) { column-gap: 28px }
 select { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink) }
@@ -368,16 +374,16 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .more { justify-self: start }
 footer { color: var(--muted); font-size: 13px; padding-block: 0 40px }
 footer a { color: var(--muted) } footer p { margin: 0 0 6px }
-/* Coffee, then Report and Suggest: buttons on their own rows above the sources; on phones Report and Suggest two across, Coffee full width */
-footer .fbtns { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 6px 0 14px }
+/* above the sources: Coffee on its own row, then Suggest (left) and Report (right), one width each; on phones Coffee full width */
+footer .fbtns { display: grid; grid-template-columns: repeat(2, 11em); justify-content: center; gap: 8px; margin: 6px 0 14px }
 footer .fbtn { font: inherit; font-size: 14px; font-weight: 600; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 7px 15px;
   cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 7px; white-space: nowrap }
 footer .fbtn:hover { border-color: var(--accent) }
 footer .fbtn.coffee { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
 footer .fbtn.coffee:hover { filter: brightness(1.08) }
-footer .fbtns.fcof { margin-bottom: 8px }
+footer .fbtn.coffee { grid-column: 1 / -1; order: -1; justify-self: center }
 footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
-@media (max-width: 560px) { footer .fbtns { display: grid; grid-template-columns: 1fr 1fr } footer .fbtn.coffee { grid-column: 1 / -1 } }
+@media (max-width: 560px) { footer .fbtns { grid-template-columns: 1fr 1fr } footer .fbtn.coffee { justify-self: stretch } }
 
 
 .badge.bimg { width: 22px; height: 22px; min-width: 0; padding: 0; box-shadow: none; object-fit: contain; display: inline-block; vertical-align: middle; margin-block: -2px }
@@ -1298,12 +1304,14 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
         <option value="0">Never</option><option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option><option value="4">4 days</option>
         <option value="5">5 days</option><option value="7">7 days</option><option value="14">14 days</option>
       </select></span>
+      <span class="sgrp"><span class="slab" id="ordLab">Sport buttons</span><span class="seg ordsel" id="ordSel" role="group" aria-labelledby="ordLab"></span></span>
     </div>
     <div class="throw"><h2 class="ph">Theme</h2>
     <div class="accwrap"><button type="button" class="dbtn accpick" id="accentPick" aria-haspopup="true" aria-expanded="false"><i id="accentDot"></i><span id="accentName"></span></button><div class="swatches" id="accentSel" role="group" aria-label="Theme"></div></div></div>
     <h2 class="ph">My teams <span class="phbtns"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></span><span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news. Not into a sport at all? Tap <b>Hide sport</b> beside its name to take it off your feed and out of the sport buttons; <b>Show sport</b> brings it back.</span></h2>
-    <div class="hidrow"><p class="hidnote" id="hidNote"></p><span class="seg ordsel" id="ordSel" role="group" aria-label="Order of the sports"></span></div>
+    <div class="hidrow"><p class="hidnote" id="hidNote"></p></div>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
+    <div class="pextras" role="group" aria-label="Extras"><div class="pxhead"><b>Extras</b><span>Optional. You don't need any of these to use the site</span></div>
     <h2 class="ph">Phone app <span class="phnote">Put Kickoff Kiwi on your home screen. It opens full-screen like an app. No app store, no account.</span></h2>
     <div class="cals" id="appInstall"></div>
     <h2 class="ph">Calendar <span class="phnote">Put the games in your phone or computer calendar, with a reminder before each one.</span></h2>
@@ -1315,6 +1323,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
       <div class="calrow"><span class="calname">This browser's settings</span><span class="calgo"><button type="button" id="copySettings">Copy code</button></span></div>
       <div class="calrow"><input id="settingsCode" type="text" placeholder="Paste a code here" aria-label="Settings code" autocomplete="off" spellcheck="false" style="flex:1 1 12em;min-width:0;font:inherit;font-size:13px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 12px"><span class="calgo"><button type="button" id="loadSettings">Use these settings</button></span></div>
       <div class="note muted" id="moveNote" style="font-size:13px">Teams, sports, competition, men's or women's, NZ only, spoilers, time zone and theme. Results you've revealed stay on each device.</div>
+    </div>
     </div>
   </div></div>
 </div>
@@ -1427,7 +1436,7 @@ const count = (msg = {}) => {
   const report = msg => { msg = String(msg || '').slice(0, 160); if (msg && !seen.has(msg) && seen.size < 3) { seen.add(msg); count({ e: 'error', k: msg }); } };
   addEventListener('error', ev => { if (!ev.filename || ev.filename.startsWith(location.origin)) report(`${ev.message} (line ${ev.lineno})`); });
   addEventListener('unhandledrejection', ev => report(ev.reason?.message || ev.reason)); }
-const TEAMS = [ // in the sport row's order: cricket, rugby, league, football, hockey, basketball, netball, F1, sailing, tennis, golf, fights
+const TEAMS = [ // in the sport row's order: cricket, rugby, league, football, hockey, basketball, F1, tennis, golf, baseball, fights, netball, sailing
   { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['aucricket','Australia men'],['audomestic','Aussie domestic'],['intlcricket','Other tours'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
   // the Super Rugby clubs are rugby too: their own labelled line in the rugby group, not a sport of their own
   { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup'],['wallabies','Wallabies']],
@@ -1435,14 +1444,14 @@ const TEAMS = [ // in the sport row's order: cricket, rugby, league, football, h
   { g: 'Rugby league', items: [['kiwis','Kiwis'],['kiwiferns','Kiwi Ferns'],['warriors','Warriors'],['nrl','NRL'],['rlwc','League World Cup']] },
   { g: 'Football', items: [['phoenix','Wellington Phoenix'],['aucklandfc','Auckland FC'],['aleague','A-League Men'],['epl','Premier League']] },
   { g: 'Hockey', items: [['blacksticks','Black Sticks'],['blacksticksw','Black Sticks Women']] },
-  { g: 'Basketball', items: [['tallblacks','Tall Blacks'],['tallferns','Tall Ferns'],['breakers','NZ Breakers'],['nbl','NBL']] },
-  { g: 'Netball', items: [['silverferns','Silver Ferns'],['anzprem','ANZ Premiership']] },
+  { g: 'Basketball', items: [['tallblacks','Tall Blacks'],['tallferns','Tall Ferns'],['breakers','NZ Breakers'],['nbl','NBL'],['nba','NBA']] },
   { g: 'Motorsport', items: [['f1','Formula 1'], ['supercars','Supercars']] },
-  { g: 'Sailing', items: [['sailgp','SailGP']] },
   { g: 'Tennis', items: [['tennis','Grand Slams, Finals, ASB Classic and the Australian summer events']] },
   { g: 'Golf', items: [['pgatour','PGA Tour'],['lpga','LPGA Tour'],['golfanz','PGA Tour of Australasia']] },
   { g: 'Baseball', items: [['mlb','MLB'],['npb','Japan (NPB)']] },
   { g: 'Fight sports', items: [['ufc','UFC events'],['boxing','Major boxing'],['nzboxing','NZ boxers']] },
+  { g: 'Netball', items: [['silverferns','Silver Ferns'],['anzprem','ANZ Premiership']] },
+  { g: 'Sailing', items: [['sailgp','SailGP']] },
 ];
 const groupItems = g => [...g.items, ...(g.sub?.items || [])];
 const TEAM_NAME = Object.fromEntries(TEAMS.flatMap(groupItems));
@@ -1458,7 +1467,7 @@ const BADGE = {
   kiwis: ['KIW', '#000000', '#ffffff'], kiwiferns: ['KF', '#000000', '#ffffff'], warriors: ['WAR', '#0d1f4c', '#7fd13b'],
   f1: ['F1', '#e10600', '#ffffff'], tennis: ['TEN', '#c5db2e', '#1b1f1d'], blacksticks: ['BS', '#000000', '#ffffff'], blacksticksw: ['BSW', '#000000', '#ffffff'],
   tallblacks: ['TB', '#000000', '#ffffff'], tallferns: ['TF', '#000000', '#ffffff'], breakers: ['BRK', '#000000', '#7ac8ed'], sailgp: ['SGP', '#0a1f44', '#ffffff'], pgatour: ['PGA', '#00205b', '#ffffff'], lpga: ['LPGA', '#0c2340', '#ffffff'], golfanz: ['PGA', '#1d3c87', '#ffffff'], nbl: ['NBL', '#e4002b', '#ffffff'], silverferns: ['SF', '#000000', '#ffffff'], anzprem: ['ANZ', '#5b2a86', '#ffffff'],
-  mlb: ['MLB', '#041e42', '#ffffff'], npb: ['NPB', '#bc002d', '#ffffff'],
+  mlb: ['MLB', '#041e42', '#ffffff'], npb: ['NPB', '#bc002d', '#ffffff'], nba: ['NBA', '#1d428a', '#ffffff'],
 };
 // the card's badge names the competition (or the cricket format), not the team: NPC, RLWC, TEST, ODI
 const COMP_BADGE = { NPC: 'npc', 'Farah Palmer Cup': 'fpc', 'Super Rugby Pacific': 'superrugby', 'Rugby League World Cup': 'rlwc', NRL: 'nrl', 'A-League Men': 'aleague', 'Premier League': 'epl', 'Big Bash': 'bbl', "Women's Big Bash": 'wbbl', UFC: 'ufc', Boxing: 'boxing', 'NZ domestic cricket': 'nzdomestic',
@@ -1467,7 +1476,7 @@ const COMP_BADGE = { NPC: 'npc', 'Farah Palmer Cup': 'fpc', 'Super Rugby Pacific
   'FIH Pro League': ['PRO', '#0b7285', '#ffffff'],
   NBL: ['NBL', '#e4002b', '#ffffff'], SailGP: ['SGP', '#0a1f44', '#ffffff'], 'PGA Tour': ['PGA', '#00205b', '#ffffff'], 'LPGA Tour': ['LPGA', '#0c2340', '#ffffff'], 'PGA Tour of Australasia': ['PGA', '#1d3c87', '#ffffff'], 'FIBA World Cup qualifiers': ['FIBA', '#1d3c87', '#ffffff'], 'FIBA World Cup': ['FIBA', '#1d3c87', '#ffffff'], "FIBA Women's World Cup": ['FIBA', '#1d3c87', '#ffffff'],
   'ANZ Premiership': ['ANZP', '#5b2a86', '#ffffff'], 'Constellation Cup': ['CC', '#1b1f1d', '#ffffff'], 'Taini Jamison Trophy': ['TJT', '#1b1f1d', '#ffffff'], 'Netball Nations Cup': ['NNC', '#7048e8', '#ffffff'], 'Netball World Cup': ['NWC', '#7048e8', '#ffffff'], 'FIH Hockey World Cup': ['WC', '#0b7285', '#ffffff'], 'FIH Hockey Nations Cup': ['NC', '#0b7285', '#ffffff'],
-  'MLB playoffs': ['MLB', '#041e42', '#ffffff'], 'Japan Series': ['JS', '#bc002d', '#ffffff'] };
+  'MLB playoffs': ['MLB', '#041e42', '#ffffff'], 'Japan Series': ['JS', '#bc002d', '#ffffff'], NBA: ['NBA', '#1d428a', '#ffffff'] };
 const FORMAT_BADGE = { Test: ['TEST', '#ffffff', '#111111'], ODI: ['ODI', '#1864ab', '#ffffff'], T20I: ['T20I', '#c2255c', '#ffffff'] };
 // competitions whose own logo stands in for the text badge (from TheSportsDB's league art)
 const COMP_IMG = { Supercars: 'https://r2.thesportsdb.com/images/media/league/badge/64f67s1770108650.png/small' };
@@ -1617,8 +1626,10 @@ const store = {
 tzPick = store.get('tz', 'Pacific/Auckland'); NZ = tzPick === 'device' ? deviceTZ : tzPick;
 // competitions with games most days start switched off, so they can't fill the feed: for new visitors, and for people
 // whose picks were saved before they were added. My teams says they're off, and turns them on
-const OPT_IN = new Set(['mlb', 'npb', 'nba']);
+const OPT_IN = new Set(['nba']);
 let picked = new Set(store.get('teams', ALL_KEYS.filter(k => !OPT_IN.has(k))));
+// baseball started off in v401 and is on since: switch it on once for those who saw it then
+if (!store.get('bbOn', false)) { const kn = store.get('known', []); if (kn.includes('mlb')) { ['mlb', 'npb'].forEach(k => picked.add(k)); store.set('teams', [...picked]); } store.set('bbOn', true); }
 // teams added to the site later are switched on for people who already saved their picks
 { const known = new Set(store.get('known', ALL_KEYS.filter(k => k !== 'epl' && k !== 'aucricket'))); const fresh = ALL_KEYS.filter(k => !known.has(k) && !OPT_IN.has(k));
   if (fresh.length) { fresh.forEach(k => picked.add(k)); store.set('teams', [...picked]); } store.set('known', ALL_KEYS); }
@@ -2623,7 +2634,7 @@ function detail(e) {
     ${photos}
 `;
 }
-const redditSub = e => e.sport === 'league' ? 'nrl' : e.sport === 'rugby' ? 'rugbyunion' : e.sport === 'cricket' ? 'Cricket' : e.sport === 'football' ? (/A-League/i.test(e.comp) || /^(phoenix|aucklandfc|aleague)$/.test(e.team) ? 'Aleague' : 'soccer') : e.sport === 'mma' ? 'MMA' : e.sport === 'boxing' ? 'Boxing' : e.sport === 'motor' ? (e.team === 'supercars' ? 'supercars' : 'formula1') : e.sport === 'tennis' ? 'tennis' : e.sport === 'basketball' ? (e.team === 'breakers' || e.team === 'nbl' ? 'nbl' : 'Basketball') : e.sport === 'netball' ? 'netball' : e.sport === 'hockey' ? 'FieldHockey' : e.sport === 'sailing' ? 'sailgp' : e.sport === 'golf' ? 'golf' : '';
+const redditSub = e => e.sport === 'league' ? 'nrl' : e.sport === 'rugby' ? 'rugbyunion' : e.sport === 'cricket' ? 'Cricket' : e.sport === 'football' ? (/A-League/i.test(e.comp) || /^(phoenix|aucklandfc|aleague)$/.test(e.team) ? 'Aleague' : 'soccer') : e.sport === 'mma' ? 'MMA' : e.sport === 'boxing' ? 'Boxing' : e.sport === 'motor' ? (e.team === 'supercars' ? 'supercars' : 'formula1') : e.sport === 'tennis' ? 'tennis' : e.sport === 'basketball' ? (e.team === 'breakers' || e.team === 'nbl' ? 'nbl' : e.team === 'nba' ? 'nba' : 'Basketball') : e.sport === 'netball' ? 'netball' : e.sport === 'hockey' ? 'FieldHockey' : e.sport === 'sailing' ? 'sailgp' : e.sport === 'golf' ? 'golf' : '';
 // Form guide: a side's last five results (oldest first) before a given date, from the feed's season-long list.
 // Results that spoilers cover are left out until revealed.
 function formOf(name, sport, before, format = '') {
@@ -2694,8 +2705,10 @@ function openTeam(name, sport, fromRank = '') {
 // the sport buttons' order, which the rankings tabs follow too
 const sportRank = sp => (i => i < 0 ? 99 : i)(SPORT_CHIPS.findIndex(([k]) => k === sp));
 // A to Z when that's picked under My teams
+// My teams lists the sports A to Z; the switch in Settings orders only the sport buttons
+const TEAMS_AZ = [...TEAMS].sort((a, b) => a.g.localeCompare(b.g));
 const inOrder = (list, name) => sportOrder === 'az' ? [...list].sort((a, b) => name(a).localeCompare(name(b))) : list;
-const SPORT_CHIPS = [['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['hockey','Hockey'],['basketball','Basketball'],['netball','Netball'],['motor','Motorsport'],['sailing','Sailing'],['tennis','Tennis'],['golf','Golf'],['baseball','Baseball'],['mma','MMA'],['boxing','Boxing']];
+const SPORT_CHIPS = [['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['hockey','Hockey'],['basketball','Basketball'],['motor','Motorsport'],['tennis','Tennis'],['golf','Golf'],['baseball','Baseball'],['mma','MMA'],['boxing','Boxing'],['netball','Netball'],['sailing','Sailing']];
 const RANK_SPORTS = SPORT_CHIPS.map(([k]) => k);
 // a sport counts as followed when at least one of its teams or competitions is picked in My teams
 const followedSport = sp => (SPORT[sp] || []).some(k => picked.has(k));
@@ -2807,7 +2820,7 @@ document.addEventListener('click', ev => { if (!ev.target.closest('.search')) cl
 // Season-long leagues and catch-all groups stay in the competition menu.
 // long seasons and catch-alls stay out of the running-series row, which is for international series and short tournaments
 // (World Cups, the Big Bash)
-const GENERIC = /^(Test match|Women's test|Boxing|UFC|NZ domestic cricket|Black Caps|White Ferns|NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|A-League Men|Premier League|Formula 1|Supercars|SailGP|PGA Tour|LPGA Tour|PGA Tour of Australasia|Sheffield Shield|Dean Jones Trophy|NBL|ANZ Premiership)$/;
+const GENERIC = /^(Test match|Women's test|Boxing|UFC|NZ domestic cricket|Black Caps|White Ferns|NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|A-League Men|Premier League|Formula 1|Supercars|SailGP|PGA Tour|LPGA Tour|PGA Tour of Australasia|Sheffield Shield|Dean Jones Trophy|NBL|NBA|ANZ Premiership)$/;
 // short names for the Current bar, so its chips stay small: "SA v AUS", "RLWC", "Const. Cup", "NZ v BAN (W)" (the chip's
 // hover label keeps the full name)
 const SHORT = [[/Women's Rugby League World Cup/, "Women's RLWC"], [/Wheelchair Rugby League World Cup/, 'Wheelchair RLWC'], [/Rugby League World Cup/, 'RLWC'], [/Nations Championship/, 'Nations Champ.'], [/Rugby Championship/, 'Rugby Champ.'], [/WXV Global Series/, 'WXV'],
@@ -3182,15 +3195,17 @@ function render() {
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
   syncDsel($('spoilDays')); syncDsel($('tzSel'));
   const tchip = ([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`;
-  $('teamGroups').innerHTML = inOrder(TEAMS, g => g.g).map(g => { const ss = [...new Set(groupItems(g).map(([k]) => sportOf(k)))], on = ss.some(followedSport);
+  $('teamGroups').innerHTML = TEAMS_AZ.map(g => { const ss = [...new Set(groupItems(g).map(([k]) => sportOf(k)))], on = ss.some(followedSport);
     return `<div class="group${on ? '' : ' off'}" data-g="${esc(g.g)}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(tchip).join('')}${g.sub ? `<span class="gsub">${esc(g.sub.g)}</span>${g.sub.items.map(tchip).join('')}` : ''}</div></div>`; }).join('');
   // the sports off the feed, named under My teams so nobody wonders where they went (one line, so it never pushes the list
   // down), and the busy competitions that start off; a name jumps to its group
-  const offs = [...TEAMS.filter(g => !groupItems(g).some(([k]) => followedSport(sportOf(k)))).map(g => [g.g, groupItems(g).every(([k]) => OPT_IN.has(k))]),
+  const offs = [...TEAMS_AZ.filter(g => !groupItems(g).some(([k]) => followedSport(sportOf(k)))).map(g => [g.g, groupItems(g).every(([k]) => OPT_IN.has(k))]),
     ...[...OPT_IN].filter(k => TEAM_NAME[k] && !picked.has(k) && followedSport(sportOf(k))).map(k => [TEAM_NAME[k], true])];
-  $('hidNote').innerHTML = offs.length ? `<b>Hidden<span class="hfull"> from your feed</span>:</b> ${offs.map(([n, d]) => `<button type="button" class="hidgo" data-hidgo="${esc(n)}">${esc(n)}</button>${d ? ' (off by default)' : ''}`).join(', ')}` : 'Every sport is on your feed.';
-  $('ordSel').innerHTML = [['usual', 'Usual', 'Cricket, rugby and league first'], ['az', 'A–Z', 'Sports in alphabetical order, here and in the sport buttons']].map(([k, l, t]) => `<button type="button" data-sorder="${k}" aria-pressed="${sportOrder === k}" title="${t}">${l}</button>`).join('');
-  $('hidNote').title = offs.length ? `Hidden: ${offs.map(([n, d]) => n + (d ? ' (off by default)' : '')).join(', ')}` : '';
+  // the ones turned off here first, then those that start off, with "(off by default)" said once after them
+  const hgo = n => `<button type="button" class="hidgo" data-hidgo="${esc(n)}">${esc(n)}</button>`, hlist = f => [offs.filter(([, d]) => !d).map(([n]) => f(n)).join(', '), offs.some(([, d]) => d) ? offs.filter(([, d]) => d).map(([n]) => f(n)).join(', ') + ' (off by default)' : ''].filter(Boolean).join(' · ');
+  $('hidNote').innerHTML = offs.length ? `<b>Hidden<span class="hfull"> from your feed</span>:</b> ${hlist(hgo)}` : 'Every sport is on your feed.';
+  $('ordSel').innerHTML = [['usual', 'App-Set', 'The sport buttons in the app\'s order: cricket, rugby and league first'], ['az', 'A–Z', 'The sport buttons in alphabetical order']].map(([k, l, t]) => `<button type="button" data-sorder="${k}" aria-pressed="${sportOrder === k}" title="${t}">${l}</button>`).join('');
+  $('hidNote').title = offs.length ? `Hidden: ${hlist(n => n)}` : '';
   // calendar subscriptions (built with the feed, in data/cal/): every game an NZ side plays, then each team picked above.
   // webcal: opens Apple's Calendar to subscribe; Google and Outlook take the address on their own add-by-URL pages
   const calRow = (k, label) => {
@@ -3331,7 +3346,7 @@ function syncPulse() {
   if (!document.getAnimations) return;
   document.querySelectorAll('.nowchip.is-live .livedot, .ev.is-live').forEach(el => el.getAnimations().forEach(a => { if (a.startTime !== 0) a.startTime = 0; }));
 }
-const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','audomestic','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], hockey: ['blacksticks','blacksticksw'], basketball: ['tallblacks','tallferns','breakers','nbl'], netball: ['silverferns','anzprem'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1', 'supercars'], sailing: ['sailgp'], tennis: ['tennis'], golf: ['pgatour', 'lpga', 'golfanz'], baseball: ['mlb', 'npb'] };
+const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','audomestic','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], hockey: ['blacksticks','blacksticksw'], basketball: ['tallblacks','tallferns','breakers','nbl','nba'], netball: ['silverferns','anzprem'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1', 'supercars'], sailing: ['sailgp'], tennis: ['tennis'], golf: ['pgatour', 'lpga', 'golfanz'], baseball: ['mlb', 'npb'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
 
 function tick() { $('clock').textContent = `${tzLabel()} ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; syncInfo(); }
@@ -3709,7 +3724,7 @@ async function load(woke) {
         if (sq.length) { e.squads = sq; e.seasonSquads = true; }
       }
     }
-    $('foot').innerHTML = `<div class="fbtns fcof"><a class="fbtn coffee" href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="">☕ Buy me a coffee</a></div><div class="fbtns"><button type="button" class="fbtn" data-report="">Report a problem</button><button type="button" class="fbtn" data-suggest="">Suggest an idea</button></div><p class="fsrc">Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)</p>`;
+    $('foot').innerHTML = `<div class="fbtns"><button type="button" class="fbtn" data-suggest="">Suggest an idea</button><a class="fbtn coffee" href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="">☕ Buy me a coffee</a><button type="button" class="fbtn" data-report="">Report a problem</button></div><p class="fsrc">Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)</p>`;
     render(); stamp(); openFromLink();
     // how long until the first games were on screen, in bands
     if (!load.timed) { load.timed = true; const t = performance.now() / 1000; count({ e: 'speed', k: t < 1 ? 'under 1s' : t < 2 ? '1-2s' : t < 4 ? '2-4s' : t < 8 ? '4-8s' : '8s or more' }); }

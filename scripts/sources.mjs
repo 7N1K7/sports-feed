@@ -1085,6 +1085,74 @@ function baseballRows(rows, title) {
   return [{ title, style: 'baseball', rows }];
 }
 
+// The NBA from balldontlie's free API (key in BALLDONTLIE_KEY, 5 requests a minute, so at most 4 a run): each run the
+// games from a week back to ten days ahead; every result is kept in `cache` (saved by fetch.mjs) for the conference
+// standings, which a cold cache fills a page of the season at a time. The teams are asked for once a week
+const NBA_TZ = { ATL: 'America/New_York', BOS: 'America/New_York', BKN: 'America/New_York', CHA: 'America/New_York', CHI: 'America/Chicago', CLE: 'America/New_York',
+  DAL: 'America/Chicago', DEN: 'America/Denver', DET: 'America/Detroit', GSW: 'America/Los_Angeles', HOU: 'America/Chicago', IND: 'America/Indiana/Indianapolis',
+  LAC: 'America/Los_Angeles', LAL: 'America/Los_Angeles', MEM: 'America/Chicago', MIA: 'America/New_York', MIL: 'America/Chicago', MIN: 'America/Chicago',
+  NOP: 'America/Chicago', NYK: 'America/New_York', OKC: 'America/Chicago', ORL: 'America/New_York', PHI: 'America/New_York', PHX: 'America/Phoenix',
+  POR: 'America/Los_Angeles', SAC: 'America/Los_Angeles', SAS: 'America/Chicago', TOR: 'America/Toronto', UTA: 'America/Denver', WAS: 'America/New_York' };
+export async function nbaGames(cache, diag) {
+  const key = process.env.BALLDONTLIE_KEY;
+  if (!key) { diag.nba = 'no key'; return { events: [], tables: [] }; }
+  const now = Date.now(), y = new Date(now).getUTCFullYear(), m = new Date(now).getUTCMonth();
+  const season = m >= 8 ? y : y - 1; // named for the year it starts: 2026 is 2026–27
+  let calls = 0;
+  const get = async path => {
+    calls++;
+    const r = await fetch('https://api.balldontlie.io' + path, { headers: { Authorization: key } });
+    if (!r.ok) throw new Error(`balldontlie ${r.status}`);
+    return r.json();
+  };
+  if (cache.season !== season) Object.assign(cache, { season, games: {}, fill: { cursor: '', done: false } });
+  const notes = [];
+  try {
+    if (!cache.teams || now - cache.teams.t > 7 * DAY) {
+      const j = await get('/v1/teams');
+      const list = (j.data || []).filter(t => t.id <= 30 && /^(East|West)$/.test(t.conference)).map(t => ({ id: t.id, name: t.full_name, abbr: t.abbreviation, city: t.city, conf: t.conference }));
+      if (list.length === 30) cache.teams = { t: now, list };
+    }
+    // the games around now, then (while the cache is still filling) the season from its start
+    const day = t => new Date(t).toISOString().slice(0, 10), dates = [];
+    for (let t = now - 7 * DAY; t <= now + 10 * DAY; t += DAY) dates.push(day(t));
+    const slim = g => ({ id: g.id, at: g.datetime || g.date, st: g.status_state || (/^final$/i.test(g.status) ? 'final' : 'scheduled'), hs: g.home_team_score, vs: g.visitor_team_score,
+      h: g.home_team?.id, v: g.visitor_team?.id, ...(g.postseason ? { post: true } : {}), ...(g.postponed ? { off: true } : {}) });
+    let cursor = '';
+    do {
+      const j = await get(`/v1/games?${dates.map(d => `dates[]=${d}`).join('&')}&per_page=100${cursor ? `&cursor=${cursor}` : ''}`);
+      for (const g of j.data || []) cache.games[g.id] = slim(g);
+      cursor = j.meta?.next_cursor || '';
+    } while (cursor && calls < 4);
+    while (!cache.fill.done && calls < 4) {
+      const j = await get(`/v1/games?seasons[]=${season}&per_page=100${cache.fill.cursor ? `&cursor=${cache.fill.cursor}` : ''}`);
+      for (const g of j.data || []) cache.games[g.id] = slim(g);
+      cache.fill.cursor = j.meta?.next_cursor || '';
+      cache.fill.done = !cache.fill.cursor;
+    }
+  } catch (e) { notes.push('error: ' + e.message); }
+  const T = Object.fromEntries((cache.teams?.list || []).map(t => [t.id, t]));
+  const usDay = t => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }).format(new Date(t));
+  const events = Object.values(cache.games).filter(g => T[g.h] && T[g.v] && g.at && Date.parse(g.at) > now - 7.5 * DAY && Date.parse(g.at) < now + 11 * DAY).map(g => {
+    const h = T[g.h], v = T[g.v], fin = g.st === 'final', timed = /T\d\d:\d\d/.test(g.at);
+    return { id: `nba-${g.id}`, team: 'nba', tags: [], sport: 'basketball', comp: 'NBA', ...(g.post ? { stage: 'Playoffs' } : {}), home: h.name, away: v.name,
+      startUTC: new Date(timed ? g.at : `${g.at.slice(0, 10)}T23:30:00Z`).toISOString(), timeTBC: !timed, venue: '', city: h.city, tz: NBA_TZ[h.abbr] || 'America/New_York',
+      status: g.off ? 'postponed' : fin ? 'final' : g.st === 'in_progress' ? 'live' : 'upcoming', ...(fin ? { score: `${g.hs}-${g.vs}` } : {}),
+      source: `https://www.nba.com/games?date=${usDay(g.at)}` };
+  });
+  // conference standings from every regular-season result: wins, losses, points for and against
+  const rec = {};
+  for (const g of Object.values(cache.games)) if (g.st === 'final' && !g.post && T[g.h] && T[g.v])
+    for (const [id, f, a] of [[g.h, g.hs, g.vs], [g.v, g.vs, g.hs]]) { const r = rec[id] ||= { w: 0, l: 0, f: 0, a: 0 }; r[f > a ? 'w' : 'l']++; r.f += f; r.a += a; }
+  const tables = !Object.keys(rec).length ? [] : ['East', 'West'].map(c => ({ comp: 'NBA', sport: 'basketball', team: 'nba', page: `${season}–${String(season + 1).slice(2)} NBA season`,
+    title: `${c}ern Conference`, style: 'wl', rows: (cache.teams?.list || []).filter(t => t.conf === c).map(t => { const r = rec[t.id] || { w: 0, l: 0, f: 0, a: 0 };
+      return { name: t.name, p: r.w + r.l, w: r.w, d: 0, l: r.l, f: r.f, a: r.a, bp: 0, nr: 0, nrr: '', pct: r.w + r.l ? (100 * r.w / (r.w + r.l)).toFixed(1) : '', pts: r.w, q: '', champ: false }; })
+      .sort((a, b) => (+b.pct || 0) - (+a.pct || 0) || b.w - a.w || (b.f - b.a) - (a.f - a.a)) }));
+  const all = Object.values(cache.games);
+  diag.nba = `${calls} calls; ${all.length} games kept (${all.filter(g => g.st === 'final').length} results), season ${cache.fill.done ? 'complete' : 'still filling'}; ${events.length} in the feed (${events.filter(e => e.status === 'final').length} results, ${events.filter(e => e.status === 'live').length} live); ${tables.length ? `standings: East top ${tables[0].rows[0]?.name} ${tables[0].rows[0]?.w}-${tables[0].rows[0]?.l}, West top ${tables[1].rows[0]?.name} ${tables[1].rows[0]?.w}-${tables[1].rows[0]?.l}` : 'no standings yet'}${notes.length ? '; ' + notes.join('; ') : ''}`;
+  return { events, tables };
+}
+
 // Wikipedia's calendar has race dates only; TheSportsDB (free key) has start times. At most one call a run:
 // the weekend of the next race not looked up in the last 12 hours (or not since sessions were kept too). Answers are kept
 // in `cache` (fetch.mjs saves it), with the weekend's practice, qualifying and sprint times.

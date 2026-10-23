@@ -9,7 +9,7 @@
 //   data/curated/*.json        -> fixtures the above lack (boxing, some tests), news, notes
 //   data/broadcast.json        -> where-to-watch rules by competition
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
-import { wikiEvents, tsdbEvents, tsdb, f1StartTimes, supercarsStartTimes, stateSquads, teamSquads } from './sources.mjs';
+import { wikiEvents, tsdbEvents, tsdb, f1StartTimes, supercarsStartTimes, nbaGames, stateSquads, teamSquads } from './sources.mjs';
 import { rankings as getRankings } from './rankings.mjs';
 import { execSync } from 'node:child_process';
 
@@ -539,6 +539,12 @@ try { f1Cache = JSON.parse(await readFile(f1Url, 'utf8')); } catch {}
 await f1StartTimes(wiki, f1Cache, diag);
 await supercarsStartTimes(wiki, f1Cache, diag);
 try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(f1Url, JSON.stringify(f1Cache)); } catch {}
+// the NBA from balldontlie (free key): the games around now with the Wikipedia ones, the standings with the tables;
+// every result so far is remembered in .cache/nba.json
+const nbaUrl = new URL('.cache/nba.json', ROOT);
+let nbaCache = {};
+try { nbaCache = JSON.parse(await readFile(nbaUrl, 'utf8')); } catch {}
+try { const nba = await nbaGames(nbaCache, diag); wiki.push(...nba.events); tables.push(...nba.tables); await writeFile(nbaUrl, JSON.stringify(nbaCache)); } catch (e) { diag.nba = 'error: ' + e.message; }
 // TheSportsDB often rate-limits shared GitHub runners, so keep each league's last good pull for up to 3 days
 const tsdbCacheUrl = new URL('.cache/tsdb-events.json', ROOT);
 let tsdbCache = {};
@@ -771,7 +777,7 @@ const LOGO_CODES = {
   league: { leagues: ['NRL', 'Australian National Rugby League'], ok: /NRL|Rugby League|Super League/i },
   football: { leagues: ['Australian A-League', 'Australian A-League Men'], ok: /A-League|Soccer|Football/i, sport: 'Soccer' },
   cricket: { leagues: ['Big Bash League', 'Womens Big Bash League', 'Super Smash', 'Plunket Shield', 'Ford Trophy', 'Sheffield Shield'], ok: /Big Bash|Super Smash|Plunket|Ford Trophy|Sheffield|Cricket/i, sport: 'Cricket' },
-  basketball: { leagues: ['Australian NBL'], ok: /NBL|Basketball/i, sport: 'Basketball' },
+  basketball: { leagues: ['Australian NBL', 'NBA'], ok: /NBL|NBA|Basketball/i, sport: 'Basketball' },
   netball: { leagues: ['New Zealand Netball League'], ok: /Netball/i, sport: 'Netball' },
   baseball: { leagues: ['MLB', 'Nippon Baseball League'], ok: /MLB|Nippon|Baseball/i, sport: 'Baseball' },
 };
@@ -1664,7 +1670,7 @@ const feed = {
   sources: [
     { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, { name: 'TV guide: i.mjh.nz (NZ XMLTV)', url: 'https://i.mjh.nz/' }, { name: 'Streams: YouTube', url: 'https://www.youtube.com' }, ...(ESPN_ON ? [{ name: 'Live cricket: ESPNcricinfo', url: 'https://www.espncricinfo.com' }] : []), ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, { name: 'Press releases via Scoop Media', url: 'https://www.scoop.co.nz/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })),
     { name: 'NZ Rugby', url: 'https://www.allblacks.com' }, { name: 'NZ Cricket', url: 'https://www.nzc.nz' },
-    { name: 'NRL', url: 'https://www.nrl.com' },
+    { name: 'NRL', url: 'https://www.nrl.com' }, { name: 'NBA games: balldontlie', url: 'https://www.balldontlie.io' },
     ...[...logoCredits].map(([name, url]) => ({ name, url })),
   ],
 };
@@ -1686,8 +1692,10 @@ await writeFile(new URL('data/fights.txt', ROOT), [
 
 // "hot" while a game is on or about to start (Tests count for five days), so the workflow refreshes every
 // 10 minutes then and only now and again otherwise, sparing Wikipedia and TheSportsDB needless requests
+// the busy overseas leagues (off unless picked) wait for the slower schedule
+const QUIET = /^(mlb|npb|nba)$/;
 const hot = feed.events.some(e => {
-  if (e.status === 'final') return false;
+  if (e.status === 'final' || QUIET.test(e.team)) return false;
   const age = now - new Date(e.startUTC);
   const span = e.sport === 'cricket' && /\bTests?\b/.test(`${e.stage || ''} ${e.comp || ''}`) ? 5 * DAY : 12 * 36e5;
   return age > -90 * 6e4 && age < span;
@@ -1695,7 +1703,7 @@ const hot = feed.events.some(e => {
 // "live": a game in its playing window right now (for a Test, the first 10 hours of each day), so refresh every 5 minutes
 const PLAY_H = { rugby: 2.5, league: 2.5, football: 2.5, hockey: 2, basketball: 2.5, netball: 1.5, mma: 6, boxing: 5, motor: 3 };
 const playing = feed.events.some(e => {
-  if (e.status === 'final') return false;
+  if (e.status === 'final' || QUIET.test(e.team)) return false;
   const age = now - new Date(e.startUTC);
   if (age < -15 * 6e4) return false;
   if (e.sport === 'cricket') {
