@@ -78,7 +78,12 @@ const NEWS_TEAMS = [
   ['phoenix', /Wellington Phoenix|\bPhoenix\b/], ['aucklandfc', /Auckland FC/i], ['aleague', /A-League/i], ['epl', /Premier League|\bEPL\b/],
   ['nzboxing', /Joseph Parker|David Nyika|Mea Motu|Lani Daniels|Andrei Mikhailovich/i],
   ['ufc', /\bUFC\b|\bMMA\b|Adesanya|Kara-France|Dan Hooker|Carlos Ulberg/i], ['boxing', /\bboxing\b|\bboxer\b|heavyweight title/i],
+  ['npb', /Japan Series|\bNPB\b|Nippon Professional Baseball/i], ['mlb', /\bMLB\b|Major League Baseball/], ['nba', /\bNBA\b|Steven Adams/],
 ];
+// the NBA's and MLB's teams by their short names, for the basketball and baseball feeds (where "Heat" or "Giants" can only
+// mean the one team)
+const NBA_NICK = /\b(Hawks|Celtics|Nets|Hornets|Bulls|Cavaliers|Cavs|Mavericks|Mavs|Nuggets|Pistons|Warriors|Rockets|Pacers|Clippers|Lakers|Grizzlies|Heat|Bucks|Timberwolves|Pelicans|Knicks|Thunder|Magic|76ers|Sixers|Suns|Trail Blazers|Blazers|Kings|Spurs|Raptors|Jazz|Wizards|LeBron|Giannis)\b/;
+const MLB_NICK = /\b(World Series|ALCS|NLCS|ALDS|NLDS|Yankees|Red Sox|Dodgers|Brewers|Rays|Guardians|Mets|Cubs|Astros|Braves|Padres|Phillies|Mariners|Blue Jays|Orioles|Twins|Royals|White Sox|Rangers|Angels|Athletics|Giants|Diamondbacks|Rockies|Reds|Pirates|Cardinals|Marlins|Nationals|Ohtani)\b/;
 // Stories about an upcoming game that name no team above: match the names on the next fortnight's fixtures instead
 // ("Volkanovski" -> ufc, "Arsenal" -> epl). Countries are left out, as they'd match half the sport section.
 let EVENT_NAMES = [];
@@ -197,9 +202,15 @@ const FIGHT_FEEDS = [
   ['MMA Mania', 'mmamania.com', 'https://www.mmamania.com/rss/index.xml'],
   ['Bad Left Hook', 'badlefthook.com', 'https://www.badlefthook.com/rss/index.xml'],
 ];
-async function fightNews() {
+// The NBA and MLB the same way, from SB Nation's league feeds (the same publisher's public RSS as the fight sites): every
+// story in a league's feed is about that league, so one that names none of our teams goes to the league itself
+const US_FEEDS = [
+  ['SB Nation NBA', 'sbnation.com', 'https://www.sbnation.com/rss/nba/index.xml', /^nba$/, 'nba'],
+  ['SB Nation MLB', 'sbnation.com', 'https://www.sbnation.com/rss/mlb/index.xml', /^(mlb|npb)$/, 'mlb'],
+];
+async function fightNews(feeds = FIGHT_FEEDS, diagKey = 'fightNews') {
   const out = [], notes = [];
-  for (const [name, host, feedUrl] of FIGHT_FEEDS) {
+  for (const [name, host, feedUrl, keep = /^(ufc|boxing|nzboxing)$/, fallback] of feeds) {
     let xml;
     try {
       const r = await fetch(feedUrl, { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' }, signal: AbortSignal.timeout(10000) });
@@ -214,8 +225,8 @@ async function fightNews() {
       const title = get('title').trim();
       const url = (get('link') || (m[2].match(/<link[^>]*href="([^"]+)"/) || [])[1] || '').trim();
       const d = new Date(get('pubDate') || get('published') || get('updated'));
-      const team = teamFor(title);
-      if (n >= 8 || !/^(ufc|boxing|nzboxing)$/.test(team || '') || !url || isNaN(d) || now - d > 5 * DAY || out.some(x => x.url === url || x.title === title)) continue;
+      const found = teamFor(title), team = keep.test(found || '') ? found : fallback;
+      if (n >= 8 || !keep.test(team || '') || !url || isNaN(d) || now - d > 5 * DAY || out.some(x => x.url === url || x.title === title)) continue;
       out.push({
         id: host.split('.')[0] + '-' + url.split('/').filter(Boolean).pop().slice(0, 80), team,
         date: d.toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }),
@@ -225,7 +236,7 @@ async function fightNews() {
     }
     notes.push(`${name}: ${items.length} items, ${n} kept`);
   }
-  diag.fightNews = notes.join('; ');
+  diag[diagKey] = notes.join('; ');
   return out;
 }
 
@@ -237,8 +248,14 @@ async function fightNews() {
 const CRICKET_HEADLINES = [];
 // every sport headline read this run (Herald, BBC, Scoop), for finding a Kiwi in an event we'd otherwise leave out
 const HEADLINES = [];
-const BBC_FEEDS = ['rugby-union', 'rugby-league', 'cricket', 'boxing', 'mixed-martial-arts', 'formula1', 'tennis', 'football/premier-league']
+const BBC_FEEDS = ['rugby-union', 'rugby-league', 'cricket', 'boxing', 'mixed-martial-arts', 'formula1', 'tennis', 'football/premier-league', 'basketball', 'baseball']
   .map(s => [s, `https://feeds.bbci.co.uk/sport/${s}/rss.xml`]);
+// in the basketball and baseball feeds a story is ours when it names one of that sport's teams, or the NBA or MLB (by name
+// or by a team's short name); the WNBA, college and the rest stay out
+const BBC_SPORT = {
+  basketball: [/^(tallblacks|tallferns|breakers|nbl|nba)$/, t => /\bNBA\b/.test(t) || NBA_NICK.test(t) ? 'nba' : ''],
+  baseball: [/^(mlb|npb)$/, t => /Japan|Nippon/.test(t) ? '' : /\bMLB\b/.test(t) || MLB_NICK.test(t) ? 'mlb' : ''],
+};
 async function bbcNews() {
   const out = [], notes = [];
   for (const [name, feedUrl] of BBC_FEEDS) {
@@ -256,7 +273,8 @@ async function bbcNews() {
       const d = new Date(get('pubDate'));
       if (url && !isNaN(d)) HEADLINES.push({ title: `${title} ${summary}`, at: d.toISOString() });
       if (name === 'cricket' && url && !isNaN(d)) CRICKET_HEADLINES.push({ title, url, at: d.toISOString(), credit: 'From BBC Sport', creditUrl: 'https://www.bbc.com/sport' });
-      const team = teamFor(title + ' ' + summary);
+      const found = teamFor(title + ' ' + summary), only = BBC_SPORT[name];
+      const team = !only ? found : only[0].test(found || '') ? found : only[1](title + ' ' + summary);
       // the newest eight stories a feed has for us, so a busy one (the Premier League) doesn't crowd out the rest
       if (n >= 8 || !team || !url || isNaN(d) || now - d > 10 * DAY || out.some(x => x.url === url)) continue;
       out.push({
@@ -718,7 +736,7 @@ const newsAll = [...curated.news];
 // permission of Radio New Zealand", so the feed stays off; the page links to RNZ Sport instead. Only switch this back on
 // with RNZ's written permission
 const RNZ_ON = false;
-for (const n of [...(RNZ_ON ? await rnzNews() : []), ...await heraldNews(), ...await scoopNews(), ...await fightNews(), ...await bbcNews()]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
+for (const n of [...(RNZ_ON ? await rnzNews() : []), ...await heraldNews(), ...await scoopNews(), ...await fightNews(), ...await fightNews(US_FEEDS, 'usNews'), ...await bbcNews()]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
 const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 // A left-out event comes back when a Kiwi is in it: named in data/curated's kiwisIn ({ event, year, who }), or in a
 // headline from two days before it starts to a day after it ends that also names the event, its place or its tour
@@ -1668,7 +1686,7 @@ const feed = {
   teamLinks: links,
   coverage,
   sources: [
-    { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, { name: 'TV guide: i.mjh.nz (NZ XMLTV)', url: 'https://i.mjh.nz/' }, { name: 'Streams: YouTube', url: 'https://www.youtube.com' }, ...(ESPN_ON ? [{ name: 'Live cricket: ESPNcricinfo', url: 'https://www.espncricinfo.com' }] : []), ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, { name: 'Press releases via Scoop Media', url: 'https://www.scoop.co.nz/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })),
+    { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, { name: 'TV guide: i.mjh.nz (NZ XMLTV)', url: 'https://i.mjh.nz/' }, { name: 'Streams: YouTube', url: 'https://www.youtube.com' }, ...(ESPN_ON ? [{ name: 'Live cricket: ESPNcricinfo', url: 'https://www.espncricinfo.com' }] : []), ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, { name: 'Press releases via Scoop Media', url: 'https://www.scoop.co.nz/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })), { name: 'NBA and MLB headlines: SB Nation', url: 'https://www.sbnation.com/' },
     { name: 'NZ Rugby', url: 'https://www.allblacks.com' }, { name: 'NZ Cricket', url: 'https://www.nzc.nz' },
     { name: 'NRL', url: 'https://www.nrl.com' }, { name: 'NBA games: balldontlie', url: 'https://www.balldontlie.io' },
     ...[...logoCredits].map(([name, url]) => ({ name, url })),

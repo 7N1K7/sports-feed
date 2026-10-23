@@ -111,7 +111,7 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
   .panel .throw .ph { margin: 0; padding: 0; border: 0; flex: none; width: calc(14px * 6.6) }
   /* the three boxes share one width and one left edge, close to their titles and clear of the panel's edge at 340px;
      the theme's dot sits at the box's left so its name is centred like the times and results */
-  .panel .spoil-row .sgrp > label, .panel .spoil-row .sgrp > .slab { min-width: 6.6em } .panel .spoil-row .dbtn, .panel .spoil-row .ordsel { width: 11em }
+  .panel .spoil-row .sgrp > label { min-width: 6.6em } .panel .spoil-row .dbtn { width: 11em }
   .accpick { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 11em; font: inherit; font-size: 14px; padding: 5px 26px; border-radius: 8px; border: 1px solid var(--line); color: var(--ink); cursor: pointer;
     background: var(--paper) no-repeat; background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: right 15px center, right 10px center; background-size: 5px 5px, 5px 5px }
   .accpick i { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 0 1px var(--line) }
@@ -196,13 +196,16 @@ html { -webkit-tap-highlight-color: transparent }
 .group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--f-body); font-weight: 700; margin-bottom: 6px }
 /* My teams: which sports are hidden, on one line that never wraps (the full list in its tooltip) */
 .panel .hidrow { display: flex; align-items: center; gap: 10px; min-width: 0 }
-/* the sport buttons' order: two halves of one box as wide as the times and results boxes */
-.spoil-row .ordsel { display: inline-flex; width: 9.5em; border-radius: 8px } .spoil-row .ordsel button { flex: 1 1 0; padding: 4px 6px }
 .panel .hidnote { flex: 1 1 auto; min-width: 0; margin: 0; font-size: 13px; line-height: 20px; height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted) }
 .panel .hidnote b { color: var(--ink); font-weight: 600 }
 @media (max-width: 560px) { .panel .hidnote .hfull { display: none } }
-.panel .hidnote .hidgo { font: inherit; color: var(--ink); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px }
-.panel .hidnote .hidgo:hover { color: var(--accent) }
+/* each hidden name a small tag in its sport's colour: a strong shade when the whole sport is off, a light one when just
+   that competition is */
+.panel .hidnote .hidgo { font: inherit; font-size: 12px; font-weight: 600; line-height: 16px; color: var(--ink); cursor: pointer; padding: 0 7px; margin-right: 3px; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--hc) 55%, transparent); background: color-mix(in srgb, var(--hc) 14%, transparent) }
+.panel .hidnote .hidgo.whole { border-color: var(--hc); background: color-mix(in srgb, var(--hc) 45%, var(--surface)) }
+.panel .hidnote .hidgo:hover { border-color: var(--ink) }
+.panel .hidnote .hsep { margin: 0 5px 0 2px }
 #teamGroups .group.flash { animation: gflash 1.2s ease-out }
 @keyframes gflash { from { background: color-mix(in srgb, var(--accent) 22%, transparent) } to { background: transparent } }
 /* My teams, compact: the group name in a column on the left, smaller chips beside it */
@@ -276,7 +279,7 @@ html { -webkit-tap-highlight-color: transparent }
 .dsel .dopt { display: block; width: 100%; border: 0; background: none; color: var(--ink); font: inherit; padding: 5px 12px; border-radius: 6px; text-align: center; white-space: nowrap; cursor: pointer }
 .dsel .dopt:hover { background: color-mix(in srgb, var(--ink) 9%, transparent) }
 .dsel .dopt[aria-selected="true"] { background: var(--ink); color: var(--paper); font-weight: 600 }
-.spoil-row .dbtn { min-width: 0 } .spoil-row > label, .spoil-row .sgrp > label, .spoil-row .sgrp > .slab { min-width: 7.6em }
+.spoil-row .dbtn { min-width: 0 } .spoil-row > label, .spoil-row .sgrp > label { min-width: 7.6em }
 /* the times and the spoiler days share a line, each label with its box, and stack (lined up) when there isn't room */
 .spoil-row .sgrp { display: inline-flex; align-items: center; gap: 10px } .spoil-row:has(.sgrp) { column-gap: 28px }
 select { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink) }
@@ -1304,7 +1307,6 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
         <option value="0">Never</option><option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option><option value="4">4 days</option>
         <option value="5">5 days</option><option value="7">7 days</option><option value="14">14 days</option>
       </select></span>
-      <span class="sgrp"><span class="slab" id="ordLab">Sport buttons</span><span class="seg ordsel" id="ordSel" role="group" aria-labelledby="ordLab"></span></span>
     </div>
     <div class="throw"><h2 class="ph">Theme</h2>
     <div class="accwrap"><button type="button" class="dbtn accpick" id="accentPick" aria-haspopup="true" aria-expanded="false"><i id="accentDot"></i><span id="accentName"></span></button><div class="swatches" id="accentSel" role="group" aria-label="Theme"></div></div></div>
@@ -1434,7 +1436,9 @@ const count = (msg = {}) => {
 // errors in this page's own code (not browser add-ons), so a breakage on someone's phone shows up: three a visit at most
 { const seen = new Set();
   const report = msg => { msg = String(msg || '').slice(0, 160); if (msg && !seen.has(msg) && seen.size < 3) { seen.add(msg); count({ e: 'error', k: msg }); } };
-  addEventListener('error', ev => { if (!ev.filename || ev.filename.startsWith(location.origin)) report(`${ev.message} (line ${ev.lineno})`); });
+  // "Script error." at line 0 is a script from another site (a browser add-on, an app's built-in browser) that the browser
+  // won't say anything about, so it isn't counted
+  addEventListener('error', ev => { if ((!ev.filename || ev.filename.startsWith(location.origin)) && !(/^Script error\.?$/.test(ev.message) && !ev.lineno)) report(`${ev.message} (line ${ev.lineno})`); });
   addEventListener('unhandledrejection', ev => report(ev.reason?.message || ev.reason)); }
 const TEAMS = [ // in the sport row's order: cricket, rugby, league, football, hockey, basketball, F1, tennis, golf, baseball, fights, netball, sailing
   { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['aucricket','Australia men'],['audomestic','Aussie domestic'],['intlcricket','Other tours'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
@@ -1647,7 +1651,6 @@ let compSel = store.get('comp', '');
 let genderSel = store.get('gender', 'all');
 let nzOnly = store.get('nzOnly', false);
 let freeOnly = store.get('freeOnly', false);
-let sportOrder = store.get('sportOrder', 'usual');   // the sports in My teams and the sport buttons: 'usual' (cricket first) or 'az'
 let folded = store.get('folded', false);   // phones: filters folded away under one bar
 let selDay = '', drawDayPick = () => {};
 let hubTab = 'games', resPage = 0, laterPage = 0, bigPage = 0, runPage = 0, rankSel = '';
@@ -2217,7 +2220,7 @@ function playoffsHtml(list, now) {
   if (fmtB) return bracketHtml(fmtB, bracketEvents(fmtB), now);
   // a column per finals week, counted from the first finals game
   const t0 = new Date(list[0].startUTC).getTime(), cols = [];
-  for (const e of list) { const w = Math.floor((new Date(e.startUTC) - t0) / (7 * 864e5)); (cols[w] ||= []).push(e); }
+  for (const e of list) { const w = Math.floor((new Date(e.startUTC) - t0) / (7 * 864e5)); (cols[w] = cols[w] || []).push(e); }
   const weeks = cols.filter(Boolean);
   const LEAGUE4 = ['Qualifying & elimination finals', 'Semi-finals', 'Preliminary finals', 'Grand Final'];
   const name = (col, i) => {
@@ -2696,7 +2699,7 @@ function openTeam(name, sport, fromRank = '') {
   const dlg = $('sheet');
   // opened from a game's pop-up: a way back to that game, at the top
   if (dlg.open && dlg.dataset.id) sheetTrail.push({ id: dlg.dataset.id, tab: dTab });
-  const prev = !fromRank && sheetTrail.length && (FEED.events || []).find(x => x.id === sheetTrail.at(-1).id);
+  const prev = !fromRank && sheetTrail.length && (FEED.events || []).find(x => x.id === sheetTrail[sheetTrail.length - 1].id);
   $('sheetBody').innerHTML = (fromRank ? `<button type="button" class="back rback" data-rankback="${esc(fromRank)}">‹ Rankings</button>` : prev ? `<button type="button" class="back" data-sback="1">‹ ${esc(titleOf(prev))}</button>` : '') + teamPage(name, sport);
   dlg.dataset.id = '';
   if (!dlg.open) dlg.showModal();
@@ -2705,14 +2708,14 @@ function openTeam(name, sport, fromRank = '') {
 // the sport buttons' order, which the rankings tabs follow too
 const sportRank = sp => (i => i < 0 ? 99 : i)(SPORT_CHIPS.findIndex(([k]) => k === sp));
 // A to Z when that's picked under My teams
-// My teams lists the sports A to Z; the switch in Settings orders only the sport buttons
+// My teams lists the sports A to Z
 const TEAMS_AZ = [...TEAMS].sort((a, b) => a.g.localeCompare(b.g));
-const inOrder = (list, name) => sportOrder === 'az' ? [...list].sort((a, b) => name(a).localeCompare(name(b))) : list;
-const SPORT_CHIPS = [['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['hockey','Hockey'],['basketball','Basketball'],['motor','Motorsport'],['tennis','Tennis'],['golf','Golf'],['baseball','Baseball'],['mma','MMA'],['boxing','Boxing'],['netball','Netball'],['sailing','Sailing']];
+// the sport buttons, and everything that follows their order (the running series, rankings), A to Z
+const SPORT_CHIPS = [['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['hockey','Hockey'],['basketball','Basketball'],['motor','Motorsport'],['tennis','Tennis'],['golf','Golf'],['baseball','Baseball'],['mma','MMA'],['boxing','Boxing'],['netball','Netball'],['sailing','Sailing']].sort((a, b) => a[1].localeCompare(b[1]));
 const RANK_SPORTS = SPORT_CHIPS.map(([k]) => k);
 // a sport counts as followed when at least one of its teams or competitions is picked in My teams
 const followedSport = sp => (SPORT[sp] || []).some(k => picked.has(k));
-const shownSports = () => { const all = inOrder(SPORT_CHIPS, x => x[1]), f = all.filter(([k]) => followedSport(k)); return f.length ? f : all; };
+const shownSports = () => { const all = SPORT_CHIPS, f = all.filter(([k]) => followedSport(k)); return f.length ? f : all; };
 const rankSports = () => { const have = RANK_SPORTS.filter(k => (FEED.rankings || []).some(r => r.sport === k)), f = have.filter(followedSport); return f.length ? f : have; };
 const RANK_TAB = { mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', motor: 'Motorsport', tennis: 'Tennis' };
 function openRankings(sport) {
@@ -2753,7 +2756,7 @@ function openDetail(id, fromTeam, goingBack) {
   }
   $('sheetBody').classList.toggle('on-results', !!res.length && dTab === 'results');
   // a small back arrow beside the close button, only after moving on from the game first opened
-  if (sheetTrail.length) { const prev = (FEED.events || []).find(x => x.id === sheetTrail.at(-1).id);
+  if (sheetTrail.length) { const prev = (FEED.events || []).find(x => x.id === sheetTrail[sheetTrail.length - 1].id);
     $('sheetBody').insertAdjacentHTML('afterbegin', `<button type="button" class="sback" data-sback="1" aria-label="Back" title="Back to ${esc(prev ? titleOf(prev) : 'the last game')}">‹</button>`); }
   const dlg = $('sheet');
   dlg.dataset.id = id; dlg.dataset.rankings = '';
@@ -2862,7 +2865,7 @@ function renderNowBar(now) {
   // a tour between legs (T20Is done, Tests weeks away) isn't running; one with its next game within 10 days of the last is
   const on = [...by].filter(([c, v]) => (v.started || WINDOWED.test(c)) && v.next < 21 * 864e5 && (v.next < 18 * 36e5 || v.lastPlayed === undefined || v.next < 10 * 864e5 || WINDOWED.test(c)))
     .sort((a, b) => b[1].nz - a[1].nz || a[1].next - b[1].next).slice(0, 6)
-    // the six shown sit in the sport buttons' order (cricket, rugby, league...), New Zealand's first within a sport
+    // the six shown sit in the sport buttons' order (A to Z by sport), New Zealand's first within a sport
     .sort((a, b) => sportRank(a[1].sport) - sportRank(b[1].sport) || b[1].nz - a[1].nz || a[1].next - b[1].next);
   onNowComps = new Set(on.map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
@@ -3199,12 +3202,13 @@ function render() {
     return `<div class="group${on ? '' : ' off'}" data-g="${esc(g.g)}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(tchip).join('')}${g.sub ? `<span class="gsub">${esc(g.sub.g)}</span>${g.sub.items.map(tchip).join('')}` : ''}</div></div>`; }).join('');
   // the sports off the feed, named under My teams so nobody wonders where they went (one line, so it never pushes the list
   // down), and the busy competitions that start off; a name jumps to its group
-  const offs = [...TEAMS_AZ.filter(g => !groupItems(g).some(([k]) => followedSport(sportOf(k)))).map(g => [g.g, groupItems(g).every(([k]) => OPT_IN.has(k))]),
-    ...[...OPT_IN].filter(k => TEAM_NAME[k] && !picked.has(k) && followedSport(sportOf(k))).map(k => [TEAM_NAME[k], true])];
+  // [name, off by default, its sport, the whole sport]
+  const offs = [...TEAMS_AZ.filter(g => !groupItems(g).some(([k]) => followedSport(sportOf(k)))).map(g => [g.g, groupItems(g).every(([k]) => OPT_IN.has(k)), sportOf(groupItems(g)[0][0]), true]),
+    ...[...OPT_IN].filter(k => TEAM_NAME[k] && !picked.has(k) && followedSport(sportOf(k))).map(k => [TEAM_NAME[k], true, sportOf(k), false])];
   // the ones turned off here first, then those that start off, with "(off by default)" said once after them
-  const hgo = n => `<button type="button" class="hidgo" data-hidgo="${esc(n)}">${esc(n)}</button>`, hlist = f => [offs.filter(([, d]) => !d).map(([n]) => f(n)).join(', '), offs.some(([, d]) => d) ? offs.filter(([, d]) => d).map(([n]) => f(n)).join(', ') + ' (off by default)' : ''].filter(Boolean).join(' · ');
+  const hgo = (n, sp, all) => `<button type="button" class="hidgo${all ? ' whole' : ''}" data-hidgo="${esc(n)}" style="--hc:var(--${sp === 'rugby' ? 'rugbyt' : sp})" title="${all ? 'The whole sport is off' : 'Just this one is off'}: tap to go to it">${esc(n)}</button>`,
+    hlist = f => [offs.filter(([, d]) => !d).map(o => f(o[0], o[2], o[3])).join(f === hgo ? ' ' : ', '), offs.some(([, d]) => d) ? offs.filter(([, d]) => d).map(o => f(o[0], o[2], o[3])).join(f === hgo ? ' ' : ', ') + ' (off by default)' : ''].filter(Boolean).join(f === hgo ? '<span class="hsep">·</span>' : ' · ');
   $('hidNote').innerHTML = offs.length ? `<b>Hidden<span class="hfull"> from your feed</span>:</b> ${hlist(hgo)}` : 'Every sport is on your feed.';
-  $('ordSel').innerHTML = [['usual', 'App-Set', 'The sport buttons in the app\'s order: cricket, rugby and league first'], ['az', 'A–Z', 'The sport buttons in alphabetical order']].map(([k, l, t]) => `<button type="button" data-sorder="${k}" aria-pressed="${sportOrder === k}" title="${t}">${l}</button>`).join('');
   $('hidNote').title = offs.length ? `Hidden: ${hlist(n => n)}` : '';
   // calendar subscriptions (built with the feed, in data/cal/): every game an NZ side plays, then each team picked above.
   // webcal: opens Apple's Calendar to subscribe; Google and Outlook take the address on their own add-by-URL pages
@@ -3263,7 +3267,7 @@ function balanceChips(box) {
   const cs = [...box.children], W = box.clientWidth - 1, sports = box.classList.contains('ranksports'), first = W - (sports ? 68 : 0);
   if (W < 1 || cs.length < 2) return;
   const widths = () => { const st = getComputedStyle(cs[0]), m = parseFloat(st.marginLeft) + parseFloat(st.marginRight); return cs.map(c => c.getBoundingClientRect().width + m); };
-  const lay = (ws, t) => { const rows = [[]]; let x = 0; ws.forEach((w, i) => { if (x && x + w > (rows.length === 1 ? Math.min(t, first) : t)) { rows.push([]); x = 0; } rows.at(-1).push(i); x += w; }); return rows; };
+  const lay = (ws, t) => { const rows = [[]]; let x = 0; ws.forEach((w, i) => { if (x && x + w > (rows.length === 1 ? Math.min(t, first) : t)) { rows.push([]); x = 0; } rows[rows.length - 1].push(i); x += w; }); return rows; };
   if (sports) box.classList.remove('bare');
   let ws = widths(), n = lay(ws, W).length;
   if (sports && n > 1) { box.classList.add('bare'); const bws = widths(), bn = lay(bws, W).length; if (bn < n) { ws = bws; n = bn; } else box.classList.remove('bare'); }
@@ -3310,7 +3314,7 @@ function syncFold() {
 $('sheet').addEventListener('close', () => { sheetTrail = []; dTabId = ''; }); // a closed pop-up starts afresh next time, on the game's own tab
 $('foldBtn').addEventListener('click', ev => { ev.stopPropagation(); folded = !folded; store.set('folded', folded); syncFold(); count({ e: 'use', k: folded ? 'Filters folded away' : 'Filters opened' }); });
 // Settings to another browser: a code holding this browser's choices (not revealed results, nor the stats page's own)
-const MOVE_KEYS = ['teams', 'view', 'spoilers', 'spoilDays', 'spoilDaysSet', 'sport', 'comp', 'gender', 'nzOnly', 'freeOnly', 'tz', 'accent', 'theme', 'sportOrder'];
+const MOVE_KEYS = ['teams', 'view', 'spoilers', 'spoilDays', 'spoilDaysSet', 'sport', 'comp', 'gender', 'nzOnly', 'freeOnly', 'tz', 'accent', 'theme'];
 const settingsCode = () => 'KK1-' + btoa(unescape(encodeURIComponent(JSON.stringify(Object.fromEntries(MOVE_KEYS.map(k => [k, store.get(k, null)]).filter(([, v]) => v !== null)))))).replace(/=+$/, '');
 function useSettingsCode(code) {
   const m = String(code).replace(/\s+/g, '').match(/^KK1-([A-Za-z0-9+/]+)$/);
@@ -3404,7 +3408,6 @@ document.addEventListener('click', ev => {
     keys.forEach(k => on ? picked.delete(k) : picked.add(k)); count({ e: 'use', k: on ? 'Hide sport' : 'Show sport' }); store.set('teams', [...picked]); render(); return;
   }
   if (t.dataset.tocomp) { count({ e: 'use', k: 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
-  if (t.dataset.sorder) { if (sportOrder !== t.dataset.sorder) { sportOrder = t.dataset.sorder; store.set('sportOrder', sportOrder); if (sportOrder === 'az') count({ e: 'use', k: 'Sport order A–Z' }); render(); } return; }
   // a name in the hidden-sports line: its group (a sport's own, or the one holding that competition), scrolled to and lit
   if (t.dataset.hidgo) { const n = t.dataset.hidgo, gn = (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([, l]) => l === n)))?.g;
     const g = [...document.querySelectorAll('#teamGroups .group')].find(x => x.dataset.g === gn);

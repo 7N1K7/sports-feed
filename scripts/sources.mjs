@@ -1088,6 +1088,8 @@ function baseballRows(rows, title) {
 // The NBA from balldontlie's free API (key in BALLDONTLIE_KEY, 5 requests a minute, so at most 4 a run): each run the
 // games from a week back to ten days ahead; every result is kept in `cache` (saved by fetch.mjs) for the conference
 // standings, which a cold cache fills a page of the season at a time. The teams are asked for once a week
+// the teams named for a state or region, and their home city
+const NBA_CITY = { GSW: 'San Francisco', IND: 'Indianapolis', UTA: 'Salt Lake City', MIN: 'Minneapolis', LAC: 'Los Angeles' };
 const NBA_TZ = { ATL: 'America/New_York', BOS: 'America/New_York', BKN: 'America/New_York', CHA: 'America/New_York', CHI: 'America/Chicago', CLE: 'America/New_York',
   DAL: 'America/Chicago', DEN: 'America/Denver', DET: 'America/Detroit', GSW: 'America/Los_Angeles', HOU: 'America/Chicago', IND: 'America/Indiana/Indianapolis',
   LAC: 'America/Los_Angeles', LAL: 'America/Los_Angeles', MEM: 'America/Chicago', MIA: 'America/New_York', MIL: 'America/Chicago', MIN: 'America/Chicago',
@@ -1136,7 +1138,7 @@ export async function nbaGames(cache, diag) {
   const events = Object.values(cache.games).filter(g => T[g.h] && T[g.v] && g.at && Date.parse(g.at) > now - 7.5 * DAY && Date.parse(g.at) < now + 11 * DAY).map(g => {
     const h = T[g.h], v = T[g.v], fin = g.st === 'final', timed = /T\d\d:\d\d/.test(g.at);
     return { id: `nba-${g.id}`, team: 'nba', tags: [], sport: 'basketball', comp: 'NBA', ...(g.post ? { stage: 'Playoffs' } : {}), home: h.name, away: v.name,
-      startUTC: new Date(timed ? g.at : `${g.at.slice(0, 10)}T23:30:00Z`).toISOString(), timeTBC: !timed, venue: '', city: h.city, tz: NBA_TZ[h.abbr] || 'America/New_York',
+      startUTC: new Date(timed ? g.at : `${g.at.slice(0, 10)}T23:30:00Z`).toISOString(), timeTBC: !timed, venue: '', city: NBA_CITY[h.abbr] || h.city, tz: NBA_TZ[h.abbr] || 'America/New_York',
       status: g.off ? 'postponed' : fin ? 'final' : g.st === 'in_progress' ? 'live' : 'upcoming', ...(fin ? { score: `${g.hs}-${g.vs}` } : {}),
       source: `https://www.nba.com/games?date=${usDay(g.at)}` };
   });
