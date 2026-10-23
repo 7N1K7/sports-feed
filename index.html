@@ -358,9 +358,13 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
    no channel line, carry it in the competition line */
 .fta { display: inline-block; font: 800 10px/1 var(--f-body); letter-spacing: .06em; color: #fff; background: #2b8a3e; border-radius: 4px; padding: 3px 5px 2px; vertical-align: 1px }
 .fta.fpre { background: transparent; color: #37b24d; box-shadow: inset 0 0 0 1.5px #37b24d } /* only part of it is free: outlined */
-.ev .ctags .ftac { display: none; margin-left: 4px }
-#freeOnly .fta { vertical-align: 0; letter-spacing: .03em; padding-inline: 5px }
-#freeOnly { padding-inline: 6px } /* "freeTV", a small lowercase free on the TV, in about the space "FREE" had */
+.ev .ctags .ftac { margin-left: 4px }
+.fta .fch { font-weight: 700; letter-spacing: .02em; text-transform: none } /* the channel after FREE, in its own case */
+/* "freeTV", a small lowercase free on the TV, the green filling the whole button; on, it turns light like NZ only, the
+   words staying green */
+#freeOnly { padding-inline: 11px; background: #2b8a3e; border-color: #2b8a3e; color: #fff }
+#freeOnly[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #2b8a3e }
+#freeOnly .fta { vertical-align: 0; letter-spacing: .03em; padding-inline: 0; background: none; color: inherit }
 #freeOnly .ffree { font-size: 9px; font-weight: 700; letter-spacing: 0; margin-right: 1px }
 .ev .tvl a { color: inherit }
 .tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 1px 6px; background: var(--soft); color: var(--ink); justify-self: end }
@@ -1046,7 +1050,6 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .body { padding-top: 6px; padding-bottom: 6px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .comp { font-size: 12px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .summary, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .tvl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .nzl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .loc:not(.num) { display: none }
-:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .ctags .ftac { display: inline-block }
 /* compact cards have no label over the time: a small one before it says what the time is (first ball, lights out) */
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .nz[data-l]::before { content: attr(data-l); font: 700 9px var(--f-body); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-right: 5px; vertical-align: 3px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .when { padding-top: 6px; padding-bottom: 6px; gap: 0 }
@@ -2035,12 +2038,13 @@ function evCard(e, now) {
   // a free way to watch goes on the card ahead of a paid one: Three over Sky Sport 1 when both show it
   const free = freeTo(e).replace(/^free\s*(?:on|to watch on|:)?\s*/i, '').replace(/\s*\(free\)$/i, '').replace(/\s*\([^)]*$/, '');
   const tv = free || (e.tv || []).find(x => !x.delayed && !(prelimsOnly(e) && freeCh(x.ch)))?.ch || (e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : '') || (e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt ? 'YouTube (free)' : '');
-  const ftaMark = cls => `<span class="fta${cls}" title="Free to watch">FREE</span>`;
+  // the free channel up top with the competition's tags, on every card ("FREE on Three"): short, what's in brackets dropped
+  const freeTag = free.replace(/\s*\(.*$/, '').replace(/ live stream$/, ' stream').trim();
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}${free ? ftaMark(' ftac') : freePrelims(e) ? '<span class="fta ftac fpre" title="The prelims are free to watch; the main card is pay-per-view">FREE PRELIMS</span>' : ''}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}${free ? `<span class="fta ftac" title="Free to watch on ${esc(free)}">FREE<span class="fch"> on ${esc(freeTag)}</span></span>` : freePrelims(e) ? '<span class="fta ftac fpre" title="The prelims are free to watch; the main card is pay-per-view">FREE PRELIMS</span>' : ''}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${seriesLine(e, now)}
     </div>
@@ -2048,7 +2052,7 @@ function evCard(e, now) {
       <div class="nzl">${esc(slbl)} ${esc(tzLabel())}</div>
       <div class="nz num" data-l="${esc(slbl)}"${e.usual ? ` title="${esc(usualNote(e, d))}"` : ''}>${e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div><i class="wbr" aria-hidden="true"></i>
-      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${stamp === 'Rain affected' && e.wxNews ? `<div class="wx wxnews">🌧 ${rainWord(e.wxNews.title)} · <a href="${esc(e.wxNews.url)}" target="_blank" rel="noopener" title="${esc(e.wxNews.title)}">${esc(e.wxNews.source || (/bbc/i.test(e.wxNews.credit || '') ? 'BBC Sport' : 'NZ Herald'))} ↗</a></div>` : ''}${live && stamp === 'Rain affected' && wxNote(e, now) && !e.wxNews ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e, now))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl">${free ? ftaMark('') : '<span aria-hidden="true">📺</span>'} ${linkWatch(tv)}</div>` : ''}
+      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${stamp === 'Rain affected' && e.wxNews ? `<div class="wx wxnews">🌧 ${rainWord(e.wxNews.title)} · <a href="${esc(e.wxNews.url)}" target="_blank" rel="noopener" title="${esc(e.wxNews.title)}">${esc(e.wxNews.source || (/bbc/i.test(e.wxNews.credit || '') ? 'BBC Sport' : 'NZ Herald'))} ↗</a></div>` : ''}${live && stamp === 'Rain affected' && wxNote(e, now) && !e.wxNews ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e, now))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
     </div>
   </article>`;
 }
