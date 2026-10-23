@@ -1,58 +1,271 @@
-== WBSC World Rankings (WBSC World Rankings): 15 tables
-  [] heads: [] | rows: 23 [["Men's Baseball as of 26 October 2026"],["Rank","Change","Team","Points"]]
-  [] heads: [] | rows: 23 [["Women's Softball as of 31 December 2025","Women's Softball as of 31 December 2025","Women's Softball as of 31 December 2025","Women's Softball as of 31 December 2025"],["Rank","Change","Team","Points"]]
-  [Men's ranking leaders] heads: [["Date","First","Second","Third","Fourth","Fifth"]] | rows: 27 [["31 December 2012","Cuba","United States","Japan","South Korea","Chinese Taipei"],["31 December 2014","Japan","United States","Cuba","Chinese Taipei","Netherlands"]]
-  [Best Movers] heads: [["Date","First","Second","Third","Fourth","Fifth"]] | rows: 21 [["31 December 2014","Israel","Curaçao","Iran","Slovenia","Austria"],["31 December 2016","Guatemala","Slovakia","Sweden","Poland","Lithuania"]]
-  [Softball] heads: [["Rank","Change","Team","Points"]] | rows: 21 [["1","","Japan","3128"],["2","","Venezuela","2797"]]
-  [Women's ranking leaders] heads: [["Date","First","Second","Third","Fourth","Fifth"]] | rows: 20 [["31 December 2016","Japan","United States","Canada","Australia","New Zealand"],["17 December 2018","United States","Japan","Canada","Puerto Rico","Mexico"]]
-  [Best Movers] heads: [["Date","First","Second","Third","Fourth","Fifth"]] | rows: 11 [["17 December 2018","South Africa","Ireland","India","Mexico","Dominican Republic"],["31 December 2019","Belgium","Germany","Poland","Spain","Ireland"]]
-  [Baseball] heads: [["Rank","Change","Team","Points"]] | rows: 21 [["1","","Japan","2075"],["2","","United States","1428"]]
-  teamTables: Men's 2026-10-26 1 Japan 6349 | 2 Chinese Taipei 5301 | 3 United States 4293 | 4 South Korea 4253 | 5 Venezuela 3932
-  teamTables: Women's 2025-12-31 1 Japan 3649 | 2 United States 3490 | 3 Puerto Rico 3010 | 4 Canada 2667 | 5 Chinese Taipei 2276
-== WBSC Baseball World Rankings: missingtitle
-== Official World Golf Ranking (Official World Golf Ranking): 4 tables
-  [Event ranking] heads: [["Tour","Minimum points","Flagship event","Minimum points"]] | rows: 22 [["PGA Tour","24","The Players Championship","80"],["European Tour","24","BMW PGA Championship","64"]]
-  [Importance of the rankings] heads: [["Tournament","Automatic entries"]] | rows: 10 [["The Open Championship","Top 50"],["U.S. Open","Top 60"]]
-  [World Ranking of major championship winners] heads: [["Year","Masters Tournament","Masters Tournament","U.S. Open","U.S. Open","The Open Championship","The Open Championship","PGA Championship","PGA Championship"]] | rows: 42 [["1986","Jack Nicklaus","33","Raymond Floyd","c.20","Greg Norman","3","Bob Tway","c.25"],["1987","Larry Mize","36","Scott Simpson","27","Nick Faldo","46","Larry Nelson","84"]]
-  [World Ranking of major championship winners] heads: [["Event","Total","World 1–10","World 11–50","World 51–100","World 101–200","World 201+"]] | rows: 5 [["Masters Tournament","41","24","15","2","–","–"],["PGA Championship","41","17","15","4","5","–"]]
-== Women's World Golf Rankings (Women's World Golf Rankings): 14 tables
-  [Current top ten] heads: [["Rank","Change","Player","Country","Points"]] | rows: 10 [["1","","Nelly Korda","United States","12.68"],["2","","Jeeno Thitikul","Thailand","11.08"]]
-  [World number ones] heads: [] | rows: 2 [["^","Record"],["*","Current No. 1 player as of 19 October 2026"]]
-  [World number ones] heads: [["No.","Player","Country","Start date","End date","Weeks","Total weeks"]] | rows: 49 [["1","Annika Sörenstam","Sweden","21 February 2006","22 April 2007","60","60"],["2","Lorena Ochoa","Mexico","23 April 2007","2 May 2010","158^","158"]]
-  [Total weeks at No. 1] heads: [] | rows: 1 [["*","Current No. 1 player as of 19 October 2026"]]
-  [Total weeks at No. 1] heads: [["Rank","Player","Country","Weeks","Order","Majors"]] | rows: 18 [["1","Ko Jin-young","South Korea","163","14","2"],["2","Lorena Ochoa","Mexico","158","2","2"]]
-  [Year end No. 1] heads: [] | rows: 1 [["*","No. 1 player all year"]]
-  [Year end No. 1] heads: [["Year","Player","Country"]] | rows: 20 [["2006","Annika Sörenstam","Sweden"],["2007","Lorena Ochoa","Mexico"]]
-  [Weeks at No. 1 by country] heads: [] | rows: 1 [["*","Country with the current number one player as of 19 October 2026"]]
-  teamTables: Men's 2026-10-19 1 United States 12.68 | 2 Thailand 11.08 | 3 South Korea 8.49 | 4 Japan 7.56 | 5 China 7.41
-  teamTables: Women's 2006-02-21 1 Sweden 18.47 | 2 United States 9.65 | 3 United States 9.24 | 4 Japan 7.37 | 5 United States 6.94
-== Rolex Rankings (Women's World Golf Rankings): 14 tables
-  [Current top ten] heads: [["Rank","Change","Player","Country","Points"]] | rows: 10 [["1","","Nelly Korda","United States","12.68"],["2","","Jeeno Thitikul","Thailand","11.08"]]
-  [World number ones] heads: [] | rows: 2 [["^","Record"],["*","Current No. 1 player as of 19 October 2026"]]
-  [World number ones] heads: [["No.","Player","Country","Start date","End date","Weeks","Total weeks"]] | rows: 49 [["1","Annika Sörenstam","Sweden","21 February 2006","22 April 2007","60","60"],["2","Lorena Ochoa","Mexico","23 April 2007","2 May 2010","158^","158"]]
-  [Total weeks at No. 1] heads: [] | rows: 1 [["*","Current No. 1 player as of 19 October 2026"]]
-  [Total weeks at No. 1] heads: [["Rank","Player","Country","Weeks","Order","Majors"]] | rows: 18 [["1","Ko Jin-young","South Korea","163","14","2"],["2","Lorena Ochoa","Mexico","158","2","2"]]
-  [Year end No. 1] heads: [] | rows: 1 [["*","No. 1 player all year"]]
-  [Year end No. 1] heads: [["Year","Player","Country"]] | rows: 20 [["2006","Annika Sörenstam","Sweden"],["2007","Lorena Ochoa","Mexico"]]
-  [Weeks at No. 1 by country] heads: [] | rows: 1 [["*","Country with the current number one player as of 19 October 2026"]]
-  teamTables: Men's 2026-10-19 1 United States 12.68 | 2 Thailand 11.08 | 3 South Korea 8.49 | 4 Japan 7.56 | 5 China 7.41
-  teamTables: Women's 2006-02-21 1 Sweden 18.47 | 2 United States 9.65 | 3 United States 9.24 | 4 Japan 7.37 | 5 United States 6.94
-== FIBA World Ranking (FIBA Men's World Ranking): 2 tables
-  [] heads: [["Rank","Change","Team","Points"]] | rows: 22 [["1","","United States","952.3"],["2","","Germany","877.4"]]
-  [Points for losing team] heads: [["Competition stage","Competition stage","Continental championship","Olympics","FIBA Basketball World Cup"]] | rows: 10 [["Pre-qualifiers","Pre-qualifiers","0.4","0.15","0.4"],["Qualifiers","Qualifiers","0.8","0.30","Q1: 1.0 Q2: 1.2"]]
-  teamTables: Men's 2026-09-01 1 United States 952.3 | 2 Germany 877.4 | 3 France 870.9 | 4 Serbia 870.6 | 5 Canada 863
-site {"version":404,"changedAt":"2026-10-23T04:52:08Z"} diag.usNews: SB Nation NBA: 10 items, 7 kept; SB Nation MLB: 10 items, 1 kept | bbc: rugby-union: 2 of 52; rugby-league: 8 of 36; cricket: 0 of 29; boxing: 8 of 39; mixed-martial-arts: 3 of 32; formula1: 8 of 65; tennis: 0 of 54; football/premier-league: 8 of 42; basketball: 4 of 17; baseball: 1 of 24
-  2026-10-23 nba sbnation.com | The 76ers immediately looked like a contender, and they still have another level to reach
-  2026-10-23 nba sbnation.com | LaMelo Ball’s uncalled travel is the ultimate sign the NBA is back
-  2026-10-22 nba sbnation.com | The Warriors’ terrible Kristaps Porzingis news is a problem without a viable solution
-  2026-10-22 nba sbnation.com | How the Pistons&#8217; pulled off the NBA&#8217;s biggest opening day comeback ever
-  2026-10-21 nba sbnation.com | NBA best defender rankings 2026-27: The 15 best defenders in the league
-  2026-10-21 nba sbnation.com | One thing to love about all 30 NBA teams entering the new season
-  2026-10-20 nba sbnation.com | NBA predictions: Picks for 2027 champion, MVP, Rookie of the Year, and more
-  2026-10-23 mlb sbnation.com | World Series 2026: Brewers vs. Rays prediction and preview for Fall Classic
-  2026-10-23 nba BBC Sport | Trump says NBA star LeBron James 'disrespected' US anthem
-  2026-10-21 nba BBC Sport | LeBron James' 76ers beat Knicks on NBA opening night
-  2026-10-20 nba BBC Sport | The season has just started - so how does the NBA work?
-  2026-10-19 nba BBC Sport | The Welshman seeking NBA title with Timberwolves
-  2026-10-16 mlb BBC Sport | Brewers' champagne celebrations
-nba events 107 cities Detroit, New York, San Antonio, Miami, Los Angeles, Philadelphia, Oklahoma City, Boston, Orlando, Washington, Brooklyn, Toronto, Memphis, New Orleans, Houston, Portland, Charlotte, Indianapolis, Milwaukee, Salt Lake City, San Francisco, Sacramento, Cleveland, Atlanta, Chicago, Dallas, Denver, Phoenix, Minneapolis
+site {"version":407,"changedAt":"2026-10-23T05:05:04Z"}
+NBA names 30 Detroit Pistons, Boston Celtics, New York Knicks, Philadelphia 76ers, San Antonio Spurs, Oklahoma City Thunder, Miami Heat, Minnesota Timberwolves, Los Angeles Lakers, Golden State Warriors, Cleveland Cavaliers, Denver Nuggets, Houston Rockets, Orlando Magic, Atlanta Hawks, Washington Wizards, Milwaukee Bucks, Brooklyn Nets, Charlotte Hornets, Toronto Raptors, Chicago Bulls, Memphis Grizzlies, Utah Jazz, New Orleans Pelicans, Indiana Pacers, Dallas Mavericks, Portland Trail Blazers, Phoenix Suns, LA Clippers, Sacramento Kings
+MLB names Milwaukee Brewers, Tampa Bay Rays, Cleveland Guardians, New York Yankees, Chicago White Sox, Houston Astros, Boston Red Sox, Los Angeles Dodgers, San Diego Padres, Atlanta Braves, Philadelphia Phillies, Chicago Cubs
+NPB names Yokohama DeNA BayStars, Fukuoka SoftBank Hawks
+
+== NBA: 30 of 30 templates found; missing: 
+--- sample Template:Portland Trail Blazers roster 3188 chars
+{{NBA roster header|team=Portland Trail Blazers}}
+<!-- begin player list -->
+{{player2 | num = 8 | first = Deni | last = Avdija | pos = F | ft = 6 | in = 8 | lbs = 227 | from = Israel | DOB = 2001-01-03 }}
+{{player2 | num = 33 | first = Toumani | last = Camara | pos = F | ft = 6 | in = 7 | lbs = 230 | college = Dayton | DOB = 2000-05-08 }}
+{{player2 | num = 10 | first = Branden | last = Carlson | pos = C | ft = 7 | in = 0 | lbs = 220 | college = Utah | DOB = 1999-06-14 }}
+{{player2 | num = 91 | first = Sidy | last = Cissoko | pos = G | ft = 6 | in = 6 | lbs = 220 | from = France | DOB = 2004-04-02 }}
+{{player2 | num = 23 | first = Donovan | last = Clingan | pos = C | ft = 7 | in = 2 | lbs = 285 | college = Connecticut | DOB = 2004-02-23 }}
+{{player2 | num = 00 | first = Scoot | last = Henderson | pos = G | ft = 6 | in = 3 | lbs = 205 | school = [[Carlton J. Kell High School|Carlton J. Kell HS (GA)]] | DOB = 2004-02-03 }}
+{{player2 | num = 5 | first = Jrue | last = Holiday | pos = G | ft = 6 | in = 4 | lbs = 220 | college = UCLA | DOB = 1990-06-12 }}
+{{player2 | num = 29 | first = Jayson | last = Kent | pos = F | ft = 6 | in = 8 | lbs = 210 | college = Texas | DOB = 2002-02-03 | note = TW }}
+{{player2 | num = 27 | first = Vít | last = Krejčí | pos = G | ft = 6 | in = 8 | lbs = 215 | from = Czech Republic | DOB = 2000-06-19 }}
+{{player2 | num = 0 | first = Damian | last = Lillard | pos = G | ft = 6 | in = 2 | lbs = 200 | college = Weber State | DOB = 1990-07-15 }}
+{{player2 | num = 1 | first = Ja | last = Morant | pos = G | ft = 6 | in = 2 | lbs = 174 | college = Murray State | DOB = 1999-08-10 }}
+{{player2 | num = 9 | first = Micah | last = Potter | pos = FC | ft = 6 | in = 9 | lbs = 250 | college = Wisconsin | DOB = 1998-04-06 }}
+{{player2 | num = 17 | first = Shaedon | last = Sharpe | pos = G | ft = 6 | in = 5 | lbs = 210 | school = Dream City Christian (AZ) | DOB = 2003-05-30 }}
+{{player2 | num = 2 | first = John | last = Tonje | pos = G | ft = 6 | in = 4 | lbs = 223 | college = Wisconsin | DOB = 2001-04-23 | note = TW }}
+{{player2 | num = 35 | first = Robert | last = Williams III | pos = C | ft = 6 | in = 9 | lbs = 250 | college = Texas A&M | DOB = 1997-10-17 }}
+{{player2 | num = 16 | first = Hansen | last = Yang | link = Yang Hansen | pos = C | ft = 7 | in = 1 | lbs = 267 | school = Zibo No. 11 ([[China|CHN]]) | DOB = 2005-06-26 }}
+{{player2 | num = 11 | first = Chris  | last = Youngblood | pos = G | ft = 6 | in = 4 | lbs = 223 | college = Alabama | DOB = 2002-02-09 | dab = basketball | note = TW }}
+<!-- end player list -->
+{{NBA roster footer
+| head_coach = 
+* [[Micah Nori]]
+| asst_coach = 
+* [[Jay Triano]]
+* [[Quinton Crawford]]
+* Mike Williams
+* Gilbert Abraham
+* [[Leron Black]]
+| otherlegend = '''(GL)''' On [[NBA G League#Player allocations|assignment]] to G League
+| otherlegend2 = '''(TW)''' Two-way affiliate player
+| roster_url = http://www.nba.com/blazers/roster/
+| accessdate = October 17, 2026
+}}<noinclude>
+
+==See also==
+* {{tl|Portland Trail Blazers current roster}}
+* [[Portland Trail Blazers all-time roster]]
+
+[[Category:NBA roster navigational boxes]]
+[[Category:Portland Trail Blazers templates|Roster]]
+</noinclude>
+--- templates used: player2 518 | NBA roster header 30 | NBA roster footer 30 | tl 29 | PAGENAME 11 | doc 1 | ill 1 | pp-vandalism 1 | ! 1 | pp-protected 1
+
+== MLB: 12 of 12 templates found; missing: 
+--- sample Template:Tampa Bay Rays roster 3313 chars
+{{MLB roster
+|TemplateName=Tampa Bay Rays roster
+|TeamName=Tampa Bay Rays
+|MLBcomName=rays
+|Date=October 12, 2026
+|Active=26
+|Inactive=13
+|Pitchers=
+|Starters=
+{{MLBplayer|22|[[Griffin Jax]]}}
+{{MLBplayer|28|[[Nick Martinez (baseball)|Nick Martinez]]}}
+{{MLBplayer|51|[[Freddy Peralta]]}}
+{{MLBplayer|57|[[Drew Rasmussen]]}}
+{{MLBplayer|61|[[Ian Seymour]]}}
+
+|Bullpen=
+{{MLBplayer|47|[[Bryan Baker (baseball)|Bryan Baker]]}}
+{{MLBplayer|62|[[Cam Booser]]}}
+{{MLBplayer|88|[[Brody Hopkins]]}}
+{{MLBplayer|49|[[Kevin Kelly (pitcher, born 1997)|Kevin Kelly]]}}
+{{MLBplayer|32|[[Steven Matz]]}}
+{{MLBplayer|71|[[Cole Sulser]]}}
+{{MLBplayer|68|[[Tyler Wells]]}}
+
+|Closer=
+
+|Catchers=
+{{MLBplayer|40|[[Nick Fortes]]}}
+{{MLBplayer|34|[[Liam Hicks]]}}
+
+|Infielders=
+{{MLBplayer|&nbsp;8|[[Jonathan Aranda]]}}
+{{MLBplayer|13|[[Junior Caminero]]}}
+{{MLBplayer|&nbsp;9|[[Jorge Mateo]]}}
+{{MLBplayer|&nbsp;1|[[Richie Palacios]]}}
+{{MLBplayer|&nbsp;6|[[Taylor Walls]]}}
+{{MLBplayer|15|[[Ben Williamson (baseball)|Ben Williamson]]}}
+
+|Outfielders=
+{{MLBplayer|21|[[Jonny DeLuca]]}}
+{{MLBplayer|25|[[Víctor Mesa Jr.]]}}
+{{MLBplayer|31|[[Cedric Mullins]]}}
+{{MLBplayer|14|[[Chandler Simpson]]}}
+{{MLBplayer|26|[[Ryan Vilade]]}}
+
+|DH=
+{{MLBplayer|&nbsp;2|[[Yandy Díaz]]}}
+
+|InactivePitchers=
+{{MLBplayer|36|[[Joe Boyle (baseball)|Joe Boyle]]}}
+{{MLBplayer|60|[[Garrett Cleavinger]]}}
+{{MLBplayer|54|[[Alex Cook (baseball)|Alex Cook]]}}
+{{MLBplayer|59|[[Mason Englert]]}}
+{{MLBplayer|55|[[Ty Johnson (baseball)|Ty Johnson]]}}
+{{MLBplayer|67|[[Casey Legumina]]}}
+{{MLBplayer|18|[[Shane McClanahan]]|IL}}
+{{MLBplayer|39|[[Manuel Rodríguez (pitcher)|Manuel Rodríguez]]}}
+{{MLBplayer|65|[[Jesse Scholtens]]}}
+
+|InactiveCatchers=
+{{MLBplayer|50|[[Kenny Piper]]}}
+
+|InactiveInfielders=
+{{MLBplayer|45|[[Jadher Areinamo]]}}
+{{MLBplayer|20|[[Nick Madrigal]]}}
+{{MLBplayer|&nbsp;7|[[Carson Williams (baseball)|Carson Williams]]}}
+
+|InactiveOutfielders=
+
+|InactiveDH=
+
+|Manager=
+{{MLBplayer|16|[[Kevin Cash]]}}
+
+|Coaches=
+{{MLBplayer|46|Will Bradley}} {{small|(assistant hitting)}}
+{{MLBplayer|10|[[Corey Dickerson]]}} {{small|(first base)}}
+{{MLBplayer|99|Misha Dworken}} {{small|(bullpen catcher)}}
+{{MLBplayer|41|Tomas Francisco}} {{small|(field coordinator)}}
+{{MLBplayer|--|Kris Goodman}} {{small|(process and development)}}
+{{MLBplayer|52|[[Rick Knapp]]}} {{small|(assistant pitching and rehab)}}
+{{MLBplayer|27|[[Rodney Linares]]}} {{small|(bench)}}
+{{MLBplayer|33|Jorge Moncada}} {{small|(bullpen)}}
+{{MLBplayer|51|[[Chad Mottola]]}} {{small|(hitting)}}
+{{MLBplayer|23|[[Kyle Snyder (baseball)|Kyle Snyder]]}} {{small|(pitching)}}
+{{MLBplayer|30|[[Ozzie Timmons]]}} {{small|(assistant hitting)}}
+{{MLBplayer|96|[[Charlie Valerio]]}} {{small|(bullpen catcher)}}
+{{MLBplayer|&nbsp;4|[[Brady Williams]]}} {{small|(third base)}}
+
+|60DayIL=
+{{MLBplayer|68|[[Jonathan Heasley]]}}
+{{MLBplayer|11|[[Gavin Lux]]}}
+{{MLBplayer|29|[[Jacob Melton]]}}
+{{MLBplayer|44|[[Ryan Pepiot]]}}
+{{MLBplayer|63|[[Edwin Uceta]]}}
+
+|COVID=
+
+|Restricted=
+{{MLBplayer|&nbsp;5|[[Wander Franco]]}}
+
+}}<noinclude>
+{{documentation|content=
+{{ombox|text=When updating this template, please also update {{tl|Tampa Bay Rays roster navbox}}.}}
+}}
+[[Category
+--- templates used: MLBplayer 699 | small 153 | tl 10 | MLB spring training roster 10 | documentation 8 | ombox 7 | doc 4 | MLB roster 2 | Rosters within Milwaukee Brewers organization 1 | Rosters within Cleveland Guardians organization 1 | Rosters within Houston Astros organization 1
+
+== NPB: 2 of 2 templates found; missing: 
+--- sample Template:Yokohama DeNA BayStars roster 5000 chars
+{{NPB roster
+|TeamName=Yokohama DeNA BayStars
+|BC1=#00428E
+|FC1=white 
+|BC2=#0093C9
+|FC2=white 
+|Date=June 3, 2026
+
+|Pitchers=
+{{NPBplayer|11|[[Katsuki Azuma]]}} 
+{{NPBplayer|13|[[Hiromu Ise]]}} 
+{{NPBplayer|19|[[Yasuaki Yamasaki]]}}
+{{NPBplayer|20|[[Yuya Sakamoto]]}} 
+{{NPBplayer|30|[[Kentaro Shinogi]]}} 
+{{NPBplayer|36|[[Shuto Ogata]]}} 
+{{NPBplayer|39|[[Naoki Wakamatsu]]}} 
+{{NPBplayer|49|[[José Ruiz (baseball)|José Ruiz]]}}
+{{NPBplayer|54|[[Yutaro Ishida]]}} 
+{{NPBplayer|59|[[Kentarō Taira]]}} 
+{{NPBplayer|62|[[Sean Reynolds (baseball)|Sean Reynolds]]}} 
+{{NPBplayer|64|[[Koh Nakagawa]]}} 
+{{NPBplayer|65|[[Daita Miyagi]]}}  
+{{NPBplayer|68|[[Masaki Iwata]]}} 
+{{NPBplayer|92|[[Hayato Horioka]]}} 
+
+|Catchers= 
+{{NPBplayer|5|[[Shion Matsuo]]}} 
+{{NPBplayer|10|[[Yasutaka Tobashira]]}} 
+{{NPBplayer|60|[[Takeru Furuichi]]}}
+
+
+|Infielders= 
+{{NPBplayer|9|[[Yōta Kyōda]]}}
+{{NPBplayer|25|[[Yoshi Tsutsugo]]}}
+{{NPBplayer|26|[[Masaki Mimori]]}} 
+{{NPBplayer|31|[[Tatsuhiro Shibata]]}} 
+{{NPBplayer|40|[[Tomoya Inoue]]}} 
+{{NPBplayer|44|[[Taiki Ishikami]]}} 
+{{NPBplayer|51|[[Toshiro Miyazaki]]}}  
+ 
+
+
+|Outfielders=
+{{NPBplayer|4|[[Ryuki Watarai]]}}    
+{{NPBplayer|7|[[Keita Sano]]}} 
+{{NPBplayer|8|[[Kazuki Kamizato]]}}
+{{NPBplayer|28|[[Atsushi Katsumata]]}} 
+{{NPBplayer|61|[[Tatsuo Ebina]]}}
+{{NPBplayer|99|[[Cooper Hummel]]}}  
+
+|Manager=
+{{NPBplayer|81|[[Ryoji Aikawa]]}}
+
+
+|Coaches= 
+{{NPBplayer|72|[[Kenjiro Tsuruoka]]}}{{small|(Offense chief)}}
+{{NPBplayer|80|[[Ryoji Aikawa]]}}{{small|(Defense chief / Battery)}}
+{{NPBplayer|79|[[Shinji Ohara]]}}{{small|(Pitching chief)}} 
+{{NPBplayer|90|[[Iwao Ohmura]]}}{{small|(Hitting)}} 
+{{NPBplayer|97|[[Hiroyasu Tanaka]]}}{{small|(Infield / Baserunning)}}
+{{NPBplayer|74|[[Yusuke Kawada]]}} {{small|(Outfield / Baserunning)}} 
+{{NPBplayer|73|[[Kazuya Fujita]]}}{{small|(Development Coordinator / Hitting)}}
+{{NPBplayer|94|[[Yota Kosugi]]}}{{small|(Pitching)}} 
+{{NPBplayer|71|[[Ken Katoh]]}}{{small|(Battery)}}
+
+
+
+|InactivePitchers= 
+{{NPBplayer|0|[[Jon Duplantier]]}} 
+{{NPBplayer|12|[[Yu Takeda]]}} 
+{{NPBplayer|14|[[Kenta Ishida]]}} 
+{{NPBplayer|15|[[Shunya Shimada]]}} 
+{{NPBplayer|16|[[Shinichi Ohnuki]]}}  
+{{NPBplayer|18|[[Kenta Kozono]]}} 
+{{NPBplayer|22|[[Taisei Irie]]}} 
+{{NPBplayer|24|[[Teruki Yoshino]]}}  
+{{NPBplayer|27|[[Shintaro Fujinami]]}}  
+{{NPBplayer|33|[[Riku Takeda]]}} 
+{{NPBplayer|35|[[Tatsuya Hashimoto]]}}
+{{NPBplayer|38|[[Ryoto Matsumoto]]}}  
+{{NPBplayer|41|[[Chihaya Sasaki]]}}
+{{NPBplayer|42|[[Austin Cox]]}} 
+{{NPBplayer|43|[[Osuke Fukazawa]]}}
+{{NPBplayer|45|[[Kohei Morihara]]}}   
+{{NPBplayer|46|[[Kasuga Sakaguchi]]}} 
+{{NPBplayer|47|[[Hiromi Katayama]]}} 
+{{NPBplayer|53|[[Hayate Nakagawa]]}} 
+{{NPBplayer|93|[[Haruto Shoji]]}}
+{{NPBplayer|98|[[Hansel Marcelino]]}}
+
+|InactiveCatchers=  
+{{NPBplayer|32|[[Kyosuke Mashiko]]}} 
+{{NPBplayer|57|[[Junpei Azuma]]}} 
+{{NPBplayer|95|[[Ryuhei Kuki]]}}
+
+|InactiveInfielders=  
+{{NPBplayer|00|[[Takuma Hayashi]]}} 
+{{NPBplayer|2|[[Shugo Maki]]}} 
+{{NPBplayer|3|[[Koichiro Oda]]}}
+{{NPBplayer|6|[[Keito Mori]]}}  
+{{NPBplayer|34|[[Asahi Miyashita]]}}
+{{NPBplayer|37|[[Hibiki Katoh]]}} 
+{{NPBplayer|48|[[Shuto Naruse]]}}  
+{{NPBplayer|56|[[Manato Tanai]]}}
+
+
+|Inactiv
+--- templates used: NPBplayer 255 | small 55 | NPB roster 2 | {small 1 | PAGENAME 1
