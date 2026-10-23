@@ -1373,7 +1373,34 @@ export const TEAM_PAGES = {
     .map(t => [`league|w|${t}`, `${t} women's national rugby league team`])),
   ...Object.fromEntries(['England', 'France', 'Australia', 'Wales', 'Scotland', 'Ireland', 'USA', 'Spain', 'New Zealand']
     .map(t => [`league|wc|${t}`, `${t === 'USA' ? 'United States' : t} national wheelchair rugby league team`])),
+  // NBA, MLB and Japanese sides: each club's roster template, the list its own page shows (balldontlie's "LA Clippers")
+  ...Object.fromEntries(['Atlanta Hawks', 'Boston Celtics', 'Brooklyn Nets', 'Charlotte Hornets', 'Chicago Bulls', 'Cleveland Cavaliers', 'Dallas Mavericks', 'Denver Nuggets',
+    'Detroit Pistons', 'Golden State Warriors', 'Houston Rockets', 'Indiana Pacers', 'LA Clippers', 'Los Angeles Lakers', 'Memphis Grizzlies', 'Miami Heat', 'Milwaukee Bucks',
+    'Minnesota Timberwolves', 'New Orleans Pelicans', 'New York Knicks', 'Oklahoma City Thunder', 'Orlando Magic', 'Philadelphia 76ers', 'Phoenix Suns', 'Portland Trail Blazers',
+    'Sacramento Kings', 'San Antonio Spurs', 'Toronto Raptors', 'Utah Jazz', 'Washington Wizards'].map(t => [`basketball|m|${t}`, `Template:${t.replace(/^LA /, 'Los Angeles ')} roster`])),
+  ...Object.fromEntries(['Arizona Diamondbacks', 'Athletics', 'Atlanta Braves', 'Baltimore Orioles', 'Boston Red Sox', 'Chicago Cubs', 'Chicago White Sox', 'Cincinnati Reds',
+    'Cleveland Guardians', 'Colorado Rockies', 'Detroit Tigers', 'Houston Astros', 'Kansas City Royals', 'Los Angeles Angels', 'Los Angeles Dodgers', 'Miami Marlins',
+    'Milwaukee Brewers', 'Minnesota Twins', 'New York Mets', 'New York Yankees', 'Philadelphia Phillies', 'Pittsburgh Pirates', 'San Diego Padres', 'San Francisco Giants',
+    'Seattle Mariners', 'St. Louis Cardinals', 'Tampa Bay Rays', 'Texas Rangers', 'Toronto Blue Jays', 'Washington Nationals',
+    'Yomiuri Giants', 'Hanshin Tigers', 'Chunichi Dragons', 'Yokohama DeNA BayStars', 'Hiroshima Toyo Carp', 'Tokyo Yakult Swallows', 'Fukuoka SoftBank Hawks',
+    'Hokkaido Nippon-Ham Fighters', 'Chiba Lotte Marines', 'Tohoku Rakuten Golden Eagles', 'Orix Buffaloes', 'Saitama Seibu Lions'].map(t => [`baseball|m|${t}`, `Template:${t} roster`])),
 };
+// a roster template: the NBA's {{player2|first=|last=|pos=}} lines, or MLB and Japanese baseball's |Pitchers= / |Catchers=
+// groups of {{MLBplayer|8|[[Name]]}} (the active players only: not the injured list, the manager or the coaches)
+const NBA_POS = { G: 'Guard', F: 'Forward', C: 'Centre', GF: 'Guard/forward', FC: 'Forward/centre', PG: 'Point guard', SG: 'Shooting guard', SF: 'Small forward', PF: 'Power forward' };
+const BB_GROUP = { Starters: 'Pitcher', Pitchers: 'Pitcher', Bullpen: 'Pitcher', Closer: 'Closer', Catchers: 'Catcher', Infielders: 'Infielder', Outfielders: 'Outfielder', DH: 'Designated hitter' };
+function rosterTemplate(text) {
+  if (/\{\{\s*NBA roster header/i.test(text)) return sqTemplates(text, 'player2').map(a => { const n = `${clean(a.first || '')} ${clean(a.last || '')}`.trim();
+    return sqPlayer({ n, w: a.link || (a.dab ? `${n} (${a.dab})` : '') }, NBA_POS[String(a.pos || '').toUpperCase()] || a.pos || ''); });
+  if (!/\{\{\s*(MLB|NPB) roster\s*\|/i.test(text)) return [];
+  const out = []; let group = null;
+  for (const line of text.split('\n')) {
+    const g = line.match(/^\s*\|\s*(\w+)\s*=/); if (g) group = BB_GROUP[g[1]] ?? null;
+    if (group == null) continue;
+    for (const a of [...sqTemplates(line, 'MLBplayer'), ...sqTemplates(line, 'NPBplayer')]) out.push(sqPlayer(sqLink(a[2]), group));
+  }
+  return out;
+}
 const sqTplArgs = t => { const a = {}, pos = []; let depth = 0, cur = '';
   for (const ch of t) { if (ch === '{' || ch === '[') depth++; if (ch === '}' || ch === ']') depth--; if (ch === '|' && depth === 0) { pos.push(cur); cur = ''; } else cur += ch; }
   pos.push(cur);
@@ -1394,6 +1421,8 @@ function squadSection(text) {
   return end < 0 ? rest : rest.slice(0, end);
 }
 export function readSquad(text) {
+  const tpl = rosterTemplate(text).filter(Boolean);
+  if (tpl.length) return tpl;
   const out = readSquadIn(squadSection(text));
   if (out.length >= 8) return out;
   // some national sides keep their squad under a plain "Players" heading
