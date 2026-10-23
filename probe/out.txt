@@ -1,25 +1,33 @@
-version 434, generated 2026-10-23T09:07:12.762Z
-form: 185 sides with a form guide; 255 sides' results kept; 59 of last season's games read, 8 earlier rounds' games
-ufcVideos: 50 recent UFC videos known; 9 fight-week videos on 1 of 3 events
-tsdb backfill A-League Men: "4 rounds still to ask"
-tsdb backfill Premier League: "5 rounds still to ask"
-tsdb backfill Constellation Cup: "0 rounds still to ask"
-WXV games: 15; 10-17T02:05 Black Ferns v France final; 10-24T02:05 Black Ferns v France upcoming; 10-31T06:10 Black Ferns v France upcoming; 10-04T11:00 Spain Women v South Africa Women final; 10-16T23:00 Canada Women v England Women final; 10-23T23:00 Canada Women v England Women upcoming; 10-30T21:15 USA Women v England Women upcoming; 10-17T02:00 Australia Women v Scotland Women final; 10-23T08:30 Australia Women v Scotland Women upcoming; 10-17T22:00 USA Women v Italy Women final; 10-24T20:15 USA Women v Italy Women upcoming; 10-24T13:00 South Africa Women v Ireland Women upcoming; 10-31T13:00 South Africa Women v Ireland Women upcoming; 10-24T05:00 Japan Women v Wales Women upcoming; 10-31T07:00 Japan Women v Wales Women upcoming
-tri-series: 10-18 Pakistan v Sri Lanka final; 10-20 Pakistan v England final; 10-22 England v Sri Lanka final; 10-25 Pakistan v Sri Lanka upcoming; 10-27 Pakistan v England upcoming; 10-29 England v Sri Lanka upcoming; 10-31 1st placed team v 2nd placed team upcoming
-buildup UFC 333: Countdown: Yan vs Dvalishvili 3 · Fight promo · Embedded 1 · Embedded 2 · Embedded 3 · Press conference · Embedded 4 · Ceremonial weigh-ins · Free fight marathon
-rugby|All Blacks: 10 · 2026-09-12 L South Africa, 2026-10-10 W Wallabies, 2026-10-17 W Wallabies
-rugby|Black Ferns|w: 7 · 2026-09-19 W Scotland, 2026-09-26 L England, 2026-10-17 W France
-football|Wellington Phoenix: 2 · 2026-04-24 L Macarthur FC, 2026-10-18 W Melbourne Victory
-football|Auckland FC: 6 · 2026-05-15 W Adelaide United, 2026-05-23 W Sydney FC, 2026-10-17 W Melbourne City
-football|Arsenal: 2 · 2026-10-10 W Leeds United, 2026-10-18 W Nottingham Forest
-netball|New Zealand|w: 9 · 2025-10-29 W Australia, 2026-10-18 W Australia, 2026-10-21 W Australia
-basketball|New Zealand Breakers: 10 · 2026-10-10 L Perth Wildcats, 2026-10-14 W Sydney Kings, 2026-10-18 L Tasmania JackJumpers
-cricket|Sydney Sixers|w: 10 · 2025-12-04 L Melbourne Renegades, 2025-12-06 W Adelaide Strikers, 2025-12-11 L Perth Scorchers
-form 97971 bytes, feed 1368278
-domestic pages: 2026–27 Plunket Shield season: 0; 2026–27 Ford Trophy: 0; Super Smash (men's cricket): 0; 2026–27 Hallyburton Johnstone Shield: 0; Super Smash (women's cricket): 0; 2025–26 Plunket Shield season: 24; 2025–26 Ford Trophy: 32; 2025–26 Super Smash (men's cricket): 32; 2025–26 Hallyburton Johnstone Shield: 31; 2025–26 Super Smash (women's cricket): 32
-formPrev: 2025–26 Plunket Shield season: 24 games; 2025–26 Ford Trophy: 32 games; 2025–26 Super Smash (men's cricket): 32 games; 2025–26 Hallyburton Johnstone Shield: 31 games; 2025–26 Super Smash (women's cricket): 32 games
-names: Auckland, Central Districts, Otago, Wellington, Northern Districts, Canterbury, Auckland Aces, Northern Brave, Central Stags, Wellington Firebirds, Canterbury Kings, Otago Volts, Northern Districts Women, Wellington Blaze Women, Canterbury Magicians Women, Central Hinds Women, Auckland Hearts Women, Otago Sparks Women, Northern Brave Women
-  2026-01-24 Super Smash Northern Brave Women v Canterbury Magicians Women | Northern Brave won by 48 runs
-  2026-01-25 Super Smash Central Hinds Women v Auckland Hearts Women | Auckland Hearts won by 8 wickets (DLS method)
-  2026-01-30 Super Smash Northern Brave Women v Auckland Hearts Women | Auckland Hearts won by 8 wickets
-  2026-01-31 Super Smash Auckland Hearts Women v Wellington Blaze Women | Wellington Blaze won by 5 wickets
+generated undefined
+2026-10-18T08:00:00.000Z | intlcricket | Pakistan ODI Tri-Series | Pakistan | v | Sri Lanka | final |  | -
+2026-10-20T08:00:00.000Z | intlcricket | Pakistan ODI Tri-Series | Pakistan | v | England | final |  | -
+2026-10-22T08:00:00.000Z | intlcricket | Pakistan ODI Tri-Series | England | v | Sri Lanka | final |  | -
+2026-10-25T08:00:00.000Z | intlcricket | Pakistan ODI Tri-Series | Pakistan | v | Sri Lanka | upcoming |  | -
+2026-10-27T08:00:00.000Z | intlcricket | Pakistan ODI Tri-Series | Pakistan | v | England | upcoming |  | -
+2026-10-29T08:00:00.000Z | intlcricket | Pakistan ODI Tri-Series | England | v | Sri Lanka | upcoming |  | -
+2026-10-31T08:00:00.000Z | intlcricket | Pakistan ODI Tri-Series | 1st placed team | v | 2nd placed team | upcoming |  | -
+2026-10-25T07:00:00.000Z | intlcricket | United Arab Emirates Tri-Nation Series | United Arab Emirates | v | Netherlands | upcoming |  | -
+2026-10-27T07:00:00.000Z | intlcricket | United Arab Emirates Tri-Nation Series | Netherlands | v | OMA | upcoming |  | -
+2026-10-29T07:00:00.000Z | intlcricket | United Arab Emirates Tri-Nation Series | United Arab Emirates | v | OMA | upcoming |  | -
+2026-10-31T07:00:00.000Z | intlcricket | United Arab Emirates Tri-Nation Series | United Arab Emirates | v | Netherlands | upcoming |  | -
+2026-11-02T07:00:00.000Z | intlcricket | United Arab Emirates Tri-Nation Series | Netherlands | v | OMA | upcoming |  | -
+2026-11-04T07:00:00.000Z | intlcricket | United Arab Emirates Tri-Nation Series | United Arab Emirates | v | OMA | upcoming |  | -
+key generatedAt string
+key site object
+key diag object
+key events 939
+key form object
+key news 176
+key tables 65
+key rankings 45
+key stateSquads 6
+key teamSquads 154
+key teamLinks object
+key coverage object
+key sources 21
+SCOT | France | Scotland |  | 
+SCOT | Australia | Scotland |  | 
+SCOT | Scotland | All Blacks |  | 
+SCOT | Australia Women | Scotland Women |  | https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Scottish_rugby_textlogo.svg/250px-Scottish_rugby_textlogo.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail
+SCOT | Australia Women | Scotland Women |  | https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Scottish_rugby_textlogo.svg/250px-Scottish_rugby_textlogo.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail
+SCOT | Scotland | New Zealand |  | 
