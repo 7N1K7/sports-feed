@@ -1372,8 +1372,10 @@ export const TEAM_PAGES = {
     .map(t => [`league|m|${t}`, `${t} national rugby league team`])),
   ...Object.fromEntries(['Australia', 'New Zealand', 'England', 'Papua New Guinea', 'Samoa', 'Cook Islands', 'Fiji', 'France', 'Tonga', 'Wales']
     .map(t => [`league|w|${t}`, `${t} women's national rugby league team`])),
-  ...Object.fromEntries(['England', 'France', 'Australia', 'Wales', 'Scotland', 'Ireland', 'USA', 'Spain', 'New Zealand']
-    .map(t => [`league|wc|${t}`, `${t === 'USA' ? 'United States' : t} national wheelchair rugby league team`])),
+  // (the wheelchair World Cup's squads are on its own page, side by side: Page#Side reads that side's part)
+  ...Object.fromEntries(['England', 'France', 'Australia', 'Wales', 'Scotland', 'Ireland', 'USA', 'New Zealand']
+    .map(t => [`league|wc|${t}`, `2026 Wheelchair Rugby League World Cup#${t === 'USA' ? 'United States' : t}`])),
+  'league|wc|Spain': 'Spain national wheelchair rugby league team',
   // NBA, MLB and Japanese sides: each club's roster template, the list its own page shows (balldontlie's "LA Clippers")
   ...Object.fromEntries(['Atlanta Hawks', 'Boston Celtics', 'Brooklyn Nets', 'Charlotte Hornets', 'Chicago Bulls', 'Cleveland Cavaliers', 'Dallas Mavericks', 'Denver Nuggets',
     'Detroit Pistons', 'Golden State Warriors', 'Houston Rockets', 'Indiana Pacers', 'LA Clippers', 'Los Angeles Lakers', 'Memphis Grizzlies', 'Miami Heat', 'Milwaukee Bucks',
@@ -1454,12 +1456,20 @@ function readSquadIn(sec) {
   if (!out.length) out = sec.split('\n').filter(l => /^\*\s*\S/.test(l)).map(l => sqPlayer(sqLink(l.replace(/^\*\s*/, '')), '')); // a plain list
   return out.filter(Boolean).filter(p => p.n && !/^\{\{/.test(p.n));
 }
+// one side's part of a tournament's page, under its own heading (=== France ===) or its own ;France line
+function sideSection(text, side) {
+  const esc = side.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const m = text.match(new RegExp(`^(?:(=+)\\s*${esc}\\s*\\1|;\\s*${esc}\\b[^\\n]*)\\s*$`, 'm'));
+  if (!m) return '';
+  const rest = text.slice(m.index + m[0].length), end = rest.search(/^(=+[^=\n]+=+\s*$|;)/m);
+  return '==Squad==\n' + (end < 0 ? rest : rest.slice(0, end));
+}
 // the pages of the sides given (sport|gender|name keys), in requests of 50
 export async function teamSquads(keys, diag) {
   const want = keys.filter(k => TEAM_PAGES[k]), out = [];
   try {
     for (let i = 0; i < want.length; i += 50) {
-      const part = want.slice(i, i + 50), titles = [...new Set(part.map(k => TEAM_PAGES[k]))], text = {};
+      const part = want.slice(i, i + 50), titles = [...new Set(part.map(k => TEAM_PAGES[k].split('#')[0]))], text = {};
       // a batch of big pages comes back in parts (the rest after "continue"), so ask until it's all in
       for (let cont = {}, n = 0; cont && n < 10; n++) {
         const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(titles.join('|'))
@@ -1471,7 +1481,7 @@ export async function teamSquads(keys, diag) {
         cont = j.continue?.rvcontinue ? j.continue : null;
       }
       for (const k of part) {
-        const players = readSquad(text[TEAM_PAGES[k]] || ''), [sport, g, team] = k.split('|');
+        const [page, side] = TEAM_PAGES[k].split('#'), players = readSquad(side ? sideSection(text[page] || '', side) : text[page] || ''), [sport, g, team] = k.split('|');
         // a table read in the wrong column gives the same name over and over (a club, not players): not a squad
         if (players.length >= 8 && new Set(players.map(p => p.n)).size >= players.length * 0.8) out.push({ sport, g, team, players });
       }
