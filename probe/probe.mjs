@@ -1,28 +1,33 @@
-// probe 121: does the balldontlie key work (never print it): NBA and MLB games, free-tier limits
-const KEY = process.env.BALLDONTLIE_KEY || '';
-const red = s => KEY ? String(s).split(KEY).join('***') : String(s);
-console.log('key present:', !!KEY, 'length:', KEY.length);
-const get = async path => {
-  const r = await fetch('https://api.balldontlie.io' + path, { headers: { Authorization: KEY } });
-  const lim = ['x-ratelimit-limit', 'x-ratelimit-remaining', 'retry-after'].map(h => `${h}=${r.headers.get(h)}`).join(' ');
-  const t = await r.text(); let j = null; try { j = JSON.parse(t); } catch {}
-  return { status: r.status, lim, j, t };
-};
-for (const [label, path] of [
-  ['NBA games 23-24 Oct', '/v1/games?dates[]=2026-10-22&dates[]=2026-10-23&per_page=100'],
-  ['NBA season 2026 page 1', '/v1/games?seasons[]=2026&per_page=100'],
-  ['NBA teams', '/v1/teams'],
-  ['MLB games World Series dates', '/mlb/v1/games?dates[]=2026-10-23&dates[]=2026-10-24&per_page=100'],
-  ['MLB teams', '/mlb/v1/teams'],
-]) {
+// probe 122: the live feed's baseball and NBA (diag and counts), and free news feeds for the NBA, MLB and Japanese baseball
+const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
+try {
+  const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
+  console.log('generated', f.generated, 'version', f.version);
+  console.log('diag.baseball:', JSON.stringify(f.diag?.baseball));
+  console.log('diag.nba:', JSON.stringify(f.diag?.nba));
+  for (const t of ['mlb', 'npb', 'nba']) {
+    const ev = f.events.filter(e => e.team === t);
+    console.log(`== ${t}: ${ev.length} events`);
+    for (const e of ev.slice(0, 40)) console.log(' ', e.startUTC, e.status, e.timeTBC ? 'TBC' : '', e.comp, '|', e.stage || '', '|', e.away, '@', e.home, '|', e.city, e.tz);
+  }
+  for (const t of (f.tables || []).filter(t => /MLB|Japan|NBA/.test(t.comp))) console.log('table', t.comp, '|', t.title, '|', t.rows?.length, 'rows; top', t.rows?.[0]?.team, JSON.stringify(t.rows?.[0]).slice(0, 160));
+} catch (e) { console.log('feed error', e.message); }
+const FEEDS = [
+  'https://www.sbnation.com/rss/nba/index.xml', 'https://www.sbnation.com/rss/mlb/index.xml',
+  'https://feeds.bbci.co.uk/sport/basketball/rss.xml', 'https://feeds.bbci.co.uk/sport/basketball/nba/rss.xml', 'https://feeds.bbci.co.uk/sport/baseball/rss.xml',
+  'https://www.theguardian.com/sport/nba/rss', 'https://www.theguardian.com/sport/mlb/rss', 'https://www.theguardian.com/sport/baseball/rss',
+  'https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/sport/basketball/?outputType=xml&_website=nzh',
+  'https://www.japantimes.co.jp/sports/baseball/feed/', 'https://www.yakyucosmo.com/feed/', 'https://npbreport.com/feed/', 'https://www.npbtracker.com/feed/',
+  'https://www.mlb.com/feeds/news/rss.xml', 'https://www.cbssports.com/rss/headlines/nba/', 'https://www.cbssports.com/rss/headlines/mlb/',
+];
+for (const u of FEEDS) {
   try {
-    const { status, lim, j, t } = await get(path);
-    console.log(`== ${label}: ${status} ${lim}`);
-    if (!j) { console.log(red(t.slice(0, 200))); continue; }
-    const d = j.data || [];
-    console.log('rows', d.length, 'meta', JSON.stringify(j.meta || {}));
-    for (const g of d.slice(0, 4)) console.log(red(JSON.stringify(g).slice(0, 500)));
-    if (!d.length) console.log(red(t.slice(0, 300)));
-  } catch (e) { console.log(`== ${label}: error ${red(e.message)}`); }
-  await new Promise(r => setTimeout(r, 13000));
+    const r = await fetch(u, { headers: UA, signal: AbortSignal.timeout(12000) });
+    const x = await r.text();
+    const items = [...x.matchAll(/<(item|entry)>([\s\S]*?)<\/\1>/g)];
+    const t = items.slice(0, 4).map(m => ((m[2].match(/<title[^>]*>([\s\S]*?)<\/title>/) || [])[1] || '').replace(/<!\[CDATA\[|\]\]>/g, '').trim() + ' @ ' + ((m[2].match(/<(pubDate|published|updated)>([^<]+)/) || [])[2] || ''));
+    const rights = (x.match(/<(copyright|rights)[^>]*>([\s\S]*?)<\/\1>/) || [])[2] || '';
+    console.log(`== ${u}: ${r.status} ${items.length} items${rights ? ' rights: ' + rights.slice(0, 150) : ''}`);
+    for (const s of t) console.log('   ', s.slice(0, 160));
+  } catch (e) { console.log(`== ${u}: error ${e.message}`); }
 }
