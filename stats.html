@@ -246,7 +246,8 @@ th { color: var(--muted); font-weight: 600 }
       <section class="card"><h2>Teams dropped</h2><div class="bars" id="unfollow"></div><p class="note">Teams turned off in My teams.</p></section>
       <section class="card"><h2>Sports hidden</h2><div class="bars" id="hidesport"></div><p class="note">Taps on Hide sport in My teams, by sport (Fighting counts as MMA), from 24 Oct 2026. Sports followed shows how many visitors have each sport on.</p></section>
       <section class="card"><h2>Sports shown again</h2><div class="bars" id="showsport"></div><p class="note">Taps on Show sport, bringing a hidden sport back, from 24 Oct 2026.</p></section>
-      <section class="card"><h2>Parts of the site used</h2><div class="bars" id="use"></div><p class="note">Taps on each part, all visitors together.</p></section>
+      <section class="card"><h2>Parts of the site used</h2><div class="bars" id="use"></div><p class="note">Taps on each part, all visitors together, every one listed. Most buttons are counted from 24 Oct 2026.</p></section>
+      <section class="card"><h2>Links out</h2><div class="bars" id="outlink"></div><p class="note">Taps on links to other sites (where to watch, live scores, news, highlights, Wikipedia), by site, from 24 Oct 2026.</p></section>
       <section class="card"><h2>Spoilers</h2><div class="bars" id="spoil"></div><p class="note">Visitors, by whether they keep results hidden (counted once a day each).</p></section>
       <section class="card"><h2>Card size</h2><div class="bars" id="view"></div><p class="note">Visitors, by the card size they use.</p></section>
       <section class="card"><h2>Theme colour</h2><div class="bars" id="theme"></div><p class="note">Visitors, by the colour theme they picked.</p></section>
@@ -642,7 +643,10 @@ function draw() {
   if (total(sums.hidesport)) setUse['Hide sport'] = (setUse['Hide sport'] || 0) + total(sums.hidesport);
   if (total(sums.showsport)) setUse['Show sport'] = (setUse['Show sport'] || 0) + total(sums.showsport);
   bars('setuse', setUse, k => SETTINGS_LABEL[k] || k, Object.entries(setUse).sort((a, b) => b[1] - a[1]).map(([k]) => k));
-  bars('use', Object.fromEntries(Object.entries(sums.use || {}).filter(([k]) => !SETTINGS_USE.has(k))), k => k);
+  const siteUse = Object.fromEntries(Object.entries(sums.use || {}).filter(([k]) => !SETTINGS_USE.has(k)));
+  bars('use', siteUse, k => k, Object.entries(siteUse).sort((a, b) => b[1] - a[1]).map(([k]) => k));
+  const outTop = Object.entries(sums.outlink || {}).sort((a, b) => b[1] - a[1]).slice(0, 25); // the 25 most followed sites
+  bars('outlink', Object.fromEntries(outTop), k => k, outTop.map(([k]) => k));
   bars('spoil', sums.spoil, k => ({ hidden: 'Results hidden', shown: 'Results shown' })[k] || k);
   bars('view', sums.view, k => ({ big: 'Large', mixed: 'Standard', compact: 'Compact' })[k] || k);
   bars('theme', sums.theme, k => ({ green: 'Kiwi green', ocean: 'Ocean blue', red: 'Pōhutukawa red', black: 'All Black', kowhai: 'Kōwhai gold', paua: 'Pāua teal', purple: 'Twilight purple', orange: 'Sunset orange', lime: 'Kawakawa lime', pink: 'Rātā pink', kauri: 'Kauri brown', silver: 'Silver fern', tui: 'Tūī indigo', navy: 'Moana navy', olive: 'Harakeke olive' })[k] || k);

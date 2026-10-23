@@ -1490,6 +1490,7 @@ const tzLabel = () => (TZ_LIST.find(([z]) => z === NZ) || [, tzPick === 'device'
 // cookies and nothing personal. Off on test copies of the site and on a browser whose owner turned it off on the stats
 // page.
 const STATS_API = 'https://kickoff-api.kickoffkiwi.workers.dev';
+const use = k => count({ e: 'use', k }); // a tap on a part of the site, by the name the stats page lists it under
 const count = (msg = {}) => {
   if (!STATS_API || !/^(www\.)?kickoff\.kiwi$/.test(location.hostname)) return;
   try { if (localStorage.getItem('sf.nocount') === 'true') return; navigator.sendBeacon(STATS_API + '/hit', JSON.stringify({ app: matchMedia('(display-mode: standalone)').matches || navigator.standalone === true ? 1 : 0, ...msg })); } catch {}
@@ -3560,7 +3561,7 @@ function syncInfo() {
 document.addEventListener('click', ev => {
   // the logo and name go back to the main page: out of any competition page, results back to the newest, to the top
   if (ev.target.closest('#home')) {
-    ev.preventDefault(); if ($('sheet').open) $('sheet').close();
+    ev.preventDefault(); use('Logo to the top'); if ($('sheet').open) $('sheet').close();
     // only redraw when there's a competition or page to reset; just going back to the top is then instant
     const reset = compSel || hubTab !== 'games' || resPage || laterPage;
     $('q').value = ''; closeSearch(); compSel = ''; store.set('comp', ''); hubTab = 'games'; resPage = 0; laterPage = 0;
@@ -3572,6 +3573,9 @@ document.addEventListener('click', ev => {
   // which ways to watch people tap (the services, and the live scores link): just the service's name
   const svc = ev.target.closest('a.svc, a.livelink, a.fta[data-watch]');
   if (svc && (svc.classList.contains('livelink') || svc.dataset.watch || SERVICES[svc.textContent.trim()])) count({ e: 'watch', k: svc.classList.contains('livelink') ? 'Live scores link' : svc.dataset.watch || svc.textContent.trim() });
+  // where people go from the site: any link out, by its site's name ("youtube.com", "en.wikipedia.org")
+  const out = ev.target.closest('a[href^="http"]');
+  if (out) { try { const h = new URL(out.href).hostname.replace(/^www\./, ''); if (!/(^|\.)kickoff\.kiwi$/.test(h)) count({ e: 'out', k: h }); } catch {} }
   if (ev.target.closest('a')) return;
   // with a mouse, a week dot opens its game (anywhere else on the day opens the day); a finger is too broad for a dot,
   // so a tap opens the day
@@ -3580,9 +3584,9 @@ document.addEventListener('click', ev => {
   const t = ev.target.closest('button');
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) { if (card.closest('#soon')) count({ e: 'use', k: 'Starting soon card' }); openDetail(card.dataset.open); } else if (ev.target === $('sheet')) $('sheet').close(); return; }
   if (t.id === 'sheetClose') { $('sheet').close(); return; }
-  if (t.dataset.sback) { const prev = sheetTrail.pop(); if (prev) { dTab = prev.tab; dTabId = prev.id; openDetail(prev.id, false, true); } return; }
-  if (t.dataset.teampage) { closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport, t.classList.contains('rteam') ? $('sheet').dataset.rankings : ''); return; }
-  if (t.dataset.goto) { const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
+  if (t.dataset.sback) { use('Back in a pop-up'); const prev = sheetTrail.pop(); if (prev) { dTab = prev.tab; dTabId = prev.id; openDetail(prev.id, false, true); } return; }
+  if (t.dataset.teampage) { if (!t.classList.contains('back')) use(t.classList.contains('qi') ? 'Search result team' : t.classList.contains('rteam') ? 'Team from rankings' : t.closest('.formrows') ? 'Team from form' : t.closest('.stable') ? 'Team from a table' : 'Team from a game'); closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport, t.classList.contains('rteam') ? $('sheet').dataset.rankings : ''); return; }
+  if (t.dataset.goto) { use(t.classList.contains('qi') ? 'Search result game' : t.classList.contains('pbox2') ? 'Playoff bracket game' : 'Game from a team page'); const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
   if (t.id === 'toResults' || t.id === 'toNews' || t.id === 'toEvents') {
     count({ e: 'use', k: { toEvents: 'Events button', toResults: 'Results button', toNews: 'News button' }[t.id] });
     const el = t.id === 'toEvents' ? ($('runSec').hidden ? $('bigSec') : $('runSec')) : $(t.id === 'toNews' ? 'newsSec' : 'resSec'), off = () => el.getBoundingClientRect().top - document.querySelector('header.top').offsetHeight - 10;
@@ -3597,7 +3601,7 @@ document.addEventListener('click', ev => {
   }
   if (t.id === 'copySettings') { count({ e: 'use', k: 'Settings code copied' }); const c = settingsCode(); (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { $('moveNote').textContent = 'Copied. Paste it into the box on the other browser, then tap "Use these settings".'; }, () => prompt('Copy this code', c)); return; }
   if (t.id === 'loadSettings') { try { useSettingsCode($('settingsCode').value); count({ e: 'use', k: 'Settings code used' }); location.reload(); } catch { $('moveNote').textContent = "That doesn't look like a settings code. Copy it again from the other browser, the whole thing."; } return; }
-  if (t.dataset.install) { if (installEvt) installEvt.prompt().then(() => installEvt.userChoice).then(() => { installEvt = null; $('appInstall').innerHTML = appHtml(); }); return; }
+  if (t.dataset.install) { use('Install app button'); if (installEvt) installEvt.prompt().then(() => installEvt.userChoice).then(() => { installEvt = null; $('appInstall').innerHTML = appHtml(); }); return; }
   if (t.dataset.calcopy) { count({ e: t.closest('#alertList') ? 'alerts' : 'cal' }); const u = t.dataset.calcopy; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { const was = t.textContent; t.textContent = 'Copied'; setTimeout(() => { t.textContent = was; }, 1600); }, () => prompt('Copy this', u)); return; }
   if (t.classList.contains('ghide')) {
     const keys = t.dataset.gsports.split(' ').flatMap(sp => SPORT[sp] || []), on = keys.some(k => picked.has(k));
@@ -3616,21 +3620,21 @@ document.addEventListener('click', ev => {
     if (on) ks.forEach(k => picked.delete(k)); else ks.filter(k => !OPT_IN.has(k)).forEach(k => picked.add(k));
     count({ e: 'use', k: `${t.dataset.gsw === 'w' ? "Women's" : "Men's"} teams ${on ? 'off' : 'on'}` }); store.set('teams', [...picked]); render(); return; }
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); count({ e: picked.has(k) ? 'follow' : 'unfollow', k: TEAM_NAME[k] || k }); store.set('teams', [...picked]); render(); }
-  else if (t.dataset.hideall) { ev.stopPropagation(); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
+  else if (t.dataset.hideall) { ev.stopPropagation(); use('Hide all results again'); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.revealall) { ev.stopPropagation(); count({ e: 'use', k: 'Show all results' }); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.reveal) { ev.stopPropagation(); count({ e: 'reveal' }); revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
-  else if (t.dataset.rehide) { ev.stopPropagation(); revealed.delete(t.dataset.rehide); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
-  else if (t.dataset.gender) { genderSel = t.dataset.gender; store.set('gender', genderSel); render(); }
+  else if (t.dataset.rehide) { ev.stopPropagation(); use('Hide a result again'); revealed.delete(t.dataset.rehide); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
+  else if (t.dataset.gender) { if (t.dataset.gender !== genderSel) use({ all: "Men's and women's", m: "Men's only", w: "Women's only" }[t.dataset.gender]); genderSel = t.dataset.gender; store.set('gender', genderSel); render(); }
   else if (t.dataset.sport) {
-    compSel = ''; const k = t.dataset.sport; k === 'all' ? sportSel.clear() : sportSel.has(k) ? sportSel.delete(k) : (sportSel.add(k), count({ e: 'sport', k })); store.set('sport', [...sportSel]);
+    compSel = ''; const k = t.dataset.sport; k === 'all' ? (sportSel.size && use('All sports button'), sportSel.clear()) : sportSel.has(k) ? (use('Sport button off'), sportSel.delete(k)) : (sportSel.add(k), count({ e: 'sport', k })); store.set('sport', [...sportSel]);
     // a sport picked on its own that is just one competition (F1, the UFC) opens that competition's own page, as
     // picking it from All competitions does; a second sport goes back to the plain feed
     const only = sportSel.size === 1 ? compsOfSport([...sportSel][0]) : [];
     if (only.length === 1) { compSel = only[0]; hubTab = 'games'; }
     store.set('comp', compSel); render();
   }
-  else if (t.dataset.kind) { newsKind = t.dataset.kind; newsPage = 0; render(); }
-  else if (t.dataset.newspage != null) { newsPage = Math.max(0, +t.dataset.newspage); render(); toSec(compSel && hubTab === 'news' ? 'hubSec' : 'newsSec'); }
+  else if (t.dataset.kind) { if (t.dataset.kind !== newsKind) use(`News filter ${t.textContent.trim()}`); newsKind = t.dataset.kind; newsPage = 0; render(); }
+  else if (t.dataset.newspage != null) { use('News page turned'); newsPage = Math.max(0, +t.dataset.newspage); render(); toSec(compSel && hubTab === 'news' ? 'hubSec' : 'newsSec'); }
   else if (t.dataset.jump) { if (!t.classList.contains('dayclose')) count({ e: 'use', k: 'Day in the week strip' }); selDay = selDay === t.dataset.jump || t.dataset.jump === dayKey(new Date()) ? '' : t.dataset.jump; drawDayPick(); }
   else if (t.dataset.bigcomp) {
     const again = compSel === t.dataset.bigcomp && t.classList.contains('nowchip');
@@ -3639,10 +3643,10 @@ document.addEventListener('click', ev => {
     if (!t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; if (hubTab !== 'games') count({ e: 'use', k: `Competition ${t.textContent.trim()} tab` }); render(); }
-  else if (t.dataset.dtab) { if (t.dataset.dtab === 'results') count({ e: 'use', k: 'Results tab in a game' }); dTab = t.dataset.dtab; $('sheetBody').classList.toggle('on-results', dTab === 'results'); t.parentNode.querySelectorAll('[data-dtab]').forEach(b => b.setAttribute('aria-selected', b === t)); }
-  else if (t.dataset.rank) { rankSel = t.dataset.rank; if ($('sheet').open && $('sheet').dataset.rankings) openRankings($('sheet').dataset.rankings); else render(); }
-  else if (t.dataset.rankings) { rankSel = ''; openRankings(t.dataset.rankings); }
-  else if (t.dataset.rankback) openRankings(t.dataset.rankback);
+  else if (t.dataset.dtab) { if (t.dataset.dtab !== dTab) use(t.dataset.dtab === 'results' ? 'Results tab in a game' : 'Game tab in a game'); dTab = t.dataset.dtab; $('sheetBody').classList.toggle('on-results', dTab === 'results'); t.parentNode.querySelectorAll('[data-dtab]').forEach(b => b.setAttribute('aria-selected', b === t)); }
+  else if (t.dataset.rank) { use('Rankings list button'); rankSel = t.dataset.rank; if ($('sheet').open && $('sheet').dataset.rankings) openRankings($('sheet').dataset.rankings); else render(); }
+  else if (t.dataset.rankings) { use('Rankings sport button'); rankSel = ''; openRankings(t.dataset.rankings); }
+  else if (t.dataset.rankback) { use('Rankings back'); openRankings(t.dataset.rankback); }
   else if (t.id === 'rankBtn') {
     count({ e: 'rankings' });
     // the picked sport if it has rankings, else the first sport in the row that has some
@@ -3651,14 +3655,14 @@ document.addEventListener('click', ev => {
     const k = [...sportSel].find(have) || (have(cs) ? cs : '') || rankSports()[0];
     rankSel = ''; if (k) openRankings(k);
   }
-  else if (t.dataset.respage != null) { resPage = Math.max(0, +t.dataset.respage); render(); toSec('resSec'); }
-  else if (t.id === 'hubClose') { compSel = ''; store.set('comp', ''); hubTab = 'games'; render(); }
-  else if (t.id === 'toTop') { scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
-  else if (t.dataset.laterpage != null) { laterPage = Math.max(0, +t.dataset.laterpage); render(); toSec('laterSec'); }
-  else if (t.dataset.bigpage != null) { bigPage = Math.max(0, +t.dataset.bigpage); render(); }
-  else if (t.dataset.runpage != null) { runPage = Math.max(0, +t.dataset.runpage); render(); }
+  else if (t.dataset.respage != null) { use('Results page turned'); resPage = Math.max(0, +t.dataset.respage); render(); toSec('resSec'); }
+  else if (t.id === 'hubClose') { use('Competition page closed'); compSel = ''; store.set('comp', ''); hubTab = 'games'; render(); }
+  else if (t.id === 'toTop') { use('Back to top button'); scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
+  else if (t.dataset.laterpage != null) { use('Later page turned'); laterPage = Math.max(0, +t.dataset.laterpage); render(); toSec('laterSec'); }
+  else if (t.dataset.bigpage != null) { use('Events ahead page turned'); bigPage = Math.max(0, +t.dataset.bigpage); render(); }
+  else if (t.dataset.runpage != null) { use('Running now page turned'); runPage = Math.max(0, +t.dataset.runpage); render(); }
   else if (t.dataset.view) { if (t.dataset.view !== view) count({ e: 'use', k: `Card size ${t.textContent.trim()}` }); view = t.dataset.view; store.set('view', view); render(); }
-  else if (t.id === 'nowMore' || t.id === 'nowBack') { const c = $('nowChips'); c.scrollBy({ left: c.clientWidth * (t.id === 'nowBack' ? -0.7 : 0.7), behavior: 'smooth' }); }
+  else if (t.id === 'nowMore' || t.id === 'nowBack') { use('Series row arrow'); const c = $('nowChips'); c.scrollBy({ left: c.clientWidth * (t.id === 'nowBack' ? -0.7 : 0.7), behavior: 'smooth' }); }
   else if (t.id === 'spoilBtn') { count({ e: 'use', k: 'Spoiler eye' }); spoilers = !spoilers; store.set('spoilers', spoilers); if (spoilers && !spoilDays) { spoilDays = 3; store.set('spoilDays', 3); } render(); }
   else if (t.id === 'panelClose') closeSettings();
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); if (!p.hidden) count({ e: 'use', k: 'Settings' }); }
@@ -3704,7 +3708,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.q
 function closeComp() { $('compMenu').hidden = true; $('compSel').setAttribute('aria-expanded', 'false'); }
 // the menu runs down to just above the bottom of the window, so bigger windows show more of it
 const fitComp = () => { const m = $('compMenu'); if (!m.hidden) m.style.maxHeight = Math.max(220, innerHeight - $('compSel').getBoundingClientRect().bottom - 24) + 'px'; };
-$('compSel').addEventListener('click', ev => { ev.stopPropagation(); const open = $('compMenu').hidden; $('compMenu').hidden = !open; $('compSel').setAttribute('aria-expanded', String(open)); fitComp(); });
+$('compSel').addEventListener('click', ev => { ev.stopPropagation(); const open = $('compMenu').hidden; $('compMenu').hidden = !open; $('compSel').setAttribute('aria-expanded', String(open)); if (open) use('Competition menu opened'); fitComp(); });
 addEventListener('resize', fitComp);
 // the full header and filter row while each fits on one line; otherwise the compact layout for both (phones have it anyway)
 function fitTop() {
@@ -3797,7 +3801,7 @@ function dotCap() {
 // redraw when the window changes how many fit
 let lastCap = 0;
 addEventListener('resize', () => { if (lastCap && dotCap() !== lastCap) render(); else { balanceNow(); syncNowMore(); } });
-$('compMenu').addEventListener('click', ev => { const b = ev.target.closest('[data-comp]'); if (!b) return; ev.stopPropagation(); compSel = b.dataset.comp; store.set('comp', compSel); if (compSel) count({ e: 'comp', k: compSel }); closeComp(); render(); });
+$('compMenu').addEventListener('click', ev => { const b = ev.target.closest('[data-comp]'); if (!b) return; ev.stopPropagation(); compSel = b.dataset.comp; store.set('comp', compSel); if (compSel) count({ e: 'comp', k: compSel }); else use('All competitions picked'); closeComp(); render(); });
 document.addEventListener('click', ev => { if (!ev.target.closest('.cmenu')) closeComp(); }, true);
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape') { closeComp(); closeSettings(); } });
 const closeSettings = () => { if (!$('panel').hidden) { $('panel').hidden = true; $('teamsBtn').setAttribute('aria-expanded', 'false'); } };
@@ -3821,8 +3825,8 @@ function syncJump() {
     if (arr.textContent !== (up ? '↑' : '↓')) { arr.textContent = up ? '↑' : '↓'; b.title = up ? `Back up to ${what}` : `Jump to ${what}`; }
   }
 }
-$('nzOnly').addEventListener('click', ev => { ev.stopPropagation(); nzOnly = !nzOnly; store.set('nzOnly', nzOnly); if (nzOnly) count({ e: 'use', k: 'NZ only' }); render(); });
-$('freeOnly').addEventListener('click', ev => { ev.stopPropagation(); freeOnly = !freeOnly; store.set('freeOnly', freeOnly); if (freeOnly) count({ e: 'use', k: 'Free to watch' }); render(); });
+$('nzOnly').addEventListener('click', ev => { ev.stopPropagation(); nzOnly = !nzOnly; store.set('nzOnly', nzOnly); use(nzOnly ? 'NZ only' : 'NZ only off'); render(); });
+$('freeOnly').addEventListener('click', ev => { ev.stopPropagation(); freeOnly = !freeOnly; store.set('freeOnly', freeOnly); use(freeOnly ? 'Free to watch' : 'Free to watch off'); render(); });
 // look: light/dark and a colour theme, saved in this browser
 const ACCENTS = [['green', 'Kiwi green', '#0d6b4d'], ['ocean', 'Ocean blue', '#1864ab'], ['red', 'Pōhutukawa red', '#c92a2a'], ['black', 'All Black', '#111111'],
   ['kowhai', 'Kōwhai gold', '#d9a400'], ['paua', 'Pāua teal', '#0b7a7e'], ['purple', 'Twilight purple', '#6741d9'], ['orange', 'Sunset orange', '#d9480f'],

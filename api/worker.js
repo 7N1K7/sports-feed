@@ -13,13 +13,15 @@ const EVENTS = new Set(['install', 'appfirst', 'cal', 'alerts', 'rankings', 'ale
 // events whose detail is counted too, each under its own name: the sport or competition picked, the team page opened,
 // the words searched (search0: searches with no results), a page error, the load time band
 // and which way to watch was tapped, which team was followed or dropped in My teams, which sport was hidden or shown
-// there, and which part of the site was used
-const KEYED = { game: 'gameopen', sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed', watch: 'watch', follow: 'follow', unfollow: 'unfollow', use: 'use', hidesport: 'hidesport', showsport: 'showsport' };
+// there, which part of the site was used, and the sites people follow links out to
+const KEYED = { game: 'gameopen', sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed', watch: 'watch', follow: 'follow', unfollow: 'unfollow', use: 'use', hidesport: 'hidesport', showsport: 'showsport', out: 'outlink' };
 const USE = new Set(['Free to watch', 'Events button', 'Results button', 'News button', 'Series row chip', 'Running now tile', 'Events ahead tile', 'Results tab in a game', 'Day in the week strip', 'Dot in the week strip', 'Filters folded away', 'Filters opened', 'Hide sport', 'Show sport', 'Show all results',
   'Settings', 'Spoiler eye', 'NZ only', 'Competition Results tab', 'Competition Squads tab', 'Competition Table tab', 'Competition Rankings tab', 'Competition Playoffs tab',
   'Competition News tab', 'Competition Shows tab', 'Competition Build-up tab', 'Competition Fights tab', 'Competition Races tab', 'Starting soon card', 'Report opened', 'Report sent', 'Suggest opened', 'Idea sent', 'Coffee link', 'Coffee in Settings', 'Sport order A–Z', 'Competition page from game', "Men's teams off", "Men's teams on", "Women's teams off", "Women's teams on",
   'Select all teams', 'Default teams', 'Clear all teams', 'Card size Compact', 'Card size Standard', 'Card size Large', 'Theme changed', 'Time zone changed', 'Hide results for changed',
-  'Settings code copied', 'Settings code used', 'Hidden sports list name']);
+  'Settings code copied', 'Settings code used', 'Hidden sports list name',
+  // from 24 Oct 2026: every other button
+  'All competitions picked', 'All sports button', 'Back in a pop-up', 'Back to top button', 'Competition menu opened', 'Competition page closed', 'Events ahead page turned', 'Search result game', 'Playoff bracket game', 'Game from a team page', 'Search result team', 'Team from rankings', 'Team from form', 'Team from a table', 'Team from a game', 'Hide a result again', 'Hide all results again', 'Install app button', 'Later page turned', 'Logo to the top', 'News page turned', 'Rankings back', 'Rankings list button', 'Rankings sport button', 'Results page turned', 'Running now page turned', 'Series row arrow', 'Sport button off', 'News filter All', 'News filter Injuries', 'News filter Squads', 'News filter Results', 'News filter Other', 'Free to watch off', 'NZ only off', 'Game tab in a game', "Men's and women's", "Men's only", "Women's only"]);
 // a visitor's settings, counted once a day each: results hidden or shown, card size, colour theme
 const OG_THEMES = ['green', 'black', 'ocean', 'paua', 'purple', 'pink', 'red', 'orange', 'kowhai', 'lime'];
 const VIEWS = new Set(['big', 'mixed', 'compact']), THEMES = new Set(['green', 'ocean', 'red', 'black', 'kowhai', 'paua', 'purple', 'orange', 'lime', 'pink', 'kauri', 'silver', 'tui', 'navy', 'olive']);
@@ -29,6 +31,7 @@ const keyOf = (e, k) => {
   if (e === 'error') v = v.replace(/https?:\/\/\S+/g, '(link)').replace(/\s+/g, ' ').slice(0, 120);
   if (e === 'use' && !USE.has(v)) return '';
   if ((e === 'hidesport' || e === 'showsport') && !/^[a-z]{2,20}$/.test(v)) return '';
+  if (e === 'out' && !/^[a-z0-9.-]{3,60}$/.test(v = v.toLowerCase())) return '';
   if (e === 'watch' || e === 'follow' || e === 'unfollow') v = v.replace(/[^\p{L}\p{N} '&.+()/-]/gu, '').slice(0, 40);
   if (e === 'game') v = v.replace(/[^\p{L}\p{N} '&.+()/:,-]/gu, '').replace(/\s+/g, ' ').slice(0, 100);
   return v.length >= 2 ? v : '';
