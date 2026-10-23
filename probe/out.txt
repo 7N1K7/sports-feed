@@ -1,14 +1,63 @@
-generated 2026-10-23T01:59:58.952Z
-f1Times: United States Grand Prix: 2026-10-25T20:00:00.000Z and 4 sessions; 6 of 23 races with start times, 4 sessions coming 
-supercarsTimes: Gold Coast 500: 2026-10-25T04:45:00.000Z and 7 sessions; 3 of 14 rounds with start times, 7 sessions coming
-f1-2026-18-practice-1 | Formula 1 · Round 18 · Practice 1 | 2026-10-23T17:30:00.000Z minor | Sky Sport / Sky Sport Now Sky Sport 1
-f1-2026-18-practice-2 | Formula 1 · Round 18 · Practice 2 | 2026-10-23T21:00:00.000Z minor | Sky Sport / Sky Sport Now Sky Sport 1
-f1-2026-18-practice-3 | Formula 1 · Round 18 · Practice 3 | 2026-10-24T17:30:00.000Z minor | Sky Sport / Sky Sport Now Sky Sport 1
-f1-2026-18-qualifying | Formula 1 · Round 18 · Qualifying | 2026-10-24T21:00:00.000Z MAIN | Sky Sport / Sky Sport Now Sky Sport 1
-supercars-2026-12-practice-1 | Supercars · Round 12 · Practice 1 | 2026-10-23T01:45:00.000Z minor | Sky Sport / Sky Sport Now 
-supercars-2026-12-practice-2 | Supercars · Round 12 · Practice 2 | 2026-10-23T03:50:00.000Z minor | Sky Sport / Sky Sport Now 
-supercars-2026-12-qualifying-race-31 | Supercars · Round 12 · Qualifying (Race 31) | 2026-10-23T06:05:00.000Z minor | Sky Sport / Sky Sport Now 
-supercars-2026-12-top-10-shootout-race-31 | Supercars · Round 12 · Top 10 Shootout (Race 31) | 2026-10-24T02:35:00.000Z minor | Sky Sport / Sky Sport Now 
-supercars-2026-12-race-31 | Supercars · Round 12 · Race 31 | 2026-10-24T05:15:00.000Z minor | Sky Sport / Sky Sport Now 
-supercars-2026-12-qualifying-race-32 | Supercars · Round 12 · Qualifying (Race 32) | 2026-10-25T01:20:00.000Z minor | Sky Sport / Sky Sport Now 
-supercars-2026-12-top-10-shootout-race-32 | Supercars · Round 12 · Top 10 Shootout (Race 32) | 2026-10-25T02:05:00.000Z minor | Sky Sport / Sky Sport Now 
+generated 2026-10-23T02:46:11.871Z
+womenNoKiwi: 49 left out: Elif Nur Turhan v Alycia Baumgardner; Gabriela Fundora v Jasmina Zapotoczna; Australia v Samoa; Papua New Guinea v France; England v Wales; Samoa v Wales; Fiji v Papua New Guinea; Australia v England; England v Samoa; Fiji v France; Australia v Wales; TBC v TBC
+{
+  "wbbl | Women's Big Bash League (WBBL|12)": 43,
+  "whiteferns | Tour match v Governor-General's XI": 1,
+  'whiteferns | 1st T20I v Australia (Rose Bowl)': 1,
+  'whiteferns | 2nd T20I v Australia (Rose Bowl)': 1,
+  'whiteferns | 3rd T20I v Australia (Rose Bowl)': 1,
+  'nzdomestic | Hallyburton Johnstone Shield (women) opener': 1,
+  'whiteferns | 1st T20I v Bangladesh': 1,
+  'whiteferns | 2nd T20I v Bangladesh': 1,
+  'whiteferns | 3rd T20I v Bangladesh': 1,
+  'whiteferns | 1st ODI v Bangladesh': 1,
+  'whiteferns | 2nd ODI v Bangladesh': 1,
+  'whiteferns | 3rd ODI v Bangladesh': 1,
+  "kiwiferns | Women's Rugby League World Cup": 6,
+  "wbbl | Women's Big Bash League": 3,
+  'blacksticksw | FIH Hockey Nations Cup': 2,
+  'whiteferns | White Ferns v Australia': 3
+}
+rlwc | Rugby League World Cup, Group B/C, Round 1 | Samoa v France
+rlwc | Rugby League World Cup, Group B/C, Round 1 | Papua New Guinea v Lebanon
+rlwc | Rugby League World Cup, Group B/C, Round 1 | England v Tonga
+rlwc | Rugby League World Cup, Group A, Round 1 | Fiji v Cook Islands
+rlwc | Rugby League World Cup, Group B/C, Round 2 | Tonga v Lebanon
+rlwc | Rugby League World Cup, Group B/C, Round 2 | Papua New Guinea v Samoa
+rlwc | Rugby League World Cup, Group B/C, Round 2 | England v France
+rlwc | Rugby League World Cup, Group A, Round 2 | Australia v Fiji
+rlwc | Wheelchair Rugby League World Cup, Group A, Round 1 | Ireland v USA
+rlwc | Wheelchair Rugby League World Cup, Group A, Round 1 | England v Wales
+rlwc | Rugby League World Cup, Group B/C, Round 3 | England v Papua New Guinea
+rlwc | Wheelchair Rugby League World Cup, Group B, Round 1 | France v Scotland
+rlwc | Rugby League World Cup, Group A, Round 3 | Australia v Cook Islands
+rlwc | Rugby League World Cup, Group B/C, Round 3 | Lebanon v France
+rlwc | Rugby League World Cup, Group B/C, Round 3 | Tonga v Samoa
+rlwc | Wheelchair Rugby League World Cup, Group B, Round 2 | Australia v Scotland
+rlwc | Wheelchair Rugby League World Cup, Group A, Round 2 | Ireland v Wales
+rlwc | Wheelchair Rugby League World Cup, Group A, Round 2 | England v USA
+rlwc | Wheelchair Rugby League World Cup, Group A, Round 3 | Wales v USA
+rlwc | Wheelchair Rugby League World Cup, Group A, Round 3 | England v Ireland
+rlwc | Wheelchair Rugby League World Cup, Group B, Round 3 | France v Australia
+rlwc | Rugby League World Cup, Semi-final 1 | TBC v TBC
+rlwc | Rugby League World Cup, Semi-final 2 | TBC v TBC
+rlwc | Wheelchair Rugby League World Cup, Semi-final round (game 1, incl. play-offs) | TBC v TBC
+rlwc | Wheelchair Rugby League World Cup, Semi-final round (game 2, incl. play-offs) | TBC v TBC
+rlwc | Wheelchair Rugby League World Cup, Semi-final round (game 3, incl. play-offs) | TBC v TBC
+rlwc | Wheelchair Rugby League World Cup, Semi-final round (game 4, incl. play-offs) | TBC v TBC
+rlwc | Wheelchair Rugby League World Cup, Finals round (game 1, final & play-offs) | TBC v TBC
+rlwc | Wheelchair Rugby League World Cup, Finals round (game 2, final & play-offs) | TBC v TBC
+rlwc | Wheelchair Rugby League World Cup, Finals round (game 3, final & play-offs) | TBC v TBC
+rlwc | Wheelchair Rugby League World Cup, Finals round (game 4, final & play-offs) | TBC v TBC
+rlwc | Rugby League World Cup, Final | TBC v TBC
+rlwc | Rugby League World Cup | Pool A runners-up v Pool B & C winner
+rlwc | Rugby League World Cup | Pool A winner v Pool B & C runners-up
+rlwc | Rugby League World Cup | First semi-final winner v Second semi-final winner
+rlwc | Wheelchair Rugby League World Cup | Group B 3rd place v Group A 4th place
+rlwc | Wheelchair Rugby League World Cup | Group A 3rd place v Group B 4th place
+rlwc | Wheelchair Rugby League World Cup | First ranking semi-final loser v Second ranking semi-final loser
+rlwc | Wheelchair Rugby League World Cup | First ranking semi-final winner v Second ranking semi-final winner
+rlwc | Wheelchair Rugby League World Cup | Group B Winner v Group A Runner Up
+rlwc | Wheelchair Rugby League World Cup | First semi-final loser v Second semi-final loser
+rlwc | Wheelchair Rugby League World Cup | First semi-final winner v Second semi-final winner
+tennis | ATP Finals | Men's final 
