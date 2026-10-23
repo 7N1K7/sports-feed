@@ -1,36 +1,13 @@
-// probe 126: golf. Ranking and points tables on Wikipedia (as the rankings parser sees them), TheSportsDB results for
-// this season's finished tournaments, and the BBC golf feed
-import { _tablesOf } from './rankings.mjs';
-const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-for (const page of ["Women's World Golf Rankings", 'List of male golfers who have been in the world top 10', '2026 FedEx Cup Playoffs', '2025–26 PGA Tour of Australasia', '2026 LPGA Tour']) {
-  try {
-    const j = await (await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=parse&prop=text&redirects=1&disableeditsection=1&page=' + encodeURIComponent(page), { headers: UA })).json();
-    if (j.error) { console.log(`== ${page}: ${j.error.code}`); continue; }
-    const tables = _tablesOf(j.parse?.text || '');
-    console.log(`\n== ${page}: ${tables.length} tables`);
-    for (const t of tables.slice(0, 12)) console.log(`  [${t.heading}] notes: ${String(t.notes || '').slice(-160).replace(/\s+/g, ' ')}\n    heads: ${JSON.stringify(t.heads).slice(0, 300)} | rows ${t.rows.length}: ${JSON.stringify(t.rows.slice(0, 3)).slice(0, 420)}`);
-  } catch (e) { console.log(`== ${page}: error ${e.message}`); }
-  await sleep(1200);
-}
+// probe 127: the live feed after the golf additions: top 10s, golf rankings, golf headlines, squads, coverage file
 let f = { events: [] };
 try { f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json(); } catch (e) { console.log('feed error', e.message); }
-const golf = f.events.filter(e => e.sport === 'golf').sort((a, b) => a.startUTC.localeCompare(b.startUTC));
-console.log('\n== feed golf events', golf.length);
-for (const e of golf) console.log(' ', e.startUTC.slice(0, 10), e.comp, '|', e.home, '|', e.status, e.score || '', e.tv ? 'TV' : '', e.timeTBC ? 'TBC' : '');
-const done = golf.filter(e => e.status === 'final' && Date.now() - Date.parse(e.startUTC) < 40 * 864e5).slice(-8);
-for (const e of done) {
-  const q = e.home.replace(/ /g, '_');
-  try {
-    const d = await (await fetch(`https://www.thesportsdb.com/api/v1/json/123/searchevents.php?e=${encodeURIComponent(q)}&s=2026`)).json();
-    const evs = d.event || [];
-    console.log(`\n-- ${e.home} (${e.comp}): ${evs.length} found`);
-    for (const x of evs.slice(0, 4)) console.log(`   ${x.idEvent} ${x.strEvent} | ${x.strLeague} | ${x.dateEvent} ${x.strTime} | result ${String(x.strResult || '').length} chars: ${String(x.strResult || '').slice(0, 260).replace(/\n/g, ' / ')}`);
-  } catch (err) { console.log(`-- ${e.home}: error ${err.message}`); }
-  await sleep(2500);
-}
-try {
-  const x = await (await fetch('https://feeds.bbci.co.uk/sport/golf/rss.xml', { headers: UA })).text();
-  const items = [...x.matchAll(/<item>[\s\S]*?<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/g)].map(m => m[1]);
-  console.log('\n== BBC golf', items.length, items.slice(0, 6).join(' | '));
-} catch (e) { console.log('BBC golf error', e.message); }
+console.log('site', JSON.stringify(f.site || {}), 'generated', f.generatedAt);
+console.log('diag.golfTop10:', f.diag?.golfTop10);
+console.log('diag.teamSquads:', String(f.diag?.teamSquads).slice(0, 300));
+console.log('diag.rankings golf:', String(f.diag?.rankings || '').split('; ').filter(x => /golf|FedEx|Australasia/i.test(x)).join(' ;; '));
+for (const l of (f.rankings || []).filter(r => r.sport === 'golf')) console.log(' ', l.title, l.asOf || '', l.comp || '', l.rows.length, l.rows.slice(0, 3).map(r => `${r.rank} ${r.name} ${r.val}`).join(' | '), '|', l.rows.filter(r => r.nz).map(r => `${r.rank} ${r.name}`).join(', '));
+for (const e of f.events.filter(e => e.leaders)) console.log(' top10', e.id, e.leaders.length, e.leaders.slice(0, 2).map(r => `${r.p} ${r.n} ${r.par}`).join(' | '), e.leaders.filter(r => r.nz).map(r => r.n).join(','));
+console.log('golf news', (f.news || []).filter(n => /^(pgatour|lpga|golfanz)$/.test(n.team)).length, (f.news || []).filter(n => /^(pgatour|lpga|golfanz)$/.test(n.team)).slice(0, 8).map(n => `${n.team}/${n.source}: ${n.title}`).join(' || '));
+console.log('diag.bbc:', String(f.diag?.bbc || '').slice(0, 300));
+try { const c = await (await fetch('https://kickoff.kiwi/data/coverage.json?x=' + Date.now())).text(); console.log('coverage.json', c.length, c.slice(0, 300)); } catch (e) { console.log('coverage.json error', e.message); }
+console.log('baseball squads', (f.teamSquads || []).filter(s => s.sport === 'baseball').map(s => `${s.team} ${s.players.length}`).join(', '));
