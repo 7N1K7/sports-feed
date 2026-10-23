@@ -194,9 +194,12 @@ html { -webkit-tap-highlight-color: transparent }
 .panel .pbox { position: relative; pointer-events: auto; margin-left: auto; width: min(720px, 100%); max-height: calc(100vh - 110px); max-height: calc(100dvh - 110px); overflow: auto; overscroll-behavior: contain;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; box-shadow: 0 16px 40px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.08) }
 .group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--f-body); font-weight: 700; margin-bottom: 6px }
-/* My teams: which sports are hidden, on one line that never wraps (the full list in its tooltip) */
+/* My teams: what's hidden, on one line that never wraps; a long list slides sideways (fading at the edge), and the full
+   list is in its tooltip */
 .panel .hidrow { display: flex; align-items: center; gap: 10px; min-width: 0 }
-.panel .hidnote { flex: 1 1 auto; min-width: 0; margin: 0; font-size: 13px; line-height: 20px; height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted) }
+.panel .hidnote { flex: 1 1 auto; min-width: 0; margin: 0; font-size: 13px; line-height: 20px; height: 20px; white-space: nowrap; overflow: auto hidden; scrollbar-width: none; padding-right: 18px; color: var(--muted);
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 18px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 18px), transparent) }
+.panel .hidnote::-webkit-scrollbar { display: none }
 .panel .hidnote b { color: var(--ink); font-weight: 600 }
 @media (max-width: 560px) { .panel .hidnote .hfull { display: none } }
 /* each hidden name a small tag in its sport's colour: a strong shade when the whole sport is off, a light one when just
@@ -205,7 +208,6 @@ html { -webkit-tap-highlight-color: transparent }
   border: 1px solid color-mix(in srgb, var(--hc) 55%, transparent); background: color-mix(in srgb, var(--hc) 14%, transparent) }
 .panel .hidnote .hidgo.whole { border-color: var(--hc); background: color-mix(in srgb, var(--hc) 45%, var(--surface)) }
 .panel .hidnote .hidgo:hover { border-color: var(--ink) }
-.panel .hidnote .hsep { margin: 0 5px 0 2px }
 #teamGroups .group.flash { animation: gflash 1.2s ease-out }
 @keyframes gflash { from { background: color-mix(in srgb, var(--accent) 22%, transparent) } to { background: transparent } }
 /* My teams, compact: the group name in a column on the left, smaller chips beside it */
@@ -1325,7 +1327,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
     </div>
     <div class="throw"><h2 class="ph">Theme</h2>
     <div class="accwrap"><button type="button" class="dbtn accpick" id="accentPick" aria-haspopup="true" aria-expanded="false"><i id="accentDot"></i><span id="accentName"></span></button><div class="swatches" id="accentSel" role="group" aria-label="Theme"></div></div></div>
-    <h2 class="ph">My teams <span class="phbtns"><span class="gsw" id="genSw" role="group" aria-label="Men's and women's teams"></span><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></span><span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news. Not into a sport at all? Tap <b>Hide sport</b> beside its name to take it off your feed and out of the sport buttons; <b>Show sport</b> brings it back.</span></h2>
+    <h2 class="ph">My teams <span class="phbtns"><span class="gsw" id="genSw" role="group" aria-label="Men's and women's teams"></span><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></span><span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news. Not into a sport at all? Tap <b>Hide sport</b> beside its name to take it off your feed and out of the sport buttons; <b>Show sport</b> brings it back.<span id="optNote"></span></span></h2>
     <div class="hidrow"><p class="hidnote" id="hidNote"></p></div>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
     <div class="pextras" role="group" aria-label="Extras"><div class="pxhead"><b>Extras</b><span>Optional. You don't need any of these to use the site</span></div>
@@ -3265,14 +3267,17 @@ function render() {
   // down), and the busy competitions that start off; a name jumps to its group
   $('genSw').innerHTML = [['m', "Men's"], ['w', "Women's"]].map(([g, l]) => { const on = sideKeys(g).some(k => picked.has(k));
     return `<button type="button" class="btn${on ? '' : ' off'}" data-gsw="${g}" aria-pressed="${on}" title="${on ? `Turn every ${l.toLowerCase()} team and league off` : `Turn the ${l.toLowerCase()} teams and leagues back on`}">${l}</button>`; }).join('');
-  // [name, off by default, its sport, the whole sport]
-  const offs = [...[['m', "Men's teams"], ['w', "Women's teams"]].filter(([g]) => !sideKeys(g).some(k => picked.has(k)) && picked.size).map(([, l]) => [l, false, 'accent', true]),...TEAMS_AZ.filter(g => !groupItems(g).some(([k]) => followedSport(sportOf(k)))).map(g => [g.g, groupItems(g).every(([k]) => OPT_IN.has(k)), sportOf(groupItems(g)[0][0]), true]),
-    ...[...OPT_IN].filter(k => TEAM_NAME[k] && !picked.has(k) && followedSport(sportOf(k))).map(k => [TEAM_NAME[k], true, sportOf(k), false])];
-  // the ones turned off here first, then those that start off, with "(off by default)" said once after them
-  const hgo = (n, sp, all) => `<button type="button" class="hidgo${all ? ' whole' : ''}" data-hidgo="${esc(n)}" style="--hc:var(--${sp === 'rugby' ? 'rugbyt' : sp})" title="${sp === 'accent' ? 'Turned off with the switch above' : all ? 'The whole sport is off' : 'Just this one is off'}: tap to go to it">${esc(n)}</button>`,
-    hlist = f => [offs.filter(([, d]) => !d).map(o => f(o[0], o[2], o[3])).join(f === hgo ? ' ' : ', '), offs.some(([, d]) => d) ? offs.filter(([, d]) => d).map(o => f(o[0], o[2], o[3])).join(f === hgo ? ' ' : ', ') + ' (off by default)' : ''].filter(Boolean).join(f === hgo ? '<span class="hsep">·</span>' : ' · ');
-  $('hidNote').innerHTML = offs.length ? `<b>Hidden<span class="hfull"> from your feed</span>:</b> ${hlist(hgo)}` : 'Every sport is on your feed.';
-  $('hidNote').title = offs.length ? `Hidden: ${hlist(n => n)}` : '';
+  // [name, its sport, the whole sport]: a switch above, then whole sports A–Z, then single teams and competitions turned
+  // off in a sport that's still on (not those a switch above covers, nor the busy ones that start off, said in the intro)
+  const sidesOff = [['m', "Men's teams"], ['w', "Women's teams"]].filter(([g]) => !sideKeys(g).some(k => picked.has(k)) && picked.size),
+    bySide = new Set(sidesOff.flatMap(([g]) => sideKeys(g)));
+  const offs = [...sidesOff.map(([, l]) => [l, 'accent', true]), ...TEAMS_AZ.filter(g => !groupItems(g).some(([k]) => followedSport(sportOf(k)))).map(g => [g.g, sportOf(groupItems(g)[0][0]), true]),
+    ...TEAMS_AZ.flatMap(groupItems).filter(([k], i, a) => a.findIndex(([j]) => j === k) === i && !picked.has(k) && !OPT_IN.has(k) && !bySide.has(k) && followedSport(sportOf(k))).map(([k, l]) => [l, sportOf(k), false])];
+  const hgo = ([n, sp, all]) => `<button type="button" class="hidgo${all ? ' whole' : ''}" data-hidgo="${esc(n)}" style="--hc:var(--${sp === 'rugby' ? 'rugbyt' : sp})" title="${sp === 'accent' ? 'Turned off with the switch above' : all ? 'The whole sport is off' : 'Just this one is off'}: tap to go to it">${esc(n)}</button>`;
+  $('hidNote').innerHTML = offs.length ? `<b>Hidden<span class="hfull"> from your feed</span>:</b> ${offs.map(hgo).join(' ')}` : 'Everything is on your feed.';
+  $('hidNote').title = offs.length ? `Hidden: ${offs.map(o => o[0]).join(', ')}` : '';
+  { const ns = [...OPT_IN].map(k => TEAM_NAME[k]).filter(Boolean);
+    $('optNote').textContent = ns.length ? ` The ${ns.join(' and the ')} start${ns.length > 1 ? '' : 's'} off, as there's a game nearly every day; tick ${ns.length > 1 ? 'them' : 'it'} to add ${ns.length > 1 ? 'them' : 'it'}.` : ''; }
   // calendar subscriptions (built with the feed, in data/cal/): every game an NZ side plays, then each team picked above.
   // webcal: opens Apple's Calendar to subscribe; Google and Outlook take the address on their own add-by-URL pages
   const calRow = (k, label) => {
@@ -3527,7 +3532,7 @@ document.addEventListener('click', ev => {
   else if (t.id === 'spoilBtn') { count({ e: 'use', k: 'Spoiler eye' }); spoilers = !spoilers; store.set('spoilers', spoilers); if (spoilers && !spoilDays) { spoilDays = 4; store.set('spoilDays', 4); } render(); }
   else if (t.id === 'panelClose') closeSettings();
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); if (!p.hidden) count({ e: 'use', k: 'Settings' }); }
-  else if (t.id === 'allOn') { picked = new Set(ALL_KEYS); store.set('teams', ALL_KEYS); render(); }
+  else if (t.id === 'allOn') { picked = new Set([...picked, ...ALL_KEYS.filter(k => !OPT_IN.has(k))]); store.set('teams', [...picked]); render(); }
   else if (t.id === 'allOff') { picked = new Set(); store.set('teams', []); render(); }
 });
 document.addEventListener('keydown', ev => { const c = ev.target.closest?.('[data-open]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openDetail(c.dataset.open); } });
@@ -3560,6 +3565,10 @@ $('accentPick').addEventListener('click', ev => { ev.stopPropagation(); const w 
 document.addEventListener('click', e => { if (!e.target.closest('.accwrap')) { document.querySelector('.accwrap')?.classList.remove('open'); $('accentPick')?.setAttribute('aria-expanded', 'false'); } });
 function closeDsels() { document.querySelectorAll('.dsel .dlist:not([hidden])').forEach(l => { l.hidden = true; l.previousElementSibling.setAttribute('aria-expanded', 'false'); }); }
 document.addEventListener('click', e => { if (!e.target.closest('.dsel')) closeDsels(); });
+// a mouse wheel slides a long hidden list sideways, then scrolls the panel as usual once it reaches the end
+$('hidNote').addEventListener('wheel', e => { const n = e.currentTarget, d = e.deltaY || 0, max = n.scrollWidth - n.clientWidth;
+  if (!d || e.deltaX || max <= 0 || (d < 0 ? n.scrollLeft <= 0 : n.scrollLeft >= max - 1)) return;
+  n.scrollLeft += d; e.preventDefault(); }, { passive: false });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.querySelector('.dsel .dlist:not([hidden])')) { closeDsels(); e.stopImmediatePropagation(); } }); // Escape shuts an open list first, not the whole settings panel
 function closeComp() { $('compMenu').hidden = true; $('compSel').setAttribute('aria-expanded', 'false'); }
 // the menu runs down to just above the bottom of the window, so bigger windows show more of it
