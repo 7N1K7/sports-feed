@@ -1,5 +1,5 @@
 {
-  "_note": "formPrev = last season's or last year's page is read too (once a week), for the form guide only. Wikipedia pages read for fixtures and results. {Y} = calendar year (this year, plus next year from September), {S} = summer season like 2026–27. Pages that don't exist yet are skipped. NZ cricket tour pages are found by search automatically. team = fixed team key; classify = pick by team names (see scripts/sources.mjs). thesportsdb entries with fill never add cards: they only give a final score or exact start time to a card that lacks one (fill.teams = card team keys, fill.comp = pattern for the card's competition), and are only polled while such a card is waiting.",
+  "_note": "formPrev = last season's or last year's page is read too (once a week), for the form guide only; formOnly = the page itself is read only for the form guide (NZ domestic cricket, whose games come from the curated files). Wikipedia pages read for fixtures and results. {Y} = calendar year (this year, plus next year from September), {S} = summer season like 2026–27. Pages that don't exist yet are skipped. NZ cricket tour pages are found by search automatically. team = fixed team key; classify = pick by team names (see scripts/sources.mjs). thesportsdb entries with fill never add cards: they only give a final score or exact start time to a card that lacks one (fill.teams = card team keys, fill.comp = pattern for the card's competition), and are only polled while such a card is waiting.",
   "pages": [
     { "title": "{Y} Hilux NPC", "sport": "rugby", "comp": "NPC", "team": "npc", "tz": "Pacific/Auckland", "formPrev": true },
     { "title": "{Y} Bunnings NPC", "sport": "rugby", "comp": "NPC", "team": "npc", "tz": "Pacific/Auckland", "formPrev": true },
@@ -21,6 +21,11 @@
     { "title": "{S} Women's Big Bash League season", "sport": "cricket", "comp": "Women's Big Bash League", "team": "wbbl", "tz": "Australia/Sydney", "showRound": true, "formPrev": true },
     { "title": "{S} Sheffield Shield season", "sport": "cricket", "comp": "Sheffield Shield", "team": "audomestic", "format": "First-class", "homeTz": true, "formPrev": true },
     { "title": "{S} Dean Jones Trophy", "sport": "cricket", "comp": "Dean Jones Trophy", "team": "audomestic", "format": "List A", "homeTz": true, "formPrev": true },
+    { "title": "{S} Plunket Shield season", "sport": "cricket", "comp": "Plunket Shield", "team": "nzdomestic", "tz": "Pacific/Auckland", "format": "First-class", "formOnly": true, "formPrev": true },
+    { "title": "{S} Ford Trophy", "sport": "cricket", "comp": "Ford Trophy", "team": "nzdomestic", "tz": "Pacific/Auckland", "format": "List A", "formOnly": true, "formPrev": true },
+    { "title": "{S} Super Smash (men's cricket)", "sport": "cricket", "comp": "Super Smash", "team": "nzdomestic", "tz": "Pacific/Auckland", "formOnly": true, "formPrev": true },
+    { "title": "{S} Hallyburton Johnstone Shield", "sport": "cricket", "comp": "Hallyburton Johnstone Shield", "team": "nzdomestic", "tz": "Pacific/Auckland", "women": true, "formOnly": true, "formPrev": true },
+    { "title": "{S} Super Smash (women's cricket)", "sport": "cricket", "comp": "Super Smash", "team": "nzdomestic", "tz": "Pacific/Auckland", "women": true, "formOnly": true, "formPrev": true },
     { "title": "{S} A-League Men", "sport": "football", "comp": "A-League Men", "classify": "aleague" },
     { "title": "{S} Premier League", "sport": "football", "comp": "Premier League", "classify": "epl" },
     { "title": "{Y} NRL season", "sport": "league", "comp": "NRL", "classify": "nrl" },
