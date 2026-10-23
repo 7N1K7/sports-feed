@@ -1,9 +1,40 @@
-teamSquads: 186 of 188: Northern Districts, Spain missing
-England 10 [{"n":"Mason Billington"},{"n":"Jack Brown","w":"Jack Brown (wheelchair rugby league)"},{"n":"Nathan Collins","w":"Nathan Collins (wheelchair rugby league)"},{"n":"Joe Coyd"}]
-France 12 [{"n":"Jérémy Bourson"},{"n":"Gilles Clausells"},{"n":"Nicolas Clausells"},{"n":"Dany Denuwelaere"}]
-Australia 10 [{"n":"Bayley McKenna","r":"c"},{"n":"Daniel Anstey"},{"n":"Peter Arbuckle"},{"n":"Cory Cannane"}]
-Wales 12 [{"n":"Stuart Williams"},{"n":"Jodie Boyd-Ward"},{"n":"Andrew Higgins"},{"n":"Lee Sargent"}]
-Scotland 12 [{"n":"Alex Howe"},{"n":"Arran King"},{"n":"Calum Davidson"},{"n":"Calum Japes"}]
-Ireland 12 [{"n":"Oran Spain"},{"n":"Cian Horgan"},{"n":"Bledar Suxha"},{"n":"Toby Burton-Carter"}]
-USA 12 [{"n":"Jesse Lind"},{"n":"Austin \"Mack\" Johnson"},{"n":"Brent Hawkins"},{"n":"Antoine Gray"}]
-New Zealand 10 [{"n":"Jack Brown"},{"n":"Ryan Charles"},{"n":"Hayden Delves"},{"n":"Nikia Fa’atau"}]
+feed keys: generatedAt, site, diag, events, form, news, tables, rankings, stateSquads, teamSquads, teamLinks, coverage, sources
+
+cricket: games 50, time 80%, watch 88%, squads 94%, pic 94%, links 100%, guide 2
+  time gaps: [["Sheffield Shield",6],["Bangladesh v West Indies",2],["Australia v South Africa",1],["Pakistan v Sri Lanka",1]]
+  watch gaps: [["Bangladesh v West Indies",2],["Dean Jones Trophy",1],["Australia v England",1],["Australia v South Africa",1],["Pakistan v Sri Lanka",1]]
+  squads gaps: [["NZ A v India A",3]]
+  pic gaps: South Australia, Western Australia
+
+boxing: games 4, time 75%, watch 100%, squads -, pic 75%, links 0%, guide 0
+  time gaps: [["Interim WBC light heavyweight title",1]]
+  pic gaps: Dalton Smith, Alberto Puello
+
+league: games 56, time 88%, watch 100%, squads 100%, pic 100%, links 100%, guide 13
+  time gaps: [["Wheelchair Rugby League World Cup",7]]
+
+netball: games 2, time 100%, watch 100%, squads 0%, pic 100%, links 100%, guide 2
+  squads gaps: [["Constellation Cup",2]]
+
+rugby: games 6, time 100%, watch 67%, squads 50%, pic 100%, links 100%, guide 3
+  watch gaps: [["Test match",2]]
+  squads gaps: [["Test match",2],["NPC Final",1]]
+
+mma: games 3, time 33%, watch 100%, squads -, pic 100%, links 0%, guide 1
+  time gaps: [["UFC Fight Night",2]]
+
+football: games 32, time 100%, watch 100%, squads 100%, pic 100%, links 100%, guide 15
+
+basketball: games 117, time 96%, watch 100%, squads 100%, pic 51%, links 100%, guide 0
+  time gaps: [["NBL",5]]
+  pic gaps: S.E Melbourne Phoenix, Boston Celtics, San Antonio Spurs, Houston Rockets, Charlotte Hornets, Dallas Mavericks, Orlando Magic, Minnesota Timberwolves, Toronto Raptors, Miami Heat, Milwaukee Bucks, New Orleans Pelicans, Golden State Warriors, Los Angeles Lakers, LA Clippers, Portland Trail Blazers, Brooklyn Nets, Philadelphia 76ers, Phoenix Suns, Oklahoma City Thunder
+
+motor: games 30, time 100%, watch 100%, squads -, pic -, links -, guide 4
+
+golf: games 4, time 0%, watch 100%, squads -, pic -, links -, guide 0
+  time gaps: [["PGA Tour",3],["PGA Tour of Australasia",1]]
+
+baseball: games 14, time 100%, watch 50%, squads 100%, pic 0%, links 0%, guide 0
+  watch gaps: [["Japan Series",7]]
+  pic gaps: Milwaukee Brewers, Tampa Bay Rays, Yokohama DeNA BayStars, Fukuoka SoftBank Hawks
+  links gaps: Milwaukee Brewers, Tampa Bay Rays, Yokohama DeNA BayStars, Fukuoka SoftBank Hawks
