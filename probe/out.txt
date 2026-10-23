@@ -1,174 +1,96 @@
-fetch exit 0 in 739 s
-form: 165 sides with a form guide; 233 sides' results kept; 527 of last season's games read, 20 earlier rounds' games
-formNames: ok
-tsdb NPC: "fill: nothing to fill; 0 calls; 0 games known"
-tsdb Test match: "fill: nothing to fill; 0 calls; 0 games known"
-tsdb Nations Championship: "fill: nothing to fill; 0 calls; 0 games known"
-tsdb Pacific Cup: "fill: nothing to fill; 0 calls; 0 games known"
-tsdb Rugby League World Cup: "fill: nothing to fill; 0 calls; 0 games known"
-tsdb Taini Jamison Trophy: "off season"
-tsdb UFC: "error: thesportsdb 503"
-tsdb A-League Men: "18 games, season 2026-2027, rounds 1,2,3"
-tsdb Premier League: "40 games, season 2026-2027, rounds 6,7,8,9"
-tsdb NRL: "off season"
-tsdb Super Rugby Pacific: "off season"
-tsdb Constellation Cup: "error: thesportsdb skipped this run"
-tsdb backfill A-League Men: "0 rounds still to ask"
-tsdb backfill Premier League: "3 rounds still to ask"
-wikipedia: {"2026 Hilux NPC":79,"List of 2026 Super Rugby Pacific matches":77,"List of 2027 Super Rugby Pacific matches":80,"2026 Super Rugby Pacific season":6,"2027 Super Rugby Pacific season":5,"2026 Nations Championship":0,"The Rugby Championship":0,"2027 Rugby Championship":10,"2026 men's rugby union internationals":13,"2027 men's rugby union internationals":1,"2026 women's rugby union internationals":3,"2026 WXV Global Series":6,"2026 Men's Rugby League World Cup":18,"2026 Women's Rugby League World Cup":15,"2026 Wheelchair Rugby League World Cup":20,"2026–27 Big Bash League season":44,"2026–27 Women's Big Bash League season":43,"2026–27 Sheffield Shield season":30,"2026–27 Dean Jones Trophy":16,"2026–27 A-League Men":0,"2026–27 Premier League":0,"2026 NRL season":1,"2027 NRL season":0,"2026 NRL finals series":9,"List of UFC events":14,"New Zealand men's national field hockey team":19,"New Zealand women's national field hockey team":21,"2026–27 Men's FIH Pro League":0,"2026–27 Women's FIH Pro League":0,"Men's FIH Hockey Nations Cup":0,"2026 Men's FIH Hockey World Cup":6,"2026 Women's FIH Hockey World Cup":6,"2026–27 NBL season":165,"2027 FIBA Basketball World Cup qualification (Asia)":12,"2027 FIBA Basketball World Cup":0,"2026 FIBA Women's Basketball World Cup":0,"2026 ANZ Premiership season":2,"2027 Netball World Cup":0,"Indian cricket team in New Zealand in 2026–27":12,"Sri Lankan cricket team in New Zealand in 2026–27":8,"New Zealand cricket team in Australia in 2026–27":4,"New Zealand women's cricket team in Australia in 2026–27":6,"Zimbabwe women's cricket team in New Zealand in 2025–26":6,"Australian cricket team in New Zealand in 2025–26":3,"South African cricket team in New Zealand in 2025–26":5,"English cricket team in New Zealand in 2025–26":6,"South Africa women's cricket team in New Zealand in 2025–26":8,"West Indian cricket team in New Zealand in 2025–26":12,"New Zealand cricket team in India in 2025–26":8,"English cricket team in Australia in 2026–27":9,"Australian cricket team in India in 2026–27":5,"Australian cricket team in Zimbabwe in 2026":3,"Australian cricket team in South Africa in 2026–27":7,"Bangladeshi cricket team in Australia in 2026":3,"Indian cricket team in Australia in 2025–26":8,"Australian cricket team in Pakistan in 2025–26":3,"Sri Lankan cricket team in India in 2026–27":6,"West Indian cricket team in India in 2026–27":8,"Zimbabwean cricket team in India in 2026–27":3,"Sri Lankan cricket team in Pakistan in 2026–27":5,"Bangladeshi cricket team in South Africa in 2026–27":8,"English cricket team in South Africa in 2026–27":6,"West Indian cricket team in Bangladesh in 2026–27":2,"Afghan cricket team in India in 2026":4,"Indian cricket team in Sri Lanka in 2026":2,"Indian cricket team in Bangladesh in 2026":6,"Indian cricket team in Zimbabwe in 2026":3,"Bangladeshi cricket team in Zimbabwe in 2026":7,"Indian cricket team in Ireland in 2026":2,"Afghan cricket team in Ireland in 2026":5,"Pakistani cricket team in the West Indies in 2026":2,"2025 Bunnings NPC":79,"Farah Palmer Cup":0,"List of 2025 Super Rugby Pacific matches":77,"2025 Rugby Championship":10,"2025 Rugby League Pacific Championships":6,"2025–26 Big Bash League season":44,"2025–26 Women's Big Bash League season":43,"2025–26 Sheffield Shield season":31,"2025–26 Dean Jones Trophy":0,"2025 NRL finals series":5,"2025–26 NBL season":166,"2025 Constellation Cup":4,"2025 Taini Jamison Trophy Series":3}
-basketball · FIBA World Cup qualifiers       0,8,1
-basketball · NBA                             1,1,1,2,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-basketball · NBL                             10,10,10,10,10,10,10,10,10,10,0,0
-cricket · 1st ODI v Bangladesh               17,0
-cricket · 1st ODI v India                    22,23
-cricket · 1st ODI v Sri Lanka                22,5
-cricket · 1st T20I v Australia (Rose Bowl)   2,17
-cricket · 1st T20I v Bangladesh              17,0
-cricket · 1st T20I v India                   22,23
-cricket · 1st T20I v Sri Lanka               22,5
-cricket · 1st Test v Australia               21,22
-cricket · 1st Test v India                   22,23
-cricket · 2nd ODI v Bangladesh               17,0
-cricket · 2nd ODI v India                    22,23
-cricket · 2nd ODI v Sri Lanka                22,5
-cricket · 2nd T20I v Australia (Rose Bowl)   2,17
-cricket · 2nd T20I v Bangladesh              17,0
-cricket · 2nd T20I v India                   22,23
-cricket · 2nd T20I v Sri Lanka               22,5
-cricket · 2nd Test v Australia               21,22
-cricket · 2nd Test v India                   22,23
-cricket · 3rd ODI v Bangladesh               17,0
-cricket · 3rd ODI v India                    22,23
-cricket · 3rd ODI v Sri Lanka                22,5
-cricket · 3rd T20I v Australia (Rose Bowl)   2,17
-cricket · 3rd T20I v Bangladesh              17,0
-cricket · 3rd T20I v India                   22,23
-cricket · 3rd T20I v Sri Lanka               22,5
-cricket · 3rd Test v Australia               21,22
-cricket · 4th ODI v India                    22,23
-cricket · 4th T20I v India                   22,23
-cricket · 4th Test v Australia               21,22
-cricket · 5th ODI v India                    22,23
-cricket · 5th T20I v India                   22,23
-cricket · Australia v England                21,4
-cricket · Australia v India                  23,21
-cricket · Australia v South Africa           1,21,10
-cricket · Bangladesh v West Indies           10,19
-cricket · Big Bash League (BBL|16), Final    0
-cricket · Big Bash League (BBL|16), League (season opener in India) 10,10
-cricket · Big Bash League (BBL|16), League   10,10,10,10,10,10,10,10
-cricket · Big Bash League (BBL|16), The Challenger 0
-cricket · Big Bash League (BBL|16), The Knockout (3rd v 4th) 0
-cricket · Big Bash League (BBL|16), The Qualifier (1st v 2nd) 0
-cricket · Big Bash League                    0,0,0,0,0,0,0,0
-cricket · Black Caps v Sri Lanka             22,5
-cricket · Dean Jones Trophy                  10,10,10,10,10,10
-cricket · Ford Trophy (men)                  0,0,0,0,0,0
-cricket · Hallyburton Johnstone Shield (women) opener 0,0
-cricket · India v Sri Lanka                  23,5
-cricket · India v West Indies                23,19
-cricket · India v Zimbabwe                   23,12
-cricket · NZ A v India A, 1st four-day match 0,0
-cricket · NZ A v India A, 2nd four-day match 0,0
-cricket · NZ A v India A, 3rd four-day match 0,0
-cricket · Pakistan v Sri Lanka               7,5
-cricket · Plunket Shield, Round 1            0,0,0,0,0,0
-cricket · Sheffield Shield                   10,10,10,10,10,10
-cricket · South Africa v Bangladesh          10,10
-cricket · South Africa v England             10,4
-cricket · Tour match v Governor-General's XI 1,17
-cricket · White Ferns v Australia            2,17
-cricket · Women's Big Bash League (WBBL|12), Final 0
-cricket · Women's Big Bash League (WBBL|12), League 10,10,10,10,10,10,10,10
-cricket · Women's Big Bash League (WBBL|12), The Challenger 0
-cricket · Women's Big Bash League (WBBL|12), The Knockout (3rd v 4th) 0
-cricket · Women's Big Bash League            0,0,0,0,0,0
-football · A-League Men                      1,1,1,1,1,1,1,1,1,1,0,0
-football · Premier League                    4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
-hockey · Test series                         10,0
-league · NRL finals                          4,4
-league · Rugby League World Cup, Final       0
-league · Rugby League World Cup, Group A, Round 1 1,4,1,1
-league · Rugby League World Cup, Group A, Round 2 4,1,1,1
-league · Rugby League World Cup, Group A, Round 3 4,1,1,1
-league · Rugby League World Cup, Group B/C, Round 1 3,1,1,1,1,2
-league · Rugby League World Cup, Group B/C, Round 2 2,1,1,3,1,1
-league · Rugby League World Cup, Group B/C, Round 3 1,1,1,1,2,3
-league · Rugby League World Cup, Semi-final 1 (Group A runner-up v Group B/C winner) 0
-league · Rugby League World Cup, Semi-final 1 0
-league · Rugby League World Cup, Semi-final 2 (Group A winner v Group B/C runner-up) 0
-league · Rugby League World Cup, Semi-final 2 0
-league · Rugby League World Cup              0,0,0,0,0,0
-league · Wheelchair Rugby League World Cup, Finals round (game 1, final & play-offs) 0
-league · Wheelchair Rugby League World Cup, Finals round (game 2, final & play-offs) 0
-league · Wheelchair Rugby League World Cup, Finals round (game 3, final & play-offs) 0
-league · Wheelchair Rugby League World Cup, Finals round (game 4, final & play-offs) 0
-league · Wheelchair Rugby League World Cup, Group A, Round 1 0,0,1,1
-league · Wheelchair Rugby League World Cup, Group A, Round 2 0,1,1,0
-league · Wheelchair Rugby League World Cup, Group A, Round 3 1,0,1,0
-league · Wheelchair Rugby League World Cup, Group B, Round 1 1,0
-league · Wheelchair Rugby League World Cup, Group B, Round 2 1,0
-league · Wheelchair Rugby League World Cup, Group B, Round 3 1,1
-league · Wheelchair Rugby League World Cup, Semi-final round (game 1, incl. play-offs) 0
-league · Wheelchair Rugby League World Cup, Semi-final round (game 2, incl. play-offs) 0
-league · Wheelchair Rugby League World Cup, Semi-final round (game 3, incl. play-offs) 0
-league · Wheelchair Rugby League World Cup, Semi-final round (game 4, incl. play-offs) 0
-league · Wheelchair Rugby League World Cup   1,4,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-league · Women's Rugby League World Cup, Final 0
-league · Women's Rugby League World Cup, Group A, Round 1 1,3,1,1
-league · Women's Rugby League World Cup, Group A, Round 2 3,1,1,1
-league · Women's Rugby League World Cup, Group A, Round 3 1,3,1,1
-league · Women's Rugby League World Cup, Group B, Round 1 4,1,1,1
-league · Women's Rugby League World Cup, Group B, Round 2 4,1,1,1
-league · Women's Rugby League World Cup, Group B, Round 3 4,1,1,1
-league · Women's Rugby League World Cup, Semi-final 1 (Kiwi Ferns if they qualify) 0
-league · Women's Rugby League World Cup, Semi-final 1 0
-league · Women's Rugby League World Cup, Semi-final 2 (Kiwi Ferns if they qualify) 0
-league · Women's Rugby League World Cup, Semi-final 2 0
-league · Women's Rugby League World Cup      0,0,0,0,0,0
-netball · Constellation Cup, Game 1          9,6
-netball · Constellation Cup, Game 2          9,6
-netball · Constellation Cup, Game 3          6,9
-netball · Constellation Cup, Game 4          6,9
-rugby · Bledisloe Cup                        8,9
-rugby · Farah Palmer Cup Championship Final  1,1
-rugby · Farah Palmer Cup Premiership Final   10,1
-rugby · NPC Final                            10,10
-rugby · NPC Quarter-final                    10,2,10,3,10,10,10,10
-rugby · NPC Round 10 (Ranfurly Shield)       10,10
-rugby · NPC Round 10                         10,10,10,2,3,10,10,10
-rugby · NPC Semi-final                       10,10,10,3
-rugby · Nations Championship Finals Weekend  8,0
-rugby · Nations Championship                 0,8,0,0
-rugby · Rugby Championship                   8,5,9,2
-rugby · Super Rugby Pacific 2027 Round 1     10,0,0,10,10,10,0,10
-rugby · Super Rugby Pacific                  10,10,10,10,10,10,10,10,10,10,0,0,0,0
-rugby · Test match                           0,9,8
-rugby · WXV Global Series                    7,2
-form 91006 bytes, feed 1099871, results.json 190004
-rugby|All Blacks: 25-09-27 W Australia (no id) · 25-10-04 W Australia (no id) · 26-08-22 W South Africa · 26-08-29 L South Africa · 26-09-05 L South Africa · 26-09-12 L South Africa · 26-10-10 W Wallabies · 26-10-17 W Wallabies
-rugby|Black Ferns|w: 26-08-14 L New Zealand Women · 26-08-22 W Australia Women · 26-09-05 W South Africa Women · 26-09-12 W France Women · 26-09-19 W Scotland · 26-09-26 L England · 26-10-17 W France
-rugby|Wallabies: 25-09-27 L New Zealand (no id) · 25-10-04 L New Zealand (no id) · 26-08-08 W Japan · 26-08-15 W Japan · 26-08-29 W Argentina · 26-09-05 D Argentina · 26-09-27 W South Africa · 26-10-10 L All Blacks · 26-10-17 L All Blacks
-football|Wellington Phoenix: 26-10-18 W Melbourne Victory
-football|Auckland FC: 26-10-17 W Melbourne City
-football|Arsenal: 26-09-12 W Sunderland · 26-09-19 L Brighton and Hove Albion · 26-10-10 W Leeds United · 26-10-18 W Nottingham Forest
-league|New Zealand: 25-10-19 W Samoa (no id) · 25-11-02 W Tonga (no id) · 25-11-09 W Samoa (no id) · 26-10-15 L Australia
-league|Kiwis: none
-cricket|New Zealand: 25-10-26 W England ODI (no id) · 25-10-29 W England ODI (no id) · 25-11-01 W England ODI (no id) · 25-11-16 W West Indies ODI (no id) · 25-11-19 W West Indies ODI (no id) · 25-11-22 W West Indies ODI (no id) · 25-12-02 D West Indies Test (no id) · 25-12-10 W West Indies Test (no id) · 25-12-18 W West Indies Test (no id) · 26-01-11 L India ODI (no id) · 26-01-14 W India ODI (no id) · 26-01-18 W India ODI (no id) · 26-01-23 L India T20I (no id) · 26-01-25 L India T20I (no id) · 26-01-28 W India T20I (no id) · 26-01-31 L India T20I (no id) · 26-03-15 L South Africa T20I (no id) · 26-03-17 W South Africa T20I (no id) · 26-03-20 W South Africa T20I (no id) · 26-03-22 L South Africa T20I (no id) · 26-03-25 L South Africa T20I (no id) · 26-10-22 L India T20I
-cricket|Sydney Sixers: 25-12-20 W Sydney Thunder (no id) · 25-12-26 L Melbourne Stars (no id) · 26-01-01 W Melbourne Renegades (no id) · 26-01-05 W Brisbane Heat (no id) · 26-01-08 W Melbourne Stars (no id) · 26-01-16 W Sydney Thunder (no id) · 26-01-18 W Brisbane Heat (no id) · 26-01-20 L Perth Scorchers (no id) · 26-01-23 W Hobart Hurricanes (no id) · 26-01-25 L Perth Scorchers (no id)
-cricket|Sydney Sixers|w: 25-11-09 W Perth Scorchers (no id) · 25-11-13 L Hobart Hurricanes (no id) · 25-11-15 W Sydney Thunder (no id) · 25-11-20 L Melbourne Stars (no id) · 25-11-21 W Hobart Hurricanes (no id) · 25-11-30 W Sydney Thunder (no id) · 25-12-03 W Melbourne Stars (no id) · 25-12-04 L Melbourne Renegades (no id) · 25-12-06 W Adelaide Strikers (no id) · 25-12-11 L Perth Scorchers (no id)
-netball|Silver Ferns|w: none
-basketball|New Zealand Breakers: 26-02-19 W Cairns Taipans (no id) · 26-02-22 W Adelaide 36ers (no id) · 26-09-20 W Illawarra Hawks · 26-09-22 L Brisbane Bullets · 26-09-26 L Perth Wildcats · 26-09-30 W Cairns Taipans · 26-10-04 W Adelaide 36ers · 26-10-10 L Perth Wildcats · 26-10-14 W Sydney Kings · 26-10-18 L Tasmania JackJumpers
-hockey|New Zealand: 26-06-16 W Malaysia · 26-06-17 W Japan · 26-06-19 D South Africa · 26-06-20 W Japan · 26-08-16 L Netherlands · 26-08-18 W Japan · 26-08-20 L Argentina · 26-08-22 W Wales · 26-08-24 W Pakistan · 26-08-28 W Ireland
-keys: rugby|All Blacks, rugby|Black Ferns|w, football|Wellington Phoenix, basketball|S.E. Melbourne Phoenix, basketball|New Zealand Breakers, basketball|Phoenix Suns
-A-League 2025-2026 r26: 6 games 2026-04-24–2026-04-26 Macarthur FC vs Wellington Phoenix 4-0
-A-League 2025-2026 r27: 0 games
-A-League 2025-2026 r28: 0 games
-A-League 2025-2026 r29: 0 games
-A-League 2025-2026 r30: 0 games
-A-League 2025-2026 r100: 0 games
-A-League 2025-2026 r125: 0 games
-A-League 2025-2026 r150: 4 games 2026-05-09–2026-05-16 Auckland FC vs Adelaide United 1-1
-A-League 2025-2026 r160: 2 games 2026-05-02–2026-05-02 Auckland FC vs Melbourne City 1-1
-A-League 2025-2026 r170: 0 games
-A-League 2025-2026 r200: 1 games 2026-05-23–2026-05-23 Auckland FC vs Sydney FC 1-0
+key length 39
+channel: UFC
+  2026-10-23T05:31 none      135 for Petr Yan! #ufc333
+  2026-10-23T05:23 none      Merab Dvalishvili #ufc333
+  2026-10-23T05:21 none      Movsar Evloev is locked in #ufc333
+  2026-10-23T05:18 none      Volkanovski has made weight #ufc333
+  2026-10-23T04:45 none      Fighter Focus: Dominick Reyes
+  2026-10-23T00:56 none      UFC x Clayface | In Theaters 10/23
+  2026-10-23T00:45 none      Day One: Petr Yan
+  2026-10-22T20:30 none      Volkanovski SMOKED Yair Rodriguez #ufc333
+  2026-10-22T19:47 none      The Adventures of Merab & Duncan: B2YB Thorne
+  2026-10-22T17:52 upcoming sched 2026-10-23T16:00 Power Slap 25: Hitman vs Dumpling 2 Prelims | October 23rd
+  2026-10-22T16:28 none      잡히지 않는 타이틀샷! 얼마나 답답했으면ㅠ #UFC333
+  2026-10-22T16:27 none      모두에게 위험하지만 볼카에겐 쉬운 상대? #UFC333
+  2026-10-22T16:27 none      이길 준비됐다! 두 사내의 출사표 #UFC333
+  2026-10-22T16:25 none      게이치와의 슈퍼파이트 가능할까? #UFC333
+  2026-10-22T16:25 none      이기면 최종 승자!? 3차전 기대하는 메랍 #UFC333
+  2026-10-22T15:59 none      Get your hands off my belt #ufc333
+  2026-10-22T15:10 none      UFC 333 Embedded: Vlog Series - Episode 4
+  2026-10-22T15:00 none      UFC 333 Betting Preview with Laura Sanko & Aljamain Sterling | 365 Frenzy
+  2026-10-22T14:39 none      How is this fair, Evloev is fighting Joe from Street Fighter… #ufc333
+  2026-10-22T14:37 none      Dana White acted like he didn’t recognize Volkov 😂 #ufc333
+  2026-10-22T14:35 none      The trilogy 🚨 # ufc333
+  2026-10-22T14:00 none      Merab Dvalishvili's Career So Far #UFC333
+  2026-10-22T13:40 none     sched 2026-10-22T13:00 UFC 333: Pre-Fight Press Conference
+  2026-10-21T18:02 none      "I Am Going to Cook Evloev!" | UFC 333 Media Day
+  2026-10-21T18:00 none      "I will win the trilogy!" | UFC 333 Media Day
+  2026-10-21T17:15 none      Petr Yan's looking GOOD with the belt! #ufc333
+  2026-10-21T16:30 none      Volkanovski vs Gaethje? #ufc333
+  2026-10-21T16:05 none      Merab Dvalishvili BEATING UP our cameraman! #ufc333
+  2026-10-21T15:00 none      Alexander Volkanovski Visiting South Korea! 🇰🇷 | UFC Connected
+  2026-10-21T14:55 none      UFC 333 Embedded: Vlog Series - Episode 3
+  2026-10-21T14:00 none      Petr Yan's Career So Far #ufc333
+  2026-10-20T23:00 none      메랍과 경쟁 종지부? 3차전 앞둔 얀 #UFC333
+  2026-10-20T19:50 none      He hated losing to Daniel Cormier #championmindset
+  2026-10-20T16:30 none      Winning isn’t good enough for David Taylor | Champion Mindset
+  2026-10-20T16:23 none      Petr Yan's custom shorts! #ufc333
+  2026-10-20T15:13 none      UFC 333 Embedded: Vlog Series - Episode 2
+  2026-10-20T14:00 none      Movsar Evloev's Career So Far #ufc333
+  2026-10-20T11:45 none      Lone'er Kavanagh vs Brandon Moreno
+  2026-10-20T03:00 none      스트리트파이터! 헐리우드 진출한 볼카노프스키 #UFC333
+  2026-10-19T23:00 none      2차전은 얀의 승리! 3차전 최종 승자는? #ufc333
+  2026-10-19T23:00 none      볼카의 아성에 도전하는 20승 무패의 사나이 #UFC333
+  2026-10-19T23:00 none      볼카노프스키의 위대한 유산은 현재 진행형 #UFC333
+  2026-10-19T16:58 none      Alexander Volkanovski's Career So Far #ufc333
+  2026-10-19T15:42 upcoming sched 2026-10-23T14:00 UFC 333: Ceremonial Weigh-In
+  2026-10-19T15:40 upcoming sched 2026-10-24T07:00 UFC 333: Free Fight Marathon
+  2026-10-19T15:39 upcoming sched 2026-10-24T21:15 🔴 UFC 333: Post-Fight Press Conference
+  2026-10-19T15:33 none      UFC 333 Embedded: Vlog Series - Episode 1
+  2026-10-19T11:45 none      UFC's Greatest Boxer! 🥊 | Petr Yan's UFC Career
+  2026-10-18T21:15 none      UFC 333: Volkanovski vs Evloev - October 24th | Fight Promo
+  2026-10-18T18:30 none      UFC 333 Countdown - Yan vs Dvalishvili 3
+Nations Championship templates: {"Infobox rugby union season":1,"rugbybox":6}
+length 35841
+first box: "{{rugbybox\n|id=\n|date=27 November 2026\n|time=16:40 [[GMT]] ([[UTC+0]])\n|team1=Northern 6 \n|score=\n|report=\n|team2=Southern 6\n|try1=\n|con1=\n|pen1=\n|drop1=\n|try2=\n|con2=\n|pen2=\n|drop2=\n|stadium=[[Twickenham Stadium]], London\n|attendance=\n|referee=\n}}\n\n====Ninth place final====\n{{rugbybox\n|id=\n|date=28 November 2026\n|time=13:10 [[GMT]] ([[UTC+0]]) \n|team1=Northern 5\n|score=\n|report=\n|team2=Southern 5\n|try1=\n|con1=\n|pen1=\n|drop1=\n|try2=\n|con2=\n|pen2=\n|drop2=\n|stadium=[[Twickenham Stadium]], London\n|"
+2025 end-of-year rugby union: ["2025 end-of-year rugby union internationals","2021 end-of-year rugby union internationals","2024 end-of-year rugby union internationals","2020 end-of-year rugby union internationals","2022 end-of-year rugby union internationals","2012 end-of-year rugby union internationals"]
+2025 mid-year rugby union: ["2025 mid-year rugby union tests","2022 mid-year rugby union tests","2024 mid-year rugby union tests","2019 mid-year rugby union internationals","2025 end-of-year rugby union internationals","2021 mid-year rugby union internationals"]
+2025 July rugby union: ["2021 July rugby union tests","2020 July rugby union tests","2022 July rugby union tests"]
+2025 rugby union internationals: ["2026 Rugby Union Internationals (men)"]
+2026 Farah Palmer Cup: ["2023 Farah Palmer Cup","2022 Farah Palmer Cup","2020 Farah Palmer Cup","2021 Farah Palmer Cup","2024 Farah Palmer Cup"]
+2025 Farah Palmer Cup: ["2025 Farah Palmer Cup","2023 Farah Palmer Cup","2022 Farah Palmer Cup","2020 Farah Palmer Cup","2021 Farah Palmer Cup"]
+2025 women's rugby union: ["2026 women's rugby union internationals"]
+2025–26 Plunket Shield: ["2025–26 Plunket Shield season","2022–23 Plunket Shield season","2020–21 Plunket Shield season","2024–25 Plunket Shield season","2023–24 Plunket Shield season","2021–22 Plunket Shield season"]
+2025–26 Ford Trophy: ["2025–26 Ford Trophy","2024–25 Ford Trophy","2020–21 Ford Trophy","2022–23 Ford Trophy","2023–24 Ford Trophy","2015–16 Ford Trophy"]
+2025–26 Super Smash: ["2025–26 Super Smash (men's cricket)","2025–26 Super Smash (women's cricket)","2023–24 Super Smash (women's cricket)","2023–24 Super Smash (men's cricket)","2024–25 Super Smash (men's cricket)","2020–21 Super Smash (women's cricket)"]
+WXV: 30 games
+  2026-09-12T15:45:00.000Z blackferns France Women v New Zealand Women final 14-28  Stade de Gerland
+  2026-09-19T15:45:00.000Z wxv France Women v Australia Women final 29-26  Stade Maurice David
+  2026-09-26T15:45:00.000Z wxv France Women v Canada Women final 21-5  Stade Marcel-Deflandre
+  2026-09-12T14:00:00.000Z wxv England Women v Australia Women final 48-15  CorpAcq Stadium
+  2026-09-19T14:00:00.000Z wxv England Women v Canada Women final 26-26  Sandy Park
+  2026-09-26T14:00:00.000Z blackferns England Women v New Zealand Women final 26-19  Twickenham Stadium
+  2026-09-12T15:10:00.000Z wxv Scotland Women v Canada Women final 26-64  Edinburgh Rugby Stadium
+  2026-09-19T16:10:00.000Z blackferns Scotland Women v New Zealand Women final 14-66  Edinburgh Rugby Stadium
+  2026-09-26T15:10:00.000Z wxv Scotland Women v Australia Women final 10-30  Edinburgh Rugby Stadium
+  2026-09-18T18:15:00.000Z wxv Wales Women v South Africa Women final 50-19  Cardiff Arms Park
+  2026-09-26T14:00:00.000Z wxv Wales Women v USA Women final 24-26  Cardiff Arms Park
+  2026-09-19T12:30:00.000Z wxv Italy Women v Japan Women final 55-21  Stadio Omero Tognon
+  2026-09-26T12:30:00.000Z wxv Italy Women v South Africa Women final 29-41  Stadio Omero Tognon
+  2026-09-20T12:45:00.000Z wxv Ireland Women v USA Women final 36-40  Tallaght Stadium
+  2026-09-27T11:45:00.000Z wxv Ireland Women v Japan Women final 31-24  Dexcom Stadium
+  2026-10-04T11:00:00.000Z wxv Spain Women v South Africa Women final 0-20  Instalaciones deportivas La Cartuja
+  2026-10-16T23:00:00.000Z wxv Canada Women v England Women final 24-21  BMO Field
+  2026-10-23T23:00:00.000Z wxv Canada Women v England Women upcoming   TD Place Stadium
+  2026-10-30T21:15:00.000Z wxv USA Women v England Women upcoming   Sports Illustrated Stadium
+  2026-10-17T02:00:00.000Z wxv Australia Women v Scotland Women final 56-12  Stadium Australia
+  2026-10-23T08:30:00.000Z wxv Australia Women v Scotland Women upcoming   Canberra Stadium
+  2026-10-17T02:05:00.000Z blackferns New Zealand Women v France Women final 81-12  Waikato Stadium
+  2026-10-24T02:05:00.000Z blackferns New Zealand Women v France Women upcoming   Okara Park
+  2026-10-31T06:10:00.000Z blackferns New Zealand Women v France Women upcoming   Te Kaha
+  2026-10-17T22:00:00.000Z wxv USA Women v Italy Women final 36-27  Texas Health Mansfield Stadium
+  2026-10-24T20:15:00.000Z wxv USA Women v Italy Women upcoming   Geodis Park
+  2026-10-24T13:00:00.000Z wxv South Africa Women v Ireland Women upcoming   Athlone Stadium
+  2026-10-31T13:00:00.000Z wxv South Africa Women v Ireland Women upcoming   Athlone Stadium
+  2026-10-24T13:00:00.000Z wxv Japan Women v Wales Women upcoming   Chichibunomiya Rugby Stadium
+  2026-10-31T07:00:00.000Z wxv Japan Women v Wales Women upcoming   Kumagaya Rugby Ground
