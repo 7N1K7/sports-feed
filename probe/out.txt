@@ -1,43 +1,19 @@
-
-##### Template:New Zealand national netball team current roster 3407
-The current squad was selected for the [[2025 Constellation Cup]].
-
-{{INF roster header|team=New Zealand|color1 = white| bg1 = black| color2 = white| bg2 = black}}
-{{INF roster player|name=[[Karin Burger]]|pos=WD, GD, GK|dob={{birth date and age2|df=yes|2025|10|17|1993|4|12}}|height=1.84|club=[[Mainland Tactix]]|nat=NZ|capt=yes}}
-{{INF roster player |name=[[Maddy Gordon]]|pos=C, WA, WD|dob={{birth date and age2|df=yes|2025|10|17|2000|01|16}}|height=1.74|club=[[Central Pulse]]|nat=NZ}}
-{{INF roster player |name=Catherine Hall |pos=GK,GD |dob={{birth date and age2|df=yes|2025|10|17|2003|12|16}}|height=1.91|club=[[Northern Mystics]]|nat=NZ}}
-{{INF roster player |name=[[Georgia Heffernan]]|pos=GS, GA |dob={{birth date and age2|df=yes|2025|10|17|1999|10|07}}|height=1.81|club=[[Southern Steel (netball)|Southern Steel]]|nat=NZ}}
-{{INF roster player |name=[[Kate Heffernan]]|pos=WD, C, WA|dob={{birth date and age2|df=yes|2025|10|17|1999|10|07}}|height=1.81|club=[[Southern Steel (netball)|Southern Steel]]|nat=NZ}}
-{{INF roster player|name=[[Kelly Jackson (netball)|Kelly Jackson]]|pos=GK, GD|dob={{birth date and age2|df=yes|2025|09|21|1996|10|22}}|height=1.92|club=[[Central Pulse]]|nat=NZ|vc=yes}}
-{{INF roster player|name=Paris Mason|pos=GK, GD, WD|dob={{birth date and age2|df=yes|2025|10|17|2002|12|13}}|height=1.84|club=[[Central Pulse]]|nat=NZ}}
-{{INF roster player |name=[[Grace Nweke]]|pos=GS|dob={{birth date and age2|df=yes|2025|10|17|2002|02|7}}|height=1.93|club=[[New South Wales Swifts]]|nat=AUS}}
-{{INF roster player|name=[[Kimiora Poi]]|pos=C, WA|dob={{birth date and age2|df=yes|2025|10|17|1997|11|01}}|height=1.68|club=[[Southern Steel (netball)|Southern Steel]]|nat=NZ}}
-{{INF roster player|name=Mila Reulu-Buchanan|pos=C, WA|dob={{birth date and age2|df=yes|2025|10|17|1998|05|11}}|height=1.73|club=[[Northern Stars]]|nat=NZ}}
-{{INF roster player|name=Martina Salmon|pos=GS, GA|dob=|height=1.90|club=[[Mainland Tactix]]|nat=NZ}}
-{{INF roster player|name=Carys Stythe|pos=GD, GK|dob={{birth date and age2|2025|10|17|2003|06|18}}|height=1.92|club=[[Southern Steel (netball)|Southern Steel]]|nat=NZ}}
-{{INF roster player|name=[[Elisapeta Toeava]]|pos=WA, C|dob={{birth date and age2|2025|10|17|1994|03|10|df=y}}|height=1.61|club=[[Northern Mystics]]|nat=NZ}}
-{{INF roster player|name=Amelia Walmsley|pos=GS, GA|dob={{birth date and age2|df=yes|2025|10|17|2004|01|31}}|height=1.92|club=[[Central Pulse]]|nat=NZ}}
-{{INF roster footer
- | head_coach = [[Yvette McCausland-Durie]]
- 
-
-##### Template:Australia national netball team current roster 2760
-{{INF roster header|team=Australia
-| color1 = #208c6a| bg1 = #ffd700| color2 = #ffd700| bg2 = #208c6a}}
-{{INF roster player |name=[[Sunday Aryang]] |pos=GD |dob={{birth date and age2|df=yes|2025|10|17|2000|12|25}}|height=1.82 |club=[[West Coast Fever]]}}
-{{INF roster player |name=[[Kiera Austin]] |pos=GS, GA, WA |dob={{birth date and age2|df=yes|2025|10|17|1997|08|26}}|height=1.85 |club=[[Melbourne Vixens]]}}
-{{INF roster player |name=[[Courtney Bruce]] |pos=GK, GD |dob={{birth date and age2|df=yes|2025|10|17|1993|12|8}}|height=1.89 |club=[[Sunshine Coast Lightning]]}}
-{{INF roster player |name=Sophie Dwyer|pos=GA |dob={{birth date and age2|df=yes|2025|10|17|2001|12|05}}|height=1.83 |club=[[Giants Netball]]}}
-{{INF roster player|name=Ashleigh Ervin|pos=GK, GD|dob={{birth date and age2|df=yes|2025|10|17|2003|05|15}}|height=1.92|club=[[Sunshine Coast Lightning]]}}
-{{INF roster player |name=[[Sophie Garbin]]|pos=GS, GA|dob={{birth date and age2|df=yes|2025|10|17|1997|04|06}}|height=1.84 |club=[[Melbourne Vixens]]}}
-{{INF roster player |name=[[Matilda Garrett]]|pos=GK, GD|dob={{birth date and age2|df=yes|2025|10|17|1998|08|11}}|height=1.85|club=[[Adelaide Thunderbirds]]}}
-{{INF roster player|name=Georgie Horjus|pos=GA, WA|dob={{birth date and age2|df=yes|2025|10|17|2002|01|28}}|height=1.72|club=[[Adelaide Thunderbirds]]}}
-{{INF roster player |name=[[Sarah Klau]] |pos=GK, GD |dob={{birth date and age2|df=yes|2025|10|17|1994|09|30}}|height=1.90 |club=[[New South Wales Swifts]]}}
-{{INF roster player |name=[[Cara Koenen]] |pos=GS, GA |dob={{birth date and age2|df=yes|2025|10|17|1996|02|27}}|height=1.90 |club=[[Sunshine Coast Lightning]]}}
-{{INF roster player |name=[[Kate Moloney]] |pos=WD, C, WA |dob={{birth date and age2|df=yes|2025|10|17|1993|01|8}}|height=1.77 |club=[[Melbourne Vixens]]|vc=yes}}
-{{INF roster player |name=Hannah Mundy|pos=C, WA, WD|dob={{birth date and age2|df=yes|2025|10|17|2001|06|10}}|height=1.81|club=[[Melbourne Vixens]]}}
-{{INF roster player |name=[[Amy Parmenter]]|pos=WD |dob={{birth date and age2|df=yes|2025|10|17|1997|08|1}}|height=1.76 |club=[[Melbourne Mavericks]]}}
-{{INF roster player |name=[[Jamie-Lee Price]] |pos=WD, C |dob={{birth date and age2|df=yes|2025|10|17|1996|01|10}}|height=1.79 |club=[[Melbourne Mavericks]]}}
-{{INF roster player |name=[[Liz Watson (netball)|Liz Watson]]|pos=WA, C |dob={{birth date and age2|df=yes|2024|10|20|1994|3|30}}|height=1.78 |club=[[Sunshine Coast Lightning]]|capt=yes}}
-{{INF roster footer
- | head_co
+Central Districts women's cricket team => Central Hinds 15845 | squad 0  | ==Players== / ==2026/27 squad== / ===Notable players===
+Auckland women's cricket team => Auckland Hearts 18361 | squad 20 Cate Pedersen, Maddy Green (c), Saachi Shahri | ==Players== / ===Current squad=== / ===Notable players===
+Otago women's cricket team => Otago Sparks 16535 | squad 17 Caitlin Blakely, Hayley Jensen, Paige Loggenberg | ==Players== / ===Current squad=== / ===Notable players===
+Canterbury women's cricket team => Canterbury Magicians 20861 | squad 20 Izzy Sharp, Natalie Cox, Harriet Graham | ==Players== / ===Current squad=== / ===Notable players===
+Wellington women's cricket team => Wellington Blaze 17368 | squad 17 Georgia Plimmer, Caitlin King, Rebecca Burns | ==Players== / ===Current squad=== / ===Notable players===
+Waikato (women's rugby union team) => Waikato (women's rugby union team) MISSING 0 | squad 0  | 
+Taranaki Whio => Taranaki Whio MISSING 0 | squad 0  | 
+Hawke's Bay Tui => Hawke's Bay Tui MISSING 0 | squad 0  | 
+Counties Manukau Heat => Counties Manukau Heat MISSING 0 | squad 0  | 
+Bay of Plenty Volcanix => Bay of Plenty Volcanix MISSING 0 | squad 0  | 
+Waikato (Farah Palmer Cup) => Waikato (Farah Palmer Cup) MISSING 0 | squad 0  | 
+Canterbury women's rugby union team => Canterbury women's rugby union team MISSING 0 | squad 0  | 
+Canterbury (Farah Palmer Cup) => Canterbury (Farah Palmer Cup) MISSING 0 | squad 0  | 
+Auckland Storm => Auckland Storm MISSING 0 | squad 0  | 
+Northland Kauri => Northland Kauri MISSING 0 | squad 0  | 
+Wellington Pride => Wellington Pride MISSING 0 | squad 0  | 
+Otago Spirit => Otago Rugby Football Union 63257 | squad 0  | ===Individual and team records===
+Manawatu Cyclones => Manawatu Rugby Union 50624 | squad 0  | ==Manawatu representative players== / ===Manawatu players in Super Rugby=== / ===Other distinguished players===
+Matatū => Matatū 23423 | squad 0  | == Current squad ==
