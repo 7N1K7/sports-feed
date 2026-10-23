@@ -1,11 +1,11 @@
-// probe 134: the live feed's coverage and its biggest gaps per sport
+// probe 135: logos diag, and what TheSportsDB's free key gives for the NBA and MLB team lists
 const f = await (await fetch('https://kickoff.kiwi/data/feed.json?t=' + Date.now())).json();
-const cov = f.coverage || f.diag?.coverage || {};
-console.log('feed keys:', Object.keys(f).join(', '));
-for (const [sp, c] of Object.entries(cov)) {
-  const pc = (a, b) => b ? Math.round(100 * a / b) + '%' : '-';
-  console.log(`\n${sp}: games ${c.games}, time ${pc(c.time, c.games)}, watch ${pc(c.watch, c.games)}, squads ${pc(c.squads, c.sqGames)}, pic ${pc(c.pic, c.sides)}, links ${pc(c.links, c.sides)}, guide ${c.guide || 0}`);
-  const g = c.gaps || {};
-  for (const k of ['time', 'watch', 'squads']) if (g[k]?.length) console.log(`  ${k} gaps:`, JSON.stringify(g[k].slice(0, 8)));
-  for (const k of ['pic', 'links']) if (g[k]?.length) console.log(`  ${k} gaps:`, [...new Set(g[k])].slice(0, 25).join(', '));
+const d = f.diag || {};
+for (const k of Object.keys(d)) if (/logo|tsdb|thesportsdb|links|teamLinks/i.test(k)) console.log(k, ':', JSON.stringify(d[k]).slice(0, 300));
+console.log('teamLinks sample:', JSON.stringify(f.teamLinks).slice(0, 600));
+for (const l of ['NBA', 'MLB', 'Nippon Baseball League', 'Nippon Professional Baseball']) {
+  const r = await fetch(`https://www.thesportsdb.com/api/v1/json/123/search_all_teams.php?l=${encodeURIComponent(l)}`);
+  const t = await r.text(); let j = {}; try { j = JSON.parse(t); } catch {}
+  console.log(l, r.status, (j.teams || []).length, (j.teams || []).slice(0, 40).map(x => `${x.strTeam}${x.strBadge ? '' : ' (no badge)'}`).join(', ').slice(0, 900));
+  await new Promise(r => setTimeout(r, 2500));
 }
