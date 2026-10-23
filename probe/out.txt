@@ -1,17 +1,5 @@
-200 https://www.pgatour.com/leaderboard -> https://www.pgatour.com/leaderboard | Butterfield Bermuda Championship 2026 Golf Leaderboard - PGA Tour
-404 https://www.lpga.com/leaderboard -> https://www.lpga.com/leaderboard | undefined
-200 https://www.lpga.com/tournaments -> https://www.lpga.com/tournaments | Tournaments | LPGA | Ladies Professional Golf Association
-403 https://pga.org.au/leaderboard/ -> https://golf.com.au/ | Just a moment...
-522 https://www.pga.org.au/leaderboard -> https://www.pga.org.au/leaderboard | pga.org.au | 522: Connection timed out
-403 https://pga.org.au/tournaments/ -> https://golf.com.au/ | Just a moment...
-403 https://pga.org.au/ -> https://golf.com.au/ | Just a moment...
-200 https://sailgp.com/races/ -> https://sailgp.com/races/ | SailGP
-200 https://sailgp.com/ -> https://sailgp.com/ | SailGP - The home of the world’s most exciting racing on water
-ERR https://www.dpworldtour.com/leaderboard fetch failed
-version 387 golf now: [
-  'Butterfield Bermuda Championship 2026-10-22T17:00:00.000Z -> 2026-10-25T17:00:00.000Z upcoming',
-  'Buick LPGA Shanghai 2026-10-15T06:00:00.000Z -> 2026-10-18T06:00:00.000Z final',
-  'BMW Ladies Championship 2026-10-22T05:00:00.000Z -> 2026-10-25T05:00:00.000Z upcoming',
-  'WA Open 2026-10-15T06:00:00.000Z -> 2026-10-18T06:00:00.000Z final',
-  'Players Series SA 2026-10-22T03:30:00.000Z -> 2026-10-25T03:30:00.000Z upcoming'
-]
+version 388 | golf {"2026 PGA Tour":45,"2026 LPGA Tour":31,"2026–27 PGA Tour of Australasia":18}
+rounds: [["4",31]]
+3-round: 
+now: Butterfield Bermuda Championship 4; BMW Ladies Championship 4; Players Series SA 4
+page has stageNow: true | LIVE_TEAM: true | theme box 11em: true
