@@ -1316,7 +1316,8 @@ function stateSquad(text) {
   let nameCol = -1, group = '';
   // the header row may come straight after the table's opening line, with no row marker before it
   for (const row of tbl.replace(/^\{\|[^\n]*\n?/, '').split(/\n?\|-[^\n]*/)) {
-    const lines = row.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('|}'));
+    // (a caption line, |+, can sit before the header cells)
+    const lines = row.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('|}') && !l.startsWith('|+'));
     if (!lines.length) continue;
     if (lines.every(l => l.startsWith('!'))) {
       const heads = lines.flatMap(l => l.slice(1).split('!!')).map(c => clean(cellText(c)));
@@ -1348,7 +1349,7 @@ function stateSquad(text) {
 // Super Rugby squad. Each is the side's whole squad for the season, not a match-day team. sport|gender|name -> page
 export const TEAM_PAGES = {
   'cricket|m|Auckland Aces': 'Auckland cricket team', 'cricket|m|Canterbury': 'Canterbury cricket team', 'cricket|m|Central Stags': 'Central Districts cricket team',
-  'cricket|m|Wellington Firebirds': 'Wellington cricket team', 'cricket|m|Otago Volts': 'Otago cricket team', 'cricket|m|Northern Districts': 'Northern Districts cricket team',
+  'cricket|m|Wellington Firebirds': 'Wellington cricket team', 'cricket|m|Otago Volts': 'Otago cricket team', 'cricket|m|Northern Districts': "Northern Districts men's cricket team",
   ...Object.fromEntries(['Adelaide Strikers', 'Brisbane Heat', 'Hobart Hurricanes', 'Melbourne Renegades', 'Melbourne Stars', 'Perth Scorchers', 'Sydney Sixers', 'Sydney Thunder']
     .flatMap(t => [[`cricket|m|${t}`, t], [`cricket|w|${t}`, `${t} (WBBL)`]])),
   ...Object.fromEntries(['New Zealand Breakers', 'Adelaide 36ers', 'Brisbane Bullets', 'Cairns Taipans', 'Illawarra Hawks', 'Melbourne United', 'Perth Wildcats', 'Sydney Kings', 'Tasmania JackJumpers']
@@ -1392,7 +1393,8 @@ const BB_GROUP = { Starters: 'Pitcher', Pitchers: 'Pitcher', Bullpen: 'Pitcher',
 function rosterTemplate(text) {
   if (/\{\{\s*NBA roster header/i.test(text)) return sqTemplates(text, 'player2').map(a => { const n = `${clean(a.first || '')} ${clean(a.last || '')}`.trim();
     return sqPlayer({ n, w: a.link || (a.dab ? `${n} (${a.dab})` : '') }, NBA_POS[String(a.pos || '').toUpperCase()] || a.pos || ''); });
-  if (!/\{\{\s*(MLB|NPB) roster\s*\|/i.test(text)) return [];
+  // the 26-man roster in season; the 40-man spring training (or off-season) roster between seasons
+  if (!/\{\{\s*(MLB|NPB)( [\w -]+?)? roster\s*\|/i.test(text)) return [];
   const out = []; let group = null;
   for (const line of text.split('\n')) {
     const g = line.match(/^\s*\|\s*(\w+)\s*=/); if (g) group = BB_GROUP[g[1]] ?? null;
