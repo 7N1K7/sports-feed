@@ -1,5 +1,207 @@
-titles 17 Northern Districts cricket team | Lebanon national rugby league team | Ireland national rugby union team | United States national wheelchair rugby league team | France national rugby union team | Scotland national rugby union team | New Zealand national rugby league team | Template:Cleveland Guardians roster | Template:New York Yankees roster | Template:Chicago White Sox roster | Template:Houston Astros roster | Template:Boston Red Sox roster | Template:Los Angeles Dodgers roster | Template:San Diego Padres roster | Template:Atlanta Braves roster | Template:Philadelphia Phillies roster | Template:Chicago Cubs roster
-round 0: status 200, 613708 bytes, error null, warnings null, continue null
-  pages: Scotland national rugby union team 144673 | New Zealand national rugby league team 82044 | Ireland national rugby union team 159541 | France national rugby union team 137429 | Lebanon national rugby league team 32078 | Template:Los Angeles Dodgers roster 2951 | Template:San Diego Padres roster 3733 | Template:New York Yankees roster 2998 | Template:Chicago Cubs roster 3273 | Template:Cleveland Guardians roster 3500 | Template:Philadelphia Phillies roster 3185 | Template:Houston Astros roster 2821 | Template:Boston Red Sox roster 3593 | Template:Atlanta Braves roster 3216 | Template:Chicago White Sox roster 3314 | Northern Districts 481 | United States national wheelchair rugby league team 13054
-teamSquads: 4 of 17: Northern Districts, Lebanon, USA, Cleveland Guardians, New York Yankees, Chicago White Sox, Houston Astros, Boston Red Sox, Los Angeles Dodgers, San Diego Padres, Atlanta Braves, Philadelphia Phillies, Chicago Cubs missing
-Ireland 52, France 117, Scotland 36, New Zealand 23
+redirects [{"from":"Northern Districts cricket team","to":"Northern Districts"}] normalized []
+
+===== Lebanon national rugby league team (32078)
+headings: ==History== / ===2000 World Cup=== / ===2008 World Cup qualifying=== / ===2013 World Cup Qualifying=== / ===Return to the World Cup, player disputes (2015–19)=== / ===2021 World Cup=== / ==Current squad== / ==Competitive record== / ===World Cup Record=== / === World Cup 9's === / ==IRL Rankings== / ==See also== / ==Notes== / ==References== / ==External links==
+--- near squad: ==Current squad==
+Squad named in October 2025, to play against Italy.<ref>{{Cite web |title=Italy and Lebanon Men and Women Name Squads For Weekend |url=https://europeanrugbyleague.com/articles/2560/italy-and-lebanon-men-and-women-name-squ... |access-date=2025-10-03 |website=europeanrugbyleague.com |language=en}}</ref>
+{| class="wikitable"
+|+
+!Name
+!Club
+|-
+|Ibrahim El Cheikh
+|{{flagicon|AUS}} [[Blacktown Workers]]
+|-
+|Ibrahim El Labban
+|{{flagicon|AUS}} [[Blacktown Workers]]
+|-
+|Moustafa Dirani
+|{{flagicon|AUS}} [[Cronulla-Sutherland Sharks]]
+|-
+|Daniel Ahmed Arahu
+|{{flagicon|AUS}} [[Glebe Dirty Reds]]
+|-
+|Mikael Ibrahim
+|{{flagicon|AUS}} [[Gold Coast Titans]]
+|-
+|Joshua Maree
+|{{flagicon|AUS}} [[North Sydney Bears]]
+|-
+|Kade Moujalli
+|{{flagicon|AUS}} Hills District
+|-
+|Jonathan Ibrahim
+|{{flagicon|AUS}} [[Manly Warringah Sea Eagles]]
+|-
+|Hussen Said
+|{{flagicon|AUS}} [[Manly Warringah Sea Eagles]]
+|-
+|AJ El-Ters
+|{{flagicon|AUS}} [[Moorebank Rams]]
+|-
+|Mohamed Hadid
+|{{flagicon|AUS}} [[Moorebank Rams]]
+|-
+|Ayman Maarbani
+|{{flagicon|AUS}} [[Moorebank Rams]]
+|-
+|Mohamed Alameddine
+|{{flagicon|AUS}} [[Parramatta Eels]]
+|-
+|Bilal El-Youseff
+|{{flagicon|AUS}} [[Ryde-Eastwood Hawks]]
+|-
+|Zachariah Nachar
+|{{flagicon|AUS}} [[St. George Illawarra Dragons]]
+|-
+|Xavier Ndaira
+|{{flagicon|AUS}} [[St. George Illawarra Dragons]]
+|-
+|James Khoo
+|{{flagicon|AUS}} [[Sydney Roosters]]
+|-
+|Yeyha Ayache
+|{{flagicon|AUS}} [[South Sydney Rabbitohs]]
+|-
+|Elias Abou-Mrad
+|{{flagicon|AUS}} [[We
+
+===== Template:Milwaukee Brewers roster (3482)
+{{MLB roster
+|TemplateName=Milwaukee Brewers roster
+|TeamName=Milwaukee Brewers
+|MLBcomName=brewers
+|Date=October 4, 2026
+|Active=26
+|Inactive=12
+|Pitchers=
+|Starters=
+{{MLBplayer|55|[[Shane Drohan]]}}
+{{MLBplayer|54|[[Robert Gasser]]}}
+{{MLBplayer|52|[[Kyle Harrison (baseball)|Kyle Harrison]]}}
+{{MLBplayer|43|[[Logan Henderson (baseball)|Logan Henderson]]}}
+{{MLBplayer|21|[[Dustin May]]}}
+{{MLBplayer|32|[[Jacob Misiorowski]]}}
+
+|Bullpen=
+{{MLBplayer|26|[[Aaron Ashby]]}}
+{{MLBplayer|37|[[DL Hall]]}}
+{{MLBplayer|39|[[Chad Patrick]]}}
+{{MLBplayer|33|[[JoJo Romero]]}}
+{{MLBplayer|49|[[Antonio Senzatela]]}}
+{{MLBplayer|45|[[Abner Uribe]]}}
+
+|Closer=
+{{MLBplayer|29|[[Trevor Megill]]}}
+
+|Catchers=
+{{MLBplayer|24|[[William Contreras]]}}
+{{MLBplayer|99|[[Gary Sánchez]]}}
+
+|Infielders=
+{{MLBplayer|&nbsp;9|[[Jake Bauers]]}}
+{{MLBplayer|&nbsp;6|[[David Hamilton (baseball)|David Hamilton]]}}
+{{MLBplayer|&nbsp;3|[[Joey Ortiz]]}}
+{{MLBplayer|12|[[Cooper Pratt]]}}
+{{MLBplayer|&nbsp;2|[[Brice Turang]]}}
+{{MLBplayer|28|[[Andrew Vaughn]]}}
+
+|Outfielders=
+{{MLBplayer|11|[[Jackson Chourio]]}}
+{{MLBplayer|10|[[Sal Frelick]]}}
+{{MLBplayer|18|[[Luis Lara]]}}
+{{MLBplayer|&nbsp;5|[[Garrett Mitchell (baseball)|Garrett Mitchell]]}}
+
+|DH=
+{{MLBplayer|22|[[Christian Yelich]]}}
+
+|InactivePitchers=
+{{MLBplayer|56|[[Grant Anderson (baseball)|Grant Anderson]]|IL}}
+{{MLBplayer|57|[[Coleman Crow]]}}
+{{MLBplayer|--|[[Colton Gordon]]}}
+{{MLBplayer|47|[[Jared Koenig]]}}
+{{MLBplayer|23|[[Brandon Sproat]]}}
+{{MLBplayer|31|[[Garrett Stallings]]}}
+{{MLBplayer|41|[[Bryse Wilson]]}}
+
+|InactiveCatchers=
+{{MLBplayer|14|[[Bo Naylor]]}}
+{{MLBplayer|15|[[Jeferson Quero]]}}
+
+|InactiveInfielders=
+
+|InactiveOutfielders=
+{{MLBplayer|25|[[Akil Baddoo]]}}
+{{MLBplayer|20|[[Brandon Lockridge]]}}
+
+|InactiveDH=
+{{MLBplayer|&nbs
+
+===== Template:New York Yankees roster (2998)
+{{MLB spring training roster
+|TemplateName=New York Yankees roster
+|TeamName=New York Yankees
+|MLBcomName=yankees
+|Date=October 8, 2026
+|Active=40
+|Inactive=0
+|NRI=0
+|Pitchers=
+{{MLBplayer|89|[[Brendan Beck]]}}
+{{MLBplayer|53|[[David Bednar (baseball)|David Bednar]]}}
+{{MLBplayer|58|[[Paul Blackburn (baseball)|Paul Blackburn]]}}
+{{MLBplayer|57|[[Angel Chivilli]]}}
+{{MLBplayer|45|[[Gerrit Cole]]}}
+{{MLBplayer|73|[[Yerry De Los Santos]]}}
+{{MLBplayer|54|[[Max Fried]]}}
+{{MLBplayer|43|[[Michael Fulmer]]}}
+{{MLBplayer|81|[[Luis Gil (baseball)|Luis Gil]]}}
+{{MLBplayer|93|[[Bradley Hanner]]}}
+{{MLBplayer|47|[[Brent Headrick]]}}
+{{MLBplayer|41|[[Tim Hill (baseball)|Tim Hill]]}}
+{{MLBplayer|55|[[Carlos Rodón]]}}
+{{MLBplayer|71|[[Elmer Rodríguez]]}}
+{{MLBplayer|36|[[Clarke Schmidt]]}}
+{{MLBplayer|31|[[Cam Schlittler]]}}
+{{MLBplayer|56|[[John Schreiber (baseball)|John Schreiber]]}}
+{{MLBplayer|29|[[Will Warren]]}}
+{{MLBplayer|40|[[Ryan Weathers]]}}
+{{MLBplayer|33|[[Ryan Yarbrough]]}}
+
+|Catchers=
+{{MLBplayer|25|[[J. C. Escarra]]}}
+{{MLBplayer|39|[[Ali Sánchez]]}}
+{{MLBplayer|28|[[Austin Wells]]}}
+
+|Infielders=
+{{MLBplayer|72|[[José Caballero (baseball)|José Caballero]]}}
+{{MLBplayer|13|[[Jazz Chisholm Jr.]]}}
+{{MLBplayer|26|[[Luis García Jr.]]}}
+{{MLBplayer|48|[[Paul Goldschmidt]]}}
+{{MLBplayer|96|[[George Lombard Jr.]]}}
+{{MLBplayer|19|[[Ryan McMahon]]}}
+{{MLBplayer|14|[[Amed Rosario]]}}
+{{MLBplayer|11|[[Anthony Volpe]]}}
+
+|Outfielders=
+{{MLBplayer|35|[[Cody Bellinger]]}}
+{{MLBplayer|24|[[Jasson Domínguez]]}}
+{{MLBplayer|12|[[Trent Grisham]]}}
+{{MLBplayer|78|[[Spencer Jones (outfielder)|Spencer Jones]]}}
+{{MLBplayer|99|[[Aaron Judge]]}}
+{{MLBplayer|34|[[Heliot Ramos]]}}
+{{MLBplayer|30|[[Max Schuemann]]}}
+
+|DH=
+{{MLBplayer|22|[[Ben Rice]]}}
+{{MLBplayer|27|[[Giancarlo Stanton]]}}
+
+
+
+===== Northern Districts (481)
+headings: ==See also==
+--- near squad: none
+
+===== United States national wheelchair rugby league team (13054)
+headings: ==History== / ===2021 World Cup=== / ===Hosting Wales=== / ===2026 World Cup=== / ==Results== / === Upcoming fixtures === / ==Records== / ==Notes== / ==References==
+--- near squad: none
