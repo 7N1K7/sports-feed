@@ -1689,26 +1689,33 @@ const NOT_SIDE = /^(TBC|TBA|TBD)\b|winner|loser|placed|group|pool|semi-final|run
 const NO_SQUADS = new Set(['motor', 'tennis', 'mma', 'boxing']);
 const haveSquads = new Set([...teamList.map(s => `${s.sport}|${s.g}|${s.team}`), ...stateList.map(s => `cricket|m|${s.team}`)]);
 const coverage = {}, seenSide = new Set();
+// and each game and side behind those figures, with what it has (for the stats page's pop-ups): a game's flags are 1 start
+// time, 2 a way to watch, 4 needs squads, 8 has them, 16 in the TV guide, 32 a free stream; a side's 1 picture, 2 needs
+// team links, 4 has them
+const detail = { games: [], sides: [] };
 const bump = (o, k) => { o[k] = (o[k] || 0) + 1; };
 for (const e of events.filter(x => { const t = Date.parse(x.startUTC) - now; return t > -DAY && t < 21 * DAY && x.status !== 'final'; })) {
   const c = coverage[e.sport] ||= { games: 0, time: 0, watch: 0, sqGames: 0, squads: 0, sides: 0, pic: 0, links: 0, gaps: { time: {}, watch: {}, squads: {}, pic: [], links: [] } };
   const comp = String(e.comp || e.team || '').replace(/\s*[,·(].*$/, '').trim();
   c.games++;
-  if (!e.timeTBC) c.time++; else bump(c.gaps.time, comp);
-  if ((e.broadcast && e.broadcast !== 'TBC') || e.watchAlt || e.yt || e.tv) c.watch++; else bump(c.gaps.watch, comp);
-  if (e.tv) c.guide = (c.guide || 0) + 1;
-  if (e.yt) c.streams = (c.streams || 0) + 1;
+  const dg = { s: e.sport, c: comp, n: [e.home, e.away].filter(Boolean).join(' v ') + (e.session ? ` · ${e.session}` : ''), at: e.startUTC, f: 0 };
+  detail.games.push(dg);
+  if (!e.timeTBC) { c.time++; dg.f |= 1; } else bump(c.gaps.time, comp);
+  if ((e.broadcast && e.broadcast !== 'TBC') || e.watchAlt || e.yt || e.tv) { c.watch++; dg.f |= 2; dg.w = String(e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : e.watchAlt || (e.yt ? 'Free stream on YouTube' : e.tv?.[0]?.ch) || '').slice(0, 80); } else bump(c.gaps.watch, comp);
+  if (e.tv) { c.guide = (c.guide || 0) + 1; dg.f |= 16; }
+  if (e.yt) { c.streams = (c.streams || 0) + 1; dg.f |= 32; }
   // a race, a tournament or a regatta has no two sides (golf's "home" is the tournament's name)
   if (['motor', 'tennis', 'golf', 'sailing'].includes(e.sport)) continue;
   const sides = [e.home, e.away].filter(t => t && !NOT_SIDE.test(t)), g = genderKey(e), base = t => String(t).replace(/\s+Women('s)?$/, '');
-  if (!NO_SQUADS.has(e.sport) && sides.length) { c.sqGames++; if (e.squads?.length || sides.some(t => haveSquads.has(`${e.sport}|${g}|${base(t)}`))) c.squads++; else bump(c.gaps.squads, comp); }
+  if (!NO_SQUADS.has(e.sport) && sides.length) { c.sqGames++; dg.f |= 4; if (e.squads?.length || sides.some(t => haveSquads.has(`${e.sport}|${g}|${base(t)}`))) { c.squads++; dg.f |= 8; } else bump(c.gaps.squads, comp); }
   for (const t of sides) {
     const k = `${e.sport}|${t}`; if (seenSide.has(k)) continue; seenSide.add(k); c.sides++;
+    const ds = { s: e.sport, c: comp, n: t, f: 0 }; detail.sides.push(ds);
     const pic = (t === e.home ? e.homeLogo || e.homeBadge : e.awayLogo || e.awayBadge) || COUNTRY.test(base(t).replace(/\s+(A|XV)$/, '')) || NATIONAL.test(base(t));
-    if (pic) c.pic++; else c.gaps.pic.push(t);
+    if (pic) { c.pic++; ds.f |= 1; } else c.gaps.pic.push(t);
     // a fighter's links ride on the fight card's entries for them (Wikipedia, BoxRec, Sherdog...)
     const fighterLinked = ['mma', 'boxing'].includes(e.sport) && simple(t) && (e.card || []).some(f => ['a', 'b'].some(x => f[x + 'Links'] && simple(f[x]).includes(simple(t))));
-    if (!NO_SQUADS.has(e.sport) || ['mma', 'boxing'].includes(e.sport)) { if (fighterLinked || links[k] || links[`${e.sport}|${base(t)}`] || COUNTRY.test(base(t)) || NATIONAL.test(base(t))) c.links++; else c.gaps.links.push(t); }
+    if (!NO_SQUADS.has(e.sport) || ['mma', 'boxing'].includes(e.sport)) { ds.f |= 2; if (fighterLinked || links[k] || links[`${e.sport}|${base(t)}`] || COUNTRY.test(base(t)) || NATIONAL.test(base(t))) { c.links++; ds.f |= 4; } else c.gaps.links.push(t); }
   }
 }
 for (const c of Object.values(coverage)) for (const k of ['time', 'watch', 'squads']) c.gaps[k] = Object.entries(c.gaps[k]).sort((a, b) => b[1] - a[1]);
@@ -1741,6 +1748,8 @@ await writeFile(new URL('data/version.json', ROOT), JSON.stringify(site));
 // in the TV guide, free streams]
 await writeFile(new URL('data/coverage.json', ROOT), JSON.stringify({ v: site?.version || 0, at: feed.generatedAt,
   cov: Object.fromEntries(Object.entries(coverage).map(([k, c]) => [k, [c.games, c.time, c.watch, c.sqGames, c.squads, c.sides, c.pic, c.links, c.guide || 0, c.streams || 0]])) }));
+// what's behind each coverage figure, game by game and side by side, for the stats page (the site never loads it)
+await writeFile(new URL('data/coverage-detail.json', ROOT), JSON.stringify({ v: site?.version || 0, at: feed.generatedAt, ...detail }));
 // a small plain-text view of games around now, for checking the live site without reading the whole feed
 await writeFile(new URL('data/now.txt', ROOT), feed.events.filter(e => Math.abs(Date.parse(e.startUTC) - now) < 2 * DAY)
   .map(e => [e.id, e.team, e.status, e.startUTC, e.timeTBC ? 'TBC' : '', e.format || '', e.stage || '', e.city || '', e.tz || '', e.score || '', e.summary || '', e.weather || '', e.progress || '', e.liveScore || ''].join(' | ')).join('\n') + '\n');

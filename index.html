@@ -401,7 +401,7 @@ footer .fbtn { font: inherit; font-size: 14px; font-weight: 600; color: var(--in
 footer .fbtn:hover { border-color: var(--accent) }
 footer .fbtn.coffee { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
 footer .fbtn.coffee:hover { filter: brightness(1.08) }
-footer .fbtn.coffee { grid-column: 1 / -1; order: -1; justify-self: center }
+footer .fbtn.coffee { grid-column: 1 / -1; order: -1; justify-self: center; padding-block: 4px } /* a little shorter than the two under it */
 footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 @media (max-width: 560px) { footer .fbtns { grid-template-columns: 1fr 1fr } footer .fbtn.coffee { justify-self: stretch } }
 
@@ -3520,8 +3520,8 @@ document.addEventListener('click', ev => {
     setTimeout(done, 3000);
     return;
   }
-  if (t.id === 'copySettings') { const c = settingsCode(); (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { $('moveNote').textContent = 'Copied. Paste it into the box on the other browser, then tap "Use these settings".'; }, () => prompt('Copy this code', c)); return; }
-  if (t.id === 'loadSettings') { try { useSettingsCode($('settingsCode').value); location.reload(); } catch { $('moveNote').textContent = "That doesn't look like a settings code. Copy it again from the other browser, the whole thing."; } return; }
+  if (t.id === 'copySettings') { count({ e: 'use', k: 'Settings code copied' }); const c = settingsCode(); (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { $('moveNote').textContent = 'Copied. Paste it into the box on the other browser, then tap "Use these settings".'; }, () => prompt('Copy this code', c)); return; }
+  if (t.id === 'loadSettings') { try { useSettingsCode($('settingsCode').value); count({ e: 'use', k: 'Settings code used' }); location.reload(); } catch { $('moveNote').textContent = "That doesn't look like a settings code. Copy it again from the other browser, the whole thing."; } return; }
   if (t.dataset.install) { if (installEvt) installEvt.prompt().then(() => installEvt.userChoice).then(() => { installEvt = null; $('appInstall').innerHTML = appHtml(); }); return; }
   if (t.dataset.calcopy) { count({ e: t.closest('#alertList') ? 'alerts' : 'cal' }); const u = t.dataset.calcopy; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { const was = t.textContent; t.textContent = 'Copied'; setTimeout(() => { t.textContent = was; }, 1600); }, () => prompt('Copy this', u)); return; }
   if (t.classList.contains('ghide')) {
@@ -3530,7 +3530,7 @@ document.addEventListener('click', ev => {
   }
   if (t.dataset.tocomp) { count({ e: 'use', k: 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   // a name in the hidden-sports line: its group (a sport's own, or the one holding that competition), scrolled to and lit
-  if (t.dataset.hidgo) { const n = t.dataset.hidgo, gn = (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([, l]) => l === n)))?.g;
+  if (t.dataset.hidgo) { count({ e: 'use', k: 'Hidden sports list name' }); const n = t.dataset.hidgo, gn = (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([, l]) => l === n)))?.g;
     const g = [...document.querySelectorAll('#teamGroups .group')].find(x => x.dataset.g === gn);
     // scroll the Settings box only (scrollIntoView would move the page behind it too)
     const box = document.querySelector('.panel .pbox'), to = el => box.scrollTo({ top: box.scrollTop + el.getBoundingClientRect().top - box.getBoundingClientRect().top - (box.clientHeight - el.offsetHeight) / 2, behavior: 'smooth' });
@@ -3582,14 +3582,14 @@ document.addEventListener('click', ev => {
   else if (t.dataset.laterpage != null) { laterPage = Math.max(0, +t.dataset.laterpage); render(); toSec('laterSec'); }
   else if (t.dataset.bigpage != null) { bigPage = Math.max(0, +t.dataset.bigpage); render(); }
   else if (t.dataset.runpage != null) { runPage = Math.max(0, +t.dataset.runpage); render(); }
-  else if (t.dataset.view) { view = t.dataset.view; store.set('view', view); render(); }
+  else if (t.dataset.view) { if (t.dataset.view !== view) count({ e: 'use', k: `Card size ${t.textContent.trim()}` }); view = t.dataset.view; store.set('view', view); render(); }
   else if (t.id === 'nowMore' || t.id === 'nowBack') { const c = $('nowChips'); c.scrollBy({ left: c.clientWidth * (t.id === 'nowBack' ? -0.7 : 0.7), behavior: 'smooth' }); }
   else if (t.id === 'spoilBtn') { count({ e: 'use', k: 'Spoiler eye' }); spoilers = !spoilers; store.set('spoilers', spoilers); if (spoilers && !spoilDays) { spoilDays = 4; store.set('spoilDays', 4); } render(); }
   else if (t.id === 'panelClose') closeSettings();
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); if (!p.hidden) count({ e: 'use', k: 'Settings' }); }
-  else if (t.id === 'allOn') { picked = new Set(ALL_KEYS); store.set('teams', [...picked]); render(); }
-  else if (t.id === 'allDef') { picked = new Set(ALL_KEYS.filter(k => !OPT_IN.has(k))); store.set('teams', [...picked]); render(); }
-  else if (t.id === 'allOff') { picked = new Set(); store.set('teams', []); render(); }
+  else if (t.id === 'allOn') { count({ e: 'use', k: 'Select all teams' }); picked = new Set(ALL_KEYS); store.set('teams', [...picked]); render(); }
+  else if (t.id === 'allDef') { count({ e: 'use', k: 'Default teams' }); picked = new Set(ALL_KEYS.filter(k => !OPT_IN.has(k))); store.set('teams', [...picked]); render(); }
+  else if (t.id === 'allOff') { count({ e: 'use', k: 'Clear all teams' }); picked = new Set(); store.set('teams', []); render(); }
 });
 document.addEventListener('keydown', ev => { const c = ev.target.closest?.('[data-open]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openDetail(c.dataset.open); } });
 // the drawn dropdowns over the time and spoiler <select>s: the list is made from the select's options each time it
@@ -3766,10 +3766,10 @@ function setLook(t, c) {
   drawLook();
 }
 drawLook();
-$('accentSel').addEventListener('click', e => { const b = e.target.closest('[data-accent]'); if (b) setLook(null, b.dataset.accent); });
-$('tzSel').addEventListener('change', e => { tzPick = e.target.value; NZ = tzPick === 'device' ? deviceTZ : tzPick; store.set('tz', tzPick); tick(); render(); });
+$('accentSel').addEventListener('click', e => { const b = e.target.closest('[data-accent]'); if (b) { if (b.dataset.accent !== store.get('accent', 'green')) count({ e: 'use', k: 'Theme changed' }); setLook(null, b.dataset.accent); } });
+$('tzSel').addEventListener('change', e => { count({ e: 'use', k: 'Time zone changed' }); tzPick = e.target.value; NZ = tzPick === 'device' ? deviceTZ : tzPick; store.set('tz', tzPick); tick(); render(); });
 // "Never" shows every result, so the spoilers button follows it; hiding spoilers again from the button brings back 4 days
-$('spoilDays').addEventListener('change', e => { spoilDays = +e.target.value; store.set('spoilDays', spoilDays); store.set('spoilDaysSet', true); spoilers = spoilDays > 0; store.set('spoilers', spoilers); render(); });
+$('spoilDays').addEventListener('change', e => { count({ e: 'use', k: 'Hide results for changed' }); spoilDays = +e.target.value; store.set('spoilDays', spoilDays); store.set('spoilDaysSet', true); spoilers = spoilDays > 0; store.set('spoilers', spoilers); render(); });
 
 function stamp() {
   if (!FEED.generatedAt) return;
