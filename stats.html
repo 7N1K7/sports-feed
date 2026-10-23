@@ -180,6 +180,9 @@ th { color: var(--muted); font-weight: 600 }
       <section class="card"><h2>Devices</h2><div class="bars" id="device"></div></section>
       <section class="card"><h2>App or browser</h2><div class="bars" id="mode"></div><p class="note">Visitors using the home-screen app, or a web browser.</p></section>
       <section class="card"><h2>Came from</h2><div class="bars" id="ref"></div><p class="note">Page views that arrived from a link on another site. Links opened from most chat apps arrive without one.</p></section>
+      <section class="card"><h2>Sports followed</h2><div class="bars" id="follows"></div><p class="note">Visitors, by the sports on in their My teams (counted once a day each).</p></section>
+      <section class="card"><h2>New or returning</h2><div class="bars" id="newvis"></div><p class="note">Visitors whose browser was on the site for the first time, or had been before (from 23 Oct 2026).</p></section>
+      <section class="card"><h2>Games opened</h2><div class="bars" id="gameopen"></div><p class="note">The games whose pop-up was opened most.</p></section>
       <section class="card"><h2>Sports picked</h2><div class="bars" id="sport"></div><p class="note">Taps on a sport button.</p></section>
       <section class="card"><h2>Competitions picked</h2><div class="bars" id="comp"></div><p class="note">Picked from the competitions menu.</p></section>
       <section class="card"><h2>Team pages opened</h2><div class="bars" id="teampage"></div></section>
@@ -300,6 +303,7 @@ async function drawCoverage() {
 }
 // the big additions of data, newest first: kept by hand, a line each time a gap is filled or a new kind of data comes in
 const ADDED = [
+  ['23 Oct 2026', 'NBA and MLB headlines (SB Nation, BBC Sport); a Playoffs tab for the MLB playoffs and Japan Series, every series of this year\'s playoffs kept; WBSC men\'s baseball world rankings (Wikipedia)'],
   ['23 Oct 2026', 'NBA: every game from a week back to ten days ahead with results, and the conference standings worked out from this season\'s results (balldontlie, free key). Off until turned on in My teams'],
   ['23 Oct 2026', 'Baseball: the World Series and the rest of this year\'s MLB playoffs, the Japan Series, and the final MLB and Japanese standings (Wikipedia)'],
   ['23 Oct 2026', 'Buy me a coffee link (Ko-fi) at the foot of the page; clicks counted as Coffee link'],
@@ -346,6 +350,10 @@ function draw() {
   bars('ref', sums.ref, k => k);
   bars('event', sums.event, k => EVENT_LABEL[k] || k);
   bars('sport', sums.sport, k => SPORT_LABEL[k] || k);
+  // every sport, most followed first (not cut to the top seven)
+  bars('follows', sums.follows, k => SPORT_LABEL[k] || k, Object.entries(sums.follows || {}).sort((a, b) => b[1] - a[1]).map(([k]) => k));
+  bars('newvis', sums.newvis, k => k[0].toUpperCase() + k.slice(1));
+  bars('gameopen', sums.gameopen, k => k);
   bars('repeat', sums.repeat, k => REPEAT_LABEL[k] || k, REPEAT_ORDER);
   for (const id of ['comp', 'teampage', 'search', 'search0', 'os', 'browser', 'watch', 'follow', 'unfollow', 'use']) bars(id, sums[id], k => k);
   bars('spoil', sums.spoil, k => ({ hidden: 'Results hidden', shown: 'Results shown' })[k] || k);

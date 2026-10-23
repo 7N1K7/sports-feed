@@ -25,6 +25,8 @@ export const RANK_PAGES = [
   { sport: 'tennis', page: 'ATP rankings', kind: 'players', titles: ["Men's singles", "Men's doubles", "Men's doubles teams"] },
   { sport: 'tennis', page: 'WTA rankings', kind: 'players', titles: ["Women's singles", "Women's doubles", "Women's doubles teams"] },
   { sport: 'mma', page: 'UFC rankings', kind: 'fighters' },
+  // the WBSC's men's baseball table comes first on its page (softball and women's baseball follow)
+  { sport: 'baseball', page: 'WBSC World Rankings', kind: 'teams', titles: ["Men's"] },
 ];
 
 const ENT = { nbsp: ' ', amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", ndash: '–', mdash: '—', minus: '−' };
