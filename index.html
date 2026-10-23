@@ -3568,6 +3568,7 @@ document.addEventListener('click', ev => {
   $('reportDlg').showModal(); $('reportNote').focus();
   count({ e: 'use', k: reportIdea ? 'Suggest opened' : 'Report opened' });
 });
+$('foot').addEventListener('click', ev => { if (ev.target.closest('[data-coffee]')) count({ e: 'use', k: 'Coffee link' }); });
 $('reportCancel').addEventListener('click', () => $('reportDlg').close());
 $('reportDlg').addEventListener('click', ev => { if (ev.target === $('reportDlg')) $('reportDlg').close(); });
 $('reportForm').addEventListener('submit', async ev => {
@@ -3626,7 +3627,7 @@ async function load(woke) {
         if (sq.length) { e.squads = sq; e.seasonSquads = true; }
       }
     }
-    $('foot').innerHTML = `<p>Something missing or wrong? <button type="button" class="flink" data-report="">Report it</button> · An idea, or a stat or sport you'd like? <button type="button" class="flink" data-suggest="">Suggest it</button></p>Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)`;
+    $('foot').innerHTML = `<p>Something missing or wrong? <button type="button" class="flink" data-report="">Report it</button> · An idea, or a stat or sport you'd like? <button type="button" class="flink" data-suggest="">Suggest it</button></p><p>Enjoying Kickoff Kiwi? <a href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="">Buy me a coffee ☕</a></p>Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)`;
     render(); stamp(); openFromLink();
     // how long until the first games were on screen, in bands
     if (!load.timed) { load.timed = true; const t = performance.now() / 1000; count({ e: 'speed', k: t < 1 ? 'under 1s' : t < 2 ? '1-2s' : t < 4 ? '2-4s' : t < 8 ? '4-8s' : '8s or more' }); }
