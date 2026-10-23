@@ -1,40 +1,24 @@
-feed keys: generatedAt, site, diag, events, form, news, tables, rankings, stateSquads, teamSquads, teamLinks, coverage, sources
-
-cricket: games 50, time 80%, watch 88%, squads 94%, pic 94%, links 100%, guide 2
-  time gaps: [["Sheffield Shield",6],["Bangladesh v West Indies",2],["Australia v South Africa",1],["Pakistan v Sri Lanka",1]]
-  watch gaps: [["Bangladesh v West Indies",2],["Dean Jones Trophy",1],["Australia v England",1],["Australia v South Africa",1],["Pakistan v Sri Lanka",1]]
-  squads gaps: [["NZ A v India A",3]]
-  pic gaps: South Australia, Western Australia
-
-boxing: games 4, time 75%, watch 100%, squads -, pic 75%, links 0%, guide 0
-  time gaps: [["Interim WBC light heavyweight title",1]]
-  pic gaps: Dalton Smith, Alberto Puello
-
-league: games 56, time 88%, watch 100%, squads 100%, pic 100%, links 100%, guide 13
-  time gaps: [["Wheelchair Rugby League World Cup",7]]
-
-netball: games 2, time 100%, watch 100%, squads 0%, pic 100%, links 100%, guide 2
-  squads gaps: [["Constellation Cup",2]]
-
-rugby: games 6, time 100%, watch 67%, squads 50%, pic 100%, links 100%, guide 3
-  watch gaps: [["Test match",2]]
-  squads gaps: [["Test match",2],["NPC Final",1]]
-
-mma: games 3, time 33%, watch 100%, squads -, pic 100%, links 0%, guide 1
-  time gaps: [["UFC Fight Night",2]]
-
-football: games 32, time 100%, watch 100%, squads 100%, pic 100%, links 100%, guide 15
-
-basketball: games 117, time 96%, watch 100%, squads 100%, pic 51%, links 100%, guide 0
-  time gaps: [["NBL",5]]
-  pic gaps: S.E Melbourne Phoenix, Boston Celtics, San Antonio Spurs, Houston Rockets, Charlotte Hornets, Dallas Mavericks, Orlando Magic, Minnesota Timberwolves, Toronto Raptors, Miami Heat, Milwaukee Bucks, New Orleans Pelicans, Golden State Warriors, Los Angeles Lakers, LA Clippers, Portland Trail Blazers, Brooklyn Nets, Philadelphia 76ers, Phoenix Suns, Oklahoma City Thunder
-
-motor: games 30, time 100%, watch 100%, squads -, pic -, links -, guide 4
-
-golf: games 4, time 0%, watch 100%, squads -, pic -, links -, guide 0
-  time gaps: [["PGA Tour",3],["PGA Tour of Australasia",1]]
-
-baseball: games 14, time 100%, watch 50%, squads 100%, pic 0%, links 0%, guide 0
-  watch gaps: [["Japan Series",7]]
-  pic gaps: Milwaukee Brewers, Tampa Bay Rays, Yokohama DeNA BayStars, Fukuoka SoftBank Hawks
-  links gaps: Milwaukee Brewers, Tampa Bay Rays, Yokohama DeNA BayStars, Fukuoka SoftBank Hawks
+tsdb NPC : "fill: nothing to fill; 0 calls; 0 games known"
+tsdb Test match : "fill: nothing to fill; 0 calls; 0 games known"
+tsdb Nations Championship : "fill: nothing to fill; 0 calls; 0 games known"
+tsdb Pacific Cup : "fill: nothing to fill; 0 calls; 0 games known"
+tsdb Rugby League World Cup : "fill: nothing to fill; 0 calls; 0 games known"
+tsdb NRL : "off season"
+tsdb Super Rugby Pacific : "off season"
+tsdb Constellation Cup : "4 games, season 2026, rounds 1,2,3,4"
+tsdb Taini Jamison Trophy : "off season"
+tsdb UFC : "next/last event"
+tsdb A-League Men : "18 games, season 2026-2027, rounds 1,2,3"
+tsdb Premier League : "error: thesportsdb skipped this run; using saved copy (40 games)"
+cricketLogos : "Melbourne Renegades*, Sydney Thunder*, Melbourne Stars*, Hobart Hurricanes*, Brisbane Heat*, Sydney Sixers*, Adelaide Strikers*, Perth Scorchers*, Governor-General's XI, Auckland Aces*, Canterbury*, Central Stags*, Northern Districts*, Wellington Firebirds*, Otago Volts*, Central Hinds, 1st placed 
+logos : "104/197 teams; 10 searched this run"
+logoLeagues : {"Super Rugby":10,"Super Rugby Pacific":0,"Mitre 10 Cup":0,"Bunnings NPC":0,"NPC":0,"NRL":0,"Australian National Rugby League":10,"Australian A-League":10,"Australian A-League Men":0,"Big Bash League":0,"Super Smash":0,"Plunket Shield":0,"Ford Trophy":0,"Womens Big Bash League":0,"Sheffield Shield":
+facesSportsDB : "0 asked, 0 found"
+fighterLinks : "170/254 card places linked; 0 looked up"
+teamLinks : "151/152 sides linked; 0 looked up"
+wikiLogos : "14 free crests known, 91 sides given one; 0 looked up"
+teamLinks sample: {"cricket|Melbourne Renegades":{"wp":"Melbourne Renegades","site":"http://www.melbournerenegades.com.au"},"cricket|Sydney Thunder":{"wp":"Sydney Thunder","site":"http://www.sydneythunder.com.au"},"cricket|Melbourne Stars":{"wp":"Melbourne Stars","site":"https://www.melbournestars.com.au/"},"cricket|Hobart Hurricanes":{"wp":"Hobart Hurricanes","site":"http://www.hobarthurricanes.com.au"},"cricket|Brisbane Heat":{"wp":"Brisbane Heat","site":"http://www.brisbaneheat.com.au"},"cricket|Sydney Sixers":{"wp":"Sydney Sixers","site":"http://www.sydneysixers.com.au"},"cricket|Adelaide Strikers":{"wp":"A
+NBA 200 10 Atlanta Hawks, Boston Celtics, Brooklyn Nets, Charlotte Hornets, Chicago Bulls, Cleveland Cavaliers, Dallas Mavericks, Denver Nuggets, Detroit Pistons, Golden State Warriors
+MLB 200 10 Arizona Diamondbacks, Athletics, Atlanta Braves, Baltimore Orioles, Boston Red Sox, Chicago Cubs, Chicago White Sox, Cincinnati Reds, Cleveland Guardians, Colorado Rockies
+Nippon Baseball League 200 10 Chiba Lotte Marines, Chunichi Dragons, Fukuoka SoftBank Hawks, Hanshin Tigers, Hiroshima Toyo Carp, Hokkaido Nippon-Ham Fighters, Orix Buffaloes, Saitama Seibu Lions, Tohoku Rakuten Golden Eagles, Tokyo Yakult Swallows
+Nippon Professional Baseball 200 0 
