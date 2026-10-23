@@ -1,10 +1,13 @@
-// probe 109: the live feed after v385: NBL ladder, doubles ranks, golf and sailing
-import { writeFileSync } from 'node:fs';
+// probe 110: which golf and sailing leaderboard pages exist (status and final URL), and the live feed's golf rounds
+const urls = ['https://www.pgatour.com/leaderboard', 'https://www.lpga.com/leaderboard', 'https://www.lpga.com/tournaments',
+  'https://pga.org.au/leaderboard/', 'https://www.pga.org.au/leaderboard', 'https://pga.org.au/tournaments/', 'https://pga.org.au/',
+  'https://sailgp.com/races/', 'https://sailgp.com/', 'https://www.dpworldtour.com/leaderboard'];
+for (const u of urls) {
+  try {
+    const r = await fetch(u, { redirect: 'follow', headers: { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/130 Safari/537.36' } });
+    const t = await r.text();
+    console.log(r.status, u, '->', r.url, '|', (t.match(/<title[^>]*>([^<]*)/i) || [])[1]?.trim().slice(0, 90));
+  } catch (e) { console.log('ERR', u, e.message); }
+}
 const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
-writeFileSync('probe/out-feed.json', JSON.stringify(f));
-console.log('generated', f.generatedAt, 'version', f.site?.version, 'events', f.events?.length);
-console.log('NBL tables:', JSON.stringify(f.tables.filter(t => t.comp === 'NBL').map(t => `${t.style} ${t.rows.length}: ${t.rows.slice(0, 4).map(r => `${r.name} ${r.w}-${r.l} ${r.pct}`).join(', ')}`)));
-console.log('tables diag NBL:', (Array.isArray(f.diag.tables) ? f.diag.tables : [String(f.diag.tables)]).filter(x => /NBL/.test(x)));
-const d = f.rankings.find(r => r.title === "Men's doubles"); console.log("Men's doubles:", d?.rows.slice(0, 4).map(r => `${r.rank} ${r.name}`).join('; '));
-console.log('motor:', f.diag.motorRankings);
-console.log('wikiRetries:', f.diag.wikiRetries, '| golf:', JSON.stringify(f.diag.golf), '| sailgp:', f.diag.sailgp);
+console.log('version', f.site?.version, 'golf now:', f.events.filter(e => e.sport === 'golf' && Math.abs(Date.parse(e.startUTC) - Date.now()) < 5 * 864e5).map(e => `${e.home} ${e.openUTC} -> ${e.startUTC} ${e.status}`));
