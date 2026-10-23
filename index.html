@@ -2863,6 +2863,8 @@ const SPORT_CHIPS = [['cricket','Cricket'],['rugby','Rugby'],['league','League']
 const RANK_SPORTS = SPORT_CHIPS.map(([k]) => k);
 // a sport counts as followed when at least one of its teams or competitions is picked in My teams
 const followedSport = sp => (SPORT[sp] || []).some(k => picked.has(k));
+// My teams changed from what a new visitor starts with (everything on but the opt-ins)
+const myTeamsChanged = () => { const def = ALL_KEYS.filter(k => !OPT_IN.has(k)); return picked.size !== def.length || def.some(k => !picked.has(k)); };
 const shownSports = () => { const all = SPORT_CHIPS, f = all.filter(([k]) => followedSport(k)); return f.length ? f : all; };
 const rankSports = () => { const have = RANK_SPORTS.filter(k => (FEED.rankings || []).some(r => r.sport === k)), f = have.filter(followedSport); return f.length ? f : have; };
 const RANK_TAB = { mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', motor: 'Motorsport', tennis: 'Tennis', golf: 'Golf', baseball: 'Baseball', boxing: 'Boxing', sailing: 'Sailing' };
@@ -3945,7 +3947,7 @@ tick(); render(); load();
 // the page view: with (counted once a day per visitor) the sports on in My teams and whether this browser has been here before
 { let ref = ''; try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch {}
   const nv = store.get('seenSite', false) ? 0 : 1; store.set('seenSite', true);
-  count({ app: standalone() ? 1 : 0, r: ref, sp: spoilers ? 1 : 0, v: view, th: store.get('accent', 'green'), fs: SPORT_CHIPS.filter(([k]) => followedSport(k)).map(([k]) => k), nv }); }
+  count({ app: standalone() ? 1 : 0, r: ref, sp: spoilers ? 1 : 0, v: view, th: store.get('accent', 'green'), fo: SPORT_CHIPS.filter(([k]) => !followedSport(k)).map(([k]) => k), tc: myTeamsChanged() ? 1 : 0, nv }); }
 // the home-screen app's first open on this device, counted once: iPhones never say when the app is added (Android and
 // computers do, as "install"), so this is how iPhone installs show up in the stats
 if (standalone() && !store.get('appSeen', false)) { store.set('appSeen', true); count({ e: 'appfirst' }); }

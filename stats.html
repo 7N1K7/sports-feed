@@ -228,7 +228,8 @@ th { color: var(--muted); font-weight: 600 }
       <section class="card"><h2>Devices</h2><div class="bars" id="device"></div></section>
       <section class="card"><h2>App or browser</h2><div class="bars" id="mode"></div><p class="note">Visitors using the home-screen app, or a web browser.</p></section>
       <section class="card"><h2>Came from</h2><div class="bars" id="ref"></div><p class="note">Page views that arrived from a link on another site. Links opened from most chat apps arrive without one.</p></section>
-      <section class="card"><h2>Sports followed</h2><div class="bars" id="follows"></div><p class="note">Visitors, by the sports on in their My teams (counted once a day each).</p></section>
+      <section class="card"><h2>My teams</h2><div class="bars" id="myteams"></div><p class="note">Visitors, by whether they've changed My teams from what a new visitor starts with (counted once a day each, from 24 Oct 2026).</p></section>
+      <section class="card"><h2>Sports turned off</h2><div class="bars" id="sportsoff"></div><p class="note">Visitors, by the sports they have off (nothing in that sport picked in My teams; everything starts on), counted once a day each, from 24 Oct 2026.</p></section>
       <section class="card"><h2>New or returning</h2><div class="bars" id="newvis"></div><p class="note">Visitors whose browser was on the site for the first time, or had been before (from 23 Oct 2026).</p></section>
       <section class="card"><h2>Games opened</h2><div class="bars" id="gameopen"></div><p class="note">The games whose pop-up was opened most.</p></section>
       <section class="card"><h2>Sports picked</h2><div class="bars" id="sport"></div><p class="note">Taps on a sport button.</p></section>
@@ -623,8 +624,9 @@ function draw() {
   bars('ref', sums.ref, k => k);
   bars('event', sums.event, k => EVENT_LABEL[k] || k);
   bars('sport', sums.sport, k => SPORT_LABEL[k] || k);
-  // every sport, most followed first (not cut to the top seven)
-  bars('follows', sums.follows, k => SPORT_LABEL[k] || k, Object.entries(sums.follows || {}).sort((a, b) => b[1] - a[1]).map(([k]) => k));
+  // every sport turned off, most first (not cut to the top seven)
+  bars('sportsoff', sums.sportsoff, k => SPORT_LABEL[k] || k, Object.entries(sums.sportsoff || {}).sort((a, b) => b[1] - a[1]).map(([k]) => k));
+  bars('myteams', sums.myteams, k => ({ changed: 'Changed', default: 'As it came' })[k] || k, ['changed', 'default']);
   bars('newvis', sums.newvis, k => k[0].toUpperCase() + k.slice(1));
   bars('gameopen', sums.gameopen, k => k);
   bars('repeat', sums.repeat, k => REPEAT_LABEL[k] || k, REPEAT_ORDER);

@@ -93,6 +93,10 @@ async function hit(req, env, body) {
     if (THEMES.has(b.th)) writes.push(bump(env, day, 'theme', b.th));
     // the sports on in the visitor's My teams, and whether their browser had been to the site before
     if (Array.isArray(b.fs)) for (const s of b.fs.slice(0, 30)) if (/^[a-z]{2,20}$/.test(s)) writes.push(bump(env, day, 'follows', s));
+    // from 24 Oct 2026 the page sends the sports turned off instead (everything is on to start with), and whether My teams
+    // has been changed from what a new visitor gets
+    if (Array.isArray(b.fo)) for (const s of b.fo.slice(0, 30)) if (/^[a-z]{2,20}$/.test(s)) writes.push(bump(env, day, 'sportsoff', s));
+    if (b.tc === 0 || b.tc === 1) writes.push(bump(env, day, 'myteams', b.tc ? 'changed' : 'default'));
     if (b.nv === 0 || b.nv === 1) writes.push(bump(env, day, 'newvis', b.nv ? 'first visit' : 'been before'));
   }
   if (writes.length) await env.DB.batch(writes);
