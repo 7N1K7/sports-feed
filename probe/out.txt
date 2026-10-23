@@ -1,10 +1,17 @@
-generated 2026-10-22T17:17:55.804Z version 385 events 718
-NBL tables: ["wl 10: Tasmania JackJumpers 6-2 75.00, Sydney Kings 4-2 66.67, Perth Wildcats 4-2 66.67, New Zealand Breakers 4-4 50.00","wdl 10: Melbourne United 2-0 undefined, S.E. Melbourne Phoenix 2-0 undefined, Adelaide 36ers 1-1 undefined, Brisbane Bullets 1-1 undefined","wdl 10: New Zealand Breakers 2-0 undefined, Sydney Kings 1-1 undefined, Tasmania JackJumpers 1-0 undefined, Melbourne United 1-0 undefined"]
-tables diag NBL: [
-  '2026–27 NBL season / Ladder: 10',
-  '2026–27 NBL season / NBL Blitz: 10',
-  '2026–27 NBL season / NBL Ignite Cup: 10'
+200 https://www.pgatour.com/leaderboard -> https://www.pgatour.com/leaderboard | Butterfield Bermuda Championship 2026 Golf Leaderboard - PGA Tour
+404 https://www.lpga.com/leaderboard -> https://www.lpga.com/leaderboard | undefined
+200 https://www.lpga.com/tournaments -> https://www.lpga.com/tournaments | Tournaments | LPGA | Ladies Professional Golf Association
+403 https://pga.org.au/leaderboard/ -> https://golf.com.au/ | Just a moment...
+522 https://www.pga.org.au/leaderboard -> https://www.pga.org.au/leaderboard | pga.org.au | 522: Connection timed out
+403 https://pga.org.au/tournaments/ -> https://golf.com.au/ | Just a moment...
+403 https://pga.org.au/ -> https://golf.com.au/ | Just a moment...
+200 https://sailgp.com/races/ -> https://sailgp.com/races/ | SailGP
+200 https://sailgp.com/ -> https://sailgp.com/ | SailGP - The home of the world’s most exciting racing on water
+ERR https://www.dpworldtour.com/leaderboard fetch failed
+version 387 golf now: [
+  'Butterfield Bermuda Championship 2026-10-22T17:00:00.000Z -> 2026-10-25T17:00:00.000Z upcoming',
+  'Buick LPGA Shanghai 2026-10-15T06:00:00.000Z -> 2026-10-18T06:00:00.000Z final',
+  'BMW Ladies Championship 2026-10-22T05:00:00.000Z -> 2026-10-25T05:00:00.000Z upcoming',
+  'WA Open 2026-10-15T06:00:00.000Z -> 2026-10-18T06:00:00.000Z final',
+  'Players Series SA 2026-10-22T03:30:00.000Z -> 2026-10-25T03:30:00.000Z upcoming'
 ]
-Men's doubles: 1 Harri Heliövaara; 1 Henry Patten; 3 Neal Skupski; 4 Horacio Zeballos
-motor: F1 drivers 2026 Formula One World Championship: 20 (top Kimi Antonelli); F1 teams 2026 Formula One World Championship: 11 (top Mercedes); Supercars drivers 2026 Supercars Championship: 20 (top Matt Payne); Supercars teams 2026 Supercars Championship: 17 (top Grove Racing)
-wikiRetries: undefined | golf: {"2026 PGA Tour":45,"2026 LPGA Tour":31,"2026–27 PGA Tour of Australasia":18} | sailgp: 13 events, 11 with winners
