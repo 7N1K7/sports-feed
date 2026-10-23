@@ -860,7 +860,8 @@ async function addLogos(events, extra = []) {
     let b = null, failed = false;
     for (const q of [...new Set([name, ...(LOGO_ALIAS[key] || []), name.replace(/\s+(FC|Bulls|Stags|Mako|Steamers|Pride|Storm|Women)$/i, '')])]) {
       try {
-        const d = await tsdb(`searchteams.php?t=${encodeURIComponent(q)}`);
+        // (asked even after the run's time for TheSportsDB is up: a found badge is kept for good, so this soon stops)
+        const d = await tsdb(`searchteams.php?t=${encodeURIComponent(q)}`, { extra: true });
         const code = LOGO_CODES[sport];
         const t = (d.teams || []).find(t => (code.sport ? t.strSport === code.sport : t.strSport === 'Rugby') && code.ok.test(t.strLeague || '') && simple(t.strTeam).startsWith(simple(q).slice(0, 5)));
         b = t && (t.strBadge || t.strTeamBadge) || null;
@@ -910,7 +911,7 @@ async function addLogos(events, extra = []) {
     if (natLooked >= 4) continue;
     natLooked++;
     try {
-      const d = await tsdb(`searchteams.php?t=${encodeURIComponent(NAT[sport][0](name))}`);
+      const d = await tsdb(`searchteams.php?t=${encodeURIComponent(NAT[sport][0](name))}`, { extra: true });
       const t = (d.teams || []).find(t => NAT[sport][1](t) && simple(t.strTeam).startsWith(simple(name)) && !/women|u2\d|u1\d|sevens|7s|\bA\b|XI/i.test(t.strTeam));
       cache.nat[key] = { t: now, b: t ? (t.strBadge || t.strTeamBadge || null) : null };
     } catch { /* rate limited: next run */ }
@@ -1277,8 +1278,8 @@ async function teamLinks(events) {
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
   const UA = { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } };
   const get = async (host, q) => { await new Promise(r => setTimeout(r, 1000)); const r = await fetch(`https://${host}/w/api.php?format=json&formatversion=2&maxlag=5&` + q, UA); if (!r.ok) throw new Error(`${host} ${r.status}`); return r.json(); };
-  const WORD = { rugby: 'rugby union', league: 'rugby league', cricket: 'cricket', football: 'football', hockey: 'field hockey', basketball: 'basketball', netball: 'netball' };
-  const DESC = { rugby: /rugby union|rugby team|rugby football union|provincial union/i, league: /rugby league/i, cricket: /cricket/i, football: /football|soccer/i, hockey: /hockey/i, basketball: /basketball/i, netball: /netball/i };
+  const WORD = { rugby: 'rugby union', league: 'rugby league', cricket: 'cricket', football: 'football', hockey: 'field hockey', basketball: 'basketball', netball: 'netball', baseball: 'baseball' };
+  const DESC = { rugby: /rugby union|rugby team|rugby football union|provincial union/i, league: /rugby league/i, cricket: /cricket/i, football: /football|soccer/i, hockey: /hockey/i, basketball: /basketball/i, netball: /netball/i, baseball: /baseball/i };
   const NICK = { 'All Blacks': 'New Zealand', 'Black Ferns': 'New Zealand', Wallabies: 'Australia', Wallaroos: 'Australia', Springboks: 'South Africa', 'Los Pumas': 'Argentina',
     Kiwis: 'New Zealand', 'Kiwi Ferns': 'New Zealand', Kangaroos: 'Australia', Jillaroos: 'Australia', 'Black Caps': 'New Zealand', 'White Ferns': 'New Zealand', 'Black Sticks': 'New Zealand', 'Tall Blacks': 'New Zealand', 'Tall Ferns': 'New Zealand', 'Silver Ferns': 'New Zealand' };
   const want = new Map();
@@ -1702,7 +1703,9 @@ for (const e of events.filter(x => { const t = Date.parse(x.startUTC) - now; ret
     const k = `${e.sport}|${t}`; if (seenSide.has(k)) continue; seenSide.add(k); c.sides++;
     const pic = (t === e.home ? e.homeLogo || e.homeBadge : e.awayLogo || e.awayBadge) || COUNTRY.test(base(t).replace(/\s+(A|XV)$/, '')) || NATIONAL.test(base(t));
     if (pic) c.pic++; else c.gaps.pic.push(t);
-    if (!NO_SQUADS.has(e.sport)) { if (links[k] || links[`${e.sport}|${base(t)}`] || COUNTRY.test(base(t)) || NATIONAL.test(base(t))) c.links++; else c.gaps.links.push(t); }
+    // a fighter's links ride on the fight card's entries for them (Wikipedia, BoxRec, Sherdog...)
+    const fighterLinked = ['mma', 'boxing'].includes(e.sport) && simple(t) && (e.card || []).some(f => ['a', 'b'].some(x => f[x + 'Links'] && simple(f[x]).includes(simple(t))));
+    if (!NO_SQUADS.has(e.sport) || ['mma', 'boxing'].includes(e.sport)) { if (fighterLinked || links[k] || links[`${e.sport}|${base(t)}`] || COUNTRY.test(base(t)) || NATIONAL.test(base(t))) c.links++; else c.gaps.links.push(t); }
   }
 }
 for (const c of Object.values(coverage)) for (const k of ['time', 'watch', 'squads']) c.gaps[k] = Object.entries(c.gaps[k]).sort((a, b) => b[1] - a[1]);

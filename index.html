@@ -212,11 +212,11 @@ html { -webkit-tap-highlight-color: transparent }
 @keyframes gflash { from { background: color-mix(in srgb, var(--accent) 22%, transparent) } to { background: transparent } }
 /* My teams, compact: the group name in a column on the left, smaller chips beside it */
 #teamGroups { gap: 6px !important }
-#teamGroups .group { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: center; column-gap: 10px; padding: 6px 0; border-top: 1px solid var(--line) }
+#teamGroups .group { display: grid; grid-template-columns: 106px minmax(0, 1fr); align-items: center; column-gap: 10px; padding: 6px 0; border-top: 1px solid var(--line) }
 #teamGroups .group:first-child { border-top: 0; padding-top: 0 }
 /* a labelled line inside a group (Super Rugby Pacific under Rugby): starts its own row of chips */
 #teamGroups .chips .gsub { flex: 0 0 100%; margin-top: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); text-align: left }
-#teamGroups .group h3 { margin: 0; font-size: 11px; line-height: 1.25 }
+#teamGroups .group h3 { margin: 0; font-size: 12.5px; letter-spacing: .05em; line-height: 1.25 }
 #teamGroups .ghide { display: flex; width: 80px; align-items: center; justify-content: center; gap: 4px; margin-top: 5px; font: inherit; font-size: 11px; font-weight: 600; line-height: 1.4; text-transform: none; letter-spacing: 0; color: var(--ink); background: color-mix(in srgb, #37b24d 14%, transparent); border: 1px solid color-mix(in srgb, #37b24d 65%, transparent); border-radius: 999px; padding: 1px 6px; cursor: pointer }
 #teamGroups .ghide:hover { border-color: var(--accent) }
 /* small, one width either way, and colour-coded: green with a green light while the sport is on, red with a red light
