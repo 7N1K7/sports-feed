@@ -1712,7 +1712,7 @@ if (!store.get('bbOn', false)) { const kn = store.get('known', []); if (kn.inclu
 const PHONE = matchMedia('(max-width: 560px)');
 let view = store.get('view', 'mixed');   // big, mixed (live big, today normal, the rest compact) or compact
 let spoilers = store.get('spoilers', true);   // true = hide recent results
-let spoilDays = store.get('spoilDaysSet', false) ? store.get('spoilDays', 4) : 4; // default 4 days covers Friday games checked on Monday
+let spoilDays = store.get('spoilDaysSet', false) ? store.get('spoilDays', 3) : 3; // default 3 days covers Friday night's games checked on Sunday night
 let revealed = new Set(store.get('revealed', []));
 let newsKind = 'all', newsPage = 0;
 // sports picked in the All / Rugby / Cricket… row; several can be on at once, none means All
@@ -3657,7 +3657,7 @@ document.addEventListener('click', ev => {
   else if (t.dataset.runpage != null) { runPage = Math.max(0, +t.dataset.runpage); render(); }
   else if (t.dataset.view) { if (t.dataset.view !== view) count({ e: 'use', k: `Card size ${t.textContent.trim()}` }); view = t.dataset.view; store.set('view', view); render(); }
   else if (t.id === 'nowMore' || t.id === 'nowBack') { const c = $('nowChips'); c.scrollBy({ left: c.clientWidth * (t.id === 'nowBack' ? -0.7 : 0.7), behavior: 'smooth' }); }
-  else if (t.id === 'spoilBtn') { count({ e: 'use', k: 'Spoiler eye' }); spoilers = !spoilers; store.set('spoilers', spoilers); if (spoilers && !spoilDays) { spoilDays = 4; store.set('spoilDays', 4); } render(); }
+  else if (t.id === 'spoilBtn') { count({ e: 'use', k: 'Spoiler eye' }); spoilers = !spoilers; store.set('spoilers', spoilers); if (spoilers && !spoilDays) { spoilDays = 3; store.set('spoilDays', 3); } render(); }
   else if (t.id === 'panelClose') closeSettings();
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); if (!p.hidden) count({ e: 'use', k: 'Settings' }); }
   else if (t.id === 'allOn') { count({ e: 'use', k: 'Select all teams' }); picked = new Set(ALL_KEYS); store.set('teams', [...picked]); render(); }
@@ -3841,7 +3841,7 @@ function setLook(t, c) {
 drawLook();
 $('accentSel').addEventListener('click', e => { const b = e.target.closest('[data-accent]'); if (b) { if (b.dataset.accent !== store.get('accent', 'green')) count({ e: 'use', k: 'Theme changed' }); setLook(null, b.dataset.accent); } });
 $('tzSel').addEventListener('change', e => { count({ e: 'use', k: 'Time zone changed' }); tzPick = e.target.value; NZ = tzPick === 'device' ? deviceTZ : tzPick; store.set('tz', tzPick); tick(); render(); });
-// "Never" shows every result, so the spoilers button follows it; hiding spoilers again from the button brings back 4 days
+// "Never" shows every result, so the spoilers button follows it; hiding spoilers again from the button brings back 3 days
 $('spoilDays').addEventListener('change', e => { count({ e: 'use', k: 'Hide results for changed' }); spoilDays = +e.target.value; store.set('spoilDays', spoilDays); store.set('spoilDaysSet', true); spoilers = spoilDays > 0; store.set('spoilers', spoilers); render(); });
 
 function stamp() {
