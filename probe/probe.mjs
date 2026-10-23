@@ -1,25 +1,11 @@
-// probe 124: roster templates for NBA, MLB and NPB sides (raw wikitext samples), and the team names the live feed uses
-const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
+// probe 125: the live feed's data coverage (to compare with earlier builds), and the new NBA / baseball squads
 let f = { events: [] };
 try { f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json(); } catch (e) { console.log('feed error', e.message); }
-const names = sp => [...new Set(f.events.filter(sp).flatMap(e => [e.home, e.away]).filter(Boolean))];
-const nba = names(e => e.team === 'nba'), mlb = names(e => e.comp === 'MLB playoffs'), npb = names(e => e.comp === 'Japan Series');
-console.log('site', JSON.stringify(f.site || {}).slice(0, 80));
-console.log('NBA names', nba.length, nba.join(', '));
-console.log('MLB names', mlb.join(', '));
-console.log('NPB names', npb.join(', '));
-const raw = async t => { const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(t.join('|')), { headers: UA });
-  const j = await r.json(); return Object.fromEntries((j.query?.pages || []).map(p => [p.title, p.missing ? null : p.revisions?.[0]?.slots?.main?.content || ''])); };
-const tpl = n => `Template:${n.replace(/^LA /, 'Los Angeles ')} roster`;
-for (const [label, list] of [['NBA', nba], ['MLB', mlb], ['NPB', npb]]) {
-  const got = {};
-  for (let i = 0; i < list.length; i += 40) Object.assign(got, await raw(list.slice(i, i + 40).map(tpl)));
-  console.log(`\n== ${label}: ${Object.values(got).filter(Boolean).length} of ${list.length} templates found; missing: ${list.filter(n => !got[tpl(n)]).join(', ')}`);
-  const first = Object.entries(got).find(([, v]) => v);
-  if (first) { console.log('--- sample', first[0], first[1].length, 'chars'); console.log(first[1].slice(0, 3200)); }
-  // template names used inside, and how many of each, across all of them
-  const counts = {};
-  for (const v of Object.values(got).filter(Boolean)) for (const m of v.matchAll(/\{\{\s*([^|}\n]+?)\s*[|}]/g)) counts[m[1]] = (counts[m[1]] || 0) + 1;
-  console.log('--- templates used:', Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 15).map(([k, n]) => `${k} ${n}`).join(' | '));
-  await new Promise(r => setTimeout(r, 1000));
-}
+console.log('site', JSON.stringify(f.site || {}), 'generated', f.generatedAt);
+const slim = Object.fromEntries(Object.entries(f.coverage || {}).map(([k, c]) => [k, [c.games, c.time, c.watch, c.sqGames, c.squads, c.sides, c.pic, c.links, c.guide || 0, c.streams || 0]]));
+console.log('COVERAGE ' + JSON.stringify(slim));
+console.log('diag.teamSquads:', String(f.diag?.teamSquads).slice(0, 600));
+const sq = f.teamSquads || [];
+for (const sp of ['basketball', 'baseball']) console.log(sp, sq.filter(s => s.sport === sp).map(s => `${s.team} ${s.players.length}`).join(', '));
+const one = sq.find(s => s.sport === 'baseball'); if (one) console.log('sample', one.team, JSON.stringify(one.players.slice(0, 5)));
+for (const [k, c] of Object.entries(f.coverage || {})) console.log('gaps', k, JSON.stringify({ time: c.gaps?.time?.slice(0, 6), watch: c.gaps?.watch?.slice(0, 6), squads: c.gaps?.squads?.slice(0, 6), pic: c.gaps?.pic?.slice(0, 8) }).slice(0, 500));
