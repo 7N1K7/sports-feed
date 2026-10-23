@@ -1,72 +1,10 @@
+{"id":"rlwc-w-samoa-wales","team":"rlwc","sport":"league","comp":"Women's Rugby League World Cup, Group A, Round 2","home":"Samoa","away":"Wales","startUTC":"2026-10-23T06:50:00.000Z","timeTBC":false,"venue":"CommBank Stadium","city":"Sydney, Australia","tz":"Australia/Sydney","status":"upcoming","broadcast":"Sky Sport / Sky Sport Now","source":"https://www.nrl.com/draw/?competition=157&season=2026&round=2","tags":["rlwc"],"link":"https://www.nrl.com/draw/womens-rugby-league-world-cup/2026/round-2/samoa-v-wales/","tv":[{"ch":"Sky Sport 1","at":"2026-10-23T06:40:00.000Z","delayed":false}]}
 
-##### New Zealand national netball team
-===Current squad===
-{{New Zealand national netball team current squad}}
+wiki around the match:
+e World Cup qualification}}
 
-===Notable past players===
-{{main|List of New Zealand international netball players}}
+On 3 August 2023, the date the tournament was announced, the only qualified teams for the 2026 tournament were the semi-finalists of the [[2021 Women's Rugby League World Cup|2021 World Cup]]. The qualification process for the remaining teams was announced 15 December 2023.<ref>{{cite web|url=https://www.intrl.sport/news/rlwc2026-women-s-qualifying-process-announced/|title=Rugby League World Cup 2026 women's qualifying process announced|website=Rugby League International Federation|date=15 December 2023|access-date=11 January 2024}}</ref>
 
-====Most-capped internationals====
-[[File:Irene van Dyk (cropped).jpg|150px|thumb|right|[[Irene van Dyk]] made 145 appearances for New Zealand between 2000 and 2014. ]]
+Two teams would qualify directly via the European qualifications group stages on 22 June 2024,<ref>{{cite web |title=France, Wales women qualify for RLWC2026 |url=https://www.intrl.sport/article/179/france,-wales-women-qualify-for-rlwc2026 |website=Rugby League International Federation |access-date=24 June 2024 |date=23 June 2024}}</ref> and one team would qualify directly via the [[2024 Rugby League Pacific Championships#Women's Pacific Bowl|2024 Women's Pacific Bowl]] on 2 November 2024.<ref>{{cite web|url=https://www.nrl.com/news/2024/11/02/late-surge-earns-fetu-samoa-world-cup-qualification-and-promotion-shot/ |title=Late surge earns Samoa World Cup spot, promotion shot |website=National Rugby League |date=2 November 2024 |access-date=2 November 2024}}</ref>
 
-{| class="wikitable collapsible" border="1"
-|-
-! style="background:black;" |<span style="color:white">Player</span>
-! style="background:black;" |<span style="color:white">Appearances</span>
-! style="background:black;" |<span style="color:white">Years</span>
-|-
-|[[Laura Langman]]<ref name="sfll133"/><ref name="nzherald101018">{{cite web|url=https://www.nzherald.co.nz/sport/news/article.cfm?c_id=4&objectid=12140419|title=Netball: Silver Ferns suffer another loss to Australian Diamonds in Constellation Cup|publisher=www.nzherald.co.nz|date=10 October 2018}}</ref>||165||2005–2020
-|-
-|[[Maria Folau]]<ref name="sfmf134">{{Cite web|url=https://www.silverferns.co.nz/silver-ferns/history/centurions/maria-tutaia.html|title=Maria Folau (nee Tutaia)|publisher=www.silverferns.co.nz|accessdate=9 April 2022}}</ref>||150||2005–2019
-|-
-|[[Irene van Dyk]]<ref name="sfivd122">{{Cite web|url=https://www.silverferns.co.nz/silver-ferns/history/centurions/irene-van-dyk.html|title=Irene van Dyk (nee Viljoen)|publisher=www.silverferns.co.nz|accessdate=9 April 2022}}</ref><ref name="gwr63821">{{cite web|url=https://www.guinnessworldrecords.com/world-records/63821-most-international-netball-appearances|title=Most international netball appearances|publisher=www.guinnessworldrecords.com|access-date=24 August 2024}}</ref>||145||2000–2014
-|-
-|[[Katrina Rore]]<ref name="sfkr140">{{Cite web|url=https://www.silverferns.co.nz/silver-ferns/history/players/katrina-rore.html|title=Katrina Rore (nee Grant)|publisher=www.silverferns.co.nz|accessdate=8 April 2022}}</ref>||137||2008–2022
-|-
-|[[Casey Kopua|Casey Kopua (née Williams)]]<ref name="sfck135"/>||135||2005–2019
-|-
-|[[Lesley Rumball]]<ref name="sflr107">{{Cite web|url=https://www.silverferns.co.nz/silver-ferns/history/players/lesley-rumball.html|title=Lesley Rumball (nee Nicol)|publisher=www.silverferns.co.nz|accessdate=7 April 2022}}</ref>||110||1994–2005
-|-
-|[[Leana de Bruin]]<ref name="sflvb129">{{Cite web|url=https://www.silverferns.co.nz/silver-ferns/history/centurions/leana-de-bruin.html|title=Leana de Bruin (nee du Plooy)|publisher=www.silverferns.co.nz|accessdate=9 April 2022}}</ref>||104||2003–2016
-|-
-|}
-
-{{small|'''Sources''':<ref name="sfcenturions">{{cite web|url=https://www.silverferns.co.nz/silver-ferns/history/centurions.html|title=
-Centurions – A tribute to our Centurions|publisher=www.silverferns.co.nz|access-date=9 April 2022}}</ref><ref name=stuff110917>{{cite news|author=[[Brendon Egan]]|url=https://www.stuff.co.nz/sport/netball/96696162/silver-ferns-captain-katrina-grant-to-become-seventh-centurion|title=Silver Ferns captain Katrina Grant to notch her 100th test|publisher=stuff.co.nz|date=11 September 2017|access-date=7 December 2023}}</ref><ref name=sf130917b>{{cite news|url=https://www.silverferns.co.nz/silver-ferns/news/latest-news/silver-ferns-captain-celebrates-100-test-milestone-with-series-win.html|title=Silver Ferns captain celebrates 100-Test milestone with Series win|publisher=silverferns.co.nz|date=13 September 2017|access-date=7 December 2023}}</ref><ref name=sf140917>{{cite news|url=https://www.silverferns.co.nz/silver-ferns/news/latest-news/popular-captain-joins
-
-##### Australia national netball team
-===Current squad===
-The current squad was selected for the [[2025 Constellation Cup]].<ref name="na0211025a">{{cite web |date=2 October 2025 |title=Diamonds teams confirmed for ITS |url=https://netball.com.au/news/diamonds-teams-confirmed-its |access-date=3 November 2025 |publisher=netball.com.au}}</ref><ref name="na021025b">{{cite web |date=2 October 2025 |title=Diamonds lock in captaincy duo |url=https://netball.com.au/news/diamonds-lock-captaincy-duo |access-date=3 November 2025 |publisher=netball.com.au}}</ref>{{Australia national netball team current squad}}
-===Notable past players===
-;Captains
-{{main|List of Australia national netball team captains}}
-;Award winners, Most capped
-{{see|List of Australia international netball players}}
-
-==Head coaches==
-{{see also|List of netball coaches in Australia}}
-{| class="wikitable collapsible"
-! Years
-! Head coaches 
-|-
-|1956, 1963||[[Lorna McConchie]]<ref name="wa1956"/><ref name="1963todor66"/><ref name="awr250107">{{Cite web|url=https://www.womenaustralia.info/biogs/AWE2269b.htm|title=McConchie, Lorna Jean (1914 - 2001)|publisher=www.womenaustralia.info|work=[[The Australian Women's Register]]|date=25 January 2007|accessdate=25 August 2017}}</ref><ref name="vic.netball1">{{Cite web|url=https://vic.netball.com.au/team-century|title=Team Of The Century|publisher=vic.netball.com.au|access-date=21 August 2020}}</ref>
-|-
-|1960||[[Eunice Gill]]<ref name="sahofgill">{{cite web|url=https://sahof.org.au/hall-of-fame-member/eunice-gill/|title=Eunice Gill|publisher=sahof.org.au|access-date=5 July 2021}}</ref>
-|-
-|1967||Margaret Pewtress<ref name="1967todor66"/>
-|-
-|1971, 1979, 1987–1989||[[Wilma Shakespear]]<ref name="1971todor66"/><ref name="1979todor66"/><ref name="1987todor66"/><ref name="1989todor66"/><ref name="vic.netball1"/>
-|-
-|1975, 1983, 1991–1993||[[Joyce Brown (netball)|Joyce Brown]]<ref name="1975todor66"/><ref name="1983todor66"/><ref name="1991todor66"/><ref name="1993todor66"/><ref name="sahof"/><ref name="vic.netball1"/>
-|-
-|1985||[[Pamela Barham]]<ref name="1985todor66"/>
-|-
-|1990||Margaret Corbett<ref name="1990todor66"/>
-|-
-|1990||[[Gaye Teede]]<ref name="diamondsteede">{{Cite web|url=https://diamonds.netball.com.au/player/gaye-teede|title=Gaye Teede|publisher=diamonds.netball.com.au|accessdate=24 August 2020}}</ref>
-|-
-|1995–2003||[[Jill McIntosh]]<ref name="sahof041220">{{cite web|url=https://sahof.org.au/hall-of-fame-member/jill-mcintosh/|title=Jill McIntosh|publisher=sahof.org.au|date=4 December 2020|access-date=7 February 2021}}</ref><ref name="coachinglife">{{cite web|url=https://www.coachinglife.com.au/jill-mcintosh/|title=Jill McIntosh|publisher=www.coachinglife.com.au|access-date=7 February 2021}}</ref><ref name="diamondsmcintosh">{{cite web|url=https://diamonds.netball.com.au/player/jill-mcintosh|title=Jill McIntosh|publisher=diamonds.netball.com.au|access-date=1 October 2020}}</ref>
-|-
-|2003–2011||[[Norma Plummer]]<ref name="2007todor66"/><ref name="netballau2006"/><ref name="netballau2007"/><ref name="netballau2010"/><ref name="netballau2011"/><ref name="2011todor66"/><ref name="diamondsplummer">{{cite web|url=https://diamonds.netball.com.au/player/norma-plummer-oam|title=Norma Plummer|publisher=diamonds.netball.com.au|access-date=1 October 2020}}</ref>
-|-
-|2011–2020||[[Lisa Alexander (netball)|Lisa Alexander]]<ref name="smh110811">{{Cite web|url=https://www.smh.com.au/sport/alexander-is-new-australia-netball-coach-20110811-1intu.html|title=Alexander is new Australia n
+The [[2026 Women's Rugby League World Cup qualification #World Series|2025 World Series]] determined the final team to qualify, with one team from each confederation qualifying for the World Series.<ref>{{cite web |title=Match Detail |url=https://www.
