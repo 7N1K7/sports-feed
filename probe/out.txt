@@ -1,141 +1,31 @@
-NBA arenas page len 85300 current at 1155
-==Current arenas==
-{{clear}}
-{{sticky header}}
-{|class="wikitable sortable plainrowheaders sticky-header"
-|-
-!scope="col" class=unsortable|Image
-!scope="col"|Arena
-!scope="col"|Location
-!scope="col"|Team
-!scope="col"|Capacity
-!scope="col"|Opened
-!scope="col"|Season of first NBA game
-!scope="col"|Ref
-|-
-| [[File:American Airlines Center August 2015.jpg|border|120px]]
-| '''[[American Airlines Center]]'''
-| [[Dallas, Texas]]
-| [[Dallas Mavericks]]
-| align=center | 19,200
-| align=center | 2001
-| align=center | 2001–02
-| align="center"|<ref name=":0">{{Cite web |title=All 30 NBA arenas by team |url=https://www.nba.com/news/all-30-nba-arenas-by-team |access-date=October 25, 2025 |website=NBA.com |date=August 28, 2024}}</ref>
-|-
-| [[File:Ball Arena exterior 2022.jpg|border|120px]]
-| '''[[Ball Arena]]'''
-| [[Denver, Colorado]]
-| [[Denver Nuggets]]
-| align=center | 19,520
-| align=center | 1999
-| align=center | 1999–2000
-| align="center"|<ref name=":0" />
-|-
-| [[File:Barclays Center - 2026 (55268559424).jpg|border|120px]]
-| '''[[Barclays Center]]'''
-| [[Brooklyn, New York]]
-| [[Brooklyn Nets]]
-| align=center | 17,732
-| align=center | 2012
-| align=center | 2012–13
-| align="center"|<ref name=":0" />
-|-
-| [[File:Capital One Arena - Washington, D.C.jpg|border|120px]]
-| '''[[Capital One Arena]]'''
-| [[Washington, D.C.]]
-| [[Washington Wizards]]
-| align=center | 20,333
-| align=center | 1997
-| align=center | 1997–98
-| align="center"|<ref name=":0" />
-|-
-| [[File:Chase Center.jpg|border|120px]]
-| '''[[Chase Center]]'''
-| [[San Francisco, California]]
-| [[Golden State Warriors]]
-| align=center | 18,064
-| align=center | 2019
-| align=center | 2019–20
-| align="center"|<ref name=":0" />
-|-
-| [[File:Crypto.com Arena exterior 2023.jpg|border|120px]]
-| '''[[Crypto.com Arena]]'''
-| [[Los Angeles, California]]
-| [[Los Angeles Lakers]]
-| align=center | 18,997
-| align=center | 1999
-| align=center | 1999–2000
-| align="center" |<ref name=":0" />
-|-
-| [[File:Delta Center 2023.jpg|border|120px]]
-| '''[[Delta Center]]'''
-| [[Salt Lake City, Utah]]
-| [[Utah Jazz]]
-| align=center | 18,306
-| align=center | 1991
-| align=center | 1991–92
-| align="center"|<ref name=":0" />
-|-
-| [[File:FedExForum at night.jpg|border|120px]]
-| '''[[FedExForum]]'''
-| [[Memphis, Tennessee]]
-| [[Memphis Grizzlies]]
-| align=center | 17,794
-| align=center | 2004
-| align=center | 2004–05
-| align="center"|<ref name=":0" />
-|-
-| [[File:Milwaukee July 2022 022 (Fiserv Forum).jpg|border|120px]]
-| '''[[Fiserv Forum]]'''
-| [[M
-== 2026 PGA Tour
-==Schedule==
-The following table lists official events during the 2026 season.<ref>{{cite web |url=https://www.pgatour.com/schedule/2026 |title=2026 Tournament schedule |publisher=PGA Tour |access-date=20 August 2024}}</ref><ref name=annouce2026>{{cite web |title=2026 PGA Tour schedule celebrates 20th year of FedExCup  |url=https://www.pgatour.com/article/news/latest/2025/08/19/2026-pga-tour-schedule-events-tournaments-players-championship-20th-year-fedexcup-championship-dates-venues-signature-majors |publisher=PGA Tour |date=August 19, 2024 |access-date=August 20, 2024}}</ref>
-
-{| class="wikitable" style="font-size:95%" 
-!Date
-!Tournament
-!Location
-!Purse<br>([[United States dollar|US$]])
-!Winner(s){{efn|The number in parentheses after each winner's name is the number of PGA Tour events they had won up to and including that tournament. This information is only shown for PGA Tour members.}}
-![[Official World Golf Ranking|OWGR]]<br>points
-!Other<br>tours{{efn|EUR − [[European Tour]]; JPN − [[Japan Golf Tour]].}}
-!Notes
-|-style="background:#D6E8FF;"
-|<s>Jan 11</s>
-|[[The Sentry (Hawaii)|The Sentry]]
-|Hawaii
-|align=center|–
-|''Canceled''{{efn|In September 2025, the PGA Tour announced that The Sentry would not take place at its usual venue, the [[Kapalua Resort]] in [[Hawaii]], due to a drought and a water dispute with the [[Maui Land & Pineapple Company]] that left the golf course in poor condition.<ref>{{cite web |url=https://www.pgatour.com/article/news/latest/2025/09/16/pga-tour-announces-the-sentry-will-not-be-contested-at-kapalua-in-2026 |title=PGA Tour announces The Sentry will not be contested at Kapalua in 2026 |publisher=PGA Tour |date=16 September 2025 |access-date=17 September 2025}}</ref> In October 2025, the PGA Tour announced that the event would be canceled,
-== 2026–27 PGA Tour of Australasia
-==Schedule==
-The following table lists official events during the 2026–27 season.<ref>{{cite web |url=https://golf.com.au/pga-tour-aus |title=2026/27 Tournament schedule |publisher=PGA Tour of Australasia |access-date=24 July 2026}}</ref><ref>{{cite web |url=https://golf.com.au/news/challenger-pga-tour-of-australasia-unveils-schedule |title=Challenger PGA Tour of Australasia unveils schedule |website=golf.com.au |first=Paul |last=Munnings |date=3 August 2026 |access-date=13 August 2026}}</ref>
-
-{| class="wikitable" style="font-size:95%"
-!Date
-!Tournament
-!Location
-!Purse<br>([[Australian dollar|A$]])
-!Winner{{efn|name=totals|The number in brackets after each winner's name is the number of PGA Tour of Australasia events they had won up to and including that tournament. This information is only shown for PGA Tour of Australasia members.}}
-![[Official World Golf Ranking|OWGR]]<br>points
-!Other<br>tours{{efn|name=tours|ASA − [[Asian Tour]]; EUR − [[European Tour]]; JPN − [[Japan Golf Tour]]; WANZ − [[WPGA Tour of Australasia]].}}
-!Notes
-|-
-| 30 Aug || [[PNG Open]] || Papua New Guinea || align=right|225,000 || {{flagicon|AUS}} [[Josh Armstrong]] (1) || align=center|1.82 ||  || 
-|-
-| 11 Oct || [[CKB WA PGA Championship]] || Western Australia || align=right|250,000 || {{flagicon|AUS}} [[Justin Warren (golfer)|Justin Warren]] (1) || align=center|3.04 ||  || 
-|-
-| 18 Oct || [[WA Open]] || Western Australia || align=right|200,000 || {{flagicon|AUS}} [[James Marchesani]] (1) || align=center|3.09 ||  || 
-|-
-| 25 Oct || [[Players Series SA]] || South Australia || align=right|200,000 || {{flagicon|}}  || align=center| || [[2026 WPGA Tour of Australasia|WANZ]] || Mixed event
-|-
-| 15 Nov || [[Ford NSW Open]] || New South Wales || align=right|800,000 || {{flagicon|}}  || align=center| |
--- Australian Open (golf): | location         = [[Heatherton, Victoria|Heatherton]], [[Victoria (Australia)|Victoria]], Australia ; | course           = [[Kingston Heath]]
--- New Zealand Open: | location         = [[Arrowtown, New Zealand]] ; | course           = [[Millbrook Resort]]
--- Australian PGA Championship: | location         = [[Sydney, New South Wales]], Australia ; | course           = [[The Lakes Golf Club]]
--- RSM Classic: | location         = [[Saint Simons Island, Georgia]] ; | course           = Sea Island Golf Club<br>(Seaside Course)<br>(Plantation Course)
--- Mexican Open: 
--- Queensland PGA Championship: | location         = [[Nudgee, Queensland]], Australia ; | course           = Nudgee Golf Club<br>(Kurrai Course)
--- Bermuda Championship: | location         = [[Southampton Parish, Bermuda]] ; | course           = [[Port Royal Golf Course]]
--- The Players Series: | location         = Australia ; | course           = 
-tsdb AU cricket: [["4461","Australian Big Bash League","2026-2027"],["5530","Sheffield Shield","2024-2025"]]
+generated undefined events 947
+diag nba: "2 calls; 30 arenas; 1200 games kept (16 results), season complete; 107 in the feed (16 results, 0 live); standings: East top Philadelphia 76ers 2-0, West top Oklahoma City Thunder 2-0"
+diag golfCourses: "9 of 11 tournaments near have a course; 10 looked up"
+diag tsdb NBL: "fill: nothing to fill; 0 calls; 0 games known"
+diag golf: {"2026 PGA Tour":45,"2026 LPGA Tour":31,"2026–27 PGA Tour of Australasia":18}
+NBA upcoming 91, with venue 91; e.g. Boston Celtics@TD Garden; San Antonio Spurs@Frost Bank Center; Charlotte Hornets@Spectrum Center; Indiana Pacers@Gainbridge Fieldhouse
+golf upcoming 20: Butterfield Bermuda Championship @Port Royal Golf Course; VidantaWorld Mexico Open @Vidanta Vallarta; World Wide Technology Championship @El Cardonal; Austin Championship @-; RSM Classic @Sea Island Golf Club; Players Series SA @| par =; Ford NSW Open @The Vintage Golf Course; Queensland PGA Championship @Nudgee Golf Club; BMW Australian PGA Championship @The Lakes Golf Club; Capital.com Australian Open @Kingston Heath; Victorian PGA Championship @-; Players Series Perth @-; Players Series Victoria @-; Vic Open @-; Players Series Murray River @-; Players Series Sydney @-; Quinovic New Zealand PGA Championship @-; ISPS Handa-Japan Australasia Championship @-; New Zealand Open @-; The National Tournament @-
+NBL upcoming 106 (TBC 86); next 8 days 10 (TBC 0): 10-24T06:30 Illawarra Hawks v Brisbane Bullets; 10-24T08:30 S.E. Melbourne Phoenix v Adelaide 36ers; 10-25T04:00 Cairns Taipans v New Zealand Breakers; 10-25T06:00 Melbourne United v Sydney Kings; 10-28T10:30 Perth Wildcats v Sydney Kings; 10-29T08:30 Brisbane Bullets v Cairns Taipans; 10-30T06:30 New Zealand Breakers v Adelaide 36ers; 10-30T08:30 Tasmania JackJumpers v Sydney Kings; 10-31T08:30 Cairns Taipans v Melbourne United; 10-31T10:30 Perth Wildcats v Illawarra Hawks
+no broadcast 35: {"Rugby Championship":3,"Test match":2,"Test series · Match 1":1,"Test series · Match 2":1,"Test series · Match 3":1,"Australia v South Africa":1,"Pakistan v Sri Lanka":2,"South Africa v England":6,"South Africa v Bangladesh":8,"Bangladesh v West Indies":2,"Afghanistan Tri-Nation Series":1,"United Arab Emirates Tri-Nation Series":6,"WTA Finals":1}
+rules: {
+ "Women's Big Bash League (WBBL|12), League => Sky Sport / Sky Sport Now": 40,
+ "Women's Big Bash League (WBBL|12), The Knockout (3rd v 4th) => Sky Sport / Sky Sport Now": 1,
+ "Women's Big Bash League (WBBL|12), The Challenger => Sky Sport / Sky Sport Now": 1,
+ "Women's Big Bash League (WBBL|12), Final => Sky Sport / Sky Sport Now": 1,
+ "Big Bash League (BBL|16), League (season opener in India) => Sky Sport / Sky Sport Now": 1,
+ "Big Bash League (BBL|16), League => Sky Sport / Sky Sport Now": 39,
+ "Big Bash League (BBL|16), The Qualifier (1st v 2nd) => Sky Sport / Sky Sport Now": 1,
+ "Big Bash League (BBL|16), The Knockout (3rd v 4th) => Sky Sport / Sky Sport Now": 1,
+ "Big Bash League (BBL|16), The Challenger => Sky Sport / Sky Sport Now": 1,
+ "Big Bash League (BBL|16), Final => Sky Sport / Sky Sport Now": 1,
+ "Big Bash League => Sky Sport / Sky Sport Now": 4,
+ "Women's Big Bash League => Sky Sport / Sky Sport Now": 3,
+ "Dean Jones Trophy => Sky Sport (selected games)": 11,
+ "Australia v England => Sky Sport / Sky Sport Now": 9,
+ "Australia v India => Sky Sport / Sky Sport Now": 5,
+ "Australia v South Africa => undefined": 1,
+ "India v Sri Lanka => Sky Sport / Sky Sport Now": 6,
+ "India v Zimbabwe => Sky Sport / Sky Sport Now": 3,
+ "SailGP => ThreeNow (free stream)": 2,
+ "ATP Finals => Disney+ (ESPN)": 1
+}
