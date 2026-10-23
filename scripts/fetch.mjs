@@ -1584,7 +1584,7 @@ await addImages(news);
     if (asked >= 3 || (c && now - c.t < DAY)) continue;
     asked++;
     try {
-      const end = Date.parse(e.startUTC), d = await tsdb(`searchevents.php?e=${encodeURIComponent(e.home.replace(/ /g, '_'))}&s=${new Date(end).getUTCFullYear()}`);
+      const end = Date.parse(e.startUTC), d = await tsdb(`searchevents.php?e=${encodeURIComponent(e.home.replace(/ /g, '_'))}&s=${new Date(end).getUTCFullYear()}`, { extra: true });
       const ev = (d.event || []).find(x => (LEAGUE[e.team] || /./).test(x.strLeague || '') && Math.abs(Date.parse(x.dateEvent) - end) < 12 * DAY && /final round/i.test(x.strResult || ''));
       const rows = rowsOf(ev?.strResult);
       cache[e.id] = rows.length >= 5 ? { t: now, rows } : { t: now };
