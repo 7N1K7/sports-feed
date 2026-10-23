@@ -3,7 +3,8 @@
 // salt that changes every day and is deleted two days later, so the codes can't be traced back to anyone. Nothing
 // else about a visitor is kept: only totals by country, device, system and browser, app or not, and the site they came
 // from; and, from the page, totals of what was picked or searched for, errors, load speed and the hour of the day.
-// POST /report takes a visitor's "Report a problem" note (a few a day each at most); it's kept with the game it's about.
+// POST /report takes a visitor's "Report a problem" note (kept with the game it's about) or "Suggest an idea" note,
+// a few a day each at most.
 // GET /stats (with the owner's password) returns the totals and the reports for the private stats page.
 const SITE = /^https:\/\/(www\.)?kickoff\.kiwi$/;
 const BOT = /bot|crawl|spider|slurp|preview|headless|lighthouse|pingdom|monitor|facebookexternalhit|whatsapp|discord|telegram|curl|wget|python|node-fetch|go-http/i;
@@ -14,7 +15,7 @@ const EVENTS = new Set(['install', 'appfirst', 'cal', 'alerts', 'rankings', 'ale
 const KEYED = { sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed', watch: 'watch', follow: 'follow', unfollow: 'unfollow', use: 'use' };
 const USE = new Set(['Free to watch', 'Events button', 'Results button', 'News button', 'Series row chip', 'Running now tile', 'Events ahead tile', 'Results tab in a game', 'Day in the week strip', 'Dot in the week strip', 'Filters folded away', 'Filters opened', 'Hide sport', 'Show sport', 'Show all results',
   'Settings', 'Spoiler eye', 'NZ only', 'Competition Results tab', 'Competition Squads tab', 'Competition Table tab', 'Competition Rankings tab', 'Competition Playoffs tab',
-  'Competition News tab', 'Competition Shows tab', 'Competition Fights tab', 'Competition Races tab', 'Starting soon card', 'Report opened', 'Report sent']);
+  'Competition News tab', 'Competition Shows tab', 'Competition Fights tab', 'Competition Races tab', 'Starting soon card', 'Report opened', 'Report sent', 'Suggest opened', 'Idea sent']);
 // a visitor's settings, counted once a day each: results hidden or shown, card size, colour theme
 const OG_THEMES = ['green', 'black', 'ocean', 'paua', 'purple', 'pink', 'red', 'orange', 'kowhai', 'lime'];
 const VIEWS = new Set(['big', 'mixed', 'compact']), THEMES = new Set(['green', 'ocean', 'red', 'black', 'kowhai', 'paua', 'purple', 'orange', 'lime', 'pink', 'kauri', 'silver', 'tui', 'navy', 'olive']);
@@ -88,7 +89,8 @@ async function hit(req, env, body) {
   if (writes.length) await env.DB.batch(writes);
 }
 
-// a visitor's report: the note (3 to 500 characters), and the game's id and name when sent from a game's pop-up.
+// a visitor's report or idea (k: 'idea'): the note (3 to 500 characters), and the game's id and name when sent from a
+// game's pop-up.
 // Five a day from one visitor at most (counted with the same scrambled code as visits, deleted with it)
 const MAX_REPORTS = 5;
 async function report(req, env, body) {
@@ -107,8 +109,8 @@ async function report(req, env, body) {
   const n = await env.DB.prepare('INSERT INTO seen (day, h, n) VALUES (?1, ?2, 1) ON CONFLICT (day, h) DO UPDATE SET n = n + 1 RETURNING n').bind(day, h).first('n');
   if (n > MAX_REPORTS) return 429;
   await env.DB.batch([
-    env.DB.prepare('INSERT INTO reports (at, kind, ref, note) VALUES (?1, ?2, ?3, ?4)').bind(new Date().toISOString(), id ? 'game' : 'site', id ? `${id}|${title}` : '', note),
-    bump(env, day, 'use', 'Report sent'),
+    env.DB.prepare('INSERT INTO reports (at, kind, ref, note) VALUES (?1, ?2, ?3, ?4)').bind(new Date().toISOString(), b.k === 'idea' ? 'idea' : id ? 'game' : 'site', id ? `${id}|${title}` : '', note),
+    bump(env, day, 'use', b.k === 'idea' ? 'Idea sent' : 'Report sent'),
   ]);
   return 204;
 }

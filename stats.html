@@ -95,6 +95,7 @@ button, input { font: inherit; color: inherit }
 .reps { display: grid; gap: 10px; max-height: 420px; overflow: auto }
 .rep { border-top: 1px solid var(--line); padding-top: 8px } .rep:first-child { border-top: 0; padding-top: 0 }
 .rep .rh { font-size: 13px; color: var(--muted) } .rep .rh b { color: var(--ink) }
+.rep .idea { color: var(--accent); font-weight: 700 }
 .rep p { margin: 3px 0 0; font-size: 15px; white-space: pre-wrap; overflow-wrap: anywhere }
 details.tbl summary { cursor: pointer; font-weight: 600 }
 table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 14px; font-variant-numeric: tabular-nums }
@@ -154,9 +155,9 @@ th { color: var(--muted); font-weight: 600 }
 
 
     <section class="card">
-      <h2>Reports</h2>
+      <h2>Reports and ideas</h2>
       <div class="reps" id="reports"></div>
-      <p class="note">Sent with the Report a problem button (a game's pop-up, or the foot of the page). Nothing about who sent them is kept.</p>
+      <p class="note">Sent with Report a problem (a game's pop-up, or the foot of the page) and Suggest it (the foot of the page). Nothing about who sent them is kept.</p>
     </section>
 
     <section class="card">
@@ -291,6 +292,8 @@ async function drawCoverage() {
 }
 // the big additions of data, newest first: kept by hand, a line each time a gap is filled or a new kind of data comes in
 const ADDED = [
+  ['23 Oct 2026', 'F1 qualifying as its own card; practice, sprints and Supercars\' other races, qualifying and shootouts on the F1 and Supercars pages (TheSportsDB)'],
+  ['23 Oct 2026', 'Report a problem and Suggest an idea: notes from visitors, listed on this page'],
   ['23 Oct 2026', 'NBL: every game and the season ladder (Breakers games still have their own pick)'],
   ['23 Oct 2026', 'Sailing (SailGP) and Golf (PGA Tour, LPGA Tour, PGA Tour of Australasia), with winners'],
   ['23 Oct 2026', 'Silver Ferns v Diamonds and other netball tests from TheSportsDB'],
@@ -350,9 +353,9 @@ function draw() {
 function drawReports(from) {
   const reps = (data.reports || []).filter(r => new Date(r.at).toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }) >= from);
   const when = at => new Date(at).toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
-  const about = r => { const [id, ...t] = String(r.ref || '').split('|'); return r.kind === 'game' && id ? `<a href="./#g=${encodeURIComponent(id)}" target="_blank" rel="noopener">${esc(t.join('|') || id)}</a>` : 'The site'; };
+  const about = r => { const [id, ...t] = String(r.ref || '').split('|'); return r.kind === 'game' && id ? `<a href="./#g=${encodeURIComponent(id)}" target="_blank" rel="noopener">${esc(t.join('|') || id)}</a>` : r.kind === 'idea' ? '<span class="idea">Idea</span>' : 'The site'; };
   $('reports').innerHTML = reps.length ? reps.map(r => `<div class="rep"><div class="rh"><b>${esc(when(r.at))}</b> · ${about(r)}</div><p>${esc(r.note)}</p></div>`).join('')
-    : '<div class="empty">No reports in this range.</div>';
+    : '<div class="empty">No reports or ideas in this range.</div>';
 }
 
 // a ranked list of horizontal bars, the top 7 and the rest as "Other"; names go in as text, never as markup

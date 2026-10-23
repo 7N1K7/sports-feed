@@ -542,7 +542,8 @@ try { tsdbCache = JSON.parse(await readFile(tsdbCacheUrl, 'utf8')); } catch {}
 // same fixture from two sources? UFC cards match on date alone
 const WOMEN_KEYS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'fpc', 'wbbl', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
 const isW = e => WOMEN_KEYS.has(e.team) || /women|wheelchair/i.test([e.comp, e.home, e.away].join(' '));
-const same = (a, b) => a.team === b.team && isW(a) === isW(b) && (a.team === 'ufc' ? Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) < 1.5 * DAY : sameMatch(a, b));
+// a race weekend's sessions (qualifying, practice, Supercars' Saturday race) are never the race itself
+const same = (a, b) => a.team === b.team && isW(a) === isW(b) && (a.session || '') === (b.session || '') && (a.team === 'ufc' ? Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) < 1.5 * DAY : sameMatch(a, b));
 const near = t => (a, b) => Math.abs(Date.parse(a.startUTC) - t) - Math.abs(Date.parse(b.startUTC) - t);
 
 // Fill-only TheSportsDB leagues: which Wikipedia or curated cards could one complete? Men's games of its teams and
@@ -1311,7 +1312,7 @@ async function writeCalendars(events) {
   const vevents = e => {
     const start = new Date(e.startUTC);
     if (isNaN(start) || e.status === 'final' && now - start > 2 * DAY) return [];
-    const what = gameTitle(e);
+    const what = gameTitle(e) + (e.session ? ` ${e.session.toLowerCase()}` : '');
     const desc = [[e.comp, e.stage].filter(Boolean).join(' · '), e.broadcast && e.broadcast !== 'TBC' ? `Watch: ${e.broadcast}` : '', [e.venue, e.city].filter(Boolean).join(', '), `Kickoff Kiwi: ${site}`].filter(Boolean).join('\n');
     const where = [e.venue, e.city].filter(Boolean).join(', ');
     // a Test or first-class match is one entry a day of play; a one-day game runs eight hours, a T20 three and a half
@@ -1336,7 +1337,8 @@ async function writeCalendars(events) {
     'X-WR-TIMEZONE:Pacific/Auckland', 'REFRESH-INTERVAL;VALUE=DURATION:PT1H', 'X-PUBLISHED-TTL:PT1H', ...list.flatMap(vevents), 'END:VCALENDAR'].map(fold).join('\r\n') + '\r\n';
   const dir = new URL('data/cal/', ROOT);
   await mkdir(dir, { recursive: true });
-  const sorted = [...events].sort((a, b) => a.startUTC.localeCompare(b.startUTC));
+  // practice and the other sessions that only show on a competition's page stay out of the calendars too
+  const sorted = events.filter(e => !e.minor).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
   const counts = [];
   for (const [k, label] of Object.entries(LABEL)) {
     const list = sorted.filter(e => keysOf(e).includes(k));

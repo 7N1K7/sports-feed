@@ -974,12 +974,13 @@ function f1Standings(text) {
 }
 
 // Wikipedia's calendar has race dates only; TheSportsDB (free key) has start times. At most one call a run:
-// the weekend of the next race not looked up in the last 12 hours. Answers are kept in `cache` (fetch.mjs saves it).
+// the weekend of the next race not looked up in the last 12 hours (or not since sessions were kept too). Answers are kept
+// in `cache` (fetch.mjs saves it), with the weekend's practice, qualifying and sprint times.
 export async function f1StartTimes(events, cache, diag) {
   const now = Date.now();
   const races = events.filter(e => e.team === 'f1');
   const due = races.filter(e => e.status !== 'final' && Date.parse(e.startUTC) > now - DAY && Date.parse(e.startUTC) < now + 60 * DAY)
-    .find(e => !cache[e.id] || now - cache[e.id].t > 12 * 36e5);
+    .find(e => !cache[e.id]?.sessions || now - cache[e.id].t > 12 * 36e5);
   const notes = [];
   if (due) {
     const [, season, round] = due.id.split('-');
@@ -988,16 +989,41 @@ export async function f1StartTimes(events, cache, diag) {
       // the race itself, not practice, sprint or qualifying, within two days of Wikipedia's date
       const t = (d.events || []).filter(ev => ev.strTimestamp && !/practice|qualifying|sprint|shootout|testing/i.test(ev.strEvent || ''))
         .map(ev => Date.parse(ev.strTimestamp.replace(/(\+00:00|Z)$/, '') + 'Z')).find(t => Math.abs(t - Date.parse(due.startUTC)) < 2 * DAY);
-      cache[due.id] = { t: now, gp: due.home, startUTC: t ? new Date(t).toISOString() : null };
-      notes.push(`${due.home}: ${t ? new Date(t).toISOString() : 'no time listed yet'}`);
+      const main = t ? new Date(t).toISOString() : null, sessions = main ? sessionsOf(d, main, F1_SESSION) : [];
+      cache[due.id] = { t: now, gp: due.home, startUTC: main, sessions };
+      notes.push(`${due.home}: ${main || 'no time listed yet'}${sessions.length ? ` and ${sessions.length} sessions` : ''}`);
     } catch (e) { notes.push(`${due.home}: ${e.message}`); }
   }
-  let n = 0;
-  for (const e of races) {
+  let n = 0, k = 0;
+  for (const e of [...races]) {
     const c = cache[e.id];
-    if (c?.startUTC && c.gp === e.home && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 2 * DAY) { Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); n++; }
+    if (c?.startUTC && c.gp === e.home && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 2 * DAY) {
+      Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); n++;
+      k += addSessions(events, e, c.sessions, s => /^qualifying$/i.test(s), now);
+    }
   }
-  diag.f1Times = [...notes, `${n} of ${races.length} races with start times`].join('; ');
+  diag.f1Times = [...notes, `${n} of ${races.length} races with start times, ${k} sessions coming`].join('; ');
+}
+// a race weekend's other sessions in the same TheSportsDB round (practice, qualifying, sprints, the round's other races),
+// named by `name` (blank for the main race), within four days of the main race: [{ n: 'Qualifying', t: iso }]
+const F1_SESSION = ev => ((ev.match(/\b(Practice \d|Sprint Qualifying|Sprint Shootout|Sprint|Qualifying)\b/i) || [])[1] || '').replace(/^sprint shootout$/i, 'Sprint Qualifying');
+const SC_SESSION = ev => { const m = ev.match(/\b(Practice \d+|Qualifying Race \d+|Top 10 Shootout Race \d+|Race \d+)\b/i);
+  return m ? m[1].replace(/^Qualifying Race (\d+)/i, 'Qualifying (Race $1)').replace(/^Top 10 Shootout Race (\d+)/i, 'Top 10 Shootout (Race $1)') : ''; };
+const tsdbISO = ts => new Date(Date.parse(String(ts).replace(/(\+00:00|Z)$/, '') + 'Z')).toISOString();
+const sessionsOf = (d, main, name) => (d.events || []).filter(ev => ev.strTimestamp).map(ev => ({ n: name(ev.strEvent || ''), t: tsdbISO(ev.strTimestamp) }))
+  .filter(s => s.n && s.t !== main && Math.abs(Date.parse(s.t) - Date.parse(main)) < 4 * DAY).sort((a, b) => a.t < b.t ? -1 : 1);
+// the sessions as events of their own, while they're still to come: `isMain` ones (F1 qualifying) get a card in the feed,
+// the rest (practice, sprints, Supercars' other races and qualifying) show only on the competition's own page
+function addSessions(events, e, sessions, isMain, now) {
+  let k = 0;
+  for (const s of sessions || []) {
+    if (Date.parse(s.t) < now - 3 * 36e5) continue;
+    events.push({ id: `${e.id}-${s.n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '')}`, team: e.team, tags: e.tags || [], sport: e.sport,
+      comp: `${e.comp} · ${s.n}`, round: e.round, home: e.home, away: '', session: s.n, ...(isMain(s.n) ? {} : { minor: true }),
+      startUTC: s.t, timeTBC: false, venue: e.venue, city: e.city, tz: e.tz, status: 'upcoming', source: e.source, ...(e.nzEvent ? { nzEvent: true } : {}) });
+    k++;
+  }
+  return k;
 }
 
 // Supercars: the round's last race (the Sunday main race) from TheSportsDB, whose round numbers match Wikipedia's.
@@ -1006,7 +1032,7 @@ export async function supercarsStartTimes(events, cache, diag) {
   const now = Date.now();
   const rounds = events.filter(e => e.team === 'supercars');
   const due = rounds.filter(e => e.status !== 'final' && Date.parse(e.startUTC) > now - DAY && Date.parse(e.startUTC) < now + 60 * DAY)
-    .find(e => !cache[e.id] || now - cache[e.id].t > 12 * 36e5);
+    .find(e => !cache[e.id]?.sessions || now - cache[e.id].t > 12 * 36e5);
   const notes = [];
   if (due) {
     const [, season, round] = due.id.split('-');
@@ -1014,16 +1040,20 @@ export async function supercarsStartTimes(events, cache, diag) {
       const d = await tsdb(`eventsround.php?id=4489&r=${round}&s=${season}`);
       const t = (d.events || []).filter(ev => ev.strTimestamp && /\brace\b/i.test(ev.strEvent || '') && !/practice|qualifying|shootout/i.test(ev.strEvent || ''))
         .map(ev => Date.parse(ev.strTimestamp.replace(/(\+00:00|Z)$/, '') + 'Z')).filter(t => Math.abs(t - Date.parse(due.startUTC)) < 3 * DAY).sort((a, b) => b - a)[0];
-      cache[due.id] = { t: now, gp: due.home, startUTC: t ? new Date(t).toISOString() : null };
-      notes.push(`${due.home}: ${t ? new Date(t).toISOString() : 'no time listed yet'}`);
+      const main = t ? new Date(t).toISOString() : null, sessions = main ? sessionsOf(d, main, SC_SESSION) : [];
+      cache[due.id] = { t: now, gp: due.home, startUTC: main, sessions };
+      notes.push(`${due.home}: ${main || 'no time listed yet'}${sessions.length ? ` and ${sessions.length} sessions` : ''}`);
     } catch (e) { notes.push(`${due.home}: ${e.message}`); }
   }
-  let n = 0;
+  let n = 0, k = 0;
   for (const e of rounds) {
     const c = cache[e.id];
-    if (c?.startUTC && c.gp === e.home && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 3 * DAY) { Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); n++; }
+    if (c?.startUTC && c.gp === e.home && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 3 * DAY) {
+      Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); n++;
+      k += addSessions(events, e, c.sessions, () => false, now);
+    }
   }
-  diag.supercarsTimes = [...notes, `${n} of ${rounds.length} rounds with start times`].join('; ');
+  diag.supercarsTimes = [...notes, `${n} of ${rounds.length} rounds with start times, ${k} sessions coming`].join('; ');
 }
 
 // Cricket tour "Squads" tables: header rows give each column's team and/or format

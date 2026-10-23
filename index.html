@@ -1365,7 +1365,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
   <form id="reportForm" method="dialog">
     <h2 id="reportH">Report a problem</h2>
     <p class="rabout" id="reportAbout"></p>
-    <textarea id="reportNote" rows="4" maxlength="500" aria-label="What's wrong or missing" placeholder="What's wrong or missing? A wrong time or channel, a missing game or team…"></textarea>
+    <textarea id="reportNote" rows="4" maxlength="500" aria-label="What's wrong or missing" placeholder="What's wrong or missing?"></textarea>
     <p class="rnote">Goes to the site's owner. Nothing about you is sent or kept.</p>
     <div class="rbtns"><span class="rmsg" id="reportMsg" aria-live="polite"></span><button type="button" class="btn" id="reportCancel">Cancel</button><button type="submit" class="btn rsend" id="reportSend">Send</button></div>
   </form>
@@ -1728,6 +1728,8 @@ const STAGE = { golf: { hrs: 4, name: (i, n) => i < n - 1 ? `Round ${i + 1}` : '
 const stagesOf = e => STAGE[e.sport] && e.openUTC && e.status !== 'final' ? Math.round((Date.parse(e.startUTC) - Date.parse(e.openUTC)) / 864e5) + 1 : 0;
 const stageAt = (e, i, n) => Date.parse(e.startUTC) - (n - 1 - i) * 864e5;
 const stageName = (e, st) => STAGE[e.sport].name(st.i, st.n) || START_LABEL[e.sport];
+// a race weekend's session (its name is on the card's competition line): a race or sprint has lights out, the rest start
+const startLabel = e => e.session ? (/^(race \d+|sprint)$/i.test(e.session) ? 'Lights out' : 'Starts') : START_LABEL[e.sport] || 'Start';
 // the day being played now ({ on: true }), or else the next day to come, from 12 hours before the first; null after
 function stageNow(e, now) {
   const n = stagesOf(e), hrs = STAGE[e.sport]?.hrs;
@@ -1860,7 +1862,9 @@ function freeTo(e) {
 }
 // Free to watch narrows the games still to come; results and news are left as they are
 const visible = x => (genderSel === 'all' || !genderOf(x) || genderOf(x) === genderSel) && (!nzOnly || isNZ(x)) && (!freeOnly || !x.startUTC || x.status === 'final' || !!freeTo(x)) && visible0(x);
-const visible0 = x => x.startUTC ? (compSel ? compOf(x) === compSel : visibleTeam(x) && sportOn(x.sport || sportOf(x.team)))
+// practice, sprints and Supercars' other races (minor) show only on their competition's own page; a race weekend's
+// session has no result, so it goes once its two hours on Live now are up
+const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now() ? false : x.startUTC ? (compSel ? compOf(x) === compSel : !x.minor && visibleTeam(x) && sportOn(x.sport || sportOf(x.team)))
   : visibleTeam(x) && sportOn(sportOf(x.team));
 
 // cricket tours: "Game 4 of 5 · India lead the T20I series 2–1", counting only results the spoiler setting shows
@@ -1890,7 +1894,7 @@ function seriesLine(e, now) {
 
 function evCard(e, now) {
   // a golf round or a day's racing names itself where the start time's label goes ("Round 2"), so the tag needn't
-  const stg = stagesOf(e) > 1 && stageNow(e, now), slbl = stg ? stageName(e, stg) : START_LABEL[e.sport] || 'Start';
+  const stg = stagesOf(e) > 1 && stageNow(e, now), slbl = stg ? stageName(e, stg) : startLabel(e);
   const on = onNow(e, now), live = e.status === 'live' || (stg && on) ? 'On now' : on, paused = !live && !stg && between(e, now);
   // a Test between days shows when the next day starts, not when the match began
   const d = nextAt(e, now);
@@ -2477,7 +2481,7 @@ function detail(e) {
   const formTo = isPast && !hidden ? new Date(d.getTime() + 864e5).toISOString() : e.startUTC;
   const cfmt = e.sport === 'cricket' ? fmtOf(`${e.comp || ''} ${e.stage || ''}`) : '';
   const rows = [
-    [`${START_LABEL[e.sport] || 'Start'} (${tzLabel()})`, when],
+    [`${startLabel(e)} (${tzLabel()})`, when],
     overseas && (!e.timeTBC || e.usual) ? ['Local', `${e.usual ? '≈' : ''}${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
     ['Where', [e.venue, e.city].filter(Boolean).map(wikiLink).join(', ') || 'To be confirmed', true],
     e.note ? ['Note', e.note] : null,
@@ -2621,6 +2625,7 @@ function openTeam(name, sport, fromRank = '') {
   $('sheet').querySelector('.sheet-in')?.scrollTo?.(0, 0);
 }
 // the sport buttons' order, which the rankings tabs follow too
+const sportRank = sp => (i => i < 0 ? 99 : i)(SPORT_CHIPS.findIndex(([k]) => k === sp));
 const SPORT_CHIPS = [['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['hockey','Hockey'],['basketball','Basketball'],['netball','Netball'],['motor','Motorsport'],['sailing','Sailing'],['tennis','Tennis'],['golf','Golf'],['mma','MMA'],['boxing','Boxing']];
 const RANK_SPORTS = SPORT_CHIPS.map(([k]) => k);
 // a sport counts as followed when at least one of its teams or competitions is picked in My teams
@@ -2774,7 +2779,9 @@ function renderNowBar(now) {
   }
   // a tour between legs (T20Is done, Tests weeks away) isn't running; one with its next game within 10 days of the last is
   const on = [...by].filter(([c, v]) => (v.started || WINDOWED.test(c)) && v.next < 21 * 864e5 && (v.next < 18 * 36e5 || v.lastPlayed === undefined || v.next < 10 * 864e5 || WINDOWED.test(c)))
-    .sort((a, b) => b[1].nz - a[1].nz || a[1].next - b[1].next).slice(0, 6);
+    .sort((a, b) => b[1].nz - a[1].nz || a[1].next - b[1].next).slice(0, 6)
+    // the six shown sit in the sport buttons' order (cricket, rugby, league...), New Zealand's first within a sport
+    .sort((a, b) => sportRank(a[1].sport) - sportRank(b[1].sport) || b[1].nz - a[1].nz || a[1].next - b[1].next);
   onNowComps = new Set(on.map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
   $('nowBar').hidden = !on.length;
@@ -2834,7 +2841,8 @@ function render() {
   const evs = (FEED.events || []).filter(visible).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
   const todayK = dayKey(nowD);
   const upcoming = evs.filter(e => e.status === 'live' || (e.status !== 'final' && (new Date(e.startUTC) > now || running(e, now))));
-  const finals = evs.filter(e => e.status === 'final' || (e.status !== 'live' && new Date(e.startUTC) < now && !running(e, now) && (!e.timeTBC || now - new Date(e.startUTC) > 12 * 36e5))).reverse();
+  // a race weekend's sessions have no results of their own: once over, they're gone
+  const finals = evs.filter(e => !e.session && (e.status === 'final' || (e.status !== 'live' && new Date(e.startUTC) < now && !running(e, now) && (!e.timeTBC || now - new Date(e.startUTC) > 12 * 36e5)))).reverse();
 
   // week strip
   const days = [...Array(7)].map((_, i) => new Date(now + i * 864e5));
@@ -3544,17 +3552,21 @@ function stamp() {
   $('mockBar').hidden = true;
 }
 // a phone alert links to its game (kickoff.kiwi/#g=<game id>): open it once the feed is in, then tidy the address
-// Report a problem: the form over the page, about the game whose pop-up it came from (or the site); the note goes to
-// the stats server, which keeps it for the stats page and nothing about who sent it
-let reportFor = '';
+// Report a problem (about the game whose pop-up it came from, or the site) or Suggest an idea: the same small form over
+// the page; the note goes to the stats server, which keeps it for the stats page and nothing about who sent it
+let reportFor = '', reportIdea = false;
 document.addEventListener('click', ev => {
-  const b = ev.target.closest('[data-report]'); if (!b) return;
-  const e = (FEED.events || []).find(x => x.id === b.dataset.report);
+  const b = ev.target.closest('[data-report], [data-suggest]'); if (!b) return;
+  reportIdea = 'suggest' in b.dataset;
+  const e = !reportIdea && (FEED.events || []).find(x => x.id === b.dataset.report);
   reportFor = e ? e.id : '';
-  $('reportAbout').textContent = e ? `About ${titleOf(e)}, ${dayLabel(new Date(e.startUTC), NZ)}` : 'A missing game, team or competition, or anything else wrong on the site.';
+  $('reportH').textContent = reportIdea ? 'Suggest an idea' : 'Report a problem';
+  $('reportAbout').textContent = reportIdea ? "Something you'd like on the site: a sport, a stat, a feature." : e ? `About ${titleOf(e)}, ${dayLabel(new Date(e.startUTC), NZ)}`
+    : 'A missing game, team or competition, or anything else wrong on the site.';
+  $('reportNote').placeholder = reportIdea ? 'Your idea…' : "What's wrong or missing? A wrong time, score or channel, rain shown when it isn't…";
   $('reportMsg').textContent = ''; $('reportSend').disabled = false;
   $('reportDlg').showModal(); $('reportNote').focus();
-  count({ e: 'use', k: 'Report opened' });
+  count({ e: 'use', k: reportIdea ? 'Suggest opened' : 'Report opened' });
 });
 $('reportCancel').addEventListener('click', () => $('reportDlg').close());
 $('reportDlg').addEventListener('click', ev => { if (ev.target === $('reportDlg')) $('reportDlg').close(); });
@@ -3565,7 +3577,7 @@ $('reportForm').addEventListener('submit', async ev => {
   $('reportSend').disabled = true; $('reportMsg').textContent = 'Sending…';
   try {
     // plain text, so the browser sends it straight away without asking the server first
-    const r = await fetch(STATS_API + '/report', { method: 'POST', headers: { 'content-type': 'text/plain' }, body: JSON.stringify({ g: reportFor, t: e ? titleOf(e) : '', note }) });
+    const r = await fetch(STATS_API + '/report', { method: 'POST', headers: { 'content-type': 'text/plain' }, body: JSON.stringify({ g: reportFor, t: e ? titleOf(e) : '', note, ...(reportIdea ? { k: 'idea' } : {}) }) });
     if (r.status === 429) throw new Error('limit');
     if (!r.ok) throw new Error('failed');
     $('reportMsg').textContent = 'Sent. Thank you!'; $('reportNote').value = '';
@@ -3614,7 +3626,7 @@ async function load(woke) {
         if (sq.length) { e.squads = sq; e.seasonSquads = true; }
       }
     }
-    $('foot').innerHTML = `<p>Something missing or wrong? <button type="button" class="flink" data-report="">Report it</button></p>Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)`;
+    $('foot').innerHTML = `<p>Something missing or wrong? <button type="button" class="flink" data-report="">Report it</button> · An idea, or a stat or sport you'd like? <button type="button" class="flink" data-suggest="">Suggest it</button></p>Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)`;
     render(); stamp(); openFromLink();
     // how long until the first games were on screen, in bands
     if (!load.timed) { load.timed = true; const t = performance.now() / 1000; count({ e: 'speed', k: t < 1 ? 'under 1s' : t < 2 ? '1-2s' : t < 4 ? '2-4s' : t < 8 ? '4-8s' : '8s or more' }); }
