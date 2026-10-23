@@ -1663,7 +1663,8 @@ for (const e of events.filter(x => { const t = Date.parse(x.startUTC) - now; ret
   if ((e.broadcast && e.broadcast !== 'TBC') || e.watchAlt || e.yt || e.tv) c.watch++; else bump(c.gaps.watch, comp);
   if (e.tv) c.guide = (c.guide || 0) + 1;
   if (e.yt) c.streams = (c.streams || 0) + 1;
-  if (['motor', 'tennis'].includes(e.sport)) continue;
+  // a race, a tournament or a regatta has no two sides (golf's "home" is the tournament's name)
+  if (['motor', 'tennis', 'golf', 'sailing'].includes(e.sport)) continue;
   const sides = [e.home, e.away].filter(t => t && !NOT_SIDE.test(t)), g = genderKey(e), base = t => String(t).replace(/\s+Women('s)?$/, '');
   if (!NO_SQUADS.has(e.sport) && sides.length) { c.sqGames++; if (e.squads?.length || sides.some(t => haveSquads.has(`${e.sport}|${g}|${base(t)}`))) c.squads++; else bump(c.gaps.squads, comp); }
   for (const t of sides) {
@@ -1698,6 +1699,11 @@ const feed = {
 await writeFile(new URL('data/feed.json', ROOT), JSON.stringify(feed));
 // the version alone, for pages that only need that (the stats page)
 await writeFile(new URL('data/version.json', ROOT), JSON.stringify(site));
+// the coverage figures alone, small, for the stats server to keep one snapshot a version (the stats page charts them):
+// per sport [games, start times, where to watch, games needing squads, with squads, sides, with pictures, with links,
+// in the TV guide, free streams]
+await writeFile(new URL('data/coverage.json', ROOT), JSON.stringify({ v: site?.version || 0, at: feed.generatedAt,
+  cov: Object.fromEntries(Object.entries(coverage).map(([k, c]) => [k, [c.games, c.time, c.watch, c.sqGames, c.squads, c.sides, c.pic, c.links, c.guide || 0, c.streams || 0]])) }));
 // a small plain-text view of games around now, for checking the live site without reading the whole feed
 await writeFile(new URL('data/now.txt', ROOT), feed.events.filter(e => Math.abs(Date.parse(e.startUTC) - now) < 2 * DAY)
   .map(e => [e.id, e.team, e.status, e.startUTC, e.timeTBC ? 'TBC' : '', e.format || '', e.stage || '', e.city || '', e.tz || '', e.score || '', e.summary || '', e.weather || '', e.progress || '', e.liveScore || ''].join(' | ')).join('\n') + '\n');

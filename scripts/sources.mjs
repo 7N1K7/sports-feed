@@ -1457,13 +1457,17 @@ export async function teamSquads(keys, diag) {
   const want = keys.filter(k => TEAM_PAGES[k]), out = [];
   try {
     for (let i = 0; i < want.length; i += 50) {
-      const part = want.slice(i, i + 50), titles = [...new Set(part.map(k => TEAM_PAGES[k]))];
-      const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(titles.join('|')),
-        { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } });
-      if (!r.ok) throw new Error(r.status);
-      const j = await r.json(), back = {};
-      for (const m of [...(j.query?.normalized || []), ...(j.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
-      const text = Object.fromEntries((j.query?.pages || []).map(pg => [back[pg.title] || pg.title, pg.revisions?.[0]?.slots?.main?.content || '']));
+      const part = want.slice(i, i + 50), titles = [...new Set(part.map(k => TEAM_PAGES[k]))], text = {};
+      // a batch of big pages comes back in parts (the rest after "continue"), so ask until it's all in
+      for (let cont = {}, n = 0; cont && n < 10; n++) {
+        const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(titles.join('|'))
+          + Object.entries(cont).map(([k, v]) => `&${k}=${encodeURIComponent(v)}`).join(''), { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } });
+        if (!r.ok) throw new Error(r.status);
+        const j = await r.json(), back = {};
+        for (const m of [...(j.query?.normalized || []), ...(j.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
+        for (const pg of j.query?.pages || []) { const c = pg.revisions?.[0]?.slots?.main?.content; if (c) text[back[pg.title] || pg.title] = c; }
+        cont = j.continue?.rvcontinue ? j.continue : null;
+      }
       for (const k of part) {
         const players = readSquad(text[TEAM_PAGES[k]] || ''), [sport, g, team] = k.split('|');
         // a table read in the wrong column gives the same name over and over (a club, not players): not a squad
