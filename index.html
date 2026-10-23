@@ -360,12 +360,12 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .fta.fpre { background: transparent; color: #37b24d; box-shadow: inset 0 0 0 1.5px #37b24d } /* only part of it is free: outlined */
 .ev .ctags .ftac { margin-left: 4px }
 .fta .fch { font-weight: 700; letter-spacing: .02em; text-transform: none } /* the channel after FREE, in its own case */
-/* "freeTV", a small lowercase free on the TV, the green filling the whole button; on, it turns light like NZ only, the
-   words staying green */
-#freeOnly { padding-inline: 11px; background: #2b8a3e; border-color: #2b8a3e; color: #fff }
-#freeOnly[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #2b8a3e }
-#freeOnly .fta { vertical-align: 0; letter-spacing: .03em; padding-inline: 0; background: none; color: inherit }
-#freeOnly .ffree { font-size: 9px; font-weight: 700; letter-spacing: 0; margin-right: 1px }
+/* "freeTV", a small lowercase free on the TV: off, a green outline and green words; on, filled green like the other
+   buttons when they're on */
+#freeOnly { padding-inline: 8px; background: var(--surface); border-color: #2b8a3e; color: #40c057 }
+#freeOnly[aria-pressed="true"] { background: #2b8a3e; border-color: #2b8a3e; color: #fff }
+#freeOnly .fta { font-size: 12px; vertical-align: 0; letter-spacing: .03em; padding-inline: 0; background: none; color: inherit }
+#freeOnly .ffree { font-size: 10.5px; font-weight: 700; letter-spacing: 0; margin-right: 1px }
 .ev .tvl a { color: inherit }
 .tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 1px 6px; background: var(--soft); color: var(--ink); justify-self: end }
 .tag.live { background: var(--live); color: #fff }
