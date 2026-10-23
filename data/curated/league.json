@@ -18,7 +18,8 @@
    "summary": "Jack Bostock's debut hat-trick, sealed with a try in the last four minutes, gave the Kangaroos a 24-22 win over the Kiwis despite two tries from Kalyn Ponga, in front of a record crowd of 41,255.",
    "broadcast": "Sky Sport / Sky Sport Now",
    "watchNote": "What Hi-Fi reported this match also streamed free on ThreeNow",
-   "source": "https://www.nrl.com/news/2026/10/15/jumping-jacks-flash-bostock-bags-three-on-debut-as-roos-salute/"
+   "source": "https://www.nrl.com/news/2026/10/15/jumping-jacks-flash-bostock-bags-three-on-debut-as-roos-salute/",
+   "watchAlt": "Free on Three / ThreeNow"
   },
   {
    "sport": "league",
@@ -67,7 +68,8 @@
    "tz": "Pacific/Auckland",
    "broadcast": "Sky Sport / Sky Sport Now",
    "watchNote": "What Hi-Fi reports ThreeNow will stream every Kiwis match free (not confirmed by Sky)",
-   "source": "https://www.flicks.co.nz/sport/rugby-league/rugby-league-world-cup/rlwc-9/"
+   "source": "https://www.flicks.co.nz/sport/rugby-league/rugby-league-world-cup/rlwc-9/",
+   "watchAlt": "Free on Three / ThreeNow"
   },
   {
    "sport": "league",
@@ -84,7 +86,8 @@
    "tz": "Australia/Brisbane",
    "broadcast": "Sky Sport / Sky Sport Now",
    "watchNote": "What Hi-Fi reports ThreeNow will stream every Kiwis match free (not confirmed by Sky)",
-   "source": "https://www.flicks.co.nz/sport/rugby-league/rugby-league-world-cup/rlwc-12/"
+   "source": "https://www.flicks.co.nz/sport/rugby-league/rugby-league-world-cup/rlwc-12/",
+   "watchAlt": "Free on Three / ThreeNow"
   },
   {
    "sport": "league",
@@ -134,7 +137,8 @@
    "tz": "Australia/Sydney",
    "broadcast": "Sky Sport / Sky Sport Now",
    "watchNote": "Kiwis play here if they finish second in Group A. Kick-off converted from UK times.",
-   "source": "https://www.loverugbyleague.com/post/2026-rugby-league-world-cup-schedule-revealed-in-full"
+   "source": "https://www.loverugbyleague.com/post/2026-rugby-league-world-cup-schedule-revealed-in-full",
+   "watchAlt": "Free on Three / ThreeNow"
   },
   {
    "sport": "league",
@@ -168,7 +172,8 @@
    "tz": "Australia/Sydney",
    "broadcast": "Sky Sport / Sky Sport Now",
    "watchNote": "Kiwis play here if they top Group A. Kick-off converted from UK times.",
-   "source": "https://www.loverugbyleague.com/post/2026-rugby-league-world-cup-schedule-revealed-in-full"
+   "source": "https://www.loverugbyleague.com/post/2026-rugby-league-world-cup-schedule-revealed-in-full",
+   "watchAlt": "Free on Three / ThreeNow"
   },
   {
    "sport": "league",
@@ -200,7 +205,8 @@
    "city": "Brisbane, Australia",
    "tz": "Australia/Brisbane",
    "broadcast": "Sky Sport / Sky Sport Now",
-   "source": "https://www.flicks.co.nz/sport/rugby-league/rugby-league-world-cup/rlwc-final/"
+   "source": "https://www.flicks.co.nz/sport/rugby-league/rugby-league-world-cup/rlwc-final/",
+   "watchAlt": "Free on Three / ThreeNow"
   },
   {
    "sport": "league",

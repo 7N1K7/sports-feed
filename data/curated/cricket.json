@@ -25,6 +25,8 @@
    "timeTBC": false,
    "status": "upcoming",
    "id": "wf-aus-t20i1-2026",
+   "fix": {"status": "final", "score": "8/165 (18.5 overs) v 2/162 (20 overs)", "summary": "Australia won by 2 wickets"},
+   "fixNote": "Wikipedia had Australia 8/168; cricket.com.au and ABC News report 8-165 in 18.5 overs",
    "team": "whiteferns",
    "comp": "1st T20I v Australia (Rose Bowl)",
    "format": "T20I",
@@ -35,7 +37,6 @@
    "city": "Sydney, Australia",
    "tz": "Australia/Sydney",
    "broadcast": "Sky Sport / Sky Sport Now",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "9:15pm NZT (7:15pm AEDT Sydney time)",
    "source": "https://www.nzc.nz/rose-bowl-introduced-to-t20is/"
   },
@@ -54,7 +55,6 @@
    "city": "Sydney, Australia",
    "tz": "Australia/Sydney",
    "broadcast": "Sky Sport / Sky Sport Now",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "9:15pm NZT (7:15pm AEDT Sydney time)",
    "source": "https://www.nzc.nz/rose-bowl-introduced-to-t20is/"
   },
@@ -92,7 +92,6 @@
    "city": "Sydney, Australia",
    "tz": "Australia/Sydney",
    "broadcast": "Sky Sport / Sky Sport Now",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "9:15pm NZT (7:15pm AEDT Sydney time)",
    "source": "https://www.nzc.nz/rose-bowl-introduced-to-t20is/"
   },
@@ -111,7 +110,6 @@
    "city": "Lincoln, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "TBC",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "10:30am NZDT start",
    "source": "https://www.sportsdunia.com/cricket-news/india-a-tour-of-new-zealand-2026-schedule-squad-venue"
   },
@@ -168,7 +166,6 @@
    "city": "Auckland, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "Not on Sky; 10:30am NZDT start per fixture listing",
    "source": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
   },
@@ -187,7 +184,6 @@
    "city": "Nelson, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "Not on Sky; 10:30am NZDT start per fixture listing",
    "source": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
   },
@@ -206,7 +202,6 @@
    "city": "Wellington, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "Not on Sky; 10:30am NZDT start per fixture listing",
    "source": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
   },
@@ -244,7 +239,6 @@
    "city": "Christchurch, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "TBC",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "10:30am NZDT start",
    "source": "https://www.sportsdunia.com/cricket-news/india-a-tour-of-new-zealand-2026-schedule-squad-venue"
   },
@@ -263,7 +257,6 @@
    "city": "Mount Maunganui, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "Not on Sky; 10:30am NZDT start per fixture listing",
    "source": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
   },
@@ -282,7 +275,6 @@
    "city": "Wellington, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "Not on Sky; 10:30am NZDT start per fixture listing",
    "source": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
   },
@@ -301,7 +293,6 @@
    "city": "Dunedin, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "Not on Sky; 10:30am NZDT start per fixture listing",
    "source": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
   },
@@ -358,7 +349,6 @@
    "city": "Lincoln, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "TBC",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "10:30am NZDT start",
    "source": "https://www.sportsdunia.com/cricket-news/india-a-tour-of-new-zealand-2026-schedule-squad-venue"
   },
@@ -434,7 +424,6 @@
    "city": "Palmerston North, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "Not on Sky",
    "source": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/"
   },
@@ -472,7 +461,6 @@
    "city": "Dunedin, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "Not on Sky; free entry",
    "source": "https://www.nzc.nz/red-ball-fans-rejoice-plunket-shield-schedule-announced/"
   },
@@ -491,7 +479,6 @@
    "city": "Hamilton, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "Not on Sky; free entry",
    "source": "https://www.nzc.nz/red-ball-fans-rejoice-plunket-shield-schedule-announced/"
   },
@@ -510,7 +497,6 @@
    "city": "Palmerston North, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
-   "watchAlt": "Live scoring at nzc.nz",
    "watchNote": "Not on Sky; free entry",
    "source": "https://www.nzc.nz/red-ball-fans-rejoice-plunket-shield-schedule-announced/"
   },

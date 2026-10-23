@@ -1,0 +1,72 @@
+{
+  "generatedAt": "2026-10-22T17:00:00Z",
+  "events": [
+    {
+      "id": "concup-2026-g1",
+      "team": "silverferns",
+      "sport": "netball",
+      "comp": "Constellation Cup, Game 1",
+      "home": "New Zealand",
+      "away": "Australia",
+      "startUTC": "2026-10-18T06:40:00Z",
+      "timeTBC": false,
+      "venue": "Spark Arena",
+      "city": "Auckland, New Zealand",
+      "tz": "Pacific/Auckland",
+      "status": "final",
+      "score": "56-50",
+      "broadcast": "Sky Sport / Sky Sport Now",
+      "source": "https://www.abc.net.au/news/2026-10-18/constellation-cup-netball-diamonds-silver-ferns-game-one/107280774"
+    },
+    {
+      "id": "concup-2026-g2",
+      "team": "silverferns",
+      "sport": "netball",
+      "comp": "Constellation Cup, Game 2",
+      "home": "New Zealand",
+      "away": "Australia",
+      "startUTC": "2026-10-21T06:40:00Z",
+      "timeTBC": false,
+      "venue": "Wolfbrook Arena",
+      "city": "Christchurch, New Zealand",
+      "tz": "Pacific/Auckland",
+      "status": "final",
+      "score": "62-50",
+      "broadcast": "Sky Sport / Sky Sport Now",
+      "source": "https://www.silverferns.co.nz/silver-ferns/news/latest-news/storming-finish-pushes-silver-ferns-out-to-2-0-constellation-cup-lead.html"
+    },
+    {
+      "id": "concup-2026-g3",
+      "team": "silverferns",
+      "sport": "netball",
+      "comp": "Constellation Cup, Game 3",
+      "home": "Australia",
+      "away": "New Zealand",
+      "startUTC": "2026-10-25T05:00:00Z",
+      "timeTBC": false,
+      "venue": "Afterpay Arena",
+      "city": "Sydney, Australia",
+      "tz": "Australia/Sydney",
+      "status": "upcoming",
+      "broadcast": "Sky Sport / Sky Sport Now",
+      "source": "https://www.abc.net.au/news/2026-10-21/constellation-cup-netball-diamonds-silver-ferns-game-two/107293398"
+    },
+    {
+      "id": "concup-2026-g4",
+      "team": "silverferns",
+      "sport": "netball",
+      "comp": "Constellation Cup, Game 4",
+      "home": "Australia",
+      "away": "New Zealand",
+      "startUTC": "2026-10-28T08:30:00Z",
+      "timeTBC": false,
+      "venue": "John Cain Arena",
+      "city": "Melbourne, Australia",
+      "tz": "Australia/Melbourne",
+      "status": "upcoming",
+      "broadcast": "Sky Sport / Sky Sport Now",
+      "source": "https://www.abc.net.au/news/2026-10-21/constellation-cup-netball-diamonds-silver-ferns-game-two/107293398"
+    }
+  ],
+  "news": []
+}

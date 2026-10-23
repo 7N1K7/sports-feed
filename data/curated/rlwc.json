@@ -715,7 +715,8 @@
       "tz": "Australia/Brisbane",
       "status": "upcoming",
       "broadcast": "Sky Sport / Sky Sport Now",
-      "source": "https://www.nrl.com/draw/?competition=131&season=2026&round=5"
+      "source": "https://www.nrl.com/draw/?competition=131&season=2026&round=5",
+      "watchAlt": "Free on Three / ThreeNow"
     }
   ],
   "news": []

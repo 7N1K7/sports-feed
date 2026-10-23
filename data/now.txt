@@ -1,0 +1,7 @@
+wf-aus-t20i2-2026 | whiteferns | upcoming | 2026-10-20T08:15:00.000Z |  | T20I |  | Sydney, Australia | Australia/Sydney |  |  |  |  | 
+bc-ind-t20i1-2026 | blackcaps | upcoming | 2026-10-22T07:00:00.000Z |  | T20I |  | Christchurch, New Zealand | Pacific/Auckland |  |  |  |  | 
+wf-aus-t20i3-2026 | whiteferns | upcoming | 2026-10-22T08:15:00.000Z |  | T20I |  | Sydney, Australia | Australia/Sydney |  |  |  |  | 
+wiki-audomestic-2026-10-19-tasmaniavictoria | audomestic | upcoming | 2026-10-19T03:00:00.000Z | TBC | First-class |  | Hobart | Australia/Hobart |  |  |  | Stumps, day 1 | 
+wiki-audomestic-2026-10-19-southaustraliaqueensland | audomestic | upcoming | 2026-10-19T03:30:00.000Z | TBC | First-class |  | Adelaide | Australia/Adelaide |  |  |  | Stumps, day 1 | 
+wiki-audomestic-2026-10-19-newsouthwaleswesternaustralia | audomestic | upcoming | 2026-10-19T06:00:00.000Z | TBC | First-class |  | Perth | Australia/Perth |  |  |  |  | 
+wiki-aucricket-2026-10-18-southafricaaustralia | aucricket | upcoming | 2026-10-18T12:00:00.000Z | TBC |  | 2nd Test | Gqeberha | Africa/Johannesburg |  |  |  | Stumps, Day 2 | 

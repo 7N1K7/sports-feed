@@ -238,8 +238,8 @@
    "team": "npc",
    "sport": "rugby",
    "comp": "NPC Final",
-   "home": "Northland or SF2 winner (Canterbury/Taranaki)",
-   "away": "TBC",
+   "home": "Northland",
+   "away": "Canterbury",
    "startUTC": "2026-10-24T00:00:00Z",
    "timeTBC": true,
    "venue": "TBC",
@@ -248,7 +248,7 @@
    "status": "upcoming",
    "broadcast": "Sky Sport / TVNZ+ (every match streamed free)",
    "source": "https://fmgstadiumwaikato.co.nz/news/new-zealand-rugby-releases-an-exciting-schedule-marking-50-years-of-npc",
-   "watchNote": "NZR's schedule says the final is on the weekend of 24/25 October. Northland play the Canterbury v Taranaki winner. The host, date and time follow that result."
+   "watchNote": "Northland beat Otago 38–19 and Canterbury beat Taranaki 38–28 in the semi-finals. NZR's schedule puts the final on the weekend of 24/25 October; the host, venue and kick-off time are still to be confirmed."
   },
   {
    "id": "fpc-champ-final",
