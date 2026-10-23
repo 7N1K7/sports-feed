@@ -1,5 +1,18 @@
 import fs from 'fs';
-// a failed job's log (public repo; GitHub masks secrets). Only the chain step's lines are kept.
-const r = await fetch('https://api.github.com/repos/7N1K7/sports-feed/actions/jobs/120309750741/logs', { headers: { authorization: 'Bearer ' + process.env.GH_TOKEN, 'user-agent': 'probe' } });
-const t = await r.text();
-fs.writeFileSync(new URL('./out.txt', import.meta.url), r.status + '\n' + t.split('\n').filter(l => !/token|secret|key/i.test(l)).slice(-40).join('\n'));
+import { chromium } from 'playwright';
+const out = [];
+const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
+out.push('generatedAt ' + f.generatedAt);
+const by = {};
+for (const e of f.events.filter(e => /Tri-(Series|Nation)/i.test(e.comp || ''))) by[e.comp] = (by[e.comp] || '') + (e.minor ? 'm' : '.');
+out.push(JSON.stringify(by));
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1280, height: 900 } });
+await p.addInitScript(() => localStorage.setItem('sf.nocount', 'true'));
+await p.goto('https://kickoff.kiwi/?x=' + Date.now());
+await p.waitForTimeout(4000);
+out.push('version ' + await p.evaluate(() => document.body.innerHTML.match(/v\d{3}/)?.[0]));
+out.push('running: ' + await p.evaluate(() => [...document.querySelectorAll('.nowchip')].map(x => x.dataset.bigcomp).join(' | ')));
+out.push('menu tri: ' + await p.evaluate(() => [...document.querySelectorAll('#compMenu .copt')].map(x => x.dataset.comp).filter(c => /Tri/.test(c)).join(' | ')));
+await b.close();
+fs.writeFileSync(new URL('./out.txt', import.meta.url), out.join('\n'));
