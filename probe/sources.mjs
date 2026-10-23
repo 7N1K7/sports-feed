@@ -1316,7 +1316,8 @@ function stateSquad(text) {
   let nameCol = -1, group = '';
   // the header row may come straight after the table's opening line, with no row marker before it
   for (const row of tbl.replace(/^\{\|[^\n]*\n?/, '').split(/\n?\|-[^\n]*/)) {
-    const lines = row.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('|}'));
+    // (a caption line, |+, can sit before the header cells)
+    const lines = row.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('|}') && !l.startsWith('|+'));
     if (!lines.length) continue;
     if (lines.every(l => l.startsWith('!'))) {
       const heads = lines.flatMap(l => l.slice(1).split('!!')).map(c => clean(cellText(c)));
@@ -1392,7 +1393,8 @@ const BB_GROUP = { Starters: 'Pitcher', Pitchers: 'Pitcher', Bullpen: 'Pitcher',
 function rosterTemplate(text) {
   if (/\{\{\s*NBA roster header/i.test(text)) return sqTemplates(text, 'player2').map(a => { const n = `${clean(a.first || '')} ${clean(a.last || '')}`.trim();
     return sqPlayer({ n, w: a.link || (a.dab ? `${n} (${a.dab})` : '') }, NBA_POS[String(a.pos || '').toUpperCase()] || a.pos || ''); });
-  if (!/\{\{\s*(MLB|NPB) roster\s*\|/i.test(text)) return [];
+  // the 26-man roster in season; the 40-man spring training (or off-season) roster between seasons
+  if (!/\{\{\s*(MLB|NPB)( [\w -]+?)? roster\s*\|/i.test(text)) return [];
   const out = []; let group = null;
   for (const line of text.split('\n')) {
     const g = line.match(/^\s*\|\s*(\w+)\s*=/); if (g) group = BB_GROUP[g[1]] ?? null;
@@ -1550,9 +1552,10 @@ const TSDB = 'https://www.thesportsdb.com/api/v1/json/123/';
 // One shared budget per run: if TheSportsDB rate-limits us twice, or we've spent 90s on it, skip it until next run
 let tsdbBlocked = false;
 const tsdbStart = Date.now();
-export async function tsdb(q) {
+// extra: a handful of calls made after the run's time for TheSportsDB is up (golf's top 10s, looked up once each)
+export async function tsdb(q, { extra = false } = {}) {
   for (let attempt = 0; ; attempt++) {
-    if (tsdbBlocked || Date.now() - tsdbStart > 150000) throw new Error('thesportsdb skipped this run');
+    if (tsdbBlocked || (!extra && Date.now() - tsdbStart > 150000)) throw new Error('thesportsdb skipped this run');
     const r = await fetch(TSDB + q, { headers: UA, signal: AbortSignal.timeout(10000) });
     await sleep(6000); // the free key allows about 10 calls a minute
     if (r.status === 429) { if (attempt) { tsdbBlocked = true; throw new Error('thesportsdb 429'); } await sleep(15000); continue; }
