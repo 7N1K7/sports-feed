@@ -1,96 +1,29 @@
-key length 39
-channel: UFC
-  2026-10-23T05:31 none      135 for Petr Yan! #ufc333
-  2026-10-23T05:23 none      Merab Dvalishvili #ufc333
-  2026-10-23T05:21 none      Movsar Evloev is locked in #ufc333
-  2026-10-23T05:18 none      Volkanovski has made weight #ufc333
-  2026-10-23T04:45 none      Fighter Focus: Dominick Reyes
-  2026-10-23T00:56 none      UFC x Clayface | In Theaters 10/23
-  2026-10-23T00:45 none      Day One: Petr Yan
-  2026-10-22T20:30 none      Volkanovski SMOKED Yair Rodriguez #ufc333
-  2026-10-22T19:47 none      The Adventures of Merab & Duncan: B2YB Thorne
-  2026-10-22T17:52 upcoming sched 2026-10-23T16:00 Power Slap 25: Hitman vs Dumpling 2 Prelims | October 23rd
-  2026-10-22T16:28 none      잡히지 않는 타이틀샷! 얼마나 답답했으면ㅠ #UFC333
-  2026-10-22T16:27 none      모두에게 위험하지만 볼카에겐 쉬운 상대? #UFC333
-  2026-10-22T16:27 none      이길 준비됐다! 두 사내의 출사표 #UFC333
-  2026-10-22T16:25 none      게이치와의 슈퍼파이트 가능할까? #UFC333
-  2026-10-22T16:25 none      이기면 최종 승자!? 3차전 기대하는 메랍 #UFC333
-  2026-10-22T15:59 none      Get your hands off my belt #ufc333
-  2026-10-22T15:10 none      UFC 333 Embedded: Vlog Series - Episode 4
-  2026-10-22T15:00 none      UFC 333 Betting Preview with Laura Sanko & Aljamain Sterling | 365 Frenzy
-  2026-10-22T14:39 none      How is this fair, Evloev is fighting Joe from Street Fighter… #ufc333
-  2026-10-22T14:37 none      Dana White acted like he didn’t recognize Volkov 😂 #ufc333
-  2026-10-22T14:35 none      The trilogy 🚨 # ufc333
-  2026-10-22T14:00 none      Merab Dvalishvili's Career So Far #UFC333
-  2026-10-22T13:40 none     sched 2026-10-22T13:00 UFC 333: Pre-Fight Press Conference
-  2026-10-21T18:02 none      "I Am Going to Cook Evloev!" | UFC 333 Media Day
-  2026-10-21T18:00 none      "I will win the trilogy!" | UFC 333 Media Day
-  2026-10-21T17:15 none      Petr Yan's looking GOOD with the belt! #ufc333
-  2026-10-21T16:30 none      Volkanovski vs Gaethje? #ufc333
-  2026-10-21T16:05 none      Merab Dvalishvili BEATING UP our cameraman! #ufc333
-  2026-10-21T15:00 none      Alexander Volkanovski Visiting South Korea! 🇰🇷 | UFC Connected
-  2026-10-21T14:55 none      UFC 333 Embedded: Vlog Series - Episode 3
-  2026-10-21T14:00 none      Petr Yan's Career So Far #ufc333
-  2026-10-20T23:00 none      메랍과 경쟁 종지부? 3차전 앞둔 얀 #UFC333
-  2026-10-20T19:50 none      He hated losing to Daniel Cormier #championmindset
-  2026-10-20T16:30 none      Winning isn’t good enough for David Taylor | Champion Mindset
-  2026-10-20T16:23 none      Petr Yan's custom shorts! #ufc333
-  2026-10-20T15:13 none      UFC 333 Embedded: Vlog Series - Episode 2
-  2026-10-20T14:00 none      Movsar Evloev's Career So Far #ufc333
-  2026-10-20T11:45 none      Lone'er Kavanagh vs Brandon Moreno
-  2026-10-20T03:00 none      스트리트파이터! 헐리우드 진출한 볼카노프스키 #UFC333
-  2026-10-19T23:00 none      2차전은 얀의 승리! 3차전 최종 승자는? #ufc333
-  2026-10-19T23:00 none      볼카의 아성에 도전하는 20승 무패의 사나이 #UFC333
-  2026-10-19T23:00 none      볼카노프스키의 위대한 유산은 현재 진행형 #UFC333
-  2026-10-19T16:58 none      Alexander Volkanovski's Career So Far #ufc333
-  2026-10-19T15:42 upcoming sched 2026-10-23T14:00 UFC 333: Ceremonial Weigh-In
-  2026-10-19T15:40 upcoming sched 2026-10-24T07:00 UFC 333: Free Fight Marathon
-  2026-10-19T15:39 upcoming sched 2026-10-24T21:15 🔴 UFC 333: Post-Fight Press Conference
-  2026-10-19T15:33 none      UFC 333 Embedded: Vlog Series - Episode 1
-  2026-10-19T11:45 none      UFC's Greatest Boxer! 🥊 | Petr Yan's UFC Career
-  2026-10-18T21:15 none      UFC 333: Volkanovski vs Evloev - October 24th | Fight Promo
-  2026-10-18T18:30 none      UFC 333 Countdown - Yan vs Dvalishvili 3
-Nations Championship templates: {"Infobox rugby union season":1,"rugbybox":6}
-length 35841
-first box: "{{rugbybox\n|id=\n|date=27 November 2026\n|time=16:40 [[GMT]] ([[UTC+0]])\n|team1=Northern 6 \n|score=\n|report=\n|team2=Southern 6\n|try1=\n|con1=\n|pen1=\n|drop1=\n|try2=\n|con2=\n|pen2=\n|drop2=\n|stadium=[[Twickenham Stadium]], London\n|attendance=\n|referee=\n}}\n\n====Ninth place final====\n{{rugbybox\n|id=\n|date=28 November 2026\n|time=13:10 [[GMT]] ([[UTC+0]]) \n|team1=Northern 5\n|score=\n|report=\n|team2=Southern 5\n|try1=\n|con1=\n|pen1=\n|drop1=\n|try2=\n|con2=\n|pen2=\n|drop2=\n|stadium=[[Twickenham Stadium]], London\n|"
-2025 end-of-year rugby union: ["2025 end-of-year rugby union internationals","2021 end-of-year rugby union internationals","2024 end-of-year rugby union internationals","2020 end-of-year rugby union internationals","2022 end-of-year rugby union internationals","2012 end-of-year rugby union internationals"]
-2025 mid-year rugby union: ["2025 mid-year rugby union tests","2022 mid-year rugby union tests","2024 mid-year rugby union tests","2019 mid-year rugby union internationals","2025 end-of-year rugby union internationals","2021 mid-year rugby union internationals"]
-2025 July rugby union: ["2021 July rugby union tests","2020 July rugby union tests","2022 July rugby union tests"]
-2025 rugby union internationals: ["2026 Rugby Union Internationals (men)"]
-2026 Farah Palmer Cup: ["2023 Farah Palmer Cup","2022 Farah Palmer Cup","2020 Farah Palmer Cup","2021 Farah Palmer Cup","2024 Farah Palmer Cup"]
-2025 Farah Palmer Cup: ["2025 Farah Palmer Cup","2023 Farah Palmer Cup","2022 Farah Palmer Cup","2020 Farah Palmer Cup","2021 Farah Palmer Cup"]
-2025 women's rugby union: ["2026 women's rugby union internationals"]
-2025–26 Plunket Shield: ["2025–26 Plunket Shield season","2022–23 Plunket Shield season","2020–21 Plunket Shield season","2024–25 Plunket Shield season","2023–24 Plunket Shield season","2021–22 Plunket Shield season"]
-2025–26 Ford Trophy: ["2025–26 Ford Trophy","2024–25 Ford Trophy","2020–21 Ford Trophy","2022–23 Ford Trophy","2023–24 Ford Trophy","2015–16 Ford Trophy"]
-2025–26 Super Smash: ["2025–26 Super Smash (men's cricket)","2025–26 Super Smash (women's cricket)","2023–24 Super Smash (women's cricket)","2023–24 Super Smash (men's cricket)","2024–25 Super Smash (men's cricket)","2020–21 Super Smash (women's cricket)"]
-WXV: 30 games
-  2026-09-12T15:45:00.000Z blackferns France Women v New Zealand Women final 14-28  Stade de Gerland
-  2026-09-19T15:45:00.000Z wxv France Women v Australia Women final 29-26  Stade Maurice David
-  2026-09-26T15:45:00.000Z wxv France Women v Canada Women final 21-5  Stade Marcel-Deflandre
-  2026-09-12T14:00:00.000Z wxv England Women v Australia Women final 48-15  CorpAcq Stadium
-  2026-09-19T14:00:00.000Z wxv England Women v Canada Women final 26-26  Sandy Park
-  2026-09-26T14:00:00.000Z blackferns England Women v New Zealand Women final 26-19  Twickenham Stadium
-  2026-09-12T15:10:00.000Z wxv Scotland Women v Canada Women final 26-64  Edinburgh Rugby Stadium
-  2026-09-19T16:10:00.000Z blackferns Scotland Women v New Zealand Women final 14-66  Edinburgh Rugby Stadium
-  2026-09-26T15:10:00.000Z wxv Scotland Women v Australia Women final 10-30  Edinburgh Rugby Stadium
-  2026-09-18T18:15:00.000Z wxv Wales Women v South Africa Women final 50-19  Cardiff Arms Park
-  2026-09-26T14:00:00.000Z wxv Wales Women v USA Women final 24-26  Cardiff Arms Park
-  2026-09-19T12:30:00.000Z wxv Italy Women v Japan Women final 55-21  Stadio Omero Tognon
-  2026-09-26T12:30:00.000Z wxv Italy Women v South Africa Women final 29-41  Stadio Omero Tognon
-  2026-09-20T12:45:00.000Z wxv Ireland Women v USA Women final 36-40  Tallaght Stadium
-  2026-09-27T11:45:00.000Z wxv Ireland Women v Japan Women final 31-24  Dexcom Stadium
-  2026-10-04T11:00:00.000Z wxv Spain Women v South Africa Women final 0-20  Instalaciones deportivas La Cartuja
-  2026-10-16T23:00:00.000Z wxv Canada Women v England Women final 24-21  BMO Field
-  2026-10-23T23:00:00.000Z wxv Canada Women v England Women upcoming   TD Place Stadium
-  2026-10-30T21:15:00.000Z wxv USA Women v England Women upcoming   Sports Illustrated Stadium
-  2026-10-17T02:00:00.000Z wxv Australia Women v Scotland Women final 56-12  Stadium Australia
-  2026-10-23T08:30:00.000Z wxv Australia Women v Scotland Women upcoming   Canberra Stadium
-  2026-10-17T02:05:00.000Z blackferns New Zealand Women v France Women final 81-12  Waikato Stadium
-  2026-10-24T02:05:00.000Z blackferns New Zealand Women v France Women upcoming   Okara Park
-  2026-10-31T06:10:00.000Z blackferns New Zealand Women v France Women upcoming   Te Kaha
-  2026-10-17T22:00:00.000Z wxv USA Women v Italy Women final 36-27  Texas Health Mansfield Stadium
-  2026-10-24T20:15:00.000Z wxv USA Women v Italy Women upcoming   Geodis Park
-  2026-10-24T13:00:00.000Z wxv South Africa Women v Ireland Women upcoming   Athlone Stadium
-  2026-10-31T13:00:00.000Z wxv South Africa Women v Ireland Women upcoming   Athlone Stadium
-  2026-10-24T13:00:00.000Z wxv Japan Women v Wales Women upcoming   Chichibunomiya Rugby Stadium
-  2026-10-31T07:00:00.000Z wxv Japan Women v Wales Women upcoming   Kumagaya Rugby Ground
+fetch exit 0 in 564 s
+form: 180 sides with a form guide; 251 sides' results kept; 545 of last season's games read, 11 earlier rounds' games
+formPrev: 2025 Hilux NPC: no page; 2025 Bunnings NPC: 79 games; 2025 Farah Palmer Cup: 0 games; List of 2025 Super Rugby Pacific matches: 77 games; 2025 Rugby Championship: 10 games; 2025 men's rugby union internationals: no page; 2025 end-of-year rugby union internationals: 11 games; 2025 mid-year rugby union tests: 7 games; 2025 women's rugby union internationals: no page; 2025 Rugby League Pacific Championships: 6 games; 2025–26 Big Bash League season: 44 games; 2025–26 Women's Big Bash League season: 43 games; 2025–26 Sheffield Shield season: 31 games; 2025–26 Dean Jones Trophy: 0 games; 2025 NRL finals series: 5 games; 2025–26 NBL season: 166 games; 2025 Constellation Cup: 4 games; 2025 Taini Jamison Trophy Series: 3 games
+ufcVideos: 50 recent UFC videos known; 9 fight-week videos on 1 of 3 events
+youtube: streams per channel: NZ Cricket 9, Cricket Australia 27, Netball NZ 11, Hockey NZ 49, Basketball NZ 12, NZ Football 4, NZ Rugby League 5; matched 0
+tsdb backfill A-League Men: "6 rounds still to ask"
+tsdb backfill Premier League: "5 rounds still to ask"
+tsdb season Nations Championship: "6 results"
+tri pages: 2026–27 Pakistan ODI Tri-Series: 7
+buildup UFC 333 Volkanovski v Evloev: Countdown: Yan vs Dvalishvili 3 (10-18T18:30) · Promo (10-18T21:15) · Embedded 1 (10-19T15:33) · Embedded 2 (10-20T15:13) · Embedded 3 (10-21T14:55) · Press conference (10-22T13:03) · Embedded 4 (10-22T15:10) · Ceremonial weigh-ins (10-23T14:00 upcoming) · Free fight marathon (10-24T07:00 upcoming)
+WXV in feed: 15 (12 wxv), e.g. 2026-10-31T13:00 South Africa Women v Ireland Women Sky Sport / Sky Sport Now; 2026-10-24T05:00 Japan Women v Wales Women Sky Sport / Sky Sport Now; 2026-10-31T07:00 Japan Women v Wales Women Sky Sport / Sky Sport Now
+tri-series in feed: 7
+  2026-10-18T08:00 intlcricket Pakistan ODI Tri-Series |  | Pakistan v Sri Lanka final 305 (49.5 overs) v 268 (48.1 overs) 
+  2026-10-20T08:00 intlcricket Pakistan ODI Tri-Series |  | Pakistan v England final 302/9 (50 overs) v 215 (38.4 overs) 
+  2026-10-22T08:00 intlcricket Pakistan ODI Tri-Series |  | England v Sri Lanka final 429/4 (50 overs) v 430/8 (49.5 overs) 
+  2026-10-25T08:00 intlcricket Pakistan ODI Tri-Series |  | Pakistan v Sri Lanka upcoming  
+  2026-10-27T08:00 intlcricket Pakistan ODI Tri-Series |  | Pakistan v England upcoming  
+  2026-10-29T08:00 intlcricket Pakistan ODI Tri-Series |  | England v Sri Lanka upcoming  
+  2026-10-31T08:00 intlcricket Pakistan ODI Tri-Series |  | 1st placed team v 2nd placed team upcoming  
+tri tables: Pakistan ODI Tri-Series / : 3
+form 94484 bytes, feed 1107330, results.json 195781
+rugby|All Blacks: 25-11-22 W Wales · 26-07-04 W France · 26-07-11 W Italy · 26-07-18 W Ireland · 26-08-22 W South Africa · 26-08-29 L South Africa · 26-09-05 L South Africa · 26-09-12 L South Africa · 26-10-10 W Wallabies · 26-10-17 W Wallabies
+rugby|Black Ferns|w: 26-08-14 L New Zealand Women · 26-08-22 W Australia Women · 26-09-05 W South Africa Women · 26-09-12 W France Women · 26-09-19 W Scotland · 26-09-26 L England · 26-10-17 W France
+rugby|Wallaroos|w: none
+football|Wellington Phoenix: 26-10-18 W Melbourne Victory
+football|Auckland FC: 26-05-09 D Adelaide United · 26-05-15 W Adelaide United · 26-05-23 W Sydney FC · 26-10-17 W Melbourne City
+rugby|Canterbury|w: 26-10-11 W Auckland Storm
+rugby|Auckland Storm|w: 26-10-11 L Canterbury
+women rugby keys: rugby|Wellington Pride|w, rugby|Northland Kauri|w, rugby|Canterbury|w, rugby|Auckland Storm|w, rugby|Black Ferns|w, rugby|France|w, rugby|Spain Women|w, rugby|South Africa Women|w, rugby|Canada Women|w, rugby|England Women|w, rugby|USA Women|w, rugby|Australia Women|w, rugby|Scotland Women|w, rugby|Italy Women|w, rugby|Ireland Women|w, rugby|Japan Women|w, rugby|Wales Women|w
