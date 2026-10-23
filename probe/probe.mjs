@@ -1,8 +1,11 @@
-// probe 117: v396 live: Kiwi-in events
-const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
-console.log('generated', f.generatedAt);
-console.log('womenNoKiwi:', f.diag.womenNoKiwi);
-console.log('herald:', f.diag.herald);
-for (const e of f.events.filter(e => e.team === 'lpga' || (e.sport === 'boxing' && /women/i.test(e.comp)))) console.log(e.team, '|', e.comp, '|', e.home, e.away ? 'v ' + e.away : '', '|', e.note || '');
-const h = await (await fetch('https://kickoff.kiwi/?' + Date.now())).text();
-console.log('coffee in settings:', h.includes('class="pcoffee"'), '| footer fcof:', h.includes('fbtns fcof'));
+// probe 118: World Series and Japan Series wikitext (game summaries)
+for (const t of ['2026 World Series', '2026 Japan Series']) {
+  const u = `https://en.wikipedia.org/w/index.php?title=${encodeURIComponent(t)}&action=raw`;
+  const r = await fetch(u, { headers: { 'user-agent': 'sports-feed probe (personal site)' } });
+  const x = await r.text();
+  console.log('=====', t, r.status, x.length);
+  const i = x.search(/==\s*(Game summaries|Summary|Matchups)\s*==/i);
+  console.log(x.slice(0, 1500));
+  console.log('----- from summaries', i);
+  console.log(x.slice(i, i + 6000));
+}
