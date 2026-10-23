@@ -1,175 +1,58 @@
-generated undefined version undefined
-diag.baseball: "World Series: 7 (0 played); American League Championship Series: 6 (6 played); American League Division Series: 8 (8 played); American League Wild Card Series: 4 (4 played); National League Championship Series: 4 (4 played); National League Division Series: 8 (8 played); National League Wild Card Series: 5 (5 played); Japan Series: 7 (0 played); standings: AL East 5 (top Tampa Bay Rays 98-64), AL Central 5 (top Cleveland Guardians 85-77), AL West 5 (top Houston Astros 81-81), NL East 5 (top Atlanta Braves 94-68), NL Central 5 (top Milwaukee Brewers 103-59), NL West 5 (top Los Angeles Dodgers 100-62), Central League 6 (top Hanshin Tigers 79-62), Pacific League 6 (top Fukuoka SoftBank Hawks 91-49)"
-diag.nba: "4 calls; 500 games kept (16 results), season still filling; 107 in the feed (16 results, 0 live); standings: East top Philadelphia 76ers 2-0, West top Oklahoma City Thunder 2-0"
-== mlb: 33 events
-  2026-10-24T00:00:00.000Z upcoming  MLB playoffs | World Series, game 1 | Tampa Bay Rays @ Milwaukee Brewers | Milwaukee America/Chicago
-  2026-10-25T00:00:00.000Z upcoming  MLB playoffs | World Series, game 2 | Tampa Bay Rays @ Milwaukee Brewers | Milwaukee America/Chicago
-  2026-10-27T00:00:00.000Z upcoming  MLB playoffs | World Series, game 3 | Milwaukee Brewers @ Tampa Bay Rays | St. Petersburg America/New_York
-  2026-10-28T00:00:00.000Z upcoming  MLB playoffs | World Series, game 4 | Milwaukee Brewers @ Tampa Bay Rays | St. Petersburg America/New_York
-  2026-10-29T00:00:00.000Z upcoming  MLB playoffs | World Series, game 5 (if needed) | Milwaukee Brewers @ Tampa Bay Rays | St. Petersburg America/New_York
-  2026-10-31T00:00:00.000Z upcoming  MLB playoffs | World Series, game 6 (if needed) | Tampa Bay Rays @ Milwaukee Brewers | Milwaukee America/Chicago
-  2026-11-01T00:00:00.000Z upcoming  MLB playoffs | World Series, game 7 (if needed) | Tampa Bay Rays @ Milwaukee Brewers | Milwaukee America/Chicago
-  2026-10-13T00:08:00.000Z final  MLB playoffs | ALCS, game 1 | Cleveland Guardians @ Tampa Bay Rays | St. Petersburg America/New_York
-  2026-10-14T00:08:00.000Z final  MLB playoffs | ALCS, game 2 | Cleveland Guardians @ Tampa Bay Rays | St. Petersburg America/New_York
-  2026-10-15T17:10:00.000Z final  MLB playoffs | ALCS, game 3 | Tampa Bay Rays @ Cleveland Guardians | Cleveland America/New_York
-  2026-10-18T00:08:00.000Z final  MLB playoffs | ALCS, game 4 | Tampa Bay Rays @ Cleveland Guardians | Cleveland America/New_York
-  2026-10-18T21:08:00.000Z final  MLB playoffs | ALCS, game 5 | Tampa Bay Rays @ Cleveland Guardians | Cleveland America/New_York
-  2026-10-20T00:08:00.000Z final  MLB playoffs | ALCS, game 6 | Cleveland Guardians @ Tampa Bay Rays | St. Petersburg America/New_York
-  2026-10-03T22:38:00.000Z final  MLB playoffs | ALDS, game 1 | New York Yankees @ Tampa Bay Rays | St. Petersburg America/New_York
-  2026-10-06T00:10:00.000Z final  MLB playoffs | ALDS, game 2 | New York Yankees @ Tampa Bay Rays | St. Petersburg America/New_York
-  2026-10-08T00:00:00.000Z final  MLB playoffs | ALDS, game 3 | Tampa Bay Rays @ New York Yankees | The Bronx America/New_York
-  2026-10-03T17:08:00.000Z final  MLB playoffs | ALDS, game 1 | Chicago White Sox @ Cleveland Guardians | Cleveland America/New_York
-  2026-10-05T21:04:00.000Z final  MLB playoffs | ALDS, game 2 | Chicago White Sox @ Cleveland Guardians | Cleveland America/New_York
-  2026-10-07T20:07:00.000Z final  MLB playoffs | ALDS, game 3 | Cleveland Guardians @ Chicago White Sox | Chicago America/Chicago
-  2026-10-09T00:00:00.000Z final  MLB playoffs | ALDS, game 4 | Cleveland Guardians @ Chicago White Sox | Chicago America/Chicago
-  2026-10-11T00:00:00.000Z final  MLB playoffs | ALDS, game 5 | Chicago White Sox @ Cleveland Guardians | Cleveland America/New_York
-  2026-10-12T00:16:00.000Z final  MLB playoffs | NLCS, game 1 | Los Angeles Dodgers @ Milwaukee Brewers | Milwaukee America/Chicago
-  2026-10-12T21:04:00.000Z final  MLB playoffs | NLCS, game 2 | Los Angeles Dodgers @ Milwaukee Brewers | Milwaukee America/Chicago
-  2026-10-15T00:09:00.000Z final  MLB playoffs | NLCS, game 3 | Milwaukee Brewers @ Los Angeles Dodgers | Los Angeles America/Los_Angeles
-  2026-10-16T00:08:00.000Z final  MLB playoffs | NLCS, game 4 | Milwaukee Brewers @ Los Angeles Dodgers | Los Angeles America/Los_Angeles
-  2026-10-04T00:38:00.000Z final  MLB playoffs | NLDS, game 1 | San Diego Padres @ Milwaukee Brewers | Milwaukee America/Chicago
-  2026-10-04T20:08:00.000Z final  MLB playoffs | NLDS, game 2 | San Diego Padres @ Milwaukee Brewers | Milwaukee America/Chicago
-  2026-10-07T01:38:00.000Z final  MLB playoffs | NLDS, game 3 | Milwaukee Brewers @ San Diego Padres | San Diego America/Los_Angeles
-  2026-10-08T02:00:00.000Z final  MLB playoffs | NLDS, game 4 | Milwaukee Brewers @ San Diego Padres | San Diego America/Los_Angeles
-  2026-10-03T20:08:00.000Z final  MLB playoffs | NLDS, game 1 | Atlanta Braves @ Los Angeles Dodgers | Los Angeles America/Los_Angeles
-  2026-10-05T00:03:00.000Z final  MLB playoffs | NLDS, game 2 | Atlanta Braves @ Los Angeles Dodgers | Los Angeles America/Los_Angeles
-  2026-10-06T22:11:00.000Z final  MLB playoffs | NLDS, game 3 | Los Angeles Dodgers @ Atlanta Braves | Cumberland America/New_York
-  2026-10-07T22:09:00.000Z final  MLB playoffs | NLDS, game 4 | Los Angeles Dodgers @ Atlanta Braves | Cumberland America/New_York
-== npb: 7 events
-  2026-10-24T09:30:00.000Z upcoming  Japan Series | Game 1 | Fukuoka SoftBank Hawks @ Yokohama DeNA BayStars | Yokohama Asia/Tokyo
-  2026-10-25T09:00:00.000Z upcoming  Japan Series | Game 2 | Fukuoka SoftBank Hawks @ Yokohama DeNA BayStars | Yokohama Asia/Tokyo
-  2026-10-27T09:00:00.000Z upcoming  Japan Series | Game 3 | Yokohama DeNA BayStars @ Fukuoka SoftBank Hawks | Fukuoka Asia/Tokyo
-  2026-10-28T09:00:00.000Z upcoming  Japan Series | Game 4 | Yokohama DeNA BayStars @ Fukuoka SoftBank Hawks | Fukuoka Asia/Tokyo
-  2026-10-29T09:00:00.000Z upcoming  Japan Series | Game 5 (if needed) | Yokohama DeNA BayStars @ Fukuoka SoftBank Hawks | Fukuoka Asia/Tokyo
-  2026-10-31T09:30:00.000Z upcoming  Japan Series | Game 6 (if needed) | Fukuoka SoftBank Hawks @ Yokohama DeNA BayStars | Yokohama Asia/Tokyo
-  2026-11-01T09:00:00.000Z upcoming  Japan Series | Game 7 (if needed) | Fukuoka SoftBank Hawks @ Yokohama DeNA BayStars | Yokohama Asia/Tokyo
-== nba: 107 events
-  2026-10-20T19:00:00.000Z final  NBA |  | Boston Celtics @ Detroit Pistons | Detroit America/Detroit
-  2026-10-20T23:00:00.000Z final  NBA |  | Philadelphia 76ers @ New York Knicks | New York America/New_York
-  2026-10-21T01:30:00.000Z final  NBA |  | Oklahoma City Thunder @ San Antonio Spurs | San Antonio America/Chicago
-  2026-10-21T23:30:00.000Z final  NBA |  | Minnesota Timberwolves @ Miami Heat | Miami America/New_York
-  2026-10-22T02:00:00.000Z final  NBA |  | Golden State Warriors @ Los Angeles Lakers | Los Angeles America/Los_Angeles
-  2026-10-22T23:00:00.000Z final  NBA |  | Cleveland Cavaliers @ Philadelphia 76ers | Philadelphia America/New_York
-  2026-10-23T01:30:00.000Z final  NBA |  | Denver Nuggets @ Oklahoma City Thunder | Oklahoma City America/Chicago
-  2026-10-23T23:00:00.000Z upcoming  NBA |  | New York Knicks @ Boston Celtics | Boston America/New_York
-  2026-10-24T01:30:00.000Z upcoming  NBA |  | Houston Rockets @ San Antonio Spurs | San Antonio America/Chicago
-  2026-10-21T23:00:00.000Z final  NBA |  | Atlanta Hawks @ Orlando Magic | Orlando America/New_York
-  2026-10-21T23:00:00.000Z final  NBA |  | Milwaukee Bucks @ Washington Wizards | Washington America/New_York
-  2026-10-21T23:30:00.000Z final  NBA |  | Charlotte Hornets @ Brooklyn Nets | Brooklyn America/New_York
-  2026-10-21T23:30:00.000Z final  NBA |  | Chicago Bulls @ Toronto Raptors | Toronto America/Toronto
-  2026-10-22T00:00:00.000Z final  NBA |  | Utah Jazz @ Memphis Grizzlies | Memphis America/Chicago
-  2026-10-22T00:00:00.000Z final  NBA |  | Indiana Pacers @ New Orleans Pelicans | New Orleans America/Chicago
-  2026-10-22T00:30:00.000Z final  NBA |  | Dallas Mavericks @ Houston Rockets | Houston America/Chicago
-  2026-10-22T02:00:00.000Z final  NBA |  | Phoenix Suns @ Portland Trail Blazers | Portland America/Los_Angeles
-  2026-10-22T02:30:00.000Z final  NBA |  | Sacramento Kings @ LA Clippers | LA America/Los_Angeles
-  2026-10-23T23:00:00.000Z upcoming  NBA |  | Atlanta Hawks @ Charlotte Hornets | Charlotte America/New_York
-  2026-10-23T23:00:00.000Z upcoming  NBA |  | Dallas Mavericks @ Indiana Pacers | Indiana America/Indiana/Indianapolis
-  2026-10-23T23:00:00.000Z upcoming  NBA |  | Minnesota Timberwolves @ Orlando Magic | Orlando America/New_York
-  2026-10-23T23:00:00.000Z upcoming  NBA |  | Toronto Raptors @ Washington Wizards | Washington America/New_York
-  2026-10-24T00:00:00.000Z upcoming  NBA |  | Detroit Pistons @ Miami Heat | Miami America/New_York
-  2026-10-23T20:00:00.000Z upcoming  NBA |  | Chicago Bulls @ Milwaukee Bucks | Milwaukee America/Chicago
-  2026-10-24T01:30:00.000Z upcoming  NBA |  | New Orleans Pelicans @ Utah Jazz | Utah America/Denver
-  2026-10-24T02:00:00.000Z upcoming  NBA |  | Memphis Grizzlies @ Golden State Warriors | Golden State America/Los_Angeles
-  2026-10-24T02:00:00.000Z upcoming  NBA |  | LA Clippers @ Los Angeles Lakers | Los Angeles America/Los_Angeles
-  2026-10-24T02:00:00.000Z upcoming  NBA |  | Portland Trail Blazers @ Sacramento Kings | Sacramento America/Los_Angeles
-  2026-10-24T22:00:00.000Z upcoming  NBA |  | Miami Heat @ Charlotte Hornets | Charlotte America/New_York
-  2026-10-24T23:30:00.000Z upcoming  NBA |  | Brooklyn Nets @ Cleveland Cavaliers | Cleveland America/New_York
-  2026-10-24T23:30:00.000Z upcoming  NBA |  | Milwaukee Bucks @ Philadelphia 76ers | Philadelphia America/New_York
-  2026-10-25T00:30:00.000Z upcoming  NBA |  | Houston Rockets @ Atlanta Hawks | Atlanta America/New_York
-  2026-10-25T00:00:00.000Z upcoming  NBA |  | Washington Wizards @ Chicago Bulls | Chicago America/Chicago
-  2026-10-25T00:00:00.000Z upcoming  NBA |  | San Antonio Spurs @ Dallas Mavericks | Dallas America/Chicago
-  2026-10-25T01:00:00.000Z upcoming  NBA |  | New Orleans Pelicans @ Denver Nuggets | Denver America/Denver
-  2026-10-25T02:00:00.000Z upcoming  NBA |  | Golden State Warriors @ Phoenix Suns | Phoenix America/Phoenix
-  2026-10-25T21:00:00.000Z upcoming  NBA |  | Los Angeles Lakers @ Utah Jazz | Utah America/Denver
-  2026-10-25T22:00:00.000Z upcoming  NBA |  | Indiana Pacers @ Brooklyn Nets | Brooklyn America/New_York
-  2026-10-25T23:00:00.000Z upcoming  NBA |  | Orlando Magic @ New York Knicks | New York America/New_York
-  2026-10-25T23:00:00.000Z upcoming  NBA |  | Toronto Raptors @ Minnesota Timberwolves | Minnesota America/Chicago
-table MLB playoffs | AL East | 5 rows; top undefined {"name":"Tampa Bay Rays","p":162,"w":98,"d":0,"l":64,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","q":"","champ":false,"wpct":".605","gb":"—"}
-table MLB playoffs | AL Central | 5 rows; top undefined {"name":"Cleveland Guardians","p":162,"w":85,"d":0,"l":77,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","q":"","champ":false,"wpct":".525","gb":"—"}
-table MLB playoffs | AL West | 5 rows; top undefined {"name":"Houston Astros","p":162,"w":81,"d":0,"l":81,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","q":"","champ":false,"wpct":".500","gb":"—"}
-table MLB playoffs | NL East | 5 rows; top undefined {"name":"Atlanta Braves","p":162,"w":94,"d":0,"l":68,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","q":"","champ":false,"wpct":".580","gb":"—"}
-table MLB playoffs | NL Central | 5 rows; top undefined {"name":"Milwaukee Brewers","p":162,"w":103,"d":0,"l":59,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","q":"","champ":false,"wpct":".636","gb":"—"}
-table MLB playoffs | NL West | 5 rows; top undefined {"name":"Los Angeles Dodgers","p":162,"w":100,"d":0,"l":62,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","q":"","champ":false,"wpct":".617","gb":"—"}
-table Japan Series | Central League | 6 rows; top undefined {"name":"Hanshin Tigers","p":143,"w":79,"d":2,"l":62,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","q":"","champ":false,"wpct":".560","gb":"—"}
-table Japan Series | Pacific League | 6 rows; top undefined {"name":"Fukuoka SoftBank Hawks","p":143,"w":91,"d":3,"l":49,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","q":"","champ":false,"wpct":".650","gb":"—"}
-table NBA | Eastern Conference | 15 rows; top undefined {"name":"Philadelphia 76ers","p":2,"w":2,"d":0,"l":0,"f":220,"a":206,"bp":0,"nr":0,"nrr":"","pct":"100.0","pts":2,"q":"","champ":false}
-table NBA | Western Conference | 15 rows; top undefined {"name":"Oklahoma City Thunder","p":2,"w":2,"d":0,"l":0,"f":212,"a":188,"bp":0,"nr":0,"nrr":"","pct":"100.0","pts":2,"q":"","champ":false}
-== https://www.sbnation.com/rss/nba/index.xml: 200 10 items
-    The 76ers immediately looked like a contender, and they still have another level to reach @ 2026-10-22T11:09:12-04:00
-    LaMelo Ball’s uncalled travel is the ultimate sign the NBA is back @ 2026-10-21T23:25:09-04:00
-    The Warriors’ terrible Kristaps Porzingis news is a problem without a viable solution @ 2026-10-21T15:54:13-04:00
-    How the Pistons&#8217; pulled off the NBA&#8217;s biggest opening day comeback ever @ 2026-10-21T12:49:22-04:00
-== https://www.sbnation.com/rss/mlb/index.xml: 200 10 items
-    World Series 2026: Brewers vs. Rays prediction and preview for Fall Classic @ 2026-10-22T16:51:30-04:00
-    Guardians-Rays ALCS schedule, scores, prediction, and more @ 2026-10-16T21:22:33-04:00
-    Brewers-Dodgers NLCS prediction, schedule, scores, and more @ 2026-10-16T10:38:27-04:00
-    Why the World Series will define the MLB lockout battle @ 2026-10-14T11:04:12-04:00
-== https://feeds.bbci.co.uk/sport/basketball/rss.xml: 200 17 items rights: <![CDATA[Copyright: (C) British Broadcasting Corporation, see https://www.bbc.co.uk/usingthebbc/terms-of-use/#15metadataandrssfeeds for terms and cond
-    Trump says NBA star LeBron James 'disrespected' US anthem @ Thu, 22 Oct 2026 20:04:27 GMT
-    LeBron James' 76ers beat Knicks on NBA opening night @ Wed, 21 Oct 2026 06:34:15 GMT
-    The season has just started - so how does the NBA work? @ Tue, 20 Oct 2026 10:42:48 GMT
-    Reese stars as Dream win first WNBA Finals match @ Tue, 20 Oct 2026 06:24:13 GMT
-== https://feeds.bbci.co.uk/sport/basketball/nba/rss.xml: 404 0 items
-== https://feeds.bbci.co.uk/sport/baseball/rss.xml: 200 24 items rights: <![CDATA[Copyright: (C) British Broadcasting Corporation, see https://www.bbc.co.uk/usingthebbc/terms-of-use/#15metadataandrssfeeds for terms and cond
-    Brewers' champagne celebrations @ Fri, 16 Oct 2026 09:13:37 GMT
-    Visually impaired athletes secure bronze in Italy @ Sat, 10 Oct 2026 06:29:18 GMT
-    Lewandowski swaps football for baseball @ Fri, 09 Oct 2026 09:08:28 GMT
-    Dodgers continue quest for World Series three-peat @ Sat, 03 Oct 2026 10:55:23 GMT
-== https://www.theguardian.com/sport/nba/rss: 200 20 items rights: Guardian News &amp;amp; Media Limited or its affiliated companies. All rights reserved. 2026
-    ‘Slow news day at the office’: LeBron James shrugs off Trump’s national anthem attack @ Fri, 23 Oct 2026 04:29:50 GMT
-    Rookie Lendeborg jaws at ‘weak ass’ Dončić and admits he didn’t watch much NBA @ Thu, 22 Oct 2026 16:28:59 GMT
-    Anthony Edwards scores 45 as Timberwolves spoil Giannis Antetokounmpo’s Heat debut @ Thu, 22 Oct 2026 03:30:09 GMT
-    LeBron James and Sixers spoil Knicks’ title party as Thunder and Pistons win NBA openers @ Tue, 20 Oct 2026 22:35:58 GMT
-== https://www.theguardian.com/sport/mlb/rss: 200 20 items rights: Guardian News &amp;amp; Media Limited or its affiliated companies. All rights reserved. 2026
-    World Series will have first-time champion as Rays set up showdown with Brewers @ Tue, 20 Oct 2026 03:13:00 GMT
-    Rays on verge of World Series return after Rasmussen dazzles in win over Guardians @ Mon, 19 Oct 2026 00:26:50 GMT
-    Rays punish Cleveland defensive lapses to square ALCS at two games apiece @ Sun, 18 Oct 2026 03:36:24 GMT
-    Hall of Famers v bunch of gamers: the Dodgers’ exit proves money can’t buy everything @ Fri, 16 Oct 2026 13:15:11 GMT
-== https://www.theguardian.com/sport/baseball/rss: 200 20 items rights: Guardian News &amp;amp; Media Limited or its affiliated companies. All rights reserved. 2026
-    World Series will have first-time champion as Rays set up showdown with Brewers @ Tue, 20 Oct 2026 03:13:00 GMT
-    Rays on verge of World Series return after Rasmussen dazzles in win over Guardians @ Mon, 19 Oct 2026 00:26:50 GMT
-    Rays punish Cleveland defensive lapses to square ALCS at two games apiece @ Sun, 18 Oct 2026 03:36:24 GMT
-    Hall of Famers v bunch of gamers: the Dodgers’ exit proves money can’t buy everything @ Fri, 16 Oct 2026 13:15:11 GMT
-== https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/sport/basketball/?outputType=xml&_website=nzh: 200 10 items
-    Carlin Davison leads Breakers to 102-101 NBL win over Sydney Kings @ Wed, 14 Oct 2026 17:11:26 +0000
-    NZ Breakers v Perth Wildcats: Sam Mennenga puts up 40 but Breakers beaten in Perth @ Sun, 11 Oct 2026 00:27:32 +0000
-    Breakers prove title credentials with big win over Adelaide 36ers @ Sun, 04 Oct 2026 16:27:40 +0000
-    Basketball: Charlisse Leger-Walker’s guide to making the WNBA from New Zealand @ Sat, 03 Oct 2026 19:00:00 +0000
-== https://www.japantimes.co.jp/sports/baseball/feed/: 200 0 items
-== https://www.yakyucosmo.com/feed/: 200 7 items
-    2025 All-NPB Team Selections @ Tue, 18 Nov 2025 03:41:03 +0000
-    2025 NPB Fielding Bible Award Winners Announced @ Tue, 04 Nov 2025 04:07:43 +0000
-    2025 NPB Playoff Preview @ Mon, 29 Sep 2025 12:52:52 +0000
-    Which Baseball Season Had the Least &#8216;Action&#8217;? @ Mon, 28 Oct 2024 00:51:27 +0000
-== https://npbreport.com/feed/: error fetch failed
-== https://www.npbtracker.com/feed/: 404 0 items
-== https://www.mlb.com/feeds/news/rss.xml: 200 25 items
-    Our experts make their World Series predictions @ Fri, 23 Oct 2026 01:09:55 GMT
-    3 burning questions ahead of World Series Game 1 @ Fri, 23 Oct 2026 01:10:30 GMT
-    Rays-Brewers World Series Game 1 FAQ (Fri., 8 ET on FOX/FOX One) @ Thu, 22 Oct 2026 23:13:00 GMT
-    Yes, Misiorowski also teared up watching that viral interview of young fan after NLCS win @ Thu, 22 Oct 2026 21:14:56 GMT
-== https://www.cbssports.com/rss/headlines/nba/: 200 36 items rights: 
-                    CBS Interactive Inc.
-                
-    76ers vs. Cavaliers prediction, odds, betting preview: NBA picks, LeBron James props, best bets on Thursday @ 
-                        Thu, 22 Oct 2026 21:45:49
-    NBA refs confirm LaMelo Ball&#039;s ridiculous double stepback was indeed a travel: &#039;He takes four steps&#039; @ 
-                        Thu, 22 Oct 2026 
-    After igniting Anthony Edwards with trash talk, Heat reserve Myron Gardner advised by coach to &#039;be better&#039; @ 
-                        Thu, 22 Oct 2026
-    Today&#039;s top games to watch, best bets, odds: Patriots at Bears, Cavaliers at 76ers, Nuggets at Thunder, more @ 
-                        Thu, 22 Oct 2026 19
-== https://www.cbssports.com/rss/headlines/mlb/: 200 36 items rights: 
-                    CBS Interactive Inc.
-                
-    On the biggest stage, Junior Caminero and Jackson Chourio are emerging as national superstars @ 
-                        Thu, 22 Oct 2026 21:49:02 +0000
-       
-    2026 World Series odds, prediction: Full Fall Classic preview for Brewers vs. Rays starting Friday, Oct. 23 @ 
-                        Thu, 22 Oct 2026 21:06:50
-    Nick Martinez gets World Series Game 1 start for Rays: Why Tampa Bay went with unexpected starter @ 
-                        Thu, 22 Oct 2026 20:58:33 +0000
-   
-    Jacob Misiorowski gets World Series Game 1 start for Brewers as he looks to reclaim his ace stuff @ 
-                        Thu, 22 Oct 2026 19:11:14 +0000
-   
+== WBSC World Rankings (WBSC World Rankings): 15 tables
+  [] heads: [] | rows: 23 [["Men's Baseball as of 26 October 2026"],["Rank","Change","Team","Points"]]
+  [] heads: [] | rows: 23 [["Women's Softball as of 31 December 2025","Women's Softball as of 31 December 2025","Women's Softball as of 31 December 2025","Women's Softball as of 31 December 2025"],["Rank","Change","Team","Points"]]
+  [Men's ranking leaders] heads: [["Date","First","Second","Third","Fourth","Fifth"]] | rows: 27 [["31 December 2012","Cuba","United States","Japan","South Korea","Chinese Taipei"],["31 December 2014","Japan","United States","Cuba","Chinese Taipei","Netherlands"]]
+  [Best Movers] heads: [["Date","First","Second","Third","Fourth","Fifth"]] | rows: 21 [["31 December 2014","Israel","Curaçao","Iran","Slovenia","Austria"],["31 December 2016","Guatemala","Slovakia","Sweden","Poland","Lithuania"]]
+  [Softball] heads: [["Rank","Change","Team","Points"]] | rows: 21 [["1","","Japan","3128"],["2","","Venezuela","2797"]]
+  [Women's ranking leaders] heads: [["Date","First","Second","Third","Fourth","Fifth"]] | rows: 20 [["31 December 2016","Japan","United States","Canada","Australia","New Zealand"],["17 December 2018","United States","Japan","Canada","Puerto Rico","Mexico"]]
+  [Best Movers] heads: [["Date","First","Second","Third","Fourth","Fifth"]] | rows: 11 [["17 December 2018","South Africa","Ireland","India","Mexico","Dominican Republic"],["31 December 2019","Belgium","Germany","Poland","Spain","Ireland"]]
+  [Baseball] heads: [["Rank","Change","Team","Points"]] | rows: 21 [["1","","Japan","2075"],["2","","United States","1428"]]
+  teamTables: Men's 2026-10-26 1 Japan 6349 | 2 Chinese Taipei 5301 | 3 United States 4293 | 4 South Korea 4253 | 5 Venezuela 3932
+  teamTables: Women's 2025-12-31 1 Japan 3649 | 2 United States 3490 | 3 Puerto Rico 3010 | 4 Canada 2667 | 5 Chinese Taipei 2276
+== WBSC Baseball World Rankings: missingtitle
+== Official World Golf Ranking (Official World Golf Ranking): 4 tables
+  [Event ranking] heads: [["Tour","Minimum points","Flagship event","Minimum points"]] | rows: 22 [["PGA Tour","24","The Players Championship","80"],["European Tour","24","BMW PGA Championship","64"]]
+  [Importance of the rankings] heads: [["Tournament","Automatic entries"]] | rows: 10 [["The Open Championship","Top 50"],["U.S. Open","Top 60"]]
+  [World Ranking of major championship winners] heads: [["Year","Masters Tournament","Masters Tournament","U.S. Open","U.S. Open","The Open Championship","The Open Championship","PGA Championship","PGA Championship"]] | rows: 42 [["1986","Jack Nicklaus","33","Raymond Floyd","c.20","Greg Norman","3","Bob Tway","c.25"],["1987","Larry Mize","36","Scott Simpson","27","Nick Faldo","46","Larry Nelson","84"]]
+  [World Ranking of major championship winners] heads: [["Event","Total","World 1–10","World 11–50","World 51–100","World 101–200","World 201+"]] | rows: 5 [["Masters Tournament","41","24","15","2","–","–"],["PGA Championship","41","17","15","4","5","–"]]
+== Women's World Golf Rankings (Women's World Golf Rankings): 14 tables
+  [Current top ten] heads: [["Rank","Change","Player","Country","Points"]] | rows: 10 [["1","","Nelly Korda","United States","12.68"],["2","","Jeeno Thitikul","Thailand","11.08"]]
+  [World number ones] heads: [] | rows: 2 [["^","Record"],["*","Current No. 1 player as of 19 October 2026"]]
+  [World number ones] heads: [["No.","Player","Country","Start date","End date","Weeks","Total weeks"]] | rows: 49 [["1","Annika Sörenstam","Sweden","21 February 2006","22 April 2007","60","60"],["2","Lorena Ochoa","Mexico","23 April 2007","2 May 2010","158^","158"]]
+  [Total weeks at No. 1] heads: [] | rows: 1 [["*","Current No. 1 player as of 19 October 2026"]]
+  [Total weeks at No. 1] heads: [["Rank","Player","Country","Weeks","Order","Majors"]] | rows: 18 [["1","Ko Jin-young","South Korea","163","14","2"],["2","Lorena Ochoa","Mexico","158","2","2"]]
+  [Year end No. 1] heads: [] | rows: 1 [["*","No. 1 player all year"]]
+  [Year end No. 1] heads: [["Year","Player","Country"]] | rows: 20 [["2006","Annika Sörenstam","Sweden"],["2007","Lorena Ochoa","Mexico"]]
+  [Weeks at No. 1 by country] heads: [] | rows: 1 [["*","Country with the current number one player as of 19 October 2026"]]
+  teamTables: Men's 2026-10-19 1 United States 12.68 | 2 Thailand 11.08 | 3 South Korea 8.49 | 4 Japan 7.56 | 5 China 7.41
+  teamTables: Women's 2006-02-21 1 Sweden 18.47 | 2 United States 9.65 | 3 United States 9.24 | 4 Japan 7.37 | 5 United States 6.94
+== Rolex Rankings (Women's World Golf Rankings): 14 tables
+  [Current top ten] heads: [["Rank","Change","Player","Country","Points"]] | rows: 10 [["1","","Nelly Korda","United States","12.68"],["2","","Jeeno Thitikul","Thailand","11.08"]]
+  [World number ones] heads: [] | rows: 2 [["^","Record"],["*","Current No. 1 player as of 19 October 2026"]]
+  [World number ones] heads: [["No.","Player","Country","Start date","End date","Weeks","Total weeks"]] | rows: 49 [["1","Annika Sörenstam","Sweden","21 February 2006","22 April 2007","60","60"],["2","Lorena Ochoa","Mexico","23 April 2007","2 May 2010","158^","158"]]
+  [Total weeks at No. 1] heads: [] | rows: 1 [["*","Current No. 1 player as of 19 October 2026"]]
+  [Total weeks at No. 1] heads: [["Rank","Player","Country","Weeks","Order","Majors"]] | rows: 18 [["1","Ko Jin-young","South Korea","163","14","2"],["2","Lorena Ochoa","Mexico","158","2","2"]]
+  [Year end No. 1] heads: [] | rows: 1 [["*","No. 1 player all year"]]
+  [Year end No. 1] heads: [["Year","Player","Country"]] | rows: 20 [["2006","Annika Sörenstam","Sweden"],["2007","Lorena Ochoa","Mexico"]]
+  [Weeks at No. 1 by country] heads: [] | rows: 1 [["*","Country with the current number one player as of 19 October 2026"]]
+  teamTables: Men's 2026-10-19 1 United States 12.68 | 2 Thailand 11.08 | 3 South Korea 8.49 | 4 Japan 7.56 | 5 China 7.41
+  teamTables: Women's 2006-02-21 1 Sweden 18.47 | 2 United States 9.65 | 3 United States 9.24 | 4 Japan 7.37 | 5 United States 6.94
+== FIBA World Ranking (FIBA Men's World Ranking): 2 tables
+  [] heads: [["Rank","Change","Team","Points"]] | rows: 22 [["1","","United States","952.3"],["2","","Germany","877.4"]]
+  [Points for losing team] heads: [["Competition stage","Competition stage","Continental championship","Olympics","FIBA Basketball World Cup"]] | rows: 10 [["Pre-qualifiers","Pre-qualifiers","0.4","0.15","0.4"],["Qualifiers","Qualifiers","0.8","0.30","Q1: 1.0 Q2: 1.2"]]
+  teamTables: Men's 2026-09-01 1 United States 952.3 | 2 Germany 877.4 | 3 France 870.9 | 4 Serbia 870.6 | 5 Canada 863
+site {"version":404,"changedAt":"2026-10-23T04:52:08Z"} diag.usNews: SB Nation NBA: 10 items, 7 kept; SB Nation MLB: 10 items, 1 kept | bbc: rugby-union: 2 of 52; rugby-league: 8 of 36; cricket: 0 of 29; boxing: 8 of 39; mixed-martial-arts: 3 of 32; formula1: 8 of 65; tennis: 0 of 54; football/premier-league: 8 of 42; basketball: 4 of 17; baseball: 1 of 24
+  2026-10-23 nba sbnation.com | The 76ers immediately looked like a contender, and they still have another level to reach
+  2026-10-23 nba sbnation.com | LaMelo Ball’s uncalled travel is the ultimate sign the NBA is back
+  2026-10-22 nba sbnation.com | The Warriors’ terrible Kristaps Porzingis news is a problem without a viable solution
+  2026-10-22 nba sbnation.com | How the Pistons&#8217; pulled off the NBA&#8217;s biggest opening day comeback ever
+  2026-10-21 nba sbnation.com | NBA best defender rankings 2026-27: The 15 best defenders in the league
+  2026-10-21 nba sbnation.com | One thing to love about all 30 NBA teams entering the new season
+  2026-10-20 nba sbnation.com | NBA predictions: Picks for 2027 champion, MVP, Rookie of the Year, and more
+  2026-10-23 mlb sbnation.com | World Series 2026: Brewers vs. Rays prediction and preview for Fall Classic
+  2026-10-23 nba BBC Sport | Trump says NBA star LeBron James 'disrespected' US anthem
+  2026-10-21 nba BBC Sport | LeBron James' 76ers beat Knicks on NBA opening night
+  2026-10-20 nba BBC Sport | The season has just started - so how does the NBA work?
+  2026-10-19 nba BBC Sport | The Welshman seeking NBA title with Timberwolves
+  2026-10-16 mlb BBC Sport | Brewers' champagne celebrations
+nba events 107 cities Detroit, New York, San Antonio, Miami, Los Angeles, Philadelphia, Oklahoma City, Boston, Orlando, Washington, Brooklyn, Toronto, Memphis, New Orleans, Houston, Portland, Charlotte, Indianapolis, Milwaukee, Salt Lake City, San Francisco, Sacramento, Cleveland, Atlanta, Chicago, Dallas, Denver, Phoenix, Minneapolis
