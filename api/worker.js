@@ -12,8 +12,9 @@ const BOT = /bot|crawl|spider|slurp|preview|headless|lighthouse|pingdom|monitor|
 const EVENTS = new Set(['install', 'appfirst', 'cal', 'alerts', 'rankings', 'alert-open', 'team', 'game', 'reveal']);
 // events whose detail is counted too, each under its own name: the sport or competition picked, the team page opened,
 // the words searched (search0: searches with no results), a page error, the load time band
-// and which way to watch was tapped, which team was followed or dropped in My teams, and which part of the site was used
-const KEYED = { game: 'gameopen', sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed', watch: 'watch', follow: 'follow', unfollow: 'unfollow', use: 'use' };
+// and which way to watch was tapped, which team was followed or dropped in My teams, which sport was hidden or shown
+// there, and which part of the site was used
+const KEYED = { game: 'gameopen', sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed', watch: 'watch', follow: 'follow', unfollow: 'unfollow', use: 'use', hidesport: 'hidesport', showsport: 'showsport' };
 const USE = new Set(['Free to watch', 'Events button', 'Results button', 'News button', 'Series row chip', 'Running now tile', 'Events ahead tile', 'Results tab in a game', 'Day in the week strip', 'Dot in the week strip', 'Filters folded away', 'Filters opened', 'Hide sport', 'Show sport', 'Show all results',
   'Settings', 'Spoiler eye', 'NZ only', 'Competition Results tab', 'Competition Squads tab', 'Competition Table tab', 'Competition Rankings tab', 'Competition Playoffs tab',
   'Competition News tab', 'Competition Shows tab', 'Competition Build-up tab', 'Competition Fights tab', 'Competition Races tab', 'Starting soon card', 'Report opened', 'Report sent', 'Suggest opened', 'Idea sent', 'Coffee link', 'Coffee in Settings', 'Sport order A–Z', 'Competition page from game', "Men's teams off", "Men's teams on", "Women's teams off", "Women's teams on",
@@ -27,6 +28,7 @@ const keyOf = (e, k) => {
   if (e === 'search' || e === 'search0') v = v.toLowerCase().replace(/[^a-z0-9 '&.-]/g, '').replace(/\s+/g, ' ').trim().slice(0, 40);
   if (e === 'error') v = v.replace(/https?:\/\/\S+/g, '(link)').replace(/\s+/g, ' ').slice(0, 120);
   if (e === 'use' && !USE.has(v)) return '';
+  if ((e === 'hidesport' || e === 'showsport') && !/^[a-z]{2,20}$/.test(v)) return '';
   if (e === 'watch' || e === 'follow' || e === 'unfollow') v = v.replace(/[^\p{L}\p{N} '&.+()/-]/gu, '').slice(0, 40);
   if (e === 'game') v = v.replace(/[^\p{L}\p{N} '&.+()/:,-]/gu, '').replace(/\s+/g, ' ').slice(0, 100);
   return v.length >= 2 ? v : '';

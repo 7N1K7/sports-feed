@@ -243,6 +243,8 @@ th { color: var(--muted); font-weight: 600 }
       <section class="card"><h2>Settings used</h2><div class="bars" id="setuse"></div><p class="note">Taps in the Settings box, all visitors together: opening it, a team turned on or off (which ones are in Teams followed and Teams dropped), a sport hidden or shown and the rest. Select all, Defaults, Clear, theme, time zone, Hide results for and the settings code are counted from 23 Oct 2026.</p></section>
       <section class="card"><h2>Teams followed</h2><div class="bars" id="follow"></div><p class="note">Teams turned on in My teams.</p></section>
       <section class="card"><h2>Teams dropped</h2><div class="bars" id="unfollow"></div><p class="note">Teams turned off in My teams.</p></section>
+      <section class="card"><h2>Sports hidden</h2><div class="bars" id="hidesport"></div><p class="note">Taps on Hide sport in My teams, by sport (Fighting counts as MMA), from 24 Oct 2026. Sports followed shows how many visitors have each sport on.</p></section>
+      <section class="card"><h2>Sports shown again</h2><div class="bars" id="showsport"></div><p class="note">Taps on Show sport, bringing a hidden sport back, from 24 Oct 2026.</p></section>
       <section class="card"><h2>Parts of the site used</h2><div class="bars" id="use"></div><p class="note">Taps on each part, all visitors together.</p></section>
       <section class="card"><h2>Spoilers</h2><div class="bars" id="spoil"></div><p class="note">Visitors, by whether they keep results hidden (counted once a day each).</p></section>
       <section class="card"><h2>Card size</h2><div class="bars" id="view"></div><p class="note">Visitors, by the card size they use.</p></section>
@@ -627,12 +629,16 @@ function draw() {
   bars('gameopen', sums.gameopen, k => k);
   bars('repeat', sums.repeat, k => REPEAT_LABEL[k] || k, REPEAT_ORDER);
   for (const id of ['comp', 'teampage', 'search', 'search0', 'os', 'browser', 'watch', 'follow', 'unfollow']) bars(id, sums[id], k => k);
+  for (const id of ['hidesport', 'showsport']) bars(id, sums[id], k => SPORT_LABEL[k] || k);
   // the Settings box's taps in their own list, every one shown, with the teams turned on and off added up; the rest of
   // the site's parts in theirs
   const total = o => Object.values(o || {}).reduce((a, n) => a + n, 0), setUse = {};
   for (const [k, n] of Object.entries(sums.use || {})) if (SETTINGS_USE.has(k)) setUse[k] = n;
   if (total(sums.follow)) setUse['A team turned on'] = total(sums.follow);
   if (total(sums.unfollow)) setUse['A team turned off'] = total(sums.unfollow);
+  // Hide sport and Show sport, counted by sport from 24 Oct 2026 (as plain taps before)
+  if (total(sums.hidesport)) setUse['Hide sport'] = (setUse['Hide sport'] || 0) + total(sums.hidesport);
+  if (total(sums.showsport)) setUse['Show sport'] = (setUse['Show sport'] || 0) + total(sums.showsport);
   bars('setuse', setUse, k => SETTINGS_LABEL[k] || k, Object.entries(setUse).sort((a, b) => b[1] - a[1]).map(([k]) => k));
   bars('use', Object.fromEntries(Object.entries(sums.use || {}).filter(([k]) => !SETTINGS_USE.has(k))), k => k);
   bars('spoil', sums.spoil, k => ({ hidden: 'Results hidden', shown: 'Results shown' })[k] || k);

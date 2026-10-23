@@ -2865,13 +2865,14 @@ const RANK_SPORTS = SPORT_CHIPS.map(([k]) => k);
 const followedSport = sp => (SPORT[sp] || []).some(k => picked.has(k));
 const shownSports = () => { const all = SPORT_CHIPS, f = all.filter(([k]) => followedSport(k)); return f.length ? f : all; };
 const rankSports = () => { const have = RANK_SPORTS.filter(k => (FEED.rankings || []).some(r => r.sport === k)), f = have.filter(followedSport); return f.length ? f : have; };
-const RANK_TAB = { mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', motor: 'Motorsport', tennis: 'Tennis' };
+const RANK_TAB = { mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', motor: 'Motorsport', tennis: 'Tennis', golf: 'Golf', baseball: 'Baseball', boxing: 'Boxing', sailing: 'Sailing' };
+const rankTab = k => RANK_TAB[k] || SPORT_LABEL[k] || k.charAt(0).toUpperCase() + k.slice(1);
 function openRankings(sport) {
   const lists = (FEED.rankings || []).filter(r => r.sport === sport);
   if (!lists.length) return;
   const sports = rankSports();
-  const tabs = sports.length > 1 ? `<div class="chips ranksports">${sports.map(k => `<button type="button" class="chip sportchip sport-${k}" data-rankings="${k}" aria-pressed="${k === sport}">${sIcon(k, 'cicon')}${RANK_TAB[k]}</button>`).join(' ')}</div>` : '';
-  $('sheetBody').innerHTML = `${tabs}<div class="sheet-head rhead sport-${sport}"><div class="comp">${sIcon(sport)}<span>${sport === 'motor' ? 'Championship standings' : 'World rankings'}</span></div><h2 class="dteams">${esc({ ...RANK_TAB, league: 'Rugby league' }[sport] || sport)} ${sport === 'motor' ? 'standings' : 'rankings'}</h2></div><div class="rankbody">${rankingsHtml(lists)}</div>`;
+  const tabs = sports.length > 1 ? `<div class="chips ranksports">${sports.map(k => `<button type="button" class="chip sportchip sport-${k}" data-rankings="${k}" aria-pressed="${k === sport}">${sIcon(k, 'cicon')}${rankTab(k)}</button>`).join(' ')}</div>` : '';
+  $('sheetBody').innerHTML = `${tabs}<div class="sheet-head rhead sport-${sport}"><div class="comp">${sIcon(sport)}<span>${sport === 'motor' ? 'Championship standings' : 'World rankings'}</span></div><h2 class="dteams">${esc(sport === 'league' ? 'Rugby league' : rankTab(sport))} ${sport === 'motor' ? 'standings' : 'rankings'}</h2></div><div class="rankbody">${rankingsHtml(lists)}</div>`;
   const dlg = $('sheet');
   dlg.dataset.id = ''; dlg.dataset.rankings = sport;
   if (!dlg.open) dlg.showModal();
@@ -3598,7 +3599,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.calcopy) { count({ e: t.closest('#alertList') ? 'alerts' : 'cal' }); const u = t.dataset.calcopy; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { const was = t.textContent; t.textContent = 'Copied'; setTimeout(() => { t.textContent = was; }, 1600); }, () => prompt('Copy this', u)); return; }
   if (t.classList.contains('ghide')) {
     const keys = t.dataset.gsports.split(' ').flatMap(sp => SPORT[sp] || []), on = keys.some(k => picked.has(k));
-    keys.forEach(k => on ? picked.delete(k) : picked.add(k)); count({ e: 'use', k: on ? 'Hide sport' : 'Show sport' }); store.set('teams', [...picked]); render(); return;
+    keys.forEach(k => on ? picked.delete(k) : picked.add(k)); count({ e: on ? 'hidesport' : 'showsport', k: t.dataset.gsports.split(' ')[0] }); store.set('teams', [...picked]); render(); return;
   }
   if (t.dataset.tocomp) { count({ e: 'use', k: 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   // a name in the hidden-sports line: its group (a sport's own, or the one holding that competition), scrolled to and lit
