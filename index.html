@@ -259,7 +259,8 @@ html { -webkit-tap-highlight-color: transparent }
 /* My teams' buttons, a row under its intro and above what's hidden: Men's and Women's at the left, Select all and Clear
    at the right, all small */
 #optNote { display: block; margin-top: 4px } #optNote:empty { display: none } /* the sides that start off, on a line of their own */
-.panel .phbtns { display: flex; align-items: center; gap: 6px; margin-top: -4px }
+.panel .phbtns { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: -4px }
+.panel .pacts { display: flex; gap: inherit } /* the three go under Men's and Women's together when the row is too narrow */
 .panel .phbtns .btn { font: 600 12px var(--f-body); text-transform: none; letter-spacing: 0; padding: 3px 11px; color: var(--ink); white-space: nowrap; flex: none }
 /* Men's and Women's: each turns that side's teams off or back on; a green dot when some are on, red when all are off */
 .panel .gsw { display: flex; gap: 6px; margin-right: auto }
@@ -269,7 +270,7 @@ html { -webkit-tap-highlight-color: transparent }
 .panel .gsw .btn.off::before { background: #fa5252 }
 .panel .gsw .btn[aria-pressed] { background: var(--paper); color: var(--ink); border-color: var(--line) }
 .panel .gsw .btn.off[aria-pressed] { background: color-mix(in srgb, #fa5252 14%, var(--paper)); border-color: color-mix(in srgb, #fa5252 65%, transparent) }
-@media (max-width: 560px) { .panel .phbtns, .panel .gsw { gap: 5px } .panel .phbtns .btn { padding: 3px 9px } }
+@media (max-width: 560px) { .panel .phbtns, .panel .gsw, .panel .pacts { gap: 5px } .panel .phbtns .btn { padding: 3px 9px } }
 .panel .ph .phnote { display: block; margin-top: 2px; font-size: 13px; font-weight: 500; color: var(--muted) } /* its own line, flush with the title */
 .panel .ph:first-of-type { border-top: 0; padding-top: 0; margin-top: 0 }
 /* the panel's own title: a size up from its sections', in a lighter shade of the theme colour (deeper on a light page) */
@@ -1333,7 +1334,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
   </div>
   <div class="panel" id="panel" hidden>
   <div class="wrap"><div class="pbox" role="dialog" aria-label="Settings"><button type="button" class="pclose" id="panelClose" aria-label="Close settings">×</button>
-    <h2 class="ph ptitle">Settings <span class="phnote">Saved in this browser only (clearing site data resets them)</span></h2>
+    <h2 class="ph ptitle">Settings <span class="phnote">Kept in this browser, with no account needed. Clearing your browser data wipes them; <b>Move your settings</b> (below) copies them to another device.</span></h2>
     <a class="pcoffee" href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="settings">☕ Buy me a coffee</a>
     <div class="spoil-row">
       <span class="sgrp"><label for="tzSel">Show times for</label>
@@ -1347,7 +1348,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
     <div class="throw"><h2 class="ph">Theme</h2>
     <div class="accwrap"><button type="button" class="dbtn accpick" id="accentPick" aria-haspopup="true" aria-expanded="false"><i id="accentDot"></i><span id="accentName"></span></button><div class="swatches" id="accentSel" role="group" aria-label="Theme"></div></div></div>
     <h2 class="ph">My teams <span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news. Not into a sport at all? Tap <b>Hide sport</b> beside its name to take it off your feed and out of the sport buttons; <b>Show sport</b> brings it back.<span id="optNote"></span></span></h2>
-    <div class="phbtns"><span class="gsw" id="genSw" role="group" aria-label="Men's and women's teams"></span><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></div>
+    <div class="phbtns"><span class="gsw" id="genSw" role="group" aria-label="Men's and women's teams"></span><span class="pacts"><button class="btn" id="allDef" type="button" title="Back to how it starts: everything on except the busy ones (the NBA)">Defaults</button><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></span></div>
     <div class="hidrow"><p class="hidnote" id="hidNote"></p></div>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
     <div class="pextras" role="group" aria-label="Extras"><div class="pxhead"><b>Extras</b><span>Optional. You don't need any of these to use the site</span></div>
@@ -3256,7 +3257,8 @@ function render() {
       const body = ks.length > 1 || live.length > 1 ? live.map(([h, list]) => `<div class="csub">${h}</div>${list.map(opt).join('')}`).join('') : cs.map(opt).join('');
       return `<div class="cgroup"><div class="chead"><span class="dot" style="background:var(--${ks[0]})"></span>${l}</div>${body}</div>`;
     }).join('');
-    $('compSel').textContent = $('compSel').title = COMP_LABEL[compSel] || compSel || 'All competitions'; // one width whatever's picked; a long name is cut short, and named in full on hover
+    $('compSel').textContent = COMP_LABEL[compSel] || compSel || 'All competitions'; // one width whatever's picked; a long name is cut short, and named in full on hover
+    $('compSel').title = compSel ? $('compSel').textContent : 'Pick a competition for far more data!'; // (with none picked, a tip that each has its own page)
     $('nzOnly').setAttribute('aria-pressed', String(nzOnly));
     $('freeOnly').setAttribute('aria-pressed', String(freeOnly));
     renderHub(now);
@@ -3572,7 +3574,8 @@ document.addEventListener('click', ev => {
   else if (t.id === 'spoilBtn') { count({ e: 'use', k: 'Spoiler eye' }); spoilers = !spoilers; store.set('spoilers', spoilers); if (spoilers && !spoilDays) { spoilDays = 4; store.set('spoilDays', 4); } render(); }
   else if (t.id === 'panelClose') closeSettings();
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); if (!p.hidden) count({ e: 'use', k: 'Settings' }); }
-  else if (t.id === 'allOn') { picked = new Set([...picked, ...ALL_KEYS.filter(k => !OPT_IN.has(k))]); store.set('teams', [...picked]); render(); }
+  else if (t.id === 'allOn') { picked = new Set(ALL_KEYS); store.set('teams', [...picked]); render(); }
+  else if (t.id === 'allDef') { picked = new Set(ALL_KEYS.filter(k => !OPT_IN.has(k))); store.set('teams', [...picked]); render(); }
   else if (t.id === 'allOff') { picked = new Set(); store.set('teams', []); render(); }
 });
 document.addEventListener('keydown', ev => { const c = ev.target.closest?.('[data-open]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openDetail(c.dataset.open); } });
