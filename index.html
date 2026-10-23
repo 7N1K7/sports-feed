@@ -352,6 +352,15 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .more { justify-self: start }
 footer { color: var(--muted); font-size: 13px; padding-block: 0 40px }
 footer a { color: var(--muted) } footer p { margin: 0 0 6px }
+/* Report, Suggest and Coffee: buttons on their own row above the sources; on phones two across, the coffee one full width */
+footer .fbtns { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 6px 0 14px }
+footer .fbtn { font: inherit; font-size: 14px; font-weight: 600; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 7px 15px;
+  cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 7px; white-space: nowrap }
+footer .fbtn:hover { border-color: var(--accent) }
+footer .fbtn.coffee { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
+footer .fbtn.coffee:hover { filter: brightness(1.08) }
+footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
+@media (max-width: 560px) { footer .fbtns { display: grid; grid-template-columns: 1fr 1fr } footer .fbtn.coffee { grid-column: 1 / -1 } }
 
 
 .badge.bimg { width: 22px; height: 22px; min-width: 0; padding: 0; box-shadow: none; object-fit: contain; display: inline-block; vertical-align: middle; margin-block: -2px }
@@ -3627,7 +3636,7 @@ async function load(woke) {
         if (sq.length) { e.squads = sq; e.seasonSquads = true; }
       }
     }
-    $('foot').innerHTML = `<p>Something missing or wrong? <button type="button" class="flink" data-report="">Report it</button> · An idea, or a stat or sport you'd like? <button type="button" class="flink" data-suggest="">Suggest it</button></p><p>Enjoying Kickoff Kiwi? <a href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="">Buy me a coffee ☕</a></p>Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)`;
+    $('foot').innerHTML = `<div class="fbtns"><button type="button" class="fbtn" data-report="">Report a problem</button><button type="button" class="fbtn" data-suggest="">Suggest an idea</button><a class="fbtn coffee" href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="">☕ Buy me a coffee</a></div><p class="fsrc">Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)</p>`;
     render(); stamp(); openFromLink();
     // how long until the first games were on screen, in bands
     if (!load.timed) { load.timed = true; const t = performance.now() / 1000; count({ e: 'speed', k: t < 1 ? 'under 1s' : t < 2 ? '1-2s' : t < 4 ? '2-4s' : t < 8 ? '4-8s' : '8s or more' }); }
