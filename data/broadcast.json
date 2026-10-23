@@ -4,6 +4,7 @@
   { "comp": "Super Rugby", "broadcast": "Sky Sport / Sky Sport Now" },
   { "team": "allblacks", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Three (delayed) / ThreeNow (delayed)" },
   { "team": "blackferns", "broadcast": "Sky Sport / Sky Sport Now" },
+  { "team": "wxv", "broadcast": "Sky Sport / Sky Sport Now" },
   { "team": "warriors", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Free on Three / ThreeNow" },
   { "comp": "Premier League", "broadcast": "Sky Sport / Sky Sport Now" },
   { "team": "phoenix", "comp": "A-League", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Some games free on Sky Open", "au": "Paramount+ (every game) / Network 10 (one game a week)" },

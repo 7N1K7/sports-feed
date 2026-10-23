@@ -9,8 +9,10 @@
     { "title": "{Y} Nations Championship", "sport": "rugby", "comp": "Nations Championship", "classify": "rugbytests" },
     { "title": "{Y} Rugby Championship", "sport": "rugby", "comp": "Rugby Championship", "classify": "rugbytests", "formPrev": true },
     { "title": "{Y} men's rugby union internationals", "sport": "rugby", "comp": "Test match", "classify": "rugbytests", "formPrev": true },
+    { "title": "{Y} end-of-year rugby union internationals", "sport": "rugby", "comp": "Test match", "classify": "rugbytests", "formPrev": true },
+    { "title": "{Y} mid-year rugby union tests", "sport": "rugby", "comp": "Test match", "classify": "rugbytests", "formPrev": true },
     { "title": "{Y} women's rugby union internationals", "sport": "rugby", "comp": "Women's test", "classify": "rugbytests", "women": true, "formPrev": true },
-    { "title": "{Y} WXV Global Series", "sport": "rugby", "comp": "WXV Global Series", "classify": "rugbytests", "women": true },
+    { "title": "{Y} WXV Global Series", "sport": "rugby", "comp": "WXV Global Series", "classify": "wxv", "women": true },
     { "title": "{Y} Men's Rugby League World Cup", "sport": "league", "comp": "Rugby League World Cup", "classify": "rlwc" },
     { "title": "{Y} Women's Rugby League World Cup", "sport": "league", "comp": "Women's Rugby League World Cup", "classify": "rlwc", "women": true },
     { "title": "{Y} Wheelchair Rugby League World Cup", "sport": "league", "comp": "Wheelchair Rugby League World Cup", "classify": "rlwc" },
@@ -43,7 +45,7 @@
     { "title": "{Y} Netball World Cup", "sport": "netball", "comp": "Netball World Cup", "classify": "netball", "headingStage": true }
   ],
   "thesportsdb": [
-    { "id": 4356, "sport": "football", "comp": "A-League Men", "classify": "aleague" },
+    { "id": 4356, "sport": "football", "comp": "A-League Men", "classify": "aleague", "rounds": 26 },
     { "id": 4328, "sport": "football", "comp": "Premier League", "classify": "epl" },
     { "id": 4416, "sport": "league", "comp": "NRL", "classify": "nrl" },
     { "id": 4551, "sport": "rugby", "comp": "Super Rugby Pacific", "classify": "superrugby" },
@@ -63,7 +65,7 @@
     { "id": 5806, "sport": "league", "comp": "Rugby League World Cup", "classify": "rlwc", "fill": { "teams": ["kiwis", "rlwc"], "comp": "^Rugby League World Cup" } },
     { "id": 5278, "sport": "rugby", "comp": "NPC", "team": "npc", "fill": { "teams": ["npc"] } },
     { "id": 5479, "sport": "rugby", "comp": "Test match", "classify": "rugbytests", "fill": { "teams": ["allblacks", "wallabies"], "comp": "^(?!.*Nations Championship)" } },
-    { "id": 5852, "sport": "rugby", "comp": "Nations Championship", "classify": "rugbytests", "fill": { "teams": ["allblacks", "wallabies"], "comp": "Nations Championship" } },
+    { "id": 5852, "sport": "rugby", "comp": "Nations Championship", "classify": "rugbytests", "formSeason": true, "fill": { "teams": ["allblacks", "wallabies"], "comp": "Nations Championship" } },
     { "id": 5807, "sport": "league", "comp": "Pacific Cup", "classify": "leaguetests", "fill": { "teams": ["kiwis"], "comp": "Pacific" } }
   ]
 }

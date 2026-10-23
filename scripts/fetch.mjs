@@ -456,13 +456,14 @@ async function youtubeStreams(events) {
 // UFC's fight-week videos on its own YouTube channel, free to watch: Embedded, Countdown, the press conference, media
 // day, open workouts, the weigh-ins. Two requests a run (its latest 50 uploads, then their times); what's matched is
 // kept in .cache/ufc-yt.json, since the channel posts so much that Monday's Embedded is soon out of the latest 50. A
-// video counts for an event when its title names the event ("UFC 334", "UFC Vegas 111", "UFC Perth") or both of the
-// main event's fighters, and it went up (or is set to stream) in the 16 days before the event. Nothing from after the
-// start: the post-fight press conference and the highlights would give results away
+// video counts for an event when its title starts with the event ("UFC 333 Embedded: Vlog Series - Episode 4", "UFC
+// Vegas 111: ...") or names UFC and both of the main event's fighters, and it went up (or is set to stream) in the 16
+// days before the event. Fan clips and shorts ("... | UFC 333 Media Day", "#ufc333") don't start that way. Nothing from
+// after the start: the post-fight press conference and the highlights would give results away
 const UFC_YT = 'UCvgfXK4nTYKudb0rFR6noLA';
-const UFC_KIND = [[/post[- ]?fight|highlights?|full fight|free fight|results?\b|reacts?|winner|recap/i, ''], [/#shorts?\b/i, ''],
-  [/embedded/i, 'Embedded'], [/ceremonial weigh/i, 'Ceremonial weigh-ins'], [/weigh[- ]?ins?/i, 'Weigh-ins'], [/press conference|presser/i, 'Press conference'],
-  [/media day|media scrum/i, 'Media day'], [/open workouts?/i, 'Open workouts'], [/countdown/i, 'Countdown'], [/face[- ]?offs?/i, 'Face-offs']];
+const UFC_KIND = [[/free fight marathon/i, 'Free fight marathon'], [/post[- ]?fight|highlights?|full fight|free fight|results?\b|reacts?|winner|recap|betting/i, ''], [/#shorts?\b/i, ''],
+  [/embedded/i, 'Embedded'], [/countdown/i, 'Countdown'], [/fight promo|official trailer/i, 'Promo'], [/ceremonial weigh/i, 'Ceremonial weigh-ins'], [/weigh[- ]?ins?/i, 'Weigh-ins'], [/press conference|presser/i, 'Press conference'],
+  [/media day|media scrum/i, 'Media day'], [/open workouts?/i, 'Open workouts'], [/face[- ]?offs?/i, 'Face-offs']];
 async function ufcBuildup(events) {
   const key = process.env.YOUTUBE_API_KEY;
   if (!key) return;
@@ -488,15 +489,18 @@ async function ufcBuildup(events) {
     // the event's names: its number, and the others its article gives ("also known as UFC Fight Night 293 and UFC Vegas 111")
     const names = [/^UFC \d+$/.test(e.comp) ? e.comp : '', ...((e.about || '').match(/also known as ([^)]*)\)/)?.[1] || '').split(/,\s*|\s+and\s+/)]
       .map(s => s.trim()).filter(s => /^UFC\b/.test(s) && !/^UFC Fight Night( \d+)?$/.test(s));
-    const named = t => names.some(s => new RegExp(`\\b${s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?!\\d)`, 'i').test(t))
-      || (e.home && e.away && e.away !== 'TBC' && [e.home, e.away].every(f => new RegExp(`\\b${String(f).split(' ').pop().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(t)));
+    const named = t => names.some(s => new RegExp(`^${s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?!\\d)`, 'i').test(t.trim()))
+      || (/^UFC\b/i.test(t.trim()) && e.home && e.away && e.away !== 'TBC' && [e.home, e.away].every(f => new RegExp(`\\b${String(f).split(' ').pop().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(t)));
     const list = [];
     for (const [id, v] of Object.entries(seen)) {
       const at = Date.parse(v.at);
       if (!(at > start - 16 * DAY && at < start) || !named(v.t)) continue;
       const kind = UFC_KIND.find(([re]) => re.test(v.t))?.[1];
       if (!kind) continue;
-      list.push({ k: kind + (kind === 'Embedded' ? ((m => m ? ` ${+(m[1] || m[2])}` : '')(v.t.match(/episode\s*(\d+)|\bep\.?\s*(\d+)/i))) : ''), t: v.t, url: `https://www.youtube.com/watch?v=${id}`, at: v.at, ...(v.state === 'live' || v.state === 'upcoming' ? { state: v.state } : {}) });
+      // "Embedded 4"; a countdown names its fight ("Countdown: Yan vs Dvalishvili 3"), as there's one for each big fight
+      const sub = kind === 'Embedded' ? (m => m ? ` ${+(m[1] || m[2])}` : '')(v.t.match(/episode\s*(\d+)|\bep\.?\s*(\d+)/i))
+        : kind === 'Countdown' ? (m => m ? `: ${m[1].trim()}` : '')(v.t.match(/countdown\s*[-–:|]\s*(.+?\bvs?\.?\b.+?)(?:\s*[|]|$)/i)) : '';
+      list.push({ k: kind + sub, t: v.t, url: `https://www.youtube.com/watch?v=${id}`, at: v.at, ...(v.state === 'live' || v.state === 'upcoming' ? { state: v.state } : {}) });
     }
     // one of each (Embedded episodes each), the latest of any repeats, in order
     const one = Object.values(Object.fromEntries(list.sort((a, b) => a.at.localeCompare(b.at)).map(x => [x.k, x]))).sort((a, b) => a.at.localeCompare(b.at));

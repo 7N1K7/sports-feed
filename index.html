@@ -228,6 +228,9 @@ html { -webkit-tap-highlight-color: transparent }
 #teamGroups .group h3 .gico { width: 15px; height: 15px; flex: none }
 #teamGroups .group.off h3 .gt { opacity: .5 }
 #teamGroups .chips { gap: 5px }
+/* a row break balanceGroup() puts in: a line of its own with no height, its margin taking back the gap it adds */
+#teamGroups .chips .gbr { flex: 0 0 100%; height: 0; margin-top: -5px }
+#teamGroups .chips.measure .chip { flex-grow: 0 !important; margin: 0 !important }
 #teamGroups .chip { padding: 3px 10px 3px 4px; font-size: 13px; gap: 6px }
 /* phones: a short tip beside each Hide sport button saying what it does */
 #teamGroups .ghint { display: none }
@@ -590,6 +593,11 @@ dialog#sheet::backdrop { background: rgba(10, 18, 15, .5) }
 .watchlist li.wopt { list-style: none; margin-left: -18px; display: grid; grid-template-columns: 7.2em minmax(0, 1fr); gap: 2px 10px; align-items: start; padding: 4px 0; border-top: 1px solid var(--line) }
 .watchlist li.wopt:first-child { border-top: 0; padding-top: 0 }
 .wkind { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding-top: 3px }
+/* UFC's fight-week videos: one line each, the video and when, so a week of them stays short */
+.fweek { list-style: none; margin: 0; padding: 0; font-size: 14px }
+.fweek li { display: flex; align-items: baseline; gap: 4px 10px; flex-wrap: wrap; padding: 4px 0; border-top: 1px solid var(--line) }
+.fweek li:first-child { border-top: 0; padding-top: 0 }
+.fweek .when { margin-left: auto; color: var(--muted); font-size: 12px; white-space: nowrap }
 .wkind.k-free { color: #51cf66 } .wkind.k-pay { color: #ff922b }
 .muted { color: var(--muted) }
 .dn-item { display: block; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 14px; line-height: 1.35 }
@@ -1499,7 +1507,7 @@ const PAGE_V = '__SITE_V__';
 const TEAMS = [ // in the sport row's order: cricket, rugby, league, football, hockey, basketball, F1, tennis, golf, baseball, fights, netball, sailing
   { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['aucricket','Australia men'],['audomestic','Aussie domestic'],['intlcricket','Other tours'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
   // the Super Rugby clubs are rugby too: their own labelled line in the rugby group, not a sport of their own
-  { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup'],['wallabies','Wallabies']],
+  { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup'],['wallabies','Wallabies'],['wxv','WXV']],
     sub: { g: 'Super Rugby Pacific', items: [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika'],['aurugby','Australian teams'],['superrugby','Every game']] } },
   { g: 'Rugby league', items: [['kiwis','Kiwis'],['kiwiferns','Kiwi Ferns'],['warriors','Warriors'],['nrl','NRL'],['rlwc','League World Cup']] },
   { g: 'Football', items: [['phoenix','Wellington Phoenix'],['aucklandfc','Auckland FC'],['aleague','A-League Men'],['epl','Premier League']] },
@@ -1521,7 +1529,7 @@ const BADGE = {
   blues: ['BLU', '#0b3d91', '#ffffff'], chiefs: ['CHI', '#d6001c', '#ffd200'], hurricanes: ['HUR', '#ffcd00', '#000000'], crusaders: ['CRU', '#c8102e', '#000000'],
   highlanders: ['HIG', '#1d2f6f', '#f2a900'], moana: ['MP', '#00807f', '#ffffff'],
   blackcaps: ['BC', '#111111', '#7fe0d0'], whiteferns: ['WF', '#ffffff', '#111111'], nzdomestic: ['NZC', '#2b3a67', '#ffffff'],
-  wallabies: ['WAL', '#f2c200', '#0b3d2e'], aurugby: ['AUS', '#0b3d91', '#f2c200'], superrugby: ['SRP', '#00205b', '#ffffff'],
+  wallabies: ['WAL', '#f2c200', '#0b3d2e'], aurugby: ['AUS', '#0b3d91', '#f2c200'], superrugby: ['SRP', '#00205b', '#ffffff'], wxv: ['WXV', '#5f3dc4', '#ffffff'],
   bbl: ['BBL', '#ff6b00', '#111111'], wbbl: ['WBBL', '#7b2cbf', '#ffffff'], nrl: ['NRL', '#003b7a', '#ffffff'], rlwc: ['RLWC', '#0b6e4f', '#ffffff'],
   phoenix: ['WNP', '#ffd100', '#000000'], aucklandfc: ['AFC', '#0033a0', '#ffffff'], aleague: ['ALM', '#e4002b', '#ffffff'], aucricket: ['AUS', '#ffcd00', '#00573f'], audomestic: ['AUD', '#7a1f3d', '#ffffff'], intlcricket: ['INT', '#1c7ed6', '#ffffff'], epl: ['EPL', '#3d195b', '#ffffff'], ufc: ['UFC', '#d20a0a', '#ffffff'], boxing: ['BOX', '#8a1c1c', '#ffd43b'], nzboxing: ['NZB', '#000000', '#ffd43b'],
   kiwis: ['KIW', '#000000', '#ffffff'], kiwiferns: ['KF', '#000000', '#ffffff'], warriors: ['WAR', '#0d1f4c', '#7fd13b'],
@@ -1680,7 +1688,7 @@ const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', foot
 const ALL_KEYS = TEAMS.flatMap(g => groupItems(g).map(i => i[0]));
 // the women's teams and leagues, and the picks that have both (tennis, the League World Cup, NZ boxers): My teams'
 // Men's and Women's switches leave those alone
-const W_KEYS = new Set(['whiteferns', 'wbbl', 'blackferns', 'fpc', 'kiwiferns', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem', 'lpga']);
+const W_KEYS = new Set(['whiteferns', 'wbbl', 'blackferns', 'fpc', 'wxv', 'kiwiferns', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem', 'lpga']);
 const BOTH_KEYS = new Set(['tennis', 'rlwc', 'nzboxing']);
 const sideKeys = g => ALL_KEYS.filter(k => !BOTH_KEYS.has(k) && (g === 'w') === W_KEYS.has(k));
 
@@ -1718,7 +1726,7 @@ let hubTab = 'games', resPage = 0, laterPage = 0, bigPage = 0, runPage = 0, rank
 const NZ_KEYS = new Set(['allblacks', 'blackferns', 'npc', 'fpc', 'blues', 'chiefs', 'hurricanes', 'crusaders', 'highlanders', 'moana', 'blackcaps', 'whiteferns', 'nzdomestic', 'kiwis', 'kiwiferns', 'warriors', 'phoenix', 'aucklandfc', 'nzboxing', 'blacksticks', 'blacksticksw', 'tallblacks', 'tallferns', 'breakers', 'silverferns', 'anzprem']);
 const NZ_NAMES = /\bNew Zealand\b|^(Blues|Chiefs|Hurricanes|Crusaders|Highlanders|Moana Pasifika)$|^(One NZ |NZ )?Warriors$|Wellington Phoenix|Auckland FC|All Blacks|Black Ferns|Black ?Caps|White Ferns|Black Sticks|Tall Blacks|Tall Ferns|Breakers|Silver Ferns|Kiwi/;
 const isNZ = x => NZ_KEYS.has(x.team) || !!x.nzEvent || [x.home, x.away].some(n => NZ_NAMES.test(n || ''));
-const WOMEN_TEAMS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem', 'lpga']);
+const WOMEN_TEAMS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc', 'wxv', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem', 'lpga']);
 // 'w' women's, 'm' men's, '' mixed or unknown (shown either way)
 function genderOf(x) {
   if (WOMEN_TEAMS.has(x.team)) return 'w';
@@ -2565,10 +2573,12 @@ function renderHub(now) {
   const on = !!compSel;
   $('hubSec').hidden = !on;
   const shows = on ? hubShows((FEED.events || []).find(e => compOf(e) === compSel)?.sport) : [];
+  // UFC: the next events' fight-week videos (free on its YouTube channel)
+  const week = on ? (FEED.events || []).filter(e => compOf(e) === compSel && e.buildup?.length && !isDone(e, now)).sort((a, b) => a.startUTC.localeCompare(b.startUTC)).slice(0, 2) : [];
   const ranks = on ? hubRankings() : [];
   const squads = on ? hubSquads(now) : [], played = on && (FEED.events || []).some(e => compOf(e) === compSel && visible(e) && isDone(e, now));
   // games first, then how it stands (results, table, playoffs), then the rest
-  const tabs = on ? [['games', capW(evWords((FEED.events || []).find(e => compOf(e) === compSel)?.sport))], ...(played ? [['results', 'Results']] : []), ...(hubTables().length ? [['table', 'Table']] : []), ...(BRACKETS[compSel] || SERIES_BRACKETS[compSel] || hubFinals().length ? [['playoffs', 'Playoffs']] : []), ...(squads.length ? [['squads', 'Squads']] : []), ...(ranks.length ? [['rank', 'Rankings']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
+  const tabs = on ? [['games', capW(evWords((FEED.events || []).find(e => compOf(e) === compSel)?.sport))], ...(week.length ? [['week', 'Build-up']] : []), ...(played ? [['results', 'Results']] : []), ...(hubTables().length ? [['table', 'Table']] : []), ...(BRACKETS[compSel] || SERIES_BRACKETS[compSel] || hubFinals().length ? [['playoffs', 'Playoffs']] : []), ...(squads.length ? [['squads', 'Squads']] : []), ...(ranks.length ? [['rank', 'Rankings']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
   if (!tabs.some(([k]) => k === hubTab)) hubTab = 'games';
   const other = on && hubTab !== 'games';
   // the Results tab is the Results section on its own (this competition's, paged, spoilers as everywhere)
@@ -2591,6 +2601,9 @@ function renderHub(now) {
     $('hubBody').innerHTML = `<div class="newslist">${$('news').innerHTML}</div>`;
   } else if (hubTab === 'shows') {
     $('hubBody').innerHTML = showsHtml(shows);
+  } else if (hubTab === 'week') {
+    $('hubBody').innerHTML = week.map(e => `<h3 class="dh">${esc(`${e.comp}: ${e.home} vs ${e.away}`)} <span class="muted small dhnote">${esc(fmt(new Date(e.startUTC), NZ, { weekday: 'short', day: 'numeric', month: 'short' }))}</span></h3><ul class="fweek">${buildupHtml(e)}</ul>`).join('')
+      + `<p class="muted small">Free on UFC's YouTube channel, as each goes up: Embedded, Countdown, the press conference and the weigh-ins.</p>`;
   } else if (hubTab === 'squads') {
     const icons = squads.some(({ s }) => s.players.some(p => p.role || /\bwk\b/.test(p.r || '')));
     $('hubBody').innerHTML = `<div class="squads hubsquads">${squads.map(({ s, e, f }) => squadBlock(s, e, icons, f ? `${f} squad` : '')).join('')}</div><p class="muted small">Squads from Wikipedia: the tour's page, or each side's own.</p>`;
@@ -2745,12 +2758,23 @@ function detail(e) {
     <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
     ${e.watchRule && !(e.tv || []).some(x => !x.delayed) ? `<p class="muted small wnote">Who usually shows this competition in NZ, not a listing for this ${evWord(e.sport)}: check the TV guide closer to the day.</p>` : ''}
     ${e.watchAU ? `<h3 class="dh">In Australia</h3><ul class="watchlist au">${e.watchAU.split(/\s*\/\s*/).map(p => `<li>${linkWatch(p)}</li>`).join('')}</ul>` : ''}
+    ${e.buildup?.length && !isPast ? `<h3 class="dh">Fight week <span class="muted small dhnote">free on UFC's YouTube</span></h3><ul class="fweek">${buildupHtml(e)}</ul>` : ''}
     ${e.card?.length ? `<h3 class="dh">Fight card</h3>${fightCard(e, hidden)}` : ''}
     ${e.squads?.length ? `<h3 class="dh">${e.seasonSquads ? (e.sport === 'cricket' ? 'Season squads' : 'Current squads') : 'Squads'}${e.seasonSquads ? ` <span class="muted small dhnote">${e.sport === 'cricket' ? 'each XI is picked from these' : "each game's team is picked from these"}</span>` : e.squads.some(q => q.players.some(p => p.ci || p.wp)) ? ' <span class="muted small dhnote">tap a name for their profile</span>' : ''}</h3>${squadsHtml(e)}${cricinfo(e) ? `<p class="small"><a class="srclink" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Playing XIs on Cricinfo once announced ↗</a></p>` : ''}` : ''}
     <h3 class="dh">${solo(e) ? 'News' : 'Team news'}</h3>
     ${related.length ? `<div class="news">${related.map(n => `<a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener">${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '<span></span>'}<span class="dn-text"><span class="dn-meta"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span class="muted">${esc(n.source || '')}</span></span><b>${esc(n.title)}</b></span></a>`).join('')}</div>` : `<p class="muted">No recent news for this ${evWord(e.sport)} yet.</p>`}
     ${photos}
 `;
+}
+// UFC's fight-week videos, free on its YouTube channel (Embedded, Countdown, the press conference, the weigh-ins), in
+// order: a stream to come says when it starts, NZ time
+function buildupHtml(e) {
+  const now = Date.now();
+  return (e.buildup || []).map(v => {
+    const at = new Date(v.at), live = v.state === 'live' || (v.state === 'upcoming' && at < now && now - at < 3 * 36e5), soon = v.state === 'upcoming' && at > now;
+    const day = fmt(at, NZ, { weekday: 'short', day: 'numeric', month: 'short' });
+    return `<li><a class="svc" data-watch="UFC YouTube" href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.k)}</a>${live ? ' <span class="tag live">Live</span>' : ''}<span class="when">${live ? 'streaming now' : soon ? `live ${day}, ${time(at, NZ)}` : day}</span></li>`;
+  }).join('');
 }
 const redditSub = e => e.sport === 'league' ? 'nrl' : e.sport === 'rugby' ? 'rugbyunion' : e.sport === 'cricket' ? 'Cricket' : e.sport === 'football' ? (/A-League/i.test(e.comp) || /^(phoenix|aucklandfc|aleague)$/.test(e.team) ? 'Aleague' : 'soccer') : e.sport === 'mma' ? 'MMA' : e.sport === 'boxing' ? 'Boxing' : e.sport === 'motor' ? (e.team === 'supercars' ? 'supercars' : 'formula1') : e.sport === 'tennis' ? 'tennis' : e.sport === 'basketball' ? (e.team === 'breakers' || e.team === 'nbl' ? 'nbl' : e.team === 'nba' ? 'nba' : 'Basketball') : e.sport === 'netball' ? 'netball' : e.sport === 'hockey' ? 'FieldHockey' : e.sport === 'sailing' ? 'sailgp' : e.sport === 'golf' ? 'golf' : '';
 // a golf tournament's final top 10 (and ties): place, player, score to par, each round and the total; Kiwis marked
@@ -2770,7 +2794,7 @@ function formOf(name, sport, before, format = '', e = null, n = 5) {
 const RES_WORD = { W: 'Won', L: 'Lost', D: 'Drew' };
 const formHtml = (name, sport, before, format = '', e = null, n = 5) => {
   const l = formOf(name, sport, before, format, e, n);
-  return l.length ? `<span class="form" aria-label="Last ${l.length}: ${l.map(f => RES_WORD[f.r]).join(', ')}">${l.map(f => `<span class="fd ${f.r}" title="${esc(`${RES_WORD[f.r]} v ${f.o}${f.s ? `, ${f.s}` : ''} (${fmt(new Date(f.d), NZ, { day: 'numeric', month: 'short' })})`)}">${f.r}</span>`).join('')}</span>` : '';
+  return l.length ? `<span class="form" aria-label="Last ${l.length}: ${l.map(f => RES_WORD[f.r]).join(', ')}">${l.map(f => `<span class="fd ${f.r}" title="${esc(`${RES_WORD[f.r]} v ${e ? displayName(f.o, e) : f.o}${f.s ? `, ${f.s}` : ''} (${fmt(new Date(f.d), NZ, { day: 'numeric', month: 'short', ...(f.d.slice(0, 4) !== String(new Date().getFullYear()) ? { year: 'numeric' } : {}) })})`)}">${f.r}</span>`).join('')}</span>` : '';
 };
 // a side's own page: crest, form, next games and recent results, each opening its game
 const SPORT_WORD = { rugby: 'rugby union', league: 'rugby league', football: 'football club', cricket: 'cricket team', mma: 'fighter', boxing: 'boxer', hockey: 'field hockey team', basketball: 'basketball team', netball: 'netball team' };
@@ -3395,7 +3419,33 @@ function snapPlus() {
 // their pictures when that takes a row fewer
 // My teams on a phone: a row's chips stretch to fill it, but a chip alone on its row keeps its own size, centred. Again
 // whenever the list's width changes (Settings opened, a turned phone)
+// even rows: a group's chips (and its labelled line's) break into rows of about the same count, the breaks put in by hand
+// as balanceChips does for inline chips; measured at their own widths, before phones stretch each row to fill
+function balanceGroup(box) {
+  const W = Math.round(box.clientWidth);
+  if (W < 1 || box.dataset.bw == W) return;
+  box.dataset.bw = W;
+  box.querySelectorAll('.gbr').forEach(b => b.remove());
+  box.classList.add('measure');
+  const gap = parseFloat(getComputedStyle(box).columnGap) || 0, segs = [[]];
+  for (const c of box.children) if (c.classList.contains('gsub')) segs.push([]); else if (c.classList.contains('chip')) segs[segs.length - 1].push(c);
+  for (const cs of segs) {
+    const ws = cs.map(c => c.getBoundingClientRect().width);
+    const lay = t => { const rows = [[]]; let x = 0; ws.forEach((w, i) => { if (rows[rows.length - 1].length && x + w > t) { rows.push([]); x = 0; } rows[rows.length - 1].push(i); x += w + gap; }); return rows; };
+    const n = lay(W).length;
+    if (cs.length < 3 || n < 2) continue;
+    // the same count in each row, any one over in the first rows (a lone chip stays last, centred on phones); when a row
+    // that way won't fit, the narrowest wrap that keeps the number of rows
+    const even = [], per = Math.floor(cs.length / n);
+    for (let r = 0, i = 0; r < n; r++) { const k = per + (r < cs.length % n ? 1 : 0); even.push([...Array(k).keys()].map(j => i + j)); i += k; }
+    let rows = even;
+    if (even.some(r => r.reduce((s, i) => s + ws[i] + gap, -gap) > W)) { let lo = 0, hi = W; while (hi - lo > 0.5) { const m = (lo + hi) / 2; lay(m).length > n ? lo = m : hi = m; } rows = lay(hi); }
+    rows.slice(1).forEach(r => { const b = document.createElement('i'); b.className = 'gbr'; cs[r[0]].before(b); });
+  }
+  box.classList.remove('measure');
+}
 function markLone() {
+  document.querySelectorAll('#teamGroups .chips').forEach(balanceGroup);
   document.querySelectorAll('#teamGroups .chips').forEach(box => {
     const cs = [...box.querySelectorAll('.chip')], rows = {};
     cs.forEach(c => { c.classList.remove('lone'); (rows[c.offsetTop] = rows[c.offsetTop] || []).push(c); });
@@ -3491,7 +3541,7 @@ function syncPulse() {
   if (!document.getAnimations) return;
   document.querySelectorAll('.nowchip.is-live .livedot, .ev.is-live').forEach(el => el.getAnimations().forEach(a => { if (a.startTime !== 0) a.startTime = 0; }));
 }
-const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','audomestic','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], hockey: ['blacksticks','blacksticksw'], basketball: ['tallblacks','tallferns','breakers','nbl','nba'], netball: ['silverferns','anzprem'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1', 'supercars'], sailing: ['sailgp'], tennis: ['tennis'], golf: ['pgatour', 'lpga', 'golfanz'], baseball: ['mlb', 'npb'] };
+const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby','wxv'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','audomestic','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], hockey: ['blacksticks','blacksticksw'], basketball: ['tallblacks','tallferns','breakers','nbl','nba'], netball: ['silverferns','anzprem'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1', 'supercars'], sailing: ['sailgp'], tennis: ['tennis'], golf: ['pgatour', 'lpga', 'golfanz'], baseball: ['mlb', 'npb'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
 
 function tick() { $('clock').textContent = `${tzLabel()} ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; syncInfo(); }

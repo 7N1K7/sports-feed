@@ -151,6 +151,7 @@ export function classify(kind, home, away) {
     case 'leaguetests': return nz ? { team: women ? 'kiwiferns' : 'kiwis', tags: [] } : null;
     case 'aucricket': return /\bAustralia\b/.test(names) && !women ? { team: 'aucricket', tags: [] } : null;
     case 'intlcricket': return !nz && !women && !/\bAustralia\b/.test(names) ? { team: 'intlcricket', tags: [] } : null;
+    case 'tricricket': return nz ? { team: women ? 'whiteferns' : 'blackcaps', tags: [] } : women ? null : /\bAustralia\b/.test(names) ? { team: 'aucricket', tags: [] } : { team: 'intlcricket', tags: [] };
     case 'nzcricket': return nz ? { team: women ? 'whiteferns' : 'blackcaps', tags: [] } : null;
     case 'nrl': return { team: /Warriors/.test(names) ? 'warriors' : 'nrl', tags: ['nrl'] };
     case 'hockey': return nz ? { team: women ? 'blacksticksw' : 'blacksticks', tags: [] } : null;
@@ -366,6 +367,17 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
       }
     } catch (e) { diag.wikiSearch = e.message; }
   }
+  // tri-series ("2026–27 Pakistan T20I Tri-Series", "2026 Tri-Nation Series in Sri Lanka"): every men's game, and the NZ
+  // women's, with the series' table
+  for (const s of [...seasons, ...years.map(String)]) {
+    try {
+      const r = await api('action=query&list=search&srlimit=20&srnamespace=0&srsearch=' + encodeURIComponent(`intitle:tri cricket "${s}"`));
+      for (const { title } of r.query?.search || []) {
+        if (!title.startsWith(s + ' ') || !/\btri-?(nation|series)|triangular/i.test(title) || /under-19|\bU19\b|\bA team|domestic/i.test(title) || want.has(title)) continue;
+        want.set(title, { sport: 'cricket', comp: title.slice(s.length + 1), classify: 'tricricket', women: /women/i.test(title) });
+      }
+    } catch (e) { diag.wikiSearch = e.message; }
+  }
   for (const [t, c] of formPrev) if (!want.has(t)) want.set(t, { ...c, formOnly: true });
   const titles = [...want.keys()];
   const texts = {};
@@ -420,6 +432,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
     if (!c.seriesTitle && !c.ufc && !c.formOnly) tableSrc.push({ c, title: pg.title, text: pg.text });
   }
   diag.wikipedia = per;
+  if (formPrev.length) diag.formPrev = formPrev.map(([t]) => `${t}: ${texts[t] ? `${per[texts[t].title] ?? 0} games${texts[t].text ? '' : ' (no text)'}` : 'no page'}`).join('; ');
   // standings: Sports table blocks on the page, or in a transcluded "... table" / "... standings" template
   const tables = [];
   try {
@@ -1715,8 +1728,8 @@ export async function tsdbEvents(all, diag, cache = {}, gapsFor = null) {
 }
 // Earlier rounds, for the form guide only (each round's results are kept a year by the feed): a couple of rounds a run,
 // this season's back to round 1, then while this season is young the end of the last one, its finals first
-// (TheSportsDB numbers finals rounds 125, 150, 200...) and its last regular rounds ("rounds" in the config). Each round
-// is asked once; what's left to ask is kept in the cache
+// (TheSportsDB numbers finals rounds 160 elimination, 150 semis, 200 the final) and its last regular rounds. Each round
+// is asked once; what's left to ask is kept in the cache. "rounds" in the config = the regular season's rounds
 export async function tsdbBackfill(all, cache, diag, max = 2) {
   const out = [];
   let calls = 0;
@@ -1729,7 +1742,7 @@ export async function tsdbBackfill(all, cache, diag, max = 2) {
       const prev = c.season.replace(/\d{4}/g, y => +y - 1);
       bf.season = c.season;
       bf.todo = [...Array(Math.max(0, c.r0 - 2)).keys()].map(i => [c.season, c.r0 - 2 - i]);
-      if (c.r0 < 8 && l.rounds) bf.todo.push(...[200, 150, 125, ...[0, 1, 2, 3, 4].map(i => l.rounds - i)].map(r => [prev, r]));
+      if (c.r0 < 8 && l.rounds) bf.todo.push(...[200, 150, 160, ...[0, 1, 2, 3, 4].map(i => l.rounds - i)].map(r => [prev, r]));
     }
     while (bf.todo.length && calls < max) {
       const [s, r] = bf.todo[0];
@@ -1740,6 +1753,18 @@ export async function tsdbBackfill(all, cache, diag, max = 2) {
       } catch (e) { diag.tsdbBackfill = e.message; return out; }
     }
     diag[`tsdb backfill ${l.comp}`] = `${bf.todo.length} rounds still to ask`;
+  }
+  // a league marked formSeason (the Nations Championship, whose July tests are on no page the feed reads): this year's
+  // first 15 games, all the free key gives, once a week
+  for (const l of all.filter(l => l.formSeason)) {
+    const k = `season ${l.id}`, s = String(new Date().getUTCFullYear()), c = cache[k];
+    if (calls >= max + 1 || (c?.s === s && Date.now() - c.t < 7 * DAY)) continue;
+    calls++;
+    try {
+      const evs = ((await tsdb(`eventsseason.php?id=${l.id}&s=${s}`, { extra: true })).events || []).map(ev => fromTsdb(ev, l)).filter(e => e?.status === 'final');
+      out.push(...evs); cache[k] = { t: Date.now(), s };
+      diag[`tsdb season ${l.comp}`] = `${evs.length} results`;
+    } catch (e) { diag.tsdbBackfill = e.message; }
   }
   return out;
 }
