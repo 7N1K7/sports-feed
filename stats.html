@@ -91,6 +91,11 @@ button, input { font: inherit; color: inherit }
 .bar .t i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--series-1); border-radius: 0 4px 4px 0; min-width: 2px }
 .bar .n { font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; text-align: right }
 .empty { color: var(--muted); font-size: 14px }
+/* reports sent from the site: newest first, each with when, what it's about and the note */
+.reps { display: grid; gap: 10px; max-height: 420px; overflow: auto }
+.rep { border-top: 1px solid var(--line); padding-top: 8px } .rep:first-child { border-top: 0; padding-top: 0 }
+.rep .rh { font-size: 13px; color: var(--muted) } .rep .rh b { color: var(--ink) }
+.rep p { margin: 3px 0 0; font-size: 15px; white-space: pre-wrap; overflow-wrap: anywhere }
 details.tbl summary { cursor: pointer; font-weight: 600 }
 table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 14px; font-variant-numeric: tabular-nums }
 th, td { text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--line) }
@@ -147,6 +152,12 @@ th { color: var(--muted); font-weight: 600 }
       <div class="tiles" id="tiles"></div>
     </section>
 
+
+    <section class="card">
+      <h2>Reports</h2>
+      <div class="reps" id="reports"></div>
+      <p class="note">Sent with the Report a problem button (a game's pop-up, or the foot of the page). Nothing about who sent them is kept.</p>
+    </section>
 
     <section class="card">
       <h2>Each day</h2>
@@ -333,6 +344,15 @@ function draw() {
   for (const d of list) { const k = dayLabel(d, { weekday: 'long' }); wd[k] = (wd[k] || 0) + per[d].visitors; wn[k] = (wn[k] || 0) + 1; }
   bars('weekday', Object.fromEntries(Object.keys(wd).map(k => [k, Math.round(wd[k] / wn[k] * 10) / 10])), k => k, WEEKDAYS);
   hours(sums.hour || {});
+  drawReports(list[0]);
+}
+// the reports in the range, newest first: a game's links to its pop-up on the site
+function drawReports(from) {
+  const reps = (data.reports || []).filter(r => new Date(r.at).toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }) >= from);
+  const when = at => new Date(at).toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
+  const about = r => { const [id, ...t] = String(r.ref || '').split('|'); return r.kind === 'game' && id ? `<a href="./#g=${encodeURIComponent(id)}" target="_blank" rel="noopener">${esc(t.join('|') || id)}</a>` : 'The site'; };
+  $('reports').innerHTML = reps.length ? reps.map(r => `<div class="rep"><div class="rh"><b>${esc(when(r.at))}</b> · ${about(r)}</div><p>${esc(r.note)}</p></div>`).join('')
+    : '<div class="empty">No reports in this range.</div>';
 }
 
 // a ranked list of horizontal bars, the top 7 and the rest as "Other"; names go in as text, never as markup

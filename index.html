@@ -351,7 +351,7 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .empty-note { color: var(--muted); font-size: 14px; background: var(--surface); border: 1px dashed var(--line); border-radius: var(--r); padding: 12px }
 .more { justify-self: start }
 footer { color: var(--muted); font-size: 13px; padding-block: 0 40px }
-footer a { color: var(--muted) }
+footer a { color: var(--muted) } footer p { margin: 0 0 6px }
 
 
 .badge.bimg { width: 22px; height: 22px; min-width: 0; padding: 0; box-shadow: none; object-fit: contain; display: inline-block; vertical-align: middle; margin-block: -2px }
@@ -894,6 +894,22 @@ dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback), dialog#sheet:has(.dtab
 .dlinks:empty { display: none }
 .dlinks a { font-size: 13px; font-weight: 600; text-decoration: none; color: var(--ink); border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 11px }
 .dlinks a:hover { border-color: var(--accent) }
+/* Report a problem: a quiet chip at the end of a game's links, and a line at the foot of the page */
+.dlinks .dreport { font: inherit; font-size: 13px; font-weight: 600; color: var(--muted); border: 1px dashed var(--line); background: none; border-radius: 999px; padding: 5px 11px; cursor: pointer }
+.dlinks .dreport:hover { color: var(--ink); border-color: var(--accent) }
+.flink { font: inherit; color: inherit; background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer }
+/* its form: a small box over the page (or the game's pop-up), so nothing under it moves */
+dialog#reportDlg { border: 1px solid var(--line); border-radius: 14px; padding: 0; width: min(420px, calc(100% - 32px)); background: var(--surface); color: var(--ink); box-shadow: 0 10px 40px rgba(0, 0, 0, .35) }
+dialog#reportDlg::backdrop { background: rgba(10, 18, 15, .5) }
+#reportForm { padding: 16px }
+#reportForm h2 { font-size: 18px; margin: 0 0 2px }
+#reportForm .rabout { margin: 0 0 10px; font-size: 14px; color: var(--muted) }
+#reportForm textarea { display: block; width: 100%; box-sizing: border-box; min-height: 96px; font: inherit; font-size: 16px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); resize: vertical }
+#reportForm .rnote { margin: 6px 0 0; font-size: 13px; color: var(--muted) }
+#reportForm .rbtns { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 12px }
+#reportForm .rmsg { margin-right: auto; font-size: 13px; color: var(--muted) }
+#reportForm .btn { font: inherit; font-size: 14px; color: var(--ink) } #reportForm .rsend { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600 }
+#reportForm .rsend:disabled { opacity: .6; cursor: default }
 .squads { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px }
 .squads.solo { grid-template-columns: 1fr } .squads.solo ul { columns: 2; column-gap: 14px } .squads.solo li { break-inside: avoid }
 .squad { border: 1px solid var(--line); border-radius: var(--r); padding: 8px 10px; background: var(--surface) }
@@ -1344,6 +1360,15 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
     <button class="close" id="sheetClose" type="button" aria-label="Close">×</button>
     <div id="sheetBody"></div>
   </div>
+</dialog>
+<dialog id="reportDlg" aria-labelledby="reportH">
+  <form id="reportForm" method="dialog">
+    <h2 id="reportH">Report a problem</h2>
+    <p class="rabout" id="reportAbout"></p>
+    <textarea id="reportNote" rows="4" maxlength="500" aria-label="What's wrong or missing" placeholder="What's wrong or missing? A wrong time or channel, a missing game or team…"></textarea>
+    <p class="rnote">Goes to the site's owner. Nothing about you is sent or kept.</p>
+    <div class="rbtns"><span class="rmsg" id="reportMsg" aria-live="polite"></span><button type="button" class="btn" id="reportCancel">Cancel</button><button type="submit" class="btn rsend" id="reportSend">Send</button></div>
+  </form>
 </dialog>
 
 <script>
@@ -2516,14 +2541,14 @@ function detail(e) {
       e.sport === 'cricket' && !cricinfo(e) && `<a href="https://www.espncricinfo.com/live-cricket-score" target="_blank" rel="noopener">Ball by ball on Cricinfo ↗</a>`,
       // the subreddit's game-day thread, for the live chat around a game (a plain search link, nothing pulled from Reddit)
       Math.abs(d - now) < 864e5 && redditSub(e) && `<a href="https://www.reddit.com/r/${redditSub(e)}/search/?q=${encodeURIComponent(e.sport === 'cricket' ? 'Match Thread' : e.sport === 'motor' ? 'Race Discussion' : /^(mma|boxing)$/.test(e.sport) ? 'Live Discussion' : 'Match Thread')}&restrict_sr=1&sort=new" target="_blank" rel="noopener">Match thread on r/${redditSub(e)} ↗</a>`,
-    ].filter(Boolean).join('')}</div>
+    ].filter(Boolean).join('')}<button type="button" class="dreport" data-report="${esc(e.id)}">Report a problem</button></div>
     <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
-    ${e.watchRule && !(e.tv || []).some(x => !x.delayed) ? '<p class="muted small wnote">Who usually shows this competition in NZ, not a listing for this ${evWord(e.sport)}: check the TV guide closer to the day.</p>' : ''}
+    ${e.watchRule && !(e.tv || []).some(x => !x.delayed) ? `<p class="muted small wnote">Who usually shows this competition in NZ, not a listing for this ${evWord(e.sport)}: check the TV guide closer to the day.</p>` : ''}
     ${e.watchAU ? `<h3 class="dh">In Australia</h3><ul class="watchlist au">${e.watchAU.split(/\s*\/\s*/).map(p => `<li>${linkWatch(p)}</li>`).join('')}</ul>` : ''}
     ${e.card?.length ? `<h3 class="dh">Fight card</h3>${fightCard(e, hidden)}` : ''}
     ${e.squads?.length ? `<h3 class="dh">${e.seasonSquads ? (e.sport === 'cricket' ? 'Season squads' : 'Current squads') : 'Squads'}${e.seasonSquads ? ` <span class="muted small dhnote">${e.sport === 'cricket' ? 'each XI is picked from these' : "each game's team is picked from these"}</span>` : e.squads.some(q => q.players.some(p => p.ci || p.wp)) ? ' <span class="muted small dhnote">tap a name for their profile</span>' : ''}</h3>${squadsHtml(e)}${cricinfo(e) ? `<p class="small"><a class="srclink" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Playing XIs on Cricinfo once announced ↗</a></p>` : ''}` : ''}
     <h3 class="dh">${solo(e) ? 'News' : 'Team news'}</h3>
-    ${related.length ? `<div class="news">${related.map(n => `<a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener">${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '<span></span>'}<span class="dn-text"><span class="dn-meta"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span class="muted">${esc(n.source || '')}</span></span><b>${esc(n.title)}</b></span></a>`).join('')}</div>` : `<p class="muted">No recent news for this ${solo(e) ? 'race' : 'match'} yet.</p>`}
+    ${related.length ? `<div class="news">${related.map(n => `<a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener">${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '<span></span>'}<span class="dn-text"><span class="dn-meta"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span class="muted">${esc(n.source || '')}</span></span><b>${esc(n.title)}</b></span></a>`).join('')}</div>` : `<p class="muted">No recent news for this ${evWord(e.sport)} yet.</p>`}
     ${photos}
 `;
 }
@@ -2709,10 +2734,18 @@ document.addEventListener('click', ev => { if (!ev.target.closest('.search')) cl
 // long seasons and catch-alls stay out of the running-series row, which is for international series and short tournaments
 // (World Cups, the Big Bash)
 const GENERIC = /^(Test match|Women's test|Boxing|UFC|NZ domestic cricket|Black Caps|White Ferns|NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|A-League Men|Premier League|Formula 1|Supercars|SailGP|PGA Tour|LPGA Tour|PGA Tour of Australasia|Sheffield Shield|Dean Jones Trophy|NBL|ANZ Premiership)$/;
-// short names for the Current bar: "SA v AUS", "RLWC"
+// short names for the Current bar, so its chips stay small: "SA v AUS", "RLWC", "Const. Cup", "NZ v BAN (W)" (the chip's
+// hover label keeps the full name)
 const SHORT = [[/Women's Rugby League World Cup/, "Women's RLWC"], [/Wheelchair Rugby League World Cup/, 'Wheelchair RLWC'], [/Rugby League World Cup/, 'RLWC'], [/Nations Championship/, 'Nations Champ.'], [/Rugby Championship/, 'Rugby Champ.'], [/WXV Global Series/, 'WXV'],
+  [/Rugby World Cup/, 'RWC'], [/Constellation Cup/, 'Const. Cup'], [/Taini Jamison Trophy/, 'Taini Jamison'], [/FIBA (Basketball )?World Cup qualifiers/i, 'FIBA qualifiers'], [/\bFIH (Hockey )?/, ''],
+  [/Chappell[–-]Hadlee Trophy/, 'Chappell–Hadlee'], [/Pacific Nations Cup/, 'Pacific Nations'], [/Pacific Four Series/, 'Pacific Four'], [/\bICC /, ''], [/\bT20 World Cup\b/, 'T20 WC'], [/\bCricket World Cup\b/, 'CWC'],
+  // New Zealand's sides by their nicknames are "NZ" here; a women's side marks the chip (W) at the end
+  [/\b(White Ferns|Black Ferns|Tall Ferns|Kiwi Ferns|Football Ferns|Black Sticks Women's|Black Sticks Women)\b/g, 'NZ\u2009W'], [/\b(Black Caps|All Blacks|Black Sticks|Tall Blacks|Silver Ferns|All Whites|Kiwis)\b/g, 'NZ'],
   [/\bSouth Africa\b/, 'SA'], [/\bAustralia\b/, 'AUS'], [/\bNew Zealand\b/, 'NZ'], [/\bIndia\b/, 'IND'], [/\bEngland\b/, 'ENG'], [/\bSri Lanka\b/, 'SL'], [/\bPakistan\b/, 'PAK'], [/\bBangladesh\b/, 'BAN'], [/\bWest Indies\b/, 'WI'], [/\bAfghanistan\b/, 'AFG'], [/\bZimbabwe\b/, 'ZIM'], [/\bIreland\b/, 'IRE']];
-const shortComp = c => SHORT.reduce((t, [re, r]) => t.replace(re, r), c);
+const shortComp = c => {
+  const t = SHORT.reduce((t, [re, r]) => t.replace(re, r), c), w = /^Women's |\u2009W\b/.test(t);
+  return w ? `${t.replace(/^Women's /, '').replace(/\u2009W\b/g, '')} (W)` : t;
+};
 // tournaments played in windows across the year: listed whenever the next window is near
 const WINDOWED = /^(Nations Championship|Rugby Championship)$/;
 let onNowComps = new Set(), liveComps = new Set();
@@ -3436,6 +3469,8 @@ function fitLines() {
 let fitFrame = 0;
 addEventListener('resize', () => { cancelAnimationFrame(fitFrame); fitFrame = requestAnimationFrame(fitLines); });
 document.fonts?.ready.then(fitLines);
+// the series chips were balanced before the web font arrived (wider or narrower chips): balance them again
+document.fonts?.ready.then(() => { balanceNow(); syncNowMore(); });
 // dots that fill exactly two rows of a day in the week strip (7px dots, 3px apart), measured from the strip itself, so
 // the "+" always lands in the last spot of the second row
 function dotCap() {
@@ -3509,6 +3544,37 @@ function stamp() {
   $('mockBar').hidden = true;
 }
 // a phone alert links to its game (kickoff.kiwi/#g=<game id>): open it once the feed is in, then tidy the address
+// Report a problem: the form over the page, about the game whose pop-up it came from (or the site); the note goes to
+// the stats server, which keeps it for the stats page and nothing about who sent it
+let reportFor = '';
+document.addEventListener('click', ev => {
+  const b = ev.target.closest('[data-report]'); if (!b) return;
+  const e = (FEED.events || []).find(x => x.id === b.dataset.report);
+  reportFor = e ? e.id : '';
+  $('reportAbout').textContent = e ? `About ${titleOf(e)}, ${dayLabel(new Date(e.startUTC), NZ)}` : 'A missing game, team or competition, or anything else wrong on the site.';
+  $('reportMsg').textContent = ''; $('reportSend').disabled = false;
+  $('reportDlg').showModal(); $('reportNote').focus();
+  count({ e: 'use', k: 'Report opened' });
+});
+$('reportCancel').addEventListener('click', () => $('reportDlg').close());
+$('reportDlg').addEventListener('click', ev => { if (ev.target === $('reportDlg')) $('reportDlg').close(); });
+$('reportForm').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  const note = $('reportNote').value.trim(), e = (FEED.events || []).find(x => x.id === reportFor);
+  if (note.length < 3) { $('reportMsg').textContent = 'Add a few words first.'; return; }
+  $('reportSend').disabled = true; $('reportMsg').textContent = 'Sending…';
+  try {
+    // plain text, so the browser sends it straight away without asking the server first
+    const r = await fetch(STATS_API + '/report', { method: 'POST', headers: { 'content-type': 'text/plain' }, body: JSON.stringify({ g: reportFor, t: e ? titleOf(e) : '', note }) });
+    if (r.status === 429) throw new Error('limit');
+    if (!r.ok) throw new Error('failed');
+    $('reportMsg').textContent = 'Sent. Thank you!'; $('reportNote').value = '';
+    setTimeout(() => { if ($('reportDlg').open) $('reportDlg').close(); }, 1500);
+  } catch (err) {
+    $('reportMsg').textContent = err.message === 'limit' ? "That's today's limit of reports. Thank you!" : "Couldn't send it. Check your connection and try again.";
+    $('reportSend').disabled = err.message === 'limit';
+  }
+});
 function openFromLink() {
   const g = new URLSearchParams(location.hash.slice(1)).get('g');
   if (!g || !(FEED.events || []).some(e => e.id === g)) return;
@@ -3548,7 +3614,7 @@ async function load(woke) {
         if (sq.length) { e.squads = sq; e.seasonSquads = true; }
       }
     }
-    $('foot').innerHTML = `Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)`;
+    $('foot').innerHTML = `<p>Something missing or wrong? <button type="button" class="flink" data-report="">Report it</button></p>Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)`;
     render(); stamp(); openFromLink();
     // how long until the first games were on screen, in bands
     if (!load.timed) { load.timed = true; const t = performance.now() / 1000; count({ e: 'speed', k: t < 1 ? 'under 1s' : t < 2 ? '1-2s' : t < 4 ? '2-4s' : t < 8 ? '4-8s' : '8s or more' }); }
