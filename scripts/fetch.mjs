@@ -643,8 +643,11 @@ const events = curated.events.map(e => ({ ...e }));
 for (const le of live) {
   const hit = events.find(e => same(e, le));
   if (hit) {
-    // live sources win on time, status and score; curated keeps names, notes and broadcast
-    if (!le.timeTBC || hit.timeTBC) Object.assign(hit, { startUTC: le.startUTC, timeTBC: le.timeTBC });
+    // live sources win on time, status and score; curated keeps names, notes and broadcast. A kick-off kept by hand
+    // from the official draw stands against one a few minutes off, though (Wikipedia had Samoa v Wales at 7:50 for the
+    // draw's 7:45): only a real move, 20 minutes or more, replaces it
+    const moved = Math.abs(Date.parse(le.startUTC) - Date.parse(hit.startUTC)) >= 20 * 60e3;
+    if (hit.timeTBC || (!le.timeTBC && moved)) Object.assign(hit, { startUTC: le.startUTC, timeTBC: le.timeTBC });
     // ...except a placeholder ("Northland or SF2 winner" v "TBC") once the real teams and ground are known
     const ph = x => /\bor\b|winner|^TBC$/i.test(x || '');
     if ((ph(hit.home) || ph(hit.away)) && !ph(le.home) && !ph(le.away)) Object.assign(hit, { home: le.home, away: le.away, homeLogo: le.homeLogo, awayLogo: le.awayLogo });
