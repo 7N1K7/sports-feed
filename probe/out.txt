@@ -1,17 +1,10 @@
-detail v432 at 2026-10-23T07:37:05.533Z: 317 games, 145 sides, 56138 bytes
-feed v432 at 2026-10-23T07:37:05.533Z
-teamSquads: 154 of 155: Northern Districts missing
-cricket: games 50 time 40 watch 44 squads 50/50 pic 29/31 links 31 | detail squads 50/50 time 40
-boxing: games 4 time 3 watch 4 squads 0/0 pic 6/8 links 0 | detail squads 0/0 time 3
-league: games 56 time 49 watch 56 squads 30/30 pic 14/14 links 14 | detail squads 30/30 time 49
-netball: games 2 time 2 watch 2 squads 0/2 pic 2/2 links 2 | detail squads 0/2 time 2
-rugby: games 6 time 6 watch 4 squads 6/6 pic 8/8 links 8 | detail squads 6/6 time 6
-football: games 32 time 32 watch 32 squads 32/32 pic 31/31 links 31 | detail squads 32/32 time 32
-mma: games 3 time 1 watch 3 squads 0/0 pic 6/6 links 6 | detail squads 0/0 time 1
-basketball: games 117 time 112 watch 117 squads 117/117 pic 26/41 links 41 | detail squads 117/117 time 112
-motor: games 29 time 29 watch 29 squads 0/0 pic 0/0 links 0 | detail squads 0/0 time 29
-golf: games 4 time 0 watch 4 squads 0/0 pic 0/0 links 0 | detail squads 0/0 time 0
-baseball: games 14 time 14 watch 7 squads 14/14 pic 4/4 links 4 | detail squads 14/14 time 14
-squad gaps: {"cricket":[],"boxing":[],"league":[],"netball":[["Constellation Cup",2]],"rugby":[],"football":[],"mma":[],"basketball":[],"motor":[],"golf":[],"baseball":[]}
-sample games: [{"s":"cricket","c":"Women's Big Bash League","n":"Melbourne Renegades v Sydney Thunder","at":"2026-10-29T04:40:00Z","f":15,"w":"Sky Sport / Sky Sport Now"},{"s":"cricket","c":"Women's Big Bash League","n":"Melbourne Stars v Hobart Hurricanes","at":"2026-10-29T08:10:00Z","f":15,"w":"Sky Sport / Sky Sport Now"},{"s":"cricket","c":"Women's Big Bash League","n":"Brisbane Heat v Sydney Sixers","at":"2026-10-30T09:40:00.000Z","f":15,"w":"Sky Sport / Sky Sport Now"}]
-sample sides: [{"s":"cricket","c":"Women's Big Bash League","n":"Melbourne Renegades","f":7},{"s":"cricket","c":"Women's Big Bash League","n":"Sydney Thunder","f":7},{"s":"cricket","c":"Women's Big Bash League","n":"Melbourne Stars","f":7}]
+eventsseason.php?id=4328&s=2026-2027:  15 events · first 2026-08-21 Arsenal vs Coventry City r1 · last 2026-08-29 Coventry City vs Hull City r2 0-1
+eventsseason.php?id=4356&s=2025-2026:  15 events · first 2025-10-17 Adelaide United vs Sydney FC r1 · last 2025-11-01 Auckland FC vs Adelaide United r3 2-1
+eventsseason.php?id=5806&s=2026:  15 events · first 2026-10-15 Australia Rugby League vs New Zealand Rugby League r1 · last 2026-11-01 Tonga Rugby League vs Samoa Rugby League r3 null-null
+eventslast.php?id=133604:  1 events · first 2026-10-13 Arsenal vs Lille r2 · last 2026-10-13 Arsenal vs Lille r2 3-0
+team Tonga Rugby League: 154469 Tonga Rugby League Rugby League World Cup
+eventslast.php?id=154469:  1 events · first 2025-10-26 Tonga Rugby League vs Samoa Rugby League r2 · last 2025-10-26 Tonga Rugby League vs Samoa Rugby League r2 6-34
+team New Zealand Rugby League: 154465 New Zealand Rugby League Rugby League World Cup
+eventslast.php?id=154465:  1 events · first 2025-11-09 New Zealand Rugby League vs Samoa Rugby League r200 · last 2025-11-09 New Zealand Rugby League vs Samoa Rugby League r200 36-14
+team Lebanon Rugby League: 154464 Lebanon Rugby League Rugby League World Cup
+eventslast.php?id=154464:  1 events · first 2022-10-30 Lebanon Rugby League vs Jamaica Rugby League r3 · last 2022-10-30 Lebanon Rugby League vs Jamaica Rugby League r3 74-12
