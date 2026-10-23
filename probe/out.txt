@@ -1,1 +1,24 @@
-feed 1392748
+Sheffield Shield: New South Wales; Queensland (no badge); South Australia (no badge); Tasmania; Victoria; Western Australia (no badge)
+Australian NBL: Adelaide 36ers / Adelaide; Brisbane Bullets / Brisbane; Cairns Taipans / Cairns; Canberra Cannons; Gold Coast Blaze / Gold Coast; Hunter Pirates; Illawarra Hawks / Wollongong Hawks; Melbourne United / Melbourne Utd.; New Zealand Breakers; Perth Wildcats / Perth
+NBA: Atlanta Hawks; Boston Celtics; Brooklyn Nets; Charlotte Hornets; Chicago Bulls; Cleveland Cavaliers / Cavs; Dallas Mavericks / Mavs; Denver Nuggets; Detroit Pistons; Golden State Warriors
+Q South Australia: South Australia [Cricket/Sheffield Shield]
+Q Western Australia: Western Australia [Cricket/Sheffield Shield]
+Q South Australia Redbacks: 
+Q Western Australia Warriors: 
+Q Los Angeles Clippers: Los Angeles Clippers [Basketball/NBA] badge
+Q Central Hinds: 
+Q Central Districts Hinds: 
+Q Central Districts: Central Districts Lions [Basketball/NBL1 Central] badge
+Q South East Melbourne Phoenix: 
+|[[2026–27 Brisbane Bullets season|Brisbane Bullets]]
+'''[[Brisbane Bullets|Bullets]]'''
+|[[2026–27 Brisbane Bullets season|Brisbane Bullets]]
+| [[Brisbane Bullets]]
+| [[Brisbane Bullets]] || [[Darryl McDonald]]<ref>{{cite news|title=Bullets Provide Coaching Staff Update {{!}} Brisbane Bullets|url=https://www.brisbanebullets.com.au/news/bullets-provide-coaching-staff-update|access-date=28 May 2026|work=brisbanebullets.com.au|date=17 March 2026|language=en}}</ref> || colspan=2 | [[Will Weaver (basketball)|Will Weaver]]<ref>{{cite web|last1=Uluc|first1=Olgun|title='Old-school principles': Will Weaver determined to restore Bullets to glory says|url=https://www.espn.com.au/nbl/story/_/id/48167415/nbl-weaver-determined-restore-brisbane-bullets-glory-days|publisher=[[ESPN Australia]]|access-date=28 May 2026|date=11 March 2026}}</ref>
+ | teamA = '''[[2026–27 Brisbane Bullets season|Brisbane Bullets]]'''
+|[[2026–27 S.E. Melbourne Phoenix season|S.E. Melbourne Phoenix]]
+| rowspan="2" |[[2026–27 S.E. Melbourne Phoenix season|S.E. Melbourne Phoenix]]
+| [[S.E. Melbourne Phoenix]]
+| [[S.E. Melbourne Phoenix]] || colspan=3 | [[Josh King (basketball)|Josh King]]<ref>{{cite web|title=King of the Castle: Phoenix extend head coach|url=https://www.nbl.com.au/news/josh-king-signs-extension-with-south-east-melbourne-phoenix|publisher=[[National Basketball League (Australia)|National Basketball League]]|access-date=24 July 2026|date=24 July 2026|language=en}}</ref>
+ | teamB = '''[[2026–27 S.E. Melbourne Phoenix season|S.E. Melbourne Phoenix]]'''
+ | teamB = [[2026–27 S.E. Melbourne Phoenix season|S.E. Melbourne Phoenix]]
