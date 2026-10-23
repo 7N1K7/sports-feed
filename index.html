@@ -1958,7 +1958,9 @@ function isHidden(e, now) {
 }
 // an event also shows for the other side when both are followed (e.g. Blues v Hurricanes)
 const CLUBS = ['blues','chiefs','hurricanes','crusaders','highlanders','warriors'];
-const visibleTeam = x => picked.has(x.team) || (x.tags || []).some(t => picked.has(t)) || CLUBS.some(k => picked.has(k) && [x.home, x.away].some(t => (t || '').includes(TEAM_NAME[k])));
+// a followed club shows in other competitions too (the Warriors in a pre-season cup), but only in its own sport:
+// the NBA's Golden State Warriors aren't the Warriors
+const visibleTeam = x => picked.has(x.team) || (x.tags || []).some(t => picked.has(t)) || CLUBS.some(k => picked.has(k) && sportOf(k) === (x.sport || sportOf(x.team)) && [x.home, x.away].some(t => (t || '').includes(TEAM_NAME[k])));
 // a way to watch a game for nothing: a free channel the TV guide lists live, a free YouTube stream, or a competition's
 // free option (highlights, delayed showings, radio and "some games" don't count)
 const TV_FREE_CH = /^(TVNZ 1|TVNZ 2|Three|Sky Open|TVNZ DUKE|Whakaata Māori|Rush|Bravo|eden)$/;
