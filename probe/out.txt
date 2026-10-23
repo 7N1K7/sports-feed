@@ -1,32 +1,40 @@
-generatedAt 2026-10-23T09:55:37.528Z events 948 tables 70
-2026-10-18 | Pakistan ODI Tri-Series | Pakistan | v | Sri Lanka |  | Not on TV in NZ
-2026-10-20 | Pakistan ODI Tri-Series | Pakistan | v | England |  | Not on TV in NZ
-2026-10-22 | Pakistan ODI Tri-Series | England | v | Sri Lanka |  | Not on TV in NZ
-2026-10-25 | Pakistan ODI Tri-Series | Pakistan | v | Sri Lanka |  | Not on TV in NZ
-2026-10-27 | Pakistan ODI Tri-Series | Pakistan | v | England |  | Not on TV in NZ
-2026-10-29 | Pakistan ODI Tri-Series | England | v | Sri Lanka |  | Not on TV in NZ
-2026-10-31 | Pakistan ODI Tri-Series | 1st placed team | v | 2nd placed team |  | Not on TV in NZ
-2026-10-17 | Afghanistan Tri-Nation Series | Zimbabwe | v | Bangladesh |  | 
-2026-10-19 | Afghanistan Tri-Nation Series | Afghanistan | v | Zimbabwe |  | 
-2026-10-21 | Afghanistan Tri-Nation Series | Bangladesh | v | Afghanistan |  | 
-2026-10-23 | Afghanistan Tri-Nation Series | Afghanistan | v | Zimbabwe |  | 
-2026-10-09 | Oman Tri-Nation Series | Oman | v | Canada | MINOR | 
-2026-10-13 | Oman Tri-Nation Series | Nepal | v | Oman | MINOR | 
-2026-10-17 | Oman Tri-Nation Series | Canada | v | Nepal | MINOR | 
-2026-10-03 | United States Tri-Nation Series | Namibia | v | United Arab Emirates | MINOR | 
-2026-10-07 | United States Tri-Nation Series | Namibia | v | USA | MINOR | 
-2026-10-11 | United States Tri-Nation Series | United Arab Emirates | v | USA | MINOR | 
-2026-10-25 | United Arab Emirates Tri-Nation Series | United Arab Emirates | v | Netherlands | MINOR | 
-2026-10-27 | United Arab Emirates Tri-Nation Series | Netherlands | v | Oman | MINOR | 
-2026-10-29 | United Arab Emirates Tri-Nation Series | United Arab Emirates | v | Oman | MINOR | 
-2026-10-31 | United Arab Emirates Tri-Nation Series | United Arab Emirates | v | Netherlands | MINOR | 
-2026-11-02 | United Arab Emirates Tri-Nation Series | Netherlands | v | Oman | MINOR | 
-2026-11-04 | United Arab Emirates Tri-Nation Series | United Arab Emirates | v | Oman | MINOR | 
-TABLE Pakistan ODI Tri-Series: Pakistan, Sri Lanka, England
-TABLE Afghanistan Tri-Nation Series: Afghanistan, Zimbabwe, Bangladesh
-TABLE Namibia T20I Tri-Nation Series: South Africa, Zimbabwe, Namibia
-TABLE Ireland Women's Tri-Nation Series: West Indies Women, Ireland Women, Pakistan Women
-TABLE Scotland Women's Tri-Nation Series: Scotland Women, Bangladesh Women, Netherlands Women
-TABLE Sri Lanka Tri-Nation Series: Sri Lanka A, India A, Afghanistan A
-SCOT | Australia Women | Scotland Women | - | -
-SCOT | Australia Women | Scotland Women | - | -
+200
+2026-10-23T08:05:18.3591804Z 24.04.5
+2026-10-23T08:05:18.3592246Z LTS
+2026-10-23T08:05:18.3592673Z ##[endgroup]
+2026-10-23T08:05:18.3593184Z ##[group]Runner Image
+2026-10-23T08:05:18.3593684Z Image: ubuntu-24.04
+2026-10-23T08:05:18.3594128Z Version: 20261012.334.1
+2026-10-23T08:05:18.3595417Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-23T08:05:18.3596765Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-23T08:05:18.3597553Z ##[endgroup]
+2026-10-23T08:05:18.3600064Z Actions: write
+2026-10-23T08:05:18.3600936Z Metadata: read
+2026-10-23T08:05:18.3601457Z ##[endgroup]
+2026-10-23T08:05:18.3604450Z Cache mode: write
+2026-10-23T08:05:18.3605343Z Prepare workflow directory
+2026-10-23T08:05:18.4034367Z Prepare all required actions
+2026-10-23T08:05:18.4084672Z Complete job name: chain
+2026-10-23T08:05:18.4608911Z ##[group]Run secs=$(( ${STARTED:-0} + EVERY - 10 - $(date +%s) ))
+2026-10-23T08:05:18.4609875Z [36;1msecs=$(( ${STARTED:-0} + EVERY - 10 - $(date +%s) ))[0m
+2026-10-23T08:05:18.4610669Z [36;1mif [ "$secs" -gt "$EVERY" ] || [ -z "$STARTED" ]; then secs=$(( EVERY - 180 )); fi[0m
+2026-10-23T08:05:18.4611524Z [36;1mdeadline=$(( $(date +%s) + secs ))[0m
+2026-10-23T08:05:18.4612351Z [36;1mbusy() { gh api "repos/$REPO/actions/workflows/update.yml/runs?per_page=30" --jq \[0m
+2026-10-23T08:05:18.4613437Z [36;1m  '[.workflow_runs[] | select(.id != 39921768192 and .status != "completed" and .created_at > (now - 7200 | todate))] | length'; }[0m
+2026-10-23T08:05:18.4614687Z [36;1m# Wait, but give way at once to a push or scheduled run waiting behind this one: it carries the chain on.[0m
+2026-10-23T08:05:18.4615778Z [36;1mwhile :; do[0m
+2026-10-23T08:05:18.4616652Z [36;1m  if [ "$(busy)" -gt 0 ]; then echo "Another run is queued or running; it carries the chain on."; exit 0; fi[0m
+2026-10-23T08:05:18.4617557Z [36;1m  left=$(( deadline - $(date +%s) )); [ "$left" -le 0 ] && break[0m
+2026-10-23T08:05:18.4618315Z [36;1m  sleep $(( left < 20 ? left : 20 ))[0m
+2026-10-23T08:05:18.4618877Z [36;1mdone[0m
+2026-10-23T08:05:18.4619496Z [36;1mgh workflow run update.yml --repo "$REPO" --ref main[0m
+2026-10-23T08:05:18.4620146Z [36;1mecho "Started the next run."[0m
+2026-10-23T08:05:18.5796709Z shell: /usr/bin/bash -e {0}
+2026-10-23T08:05:18.5797669Z env:
+2026-10-23T08:05:18.5801367Z   REPO: 7N1K7/sports-feed
+2026-10-23T08:05:18.5801900Z   STARTED: 1792742521
+2026-10-23T08:05:18.5802379Z   EVERY: 300
+2026-10-23T08:05:18.5802835Z ##[endgroup]
+2026-10-23T08:06:58.0467198Z HTTP 502: We had issues producing the response to your request. Sorry about that. Please try resubmitting your request and contact us if the problem persists. (https://api.github.com/repos/7N1K7/sports-feed/actions/workflows/update.yml)
+2026-10-23T08:06:58.0487957Z ##[error]Process completed with exit code 1.
+2026-10-23T08:06:58.0628316Z Cleaning up orphan processes
