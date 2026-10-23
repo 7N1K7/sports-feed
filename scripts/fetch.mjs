@@ -1710,8 +1710,10 @@ const formG = e => { const t = [e.comp, e.home, e.away, e.title].join(' '); retu
 // the page's own nickname list (New Zealand rugby, men's: All Blacks), so a side's names make one form list
 let NICK = {};
 try { NICK = Function(`return ${(await readFile(new URL('index.html', ROOT), 'utf8')).match(/\nconst NICK = (\{[\s\S]*?\n\});/)[1]}`)(); } catch (e) { diag.formNames = 'nicknames not read: ' + e.message; }
+// NZ's men's domestic cricket sides by their team names ("Auckland Aces" is Auckland)
+const NZ_DOMESTIC = { 'Auckland Aces': 'Auckland', 'Canterbury Kings': 'Canterbury', 'Central Stags': 'Central Districts', 'Northern Brave': 'Northern Districts', 'Otago Volts': 'Otago', 'Wellington Firebirds': 'Wellington' };
 const formSide = k => {
-  const [sport, n, g = ''] = k.split('|'), base = n.replace(/\s+Women('s)?$/, ''), tbl = NICK[`${sport} ${g === 'w' ? 'w' : 'm'}`] || {};
+  const [sport, n, g = ''] = k.split('|'), b0 = n.replace(/\s+Women('s)?$/, ''), base = (sport === 'cricket' && g !== 'w' && NZ_DOMESTIC[b0]) || b0, tbl = NICK[`${sport} ${g === 'w' ? 'w' : 'm'}`] || {};
   return `${sport}|${tbl[base] ? base : Object.keys(tbl).find(c => tbl[c] === n || tbl[c] === base) || base}|${g}`;
 };
 const sameOpp = (a, b) => { const x = norm(a), y = norm(b); return a === b || (!!x && !!y && (x.includes(y) || y.includes(x))); };
