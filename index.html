@@ -242,6 +242,15 @@ html { -webkit-tap-highlight-color: transparent }
 .chips { display: flex; flex-wrap: wrap; gap: 6px }
 .chip { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 3px 11px; cursor: pointer; font-size: 14px }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+/* On a standard-resolution screen a 1px outline's rounded ends blur thinner than its straight edges, so the pill
+   buttons get a second pixel just inside the outline there (its own colour, so it follows hover and pressed states).
+   Nothing changes size. */
+@media (max-resolution: 1.2dppx), (-webkit-max-device-pixel-ratio: 1.2) {
+  :where(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .seg, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide, .dsel .dbtn) { position: relative }
+  :is(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .seg, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide, .dsel .dbtn)::after {
+    content: ""; position: absolute; inset: 0; border: 1px solid; border-color: inherit; border-radius: inherit; pointer-events: none }
+  .nowchip .livedot { z-index: 1 }
+}
 .panel .ph { font-size: 20px; font-weight: 800; margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line); color: var(--accent) } /* section titles in the chosen colour; their notes stay muted */
 /* calendar rows: the team on the left, the ways to add it on the right (under it on a phone) */
 .cals { display: grid; gap: 6px }
