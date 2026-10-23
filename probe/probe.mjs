@@ -1,9 +1,10 @@
-// probe 144: the new squad pages (NPC sides, rugby nations, India A, NZ women's cricket), read as the feed reads them
-import { teamSquads } from './sources.mjs';
+// probe 145: the live coverage detail file and the new squads in the live feed
 import { writeFile } from 'node:fs/promises';
-const keys = ['Auckland', 'Bay of Plenty', 'Canterbury', 'Counties Manukau', "Hawke's Bay", 'Manawatu', 'North Harbour', 'Northland', 'Otago', 'Southland', 'Taranaki', 'Tasman', 'Waikato', 'Wellington', 'Tasman Mako', 'Taranaki Bulls',
-  'Australia', 'Japan', 'Fiji', 'Samoa', 'Tonga', 'Georgia', 'United States', 'United States XV'].map(t => `rugby|m|${t}`)
-  .concat(['cricket|m|India A'], ['Auckland Hearts', 'Central Hinds', 'Canterbury Magicians', 'Otago Sparks', 'Wellington Blaze', 'Northern Districts', 'Northern Brave'].map(t => `cricket|w|${t}`));
-const diag = {}, out = await teamSquads(keys, diag);
-const lines = [diag.teamSquads, ...out.map(s => `${s.sport}|${s.g}|${s.team}: ${s.players.length} · ${s.players.slice(0, 4).map(p => p.n + (p.r ? ` (${p.r})` : '')).join(', ')}`)];
+const get = async u => (await fetch(u + '?t=' + Date.now())).json();
+const det = await get('https://kickoff.kiwi/data/coverage-detail.json'), f = await get('https://kickoff.kiwi/data/feed.json');
+const lines = [`detail v${det.v} at ${det.at}: ${det.games.length} games, ${det.sides.length} sides, ${JSON.stringify(det).length} bytes`, `feed v${f.site?.version} at ${f.generatedAt}`,
+  'teamSquads: ' + f.diag?.teamSquads];
+for (const [k, c] of Object.entries(f.coverage)) lines.push(`${k}: games ${c.games} time ${c.time} watch ${c.watch} squads ${c.squads}/${c.sqGames} pic ${c.pic}/${c.sides} links ${c.links} | detail squads ${det.games.filter(g => g.s === k && g.f & 8).length}/${det.games.filter(g => g.s === k && g.f & 4).length} time ${det.games.filter(g => g.s === k && g.f & 1).length}`);
+lines.push('squad gaps: ' + JSON.stringify(Object.fromEntries(Object.entries(f.coverage).map(([k, c]) => [k, c.gaps.squads]))));
+lines.push('sample games: ' + JSON.stringify(det.games.slice(0, 3)), 'sample sides: ' + JSON.stringify(det.sides.slice(0, 3)));
 await writeFile(new URL('./out.txt', import.meta.url), lines.join('\n') + '\n');
