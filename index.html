@@ -1098,6 +1098,8 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 .tlink { border: 0; background: none; padding: 0; font: inherit; font-weight: 700; color: inherit; cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; min-width: 7.5em; text-align: left }
 .tlink .nm { color: var(--tc, inherit) }
 .playoffs { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(200px, 1fr); gap: 12px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 8px; align-items: center }
+/* the hub may be no wider than the page (a grid item grows to fit a wide bracket otherwise): the bracket scrolls inside it */
+#hubSec { min-width: 0 }
 .pcol { display: grid; gap: 8px; align-content: center }
 .pcol .dh { margin: 0 0 2px }
 .pbox2 { display: grid; gap: 4px; text-align: left; font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 7px 10px; cursor: pointer }
@@ -1106,8 +1108,10 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { border-color: var(--line) }
 .pside.tbd { color: var(--muted); font-weight: 500 } .pside.tbd > span:first-child { min-height: 1.3em; display: flex; align-items: center }
 .pdiv { margin: 6px 0 10px; font-family: var(--f-display); font-size: 18px; font-weight: 700; color: var(--ink) }
-.pside { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; font-family: var(--f-display); font-size: 17px; font-weight: 600 }
-.pside .crest { width: 1.3em; height: 1.3em }
+/* a side: its logo (or the grey stand-in), its name, its score at the right */
+.pside { display: flex; align-items: center; gap: 8px; font-family: var(--f-display); font-size: 17px; font-weight: 600 }
+.pside .crest, .pside .logo { width: 1.3em; height: 1.3em; flex: none; margin: 0 }
+.pside .nm { flex: 1 1 auto; min-width: 0; text-align: left } .pside .psc { margin-left: auto }
 .pside.win .psc { color: #2b8a3e } :root[data-theme="dark"] .pside.win .psc { color: #69db7c } @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pside.win .psc { color: #69db7c } } .pside.lose { opacity: .6 }
 .pside .psc { font-weight: 700 }
 @media (max-width: 560px) { .playoffs { grid-auto-columns: minmax(170px, 80%) } }
@@ -1433,9 +1437,12 @@ const count = (msg = {}) => {
   if (!STATS_API || !/^(www\.)?kickoff\.kiwi$/.test(location.hostname)) return;
   try { if (localStorage.getItem('sf.nocount') === 'true') return; navigator.sendBeacon(STATS_API + '/hit', JSON.stringify({ app: matchMedia('(display-mode: standalone)').matches || navigator.standalone === true ? 1 : 0, ...msg })); } catch {}
 };
-// errors in this page's own code (not browser add-ons), so a breakage on someone's phone shows up: three a visit at most
+// errors in this page's own code (not browser add-ons), so a breakage on someone's phone shows up: three a visit at most,
+// each tagged with this page's version (filled in when the site is built), so the stats page can tell a fixed error from
+// one that's back
+const PAGE_V = '__SITE_V__';
 { const seen = new Set();
-  const report = msg => { msg = String(msg || '').slice(0, 160); if (msg && !seen.has(msg) && seen.size < 3) { seen.add(msg); count({ e: 'error', k: msg }); } };
+  const report = msg => { msg = String(msg || '').slice(0, 160); if (msg && !seen.has(msg) && seen.size < 3) { seen.add(msg); count({ e: 'error', k: msg + (/^\d+$/.test(PAGE_V) ? ` [v${PAGE_V}]` : '') }); } };
   // "Script error." at line 0 is a script from another site (a browser add-on, an app's built-in browser) that the browser
   // won't say anything about, so it isn't counted
   addEventListener('error', ev => { if ((!ev.filename || ev.filename.startsWith(location.origin)) && !(/^Script error\.?$/.test(ev.message) && !ev.lineno)) report(`${ev.message} (line ${ev.lineno})`); });
@@ -2209,6 +2216,42 @@ const BRACKETS = {
     RD('Semi-finals (two legs)', t => /semi/.test(t), ['1st v lower EF winner', '2nd v higher EF winner']),
     RD('Grand Final', t => /grand final/.test(t), ['Semi-final winners'])] }] },
 };
+// baseball's playoffs go by series, not games: each round a column, each series one box with both teams and the games
+// each has won (covered while results are hidden), its open slots "TBD". A slot's hint says who goes there; one starting
+// "AL" or "NL" takes that league's series
+const SR = (n, re, best, hints) => ({ n, re, best, hints });
+const SERIES_BRACKETS = {
+  'MLB playoffs': [SR('Wild Card Series', /wild card/i, 3, ['AL 3rd v 6th', 'AL 4th v 5th', 'NL 3rd v 6th', 'NL 4th v 5th']),
+    SR('Division Series', /\b(ALDS|NLDS)\b/, 5, ['AL 1st v 4th/5th', 'AL 2nd v 3rd/6th', 'NL 1st v 4th/5th', 'NL 2nd v 3rd/6th']),
+    SR('Championship Series', /\b(ALCS|NLCS)\b/, 7, ['AL pennant', 'NL pennant']),
+    SR('World Series', /world series/i, 7, ['League champions'])],
+  'Japan Series': [SR('Japan Series', /./, 7, ['Central v Pacific champions'])],
+};
+function seriesHtml(rounds, now) {
+  const evs = (FEED.events || []).filter(e => compOf(e) === compSel).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
+  const lg = x => (/^(AL|NL)\b|^(AL|NL)(DS|CS)\b/.exec(x) || [])[0]?.slice(0, 2) || '';
+  const all = rounds.map(r => {
+    const by = new Map();
+    for (const e of evs) { const st = e.stage || ''; if (!r.re.test(st)) continue; const k = `${st.replace(/,?\s*game \d+.*$/i, '')}|${[e.home, e.away].sort().join('|')}`; if (!by.has(k)) by.set(k, []); by.get(k).push(e); }
+    const left = [...by.values()];
+    return r.hints.map(h => { const i = left.findIndex(g => !lg(h) || lg(g[0].stage || '') === lg(h)); return [h, i < 0 ? null : left.splice(i, 1)[0]]; });
+  });
+  // a round before one that already has its teams was played even when we don't have its games
+  const body = rounds.map((r, i) => `<div class="pcol"><h3 class="dh">${esc(r.n)}</h3>${all[i].map(([h, g]) => g ? seriesBox(g, now, r.best)
+    : `<div class="pbox2 tbd"><span class="pdate">${esc(h)}${all.slice(i + 1).some(x => x.some(([, y]) => y)) ? ' · not listed' : ''}</span><div class="pside tbd"><span>${all.slice(i + 1).some(x => x.some(([, y]) => y)) ? '–' : 'TBD'}</span></div><div class="pside tbd"><span>${all.slice(i + 1).some(x => x.some(([, y]) => y)) ? '–' : 'TBD'}</span></div></div>`).join('')}</div>`).join('');
+  return `<div class="playoffs">${body}</div><p class="muted small">Each box is a series: the games each side has won${rounds.length > 1 ? `, first to ${rounds.map(r => Math.ceil(r.best / 2)).join(', ')} by round` : `, first to ${Math.ceil(rounds[0].best / 2)}`}. Tap one for its next game.</p>`;
+}
+function seriesBox(games, now, best) {
+  const need = Math.ceil(best / 2), first = games[0], wins = { [first.home]: 0, [first.away]: 0 };
+  const played = games.filter(e => isDone(e, now)), hid = played.some(e => isHidden(e, now));
+  if (!hid) for (const e of played) { const w = winnerOf(e); if (w === 'home' || w === 'away') wins[e[w]] = (wins[e[w]] || 0) + 1; }
+  const champ = Object.keys(wins).find(t => wins[t] >= need), next = games.find(e => !isDone(e, now) && !(champ && /if needed/.test(e.stage || '')));
+  const at = d => fmt(new Date(d.startUTC), NZ, { weekday: 'short', day: 'numeric', month: 'short' });
+  // the side with home advantage (game 1's home) on top
+  const side = (t, logo) => `<div class="pside ${champ ? (champ === t ? 'win' : 'lose') : ''}">${teamName(t, logo, first)}<span class="num psc">${hid ? '' : wins[t]}</span></div>`;
+  const line = hid ? (next ? `Game ${games.indexOf(next) + 1} ${at(next)} · result hidden` : 'result hidden') : champ ? `Won ${Math.max(...Object.values(wins))}–${Math.min(...Object.values(wins))}` : next ? `Game ${games.indexOf(next) + 1} ${at(next)}` : `Game ${games.length} ${at(games[games.length - 1])}`;
+  return `<button type="button" class="pbox2" data-goto="${esc((next || games[games.length - 1]).id)}"><span class="pdate">${esc(line)}</span>${side(first.home, first.homeLogo)}${side(first.away, first.awayLogo)}</button>`;
+}
 // a known format's games: every game of the competition that one of its rounds claims (the generic finals list misses
 // named games like the Big Bash "Qualifier")
 function bracketEvents(fmtB) {
@@ -2216,6 +2259,7 @@ function bracketEvents(fmtB) {
     .sort((a, b) => a.startUTC.localeCompare(b.startUTC));
 }
 function playoffsHtml(list, now) {
+  if (SERIES_BRACKETS[compSel]) return seriesHtml(SERIES_BRACKETS[compSel], now);
   const fmtB = BRACKETS[compSel];
   if (fmtB) return bracketHtml(fmtB, bracketEvents(fmtB), now);
   // a column per finals week, counted from the first finals game
@@ -2453,7 +2497,8 @@ function renderHub(now) {
   const shows = on ? hubShows((FEED.events || []).find(e => compOf(e) === compSel)?.sport) : [];
   const ranks = on ? hubRankings() : [];
   const squads = on ? hubSquads(now) : [], played = on && (FEED.events || []).some(e => compOf(e) === compSel && visible(e) && isDone(e, now));
-  const tabs = on ? [['games', capW(evWords((FEED.events || []).find(e => compOf(e) === compSel)?.sport))], ...(played ? [['results', 'Results']] : []), ...(squads.length ? [['squads', 'Squads']] : []), ...(hubTables().length ? [['table', 'Table']] : []), ...(ranks.length ? [['rank', 'Rankings']] : []), ...(BRACKETS[compSel] || hubFinals().length ? [['playoffs', 'Playoffs']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
+  // games first, then how it stands (results, table, playoffs), then the rest
+  const tabs = on ? [['games', capW(evWords((FEED.events || []).find(e => compOf(e) === compSel)?.sport))], ...(played ? [['results', 'Results']] : []), ...(hubTables().length ? [['table', 'Table']] : []), ...(BRACKETS[compSel] || SERIES_BRACKETS[compSel] || hubFinals().length ? [['playoffs', 'Playoffs']] : []), ...(squads.length ? [['squads', 'Squads']] : []), ...(ranks.length ? [['rank', 'Rankings']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
   if (!tabs.some(([k]) => k === hubTab)) hubTab = 'games';
   const other = on && hubTab !== 'games';
   // the Results tab is the Results section on its own (this competition's, paged, spoilers as everywhere)

@@ -195,7 +195,7 @@ th { color: var(--muted); font-weight: 600 }
       <section class="card"><h2>Spoilers</h2><div class="bars" id="spoil"></div><p class="note">Visitors, by whether they keep results hidden (counted once a day each).</p></section>
       <section class="card"><h2>Card size</h2><div class="bars" id="view"></div><p class="note">Visitors, by the card size they use.</p></section>
       <section class="card"><h2>Theme colour</h2><div class="bars" id="theme"></div><p class="note">Visitors, by the colour theme they picked.</p></section>
-      <section class="card"><h2>Errors on visitors' devices</h2><div class="bars" id="error"></div><p class="note">Problems in the site's own code; each is worth a look.</p></section>
+      <section class="card"><h2>Errors on visitors' devices</h2><div class="bars" id="error"></div><p class="note">Problems in the site's own code; each is worth a look. <b>✓ Fixed</b> marks one already dealt with (counts from before the fix stay in the range); <b>⚠ Back</b> means a page with the fix sent it again. From v404 each error ends with the version of the page that sent it, [v404].</p></section>
       <section class="card"><h2>Features used</h2><div class="bars" id="event"></div><p class="note">Taps on each feature, all visitors together. Calendars and alert topics count taps on their links and copy buttons; from an alert counts games opened by tapping a phone alert.</p></section>
     </div>
 
@@ -229,9 +229,16 @@ const COUNTRY = new Intl.DisplayNames(['en'], { type: 'region' });
 const EVENT_LABEL = { cal: 'Calendars', alerts: 'Alert topics', install: 'App installs (Android and computers)', appfirst: 'App opened for the first time (every phone, iPhone too)', reveal: 'Results uncovered (Show result)', rankings: 'Rankings', 'alert-open': 'From an alert', team: 'Team pages', game: 'Games opened' };
 const MODE_LABEL = { app: 'App', browser: 'Browser' };
 const DEVICE_LABEL = { phone: 'Phone', tablet: 'Tablet', computer: 'Computer' };
-const SPORT_LABEL = { cricket: 'Cricket', rugby: 'Rugby', league: 'League', football: 'Football', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', motor: 'F1', tennis: 'Tennis', mma: 'MMA', boxing: 'Boxing' };
+const SPORT_LABEL = { cricket: 'Cricket', rugby: 'Rugby', league: 'League', football: 'Football', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', motor: 'Motorsport', tennis: 'Tennis', mma: 'MMA', boxing: 'Boxing', sailing: 'Sailing', golf: 'Golf', baseball: 'Baseball' };
 const REPEAT_ORDER = ['1', '2-3', '4-9', '10+'], REPEAT_LABEL = { 1: 'Once', '2-3': '2–3 times', '4-9': '4–9 times', '10+': '10 or more' };
 const SPEED_ORDER = ['under 1s', '1-2s', '2-4s', '4-8s', '8s or more'];
+// errors already fixed: what the error says, the day of the fix, its version and what it was. One seen on a later day
+// shows as back
+const FIXED = [
+  [/is not a valid selector/, '2026-10-20', 'v361', "older browsers that can't read :has()"],
+  [/\.at is not a function/, '2026-10-23', 'v403', 'older browsers without Array.at'],
+  [/^Script error/, '2026-10-23', 'v403', "another site's script (a browser add-on or an app's built-in browser) that the browser won't name; no longer counted"],
+];
 const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 let days = store.get('statsDays', 30), data = null, pw = store.get('statspw', '');
@@ -277,8 +284,9 @@ async function drawCoverage() {
   if (f.generatedAt) $('covAt').textContent = 'Worked out ' + new Date(f.generatedAt).toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }) + ' NZ time (every feed update)';
   if (!cov) { $('cov').innerHTML = '<p class="note">Not in the feed yet: it comes with the next feed update.</p>'; return; }
   const cell = (n, d) => { if (!d) return '<td class="c na">–</td>'; const p = Math.round(100 * n / d); return `<td class="c ${p >= 90 ? 'ok' : p >= 60 ? 'mid' : 'low'}" title="${n} of ${d}">${p}%<small>${n}/${d}</small></td>`; };
-  const rows = Object.entries(cov).sort((a, b) => b[1].games - a[1].games), sum = k => rows.reduce((a, [, c]) => a + c[k], 0);
+  // sports A to Z, so one is easy to find
   const name = k => SPORT_LABEL[k] || k[0].toUpperCase() + k.slice(1);
+  const rows = Object.entries(cov).sort((a, b) => name(a[0]).localeCompare(name(b[0]))), sum = k => rows.reduce((a, [, c]) => a + c[k], 0);
   const line = (l, c) => `<tr${l === 'All sports' ? ' class="tot"' : ''}><td>${esc(l)}</td><td>${c.games}</td>${cell(c.time, c.games)}${cell(c.watch, c.games)}<td class="c">${c.guide || 0}</td><td class="c">${c.streams || 0}</td>${cell(c.squads, c.sqGames)}${cell(c.pic, c.sides)}${cell(c.links, c.sidesL ?? c.sides)}</tr>`;
   const all = { guide: rows.reduce((a, [, c]) => a + (c.guide || 0), 0), streams: rows.reduce((a, [, c]) => a + (c.streams || 0), 0), games: sum('games'), time: sum('time'), watch: sum('watch'), squads: sum('squads'), sqGames: sum('sqGames'), pic: sum('pic'), sides: sum('sides'), links: sum('links'),
     sidesL: rows.filter(([k]) => !['mma', 'boxing'].includes(k)).reduce((a, [, c]) => a + c.sides, 0) };
@@ -344,7 +352,15 @@ function draw() {
   bars('view', sums.view, k => ({ big: 'Large', mixed: 'Standard', compact: 'Compact' })[k] || k);
   bars('theme', sums.theme, k => ({ green: 'Kiwi green', ocean: 'Ocean blue', red: 'Pōhutukawa red', black: 'All Black', kowhai: 'Kōwhai gold', paua: 'Pāua teal', purple: 'Twilight purple', orange: 'Sunset orange', lime: 'Kawakawa lime', pink: 'Rātā pink', kauri: 'Kauri brown', silver: 'Silver fern', tui: 'Tūī indigo', navy: 'Moana navy', olive: 'Harakeke olive' })[k] || k);
   bars('speed', sums.speed, k => k, SPEED_ORDER);
-  bars('error', sums.error, k => k);
+  // each error matched against the fixed list: back when the page that sent it ([vN], sent from v404 on) is the fixed
+  // version or later, or, untagged, when it was seen more than a day after the fix (a phone can run a saved older page
+  // for a while)
+  const lastSeen = {};
+  for (const r of data.rows) if (r.metric === 'error' && !(lastSeen[r.key] >= r.day)) lastSeen[r.key] = r.day;
+  bars('error', sums.error, k => { const f = FIXED.find(([re]) => re.test(k)); if (!f) return k;
+    const [, day, v, what] = f, sent = +(k.match(/\[v(\d+)\]$/) || [])[1];
+    const back = sent ? sent >= +v.slice(1) : lastSeen[k] > new Date(Date.parse(day + 'T12:00:00Z') + 864e5).toISOString().slice(0, 10);
+    return `${back ? `⚠ Back after the ${v} fix (seen ${dayLabel(lastSeen[k], { day: 'numeric', month: 'short' })})` : `✓ Fixed in ${v} (${dayLabel(day, { day: 'numeric', month: 'short' })})`}: ${k} · ${what}`; });
   // weekdays: each one's average visitors over the days of that weekday in the range
   const wd = {}, wn = {};
   for (const d of list) { const k = dayLabel(d, { weekday: 'long' }); wd[k] = (wd[k] || 0) + per[d].visitors; wn[k] = (wn[k] || 0) + 1; }

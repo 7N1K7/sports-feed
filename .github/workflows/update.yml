@@ -41,6 +41,8 @@ jobs:
           path: .cache
           key: og-${{ github.run_id }}
           restore-keys: og-
+      # the page's own version, which its error reports carry (so the stats page can tell a fixed error from one that's back)
+      - run: sed -i "s/__SITE_V__/$(git rev-list --count HEAD)/" index.html
       - id: fetch
         run: node scripts/fetch.mjs
         env:

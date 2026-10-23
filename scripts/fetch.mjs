@@ -1640,7 +1640,8 @@ try {
 } catch (e) { diag.motorRankings = 'error: ' + e.message; }
 
 // a season's finals stay up through the off-season (about five months), so a finished competition still shows how it ended
-const isFinal = e => /\bfinals?\b|semi.?final|grand final|qualifying final|elimination final|preliminary final/i.test(`${e.comp || ''} ${e.stage || ''} ${e.round || ''}`);
+// finals (and baseball's playoff series) stay in the feed all season, for the Playoffs tab
+const isFinal = e => /\bfinals?\b|semi.?final|grand final|qualifying final|elimination final|preliminary final/i.test(`${e.comp || ''} ${e.stage || ''} ${e.round || ''}`) || /^(MLB playoffs|Japan Series)$/.test(e.comp || '');
 try { await writeCalendars(events); } catch (e) { diag.calendars = 'error: ' + e.message; }
 try { await phoneAlerts(events); } catch (e) { diag.alerts = 'error: ' + e.message; }
 // Coverage, for the stats page: of the games in the next three weeks, how many have a set start time, a way to watch
