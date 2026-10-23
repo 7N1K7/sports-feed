@@ -1,7 +1,141 @@
-leagues: [["4434","Australian NBL","2026-2027"],["5113","Australian WNBL","2026-2027"],["5667","NBL1 Central","2026"],["5669","NBL1 East","2026"],["5670","NBL1 North","2026"]]
-next: 2026-10-24 06:30:00 2026-10-24T06:30:00 Illawarra Hawks v Brisbane Bullets R6 @WIN Entertainment Centre
-season 2026-2027: 15 2026-09-19 09:30:00 Melbourne United v Adelaide 36ers R1; 2026-09-19 11:30:00 Perth Wildcats v South East Melbourne Phoenix R1; 2026-09-20 05:00:00 New Zealand Breakers v Illawarra Hawks R1
-season 2026: 0 
-round 6: 7 2026-10-21 08:30:00 Tasmania JackJumpers v Brisbane Bullets @MyState Bank Arena; 2026-10-22 08:30:00 Illawarra Hawks v Sydney Kings @WIN Entertainment Centre; 2026-10-23 10:30:00 Perth Wildcats v Melbourne United @RAC Arena; 2026-10-24 06:30:00 Illawarra Hawks v Brisbane Bullets @WIN Entertainment Centre; 2026-10-24 08:30:00 South East Melbourne Phoenix v Adelaide 36ers @Melbourne Arena
-round 7: 9 2026-10-28 10:30:00 Perth Wildcats v Sydney Kings @RAC Arena; 2026-10-29 09:00:00 Brisbane Bullets v Cairns Taipans @Brisbane Entertainment Centre; 2026-10-30 06:30:00 New Zealand Breakers v Adelaide 36ers @Spark Arena; 2026-10-30 08:30:00 Tasmania JackJumpers v Sydney Kings @MyState Bank Arena; 2026-10-31 08:30:00 Cairns Taipans v Melbourne United @Cairns Convention Centre
-round 12: 7 2026-12-09 07:30:00 Cairns Taipans v Adelaide 36ers @Cairns Convention Centre; 2026-12-10 08:30:00 Illawarra Hawks v Tasmania JackJumpers @WIN Entertainment Centre; 2026-12-11 06:30:00 New Zealand Breakers v Sydney Kings @Spark Arena; 2026-12-12 06:30:00 Cairns Taipans v Brisbane Bullets @Cairns Convention Centre; 2026-12-12 08:30:00 Melbourne United v Tasmania JackJumpers @Melbourne Arena
+NBA arenas page len 85300 current at 1155
+==Current arenas==
+{{clear}}
+{{sticky header}}
+{|class="wikitable sortable plainrowheaders sticky-header"
+|-
+!scope="col" class=unsortable|Image
+!scope="col"|Arena
+!scope="col"|Location
+!scope="col"|Team
+!scope="col"|Capacity
+!scope="col"|Opened
+!scope="col"|Season of first NBA game
+!scope="col"|Ref
+|-
+| [[File:American Airlines Center August 2015.jpg|border|120px]]
+| '''[[American Airlines Center]]'''
+| [[Dallas, Texas]]
+| [[Dallas Mavericks]]
+| align=center | 19,200
+| align=center | 2001
+| align=center | 2001–02
+| align="center"|<ref name=":0">{{Cite web |title=All 30 NBA arenas by team |url=https://www.nba.com/news/all-30-nba-arenas-by-team |access-date=October 25, 2025 |website=NBA.com |date=August 28, 2024}}</ref>
+|-
+| [[File:Ball Arena exterior 2022.jpg|border|120px]]
+| '''[[Ball Arena]]'''
+| [[Denver, Colorado]]
+| [[Denver Nuggets]]
+| align=center | 19,520
+| align=center | 1999
+| align=center | 1999–2000
+| align="center"|<ref name=":0" />
+|-
+| [[File:Barclays Center - 2026 (55268559424).jpg|border|120px]]
+| '''[[Barclays Center]]'''
+| [[Brooklyn, New York]]
+| [[Brooklyn Nets]]
+| align=center | 17,732
+| align=center | 2012
+| align=center | 2012–13
+| align="center"|<ref name=":0" />
+|-
+| [[File:Capital One Arena - Washington, D.C.jpg|border|120px]]
+| '''[[Capital One Arena]]'''
+| [[Washington, D.C.]]
+| [[Washington Wizards]]
+| align=center | 20,333
+| align=center | 1997
+| align=center | 1997–98
+| align="center"|<ref name=":0" />
+|-
+| [[File:Chase Center.jpg|border|120px]]
+| '''[[Chase Center]]'''
+| [[San Francisco, California]]
+| [[Golden State Warriors]]
+| align=center | 18,064
+| align=center | 2019
+| align=center | 2019–20
+| align="center"|<ref name=":0" />
+|-
+| [[File:Crypto.com Arena exterior 2023.jpg|border|120px]]
+| '''[[Crypto.com Arena]]'''
+| [[Los Angeles, California]]
+| [[Los Angeles Lakers]]
+| align=center | 18,997
+| align=center | 1999
+| align=center | 1999–2000
+| align="center" |<ref name=":0" />
+|-
+| [[File:Delta Center 2023.jpg|border|120px]]
+| '''[[Delta Center]]'''
+| [[Salt Lake City, Utah]]
+| [[Utah Jazz]]
+| align=center | 18,306
+| align=center | 1991
+| align=center | 1991–92
+| align="center"|<ref name=":0" />
+|-
+| [[File:FedExForum at night.jpg|border|120px]]
+| '''[[FedExForum]]'''
+| [[Memphis, Tennessee]]
+| [[Memphis Grizzlies]]
+| align=center | 17,794
+| align=center | 2004
+| align=center | 2004–05
+| align="center"|<ref name=":0" />
+|-
+| [[File:Milwaukee July 2022 022 (Fiserv Forum).jpg|border|120px]]
+| '''[[Fiserv Forum]]'''
+| [[M
+== 2026 PGA Tour
+==Schedule==
+The following table lists official events during the 2026 season.<ref>{{cite web |url=https://www.pgatour.com/schedule/2026 |title=2026 Tournament schedule |publisher=PGA Tour |access-date=20 August 2024}}</ref><ref name=annouce2026>{{cite web |title=2026 PGA Tour schedule celebrates 20th year of FedExCup  |url=https://www.pgatour.com/article/news/latest/2025/08/19/2026-pga-tour-schedule-events-tournaments-players-championship-20th-year-fedexcup-championship-dates-venues-signature-majors |publisher=PGA Tour |date=August 19, 2024 |access-date=August 20, 2024}}</ref>
+
+{| class="wikitable" style="font-size:95%" 
+!Date
+!Tournament
+!Location
+!Purse<br>([[United States dollar|US$]])
+!Winner(s){{efn|The number in parentheses after each winner's name is the number of PGA Tour events they had won up to and including that tournament. This information is only shown for PGA Tour members.}}
+![[Official World Golf Ranking|OWGR]]<br>points
+!Other<br>tours{{efn|EUR − [[European Tour]]; JPN − [[Japan Golf Tour]].}}
+!Notes
+|-style="background:#D6E8FF;"
+|<s>Jan 11</s>
+|[[The Sentry (Hawaii)|The Sentry]]
+|Hawaii
+|align=center|–
+|''Canceled''{{efn|In September 2025, the PGA Tour announced that The Sentry would not take place at its usual venue, the [[Kapalua Resort]] in [[Hawaii]], due to a drought and a water dispute with the [[Maui Land & Pineapple Company]] that left the golf course in poor condition.<ref>{{cite web |url=https://www.pgatour.com/article/news/latest/2025/09/16/pga-tour-announces-the-sentry-will-not-be-contested-at-kapalua-in-2026 |title=PGA Tour announces The Sentry will not be contested at Kapalua in 2026 |publisher=PGA Tour |date=16 September 2025 |access-date=17 September 2025}}</ref> In October 2025, the PGA Tour announced that the event would be canceled,
+== 2026–27 PGA Tour of Australasia
+==Schedule==
+The following table lists official events during the 2026–27 season.<ref>{{cite web |url=https://golf.com.au/pga-tour-aus |title=2026/27 Tournament schedule |publisher=PGA Tour of Australasia |access-date=24 July 2026}}</ref><ref>{{cite web |url=https://golf.com.au/news/challenger-pga-tour-of-australasia-unveils-schedule |title=Challenger PGA Tour of Australasia unveils schedule |website=golf.com.au |first=Paul |last=Munnings |date=3 August 2026 |access-date=13 August 2026}}</ref>
+
+{| class="wikitable" style="font-size:95%"
+!Date
+!Tournament
+!Location
+!Purse<br>([[Australian dollar|A$]])
+!Winner{{efn|name=totals|The number in brackets after each winner's name is the number of PGA Tour of Australasia events they had won up to and including that tournament. This information is only shown for PGA Tour of Australasia members.}}
+![[Official World Golf Ranking|OWGR]]<br>points
+!Other<br>tours{{efn|name=tours|ASA − [[Asian Tour]]; EUR − [[European Tour]]; JPN − [[Japan Golf Tour]]; WANZ − [[WPGA Tour of Australasia]].}}
+!Notes
+|-
+| 30 Aug || [[PNG Open]] || Papua New Guinea || align=right|225,000 || {{flagicon|AUS}} [[Josh Armstrong]] (1) || align=center|1.82 ||  || 
+|-
+| 11 Oct || [[CKB WA PGA Championship]] || Western Australia || align=right|250,000 || {{flagicon|AUS}} [[Justin Warren (golfer)|Justin Warren]] (1) || align=center|3.04 ||  || 
+|-
+| 18 Oct || [[WA Open]] || Western Australia || align=right|200,000 || {{flagicon|AUS}} [[James Marchesani]] (1) || align=center|3.09 ||  || 
+|-
+| 25 Oct || [[Players Series SA]] || South Australia || align=right|200,000 || {{flagicon|}}  || align=center| || [[2026 WPGA Tour of Australasia|WANZ]] || Mixed event
+|-
+| 15 Nov || [[Ford NSW Open]] || New South Wales || align=right|800,000 || {{flagicon|}}  || align=center| |
+-- Australian Open (golf): | location         = [[Heatherton, Victoria|Heatherton]], [[Victoria (Australia)|Victoria]], Australia ; | course           = [[Kingston Heath]]
+-- New Zealand Open: | location         = [[Arrowtown, New Zealand]] ; | course           = [[Millbrook Resort]]
+-- Australian PGA Championship: | location         = [[Sydney, New South Wales]], Australia ; | course           = [[The Lakes Golf Club]]
+-- RSM Classic: | location         = [[Saint Simons Island, Georgia]] ; | course           = Sea Island Golf Club<br>(Seaside Course)<br>(Plantation Course)
+-- Mexican Open: 
+-- Queensland PGA Championship: | location         = [[Nudgee, Queensland]], Australia ; | course           = Nudgee Golf Club<br>(Kurrai Course)
+-- Bermuda Championship: | location         = [[Southampton Parish, Bermuda]] ; | course           = [[Port Royal Golf Course]]
+-- The Players Series: | location         = Australia ; | course           = 
+tsdb AU cricket: [["4461","Australian Big Bash League","2026-2027"],["5530","Sheffield Shield","2024-2025"]]
