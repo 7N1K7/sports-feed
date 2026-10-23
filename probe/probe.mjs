@@ -1,13 +1,10 @@
-// probe 110: which golf and sailing leaderboard pages exist (status and final URL), and the live feed's golf rounds
-const urls = ['https://www.pgatour.com/leaderboard', 'https://www.lpga.com/leaderboard', 'https://www.lpga.com/tournaments',
-  'https://pga.org.au/leaderboard/', 'https://www.pga.org.au/leaderboard', 'https://pga.org.au/tournaments/', 'https://pga.org.au/',
-  'https://sailgp.com/races/', 'https://sailgp.com/', 'https://www.dpworldtour.com/leaderboard'];
-for (const u of urls) {
-  try {
-    const r = await fetch(u, { redirect: 'follow', headers: { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/130 Safari/537.36' } });
-    const t = await r.text();
-    console.log(r.status, u, '->', r.url, '|', (t.match(/<title[^>]*>([^<]*)/i) || [])[1]?.trim().slice(0, 90));
-  } catch (e) { console.log('ERR', u, e.message); }
-}
+// probe 111: v388 on the live site: golf round counts and the page's new stage code
 const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
-console.log('version', f.site?.version, 'golf now:', f.events.filter(e => e.sport === 'golf' && Math.abs(Date.parse(e.startUTC) - Date.now()) < 5 * 864e5).map(e => `${e.home} ${e.openUTC} -> ${e.startUTC} ${e.status}`));
+console.log('version', f.site?.version, '| golf', JSON.stringify(f.diag.golf));
+const g = f.events.filter(e => e.sport === 'golf');
+const span = e => Math.round((Date.parse(e.startUTC) - Date.parse(e.openUTC)) / 864e5) + 1;
+console.log('rounds:', JSON.stringify(Object.entries(g.reduce((m, e) => (m[span(e)] = (m[span(e)] || 0) + 1, m), {}))));
+console.log('3-round:', g.filter(e => span(e) === 3).map(e => e.home).slice(0, 12).join('; '));
+console.log('now:', g.filter(e => Math.abs(Date.parse(e.startUTC) - Date.now()) < 4 * 864e5).map(e => `${e.home} ${span(e)}`).join('; '));
+const h = await (await fetch('https://kickoff.kiwi/?' + Date.now())).text();
+console.log('page has stageNow:', h.includes('function stageNow'), '| LIVE_TEAM:', h.includes('LIVE_TEAM'), '| theme box 11em:', h.includes('.panel .spoil-row .dbtn { width: 11em }'));
