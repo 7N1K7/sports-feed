@@ -3013,8 +3013,8 @@ function renderNowBar(now) {
   }
   // a tour between legs (T20Is done, Tests weeks away) isn't running; one with its next game within 10 days of the last is
   const on = [...by].filter(([c, v]) => (v.started || WINDOWED.test(c)) && v.next < 21 * 864e5 && (v.next < 18 * 36e5 || v.lastPlayed === undefined || v.next < 10 * 864e5 || WINDOWED.test(c)))
-    .sort((a, b) => b[1].nz - a[1].nz || a[1].next - b[1].next).slice(0, 6)
-    // the six shown sit in the sport buttons' order (A to Z by sport), New Zealand's first within a sport
+    .sort((a, b) => b[1].nz - a[1].nz || a[1].next - b[1].next).slice(0, 9)
+    // the nine at most shown (one row on a wide screen, a swipeable row on phones) sit in the sport buttons' order (A to Z by sport), New Zealand's first within a sport
     .sort((a, b) => sportRank(a[1].sport) - sportRank(b[1].sport) || b[1].nz - a[1].nz || a[1].next - b[1].next);
   onNowComps = new Set(on.map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
