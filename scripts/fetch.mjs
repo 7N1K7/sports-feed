@@ -880,6 +880,7 @@ const LOGO_CODES = {
 const LOGO_ALIAS = { 'cricket|Northern Districts': ['Northern Brave', 'Northern Knights'], 'cricket|Canterbury': ['Canterbury Kings', 'Canterbury Wizards'], 'cricket|Central Districts': ['Central Stags'],
   'cricket|Auckland': ['Auckland Aces'], 'cricket|Wellington': ['Wellington Firebirds'], 'cricket|Otago': ['Otago Volts'],
   'basketball|S.E. Melbourne Phoenix': ['South East Melbourne Phoenix'], 'basketball|SE Melbourne Phoenix': ['South East Melbourne Phoenix'],
+  'basketball|LA Clippers': ['Los Angeles Clippers'],
   'rugby|Drua': ['Fijian Drua'], 'rugby|Force': ['Western Force'] };
 const LOGO_V = 4; // bump to re-ask names whose earlier miss is still cached
 // crests under a free licence on Wikimedia Commons, for sides TheSportsDB has no badge for; credited on the crest and in the footer

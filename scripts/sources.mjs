@@ -243,12 +243,18 @@ function eventsFromPage(title, text, cfg, cityTz) {
   // a tri-series of the smaller cricket nations (UAE, Netherlands, Oman; Afghanistan, Zimbabwe, Bangladesh) is listed
   // under All competitions but kept off the main feed and the running series: it's minor unless New Zealand or
   // Australia play in it, or two of the big cricket nations do
+  // the NBL's ten clubs: a one-off slip in a match box ("Bullets Bullets", "S.E Melbourne Phoenix") back to the club's name
+  if (cfg.classify === 'nbl') for (const e of out) for (const s of ['home', 'away']) {
+    const n = e[s] || '', club = NBL_CLUBS.find(c => c === n) || NBL_CLUBS.find(c => n.includes(c.split(' ').pop()));
+    if (club && club !== n) e[s] = club;
+  }
   if (cfg.classify === 'tricricket') {
     const sides = [...new Set(out.flatMap(e => [e.home, e.away]))];
     if (!sides.some(n => /^(New Zealand|Australia)\b/.test(n)) && sides.filter(n => BIG_CRICKET.test(n)).length < 2) for (const e of out) e.minor = true;
   }
   return out;
 }
+const NBL_CLUBS = ['New Zealand Breakers', 'Adelaide 36ers', 'Brisbane Bullets', 'Cairns Taipans', 'Illawarra Hawks', 'Melbourne United', 'Perth Wildcats', 'Sydney Kings', 'Tasmania JackJumpers', 'S.E. Melbourne Phoenix'];
 const BIG_CRICKET = /^(New Zealand|Australia|England|India|Pakistan|Sri Lanka|South Africa|West Indies)$/;
 
 // Simple wikitable reader with rowspan support: rows of cell strings
