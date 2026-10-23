@@ -1674,7 +1674,7 @@ await addImages(news);
 {
   const url = new URL('.cache/golf-courses.json', ROOT);
   let cache = {}; try { cache = JSON.parse(await readFile(url, 'utf8')); } catch {}
-  for (const [k, c] of Object.entries(cache)) if (now - c.t > 30 * DAY) delete cache[k];
+  for (const [k, c] of Object.entries(cache)) if (now - c.t > 30 * DAY || /[|=]/.test(c.venue || '')) delete cache[k];
   const golf = events.filter(e => e.sport === 'golf' && e.wikiPage && !e.venue && Date.parse(e.startUTC) > now - DAY && Date.parse(e.startUTC) < now + 60 * DAY);
   const due = golf.filter(e => !cache[e.id] || now - cache[e.id].t > (cache[e.id].venue ? 7 : 1) * DAY).slice(0, 10);
   let note = '';
@@ -1687,7 +1687,7 @@ await addImages(news);
     const text = {};
     for (const p of r.query?.pages || []) if (!p.missing) text[back[back[p.title]] || back[p.title] || p.title] = p.revisions?.[0]?.slots?.main?.content || '';
     // "[[Kingston Heath]]", "Sea Island Golf Club<br>(Seaside Course)<br>(Plantation Course)": the club's name
-    const course = t => { const m = String(t || '').match(/\n\s*\|\s*(?:course|venue)\s*=\s*([^\n]*)/i); if (!m) return '';
+    const course = t => { const m = String(t || '').match(/\n\s*\|\s*(?:course|venue)[ \t]*=[ \t]*([^\n]*)/i); if (!m) return '';
       return m[1].split(/<br\s*\/?>|\{\{|<ref/i)[0].replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1').replace(/'{2,}|<[^>]+>/g, '').replace(/\s+/g, ' ').trim(); };
     for (const e of due) cache[e.id] = { t: now, venue: course(text[ed(e)]) || course(text[e.wikiPage]) };
   } catch (err) { note = ` (${err.message})`; }
