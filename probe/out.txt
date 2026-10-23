@@ -1,118 +1,12 @@
-
-== Women's World Golf Rankings: 14 tables
-  [Current top ten] notes: As of 19 October 2026
-    heads: [["Rank","Change","Player","Country","Points"]] | rows 10: [["1","","Nelly Korda","United States","12.68"],["2","","Jeeno Thitikul","Thailand","11.08"],["3","","Ryu Hae-ran","South Korea","8.49"]]
-  [World number ones] notes: 
-    heads: [] | rows 2: [["^","Record"],["*","Current No. 1 player as of 19 October 2026"]]
-  [World number ones] notes: 
-    heads: [["No.","Player","Country","Start date","End date","Weeks","Total weeks"]] | rows 49: [["1","Annika Sörenstam","Sweden","21 February 2006","22 April 2007","60","60"],["2","Lorena Ochoa","Mexico","23 April 2007","2 May 2010","158^","158"],["3","Jiyai Shin","South Korea","3 May 2010","20 June 2010","7","7"]]
-  [Total weeks at No. 1] notes: 
-    heads: [] | rows 1: [["*","Current No. 1 player as of 19 October 2026"]]
-  [Total weeks at No. 1] notes: 
-    heads: [["Rank","Player","Country","Weeks","Order","Majors"]] | rows 18: [["1","Ko Jin-young","South Korea","163","14","2"],["2","Lorena Ochoa","Mexico","158","2","2"],["3","Nelly Korda*","United States","134","15","4"]]
-  [Year end No. 1] notes: 
-    heads: [] | rows 1: [["*","No. 1 player all year"]]
-  [Year end No. 1] notes: 
-    heads: [["Year","Player","Country"]] | rows 20: [["2006","Annika Sörenstam","Sweden"],["2007","Lorena Ochoa","Mexico"],["2008","Lorena Ochoa* (2)","Mexico"]]
-  [Weeks at No. 1 by country] notes: 
-    heads: [] | rows 1: [["*","Country with the current number one player as of 19 October 2026"]]
-  [Weeks at No. 1 by country] notes: 
-    heads: [["Rank","Country","No. of players","No. of weeks","Players"]] | rows 9: [["1","South Korea","5","333","Jiyai Shin, Inbee Park, Ryu So-yeon, Park Sung-hyun, Ko Jin-young"],["2","United States*","4","192","Cristie Kerr, Stacy Lewis, Nelly Korda, Lilia Vu"],["3","Mexico","1","158","Lorena Ochoa"]]
-  [Players who have reached No. 1 without having won a major title] notes: 
-    heads: [["Players","Date of first No. 1 position","Eventual first major title"]] | rows 4: [["Lorena Ochoa","23 April 2007","2007 Women's British Open"],["Ai Miyazato","21 June 2010","none"],["Lydia Ko","2 February 2015","2015 Evian Championship"]]
-  [Year-end world top 10 players] notes: ★ indicates player's highest year-end ranking
-    heads: [["Year","No. 1","No. 2","No. 3","No. 4","No. 5","No. 6","No. 7","No. 8","No. 9","No. 10"]] | rows 20: [["2006","A. Sörenstam","L. Ochoa","K. Webb","C. Kerr","J. Inkster","A. Miyazato","J. Jang","P. Creamer","S. Oyama","P. Hurst"],["2007","L. Ochoa","K. Webb","S. Pettersen","A. Sörenstam","P. Creamer","C. Kerr","J. Shin","J. Inkster","M.H. Kim","S.R. Pak"],["2008","L. Ochoa","Y. Tseng","A. Sörenstam","P. Creamer","S. Pettersen","J. Shin","C. Kerr","H. Alfredsson","A. Stanford","K. Webb"]]
-  [Historical rankings] notes: ted Kingdom (England 3; Scotland 2) 4: Taiwan 2: France 1: Canada, Chile, Colombia, Denmark, Italy, Mexico, Norway, Philippines Initial top ten 21 February 2006
-    heads: [["Rank","Player","Country","Points"]] | rows 10: [["1","Annika Sörenstam","Sweden","18.47"],["2","Paula Creamer","United States","9.65"],["3","Michelle Wie","United States","9.24"]]
-
-== List of male golfers who have been in the world top 10: 28 tables
-  [Current top 10] notes: The table shows the top 10 ranked golfers and their average ranking points as of 18 October 2026, which is the end of week 42.
-    heads: [["Rank","Change","Player","Points","Top 10 since","Weeks"]] | rows 10: [["1","","Scottie Scheffler","16.68","13 Feb 2022","245"],["2","","Rory McIlroy","8.30","17 Oct 2021","262"],["3","","Matt Fitzpatrick","7.10","22 Mar 2026","31"]]
-  [Most weeks in the top 10] notes: r 683 weeks, number 2 for 107 weeks and number 3 for 27 weeks. Phil Mickelson was never number 1 but was number 2 for 270 weeks. The current top-10 are in bold.
-    heads: [["Player","Weeks","First","Last","Best","FirstB","Refs"]] | rows 129: [["Tiger Woods","906","13 Apr 1997","23 Feb 2020","1","15 Jun 1997",""],["Rory McIlroy","828","22 Nov 2009","18 Oct 2026","1","4 Mar 2012",""],["Ernie Els","788","19 Jun 1994","16 Jan 2011","1","22 Jun 1997",""]]
-  [Youngest and oldest players] notes: The tables below list the five youngest players to enter the top 10 and the oldest five to still be there.
-    heads: [["Player","First","Age"]] | rows 5: [["Sergio García","16 Jan 2000","20 years, 7 days"],["Rory McIlroy","22 Nov 2009","20 years, 202 days"],["Jordan Spieth","13 Apr 2014","20 years, 256 days"]]
-  [Youngest and oldest players] notes: 
-    heads: [["Player","Last","Age"]] | rows 5: [["Masashi Ozaki","26 Apr 1998","51 years, 92 days"],["Kenny Perry","3 Jan 2010","49 years, 146 days"],["Steve Stricker","19 Jan 2014","46 years, 330 days"]]
-  [Youngest and oldest players] notes: The following table lists the youngest to reach a specific position in the top 10.
-    heads: [["Player","Pos","First","Age"]] | rows 10: [["Sergio García","10","16 Jan 2000","20 years, 7 days"],["Rory McIlroy","9","13 Dec 2009","20 years, 223 days"],["Jordan Spieth","8","11 May 2014","20 years, 284 days"]]
-  [Most consecutive weeks in the top 10] notes: Instances of 250 weeks or more are given.
-    heads: [] | rows 1: [["*","Current streak as of 18 Ocotber 2026"]]
-  [Most consecutive weeks in the top 10] notes: 
-    heads: [["Player","Weeks","First","Last"]] | rows 14: [["Tiger Woods","736","13 Apr 1997","15 May 2011"],["Greg Norman","646","6 Apr 1986","16 Aug 1998"],["Nick Faldo","406","19 Jun 1988","24 Mar 1996"]]
-  [Longest gaps between appearances in the top 10] notes: Instances of 200 weeks or more are given.
-    heads: [["Player","Weeks","App","Next"]] | rows 16: [["Hal Sutton","641","7 Jun 1987","19 Sep 1999"],["Keegan Bradley","608","4 Aug 2013","22 Jun 2025"],["Louis Oosthuizen","407","7 Jul 2013","18 Jul 2021"]]
-  [Number two in the rankings but never number one] notes: 16 players have reached world No. 2 in the official rankings, but have never risen to world No. 1.
-    heads: [["Player","First","Last","Weeks","Ref"]] | rows 16: [["Sandy Lyle","10 Apr 1988","11 Sep 1988","23",""],["José María Olazábal","17 Mar 1991","5 Apr 1992","35",""],["Colin Montgomerie","17 Mar 1996","20 Oct 1996","24",""]]
-  [1980s] notes:  were in the top 10 from the start of the rankings in April 1986 to the end of 1989. Seve Ballesteros and Greg Norman were in the top 10 throughout this period.
-    heads: [["Player","86","87","88","89","Total","First","Last"]] | rows 29: [["Greg Norman","39","52","53","52","196","6 Apr 1986","+1990s"],["Seve Ballesteros","39","52","53","52","196","6 Apr 1986","+1990s"],["Curtis Strange","35","33","53","52","173","1986","+1990s"]]
-  [1990s] notes: 36 players were in the top 10 during the 1990s. Greg Norman was in the top 10 for the first 450 weeks of the 1990s.
-    heads: [["Player","90","91","92","93","94","95","96","97","98","99","Total","First","Last"]] | rows 36: [["Greg Norman","52","52","52","52","53","52","52","52","33","","450","+1980s","16 Aug 1998"],["Nick Faldo","52","52","52","52","53","52","51","18","","","382","+1980s","6 Jul 1997"],["Nick Price","","","19","52","53","52","33","46","50","53","358","16 Aug 1992","+2000s"]]
-  [2000s] notes: 41 players were in the top 10 during the 2000s. Tiger Woods was in the top 10 throughout the 2000s.
-    heads: [["Player","00","01","02","03","04","05","06","07","08","09","Total","First","Last"]] | rows 41: [["Tiger Woods","52","52","52","52","52","53","52","52","52","52","521","+1990s","+2020s"],["Phil Mickelson","41","52","52","34","47","53","52","52","52","52","487","+1990s","+2010s"],["Vijay Singh","50","52","52","52","52","53","52","44","41","28","476","+1990s","12 Jul 2009"]]
-
-== 2026 FedEx Cup Playoffs: 4 tables
-  [Regular season rankings] notes: 
-    heads: [["#","Player","Points","Events"]] | rows 10: [["1","Scottie Scheffler","4,123","17"],["2","Matt Fitzpatrick","3,329","18"],["3","Cameron Young","3,161","17"]]
-  [FedEx St. Jude Championship] notes: ng from 53rd to 40th in the rankings. Keith Mitchell was the only golfer to play his way out of the playoffs, falling from 49th to 51st with a tied-34th finish.
-    heads: [["","","","","","FedEx Cup rank","FedEx Cup rank"],["Place","Player","Score","To par","Winnings ($)","Before","After"]] | rows 11: [["1","Scottie Scheffler","68-61-68-66=263","−17","3,600,000","1","1"],["2","Kim Si-woo","70-68-65-68=271","−9","2,160,000","7","4"],["T3","Sam Burns","67-70-62-73=272","−8","1,160,000","8","6"]]
-  [BMW Championship] notes: The BMW Championship was played August 20–23; 50 players were eligible, and there was no second-round cut.
-    heads: [["","","","","","FedEx Cup rank","FedEx Cup rank"],["Place","Player","Score","To par","Winnings ($)","Before","After"]] | rows 11: [["1","Wyndham Clark","64-64-65-70=263","−17","3,600,000","5","3"],["2","Patrick Cantlay","67-65-66-68=266","−14","2,160,000","43","19"],["3","Rory McIlroy","64-69-65-69=267","−13","1,360,000","13","11"]]
-  [Table of qualified players] notes: Table key: Win Top-10 finish Did not advance to next tournament Played way into next tournament
-    heads: [["","Player","Pre-Playoffs","Pre-Playoffs","FedEx St. Jude Championship","FedEx St. Jude Championship","BMW Championship","BMW Championship","Tour Championship","Tour Championship"],["","Player","Points","Rank","Finish","Rank after","Finish","Rank after","Finish","Final rank"]] | rows 70: [["","Scottie Scheffler","4,873","1","1","1","T12","1","1","1"],["","Matt Fitzpatrick","3,426","2","T12","2","T28","2","T21","21"],["","Cameron Young","3,183","3","T39","3","T37","4","T11","11"]]
-
-== 2025–26 PGA Tour of Australasia: 4 tables
-  [Schedule] notes: The following table lists official events during the 2025–26 season.
-    heads: [["Date","Tournament","Location","Purse (A$)","Winner","OWGR points","Other tours","Notes"]] | rows 20: [["17 Aug","PNG Open","Papua New Guinea","225,000","Cory Crawford (3)","1.72","",""],["31 Aug","Tailor-made Building Services NT PGA Championship","Northern Territory","200,000","Andrew Martin (3)","2.41","",""],["12 Oct","CKB WA PGA Championship","Western Australia","250,000","Austin Bautista (3)","3.03","",""]]
-  [Unofficial events] notes: The following events were sanctioned by the PGA Tour of Australasia, but did not carry official money, nor were wins official.
-    heads: [["Date","Tournament","Location","Purse (A$)","Winner","OWGR points","Other tours","Notes"]] | rows 1: [["28 Sep","World Sand Greens Championship","New South Wales","140,000","Samuel Slater","n/a","",""]]
-  [Order of Merit] notes: play on the 2027 European Tour (DP World Tour). The next two players on the Order of Merit earned status to play on the 2027 Challenge Tour (HotelPlanner Tour).
-    heads: [["Position","Player","Points","Status earned"]] | rows 5: [["1","Travis Smyth","969","Promoted to European Tour"],["2","Cameron John","962","Promoted to Challenge Tour"],["3","James Marchesani","720","Promoted to Challenge Tour"]]
-  [Awards] notes: 
-    heads: [["Award","Winner","Ref."]] | rows 2: [["Player of the Year","",""],["Rookie of the Year","Declan O'Donovan",""]]
-
-== 2026 LPGA Tour: 3 tables
-  [Schedule and results] notes: money for every event. The winner typically gets 15% of the total, second place gets 9.3%, third place 6.75%, etc. The total purse for 2026 is $132 million. Key
-    heads: [] | rows 2: [["Major championships"],["Regular events"]]
-  [Schedule and results] notes: 
-    heads: [["Date","Tournament","Location","Winner(s)","WWGR points","Other tours","Purse (US$)","Winner's share ($)"]] | rows 31: [["Feb 1","Hilton Grand Vacations Tournament of Champions","Florida","Nelly Korda (16)","39.60","","2,100,000","315,000"],["Feb 22","Honda LPGA Thailand","Thailand","Jeeno Thitikul (8)","50.80","","1,800,000","270,000"],["Mar 1","HSBC Women's World Championship","Singapore","Hannah Green (7)","58.08","","3,000,000","450,000"]]
-  [Unofficial events] notes: The following events appear on the schedule, but do not carry official money.
-    heads: [["Date","Tournament","Location","Winner","WWGR points","Purse (US$)","Winner's share ($)"]] | rows 2: [["Sep 13","Solheim Cup","The Netherlands","Europe","n/a","–","–"],["Dec 14","Grant Thornton Invitational","Florida","","n/a","4,000,000","500,000"]]
-
-== feed golf events 24
-  2026-10-04 PGA Tour | Bank of Utah Championship | final Austin Smotherman won  TBC
-  2026-10-11 PGA Tour | Baycurrent Classic | final Michael Brennan won  TBC
-  2026-10-11 PGA Tour of Australasia | CKB WA PGA Championship | final Justin Warren won  TBC
-  2026-10-18 PGA Tour of Australasia | WA Open | final James Marchesani won  TBC
-  2026-10-25 PGA Tour of Australasia | Players Series SA | upcoming   TBC
-  2026-10-25 PGA Tour | Butterfield Bermuda Championship | upcoming   TBC
-  2026-11-01 PGA Tour | VidantaWorld Mexico Open | upcoming   TBC
-  2026-11-08 PGA Tour | World Wide Technology Championship | upcoming   TBC
-  2026-11-15 PGA Tour of Australasia | Ford NSW Open | upcoming   TBC
-  2026-11-15 PGA Tour | Austin Championship | upcoming   TBC
-  2026-11-22 PGA Tour of Australasia | Queensland PGA Championship | upcoming   TBC
-  2026-11-22 PGA Tour | RSM Classic | upcoming   TBC
-  2026-11-29 PGA Tour of Australasia | BMW Australian PGA Championship | upcoming   TBC
-  2026-12-06 PGA Tour of Australasia | Capital.com Australian Open | upcoming   TBC
-  2026-12-13 PGA Tour of Australasia | Victorian PGA Championship | upcoming   TBC
-  2027-01-10 PGA Tour of Australasia | Players Series Perth | upcoming   TBC
-  2027-01-17 PGA Tour of Australasia | Players Series Victoria | upcoming   TBC
-  2027-01-24 PGA Tour of Australasia | Vic Open | upcoming   TBC
-  2027-01-31 PGA Tour of Australasia | Players Series Murray River | upcoming   TBC
-  2027-02-07 PGA Tour of Australasia | Players Series Sydney | upcoming   TBC
-  2027-02-14 PGA Tour of Australasia | Quinovic New Zealand PGA Championship | upcoming   TBC
-  2027-02-21 PGA Tour of Australasia | ISPS Handa-Japan Australasia Championship | upcoming   TBC
-  2027-02-28 PGA Tour of Australasia | New Zealand Open | upcoming   TBC
-  2027-03-21 PGA Tour of Australasia | The National Tournament | upcoming   TBC
-
--- Bank of Utah Championship (PGA Tour): 1 found
-   2590073 Bank of Utah Championship | PGA Tour | 2026-10-01 00:00:00 | result 554 chars: After Final Round / Top 10 plus ties / Pos. /Player /To Par /R1 /R2 /R3 /R4 /Total /  / 1	Austin Smotherman	-26	63	62	65	68	258		 / 2	Doug Ghim		-24	65	62	64	69	260		 / T3	David Ford		-23	65	67	65	64	261		 / T3	Trace Crowe		-23	66	65	64	66	261		 / T5	Kevin Streelman		
-
--- Baycurrent Classic (PGA Tour): 1 found
-   2590074 Baycurrent Classic | PGA Tour | 2026-10-08 00:00:00 | result 641 chars: After Final Round / Top 10 plus ties / Pos. /Player /To Par /R1 /R2 /R3 /R4 /Total /  / 1 	Michael Brennan 	-16 	68 	67 	65 	68 	268  / T2 	Keith Mitchell 	-15 	66 	65 	70 	68 	269 	 / T2 	Jacob Bridgeman 	-15 	63 	68 	69 	69 	269 	 / T4 	Xander Schauffele 	-13 	70 	
-
--- CKB WA PGA Championship (PGA Tour of Australasia): 0 found
-
--- WA Open (PGA Tour of Australasia): 0 found
-
-== BBC golf 28 Former Open champion Oosthuizen quits LIV Golf | Lowry joins McIlroy in first ever TGL Trade | Chacarra wins in India to take Race to Dubai lead | Rahm sacrifices £75m to secure exit from LIV Golf | Chacarra leads as McIlroy fades before play halted | LIV accuses DP World Tour of player 'interference'
+site {"version":412,"changedAt":"2026-10-23T05:43:23Z"} generated 2026-10-23T05:46:32.125Z
+diag.golfTop10: 0 of 7 finished tournaments have a top 10; 1 looked up (thesportsdb skipped this run)
+diag.teamSquads: 117 of 134: Northern Districts, Lebanon, Ireland, USA, France, Scotland, New Zealand, Cleveland Guardians, New York Yankees, Chicago White Sox, Houston Astros, Boston Red Sox, Los Angeles Dodgers, San Diego Padres, Atlanta Braves, Philadelphia Phillies, Chicago Cubs missing
+diag.rankings golf: List of male golfers who have been in the world top 10: 28 tables, Men's world top 10 10 @2026-10-18 ;; Women's World Golf Rankings: 14 tables, Women's world top 10 10 @2026-10-19 ;; 2026 FedEx Cup Playoffs: 4 tables, FedEx Cup 2026 21 ;; 2025–26 PGA Tour of Australasia: 4 tables, Order of Merit 2025–26 5
+  Men's world top 10 2026-10-18  10 1 Scottie Scheffler 16.68 | 2 Rory McIlroy 8.30 | 3 Matt Fitzpatrick 7.10 | 
+  Women's world top 10 2026-10-19  10 1 Nelly Korda 12.68 | 2 Jeeno Thitikul 11.08 | 3 Ryu Hae-ran 8.49 | 
+  FedEx Cup 2026  PGA Tour 21 1 Scottie Scheffler  | 2 Viktor Hovland  | 3 Ryan Gerard  | 26 Ryan Fox
+  Order of Merit 2025–26  PGA Tour of Australasia 5 1 Travis Smyth 969 | 2 Cameron John 962 | 3 James Marchesani 720 | 
+golf news 16 pgatour/nzherald.co.nz: Asia-Pacific Amateur Championship: Kiwi teen Cooper Moore chases golf history at Te Arai Links || pgatour/nzherald.co.nz: Ryan Fox joins Tiger Woods and Rory McIlroy’s TGL golf league for 2027 season || pgatour/nzherald.co.nz: Golf: Ryan Fox to play at Australian Open || pgatour/nzherald.co.nz: Daniel Hillier runner-up at DP World India Championship, boosts PGA Tour card hopes || pgatour/nzherald.co.nz: India Championship: Daniel Hillier in contention as Ryan Fox misses cut || pgatour/nzherald.co.nz: Golf: Why Ryan Fox won’t carry a driver for India Championship on DP World Tour || pgatour/nzherald.co.nz: Golf: Daniel Hillier hits hole-in-one in strong start to Open de España || pgatour/nzherald.co.nz: Golf: Daniel Hillier taking present approach in race for PGA Tour card in 2027
+diag.bbc: rugby-union: 2 of 52; rugby-league: 8 of 36; cricket: 0 of 29; boxing: 8 of 39; mixed-martial-arts: 3 of 32; formula1: 8 of 65; tennis: 0 of 54; football/premier-league: 8 of 42; basketball: 4 of 17; baseball: 1 of 24; golf: 7 of 28
+coverage.json 439 {"v":412,"at":"2026-10-23T05:46:32.125Z","cov":{"cricket":[50,40,44,50,47,31,29,31,2,0],"boxing":[4,3,4,0,0,8,6,0,0,0],"league":[55,48,55,30,26,14,14,14,13,0],"netball":[2,2,2,2,0,2,2,2,2,0],"rugby":[6,6,4,6,3,8,8,8,3,0],"mma":[3,1,3,0,0,6,6,0,1,0],"football":[32,32,32,32,32,31,31,31,15,0],"basketba
+baseball squads Milwaukee Brewers 26, Tampa Bay Rays 26, Yokohama DeNA BayStars 31, Fukuoka SoftBank Hawks 40
