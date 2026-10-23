@@ -9,6 +9,7 @@ binding = "DB"
 database_name = "kickoff-stats"
 database_id = "set-by-deploy" # the deploy workflow fills in the real id (it creates the database the first time)
 
-# once a day: delete the visitor codes and salts older than two days
+# once a day: delete the visitor codes and salts older than two days; every hour: keep the site's data coverage
+# figures (worker.js tells the two apart by these strings)
 [triggers]
-crons = ["17 14 * * *"]
+crons = ["17 14 * * *", "47 * * * *"]

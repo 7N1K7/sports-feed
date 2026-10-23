@@ -11,3 +11,6 @@ CREATE TABLE IF NOT EXISTS opens (day TEXT NOT NULL, h TEXT NOT NULL, n INTEGER 
 -- reports: what visitors sent with the site's "Report a problem" or "Suggest an idea" links: when, what it was about
 -- (a game's id and name, the site as a whole, or an idea) and their words. Nothing about who sent it is kept
 CREATE TABLE IF NOT EXISTS reports (id INTEGER PRIMARY KEY AUTOINCREMENT, at TEXT NOT NULL, kind TEXT NOT NULL, ref TEXT NOT NULL DEFAULT '', note TEXT NOT NULL);
+-- coverage: the site's data coverage at each site version (v): when that feed was built and its figures by sport as
+-- JSON (games, start times, ways to watch, squads, pictures, team links...), for the stats page's chart over time
+CREATE TABLE IF NOT EXISTS coverage (v INTEGER PRIMARY KEY, at TEXT NOT NULL, data TEXT NOT NULL);

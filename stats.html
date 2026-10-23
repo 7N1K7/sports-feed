@@ -85,6 +85,22 @@ button, input { font: inherit; color: inherit }
 .gaps details { border-top: 1px solid var(--line); padding: 6px 0 } .gaps summary { cursor: pointer; font-weight: 700; font-size: 14px }
 .added { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 6px } .added summary { cursor: pointer; font-weight: 700; font-size: 14px } .added ul { margin: 6px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.5 } .added b { margin-right: 6px }
 .gaps p { margin: 6px 0 0 14px; font-size: 13px } .gaps b { color: var(--muted); font-weight: 700 }
+/* coverage over time: a tile a measure, three a row (two on a phone) so the six sit in even rows, each with a sparkline
+   of every version; then a row a sport. The sparkline's box is a set height, so nothing moves when it's drawn */
+.cvt-tiles { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px }
+.cvt-tiles .s { white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.spark { height: 40px; margin-top: 8px; touch-action: pan-y }
+.spark svg { display: block; width: 100%; height: 40px; overflow: visible }
+.cvt .cov { margin-top: 12px }
+.cvt th .sm { display: none }
+@media (min-width: 561px) { .cvt .cov { table-layout: fixed } .cvt .cov th:first-child { width: 20% } } /* even columns */
+@media (max-width: 560px) {
+  .cvt-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .cvt-tiles .s span { display: block; overflow: hidden; text-overflow: ellipsis } /* the change, then "since v376" */
+  .cvt th .lg { display: none } .cvt th .sm { display: inline } /* short column names, so the table fits a phone */
+  .cvt .cov th { text-transform: none; letter-spacing: 0 } .cvt .cov td { font-size: 13px }
+  .cvt .cov th, .cvt .cov td { padding-left: 2px; padding-right: 2px }
+}
 .bar { display: grid; grid-template-columns: minmax(0, 8em) minmax(0, 1fr) auto; align-items: center; gap: 8px; font-size: 14px }
 .bar .k { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 .bar .t { height: 10px; position: relative }
@@ -202,6 +218,13 @@ th { color: var(--muted); font-weight: 600 }
       <section class="card"><h2>Features used</h2><div class="bars" id="event"></div><p class="note">Taps on each feature, all visitors together. Calendars and alert topics count taps on their links and copy buttons; from an alert counts games opened by tapping a phone alert.</p></section>
     </div>
 
+    <section class="card cvt">
+      <h2>Coverage over time <span class="note" id="cvtRange" style="text-transform:none;letter-spacing:0;font-weight:500"></span></h2>
+      <div class="cvt-tiles" id="cvTiles"></div>
+      <div class="covwrap"><table class="cov" id="cvSports"></table></div>
+      <p class="note">Shares of the next three weeks' games, so they move when the fixtures do as well as when data is added. A point for each site version the server has seen.</p>
+      <details class="tbl"><summary>Each version as a table</summary><div class="covwrap"><table class="cov" id="cvVersions"></table></div></details>
+    </section>
     <section class="card">
       <h2>Data coverage <span class="note" style="text-transform:none;letter-spacing:0;font-weight:500">the next three weeks, from the latest feed</span></h2>
       <p class="note" id="covAt"></p>
@@ -248,13 +271,15 @@ let days = store.get('statsDays', 30), data = null, pw = store.get('statspw', ''
 
 async function fetchStats() {
   $('gateMsg').textContent = 'Loading…'; $('gateMsg').className = 'note';
+  // the live coverage file comes in alongside (a few seconds at most), so Coverage over time is drawn once, complete
+  const live = Promise.race([fetch('data/coverage.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null), new Promise(res => setTimeout(res, 4000, null))]).catch(() => null);
   try {
     const r = await fetch(`${API}/stats?days=90`, { headers: { authorization: 'Bearer ' + pw }, cache: 'no-store' });
     const j = await r.json().catch(() => ({}));
     if (r.status === 401) { store.del('statspw'); throw new Error('That password isn\'t right.'); }
     if (r.status === 503) throw new Error('The stats password isn\'t set up yet: add STATS_PASSWORD in the GitHub repo\'s secrets, then wait for the stats server to redeploy.');
     if (!r.ok) throw new Error('The stats server answered with an error (' + r.status + ').');
-    data = j; store.set('statspw', pw);
+    data = j; covLive = await live; store.set('statspw', pw);
     $('gate').hidden = true; $('main').hidden = false; $('gateMsg').textContent = '';
     draw();
   } catch (e) {
@@ -272,7 +297,7 @@ function shape() {
   for (const r of data.rows) {
     if (!inRange.has(r.day)) continue;
     if (r.metric in per[r.day]) per[r.day][r.metric] += r.n;
-    else { (sums[r.metric] ||= {}); sums[r.metric][r.key] = (sums[r.metric][r.key] || 0) + r.n; }
+    else { sums[r.metric] = sums[r.metric] || {}; sums[r.metric][r.key] = (sums[r.metric][r.key] || 0) + r.n; }
   }
   for (const d of list) if (!per[d].opens) per[d].opens = per[d].views; // days before visits were counted: page views stand in
   return { list, per, sums };
@@ -303,6 +328,7 @@ async function drawCoverage() {
 }
 // the big additions of data, newest first: kept by hand, a line each time a gap is filled or a new kind of data comes in
 const ADDED = [
+  ['23 Oct 2026', 'Golf: the men\'s and women\'s world top tens, the last FedEx Cup and Australasian Order of Merit in Rankings (Wikipedia); each finished tournament\'s top 10 (TheSportsDB); BBC and Herald golf headlines. Coverage over time on this page'],
   ['23 Oct 2026', 'Squads for every NBA side and for MLB and Japanese baseball sides with games coming up (each club\'s roster on Wikipedia)'],
   ['23 Oct 2026', 'NBA and MLB headlines (SB Nation, BBC Sport); a Playoffs tab for the MLB playoffs and Japan Series, every series of this year\'s playoffs kept; WBSC men\'s baseball world rankings (Wikipedia)'],
   ['23 Oct 2026', 'NBA: every game from a week back to ten days ahead with results, and the conference standings worked out from this season\'s results (balldontlie, free key). Off until turned on in My teams'],
@@ -327,6 +353,125 @@ const ADDED = [
   ['Oct 2026', 'Where to watch: free NZ options (TVNZ+, Three/ThreeNow, Sky Open), Australian options, and the usual broadcaster for most competitions'],
   ['Oct 2026', 'Placeholder sport icons for sides with no logo yet'],
 ];
+// coverage over time. Two snapshots from before the stats server kept them (early 23 Oct 2026), in data/coverage.json's
+// shape: per sport [games, start times, where to watch, games needing squads, with squads, sides, with pictures, with
+// team links, in the TV guide, free streams]
+const COV_SEED = [{"v":376,"at":"2026-10-22T15:08:14.464Z","cov":{"cricket":[48,38,43,48,45,30,28,30,2,0],"boxing":[5,4,5,0,0,10,7,0,0,0],"league":[53,48,53,30,26,14,14,14,13,0],"rugby":[6,6,4,6,3,8,8,8,3,0],"mma":[3,1,3,0,0,6,6,0,1,0],"football":[32,32,32,32,32,31,31,31,15,0],"basketball":[4,4,4,4,4,5,5,5,0,0],"motor":[5,5,5,0,0,0,0,0,0,0]}},{"v":385,"at":"2026-10-22T17:17:55.804Z","cov":{"cricket":[48,38,43,48,45,30,28,30,2,0],"boxing":[5,4,5,0,0,10,7,0,0,0],"league":[53,48,53,30,26,14,14,14,13,0],"netball":[2,2,2,2,0,2,2,2,2,0],"rugby":[6,6,4,6,3,8,8,8,3,0],"mma":[3,1,3,0,0,6,6,0,1,0],"football":[32,32,32,32,32,31,31,31,15,0],"basketball":[24,21,24,24,24,11,10,11,0,0],"motor":[5,5,5,0,0,0,0,0,0,0],"golf":[7,0,7,7,0,7,0,0,1,0]}}];
+// the measures: name, short name (for a phone's table), what's counted and out of what (Games is the count itself).
+// Team links leave out fighters, who have none, as Data coverage does
+const COV_M = [{ l: 'Games', s: 'Games', n: 0 }, { l: 'Start times', s: 'Times', n: 1, d: 0 }, { l: 'Where to watch', s: 'Watch', n: 2, d: 0 },
+  { l: 'Squads', s: 'Squads', n: 4, d: 3 }, { l: 'Pictures', s: 'Pics', n: 6, d: 5 }, { l: 'Team links', s: 'Links', n: 7, d: 5, skip: ['mma', 'boxing'] }];
+let covLive = null, cvt = null;
+const sportName = k => SPORT_LABEL[k] || k[0].toUpperCase() + k.slice(1);
+// one measure's count and total, for all sports together or for one
+const covFig = (M, cov, only) => { let n = 0, d = 0;
+  for (const k of Object.keys(cov)) { if ((only && k !== only) || (M.skip && M.skip.includes(k))) continue; const a = cov[k] || []; n += +a[M.n] || 0; if (M.d != null) d += +a[M.d] || 0; }
+  return { n, d }; };
+// a share in whole per cent (null with nothing to count), or the games count
+const covVal = (M, f) => M.d == null ? f.n : f.d ? Math.round(100 * f.n / f.d) : null;
+// "23 Oct 6:25pm", NZ time
+const nzWhen = at => { const t = new Date(at); if (isNaN(t)) return ''; const p = {};
+  new Intl.DateTimeFormat('en-NZ', { timeZone: 'Pacific/Auckland', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hourCycle: 'h23' }).formatToParts(t).forEach(x => { p[x.type] = x.value; });
+  const h = +p.hour % 24; return `${+p.day} ${p.month} ${h % 12 || 12}:${p.minute}${h < 12 ? 'am' : 'pm'}`; };
+// a change, its arrow and the words for it: "▲ 3 pts" and "since v376" on a tile, "▲3" in a table
+const covChange = (M, d, v) => {
+  const a = Math.abs(d), u = M.d == null ? (a === 1 ? 'game' : 'games') : (a === 1 ? 'point' : 'points');
+  return { title: d ? `${d > 0 ? 'Up' : 'Down'} ${a} ${u} since v${v}` : `No change since v${v}`, short: d ? `${d > 0 ? '▲' : '▼'}${a}` : '–',
+    tile: d ? `${d > 0 ? '▲' : '▼'} ${a}${M.d == null ? '' : a === 1 ? ' pt' : ' pts'}` : '– no change', since: `since v${v}` }; };
+// the points, oldest first: the seed, then the server's (one a version it saw), then the live file when it's a newer
+// version; a version given twice keeps the later copy
+function covPoints() {
+  const byV = {};
+  for (const p of COV_SEED.concat(data.coverage || [])) if (p && p.v > 0 && p.cov) byV[p.v] = p;
+  const pts = Object.keys(byV).map(Number).sort((a, b) => a - b).map(v => byV[v]);
+  if (covLive && covLive.v > 0 && covLive.cov && !(pts.length && covLive.v <= pts[pts.length - 1].v)) pts.push(covLive);
+  return pts;
+}
+// a tile a measure (now, the change since the first point, a sparkline of every version), then each sport now with
+// its change since it first appeared, then every version as a table
+function drawTrend() {
+  const pts = covPoints(), L = pts.length - 1, v0 = pts[0].v, box = $('cvTiles');
+  $('cvtRange').textContent = `all sports, v${v0} to v${pts[L].v}`;
+  const ser = COV_M.map(M => pts.map(p => covFig(M, p.cov)));
+  box.innerHTML = COV_M.map((M, m) => {
+    const vals = ser[m].map(f => covVal(M, f)), now = vals[L], b = vals.findIndex(x => x != null);
+    const ch = now == null ? null : covChange(M, now - vals[b], pts[b].v);
+    return `<div class="tile"><div class="l">${M.l}</div><div class="v">${now == null ? '–' : M.d == null ? fmtN(now) : now + '%'}</div>`
+      + `<div class="s"${ch ? ` title="${ch.title}"` : ''}>${ch ? `<span>${ch.tile}</span> <span>${ch.since}</span>` : '&nbsp;'}</div><div class="spark" data-m="${m}"></div></div>`;
+  }).join('') + '<div class="tip" hidden></div>';
+  // the sparklines: exact shares (or counts), the scale at least 10 points tall for a share and a tenth of the top for
+  // the count, so a small wobble looks small; no axes, a dot on the latest
+  cvt = { pts, ser, geo: [] };
+  box.querySelectorAll('.spark').forEach(el => {
+    const m = +el.dataset.m, M = COV_M[m], W = Math.max(60, el.clientWidth), H = 40, px = 5, py = 6;
+    const raw = ser[m].map(f => M.d == null ? f.n : f.d ? 100 * f.n / f.d : null), got = raw.filter(x => x != null);
+    if (!got.length) return;
+    let lo = Math.min(...got), hi = Math.max(...got);
+    const span = M.d == null ? Math.max(10, hi / 10) : 10;
+    if (hi - lo < span) { const c = (hi + lo) / 2; lo = c - span / 2; hi = c + span / 2; }
+    if (lo < 0) { hi -= lo; lo = 0; }
+    if (M.d != null && hi > 100) { lo -= hi - 100; hi = 100; }
+    const xs = raw.map((_, i) => L ? px + i * (W - 2 * px) / L : W / 2), ys = raw.map(x => x == null ? null : py + (hi - x) / (hi - lo) * (H - 2 * py));
+    const line = raw.map((x, i) => x == null ? '' : `${xs[i].toFixed(1)},${ys[i].toFixed(1)}`).filter(Boolean).join(' ');
+    const e = ys.length - 1 - ys.slice().reverse().findIndex(y => y != null);
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true"><line class="xh" y1="0" y2="${H}" stroke="var(--muted)" stroke-width="1" visibility="hidden"/>`
+      + `<polyline points="${line}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`
+      + `<circle cx="${xs[e].toFixed(1)}" cy="${ys[e].toFixed(1)}" r="4" fill="var(--accent)" stroke="var(--paper)" stroke-width="2"/>`
+      + `<circle class="hd" r="4" fill="var(--accent)" stroke="var(--paper)" stroke-width="2" visibility="hidden"/></svg>`;
+    cvt.geo[m] = { xs, ys, W, H };
+  });
+  // a row a sport, A to Z, with its change since it first appeared; a sport that wasn't in the first point is "new"
+  const head = first => `<thead><tr><th>${first}</th>${COV_M.map(M => `<th title="${M.l}"><span class="lg">${M.l}</span><span class="sm">${M.s}</span></th>`).join('')}</tr></thead>`;
+  const sports = [...new Set(pts.flatMap(p => Object.keys(p.cov)))].sort((a, b) => sportName(a).localeCompare(sportName(b)));
+  $('cvSports').innerHTML = head('Sport') + '<tbody>' + sports.map(k => {
+    const fi = pts.findIndex(p => p.cov[k]);
+    return `<tr><td>${esc(sportName(k))}</td>` + COV_M.map(M => {
+      const now = covVal(M, covFig(M, pts[L].cov, k));
+      if (now == null) return '<td class="c na">–</td>';
+      let b = -1;
+      for (let i = fi; i <= L && b < 0; i++) if (pts[i].cov[k] && covVal(M, covFig(M, pts[i].cov, k)) != null) b = i;
+      const was = b >= 0 && b < L ? covChange(M, now - covVal(M, covFig(M, pts[b].cov, k)), pts[b].v) : null;
+      const small = fi > 0 ? `<small title="Not in v${v0}: first seen in v${pts[fi].v}.${was ? ' ' + was.title : ''}">new</small>`
+        : !was ? `<small title="First counted in v${pts[L].v}">${L ? 'new' : '–'}</small>` : `<small title="${was.title}">${was.short}</small>`;
+      return `<td class="c">${now}${M.d == null ? '' : '%'}${small}</td>`;
+    }).join('') + '</tr>';
+  }).join('') + '</tbody>';
+  // every version, newest first: what a sparkline's tooltip shows, without hovering
+  $('cvVersions').innerHTML = head('Version') + '<tbody>' + pts.map((p, i) => `<tr><td class="c">v${esc(p.v)}<small>${esc(nzWhen(p.at))}</small></td>`
+    + COV_M.map((M, m) => { const x = covVal(M, ser[m][i]); return `<td title="${ser[m][i].n}${M.d == null ? ' games' : ` of ${ser[m][i].d}`}">${x == null ? '–' : M.d == null ? x : x + '%'}</td>`; }).join('') + '</tr>').reverse().join('') + '</tbody>';
+}
+// a sparkline's tooltip: the version nearest the pointer, on hover or a tap (a tap's stays until a tap elsewhere)
+function cvtHide() {
+  const box = $('cvTiles'), tip = box.querySelector('.tip');
+  if (tip) tip.hidden = true;
+  box.querySelectorAll('.xh, .hd').forEach(e => e.setAttribute('visibility', 'hidden'));
+}
+function cvtShow(ev) {
+  const box = $('cvTiles'), sp = ev.target.closest ? ev.target.closest('.spark') : null, g = sp && cvt && cvt.geo[+sp.dataset.m];
+  if (!g) return cvtHide();
+  const m = +sp.dataset.m, M = COV_M[m], r = sp.getBoundingClientRect(), b = box.getBoundingClientRect(), px = (ev.clientX - r.left) * g.W / r.width;
+  let i = -1;
+  g.xs.forEach((x, j) => { if (g.ys[j] != null && (i < 0 || Math.abs(x - px) < Math.abs(g.xs[i] - px))) i = j; });
+  if (i < 0) return cvtHide();
+  cvtHide();
+  const xh = sp.querySelector('.xh'), hd = sp.querySelector('.hd');
+  xh.setAttribute('x1', g.xs[i]); xh.setAttribute('x2', g.xs[i]); xh.setAttribute('visibility', 'visible');
+  hd.setAttribute('cx', g.xs[i]); hd.setAttribute('cy', g.ys[i]); hd.setAttribute('visibility', 'visible');
+  // "v409 · 23 Oct 6:25pm NZ · 91% (288 of 317)": the value in bold, all in text colours
+  const p = cvt.pts[i], f = cvt.ser[m][i], tip = box.querySelector('.tip'), when = nzWhen(p.at);
+  const d = document.createElement('span'); d.className = 'd'; d.textContent = `v${p.v}${when ? ` · ${when} NZ` : ''} · `;
+  const v = document.createElement('b'); v.textContent = M.d == null ? fmtN(f.n) : covVal(M, f) + '%';
+  tip.replaceChildren(d, v, document.createTextNode(M.d == null ? (f.n === 1 ? ' game' : ' games') : ` (${f.n} of ${f.d})`));
+  tip.hidden = false;
+  const half = tip.offsetWidth / 2, left = r.left - b.left + g.xs[i] * r.width / g.W;
+  tip.style.left = Math.max(half, Math.min(b.width - half, left)) + 'px';
+  tip.style.top = (r.top - b.top + g.ys[i] * r.height / g.H - 10) + 'px';
+  tip.style.transform = 'translate(-50%, -100%)';
+}
+$('cvTiles').addEventListener('pointermove', cvtShow);
+$('cvTiles').addEventListener('pointerdown', cvtShow);
+$('cvTiles').addEventListener('pointerleave', ev => { if (ev.pointerType === 'mouse') cvtHide(); });
+document.addEventListener('pointerdown', ev => { if (!$('cvTiles').contains(ev.target)) cvtHide(); });
 function draw() {
   drawCoverage();
   $('added').innerHTML = ADDED.map(([d, t]) => `<li><b>${esc(d)}</b> ${esc(t)}</li>`).join('');
@@ -376,6 +521,7 @@ function draw() {
   bars('weekday', Object.fromEntries(Object.keys(wd).map(k => [k, Math.round(wd[k] / wn[k] * 10) / 10])), k => k, WEEKDAYS);
   hours(sums.hour || {});
   drawReports(list[0]);
+  try { drawTrend(); } catch (e) { console.error(e); $('cvTiles').innerHTML = '<p class="note">Couldn\'t draw this.</p>'; }
 }
 // the reports in the range, newest first: a game's links to its pop-up on the site
 function drawReports(from) {

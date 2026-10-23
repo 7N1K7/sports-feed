@@ -5,7 +5,8 @@
 // from; and, from the page, totals of what was picked or searched for, errors, load speed and the hour of the day.
 // POST /report takes a visitor's "Report a problem" note (kept with the game it's about) or "Suggest an idea" note,
 // a few a day each at most.
-// GET /stats (with the owner's password) returns the totals and the reports for the private stats page.
+// GET /stats (with the owner's password) returns the totals, the reports and the site's data coverage at each version
+// for the private stats page.
 const SITE = /^https:\/\/(www\.)?kickoff\.kiwi$/;
 const BOT = /bot|crawl|spider|slurp|preview|headless|lighthouse|pingdom|monitor|facebookexternalhit|whatsapp|discord|telegram|curl|wget|python|node-fetch|go-http/i;
 const EVENTS = new Set(['install', 'appfirst', 'cal', 'alerts', 'rankings', 'alert-open', 'team', 'game', 'reveal']);
@@ -126,6 +127,27 @@ async function repeats(env, day) {
   for (const r of results) out[REPEAT(r.n)] = (out[REPEAT(r.n)] || 0) + 1;
   return out;
 }
+// the site's data coverage at each version: of the next three weeks' games, how many have a start time, a way to watch,
+// squads and so on (data/coverage.json, written by the feed builder). Read from the live site every hour and when the
+// stats page opens, so the page can chart it over time; a version's row keeps the latest figures it had. Never throws
+const COVERAGE_CRON = '47 * * * *', CLEANUP_CRON = '17 14 * * *'; // the same strings as in wrangler.toml
+async function snapCoverage(env) {
+  try {
+    // a fresh copy (the time in the address gets past any cache), and never a long wait (the stats page waits for this)
+    const r = await fetch(`https://kickoff.kiwi/data/coverage.json?t=${Date.now()}`, { signal: AbortSignal.timeout(5000) });
+    if (!r.ok) return;
+    const text = await r.text();
+    if (text.length > 20000) return; // it's about 1 KB; anything much bigger isn't it
+    const j = JSON.parse(text), at = String(j.at || '');
+    if (!Number.isInteger(j.v) || j.v < 1 || !/^\d{4}-\d\d-\d\dT[\d:.]+Z$/.test(at) || !j.cov || typeof j.cov !== 'object') return;
+    // only sport names and whole counts are kept
+    const cov = {};
+    for (const [k, a] of Object.entries(j.cov)) if (/^[a-z]{2,20}$/.test(k) && Array.isArray(a)) cov[k] = a.slice(0, 12).map(n => Number.isInteger(n) && n >= 0 ? n : 0);
+    await env.DB.prepare('INSERT INTO coverage (v, at, data) VALUES (?1, ?2, ?3) ON CONFLICT (v) DO UPDATE SET at = excluded.at, data = excluded.data WHERE excluded.at > coverage.at')
+      .bind(j.v, at, JSON.stringify(cov)).run();
+  } catch (e) { console.error('coverage snapshot failed:', e.message); }
+}
+
 async function stats(env, url) {
   const days = Math.min(400, Math.max(1, +url.searchParams.get('days') || 60));
   const from = nzDay(Date.now() - (days - 1) * 864e5);
@@ -135,7 +157,10 @@ async function stats(env, url) {
   const { results: held } = await env.DB.prepare('SELECT DISTINCT day FROM opens WHERE day >= ?1').bind(from).all();
   for (const { day } of held) if (!summed.has(day)) for (const [key, n] of Object.entries(await repeats(env, day))) results.push({ day, metric: 'repeat', key, n });
   const { results: reports } = await env.DB.prepare('SELECT id, at, kind, ref, note FROM reports WHERE at >= ?1 ORDER BY at DESC LIMIT 300').bind(from).all();
-  return { from, today: nzDay(), rows: results, reports };
+  // the coverage snapshots: the newest 150 versions, oldest first
+  const { results: snaps } = await env.DB.prepare('SELECT v, at, data FROM coverage ORDER BY v DESC LIMIT 150').all();
+  const coverage = snaps.reverse().map(r => ({ v: r.v, at: r.at, cov: JSON.parse(r.data) }));
+  return { from, today: nzDay(), rows: results, reports, coverage };
 }
 
 export default {
@@ -164,12 +189,18 @@ export default {
       if (!env.STATS_PASSWORD) return json({ error: 'not-set-up' }, 503, origin);
       const given = (req.headers.get('authorization') || '').replace(/^Bearer\s+/i, '');
       if (!given || (await sha(given)) !== (await sha(env.STATS_PASSWORD))) return json({ error: 'wrong-password' }, 401, origin);
+      // the coverage now live first, so the page shows the current version (only for the owner, so no one else can
+      // make the server fetch and write)
+      await snapCoverage(env);
       return json(await stats(env, url), 200, origin);
     }
     return new Response('Kickoff Kiwi stats', { status: 404 });
   },
-  // daily: the visitor codes and salts older than two days go, so old codes can never be matched to anyone
+  // hourly: the site's coverage figures (see snapCoverage). Daily: the visitor codes and salts older than two days go,
+  // so old codes can never be matched to anyone. Each runs on its own cron only
   async scheduled(event, env) {
+    if (event.cron === COVERAGE_CRON) return snapCoverage(env);
+    if (event.cron !== CLEANUP_CRON) return;
     // sum up the visits per visitor of each finished day still held, then let the codes go
     const keep = nzDay(Date.now() - 2 * 864e5), today = nzDay();
     const { results: held } = await env.DB.prepare('SELECT DISTINCT day FROM opens WHERE day < ?1').bind(today).all();
