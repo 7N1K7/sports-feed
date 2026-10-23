@@ -1,21 +1,69 @@
-===== 2026 Major League Baseball postseason 200 53753
-headings: 2:Teams | 3:American League | 3:National League | 2:Playoff bracket | 2:American League Wild Card Series | 3:(3) Houston Astros vs. (6) Chicago White Sox | 3:(4) New York Yankees vs. (5) Boston Red Sox | 2:National League Wild Card Series | 3:(3) Atlanta Braves vs. (6) Philadelphia Phillies | 3:(4) San Diego Padres vs. (5) Chicago Cubs | 2:American League Division Series | 3:(1) Tampa Bay Rays vs. (4) New York Yankees | 3:(2) Cleveland Guardians vs. (6) Chicago White Sox | 2:National League Division Series | 3:(1) Milwaukee Brewers vs. (4) San Diego Padres | 3:(2) Los Angeles Dodgers vs. (3) Atlanta Braves | 2:American League Championship Series | 3:(1) Tampa Bay Rays vs. (2) Cleveland Guardians | 2:National League Championship Series | 3:(1) Milwaukee Brewers vs. (2) Los Angeles Dodgers | 2:2026 World Series | 3:(AL1) Tampa Bay Rays vs. (NL1) Milwaukee Brewers | 2:Broadcasting | 3:Television coverage | 3:Streaming | 3:Radio | 2:Notes | 2:References | 2:External links
-templates: cite web×54, nowrap×21, cite news×18, Location map~×12, MLB Playoff Summary×11, wsy×11, Main article×7, Cite web×5, dagger×4, Short description×1, current sport×1, Use mdy dates×1, Infobox international baseball tournament×1, efn×1, CSS crop×1, Location map+×1, 12TeamBracket×1, see also×1, small×1, Cite tweet×1, frac×1, notelist×1, Duplicated citations×1, reflist×1, 2026 MLB Playoffs navbox×1, Major League Baseball postseason×1, DEFAULTSORT:2026 Major League Baseball Season×1
---- first summary
+===== AL East 200 384
+{{MLB standings
+|division=AL East
+|division_link=American League East
+|year=2026
+|seeds={{{seeds|}}}
+|highlight={{{highlight|}}}
+<!-- HOME record is listed first, then ROAD record.-->
+|Tampa Bay Rays
+|55|26
+|43|38
+|New York Yankees
+|46|34
+|47|34
+|Boston Red Sox
+|41|40
+|46|35
+|Baltimore Orioles
+|39|42
+|40|40
+|Toronto Blue Jays
+|42|39
+|37|44
+}}<noinclude>{{documentation}}</noinclude>
+===== 2026 American League Championship Series 200 26133
+{{MLB Playoff Summary
+| summary =
+| winner = Tampa Bay
+| leader = 
+| score = 4–2
+| date1 = October 12
+| score1 = '''Cleveland Guardians''' – 7, Tampa Bay Rays – 3
+| loc1 = [[Tropicana Field]]
+| time1 = 2:57
+| att1 = 35,361
+| ref1 = <ref>{{cite web|title=Guardians 7, Rays 3 Final|url=https://www.mlb.com/gameday/guardians-vs-rays/2026/10/12/849820/final|website=MLB.com|date=October 12, 2026|access-date=October 12, 2026}}</ref>
+| date2 = October 13
+| score2 = Cleveland Guardians – 1, '''Tampa Bay Rays''' – 3
+| loc2 = Tropicana Field
+| time2 = 2:42
+| att2 = 32,125
+| ref2 = <ref>{{cite web|title=Guardians 1, Rays 3 Final|url=https://www.mlb.com/gameday/guardians-vs-rays/2026/10/13/849813/final|website=MLB.com|date=October 13, 2026|access-date=October 13, 2026}}</ref>
+| date3 = October 15
+| score3 = Tampa Bay Rays – 2, '''Cleveland Guardians''' – 3
+| loc3 = [[Progressive Field]]
+| time3 = 2:28
+--- linescore
+{{linescore|
+|Date = October 12, 2026
+|Time = 8:08{{nbsp}}pm ([[Eastern Time Zone|EDT]])
+|Location = [[Tropicana Field]] in [[St. Petersburg, Florida]]
+|Other = {{convert|72|F|C}}, Dome
+|Road='''Cleveland'''|RoadAbr=CLE
+|R1=0|R2=0|R3=0|R4=0|R5=0|R6=1|R7=1|R8=2|R9=3|RR=7|RH=14|RE=0
+|Home=Tampa Bay|HomeAbr=TB
+|H1=2|H2=0|H3=0|H4=0|H5=0|H6=0|H7=0|H8=1|H9=0|HR=3|HH=7|HE=0
+|WP=[[Hunter Gaddis]] (1–0) |LP=[[Tyler Wells]] (0–1) |SV=
+|HomeHR=[[Cedric Mullins]] (1) |RoadHR=[[Chase DeLauter]] (1), [[Patrick Bailey]] (1)
+|Attendance=35,361
+|BoxURL = https://www.mlb.com/gameday/guardians-vs-rays/2026/10/12/849820/final
+}}
+The Rays scored first in the bottom of the first inning, plating a pair of runs on consecutive RBI singles from [[Junior Caminero]] and [[Jonny DeLuca]]. [[Foster Griffin]] gave Cleveland four innings, scattering five hits and two runs while punching out three.
 
-
-| RD4-seed1=AL1
-| RD4-team1={{nowrap|Tampa Bay}}
-| RD4-score1=0
-| RD4-seed2=NL1
-| RD4-team2={{nowrap|Milwaukee}}
-| RD4-score2=0
-}}<section end=Bracket/>
-
-==American League Wild Card Series==
-{{Main article|2026 American League Wild Card Series}}
-
-===(3) Houston Astros vs. (6) Chicago White Sox===
+The Guardians broke 
+summaries: 1 linescores: 7
+===== 2026 American League Wild Card Series 200 31451
 {{MLB Playoff Summary
 | summary =
 | winner = Chicago
@@ -35,79 +83,150 @@ templates: cite web×54, nowrap×21, cite news×18, Location map~×12, MLB Playo
 | ref2 = <ref>{{cite web|title=White Sox 7 Astros 3 Final|url=https://www.mlb.com/gameday/white-sox-vs-astros/2026/09/30/849846/final|website=MLB.com|date=September 30, 2026|access-date=September 30, 2026}}</ref>
 }}
 
-This was the third postseason meeting between the Astros and White Sox. Their previous meetings were the [[2005 World Series]] (when the Astros were members of the National League) and the ALDS in [[2021 American League Division Series#Houston vs. Chicago|2021]], with the White Sox sweeping the former, and the Astros winning the latter before falling in the World Series. The White Sox swept the Astros to advance to the ALDS for the first time since 2021.
-
-An RBI double from [[Sam Antonacci]] and a solo homer from [[Colson Montgomery]] helped secure Game 1 for the [[Chicago White Sox|White Sox]]. An RBI single by [[Kyle Teel]] got the scoring started early for Chicago as they led for the entirety of Game 2, completing the sweep and handing the [[Houston Astros|Astros]] their sixth straight playoff game loss dating back to the [[2023 American League Championship Series|2023 ALCS]]. This was the first playoff series win by the White Sox since the [[2005 World Series]], which was also a sweep over the Astro
-===== 2026 Climax Series 404 1931
-headings: 
-templates: 
-===== 2026 Nippon Professional Baseball season 200 16845
-headings: 2:Regular season standings | 3:Interleague | 2:Climax Series | 3:First stage | 4:Central League | 4:Pacific League | 3:Final stage | 3:Central League | 3:Pacific League | 2:2026 Japan Series | 2:See also | 2:Notes | 2:References
-templates: abbr×21, cite web×16, Winning percentage×12, abbrlink×6, Baseball playoff summary×5, Dagger×2, Main×2, center×2, short description×1, Expand Japanese×1, NPBseason×1, Infobox sports season×1, cite news×1, Color box×1, 6TeamBracket-info×1, Horizontal line×1, Notelist×1, reflist×1, Nippon Professional Baseball Seasons×1, Japan-baseball-stub×1
---- first summary
-uoka SoftBank Hawks]]'''
-| RD2-score3=5
-| RD2-seed4=3
-| RD2-team4=[[Hokkaido Nippon-Ham Fighters]]
-| RD2-score4=0
-
-| RD3-seed1=CL3
-| RD3-team1=[[Yokohama DeNA BayStars]]
-| RD3-score1=0
-| RD3-seed2=PL1
-| RD3-team2=[[Fukuoka SoftBank Hawks]]
-| RD3-score2=0
-}}
-
-===First stage===
-====Central League====
-{{Baseball playoff summary
-| summary = 
-| winner = DeNA
-| leader =
-| score = 2–0
-| date1 = October 10
-| score1 = '''Yokohama DeNA BayStars – 2''', Yomiuri Giants – 1
-| loc1 = [[Tokyo Dome]]
-| time1 = 2:37
-| att1 = 42,232
-| ref1 = <ref>{{cite web |url=https://npb.jp/bis/eng/2026/games/s2026101001991.html |title=Saturday, October 10, 2026 |publisher=[[Nippon Professional Baseball]] |access-date=October 10, 2026}}</ref>
-| date2 = October 11
-| score2 = '''Yokohama DeNA BayStars – 4''', Yomiuri Giants –  1
-| loc2 = Tokyo Dome
-| time2 = 3:01
-| att2 = 42,248
-| ref2 = <ref>{{cite web |url=https://npb.jp/bis/eng/2026/games/s2026101101992.html |title=Sunday, October 11, 2026 |publisher=[[Nippon Professional Baseball]] |access-date=October 11, 2026}}</ref>
-}}
-
-====Pacific League====
-{{Baseball playoff summary
-| summary = 
-| winner = Nippon-Ham
+===New York Yankees vs. Boston Red Sox===
+{{MLB Playoff Summary
+| summary =
+| winner = New York
 | leader = 
-| score = 2–1
-| date1 = October 10
-| score1 = Hokkaido Nippon-Ham Fighters – 2, '''Saitama Seibu Lions – 3''' (10)
-| loc1 = [[Belluna Dome]]
-| time1 = 3:06
-| att1 = 27,602
-| ref1 = <ref>{{cite web |url=https://npb.jp/bis/eng/2026/games/s2026101001994.html |title=Saturday, October 10, 2026 |publisher=[[Nippon Professional Baseball]] |access-date=October 10, 2026}}</ref>
-| date2 = October 11
-| score2 = '''Hokkaido Nippon-Ham Fighters – 1''', Saitama Seibu Lions – 0
-| loc2 = Belluna Dome
-| time2 = 3:09
-| att2 = 27,610
-| ref2 = <ref>{{cite web |url=https://npb.jp/bis/eng/2026/games/s2026101101995.html |title=Sunday, October 11, 2026 |publisher=[[Nippon Professional Baseball]] |access-date=October 11, 2026}}</ref>
-| date3 = October 12
-| score3 = '''Hokkaido Nippon-Ham Fighters – 4''', Saitama Seibu Lions – 1
-| loc3 = Belluna Dome
-| time3 = 3:19
-| att3 = 27,571
-| ref3 = <ref>{{cite web |url=https://npb.jp/bis/eng/2026/games/s2026101201
-===== 2026 Major League Baseball season 200 197886
-headings: 2:Schedule | 2:Rule changes | 2:Franchise values | 3:American League | 3:National League | 2:Postseason | 3:Bracket | 2:Managerial changes | 3:General managers | 4:In-season | 3:Field managers | 4:Off-season | 4:In-season | 2:League leaders | 3:American League | 3:National League | 2:Milestones | 3:Batters | 3:Pitchers | 4:No-hitters | 4:Other pitching accomplishments | 3:Miscellaneous | 2:Awards and honors | 3:Regular season | 3:All-MLB Team | 3:Other awards | 3:Monthly awards | 4:Player of the Month | 4:Rookie of the Month | 4:Pitcher of the Month | 4:Reliever of the Month | 2:Home field attendance and payroll | 2:Venues | 2:Uniforms | 3:Wholesale changes | 3:City Connect | 3:Anniversaries and special events | 3:Other uniforms | 2:Media | 3:Television | 4:National | 4:=Linear television= | 4:=Streaming= | 4:=Postseason= | 4:=Personnel= | 4:Local | 4:=FanDuel Sports Network teams= | 4:International | 3:Radio | 4:National | 4:Local | 2:Retirements | 2:Retired numbers | 2:See also | 2:References | 2:External links
-templates: cite web×119, Cite web×108, winpct×27, Flexbox wrap×18, cite news×16, abbr×15, cite press release×9, frac×6, main×5, small×4, TBA×3, cite tweet×2, lit×2, Short description×1, Use mdy dates×1, MLBseason×1, Infobox sports season×1, nowrap×1, MLB Team Maps (2026–present)×1, cite magazine×1, 2026 AL East standings×1, 2026 AL Central standings×1, 2026 AL West standings×1, 2026 NL East standings×1, 2026 NL Central standings×1, 2026 NL West standings×1, Main article×1, #lst:2026 Major League Baseball postseason×1, Dead link×1, see also×1, fraction×1, mlby×1, Cite tweet×1, reflist×1, 2026 MLB season by team×1, MLB seasons×1
-TSDB search_all_teams.php?l=MLB 200 10 Arizona Diamondbacks [MLB/Baseball] badge; Athletics [MLB/Baseball] badge; Atlanta Braves [MLB/Baseball] badge; Baltimore Orioles [MLB/Baseball] badge; Boston Red Sox [MLB/Baseball] badge; Chicago Cubs [MLB/Baseball] badge; Chicago White Sox [MLB/Baseball] badge; Cincinnati Reds [MLB/Baseball] badge; Cleveland Guardians [MLB/Baseball] badge; Colorado Rockies [MLB/Baseball] badge
-TSDB searchteams.php?t=Yokohama%20DeNA%20BayStars 200 1 Yokohama DeNA BayStars [Nippon Baseball League/Baseball] badge
-TSDB searchteams.php?t=Fukuoka%20SoftBank%20Hawks 200 1 Fukuoka SoftBank Hawks [Nippon Baseball League/Baseball] badge
-TSDB searchteams.php?t=Milwaukee%20Brewers 200 1 Milwaukee Brewers [MLB/Baseball] badge
+| score = 
+--- linescore
+{{linescore|
+|Date = September 29, 2026
+|Time = 4:10{{nbsp}}pm ([[Central time zone|CDT]])
+|Location = [[Daikin Park]] in [[Houston]], [[Texas]]
+|Other = {{convert|72|F|C}}, Roof Closed
+|Road='''Chicago'''|RoadAbr=CWS
+|R1=1|R2=2|R3=0|R4=1|R5=1|R6=0|R7=1|R8=0|R9=0|RR=6|RH=11|RE=1
+|Home=Houston|HomeAbr=HOU
+|H1=0|H2=0|H3=0|H4=0|H5=2|H6=0|H7=0|H8=1|H9=0|HR=3|HH=6|HE=1
+|WP=[[Jordan Hicks (baseball)|Jordan Hicks]] (1–0) |LP=[[AJ Blubaugh]] (0–1) |SV=
+|HomeHR=[[Nelson Velázquez]] (1) |RoadHR=[[Colson Montgomery]] (1)
+|Attendance= 34,011
+|BoxURL = https://www.mlb.com/gameday/white-sox-vs-astros/2026/09/29/849849/final
+}}
+Prior to the game, [[Pope Leo XIV]], an avid White Sox fan, sent a supportive letter and blessed the team before their first playoff game since [[2021 Chicago White Sox season|2021]].<ref>{{Cite web |date=September 29, 2026 |title=Pope Leo XIV sends blessings to White Sox ahead 
+summaries: 2 linescores: 6
+===== 2026 National League Division Series 200 44248
+{{MLB Playoff Summary
+| summary =
+| winner = Milwaukee
+| leader = 
+| score = 3–1
+| date1 = October 3
+| score1 = San Diego Padres – 2, '''Milwaukee Brewers''' – 3
+| loc1 = [[American Family Field]]
+| time1 = 3:28
+| att1 = 42,843
+| ref1 = <ref>{{cite web|title=Padres 2, Brewers 3 Final|url=https://www.mlb.com/gameday/padres-vs-brewers/2026/10/03/849830/final|website=MLB.com|date=October 3, 2026|access-date=October 3, 2026}}</ref>
+| date2 = October 4
+| score2 = San Diego Padres – 3, '''Milwaukee Brewers''' – 4
+| loc2 = American Family Field
+| time2 = 3:14
+| att2 = 41,683
+| ref2 = <ref>{{cite web|title=Padres 3, Brewers 4 Final|url=https://www.mlb.com/gameday/padres-vs-brewers/2026/10/04/849825/final|website=MLB.com|date=October 4, 2026|access-date=October 4, 2026}}</ref>
+| date3 = October 6
+| score3 = Milwaukee Brewers – 3, '''San Diego Padres''' – 4
+| loc3 = [[Petco Park]]
+| time3 = 3:22
+|
+--- linescore
+{{linescore|
+|Date = October 3, 2026
+|Time = 7:38{{nbsp}}pm ([[Central Time Zone|CDT]])
+|Location = [[American Family Field]] in [[Milwaukee]], [[Wisconsin]]
+|Other ={{convert|68|F|C}}, Roof Closed 
+|Road=San Diego|RoadAbr=SD
+|R1=0|R2=2|R3=0|R4=0|R5=0|R6=0|R7=0|R8=0|R9=0|RR=2|RH=9|RE=1
+|Home='''Milwaukee'''|HomeAbr=MIL
+|H1=0|H2=0|H3=2|H4=0|H5=0|H6=0|H7=1|H8=0|H9=X|HR=3|HH=7|HE=0
+|WP=[[DL Hall]] (1–0) |LP=[[Adrián Morejón]] (0–1) |SV=[[Trevor Megill]] (1)
+|HomeHR=[[Jackson Chourio]] (1), [[William Contreras]] (1) |RoadHR=
+|Attendance=42,843
+|BoxURL = https://www.mlb.com/gameday/padres-vs-brewers/2026/10/03/849830/final
+}}
+
+In the top of the second inning, [[Luis Campusano]] hit an RBI single off [[Jacob Misiorowski]] to drive in [[Xander Bogaerts]], putting the Padres on the board 1–0. Then, [[Jake Cronenworth]] drove in [[Ethan Salas]] on a fielder's choice to extend the Padres' lead to 
+summaries: 2 linescores: 10
+===== NPB standings 200
+==Regular season standings==
+{| class="wikitable plainrowheaders" style="text-align:center;"
+|+ 2026 [[Central League]] regular season standings<ref name="auto">{{cite web|title=2026 Central League Standings|url=https://npb.jp/bis/eng/2026/stats/std_c.html |access-date=September 17, 2026 |publisher=[[Nippon Professional Baseball]]}}</ref>
+!scope="col"| {{abbr|Pos|Position}}
+!scope="col"| Team
+!scope="col"| {{abbrlink|G|Games played}}
+!scope="col"| {{abbr|W|Games won}}
+!scope="col"| {{abbr|L|Games lost}}
+!scope="col"| [[Tie (draw)|{{abbr|T|Games tied}}]] 
+!scope="col"| [[Winning percentage|{{abbr|Pct.|Winning percentage}}]] 
+!scope="col"| {{abbrlink|GB|Games behind}}
+!scope="col"| {{abbr|Home|Home record}}
+!scope="col"| {{abbr|Road|Road record}}
+|-
+|1
+| style="text-align:left;" |'''z –''' [[Hanshin Tigers]]
+|143||79||62||2||{{Winning percentage|79|62}}||—||37–33–2||42–29–0
+|-
+|2
+| style="text-align:left;" |'''y –''' [[Yomiuri Giants]]
+|143||76||64||3||{{Winning percentage|76|64}}||2½||39–31–2||37–33–1
+|-
+|3
+| style="text-align:left;" |'''y –''' [[Yokohama DeNA BayStars]]
+|143||71||69||3||{{Winning percentage|71|69}}||7½||39–30–3||32–39–0
+|-
+! colspan="10" |
+|-
+|4
+| style="text-align:left;" |[[Hiroshima Toyo Carp]]
+|143||61||78||4||{{Winning percentage|61|78}}||17||34–36–1||27–42–3
+|-
+|5
+| style="text-align:left;" |[[Tokyo Yakult Swallows]]
+|143||61||80||2||{{Winning percentage|61|80}}||18||29–40–2||32–40–0
+|-
+|6
+| style="text-align:left;" |[[Chunichi Dragons]]
+|143||60||81||2||{{Winning percentage|60|81}}||19||38–33–0||22–48–2
+|}
+:<small>'''y''' – Clinched [[2026 Central League Climax Series|Climax Series]] berth; '''z''' – Clinched Central League pennant</small>
+
+{| class="wikitable plainrowheaders" style="text-align:center;"
+|+ 2026 [[Pacific League]] regular season standings<ref name="auto1">{{cite web|title=2026 Pacific League Standings |url=https://npb.jp/bis/eng/2026/stats/std_p.html |access-date=September 17, 2026 |publisher=[[Nippon Professional Baseball]]}}</ref>
+!scope="col"| {{abbr|Pos|Position}}
+!scope="col"| Team
+!scope="col"| {{abbrlink|G|Games played}}
+!scope="col"| {{abbr|W|Games won}}
+!scope="col"| {{abbr|L|Games lost}}
+!scope="col"| [[Tie (draw)|{{abbr|T|Games tied}}]] 
+!scope="col"| [[Winning percentage|{{abbr|Pct.|Winning percentage}}]] 
+!scope="col"| {{abbrlink|GB|Games behind}}
+!scope="col"| {{abbr|Home|Home record}}
+!scope="col"| {{abbr|Road|Road record}}
+|-
+|1
+| style="text-align:left;"|'''za –''' [[Fukuoka SoftBank Hawks]]
+|143||91||49||3||{{Winning percentage|91|49}}||—||49–23–0||42–26–3
+|-
+|2
+| style="text-align:left;" |'''y –''' [[Saitama Seibu Lions]]
+|143||79||60||4||{{Winning percentage|79|60}}||11½||41–29–2||38–31–2
+|-
+|3
+| style="text-align:left;" |'''y –''' [[Hokkaido Nippon-Ham Fighters]]
+|143||78||62||3||{{Winning percentage|78|62}}||13||42–28–2||36–34–1
+|-
+! colspan="10" |
+|-
+|4
+| style="text-align:left;" |[[Orix Buffaloes]]
+|143||65||76||2||{{Winning percentage|65|76}}||26½||41–29–1||24–47–1
+|-
+|5
+| style="text-align:left;" |[[Chiba Lotte Marines]]
+|143||63||77||3||{{Winning percentage|63|77}}||28||37–33–1||26–44–2
+|- 
+|6
+| style="text-align:left;" |[[2026 Tohoku Rakuten Golden Eagles season|Tohoku Rakuten Golden Eagles]]
+|143||58||84||1||{{Winning percentage|58|84}}||34||34–37–0||24–47–1
+|}
+:<small>'''y''' – Clinched [[2026 Pacific League Climax Series|Climax Series]] berth; '''z''' – Clinched Pacific League pennant; '''a''' – Clinched two-game advantage in [[2026 Pacific League Climax Series|Pacifi
