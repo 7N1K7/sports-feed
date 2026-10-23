@@ -1,4 +1,4 @@
-// probe 115: v392 live: women's events with no Kiwi left out
+// probe 116: v394 live: women's events with no Kiwi left out
 const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
 console.log('generated', f.generatedAt);
 console.log('womenNoKiwi:', f.diag.womenNoKiwi);
