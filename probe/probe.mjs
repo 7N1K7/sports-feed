@@ -18,3 +18,4 @@ out.push(`no broadcast ${nob.length}: ${JSON.stringify(m)}`);
 const bc = {}; for (const e of up.filter(e => /Dean Jones|Big Bash|Australia v|India v|SailGP|ATP Finals/.test(e.comp))) { const k = e.comp.replace(/ · .*/, '') + ' => ' + e.broadcast; bc[k] = (bc[k] || 0) + 1; }
 out.push('rules: ' + JSON.stringify(bc, null, 1));
 fs.writeFileSync(new URL('./out.txt', import.meta.url), out.join('\n'));
+// 1792773838
