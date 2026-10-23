@@ -190,6 +190,7 @@ html { -webkit-tap-highlight-color: transparent }
 .pcoffee { position: absolute; top: 12px; right: 54px; height: 30px; display: inline-flex; align-items: center; gap: 5px; padding: 0 11px; border-radius: 999px; border: 1px solid var(--line);
   background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; z-index: 1 }
 .pcoffee:hover { border-color: var(--accent) }
+@media (max-width: 700px) { .pcoffee { position: static; width: max-content; margin: 10px auto 2px } } /* phones: centred under the title, clear of the × */
 .panel .pbox { position: relative; pointer-events: auto; margin-left: auto; width: min(720px, 100%); max-height: calc(100vh - 110px); max-height: calc(100dvh - 110px); overflow: auto; overscroll-behavior: contain;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; box-shadow: 0 16px 40px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.08) }
 .group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--f-body); font-weight: 700; margin-bottom: 6px }
@@ -1269,8 +1270,9 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
     </div>
   </div>
   <div class="panel" id="panel" hidden>
-  <div class="wrap"><div class="pbox" role="dialog" aria-label="Settings"><button type="button" class="pclose" id="panelClose" aria-label="Close settings">×</button><a class="pcoffee" href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="settings">☕ Buy me a coffee</a>
+  <div class="wrap"><div class="pbox" role="dialog" aria-label="Settings"><button type="button" class="pclose" id="panelClose" aria-label="Close settings">×</button>
     <h2 class="ph ptitle">Settings <span class="phnote">Saved in this browser only (clearing site data resets them)</span></h2>
+    <a class="pcoffee" href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="settings">☕ Buy me a coffee</a>
     <div class="spoil-row">
       <span class="sgrp"><label for="tzSel">Show times for</label>
       <select id="tzSel"></select></span>
