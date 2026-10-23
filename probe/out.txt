@@ -1,33 +1,12 @@
-generated undefined
-2026-10-18T08:00:00.000Z | intlcricket | Pakistan ODI Tri-Series | Pakistan | v | Sri Lanka | final |  | -
-2026-10-20T08:00:00.000Z | intlcricket | Pakistan ODI Tri-Series | Pakistan | v | England | final |  | -
-2026-10-22T08:00:00.000Z | intlcricket | Pakistan ODI Tri-Series | England | v | Sri Lanka | final |  | -
-2026-10-25T08:00:00.000Z | intlcricket | Pakistan ODI Tri-Series | Pakistan | v | Sri Lanka | upcoming |  | -
-2026-10-27T08:00:00.000Z | intlcricket | Pakistan ODI Tri-Series | Pakistan | v | England | upcoming |  | -
-2026-10-29T08:00:00.000Z | intlcricket | Pakistan ODI Tri-Series | England | v | Sri Lanka | upcoming |  | -
-2026-10-31T08:00:00.000Z | intlcricket | Pakistan ODI Tri-Series | 1st placed team | v | 2nd placed team | upcoming |  | -
-2026-10-25T07:00:00.000Z | intlcricket | United Arab Emirates Tri-Nation Series | United Arab Emirates | v | Netherlands | upcoming |  | -
-2026-10-27T07:00:00.000Z | intlcricket | United Arab Emirates Tri-Nation Series | Netherlands | v | OMA | upcoming |  | -
-2026-10-29T07:00:00.000Z | intlcricket | United Arab Emirates Tri-Nation Series | United Arab Emirates | v | OMA | upcoming |  | -
-2026-10-31T07:00:00.000Z | intlcricket | United Arab Emirates Tri-Nation Series | United Arab Emirates | v | Netherlands | upcoming |  | -
-2026-11-02T07:00:00.000Z | intlcricket | United Arab Emirates Tri-Nation Series | Netherlands | v | OMA | upcoming |  | -
-2026-11-04T07:00:00.000Z | intlcricket | United Arab Emirates Tri-Nation Series | United Arab Emirates | v | OMA | upcoming |  | -
-key generatedAt string
-key site object
-key diag object
-key events 939
-key form object
-key news 176
-key tables 65
-key rankings 45
-key stateSquads 6
-key teamSquads 154
-key teamLinks object
-key coverage object
-key sources 21
-SCOT | France | Scotland |  | 
-SCOT | Australia | Scotland |  | 
-SCOT | Scotland | All Blacks |  | 
-SCOT | Australia Women | Scotland Women |  | https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Scottish_rugby_textlogo.svg/250px-Scottish_rugby_textlogo.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail
-SCOT | Australia Women | Scotland Women |  | https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Scottish_rugby_textlogo.svg/250px-Scottish_rugby_textlogo.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail
-SCOT | Scotland | New Zealand |  | 
+generatedAt 2026-10-23T09:07:12.762Z
+{"id":"wiki-intlcricket-2026-10-18-pakistansrilanka","team":"intlcricket","tags":[],"sport":"cricket","comp":"Pakistan ODI Tri-Series","home":"Pakistan","away":"Sri Lanka","startUTC":"2026-10-18T08:00:00.000Z","timeTBC":false,"venue":"Rawalpindi Cricket Stadium","city":"Rawalpindi","tz":"Asia/Karachi","status":"final","score":"305 (49.5 overs) v 268 (48.1 overs)","summary":"Pakistan won by 37 runs","source":"https://en.wikipedia.org/wiki/2026%E2%80%9327_Pakistan_ODI_Tri-Series","link":"https://www.cricinfo.com/ci/engine/match/1550713.html","cricinfo":"https://www.cricinfo.com/ci/engine/match/1550713.html","homeLogo":"https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Pakistan_cricket_team_logo.png/250px-Pakistan_cricket_team_logo.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","homeLogoCredit":"Pakistan cricket team logo (Public domain), via Wikimedia Commons"}
+{"id":"wiki-intlcricket-2026-10-25-pakistansrilanka","team":"intlcricket","tags":[],"sport":"cricket","comp":"Pakistan ODI Tri-Series","home":"Pakistan","away":"Sri Lanka","startUTC":"2026-10-25T08:00:00.000Z","timeTBC":false,"venue":"Gaddafi Stadium","city":"Lahore","tz":"Asia/Karachi","status":"upcoming","source":"https://en.wikipedia.org/wiki/2026%E2%80%9327_Pakistan_ODI_Tri-Series","link":"https://www.cricinfo.com/ci/engine/match/1550716.html","cricinfo":"https://www.cricinfo.com/ci/engine/match/1550716.html","homeLogo":"https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Pakistan_cricket_team_logo.png/250px-Pakistan_cricket_team_logo.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","homeLogoCredit":"Pakistan cricket team logo (Public domain), via
+TABLE {"comp":"Big Bash League","sport":"cricket","team":"bbl","page":"2026–27 Big Bash League season","title":"","style":"cricket","rows":[{"name":"Adelaide Strikers","p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","pts":0,"q":"Q","champ":false},{"name":"Brisbane Heat","p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","pts":0,"q":"Q","champ":false},{"name":"Hobart Hurricanes","p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","pts":0,"q":"K","champ":false},{"name":"Melbourne Renegades","p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","pts":0,"q":"K","champ":false},{"name":"Melbourne Stars","p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","pts":0,"q":"","champ":false},{"name":"Perth Scorchers","p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","pts":0,"q":"","champ":false},{"name":"Sydney Sixers","p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0
+TABLE {"comp":"Women's Big Bash League","sport":"cricket","team":"wbbl","page":"2026–27 Women's Big Bash League season","title":"","style":"cricket","rows":[{"name":"Adelaide Strikers","p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","pts":0,"q":"F","champ":false},{"name":"Brisbane Heat","p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","pts":0,"q":"Q","champ":false},{"name":"Hobart Hurricanes","p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","pts":0,"q":"Q","champ":false},{"name":"Melbourne Renegades","p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","pts":0,"q":"Q","champ":false},{"name":"Melbourne Stars","p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","pts":0,"q":"","champ":false},{"name":"Perth Scorchers","p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","pts":0,"q":"","champ":false},{"name":"Sydney Sixers","p":0,"w":0,"d":0,"l":0,"
+TABLE {"comp":"Pakistan ODI Tri-Series","sport":"cricket","team":"","page":"2026–27 Pakistan ODI Tri-Series","title":"","style":"cricket","rows":[{"name":"Pakistan","p":2,"w":2,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"1.240","pts":4,"q":"","champ":false},{"name":"Sri Lanka","p":2,"w":1,"d":0,"l":1,"f":0,"a":0,"bp":0,"nr":0,"nrr":"-0.348","pts":2,"q":"","champ":false},{"name":"England","p":2,"w":0,"d":0,"l":2,"f":0,"a":0,"bp":0,"nr":0,"nrr":"-0.892","pts":0,"q":"","champ":false}]}
+TABLE {"comp":"Afghanistan Tri-Nation Series","sport":"cricket","team":"","page":"2026 Afghanistan Tri-Nation Series","title":"","style":"cricket","rows":[{"name":"Afghanistan","p":2,"w":2,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"2.362","pts":4,"q":"Q","champ":false},{"name":"Zimbabwe","p":2,"w":1,"d":0,"l":1,"f":0,"a":0,"bp":0,"nr":0,"nrr":"-0.590","pts":2,"q":"Q","champ":false},{"name":"Bangladesh","p":2,"w":0,"d":0,"l":2,"f":0,"a":0,"bp":0,"nr":0,"nrr":"-1.733","pts":0,"q":"E","champ":false}]}
+TABLE {"comp":"Supercars","sport":"motor","team":"supercars","page":"2026 Supercars Championship","title":"Teams' championship","style":"points","rows":[{"name":"Grove Racing","pts":4561,"p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","q":"","champ":false},{"name":"Triple Eight Race Engineering","pts":4371,"p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","q":"","champ":false},{"name":"Tickford Racing","pts":3480,"p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","q":"","champ":false},{"name":"Walkinshaw TWG Racing","pts":3321,"p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","q":"","champ":false},{"name":"Dick Johnson Racing","pts":3282,"p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","q":"","champ":false},{"name":"Team 18","pts":2993,"p":0,"w":0,"d":0,"l":0,"f":0,"a":0,"bp":0,"nr":0,"nrr":"","q":"","champ":false},{"name":"Matt Stone Racing","pts
+tables keys comp,sport,team,page,title,style,rows
+FORM cricket|Sri Lanka [{"id":"wiki-intlcricket-2026-08-15-indiasrilanka","d":"2026-08-15","o":"India","r":"L","s":"India won by 165 runs","f":"Test"},{"id":"wiki-intlcricket-2026-08-23-indiasrilanka","d":"2026-08-23","o":"India","r":"D","s":"Match drawn","f":"Test"},{"id":"wiki-intlcricket-2026-10-09-srilankapakistan","d
+FORM cricket|England [{"d":"2025-10-20","o":"New Zealand","r":"W","s":"171 (18 overs) v 236/4 (20 overs)","f":"T20I"},{"d":"2025-10-26","o":"New Zealand","r":"L","s":"224/6 (36.4 overs) v 223 (35.2 overs)","f":"ODI"},{"d":"2025-10-29","o":"New Zealand","r":"L","s":"177/5 (33.1 overs) v 175 (36 overs)","f":"ODI"},{"d":"2
+FORM cricket|Pakistan [{"d":"2026-01-29","o":"Australia","r":"W","s":"168/8 (20 overs) v 146/8 (20 overs)","f":"T20I"},{"d":"2026-01-31","o":"Australia","r":"W","s":"198/5 (20 overs) v 108 (15.4 overs)","f":"T20I"},{"id":"wiki-intlcricket-2026-07-25-westindiespakistan","d":"2026-07-25","o":"West Indies","r":"L","s":"West
