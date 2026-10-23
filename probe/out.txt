@@ -1,10 +1,4 @@
-{"id":"rlwc-w-samoa-wales","team":"rlwc","sport":"league","comp":"Women's Rugby League World Cup, Group A, Round 2","home":"Samoa","away":"Wales","startUTC":"2026-10-23T06:50:00.000Z","timeTBC":false,"venue":"CommBank Stadium","city":"Sydney, Australia","tz":"Australia/Sydney","status":"upcoming","broadcast":"Sky Sport / Sky Sport Now","source":"https://www.nrl.com/draw/?competition=157&season=2026&round=2","tags":["rlwc"],"link":"https://www.nrl.com/draw/womens-rugby-league-world-cup/2026/round-2/samoa-v-wales/","tv":[{"ch":"Sky Sport 1","at":"2026-10-23T06:40:00.000Z","delayed":false}]}
+##### 2026 Women's Rugby League World Cup Group A MISSING 0
+##### 2026 Women's Rugby League World Cup 38285
 
-wiki around the match:
-e World Cup qualification}}
-
-On 3 August 2023, the date the tournament was announced, the only qualified teams for the 2026 tournament were the semi-finalists of the [[2021 Women's Rugby League World Cup|2021 World Cup]]. The qualification process for the remaining teams was announced 15 December 2023.<ref>{{cite web|url=https://www.intrl.sport/news/rlwc2026-women-s-qualifying-process-announced/|title=Rugby League World Cup 2026 women's qualifying process announced|website=Rugby League International Federation|date=15 December 2023|access-date=11 January 2024}}</ref>
-
-Two teams would qualify directly via the European qualifications group stages on 22 June 2024,<ref>{{cite web |title=France, Wales women qualify for RLWC2026 |url=https://www.intrl.sport/article/179/france,-wales-women-qualify-for-rlwc2026 |website=Rugby League International Federation |access-date=24 June 2024 |date=23 June 2024}}</ref> and one team would qualify directly via the [[2024 Rugby League Pacific Championships#Women's Pacific Bowl|2024 Women's Pacific Bowl]] on 2 November 2024.<ref>{{cite web|url=https://www.nrl.com/news/2024/11/02/late-surge-earns-fetu-samoa-world-cup-qualification-and-promotion-shot/ |title=Late surge earns Samoa World Cup spot, promotion shot |website=National Rugby League |date=2 November 2024 |access-date=2 November 2024}}</ref>
-
-The [[2026 Women's Rugby League World Cup qualification #World Series|2025 World Series]] determined the final team to qualify, with one team from each confederation qualifying for the World Series.<ref>{{cite web |title=Match Detail |url=https://www.
+tsdb: 
