@@ -379,7 +379,8 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
   // women's, with the series' table
   for (const s of [...seasons, ...years.map(String)]) {
     try {
-      const r = await api('action=query&list=search&srlimit=20&srnamespace=0&srsearch=' + encodeURIComponent(`intitle:tri cricket "${s}"`));
+      // a year has dozens (the smaller nations play several), and search's order shifts, so take them all
+      const r = await api('action=query&list=search&srlimit=100&srnamespace=0&srsearch=' + encodeURIComponent(`intitle:tri cricket "${s}"`));
       for (const { title } of r.query?.search || []) {
         if (!title.startsWith(s + ' ') || !/\btri-?(nation|series)|triangular/i.test(title) || /under-19|\bU19\b|\bA team|domestic/i.test(title) || want.has(title)) continue;
         want.set(title, { sport: 'cricket', comp: title.slice(s.length + 1), classify: 'tricricket', women: /women/i.test(title) });
