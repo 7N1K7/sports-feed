@@ -1562,7 +1562,7 @@ const TSDB = 'https://www.thesportsdb.com/api/v1/json/123/';
 // One shared budget per run: if TheSportsDB rate-limits us twice, or we've spent 90s on it, skip it until next run
 let tsdbBlocked = false;
 const tsdbStart = Date.now();
-// extra: a handful of calls made after the run's time for TheSportsDB is up (golf's top 10s, looked up once each)
+// extra: a handful of calls made after the run's time for TheSportsDB is up (golf's top 10s and team badges, each kept once found)
 export async function tsdb(q, { extra = false } = {}) {
   for (let attempt = 0; ; attempt++) {
     if (tsdbBlocked || (!extra && Date.now() - tsdbStart > 150000)) throw new Error('thesportsdb skipped this run');
