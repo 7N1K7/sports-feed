@@ -1,9 +1,5 @@
 import fs from 'fs';
-const out = [];
-const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
-out.push('generatedAt ' + f.generatedAt + ' events ' + f.events.length + ' tables ' + f.tables.length);
-for (const e of f.events.filter(e => /Tri-(Series|Nation)/i.test(e.comp || ''))) out.push([e.startUTC.slice(0, 10), e.comp, e.home, 'v', e.away, e.minor ? 'MINOR' : '', e.watchNote || ''].join(' | '));
-for (const t of f.tables.filter(t => /Tri/.test(t.comp))) out.push('TABLE ' + t.comp + ': ' + t.rows.map(r => r.name).join(', '));
-const sc = f.events.filter(e => /Scotland Women/.test(e.home + e.away));
-for (const e of sc) out.push(['SCOT', e.home, e.away, e.homeLogo || '-', e.awayLogo || '-'].join(' | '));
-fs.writeFileSync(new URL('./out.txt', import.meta.url), out.join('\n'));
+// a failed job's log (public repo; GitHub masks secrets). Only the chain step's lines are kept.
+const r = await fetch('https://api.github.com/repos/7N1K7/sports-feed/actions/jobs/120309750741/logs', { headers: { authorization: 'Bearer ' + process.env.GH_TOKEN, 'user-agent': 'probe' } });
+const t = await r.text();
+fs.writeFileSync(new URL('./out.txt', import.meta.url), r.status + '\n' + t.split('\n').filter(l => !/token|secret|key/i.test(l)).slice(-40).join('\n'));
