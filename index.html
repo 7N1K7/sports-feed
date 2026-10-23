@@ -2991,7 +2991,7 @@ const nowWatched = new WeakSet();
 function renderNowBar(now) {
   const by = new Map();
   for (const e of FEED.events || []) {
-    if (!visibleTeam(e)) continue;
+    if (!visibleTeam(e) || e.minor) continue;
     const c = compOf(e);
     // season-long championships (F1, Supercars, SailGP, the golf tours) aren't a series: they're under Running now
     if (GENERIC.test(c) || ['motor', 'sailing', 'golf'].includes(e.sport)) continue;

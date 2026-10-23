@@ -83,6 +83,7 @@ const CODES = {
   BAN: 'Bangladesh', BGD: 'Bangladesh', WI: 'West Indies', WIN: 'West Indies', AFG: 'Afghanistan', ZIM: 'Zimbabwe', LBN: 'Lebanon', LEB: 'Lebanon', JAM: 'Jamaica', GEO: 'Georgia', POR: 'Portugal',
   ESP: 'Spain', URU: 'Uruguay', CHI: 'Chile', NED: 'Netherlands', BRA: 'Brazil', KEN: 'Kenya', CZE: 'Czechia', POL: 'Poland', ROU: 'Romania', ROM: 'Romania', HKG: 'Hong Kong',
   KOR: 'South Korea', CHN: 'China', GER: 'Germany', BEL: 'Belgium', NAM: 'Namibia', UAE: 'United Arab Emirates', SCOT: 'Scotland', IRELAND: 'Ireland', SER: 'Serbia', GRE: 'Greece',
+  OMA: 'Oman', NEP: 'Nepal', KUW: 'Kuwait', SGP: 'Singapore', BER: 'Bermuda', JER: 'Jersey', TAN: 'Tanzania',
   MLT: 'Malta', ITY: 'Italy', NIR: 'Northern Ireland', IRE: 'Ireland', GBR: 'Great Britain', MAS: 'Malaysia', AUT: 'Austria', BLR: 'Belarus', UKR: 'Ukraine', EGY: 'Egypt',
 };
 // Team cell: {{Rut|Crusaders}}, {{rl-rt|AUS}}, {{crw|NZ}}, {{RuA-rt|ITA|name=Italy XV}}, [[Melbourne Renegades]] (H)
@@ -239,8 +240,15 @@ function eventsFromPage(title, text, cfg, cityTz) {
       ...(progress ? { progress } : {}), ...(liveScore ? { liveScore } : {}),
     });
   }
+  // a tri-series of the smaller cricket nations (UAE, Netherlands, Oman) is listed under All competitions but kept off
+  // the main feed: it's minor unless two of its sides are Test nations
+  if (cfg.classify === 'tricricket') {
+    const sides = new Set(out.flatMap(e => [e.home, e.away]));
+    if ([...sides].filter(n => TEST_NATIONS.test(n)).length < 2) for (const e of out) e.minor = true;
+  }
   return out;
 }
+const TEST_NATIONS = /^(New Zealand|Australia|England|India|Pakistan|Sri Lanka|South Africa|West Indies|Bangladesh|Zimbabwe|Afghanistan|Ireland)$/;
 
 // Simple wikitable reader with rowspan support: rows of cell strings
 function tableRows(table) {
