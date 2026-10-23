@@ -10,7 +10,7 @@
 //   data/broadcast.json        -> where-to-watch rules by competition
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
 import { wikiEvents, tsdbEvents, tsdb, f1StartTimes, supercarsStartTimes, nbaGames, stateSquads, teamSquads } from './sources.mjs';
-import { rankings as getRankings } from './rankings.mjs';
+import { rankings as getRankings, KIWI_GOLF } from './rankings.mjs';
 import { execSync } from 'node:child_process';
 
 const ROOT = new URL('../', import.meta.url);
@@ -79,6 +79,9 @@ const NEWS_TEAMS = [
   ['nzboxing', /Joseph Parker|David Nyika|Mea Motu|Lani Daniels|Andrei Mikhailovich/i],
   ['ufc', /\bUFC\b|\bMMA\b|Adesanya|Kara-France|Dan Hooker|Carlos Ulberg/i], ['boxing', /\bboxing\b|\bboxer\b|heavyweight title/i],
   ['npb', /Japan Series|\bNPB\b|Nippon Professional Baseball/i], ['mlb', /\bMLB\b|Major League Baseball/], ['nba', /\bNBA\b|Steven Adams/],
+  // golf: the women's tour by name or its players, the Australasian tour's events, and the rest of golf under the PGA Tour
+  ['lpga', /\bLPGA\b|Lydia Ko|Nelly Korda|Solheim Cup/i], ['golfanz', /PGA Tour of Australasia|New Zealand Open|NZ Open\b|Australian PGA|NZ PGA/i],
+  ['pgatour', /\bPGA Tour\b|FedEx Cup|Ryan Fox|Daniel Hillier|Kazuma Kobori|Scheffler|McIlroy|Ryder Cup|\bThe Masters\b|\bLIV\b|\bgolf(er|ers)?\b/i],
 ];
 // the NBA's and MLB's teams by their short names, for the basketball and baseball feeds (where "Heat" or "Giants" can only
 // mean the one team)
@@ -250,13 +253,15 @@ async function fightNews(feeds = FIGHT_FEEDS, diagKey = 'fightNews') {
 const CRICKET_HEADLINES = [];
 // every sport headline read this run (Herald, BBC, Scoop), for finding a Kiwi in an event we'd otherwise leave out
 const HEADLINES = [];
-const BBC_FEEDS = ['rugby-union', 'rugby-league', 'cricket', 'boxing', 'mixed-martial-arts', 'formula1', 'tennis', 'football/premier-league', 'basketball', 'baseball']
+const BBC_FEEDS = ['rugby-union', 'rugby-league', 'cricket', 'boxing', 'mixed-martial-arts', 'formula1', 'tennis', 'football/premier-league', 'basketball', 'baseball', 'golf']
   .map(s => [s, `https://feeds.bbci.co.uk/sport/${s}/rss.xml`]);
 // in the basketball and baseball feeds a story is ours when it names one of that sport's teams, or the NBA or MLB (by name
 // or by a team's short name); the WNBA, college and the rest stay out
 const BBC_SPORT = {
   basketball: [/^(tallblacks|tallferns|breakers|nbl|nba)$/, t => /\bNBA\b/.test(t) || NBA_NICK.test(t) ? 'nba' : ''],
   baseball: [/^(mlb|npb)$/, t => /Japan|Nippon/.test(t) ? '' : /\bMLB\b/.test(t) || MLB_NICK.test(t) ? 'mlb' : ''],
+  // every BBC golf story is golf: the women's game under the LPGA, the rest under the PGA Tour
+  golf: [/^(pgatour|lpga|golfanz)$/, t => /\bLPGA\b|Solheim|women/i.test(t) ? 'lpga' : 'pgatour'],
 };
 async function bbcNews() {
   const out = [], notes = [];
@@ -744,7 +749,7 @@ const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 // headline from two days before it starts to a day after it ends that also names the event, its place or its tour
 // (and isn't about pulling out). It then shows like any other, with a note saying who's in it
 {
-  const KIWI_IN = { golf: /\b(Lydia Ko|Momoka Kobori|Amelia Garvey)\b/i, boxing: /\b(Mea Motu|Lani Daniels|Alrie Meleisea|Sequoia Graham)\b/i };
+  const KIWI_IN = { golf: KIWI_GOLF, boxing: /\b(Mea Motu|Lani Daniels|Alrie Meleisea|Sequoia Graham)\b/i };
   const words = e => [...String(e.home).split(/[^A-Za-z]+/).filter(w => w.length > 3 && !/^(open|championship|classic|tour|golf|ladies|women|invitational|presented|tournament|champions|the|title|titles|world)$/i.test(w)),
     ...String(e.city || '').split(/[^A-Za-z]+/).filter(w => w.length > 3), e.team === 'lpga' ? 'LPGA' : ''].filter(Boolean);
   const back = [], left = [];
@@ -1563,6 +1568,32 @@ async function addImages(items) {
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
 }
 await addImages(news);
+// golf: each finished tournament's top 10 (and ties), from the result text TheSportsDB keeps on the event. Looked up by
+// name a few a run (the free key is slow) and kept in .cache/golf-top10.json; a miss is asked again a day later, as
+// results can take a while to go in
+{
+  const url = new URL('.cache/golf-top10.json', ROOT), LEAGUE = { pgatour: /^PGA Tour$/i, lpga: /^LPGA/i, golfanz: /Australasia|Australian PGA/i };
+  let cache = {}; try { cache = JSON.parse(await readFile(url, 'utf8')); } catch {}
+  const rowsOf = text => String(text || '').split('\n').map(l => l.split('\t').map(x => x.trim()).filter(Boolean)).filter(c => c.length >= 4 && /^T?\d+$/.test(c[0]))
+    .map(c => ({ p: c[0], n: c[1], par: c[2], r: c.slice(3, -1), t: c[c.length - 1], ...(KIWI_GOLF.test(c[1]) ? { nz: true } : {}) }));
+  const done = events.filter(e => e.sport === 'golf' && e.status === 'final' && now - Date.parse(e.startUTC) < 60 * DAY);
+  let asked = 0, got = 0, note = '';
+  for (const e of done) {
+    const c = cache[e.id];
+    if (c?.rows) { e.leaders = c.rows; got++; continue; }
+    if (asked >= 3 || (c && now - c.t < DAY)) continue;
+    asked++;
+    try {
+      const end = Date.parse(e.startUTC), d = await tsdb(`searchevents.php?e=${encodeURIComponent(e.home.replace(/ /g, '_'))}&s=${new Date(end).getUTCFullYear()}`);
+      const ev = (d.event || []).find(x => (LEAGUE[e.team] || /./).test(x.strLeague || '') && Math.abs(Date.parse(x.dateEvent) - end) < 12 * DAY && /final round/i.test(x.strResult || ''));
+      const rows = rowsOf(ev?.strResult);
+      cache[e.id] = rows.length >= 5 ? { t: now, rows } : { t: now };
+      if (rows.length >= 5) { e.leaders = rows; got++; }
+    } catch (err) { note = ' (' + err.message + ')'; break; }
+  }
+  diag.golfTop10 = `${got} of ${done.length} finished tournaments have a top 10; ${asked} looked up${note}`;
+  try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(url, JSON.stringify(cache)); } catch {}
+}
 await addLogos(events, tsdbAll);
 await addFaces(events);
 // Australian state sides' squads, from their team pages while they have Shield or One-Day Cup games near. Kept once

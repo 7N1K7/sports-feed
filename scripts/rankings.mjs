@@ -1,5 +1,5 @@
 // World rankings from Wikipedia (CC BY-SA): rugby, cricket, league, football, hockey, basketball and netball team rankings, the ATP and
-// WTA singles rankings, and the UFC's pound-for-pound and division rankings. Each page is read once every 12 hours (rankings move weekly at most) and kept in the cache.
+// WTA singles rankings, the UFC's pound-for-pound and division rankings, and golf's world top tens and season points lists. Each page is read once every 12 hours (rankings move weekly at most) and kept in the cache.
 const UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
 
 // page -> what to take from it. teams: tables with a rank, a team and points/rating; players: a tennis singles table;
@@ -27,7 +27,16 @@ export const RANK_PAGES = [
   { sport: 'mma', page: 'UFC rankings', kind: 'fighters' },
   // the WBSC's men's baseball table comes first on its page (softball and women's baseball follow)
   { sport: 'baseball', page: 'WBSC World Rankings', kind: 'teams', titles: ["Men's"] },
+  // golf: the world top tens ("Current top 10" on each page; the official lists' own sites don't allow reuse), and the
+  // last finished FedEx Cup and Australasian Order of Merit, shown on those tours' pages only
+  { sport: 'golf', page: 'List of male golfers who have been in the world top 10', kind: 'golfers', titles: ["Men's world top 10"], org: 'OWGR' },
+  { sport: 'golf', page: "Women's World Golf Rankings", kind: 'golfers', titles: ["Women's world top 10"], org: "Women's World Golf Rankings" },
+  ...(() => { const d = new Date(), y = d.getUTCFullYear(), m = d.getUTCMonth(), fx = m >= 8 ? y : y - 1, oom = m >= 3 ? y : y - 1;
+    return [{ sport: 'golf', page: `${fx} FedEx Cup Playoffs`, kind: 'fedex', titles: [`FedEx Cup ${fx}`], org: 'PGA Tour', comp: 'PGA Tour' },
+      { sport: 'golf', page: `${oom - 1}–${String(oom).slice(2)} PGA Tour of Australasia`, kind: 'oom', titles: [`Order of Merit ${oom - 1}–${String(oom).slice(2)}`], org: 'PGA Tour of Australasia', comp: 'PGA Tour of Australasia' }]; })(),
 ];
+// New Zealand's golfers, marked in the golf lists (which mostly give no country)
+export const KIWI_GOLF = /\b(Ryan Fox|Lydia Ko|Daniel Hillier|Kazuma Kobori|Michael Hendry|Steven Alker|Momoka Kobori|Amelia Garvey|Josh Geary|Ben Campbell)\b/i;
 
 const ENT = { nbsp: ' ', amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", ndash: '–', mdash: '—', minus: '−' };
 const text = h => String(h || '')
@@ -158,6 +167,33 @@ function onePlayerTable(tables, cfg, kind, title) {
   return null;
 }
 
+// golf: a world top ten (rank, player, country if given, points), the FedEx Cup's final order from its playoffs table, or
+// an Order of Merit (position, player, points). Kiwis marked by name
+function golfTables(tables, cfg) {
+  const last = h => h[h.length - 1] || [], find = (h, re) => h.findIndex(x => re.test(x));
+  const finish = (rows, asOf, valLabel) => {
+    rows = rows.filter(r => r.rank && r.name).sort((a, b) => a.rank - b.rank);
+    const top = rows.slice(0, 20), nz = rows.filter(r => KIWI_GOLF.test(r.name) || /^New Zealand$/.test(r.iso || ''));
+    for (const r of nz) { r.nz = true; if (!top.includes(r)) top.push(r); }
+    return top.length >= 5 ? [{ sport: cfg.sport, kind: 'players', title: cfg.titles[0], page: cfg.page, ...(asOf ? { asOf } : {}), valLabel, org: cfg.org,
+      ...(cfg.comp ? { comp: cfg.comp } : {}), rows: top.map(r => ({ ...r, rank: String(r.rank) })) }] : [];
+  };
+  if (cfg.kind === 'fedex') {
+    const t = tables.find(x => /qualified players/i.test(x.heading)), h = t && last(t.heads);
+    if (!t) return [];
+    let iRank = -1; h.forEach((x, i) => { if (/^final rank/i.test(x)) iRank = i; });
+    const iName = find(h, /^player/i);
+    if (iRank < 0 || iName < 0) return [];
+    return finish(t.rows.map(r => ({ rank: +(r[iRank] || '').replace(/^T/, '') || 0, name: (r[iName] || '').trim(), val: '' })), '', '');
+  }
+  const t = tables.find(x => cfg.kind === 'oom' ? /order of merit/i.test(x.heading) : /^current top (10|ten)$/i.test(x.heading));
+  if (!t) return [];
+  const h = last(t.heads), iRank = find(h, /^(rank|position|pos)/i), iName = find(h, /^player/i), iVal = find(h, /^points/i), iCountry = find(h, /^country/i);
+  if (iRank < 0 || iName < 0 || iVal < 0) return [];
+  return finish(t.rows.map(r => ({ rank: +(r[iRank] || '').match(/\d+/)?.[0] || 0, name: (r[iName] || '').replace(/\*$/, '').trim(), ...(iCountry >= 0 ? { iso: (r[iCountry] || '').trim() } : {}), val: (r[iVal] || '').trim() })),
+    dateIn(t.notes) || dateIn(t.heading), 'Points');
+}
+
 // UFC: the page carries more than one release of the rankings; per list, keep the latest
 const DIVS = [[265, 'Heavyweight'], [205, 'Light heavyweight'], [185, 'Middleweight'], [170, 'Welterweight'], [155, 'Lightweight'], [145, 'Featherweight'], [135, 'Bantamweight'], [125, 'Flyweight'], [115, 'Strawweight']];
 function fighterTables(tables, cfg) {
@@ -209,7 +245,7 @@ export async function rankings(cache, diag) {
       const frag = (j.parse?.redirects || []).map(x => x.tofragment).filter(Boolean).pop()?.replace(/_/g, ' ').toLowerCase();
       const all = tablesOf(j.parse?.text || ''), inFrag = frag ? all.filter(t => t.heading.toLowerCase() === frag) : [];
       const tables = inFrag.length ? inFrag : all;
-      const lists = cfg.kind === 'fighters' ? fighterTables(tables, cfg) : cfg.kind === 'players' ? playerTables(tables, cfg) : teamTables(tables, cfg);
+      const lists = cfg.kind === 'fighters' ? fighterTables(tables, cfg) : cfg.kind === 'players' ? playerTables(tables, cfg) : /^(golfers|fedex|oom)$/.test(cfg.kind) ? golfTables(tables, cfg) : teamTables(tables, cfg);
       notes.push(`${cfg.page}: ${tables.length} tables, ${lists.map(l => `${l.title} ${l.rows.length}${l.asOf ? ' @' + l.asOf : ''}`).join(', ') || 'nothing usable'}`);
       if (lists.length) cache[cfg.page] = { t: now, v: CACHE_V, lists };
       out.push(...(lists.length ? lists : c?.lists || []));
@@ -218,4 +254,4 @@ export async function rankings(cache, diag) {
   diag.rankings = notes.join('; ') || 'all from cache';
   return out;
 }
-export { tablesOf as _tablesOf, teamTables as _teamTables, fighterTables as _fighterTables, playerTables as _playerTables };
+export { tablesOf as _tablesOf, teamTables as _teamTables, fighterTables as _fighterTables, playerTables as _playerTables, golfTables as _golfTables };
