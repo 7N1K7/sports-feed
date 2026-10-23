@@ -2,11 +2,7 @@ import fs from 'fs';
 const out = [];
 const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
 out.push('generatedAt ' + f.generatedAt);
-const tri = f.events.filter(e => /Pakistan ODI Tri/i.test(e.comp || ''));
-out.push(JSON.stringify(tri[0]).slice(0, 1500));
-out.push(JSON.stringify(tri[3]).slice(0, 800));
-for (const t of f.tables) if (/tri/i.test(JSON.stringify(t).slice(0, 300))) out.push('TABLE ' + JSON.stringify(t).slice(0, 900));
-out.push('tables keys ' + Object.keys(f.tables[0]).join(','));
-const fk = Object.keys(f.form).filter(k => /Pakistan|Sri Lanka|England/.test(k) && /cricket/.test(k));
-for (const k of fk) out.push('FORM ' + k + ' ' + JSON.stringify(f.form[k]).slice(0, 300));
+for (const e of f.events.filter(e => /Tri-(Series|Nation)/i.test(e.comp || ''))) out.push([e.startUTC.slice(0, 10), e.comp, e.home, 'v', e.away, e.minor ? 'MINOR' : '', 'bc=' + JSON.stringify(e.broadcast), e.watchNote || '', e.watchAU || ''].join(' | '));
+for (const e of f.events.filter(e => /Scotland|Wales|Ireland|England|Canada|USA|Italy|Japan|South Africa|France|Australia/.test(e.home + ' ' + e.away) && (e.homeLogo || e.awayLogo) && e.sport !== 'cricket'))
+  out.push(['LOGO', e.sport, e.home, e.away, (e.homeLogo || '').slice(0, 70), (e.awayLogo || '').slice(0, 70)].join(' | '));
 fs.writeFileSync(new URL('./out.txt', import.meta.url), out.join('\n'));
