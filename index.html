@@ -422,6 +422,9 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 /* the "more this way" arrow: faded over the last chip, shown only while the row has more to scroll to */
 .nowmore { position: absolute; top: 0; bottom: 0; right: 0; width: 34px; padding: 0 2px 2px 0; border: 0; display: flex; align-items: center; justify-content: flex-end; font: 700 22px/1 var(--f-body); color: var(--muted); background: linear-gradient(to right, transparent, var(--paper) 65%); opacity: 0; pointer-events: none; cursor: pointer }
 .nowwrap.more .nowmore { opacity: 1; pointer-events: auto }
+/* and its mirror at the left edge once the row has been scrolled along, to show the way back */
+.nowback { position: absolute; top: 0; bottom: 0; left: 0; width: 34px; padding: 0 0 2px 2px; border: 0; display: flex; align-items: center; justify-content: flex-start; font: 700 22px/1 var(--f-body); color: var(--muted); background: linear-gradient(to left, transparent, var(--paper) 65%); opacity: 0; pointer-events: none; cursor: pointer }
+.nowwrap.back .nowback { opacity: 1; pointer-events: auto }
 /* a narrow desktop window has no swipe, so there the chips wrap onto a second line instead of scrolling */
 @media (min-width: 561px), (hover: hover) and (pointer: fine) { .nowbar .nowchips { flex-wrap: wrap; justify-content: center; overflow-x: visible } }
 .nowchip { flex: none; font-size: 13px; padding: 4px 10px; min-height: 0 } .nowchip .cicon { margin-right: 0 } /* the chip's own gap spaces the icon, as on the sport buttons */
@@ -1014,12 +1017,17 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
   .ev .stripe { grid-row: span 2 }
   .ev .when { grid-column: 2; border-left: 0; border-top: 1px dashed var(--line); text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0 }
   .tag { justify-self: start }
-  /* the big cards (live, today) on a phone: still big, but crests a size down and closer to the names */
-  .ev .teams { font-size: 23px }
-  .ev .teams.matchup .logo:not(.flagimg) { --lh: 2.2em; width: auto; height: 2.2em; max-width: 4.3em }
-  .ev .teams.matchup .flagimg { width: auto; height: 1.5em }
-  .ev .teams.matchup:has(img) .side { grid-template-rows: 2.3em auto; row-gap: 4px }
-  .ev .nz { font-size: 27px }
+  /* the big cards (live, today) on a phone: still the biggest, but a size down all round (crests, names, the time and
+     the space around them) so a phone shows more than one at a time */
+  .ev .body { padding: 7px 12px }
+  .ev .when { padding: 7px 14px }
+  .ev .teams { font-size: 20px }
+  .ev .teams.matchup { padding-block: 3px }
+  :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .teams.matchup { padding-block: 6px } /* compact cards stay as they were */
+  .ev .teams.matchup .logo:not(.flagimg) { --lh: 2em; width: auto; height: 2em; max-width: 4em }
+  .ev .teams.matchup .flagimg { width: auto; height: 1.4em }
+  .ev .teams.matchup:has(img) .side { grid-template-rows: 2.1em auto; row-gap: 3px }
+  .ev .nz { font-size: 24px }
   .day .dd { font-size: 20px }
   .day { padding: 4px 2px }
 }
@@ -2960,15 +2968,17 @@ function renderNowBar(now) {
   onNowComps = new Set(on.map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
   $('nowBar').hidden = !on.length;
-  into($('nowBar')).html = on.length ? `<span class="nowlbl">Current running series</span><div class="nowwrap" id="nowWrap"><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''} ${v.rain ? 'is-rain' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}${v.rain ? ' (live, rain affected)' : v.live ? ' (live now)' : ''}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livedot" role="img" aria-label="live"></span>' : ''}</button>`).join('')}</div><button type="button" class="nowmore" id="nowMore" tabindex="-1" aria-hidden="true">›</button></div>` : '';
+  into($('nowBar')).html = on.length ? `<span class="nowlbl">Current running series</span><div class="nowwrap" id="nowWrap"><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''} ${v.rain ? 'is-rain' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}${v.rain ? ' (live, rain affected)' : v.live ? ' (live now)' : ''}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livedot" role="img" aria-label="live"></span>' : ''}</button>`).join('')}</div><button type="button" class="nowback" id="nowBack" tabindex="-1" aria-hidden="true">‹</button><button type="button" class="nowmore" id="nowMore" tabindex="-1" aria-hidden="true">›</button></div>` : '';
   balanceNow();
   // once per row of chips (redraws keep the same element now)
   if ($('nowChips')) { if (!nowWatched.has($('nowChips'))) { nowWatched.add($('nowChips')); $('nowChips').addEventListener('scroll', syncNowMore, { passive: true }); } syncNowMore(); }
 }
-// on a phone the chips scroll sideways; a small arrow at the right edge shows there are more, until the end is reached
+// on a phone the chips scroll sideways; a small arrow at the right edge shows there are more, until the end is reached,
+// and one at the left edge once they've been scrolled along
 function syncNowMore() {
   const box = $('nowChips'); if (!box) return;
   $('nowWrap').classList.toggle('more', box.scrollLeft + box.clientWidth < box.scrollWidth - 4);
+  $('nowWrap').classList.toggle('back', box.scrollLeft > 4);
 }
 // when the series chips wrap (a narrow desktop window), narrow their box so the lines hold even counts, 3 and 2 rather than 4 and 1
 function balanceNow() {
@@ -3569,7 +3579,7 @@ document.addEventListener('click', ev => {
   else if (t.dataset.bigpage != null) { bigPage = Math.max(0, +t.dataset.bigpage); render(); }
   else if (t.dataset.runpage != null) { runPage = Math.max(0, +t.dataset.runpage); render(); }
   else if (t.dataset.view) { view = t.dataset.view; store.set('view', view); render(); }
-  else if (t.id === 'nowMore') { const c = $('nowChips'); c.scrollBy({ left: c.clientWidth * 0.7, behavior: 'smooth' }); }
+  else if (t.id === 'nowMore' || t.id === 'nowBack') { const c = $('nowChips'); c.scrollBy({ left: c.clientWidth * (t.id === 'nowBack' ? -0.7 : 0.7), behavior: 'smooth' }); }
   else if (t.id === 'spoilBtn') { count({ e: 'use', k: 'Spoiler eye' }); spoilers = !spoilers; store.set('spoilers', spoilers); if (spoilers && !spoilDays) { spoilDays = 4; store.set('spoilDays', 4); } render(); }
   else if (t.id === 'panelClose') closeSettings();
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); if (!p.hidden) count({ e: 'use', k: 'Settings' }); }
