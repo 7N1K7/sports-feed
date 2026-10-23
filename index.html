@@ -242,15 +242,6 @@ html { -webkit-tap-highlight-color: transparent }
 .chips { display: flex; flex-wrap: wrap; gap: 6px }
 .chip { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 3px 11px; cursor: pointer; font-size: 14px }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
-/* On a standard-resolution screen a 1px outline's rounded ends blur thinner than its straight edges, so the pill
-   buttons get a second pixel just inside the outline there (its own colour, so it follows hover and pressed states).
-   Nothing changes size. */
-@media (max-resolution: 1.2dppx), (-webkit-max-device-pixel-ratio: 1.2) {
-  :where(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .seg, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide, .dsel .dbtn) { position: relative }
-  :is(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .seg, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide, .dsel .dbtn)::after {
-    content: ""; position: absolute; inset: 0; border: 1px solid; border-color: inherit; border-radius: inherit; pointer-events: none }
-  .nowchip .livedot { z-index: 1 }
-}
 .panel .ph { font-size: 20px; font-weight: 800; margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line); color: var(--accent) } /* section titles in the chosen colour; their notes stay muted */
 /* calendar rows: the team on the left, the ways to add it on the right (under it on a phone) */
 .cals { display: grid; gap: 6px }
@@ -267,6 +258,7 @@ html { -webkit-tap-highlight-color: transparent }
 .calmore[open] > summary { margin-bottom: 6px }
 /* My teams' buttons, a row under its intro and above what's hidden: Men's and Women's at the left, Select all and Clear
    at the right, all small */
+#optNote { display: block; margin-top: 4px } #optNote:empty { display: none } /* the sides that start off, on a line of their own */
 .panel .phbtns { display: flex; align-items: center; gap: 6px; margin-top: -4px }
 .panel .phbtns .btn { font: 600 12px var(--f-body); text-transform: none; letter-spacing: 0; padding: 3px 11px; color: var(--ink); white-space: nowrap; flex: none }
 /* Men's and Women's: each turns that side's teams off or back on; a green dot when some are on, red when all are off */
@@ -1300,6 +1292,20 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
 /* a fight's method ("KO R12") hangs under the v without making the card taller when the result is shown */
 .matchup .v.vhow { position: relative }
 .matchup .vhow small { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) }
+/* On a standard-resolution screen a 1px outline's rounded ends blur thinner than its straight edges, so there the pill
+   buttons' outlines are 2px, drawn as one stroke over the border box (the border itself is hidden behind a clear
+   border image, so its colour still follows hover and pressed states). Nothing changes size. (Last in the sheet, so it wins over the buttons' own rules.) Pills that clip their
+   insides get a real 2px border: the competition menus with 1px less room inside, the segmented switches 1px
+   further out (a -1px margin keeps their place). */
+@media (max-resolution: 1.2dppx), (-webkit-max-device-pixel-ratio: 1.2) {
+  :where(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide) { position: relative }
+  :is(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide) { border-image: linear-gradient(transparent, transparent) 1 }
+  :is(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide)::after {
+    content: ""; position: absolute; inset: -1px; border: 2px solid; border-color: inherit; border-radius: inherit; pointer-events: none }
+  .nowchip .livedot { z-index: 1 }
+  .seg { border-width: 2px; margin: -1px }
+  .dsel .dbtn { border-width: 2px; padding-block: 3px } #compSel { border-width: 2px; padding-block: 1px }
+}
 </style>
 <style>:root{padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
 </head>
@@ -3299,7 +3305,7 @@ function render() {
   $('hidNote').innerHTML = offs.length ? `<b>Hidden<span class="hfull"> from your feed</span>:</b> ${offs.map(hgo).join(' ')}` : 'Everything is on your feed.';
   $('hidNote').title = offs.length ? `Hidden: ${offs.map(o => o[0]).join(', ')}` : '';
   { const ns = [...OPT_IN].map(k => TEAM_NAME[k]).filter(Boolean);
-    $('optNote').textContent = ns.length ? ` The ${ns.join(' and the ')} start${ns.length > 1 ? '' : 's'} off, as there's a game nearly every day; tick ${ns.length > 1 ? 'them' : 'it'} to add ${ns.length > 1 ? 'them' : 'it'}.` : ''; }
+    $('optNote').textContent = ns.length ? `Off by default, as they have a lot of games: ${ns.join(', ')}` : ''; }
   // calendar subscriptions (built with the feed, in data/cal/): every game an NZ side plays, then each team picked above.
   // webcal: opens Apple's Calendar to subscribe; Google and Outlook take the address on their own add-by-URL pages
   const calRow = (k, label) => {
