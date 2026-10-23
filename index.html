@@ -34,7 +34,7 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
 :root {
   --paper: #f3f6f4; --surface: #ffffff; --ink: #14211c; --muted: #5a6a64; --line: #d9e2de;
   --accent: #0d6b4d; --accent-ink: #ffffff; --soft: #e6efeb;
-  --rugby: #1b1f1d; --rugbyt: #9a5428; --cricket: #b88a00; --league: #e8590c; --football: #2b8a3e; --mma: #d32f2f; --boxing: #d6336c; --motor: #1c7ed6; --tennis: #7a8c00; --hockey: #0b7285; --basketball: #a5653a; --netball: #7048e8; --sailing: #364fc7; --golf: #0b8457;
+  --rugby: #1b1f1d; --rugbyt: #9a5428; --cricket: #b88a00; --league: #e8590c; --football: #2b8a3e; --mma: #d32f2f; --boxing: #d6336c; --motor: #1c7ed6; --tennis: #7a8c00; --hockey: #0b7285; --basketball: #a5653a; --netball: #7048e8; --sailing: #364fc7; --golf: #0b8457; --baseball: #c2255c;
   --live: #c8322a; --cover: #dfe6e3;
   --soon: #d9480f; --near: #7048e8; --later: #5a6a64; --local: #1971c2;
   --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
@@ -44,12 +44,12 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
   --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
-  --rugby: #d5dbd8; --rugbyt: #dc8e5c; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7; --tennis: #c0d32a; --hockey: #3bc9db; --basketball: #e4a672; --netball: #9775fa; --sailing: #748ffc; --golf: #38d9a9;
+  --rugby: #d5dbd8; --rugbyt: #dc8e5c; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7; --tennis: #c0d32a; --hockey: #3bc9db; --basketball: #e4a672; --netball: #9775fa; --sailing: #748ffc; --golf: #38d9a9; --baseball: #f06595;
   --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark } }
 :root[data-theme="dark"] {
   --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
   --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
-  --rugby: #d5dbd8; --rugbyt: #dc8e5c; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7; --tennis: #c0d32a; --hockey: #3bc9db; --basketball: #e4a672; --netball: #9775fa; --sailing: #748ffc; --golf: #38d9a9;
+  --rugby: #d5dbd8; --rugbyt: #dc8e5c; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7; --tennis: #c0d32a; --hockey: #3bc9db; --basketball: #e4a672; --netball: #9775fa; --sailing: #748ffc; --golf: #38d9a9; --baseball: #f06595;
   --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark }
 
 /* colour themes: Settings picks one; Kiwi green is the default above */
@@ -194,6 +194,17 @@ html { -webkit-tap-highlight-color: transparent }
 .panel .pbox { position: relative; pointer-events: auto; margin-left: auto; width: min(720px, 100%); max-height: calc(100vh - 110px); max-height: calc(100dvh - 110px); overflow: auto; overscroll-behavior: contain;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; box-shadow: 0 16px 40px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.08) }
 .group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--f-body); font-weight: 700; margin-bottom: 6px }
+/* My teams: which sports are hidden, on one line that never wraps (the full list in its tooltip) */
+.panel .hidrow { display: flex; align-items: center; gap: 10px; min-width: 0 }
+.panel .hidrow .ordsel { flex: none; margin-left: auto }
+.panel .hidrow .ordsel button { font-size: 12px; padding: 1px 9px }
+.panel .hidnote { flex: 1 1 auto; min-width: 0; margin: 0; font-size: 13px; line-height: 20px; height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted) }
+.panel .hidnote b { color: var(--ink); font-weight: 600 }
+@media (max-width: 560px) { .panel .hidnote .hfull { display: none } }
+.panel .hidnote .hidgo { font: inherit; color: var(--ink); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px }
+.panel .hidnote .hidgo:hover { color: var(--accent) }
+#teamGroups .group.flash { animation: gflash 1.2s ease-out }
+@keyframes gflash { from { background: color-mix(in srgb, var(--accent) 22%, transparent) } to { background: transparent } }
 /* My teams, compact: the group name in a column on the left, smaller chips beside it */
 #teamGroups { gap: 6px !important }
 #teamGroups .group { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: center; column-gap: 10px; padding: 6px 0; border-top: 1px solid var(--line) }
@@ -322,6 +333,7 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 /* free to watch: a green FREE mark in place of the TV, on the card and on the filter button; compact cards, which have
    no channel line, carry it in the competition line */
 .fta { display: inline-block; font: 800 10px/1 var(--f-body); letter-spacing: .06em; color: #fff; background: #2b8a3e; border-radius: 4px; padding: 3px 5px 2px; vertical-align: 1px }
+.fta.fpre { background: transparent; color: #37b24d; box-shadow: inset 0 0 0 1.5px #37b24d } /* only part of it is free: outlined */
 .ev .ctags .ftac { display: none; margin-left: 4px }
 #freeOnly .fta { vertical-align: 0 }
 .ev .tvl a { color: inherit }
@@ -334,7 +346,7 @@ section > h2 small { font-family: var(--f-body); text-transform: none; letter-sp
 .pager .btn[disabled], #toEvents[disabled] { opacity: .4; cursor: default }
 .pager > .num { min-width: 6.6em; text-align: center }
 .tag.paused { background: color-mix(in srgb, var(--live) 15%, transparent); color: var(--live); border: 1px solid color-mix(in srgb, var(--live) 40%, transparent) }
-.sport-rugby { --sport: var(--rugby) } .sport-cricket { --sport: var(--cricket) } .sport-league { --sport: var(--league) } .sport-football { --sport: var(--football) } .sport-mma { --sport: var(--mma) } .sport-boxing { --sport: var(--boxing) } .sport-motor { --sport: var(--motor) } .sport-tennis { --sport: var(--tennis) } .sport-hockey { --sport: var(--hockey) } .sport-basketball { --sport: var(--basketball) } .sport-netball { --sport: var(--netball) } .sport-sailing { --sport: var(--sailing) } .sport-golf { --sport: var(--golf) }
+.sport-rugby { --sport: var(--rugby) } .sport-cricket { --sport: var(--cricket) } .sport-league { --sport: var(--league) } .sport-football { --sport: var(--football) } .sport-mma { --sport: var(--mma) } .sport-boxing { --sport: var(--boxing) } .sport-motor { --sport: var(--motor) } .sport-tennis { --sport: var(--tennis) } .sport-hockey { --sport: var(--hockey) } .sport-basketball { --sport: var(--basketball) } .sport-netball { --sport: var(--netball) } .sport-sailing { --sport: var(--sailing) } .sport-golf { --sport: var(--golf) } .sport-baseball { --sport: var(--baseball) }
 
 .res .when { min-width: 120px }
 .res .score { font-family: var(--f-display); font-size: 28px; font-weight: 700; line-height: 1 }
@@ -516,6 +528,11 @@ dialog#sheet::backdrop { background: rgba(10, 18, 15, .5) }
 .close { justify-self: end; position: sticky; top: 0 }
 .sheet-head { display: grid; gap: 6px; border-left: 5px solid var(--sport); padding-left: 12px }
 .sheet-head .comp { display: flex; gap: 6px; align-items: center; font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--sport); font-weight: 700 }
+/* the competition's name as a button to its own page */
+.sheet-head .comp .tocomp { display: inline-flex; align-items: center; gap: 6px; min-width: 0; font: inherit; letter-spacing: inherit; text-transform: inherit; text-align: left; color: inherit; cursor: pointer;
+  background: color-mix(in srgb, var(--sport) 10%, transparent); border: 1px solid color-mix(in srgb, var(--sport) 55%, transparent); border-radius: 8px; padding: 3px 8px 3px 9px }
+.sheet-head .comp .tocomp:hover { border-color: var(--sport); background: color-mix(in srgb, var(--sport) 18%, transparent) }
+.sheet-head .comp .tocomp .tcgo { font-size: 16px; line-height: 0; font-weight: 800 }
 .dteams { font-size: 28px; line-height: 1.1 }
 .dteams .v { color: var(--muted); font-weight: 500 }
 .dteams.scored { display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap }
@@ -1285,6 +1302,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
     <div class="throw"><h2 class="ph">Theme</h2>
     <div class="accwrap"><button type="button" class="dbtn accpick" id="accentPick" aria-haspopup="true" aria-expanded="false"><i id="accentDot"></i><span id="accentName"></span></button><div class="swatches" id="accentSel" role="group" aria-label="Theme"></div></div></div>
     <h2 class="ph">My teams <span class="phbtns"><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></span><span class="phnote">Pick the teams and competitions you follow. Your feed shows only their games, results and news. Not into a sport at all? Tap <b>Hide sport</b> beside its name to take it off your feed and out of the sport buttons; <b>Show sport</b> brings it back.</span></h2>
+    <div class="hidrow"><p class="hidnote" id="hidNote"></p><span class="seg ordsel" id="ordSel" role="group" aria-label="Order of the sports"></span></div>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
     <h2 class="ph">Phone app <span class="phnote">Put Kickoff Kiwi on your home screen. It opens full-screen like an app. No app store, no account.</span></h2>
     <div class="cals" id="appInstall"></div>
@@ -1423,6 +1441,7 @@ const TEAMS = [ // in the sport row's order: cricket, rugby, league, football, h
   { g: 'Sailing', items: [['sailgp','SailGP']] },
   { g: 'Tennis', items: [['tennis','Grand Slams, Finals, ASB Classic and the Australian summer events']] },
   { g: 'Golf', items: [['pgatour','PGA Tour'],['lpga','LPGA Tour'],['golfanz','PGA Tour of Australasia']] },
+  { g: 'Baseball', items: [['mlb','MLB'],['npb','Japan (NPB)']] },
   { g: 'Fight sports', items: [['ufc','UFC events'],['boxing','Major boxing'],['nzboxing','NZ boxers']] },
 ];
 const groupItems = g => [...g.items, ...(g.sub?.items || [])];
@@ -1439,6 +1458,7 @@ const BADGE = {
   kiwis: ['KIW', '#000000', '#ffffff'], kiwiferns: ['KF', '#000000', '#ffffff'], warriors: ['WAR', '#0d1f4c', '#7fd13b'],
   f1: ['F1', '#e10600', '#ffffff'], tennis: ['TEN', '#c5db2e', '#1b1f1d'], blacksticks: ['BS', '#000000', '#ffffff'], blacksticksw: ['BSW', '#000000', '#ffffff'],
   tallblacks: ['TB', '#000000', '#ffffff'], tallferns: ['TF', '#000000', '#ffffff'], breakers: ['BRK', '#000000', '#7ac8ed'], sailgp: ['SGP', '#0a1f44', '#ffffff'], pgatour: ['PGA', '#00205b', '#ffffff'], lpga: ['LPGA', '#0c2340', '#ffffff'], golfanz: ['PGA', '#1d3c87', '#ffffff'], nbl: ['NBL', '#e4002b', '#ffffff'], silverferns: ['SF', '#000000', '#ffffff'], anzprem: ['ANZ', '#5b2a86', '#ffffff'],
+  mlb: ['MLB', '#041e42', '#ffffff'], npb: ['NPB', '#bc002d', '#ffffff'],
 };
 // the card's badge names the competition (or the cricket format), not the team: NPC, RLWC, TEST, ODI
 const COMP_BADGE = { NPC: 'npc', 'Farah Palmer Cup': 'fpc', 'Super Rugby Pacific': 'superrugby', 'Rugby League World Cup': 'rlwc', NRL: 'nrl', 'A-League Men': 'aleague', 'Premier League': 'epl', 'Big Bash': 'bbl', "Women's Big Bash": 'wbbl', UFC: 'ufc', Boxing: 'boxing', 'NZ domestic cricket': 'nzdomestic',
@@ -1446,7 +1466,8 @@ const COMP_BADGE = { NPC: 'npc', 'Farah Palmer Cup': 'fpc', 'Super Rugby Pacific
   'Sheffield Shield': ['SHIELD', '#7a1f3d', '#ffffff'], 'Dean Jones Trophy': ['DJT', '#1d3c87', '#ffffff'],
   'FIH Pro League': ['PRO', '#0b7285', '#ffffff'],
   NBL: ['NBL', '#e4002b', '#ffffff'], SailGP: ['SGP', '#0a1f44', '#ffffff'], 'PGA Tour': ['PGA', '#00205b', '#ffffff'], 'LPGA Tour': ['LPGA', '#0c2340', '#ffffff'], 'PGA Tour of Australasia': ['PGA', '#1d3c87', '#ffffff'], 'FIBA World Cup qualifiers': ['FIBA', '#1d3c87', '#ffffff'], 'FIBA World Cup': ['FIBA', '#1d3c87', '#ffffff'], "FIBA Women's World Cup": ['FIBA', '#1d3c87', '#ffffff'],
-  'ANZ Premiership': ['ANZP', '#5b2a86', '#ffffff'], 'Constellation Cup': ['CC', '#1b1f1d', '#ffffff'], 'Taini Jamison Trophy': ['TJT', '#1b1f1d', '#ffffff'], 'Netball Nations Cup': ['NNC', '#7048e8', '#ffffff'], 'Netball World Cup': ['NWC', '#7048e8', '#ffffff'], 'FIH Hockey World Cup': ['WC', '#0b7285', '#ffffff'], 'FIH Hockey Nations Cup': ['NC', '#0b7285', '#ffffff'] };
+  'ANZ Premiership': ['ANZP', '#5b2a86', '#ffffff'], 'Constellation Cup': ['CC', '#1b1f1d', '#ffffff'], 'Taini Jamison Trophy': ['TJT', '#1b1f1d', '#ffffff'], 'Netball Nations Cup': ['NNC', '#7048e8', '#ffffff'], 'Netball World Cup': ['NWC', '#7048e8', '#ffffff'], 'FIH Hockey World Cup': ['WC', '#0b7285', '#ffffff'], 'FIH Hockey Nations Cup': ['NC', '#0b7285', '#ffffff'],
+  'MLB playoffs': ['MLB', '#041e42', '#ffffff'], 'Japan Series': ['JS', '#bc002d', '#ffffff'] };
 const FORMAT_BADGE = { Test: ['TEST', '#ffffff', '#111111'], ODI: ['ODI', '#1864ab', '#ffffff'], T20I: ['T20I', '#c2255c', '#ffffff'] };
 // competitions whose own logo stands in for the text badge (from TheSportsDB's league art)
 const COMP_IMG = { Supercars: 'https://r2.thesportsdb.com/images/media/league/badge/64f67s1770108650.png/small' };
@@ -1559,7 +1580,9 @@ const SHORT_NAME = { 'Brighton and Hove Albion': 'Brighton', 'Brighton & Hove Al
   'Leeds United': 'Leeds', 'Sheffield United': 'Sheffield Utd', 'Leicester City': 'Leicester', 'Ipswich Town': 'Ipswich', 'Coventry City': 'Coventry',
   'Western Sydney Wanderers': 'WS Wanderers', 'Central Coast Mariners': 'CC Mariners', 'New Zealand Breakers': 'NZ Breakers', 'South East Melbourne Phoenix': 'SE Melbourne Phoenix',
   'S.E. Melbourne Phoenix': 'SE Melbourne Phoenix' };
-const nmSpan = (n, e) => { const c = colorOf(n.replace(/\s+Women('s)?$/, '')), full = displayName(n, e), sh = SHORT_NAME[full] || full;
+// the colours are the NZ and Australian codes' clubs: an overseas league's names can contain one ("BayStars", "Miami Heat")
+const NO_COLOR = /^(mlb|npb|nba)$/;
+const nmSpan = (n, e) => { const c = NO_COLOR.test(e?.team || '') ? '' : colorOf(n.replace(/\s+Women('s)?$/, '')), full = displayName(n, e), sh = SHORT_NAME[full] || full;
   return `<span class="nm"${c ? ` style="--tc:${c}"` : ''}${sh !== full ? ` title="${esc(full)}" data-full="${esc(full)}" data-short="${esc(sh)}"` : ''}>${esc(sh)}</span>` };
 // flag lookups use the plain country name, the label uses the nickname
 // a national side with a union badge shows the badge in place of its flag
@@ -1574,16 +1597,16 @@ const soloTitle = e => `<div class="teams solo"><span class="nm">${esc(e.home)}<
 // Tournaments that tint the week strip on the days they're on
 const BIG_EVENT = /World Cup|Nations Championship|Olympic|Commonwealth Games|Lions Tour|Champions Trophy|ATP Finals|WTA Finals|Australian Open|French Open|Roland Garros|Wimbledon|US Open|Constellation Cup|Taini Jamison|Nations Cup|Pro League|Asia Cup/i;
 // motorsport's button and most of its cards carry a chequered flag; Formula 1's own cards and page keep the F1 car
-const SPORT_ICON = { f1: '🏎️', rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', mma: '🥋', boxing: '🥊', motor: '🏁', tennis: '🎾', hockey: '🏑', basketball: '🏀', netball: '🏐', sailing: '⛵', golf: '⛳' };
+const SPORT_ICON = { f1: '🏎️', rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', mma: '🥋', boxing: '🥊', motor: '🏁', tennis: '🎾', hockey: '🏑', basketball: '🏀', netball: '🏐', sailing: '⛵', golf: '⛳', baseball: '⚾' };
 // same-size icons on every device (Twemoji, CC BY 4.0), rather than each system's own emoji
 const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/${s}.svg?v=4" alt="" aria-hidden="true">` : '';
 // what one of a sport's events is called: a race, a fight, a match in tennis, otherwise a game. A new sport gets its
 // word here (and its start's name in START_LABEL)
-const EV_WORD = { motor: 'race', mma: 'fight', boxing: 'fight', tennis: 'match', golf: 'tournament', sailing: 'race' };
+const EV_WORD = { motor: 'race', mma: 'fight', boxing: 'fight', tennis: 'match', golf: 'tournament', sailing: 'race', baseball: 'game' };
 const evWord = sp => EV_WORD[sp] || 'game', evWords = sp => evWord(sp) === 'match' ? 'matches' : evWord(sp) + 's';
 const capW = w => w[0].toUpperCase() + w.slice(1);
-const START_LABEL = { sailing: 'Final race', golf: 'Final round', rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight', boxing: 'Main card', motor: 'Lights out', tennis: 'Final', hockey: 'Push back', basketball: 'Tip-off', netball: 'Centre pass' };
-const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC', boxing: 'Boxing', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', sailing: 'Sailing', golf: 'Golf' };
+const START_LABEL = { sailing: 'Final race', golf: 'Final round', rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight', boxing: 'Main card', motor: 'Lights out', tennis: 'Final', hockey: 'Push back', basketball: 'Tip-off', netball: 'Centre pass', baseball: 'First pitch' };
+const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC', boxing: 'Boxing', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', sailing: 'Sailing', golf: 'Golf', baseball: 'Baseball' };
 
 const ALL_KEYS = TEAMS.flatMap(g => groupItems(g).map(i => i[0]));
 
@@ -1592,11 +1615,14 @@ const store = {
   set(k, v) { try { localStorage.setItem('sf.' + k, JSON.stringify(v)) } catch {} },
 };
 tzPick = store.get('tz', 'Pacific/Auckland'); NZ = tzPick === 'device' ? deviceTZ : tzPick;
-let picked = new Set(store.get('teams', ALL_KEYS));
+// competitions with games most days start switched off, so they can't fill the feed: for new visitors, and for people
+// whose picks were saved before they were added. My teams says they're off, and turns them on
+const OPT_IN = new Set(['mlb', 'npb', 'nba']);
+let picked = new Set(store.get('teams', ALL_KEYS.filter(k => !OPT_IN.has(k))));
 // teams added to the site later are switched on for people who already saved their picks
-{ const known = new Set(store.get('known', ALL_KEYS.filter(k => k !== 'epl' && k !== 'aucricket'))); const fresh = ALL_KEYS.filter(k => !known.has(k));
+{ const known = new Set(store.get('known', ALL_KEYS.filter(k => k !== 'epl' && k !== 'aucricket'))); const fresh = ALL_KEYS.filter(k => !known.has(k) && !OPT_IN.has(k));
   if (fresh.length) { fresh.forEach(k => picked.add(k)); store.set('teams', [...picked]); } store.set('known', ALL_KEYS); }
-{ const known = new Set(store.get('known', ALL_KEYS)); ALL_KEYS.filter(k => !known.has(k)).forEach(k => picked.add(k)); store.set('known', ALL_KEYS); store.set('teams', [...picked]); }
+{ const known = new Set(store.get('known', ALL_KEYS)); ALL_KEYS.filter(k => !known.has(k) && !OPT_IN.has(k)).forEach(k => picked.add(k)); store.set('known', ALL_KEYS); store.set('teams', [...picked]); }
 const PHONE = matchMedia('(max-width: 560px)');
 let view = store.get('view', 'mixed');   // big, mixed (live big, today normal, the rest compact) or compact
 let spoilers = store.get('spoilers', true);   // true = hide recent results
@@ -1610,6 +1636,7 @@ let compSel = store.get('comp', '');
 let genderSel = store.get('gender', 'all');
 let nzOnly = store.get('nzOnly', false);
 let freeOnly = store.get('freeOnly', false);
+let sportOrder = store.get('sportOrder', 'usual');   // the sports in My teams and the sport buttons: 'usual' (cricket first) or 'az'
 let folded = store.get('folded', false);   // phones: filters folded away under one bar
 let selDay = '', drawDayPick = () => {};
 let hubTab = 'games', resPage = 0, laterPage = 0, bigPage = 0, runPage = 0, rankSel = '';
@@ -1635,7 +1662,7 @@ const COMP_LABEL = {};
 // the card's header: Australia's tours read home side first, like the names below ("South Africa v Australia · 1st T20I")
 // a card title can only break between its parts ("South Africa v Australia" · "2nd Test"), never inside a side's name
 const titleParts = t => String(t || '').split(' · ').map(p => `<span class="tp">${esc(p)}</span>`).join('<span class="tsep"> · </span>');
-const cardComp = e => e.team === 'aucricket' || e.team === 'intlcricket' ? compOf(e) + (e.stage ? ' · ' + e.stage : '') : /^(hockey|basketball|netball)$/.test(e.sport) ? plural(e.comp) + (e.stage ? ' · ' + e.stage : '') : plural(e.comp);
+const cardComp = e => e.team === 'aucricket' || e.team === 'intlcricket' ? compOf(e) + (e.stage ? ' · ' + e.stage : '') : /^(hockey|basketball|netball|baseball)$/.test(e.sport) ? plural(e.comp) + (e.stage ? ' · ' + e.stage : '') : plural(e.comp);
 function compOf(e) {
   const c = e.comp || '';
   if (e.sport === 'mma') return 'UFC';
@@ -1643,7 +1670,7 @@ function compOf(e) {
   if (e.team === 'f1') return 'Formula 1';
   if (e.team === 'supercars') return 'Supercars';
   if (e.team === 'sailgp') return 'SailGP';
-  if (e.sport === 'golf') return e.comp;
+  if (e.sport === 'golf' || e.sport === 'baseball') return e.comp;
   if (e.team === 'wbbl' || /Women'?s Big Bash|WBBL/i.test(c)) return "Women's Big Bash";
   if (e.team === 'bbl' || /Big Bash|BBL/i.test(c)) return 'Big Bash';
   if (e.sport === 'league' && /World Cup/i.test(c)) return 'Rugby League World Cup';
@@ -1819,7 +1846,7 @@ const nextAt = (e, now) => { const st = stagesOf(e) > 1 && stageNow(e, now); if 
   const b = between(e, now) || (e.sport === 'cricket' && /^Day [2-9]/.test(onNow(e, now) || '') ? onNow(e, now) : ''); return new Date(+new Date(e.startUTC) + (b ? (+b.match(/\d+/)[0] - 1) * 864e5 : 0)); };
 // roughly when a finished game ended, so one that ran past midnight counts as that day's result;
 // a Test's last day isn't known, so take its scheduled last day, but never later than now
-const LEN_H = { rugby: 2, league: 2, football: 2, mma: 5, boxing: 4, motor: 2, tennis: 3, hockey: 2, basketball: 2.5, netball: 1.5, sailing: 2.5, golf: 5 };
+const LEN_H = { rugby: 2, league: 2, football: 2, mma: 5, boxing: 4, motor: 2, tennis: 3, hockey: 2, basketball: 2.5, netball: 1.5, sailing: 2.5, golf: 5, baseball: 3 };
 function endOf(e, now) {
   const s = new Date(e.startUTC).getTime();
   if (e.sport !== 'cricket') return new Date(s + (LEN_H[e.sport] || 2) * 36e5);
@@ -1869,14 +1896,20 @@ const visibleTeam = x => picked.has(x.team) || (x.tags || []).some(t => picked.h
 // free option (highlights, delayed showings, radio and "some games" don't count)
 const TV_FREE_CH = /^(TVNZ 1|TVNZ 2|Three|Sky Open|TVNZ DUKE|Whakaata Māori|Rush|Bravo|eden)$/;
 function freeTo(e) {
-  const tv = (e.tv || []).find(x => !x.delayed && TV_FREE_CH.test(x.ch));
+  const tv = !prelimsOnly(e) && (e.tv || []).find(x => !x.delayed && TV_FREE_CH.test(x.ch));
   if (tv) return tv.ch;
   if (e.yt?.length) return 'YouTube';
-  const o = watchOptions(e).find(o => /^(Free|Free stream|Free-to-air TV)$/.test(o.kind) && !/highlight|delayed|some games|prelims|radio|scoring|digital|replay/i.test(o.label));
+  const o = watchOptions(e).find(o => /^(Free|Free stream|Free-to-air TV)$/.test(o.kind) && !o.prelims && !/highlight|delayed|some games|prelims|radio|scoring|digital|replay/i.test(o.label));
   return o ? o.label : '';
 }
+// a fight card whose free coverage is only its prelims (a numbered UFC event: the main card is pay-per-view). A free
+// channel the TV guide lists for it is showing those prelims
+// a free channel, its "+1" an hour later too
+const freeCh = ch => TV_FREE_CH.test(String(ch || '').replace(/\s*\+1$/, ''));
+const prelimsOnly = e => /\bprelims\b/i.test(`${e.broadcast || ''} ${e.watchAlt || ''}`);
+const freePrelims = e => prelimsOnly(e) ? (watchOptions(e).find(o => o.prelims)?.label || 'free') : '';
 // Free to watch narrows the games still to come; results and news are left as they are
-const visible = x => (genderSel === 'all' || !genderOf(x) || genderOf(x) === genderSel) && (!nzOnly || isNZ(x)) && (!freeOnly || !x.startUTC || x.status === 'final' || !!freeTo(x)) && visible0(x);
+const visible = x => (genderSel === 'all' || !genderOf(x) || genderOf(x) === genderSel) && (!nzOnly || isNZ(x)) && (!freeOnly || !x.startUTC || x.status === 'final' || !!freeTo(x) || !!freePrelims(x)) && visible0(x);
 // practice, sprints and Supercars' other races (minor) show only on their competition's own page; a race weekend's
 // session has no result, so it goes once its two hours on Live now are up
 const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now() ? false : x.startUTC ? (compSel ? compOf(x) === compSel : !x.minor && visibleTeam(x) && sportOn(x.sport || sportOf(x.team)))
@@ -1930,13 +1963,13 @@ function evCard(e, now) {
   const local = overseas ? `<div class="loc num">${e.timeTBC ? (e.usual ? '≈' + time(d, e.tz) + ' ' : '') : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${wikiLink(cityOf(e))}</div>` : '';
   // a free way to watch goes on the card ahead of a paid one: Three over Sky Sport 1 when both show it
   const free = freeTo(e).replace(/^free\s*(?:on|to watch on|:)?\s*/i, '').replace(/\s*\(free\)$/i, '').replace(/\s*\([^)]*$/, '');
-  const tv = free || (e.tv || []).find(x => !x.delayed)?.ch || (e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : '') || (e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt ? 'YouTube (free)' : '');
+  const tv = free || (e.tv || []).find(x => !x.delayed && !(prelimsOnly(e) && freeCh(x.ch)))?.ch || (e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : '') || (e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt ? 'YouTube (free)' : '');
   const ftaMark = cls => `<span class="fta${cls}" title="Free to watch">FREE</span>`;
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}${free ? ftaMark(' ftac') : ''}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}${free ? ftaMark(' ftac') : freePrelims(e) ? '<span class="fta ftac fpre" title="The prelims are free to watch; the main card is pay-per-view">FREE PRELIMS</span>' : ''}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${seriesLine(e, now)}
     </div>
@@ -1981,13 +2014,15 @@ const WATCH_KEYS = Object.keys(WATCH_INFO).sort((a, b) => b.length - a.length);
 function watchOptions(e) {
   const out = [];
   for (const text of [e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '', e.watchAlt || '']) {
-    let radio = false;
+    let radio = false, pre = false;
     for (let part of text.split(/\s*(?:\/|;)\s*/)) {
       part = part.trim(); if (!part) continue;
       if (/^Radio:\s*/i.test(part)) { radio = true; part = part.replace(/^Radio:\s*/i, ''); }
+      // "Prelims free on TVNZ+ / TVNZ Duke": the rest of that list is the prelims too
+      if (/^Prelims\b/i.test(part)) { pre = true; part = part.replace(/^Prelims\s+(?:free\s+)?(?:on\s+)?/i, ''); }
       const key = WATCH_KEYS.find(k => part.toLowerCase().includes(k.toLowerCase()));
       const [kind, need] = key ? WATCH_INFO[key] : radio ? ['Radio', ''] : /free/i.test(part) ? ['Free', ''] : ['', ''];
-      out.push({ label: part, kind: radio && kind !== 'Radio' ? 'Radio' : kind, need });
+      out.push({ label: part, kind: radio && kind !== 'Radio' ? 'Radio' : kind, need: pre ? 'The prelims only, free. The main card is pay-per-view' : need, ...(pre ? { prelims: true } : {}) });
     }
   }
   return out;
@@ -2023,7 +2058,7 @@ function watchLine(e) {
 // after a game shown free on Three, Sky Open or TVNZ: the channel's own free app, where the replay or highlights go up
 // (Sky Open streams on ThreeNow). From the TV guide's listings or the broadcast line; a link only, nothing read from them
 function replayOn(e) {
-  const free = [...(e.tv || []).map(x => x.ch), ...watchOptions(e).filter(o => /^(Free|Free stream|Free-to-air TV)$/.test(o.kind)).map(o => o.label)].join(' | ');
+  const free = [...(e.tv || []).map(x => x.ch), ...watchOptions(e).filter(o => /^(Free|Free stream|Free-to-air TV)$/.test(o.kind) && !o.prelims).map(o => o.label)].join(' | ');
   return /\b(Three|ThreeNow|Sky Open)\b/.test(free) ? 'ThreeNow' : /\b(TVNZ|DUKE)\b/.test(free) ? 'TVNZ+' : '';
 }
 // a YouTube search for the match, so it works whenever the official highlights go up
@@ -2222,6 +2257,8 @@ function tableHtml(t) {
     : t.style === 'rugby' ? [['p', 'P'], ['w', 'W'], ['d', 'D'], ['l', 'L'], ['f', 'PF', 'wide'], ['a', 'PA', 'wide'], ['diff', '+/−'], ['bp', 'BP'], ['pts', 'Pts']]
     // basketball ladders: wins and losses, no draws, ranked by win percentage
     : t.style === 'wl' ? [['p', 'P'], ['w', 'W'], ['l', 'L'], ['f', 'PF', 'wide'], ['a', 'PA', 'wide'], ['diff', '+/−'], ['pct', 'Win%', 'pts']]
+    // baseball: wins, losses (and Japan's ties), winning percentage, games behind the leader
+    : t.style === 'baseball' ? [['w', 'W'], ['l', 'L'], ...(t.rows.some(r => r.d) ? [['d', 'T']] : []), ['wpct', 'Pct'], ['gb', 'GB', 'pts']]
     : [['p', 'P'], ['w', 'W'], ['d', 'D'], ['l', 'L'], ['f', t.sport === 'football' ? 'GF' : 'PF', 'wide'], ['a', t.sport === 'football' ? 'GA' : 'PA', 'wide'], ['diff', t.sport === 'football' ? 'GD' : '+/−'], ['pts', 'Pts']];
   const ev = { sport: t.sport, comp: t.comp, team: t.team };
   const logos = {};
@@ -2491,6 +2528,14 @@ function fightCard(e, hidden) {
     return `<div class="fb"><span class="fw">${esc(b.weight || '')}</span><span class="fm">${face('a')}<b>${fighterName(b, 'a')}</b> <span class="muted">${done ? esc(b.res) : 'vs'}</span> ${fighterName(b, 'b')}${face('b')}</span>${done && b.method ? `<span class="fr muted">${esc(b.method)}${b.round ? `, R${esc(b.round)}` : ''}${b.time ? ` ${esc(b.time)}` : ''}</span>` : ''}</div>`;
   }).join('')}</div>`).join('');
 }
+// the pop-up's competition name opens that competition's own page (every game, results, table and news) when it has one:
+// two or more games in the feed, or a table
+function toComp(e) {
+  const c = compOf(e), label = esc(cardComp(e));
+  const table = (FEED.tables || []).some(t => compOf({ comp: t.comp, sport: t.sport, team: t.team }) === c);
+  if (!c || (!table && (FEED.events || []).filter(x => compOf(x) === c).length < 2)) return `<span>${label}</span>`;
+  return `<button type="button" class="tocomp" data-tocomp="${esc(c)}" title="Open the ${esc(plural(c))} page: every ${evWord(e.sport)}, results${table ? ', the table' : ''} and news"><span>${label}</span><span class="tcgo" aria-hidden="true">›</span></button>`;
+}
 function detail(e) {
   const now = Date.now(), d = new Date(e.startUTC);
   const overseas = e.tz && e.tz !== NZ;
@@ -2525,10 +2570,9 @@ function detail(e) {
   const yts = e.yt || [], yt = yts.find(x => x.state === 'live') || yts.find(x => x.state === 'upcoming' && new Date(x.at) > now - 6 * 36e5) || yts[yts.length - 1];
   const ytLi = yt ? `<li class="wopt"><span class="wkind k-free">Free</span><div><b><a class="svc" data-watch="YouTube" href="${esc(yt.url)}" target="_blank" rel="noopener">YouTube</a></b> <span class="muted small">(${esc(yt.ch)})</span><div class="muted small">${yt.state === 'live' ? 'Streaming live now' : yt.state === 'upcoming' ? `Live stream from ${time(new Date(yt.at), NZ)} ${fmt(new Date(yt.at), NZ, { weekday: 'short' })}` : 'Stream replay'}</div></div></li>` : '';
   // what the TV guide lists for this game (free channels first), each with when its coverage starts
-  const tvFree = /^(TVNZ 1|TVNZ 2|Three|Sky Open|TVNZ DUKE|Whakaata Māori|Rush|Bravo|eden)$/;
   // the card shows the first live listing when there is one, so that's the one marked
-  const onCard = (e.tv || []).find(x => !x.delayed);
-  const tvLi = (e.tv || []).map(x => `<li class="wopt"><span class="wkind k-${tvFree.test(x.ch) ? 'free' : 'pay'}">TV guide</span><div><b>${linkWatch(x.ch)}</b> <span class="muted small">from ${time(new Date(x.at), NZ)} ${fmt(new Date(x.at), NZ, { weekday: 'short' })}${x.delayed ? ' · delayed' : ''}${x === onCard ? ' (on the card)' : ''}</span></div></li>`).join('');
+  const onCard = (e.tv || []).find(x => !x.delayed && !(prelimsOnly(e) && freeCh(x.ch)));
+  const tvLi = (e.tv || []).map(x => `<li class="wopt"><span class="wkind k-${freeCh(x.ch) ? 'free' : 'pay'}">TV guide</span><div><b>${linkWatch(x.ch)}</b> <span class="muted small">from ${time(new Date(x.at), NZ)} ${fmt(new Date(x.at), NZ, { weekday: 'short' })}${x.delayed ? ' · delayed' : ''}${prelimsOnly(e) && freeCh(x.ch) ? ' · the prelims' : ''}${x === onCard ? ' (on the card)' : ''}</span></div></li>`).join('');
   const rp = isPast && now - d < 30 * 864e5 ? replayOn(e) : '';
   const rpLi = rp ? `<li class="wopt"><span class="wkind k-free">Replay</span><div><b>${linkWatch(rp)}</b><div class="muted small">Free on demand: the full ${evWord(e.sport)} or highlights, once ${rp === 'ThreeNow' ? 'Three' : 'TVNZ'} puts it up</div></div></li>` : '';
   const watch = [rpLi, tvLi, ytLi, opts.map((o, i) => `<li class="wopt"><span class="wkind k-${(o.kind || 'other').split(/[ -]/)[0].toLowerCase()}">${esc(o.kind || 'Watch')}</span><div><b>${linkWatch(o.label)}</b>${i === 0 && opts.length > 1 && !onCard ? ' <span class="muted small">(on the card)</span>' : ''}${o.need ? `<div class="muted small">${esc(o.need)}</div>` : ''}</div></li>`).join(''),
@@ -2553,7 +2597,7 @@ function detail(e) {
   const nd = nextAt(e, now), cd = countdown({ startUTC: nd.toISOString() }, now), stg = stagesOf(e) > 1 && stageNow(e, now);
   const live = e.status === 'live' || (e.status !== 'final' && onNow(e, now)) ? `<div class="hlive"><span class="tag live">On now</span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
-      <div class="comp"><span>${esc(cardComp(e))}</span>${sIcon(e.team === 'f1' ? 'f1' : e.sport)}${compBadge(e)}${intlTag(e)}</div>
+      <div class="comp">${toComp(e)}${sIcon(e.team === 'f1' ? 'f1' : e.sport)}${compBadge(e)}${intlTag(e)}</div>
       ${solo(e) ? `<h2 class="dteams solo">${esc(e.home)}${placeOf(e) ? `<small>${esc(placeOf(e))}</small>` : ''}</h2>` : split ? `<h2 class="dteams scored"><span class="dside">${ciWrap(e.home, e, teamName(e.home, e.homeLogo, e))}${scoreTag(split[0], wl('home'))}</span> <span class="v">v</span> <span class="dside">${ciWrap(e.away, e, teamName(e.away, e.awayLogo, e))}${scoreTag(split[1], wl('away'))}</span></h2>` : `<h2 class="dteams">${ciWrap(e.home, e, teamName(e.home, e.homeLogo, e))} <span class="v">v</span> ${ciWrap(e.away, e, teamName(e.away, e.awayLogo, e))}</h2>`}
       ${!isPast && !live && cd ? `<span class="tag num ${nd - now < 864e5 ? 'soon' : nd - now < 3 * 864e5 ? 'near' : 'later'}">${stg ? `${esc(stageName(e, stg))} ` : ''}<span data-cd="${esc(nd.toISOString())}">${cd}</span></span>` : ''}
       ${live}
@@ -2649,11 +2693,13 @@ function openTeam(name, sport, fromRank = '') {
 }
 // the sport buttons' order, which the rankings tabs follow too
 const sportRank = sp => (i => i < 0 ? 99 : i)(SPORT_CHIPS.findIndex(([k]) => k === sp));
-const SPORT_CHIPS = [['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['hockey','Hockey'],['basketball','Basketball'],['netball','Netball'],['motor','Motorsport'],['sailing','Sailing'],['tennis','Tennis'],['golf','Golf'],['mma','MMA'],['boxing','Boxing']];
+// A to Z when that's picked under My teams
+const inOrder = (list, name) => sportOrder === 'az' ? [...list].sort((a, b) => name(a).localeCompare(name(b))) : list;
+const SPORT_CHIPS = [['cricket','Cricket'],['rugby','Rugby'],['league','League'],['football','Football'],['hockey','Hockey'],['basketball','Basketball'],['netball','Netball'],['motor','Motorsport'],['sailing','Sailing'],['tennis','Tennis'],['golf','Golf'],['baseball','Baseball'],['mma','MMA'],['boxing','Boxing']];
 const RANK_SPORTS = SPORT_CHIPS.map(([k]) => k);
 // a sport counts as followed when at least one of its teams or competitions is picked in My teams
 const followedSport = sp => (SPORT[sp] || []).some(k => picked.has(k));
-const shownSports = () => { const f = SPORT_CHIPS.filter(([k]) => followedSport(k)); return f.length ? f : SPORT_CHIPS; };
+const shownSports = () => { const all = inOrder(SPORT_CHIPS, x => x[1]), f = all.filter(([k]) => followedSport(k)); return f.length ? f : all; };
 const rankSports = () => { const have = RANK_SPORTS.filter(k => (FEED.rankings || []).some(r => r.sport === k)), f = have.filter(followedSport); return f.length ? f : have; };
 const RANK_TAB = { mma: 'UFC', rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', motor: 'Motorsport', tennis: 'Tennis' };
 function openRankings(sport) {
@@ -2688,7 +2734,7 @@ function openDetail(id, fromTeam, goingBack) {
   $('sheetBody').innerHTML = (teamBack ? `<button type="button" class="back" data-teampage="${esc(teamBack.name)}" data-tsport="${teamBack.sport}">‹ ${esc(displayName(teamBack.name, e))}</button>` : '') + detail(e);
   const now = Date.now(), res = seriesResults(e, now);
   if (res.length) {
-    const word = GENERIC.test(compOf(e)) ? 'Results' : /World Cup|Championship|Cup|Series|Trophy|League|Finals/i.test(compOf(e)) ? 'Results so far' : 'Series results';
+    const word = GENERIC.test(compOf(e)) ? 'Results' : /World Cup|Championship|Cup|Series|Trophy|League|Finals|Playoffs/i.test(compOf(e)) ? 'Results so far' : 'Series results';
     $('sheetBody').querySelector('.sheet-head').insertAdjacentHTML('afterend', `<div class="dtabs sport-${e.sport}" role="tablist"><button type="button" role="tab" data-dtab="game" aria-selected="${dTab === 'game'}">This ${evWord(e.sport)}</button><button type="button" role="tab" data-dtab="results" aria-selected="${dTab === 'results'}">${word} <span class="dn">${res.length}</span></button></div>`
       + `<div class="dpane daygroup">${res.length > 1 ? `<div class="dayhead">${revealAll(res, now)}</div>` : ''}${res.map(x => `<div class="dpdate">${esc(fmt(new Date(x.startUTC), NZ, { weekday: 'short', day: 'numeric', month: 'short' }))}</div>${resCard(x, now)}`).join('')}</div>`);
   }
@@ -3092,7 +3138,7 @@ function render() {
     const hasTable = new Set((FEED.tables || []).map(t => compOf({ comp: t.comp, sport: t.sport, team: t.team })));
     const comps = [...counts].filter(([c, n]) => n >= 2 || nextOf.get(c) < Infinity || hasTable.has(c) || c === compSel).map(([c]) => c)
       .sort((a, b) => rank(a) - rank(b) || (nextOf.get(a) - nextOf.get(b)) || a.localeCompare(b));
-    const groups = [[['rugby'], 'Rugby'], [['league'], 'Rugby league'], [['cricket'], 'Cricket'], [['football'], 'Football'], [['hockey'], 'Hockey'], [['basketball'], 'Basketball'], [['netball'], 'Netball'], [['motor'], 'Motorsport'], [['sailing'], 'Sailing'], [['tennis'], 'Tennis'], [['golf'], 'Golf'], [['mma', 'boxing'], 'Fighting']].sort((a, b) => a[1].localeCompare(b[1])); // sports A to Z: Cricket, Fighting, Football…
+    const groups = [[['rugby'], 'Rugby'], [['league'], 'Rugby league'], [['cricket'], 'Cricket'], [['football'], 'Football'], [['hockey'], 'Hockey'], [['basketball'], 'Basketball'], [['netball'], 'Netball'], [['motor'], 'Motorsport'], [['sailing'], 'Sailing'], [['tennis'], 'Tennis'], [['golf'], 'Golf'], [['baseball'], 'Baseball'], [['mma', 'boxing'], 'Fighting']].sort((a, b) => a[1].localeCompare(b[1])); // sports A to Z: Cricket, Fighting, Football…
     const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}"><span class="lb" data-l="${esc(COMP_LABEL[c] || c)}"><span>${esc(COMP_LABEL[c] || c)}</span></span>${liveComps.has(c) ? '<span class="onnow">Live</span>' : onNowComps.has(c) ? '<span class="current">Current</span>' : !c || nextOf.get(c) < Infinity ? '' : '<span class="ended">Season over</span>'}</button>`;
     $('compMenu').innerHTML = `<div class="ctip">Pick one for its own page: every game, plus its table, playoffs, rankings and news where it has them</div>` + opt('') .replace('></button>', '>All competitions</button>') + groups.map(([ks, l]) => {
       const cs = comps.filter(c => ks.includes(sportOfComp.get(c))).sort((a, b) => ks.indexOf(sportOfComp.get(a)) - ks.indexOf(sportOfComp.get(b)));
@@ -3136,8 +3182,15 @@ function render() {
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
   syncDsel($('spoilDays')); syncDsel($('tzSel'));
   const tchip = ([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`;
-  $('teamGroups').innerHTML = TEAMS.map(g => { const ss = [...new Set(groupItems(g).map(([k]) => sportOf(k)))], on = ss.some(followedSport);
-    return `<div class="group${on ? '' : ' off'}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(tchip).join('')}${g.sub ? `<span class="gsub">${esc(g.sub.g)}</span>${g.sub.items.map(tchip).join('')}` : ''}</div></div>`; }).join('');
+  $('teamGroups').innerHTML = inOrder(TEAMS, g => g.g).map(g => { const ss = [...new Set(groupItems(g).map(([k]) => sportOf(k)))], on = ss.some(followedSport);
+    return `<div class="group${on ? '' : ' off'}" data-g="${esc(g.g)}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(tchip).join('')}${g.sub ? `<span class="gsub">${esc(g.sub.g)}</span>${g.sub.items.map(tchip).join('')}` : ''}</div></div>`; }).join('');
+  // the sports off the feed, named under My teams so nobody wonders where they went (one line, so it never pushes the list
+  // down), and the busy competitions that start off; a name jumps to its group
+  const offs = [...TEAMS.filter(g => !groupItems(g).some(([k]) => followedSport(sportOf(k)))).map(g => [g.g, groupItems(g).every(([k]) => OPT_IN.has(k))]),
+    ...[...OPT_IN].filter(k => TEAM_NAME[k] && !picked.has(k) && followedSport(sportOf(k))).map(k => [TEAM_NAME[k], true])];
+  $('hidNote').innerHTML = offs.length ? `<b>Hidden<span class="hfull"> from your feed</span>:</b> ${offs.map(([n, d]) => `<button type="button" class="hidgo" data-hidgo="${esc(n)}">${esc(n)}</button>${d ? ' (off by default)' : ''}`).join(', ')}` : 'Every sport is on your feed.';
+  $('ordSel').innerHTML = [['usual', 'Usual', 'Cricket, rugby and league first'], ['az', 'A–Z', 'Sports in alphabetical order, here and in the sport buttons']].map(([k, l, t]) => `<button type="button" data-sorder="${k}" aria-pressed="${sportOrder === k}" title="${t}">${l}</button>`).join('');
+  $('hidNote').title = offs.length ? `Hidden: ${offs.map(([n, d]) => n + (d ? ' (off by default)' : '')).join(', ')}` : '';
   // calendar subscriptions (built with the feed, in data/cal/): every game an NZ side plays, then each team picked above.
   // webcal: opens Apple's Calendar to subscribe; Google and Outlook take the address on their own add-by-URL pages
   const calRow = (k, label) => {
@@ -3242,7 +3295,7 @@ function syncFold() {
 $('sheet').addEventListener('close', () => { sheetTrail = []; dTabId = ''; }); // a closed pop-up starts afresh next time, on the game's own tab
 $('foldBtn').addEventListener('click', ev => { ev.stopPropagation(); folded = !folded; store.set('folded', folded); syncFold(); count({ e: 'use', k: folded ? 'Filters folded away' : 'Filters opened' }); });
 // Settings to another browser: a code holding this browser's choices (not revealed results, nor the stats page's own)
-const MOVE_KEYS = ['teams', 'view', 'spoilers', 'spoilDays', 'spoilDaysSet', 'sport', 'comp', 'gender', 'nzOnly', 'freeOnly', 'tz', 'accent', 'theme'];
+const MOVE_KEYS = ['teams', 'view', 'spoilers', 'spoilDays', 'spoilDaysSet', 'sport', 'comp', 'gender', 'nzOnly', 'freeOnly', 'tz', 'accent', 'theme', 'sportOrder'];
 const settingsCode = () => 'KK1-' + btoa(unescape(encodeURIComponent(JSON.stringify(Object.fromEntries(MOVE_KEYS.map(k => [k, store.get(k, null)]).filter(([, v]) => v !== null)))))).replace(/=+$/, '');
 function useSettingsCode(code) {
   const m = String(code).replace(/\s+/g, '').match(/^KK1-([A-Za-z0-9+/]+)$/);
@@ -3278,7 +3331,7 @@ function syncPulse() {
   if (!document.getAnimations) return;
   document.querySelectorAll('.nowchip.is-live .livedot, .ev.is-live').forEach(el => el.getAnimations().forEach(a => { if (a.startTime !== 0) a.startTime = 0; }));
 }
-const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','audomestic','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], hockey: ['blacksticks','blacksticksw'], basketball: ['tallblacks','tallferns','breakers','nbl'], netball: ['silverferns','anzprem'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1', 'supercars'], sailing: ['sailgp'], tennis: ['tennis'], golf: ['pgatour', 'lpga', 'golfanz'] };
+const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','audomestic','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['phoenix','aucklandfc','aleague','epl'], hockey: ['blacksticks','blacksticksw'], basketball: ['tallblacks','tallferns','breakers','nbl'], netball: ['silverferns','anzprem'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1', 'supercars'], sailing: ['sailgp'], tennis: ['tennis'], golf: ['pgatour', 'lpga', 'golfanz'], baseball: ['mlb', 'npb'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
 
 function tick() { $('clock').textContent = `${tzLabel()} ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; syncInfo(); }
@@ -3335,6 +3388,12 @@ document.addEventListener('click', ev => {
     const keys = t.dataset.gsports.split(' ').flatMap(sp => SPORT[sp] || []), on = keys.some(k => picked.has(k));
     keys.forEach(k => on ? picked.delete(k) : picked.add(k)); count({ e: 'use', k: on ? 'Hide sport' : 'Show sport' }); store.set('teams', [...picked]); render(); return;
   }
+  if (t.dataset.tocomp) { count({ e: 'use', k: 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
+  if (t.dataset.sorder) { if (sportOrder !== t.dataset.sorder) { sportOrder = t.dataset.sorder; store.set('sportOrder', sportOrder); if (sportOrder === 'az') count({ e: 'use', k: 'Sport order A–Z' }); render(); } return; }
+  // a name in the hidden-sports line: its group (a sport's own, or the one holding that competition), scrolled to and lit
+  if (t.dataset.hidgo) { const n = t.dataset.hidgo, gn = (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([, l]) => l === n)))?.g;
+    const g = [...document.querySelectorAll('#teamGroups .group')].find(x => x.dataset.g === gn);
+    if (g) { g.scrollIntoView({ block: 'center', behavior: 'smooth' }); g.classList.remove('flash'); void g.offsetWidth; g.classList.add('flash'); } return; }
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); count({ e: picked.has(k) ? 'follow' : 'unfollow', k: TEAM_NAME[k] || k }); store.set('teams', [...picked]); render(); }
   else if (t.dataset.hideall) { ev.stopPropagation(); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.revealall) { ev.stopPropagation(); count({ e: 'use', k: 'Show all results' }); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }

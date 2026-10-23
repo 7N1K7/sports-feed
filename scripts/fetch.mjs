@@ -773,6 +773,7 @@ const LOGO_CODES = {
   cricket: { leagues: ['Big Bash League', 'Womens Big Bash League', 'Super Smash', 'Plunket Shield', 'Ford Trophy', 'Sheffield Shield'], ok: /Big Bash|Super Smash|Plunket|Ford Trophy|Sheffield|Cricket/i, sport: 'Cricket' },
   basketball: { leagues: ['Australian NBL'], ok: /NBL|Basketball/i, sport: 'Basketball' },
   netball: { leagues: ['New Zealand Netball League'], ok: /Netball/i, sport: 'Netball' },
+  baseball: { leagues: ['MLB', 'Nippon Baseball League'], ok: /MLB|Nippon|Baseball/i, sport: 'Baseball' },
 };
 // NZ domestic cricket sides go by their association name in fixtures but their team name on TheSportsDB
 const LOGO_ALIAS = { 'cricket|Northern Districts': ['Northern Brave', 'Northern Knights'], 'cricket|Canterbury': ['Canterbury Kings', 'Canterbury Wizards'], 'cricket|Central Districts': ['Central Stags'],
@@ -1322,7 +1323,7 @@ async function siteTeams() {
     keysOf: e => Object.keys(LABEL).filter(k => e.team === k || (e.tags || []).includes(k) || (CLUBS[k] && [e.home, e.away].some(n => (n || '').includes(CLUBS[k])))),
   };
 }
-const GAME_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', hockey: '🏑', basketball: '🏀', netball: '🏐', motor: '🏎️', tennis: '🎾', mma: '🥊', boxing: '🥊', sailing: '⛵', golf: '⛳' };
+const GAME_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', hockey: '🏑', basketball: '🏀', netball: '🏐', motor: '🏎️', tennis: '🎾', mma: '🥊', boxing: '🥊', sailing: '⛵', golf: '⛳', baseball: '⚾' };
 const NZ_NICK = { 'rugby m': 'All Blacks', 'rugby w': 'Black Ferns', 'league m': 'Kiwis', 'league w': 'Kiwi Ferns', 'cricket m': 'Black Caps', 'cricket w': 'White Ferns', 'football m': 'All Whites', 'football w': 'Football Ferns', 'hockey m': 'Black Sticks', 'hockey w': 'Black Sticks Women', 'basketball m': 'Tall Blacks', 'basketball w': 'Tall Ferns', 'netball w': 'Silver Ferns' };
 // "Black Caps v India"; a race or tournament is just its name; a fight card leads with the event
 const gameTitle = e => {

@@ -494,6 +494,19 @@ export async function wikiEvents(pageCfgs, cityTz, diag) {
     for (const t of tours) { const evs = golfSeason(pg[t.title] || '', t); per[t.title] = evs.length; out.push(...evs); }
     diag.golf = per;
   } catch (e) { diag.golf = 'error: ' + e.message; }
+  // Baseball, September to December: this year's MLB playoffs (a page a series) and the Japan Series, with the final
+  // standings from the season pages
+  if (M >= 8) try {
+    const series = [...['World Series', ...['American', 'National'].flatMap(l => ['Championship', 'Division', 'Wild Card'].map(r => `${l} League ${r} Series`))]
+      .map(s => ({ title: `${Y} ${s}`, team: 'mlb', comp: 'MLB playoffs', tz: 'America/New_York', y: Y })), { title: `${Y} Japan Series`, team: 'npb', comp: 'Japan Series', tz: 'Asia/Tokyo', y: Y }];
+    const divs = ['AL East', 'AL Central', 'AL West', 'NL East', 'NL Central', 'NL West'], npb = `${Y} Nippon Professional Baseball season`;
+    const pg = await seasonPages([...series.map(s => s.title), ...divs.map(d => `Template:${Y} ${d} standings`), npb]);
+    const per = {};
+    for (const s of series) { const evs = baseballSeries(pg[s.title] || '', s); per[s.title.slice(5)] = `${evs.length} (${evs.filter(e => e.status === 'final').length} played)`; out.push(...evs); }
+    for (const d of divs) for (const tb of mlbStandings(pg[`Template:${Y} ${d} standings`] || '', d)) tables.push({ comp: 'MLB playoffs', sport: 'baseball', team: 'mlb', page: `${Y} Major League Baseball season`, ...tb });
+    for (const tb of npbStandings(pg[npb] || '')) tables.push({ comp: 'Japan Series', sport: 'baseball', team: 'npb', page: npb, ...tb });
+    diag.baseball = `${Object.entries(per).map(([k, v]) => `${k}: ${v}`).join('; ')}; standings: ${tables.filter(t => t.sport === 'baseball').map(t => `${t.title} ${t.rows.length} (top ${t.rows[0].name} ${t.rows[0].w}-${t.rows[0].l})`).join(', ') || 'none'}`;
+  } catch (e) { diag.baseball = 'error: ' + e.message; }
   // Tennis: the four Grand Slams, the ATP and WTA Finals, Auckland's ASB Classic and the Australian summer's Brisbane,
   // Adelaide and Hobart tournaments, from each tournament's own page.
   // Each gives a women's and a men's singles final (the tournament's last two days), with the champion once it's played.
@@ -971,6 +984,105 @@ function f1Standings(text) {
       p: 0, w: 0, d: 0, l: 0, f: 0, a: 0, bp: 0, nr: 0, nrr: '', q: '', champ: false });
   }
   return rows;
+}
+
+// Baseball's playoffs, one page a series. Its summary ({{MLB Playoff Summary}}, {{Baseball playoff summary}}) lists the
+// games: dateN, scoreN ("Tampa Bay Rays at Milwaukee Brewers" ahead; "'''Cleveland Guardians''' – 7, Tampa Bay Rays – 3"
+// once played, the road side first either way), locN, and timeN (the start, until it's played and becomes the game's
+// length). Start times come from the page's {{linescore}} boxes when there are any, matched by date and ground. A date
+// marked {{dagger}} is only played if the series needs it; those drop out once a side has won it
+const SERIES = [[/World Series/, 'World Series', 4], [/American League Championship/, 'ALCS', 4], [/National League Championship/, 'NLCS', 4], [/American League Division/, 'ALDS', 3],
+  [/National League Division/, 'NLDS', 3], [/American League Wild Card/, 'AL Wild Card', 2], [/National League Wild Card/, 'NL Wild Card', 2], [/Japan Series/, 'Japan Series', 4]];
+function baseballSeries(text, t) {
+  const [, name, need] = SERIES.find(([re]) => re.test(t.title)) || [, t.title, 4];
+  const src = `https://en.wikipedia.org/wiki/${encodeURIComponent(t.title.replace(/ /g, '_'))}`;
+  const tx = stripRefs(text);
+  const boxes = templates(tx, /^linescore$/i).map(x => params(x.body).named);
+  const out = [];
+  templates(tx, /^(MLB Playoff Summary|Baseball playoff summary)$/i).forEach((tpl, si) => {
+    const p = params(tpl.body).named, wins = {}, games = [];
+    for (let n = 1; p[`date${n}`] != null; n++) {
+      const d = dateOf(p[`date${n}`], t.y), s = clean(p[`score${n}`] || '');
+      if (!d || !s) continue;
+      const played = s.match(/^(.+?)\s*[–—-]\s*(\d+)\s*,\s*(.+?)\s*[–—-]\s*(\d+)\s*(?:\((\d+)(?: innings)?\))?/), ahead = s.match(/^(.+?)\s+(?:at|@)\s+(.+)$/);
+      if (!played && !ahead) continue;
+      const away = (played ? played[1] : ahead[1]).trim(), home = (played ? played[3] : ahead[2]).trim();
+      const venue = clean(p[`loc${n}`] || '');
+      const box = boxes.find(b => { const bd = dateOf(b.date || '', t.y); return bd && bd.m === d.m && bd.d === d.d && (!venue || clean(b.location || '').startsWith(venue)); });
+      const where = clean(box?.location || ''), city = (where.split(/\s+in\s+/)[1] || '').split(',')[0].trim();
+      // a start with its zone or am/pm; a bare "3:13" is how long the game took
+      const ok = v => { const c = clean(v || ''); return /[ap]\.?m\b/i.test(c) || /\b[A-Z]{3,4}\b/.test(c) ? timeOf(v) : null; };
+      const tm = ok(box?.time) || ok(p[`time${n}`]);
+      const tz = tm?.tz || GOLF_TZ.find(([re]) => re.test(where))?.[1] || t.tz;
+      const startUTC = new Date(localToUTC(d.y, d.m, d.d, tm ? tm.h : 19, tm ? tm.mi : 0, tz)).toISOString();
+      games.push({ n, d, away, home, venue, city, tz, startUTC, timed: !!tm, ifNeeded: /\{\{\s*dagger/i.test(p[`date${n}`]),
+        runs: played ? [+played[2], +played[4]] : null, inn: played?.[5] || '', link: (box?.boxurl || '').trim() });
+    }
+    // a ground's town from another game there with a box score
+    for (const g of games) if (!g.city) g.city = games.find(x => x.venue === g.venue && x.city)?.city || '';
+    let over = false;
+    for (const g of games) {
+      if (over && !g.runs) continue;
+      const e = { id: `${t.team}-${t.y}-${name.toLowerCase().replace(/[^a-z]+/g, '')}${si ? si + 1 : ''}-${g.n}`, team: t.team, tags: [], sport: 'baseball', comp: t.comp,
+        stage: `${t.comp === name ? 'Game' : name + ', game'} ${g.n}${g.ifNeeded && !g.runs ? ' (if needed)' : ''}`, home: g.home, away: g.away,
+        startUTC: g.startUTC, timeTBC: !g.timed, ...(g.timed ? {} : { usual: true }), venue: g.venue, city: g.city, tz: g.tz, status: 'upcoming', source: src, ...(/^https?:/.test(g.link) ? { link: g.link } : {}) };
+      if (g.runs) {
+        const [ar, hr] = g.runs, win = hr > ar ? g.home : ar > hr ? g.away : '';
+        if (win) wins[win] = (wins[win] || 0) + 1;
+        const [a, b] = [g.home, g.away].map(x => wins[x] || 0), lead = a === b ? `Series level ${a}–${b}` : `${a > b ? g.home : g.away} ${Math.max(a, b) >= need ? 'win' : 'lead'} the series ${Math.max(a, b)}–${Math.min(a, b)}`;
+        over = Math.max(a, b) >= need;
+        Object.assign(e, { status: 'final', score: `${hr}-${ar}`, summary: `${win ? `${win} won ${Math.max(hr, ar)}–${Math.min(hr, ar)}` : `Tied ${hr}–${ar}`}${g.inn ? ` in ${g.inn} innings` : ''}. ${lead}.` });
+      } else if (g.ifNeeded) e.note = 'Only played if the series needs it';
+      out.push(e);
+    }
+  });
+  return out;
+}
+// Final standings. MLB's six divisions, each a {{MLB standings}} template: a team, then its home wins and losses, then its
+// road ones. Ranked by wins less losses, games behind the leader worked out
+function mlbStandings(text, title) {
+  const tpl = templates(stripRefs(text), /^MLB standings$/i)[0];
+  if (!tpl) return [];
+  const pos = params(tpl.body).pos.map(x => clean(x));
+  const rows = [];
+  for (let i = 0; i + 4 < pos.length; i += 5) {
+    const [nm, hw, hl, rw, rl] = pos.slice(i, i + 5);
+    if (!nm || [hw, hl, rw, rl].some(x => !/^\d+$/.test(x))) break;
+    const w = +hw + +rw, l = +hl + +rl;
+    rows.push({ name: nm, p: w + l, w, d: 0, l, f: 0, a: 0, bp: 0, nr: 0, nrr: '', q: '', champ: false });
+  }
+  return baseballRows(rows, title);
+}
+// Nippon Professional Baseball's two leagues: wikitables captioned "... Central League regular season standings", a row a
+// team with games, wins, losses and ties
+function npbStandings(text) {
+  const out = [];
+  for (const m of stripRefs(text).matchAll(/\{\|[^\n]*wikitable[\s\S]*?\n\|\}/g)) {
+    const cap = clean((m[0].match(/\n\|\+([^\n]*)/) || [])[1] || '');
+    const lg = (cap.match(/(Central|Pacific) League/) || [])[0];
+    if (!lg || !/standings/i.test(cap)) continue;
+    const rows = [];
+    for (const c of rowsOf(m[0])) {
+      const name = clean(c[1] || '').replace(/^[a-z]+\s*[–-]\s*/i, '').trim(), n = c.slice(2, 6).map(x => +clean(x));
+      if (!+clean(c[0] || '') || !name || n.some(isNaN)) continue;
+      rows.push({ name, p: n[0], w: n[1], d: n[3], l: n[2], f: 0, a: 0, bp: 0, nr: 0, nrr: '', q: '', champ: false });
+    }
+    out.push(...baseballRows(rows, lg));
+  }
+  return out;
+}
+// winning percentage (".605", ties left out) and games behind ("2½", "—" for the leader)
+function baseballRows(rows, title) {
+  if (rows.length < 4) return [];
+  const pct = r => r.w + r.l ? r.w / (r.w + r.l) : 0;
+  rows.sort((a, b) => pct(b) - pct(a));
+  const top = rows[0];
+  for (const r of rows) {
+    r.wpct = pct(r).toFixed(3).replace(/^0/, '');
+    const gb = ((top.w - r.w) + (r.l - top.l)) / 2;
+    r.gb = r === top || gb <= 0 ? '—' : `${Math.floor(gb) || ''}${gb % 1 ? '½' : ''}`;
+  }
+  return [{ title, style: 'baseball', rows }];
 }
 
 // Wikipedia's calendar has race dates only; TheSportsDB (free key) has start times. At most one call a run:
