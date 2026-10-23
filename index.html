@@ -1599,6 +1599,8 @@ const NOT_SIDE = /^(TBC|TBA|TBD)\b|\b(winner|loser|placed|group|pool|semi-final|
 const placeholder = (n, after, sport) => sport && !FIGHT.test(sport) && !['motor', 'tennis', 'sailing', 'golf'].includes(sport) && n && !NOT_SIDE.test(n)
   ? `<img class="logo ph ${after ? 'after' : ''}" src="icons/${sport}.svg?v=3" alt="" title="No logo for ${esc(n)} yet">` : '';
 const crest = (n, logo, after, sport) => {
+  // a national side's flag over a crest found on Wikipedia (Scotland's women had Scottish Rugby's)
+  if (logo && LOGO_CREDITS[logo] && flagOf(n)) logo = '';
   const src = logo || flagOf(n);
   if (!src) return placeholder(n, after, sport);
   const zf = logo && LOGO_ZOOM[`${sport}|${n}`];

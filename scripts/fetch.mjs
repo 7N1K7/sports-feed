@@ -783,7 +783,7 @@ await ufcBuildup(events);
 await tvGuide(events);
 for (const e of events) if (!e.tz && e.city) { const bits = e.city.split(',').map(x => x.trim()); e.tz = tzFor(bits[0], bits[bits.length - 1]); }
 
-const COUNTRY = /^(New Zealand|Australia|England|Scotland|Wales|Ireland|France|Italy|South Africa|Argentina|Japan|Fiji|Samoa|Tonga|Papua New Guinea|Cook Islands|India|Sri Lanka|Bangladesh|Pakistan|West Indies|Lebanon|Canada|USA|United States|Chile|Uruguay|Georgia|Portugal|Spain|Romania|Netherlands|Belgium|Germany|Great Britain|Malaysia|South Korea|China|Austria|Egypt|Namibia)( Women| A| XI| Wheelchair)?$/i;
+const COUNTRY = /^(New Zealand|Australia|England|Scotland|Wales|Ireland|France|Italy|South Africa|Argentina|Japan|Fiji|Samoa|Tonga|Papua New Guinea|Cook Islands|India|Sri Lanka|Bangladesh|Pakistan|West Indies|Lebanon|Canada|USA|United States|Chile|Uruguay|Georgia|Portugal|Spain|Romania|Netherlands|Belgium|Germany|Great Britain|Malaysia|South Korea|China|Austria|Egypt|Namibia)( Women| A| XI| XV| Wheelchair)?$/i;
 const newsAll = [...curated.news];
 {
   const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -1312,7 +1312,8 @@ async function wikiLogos(events, links) {
   const need = new Map();
   for (const e of events) if (Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY) for (const side of ['home', 'away']) {
     const k = `${e.sport}|${e[side]}`, wp = links[k]?.wp;
-    if (!e[side + 'Logo'] && !e[side + 'Badge'] && wp) need.set(k, wp);
+    // a national side flies its flag, not its union's crest ("Scottish Rugby" for Scotland's women)
+    if (!e[side + 'Logo'] && !e[side + 'Badge'] && wp && !COUNTRY.test(e[side] || '')) need.set(k, wp);
   }
   const due = [...need].filter(([k]) => !cache[k] || now - cache[k].t > (cache[k].src ? 30 : 7) * DAY).slice(0, 40);
   try {
@@ -1337,7 +1338,7 @@ async function wikiLogos(events, links) {
   let used = 0;
   for (const e of events) for (const side of ['home', 'away']) {
     const c = cache[`${e.sport}|${e[side]}`];
-    if (c?.src && !e[side + 'Logo'] && !e[side + 'Badge']) { e[side + 'Logo'] = c.src; e[side + 'LogoCredit'] = c.credit; logoCredits.set(c.credit, c.page); used++; }
+    if (c?.src && !e[side + 'Logo'] && !e[side + 'Badge'] && !COUNTRY.test(e[side] || '')) { e[side + 'Logo'] = c.src; e[side + 'LogoCredit'] = c.credit; logoCredits.set(c.credit, c.page); used++; }
   }
   diag.wikiLogos = `${Object.values(cache).filter(c => c.src).length} free crests known, ${used} sides given one; ${due.length} looked up`;
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
