@@ -1,15 +1,19 @@
 import fs from 'fs';
-import { chromium } from 'playwright';
 const L = [];
-const p = (...a) => L.push(a.join(' '));
-const b = await chromium.launch();
-const pg = await (await b.newContext({ viewport: { width: 412, height: 900 }, isMobile: true, hasTouch: true })).newPage();
-await pg.addInitScript(() => { localStorage.setItem('sf.nocount', 'true'); localStorage.setItem('sf.view', JSON.stringify('list')); });
-pg.on('pageerror', e => p('ERR', e.message));
-await pg.goto('https://kickoff.kiwi/?x=' + Date.now(), { waitUntil: 'networkidle' });
-await pg.waitForTimeout(3000);
-p('view buttons:', await pg.evaluate(() => [...document.querySelectorAll('#viewSel button')].filter(x => x.offsetParent).map(x => x.textContent + (x.getAttribute('aria-pressed') === 'true' ? '*' : '')).join(' ')));
-p('list rows:', await pg.evaluate(() => document.querySelectorAll('article.lrow').length), 'full cards:', await pg.evaluate(() => document.querySelectorAll('article.ev:not(.lrow)').length));
-p('first rows:', (await pg.evaluate(() => [...document.querySelectorAll('article.lrow')].slice(0, 5).map(a => a.innerText.replace(/\s+/g, ' ').trim()))).join(' | '));
-await b.close();
+const p = (...a) => L.push(a.map(x => typeof x === 'string' ? x : JSON.stringify(x)).join(' '));
+const ua = { 'user-agent': 'KickoffKiwi/1.0 (https://kickoff.kiwi) probe' };
+const j = async u => { const r = await fetch(u, { headers: ua }); if (!r.ok) throw new Error(r.status + ' ' + u); return r.json(); };
+const W = 'https://en.wikipedia.org/w/api.php?format=json&formatversion=2&';
+const r = await j(`${W}action=parse&prop=wikitext&redirects=1&page=${encodeURIComponent('2026 Singapore Grand Prix')}`);
+const w = r.parse.wikitext;
+for (const h of ['Sprint qualifying classification', 'Sprint classification', 'Qualifying classification', 'Race classification']) {
+  const i = w.search(new RegExp(`===\\s*${h}\\s*===`));
+  p(`\n######## ${h} @${i}`); if (i >= 0) p(w.slice(i, i + (h.startsWith('Race') ? 3200 : 2600)));
+}
+const u = await j(`${W}action=parse&prop=wikitext&redirects=1&page=${encodeURIComponent('2026 United States Grand Prix')}`);
+const uw = u.parse.wikitext, k = uw.search(/==\s*Practice/);
+p('\n######## US practice now'); p(uw.slice(k, k + 1200));
+const T = 'https://www.thesportsdb.com/api/v1/json/123/';
+const x = await j(`${T}lookupevent.php?id=2408192`);
+p('\n######## TSDB Singapore FP1 strResult'); p(String(x.events?.[0]?.strResult || '').slice(0, 1500));
 fs.writeFileSync(new URL('./out.txt', import.meta.url), L.join('\n'));
