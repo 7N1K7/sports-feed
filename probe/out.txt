@@ -1,49 +1,14 @@
-== US GP practice section now: == Practice == ⏎ Three [[Formula One racing#Free practice|free practice sessions]] are being held for the event. The first free practice session was held on October 23, 2026, at 12:30 local time ([[UTC–5]]), and was topped by [[Charles Leclerc]] ([[Scuderia Ferrari|Ferrari]]) ahead of [[Max Verstappen]] ([[Red Bull Racing|Red Bull]]) and [[Lando Norris]] ([[McLaren]]). The second free practice session will be held on the same day, at 16:00 local time. The third free practice session will be held on October 24, 2026, at 12:30 local time.<ref name="Cal"/> ⏎  ⏎ == Qualifying == ⏎ [[Formula One race weekend#Current format|Qualifying]] will be held on October 24, 2026, at 16:00 local time ([[UTC–5]]), and will determine the starting grid order for the race.<ref name="Cal"/> ⏎ <!-- ⏎ === Qualifying classification === ⏎ {| class="wikitable sortable" style="font-size: 85%;" ⏎ ! rowspan="2" |{{Tooltip|Pos.|Quali
-== US GP edits since FP1 (newest first):
-   10-23T19:04 21828 
-   10-23T18:34 20453 
-   10-23T16:37 20291 
-== jolpica TERMS.md 200
-# Jolpica-F1 API – Terms of Use
-
-_Last updated: August 27, 2025_
-
-Welcome! The jolpica-f1 API is free and open for public use. By using the API, you agree to the following terms:
-
----
-
-## 1. Usage
-
-- The API is freely available for **non-commercial use**.
-- The data is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). For detailed information on this license, refer to the [Creative Commons website](https://creativecommons.org/licenses/by-nc-sa/4.0/).
-- For commercial usage, please contact us via admin@jolpi.ca
-- **We reserve the right to change these terms**.
-
----
-
-## 2. Fair Use and Limits
-
-- The API is subject to **rate limits**, described in a separate [Rate Limits Guide](/docs/rate_limits.md). Please respect these limits.
-- Abuse or excessive use may result in temporary or permanent blocking. We aim to warn users when possible, but may block without notice to protect the service.
-
----
-
-## 3. Disclaimer
-
-- This is a **volunteer-run, donation-supported** project. While we aim for stability and accuracy, we **do not guarantee uptime, availability, or correctness** of the data.
-- We are not liable for any damages or losses resulting from use of the API.
-- Use is **entirely at your own risk**.
-
----
-
-## 4. Changes and Communication
-
-- Major changes will be announced on our [GitHub Repository](https://github.com/jolpica/jolpica-f1). We aim to maintain backwards compatibility, but we cannot guarantee advance notice.
-- Please check the repository periodically for updates.
-
----
-
-## 5. Contact
-
-- For support or feedback visit our [GitHub repository](https://github.com/jolpica/jolpica-f1) and open a new discussion for your concern.
-== jolpica Singapore qualifying 200 {"MRData":{"xmlns":"","series":"f1","url":"https://api.jolpi.ca/ergast/f1/2026/17/qualifying.json","limit":"3","offset":"0","total":"22","RaceTable":{"season":"2026","round":"17","Races":[{"season":"2026","round":"17","url":"https://en.wikipedia.org/wiki/2026_Singapore_Grand_Prix","raceName":"Singapore Grand Prix","Circuit":{"circuitId":"marina_bay","url":"https://en.wikipedia.org/wiki/Marina_Bay_Street_Circuit","circuitName":"Marina Bay Street Circuit","Location":{"lat":"1.2914","long":"103.864","locality":"Marina Bay","country":"Singapore"}},"date":"2026-10-11","time":"12:00:00Z","Qualifying
+generatedAt 2026-10-24T03:11:12.824Z diag.f1: 23 races, 17 with results; standings: Drivers' championship 23 (top Kimi Antonelli 340), Constructors' championship 11 (top Mercedes 578) | f1Times: Mexico City Grand Prix: 2026-11-01T20:00:00.000Z and 4 sessions; 6 of 23 races with start times, 22 sessions coming | supercarsTimes: Sandown 500: 2026-11-08T04:30:00.000Z and 7 sessions; 3 of 14 rounds with start times, 20 sessions coming
+f1-2026-18 - 2026-10-25T20:00:00.000Z upcoming  Formula 1 · Round 18
+f1-2026-19 - 2026-11-01T20:00:00.000Z upcoming  Formula 1 · Round 19
+supercars-2026-12 - 2026-10-25T04:45:00.000Z upcoming  Supercars · Round 12
+f1-2026-18-practice-3 Practice 3 2026-10-24T17:30:00.000Z upcoming minor Formula 1 · Round 18 · Practice 3
+f1-2026-18-qualifying Qualifying 2026-10-24T21:00:00.000Z upcoming  Formula 1 · Round 18 · Qualifying
+f1-2026-19-practice-1 Practice 1 2026-10-30T18:30:00.000Z upcoming minor Formula 1 · Round 19 · Practice 1
+f1-2026-19-practice-2 Practice 2 2026-10-30T22:00:00.000Z upcoming minor Formula 1 · Round 19 · Practice 2
+f1-2026-19-practice-3 Practice 3 2026-10-31T17:30:00.000Z upcoming minor Formula 1 · Round 19 · Practice 3
+f1-2026-19-qualifying Qualifying 2026-10-31T21:00:00.000Z upcoming  Formula 1 · Round 19 · Qualifying
+supercars-2026-12-top-10-shootout-race-31 Top 10 Shootout (Race 31) 2026-10-24T02:35:00.000Z upcoming minor Supercars · Round 12 · Top 10 Shootout (Race 31)
+supercars-2026-12-race-31 Race 31 2026-10-24T05:15:00.000Z upcoming minor Supercars · Round 12 · Race 31
+supercars-2026-12-qualifying-race-32 Qualifying (Race 32) 2026-10-25T01:20:00.000Z upcoming minor Supercars · Round 12 · Qualifying (Race 32)
+supercars-2026-12-top-10-shootout-race-32 Top 10 Shootout (Race 32) 2026-10-25T02:05:00.000Z upcoming minor Supercars · Round 12 · Top 10 Shootout (Race 32)
