@@ -1364,8 +1364,9 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 .ev.lrow .licon { width: 16px; height: 16px; opacity: .85 }
 /* line-height with room for g's and y's: the names clip at their box (for the ellipsis), descenders and all */
 .ev.lrow .lteams, .ev.lrow .lsolo { font: 600 16px/1.4 var(--f-display); min-width: 0 }
-.ev.lrow .lteams { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 6px }
-.ev.lrow .lside { display: flex; align-items: center; gap: 5px; min-width: 0; white-space: nowrap }
+/* the pair is centred as a whole (as a race or golf name is), so a long name on one side doesn't pull it off centre */
+.ev.lrow .lteams { display: flex; justify-content: center; align-items: center; column-gap: 6px } .ev.lrow .lv { flex: none }
+.ev.lrow .lside { display: flex; flex: 0 1 auto; align-items: center; gap: 5px; min-width: 0; white-space: nowrap }
 .ev.lrow .lside.home { justify-content: flex-end }
 .ev.lrow .lside .nm { overflow: hidden; text-overflow: ellipsis; min-width: 0 }
 .ev.lrow .lsolo { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center }
