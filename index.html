@@ -1803,7 +1803,7 @@ function genderOf(x) {
 }
 const gcls = e => /wheelchair/i.test([e.comp, e.home, e.away].join(' ')) ? 'g-wc' : genderOf(e) === 'w' ? 'g-w' : '';
 // club and domestic competitions, listed under "Leagues" in the menu; everything else is international
-const DOMESTIC = /^(NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|Big Bash|Women's Big Bash|NZ domestic cricket|A-League Men|Premier League)$/;
+const DOMESTIC = /^(NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|Big Bash|Women's Big Bash|NZ domestic cricket|Sheffield Shield|Dean Jones Trophy|A-League Men|Premier League)$/;
 // how a competition reads in the menu
 const COMP_LABEL = {};
 // one name per competition, so a whole tournament can be shown on its own
@@ -3455,17 +3455,16 @@ function render() {
 
   // controls
   {
-    // every competition with games in the last two months or next four; ones on now first, then by next game
+    // every competition with games in the last two months or next four, A to Z under each sport (Live and Current marked)
     const counts = new Map(), sportOfComp = new Map(), nextOf = new Map();
     (FEED.events || []).filter(e => { const t = new Date(e.startUTC) - now; return t > -60 * 864e5 && t < 120 * 864e5; }).forEach(e => {
       const c = compOf(e), t = new Date(e.startUTC) - now;
       counts.set(c, (counts.get(c) || 0) + 1); sportOfComp.set(c, e.sport || sportOf(e.team));
       nextOf.set(c, Math.min(nextOf.get(c) ?? Infinity, t > -3 * 36e5 ? t : Infinity));
     });
-    const rank = c => (onNowComps.has(c) ? 0 : nextOf.get(c) < Infinity ? 1 : 2);
     const hasTable = new Set((FEED.tables || []).map(t => compOf({ comp: t.comp, sport: t.sport, team: t.team })));
     const comps = [...counts].filter(([c, n]) => n >= 2 || nextOf.get(c) < Infinity || hasTable.has(c) || c === compSel).map(([c]) => c)
-      .sort((a, b) => rank(a) - rank(b) || (nextOf.get(a) - nextOf.get(b)) || a.localeCompare(b));
+      .sort((a, b) => (COMP_LABEL[a] || a).localeCompare(COMP_LABEL[b] || b, 'en', { sensitivity: 'base' }));
     const groups = [[['rugby'], 'Rugby'], [['league'], 'Rugby league'], [['cricket'], 'Cricket'], [['football'], 'Football'], [['hockey'], 'Hockey'], [['basketball'], 'Basketball'], [['netball'], 'Netball'], [['motor'], 'Motorsport'], [['sailing'], 'Sailing'], [['tennis'], 'Tennis'], [['golf'], 'Golf'], [['baseball'], 'Baseball'], [['mma', 'boxing'], 'Fighting']].sort((a, b) => a[1].localeCompare(b[1])); // sports A to Z: Cricket, Fighting, Football…
     const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}"><span class="lb" data-l="${esc(COMP_LABEL[c] || c)}"><span>${esc(COMP_LABEL[c] || c)}</span></span>${liveComps.has(c) ? '<span class="onnow">Live</span>' : onNowComps.has(c) ? '<span class="current">Current</span>' : !c || nextOf.get(c) < Infinity ? '' : '<span class="ended">Season over</span>'}</button>`;
     $('compMenu').innerHTML = `<div class="ctip">Pick one for its own page: every game, plus its table, playoffs, rankings and news where it has them</div>` + opt('') .replace('></button>', '>All competitions</button>') + groups.map(([ks, l]) => {
