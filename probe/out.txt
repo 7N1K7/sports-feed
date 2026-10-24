@@ -1,52 +1,49 @@
-== TSDB round 17: 5 events
-2408192 Singapore Grand Prix Practice 1 2026-10-09T08:30:00 status=FT updated=2026-10-09 result=2026 Singapore Grand Prix - Free Practice 1, Marina Bay Street Circuit, Oct 9, 2026. Full classification (source: racingnews365.com): 1. George Russell (Merced
-   eventresults: 5 idResult,idPlayer,strPlayer,idTeam,idEvent,strEvent,strResult,intPosition,intPoints,strDetail,dateEvent,strSeason,strCountry,strSport [["1","George Russell","1:32.274",null,"0"],["2","Charles Leclerc","+0.198s",null,"0"],["3","Lando Norris","+0.273s",null,"0"]]
-2408193 Singapore Grand Prix Sprint Qualifying 2026-10-09T12:30:00 status=FT updated=2026-10-09 result=2026 Singapore Grand Prix - Sprint Qualifying, Marina Bay Street Circuit, Oct 9, 2026. Classification (source: crash.net, cross-checked top 5 with formula1.com;
-   eventresults: 5 idResult,idPlayer,strPlayer,idTeam,idEvent,strEvent,strResult,intPosition,intPoints,strDetail,dateEvent,strSeason,strCountry,strSport [["1","Max Verstappen","1:31.156",null,"0"],["2","George Russell","1:31.276",null,"0"],["3","Charles Leclerc","1:31.399",null,"0"]]
-2408194 Singapore Grand Prix Sprint 2026-10-10T09:00:00 status= updated=2026-10-10 result=
-   eventresults: 5 idResult,idPlayer,strPlayer,idTeam,idEvent,strEvent,strResult,intPosition,intPoints,strDetail,dateEvent,strSeason,strCountry,strSport [["1","Max Verstappen","39:48.162",null,"8"],["2","Lewis Hamilton","+2.591s",null,"7"],["3","Charles Leclerc","+16.871s",null,"6"]]
-2408195 Singapore Grand Prix Qualifying 2026-10-10T13:00:00 status= updated=2026-10-10 result=
-   eventresults: 5 idResult,idPlayer,strPlayer,idTeam,idEvent,strEvent,strResult,intPosition,intPoints,strDetail,dateEvent,strSeason,strCountry,strSport [["1","Max Verstappen","1:31.373",null,"0"],["2","Charles Leclerc","1:31.427",null,"0"],["3","Lewis Hamilton","1:31.496",null,"0"]]
-2408196 Singapore Grand Prix 2026-10-11T12:00:00 status=FT updated=2026-10-11 result=The race was held on 11 October 2026, at 20:00 local time (UTC+8), and was run for 62 laps.
-   eventresults: 5 idResult,idPlayer,strPlayer,idTeam,idEvent,strEvent,strResult,intPosition,intPoints,strDetail,dateEvent,strSeason,strCountry,strSport [["1","Max Verstappen","1:42:00.785",null,"25"],["2","Charles Leclerc","+7.335s",null,"18"],["3","Andrea Kimi Antonelli","+24.573s",null,"15"]]
-== TSDB round 18: 5 events
-2408197 United States Grand Prix Practice 1 2026-10-23T17:30:00 status= updated=2026-10-23 result=
-   eventresults: 0  []
-2408198 United States Grand Prix Practice 2 2026-10-23T21:00:00 status= updated=2026-10-23 result=
-   eventresults: 0  []
-2408199 United States Grand Prix Practice 3 2026-10-24T17:30:00 status= updated=2026-10-24 result=
-   eventresults: 0  []
-2408200 United States Grand Prix Qualifying 2026-10-24T21:00:00 status= updated=2026-10-24 result=
-   eventresults error 429 https://www.thesportsdb.com/api/v1/json/123/eventresults.php?id=2408200
-2408201 United States Grand Prix 2026-10-25T20:00:00 status= updated=2026-10-25 result=
-   eventresults error 429 https://www.thesportsdb.com/api/v1/json/123/eventresults.php?id=2408201
-== Wikipedia 2026 United States Grand Prix: Background | Championship standings before the race | Championship permutations | Entrants | Tyre choices | Practice | Qualifying | Race | Notes | References | External links
-== Wikipedia 2026 Singapore Grand Prix: Background | Championship standings before the race | Entrants | Tyre choices | Practice | Sprint qualifying | Sprint qualifying classification | Sprint | Sprint report | Sprint classification | Qualifying | Qualifying classification | Race | Race report | Post-race and championship impact | Race classification | Championship standings after the race | References | External links
-== Wikipedia 2026 Mexico City Grand Prix: Entries | Free practice drivers | Team changes | Driver changes | Mid-season changes | Calendar | Postponed and cancelled Grands Prix | Calendar changes | Regulation changes | Financial regulation | Technical regulations | Power units | Car size and aerodynamics | Safety features | Sporting regulations | Season summary | Pre-season | Opening rounds | Mid-season rounds | Closing rounds | Results and standings | Grands Prix | Scoring system | World Drivers' Championship standings | World Constructors' Championship standings | Notes | References | External links
-== Singapore article edits, race day (newest first): 10-11T18:10 43767, 10-11T17:12 43753, 10-11T16:43 43753, 10-11T15:07 43752, 10-11T14:58 43751, 10-11T14:42 43739, 10-11T14:22 43739, 10-11T14:15 43913, 10-11T14:14 43860, 10-11T14:14 43197, 10-11T14:12 43065, 10-11T14:07 43050, 10-11T14:04 43032, 10-11T14:02 42967, 10-11T13:59 40489, 10-11T13:54 40486, 10-11T13:52 40509, 10-11T13:47 34695, 10-11T13:47 34504, 10-11T13:47 34483, 10-11T13:23 34429, 10-11T13:22 34429, 10-11T12:58 34429, 10-11T12:57 34431, 10-11T12:41 34432, 10-11T12:30 34334, 10-11T12:05 34275, 10-11T12:04 34268, 10-11T11:50 34257, 10-11T11:32 34257, 10-11T11:30 33145, 10-11T11:24 33145, 10-11T11:05 32610, 10-11T10:45 32233
--- Practice section: == Practice == ⏎ The sole [[Formula One racing#Free practice|free practice]] session was held on 9 October 2026, at 16:30 local time ([[UTC+8]]), and was topped by [[George Russell (racing driver)|George Russell]] ([[Mercedes-Benz in Formula One|Mercedes]]) ahead of [[Charles Leclerc]] ([[Scuderia Ferrari|Ferrari]]) and [[Lando Norris]] ([[McLaren]]).<ref name="race-page" /> ⏎  ⏎ == Sprint qualifying == ⏎ [[Sprint qualifying]] was held on 9 October 2026, at 20:30 local time ([[UTC+8]]), and determined t
--- Sprint qualifying section: == Sprint qualifying == ⏎ [[Sprint qualifying]] was held on 9 October 2026, at 20:30 local time ([[UTC+8]]), and determined the starting grid order for the [[Formula One race weekend#Sprint|sprint]].<ref name="race-page" /> ⏎  ⏎ === Sprint qualifying classification === ⏎ {| class="wikitable sortable" style="font-size: 85%;" ⏎ ! rowspan="2" data-sort-type="text"|{{Tooltip|Pos.|Qualifying position}} ⏎ ! rowspan="2" data-sort-type="text"|{{Tooltip|No.|Car number}} ⏎ ! rowspan="2" |Driver ⏎ ! rowspan="2" |Construct
--- Sprint section: == Sprint qualifying == ⏎ [[Sprint qualifying]] was held on 9 October 2026, at 20:30 local time ([[UTC+8]]), and determined the starting grid order for the [[Formula One race weekend#Sprint|sprint]].<ref name="race-page" /> ⏎  ⏎ === Sprint qualifying classification === ⏎ {| class="wikitable sortable" style="font-size: 85%;" ⏎ ! rowspan="2" data-sort-type="text"|{{Tooltip|Pos.|Qualifying position}} ⏎ ! rowspan="2" data-sort-type="text"|{{Tooltip|No.|Car number}} ⏎ ! rowspan="2" |Driver ⏎ ! rowspan="2" |Construct
--- Qualifying section: ==Qualifying== ⏎ [[Formula One race weekend#Current format|Qualifying]] was held on 10 October 2026, and was scheduled to start at 21:00 local time ([[UTC+8]]), before being delayed to 21:30 due to the postponement of the [[Formula One race weekend#Sprint|sprint]]. It determined the starting grid order for the main race.<ref name="race-page" /> ⏎  ⏎ === Qualifying classification === ⏎ {| class="wikitable sortable" style="font-size: 85%;" ⏎ ! scope="col" rowspan="2" data-sort-type="number" |{{Tooltip|Pos.|
-== jolpica README (200, 5292 chars)
-    By using the jolpica-f1 API, you agree to our [Terms of Use](TERMS.md).
-    - [OversteerFormula1App](https://github.com/HugoLe-SS/OversteerFormula1App) - OversteerFormula1App is an Android project built with Kotlin and Jetpack Compose, designed to provide race schedules, standings, race results,
-    Results update every week using jolpica-f1 data.
-== jolpica docs (200, 3790 chars)
-== openf1 (200, 91576 chars)
-    Get real-time access to live telemetry, lap times, weather, and race control data for your next project."
-    /* sponsorship */
-    .sponsorship {
-    .sponsorship-grid {
-    .sponsorship-card {
-    .sponsorship-card:last-child {
-    .sponsorship-tier {
-    .sponsorship-name {
-    .sponsorship-price {
-    .sponsorship-price span {
-    .sponsorship-price .price-decimal {
-    .sponsorship-features {
-    .sponsorship-features li {
-    .sponsorship-features li::before {
-== jolpica api (200, 189 chars)
-    {"MRData":{"xmlns":"","series":"f1","url":"https://api.jolpi.ca/ergast/f1/2026/18/results.json","limit":"30","offset":"0","total":"0","RaceTable":{"season":"2026","round":"18","Races":[]}}}
+== US GP practice section now: == Practice == ⏎ Three [[Formula One racing#Free practice|free practice sessions]] are being held for the event. The first free practice session was held on October 23, 2026, at 12:30 local time ([[UTC–5]]), and was topped by [[Charles Leclerc]] ([[Scuderia Ferrari|Ferrari]]) ahead of [[Max Verstappen]] ([[Red Bull Racing|Red Bull]]) and [[Lando Norris]] ([[McLaren]]). The second free practice session will be held on the same day, at 16:00 local time. The third free practice session will be held on October 24, 2026, at 12:30 local time.<ref name="Cal"/> ⏎  ⏎ == Qualifying == ⏎ [[Formula One race weekend#Current format|Qualifying]] will be held on October 24, 2026, at 16:00 local time ([[UTC–5]]), and will determine the starting grid order for the race.<ref name="Cal"/> ⏎ <!-- ⏎ === Qualifying classification === ⏎ {| class="wikitable sortable" style="font-size: 85%;" ⏎ ! rowspan="2" |{{Tooltip|Pos.|Quali
+== US GP edits since FP1 (newest first):
+   10-23T19:04 21828 
+   10-23T18:34 20453 
+   10-23T16:37 20291 
+== jolpica TERMS.md 200
+# Jolpica-F1 API – Terms of Use
+
+_Last updated: August 27, 2025_
+
+Welcome! The jolpica-f1 API is free and open for public use. By using the API, you agree to the following terms:
+
+---
+
+## 1. Usage
+
+- The API is freely available for **non-commercial use**.
+- The data is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). For detailed information on this license, refer to the [Creative Commons website](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+- For commercial usage, please contact us via admin@jolpi.ca
+- **We reserve the right to change these terms**.
+
+---
+
+## 2. Fair Use and Limits
+
+- The API is subject to **rate limits**, described in a separate [Rate Limits Guide](/docs/rate_limits.md). Please respect these limits.
+- Abuse or excessive use may result in temporary or permanent blocking. We aim to warn users when possible, but may block without notice to protect the service.
+
+---
+
+## 3. Disclaimer
+
+- This is a **volunteer-run, donation-supported** project. While we aim for stability and accuracy, we **do not guarantee uptime, availability, or correctness** of the data.
+- We are not liable for any damages or losses resulting from use of the API.
+- Use is **entirely at your own risk**.
+
+---
+
+## 4. Changes and Communication
+
+- Major changes will be announced on our [GitHub Repository](https://github.com/jolpica/jolpica-f1). We aim to maintain backwards compatibility, but we cannot guarantee advance notice.
+- Please check the repository periodically for updates.
+
+---
+
+## 5. Contact
+
+- For support or feedback visit our [GitHub repository](https://github.com/jolpica/jolpica-f1) and open a new discussion for your concern.
+== jolpica Singapore qualifying 200 {"MRData":{"xmlns":"","series":"f1","url":"https://api.jolpi.ca/ergast/f1/2026/17/qualifying.json","limit":"3","offset":"0","total":"22","RaceTable":{"season":"2026","round":"17","Races":[{"season":"2026","round":"17","url":"https://en.wikipedia.org/wiki/2026_Singapore_Grand_Prix","raceName":"Singapore Grand Prix","Circuit":{"circuitId":"marina_bay","url":"https://en.wikipedia.org/wiki/Marina_Bay_Street_Circuit","circuitName":"Marina Bay Street Circuit","Location":{"lat":"1.2914","long":"103.864","locality":"Marina Bay","country":"Singapore"}},"date":"2026-10-11","time":"12:00:00Z","Qualifying
