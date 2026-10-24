@@ -1,48 +1,49 @@
-feed generated: ?
-diag.f1Sessions: "United States Grand Prix: Practice 1 3 (top 3), Practice 2 1 (top 3), Practice 3 -, Qualifying -, Race -"
-diag.f1SessionsSeen: {"id":"f1-2026-18","wikiReads":1,"tsdbReads":1,"lastTsdb":"2026-10-24T05:12Z","seen":{"Practice 1":{"top3":"2026-10-24T05:12Z"},"Practice 2":{"top3":"2026-10-24T05:12Z"}}}
-wiki edits (newest first):
-  2026-10-24T04:30:16Z 21938 /* Practice */
-  2026-10-23T19:04:43Z 21828 
-  2026-10-23T18:34:08Z 20453 
-  2026-10-23T16:37:51Z 20291 
-  2026-10-23T13:25:50Z 19892 [[Wikipedia:MOSNUMscript|script]]-assisted date audit and style fixes per [[MOS:NUM]]
-  2026-10-22T12:43:30Z 19825 /* Championship permutations */ he must win
-  2026-10-20T21:00:33Z 19820 
-  2026-10-20T20:56:06Z 19821 
-  2026-10-20T18:52:22Z 18963 /* Championship permutations */
-  2026-10-20T17:47:57Z 18962 
-  2026-10-20T17:22:50Z 18887 /* Championship permutations */ rephrase
-  2026-10-20T17:22:09Z 18870 /* Championship permutations */ removing points, mostly redundant with previous paragraph
-  2026-10-20T17:16:53Z 18948 /* Championship permutations */ rework further
-  2026-10-20T17:12:29Z 19018 /* Championship permutations */ no reason to put this here
-  2026-10-20T15:26:13Z 19119 
-  2026-10-20T15:25:55Z 19124 
-  2026-10-20T15:24:13Z 19099 
-  2026-10-20T13:00:50Z 19173 /* Championship permutations */ -"or more"
-  2026-10-20T12:58:56Z 19188 /* Championship permutations */ move citations, phrasing
-  2026-10-20T12:57:31Z 19188 /* Race */ source linked didn't include lap count
-  2026-10-20T12:56:40Z 18879 /* Championship permutations */ cleanup
-  2026-10-20T12:55:01Z 18924 /* Championship permutations */ more cleanup and fixes
-  2026-10-20T12:50:58Z 19164 /* Tyre choices */ cntag
-  2026-10-20T12:50:24Z 19127 /* Championship permutations */ more clean up
-  2026-10-20T12:45:57Z 19270 /* Entrants */ fix my typo
-  2026-10-20T12:45:47Z 19271 /* Entrants */ cn tag
-  2026-10-20T12:45:28Z 19233 /* Championship permutations */ remove more redundancy. it is also inaccurate to say it _w
-  2026-10-20T12:42:56Z 19560 /* Championship permutations */ remove some of the excess detail
-  2026-10-20T06:22:38Z 19879 /* Tyre choices */
-  2026-10-20T06:19:10Z 19879 /* Championship standings before the race */
-  2026-10-20T06:06:43Z 19878 /* Championship permutations */ Fix error
-  2026-10-20T05:38:30Z 19879 
-  2026-10-20T01:39:24Z 19891 /* References */
-  2026-10-20T01:33:59Z 19865 /* Championship standings before the race */
-  2026-10-19T21:23:22Z 12878 /* */ howdy folks, welcome to the circuit of the americas
-  2026-06-10T15:08:23Z 344 
-  2026-03-29T08:09:36Z 231 change sort key
-  2026-03-28T11:51:47Z 217 added [[Category:2026 Formula One races]] using [[WP:HC|HotCat]]
-  2025-09-21T13:56:29Z 181 Created article as redirect
-tsdb: United States Grand Prix Practice 1 2026-10-23 17:30:00 lines=0 ""
-tsdb: United States Grand Prix Practice 2 2026-10-23 21:00:00 lines=0 ""
-tsdb: United States Grand Prix Practice 3 2026-10-24 17:30:00 lines=0 ""
-tsdb: United States Grand Prix Qualifying 2026-10-24 21:00:00 lines=0 ""
-tsdb: United States Grand Prix 2026-10-25 20:00:00 lines=0 ""
+PRACTICE SECTION:
+== Practice ==
+Three [[Formula One racing#Free practice|free practice sessions]] are being held for the event. The first free practice session was held on October 23, 2026, at 12:30 local time ([[UTC–5]]), and was topped by [[Charles Leclerc]] ([[Scuderia Ferrari|Ferrari]]) ahead of [[Max Verstappen]] ([[Red Bull Racing|Red Bull]]) and [[Lando Norris]] ([[McLaren]]). The second free practice session was held on the same day, at 16:00 local time, and was topped by Leclerc ahead of [[Kimi Antonelli]] ([[Mercedes-Benz in Formula One|Mercedes]]) and Verstappen. The third free practice session will be held on October 24, 2026, at 12:30 local time.<ref name="Cal"/>
+
+== Qualifying ==
+[[Formula One race weekend#Current format|Qualifying]] will be held on October 24, 2026, at 16:00 local time ([[UTC–5]]), and will determine the starting grid order for the race.<ref name="Cal"/>
+<!--
+=== Qualifying classification ===
+{| class="wikitable sortable" style="font-size: 85%;"
+! rowspan="2" |{{Tooltip|Pos.|Qualifying position}}
+! rowspan="2" |{{Tooltip|No.|Car number}}
+! rowspan="2" |Driver
+! rowspan="2" |Constructor
+! colspan="3" style="background:#eaecf0; text-align:center;" |{{nowrap|Qualifying times}}
+! rowspan="2" |{{Tooltip|Final<br />grid|Final grid position}}
+|-
+! scope="col" |Q1
+! scope="col" |Q2
+! scope="col" |Q3
+|-
+! scope="row" |1
+| align="center" |
+|data-sort-value="aaa"|{{flagicon|}} [[]]
+|[[]]
+|
+|
+|'''-'''
+| align="center" |1
+|-
+! scope="row" |2
+| align="center" |
+|data-sort-value="aaa"|{{flagicon|}} [[]]
+|[[]]
+|
+|
+|
+| align="center" |2
+|-
+! scope="row" |3
+| align="center" |
+
+
+2026-10-24T04:30:16Z added: was … , and was topped by Leclerc ahead of [[Kimi Antonelli]] ([[Mercedes-Benz in Formula One|Mercedes]]) and Verstappen
+
+2026-10-23T19:04:43Z added: grid
+
+2026-10-23T18:34:08Z added: are … being … was … ]]), and was topped by [[Charles Leclerc]] ([[Scuderia Ferrari|Ferrari]]) ahead of [[Max Verstappen]] ([[Red Bull Racing|Red Bull]]) and [[Lando Norris]] ([[McLaren
+
+2026-10-23T16:37:51Z added: &lt;ref&gt; … Cite web |last=Connelly|first=Garry|author-link=Garry Connelly |last2=Selley |first2=Matthew |last3=Lamy |first3=Pedro |author-link3=Pedro Lamy |last4=Pence |first4=Steve … 23  …  |title=2026 United States Grand Prix – Entry List |url=https://www.fia.com/system/files/decision-document/2026_united_states_grand_prix_-_entry_list.pdf |access-date=23 October 2026 |publisher=[[Fédération Internationale de l'Automobile]] … &lt;/ref&gt; … was … had
