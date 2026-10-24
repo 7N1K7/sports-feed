@@ -1359,7 +1359,13 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 /* phones: the sport's colour down the side says the sport, so its icon goes, and the logos shrink, for the names' room */
 @media (max-width: 520px) { .ev.lrow { grid-template-columns: 4px 57px minmax(0, 1fr) 38px; column-gap: 5px } .ev.lrow .licon { display: none }
   .ev.lrow .ltime { font-size: 16px } .ev.lrow .lteams { column-gap: 4px } .ev.lrow .lside { gap: 4px } .ev.lrow .logo { height: 18px; max-width: 22px } .ev.lrow .logo.flagimg { height: 12px } }
-@media (min-width: 700px) { .ev.lrow { grid-template-columns: 4px 58px 16px minmax(120px, 30%) minmax(0, 1fr) 48px } .ev.lrow .lcomp { display: block } }
+/* the time, icon and competition sit together at the left (one grid cell each on phones); on wider screens the names
+   are centred on the row itself, the two sides an equal width either side of them. As the row narrows the sides close
+   in (the competition cut short); once the left side is down to its least, the names give way and edge right of centre */
+.ev.lrow .lleft { display: contents }
+@media (min-width: 700px) { .ev.lrow { grid-template-columns: 4px minmax(190px, 1fr) minmax(0, max-content) minmax(60px, 1fr) }
+  .ev.lrow .lleft { display: flex; align-items: center; gap: 7px; min-width: 0 } .ev.lrow .lleft .ltime { flex: none; width: 58px } .ev.lrow .lleft .licon { flex: none }
+  .ev.lrow .lcomp { display: block; flex: 0 1 auto; min-width: 0 } }
 .ev.lrow .ltime { font: 700 17px/1 var(--f-display); color: var(--sport); text-align: right; white-space: nowrap }
 .ev.lrow .licon { width: 16px; height: 16px; opacity: .85 }
 /* line-height with room for g's and y's: the names clip at their box (for the ellipsis), descenders and all */
@@ -2107,7 +2113,7 @@ function listRow(e, now, isRes) {
   const end = isRes ? (hidden ? `<button class="lcover" type="button" data-reveal="${esc(e.id)}">Show</button>` : `<span class="lscore num" title="${esc(e.score || '')}">${esc(e.score || '–')}</span>`)
     : live ? '<span class="lnow">ON</span>' : free ? '<span class="fta lfree">FREE</span>' : paid ? '<span class="ltv" aria-hidden="true">📺</span>' : '';
   return `<article class="ev lrow sport-${e.sport} ${gcls(e)}${live ? ' is-live' : ''}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
-    <div class="stripe"></div><span class="ltime num">${esc(t)}</span>${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span>${who}<span class="lend">${end}</span></article>`;
+    <div class="stripe"></div><span class="lleft"><span class="ltime num">${esc(t)}</span>${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span></span>${who}<span class="lend">${end}</span></article>`;
 }
 function evCard(e, now) {
   if (view === 'list') return listRow(e, now, false);
