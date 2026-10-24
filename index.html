@@ -1502,8 +1502,9 @@ const PAGE_V = '__SITE_V__';
 { const seen = new Set();
   const report = msg => { msg = String(msg || '').slice(0, 160); if (msg && !seen.has(msg) && seen.size < 3) { seen.add(msg); count({ e: 'error', k: msg + (/^\d+$/.test(PAGE_V) ? ` [v${PAGE_V}]` : '') }); } };
   // "Script error." at line 0 is a script from another site (a browser add-on, an app's built-in browser) that the browser
-  // won't say anything about, so it isn't counted
-  addEventListener('error', ev => { if ((!ev.filename || ev.filename.startsWith(location.origin)) && !(/^Script error\.?$/.test(ev.message) && !ev.lineno)) report(`${ev.message} (line ${ev.lineno})`); });
+  // won't say anything about, so it isn't counted. Nor is Chrome's "ResizeObserver loop" note: a chip row balanced as the
+  // page resizes changes size again, and the browser just measures it once more on the next frame
+  addEventListener('error', ev => { if ((!ev.filename || ev.filename.startsWith(location.origin)) && !(/^Script error\.?$/.test(ev.message) && !ev.lineno) && !/^ResizeObserver loop/.test(ev.message)) report(`${ev.message} (line ${ev.lineno})`); });
   addEventListener('unhandledrejection', ev => report(ev.reason?.message || ev.reason)); }
 const TEAMS = [ // in the sport row's order: cricket, rugby, league, football, hockey, basketball, F1, tennis, golf, baseball, fights, netball, sailing
   { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['aucricket','Australia men'],['audomestic','Aussie domestic'],['intlcricket','Other tours'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
