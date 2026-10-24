@@ -1,14 +1,11 @@
-generatedAt 2026-10-24T03:11:12.824Z diag.f1: 23 races, 17 with results; standings: Drivers' championship 23 (top Kimi Antonelli 340), Constructors' championship 11 (top Mercedes 578) | f1Times: Mexico City Grand Prix: 2026-11-01T20:00:00.000Z and 4 sessions; 6 of 23 races with start times, 22 sessions coming | supercarsTimes: Sandown 500: 2026-11-08T04:30:00.000Z and 7 sessions; 3 of 14 rounds with start times, 20 sessions coming
-f1-2026-18 - 2026-10-25T20:00:00.000Z upcoming  Formula 1 · Round 18
-f1-2026-19 - 2026-11-01T20:00:00.000Z upcoming  Formula 1 · Round 19
-supercars-2026-12 - 2026-10-25T04:45:00.000Z upcoming  Supercars · Round 12
-f1-2026-18-practice-3 Practice 3 2026-10-24T17:30:00.000Z upcoming minor Formula 1 · Round 18 · Practice 3
-f1-2026-18-qualifying Qualifying 2026-10-24T21:00:00.000Z upcoming  Formula 1 · Round 18 · Qualifying
-f1-2026-19-practice-1 Practice 1 2026-10-30T18:30:00.000Z upcoming minor Formula 1 · Round 19 · Practice 1
-f1-2026-19-practice-2 Practice 2 2026-10-30T22:00:00.000Z upcoming minor Formula 1 · Round 19 · Practice 2
-f1-2026-19-practice-3 Practice 3 2026-10-31T17:30:00.000Z upcoming minor Formula 1 · Round 19 · Practice 3
-f1-2026-19-qualifying Qualifying 2026-10-31T21:00:00.000Z upcoming  Formula 1 · Round 19 · Qualifying
-supercars-2026-12-top-10-shootout-race-31 Top 10 Shootout (Race 31) 2026-10-24T02:35:00.000Z upcoming minor Supercars · Round 12 · Top 10 Shootout (Race 31)
-supercars-2026-12-race-31 Race 31 2026-10-24T05:15:00.000Z upcoming minor Supercars · Round 12 · Race 31
-supercars-2026-12-qualifying-race-32 Qualifying (Race 32) 2026-10-25T01:20:00.000Z upcoming minor Supercars · Round 12 · Qualifying (Race 32)
-supercars-2026-12-top-10-shootout-race-32 Top 10 Shootout (Race 32) 2026-10-25T02:05:00.000Z upcoming minor Supercars · Round 12 · Top 10 Shootout (Race 32)
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+page.evaluate: ReferenceError: FEED is not defined
+    at eval (eval at evaluate (:290:30), <anonymous>:1:25)
+    at UtilityScript.evaluate (<anonymous>:292:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at /home/runner/work/sports-feed/sports-feed/probe/probe.mjs:12:31
+
+Node.js v22.23.3
