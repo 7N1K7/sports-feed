@@ -1,49 +1,7 @@
-PRACTICE SECTION:
-== Practice ==
-Three [[Formula One racing#Free practice|free practice sessions]] are being held for the event. The first free practice session was held on October 23, 2026, at 12:30 local time ([[UTC–5]]), and was topped by [[Charles Leclerc]] ([[Scuderia Ferrari|Ferrari]]) ahead of [[Max Verstappen]] ([[Red Bull Racing|Red Bull]]) and [[Lando Norris]] ([[McLaren]]). The second free practice session was held on the same day, at 16:00 local time, and was topped by Leclerc ahead of [[Kimi Antonelli]] ([[Mercedes-Benz in Formula One|Mercedes]]) and Verstappen. The third free practice session will be held on October 24, 2026, at 12:30 local time.<ref name="Cal"/>
-
-== Qualifying ==
-[[Formula One race weekend#Current format|Qualifying]] will be held on October 24, 2026, at 16:00 local time ([[UTC–5]]), and will determine the starting grid order for the race.<ref name="Cal"/>
-<!--
-=== Qualifying classification ===
-{| class="wikitable sortable" style="font-size: 85%;"
-! rowspan="2" |{{Tooltip|Pos.|Qualifying position}}
-! rowspan="2" |{{Tooltip|No.|Car number}}
-! rowspan="2" |Driver
-! rowspan="2" |Constructor
-! colspan="3" style="background:#eaecf0; text-align:center;" |{{nowrap|Qualifying times}}
-! rowspan="2" |{{Tooltip|Final<br />grid|Final grid position}}
-|-
-! scope="col" |Q1
-! scope="col" |Q2
-! scope="col" |Q3
-|-
-! scope="row" |1
-| align="center" |
-|data-sort-value="aaa"|{{flagicon|}} [[]]
-|[[]]
-|
-|
-|'''-'''
-| align="center" |1
-|-
-! scope="row" |2
-| align="center" |
-|data-sort-value="aaa"|{{flagicon|}} [[]]
-|[[]]
-|
-|
-|
-| align="center" |2
-|-
-! scope="row" |3
-| align="center" |
-
-
-2026-10-24T04:30:16Z added: was … , and was topped by Leclerc ahead of [[Kimi Antonelli]] ([[Mercedes-Benz in Formula One|Mercedes]]) and Verstappen
-
-2026-10-23T19:04:43Z added: grid
-
-2026-10-23T18:34:08Z added: are … being … was … ]]), and was topped by [[Charles Leclerc]] ([[Scuderia Ferrari|Ferrari]]) ahead of [[Max Verstappen]] ([[Red Bull Racing|Red Bull]]) and [[Lando Norris]] ([[McLaren
-
-2026-10-23T16:37:51Z added: &lt;ref&gt; … Cite web |last=Connelly|first=Garry|author-link=Garry Connelly |last2=Selley |first2=Matthew |last3=Lamy |first3=Pedro |author-link3=Pedro Lamy |last4=Pence |first4=Steve … 23  …  |title=2026 United States Grand Prix – Entry List |url=https://www.fia.com/system/files/decision-document/2026_united_states_grand_prix_-_entry_list.pdf |access-date=23 October 2026 |publisher=[[Fédération Internationale de l'Automobile]] … &lt;/ref&gt; … was … had
+diag.f1Sessions: "United States Grand Prix: Practice 1 3 (top 3), Practice 2 3 (top 3), Practice 3 -, Qualifying -, Race -"
+diag.f1SessionsSeen: {"id":"f1-2026-18","wikiReads":3,"tsdbReads":1,"lastTsdb":"2026-10-24T05:12Z","seen":{"Practice 1":{"top3":"2026-10-24T05:12Z"},"Practice 2":{"top3":"2026-10-24T05:12Z"}}}
+  Practice 1 1.Charles Leclerc/Ferrari 2.Max Verstappen/Red Bull 3.Lando Norris/McLaren
+  Practice 2 1.Charles Leclerc/Ferrari 2.Kimi Antonelli/Mercedes 3.Max Verstappen/Red Bull
+  Practice 3 -
+  Qualifying -
+  Race -
