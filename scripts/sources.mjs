@@ -1242,7 +1242,7 @@ export async function f1StartTimes(events, cache, diag) {
     const c = cache[e.id];
     if (c?.startUTC && c.gp === e.home && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 2 * DAY) {
       Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); n++;
-      k += addSessions(events, e, c.sessions, s => /^qualifying$/i.test(s), now);
+      k += addSessions(events, e, c.sessions, s => /^(qualifying|sprint)$/i.test(s), now);
     }
   }
   diag.f1Times = [...notes, `${n} of ${races.length} races with start times, ${k} sessions coming`].join('; ');
@@ -1255,8 +1255,9 @@ const SC_SESSION = ev => { const m = ev.match(/\b(Practice \d+|Qualifying Race \
 const tsdbISO = ts => new Date(Date.parse(String(ts).replace(/(\+00:00|Z)$/, '') + 'Z')).toISOString();
 const sessionsOf = (d, main, name) => (d.events || []).filter(ev => ev.strTimestamp).map(ev => ({ n: name(ev.strEvent || ''), t: tsdbISO(ev.strTimestamp) }))
   .filter(s => s.n && s.t !== main && Math.abs(Date.parse(s.t) - Date.parse(main)) < 4 * DAY).sort((a, b) => a.t < b.t ? -1 : 1);
-// the sessions as events of their own, while they're still to come: `isMain` ones (F1 qualifying) get a card in the feed,
-// the rest (practice, sprints, Supercars' other races and qualifying) show only on the competition's own page
+// the sessions as events of their own, while they're still to come: `isMain` ones (F1 qualifying and the sprint) get a
+// card in the feed, the rest (practice, sprint qualifying, Supercars' other races and qualifying) show only on the
+// competition's own page, or with the Motorsport button picked
 function addSessions(events, e, sessions, isMain, now) {
   let k = 0;
   for (const s of sessions || []) {

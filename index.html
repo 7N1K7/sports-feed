@@ -591,6 +591,11 @@ dialog#sheet::backdrop { background: rgba(10, 18, 15, .5) }
 .facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; margin: 0; font-size: 14px }
 .facts dt { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; padding-top: 2px }
 .facts dd { margin: 0 }
+/* a race weekend's sessions in the pop-up: day and time in a fixed column, this one in bold */
+.wkses { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 2px 12px }
+.wkses li { display: contents }
+.wkses li.cur > span { font-weight: 600 }
+.wkses li.gone > span { color: var(--muted) }
 .dh { font-family: var(--f-body); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-top: 4px }
 .watchlist { margin: 0; padding-left: 18px; display: grid; gap: 3px; font-size: 14px }
 .watchlist li.wopt { list-style: none; margin-left: -18px; display: grid; grid-template-columns: 7.2em minmax(0, 1fr); gap: 2px 10px; align-items: start; padding: 4px 0; border-top: 1px solid var(--line) }
@@ -770,7 +775,7 @@ html::-webkit-scrollbar-thumb:active, body::-webkit-scrollbar-thumb:active { bac
 .nzonly img { border-radius: 2px }
 .nzonly[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
 /* week strip: weekends tinted, big tournaments get a coloured bar, picked day filled */
-.day.wkend { background: color-mix(in srgb, var(--accent) 7%, var(--surface)) }
+.day.wkses { background: color-mix(in srgb, var(--accent) 7%, var(--surface)) }
 .day.big { box-shadow: inset 0 3px 0 var(--bigc) }
 .day.today.big { box-shadow: inset 0 0 0 1px var(--accent), inset 0 4px 0 var(--bigc) }
 .day.sel { border-color: var(--accent); box-shadow: inset 0 0 0 2px var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface)) }
@@ -1463,7 +1468,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
 </main>
 <button type="button" id="toTop" class="totop" aria-label="Back to top" hidden>↑</button>
 <footer class="wrap" id="foot"></footer>
-<dialog id="sheet" aria-label="Match details">
+<dialog id="sheet" aria-label="Details">
   <div class="sheet-in">
     <button class="close" id="sheetClose" type="button" aria-label="Close">×</button>
     <div id="sheetBody"></div>
@@ -1678,7 +1683,8 @@ const teamNameR = (n, logo, e) => `${nmSpan(n, e)}${crest(n.replace(/\s+Women('s
 const teamName = (n, logo, e) => `${crest(n.replace(/\s+Women('s)?$/, ''), badgeOf(n, e) || logo, false, e?.sport)}${nmSpan(n, e)}`;
 // a race has no opponent: the Grand Prix is the title, with the circuit and town under it
 const solo = e => ['motor', 'tennis', 'sailing', 'golf'].includes(e.sport);
-const titleOf = e => solo(e) ? e.home : `${displayName(e.home, e)} v ${displayName(e.away, e)}`;
+// a race weekend's session is named with its race: "United States Grand Prix Practice 3"
+const titleOf = e => solo(e) ? (e.session ? `${e.home} ${e.session}` : e.home) : `${displayName(e.home, e)} v ${displayName(e.away, e)}`;
 const placeOf = e => [e.venue, cityOf(e)].filter(Boolean).join(', ');
 const soloTitle = e => `<div class="teams solo"><span class="nm">${esc(e.home)}</span>${placeOf(e) ? `<span class="where">${esc(placeOf(e))}</span>` : ''}</div>`;
 // Tournaments that tint the week strip on the days they're on
@@ -1691,6 +1697,9 @@ const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="ic
 // word here (and its start's name in START_LABEL)
 const EV_WORD = { motor: 'race', mma: 'fight', boxing: 'fight', tennis: 'match', golf: 'tournament', sailing: 'race', baseball: 'game' };
 const evWord = sp => EV_WORD[sp] || 'game', evWords = sp => evWord(sp) === 'match' ? 'matches' : evWord(sp) + 's';
+// what a page or thread about one of them is called: a race page, a fight thread, a tournament page; a match page for the
+// football codes, cricket, hockey and netball, as they say it, and a game page for basketball
+const pageWord = sp => EV_WORD[sp] || (sp === 'basketball' ? 'game' : 'match'), cap1 = w => w[0].toUpperCase() + w.slice(1);
 const capW = w => w[0].toUpperCase() + w.slice(1);
 const START_LABEL = { sailing: 'Final race', golf: 'Final round', rugby: 'Kick-off', league: 'Kick-off', football: 'Kick-off', cricket: 'First ball', mma: 'First fight', boxing: 'Main card', motor: 'Lights out', tennis: 'Final', hockey: 'Push back', basketball: 'Tip-off', netball: 'Centre pass', baseball: 'First pitch' };
 const SPORT_LABEL = { rugby: 'Rugby', cricket: 'Cricket', league: 'League', football: 'Football', mma: 'UFC', boxing: 'Boxing', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', sailing: 'Sailing', golf: 'Golf', baseball: 'Baseball' };
@@ -1730,6 +1739,7 @@ let compSel = store.get('comp', '');
 let genderSel = store.get('gender', 'all');
 let nzOnly = store.get('nzOnly', false);
 let freeOnly = store.get('freeOnly', false);
+let allSessions = store.get('sessions', false);   // every race-weekend session (practice too) in the main feed
 let folded = store.get('folded', false);   // phones: filters folded away under one bar
 let selDay = '', drawDayPick = () => {};
 let hubTab = 'games', resPage = 0, laterPage = 0, bigPage = 0, runPage = 0, rankSel = '';
@@ -2007,9 +2017,10 @@ const prelimsOnly = e => /\bprelims\b/i.test(`${e.broadcast || ''} ${e.watchAlt 
 const freePrelims = e => prelimsOnly(e) ? (watchOptions(e).find(o => o.prelims)?.label || 'free') : '';
 // Free to watch narrows the games still to come; results and news are left as they are
 const visible = x => (genderSel === 'all' || !genderOf(x) || genderOf(x) === genderSel) && (!nzOnly || isNZ(x)) && (!freeOnly || !x.startUTC || x.status === 'final' || !!freeTo(x) || !!freePrelims(x)) && visible0(x);
-// practice, sprints and Supercars' other races (minor) show only on their competition's own page; a race weekend's
-// session has no result, so it goes once its two hours on Live now are up
-const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now() ? false : x.startUTC ? (compSel ? compOf(x) === compSel : !x.minor && visibleTeam(x) && sportOn(x.sport || sportOf(x.team)))
+// practice and Supercars' other races (minor) show on their competition's own page, with the Motorsport button picked,
+// or everywhere once Every session is on in Settings; a race weekend's session has no result, so it goes once its two
+// hours on Live now are up
+const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now() ? false : x.startUTC ? (compSel ? compOf(x) === compSel : (!x.minor || (x.session && (allSessions || sportSel.has(x.sport)))) && visibleTeam(x) && sportOn(x.sport || sportOf(x.team)))
   : visibleTeam(x) && sportOn(sportOf(x.team));
 
 // cricket tours: "Game 4 of 5 · India lead the T20I series 2–1", counting only results the spoiler setting shows
@@ -2188,7 +2199,7 @@ function liveLink(e) {
   if (site) return a(`${FIGHT.test(e.sport) ? 'Result' : e.sport === 'motor' ? 'Results' : 'Scores'} on ${site}`);
   // a fixture's other source (a news story, a venue's page) isn't a live page either
   if (!LIVE_HOST.test(host)) return a(`More on ${esc(host)}`);
-  return a(`Live ${FIGHT.test(e.sport) ? 'on the fight page' : e.sport === 'motor' ? 'timing on the race page' : `scores on ${esc(e.sport === 'cricket' ? name : 'match page')}`}`);
+  return a(`Live ${FIGHT.test(e.sport) ? 'on the fight page' : e.sport === 'motor' ? 'timing on the race page' : `scores on ${e.sport === 'cricket' ? esc(name) : `the ${pageWord(e.sport)} page`}`}`);
 }
 function watchLine(e) {
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
@@ -2724,6 +2735,16 @@ function toComp(e) {
   if (!c || (!table && (FEED.events || []).filter(x => compOf(x) === c).length < 2)) return `<span>${label}</span>`;
   return `<button type="button" class="tocomp" data-tocomp="${esc(c)}" title="Open the ${esc(plural(c))} page: every ${evWord(e.sport)}, results${table ? ', the table' : ''} and news"><span>${label}</span><span class="tcgo" aria-hidden="true">›</span></button>`;
 }
+// a race weekend: the race and its sessions still in the feed (kept until a few hours after each starts), in order.
+// Supercars' main race is the round's last, numbered after the others ("Qualifying (Race 32)" before it)
+function weekendOf(e) {
+  const base = e.session ? (FEED.events || []).find(x => !x.session && e.id.startsWith(x.id + '-')) : e;
+  const sibs = base ? (FEED.events || []).filter(x => x.session && x.id.startsWith(base.id + '-')) : [];
+  if (!sibs.length) return [];
+  const mx = Math.max(0, ...sibs.flatMap(x => [...x.session.matchAll(/\bRace (\d+)/g)].map(m => +m[1])));
+  const main = mx && !sibs.some(x => x.session === `Race ${mx}`) ? `Race ${mx}` : 'Race';
+  return [base, ...sibs].sort((a, b) => a.startUTC.localeCompare(b.startUTC)).map(x => ({ x, n: x.session || main }));
+}
 function detail(e) {
   const now = Date.now(), d = new Date(e.startUTC);
   const overseas = e.tz && e.tz !== NZ;
@@ -2737,6 +2758,9 @@ function detail(e) {
   const rows = [
     [`${startLabel(e)} (${tzLabel()})`, when],
     overseas && (!e.timeTBC || e.usual) ? ['Local', `${e.usual ? '≈' : ''}${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
+    // every session of a race weekend in NZ time: practice, qualifying, the sprint, the race
+    (wk => wk.length ? [`Weekend (${tzLabel()})`, `<ol class="wkses">${wk.map(({ x, n }) => { const t = new Date(x.startUTC);
+      return `<li class="num${x.id === e.id ? ' cur' : ''}${x.session && +t + 2 * 36e5 < now ? ' gone' : ''}"><span>${fmt(t, NZ, { weekday: 'short' })} ${x.timeTBC ? 'TBC' : time(t, NZ).replace(':00', '')}</span><span>${esc(n)}</span></li>`; }).join('')}</ol>`, true] : null)(weekendOf(e)),
     ['Where', [e.venue && wikiLink(e.venue), e.city && placeLink(e, cityOf(e), [cityOf(e), ...e.city.split(',').slice(1)].join(','))].filter(Boolean).join(', ') || 'To be confirmed', true],
     e.note ? ['Note', e.note] : null,
     // the event article's opening lines (UFC); kept back while spoilers are hidden, as an intro can name the winner
@@ -2793,13 +2817,13 @@ function detail(e) {
     ${res}
     <dl class="facts">${rows.map(([k, v, html]) => `<dt>${k}</dt><dd>${html ? v : esc(v)}</dd>`).join('')}</dl>
     <div class="dlinks">${[
-      e.link && `<a href="${esc(e.link)}" target="_blank" rel="noopener">${cricinfo(e) === e.link ? 'Match page on Cricinfo' : e.sport === 'cricket' ? 'Scorecard' : FIGHT.test(e.sport) ? (isPast ? 'Fight results' : 'Fight page (results go up here after)') : e.sport === 'motor' ? (isPast ? 'Race results' : 'Race page') : isPast ? 'Match report and team lists' : 'Team lists and match centre'} ↗</a>`,
+      e.link && `<a href="${esc(e.link)}" target="_blank" rel="noopener">${cricinfo(e) === e.link ? 'Match page on Cricinfo' : e.sport === 'cricket' ? 'Scorecard' : FIGHT.test(e.sport) ? (isPast ? 'Fight results' : 'Fight page (results go up here after)') : EV_WORD[e.sport] ? `${cap1(pageWord(e.sport))} ${isPast ? 'results' : 'page'}` : isPast ? 'Match report and team lists' : 'Team lists and match centre'} ↗</a>`,
       // cricket: Cricinfo's match page first; the Wikipedia series page is only a fallback, after it
       cricinfo(e) && cricinfo(e) !== e.link && `<a href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Match page on Cricinfo ↗</a>`,
-      e.source && `<a href="${esc(e.source)}" target="_blank" rel="noopener">${e.sport === 'cricket' ? (/wikipedia/.test(e.source) ? 'Series on Wikipedia' : 'Match page') : e.status === 'live' ? 'Follow live' : FIGHT.test(e.sport) ? 'Fight page' : e.sport === 'motor' ? 'Season page' : e.sport === 'tennis' ? 'Tournament page' : 'Match page'} ↗</a>`,
+      e.source && `<a href="${esc(e.source)}" target="_blank" rel="noopener">${e.sport === 'cricket' ? (/wikipedia/.test(e.source) ? 'Series on Wikipedia' : 'Match page') : e.status === 'live' ? 'Follow live' : FIGHT.test(e.sport) ? 'Fight page' : /^(motor|sailing|golf)$/.test(e.sport) ? 'Season page' : e.sport === 'tennis' ? 'Tournament page' : `${cap1(pageWord(e.sport))} page`} ↗</a>`,
       e.sport === 'cricket' && !cricinfo(e) && `<a href="https://www.espncricinfo.com/live-cricket-score" target="_blank" rel="noopener">Ball by ball on Cricinfo ↗</a>`,
       // the subreddit's game-day thread, for the live chat around a game (a plain search link, nothing pulled from Reddit)
-      Math.abs(d - now) < 864e5 && redditSub(e) && `<a href="https://www.reddit.com/r/${redditSub(e)}/search/?q=${encodeURIComponent(e.sport === 'cricket' ? 'Match Thread' : e.sport === 'motor' ? 'Race Discussion' : /^(mma|boxing)$/.test(e.sport) ? 'Live Discussion' : 'Match Thread')}&restrict_sr=1&sort=new" target="_blank" rel="noopener">Match thread on r/${redditSub(e)} ↗</a>`,
+      Math.abs(d - now) < 864e5 && redditSub(e) && `<a href="https://www.reddit.com/r/${redditSub(e)}/search/?q=${encodeURIComponent(e.sport === 'motor' ? `${e.session || 'Race'} Discussion` : /^(mma|boxing)$/.test(e.sport) ? 'Live Discussion' : `${cap1(pageWord(e.sport))} Thread`)}&restrict_sr=1&sort=new" target="_blank" rel="noopener">${esc(e.session || cap1(pageWord(e.sport)))} thread on r/${redditSub(e)} ↗</a>`,
     ].filter(Boolean).join('')}<button type="button" class="dreport" data-report="${esc(e.id)}">Report a problem</button></div>
     <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
     ${e.watchRule && !(e.tv || []).some(x => !x.delayed) ? `<p class="muted small wnote">Who usually shows this competition in NZ, not a listing for this ${evWord(e.sport)}: check the TV guide closer to the day.</p>` : ''}
@@ -2946,13 +2970,13 @@ function openDetail(id, fromTeam, goingBack) {
   const now = Date.now(), res = seriesResults(e, now);
   if (res.length) {
     const word = GENERIC.test(compOf(e)) ? 'Results' : /World Cup|Championship|Cup|Series|Trophy|League|Finals|Playoffs/i.test(compOf(e)) ? 'Results so far' : 'Series results';
-    $('sheetBody').querySelector('.sheet-head').insertAdjacentHTML('afterend', `<div class="dtabs sport-${e.sport}" role="tablist"><button type="button" role="tab" data-dtab="game" aria-selected="${dTab === 'game'}">This ${evWord(e.sport)}</button><button type="button" role="tab" data-dtab="results" aria-selected="${dTab === 'results'}">${word} <span class="dn">${res.length}</span></button></div>`
+    $('sheetBody').querySelector('.sheet-head').insertAdjacentHTML('afterend', `<div class="dtabs sport-${e.sport}" role="tablist"><button type="button" role="tab" data-dtab="game" aria-selected="${dTab === 'game'}">This ${e.session && !/^(race \d+|sprint)$/i.test(e.session) ? 'session' : evWord(e.sport)}</button><button type="button" role="tab" data-dtab="results" aria-selected="${dTab === 'results'}">${word} <span class="dn">${res.length}</span></button></div>`
       + `<div class="dpane daygroup">${res.length > 1 ? `<div class="dayhead">${revealAll(res, now)}</div>` : ''}${res.map(x => `<div class="dpdate">${esc(fmt(new Date(x.startUTC), NZ, { weekday: 'short', day: 'numeric', month: 'short' }))}</div>${resCard(x, now)}`).join('')}</div>`);
   }
   $('sheetBody').classList.toggle('on-results', !!res.length && dTab === 'results');
   // a small back arrow beside the close button, only after moving on from the game first opened
   if (sheetTrail.length) { const prev = (FEED.events || []).find(x => x.id === sheetTrail[sheetTrail.length - 1].id);
-    $('sheetBody').insertAdjacentHTML('afterbegin', `<button type="button" class="sback" data-sback="1" aria-label="Back" title="Back to ${esc(prev ? titleOf(prev) : 'the last game')}">‹</button>`); }
+    $('sheetBody').insertAdjacentHTML('afterbegin', `<button type="button" class="sback" data-sback="1" aria-label="Back" title="Back to ${esc(prev ? titleOf(prev) : 'the last one')}">‹</button>`); }
   const dlg = $('sheet');
   dlg.dataset.id = id; dlg.dataset.rankings = '';
   if (!dlg.open) dlg.showModal();
@@ -3397,7 +3421,7 @@ function render() {
   syncDsel($('spoilDays')); syncDsel($('tzSel'));
   const tchip = ([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`;
   $('teamGroups').innerHTML = TEAMS_AZ.map(g => { const ss = [...new Set(groupItems(g).map(([k]) => sportOf(k)))], on = ss.some(followedSport);
-    return `<div class="group${on ? '' : ' off'}" data-g="${esc(g.g)}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(tchip).join('')}${g.sub ? `<span class="gsub">${esc(g.sub.g)}</span>${g.sub.items.map(tchip).join('')}` : ''}</div></div>`; }).join('');
+    return `<div class="group${on ? '' : ' off'}" data-g="${esc(g.g)}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(tchip).join('')}${g.sub ? `<span class="gsub">${esc(g.sub.g)}</span>${g.sub.items.map(tchip).join('')}` : ''}${g.g === 'Motorsport' ? `<span class="gsub">Race weekends</span><button class="chip" type="button" data-sessions="1" aria-pressed="${allSessions}" title="Practice, sprint qualifying and every other session get a card in your feed (the Motorsport button always shows them)">Every session in my feed</button>` : ''}</div></div>`; }).join('');
   markLone();
   // the sports off the feed, named under My teams so nobody wonders where they went (one line, so it never pushes the list
   // down), and the busy competitions that start off; a name jumps to its group
@@ -3554,7 +3578,7 @@ function syncFold() {
 $('sheet').addEventListener('close', () => { sheetTrail = []; dTabId = ''; }); // a closed pop-up starts afresh next time, on the game's own tab
 $('foldBtn').addEventListener('click', ev => { ev.stopPropagation(); folded = !folded; store.set('folded', folded); syncFold(); count({ e: 'use', k: folded ? 'Filters folded away' : 'Filters opened' }); });
 // Settings to another browser: a code holding this browser's choices (not revealed results, nor the stats page's own)
-const MOVE_KEYS = ['teams', 'view', 'spoilers', 'spoilDays', 'spoilDaysSet', 'sport', 'comp', 'gender', 'nzOnly', 'freeOnly', 'tz', 'accent', 'theme'];
+const MOVE_KEYS = ['teams', 'view', 'spoilers', 'spoilDays', 'spoilDaysSet', 'sport', 'comp', 'gender', 'nzOnly', 'freeOnly', 'sessions', 'tz', 'accent', 'theme'];
 const settingsCode = () => 'KK1-' + btoa(unescape(encodeURIComponent(JSON.stringify(Object.fromEntries(MOVE_KEYS.map(k => [k, store.get(k, null)]).filter(([, v]) => v !== null)))))).replace(/=+$/, '');
 function useSettingsCode(code) {
   const m = String(code).replace(/\s+/g, '').match(/^KK1-([A-Za-z0-9+/]+)$/);
@@ -3662,6 +3686,7 @@ document.addEventListener('click', ev => {
     // off: all of them; back on: all but the busy ones that start off (the NBA)
     if (on) ks.forEach(k => picked.delete(k)); else ks.filter(k => !OPT_IN.has(k)).forEach(k => picked.add(k));
     count({ e: 'use', k: `${t.dataset.gsw === 'w' ? "Women's" : "Men's"} teams ${on ? 'off' : 'on'}` }); store.set('teams', [...picked]); render(); return; }
+  if (t.dataset.sessions) { allSessions = !allSessions; store.set('sessions', allSessions); use(allSessions ? 'Every session on' : 'Every session off'); render(); return; }
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); count({ e: picked.has(k) ? 'follow' : 'unfollow', k: TEAM_NAME[k] || k }); store.set('teams', [...picked]); render(); }
   else if (t.dataset.hideall) { ev.stopPropagation(); use('Hide all results again'); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.revealall) { ev.stopPropagation(); count({ e: 'use', k: 'Show all results' }); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
