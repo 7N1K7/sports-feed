@@ -1,3 +1,467 @@
-view buttons: List* Compact Standard
-list rows: 102 full cards: 0
-first rows: 10:30am New Zealand A v India A ON | 3:05pm Black Ferns v France ON | 3:15pm Fiji Bulikula v PNG Orchids ON | 12:30pm Tasmania v Victoria ON | ≈4:30pm Players Series SA ON
+
+######## Sprint qualifying classification @7058
+=== Sprint qualifying classification ===
+{| class="wikitable sortable" style="font-size: 85%;"
+! rowspan="2" data-sort-type="text"|{{Tooltip|Pos.|Qualifying position}}
+! rowspan="2" data-sort-type="text"|{{Tooltip|No.|Car number}}
+! rowspan="2" |Driver
+! rowspan="2" |Constructor
+! colspan="3" style="background:#eaecf0; text-align:center;" |{{nowrap|Qualifying times}}
+! rowspan="2" data-sort-type="text"|Sprint<br>grid
+|-
+! scope="col" |SQ1
+! scope="col" |SQ2
+! scope="col" |SQ3
+|-
+!1
+|style="text-align:center"|3
+|data-sort-value="ver"|{{flagicon|NED}} [[Max Verstappen]]
+|{{nowrap|[[Red Bull Racing]]-[[Red Bull Powertrains|Red Bull Ford]]}}
+|'''1:33.477'''
+|1:32.701
+|'''1:31.156'''
+|style="text-align:center"|1
+|-
+!2
+|style="text-align:center"|63
+|data-sort-value="rus"|{{flagicon|GBR}} [[George Russell (racing driver)|George Russell]]
+|[[Mercedes-Benz in Formula One|Mercedes]]
+|1:33.573
+|1:32.614
+|1:31.276
+|style="text-align:center"|2
+|-
+!3
+|style="text-align:center"|16
+|data-sort-value="lec"|{{flagicon|MON}} [[Charles Leclerc]]
+|[[Scuderia Ferrari|Ferrari]]
+|1:33.495
+|'''1:32.246'''
+|1:31.399
+|style="text-align:center"|3
+|-
+!4
+|style="text-align:center"|81
+|data-sort-value="pia"|{{flagicon|AUS}} [[Oscar Piastri]]
+|[[McLaren]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]
+|1:34.277
+|1:33.106
+|1:31.454
+|style="text-align:center"|4
+|-
+!5
+|style="text-align:center"|1
+|data-sort-value="nor"|{{flagicon|GBR}} [[Lando Norris]]
+|[[McLaren]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]
+|1:34.257
+|1:32.572
+|1:31.587
+|style="text-align:center"|5
+|-
+!6
+|style="text-align:center"|44
+|data-sort-value="ham"|{{flagicon|GBR}} [[Lewis Hamilton]]
+|[[Scuderia Ferrari|Ferrari]]
+|1:33.748
+|1:32.562
+|1:31.702
+|style="text-align:center"|6
+|-
+!7
+|style="text-align:center"|12
+|data-sort-value="ant"|{{flagicon|ITA}} [[Kimi Antonelli]]
+|[[Mercedes-Benz in Formula One|Mercedes]]
+|1:34.392
+|1:32.998
+|1:31.849
+|style="text-align:center"|7
+|-
+!8
+|style="text-align:center"|30
+|data-sort-value="law"|{{flagicon|NZL}} [[Liam Lawson]]
+|[[Racing Bulls]]-[[Red Bull Powertrains|Red Bull Ford]]
+|1:34.855
+|1:33.133
+|1:32.341
+|style="text-align:center"|8
+|-
+!9
+|style="text-align:center"|6
+|data-sort-value="had"|{{flagicon|FRA}} [[Isack Hadjar]]
+|{{nowrap|[[Red Bull Racing]]-[[Red Bull Powertrains|Red Bull Ford]]}}
+|1:34.182
+|1:32.947
+|No time
+|style="text-align:center"|9
+|-
+!10
+|style="text-align:center"|10
+|data-sort-value="gas"|{{flagicon|FRA}} [[Pierre Gasly]]
+|[[Alpine F1 Team|Alpine]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]
+|1:34.673
+|1:33.155
+|No time
+|style="t
+
+######## Sprint classification @17509
+=== Sprint classification ===
+{| class="wikitable sortable" style="font-size: 85%;"
+! scope="col" |{{Tooltip|Pos.|Position}}
+! scope="col" |{{Tooltip|No.|Car number}}
+! scope="col" |Driver
+! scope="col" |Constructor
+! scope="col" class="unsortable"|{{Tooltip|Laps|Laps completed}}
+! scope="col" class="unsortable"|Time/Retired
+! scope="col" |{{Tooltip|Grid|Final grid position}}
+! scope="col" |Points
+|-
+!1
+|align=center|3
+|data-sort-value="ver"|{{flagicon|NED}} '''[[Max Verstappen]]'''
+|{{nowrap|'''[[Red Bull Racing]]-[[Red Bull Powertrains|Red Bull Ford]]'''}}
+|align=center|20
+| 39:48.162
+|align=center|1
+|align=center|'''8'''
+|-
+!2
+|align=center|44
+|data-sort-value="ham"|{{flagicon|GBR}} '''[[Lewis Hamilton]]'''
+|'''[[Scuderia Ferrari|Ferrari]]'''
+|align=center|20
+| +2.591
+|align=center|6
+|align=center|'''7'''
+|-
+!3
+|align=center|16
+|data-sort-value="lec"|{{flagicon|MON}} '''[[Charles Leclerc]]'''
+|'''[[Scuderia Ferrari|Ferrari]]'''
+|align=center|20
+| +16.871
+|align=center|3
+|align=center|'''6'''
+|-
+!4
+|align=center|12
+|data-sort-value="ant"|{{flagicon|ITA}} '''[[Kimi Antonelli]]'''
+|'''[[Mercedes-Benz in Formula One|Mercedes]]'''
+|align=center|20
+| +17.238
+|align=center|7
+|align=center|'''5'''
+|-
+!5
+|align=center|30
+|data-sort-value="law"|{{nowrap|{{flagicon|NZL}} '''[[Liam Lawson]]'''}}
+|'''[[Racing Bulls]]-[[Red Bull Powertrains|Red Bull Ford]]'''
+|align=center|20
+| +20.632
+|align=center|8
+|align=center|'''4'''
+|-
+!6
+|align=center|87
+|data-sort-value="bea"|{{flagicon|GBR}} '''[[Oliver Bearman]]'''
+|'''[[Haas F1 Team|Haas]]-[[Scuderia Ferrari|Ferrari]]'''
+|align=center|20
+| +24.321
+|align=center|13
+|align=center|'''3'''
+|-
+!7
+|align=center|27
+|data-sort-value="hul"|{{flagicon|GER}} '''[[Nico Hülkenberg]]'''
+|'''[[Audi in Formula One|Audi]]'''
+|align=center|20
+| +27.525
+|align=center|12
+|align=center|'''2'''
+|-
+!8
+|align=center|1
+|data-sort-value="nor"|{{flagicon|GBR}} '''[[Lando Norris]]'''
+|'''[[McLaren]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]'''
+|align=center|20
+| +28.272
+|align=center|5
+|align=center|'''1'''
+|-
+!9
+|align=center|10
+|data-sort-value="gas"|{{flagicon|FRA}} [[Pierre Gasly]]
+|[[Alpine F1 Team|Alpine]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]
+|align=center|20
+| +36.220
+|align=center|10
+|
+|-
+!10
+|align=center|31
+|data-sort-value="oco"|{{flagicon|FRA}} [[Esteban Ocon]]
+|[[Haas F1 Team|Haas]]-[[Scuderia Ferrari|Ferrari]]
+|align=center|20
+| +37.640
+|align=center|16
+|
+|-
+!11
+|align=center|14
+|data-sort-value="alo"|{{nowrap|{{flagicon|ESP}} [[Fernando Alonso]]}}
+|{{nowrap|[[Aston Martin in Formula One|Aston Martin Ar
+
+######## Qualifying classification @23786
+=== Qualifying classification ===
+{| class="wikitable sortable" style="font-size: 85%;"
+! scope="col" rowspan="2" data-sort-type="number" |{{Tooltip|Pos.|Qualifying position}}
+! scope="col" rowspan="2" data-sort-type="number" |{{Tooltip|No.|Car number}}
+! scope="col" rowspan="2" |Driver
+! scope="col" rowspan="2" |Constructor
+! colspan="3" style="background:#eaecf0; text-align:center;" |{{nowrap|Qualifying times}}
+! scope="col" rowspan="2" data-sort-type="number" |{{Tooltip|Final<br>grid|Final grid position}}
+|-
+! scope="col" data-sort-type="text" |Q1
+! scope="col" data-sort-type="text" |Q2
+! scope="col" data-sort-type="text" |Q3
+|-
+!1
+|style="text-align:center"|3
+|data-sort-value="ver"|{{flagicon|NED}} [[Max Verstappen]]
+|{{nowrap|[[Red Bull Racing]]-[[Red Bull Powertrains|Red Bull Ford]]}}
+|1:33.241
+|1:31.639
+|'''1:31.373'''
+|style="text-align:center"|1
+|-
+!2
+|style="text-align:center"|16
+|data-sort-value="lec"|{{flagicon|MON}} [[Charles Leclerc]]
+|[[Scuderia Ferrari|Ferrari]]
+|1:32.774
+|1:31.953
+|1:31.427
+|style="text-align:center"|2
+|-
+!3
+|style="text-align:center"|44
+|data-sort-value="ham"|{{flagicon|GBR}} [[Lewis Hamilton]]
+|[[Scuderia Ferrari|Ferrari]]
+|'''1:32.429'''
+|'''1:31.529'''
+|1:31.496
+|style="text-align:center"|3
+|-
+!4
+|style="text-align:center"|12
+|data-sort-value="ant"|{{flagicon|ITA}} [[Kimi Antonelli]]
+|[[Mercedes-Benz in Formula One|Mercedes]]
+|1:33.601
+|1:32.079
+|1:31.562
+|style="text-align:center"|4
+|-
+!5
+|style="text-align:center"|1
+|data-sort-value="nor"|{{flagicon|GBR}} [[Lando Norris]]
+|[[McLaren]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]
+|1:32.775
+|1:31.895
+|1:31.712
+|style="text-align:center"|5
+|-
+!6
+|style="text-align:center"|63
+|data-sort-value="rus"|{{flagicon|GBR}} [[George Russell (racing driver)|George Russell]]
+|[[Mercedes-Benz in Formula One|Mercedes]]
+|1:33.617
+|1:32.212
+|1:31.747
+|style="text-align:center"|19{{ref|3|a}}
+|-
+!7
+|style="text-align:center"|81
+|data-sort-value="pia"|{{flagicon|AUS}} [[Oscar Piastri]]
+|[[McLaren]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]
+|1:33.076
+|1:32.245
+|1:31.860
+|style="text-align:center"|6
+|-
+!8
+|style="text-align:center"|10
+|data-sort-value="gas"|{{flagicon|FRA}} [[Pierre Gasly]]
+|[[Alpine F1 Team|Alpine]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]
+|1:33.182
+|1:32.602
+|1:32.225
+|style="text-align:center"|7
+|-
+!9
+|style="text-align:center"|30
+|data-sort-value="law"|{{flagicon|NZL}} [[Liam Lawson]]
+|[[Racing Bulls]]-[[Red Bull Powertrains|Red Bull Ford]]
+|1:32.885
+|1:32.319
+|1:32.369
+|style="text-align:center"|8
+|-
+!10
+|style="text-align:center"
+
+######## Race classification @40307
+=== Race classification ===
+{| class="wikitable sortable" style="font-size: 85%;"
+! scope="col" data-sort-type="number" |{{Tooltip|Pos.|Position}}
+! scope="col" data-sort-type="number" |{{Tooltip|No.|Car number}}
+! scope="col" |Driver
+! scope="col" |Constructor
+! scope="col" class="unsortable" |{{Tooltip|Laps|Laps completed}}
+! scope="col" class="unsortable" |Time/Retired
+! scope="col" data-sort-type="number" |{{Tooltip|Grid|Final grid position}}
+! scope="col" data-sort-type="number" |Points
+|-
+! scope="row" |1
+| align="center" |3
+| data-sort-value="Verstappen, Max" |{{flagicon|NED}} '''[[Max Verstappen]]'''
+| '''[[Red Bull Racing]]-[[Red Bull Powertrains|Red Bull Ford]]'''
+| 62
+| 1:42:00.785
+| align="center" |1
+| align="center" |'''25'''
+|-
+! scope="row" |2
+| align="center" |16
+| data-sort-value="Leclerc, Charles" |{{flagicon|MON}} '''[[Charles Leclerc]]'''
+| '''[[Scuderia Ferrari|Ferrari]]'''
+| 62
+| +7.335
+| align="center" |2
+| align="center" |'''18'''
+|-
+! scope="row" |3
+| align="center" |12
+| data-sort-value="Antonelli, Kimi" |{{flagicon|ITA}} '''[[Kimi Antonelli]]'''
+| '''[[Mercedes-Benz in Formula One|Mercedes]]'''
+| 62
+| +24.573
+| align="center" |4
+| align="center" |'''15'''
+|-
+! scope="row" |4
+| align="center" |1
+| data-sort-value="Norris, Lando" |{{flagicon|GBR}} '''[[Lando Norris]]'''
+| '''[[McLaren]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]'''
+| 62
+| +40.506
+| align="center" |5
+| align="center" |'''12'''
+|-
+! scope="row" |5
+| align="center" |81
+| data-sort-value="Piastri, Oscar" |{{flagicon|AUS}} '''[[Oscar Piastri]]'''
+| '''[[McLaren]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]'''
+| 62
+| +49.644
+| align="center" |6
+| align="center" |'''10'''
+|-
+! scope="row" |6
+| align="center" |44
+| data-sort-value="Hamilton, Lewis" |{{flagicon|GBR}} '''[[Lewis Hamilton]]'''
+| '''[[Scuderia Ferrari|Ferrari]]'''
+| 62
+| +53.188
+| align="center" |3
+| align="center" |'''8'''
+|-
+! scope="row" |7
+| align="center" |30
+| data-sort-value="Lawson, Liam" |{{flagicon|NZL}} '''[[Liam Lawson]]'''
+|'''[[Racing Bulls]]-[[Red Bull Powertrains|Red Bull Ford]]'''
+| 62
+| +1:21.666
+| align="center" |8
+| align="center" |'''6'''
+|-
+! scope="row" |8
+| align="center" |27
+| data-sort-value="Hulkenberg, Nico" |{{flagicon|GER}} '''[[Nico Hülkenberg]]'''
+| '''[[Audi in Formula One|Audi]]'''
+| 62
+| +1:23.386
+| align="center" |10
+| align="center" |'''4'''
+|-
+! scope="row" |9
+| align="center" |63
+| data-sort-value="Russell, George" |{{flagicon|GBR}} '''[[George Russell (racing driver)|George Russell]]'''
+| '''[[Mercedes-Benz in Formula One|Mercedes]]'''
+| 62
+| +1:24.677
+| align="center" |19
+| align="center" |'''2'''
+|-
+! scope="row" |10
+| align="center" |6
+| data-sort-value="Hadjar, Isack" |{{flagicon|FRA}} '''[[Isack Hadjar]]'''
+| {{nowrap|'''[[Red Bull Racing]]-[[Red Bull Powertrains|Red Bull Ford]]'''}}
+| 62
+| +1:30.862
+| align="center" |{{abbr|PL|Pit lane}}
+| align="center" |'''1'''
+|-
+! scope="row" |11
+| align="center" |10
+| data-sort-value="Gasly, Pierre" |{{flagicon|FRA}} [[Pierre Gasly]]
+| [[Alpine F1 Team|Alpine]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]
+| 61
+| +1 lap
+| align="center" |7
+| data-sort-value="0" |
+|-
+! scope="row" |
+
+######## US practice now
+== Practice ==
+Three [[Formula One racing#Free practice|free practice sessions]] are being held for the event. The first free practice session was held on October 23, 2026, at 12:30 local time ([[UTC–5]]), and was topped by [[Charles Leclerc]] ([[Scuderia Ferrari|Ferrari]]) ahead of [[Max Verstappen]] ([[Red Bull Racing|Red Bull]]) and [[Lando Norris]] ([[McLaren]]). The second free practice session will be held on the same day, at 16:00 local time. The third free practice session will be held on October 24, 2026, at 12:30 local time.<ref name="Cal"/>
+
+== Qualifying ==
+[[Formula One race weekend#Current format|Qualifying]] will be held on October 24, 2026, at 16:00 local time ([[UTC–5]]), and will determine the starting grid order for the race.<ref name="Cal"/>
+<!--
+=== Qualifying classification ===
+{| class="wikitable sortable" style="font-size: 85%;"
+! rowspan="2" |{{Tooltip|Pos.|Qualifying position}}
+! rowspan="2" |{{Tooltip|No.|Car number}}
+! rowspan="2" |Driver
+! rowspan="2" |Constructor
+! colspan="3" style="background:#eaecf0; text-align:center;" |{{nowrap|Qualifying times}}
+! rowspan="2" |{{Tooltip|Final<br />grid|Final grid position}}
+|-
+! scope="col" |Q1
+! scope="col" |Q2
+
+
+######## TSDB Singapore FP1 strResult
+2026 Singapore Grand Prix - Free Practice 1, Marina Bay Street Circuit, Oct 9, 2026. Full classification (source: racingnews365.com):
+1. George Russell (Mercedes) 1:32.274
+2. Charles Leclerc (Ferrari) +0.198
+3. Lando Norris (McLaren) +0.273
+4. Lewis Hamilton (Ferrari) +0.499
+5. Oscar Piastri (McLaren) +0.564
+6. Max Verstappen (Red Bull) +0.732
+7. Andrea Kimi Antonelli (Mercedes) +1.251
+8. Isack Hadjar (Red Bull) +1.449
+9. Pierre Gasly (Alpine) +1.764
+10. Liam Lawson (Racing Bulls) +1.881
+11. Oliver Bearman (Haas) +2.057
+12. Arvid Lindblad (Racing Bulls) +2.202
+13. Esteban Ocon (Haas) +2.207
+14. Fernando Alonso (Aston Martin) +2.221
+15. Carlos Sainz (Williams) +2.377
+16. Gabriel Bortoleto (Audi) +2.462
+17. Alexander Albon (Williams) +2.531
+18. Nico Hülkenberg (Audi) +2.610
+19. Franco Colapinto (Alpine) +2.709
+20. Lance Stroll (Aston Martin) +2.994
+21. Sergio Pérez (Cadillac) +3.025
+22. Valtteri Bottas (Cadillac) +3.346
