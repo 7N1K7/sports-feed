@@ -1,70 +1,61 @@
-leagues: []
-day: 
-search: 
-wiki box: adium]]
-|25,269
-|[[Ottawa]]
-|-
-|rowspan="3"| {{ruw|ENG}}
-|[[Twickenham Stadium]]
-|82,000
-|[[London]]
-|rowspan="3"| [[Women's Six Nations Championship|Six Nations]]
-|rowspan="3"|[[Rugby Europe|Europe]]
-|rowspan="3"|1
-|-
-|[[CorpAcq Stadium]]
-|11,404
-|[[Sale, Greater Manchester|Sale]]
-|-
-|[[Sandy Park]]
-|15,600
-|[[Exeter]]
-|-
-|rowspan="3"| {{ruw|FRA}}
-|[[Stade de Gerland]]
-|35,029
-|[[Lyon]]
-|rowspan="3"| Six Nations
-|rowspan="3"| Europe
-|rowspan="3"|4
-|-
-|[[Stade Maurice David]]
-|8,787
-|[[Aix-en-Provence]]
-|-
-|[[Stade Marcel-Deflandre]]
-|18,000
-|[[La Rochelle]]
-|-
-|rowspan="2"| {{ruw|IRE}}
-|[[Tallaght Stadium]]
-|10,547
-|[[Dublin]]
-|rowspan="2"| Six Nations
-|rowspan="2"| Europe
-|rowspan="2"| 5
-|-
-|[[Dexcom Stadium]]
-|10,500
-|[[Galway]]
-|-
-| {{ruw|ITA}}
-| [[ASD Comunale Fontanafredda|Stadio Omero Tognon]]
-| 5,000
-| [[Fontanafredda]]
-| Six Nations
-| Europe
-| 6
-|-
-|rowspan="2"| {{ruw|JPN}}
-| [[Chichibunomiya Rugby Stadium]]
-| 24,871
-| [[Tokyo]]
-|rowspan="2"| [[Asia Rugby Women's Championship]]
-|rowspan="2"| [[Asia Rugby|Asia]]
-|rowspan="2"| 11
-|-
-| [[Kumagaya Rugby Ground]]
-| 25,600
-| [[Kum
+rev 2026-10-24T01:22:24Z
+hits 2
+---
+Africa v Ireland 2
+|date =  31 October 2026
+|time = 15:00 [[South African Standard Time|SAST]] ([[UTC+2]])
+|home = {{ruw-rt|RSA}}
+|score =
+|report =
+|away = {{ruw|IRE}}
+|try1 =
+|con1 =
+|pen2 =
+|drop2 =
+|stadium = [[Athlone Stadium]], [[Cape Town]]<ref name="SA Rugby"/>
+|attendance =
+|referee = Jess Ling, [[Rugby Australia|Australia]]
+}}
+
+===Japan vs Wales – October===
+The two-test series in October 2026 will provide competition for the similarly ranked nations.<ref name="BBC Sport-3" />
+
+{{Rugbybox
+|id = Japan v Wales 1
+|date = 24 October 2026
+|time = 
+|home = {{ruw-rt|JPN}}
+|score =
+|report =
+|away = {{ruw|WAL}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Chichibunomiya Rugby Stadium]], [[Tokyo]]<ref name="Japan Fiji">{{cite web|url=https://www.rugby-japan.jp/news/54073|title=Notice of Lipovitan D Chall
+ok	Austin, Texas -> Austin, Texas (Capital city of Texas, United States)
+ok	Charlotte, North Carolina -> Charlotte, North Carolina (Most populous city in North Carolina, United States)
+ok	Memphis, Tennessee -> Memphis, Tennessee (City in Tennessee, United States)
+ok	New York City -> New York City (Most populous city in the United States)
+ok	Orlando, Florida -> Orlando, Florida (City in the United States)
+ok	Phoenix, Arizona -> Phoenix, Arizona (Capital and most populous city of Arizona, U.S.)
+ok	Portland, Oregon -> Portland, Oregon (Most populous city in Oregon, U.S.)
+ok	Washington, D.C. -> Washington, D.C. (Capital city of the United States)
+ok	Harrison, New Jersey -> Harrison, New Jersey (Town in Hudson County, New Jersey, US)
+ok	Georgia (U.S. state) -> Georgia (U.S. state) (U.S. state)
+ok	Benoni, Gauteng -> Benoni, South Africa (Place in Gauteng, South Africa)
+ok	Benoni, South Africa -> Benoni, South Africa (Place in Gauteng, South Africa)
+ok	Kimberley, Northern Cape -> Kimberley, South Africa (Capital of the Northern Cape, South Africa)
+ok	Kimberley, South Africa -> Kimberley, South Africa (Capital of the Northern Cape, South Africa)
+DISAMBIG	Mullanpur -> Mullanpur (Topics referred to by the same term)
+ok	New Chandigarh -> New Chandigarh (Smart City in Punjab, India)
+MISSING	Mullanpur, Punjab -> Mullanpur, Punjab ()
+ok	Paradise, Nevada -> Paradise, Nevada (Unincorporated town in the United States)
+ok	Cumberland, Georgia -> Cumberland, Georgia (Unincorporated community in the Atlanta metropolitan area, G)
+ok	Mansfield, Texas -> Mansfield, Texas (City in Texas, United States)
+ok	Hamilton, Ontario -> Hamilton, Ontario (City in Ontario, Canada)
+ok	Victoria (state) -> Victoria (state) (State of Australia)
