@@ -649,7 +649,7 @@ function draw() {
   const outTop = Object.entries(sums.outlink || {}).sort((a, b) => b[1] - a[1]).slice(0, 25); // the 25 most followed sites
   bars('outlink', Object.fromEntries(outTop), k => k, outTop.map(([k]) => k));
   bars('spoil', sums.spoil, k => ({ hidden: 'Results hidden', shown: 'Results shown' })[k] || k);
-  bars('view', sums.view, k => ({ big: 'Large', mixed: 'Standard', compact: 'Compact' })[k] || k);
+  bars('view', sums.view, k => ({ big: 'Large', mixed: 'Standard', compact: 'Compact', list: 'List' })[k] || k);
   bars('theme', sums.theme, k => ({ green: 'Kiwi green', ocean: 'Ocean blue', red: 'Pōhutukawa red', black: 'All Black', kowhai: 'Kōwhai gold', paua: 'Pāua teal', purple: 'Twilight purple', orange: 'Sunset orange', lime: 'Kawakawa lime', pink: 'Rātā pink', kauri: 'Kauri brown', silver: 'Silver fern', tui: 'Tūī indigo', navy: 'Moana navy', olive: 'Harakeke olive' })[k] || k);
   bars('speed', sums.speed, k => k, SPEED_ORDER);
   // each error matched against the fixed list: back when the page that sent it ([vN], sent from v404 on) is the fixed

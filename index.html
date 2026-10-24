@@ -1338,6 +1338,35 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
   .seg { border-width: 2px; margin: -1px }
   .dsel .dbtn { border-width: 2px; padding-block: 3px } #compSel { border-width: 2px; padding-block: 1px }
 }
+/* List: a game a line, for busy days */
+body.v-list .daygroup, body.v-list #upcoming, body.v-list #later, body.v-list .donetoday, body.v-list #soon { gap: 4px }
+body.v-list .daygroup + .daygroup { margin-top: 10px }
+.ev.lrow { grid-template-columns: 4px 58px 16px minmax(0, 1fr) 44px; align-items: center; column-gap: 7px; height: 40px; border-radius: 8px; padding-right: 6px }
+.ev.lrow .stripe { width: 4px; height: 100%; grid-row: auto }
+/* the competition on wider screens, where a row has the room */
+.ev.lrow .lcomp { display: none; font: 700 11px/1.2 var(--f-body); letter-spacing: .05em; text-transform: uppercase; color: var(--sport); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+/* phones: the sport's colour down the side says the sport, so its icon goes, and the logos shrink, for the names' room */
+@media (max-width: 520px) { .ev.lrow { grid-template-columns: 4px 57px minmax(0, 1fr) 34px; column-gap: 5px } .ev.lrow .licon { display: none }
+  .ev.lrow .ltime { font-size: 16px } .ev.lrow .lteams { column-gap: 4px } .ev.lrow .lside { gap: 4px } .ev.lrow .logo { height: 18px; max-width: 22px } .ev.lrow .logo.flagimg { height: 12px } }
+@media (min-width: 700px) { .ev.lrow { grid-template-columns: 4px 58px 16px minmax(120px, 30%) minmax(0, 1fr) 44px } .ev.lrow .lcomp { display: block } }
+.ev.lrow .ltime { font: 700 17px/1 var(--f-display); color: var(--sport); text-align: right; white-space: nowrap }
+.ev.lrow .licon { width: 16px; height: 16px; opacity: .85 }
+.ev.lrow .lteams, .ev.lrow .lsolo { font: 600 16px/1.1 var(--f-display); min-width: 0 }
+.ev.lrow .lteams { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 6px }
+.ev.lrow .lside { display: flex; align-items: center; gap: 5px; min-width: 0; white-space: nowrap }
+.ev.lrow .lside.home { justify-content: flex-end }
+.ev.lrow .lside .nm { overflow: hidden; text-overflow: ellipsis; min-width: 0 }
+.ev.lrow .lsolo { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.ev.lrow .lses { color: var(--muted); font-weight: 500 }
+.ev.lrow .lv { color: var(--muted); font-size: 13px }
+.ev.lrow .logo { height: 20px; width: auto; max-width: 28px; flex: none }
+.ev.lrow .logo.flagimg { height: 13px }
+.ev.lrow .lend { display: flex; justify-content: flex-end; align-items: center }
+.ev.lrow .lfree { font-size: 9px; padding: 3px 4px 2px }
+.ev.lrow .ltv { font-size: 13px; opacity: .7 }
+.ev.lrow .lnow { font: 800 10px/1 var(--f-body); letter-spacing: .06em; color: #fff; background: var(--live, #e03131); border-radius: 4px; padding: 3px 5px 2px }
+.ev.lrow .lscore { font: 700 15px/1 var(--f-display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 44px }
+.ev.lrow .lcover { font: 700 11px/1 var(--f-body); padding: 5px 6px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface2, transparent); color: inherit; cursor: pointer }
 </style>
 <style>:root{padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
 </head>
@@ -2048,7 +2077,22 @@ function seriesLine(e, now) {
   return `<div class="series">${f === 'Test' ? 'Test' : 'Game'} ${n} of ${all.length}${state}</div>`;
 }
 
+// List: a game a line (time, sport, competition on wider screens, the teams, then FREE, a TV, ON while live, or for a
+// result "Show" while spoilers are hidden, else the score); a tap opens the same pop-up as a card
+function listRow(e, now, isRes) {
+  const d = isRes ? new Date(e.startUTC) : nextAt(e, now), hidden = isRes && isHidden(e, now);
+  const live = !isRes && (e.status === 'live' || onNow(e, now));
+  const free = isRes ? '' : freeTo(e), paid = !isRes && !free && (e.broadcast && e.broadcast !== 'TBC' || (e.tv || []).length);
+  const t = isRes ? fmt(d, NZ, { weekday: 'short' }) : e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ);
+  const who = solo(e) ? `<span class="lsolo">${esc(displayName(e.home, e))}${e.session ? ` <span class="lses">${esc(e.session)}</span>` : ''}</span>`
+    : `<span class="lteams"><span class="lside home">${teamName(e.home, e.homeLogo, e)}</span><span class="lv">v</span><span class="lside away">${teamNameR(e.away, e.awayLogo, e)}</span></span>`;
+  const end = isRes ? (hidden ? `<button class="lcover" type="button" data-reveal="${esc(e.id)}">Show</button>` : `<span class="lscore num" title="${esc(e.score || '')}">${esc(e.score || '–')}</span>`)
+    : live ? '<span class="lnow">ON</span>' : free ? '<span class="fta lfree">FREE</span>' : paid ? '<span class="ltv" aria-hidden="true">📺</span>' : '';
+  return `<article class="ev lrow sport-${e.sport} ${gcls(e)}${live ? ' is-live' : ''}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
+    <div class="stripe"></div><span class="ltime num">${esc(t)}</span>${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span>${who}<span class="lend">${end}</span></article>`;
+}
 function evCard(e, now) {
+  if (view === 'list') return listRow(e, now, false);
   // a golf round or a day's racing names itself where the start time's label goes ("Round 2"), so the tag needn't
   const stg = stagesOf(e) > 1 && stageNow(e, now), slbl = stg ? stageName(e, stg) : startLabel(e);
   const on = onNow(e, now), live = e.status === 'live' || (stg && on) ? 'On now' : on, paused = !live && !stg && between(e, now);
@@ -2243,6 +2287,7 @@ function winnerOf(e) {
 const trimOvers = v => v.replace(/\(([^)]*?),\s*target\s+\d+\s*(DLS|D\/LS?|VJD)?\s*\)/i, (m, a, meth) => `(${a}${meth ? ', ' + meth : ''})`);
 const scoreTag = (v, res) => `<span class="ts num ${res}">${esc(trimOvers(v)).replace(/\s*(\([^)]*\))$/, ' <small class="ov">$1</small>')}</span>`;
 function resCard(e, now) {
+  if (view === 'list') return listRow(e, now, true);
   const d = new Date(e.startUTC);
   const hidden = isHidden(e, now);
   const left = Math.ceil((spoilDays * 864e5 - (now - d)) / 864e5);
@@ -3402,10 +3447,10 @@ function render() {
   const chips = shownSports();
   for (const k of [...sportSel]) if (!chips.some(([c]) => c === k)) sportSel.delete(k);
   into($('sportFilter')).html = [['all','All'], ...chips].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join(' ');
-  document.body.classList.remove('v-big', 'v-mixed', 'v-compact');
+  document.body.classList.remove('v-big', 'v-mixed', 'v-compact', 'v-list');
   const shownView = PHONE.matches && view === 'big' ? 'mixed' : view; // phones have no Big: it shows as Mixed there
   document.body.classList.add('v-' + shownView);
-  $('viewSel').innerHTML = [['compact', 'Compact'], ['mixed', 'Standard'], ['big', 'Large']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${shownView === k}">${l}</button>`).join('');
+  $('viewSel').innerHTML = [['list', 'List'], ['compact', 'Compact'], ['mixed', 'Standard'], ['big', 'Large']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${shownView === k}">${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   // an eye on each state (crossed out while results are hidden), and a gear on settings
   const eye = '<path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/>';
