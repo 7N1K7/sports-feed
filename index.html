@@ -3869,7 +3869,11 @@ $('hidNote').addEventListener('wheel', e => { const n = e.currentTarget, d = e.d
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.querySelector('.dsel .dlist:not([hidden])')) { closeDsels(); e.stopImmediatePropagation(); } }); // Escape shuts an open list first, not the whole settings panel
 function closeComp() { $('compMenu').hidden = true; $('compSel').setAttribute('aria-expanded', 'false'); }
 // the menu runs down to just above the bottom of the window, so bigger windows show more of it
-const fitComp = () => { const m = $('compMenu'); if (!m.hidden) m.style.maxHeight = Math.max(220, innerHeight - $('compSel').getBoundingClientRect().bottom - 24) + 'px'; };
+const fitComp = () => { const m = $('compMenu'); if (m.hidden) return; m.style.maxHeight = Math.max(220, innerHeight - $('compSel').getBoundingClientRect().bottom - 24) + 'px';
+  // centred under the button where there's room, else nudged in to 16px from the window's edge
+  m.style.transform = ''; const r = m.getBoundingClientRect(), vw = document.documentElement.clientWidth;
+  const dx = r.left < 16 ? 16 - r.left : r.right > vw - 16 ? vw - 16 - r.right : 0;
+  if (dx) m.style.transform = `translateX(calc(-50% + ${Math.round(dx)}px))`; };
 $('compSel').addEventListener('click', ev => { ev.stopPropagation(); const open = $('compMenu').hidden; $('compMenu').hidden = !open; $('compSel').setAttribute('aria-expanded', String(open)); if (open) use('Competition menu opened'); fitComp(); });
 addEventListener('resize', fitComp);
 // the full header and filter row while each fits on one line; otherwise the compact layout for both (phones have it anyway)
