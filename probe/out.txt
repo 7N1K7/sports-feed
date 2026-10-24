@@ -1,21 +1,70 @@
-{"id":"wiki-wxv-2026-10-24-japanwomenwaleswomen","team":"wxv","tags":["wxv"],"sport":"rugby","comp":"WXV Global Series","home":"Japan Women","away":"Wales Women","startUTC":"2026-10-24T05:00:00.000Z","timeTBC":true,"venue":"Chichibunomiya Rugby Stadium","city":"Tokyo","tz":"Asia/Tokyo","status":"upcoming","source":"https://en.wikipedia.org/wiki/2026_WXV_Global_Series","broadcast":"Sky Sport / Sky Sport Now","watchRule":true,"tv":[{"ch":"Sky Sport 3","at":"2026-10-24T14:25:00.000Z","delayed":true}]}
-{"id":"wiki-wxv-2026-10-31-japanwomenwaleswomen","team":"wxv","tags":["wxv"],"sport":"rugby","comp":"WXV Global Series","home":"Japan Women","away":"Wales Women","startUTC":"2026-10-31T07:00:00.000Z","timeTBC":false,"venue":"Kumagaya Rugby Ground","city":"Kumagaya","tz":"Asia/Tokyo","status":"upcoming","source":"https://en.wikipedia.org/wiki/2026_WXV_Global_Series","broadcast":"Sky Sport / Sky Sport Now","watchRule":true}
-sections, wikipedia, tables, f1, supercars, sailgp, golf, baseball, tennis, ufcCards, f1Times, supercarsTimes, nba, tsdb Test match, tsdb Nations Championship, tsdb Pacific Cup, tsdb NBL, tsdb Rugby League World Cup, tsdb NPC, tsdb NRL, tsdb Super Rugby Pacific, tsdb Constellation Cup, tsdb Taini Jamison Trophy, tsdb UFC, tsdb A-League Men, tsdb Premier League, tsdb backfill A-League Men, tsdb backfill Premier League, tsdb backfill Constellation Cup, tsdbFilled, homeSides, sportmonks, youtube, ufcVideos, tvGuide, herald, scoop, fightNews, usNews, bbc, womenNoKiwi, rainHeadlines, thumbnails, golfTop10, golfCourses, cricketLogos, natBadges, logos, logoLeagues, facesSearch, facesCommons, facesSportsDB, facesOpenverse, faces, facesMain, facesMissing, stateSquads, teamSquads, players, fighterLinks, teamLinks, wikiLogos, form, rankings, motorRankings, calendars, alerts, liveSourceEvents, eventsByTeam
-diag tsdb Test match: "fill: nothing to fill; 0 calls; 0 games known"
-diag tsdb Nations Championship: "fill: nothing to fill; 0 calls; 0 games known"
-diag tsdb Pacific Cup: "fill: nothing to fill; 0 calls; 0 games known"
-diag tsdb NBL: "fill: nothing to fill; 0 calls; 0 games known"
-diag tsdb Rugby League World Cup: "fill: nothing to fill; 0 calls; 5 games known"
-diag tsdb NPC: "fill: nothing to fill; 0 calls; 0 games known"
-diag tsdb NRL: "off season"
-diag tsdb Super Rugby Pacific: "off season"
-diag tsdb Constellation Cup: "4 games, season 2026, rounds 1,2,3,4"
-diag tsdb Taini Jamison Trophy: "off season"
-diag tsdb UFC: "next/last event"
-diag tsdb A-League Men: "24 games, season 2026-2027, rounds 1,2,3,4"
-diag tsdb Premier League: "error: thesportsdb skipped this run; using saved copy (40 games)"
-diag tsdb backfill A-League Men: "0 rounds still to ask"
-diag tsdb backfill Premier League: "0 rounds still to ask"
-diag tsdb backfill Constellation Cup: "0 rounds still to ask"
-diag tsdbFilled: []
-diag facesSportsDB: "0 asked, 0 found"
+leagues: []
+day: 
+search: 
+wiki box: adium]]
+|25,269
+|[[Ottawa]]
+|-
+|rowspan="3"| {{ruw|ENG}}
+|[[Twickenham Stadium]]
+|82,000
+|[[London]]
+|rowspan="3"| [[Women's Six Nations Championship|Six Nations]]
+|rowspan="3"|[[Rugby Europe|Europe]]
+|rowspan="3"|1
+|-
+|[[CorpAcq Stadium]]
+|11,404
+|[[Sale, Greater Manchester|Sale]]
+|-
+|[[Sandy Park]]
+|15,600
+|[[Exeter]]
+|-
+|rowspan="3"| {{ruw|FRA}}
+|[[Stade de Gerland]]
+|35,029
+|[[Lyon]]
+|rowspan="3"| Six Nations
+|rowspan="3"| Europe
+|rowspan="3"|4
+|-
+|[[Stade Maurice David]]
+|8,787
+|[[Aix-en-Provence]]
+|-
+|[[Stade Marcel-Deflandre]]
+|18,000
+|[[La Rochelle]]
+|-
+|rowspan="2"| {{ruw|IRE}}
+|[[Tallaght Stadium]]
+|10,547
+|[[Dublin]]
+|rowspan="2"| Six Nations
+|rowspan="2"| Europe
+|rowspan="2"| 5
+|-
+|[[Dexcom Stadium]]
+|10,500
+|[[Galway]]
+|-
+| {{ruw|ITA}}
+| [[ASD Comunale Fontanafredda|Stadio Omero Tognon]]
+| 5,000
+| [[Fontanafredda]]
+| Six Nations
+| Europe
+| 6
+|-
+|rowspan="2"| {{ruw|JPN}}
+| [[Chichibunomiya Rugby Stadium]]
+| 24,871
+| [[Tokyo]]
+|rowspan="2"| [[Asia Rugby Women's Championship]]
+|rowspan="2"| [[Asia Rugby|Asia]]
+|rowspan="2"| 11
+|-
+| [[Kumagaya Rugby Ground]]
+| 25,600
+| [[Kum
