@@ -1355,7 +1355,8 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 @media (min-width: 700px) { .ev.lrow { grid-template-columns: 4px 58px 16px minmax(120px, 30%) minmax(0, 1fr) 48px } .ev.lrow .lcomp { display: block } }
 .ev.lrow .ltime { font: 700 17px/1 var(--f-display); color: var(--sport); text-align: right; white-space: nowrap }
 .ev.lrow .licon { width: 16px; height: 16px; opacity: .85 }
-.ev.lrow .lteams, .ev.lrow .lsolo { font: 600 16px/1.1 var(--f-display); min-width: 0 }
+/* line-height with room for g's and y's: the names clip at their box (for the ellipsis), descenders and all */
+.ev.lrow .lteams, .ev.lrow .lsolo { font: 600 16px/1.4 var(--f-display); min-width: 0 }
 .ev.lrow .lteams { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 6px }
 .ev.lrow .lside { display: flex; align-items: center; gap: 5px; min-width: 0; white-space: nowrap }
 .ev.lrow .lside.home { justify-content: flex-end }
