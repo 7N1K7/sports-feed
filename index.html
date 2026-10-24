@@ -1806,7 +1806,9 @@ const DAYKEY = new Map();
 const dayKey = (d, tz = NZ) => { let f = DAYKEY.get(tz); if (!f) DAYKEY.set(tz, f = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' })); return f.format(d); };
 const time = (d, tz) => fmt(d, tz, { hour: 'numeric', minute: '2-digit', hour12: true }).replace(' ', '').toLowerCase();
 const dayLabel = (d, tz) => fmt(d, tz, { weekday: 'short', day: 'numeric', month: 'short' });
-const cityOf = e => (e.city || '').split(',')[0];
+// two slips in Wikipedia's town names put right
+const CITY_FIX = { Carins: 'Cairns', Launcerston: 'Launceston' };
+const cityOf = e => { const c = (e.city || '').split(',')[0]; return CITY_FIX[c] || c; };
 
 // rough match lengths, used for "On now"
 const HOURS = { Test: 7 * 24 * 0 + 8, ODI: 8, 'List A': 8, T20I: 3.5, T20: 3.5, 'First-class': 8 };
@@ -2055,7 +2057,7 @@ function evCard(e, now) {
   // so, "Rain affected" when a headline or Wikipedia's match box reports rain
   const stamp = e.sport !== 'cricket' || !(live || paused) ? '' : rainNow(e, now, fresh);
   const play = fresh && (live || (paused && !/lunch|tea|drinks|innings break/i.test(e.progress || ''))) && e.progress ? `<div class="wx play">${wet ? '🌧 ' : ''}${esc(today && pd === today ? e.progress.replace(/,\s*day \d+\s*$/i, '') : e.progress)}${!e.liveScore ? '' : !spoilers ? ` · ${esc(e.liveScore)}` : revealed.has(e.id) ? ` · ${esc(e.liveScore)} · <button type="button" class="lsrev" data-rehide="${esc(e.id)}">Hide score</button>` : ` · <button type="button" class="lsrev" data-reveal="${esc(e.id)}">Show score</button>`}</div>` : '';
-  const local = overseas ? `<div class="loc num">${e.timeTBC ? (e.usual ? '≈' + time(d, e.tz) + ' ' : '') : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })} in ${wikiLink(cityOf(e))}</div>` : '';
+  const local = overseas ? `<div class="loc num">${e.timeTBC ? (e.usual ? '≈' + time(d, e.tz) + ' ' : '') : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })}${cityOf(e) ? ` in ${placeLink(e, cityOf(e))}` : e.venue && !/^TBC/.test(e.venue) ? ` at ${wikiLink(e.venue)}` : ''}</div>` : '';
   // a free way to watch goes on the card ahead of a paid one: Three over Sky Sport 1 when both show it
   const free = freeTo(e).replace(/^free\s*(?:on|to watch on|:)?\s*/i, '').replace(/\s*\(free\)$/i, '').replace(/\s*\([^)]*$/, '');
   const tv = free || (e.tv || []).find(x => !x.delayed && !(prelimsOnly(e) && freeCh(x.ch)))?.ch || (e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : '') || (e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt ? 'YouTube (free)' : '');
@@ -2074,7 +2076,7 @@ function evCard(e, now) {
       <div class="nzl">${esc(slbl)} ${esc(tzLabel())}</div>
       <div class="nz num" data-l="${esc(slbl)}"${e.usual ? ` title="${esc(usualNote(e, d))}"` : ''}>${e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div><i class="wbr" aria-hidden="true"></i>
-      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${stamp === 'Rain affected' && e.wxNews ? `<div class="wx wxnews">🌧 ${rainWord(e.wxNews.title)} · <a href="${esc(e.wxNews.url)}" target="_blank" rel="noopener" title="${esc(e.wxNews.title)}">${esc(e.wxNews.source || (/bbc/i.test(e.wxNews.credit || '') ? 'BBC Sport' : 'NZ Herald'))} ↗</a></div>` : ''}${live && stamp === 'Rain affected' && wxNote(e, now) && !e.wxNews ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e, now))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl">${(h => h ? `<a class="tvw" href="${esc(h)}" target="_blank" rel="noopener" data-watch="${esc(tvName(tv, free, freeTag))}"><span aria-hidden="true">📺</span> <span class="svcn">${esc(tv)}</span></a>` : `<span aria-hidden="true">📺</span> ${linkWatch(tv)}`)(tv === free ? freeAt : freeHref(e, tv))}</div>` : ''}
+      ${local || (cityOf(e) || e.venue ? `<div class="loc">${cityOf(e) ? placeLink(e, cityOf(e)) : wikiLink(e.venue)}</div>` : '')}${tag}${play}${stamp === 'Rain affected' && e.wxNews ? `<div class="wx wxnews">🌧 ${rainWord(e.wxNews.title)} · <a href="${esc(e.wxNews.url)}" target="_blank" rel="noopener" title="${esc(e.wxNews.title)}">${esc(e.wxNews.source || (/bbc/i.test(e.wxNews.credit || '') ? 'BBC Sport' : 'NZ Herald'))} ↗</a></div>` : ''}${live && stamp === 'Rain affected' && wxNote(e, now) && !e.wxNews ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e, now))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl">${(h => h ? `<a class="tvw" href="${esc(h)}" target="_blank" rel="noopener" data-watch="${esc(tvName(tv, free, freeTag))}"><span aria-hidden="true">📺</span> <span class="svcn">${esc(tv)}</span></a>` : `<span aria-hidden="true">📺</span> ${linkWatch(tv)}`)(tv === free ? freeAt : freeHref(e, tv))}</div>` : ''}
     </div>
   </article>`;
 }
@@ -2140,7 +2142,27 @@ function watchOptions(e) {
 const FIGHT = /^(mma|boxing)$/;
 const cricinfo = e => e.cricinfo || (/cricinfo\.com/.test(e.link || '') ? e.link : '');
 // a venue or city opens its Wikipedia article (Wikipedia's "go" search lands on the page when the name matches)
-const wikiLink = n => `<a class="svc" href="https://en.wikipedia.org/wiki/Special:Search?go=Go&search=${encodeURIComponent(n)}" target="_blank" rel="noopener">${esc(n)}</a>`;
+const wikiLink = (n, q = n) => `<a class="svc" href="https://en.wikipedia.org/wiki/Special:Search?go=Go&search=${encodeURIComponent(q)}" target="_blank" rel="noopener">${esc(n)}</a>`;
+// a town in NZ or Australia is looked up with its country or state ("Lincoln, New Zealand", "Newcastle, New South Wales"),
+// as Wikipedia's plain "Lincoln" is the English one; the big cities, whose plain name is theirs, are left as they are.
+// Elsewhere the place's own region when the feed has one ("Salt Lake City, Utah, U.S." -> "Salt Lake City, Utah")
+const PLACE_REGION = { 'Pacific/Auckland': 'New Zealand', 'Australia/Sydney': 'New South Wales', 'Australia/Melbourne': 'Victoria', 'Australia/Brisbane': 'Queensland',
+  'Australia/Hobart': 'Tasmania', 'Australia/Perth': 'Western Australia', 'Australia/Adelaide': 'South Australia', 'Australia/Darwin': 'Northern Territory' };
+const MAIN_PLACE = new Set(['Auckland', 'Wellington', 'Christchurch', 'Dunedin', 'Tauranga', 'Rotorua', 'Invercargill', 'New Plymouth', 'Palmerston North', 'Whangārei', 'Whangarei',
+  'Mount Maunganui', 'Pukekohe', 'Timaru', 'Whanganui', 'Taupō', 'Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide', 'Hobart', 'Canberra', 'Cairns', 'Townsville', 'Wollongong',
+  'Geelong', 'Bendigo', 'Ballarat', 'Toowoomba', 'Surfers Paradise', 'New Zealand', 'Australia', 'Queensland', 'New South Wales', 'Tasmania', 'Western Australia', 'South Australia', 'Northern Territory']);
+// names Wikipedia gives to something else first, in the Americas and South Africa (where the feed doesn't say the state)
+const PLACE_AS = { America: { Austin: 'Austin, Texas', Charlotte: 'Charlotte, North Carolina', Memphis: 'Memphis, Tennessee', 'New York': 'New York City', Orlando: 'Orlando, Florida',
+  Phoenix: 'Phoenix, Arizona', Portland: 'Portland, Oregon', Washington: 'Washington, D.C.', Harrison: 'Harrison, New Jersey', Paradise: 'Paradise, Nevada', Cumberland: 'Cumberland, Georgia',
+  Mansfield: 'Mansfield, Texas', Georgia: 'Georgia (U.S. state)', Hamilton: 'Hamilton, Ontario', 'New York City': 'New York City', 'St. Petersburg': 'St. Petersburg, Florida' },
+  Africa: { Benoni: 'Benoni, South Africa', Kimberley: 'Kimberley, South Africa', Centurion: 'Centurion, Gauteng', 'East London': 'East London, Eastern Cape' },
+  Asia: { Mullanpur: 'New Chandigarh' } };
+const placeLink = (e, n, shown = n) => {
+  if (!n || /^(TBC|TBA|TBD)$/i.test(n)) return esc(shown || '');
+  const reg = PLACE_REGION[e.tz], parts = (e.city || '').split(',').map(s => s.trim()), as = PLACE_AS[String(e.tz || '').split('/')[0]]?.[n];
+  const q = as || (n === 'Victoria' && reg ? 'Victoria (state)' : reg ? (MAIN_PLACE.has(n) || n === reg ? n : `${n}, ${reg}`) : parts.length > 2 ? `${n}, ${parts[1]}` : n);
+  return wikiLink(shown, q);
+};
 // a rain headline in a few words for the card ("Start delayed on second day of ... Test" -> "Start delayed"); the
 // headline itself is on the link to the story
 const rainWord = t => /start (is |was )?delayed|delayed start|delay(s|ed)? (the )?start/i.test(t) ? 'Start delayed' : /washed out|wash-?out/i.test(t) ? 'Washed out'
@@ -2151,11 +2173,22 @@ const wxNote = (e, now) => { const { day, days } = wxToday(e, now), w = wetOn(e.
   return !w ? '' : /no play|abandon/i.test(w) ? 'No play yet' : /bad light/i.test(w) && !/rain/i.test(w) ? 'Bad light' : /rain|wet/i.test(w) ? 'Rain affected' : ''; };
 // the tours' and SailGP's own live pages (the Australasian tour's site turns away link checks, so it has none)
 const LIVE_TEAM = { pgatour: ['pgatour.com', 'https://www.pgatour.com/leaderboard'], lpga: ['lpga.com', 'https://www.lpga.com/tournaments'], golfanz: ['', ''], sailgp: ['sailgp.com', 'https://sailgp.com/races/'] };
+// the official and sports sites whose match pages keep the score as it goes
+const LIVE_HOST = /(^|\.)(nba\.com|mlb\.com|nbl\.com\.au|nrl\.com|rlwc2026\.com|intrl\.sport|allblacks\.com|provincial\.rugby|rugby\.com\.au|world\.rugby|super\.rugby|rugbypass\.com|fih\.ch|altiusrt\.com|ufc\.com|formula1\.com|supercars\.com|sailgp\.com|pgatour\.com|lpga\.com|espn\.com|espncricinfo\.com|cricinfo\.com)$/;
 function liveLink(e) {
   let [name, url] = LIVE_TEAM[e.team] || LIVE_SITE[e.sport] || ['match centre', e.link || e.source];
   if (cricinfo(e)) [name, url] = ['Cricinfo', cricinfo(e)];
   if (LIVE_TEAM[e.team]) return url ? `<a class="livelink" href="${esc(url)}" target="_blank" rel="noopener">Live ${e.sport === 'golf' ? 'scores' : 'racing'} on ${esc(name)} ↗</a>` : '';
-  return url ? `<a class="livelink" href="${esc(e.sport === 'cricket' ? url : url)}" target="_blank" rel="noopener">Live ${FIGHT.test(e.sport) ? 'on the fight page' : e.sport === 'motor' ? 'timing on the race page' : `scores on ${esc(e.sport === 'cricket' ? name : 'match page')}`} ↗</a>` : '';
+  if (!url) return '';
+  const a = t => `<a class="livelink" href="${esc(url)}" target="_blank" rel="noopener">${t} ↗</a>`;
+  let host = ''; try { host = new URL(url).hostname.replace(/^www\./, ''); } catch {}
+  // Wikipedia is written up by hand, mostly after play, and TheSportsDB's pages after the game: where the score goes,
+  // not a live one
+  const site = /(^|\.)wikipedia\.org$/.test(host) ? 'Wikipedia' : /(^|\.)thesportsdb\.com$/.test(host) ? 'TheSportsDB' : '';
+  if (site) return a(`${FIGHT.test(e.sport) ? 'Result' : e.sport === 'motor' ? 'Results' : 'Scores'} on ${site}`);
+  // a fixture's other source (a news story, a venue's page) isn't a live page either
+  if (!LIVE_HOST.test(host)) return a(`More on ${esc(host)}`);
+  return a(`Live ${FIGHT.test(e.sport) ? 'on the fight page' : e.sport === 'motor' ? 'timing on the race page' : `scores on ${esc(e.sport === 'cricket' ? name : 'match page')}`}`);
 }
 function watchLine(e) {
   const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
@@ -2226,7 +2259,7 @@ function resCard(e, now) {
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup${split ? ' scored' : ''}"><span class="side home ${fres('home')}">${teamName(e.home, e.homeLogo, e)}</span>${split ? `<span class="v vsc">${scoreTag(split[0], res('home'))}<span class="vv">v</span>${scoreTag(split[1], res('away'))}</span>` : fw ? `<span class="v vhow"><span>v</span>${howTxt ? `<small>${esc(howTxt)}</small>` : ''}</span>` : '<span class="v">v</span>'}<span class="side away ${fres('away')}">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${e.summary ? (hidden ? '<div class="summary" aria-hidden="true">&nbsp;</div>' : `<div class="summary" title="${esc(e.summary)}">${esc(e.summary)}</div>`) : ''}
     </div>
-    <div class="when"><div class="rtop">${right}</div><div class="rloc">${dayLabel(d, NZ)}${cityOf(e) ? ' · ' + wikiLink(cityOf(e)) : ''}</div></div>
+    <div class="when"><div class="rtop">${right}</div><div class="rloc">${dayLabel(d, NZ)}${cityOf(e) ? ' · ' + placeLink(e, cityOf(e)) : ''}</div></div>
   </article>`;
 }
 
@@ -2704,7 +2737,7 @@ function detail(e) {
   const rows = [
     [`${startLabel(e)} (${tzLabel()})`, when],
     overseas && (!e.timeTBC || e.usual) ? ['Local', `${e.usual ? '≈' : ''}${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
-    ['Where', [e.venue, e.city].filter(Boolean).map(wikiLink).join(', ') || 'To be confirmed', true],
+    ['Where', [e.venue && wikiLink(e.venue), e.city && placeLink(e, cityOf(e), [cityOf(e), ...e.city.split(',').slice(1)].join(','))].filter(Boolean).join(', ') || 'To be confirmed', true],
     e.note ? ['Note', e.note] : null,
     // the event article's opening lines (UFC); kept back while spoilers are hidden, as an intro can name the winner
     e.about && !hidden ? ['About', `${esc(e.about)} <a class="muted small" href="${esc(e.source)}" target="_blank" rel="noopener">Wikipedia ↗</a>`, true] : null,
