@@ -1319,6 +1319,8 @@ function f1Tables(w) {
       const pos = wikiPlain(cells[0] || '');
       if (!/^(\d+|Ret|NC|DSQ|DNS|DNF|DNQ|EX|WD)$/i.test(pos) || cells.length < 6) continue;
       const nz = /\{\{flagicon\|NZL?\}\}/i.test(cells[2]), [d, team] = [wikiPlain(cells[2]), wikiPlain(cells[3]).split('-')[0].trim()];
+      // editors put the empty table up first and fill it in as the session runs: a row without its driver isn't in yet
+      if (!d) continue;
       if (quali) {
         const qs = cells.slice(4, 7).map(wikiPlain), k = [2, 1, 0].find(q => /\d:\d\d\.\d/.test(qs[q] || ''));
         rows.push({ p: pos, d, tm: team, t: k == null ? 'No time' : qs[k], x: k == null ? '' : `${name === 'Sprint Qualifying' ? 'SQ' : 'Q'}${k + 1}`, ...(nz ? { nz } : {}) });
@@ -1333,10 +1335,21 @@ function f1Top3(w) {
   const i = w.search(/^==\s*(Free )?practice\s*==\s*$/im);
   if (i < 0) return {};
   const end = w.slice(i + 5).search(/\n==[^=]/), sec = end < 0 ? w.slice(i) : w.slice(i, i + 5 + end), out = {};
+  // a driver is linked with his team the first time ("[[Charles Leclerc]] ([[Scuderia Ferrari|Ferrari]])"), then named
+  // by surname alone ("topped by Leclerc ahead of ..."), so surnames are looked up in the section's first mentions
+  const who = new Map();
+  for (const m of sec.matchAll(/\[\[(?:[^\]|]*\|)?([^\]]+)\]\]\s*\(\[\[(?:[^\]|]*\|)?([^\]]+)\]\]\)/g)) for (const k of [m[1], m[1].split(' ').pop()]) if (!who.has(k)) who.set(k, [m[1], m[2]]);
+  // "The first free practice session ... was topped by A ahead of B and C", or "The sole practice session was held ...
+  // The session was topped by A followed by his teammate B and C": the session named in this sentence or an earlier one
+  let o = '';
   for (const st of sec.split(/(?<=\.)\s+(?=[A-Z])/)) {
-    const o = (st.match(/\b(first|second|third|sole|only)\b[^.]*?practice(?:\]\])? session/i) || [])[1], top = (st.match(/topped by ([\s\S]+)$/i) || [])[1];
+    o = (st.match(/\b(first|second|third|sole|only)\b[^.]*?practice(?:\]\])? session/i) || [])[1] || o;
+    const top = (st.match(/topped by ([\s\S]+)$/i) || [])[1];
     if (!o || !top) continue;
-    const rows = [...top.matchAll(/\[\[(?:[^\]|]*\|)?([^\]]+)\]\]\s*\(\[\[(?:[^\]|]*\|)?([^\]]+)\]\]\)/g)].slice(0, 3).map((m, k) => ({ p: String(k + 1), d: m[1], tm: m[2], t: '' }));
+    const names = wikiPlain(top.replace(/\s*\((?:[^()]|\([^()]*\))*\)/g, '')).replace(/[.;]\s*$/, '')
+      .split(/\s*,?\s+(?:ahead of|followed by)\s+|\s*,\s*(?:and\s+)?|\s+and\s+/).map(x => x.replace(/^(?:his|their|her) team-?mate\s+/i, ''));
+    const rows = [];
+    for (const n of names.map(x => x.trim())) { if (!/^\p{Lu}[\p{L}'. -]{1,40}$/u.test(n) || rows.length === 3) break; const [d, tm] = who.get(n) || [n, '']; rows.push({ p: String(rows.length + 1), d, tm, t: '' }); }
     if (rows.length) out[`Practice ${{ first: 1, sole: 1, only: 1, second: 2, third: 3 }[o.toLowerCase()]}`] = rows;
   }
   return out;
