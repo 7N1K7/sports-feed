@@ -37,6 +37,7 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
   --rugby: #1b1f1d; --rugbyt: #9a5428; --cricket: #b88a00; --league: #e8590c; --football: #2b8a3e; --mma: #d32f2f; --boxing: #d6336c; --motor: #1c7ed6; --tennis: #7a8c00; --hockey: #0b7285; --basketball: #a5653a; --netball: #7048e8; --sailing: #364fc7; --golf: #0b8457; --baseball: #c2255c;
   --live: #c8322a; --cover: #dfe6e3;
   --soon: #d9480f; --near: #7048e8; --later: #5a6a64; --local: #1971c2;
+  --ses-prac: #a66a00; --ses-qual: #9c36b5; --ses-race: #d9480f;
   --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
   --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
   --r: 10px;
@@ -45,12 +46,12 @@ try { const c = JSON.parse(localStorage.getItem('sf.accent') || '"green"'); if (
   --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
   --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
   --rugby: #d5dbd8; --rugbyt: #dc8e5c; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7; --tennis: #c0d32a; --hockey: #3bc9db; --basketball: #e4a672; --netball: #9775fa; --sailing: #748ffc; --golf: #38d9a9; --baseball: #f06595;
-  --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark } }
+  --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; --ses-prac: #fcc419; --ses-qual: #e599f7; --ses-race: #ff922b; color-scheme: dark } }
 :root[data-theme="dark"] {
   --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d;
   --accent: #46c093; --accent-ink: #08130f; --soft: #1c2925;
   --rugby: #d5dbd8; --rugbyt: #dc8e5c; --cricket: #fcc419; --league: #ff922b; --football: #51cf66; --mma: #ff6b6b; --boxing: #f783ac; --motor: #4dabf7; --tennis: #c0d32a; --hockey: #3bc9db; --basketball: #e4a672; --netball: #9775fa; --sailing: #748ffc; --golf: #38d9a9; --baseball: #f06595;
-  --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; color-scheme: dark }
+  --live: #ff6b5f; --cover: #25322d; --soon: #ff8a4c; --near: #a98bff; --later: #93a49d; --local: #74b9ff; --ses-prac: #fcc419; --ses-qual: #e599f7; --ses-race: #ff922b; color-scheme: dark }
 
 /* colour themes: Settings picks one; Kiwi green is the default above */
 :root[data-accent="ocean"] { --paper: #f2f5f8; --surface: #ffffff; --ink: #132030; --muted: #586878; --line: #d6e0ea; --accent: #1864ab; --accent-ink: #ffffff; --soft: #e4edf6; }
@@ -1275,6 +1276,9 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
 .ev .comp .ctitle { text-align: center; min-width: 0; flex: 0 1 auto }
 .ev .comp .ctitle { font-size: 14.5px }
 .ev .comp .ctitle .tp { white-space: nowrap }
+/* a race weekend's session in its own colour on the title line, so practice and qualifying stand apart from the race */
+.ev .tp.ses-prac, .ev.lrow .lses.ses-prac { color: var(--ses-prac) } .ev .tp.ses-qual, .ev.lrow .lses.ses-qual { color: var(--ses-qual) }
+.ev .tp.ses-race, .ev.lrow .lses.ses-race { color: var(--ses-race) }
 .ev .comp .ctitle > span { letter-spacing: .07em } /* in em on the text itself, so it shrinks with a fitted title */
 /* fitLines() measures with every title and name on one line; the names' text-wrap: balance would otherwise win */
 .fitm .ev .comp .ctitle > span, .fitm .ev .teams .nm { white-space: nowrap !important; text-wrap-mode: nowrap !important }
@@ -1793,7 +1797,9 @@ const COMP_LABEL = {};
 // one name per competition, so a whole tournament can be shown on its own
 // the card's header: Australia's tours read home side first, like the names below ("South Africa v Australia · 1st T20I")
 // a card title can only break between its parts ("South Africa v Australia" · "2nd Test"), never inside a side's name
-const titleParts = t => String(t || '').split(' · ').map(p => `<span class="tp">${esc(p)}</span>`).join('<span class="tsep"> · </span>');
+// a session's kind, for its colour: practice, qualifying (a shootout too), or a race (a sprint, Supercars' Race 31)
+const sesKind = n => /practice/i.test(n) ? 'prac' : /qualif|shootout/i.test(n) ? 'qual' : 'race';
+const titleParts = (t, ses) => String(t || '').split(' · ').map(p => `<span class="tp${ses && p === ses ? ` ses-${sesKind(ses)}` : ''}">${esc(p)}</span>`).join('<span class="tsep"> · </span>');
 const cardComp = e => e.team === 'aucricket' || e.team === 'intlcricket' ? compOf(e) + (e.stage ? ' · ' + e.stage : '') : /^(hockey|basketball|netball|baseball)$/.test(e.sport) ? plural(e.comp) + (e.stage ? ' · ' + e.stage : '') : plural(e.comp);
 function compOf(e) {
   const c = e.comp || '';
@@ -2084,7 +2090,7 @@ function listRow(e, now, isRes) {
   const live = !isRes && (e.status === 'live' || onNow(e, now));
   const free = isRes ? '' : freeTo(e), paid = !isRes && !free && (e.broadcast && e.broadcast !== 'TBC' || (e.tv || []).length);
   const t = isRes ? fmt(d, NZ, { weekday: 'short' }) : e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ);
-  const who = solo(e) ? `<span class="lsolo">${esc(displayName(e.home, e))}${e.session ? ` <span class="lses">${esc(e.session)}</span>` : ''}</span>`
+  const who = solo(e) ? `<span class="lsolo">${esc(displayName(e.home, e))}${e.session ? ` <span class="lses ses-${sesKind(e.session)}">${esc(e.session)}</span>` : ''}</span>`
     : `<span class="lteams"><span class="lside home">${teamName(e.home, e.homeLogo, e)}</span><span class="lv">v</span><span class="lside away">${teamNameR(e.away, e.awayLogo, e)}</span></span>`;
   const end = isRes ? (hidden ? `<button class="lcover" type="button" data-reveal="${esc(e.id)}">Show</button>` : `<span class="lscore num" title="${esc(e.score || '')}">${esc(e.score || '–')}</span>`)
     : live ? '<span class="lnow">ON</span>' : free ? '<span class="fta lfree">FREE</span>' : paid ? '<span class="ltv" aria-hidden="true">📺</span>' : '';
@@ -2123,7 +2129,7 @@ function evCard(e, now) {
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}${free ? `<${freeAt ? `a href="${esc(freeAt)}" target="_blank" rel="noopener" class="fta ftac" data-watch="${esc(freeTag)}"` : 'span class="fta ftac"'} title="Free to watch on ${esc(free)}">FREE<span class="fch"> on ${esc(freeTag)}</span></${freeAt ? 'a' : 'span'}>` : freePrelims(e) ? (h => `<${h ? `a href="${esc(h)}" target="_blank" rel="noopener" data-watch="${esc(freePrelims(e))}"` : 'span'} class="fta ftac fpre" title="The prelims are free to watch; the main card is pay-per-view">FREE PRELIMS</${h ? 'a' : 'span'}>`)(freeHref(e, freePrelims(e))) : ''}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e), e.session)}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}${free ? `<${freeAt ? `a href="${esc(freeAt)}" target="_blank" rel="noopener" class="fta ftac" data-watch="${esc(freeTag)}"` : 'span class="fta ftac"'} title="Free to watch on ${esc(free)}">FREE<span class="fch"> on ${esc(freeTag)}</span></${freeAt ? 'a' : 'span'}>` : freePrelims(e) ? (h => `<${h ? `a href="${esc(h)}" target="_blank" rel="noopener" data-watch="${esc(freePrelims(e))}"` : 'span'} class="fta ftac fpre" title="The prelims are free to watch; the main card is pay-per-view">FREE PRELIMS</${h ? 'a' : 'span'}>`)(freeHref(e, freePrelims(e))) : ''}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${seriesLine(e, now)}
     </div>
@@ -2311,7 +2317,7 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e))}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e), e.session)}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup${split ? ' scored' : ''}"><span class="side home ${fres('home')}">${teamName(e.home, e.homeLogo, e)}</span>${split ? `<span class="v vsc">${scoreTag(split[0], res('home'))}<span class="vv">v</span>${scoreTag(split[1], res('away'))}</span>` : fw ? `<span class="v vhow"><span>v</span>${howTxt ? `<small>${esc(howTxt)}</small>` : ''}</span>` : '<span class="v">v</span>'}<span class="side away ${fres('away')}">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${e.summary ? (hidden ? '<div class="summary" aria-hidden="true">&nbsp;</div>' : `<div class="summary" title="${esc(e.summary)}">${esc(e.summary)}</div>`) : ''}
     </div>
