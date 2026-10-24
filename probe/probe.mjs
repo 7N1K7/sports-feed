@@ -1,21 +1,7 @@
 import fs from 'fs';
 const out = [];
-const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
-const now = Date.now(), up = f.events.filter(e => Date.parse(e.startUTC) > now - 3 * 864e5 && e.status !== 'final');
-out.push('generated ' + f.generated + ' events ' + f.events.length);
-const d = f.diag || {};
-for (const k of ['nba', 'golfCourses', 'tsdb NBL', 'golf']) out.push(`diag ${k}: ${JSON.stringify(d[k])}`);
-const nba = up.filter(e => e.team === 'nba');
-out.push(`NBA upcoming ${nba.length}, with venue ${nba.filter(e => e.venue).length}; e.g. ` + nba.slice(0, 4).map(e => `${e.home}@${e.venue}`).join('; '));
-const golf = up.filter(e => e.sport === 'golf');
-out.push(`golf upcoming ${golf.length}: ` + golf.map(e => `${e.home} @${e.venue || '-'}`).join('; '));
-const nbl = up.filter(e => /NBL/.test(e.comp));
-const wk = nbl.filter(e => Date.parse(e.startUTC) < now + 8 * 864e5);
-out.push(`NBL upcoming ${nbl.length} (TBC ${nbl.filter(e => e.timeTBC).length}); next 8 days ${wk.length} (TBC ${wk.filter(e => e.timeTBC).length}): ` + wk.map(e => `${e.startUTC.slice(5, 16)}${e.timeTBC ? ' TBC' : ''} ${e.home} v ${e.away}`).join('; '));
-const nob = up.filter(e => !e.broadcast && !e.watchNote && !(e.tv || []).length);
-const m = {}; for (const e of nob) m[e.comp] = (m[e.comp] || 0) + 1;
-out.push(`no broadcast ${nob.length}: ${JSON.stringify(m)}`);
-const bc = {}; for (const e of up.filter(e => /Dean Jones|Big Bash|Australia v|India v|SailGP|ATP Finals/.test(e.comp))) { const k = e.comp.replace(/ · .*/, '') + ' => ' + e.broadcast; bc[k] = (bc[k] || 0) + 1; }
-out.push('rules: ' + JSON.stringify(bc, null, 1));
+for (const u of ['https://www.skyarena.co.nz', 'https://www.sky.co.nz/skyarena', 'https://www.sky.co.nz/sky-arena', 'https://www.sky.co.nz/sport', 'https://www.sky.co.nz/espn', 'https://www.sky.co.nz/channels/espn']) {
+  try { const r = await fetch(u, { redirect: 'follow', headers: { 'user-agent': 'Mozilla/5.0 KickoffKiwi link check' } }); const t = await r.text(); out.push(`${u} -> ${r.status} ${r.url} title: ${(t.match(/<title[^>]*>([^<]*)/i) || [])[1]?.trim().slice(0, 90)}`); }
+  catch (e) { out.push(`${u} -> ERR ${e.message}`); }
+}
 fs.writeFileSync(new URL('./out.txt', import.meta.url), out.join('\n'));
-// 1792773838
