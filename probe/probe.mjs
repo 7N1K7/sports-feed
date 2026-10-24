@@ -1,10 +1,20 @@
+// probe 183: the live F1 session times and the Sessions tab
 import fs from 'fs';
-const ua = { 'user-agent': 'KickoffKiwi/1.0 (https://kickoff.kiwi) probe' };
-const out = {};
-for (const t of ['2026 Singapore Grand Prix', '2026 United States Grand Prix', '2026 Mexico City Grand Prix', '2025 São Paulo Grand Prix']) {
-  const r = await (await fetch(`https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=parse&prop=wikitext&redirects=1&page=${encodeURIComponent(t)}`, { headers: ua })).json();
-  out[t] = r.parse?.wikitext || r.error?.info;
+import { chromium } from 'playwright';
+const L = [];
+const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
+L.push('diag.f1Sessions: ' + JSON.stringify(f.diag?.f1Sessions));
+for (const e of (f.events || []).filter(x => x.sess)) {
+  L.push(`${e.id} ${e.home} page=${e.sessPage}`);
+  for (const s of e.sess) L.push(`  ${s.n} ${s.t} src=${s.src || '-'} rows=${s.rows ? s.rows.length : '-'}${s.top3 ? ' top3' : ''}`);
 }
-const T = 'https://www.thesportsdb.com/api/v1/json/123/';
-out.tsdb17 = await (await fetch(`${T}eventsround.php?id=4370&r=17&s=2026`, { headers: ua })).json();
-fs.writeFileSync(new URL('./out.txt', import.meta.url), JSON.stringify(out));
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 412, height: 1000 } });
+await p.addInitScript(() => { localStorage.setItem('sf.nocount', 'true'); localStorage.setItem('sf.comp', JSON.stringify('Formula 1')); });
+await p.goto('https://kickoff.kiwi/?x=' + Date.now()); await p.waitForTimeout(4000);
+L.push('version: ' + await p.evaluate(() => document.body.innerText.match(/\bv\d{3,}\b/)?.[0]));
+L.push('tabs: ' + await p.evaluate(() => [...document.querySelectorAll('#hubTabs button')].map(x => x.textContent).join(' | ')));
+const has = await p.$('[data-hubtab="sessions"]');
+if (has) { await has.click(); await p.waitForTimeout(800); L.push('sessions tab: ' + (await p.evaluate(() => document.getElementById('hubBody').innerText)).replace(/\s+/g, ' ').slice(0, 900)); }
+await b.close();
+fs.writeFileSync(new URL('./out.txt', import.meta.url), L.join('\n') + '\n');
