@@ -1,61 +1,7 @@
-rev 2026-10-24T01:22:24Z
-hits 2
----
-Africa v Ireland 2
-|date =  31 October 2026
-|time = 15:00 [[South African Standard Time|SAST]] ([[UTC+2]])
-|home = {{ruw-rt|RSA}}
-|score =
-|report =
-|away = {{ruw|IRE}}
-|try1 =
-|con1 =
-|pen2 =
-|drop2 =
-|stadium = [[Athlone Stadium]], [[Cape Town]]<ref name="SA Rugby"/>
-|attendance =
-|referee = Jess Ling, [[Rugby Australia|Australia]]
-}}
-
-===Japan vs Wales – October===
-The two-test series in October 2026 will provide competition for the similarly ranked nations.<ref name="BBC Sport-3" />
-
-{{Rugbybox
-|id = Japan v Wales 1
-|date = 24 October 2026
-|time = 
-|home = {{ruw-rt|JPN}}
-|score =
-|report =
-|away = {{ruw|WAL}}
-|try1 =
-|con1 =
-|pen1 =
-|drop1 =
-|try2 =
-|con2 =
-|pen2 =
-|drop2 =
-|stadium = [[Chichibunomiya Rugby Stadium]], [[Tokyo]]<ref name="Japan Fiji">{{cite web|url=https://www.rugby-japan.jp/news/54073|title=Notice of Lipovitan D Chall
-ok	Austin, Texas -> Austin, Texas (Capital city of Texas, United States)
-ok	Charlotte, North Carolina -> Charlotte, North Carolina (Most populous city in North Carolina, United States)
-ok	Memphis, Tennessee -> Memphis, Tennessee (City in Tennessee, United States)
-ok	New York City -> New York City (Most populous city in the United States)
-ok	Orlando, Florida -> Orlando, Florida (City in the United States)
-ok	Phoenix, Arizona -> Phoenix, Arizona (Capital and most populous city of Arizona, U.S.)
-ok	Portland, Oregon -> Portland, Oregon (Most populous city in Oregon, U.S.)
-ok	Washington, D.C. -> Washington, D.C. (Capital city of the United States)
-ok	Harrison, New Jersey -> Harrison, New Jersey (Town in Hudson County, New Jersey, US)
-ok	Georgia (U.S. state) -> Georgia (U.S. state) (U.S. state)
-ok	Benoni, Gauteng -> Benoni, South Africa (Place in Gauteng, South Africa)
-ok	Benoni, South Africa -> Benoni, South Africa (Place in Gauteng, South Africa)
-ok	Kimberley, Northern Cape -> Kimberley, South Africa (Capital of the Northern Cape, South Africa)
-ok	Kimberley, South Africa -> Kimberley, South Africa (Capital of the Northern Cape, South Africa)
-DISAMBIG	Mullanpur -> Mullanpur (Topics referred to by the same term)
-ok	New Chandigarh -> New Chandigarh (Smart City in Punjab, India)
-MISSING	Mullanpur, Punjab -> Mullanpur, Punjab ()
-ok	Paradise, Nevada -> Paradise, Nevada (Unincorporated town in the United States)
-ok	Cumberland, Georgia -> Cumberland, Georgia (Unincorporated community in the Atlanta metropolitan area, G)
-ok	Mansfield, Texas -> Mansfield, Texas (City in Texas, United States)
-ok	Hamilton, Ontario -> Hamilton, Ontario (City in Ontario, Canada)
-ok	Victoria (state) -> Victoria (state) (State of Australia)
+https://www.rugby-japan.jp/news/54073 200 len 4162
+  子日本代表 15人制女子日本代表 JRFU WBB twitter facebook LINE print 2026年10月2日 女子日本代表戦の放送・配信予定が決定しましたので、お知らせいたします。 2026年9月10日 女子日本代表戦のキックオフ時間が18:30に決定しましたので、お知らせいたします。 2026年7月16日 女子日本代表の試合は男子日本代表の試合の後の開催となります。 女子日本代表戦のキックオフ時間は調整中ですので、決まり次第お知らせいたします。 2026年7月16日 公益財団法人日本ラグビーフットボール協会（会長：土田 雅人、東京都港区）は、
+  10月24日（土）に秩父宮ラグビー場で男子日本代表がフィジー代表戦、女子日本代表がウェールズ代表戦を同日開催することが決定しましたので、お知らせいたします。 なお、2試合とも、冠スポンサーとして大正製薬株式会社にご協賛をいただき、「リポビタンDチャレンジカップ2026」として開催いたします。また、当日は日本ラグビーフットボール協会創立100周年記念試合として、男女日本代表は 100周年記念ジャージー を着用い
+  たします。 ※キックオフ時間、放送・配信予定につきましては、決まり次第お知らせいたします。 &nbsp; ＜リポビタンDチャレンジカップ2026＞ ※併催試合 2026年10月24日（土）14:50キックオフ 対戦：男子日本代表 対 フィジー代表&nbsp; 会場：秩父宮ラグビー場（東京） 放送（生中継）：日本テレビ系全国ネット&nbsp;14:30- / J SPORTS 1 14:10- 配信（生配信）：Hulu 14:30- / J SPORTSオンデマンド14:10- ※放送時間は変更となる場合がございます。 &n
+  bsp; 2026年10月24日（土）18:30キックオフ&nbsp; 対戦：女子日本代表 対 ウェールズ代表&nbsp; 会場：秩父宮ラグビー場（東京） 放送 （生中継）：&nbsp;BS日テレ&nbsp;18:29- / J SPORTS 1 18:15- 配信 （生配信）： J SPORTSオンデマンド 18:15- ※WXV Global Seriesとしての実施になります。 &nbsp;&nbsp; ご参考：過去
+  9年7月27日 〇34-21（岩手・釜石） 2023年8月5日 ●12-35（東京・秩父宮） 2024年9月21日 ●17-41（大阪・花園） 2025年9月20日 ●27-33（アメリカ・ソルトレイクシティ） &nbsp; 女子日本代表 ウェールズ代表戦 2戦0勝2敗 2021年11月7日 ●5-23 （ウェールズ・カーディフ） 2024年10月11日 ●10-19&nbsp;（南アフリカ・ケープタウン） &nbsp; 以上 関連ニュース （10/23更新）日本ラグビーフットボール協会創立100周年記念ミューラル 制作決定のお知らせ 2026.10.23 （金）
+https://www.rugby-japan.jp/en/news/54073 404 len 215
