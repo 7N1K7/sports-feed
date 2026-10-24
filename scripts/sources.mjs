@@ -1266,15 +1266,23 @@ export async function f1Sessions(events, cache, diag) {
     if (!r.parse) throw new Error(r.error?.info || 'no article');
     const w = r.parse.wikitext.replace(/<!--[\s\S]*?-->/g, '');
     c.wiki = { title: r.parse.title, tables: f1Tables(w), top3: f1Top3(w) };
-    c.w = now;
+    c.w = now; c.wikiReads = (c.wikiReads || 0) + 1;
   } catch (x) { notes.push('Wikipedia: ' + x.message); }
-  const due = times.filter(s => /^Practice/.test(s.n) && Date.parse(s.t) + 36e5 < now && !c.prac[s.n]);
-  if (due.length && now - c.ts > 18e5) try {
-    c.ts = now;
+  // TheSportsDB's round: practice orders for the page, and (to time the sources) any session's classification.
+  // Every 9 minutes through the weekend while an ended session hasn't turned up there, then half-hourly for practice
+  const seen = c.seen ||= {}, stamp = new Date(now).toISOString().slice(0, 16) + 'Z', weekend = now < Date.parse(e.startUTC) + DAY;
+  const ended = s => Date.parse(s.t) + (s.n === 'Race' ? 2 : 1) * 36e5 < now;
+  const due = times.filter(s => ended(s) && (weekend ? !seen[s.n]?.tsdb : /^Practice/.test(s.n) && !c.prac[s.n]));
+  if (due.length && now - c.ts > (weekend ? 54e4 : 18e5)) try {
+    c.ts = now; c.tsdbReads = (c.tsdbReads || 0) + 1;
     const [, season, round] = e.id.split('-');
     const d = await tsdb(`eventsround.php?id=4370&r=${round}&s=${season}`);
     for (const ev of d.events || []) {
-      const n = F1_SESSION(ev.strEvent || ''), rows = [...String(ev.strResult || '').matchAll(/^\s*(\d+)\.\s+(.+?)\s+\(([^)]+)\)\s+(\S.*?)\s*$/gm)].map(m => ({ p: m[1], d: m[2], tm: m[3], t: m[4] }));
+      // written by hand, so in more than one shape: "1. George Russell (Mercedes) 1:32.274", or "1. Max Verstappen 1:31.156 (...)"
+      const n = F1_SESSION(ev.strEvent || '') || 'Race', res = String(ev.strResult || ''), lines = (res.match(/^\s*\d+\.\s+\S/gm) || []).length;
+      let rows = [...res.matchAll(/^\s*(\d+)\.\s+(.+?)\s+\(([^)]+)\)\s+(\S.*?)\s*$/gm)].map(m => ({ p: m[1], d: m[2], tm: m[3], t: m[4] }));
+      if (rows.length < 3) rows = [...res.matchAll(/^\s*(\d+)\.\s+(.+?)\s+(\+?(?:\d+:)?\d+\.\d{3})\b/gm)].map(m => ({ p: m[1], d: m[2], tm: '', t: m[3] }));
+      if (lines >= 3) (seen[n] ||= {}).tsdb ||= `${stamp} (${lines})`;
       if (/^Practice/.test(n) && rows.length >= 3) c.prac[n] = rows;
     }
   } catch (x) { notes.push('TheSportsDB: ' + x.message); }
@@ -1285,6 +1293,10 @@ export async function f1Sessions(events, cache, diag) {
   });
   if (W.title) e.sessPage = `https://en.wikipedia.org/wiki/${encodeURIComponent(W.title.replace(/ /g, '_'))}`;
   diag.f1Sessions = [`${e.home}: ${e.sess.map(s => `${s.n} ${s.rows ? s.rows.length + (s.top3 ? ' (top 3)' : '') : '-'}`).join(', ')}`, ...notes].join('; ');
+  // when each session's order first turned up from each source (UTC, to the build), for timing them
+  for (const n of Object.keys(W.top3 || {})) (seen[n] ||= {}).top3 ||= stamp;
+  for (const [n, rows] of Object.entries(W.tables || {})) (seen[n] ||= {}).wiki ||= `${stamp} (${rows.length})`;
+  diag.f1SessionsSeen = { id: e.id, wikiReads: c.wikiReads || 0, tsdbReads: c.tsdbReads || 0, lastTsdb: c.ts ? new Date(c.ts).toISOString().slice(0, 16) + 'Z' : '', seen };
 }
 // a classification table's text without its markup: links to their words, templates gone ({{nowrap|x}} to x)
 const wikiPlain = s => {
