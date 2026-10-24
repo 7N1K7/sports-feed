@@ -1338,7 +1338,8 @@ function f1Top3(w) {
   // a driver is linked with his team the first time ("[[Charles Leclerc]] ([[Scuderia Ferrari|Ferrari]])"), then named
   // by surname alone ("topped by Leclerc ahead of ..."), so surnames are looked up in the section's first mentions
   const who = new Map();
-  for (const m of sec.matchAll(/\[\[(?:[^\]|]*\|)?([^\]]+)\]\]\s*\(\[\[(?:[^\]|]*\|)?([^\]]+)\]\]\)/g)) for (const k of [m[1], m[1].split(' ').pop()]) if (!who.has(k)) who.set(k, [m[1], m[2]]);
+  // (the team linked, "([[Scuderia Ferrari|Ferrari]])", or not, "(Ferrari)")
+  for (const m of sec.matchAll(/\[\[(?:[^\]|]*\|)?([^\]]+)\]\]\s*\((?:\[\[(?:[^\]|]*\|)?([^\]]+)\]\]|([^()[\]]+))\)/g)) for (const k of [m[1], m[1].split(' ').pop()]) if (!who.has(k)) who.set(k, [m[1], (m[2] || m[3]).trim()]);
   // "The first free practice session ... was topped by A ahead of B and C", or "The sole practice session was held ...
   // The session was topped by A followed by his teammate B and C": the session named in this sentence or an earlier one
   let o = '';
