@@ -1,11 +1,3 @@
-node:internal/modules/run_main:123
-    triggerUncaughtException(
-    ^
-
-page.evaluate: ReferenceError: FEED is not defined
-    at eval (eval at evaluate (:290:30), <anonymous>:1:25)
-    at UtilityScript.evaluate (<anonymous>:292:16)
-    at UtilityScript.<anonymous> (<anonymous>:1:44)
-    at /home/runner/work/sports-feed/sports-feed/probe/probe.mjs:12:31
-
-Node.js v22.23.3
+version: 
+motor cards: Supercars · Round 12 · Top 10 Shootout (Race 31) | Supercars · Round 12 · Race 31 | Formula 1 · Round 18 · Practice 3F1 | Formula 1 · Round 18 · QualifyingF1 | Supercars · Round 12 · Qualifying (Race 32) | Supercars · Round 12 · Top 10 Shootout (Race 32) | Supercars · Round 12 | Formula 1 · Round 18F1 | Formula 1 · Round 19 · Practice 1F1 | Formula 1 · Round 19 · Practice 2F1 | Formula 1 · Round 19 · Practice 3F1 | Formula 1 · Round 19 · QualifyingF1 | Formula 1 · Round 19F1 | Supercars · Round 13 · Practice 1 | Supercars · Round 13 · Practice 2 | Formula 1 · Round 20 · Practice 1F1 | Formula 1 · Round 20 · Practice 2F1 | Supercars · Round 13 · Qualifying (Race 33) | Formula 1 · Round 17F1 | Supercars · Round 11 | Formula 1 · Round 16F1
+weekend: Sun 6:30amPractice 3 | Sun 10amQualifying | Mon 9amRace
