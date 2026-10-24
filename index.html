@@ -1345,14 +1345,14 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
 /* List: a game a line, for busy days */
 body.v-list .daygroup, body.v-list #upcoming, body.v-list #later, body.v-list .donetoday, body.v-list #soon { gap: 4px }
 body.v-list .daygroup + .daygroup { margin-top: 10px }
-.ev.lrow { grid-template-columns: 4px 58px 16px minmax(0, 1fr) 44px; align-items: center; column-gap: 7px; height: 40px; border-radius: 8px; padding-right: 6px }
+.ev.lrow { grid-template-columns: 4px 58px 16px minmax(0, 1fr) 48px; align-items: center; column-gap: 7px; height: 40px; border-radius: 8px; padding-right: 6px }
 .ev.lrow .stripe { width: 4px; height: 100%; grid-row: auto }
 /* the competition on wider screens, where a row has the room */
 .ev.lrow .lcomp { display: none; font: 700 11px/1.2 var(--f-body); letter-spacing: .05em; text-transform: uppercase; color: var(--sport); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
 /* phones: the sport's colour down the side says the sport, so its icon goes, and the logos shrink, for the names' room */
-@media (max-width: 520px) { .ev.lrow { grid-template-columns: 4px 57px minmax(0, 1fr) 34px; column-gap: 5px } .ev.lrow .licon { display: none }
+@media (max-width: 520px) { .ev.lrow { grid-template-columns: 4px 57px minmax(0, 1fr) 38px; column-gap: 5px } .ev.lrow .licon { display: none }
   .ev.lrow .ltime { font-size: 16px } .ev.lrow .lteams { column-gap: 4px } .ev.lrow .lside { gap: 4px } .ev.lrow .logo { height: 18px; max-width: 22px } .ev.lrow .logo.flagimg { height: 12px } }
-@media (min-width: 700px) { .ev.lrow { grid-template-columns: 4px 58px 16px minmax(120px, 30%) minmax(0, 1fr) 44px } .ev.lrow .lcomp { display: block } }
+@media (min-width: 700px) { .ev.lrow { grid-template-columns: 4px 58px 16px minmax(120px, 30%) minmax(0, 1fr) 48px } .ev.lrow .lcomp { display: block } }
 .ev.lrow .ltime { font: 700 17px/1 var(--f-display); color: var(--sport); text-align: right; white-space: nowrap }
 .ev.lrow .licon { width: 16px; height: 16px; opacity: .85 }
 .ev.lrow .lteams, .ev.lrow .lsolo { font: 600 16px/1.1 var(--f-display); min-width: 0 }
@@ -1360,12 +1360,12 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 .ev.lrow .lside { display: flex; align-items: center; gap: 5px; min-width: 0; white-space: nowrap }
 .ev.lrow .lside.home { justify-content: flex-end }
 .ev.lrow .lside .nm { overflow: hidden; text-overflow: ellipsis; min-width: 0 }
-.ev.lrow .lsolo { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.ev.lrow .lsolo { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center }
 .ev.lrow .lses { color: var(--muted); font-weight: 500 }
 .ev.lrow .lv { color: var(--muted); font-size: 13px }
 .ev.lrow .logo { height: 20px; width: auto; max-width: 28px; flex: none }
 .ev.lrow .logo.flagimg { height: 13px }
-.ev.lrow .lend { display: flex; justify-content: flex-end; align-items: center }
+.ev.lrow .lend { display: flex; justify-content: flex-end; align-items: center; padding-right: 5px }
 .ev.lrow .lfree { font-size: 9px; padding: 3px 4px 2px }
 .ev.lrow .ltv { font-size: 13px; opacity: .7 }
 .ev.lrow .lnow { font: 800 10px/1 var(--f-body); letter-spacing: .06em; color: #fff; background: var(--live, #e03131); border-radius: 4px; padding: 3px 5px 2px }
@@ -3470,6 +3470,7 @@ function render() {
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
   syncDsel($('spoilDays')); syncDsel($('tzSel'));
+  const SES_OFF = 'Race sessions';
   const tchip = ([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`;
   $('teamGroups').innerHTML = TEAMS_AZ.map(g => { const ss = [...new Set(groupItems(g).map(([k]) => sportOf(k)))], on = ss.some(followedSport);
     return `<div class="group${on ? '' : ' off'}" data-g="${esc(g.g)}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(tchip).join('')}${g.sub ? `<span class="gsub">${esc(g.sub.g)}</span>${g.sub.items.map(tchip).join('')}` : ''}${g.g === 'Motorsport' ? `<span class="gsub">Race weekends</span><button class="chip" type="button" data-sessions="1" aria-pressed="${allSessions}" title="Practice, sprint qualifying and every other session get a card in your feed (the Motorsport button always shows them)">Every session in my feed</button>` : ''}</div></div>`; }).join('');
@@ -3483,7 +3484,9 @@ function render() {
   const sidesOff = [['m', "Men's teams"], ['w', "Women's teams"]].filter(([g]) => !sideKeys(g).some(k => picked.has(k)) && picked.size),
     bySide = new Set(sidesOff.flatMap(([g]) => sideKeys(g)));
   const offs = [...sidesOff.map(([, l]) => [l, 'accent', true]), ...TEAMS_AZ.filter(g => !groupItems(g).some(([k]) => followedSport(sportOf(k)))).map(g => [g.g, sportOf(groupItems(g)[0][0]), true]),
-    ...TEAMS_AZ.flatMap(groupItems).filter(([k], i, a) => a.findIndex(([j]) => j === k) === i && !picked.has(k) && !bySide.has(k) && followedSport(sportOf(k))).map(([k, l]) => [l, sportOf(k), false])];
+    ...TEAMS_AZ.flatMap(groupItems).filter(([k], i, a) => a.findIndex(([j]) => j === k) === i && !picked.has(k) && !bySide.has(k) && followedSport(sportOf(k))).map(([k, l]) => [l, sportOf(k), false]),
+    // practice and the other race-weekend sessions, while Every session is off (they're only under the Motorsport button)
+    ...(!allSessions && followedSport('motor') ? [[SES_OFF, 'motor', false]] : [])];
   const hgo = ([n, sp, all]) => `<button type="button" class="hidgo${all ? ' whole' : ''}" data-hidgo="${esc(n)}" style="--hc:var(--${sp === 'rugby' ? 'rugbyt' : sp})" title="${sp === 'accent' ? 'Turned off with the switch above' : all ? 'The whole sport is off' : 'Just this one is off'}: tap to go to it">${esc(n)}</button>`;
   $('hidNote').innerHTML = offs.length ? `<b>Hidden<span class="hfull"> from your feed</span>:</b> ${offs.map(hgo).join(' ')}` : 'Everything is on your feed.';
   $('hidNote').title = offs.length ? `Hidden: ${offs.map(o => o[0]).join(', ')}` : '';
@@ -3727,7 +3730,7 @@ document.addEventListener('click', ev => {
   }
   if (t.dataset.tocomp) { count({ e: 'use', k: 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   // a name in the hidden-sports line: its group (a sport's own, or the one holding that competition), scrolled to and lit
-  if (t.dataset.hidgo) { count({ e: 'use', k: 'Hidden sports list name' }); const n = t.dataset.hidgo, gn = (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([, l]) => l === n)))?.g;
+  if (t.dataset.hidgo) { count({ e: 'use', k: 'Hidden sports list name' }); const n = t.dataset.hidgo, gn = n === 'Race sessions' ? 'Motorsport' : (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([, l]) => l === n)))?.g;
     const g = [...document.querySelectorAll('#teamGroups .group')].find(x => x.dataset.g === gn);
     // scroll the Settings box only (scrollIntoView would move the page behind it too)
     const box = document.querySelector('.panel .pbox'), to = el => box.scrollTo({ top: box.scrollTop + el.getBoundingClientRect().top - box.getBoundingClientRect().top - (box.clientHeight - el.offsetHeight) / 2, behavior: 'smooth' });
