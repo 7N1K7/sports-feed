@@ -1773,7 +1773,10 @@ let compSel = store.get('comp', '');
 let genderSel = store.get('gender', 'all');
 let nzOnly = store.get('nzOnly', false);
 let freeOnly = store.get('freeOnly', false);
-let allSessions = store.get('sessions', false);   // every race-weekend session (practice too) in the main feed
+// the series whose every race-weekend session (practice too) shows in the main feed: F1's from the start, Supercars' if
+// picked (an earlier single switch for both carries over)
+const SESS = [['f1', 'F1'], ['supercars', 'Supercars']];
+let sessOn = new Set(store.get('sessTeams', store.get('sessions', false) ? ['f1', 'supercars'] : ['f1']));
 let folded = store.get('folded', false);   // phones: filters folded away under one bar
 let selDay = '', drawDayPick = () => {};
 let hubTab = 'games', resPage = 0, laterPage = 0, bigPage = 0, runPage = 0, rankSel = '';
@@ -2054,9 +2057,9 @@ const freePrelims = e => prelimsOnly(e) ? (watchOptions(e).find(o => o.prelims)?
 // Free to watch narrows the games still to come; results and news are left as they are
 const visible = x => (genderSel === 'all' || !genderOf(x) || genderOf(x) === genderSel) && (!nzOnly || isNZ(x)) && (!freeOnly || !x.startUTC || x.status === 'final' || !!freeTo(x) || !!freePrelims(x)) && visible0(x);
 // practice and Supercars' other races (minor) show on their competition's own page, with the Motorsport button picked,
-// or everywhere once Every session is on in Settings; a race weekend's session has no result, so it goes once its two
+// or everywhere while that series' sessions are on in Settings; a race weekend's session has no result, so it goes once its two
 // hours on Live now are up
-const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now() ? false : x.startUTC ? (compSel ? compOf(x) === compSel : (!x.minor || (x.session && (allSessions || sportSel.has(x.sport)))) && visibleTeam(x) && sportOn(x.sport || sportOf(x.team)))
+const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now() ? false : x.startUTC ? (compSel ? compOf(x) === compSel : (!x.minor || (x.session && (sessOn.has(x.team) || sportSel.has(x.sport)))) && visibleTeam(x) && sportOn(x.sport || sportOf(x.team)))
   : visibleTeam(x) && sportOn(sportOf(x.team));
 
 // cricket tours: "Game 4 of 5 · India lead the T20I series 2–1", counting only results the spoiler setting shows
@@ -3471,10 +3474,9 @@ function render() {
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
   syncDsel($('spoilDays')); syncDsel($('tzSel'));
-  const SES_OFF = 'Race sessions';
   const tchip = ([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}">${badge(k)}${l}</button>`;
   $('teamGroups').innerHTML = TEAMS_AZ.map(g => { const ss = [...new Set(groupItems(g).map(([k]) => sportOf(k)))], on = ss.some(followedSport);
-    return `<div class="group${on ? '' : ' off'}" data-g="${esc(g.g)}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(tchip).join('')}${g.sub ? `<span class="gsub">${esc(g.sub.g)}</span>${g.sub.items.map(tchip).join('')}` : ''}${g.g === 'Motorsport' ? `<span class="gsub">Race weekends</span><button class="chip" type="button" data-sessions="1" aria-pressed="${allSessions}" title="Practice, sprint qualifying and every other session get a card in your feed (the Motorsport button always shows them)">Every session in my feed</button>` : ''}</div></div>`; }).join('');
+    return `<div class="group${on ? '' : ' off'}" data-g="${esc(g.g)}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(tchip).join('')}${g.sub ? `<span class="gsub">${esc(g.sub.g)}</span>${g.sub.items.map(tchip).join('')}` : ''}${g.g === 'Motorsport' ? `<span class="gsub">Race weekends</span>${SESS.map(([k, l]) => `<button class="chip" type="button" data-sess="${k}" aria-pressed="${sessOn.has(k)}" title="Practice, sprint qualifying and every other ${l} session get a card in your feed (the Motorsport button always shows them)">${l} sessions</button>`).join('')}` : ''}</div></div>`; }).join('');
   markLone();
   // the sports off the feed, named under My teams so nobody wonders where they went (one line, so it never pushes the list
   // down), and the busy competitions that start off; a name jumps to its group
@@ -3486,8 +3488,8 @@ function render() {
     bySide = new Set(sidesOff.flatMap(([g]) => sideKeys(g)));
   const offs = [...sidesOff.map(([, l]) => [l, 'accent', true]), ...TEAMS_AZ.filter(g => !groupItems(g).some(([k]) => followedSport(sportOf(k)))).map(g => [g.g, sportOf(groupItems(g)[0][0]), true]),
     ...TEAMS_AZ.flatMap(groupItems).filter(([k], i, a) => a.findIndex(([j]) => j === k) === i && !picked.has(k) && !bySide.has(k) && followedSport(sportOf(k))).map(([k, l]) => [l, sportOf(k), false]),
-    // practice and the other race-weekend sessions, while Every session is off (they're only under the Motorsport button)
-    ...(!allSessions && followedSport('motor') ? [[SES_OFF, 'motor', false]] : [])];
+    // a series' practice and other race-weekend sessions, while they're off (they're only under the Motorsport button)
+    ...(followedSport('motor') ? SESS.filter(([k]) => picked.has(k) && !sessOn.has(k)).map(([, l]) => [`${l} sessions`, 'motor', false]) : [])];
   const hgo = ([n, sp, all]) => `<button type="button" class="hidgo${all ? ' whole' : ''}" data-hidgo="${esc(n)}" style="--hc:var(--${sp === 'rugby' ? 'rugbyt' : sp})" title="${sp === 'accent' ? 'Turned off with the switch above' : all ? 'The whole sport is off' : 'Just this one is off'}: tap to go to it">${esc(n)}</button>`;
   $('hidNote').innerHTML = offs.length ? `<b>Hidden<span class="hfull"> from your feed</span>:</b> ${offs.map(hgo).join(' ')}` : 'Everything is on your feed.';
   $('hidNote').title = offs.length ? `Hidden: ${offs.map(o => o[0]).join(', ')}` : '';
@@ -3633,7 +3635,7 @@ function syncFold() {
 $('sheet').addEventListener('close', () => { sheetTrail = []; dTabId = ''; }); // a closed pop-up starts afresh next time, on the game's own tab
 $('foldBtn').addEventListener('click', ev => { ev.stopPropagation(); folded = !folded; store.set('folded', folded); syncFold(); count({ e: 'use', k: folded ? 'Filters folded away' : 'Filters opened' }); });
 // Settings to another browser: a code holding this browser's choices (not revealed results, nor the stats page's own)
-const MOVE_KEYS = ['teams', 'view', 'spoilers', 'spoilDays', 'spoilDaysSet', 'sport', 'comp', 'gender', 'nzOnly', 'freeOnly', 'sessions', 'tz', 'accent', 'theme'];
+const MOVE_KEYS = ['teams', 'view', 'spoilers', 'spoilDays', 'spoilDaysSet', 'sport', 'comp', 'gender', 'nzOnly', 'freeOnly', 'sessTeams', 'tz', 'accent', 'theme'];
 const settingsCode = () => 'KK1-' + btoa(unescape(encodeURIComponent(JSON.stringify(Object.fromEntries(MOVE_KEYS.map(k => [k, store.get(k, null)]).filter(([, v]) => v !== null)))))).replace(/=+$/, '');
 function useSettingsCode(code) {
   const m = String(code).replace(/\s+/g, '').match(/^KK1-([A-Za-z0-9+/]+)$/);
@@ -3731,7 +3733,7 @@ document.addEventListener('click', ev => {
   }
   if (t.dataset.tocomp) { count({ e: 'use', k: 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   // a name in the hidden-sports line: its group (a sport's own, or the one holding that competition), scrolled to and lit
-  if (t.dataset.hidgo) { count({ e: 'use', k: 'Hidden sports list name' }); const n = t.dataset.hidgo, gn = n === 'Race sessions' ? 'Motorsport' : (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([, l]) => l === n)))?.g;
+  if (t.dataset.hidgo) { count({ e: 'use', k: 'Hidden sports list name' }); const n = t.dataset.hidgo, gn = / sessions$/.test(n) ? 'Motorsport' : (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([, l]) => l === n)))?.g;
     const g = [...document.querySelectorAll('#teamGroups .group')].find(x => x.dataset.g === gn);
     // scroll the Settings box only (scrollIntoView would move the page behind it too)
     const box = document.querySelector('.panel .pbox'), to = el => box.scrollTo({ top: box.scrollTop + el.getBoundingClientRect().top - box.getBoundingClientRect().top - (box.clientHeight - el.offsetHeight) / 2, behavior: 'smooth' });
@@ -3741,7 +3743,7 @@ document.addEventListener('click', ev => {
     // off: all of them; back on: all but the busy ones that start off (the NBA)
     if (on) ks.forEach(k => picked.delete(k)); else ks.filter(k => !OPT_IN.has(k)).forEach(k => picked.add(k));
     count({ e: 'use', k: `${t.dataset.gsw === 'w' ? "Women's" : "Men's"} teams ${on ? 'off' : 'on'}` }); store.set('teams', [...picked]); render(); return; }
-  if (t.dataset.sessions) { allSessions = !allSessions; store.set('sessions', allSessions); use(allSessions ? 'Every session on' : 'Every session off'); render(); return; }
+  if (t.dataset.sess) { const k = t.dataset.sess, l = SESS.find(([j]) => j === k)[1]; sessOn.has(k) ? sessOn.delete(k) : sessOn.add(k); store.set('sessTeams', [...sessOn]); use(`${l} sessions ${sessOn.has(k) ? 'on' : 'off'}`); render(); return; }
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); count({ e: picked.has(k) ? 'follow' : 'unfollow', k: TEAM_NAME[k] || k }); store.set('teams', [...picked]); render(); }
   else if (t.dataset.hideall) { ev.stopPropagation(); use('Hide all results again'); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.revealall) { ev.stopPropagation(); count({ e: 'use', k: 'Show all results' }); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
