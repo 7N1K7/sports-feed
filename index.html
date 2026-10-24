@@ -373,6 +373,9 @@ a.fta { text-decoration: none } a.fta:hover { filter: brightness(1.15) } /* a ca
 #freeOnly[aria-pressed="true"] { background: #2b8a3e; border-color: #2b8a3e; color: #fff }
 #freeOnly .fta { vertical-align: 0; letter-spacing: .03em; padding-inline: 0; background: none; color: inherit }
 .ev .tvl a { color: inherit }
+/* a card's TV line opens where it plays: the whole line is the link, the channel underlined like the pop-up's */
+.ev a.tvw { text-decoration: none } .ev a.tvw .svcn { text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 2px }
+.ev a.tvw:hover .svcn { text-decoration-color: currentColor }
 .tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 1px 6px; background: var(--soft); color: var(--ink); justify-self: end }
 .tag.live { background: var(--live); color: #fff }
 /* every pager (results, later games, running now, events ahead): slim buttons close in on the page count, which keeps
@@ -2071,13 +2074,14 @@ function evCard(e, now) {
       <div class="nzl">${esc(slbl)} ${esc(tzLabel())}</div>
       <div class="nz num" data-l="${esc(slbl)}"${e.usual ? ` title="${esc(usualNote(e, d))}"` : ''}>${e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ)}</div>
       <div class="date">${dayLabel(d, NZ)}</div><i class="wbr" aria-hidden="true"></i>
-      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${stamp === 'Rain affected' && e.wxNews ? `<div class="wx wxnews">🌧 ${rainWord(e.wxNews.title)} · <a href="${esc(e.wxNews.url)}" target="_blank" rel="noopener" title="${esc(e.wxNews.title)}">${esc(e.wxNews.source || (/bbc/i.test(e.wxNews.credit || '') ? 'BBC Sport' : 'NZ Herald'))} ↗</a></div>` : ''}${live && stamp === 'Rain affected' && wxNote(e, now) && !e.wxNews ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e, now))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl"><span aria-hidden="true">📺</span> ${linkWatch(tv)}</div>` : ''}
+      ${local || (cityOf(e) || e.venue ? `<div class="loc">${wikiLink(cityOf(e) || e.venue)}</div>` : '')}${tag}${play}${stamp === 'Rain affected' && e.wxNews ? `<div class="wx wxnews">🌧 ${rainWord(e.wxNews.title)} · <a href="${esc(e.wxNews.url)}" target="_blank" rel="noopener" title="${esc(e.wxNews.title)}">${esc(e.wxNews.source || (/bbc/i.test(e.wxNews.credit || '') ? 'BBC Sport' : 'NZ Herald'))} ↗</a></div>` : ''}${live && stamp === 'Rain affected' && wxNote(e, now) && !e.wxNews ? `<div class="wx" title="${esc(e.weather)}">🌧 ${esc(wxNote(e, now))}</div>` : ''}${live ? liveLink(e) : ''}${tv ? `<div class="tvl">${(h => h ? `<a class="tvw" href="${esc(h)}" target="_blank" rel="noopener" data-watch="${esc(tvName(tv, free, freeTag))}"><span aria-hidden="true">📺</span> <span class="svcn">${esc(tv)}</span></a>` : `<span aria-hidden="true">📺</span> ${linkWatch(tv)}`)(tv === free ? freeAt : freeHref(e, tv))}</div>` : ''}
     </div>
   </article>`;
 }
 // Watch services -> their sites (home pages; apps open from there)
 const SERVICES = {
-  'Sky Sport Now': 'https://www.skysportnow.co.nz', 'Sky Go': 'https://www.skygo.co.nz', 'Sky Sport': 'https://www.sky.co.nz/sport',
+  'Sky Sport Now': 'https://www.skysportnow.co.nz', 'Sky Go': 'https://www.skygo.co.nz', 'Sky Sport': 'https://www.sky.co.nz/sports',
+  'ESPN on Sky': 'https://www.sky.co.nz/sports/espn', 'Sky Arena': 'https://www.sky.co.nz/sports/sky-arena',
   'TVNZ+': 'https://www.tvnz.co.nz', 'TVNZ 1': 'https://www.tvnz.co.nz', 'ThreeNow': 'https://www.threenow.co.nz', 'Three': 'https://www.threenow.co.nz',
   'scoring.nzc.nz': 'https://scoring.nzc.nz', 'NZC YouTube': 'https://www.youtube.com/@blackcaps', 'NZC live stream': 'https://www.nzc.nz', 'nzc.nz': 'https://www.nzc.nz',
   RNZ: 'https://www.rnz.co.nz/live', DAZN: 'https://www.dazn.com', Netflix: 'https://www.netflix.com', 'ICC.tv': 'https://www.icc.tv',
@@ -2097,6 +2101,8 @@ function freeHref(e, f) {
   const m = String(f).match(SVC_RE);
   return FREE_SITE[f] || SERVICES[f] || (m ? SERVICES[m[0]] : '');
 }
+// the name a card's TV line is counted under: its free tag, else the service in it ("Sky Sport" for "Sky Sport 1")
+const tvName = (tv, free, freeTag) => tv === free ? freeTag : FREE_SITE[tv] ? tv : (String(tv).match(SVC_RE) || [tv])[0];
 const LIVE_SITE = { cricket: ['Cricinfo', 'https://www.espncricinfo.com/live-cricket-score'] };
 // what each way to watch is, for the game's pop-up: its kind, and what you need for it
 const WATCH_INFO = {
@@ -3575,7 +3581,7 @@ document.addEventListener('click', ev => {
   const sub = ev.target.closest('#calList a, #alertList a');
   if (sub) count({ e: sub.closest('#calList') ? 'cal' : 'alerts' });
   // which ways to watch people tap (the services, and the live scores link): just the service's name
-  const svc = ev.target.closest('a.svc, a.livelink, a.fta[data-watch]');
+  const svc = ev.target.closest('a.svc, a.livelink, a.fta[data-watch], a.tvw[data-watch]');
   if (svc && (svc.classList.contains('livelink') || svc.dataset.watch || SERVICES[svc.textContent.trim()])) count({ e: 'watch', k: svc.classList.contains('livelink') ? 'Live scores link' : svc.dataset.watch || svc.textContent.trim() });
   // where people go from the site: any link out, by its site's name ("youtube.com", "en.wikipedia.org")
   const out = ev.target.closest('a[href^="http"]');
