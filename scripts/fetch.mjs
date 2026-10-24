@@ -9,7 +9,7 @@
 //   data/curated/*.json        -> fixtures the above lack (boxing, some tests), news, notes
 //   data/broadcast.json        -> where-to-watch rules by competition
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
-import { wikiEvents, tsdbEvents, tsdbBackfill, tsdb, f1StartTimes, supercarsStartTimes, nbaGames, stateSquads, teamSquads } from './sources.mjs';
+import { wikiEvents, tsdbEvents, tsdbBackfill, tsdb, f1StartTimes, f1Sessions, supercarsStartTimes, nbaGames, stateSquads, teamSquads } from './sources.mjs';
 import { rankings as getRankings, KIWI_GOLF } from './rankings.mjs';
 import { execSync } from 'node:child_process';
 
@@ -627,6 +627,7 @@ let f1Cache = {};
 try { f1Cache = JSON.parse(await readFile(f1Url, 'utf8')); } catch {}
 await f1StartTimes(wiki, f1Cache, diag);
 await supercarsStartTimes(wiki, f1Cache, diag);
+try { await f1Sessions(wiki, f1Cache, diag); } catch (e) { diag.f1Sessions = 'error: ' + e.message; }
 try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(f1Url, JSON.stringify(f1Cache)); } catch {}
 // the NBA from balldontlie (free key): the games around now with the Wikipedia ones, the standings with the tables;
 // every result so far is remembered in .cache/nba.json

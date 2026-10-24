@@ -1247,6 +1247,88 @@ export async function f1StartTimes(events, cache, diag) {
   }
   diag.f1Times = [...notes, `${n} of ${races.length} races with start times, ${k} sessions coming`].join('; ');
 }
+// F1 session times: each session's order with times for the latest race weekend (the one under way, or else the last), on
+// its race as `sess`. Qualifying, the sprint and the race come from the race's Wikipedia article (its classification
+// tables, up within minutes of each); practice from TheSportsDB's write-up of the session (its full order, when it has
+// one), else the top three the article names. The article is read every run from the weekend's start until a day after
+// the race, then every 6 hours; TheSportsDB at most every half hour, while a finished practice has no order yet
+export async function f1Sessions(events, cache, diag) {
+  const now = Date.now();
+  const e = events.filter(x => x.team === 'f1' && /^f1-\d{4}-\d+$/.test(x.id) && Date.parse(x.startUTC) - 4 * DAY < now)
+    .sort((a, b) => a.startUTC.localeCompare(b.startUTC)).pop();
+  if (!e) { diag.f1Sessions = 'no weekend yet'; return; }
+  const c = cache._sess?.id === e.id ? cache._sess : (cache._sess = { id: e.id, w: 0, ts: 0, prac: {} });
+  const times = [...(cache[e.id]?.gp === e.home ? cache[e.id].sessions || [] : []), { n: 'Race', t: e.startUTC }];
+  const notes = [];
+  if (now - c.w > (now < Date.parse(e.startUTC) + DAY ? 0 : 6 * 36e5)) try {
+    const title = /wikipedia\.org\/wiki\//.test(e.link || '') ? decodeURIComponent(e.link.split('/wiki/')[1]).replace(/_/g, ' ') : `${e.startUTC.slice(0, 4)} ${e.home}`;
+    const r = await (await fetch(`https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=parse&prop=wikitext&redirects=1&page=${encodeURIComponent(title)}`, { headers: UA, signal: AbortSignal.timeout(15000) })).json();
+    if (!r.parse) throw new Error(r.error?.info || 'no article');
+    const w = r.parse.wikitext.replace(/<!--[\s\S]*?-->/g, '');
+    c.wiki = { title: r.parse.title, tables: f1Tables(w), top3: f1Top3(w) };
+    c.w = now;
+  } catch (x) { notes.push('Wikipedia: ' + x.message); }
+  const due = times.filter(s => /^Practice/.test(s.n) && Date.parse(s.t) + 36e5 < now && !c.prac[s.n]);
+  if (due.length && now - c.ts > 18e5) try {
+    c.ts = now;
+    const [, season, round] = e.id.split('-');
+    const d = await tsdb(`eventsround.php?id=4370&r=${round}&s=${season}`);
+    for (const ev of d.events || []) {
+      const n = F1_SESSION(ev.strEvent || ''), rows = [...String(ev.strResult || '').matchAll(/^\s*(\d+)\.\s+(.+?)\s+\(([^)]+)\)\s+(\S.*?)\s*$/gm)].map(m => ({ p: m[1], d: m[2], tm: m[3], t: m[4] }));
+      if (/^Practice/.test(n) && rows.length >= 3) c.prac[n] = rows;
+    }
+  } catch (x) { notes.push('TheSportsDB: ' + x.message); }
+  const W = c.wiki || {}, nz = new Set(Object.values(W.tables || {}).flat().filter(r => r.nz).map(r => r.d));
+  e.sess = times.sort((a, b) => a.t < b.t ? -1 : 1).map(({ n, t }) => {
+    const full = W.tables?.[n] || c.prac[n], rows = full || W.top3?.[n];
+    return { n, t, ...(rows ? { rows: rows.map(r => nz.has(r.d) ? { ...r, nz: true } : r), src: W.tables?.[n] || !full ? 'w' : 't' } : {}), ...(rows && !full ? { top3: true } : {}) };
+  });
+  if (W.title) e.sessPage = `https://en.wikipedia.org/wiki/${encodeURIComponent(W.title.replace(/ /g, '_'))}`;
+  diag.f1Sessions = [`${e.home}: ${e.sess.map(s => `${s.n} ${s.rows ? s.rows.length + (s.top3 ? ' (top 3)' : '') : '-'}`).join(', ')}`, ...notes].join('; ');
+}
+// a classification table's text without its markup: links to their words, templates gone ({{nowrap|x}} to x)
+const wikiPlain = s => {
+  let t = String(s).replace(/<ref[^>]*\/>|<ref[^>]*>[\s\S]*?<\/ref>/g, '').replace(/<br\s*\/?>/gi, ' ');
+  for (let i = 0; i < 4; i++) t = t.replace(/\{\{(?:nowrap|nobr|small)\|([^{}]*)\}\}/gi, '$1').replace(/\{\{(?:Tooltip|abbr)\|([^{}|]*)\|[^{}]*\}\}/gi, '$1').replace(/\{\{[^{}]*\}\}/g, '');
+  return t.replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1').replace(/'{2,}/g, '').replace(/&nbsp;/g, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+};
+// "=== Qualifying classification ===" and the like: [{ p, d (driver), tm (team), t (time), x (Q3, or points), nz }] by session
+const F1_TABLES = [[/^sprint (qualifying|shootout)$/i, 'Sprint Qualifying'], [/^sprint$/i, 'Sprint'], [/^qualifying$/i, 'Qualifying'], [/^race$/i, 'Race']];
+function f1Tables(w) {
+  const out = {};
+  for (const m of w.matchAll(/^==+\s*(.+?) classification\s*==+\s*$/gm)) {
+    const name = (F1_TABLES.find(([re]) => re.test(m[1].trim())) || [])[1], i = w.indexOf('{|', m.index), j = w.indexOf('\n|}', i);
+    if (!name || out[name] || i < 0 || j < 0 || w.slice(m.index, i).includes('\n==')) continue;
+    const quali = /qualifying/i.test(name), rows = [];
+    for (const chunk of w.slice(i, j).split(/\n\|-[^\n]*/).slice(1)) {
+      // each cell: "|style=...|3", "!1", "| align=center |62", several to a line split by || or !!
+      const raw = chunk.split('\n').filter(l => /^[!|]/.test(l)).flatMap(l => l.slice(1).split(/\|\||!!/));
+      const cells = raw.map(x => { const a = x.match(/^([^[{|]*?)\|(?!\|)/); return a && /=/.test(a[1]) ? x.slice(a[0].length) : x; });
+      const pos = wikiPlain(cells[0] || '');
+      if (!/^(\d+|Ret|NC|DSQ|DNS|DNF|DNQ|EX|WD)$/i.test(pos) || cells.length < 6) continue;
+      const nz = /\{\{flagicon\|NZL?\}\}/i.test(cells[2]), [d, team] = [wikiPlain(cells[2]), wikiPlain(cells[3]).split('-')[0].trim()];
+      if (quali) {
+        const qs = cells.slice(4, 7).map(wikiPlain), k = [2, 1, 0].find(q => /\d:\d\d\.\d/.test(qs[q] || ''));
+        rows.push({ p: pos, d, tm: team, t: k == null ? 'No time' : qs[k], x: k == null ? '' : `${name === 'Sprint Qualifying' ? 'SQ' : 'Q'}${k + 1}`, ...(nz ? { nz } : {}) });
+      } else rows.push({ p: pos, d, tm: team, t: wikiPlain(cells[5]), x: wikiPlain(cells[7] || ''), ...(nz ? { nz } : {}) });
+    }
+    if (rows.length >= 3) out[name] = rows;
+  }
+  return out;
+}
+// the practice section's "The first free practice session ... was topped by [[A]] ([[Team]]) ahead of [[B]] (...) and [[C]] (...)"
+function f1Top3(w) {
+  const i = w.search(/^==\s*(Free )?practice\s*==\s*$/im);
+  if (i < 0) return {};
+  const end = w.slice(i + 5).search(/\n==[^=]/), sec = end < 0 ? w.slice(i) : w.slice(i, i + 5 + end), out = {};
+  for (const st of sec.split(/(?<=\.)\s+(?=[A-Z])/)) {
+    const o = (st.match(/\b(first|second|third|sole|only)\b[^.]*?practice(?:\]\])? session/i) || [])[1], top = (st.match(/topped by ([\s\S]+)$/i) || [])[1];
+    if (!o || !top) continue;
+    const rows = [...top.matchAll(/\[\[(?:[^\]|]*\|)?([^\]]+)\]\]\s*\(\[\[(?:[^\]|]*\|)?([^\]]+)\]\]\)/g)].slice(0, 3).map((m, k) => ({ p: String(k + 1), d: m[1], tm: m[2], t: '' }));
+    if (rows.length) out[`Practice ${{ first: 1, sole: 1, only: 1, second: 2, third: 3 }[o.toLowerCase()]}`] = rows;
+  }
+  return out;
+}
 // a race weekend's other sessions in the same TheSportsDB round (practice, qualifying, sprints, the round's other races),
 // named by `name` (blank for the main race), within four days of the main race: [{ n: 'Qualifying', t: iso }]
 const F1_SESSION = ev => ((ev.match(/\b(Practice \d|Sprint Qualifying|Sprint Shootout|Sprint|Qualifying)\b/i) || [])[1] || '').replace(/^sprint shootout$/i, 'Sprint Qualifying');
@@ -1808,4 +1890,4 @@ export async function tsdbBackfill(all, cache, diag, max = 2) {
   return out;
 }
 export { tennisFinals as _tennisFinals, dateRange as _dateRange, TENNIS as _TENNIS };
-export { supercarsSeason as _supercarsSeason, readSquad as _readSquad, stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
+export { f1Tables as _f1Tables, f1Top3 as _f1Top3, supercarsSeason as _supercarsSeason, readSquad as _readSquad, stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };

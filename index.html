@@ -597,6 +597,7 @@ dialog#sheet::backdrop { background: rgba(10, 18, 15, .5) }
 .wkses li { display: contents }
 .wkses li.cur > span { font-weight: 600 }
 .wkses li.gone > span { color: var(--muted) }
+.sesgo { display: inline-block; margin-top: 6px; padding: 0; border: 0; background: none; color: var(--accent); font: inherit; font-size: 14px; cursor: pointer }
 .dh { font-family: var(--f-body); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-top: 4px }
 .watchlist { margin: 0; padding-left: 18px; display: grid; gap: 3px; font-size: 14px }
 .watchlist li.wopt { list-style: none; margin-left: -18px; display: grid; grid-template-columns: 7.2em minmax(0, 1fr); gap: 2px 10px; align-items: start; padding: 4px 0; border-top: 1px solid var(--line) }
@@ -776,7 +777,7 @@ html::-webkit-scrollbar-thumb:active, body::-webkit-scrollbar-thumb:active { bac
 .nzonly img { border-radius: 2px }
 .nzonly[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
 /* week strip: weekends tinted, big tournaments get a coloured bar, picked day filled */
-.day.wkses { background: color-mix(in srgb, var(--accent) 7%, var(--surface)) }
+.day.wkend { background: color-mix(in srgb, var(--accent) 7%, var(--surface)) }
 .day.big { box-shadow: inset 0 3px 0 var(--bigc) }
 .day.today.big { box-shadow: inset 0 0 0 1px var(--accent), inset 0 4px 0 var(--bigc) }
 .day.sel { border-color: var(--accent); box-shadow: inset 0 0 0 2px var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface)) }
@@ -1279,6 +1280,12 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
 /* a race weekend's session in its own colour on the title line, so practice and qualifying stand apart from the race */
 .ev .tp.ses-prac, .ev.lrow .lses.ses-prac { color: var(--ses-prac) } .ev .tp.ses-qual, .ev.lrow .lses.ses-qual { color: var(--ses-qual) }
 .ev .tp.ses-race, .ev.lrow .lses.ses-race { color: var(--ses-race) }
+/* F1's Sessions tab: each session's name in its colour, its order in a table like the golf top 10 */
+.ses-prac { color: var(--ses-prac) } .ses-qual { color: var(--ses-qual) } .ses-race { color: var(--ses-race) }
+.sesgp { margin: 4px 0 2px; font-size: 15px } .sesnote { margin: 4px 0 10px } .sescover { width: 100%; margin-bottom: 8px }
+.sesboard td.steam, .sesboard th.steam { color: var(--muted); white-space: nowrap } .sesboard th, .sesboard td.num { white-space: nowrap }
+@media (max-width: 520px) { .sesboard .steam { display: none } }
+.sesmore { display: block; margin: 6px auto 10px } .sesnext { list-style: none; margin: 0 0 10px; padding: 0; display: grid; gap: 4px }
 .ev .comp .ctitle > span { letter-spacing: .07em } /* in em on the text itself, so it shrinks with a fitted title */
 /* fitLines() measures with every title and name on one line; the names' text-wrap: balance would otherwise win */
 .fitm .ev .comp .ctitle > span, .fitm .ev .teams .nm { white-space: nowrap !important; text-wrap-mode: nowrap !important }
@@ -2681,6 +2688,32 @@ function showsHtml(list, note = true) {
   };
   return `${note ? '<p class="muted small showsnote">Panel shows, YouTube breakdowns and podcasts for the wider chat around the game.</p>' : ''}<div class="shows">${list.map(card).join('')}</div>`;
 }
+// F1's Sessions tab: the latest race weekend's sessions, the ones run (newest first) with their order and times, then
+// those to come. Each order is kept back behind Show while spoilers are on, like a result; the top 10 show, the rest
+// on a tap
+const sesAll = new Set();
+function sessionsHtml(now) {
+  const e = (FEED.events || []).filter(x => x.team === 'f1' && x.sess).sort((a, b) => a.startUTC.localeCompare(b.startUTC)).pop();
+  if (!e) return '<p class="muted">No session times yet: they come in once a race weekend starts.</p>';
+  const when = t => `${fmt(t, NZ, { weekday: 'short', day: 'numeric', month: 'short' })}, ${time(t, NZ)}`;
+  const run = e.sess.filter(s => Date.parse(s.t) <= now).reverse(), next = e.sess.filter(s => Date.parse(s.t) > now);
+  const race = n => /^(race|sprint)$/i.test(n);
+  const block = s => {
+    const t = new Date(s.t), id = `${e.id}~${s.n}`, more = s.rows && s.rows.length > 10 && !sesAll.has(id);
+    const head = `<h3 class="dh"><span class="ses-${sesKind(s.n)}">${esc(s.n)}</span> <span class="muted small dhnote">${esc(when(t))}</span></h3>`;
+    if (!s.rows) return `${head}<p class="muted small sesnote">${now - t < 3 * 36e5 ? 'On now or just finished: the' : 'The'} order goes up on Wikipedia${/^Practice/.test(s.n) ? ' and TheSportsDB' : ''} soon after.</p>`;
+    if (isHidden({ id, startUTC: s.t }, now)) return `${head}<button class="cover big sescover" type="button" data-reveal="${esc(id)}"><b>Show ${race(s.n) ? 'result' : 'times'}</b>Spoilers are hidden</button>`;
+    // the top three alone (from Wikipedia's prose) come without times, so that table has no time column
+    const timed = s.rows.some(r => r.t);
+    const rows = (more ? s.rows.slice(0, 10) : s.rows).map(r => `<tr class="${r.nz ? 'mine' : ''}"><td class="pos">${esc(r.p)}</td><td class="tn">${esc(r.d)}${r.nz ? ' <span class="muted small">NZ</span>' : ''}</td><td class="steam">${esc(r.tm)}</td>${timed ? `<td class="num">${esc(r.t)}${r.x && !race(s.n) ? ` <small class="muted">${esc(r.x)}</small>` : ''}</td>` : ''}${race(s.n) ? `<td class="num">${esc(r.x)}</td>` : ''}</tr>`).join('');
+    return `${head}<div class="stable sesboard"><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">Driver</th><th class="steam">Team</th>${timed ? `<th>${race(s.n) ? 'Time' : /^Practice/.test(s.n) ? 'Best lap' : 'Best'}</th>` : ''}${race(s.n) ? '<th>Pts</th>' : ''}</tr></thead><tbody>${rows}</tbody></table></div></div>`
+      + (more ? `<button type="button" class="chip sesmore" data-sesall="${esc(id)}">All ${s.rows.length}</button>` : '')
+      + (s.top3 ? '<p class="muted small sesnote">Just the top three for now, as Wikipedia names them: the full order follows from TheSportsDB.</p>' : '');
+  };
+  return `<p class="sesgp"><b>${esc(e.home)}</b> <span class="muted">${esc(e.round || '')}${placeOf(e) ? ` · ${esc(placeOf(e))}` : ''}</span></p>`
+    + run.map(block).join('') + (next.length ? `<h3 class="dh">Still to come</h3><ul class="sesnext">${next.map(s => `<li><span class="ses-${sesKind(s.n)}">${esc(s.n)}</span> <span class="muted">${esc(when(new Date(s.t)))}</span></li>`).join('')}</ul>` : '')
+    + `<p class="muted small">Qualifying, sprint and race orders from <a href="${esc(e.sessPage || e.source)}" target="_blank" rel="noopener">Wikipedia</a>, practice from TheSportsDB, each soon after the session. ${tzLabel()} times.</p>`;
+}
 function renderHub(now) {
   const on = !!compSel;
   $('hubSec').hidden = !on;
@@ -2690,7 +2723,7 @@ function renderHub(now) {
   const ranks = on ? hubRankings() : [];
   const squads = on ? hubSquads(now) : [], played = on && (FEED.events || []).some(e => compOf(e) === compSel && visible(e) && isDone(e, now));
   // games first, then how it stands (results, table, playoffs), then the rest
-  const tabs = on ? [['games', capW(evWords((FEED.events || []).find(e => compOf(e) === compSel)?.sport))], ...(week.length ? [['week', 'Build-up']] : []), ...(played ? [['results', 'Results']] : []), ...(hubTables().length ? [['table', 'Table']] : []), ...(BRACKETS[compSel] || SERIES_BRACKETS[compSel] || hubFinals().length ? [['playoffs', 'Playoffs']] : []), ...(squads.length ? [['squads', 'Squads']] : []), ...(ranks.length ? [['rank', 'Rankings']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
+  const tabs = on ? [['games', capW(evWords((FEED.events || []).find(e => compOf(e) === compSel)?.sport))], ...(compSel === 'Formula 1' ? [['sessions', 'Sessions']] : []), ...(week.length ? [['week', 'Build-up']] : []), ...(played ? [['results', 'Results']] : []), ...(hubTables().length ? [['table', 'Table']] : []), ...(BRACKETS[compSel] || SERIES_BRACKETS[compSel] || hubFinals().length ? [['playoffs', 'Playoffs']] : []), ...(squads.length ? [['squads', 'Squads']] : []), ...(ranks.length ? [['rank', 'Rankings']] : []), ['news', 'News'], ...(shows.length ? [['shows', 'Shows']] : [])] : [];
   if (!tabs.some(([k]) => k === hubTab)) hubTab = 'games';
   const other = on && hubTab !== 'games';
   // the Results tab is the Results section on its own (this competition's, paged, spoilers as everywhere)
@@ -2705,6 +2738,8 @@ function renderHub(now) {
   if (hubTab === 'table') {
     const ts = hubTables();
     $('hubBody').innerHTML = ts.map(tableHtml).join('') + `<p class="muted small">Standings from Wikipedia.${ts.some(t => t.rows.some(r => r.q)) ? ' Highlighted rows are in a qualifying spot.' : ''}${ts.some(t => t.rows.some(r => r.nz)) ? ' New Zealanders highlighted.' : ''}</p>`;
+  } else if (hubTab === 'sessions') {
+    $('hubBody').innerHTML = sessionsHtml(now);
   } else if (hubTab === 'playoffs') {
     $('hubBody').innerHTML = playoffsHtml(hubFinals(), now);
   } else if (hubTab === 'rank') {
@@ -2815,7 +2850,7 @@ function detail(e) {
     overseas && (!e.timeTBC || e.usual) ? ['Local', `${e.usual ? '≈' : ''}${time(d, e.tz)} ${fmt(d, e.tz, { weekday: 'long' })} in ${cityOf(e)}`] : null,
     // every session of a race weekend in NZ time: practice, qualifying, the sprint, the race
     (wk => wk.length ? [`Weekend (${tzLabel()})`, `<ol class="wkses">${wk.map(({ x, n }) => { const t = new Date(x.startUTC);
-      return `<li class="num${x.id === e.id ? ' cur' : ''}${x.session && +t + 2 * 36e5 < now ? ' gone' : ''}"><span>${fmt(t, NZ, { weekday: 'short' })} ${x.timeTBC ? 'TBC' : time(t, NZ).replace(':00', '')}</span><span>${esc(n)}</span></li>`; }).join('')}</ol>`, true] : null)(weekendOf(e)),
+      return `<li class="num${x.id === e.id ? ' cur' : ''}${x.session && +t + 2 * 36e5 < now ? ' gone' : ''}"><span>${fmt(t, NZ, { weekday: 'short' })} ${x.timeTBC ? 'TBC' : time(t, NZ).replace(':00', '')}</span><span>${esc(n)}</span></li>`; }).join('')}</ol>${wk.some(({ x }) => x.sess) ? '<button type="button" class="sesgo" data-tocomp="Formula 1" data-totab="sessions">Session times and order ›</button>' : ''}`, true] : null)(weekendOf(e)),
     ['Where', [e.venue && wikiLink(e.venue), e.city && placeLink(e, cityOf(e), [cityOf(e), ...e.city.split(',').slice(1)].join(','))].filter(Boolean).join(', ') || 'To be confirmed', true],
     e.note ? ['Note', e.note] : null,
     // the event article's opening lines (UFC); kept back while spoilers are hidden, as an intro can name the winner
@@ -3731,7 +3766,7 @@ document.addEventListener('click', ev => {
     const keys = t.dataset.gsports.split(' ').flatMap(sp => SPORT[sp] || []), on = keys.some(k => picked.has(k));
     keys.forEach(k => on ? picked.delete(k) : picked.add(k)); count({ e: on ? 'hidesport' : 'showsport', k: t.dataset.gsports.split(' ')[0] }); store.set('teams', [...picked]); render(); return;
   }
-  if (t.dataset.tocomp) { count({ e: 'use', k: 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
+  if (t.dataset.tocomp) { count({ e: 'use', k: t.dataset.totab ? 'Sessions tab from race' : 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = t.dataset.totab || 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   // a name in the hidden-sports line: its group (a sport's own, or the one holding that competition), scrolled to and lit
   if (t.dataset.hidgo) { count({ e: 'use', k: 'Hidden sports list name' }); const n = t.dataset.hidgo, gn = / sessions$/.test(n) ? 'Motorsport' : (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([, l]) => l === n)))?.g;
     const g = [...document.querySelectorAll('#teamGroups .group')].find(x => x.dataset.g === gn);
@@ -3767,6 +3802,7 @@ document.addEventListener('click', ev => {
     hubTab = 'games'; compSel = again ? '' : t.dataset.bigcomp; store.set('comp', compSel); render();
     if (!t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+  else if (t.dataset.sesall) { use('All session times'); sesAll.add(t.dataset.sesall); render(); }
   else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; if (hubTab !== 'games') count({ e: 'use', k: `Competition ${t.textContent.trim()} tab` }); render(); }
   else if (t.dataset.dtab) { if (t.dataset.dtab !== dTab) use(t.dataset.dtab === 'results' ? 'Results tab in a game' : 'Game tab in a game'); dTab = t.dataset.dtab; $('sheetBody').classList.toggle('on-results', dTab === 'results'); t.parentNode.querySelectorAll('[data-dtab]').forEach(b => b.setAttribute('aria-selected', b === t)); }
   else if (t.dataset.rank) { use('Rankings list button'); rankSel = t.dataset.rank; if ($('sheet').open && $('sheet').dataset.rankings) openRankings($('sheet').dataset.rankings); else render(); }
