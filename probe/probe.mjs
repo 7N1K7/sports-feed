@@ -1,23 +1,16 @@
-// probe 199: the live site after v477: the version, the new code on the page, flagcdn's PNG flags' edge rows, and the
-// "off in settings" note drawn (basketball picked, the NBA off as it comes), not counted as a visit
+// probe 200: the World Cup's New Zealand games on Wikipedia (kick-off times), and the live feed's times for them
 import fs from 'fs';
-import { chromium } from 'playwright';
 const L = [];
-const h = await (await fetch('https://kickoff.kiwi/?x=' + Date.now())).text();
-L.push('page: offnote=' + h.includes('id="offWeek"') + ' skygo channel=' + h.includes('skygo.co.nz/watch-tv/') + ' png flags=' + h.includes('flagcdn.com/h240/') + ' slowWhy=' + h.includes('function slowWhy') + ' v=' + (h.match(/vN?\W{0,3}(\d{3})/) || [])[1]);
-const b = await chromium.launch();
-const p = await b.newPage({ viewport: { width: 412, height: 900 } });
-await p.addInitScript(() => { localStorage.setItem('sf.nocount', 'true'); localStorage.setItem('sf.sport', '["basketball"]'); });
-await p.goto('https://kickoff.kiwi/', { waitUntil: 'load' }); await p.waitForTimeout(5000);
-L.push('note: ' + await p.evaluate(() => [...document.querySelectorAll('.offnote')].map(n => `${n.id} hidden=${n.hidden} vis=${n.style.visibility || 'shown'} "${n.textContent}" go=${n.dataset.offgo}`).join(' | ')));
-L.push('version shown: ' + await p.evaluate(() => (document.body.innerText.match(/\bv\d{3}\b/) || [''])[0]));
-// flag edges: each row of the top and bottom three rows, centre of the left third (France's blue)
-const px = await p.evaluate(async () => { const out = [];
-  for (const c of ['fr', 'in']) { const img = new Image(); img.crossOrigin = 'anonymous'; img.src = `https://flagcdn.com/h240/${c}.png`; await img.decode();
-    const cv = document.createElement('canvas'); cv.width = img.width; cv.height = img.height; const x = cv.getContext('2d'); x.drawImage(img, 0, 0);
-    const at = (px, py) => [...x.getImageData(px, py, 1, 1).data].join(','); const cx = Math.round(img.width / 6);
-    out.push(`${c} ${img.width}x${img.height} rows0-2: ${[0, 1, 2].map(y => at(cx, y)).join(' / ')} last3: ${[3, 2, 1].map(d => at(cx, img.height - d)).join(' / ')}`); }
-  return out; });
-L.push(...px);
-await b.close();
+const api = t => `https://en.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(t)}&prop=wikitext&format=json&formatversion=2&redirects=1`;
+for (const t of ["2026 Women's Rugby League World Cup", '2026 Rugby League World Cup', "2026 Women's Rugby League World Cup group stage", '2026 Rugby League World Cup group stage']) {
+  try { const j = await (await fetch(api(t), { headers: { 'user-agent': 'KickoffKiwi probe (https://kickoff.kiwi)' } })).json(); const w = j.parse?.wikitext || '';
+    L.push(`== ${t}: ${w.length} chars ${j.error ? j.error.info : ''}`);
+    // each match box naming New Zealand (or the Kiwi Ferns / Kiwis): its date, time and teams lines
+    const boxes = w.split(/\{\{\s*(?:Rugby league match|rugbyleaguebox|Rugby league box|footballbox)/i).slice(1);
+    for (const b of boxes) { const body = b.slice(0, 1500); if (!/New Zealand|NZL|Kiwi/i.test(body.slice(0, 600))) continue;
+      L.push('  ' + body.split('\n').filter(l => /^\s*\|\s*(date|time|team1|team2|home|away|stadium|location)\s*=/i.test(l)).map(l => l.trim()).join(' ')); }
+  } catch (e) { L.push(`${t} ERR ${e.message}`); }
+}
+const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
+for (const e of f.events.filter(e => /^rlwc/.test(e.id) && /New Zealand/.test(e.home + e.away))) L.push(`feed ${e.id} ${e.startUTC} src=${(e.source || '').slice(0, 70)}`);
 fs.writeFileSync(new URL('./out.txt', import.meta.url), L.join('\n') + '\n');
