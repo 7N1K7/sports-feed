@@ -368,6 +368,9 @@ body.freeon .freenote { display: inline }
 .ev .ctags .ftac { margin-left: 4px }
 .fta .fch { font-weight: 700; letter-spacing: .02em; text-transform: none } /* the channel after FREE, in its own case */
 a.fta { text-decoration: none } a.fta:hover { filter: brightness(1.15) } /* a card's FREE tag opens where it plays */
+/* a paid channel the same way, for compact cards, which have no TV line: outlined, in its own case, opening where it plays */
+.tvt { display: none; font: 700 10px/1 var(--f-body); letter-spacing: .02em; text-transform: none; color: var(--ink); border-radius: 4px; padding: 3px 5px 2px; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink) 30%, transparent); white-space: nowrap; text-decoration: none; vertical-align: 1px }
+.ev .ctags .tvt { margin-left: 4px } a.tvt:hover { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink) 60%, transparent) }
 /* "FREE TV", the words as the badge had them: off, a green outline and green words; on, filled green like the other
    buttons when they're on */
 #freeOnly { padding-inline: 8px; background: var(--surface); border-color: #2b8a3e; color: #40c057 }
@@ -1071,6 +1074,7 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .body { padding-top: 6px; padding-bottom: 6px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .comp { font-size: 12px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .summary, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .tvl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .nzl, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .loc:not(.num) { display: none }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .ctags .tvt { display: inline-block }
 /* compact cards have no label over the time: a small one before it says what the time is (first ball, lights out) */
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .nz[data-l]::before { content: attr(data-l); font: 700 9px var(--f-body); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-right: 5px; vertical-align: 3px }
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .when { padding-top: 6px; padding-bottom: 6px; gap: 0 }
@@ -1387,7 +1391,10 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 @media (max-width: 520px) { .ev.lrow .logo { width: 22px; height: 18px } .ev.lrow .logo.flagimg { width: 18px; height: 12px } .ev.lrow .logo.face { width: 18px } }
 .ev.lrow .lend { display: flex; justify-content: flex-end; align-items: center; padding-right: 5px }
 .ev.lrow .lfree { font-size: 9px; padding: 3px 4px 2px }
-.ev.lrow .ltv { font-size: 13px; opacity: .7 }
+/* the 📺 in a finger-sized box (a link to where it plays), the same box whether it links or not */
+.ev.lrow .ltv { display: grid; place-items: center; width: 30px; height: 30px; margin-right: -8px; border-radius: 6px; font-size: 13px; opacity: .7 }
+.ev.lrow a.ltv { text-decoration: none } .ev.lrow a.ltv:hover { opacity: 1; background: var(--soft) }
+.ev.lrow a.lfree { text-decoration: none }
 .ev.lrow .lnow { font: 800 10px/1 var(--f-body); letter-spacing: .06em; color: #fff; background: var(--live, #e03131); border-radius: 4px; padding: 3px 5px 2px }
 .ev.lrow .lscore { font: 700 15px/1 var(--f-display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 44px }
 .ev.lrow .lcover { font: 700 11px/1 var(--f-body); padding: 5px 6px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface2, transparent); color: inherit; cursor: pointer }
@@ -2112,13 +2119,25 @@ function listRow(e, now, isRes) {
   const d = isRes ? new Date(e.startUTC) : nextAt(e, now), hidden = isRes && isHidden(e, now);
   const live = !isRes && (e.status === 'live' || onNow(e, now));
   const free = isRes ? '' : freeTo(e), paid = !isRes && !free && (e.broadcast && e.broadcast !== 'TBC' || (e.tv || []).length);
+  // the FREE or 📺 at the row's end opens where it plays, as a card's channel does
+  const w = isRes ? {} : watchPick(e), tvAt = paid && w.tv ? freeHref(e, w.tv) : '';
   const t = isRes ? fmt(d, NZ, { weekday: 'short' }) : e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ);
   const who = solo(e) ? `<span class="lsolo">${esc(displayName(e.home, e))}${e.session ? ` <span class="lses ses-${sesKind(e.session)}">${esc(e.session)}</span>` : ''}</span>`
     : `<span class="lteams"><span class="lside home">${teamName(e.home, e.homeLogo, e)}</span><span class="lv">v</span><span class="lside away">${teamNameR(e.away, e.awayLogo, e)}</span></span>`;
   const end = isRes ? (hidden ? `<button class="lcover" type="button" data-reveal="${esc(e.id)}">Show</button>` : `<span class="lscore num" title="${esc(e.score || '')}">${esc(e.score || '–')}</span>`)
-    : live ? '<span class="lnow">ON</span>' : free ? '<span class="fta lfree">FREE</span>' : paid ? '<span class="ltv" aria-hidden="true">📺</span>' : '';
+    : live ? '<span class="lnow">ON</span>' : free ? (w.freeAt ? `<a class="fta lfree" href="${esc(w.freeAt)}" target="_blank" rel="noopener" data-watch="${esc(w.freeTag)}" title="Free on ${esc(w.free)}">FREE</a>` : '<span class="fta lfree">FREE</span>')
+    : paid ? (tvAt ? `<a class="ltv" href="${esc(tvAt)}" target="_blank" rel="noopener" data-watch="${esc(tvName(w.tv, '', ''))}" title="Watch on ${esc(w.tv)}" aria-label="Watch on ${esc(w.tv)}">📺</a>` : '<span class="ltv" aria-hidden="true">📺</span>') : '';
   return `<article class="ev lrow sport-${e.sport} ${gcls(e)}${live ? ' is-live' : ''}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div><span class="lleft"><span class="ltime num">${esc(t)}</span>${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span></span>${who}<span class="lend">${end}</span></article>`;
+}
+// the one way to watch a card shows: a free one ahead of a paid one (Three over Sky Sport 1 when both show it). The
+// free channel goes up top with the competition's tags ("FREE on Three"): short, what's in brackets dropped, and a
+// link to where it plays
+function watchPick(e) {
+  const free = freeTo(e).replace(/^free\s*(?:on|to watch on|:)?\s*/i, '').replace(/\s*\(free\)$/i, '').replace(/\s*\([^)]*$/, '');
+  const tv = free || (e.tv || []).find(x => !x.delayed && !(prelimsOnly(e) && freeCh(x.ch)))?.ch || (e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : '') || (e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt ? 'YouTube (free)' : '');
+  const freeTag = free.replace(/\s*\(.*$/, '').replace(/ live stream$/, ' stream').trim(), freeAt = free && freeHref(e, free);
+  return { free, tv: tv.trim(), freeTag, freeAt };
 }
 function evCard(e, now) {
   if (view === 'list') return listRow(e, now, false);
@@ -2143,16 +2162,14 @@ function evCard(e, now) {
   const play = fresh && (live || (paused && !/lunch|tea|drinks|innings break/i.test(e.progress || ''))) && e.progress ? `<div class="wx play">${wet ? '🌧 ' : ''}${esc(today && pd === today ? e.progress.replace(/,\s*day \d+\s*$/i, '') : e.progress)}${!e.liveScore ? '' : !spoilers ? ` · ${esc(e.liveScore)}` : revealed.has(e.id) ? ` · ${esc(e.liveScore)} · <button type="button" class="lsrev" data-rehide="${esc(e.id)}">Hide score</button>` : ` · <button type="button" class="lsrev" data-reveal="${esc(e.id)}">Show score</button>`}</div>` : '';
   const local = overseas ? `<div class="loc num">${e.timeTBC ? (e.usual ? '≈' + time(d, e.tz) + ' ' : '') : time(d, e.tz) + ' '}${fmt(d, e.tz, { weekday: 'short' })}${cityOf(e) ? ` in ${placeLink(e, cityOf(e))}` : e.venue && !/^TBC/.test(e.venue) ? ` at ${wikiLink(e.venue)}` : ''}</div>` : '';
   // a free way to watch goes on the card ahead of a paid one: Three over Sky Sport 1 when both show it
-  const free = freeTo(e).replace(/^free\s*(?:on|to watch on|:)?\s*/i, '').replace(/\s*\(free\)$/i, '').replace(/\s*\([^)]*$/, '');
-  const tv = free || (e.tv || []).find(x => !x.delayed && !(prelimsOnly(e) && freeCh(x.ch)))?.ch || (e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : '') || (e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt ? 'YouTube (free)' : '');
-  // the free channel up top with the competition's tags, on every card ("FREE on Three"): short, what's in brackets
-  // dropped, and a link to where it plays
-  const freeTag = free.replace(/\s*\(.*$/, '').replace(/ live stream$/, ' stream').trim(), freeAt = free && freeHref(e, free);
+  const { free, tv, freeTag, freeAt } = watchPick(e);
+  // the paid channel in the competition line too, for compact cards (no TV line there), so it's still a tap away
+  const tvAt = tv && !free ? freeHref(e, tv) : '', tvTag = tv && !free ? `<${tvAt ? `a href="${esc(tvAt)}" target="_blank" rel="noopener" data-watch="${esc(tvName(tv, free, freeTag))}"` : 'span'} class="tvt" title="Watch on ${esc(tv)}"><span aria-hidden="true">📺</span> ${esc(tv.trim())}</${tvAt ? 'a' : 'span'}>` : '';
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e), e.session)}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}${free ? `<${freeAt ? `a href="${esc(freeAt)}" target="_blank" rel="noopener" class="fta ftac" data-watch="${esc(freeTag)}"` : 'span class="fta ftac"'} title="Free to watch on ${esc(free)}">FREE<span class="fch"> on ${esc(freeTag)}</span></${freeAt ? 'a' : 'span'}>` : freePrelims(e) ? (h => `<${h ? `a href="${esc(h)}" target="_blank" rel="noopener" data-watch="${esc(freePrelims(e))}"` : 'span'} class="fta ftac fpre" title="The prelims are free to watch; the main card is pay-per-view">FREE PRELIMS</${h ? 'a' : 'span'}>`)(freeHref(e, freePrelims(e))) : ''}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e), e.session)}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}${free ? `<${freeAt ? `a href="${esc(freeAt)}" target="_blank" rel="noopener" class="fta ftac" data-watch="${esc(freeTag)}"` : 'span class="fta ftac"'} title="Free to watch on ${esc(free)}">FREE<span class="fch"> on ${esc(freeTag)}</span></${freeAt ? 'a' : 'span'}>` : freePrelims(e) ? (h => `<${h ? `a href="${esc(h)}" target="_blank" rel="noopener" data-watch="${esc(freePrelims(e))}"` : 'span'} class="fta ftac fpre" title="The prelims are free to watch; the main card is pay-per-view">FREE PRELIMS</${h ? 'a' : 'span'}>`)(freeHref(e, freePrelims(e))) : ''}${tvTag}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${seriesLine(e, now)}
     </div>
@@ -2166,22 +2183,22 @@ function evCard(e, now) {
 }
 // Watch services -> their sites (home pages; apps open from there)
 const SERVICES = {
-  'Sky Sport Now': 'https://www.skysportnow.co.nz', 'Sky Go': 'https://www.skygo.co.nz', 'Sky Sport': 'https://www.sky.co.nz/sports',
+  'Sky Sport Now': 'https://www.skysportnow.co.nz', 'Sky Sport': 'https://www.sky.co.nz/sports',
   'ESPN on Sky': 'https://www.sky.co.nz/sports/espn', 'Sky Arena': 'https://www.sky.co.nz/sports/sky-arena',
-  'TVNZ+': 'https://www.tvnz.co.nz', 'TVNZ 1': 'https://www.tvnz.co.nz', 'ThreeNow': 'https://www.threenow.co.nz', 'Three': 'https://www.threenow.co.nz',
+  'TVNZ+': 'https://www.tvnz.co.nz/sport', 'TVNZ 1': 'https://www.tvnz.co.nz/livetv/tvnz-1', 'ThreeNow': 'https://www.threenow.co.nz/live-tv-guide', 'Three': 'https://www.threenow.co.nz/live-tv-guide/three',
   'scoring.nzc.nz': 'https://scoring.nzc.nz', 'NZC YouTube': 'https://www.youtube.com/@blackcaps', 'NZC live stream': 'https://www.nzc.nz', 'nzc.nz': 'https://www.nzc.nz',
-  RNZ: 'https://www.rnz.co.nz/live', DAZN: 'https://www.dazn.com', Netflix: 'https://www.netflix.com', 'ICC.tv': 'https://www.icc.tv',
-  'TVNZ Duke': 'https://www.tvnz.co.nz', 'Sky Open': 'https://www.sky.co.nz/skyopen', 'UFC Fight Pass': 'https://ufcfightpass.com',
+  RNZ: 'https://www.rnz.co.nz/radio', DAZN: 'https://www.dazn.com', Netflix: 'https://www.netflix.com', 'ICC.tv': 'https://www.icc.tv',
+  'TVNZ Duke': 'https://www.tvnz.co.nz/livetv/tvnz-duke', 'Sky Open': 'https://www.threenow.co.nz/live-tv-guide/sky-open', 'Sky Go': 'https://www.skygo.co.nz/sports', 'UFC Fight Pass': 'https://ufcfightpass.com',
   // in Australia
-  Kayo: 'https://kayosports.com.au', 'Paramount+': 'https://www.paramountplus.com/au/', 'Network 10': 'https://10.com.au', '9Now': 'https://www.9now.com.au',
-  'Fox Cricket': 'https://www.foxsports.com.au/cricket', 'Channel 7': 'https://7plus.com.au', '7plus': 'https://7plus.com.au', 'Disney+': 'https://www.disneyplus.com', 'cricket.com.au': 'https://www.cricket.com.au',
+  Kayo: 'https://kayosports.com.au', 'Paramount+': 'https://www.paramountplus.com/au/', 'Network 10': 'https://10.com.au/sport', '9Now': 'https://www.9now.com.au',
+  'Fox Cricket': 'https://www.foxsports.com.au/cricket', 'Channel 7': 'https://7plus.com.au/sport', '7plus': 'https://7plus.com.au/sport', 'Disney+': 'https://www.disneyplus.com', 'cricket.com.au': 'https://www.cricket.com.au',
 };
 const SVC_RE = new RegExp(`(${Object.keys(SERVICES).sort((a, b) => b.length - a.length).map(k => k.replace(/[.+]/g, '\\$&')).join('|')})(?![\\w+])`, 'g');
 const linkWatch = t => esc(t).replace(SVC_RE, m => `<a class="svc" href="${SERVICES[m]}" target="_blank" rel="noopener">${m}</a>`);
 // where a game's free way to watch plays: its own YouTube stream, else the free channel's site (or the service named in
 // the option, "NZC YouTube")
-const FREE_SITE = { 'TVNZ 1': 'https://www.tvnz.co.nz', 'TVNZ 2': 'https://www.tvnz.co.nz', 'TVNZ DUKE': 'https://www.tvnz.co.nz', Three: 'https://www.threenow.co.nz',
-  Rush: 'https://www.threenow.co.nz', Bravo: 'https://www.threenow.co.nz', eden: 'https://www.threenow.co.nz', 'Sky Open': 'https://www.sky.co.nz/skyopen', 'Whakaata Māori': 'https://www.whakaatamaori.co.nz' };
+const FREE_SITE = { 'TVNZ 1': 'https://www.tvnz.co.nz/livetv/tvnz-1', 'TVNZ 2': 'https://www.tvnz.co.nz/livetv/tvnz-2', 'TVNZ DUKE': 'https://www.tvnz.co.nz/livetv/tvnz-duke', Three: 'https://www.threenow.co.nz/live-tv-guide/three',
+  Rush: 'https://www.threenow.co.nz/live-tv-guide/rush', Bravo: 'https://www.threenow.co.nz/live-tv-guide/bravo', eden: 'https://www.threenow.co.nz/live-tv-guide/eden', 'Sky Open': 'https://www.threenow.co.nz/live-tv-guide/sky-open', 'Whakaata Māori': 'https://www.maoriplus.co.nz/live' };
 function freeHref(e, f) {
   if (f === 'YouTube') { const ys = e.yt || []; return (ys.find(x => x.state === 'live') || ys.find(x => x.state === 'upcoming') || ys[ys.length - 1])?.url || ''; }
   const m = String(f).match(SVC_RE);
@@ -2206,11 +2223,15 @@ const WATCH_INFO = {
 const WATCH_KEYS = Object.keys(WATCH_INFO).sort((a, b) => b.length - a.length);
 // "Sky Sport / Sky Sport Now", "Radio: RNZ / Sport Nation", "Free on Three / ThreeNow": one entry each, the kind and
 // what's needed for those it knows
+// split at a slash or semicolon outside brackets: "NZC live stream (nzc.nz / YouTube)" is one way to watch
+const splitWatch = (text, at = /[\/;]/) => { const out = ['']; let depth = 0;
+  for (const ch of String(text || '')) { depth += ch === '(' ? 1 : ch === ')' && depth ? -1 : 0; if (!depth && at.test(ch)) out.push(''); else out[out.length - 1] += ch; }
+  return out.map(p => p.trim()).filter(Boolean); };
 function watchOptions(e) {
   const out = [];
   for (const text of [e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '', e.watchAlt || '']) {
     let radio = false, pre = false;
-    for (let part of text.split(/\s*(?:\/|;)\s*/)) {
+    for (let part of splitWatch(text)) {
       part = part.trim(); if (!part) continue;
       if (/^Radio:\s*/i.test(part)) { radio = true; part = part.replace(/^Radio:\s*/i, ''); }
       // "Prelims free on TVNZ+ / TVNZ Duke": the rest of that list is the prelims too
@@ -2929,7 +2950,7 @@ function detail(e) {
     ].filter(Boolean).join('')}<button type="button" class="dreport" data-report="${esc(e.id)}">Report a problem</button></div>
     <h3 class="dh">Watch in NZ</h3><ul class="watchlist">${watch}${e.coverageUTC ? `<li>Coverage from ${time(new Date(e.coverageUTC), NZ)}</li>` : ''}</ul>
     ${e.watchRule && !(e.tv || []).some(x => !x.delayed) ? `<p class="muted small wnote">Who usually shows this competition in NZ, not a listing for this ${evWord(e.sport)}: check the TV guide closer to the day.</p>` : ''}
-    ${e.watchAU ? `<h3 class="dh">In Australia</h3><ul class="watchlist au">${e.watchAU.split(/\s*\/\s*/).map(p => `<li>${linkWatch(p)}</li>`).join('')}</ul>` : ''}
+    ${e.watchAU ? `<h3 class="dh">In Australia</h3><ul class="watchlist au">${splitWatch(e.watchAU, /\//).map(p => `<li>${linkWatch(p)}</li>`).join('')}</ul>` : ''}
     ${e.buildup?.length && !isPast ? `<h3 class="dh">Fight week <span class="muted small dhnote">free on UFC's YouTube</span></h3><ul class="fweek">${buildupHtml(e)}</ul>` : ''}
     ${e.card?.length ? `<h3 class="dh">Fight card</h3>${fightCard(e, hidden)}` : ''}
     ${e.squads?.length ? `<h3 class="dh">${e.seasonSquads ? (e.sport === 'cricket' ? 'Season squads' : 'Current squads') : 'Squads'}${e.seasonSquads ? ` <span class="muted small dhnote">${e.sport === 'cricket' ? 'each XI is picked from these' : "each game's team is picked from these"}</span>` : e.squads.some(q => q.players.some(p => p.ci || p.wp)) ? ' <span class="muted small dhnote">tap a name for their profile</span>' : ''}</h3>${squadsHtml(e)}${cricinfo(e) ? `<p class="small"><a class="srclink" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Playing XIs on Cricinfo once announced ↗</a></p>` : ''}` : ''}
@@ -3758,7 +3779,7 @@ document.addEventListener('click', ev => {
   const sub = ev.target.closest('#calList a, #alertList a');
   if (sub) count({ e: sub.closest('#calList') ? 'cal' : 'alerts' });
   // which ways to watch people tap (the services, and the live scores link): just the service's name
-  const svc = ev.target.closest('a.svc, a.livelink, a.fta[data-watch], a.tvw[data-watch]');
+  const svc = ev.target.closest('a.svc, a.livelink, a.fta[data-watch], a.tvw[data-watch], a.tvt[data-watch], a.ltv[data-watch]');
   if (svc && (svc.classList.contains('livelink') || svc.dataset.watch || SERVICES[svc.textContent.trim()])) count({ e: 'watch', k: svc.classList.contains('livelink') ? 'Live scores link' : svc.dataset.watch || svc.textContent.trim() });
   // where people go from the site: any link out, by its site's name ("youtube.com", "en.wikipedia.org")
   const out = ev.target.closest('a[href^="http"]');
