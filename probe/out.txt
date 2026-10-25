@@ -1,17 +1,51 @@
-templates: {{Short description|, {{cite web |, {{Main|, {{see also|, {{cite news |, {{Cite web |, {{cite news|, {{Cite web|, {{Cite news |, {{flag|, {{OSM location map |, {{coord|, {{legend|, {{flagdeco|, {{vanchor|, {{main|, {{Round2 |, {{nowrap|, {{Flag|, {{Portal|
-44:  On 3 August 2023, the 2025 tournaments were cancelled by the sport's governing body with the announcement that a new reduced-size tournament would take place in the southern hemisphere in 2026.<ref name="26Confirmed1">{{Cite web|url=https://www.bbc.com/sport/rugby-league/66390816|title=Southern hemisphere to host 2026 World Cup|date=August 3, 2023|website=BBC Sport}}</ref><ref name="26Confirmed2"
-61: * {{FIJ}} (M, W) * {{FRA}} (M, W, WC) * {{flag|Ireland|4prov}} (WC) * {{LIB}} (M) * {{NZL}} (M, W, WC, PD) * {{PNG}} (M, W) * {{SAM}} (M, W)
-200: ! colspan=10 style="text-align: left;" | {{flagdeco|PNG}} [[Papua New Guinea]] (1) |- | {{vanchor|1|PNG Football Stadium}} || [[PNG Football Stadium]] ||  ''Santos National Football Stadium'' || [[Port Moresby]] || style="text-align: center;" | {{flagdeco|NCD}} [[National Capital District (Papua New Guinea)|NCD]] || 2 || 2 || 4 || 2 || 14,800 |- ! colspan=10 style="text-align: left;"| {{flagdeco|N
-257: |winpoints=2 |update=future |start_date=30 October 2026 |source=<ref>{{Cite web|url=https://www.intrl.sport/article/810/physical-disability-rugby-league-world-cup-to-share-stage-with-rlwc26-stars|title=Physical Disability Rugby League World Cup to share stage with RLWC26 stars|website=Rugby League International Federation|accessdate=4 September 2026}}</ref> |team1=AUS|team2=ENG|team3=NZL |win_AUS=
-260: |source=<ref>{{Cite web|url=https://www.intrl.sport/article/810/physical-disability-rugby-league-world-cup-to-share-stage-with-rlwc26-stars|title=Physical Disability Rugby League World Cup to share stage with RLWC26 stars|website=Rugby League International Federation|accessdate=4 September 2026}}</ref> |team1=AUS|team2=ENG|team3=NZL |win_AUS=0 |draw_AUS=0 |loss_AUS=0 |gf_AUS=0 |ga_AUS=0 |name_AUS=
-318: {| class="wikitable col1right col2right col3center col5right col6center col8right col9center col11right col12center " |+ Schedule of matches{{efn|The four timeslots are based on the start time on the [[Eastern states of Australia|east coast of Australia]]}} ! Date !! colspan=3 | Early Afternoon !! colspan=3 | Mid Afternoon !! colspan=3 | Late Afternoon !! colspan=3 | Evening/Night !! Venue |- | 15
-326: | 17 Oct || style="border-right: none;" | {{nowrap|{{rlw-r|PNG}}}} || style="border-left: none; border-right: none;" | W || style="border-left: none; " | {{rlw-l|FRA}} || style="border-right: none;" | {{nowrap|{{rl-rt|PNG}}}}  || style="border-left: none; border-right: none;" | M || style="border-left: none; " | {{rl|LBN}} || style="border-right: none;" |  || style="border-left: none; border-right
-334: | 24 Oct || style="border-right: none;" | {{nowrap|{{rlw-r|PNG}}}}  || style="border-left: none; border-right: none;" | W || style="border-left: none; " | {{rlw-l|FIJ}} || style="border-right: none;" | {{nowrap|{{rl-rt|PNG}}}}  || style="border-left: none; border-right: none;" | M || style="border-left: none; " | {{rl|SAM}} || style="border-right: none;" |  || style="border-left: none; border-righ
-342: | 30 Oct || style="border-right: none;" |  || style="border-left: none; border-right: none;" | {{mdash}} || style="border-left: none; " | || style="border-right: none;" |  || style="border-left: none; border-right: none;" | {{mdash}} || style="border-left: none; " | || style="border-right: none;" |  || style="border-left: none; border-right: none;" | {{mdash}} || style="border-left: none; " | || s
-344: | 30 Oct || style="border-right: none;" | {{wrl-r|IRE}} || style="border-left: none; border-right: none;" | WC || style="border-left: none; " | {{nowrap|{{wrl-l|USA}}}} || style="border-right: none;" | {{wrl-r|ENG}} || style="border-left: none; border-right: none;" | WC || style="border-left: none; " | {{wrl-l|WAL}} || style="border-right: none;" | {{rlw-r|ENG}} || style="border-left: none; border
-350: | 31 Oct || style="border-right: none;" |  || style="border-left: none; border-right: none;" | {{mdash}} || style="border-left: none; " | || style="border-right: none;" |  || style="border-left: none; border-right: none;" | {{mdash}} || style="border-left: none; " | || style="border-right: none;" |  || style="border-left: none; border-right: none;" | {{mdash}} || style="border-left: none; " | || s
-352: | 1 Nov || style="border-right: none;" |  || style="border-left: none; border-right: none;" | {{mdash}} || style="border-left: none; " | || style="border-right: none;" | {{rlw-r|AUS}} || style="border-left: none; border-right: none;" | W || style="border-left: none; " | {{rlw-l|WAL}} || style="border-right: none;" | {{rl-rt|LBN}} || style="border-left: none; border-right: none;" | M || style="bord
-354: | 2 Nov || style="border-right: none;" |  || style="border-left: none; border-right: none;" | {{mdash}} || style="border-left: none; " | || style="border-right: none;" |  || style="border-left: none; border-right: none;" | {{mdash}} || style="border-left: none; " | || style="border-right: none;" |  || style="border-left: none; border-right: none;" | {{mdash}} || style="border-left: none; " | || st
-356: | 3 Nov || style="border-right: none;" | {{wrl-r|FRA}} || style="border-left: none; border-right: none;" | WC || style="border-left: none; " | {{nowrap|{{wrl-l|NZL}}}} ||  style="border-right: none;" | {{wrl-r|AUS}} || style="border-left: none; border-right: none;" | WC || style="border-left: none; " | {{wrl-l|SCO}} ||  style="border-right: none;" | {{wrl-r|IRE}} || style="border-left: none; borde
-393: |[[Seven Network]] |{{Yes|Free-to-Air}} |All men's, women's, and wheelchair matches live.<ref name=":0" /><ref name=":1" /> |- |{{NZL}} |[[Sky Sport (New Zealand)|Sky Sport]] |{{No|Subscription}}
-links: 
+search "India A cricket team in New Zealand 2026": New Zealand cricket team in India in 2025–26 | Indian cricket team in New Zealand in 2026–27 | India national cricket team | New Zealand cricket team in England in 2026 | 2026 Men's T20 World Cup final | New Zealand national cricket team | India women's national cricket team | 2026 in New Zealand
+search "New Zealand A India A 2026 four-day": Indian cricket team in New Zealand in 2026–27 | 2026 in India | Daryl Mitchell (New Zealand cricketer) | 2026 in New Zealand | 2026 Men's T20 World Cup | 2026 Iran war fuel crisis | Four (New Zealand TV channel) | Adam Milne
+search "Indian A cricket team in New Zealand": Indian cricket team in New Zealand in 2026–27 | Indian cricket team in New Zealand in 2018–19 | Indian cricket team in New Zealand in 2019–20 | New Zealand Cricket | New Zealand cricket team in England in 2026 | New Zealand cricket team in India in 2025–26 | India national cricket team | Indian A cricket team in New Zealand in 2018–19
+-- Indian A cricket team in New Zealand in 2026–27: missing
+-- India A cricket team in New Zealand in 2026–27: missing
+-- Indian A cricket team in New Zealand in 2026: missing
+-- New Zealand A cricket team (New Zealand A cricket team): 3921 chars
+  headings: ==Season-by-season results summary== ==References==
+-- India A cricket team (India A cricket team): 14446 chars
+==Current squad==
+This is a list of players who have received an India A call-up in the last 12 months, as of 14 May 2026.
+
+Players with international caps are marked in '''bold'''.
+
+{| class="wikitable sortable"
+|-
+! Name
+! Age
+! Batting style
+! Bowling style
+! Domestic team
+! Formats
+|-
+! colspan="9" | [[Batter (cricket)|Batters]]
+|-
+|| '''[[Vaibhav Sooryavanshi]]'''|| {{age|2011|03|27}} || Left-handed ||  Slow left-arm orthodox || [[Bihar cricket team|Bihar]] || LA
+|-
+|| [[Ricky Bhui]] || {{age|1996|9|29}} || Right-handed || Right-arm [[leg spin]] || [[Andhra cricket team|Andhra]] || FC
+|-
+|| [[Abhimanyu Easwaran]] || {{age|1995|09|6}} || Right-handed ||  Right-arm [[leg spin]]|| [[Bengal cricket team|Bengal]]|| FC
+|-
+|| '''[[Ruturaj Gaikwad]]'''|| {{age|1997|01|31}} || Right-handed ||  Right-arm [[off spin]]|| [[Maharashtra cricket team|Maharashtra]]|| FC & LA
+|-
+|[[Shaik Rasheed]]
+|22
+|Right-handed
+|Right-arm [[leg spin]]
+|[[Andhra cricket team|Andhra]]
+|FC
+|-
+|| [[Baba Indrajith]] || {{age|1994|7|8}} || Right-handed || Right-arm [[leg spin]] || [[Tamil Nadu cricket team|Tamil Nadu]] || FC
+|-
+|| '''[[Yashasvi Jaiswal]]''' || {{age|2001|12|28}} || Left-handed || Right-arm [[leg spin]] || [[Mumbai cricket team|Mumbai]] || FC
+|-
+|| '''[[Sarfaraz Khan (cricketer)|Sarfaraz Khan]]''' || {{age|1997|10|22}} || Right-handed || Right-arm [[leg spin]] || [[Mumbai cricket team|Mumbai]] || FC
+|-
+|| '''[[Karun Nair]]''' || {{age|1991|12|6}} || Right-handed || Right-arm [[off spin]] || [[Vidarbha cricket team|Vidarbha]] || FC
+|-
+|| '''[[Devdutt Padikkal]]''' || {{age|2000|7|7}} || Left-handed || Right-arm [[off spin]] || [[Karnataka cricket team|Karnataka]] || FC
+|-
+|| '''[[Sai Sudharsan]]''' || {{age|2001|10|15}} || Left-handed || Right-arm [[leg spin]] || [[Tamil Nadu cricket team|Tamil
