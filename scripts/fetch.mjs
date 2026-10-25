@@ -408,12 +408,21 @@ async function readCurated() {
 // units): its latest 50 uploads, which list scheduled and live streams too, then those videos' stream times. A stream
 // counts for a game when its title names both sides and it starts on one of the game's days. Off without the
 // YOUTUBE_API_KEY secret
+// From 25 Oct 2026 the world bodies' and rights holders' channels too, which stream games free where no broadcaster has
+// them: Sports Central and Sports TV (DRM, the PCB's streaming partner for the rest of the world: Pakistan's home
+// series), Pakistan Cricket, World Rugby, FIFA, FIH and FIBA. A stream shut to NZ isn't counted (World Rugby's Nations
+// Championship games are, as Sky has them here)
 const YT_CHANNELS = [
   ['cricket', 'NZ Cricket', 'UCuKowzPg2-A0FcmyPa3yWug'], ['cricket', 'Cricket Australia', 'UC2naOExy27J5Qz3SO-w6xkQ'],
   ['netball', 'Netball NZ', 'UCBL_yvdSAenDVDAyfCQNOpQ'], ['hockey', 'Hockey NZ', 'UC3xM-N7a2Ad_WZOCcONDPmg'],
   ['basketball', 'Basketball NZ', 'UC4OycSjzkovtoJPLC3YBo2w'], ['football', 'NZ Football', 'UCOlVcyI-9J8QiPkxjKhT5zg'],
   ['league', 'NZ Rugby League', 'UCEztFfJS3r2MjXiHEdPDo9Q'],
+  ['cricket', 'Sports Central', 'UC-fzWbU1zavz77kP1gPPdSg'], ['cricket', 'Sports TV', 'UCmHCyBKDCQk5GwJB3NvTbdw'],
+  ['cricket', 'Pakistan Cricket', 'UCiWrjBhlICf_L_RK5y6Vrxw'], ['rugby', 'World Rugby', 'UCE28rwYoaV7jvU6GVzdu_GQ'],
+  ['football', 'FIFA', 'UCpcTrCXblq78GZrTUTLWeBw'], ['hockey', 'FIH', 'UCsRwclNMmdK1Kiy2O3eL6hg'], ['basketball', 'FIBA', 'UCtInrnU3QbWqFGsdKT1GZtg'],
 ];
+// streams that name both sides but aren't the game: press conferences, watch-alongs, previews and the like
+const YT_NOT_GAME = /press conference|presser|media (briefing|scrum)|watch ?-?along|reaction|preview|analysis|playing xi|\bchat\b|\bpodcast\b/i;
 // the word a title names a side by: "Central Stags" -> central, "New South Wales" -> new south wales, "NSW" too
 const ytSide = t => { const n = String(t || '').toLowerCase().replace(/\s+women('s)?$/, '').trim();
   const two = /^(new|south|western|northern|north|central|sydney|melbourne|brisbane|perth|adelaide|hobart|papua|cook)\b/.test(n);
@@ -424,15 +433,26 @@ async function youtubeStreams(events) {
   const key = process.env.YOUTUBE_API_KEY;
   if (!key) { diag.youtube = 'no key (add the YOUTUBE_API_KEY secret to switch it on)'; return; }
   const yt = async (path, q) => { const r = await fetch(`https://www.googleapis.com/youtube/v3/${path}?${q}&key=${key}`); if (!r.ok) throw new Error(`${path} ${r.status}`); return r.json(); };
+  // two requests a channel; a channel is asked again every run only from 90 minutes before one of its sport's games to
+  // half an hour after the start (when a stream goes live), otherwise every half hour (its streams kept in
+  // .cache/yt-streams.json in between), so the key's 10,000 daily units last however many runs a busy day has
+  const cacheUrl = new URL('.cache/yt-streams.json', ROOT);
+  let cache = {}; try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
   const found = [], notes = [];
   for (const [sport, ch, id] of YT_CHANNELS) {
     try {
-      const pl = await yt('playlistItems', `part=contentDetails&maxResults=50&playlistId=UU${id.slice(2)}`);
-      const ids = (pl.items || []).map(x => x.contentDetails.videoId);
-      if (!ids.length) continue;
-      const v = await yt('videos', `part=snippet,liveStreamingDetails&id=${ids.join(',')}`);
-      const streams = (v.items || []).filter(x => x.liveStreamingDetails).map(x => ({ id: x.id, title: x.snippet.title, state: x.snippet.liveBroadcastContent,
-        at: x.liveStreamingDetails.actualStartTime || x.liveStreamingDetails.scheduledStartTime || '' })).filter(x => x.at);
+      const hot = events.some(e => e.sport === sport && e.status !== 'final' && Date.parse(e.startUTC) < now + 90 * 60e3 && Date.parse(e.startUTC) > now - 30 * 60e3);
+      let streams = cache[id] && !hot && now - cache[id].t < 30 * 60e3 ? cache[id].streams : null;
+      if (!streams) {
+        const pl = await yt('playlistItems', `part=contentDetails&maxResults=50&playlistId=UU${id.slice(2)}`);
+        const ids = (pl.items || []).map(x => x.contentDetails.videoId);
+        const v = ids.length ? await yt('videos', `part=snippet,contentDetails,liveStreamingDetails&id=${ids.join(',')}`) : { items: [] };
+        // a stream shut to NZ (its region list leaves NZ out, or blocks it) is no use here
+        const shut = x => { const r = x.contentDetails?.regionRestriction; return !!r && (r.allowed ? !r.allowed.includes('NZ') : !!r.blocked?.includes('NZ')); };
+        streams = (v.items || []).filter(x => x.liveStreamingDetails && !shut(x)).map(x => ({ id: x.id, title: x.snippet.title, state: x.snippet.liveBroadcastContent,
+          at: x.liveStreamingDetails.actualStartTime || x.liveStreamingDetails.scheduledStartTime || '' })).filter(x => x.at && !YT_NOT_GAME.test(x.title));
+        cache[id] = { t: now, streams };
+      }
       notes.push(`${ch} ${streams.length}`);
       for (const st of streams) {
         const title = ` ${st.title.toLowerCase()} `, at = Date.parse(st.at);
@@ -443,7 +463,7 @@ async function youtubeStreams(events) {
           const names = t => { const k = ytSide(t); return [k, ...(YT_ALIAS[k] || []), ...(YT_ALIAS[String(t).toLowerCase()] || [])]; };
           if (![e.home, e.away].every(t => names(t).some(n => title.includes(n.endsWith(' ') ? ` ${n}` : n)))) continue;
           const women = /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'wbbl', 'blacksticksw', 'kiwiferns', 'silverferns', 'tallferns', 'anzprem'].includes(e.team);
-          if (sport === 'cricket' && WOMEN_TITLE.test(st.title) !== women) continue;
+          if ((sport === 'cricket' ? WOMEN_TITLE : /women/i).test(st.title) !== women) continue;
           (e.yt ||= []).push({ url: `https://www.youtube.com/watch?v=${st.id}`, ch, at: st.at, state: st.state });
           found.push(`${e.home} v ${e.away} (${st.state})`);
         }
@@ -451,6 +471,7 @@ async function youtubeStreams(events) {
     } catch (err) { notes.push(`${ch} error ${err.message}`); }
   }
   for (const e of events) if (e.yt) e.yt.sort((a, b) => a.at < b.at ? -1 : 1);
+  try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
   diag.youtube = `streams per channel: ${notes.join(', ')}; matched ${found.length}${found.length ? ': ' + found.slice(0, 20).join('; ') : ''}`;
 }
 // UFC's fight-week videos on its own YouTube channel, free to watch: Embedded, Countdown, the press conference, media
