@@ -1401,8 +1401,15 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
    --cw and --nw are the row's own competition and names widths, 89px the time and icon, 12px kept clear before the
    names, 75px the stripe, gaps and the TV's 50px */
 .ev.lrow .lleft { display: contents }
-@media (min-width: 700px) { .ev.lrow { container-type: inline-size; grid-template-columns: 4px auto minmax(0, 1fr) 50px }
-  .ev.lrow .lleft { display: flex; align-items: center; gap: 7px; padding-right: 12px; width: max(150px, min(max(var(--lcw, 0px), var(--cw, 0px)) + 101px, 100cqw - var(--nw, 0px) - 75px)) }
+/* the names sit in the middle of the whole row when they have the room: their cell's right padding (--lpad) mirrors
+   how much more there is left of the cell (stripe, time, icon, competition) than right of it (the TV), and a row
+   whose names need the room gives that padding up first (--lcell: the cell's width; --nw: the names', fitList) */
+.ev.lrow { container-type: inline-size; --lpad: 38px; --lcell: calc(100cqw - 160px) }
+.ev.lrow .lteams, .ev.lrow .lsolo { padding-right: clamp(0px, var(--lpad), var(--lcell) - var(--nw, 100cqw)) }
+@media (max-width: 520px) { .ev.lrow { --lpad: 22px; --lcell: calc(100cqw - 120px) } }
+@media (min-width: 700px) { .ev.lrow { grid-template-columns: 4px auto minmax(0, 1fr) 50px;
+    --lw: max(150px, min(max(var(--lcw, 0px), var(--cw, 0px)) + 101px, 100cqw - var(--nw, 0px) - 75px)); --lpad: calc(var(--lw) - 45px); --lcell: calc(100cqw - var(--lw) - 81px) }
+  .ev.lrow .lleft { display: flex; align-items: center; gap: 7px; padding-right: 12px; width: var(--lw) }
   .ev.lrow .lleft .ltime { flex: none; width: 58px } .ev.lrow .lleft .licon { flex: none }
   .ev.lrow .lcomp { display: block; flex: 1 1 0; min-width: 0; contain: inline-size } }
 .ev.lrow .ltime { font: 700 17px/1 var(--f-display); color: var(--sport); text-align: right; white-space: nowrap }
@@ -3687,14 +3694,15 @@ function render() {
     </ul></div>`;
   fitTop(); fitLines(); fitList(); syncPulse(); syncJump(); syncFold(); snapPlus(); watchChips();
 }
-// List rows on wider screens: each one's competition and names at their full widths, which the CSS uses to centre the
-// names and move them right rather than cut the competition short. Text widths don't change with the window, so this
-// runs when the rows are drawn, once the fonts are in and when the competition first shows (700px and up). Each is
+// List rows: each one's names at their full width, which the CSS uses to centre them in the row when there's room, and
+// on wider screens its competition's, so the names move right rather than cut the competition short. Text widths don't
+// change with the window, so this runs when the rows are drawn, once the fonts are in and when the competition first
+// shows (700px and up). Each is
 // measured by its text, never its box (a box the CSS has widened would feed back and push the names further each
 // time); the names' full width is their width now plus whatever each name has cut off (logos have fixed boxes)
 const textW = el => { const r = document.createRange(); r.selectNodeContents(el); return r.getBoundingClientRect().width; };
 function fitList() {
-  if (view !== 'list' || !matchMedia('(min-width: 700px)').matches) return;
+  if (view !== 'list') return;
   const rows = [...document.querySelectorAll('.ev.lrow')].filter(r => r.offsetWidth);
   const w = rows.map(r => { const c = r.querySelector('.lcomp'), t = r.querySelector('.lteams, .lsolo'), cw = c ? textW(c) : 0;
     if (!t || t.classList.contains('lsolo')) return [cw, t ? textW(t) : 0];
@@ -3703,6 +3711,7 @@ function fitList() {
     const ks = [...t.children].map(x => x.getBoundingClientRect());
     return [cw, Math.max(...ks.map(k => k.right)) - Math.min(...ks.map(k => k.left)) + cut]; });
   rows.forEach((r, i) => { r.style.setProperty('--cw', Math.ceil(w[i][0]) + 'px'); r.style.setProperty('--nw', Math.ceil(w[i][1]) + 1 + 'px'); });
+  if (!matchMedia('(min-width: 700px)').matches) return; // phones: the names' widths only (no competition column)
   // the column every row's competition gets: wide enough for 19 in 20 of all the feed's competitions (not just those
   // shown, so a filter or another day never moves the names; the longest few take more on their own rows), measured
   // in the List's own type
