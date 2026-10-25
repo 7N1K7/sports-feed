@@ -583,12 +583,19 @@ dialog#sheet::backdrop { background: rgba(10, 18, 15, .5) }
 .sheet-head .comp .tocomp .tcgo { font-size: 16px; line-height: 0; font-weight: 800 }
 .dteams { font-size: 28px; line-height: 1.1 }
 .dteams .v { color: var(--muted); font-weight: 500 }
-.dteams.scored { display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap }
-.dteams.scored .v { padding-top: .1em }
-.dteams .dside { display: inline-grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 0; min-width: 0 }
-.dteams .dside .ts { grid-column: 1 / -1; font-size: .78em; padding: 4px 0 0; justify-self: center } /* under the middle of its side's name */
+/* each side is its name (crest and all) with, once shown, its score under the middle of it. The score adds no width, so
+   showing it moves neither name nor the v: a side sits on its name's baseline, and the score's line goes underneath
+   (a score wider than its name starts under the name's start and runs on to the right) */
+.dteams .dside { display: inline-flex; flex-direction: column; max-width: 100%; vertical-align: baseline }
+/* the v goes with the first side, at the end of its name (so a long name that takes two lines on a phone keeps the v
+   beside it, not on a line of its own), and its score sits under the name alone; the second side gets a line of its own
+   when it doesn't fit (balancing the two would send the first side's v down with it); a long name balances its lines */
+.dteams .dside:first-child .ts { box-sizing: border-box; padding-right: .8em }
+.dteams:not(.solo) { text-wrap-style: auto } .dteams .dname { text-wrap-style: balance }
+.dteams .dside .ts { display: flex; flex-wrap: wrap; justify-content: safe center; width: 0; min-width: 100%; font-size: .78em; line-height: 1.15; padding: 4px 0 0 }
+.dteams .dside .ts .ov { flex-basis: 100%; display: flex; justify-content: safe center }
+.dteams .dside .ts.nos { color: var(--muted); font-weight: 600 }
 .dres .dwin { font-weight: 700; font-size: 16px; margin-top: 0 }
-@media (max-width: 560px) { .dteams.scored { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; font-size: 22px } .dteams.scored .dside { display: flex; flex-direction: column; align-items: flex-start } .dteams.scored .dside:last-child { align-items: flex-end; text-align: right } .dteams.scored .dside .ts { padding-top: 2px } }
 .sheet-head .tag { justify-self: start }
 .dres { display: grid; gap: 4px; background: var(--paper); border-radius: 10px; padding: 10px 12px }
 .dres .score { font-family: var(--f-display); font-size: 30px; font-weight: 700 }
@@ -1039,7 +1046,6 @@ dialog#reportDlg::backdrop { background: rgba(10, 18, 15, .5) }
 .sqf { font: 700 11px var(--f-body); text-transform: uppercase; letter-spacing: .04em; color: var(--muted); vertical-align: 2px }
 a.tlink { color: inherit; text-decoration: none }
 a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px }
-.dteams.scored .dside > a.tlink { display: contents }
 /* competition view, Shows tab: link cards for panel shows, YouTube channels and podcasts */
 .shows { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; margin-bottom: 12px }
 .show { display: grid; grid-template-rows: auto auto 1fr auto; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 11px 14px 12px; color: var(--ink); text-decoration: none; min-width: 0 }
@@ -2964,6 +2970,10 @@ function detail(e) {
   // revealed scores sit under each side's name (green winner, red loser); the box below says who won
   const split = isPast && !hidden && !solo(e) ? sideScores(e) : null, win = split && winnerOf(e);
   const wl = side => !win ? '' : win === 'draw' ? 'D' : win === side ? 'W' : 'L';
+  // a finished game keeps a score's room under each name, hidden or not (a dash stands in), so showing the result moves
+  // nothing in the title; a cricket score's overs go on a line of their own, kept empty when there are none
+  const ovRoom = h => e.sport === 'cricket' && !h.includes('class="ov"') ? h.replace(/<\/span>$/, '<small class="ov">&nbsp;</small></span>') : h;
+  const sideScore = (s, i) => split ? ovRoom(scoreTag(split[i], wl(s))) : isPast && !solo(e) ? ovRoom('<span class="ts nos" aria-hidden="true">–</span>') : '';
   const res = isPast ? (hidden
     ? `<button class="cover big" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>Spoilers are hidden</button>`
     : `<div class="dres">${split && e.summary ? '' : `<div class="score num ${/[a-z]{3}/i.test(e.score || '') ? 'long' : ''}">${esc(e.score || 'Result not in yet')}</div>`}${e.summary ? `<p${split ? ' class="dwin"' : ''}>${esc(e.summary)}</p>` : ''}${e.leaders?.length ? golfBoard(e) : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
@@ -2973,7 +2983,7 @@ function detail(e) {
   const live = e.status === 'live' || (e.status !== 'final' && onNow(e, now)) ? `<div class="hlive"><span class="tag live">On now</span>${liveLink(e)}</div>` : '';
   return `<div class="sheet-head sport-${e.sport}">
       <div class="comp">${toComp(e)}${sIcon(e.team === 'f1' ? 'f1' : e.sport)}${compBadge(e)}${intlTag(e)}</div>
-      ${solo(e) ? `<h2 class="dteams solo">${esc(e.home)}${placeOf(e) ? `<small>${esc(placeOf(e))}</small>` : ''}</h2>` : split ? `<h2 class="dteams scored"><span class="dside">${ciWrap(e.home, e, teamName(e.home, e.homeLogo, e))}${scoreTag(split[0], wl('home'))}</span> <span class="v">v</span> <span class="dside">${ciWrap(e.away, e, teamName(e.away, e.awayLogo, e))}${scoreTag(split[1], wl('away'))}</span></h2>` : `<h2 class="dteams">${ciWrap(e.home, e, teamName(e.home, e.homeLogo, e))} <span class="v">v</span> ${ciWrap(e.away, e, teamName(e.away, e.awayLogo, e))}</h2>`}
+      ${solo(e) ? `<h2 class="dteams solo">${esc(e.home)}${placeOf(e) ? `<small>${esc(placeOf(e))}</small>` : ''}</h2>` : `<h2 class="dteams${split ? ' scored' : ''}">${['home', 'away'].map((s, i) => `<span class="dside"><span class="dname">${ciWrap(e[s], e, teamName(e[s], e[s + 'Logo'], e))}${i ? '' : ' <span class="v">v</span>'}</span>${sideScore(s, i)}</span>`).join(' ')}</h2>`}
       ${!isPast && !live && cd ? `<span class="tag num ${nd - now < 864e5 ? 'soon' : nd - now < 3 * 864e5 ? 'near' : 'later'}">${stg ? `${esc(stageName(e, stg))} ` : ''}<span data-cd="${esc(nd.toISOString())}">${cd}</span></span>` : ''}
       ${live}
     </div>
