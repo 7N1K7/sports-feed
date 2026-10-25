@@ -1,6 +1,7 @@
-// probe 204: the India A section of the India tour page, as written (squads table and the first match)
+// probe 205: the live feed's NZ A v India A games: their squads (sides and how many players), no scores
 import fs from 'fs';
-const UA = { headers: { 'user-agent': 'KickoffKiwi probe (https://kickoff.kiwi)' } };
-const j = await (await fetch('https://en.wikipedia.org/w/api.php?action=parse&prop=wikitext&redirects=1&format=json&formatversion=2&page=' + encodeURIComponent('Indian cricket team in New Zealand in 2026–27'), UA)).json();
-const w = j.parse?.wikitext || '', i = w.search(/^==\s*India A cricket team in New Zealand/m);
-fs.writeFileSync(new URL('./out.txt', import.meta.url), w.slice(i, i + 6000).replace(/<ref[^>]*\/>|<ref[\s\S]*?<\/ref>/g, '') + '\n');
+const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
+const L = [`feed ${f.generatedAt}`];
+for (const e of f.events) if (/India A/.test(`${e.home} ${e.away}`)) L.push(`${e.id} ${e.home} v ${e.away} ${e.startUTC} squads: ${(e.squads || []).map(s => `${s.team} ${s.players.length} (${s.players.slice(0, 3).map(p => p.n).join(', ')}…)`).join(' | ') || 'none'}`);
+L.push('teamSquads India A: ' + (f.teamSquads || []).filter(s => /India A|New Zealand A/.test(s.team)).map(s => `${s.team} ${s.players?.length}`).join(', '));
+fs.writeFileSync(new URL('./out.txt', import.meta.url), L.join('\n') + '\n');
