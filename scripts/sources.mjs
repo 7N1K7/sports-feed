@@ -1300,6 +1300,7 @@ export async function f1Sessions(events, cache, diag) {
   // when each session's order first turned up from each source (UTC, to the build), for timing them
   for (const n of Object.keys(W.top3 || {})) (seen[n] ||= {}).top3 ||= stamp;
   for (const [n, rows] of Object.entries(W.tables || {})) (seen[n] ||= {}).wiki ||= `${stamp} (${rows.length})`;
+  if (e.status === 'final') (seen.Race ||= {}).card ||= stamp; // the race card's result (the season page's winner)
   diag.f1SessionsSeen = { id: e.id, wikiReads: c.wikiReads || 0, tsdbReads: c.tsdbReads || 0, lastTsdb: c.ts ? new Date(c.ts).toISOString().slice(0, 16) + 'Z' : '', seen };
 }
 // a classification table's text without its markup: links to their words, templates gone ({{nowrap|x}} to x)

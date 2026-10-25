@@ -1931,7 +1931,14 @@ const hot = feed.events.some(e => {
   const age = now - new Date(e.startUTC);
   const span = e.sport === 'cricket' && /\bTests?\b/.test(`${e.stage || ''} ${e.comp || ''}`) ? 5 * DAY : 12 * 36e5;
   return age > -90 * 6e4 && age < span;
-});
+}) || feed.events.some(e => (e.sess || []).some(s => {
+  // and while an F1 qualifying, sprint or race is over but its full order isn't on Wikipedia yet, for up to 3 hours: the
+  // race goes final (the season page names the winner) minutes after the flag, but its classification table can take
+  // an hour or two, and the half-hourly schedule would leave it off the site for up to half an hour more
+  if (/^Practice/.test(s.n) || (s.rows && !s.top3)) return false;
+  const over = now - Date.parse(s.t) - (s.n === 'Race' ? 2 : 1) * 36e5;
+  return over > 0 && over < 3 * 36e5;
+}));
 // "live": a game in its playing window right now (for a Test, the first 10 hours of each day), so refresh every 5 minutes
 const PLAY_H = { rugby: 2.5, league: 2.5, football: 2.5, hockey: 2, basketball: 2.5, netball: 1.5, mma: 6, boxing: 5, motor: 3 };
 const playing = feed.events.some(e => {
