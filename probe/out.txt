@@ -1,42 +1,16 @@
-{{Rugbybox
-|date = 24 October 2026
-|time = 18:00 [[Central Daylight Time|CDT]] ([[UTC-05]])
-|home = {{ru-rt|USA|name=United States XV}}
-|score = 
-|report = 
-|away = {{ruA|AUS}}
-|try1 = 
-|con1 = 
-|pen1 = 
-|drop1 = 
-|try2 = 
-|con2 = 
-|pen2 = 
-|drop2 = 
-|stadium = [[Geodis Park]], [[Nashville]]<ref name=USA>{{cite web|url=https://eagles.rugby/news/wxv-heads-stateside-with-tests-in-texas-tennessee-and-new-jersey-2026623|title=USA Eagles tour stateside with Tests in Texas, Tennessee and New Jersey|date=24 June 2026|access-date=24 June 2026}}</ref>
-|attendance = 
-|referee = [[Katsuki Furuse]] ([[Japan Rugby Football Union|Japan]])
-}}
-----
-{{Rugbybox
-|date = 30 October 2026
-|time = 20:00 [[Eastern Daylight Time|EDT]] ([[UTC-04]])
-|home = {{ru-rt|USA|name=United States XV}}
-|score = 
-|report = 
-|away = {{ruA|AUS}}
-|try1 = 
-|con1 = 
-|pen1 = 
-|drop1 = 
-|try2 = 
-|con2 = 
-|pen2 = 
-|drop2 = 
-|stadium = [[Sports Illustrated Stadium]], [[Harrison, New Jersey|Harrison]]<ref name="USA" />
-|attendance = 
-|referee = [[Damián Schneider]] ([[Argentine Rugby Union|Argentina]])
-}}
-----
-CONTEXT BEFORE: ] || || {{subon|60}} ⏎ |-  ⏎ |colspan=3|'''Coach:''' ⏎ |-  ⏎ |colspan="4"|{{flagdeco|RSA}} [[Jake White]] ⏎ |} ⏎ |} ⏎ {| width=100% ⏎ | ⏎ <!--'''Player of the Match:''' ⏎ <br /> ⏎ --> ⏎ '''Assistant referees:''' ⏎ <br />[[Reuben Keane]] ([[Rugby Australia|Australia]] ⏎ <br />Morgan White ([[Hong Kong China Rugby Union|Hong Kong China]]) ⏎ <br />'''Television match official:''' ⏎ <br />Glenn Newman ([[New Zealand Rugby|New Zealand]]) ⏎ <br />'''Foul play review officer:''' ⏎ <br />Matt Rodden ([[Hong Kong China Rugby Union|Hong Kong China]]) ⏎ |} ⏎ |} ⏎ '''Notes:''' ⏎ * [[Ruan Botha]], [[Chisu Lee]], [[Sanshiro Kihara]] (all Japan), [[Nacani Boginisoko]], [[Kavekini Boselawa]], [[Peni Naruma]] and [[Aporosa Vuniyayawa]] (all Fiji) made their international debuts. ⏎ ---- ⏎ {{Rugbybox ⏎ |date = 24 October 2026 ⏎ |time = 15:00 [[Central African Time|CAT]] ([[UTC+02]]) ⏎ |home = {{ru-rt|ZIM}} ⏎ |score = 36–33 ⏎ |report = ⏎ |away = {{ru|NAM}} ⏎ |try1 = [[Liam Larkan|Larkan]] 16' m<br />[[Darrel Makwasha|Makwasha]] 20' c<br />[[Aiden Burnett|Burnett]] 29' c<br />[[Godfrey Muzanargwo|Muzanargwo]] 31' c<br />[[Hilton Mudariki|Mudariki]] 59' c ⏎ |con1 = [[David Hayes (rugby union)|Hayes]] (4/5) 21', 30', 32', 60' ⏎ |pen1 = [[David Hayes (rugby union)|Hayes]] (1/1) 73' ⏎ |try2 = [[Edward Drotsky|Drotsky]] (2) 25' c, 36' c<br />[[Try (rugby)#Penalty try|Penalty try]] 55'<br />[[Armand Combrinck|Combrinck]] 69' c<br />[[Lazarus Joseph (rugby union)|Joseph]] 79' m ⏎ |con2 = [[Johann Tromp|
-ruA uses: {{ruA|SCO}} {{ruA|ENG|name=England A}} {{ruA|ARG}} {{ruA|AUS}}
+https://eagles.rugby/news/wxv-heads-stateside-with-tests-in-texas-tennessee-and-new-jersey-2026623 -> 429 https://eagles.rugby/news/wxv-heads-stateside-with-tests-in-texas-tennessee-and-new-jersey-2026623
+  
+https://eagles.rugby/schedule -> 429 https://eagles.rugby/schedule
+  
+https://eagles.rugby/news -> 429 https://eagles.rugby/news
+  
+https://www.geodisparkstadium.com/events -> 404 https://www.geodisparkstadium.com/events
+  
+https://www.sportsillustratedstadium.com/events -> 200 https://www.sportsillustratedstadium.com/events
+  OCT 24, 2026 5:30 PM
+  OCT 30, 2026 5:15 PM
+  NOV 1, 2026 5:00 PM
+  NOV 7, 2026 4:00 PM
+  NOV 14, 2026 7:30 PM
+  MAR 13, 2027 10:00 PM
+  links: Ticketing Information => https://www.ticketmaster.com/red-bull-arena-tickets-harrison/venue/1269
