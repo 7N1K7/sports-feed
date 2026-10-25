@@ -907,6 +907,14 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
 /* in order: competitions, men's or women's, card size, NZ only, Free, Rankings. Once the bar wraps (phones, small
    windows) the competition menu and men's/women's are the first line, the rest the second */
 .compbar .crow { display: contents }
+/* the "i" that says sports can be turned on or off in Settings: at the start of the sport row's second line on wide
+   screens, after men's/women's once the bar is two lines (phones, narrow windows); a tap opens a note with the way there */
+.sinfo { display: inline-grid; place-items: center; flex: none; width: 24px; height: 24px; padding: 0; border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--ink) 28%, transparent); background: none; color: var(--muted); font: italic 700 14px/1 Georgia, "Times New Roman", serif; cursor: pointer }
+.sinfo:hover, .sinfo[aria-expanded="true"] { color: var(--ink); border-color: var(--muted) }
+#sportFilter .sinfo { width: 28px; height: 28px; margin: 0 3px 6px; vertical-align: top }
+.compbar .sinfo { display: none }
+.sinfopop { position: fixed; z-index: 60; width: min(260px, calc(100vw - 16px)); padding: 12px 14px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 28px rgb(0 0 0 / .45); font: 400 14px/1.4 var(--f-body); color: var(--ink); text-align: left }
+.sinfopop p { margin: 0 0 10px } .sinfopop .btn { font-size: 13px; padding: 5px 12px }
 @media (max-width: 560px) {
   main { padding-top: 10px; gap: 12px }
   section > h2 { font-size: 19px; margin-bottom: 6px }
@@ -917,6 +925,7 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
   .compbar { gap: 6px }
   .compbar .lg { display: none } .compbar .sm { display: inline }
   .compbar .crow { flex: 0 0 100%; display: flex; justify-content: center; gap: 5px }
+  .compbar .sinfo { display: inline-grid } #sportFilter .sinfo { display: none }
   /* a narrower competition menu on phones, so its line (menu, card sizes, Free) keeps clear of the screen's edges */
   #compSel { width: 132px; font-size: 13px; padding-left: 10px; padding-right: 24px; background-position: right 14px center, right 9px center }
   .nzonly, .rankbtn { padding: 2px 8px; gap: 5px; font-size: 13px }
@@ -1254,6 +1263,7 @@ html.tight .qlist { left: 0; right: 0; width: auto }
 html.tight .compbar { gap: 6px }
 html.tight .compbar .lg { display: none } html.tight .compbar .sm { display: inline }
 html.tight .compbar .crow { flex: 0 0 100%; display: flex; justify-content: center; gap: 6px }
+html.tight .compbar .sinfo { display: inline-grid } html.tight #sportFilter .sinfo { display: none }
 html.tight .nzonly, html.tight .rankbtn { padding: 2px 8px; gap: 5px; font-size: 13px }
 html.tight .compbar .seg button { padding: 2px 7px; font-size: 13px }
 /* the sport buttons at the phones' size too, so narrowing the window only ever adds rows (full-size buttons here took
@@ -1403,8 +1413,8 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 .ev.lrow .lfree { font-size: 9px; padding: 3px 4px 2px }
 /* the 📺 in a finger-sized box (a link to where it plays), the same box whether it links or not */
 .ev.lrow .ltv { display: grid; place-items: center; width: 30px; height: 30px; margin-right: -8px; border-radius: 6px; font-size: 13px; opacity: .7 }
-.ev.lrow a.ltv { text-decoration: none } .ev.lrow a.ltv:hover { opacity: 1; background: var(--soft) }
-.ev.lrow a.lfree { text-decoration: none }
+.ev.lrow a.lend { align-self: stretch; margin: 0 -6px 0 -4px; padding-left: 4px; padding-right: 11px; text-decoration: none; color: inherit; border-radius: 0 8px 8px 0 }
+.ev.lrow a.lend:hover .ltv { opacity: 1; background: var(--soft) } .ev.lrow a.lend:hover .lfree { filter: brightness(1.15) }
 .ev.lrow .lnow { font: 800 10px/1 var(--f-body); letter-spacing: .06em; color: #fff; background: var(--live, #e03131); border-radius: 4px; padding: 3px 5px 2px }
 /* a live row keeps its way to watch: ON above the 📺 or FREE, in the same narrow end so nothing beside it moves */
 .ev.lrow .lend.lstack { flex-direction: column; justify-content: center; align-items: flex-end; gap: 2px }
@@ -1477,7 +1487,8 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 <main class="wrap">
   <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
-  <div class="compbar" id="compBar"><div class="crow"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false" title="NZ only: just New Zealand's teams" aria-label="NZ only"><img src="https://flagcdn.com/h240/nz.png" alt="" width="18" height="9"><span>NZ</span></button><button type="button" id="freeOnly" class="nzonly freeonly" aria-pressed="false" aria-label="Free to watch" title="Free to watch: only games you can watch for free (TVNZ, Three, Sky Open, DUKE, Whakaata Māori, or a free stream like TVNZ+ or YouTube)"><span class="fta" aria-hidden="true">FREE TV</span></button><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
+  <div class="compbar" id="compBar"><div class="crow"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><button type="button" class="sinfo" data-sinfo="" aria-haspopup="dialog" aria-expanded="false" aria-label="Turning sports on or off" title="Turn sports on or off in Settings">i</button></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false" title="NZ only: just New Zealand's teams" aria-label="NZ only"><img src="https://flagcdn.com/h240/nz.png" alt="" width="18" height="9"><span>NZ</span></button><button type="button" id="freeOnly" class="nzonly freeonly" aria-pressed="false" aria-label="Free to watch" title="Free to watch: only games you can watch for free (TVNZ, Three, Sky Open, DUKE, Whakaata Māori, or a free stream like TVNZ+ or YouTube)"><span class="fta" aria-hidden="true">FREE TV</span></button><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
+  <div class="sinfopop" id="sinfoPop" role="dialog" aria-label="Turning sports on or off" hidden><p>Turn sports, teams and competitions on or off in Settings.</p><button type="button" class="btn" id="sinfoGo">Open Settings</button></div>
   <section id="hubSec" hidden>
     <div class="hub">
       <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><button type="button" class="offnote" id="offHub" hidden></button><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
@@ -2133,17 +2144,19 @@ function listRow(e, now, isRes) {
   const d = isRes ? new Date(e.startUTC) : nextAt(e, now), hidden = isRes && isHidden(e, now);
   const live = !isRes && (e.status === 'live' || onNow(e, now));
   const free = isRes ? '' : freeTo(e), paid = !isRes && !free && (e.broadcast && e.broadcast !== 'TBC' || (e.tv || []).length);
-  // the FREE or 📺 at the row's end opens where it plays, as a card's channel does
+  // the FREE or 📺 at the row's end opens where it plays, as a card's channel does: the whole end of the row (ON too, on
+  // a live one) is that link, so a tap near it never opens the game instead
   const w = isRes ? {} : watchPick(e), tvAt = paid && w.tv ? freeHref(e, w.tv) : '';
-  const mark = isRes ? '' : free ? (w.freeAt ? `<a class="fta lfree" href="${esc(w.freeAt)}" target="_blank" rel="noopener" data-watch="${esc(w.freeTag)}" title="Free on ${esc(w.free)}">FREE</a>` : '<span class="fta lfree">FREE</span>')
-    : paid ? (tvAt ? `<a class="ltv" href="${esc(tvAt)}" target="_blank" rel="noopener" data-watch="${esc(tvName(w.tv, '', ''))}" title="Watch on ${esc(w.tv)}" aria-label="Watch on ${esc(w.tv)}">📺</a>` : '<span class="ltv" aria-hidden="true">📺</span>') : '';
+  const go = isRes ? '' : free ? (w.freeAt ? ` href="${esc(w.freeAt)}" target="_blank" rel="noopener" data-watch="${esc(w.freeTag)}" title="Free on ${esc(w.free)}"` : '')
+    : tvAt ? ` href="${esc(tvAt)}" target="_blank" rel="noopener" data-watch="${esc(tvName(w.tv, '', ''))}" title="Watch on ${esc(w.tv)}" aria-label="Watch on ${esc(w.tv)}"` : '';
+  const mark = isRes ? '' : free ? '<span class="fta lfree">FREE</span>' : paid ? '<span class="ltv" aria-hidden="true">📺</span>' : '';
   const t = isRes ? fmt(d, NZ, { weekday: 'short' }) : e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ);
   const who = solo(e) ? `<span class="lsolo">${esc(displayName(e.home, e))}${e.session ? ` <span class="lses ses-${sesKind(e.session)}">${esc(e.session)}</span>` : ''}</span>`
     : `<span class="lteams"><span class="lside home">${teamName(e.home, e.homeLogo, e)}</span><span class="lv">v</span><span class="lside away">${teamNameR(e.away, e.awayLogo, e)}</span></span>`;
   const end = isRes ? (hidden ? `<button class="lcover" type="button" data-reveal="${esc(e.id)}">Show</button>` : `<span class="lscore num" title="${esc(e.score || '')}">${esc(e.score || '–')}</span>`)
     : (live ? '<span class="lnow">ON</span>' : '') + mark;
   return `<article class="ev lrow sport-${e.sport} ${gcls(e)}${live ? ' is-live' : ''}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
-    <div class="stripe"></div><span class="lleft"><span class="ltime num">${esc(t)}</span>${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span></span>${who}<span class="lend${live && mark ? ' lstack' : ''}">${end}</span></article>`;
+    <div class="stripe"></div><span class="lleft"><span class="ltime num">${esc(t)}</span>${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span></span>${who}<${go ? 'a' : 'span'} class="lend${live && mark ? ' lstack' : ''}"${go}>${end}</${go ? 'a' : 'span'}></article>`;
 }
 // the one way to watch a card shows: a free one ahead of a paid one (Three over Sky Sport 1 when both show it). The
 // free channel goes up top with the competition's tags ("FREE on Three"): short, what's in brackets dropped, and a
@@ -3264,6 +3277,7 @@ const shownHTML = new WeakMap();
 const into = el => ({ set html(h) {
   if (shownHTML.get(el) === h) return;
   el.querySelectorAll(':scope > br').forEach(b => b.remove()); // the chip rows' line breaks: balanceChips puts them back
+  el.querySelectorAll(':scope > .sinfo').forEach(b => el.append(b)); // and the sport row's "i", back last as it's written
   const t = document.createElement('template'); t.innerHTML = h;
   morphKids(el, t.content); shownHTML.set(el, h);
 } });
@@ -3573,7 +3587,7 @@ function render() {
   $('rankBtn').hidden = !(FEED.rankings || []).length;
   const chips = shownSports();
   for (const k of [...sportSel]) if (!chips.some(([c]) => c === k)) sportSel.delete(k);
-  into($('sportFilter')).html = [['all','All'], ...chips].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join(' ');
+  into($('sportFilter')).html = [['all','All'], ...chips].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join(' ') + ' <button type="button" class="sinfo" data-sinfo="" aria-haspopup="dialog" aria-expanded="false" aria-label="Turning sports on or off" title="Turn sports on or off in Settings">i</button>';
   document.body.classList.remove('v-big', 'v-mixed', 'v-compact', 'v-list');
   const shownView = PHONE.matches && view === 'big' ? 'mixed' : view; // phones have no Big: it shows as Mixed there
   document.body.classList.add('v-' + shownView);
@@ -3732,15 +3746,18 @@ function markLone() {
 if (window.ResizeObserver) new ResizeObserver(markLone).observe($('teamGroups'));
 function balanceChips(box) {
   box.querySelectorAll('br').forEach(b => b.remove());
-  const cs = [...box.children], W = box.clientWidth - 1, sports = box.classList.contains('ranksports'), first = W - (sports ? 68 : 0);
+  // the sport row's "i" starts its second line (under All), with room kept for it there
+  const info = box.querySelector(':scope > .sinfo'), extra = info?.offsetWidth ? info.offsetWidth + parseFloat(getComputedStyle(info).marginLeft) + parseFloat(getComputedStyle(info).marginRight) : 0;
+  const cs = [...box.children].filter(c => c !== info), W = box.clientWidth - 1, sports = box.classList.contains('ranksports'), first = W - (sports ? 68 : 0);
   if (W < 1 || cs.length < 2) return;
   const widths = () => { const st = getComputedStyle(cs[0]), m = parseFloat(st.marginLeft) + parseFloat(st.marginRight); return cs.map(c => c.getBoundingClientRect().width + m); };
-  const lay = (ws, t) => { const rows = [[]]; let x = 0; ws.forEach((w, i) => { if (x && x + w > (rows.length === 1 ? Math.min(t, first) : t)) { rows.push([]); x = 0; } rows[rows.length - 1].push(i); x += w; }); return rows; };
+  const lay = (ws, t) => { const rows = [[]]; let x = 0; ws.forEach((w, i) => { if (x && x + w > (rows.length === 1 ? Math.min(t, first) : t)) { rows.push([]); x = rows.length === 2 ? extra : 0; } rows[rows.length - 1].push(i); x += w; }); return rows; };
   if (sports) box.classList.remove('bare');
   let ws = widths(), n = lay(ws, W).length;
   if (sports && n > 1) { box.classList.add('bare'); const bws = widths(), bn = lay(bws, W).length; if (bn < n) { ws = bws; n = bn; } else box.classList.remove('bare'); }
   let lo = 0, hi = W; while (hi - lo > 0.5) { const m = (lo + hi) / 2; lay(ws, m).length > n ? lo = m : hi = m; }
   lay(ws, hi).slice(1).forEach(r => cs[r[0]].before(document.createElement('br')));
+  if (info) (box.querySelector(':scope > br') || cs[cs.length - 1]).after(info);
 }
 // again whenever a row's width changes (a turned phone, a resized window) and once the fonts are in
 const chipRO = new ResizeObserver(es => es.forEach(e => { const w = Math.round(e.contentRect.width); if (e.target.dataset.bw != w) { e.target.dataset.bw = w; balanceChips(e.target); } }));
@@ -3842,7 +3859,7 @@ document.addEventListener('click', ev => {
   const sub = ev.target.closest('#calList a, #alertList a');
   if (sub) count({ e: sub.closest('#calList') ? 'cal' : 'alerts' });
   // which ways to watch people tap (the services, and the live scores link): just the service's name
-  const svc = ev.target.closest('a.svc, a.livelink, a.fta[data-watch], a.tvw[data-watch], a.tvt[data-watch], a.ltv[data-watch]');
+  const svc = ev.target.closest('a.svc, a.livelink, a.fta[data-watch], a.tvw[data-watch], a.tvt[data-watch], a.lend[data-watch]');
   // (a Sky Sport channel's link counts as Sky Sport's)
   if (svc && (svc.classList.contains('livelink') || svc.dataset.watch || SERVICES[svc.textContent.trim()])) count({ e: 'watch', k: svc.classList.contains('livelink') ? 'Live scores link' : (svc.dataset.watch || svc.textContent.trim()).replace(/^Sky Sport (\d|Select|Premier League)$/, 'Sky Sport') });
   // where people go from the site: any link out, by its site's name ("youtube.com", "en.wikipedia.org")
@@ -3872,6 +3889,13 @@ document.addEventListener('click', ev => {
     return;
   }
   if (t.id === 'copySettings') { count({ e: 'use', k: 'Settings code copied' }); const c = settingsCode(); (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { $('moveNote').textContent = 'Copied. Paste it into the box on the other browser, then tap "Use these settings".'; }, () => prompt('Copy this code', c)); return; }
+  // the sport row's "i": a note under it, and from there Settings at My teams
+  if (t.dataset.sinfo != null) { const pop = $('sinfoPop'), open = pop.hidden; closeSinfo(); if (!open) return;
+    use('Sports info button'); pop.hidden = false; t.setAttribute('aria-expanded', 'true'); const r = t.getBoundingClientRect();
+    pop.style.top = `${Math.round(r.bottom + 8)}px`; pop.style.left = `${Math.round(Math.min(Math.max(8, r.left + r.width / 2 - pop.offsetWidth / 2), innerWidth - pop.offsetWidth - 8))}px`; return; }
+  if (t.id === 'sinfoGo') { use('Settings from sports info'); closeSinfo(); $('panel').hidden = false; $('teamsBtn').setAttribute('aria-expanded', 'true');
+    const box = document.querySelector('.panel .pbox'), h = [...document.querySelectorAll('.panel h2.ph')].find(x => /^My teams/.test(x.textContent)) || $('hidNote');
+    box.scrollTo({ top: box.scrollTop + h.getBoundingClientRect().top - box.getBoundingClientRect().top - 12, behavior: 'smooth' }); return; }
   if (t.id === 'loadSettings') { try { useSettingsCode($('settingsCode').value); count({ e: 'use', k: 'Settings code used' }); location.reload(); } catch { $('moveNote').textContent = "That doesn't look like a settings code. Copy it again from the other browser, the whole thing."; } return; }
   if (t.dataset.install) { use('Install app button'); if (installEvt) installEvt.prompt().then(() => installEvt.userChoice).then(() => { installEvt = null; $('appInstall').innerHTML = appHtml(); }); return; }
   if (t.dataset.calcopy) { count({ e: t.closest('#alertList') ? 'alerts' : 'cal' }); const u = t.dataset.calcopy; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { const was = t.textContent; t.textContent = 'Copied'; setTimeout(() => { t.textContent = was; }, 1600); }, () => prompt('Copy this', u)); return; }
@@ -4083,7 +4107,10 @@ let lastCap = 0;
 addEventListener('resize', () => { if (lastCap && dotCap() !== lastCap) render(); else { balanceNow(); syncNowMore(); } });
 $('compMenu').addEventListener('click', ev => { const b = ev.target.closest('[data-comp]'); if (!b) return; ev.stopPropagation(); compSel = b.dataset.comp; store.set('comp', compSel); if (compSel) count({ e: 'comp', k: compSel }); else use('All competitions picked'); closeComp(); render(); });
 document.addEventListener('click', ev => { if (!ev.target.closest('.cmenu')) closeComp(); }, true);
-document.addEventListener('keydown', ev => { if (ev.key === 'Escape') { closeComp(); closeSettings(); } });
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape') { closeComp(); closeSettings(); closeSinfo(); } });
+function closeSinfo() { $('sinfoPop').hidden = true; document.querySelectorAll('.sinfo[aria-expanded="true"]').forEach(b => b.setAttribute('aria-expanded', 'false')); }
+document.addEventListener('pointerdown', ev => { if (!$('sinfoPop').hidden && !ev.target.closest('#sinfoPop, .sinfo')) closeSinfo(); });
+addEventListener('scroll', () => { if (!$('sinfoPop').hidden) closeSinfo(); }, { passive: true }); addEventListener('resize', closeSinfo);
 const closeSettings = () => { if (!$('panel').hidden) { $('panel').hidden = true; $('teamsBtn').setAttribute('aria-expanded', 'false'); } };
 document.addEventListener('pointerdown', ev => { if (!$('panel').hidden && !ev.target.closest('.pbox, #teamsBtn')) closeSettings(); });
 addEventListener('scroll', () => { $('toTop').hidden = scrollY < 700; document.querySelector('header.top').classList.toggle('scrolled', scrollY > 24); cancelAnimationFrame(jumpFrame); jumpFrame = requestAnimationFrame(syncJump); }, { passive: true });
