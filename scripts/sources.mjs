@@ -1413,11 +1413,17 @@ export async function supercarsStartTimes(events, cache, diag) {
 // Cricket tour "Squads" tables: header rows give each column's team and/or format
 // (Tests / ODIs / T20Is), the cell under it lists players. Struck-out players are left out.
 const FORMAT = s => /T20/i.test(s) ? 'T20I' : /ODI|One Day/i.test(s) ? 'ODI' : /Test/i.test(s) ? 'Test' : '';
+// every squads section on a page: the tour's own ("==Squads=="), and a side tour's in its part of the page ("===Squad==="
+// under "India A cricket team in New Zealand", with New Zealand A and India A), each to the next heading at its level
 function squadsFromPage(text) {
-  const i = text.search(/^==\s*Squads?\s*==/im);
-  if (i < 0) return [];
-  const rest = text.slice(i + 5), j = rest.search(/^==[^=]/m);
-  const sec = j < 0 ? rest : rest.slice(0, j);
+  const out = [];
+  for (const h of text.matchAll(/^(={2,4})\s*Squads?\s*\1\s*$/gim)) {
+    const rest = text.slice(h.index + h[0].length), j = rest.search(new RegExp(`^={2,${h[1].length}}[^=]`, 'm'));
+    out.push(...squadTables(j < 0 ? rest : rest.slice(0, j)));
+  }
+  return out;
+}
+function squadTables(sec) {
   const out = [];
   // footnotes like {{Efn|name=ODI4&5|Only for 4th and 5th ODIs}}, reused later as {{Efn|name=ODI4&5}}
   const notes = {};
