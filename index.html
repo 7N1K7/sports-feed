@@ -1399,6 +1399,9 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 .ev.lrow a.ltv { text-decoration: none } .ev.lrow a.ltv:hover { opacity: 1; background: var(--soft) }
 .ev.lrow a.lfree { text-decoration: none }
 .ev.lrow .lnow { font: 800 10px/1 var(--f-body); letter-spacing: .06em; color: #fff; background: var(--live, #e03131); border-radius: 4px; padding: 3px 5px 2px }
+/* a live row keeps its way to watch: ON above the 📺 or FREE, in the same narrow end so nothing beside it moves */
+.ev.lrow .lend.lstack { flex-direction: column; justify-content: center; align-items: flex-end; gap: 2px }
+.ev.lrow .lstack .lnow { font-size: 9px; padding: 2px 4px 1px } .ev.lrow .lstack .ltv { height: 18px } .ev.lrow .lstack .lfree { font-size: 8px; padding: 2px 3px 1px }
 .ev.lrow .lscore { font: 700 15px/1 var(--f-display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 44px }
 .ev.lrow .lcover { font: 700 11px/1 var(--f-body); padding: 5px 6px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface2, transparent); color: inherit; cursor: pointer }
 </style>
@@ -2124,14 +2127,15 @@ function listRow(e, now, isRes) {
   const free = isRes ? '' : freeTo(e), paid = !isRes && !free && (e.broadcast && e.broadcast !== 'TBC' || (e.tv || []).length);
   // the FREE or 📺 at the row's end opens where it plays, as a card's channel does
   const w = isRes ? {} : watchPick(e), tvAt = paid && w.tv ? freeHref(e, w.tv) : '';
+  const mark = isRes ? '' : free ? (w.freeAt ? `<a class="fta lfree" href="${esc(w.freeAt)}" target="_blank" rel="noopener" data-watch="${esc(w.freeTag)}" title="Free on ${esc(w.free)}">FREE</a>` : '<span class="fta lfree">FREE</span>')
+    : paid ? (tvAt ? `<a class="ltv" href="${esc(tvAt)}" target="_blank" rel="noopener" data-watch="${esc(tvName(w.tv, '', ''))}" title="Watch on ${esc(w.tv)}" aria-label="Watch on ${esc(w.tv)}">📺</a>` : '<span class="ltv" aria-hidden="true">📺</span>') : '';
   const t = isRes ? fmt(d, NZ, { weekday: 'short' }) : e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ);
   const who = solo(e) ? `<span class="lsolo">${esc(displayName(e.home, e))}${e.session ? ` <span class="lses ses-${sesKind(e.session)}">${esc(e.session)}</span>` : ''}</span>`
     : `<span class="lteams"><span class="lside home">${teamName(e.home, e.homeLogo, e)}</span><span class="lv">v</span><span class="lside away">${teamNameR(e.away, e.awayLogo, e)}</span></span>`;
   const end = isRes ? (hidden ? `<button class="lcover" type="button" data-reveal="${esc(e.id)}">Show</button>` : `<span class="lscore num" title="${esc(e.score || '')}">${esc(e.score || '–')}</span>`)
-    : live ? '<span class="lnow">ON</span>' : free ? (w.freeAt ? `<a class="fta lfree" href="${esc(w.freeAt)}" target="_blank" rel="noopener" data-watch="${esc(w.freeTag)}" title="Free on ${esc(w.free)}">FREE</a>` : '<span class="fta lfree">FREE</span>')
-    : paid ? (tvAt ? `<a class="ltv" href="${esc(tvAt)}" target="_blank" rel="noopener" data-watch="${esc(tvName(w.tv, '', ''))}" title="Watch on ${esc(w.tv)}" aria-label="Watch on ${esc(w.tv)}">📺</a>` : '<span class="ltv" aria-hidden="true">📺</span>') : '';
+    : (live ? '<span class="lnow">ON</span>' : '') + mark;
   return `<article class="ev lrow sport-${e.sport} ${gcls(e)}${live ? ' is-live' : ''}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
-    <div class="stripe"></div><span class="lleft"><span class="ltime num">${esc(t)}</span>${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span></span>${who}<span class="lend">${end}</span></article>`;
+    <div class="stripe"></div><span class="lleft"><span class="ltime num">${esc(t)}</span>${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span></span>${who}<span class="lend${live && mark ? ' lstack' : ''}">${end}</span></article>`;
 }
 // the one way to watch a card shows: a free one ahead of a paid one (Three over Sky Sport 1 when both show it). The
 // free channel goes up top with the competition's tags ("FREE on Three"): short, what's in brackets dropped, and a
