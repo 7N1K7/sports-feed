@@ -1,20 +1,29 @@
-// probe 190: the USA XV v Wallabies game: the live feed's entry, and anything rugby in the NZ TV guides around it
+// probe 191: every watch link the site now uses opens a real page; and how to watch the USA XV v Wallabies tests
 import fs from 'fs';
-const L = [];
-const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
-for (const e of (f.events || []).filter(x => /wallabies/.test(x.id))) L.push(JSON.stringify({ id: e.id, start: e.startUTC, b: e.broadcast, alt: e.watchAlt, note: e.watchNote, tv: e.tv, au: e.watchAU, yt: e.yt }));
-for (const url of ['https://i.mjh.nz/SkyGo/epg.xml', 'https://i.mjh.nz/nz/epg.xml']) {
-  const x = await (await fetch(url)).text();
-  const ch = Object.fromEntries([...x.matchAll(/<channel id="([^"]+)">\s*<display-name>([^<]+)/g)].map(m => [m[1], m[2]]));
-  const progs = [...x.matchAll(/<programme start="(\d{12})[^"]*"[^>]*channel="([^"]+)"[^>]*>([\s\S]*?)<\/programme>/g)];
-  L.push(`\n${url}: ${progs.length} programmes`);
-  for (const m of progs) {
-    const title = (m[3].match(/<title[^>]*>([^<]*)/) || [])[1] || '', desc = (m[3].match(/<desc[^>]*>([^<]*)/) || [])[1] || '';
-    if (/wallab|united states|usa\b|usa v|eagles/i.test(title + ' ' + desc) && /rugby|wallab|test/i.test(title + ' ' + desc) && m[1] >= '202610241800' && m[1] <= '202611010600')
-      L.push(`${m[1]} ${ch[m[2]] || m[2]} | ${title} | ${desc.slice(0, 140)}`);
-  }
-  // what the Sky Sport channels show around kick-off (23:00Z = 12pm NZ)
-  for (const m of progs) if (m[1] >= '202610242200' && m[1] <= '202610250030' && /sport|espn|three|tvnz|open|duke/i.test(ch[m[2]] || m[2])) {
-    const title = (m[3].match(/<title[^>]*>([^<]*)/) || [])[1] || ''; L.push(`  ${m[1]} ${ch[m[2]] || m[2]}: ${title}`); }
+import { chromium } from 'playwright';
+const U = ['https://www.tvnz.co.nz/sport', 'https://www.tvnz.co.nz/livetv/tvnz-1', 'https://www.tvnz.co.nz/livetv/tvnz-2', 'https://www.tvnz.co.nz/livetv/tvnz-duke',
+  'https://www.threenow.co.nz/live-tv-guide', 'https://www.threenow.co.nz/live-tv-guide/three', 'https://www.threenow.co.nz/live-tv-guide/sky-open', 'https://www.threenow.co.nz/live-tv-guide/rush',
+  'https://www.threenow.co.nz/live-tv-guide/bravo', 'https://www.threenow.co.nz/live-tv-guide/eden', 'https://www.skygo.co.nz/sports', 'https://www.rnz.co.nz/radio', 'https://www.maoriplus.co.nz/live',
+  'https://10.com.au/sport', 'https://7plus.com.au/sport'];
+const L = [], b = await chromium.launch(), ctx = await b.newContext({ locale: 'en-NZ', timezoneId: 'Pacific/Auckland' });
+for (const u of U) {
+  const p = await ctx.newPage();
+  try { const r = await p.goto(u, { waitUntil: 'domcontentloaded', timeout: 25000 }); await p.waitForTimeout(3500);
+    const t = await p.evaluate(() => [document.title, [...document.querySelectorAll('h1,h2')].map(x => x.textContent.trim()).filter(Boolean).slice(0, 2).join(' | ')]);
+    L.push(`${u} -> ${r?.status()} ${p.url()} title="${t[0].slice(0, 70)}" heads="${t[1].slice(0, 90)}"`);
+  } catch (e) { L.push(`${u} ERR ${String(e.message).split('\n')[0]}`); }
+  await p.close();
 }
+L.push('\nWALLABIES v USA XV, how to watch:');
+for (const u of ['https://www.rugby.com.au/news', 'https://www.rugby.com.au/wallabies']) {
+  const p = await ctx.newPage();
+  try { await p.goto(u, { waitUntil: 'domcontentloaded', timeout: 25000 }); await p.waitForTimeout(5000);
+    const a = await p.evaluate(() => [...new Set([...document.querySelectorAll('a[href]')].map(x => `${x.textContent.trim().replace(/\s+/g, ' ').slice(0, 90)} => ${x.href}`))].filter(s => /usa|united states|nashville|eagles|how to watch|broadcast|stan|nine/i.test(s)).slice(0, 15));
+    L.push(`${u}\n  ` + a.join('\n  '));
+    const txt = await p.evaluate(() => document.body.innerText.match(/[^\n]*(Stan|Nine|9Now|broadcast|live on)[^\n]*/gi)?.slice(0, 8) || []);
+    L.push('  text: ' + txt.join(' || ').slice(0, 600));
+  } catch (e) { L.push(`${u} ERR ${String(e.message).split('\n')[0]}`); }
+  await p.close();
+}
+await b.close();
 fs.writeFileSync(new URL('./out.txt', import.meta.url), L.join('\n') + '\n');
