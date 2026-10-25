@@ -1394,23 +1394,22 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 /* phones: the sport's colour down the side says the sport, so its icon goes, and the logos shrink, for the names' room */
 @media (max-width: 520px) { .ev.lrow { grid-template-columns: 4px 57px minmax(0, 1fr) 38px; column-gap: 5px } .ev.lrow .licon { display: none }
   .ev.lrow .ltime { font-size: 16px } .ev.lrow .lteams { column-gap: 4px } .ev.lrow .lside { gap: 4px } }
-/* the time, icon and competition sit together at the left (one grid cell each on phones). On wider screens they're a
-   column as wide on every row (--lcw: most competitions' width, fitList), and the names sit centred in the room
-   right of it, so they line up down the list and use the space by the TV. A competition longer than the column
-   takes more where the row has room; only once the names need the room is the competition cut, and the names last.
-   --cw and --nw are the row's own competition and names widths, 89px the time and icon, 12px kept clear before the
-   names, 75px the stripe, gaps and the TV's 50px */
+/* the time, icon and competition sit together at the left (one grid cell each below 700px; on wider screens a box
+   as wide as the row's own competition), and a competition is cut only once the names need the room, the names last.
+   --cw and --nw are the row's own competition and names widths (fitList), 101px the time, icon and gaps beside the
+   competition, 75px the stripe, gaps and the TV's column */
 .ev.lrow .lleft { display: contents }
-/* the names sit in the middle of the whole row when they have the room: their cell's right padding (--lpad) mirrors
-   how much more there is left of the cell (stripe, time, icon, competition) than right of it (the TV), and a row
-   whose names need the room gives that padding up first (--lcell: the cell's width; --nw: the names', fitList). On
-   wider screens most competitions are shorter than their column, so dead in the middle reads as left of centre:
-   there the padding is half the mirror, putting the names halfway between the row's middle and the room's */
-.ev.lrow { container-type: inline-size; --lpad: 38px; --lcell: calc(100cqw - 160px) }
-.ev.lrow .lteams, .ev.lrow .lsolo { padding-right: clamp(0px, var(--lpad), var(--lcell) - var(--nw, 100cqw)) }
-@media (max-width: 520px) { .ev.lrow { --lpad: 22px; --lcell: calc(100cqw - 120px) } }
+/* the names sit midway between the left's ink (the time or icon, or on wider screens where a typical competition
+   ends: --lcw) and the TV's (20px in from the row's end), so the gaps either side look even. It's the same spot on
+   every row, so they line up down the list, unless a row's own long competition or long names need them to give
+   way. --li is the left's ink end and --cl, --cr the names' cell's edges, so --ls is twice how far right of the
+   cell's middle that spot is, taken as padding on the side it pushes from, as far as the names have room (--lroom) */
+.ev.lrow { container-type: inline-size; --li: 92px; --cl: 99px; --cr: 55px;
+  --ls: calc(var(--li) - 20px - var(--cl) + var(--cr)); --lroom: calc(100cqw - var(--cl) - var(--cr) - var(--nw, 100cqw)) }
+.ev.lrow .lteams, .ev.lrow .lsolo { padding-left: clamp(0px, var(--ls), var(--lroom)); padding-right: clamp(0px, -1 * var(--ls), var(--lroom)) }
+@media (max-width: 520px) { .ev.lrow { --li: 66px; --cl: 71px; --cr: 43px } }
 @media (min-width: 700px) { .ev.lrow { grid-template-columns: 4px auto minmax(0, 1fr) 50px;
-    --lw: max(150px, min(max(var(--lcw, 0px), var(--cw, 0px)) + 101px, 100cqw - var(--nw, 0px) - 75px)); --lpad: calc((var(--lw) - 45px) / 2); --lcell: calc(100cqw - var(--lw) - 81px) }
+    --lw: max(150px, min(var(--cw, 0px) + 101px, 100cqw - var(--nw, 0px) - 75px)); --li: calc(99px + var(--lcw, 0px)); --cl: calc(var(--lw) + 18px); --cr: 57px }
   .ev.lrow .lleft { display: flex; align-items: center; gap: 7px; padding-right: 12px; width: var(--lw) }
   .ev.lrow .lleft .ltime { flex: none; width: 58px } .ev.lrow .lleft .licon { flex: none }
   .ev.lrow .lcomp { display: block; flex: 1 1 0; min-width: 0; contain: inline-size } }
@@ -3714,9 +3713,8 @@ function fitList() {
     return [cw, Math.max(...ks.map(k => k.right)) - Math.min(...ks.map(k => k.left)) + cut]; });
   rows.forEach((r, i) => { r.style.setProperty('--cw', Math.ceil(w[i][0]) + 'px'); r.style.setProperty('--nw', Math.ceil(w[i][1]) + 1 + 'px'); });
   if (!matchMedia('(min-width: 700px)').matches) return; // phones: the names' widths only (no competition column)
-  // the column every row's competition gets: wide enough for 19 in 20 of all the feed's competitions (not just those
-  // shown, so a filter or another day never moves the names; the longest few take more on their own rows), measured
-  // in the List's own type
+  // where a typical competition ends, which the names are centred from: the median width of all the feed's
+  // competitions (not just those shown, so a filter or another day never moves the names), in the List's own type
   const c = rows[0]?.querySelector('.lcomp');
   if (!c) return;
   const cs = getComputedStyle(c), key = `${cs.font}|${(FEED.events || []).length}|${FEED.generatedAt}`;
@@ -3724,7 +3722,7 @@ function fitList() {
   const ctx = document.createElement('canvas').getContext('2d'), ls = parseFloat(cs.letterSpacing) || 0;
   ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
   const ws = (FEED.events || []).map(e => { const t = cardComp(e).toUpperCase(); return ctx.measureText(t).width + ls * t.length; }).sort((a, b) => a - b);
-  lcwKey = key; document.documentElement.style.setProperty('--lcw', Math.ceil(ws[Math.floor(.95 * (ws.length - 1))] || 0) + 'px');
+  lcwKey = key; document.documentElement.style.setProperty('--lcw', Math.ceil(ws[Math.floor(.5 * (ws.length - 1))] || 0) + 'px');
 }
 let lcwKey = '';
 matchMedia('(min-width: 700px)').addEventListener?.('change', fitList);
