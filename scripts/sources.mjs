@@ -99,6 +99,8 @@ function teamOf(v) {
     let name = (p.named.name || p.pos[0] || '').replace(/-h$/i, '');
     name = (nm.startsWith('cr-aus') && AU_STATES[name.toUpperCase()]) || CODES[name.toUpperCase()] || name.replace(/_/g, ' ');
     const women = /^(ruw|rlw|crw|fbw|fhw|wrl?w|bkw)/.test(nm) || /women/i.test(nm);
+    // {{ruA|AUS}} is the country's A side (Australia A), not its test team; with its own name= it says which
+    if (/^rua(-rt|-lt)?$/.test(nm) && !p.named.name && name && !/\d{4}/.test(name)) name += ' A';
     if (name && !/\d{4}/.test(name)) return clean(name) + (women && !/Women/.test(name) ? ' Women' : '');
   }
   return clean(raw).replace(/\s*\((H|A|N)\)\s*$/i, '').trim();

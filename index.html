@@ -1340,7 +1340,8 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
 .matchup .v.vhow { position: relative }
 .matchup .vhow small { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) }
 /* On a standard-resolution screen a 1px outline's rounded ends blur thinner than its straight edges, so there the pill
-   buttons' outlines are 2px, drawn as one stroke over the border box (the border itself is hidden behind a clear
+   buttons' outlines are 2px (3px at the ends, where a curve's soft edge reads lighter than a straight one: the
+   curve then looks as solid as the top and bottom), drawn as one stroke over the border box (the border itself is hidden behind a clear
    border image, so its colour still follows hover and pressed states). Nothing changes size. (Last in the sheet, so it wins over the buttons' own rules.) Pills that clip their
    insides get a real 2px border: the competition menus with 1px less room inside, the segmented switches 1px
    further out (a -1px margin keeps their place). */
@@ -1348,10 +1349,11 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
   :where(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide) { position: relative }
   :is(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide) { border-image: linear-gradient(transparent, transparent) 1 }
   :is(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide)::after {
-    content: ""; position: absolute; inset: -1px; border: 2px solid; border-color: inherit; border-radius: inherit; pointer-events: none }
+    content: ""; position: absolute; inset: -1px; border: 2px solid; border-width: 2px 3px; border-color: inherit; border-radius: inherit; pointer-events: none }
   .nowchip .livedot { z-index: 1 }
-  .seg { border-width: 2px; margin: -1px }
-  .dsel .dbtn { border-width: 2px; padding-block: 3px } #compSel { border-width: 2px; padding-block: 1px }
+  .seg { border-width: 2px 3px; margin: -1px -2px }
+  .dsel .dbtn { border-width: 2px; padding-block: 3px } #compSel { border-width: 2px 3px; padding: 1px 25px 1px 11px; background-position: right 13px center, right 8px center }
+  @media (max-width: 560px) { #compSel { padding-left: 9px; padding-right: 23px } }
 }
 /* List: a game a line, for busy days */
 body.v-list .daygroup, body.v-list #upcoming, body.v-list #later, body.v-list .donetoday, body.v-list #soon { gap: 4px }
@@ -1363,14 +1365,15 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 /* phones: the sport's colour down the side says the sport, so its icon goes, and the logos shrink, for the names' room */
 @media (max-width: 520px) { .ev.lrow { grid-template-columns: 4px 57px minmax(0, 1fr) 38px; column-gap: 5px } .ev.lrow .licon { display: none }
   .ev.lrow .ltime { font-size: 16px } .ev.lrow .lteams { column-gap: 4px } .ev.lrow .lside { gap: 4px } }
-/* the time, icon and competition sit together at the left (one grid cell each on phones); on wider screens the names
-   are centred on the row itself, the two sides an equal width either side of them. Where the competition needs more
-   than its half, the names move right into the room on the other side rather than cut it short; only once that room
-   is used up is the competition cut, and the names last. --cw and --nw are the competition's and the names' full
-   widths (fitList), 89px the time and icon, 76px the stripe, gaps and the least the right side keeps (50px) */
+/* the time, icon and competition sit together at the left (one grid cell each on phones). On wider screens they're a
+   column as wide on every row (--lcw: most competitions' width, fitList), and the names sit centred in the room
+   right of it, so they line up down the list and use the space by the TV. A competition longer than the column
+   takes more where the row has room; only once the names need the room is the competition cut, and the names last.
+   --cw and --nw are the row's own competition and names widths, 89px the time and icon, 12px kept clear before the
+   names, 75px the stripe, gaps and the TV's 50px */
 .ev.lrow .lleft { display: contents }
-@media (min-width: 700px) { .ev.lrow { container-type: inline-size; grid-template-columns: 4px minmax(min-content, 1fr) minmax(0, max-content) minmax(50px, 1fr) }
-  .ev.lrow .lleft { display: flex; align-items: center; gap: 7px; min-width: max(150px, min(var(--cw, 0px) + 89px, 100cqw - var(--nw, 0px) - 76px)) }
+@media (min-width: 700px) { .ev.lrow { container-type: inline-size; grid-template-columns: 4px auto minmax(0, 1fr) 50px }
+  .ev.lrow .lleft { display: flex; align-items: center; gap: 7px; padding-right: 12px; width: max(150px, min(max(var(--lcw, 0px), var(--cw, 0px)) + 101px, 100cqw - var(--nw, 0px) - 75px)) }
   .ev.lrow .lleft .ltime { flex: none; width: 58px } .ev.lrow .lleft .licon { flex: none }
   .ev.lrow .lcomp { display: block; flex: 1 1 0; min-width: 0; contain: inline-size } }
 .ev.lrow .ltime { font: 700 17px/1 var(--f-display); color: var(--sport); text-align: right; white-space: nowrap }
@@ -3609,10 +3612,23 @@ function fitList() {
   const w = rows.map(r => { const c = r.querySelector('.lcomp'), t = r.querySelector('.lteams, .lsolo'), cw = c ? textW(c) : 0;
     if (!t || t.classList.contains('lsolo')) return [cw, t ? textW(t) : 0];
     const cut = [...t.querySelectorAll('.nm')].reduce((a, x) => a + Math.max(0, textW(x) - x.clientWidth), 0);
-    return [cw, t.getBoundingClientRect().width + cut]; });
-  // the competition's width with 12px more, so it never runs right up to the names
-  rows.forEach((r, i) => { r.style.setProperty('--cw', Math.ceil(w[i][0]) + 12 + 'px'); r.style.setProperty('--nw', Math.ceil(w[i][1]) + 1 + 'px'); });
+    // the names' own width (their cell is wider: the room they're centred in), with any part cut short
+    const ks = [...t.children].map(x => x.getBoundingClientRect());
+    return [cw, Math.max(...ks.map(k => k.right)) - Math.min(...ks.map(k => k.left)) + cut]; });
+  rows.forEach((r, i) => { r.style.setProperty('--cw', Math.ceil(w[i][0]) + 'px'); r.style.setProperty('--nw', Math.ceil(w[i][1]) + 1 + 'px'); });
+  // the column every row's competition gets: wide enough for 19 in 20 of all the feed's competitions (not just those
+  // shown, so a filter or another day never moves the names; the longest few take more on their own rows), measured
+  // in the List's own type
+  const c = rows[0]?.querySelector('.lcomp');
+  if (!c) return;
+  const cs = getComputedStyle(c), key = `${cs.font}|${(FEED.events || []).length}|${FEED.generatedAt}`;
+  if (key === lcwKey) return;
+  const ctx = document.createElement('canvas').getContext('2d'), ls = parseFloat(cs.letterSpacing) || 0;
+  ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+  const ws = (FEED.events || []).map(e => { const t = cardComp(e).toUpperCase(); return ctx.measureText(t).width + ls * t.length; }).sort((a, b) => a - b);
+  lcwKey = key; document.documentElement.style.setProperty('--lcw', Math.ceil(ws[Math.floor(.95 * (ws.length - 1))] || 0) + 'px');
 }
+let lcwKey = '';
 matchMedia('(min-width: 700px)').addEventListener?.('change', fitList);
 // The week strip's "+": about 6px across with bars about 1.5px thick, both a whole number of screen pixels, and the
 // bars' offset from the corner whole too (the same odd/even for length and thickness keeps them dead centre)
@@ -4002,7 +4018,7 @@ function fitLines() {
 }
 let fitFrame = 0;
 addEventListener('resize', () => { cancelAnimationFrame(fitFrame); fitFrame = requestAnimationFrame(fitLines); });
-document.fonts?.ready.then(() => { fitLines(); fitList(); });
+document.fonts?.ready.then(() => { fitLines(); lcwKey = ''; fitList(); });
 // the series chips were balanced before the web font arrived (wider or narrower chips): balance them again
 document.fonts?.ready.then(() => { balanceNow(); syncNowMore(); });
 // dots that fill exactly two rows of a day in the week strip (7px dots, 3px apart), measured from the strip itself, so
