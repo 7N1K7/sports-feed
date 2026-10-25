@@ -1,61 +1,7 @@
-
-== cricket
-@sportscentralofficial: Sports Central by DRM UC-fzWbU1zavz77kP1gPPdSg subs 6780000 US | streams in 60 days 5 (2h+ long 2, shut to NZ 0) | [live] Live | Pakistan vs England | Match 4 | Pakistan ODI Tri-Series 2026 |  ; [none] LIVE | Pakistan U17 vs Sri Lanka U17 | Youth One-Day - Match 5 | MZR1J ; [live] RELIVE | Toronto Sixers VS Montreal Royal Tigers | Match 2 | Canada Su
-@drmsportstvnetwork: Sports TV UCmHCyBKDCQk5GwJB3NvTbdw subs 2480000 US | streams in 60 days 5 (2h+ long 2, shut to NZ 0) | [live] Live | Pakistan vs England | Match 4 | Pakistan ODI Tri-Series 2026 |  ; [none] LIVE | Pakistan U17 vs Sri Lanka U17 | Youth One-Day - Match 5 | MZR1J ; [live] RELIVE | Toronto Sixers VS Montreal Royal Tigers | Match 2 | Canada Su
-@pakistancricket: Pakistan Cricket  UCiWrjBhlICf_L_RK5y6Vrxw subs 6460000 PK | streams in 60 days 5 (2h+ long 3, shut to NZ 0) | [none] LIVE | Pakistan U17 vs Sri Lanka U17 | Youth One-Day - Match 5 | MZR1J ; [none] LIVE | Bahawalpur Region vs Karachi Region Blues | National U19 Cup ON ; [none] LIVE | Sialkot Region Whites vs Rawalpindi Region | National U19 Cup O
-@ptvsportsofficialpk: PTV SPORTS OFFICIAL UCnoH_iEE4tgVznLT97Kb7ig subs 234000 PK | streams in 60 days 3 (2h+ long 1, shut to NZ 0) | [live] LIVE: Pakistan vs England | ODI Tri-Series | Gaddafi Stadium, Lahore ; [none] LIVE: Pakistan Test Squad for Sri Lanka Announced — Imam, Rizwan, Shan ; [none] 🔴 LIVE: England vs Sri Lanka ODI | Tri-Series | Rawalpindi Cricket St
-@OfficialSLC: lplt10  UCcSoPkaxPAGPdEqrA_LZ68w subs 64 ? | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-@SriLankaCricket: Sri Lanka Cricket UCJA-NQ4MtcRIog66wziD8fA subs 5780000 LK | streams in 60 days 17 (2h+ long 15, shut to NZ 15) | [none] 🔴 LIVE - Media Briefing | Sri Lanka Cricket Transformation Committee ; [none] 💥LIVE | Final - SSC vs Tamil Union C & AC | Major Club T20 Tournament ; [none] 💥LIVE | Tamil Union C & AC vs CCC | Major Club T20 Tournament 2026
-@windiescricket: Windies Cricket UC2MHTOXktfTK26aDKyQs3cQ subs 4460000 AG | streams in 60 days 3 (2h+ long 3, shut to NZ 3) | [none] 🔴 LIVE : Toronto Kings v Vancouver Guardians | NCL GT20 In The West I ; [none] 🔴 LIVE : Mississauga Skyhawks v Montreal Warriors | NCL GT20 In The W ; [none] 🔴 LIVE : Brampton Blazers vs Toronto Kings | NCL GT20 In The West Ind
-@CricketWestIndies: Cricket West Indies UCd0kyhk2ukfut50nnDY_AkQ subs 6 ? | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-@ZimbabweCricket: no channel
-@zimcricketofficial: no channel
-@cricketireland: CricketIreland UCxW_kE15S9x9q-mCkmUG4FQ subs 97 ? | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-@CricketScotland: no channel
-@ICC: ICC UCt2JXOLNxqry7B_4rRZME3Q subs 13200000 AE | streams in 60 days 1 (2h+ long 0, shut to NZ 0) | [none] ICC Men’s Cricket World Cup 2027 - Schedule Launch LIVE
-@BCBtigers: unknown id UCu18-erlvxePpY3RV5qm_ug subs 11 ? | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-@ProteasCricket: ProteasCricket UC1xHJoiSXk4JGRlSG1XrjYg subs 396000 ? | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-@USACricket: USA Cricket UCIikhfeUgjUP3a75TS_3PBw subs 95200 US | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-@KNCBcricket: no channel
-@CANNepal: cannepal UCFmlu-vEo7kdqxUXD1G7sHA subs 5 ? | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-@ACBofficials: no channel
-@thepapareofficial: ThePapare․com UCIKg0Ev6Vq2M7hU7bL_jHFQ subs 667000 LK | streams in 60 days 14 (2h+ long 9, shut to NZ 0) | [none] LIVE: Pakistan vs England – ODI Tri-Series 2026 – Match 4 - Dialog Pla ; [none] LIVE: Sarasavi Uyana National College vs Hemamali Girls' College - Gol ; [none] LIVE: Ceylon Golf League 2026 - Player Auction
-@cricketcanada: Cricket Canada UCOXVdEV-x2e1TWSo0VhikGw subs 53 ? | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-
-== rugby
-@WorldRugby: World Rugby UCE28rwYoaV7jvU6GVzdu_GQ subs 2050000 IE | streams in 60 days 19 (2h+ long 5, shut to NZ 17) | [upcoming] 🔴 LIVE | Ireland v Argentina | Nations Championship 2026 | Internatio ; [upcoming] 🔴 LIVE | France v Fiji | Nations Championship 2026 | International Ru ; [upcoming] 🔴 LIVE | England v Australia | Nations Championship 2026 | Internatio
-@RugbyEurope: RugbyEurope UCYWzPj9xQIvSqQ4Ofy4aNxg subs 5 ? | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-@FijiRugby: Vili Green UCW2GJ-x9RhkC9pKDz-foNWg subs 308 ? | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-@SuperRugby: no channel
-@rugbyeuropetv: no channel
-@PacificRugbyPlayers: no channel
-
-== league
-@RugbyLeagueWorldCup: no channel
-@NRL: NRL - National Rugby League UC33-OkQ6VCYk8xtml8Pk4-g subs 640000 AU | streams in 60 days 8 (2h+ long 1, shut to NZ 0) | [none] NRL 2026 | Roosters v Knights | Full Match Replay | Grand Final ; [none] The Dawn of Toops | Sydney Roosters v Wests Tigers | 2012 NRL Round 25 ; [none] NRL Grand Final 2019 | Sydney Roosters v Canberra Raiders | Full Match
-@IRLrugbyleague: no channel
-
-== football
-@OFCMedia: Oxfordson Football Club (OFC Media) UCkYlULwAqXNqw2BVTtxn7mw subs 1 ? | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-@OceaniaFootball: no channel
-@FIFA: FIFA UCpcTrCXblq78GZrTUTLWeBw subs 35900000 CH | streams in 60 days 4 (2h+ long 1, shut to NZ 0) | [none] LIVE NOW | USA v Paraguay | Group Stage | FIFA World Cup 2026™ ; [none] LIVE NOW | Mexico v South Africa | Group Stage | FIFA World Cup 2026™ ; [none] FULL MATCH | Germany v Colombia | Group Stage | FIFA Women's World Cup
-@ALeagues: A-Leagues UCzRogd_oK3bzKvAW-4aLuPQ subs 186000 AU | streams in 60 days 12 (2h+ long 5, shut to NZ 12) | [none] Sydney FC v Melbourne City - Ninja A-League 2026/27 - Matchweek 2 ; [none] Sydney FC v Adelaide United - A-League Men 2026/27 - Matchweek 2 ; [none] Wellington Phoenix v Central Coast Mariners - A-League Men 2026/27 - M
-@AFCAsianCup: AFC Asian Cup UCXTRFt1vLvZpahQtiKJjLaQ subs 2750000 MY | streams in 60 days 2 (2h+ long 0, shut to NZ 0) | [none] RE-LIVE | AFC Beach Soccer Asian Cup Thailand 2026™ Final Draw ; [none] RE-LIVE | Qualifiers Draw – AFC U17 Asian Cup Uzbekistan 2027™
-@theafcchannel: theafcchannel UCXNk3PAJqXYnOl108DHhX2g subs 2 ? | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-
-== netball
-@WorldNetball: World Netball UC1xj3SxIbGzdDBO37h1woRA subs 25000 GB | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-@NetballAustralia: Netball Australia UC84KF8G9Nhor7wx2wOGN87g subs 51400 AU | streams in 60 days 3 (2h+ long 2, shut to NZ 0) | [none] First Nations Tournament - Finals ; [none] First Nations Tournament - Round 7 ; [none] First Nations Tournament - Round 7 QLD vs WA
-@SuperNetball: SuperNetball UCNg5_4ULxSiujjGY_TkWq1A subs 1 ? | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-@NetballWorldCup: Netball World Cup UCWF5I19K-lx9Nm8XcaR6lJQ subs 42700 GB | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-
-== hockey
-@FIHockey: International Hockey Federation (FIH) UCsRwclNMmdK1Kiy2O3eL6hg subs 373000 CH | streams in 60 days 13 (2h+ long 0, shut to NZ 0) | [none] FIH Hockey Men's World Cup 2026, Gold Medal game: Spain vs Germany | # ; [none] The Women's World Cup 2026 Finale Episode: The Inside Pass powered by  ; [none] FIH Hockey Men's World Cup 2026, Semis: Netherlands vs Spain | #HWC202
-@HockeyAustralia: Hockey Australia UCOX8eTDVaEfBOyYBNNLIf3g subs 20500 AU | streams in 60 days 0 (2h+ long 0, shut to NZ 0) | 
-@watchhockey: no channel
-
-== basketball
-@FIBA: FIBA Basketball UCtInrnU3QbWqFGsdKT1GZtg subs 3640000 CH | streams in 60 days 43 (2h+ long 15, shut to NZ 0) | [live] LIVE - Inter Club v Charbo Squad | FIBA WBLA Qualif. 2026 Zone 4 | Gro ; [live] LIVE - KB stars v Cathay Life Tigers | FIBA Women's Basketball League  ; [none] Group Phase | Overdose Up Station v ASB Hatari | Full Basketball Game 
-@NBL: National Basketball League UCQOt5-Mc5m03JCO_W9SWySA subs 139000 ? | streams in 60 days 7 (2h+ long 3, shut to NZ 7) | [none] NBL27 Round 6 | Melbourne United vs Sydney Kings ; [none] NBL27 Round 6 | Cairns Taipans vs New Zealand Breakers ; [none] NBL27 Round 6 | South East Melbourne Phoenix vs Adelaide 36ers
-@FIBAAsia: no channel
-@FIBAWorld: no channel
+feed 2026-10-25T11:50:04.164Z
+diag: streams per channel: NZ Cricket 11, Cricket Australia 26, Netball NZ 11, Hockey NZ 49, Basketball NZ 10, NZ Football 4, NZ Rugby League 5, Sports Central 5, Sports TV 5, Pakistan Cricket 3, World Rugby 2, FIFA 4, FIH 13, FIBA 43; matched 6: New Zealand A v India A (none); New Zealand A v India A (none); England v Pakistan (live); Zimbabwe v Afghanistan (none); England v Pakistan (live); Zimbabwe v Afghanistan (none)
+nza-inda-1-2026 New Zealand A v India A 2026-10-23T21:30:00Z | NZ Cricket none https://www.youtube.com/watch?v=Wmn0iRYH5wc ; NZ Cricket none https://www.youtube.com/watch?v=MPgQHztv4tc
+wiki-intlcricket-2026-10-25-englandpakistan England v Pakistan 2026-10-25T08:00:00.000Z | Sports TV live https://www.youtube.com/watch?v=PFF0uyCnWv8 ; Sports Central live https://www.youtube.com/watch?v=Ni-4S8Dlm-A
+wiki-intlcricket-2026-10-23-zimbabweafghanistan Zimbabwe v Afghanistan 2026-10-23T11:30:00.000Z | Sports Central none https://www.youtube.com/watch?v=ge8ifWCVW7g ; Sports TV none https://www.youtube.com/watch?v=Hexn2Grlph0
+tri? wiki-intlcricket-2026-10-25-englandpakistan England v Pakistan 2026-10-25T08:00:00.000Z yt 2
+tri? wiki-intlcricket-2026-10-27-pakistansrilanka Pakistan v Sri Lanka 2026-10-27T08:00:00.000Z yt 0
