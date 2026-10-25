@@ -135,7 +135,7 @@ const SR_NZ = [['blues', 'Blues'], ['chiefs', 'Chiefs'], ['hurricanes', 'Hurrica
 const SR_AU = /Brumbies|Reds|Waratahs|Western Force|Force/;
 export function classify(kind, home, away) {
   const names = [home, away].join(' | ');
-  const nz = /\bNew Zealand\b/.test(names), women = /Women/.test(names);
+  const nz = /\bNew Zealand\b/.test(names), women = /Women/.test(names), nzA = /\bNew Zealand A\b/.test(names) && !women;
   switch (kind) {
     case 'superrugby': {
       const club = SR_NZ.find(([, n]) => names.includes(n));
@@ -154,8 +154,10 @@ export function classify(kind, home, away) {
     case 'leaguetests': return nz ? { team: women ? 'kiwiferns' : 'kiwis', tags: [] } : null;
     case 'aucricket': return /\bAustralia\b/.test(names) && !women ? { team: 'aucricket', tags: [] } : null;
     case 'intlcricket': return !nz && !women && !/\bAustralia\b/.test(names) ? { team: 'intlcricket', tags: [] } : null;
-    case 'tricricket': return nz ? { team: women ? 'whiteferns' : 'blackcaps', tags: [] } : women ? null : /\bAustralia\b/.test(names) ? { team: 'aucricket', tags: [] } : { team: 'intlcricket', tags: [] };
-    case 'nzcricket': return nz ? { team: women ? 'whiteferns' : 'blackcaps', tags: [] } : null;
+    // New Zealand A (on a tour page's side-tour part) is a domestic side, never the Black Caps, so its games meet the
+    // hand-kept NZ A cards and not the Black Caps games on the same days
+    case 'tricricket': return nzA ? { team: 'nzdomestic', tags: [] } : nz ? { team: women ? 'whiteferns' : 'blackcaps', tags: [] } : women ? null : /\bAustralia\b/.test(names) ? { team: 'aucricket', tags: [] } : { team: 'intlcricket', tags: [] };
+    case 'nzcricket': return nzA ? { team: 'nzdomestic', tags: [] } : nz ? { team: women ? 'whiteferns' : 'blackcaps', tags: [] } : null;
     case 'nrl': return { team: /Warriors/.test(names) ? 'warriors' : 'nrl', tags: ['nrl'] };
     case 'hockey': return nz ? { team: women ? 'blacksticksw' : 'blacksticks', tags: [] } : null;
     case 'basketball': return nz ? { team: women ? 'tallferns' : 'tallblacks', tags: [] } : null;
@@ -233,7 +235,7 @@ function eventsFromPage(title, text, cfg, cityTz) {
     if (cfg.classify === 'intlcricket' && /tour match|warm-?up|practice/i.test(stage)) continue;
     out.push({
       id: `wiki-${cls.team}-${new Date(t).toISOString().slice(0, 10)}-${(home + away).toLowerCase().replace(/[^a-z]/g, '').slice(0, 40)}`,
-      team: cls.team, tags: cls.tags, sport: cfg.sport, comp: comp + (round && cfg.showRound && !linked && !/^test(?: match)?$/i.test(round) ? ` · ${round}` : ''),
+      team: cls.team, tags: cls.tags, sport: cfg.sport, comp: (cls.team === 'nzdomestic' && cfg.seriesTitle ? `NZ A v ${home === 'New Zealand A' ? away : home}` : comp) + (round && cfg.showRound && !linked && !/^test(?: match)?$/i.test(round) ? ` · ${round}` : ''),
       home, away, startUTC: new Date(t).toISOString(), timeTBC: tbc, ...(stage ? { stage } : linked && round ? { stage: round } : {}), ...(cfg.format ? { format: cfg.format } : {}),
       venue: parts[0] || '', city, tz, status, score, summary,
       source: `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`, link: report, ...(/cricinfo\.com/.test(report || '') ? { cricinfo: report } : {}),
