@@ -32,4 +32,6 @@ behind a spoiler guard, no sign-up. Static GitHub Pages site plus a small Cloudf
   icon stands in for a missing logo.
 - No scores anywhere spoilers would show them; hover labels only after a deliberate hold.
 - Keep the owner's name and email out of anything public. No model names in commits.
+- Count every new thing a user can click (a `use` event named for it, added to the worker's `USE` list and to
+  `stats.html`), so the stats show how the site is used.
 - Report what changed and the version number; say plainly what's unverified.

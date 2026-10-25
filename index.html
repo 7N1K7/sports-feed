@@ -898,6 +898,7 @@ header.top.scrolled .fold { opacity: 0; pointer-events: none }
 header.top:has(#panel:not([hidden])) .fold { opacity: 0; pointer-events: none }
 /* a finger-sized target: the tap area reaches a little below the drawn tab */
 .fold::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 36px }
+@media (hover: hover) and (pointer: fine) { .fold::after { display: none } } /* a mouse clicks the tab itself; the taller tap area is for fingers */
 /* while the tab shows, the bar has no bottom line, so bar and tab are one shape with nothing poking out where they meet;
    the line comes back once the page scrolls (and the tab goes) */
 header.top { transition: border-color .15s }
@@ -918,26 +919,31 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
 .compbar .sinfo { display: none }
 .sinfopop { position: fixed; z-index: 60; width: min(260px, calc(100vw - 16px)); padding: 12px 14px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 28px rgb(0 0 0 / .45); font: 400 14px/1.4 var(--f-body); color: var(--ink); text-align: center }
 .sinfopop p { margin: 0 0 10px } .sinfopop .sinfodef { margin: -6px 0 10px; font-size: 12px; color: var(--muted) } .sinfodef:empty { display: none } .sinfopop .btn { font-size: 13px; padding: 5px 12px }
+/* the filters sit a little closer to the first section under them (Live now, Starting soon, This week) than the
+   sections do to each other */
+#compBar { margin-bottom: -7px }
 @media (max-width: 560px) {
   main { padding-top: 10px; gap: 12px }
+  #compBar { margin-bottom: -4px }
   section > h2 { font-size: 19px; margin-bottom: 6px }
   .week { gap: 4px }
   .day .dn { font-size: 11px }
   .nowbar { margin-bottom: -5px; gap: 4px }
   #sportFilter { margin-bottom: -8px }
-  .compbar { gap: 6px }
+  /* the card sizes, NZ, Free TV and Rankings share one line down to a 360px phone */
+  .compbar { gap: 5px }
   .compbar .lg { display: none } .compbar .sm { display: inline }
   .compbar .crow { flex: 0 0 100%; display: flex; justify-content: center; gap: 5px }
   .compbar .sinfo { display: inline-grid } #sportFilter .sinfo { display: none }
   /* a narrower competition menu on phones, so its line (menu, card sizes, Free) keeps clear of the screen's edges */
   #compSel { width: 132px; font-size: 13px; padding-left: 10px; padding-right: 24px; background-position: right 14px center, right 9px center }
-  .nzonly, .rankbtn { padding: 2px 8px; gap: 5px; font-size: 13px }
-  .compbar .seg button { padding: 2px 7px; font-size: 13px }
+  .nzonly, .rankbtn { padding: 2px 7px; gap: 5px; font-size: 13px }
+  .compbar .seg button { padding: 2px 5px; font-size: 13px } #freeOnly { padding-inline: 6px }
   #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px 5px } #sportFilter .cicon { margin-right: 4px }
   /* the rankings' chips as compact as the sport row's, so they take three rows, not four or five */
   :is(.ranksports, .rankchips, .rankrows .chips) .chip { font-size: 13px; padding: 2px 9px; margin: 0 2px 5px } .ranksports .cicon { margin-right: 4px }
 }
-@media (max-width: 380px) { .nzonly, .rankbtn, .compbar .seg button { font-size: 12px; padding-inline: 6px } .nzonly img { width: 15px; height: auto } }
+@media (max-width: 389px) { .nzonly, .rankbtn, .compbar .seg button { font-size: 12px; padding-inline: 5px } .nzonly { gap: 4px } #freeOnly { padding-inline: 5px } .nzonly img { width: 15px; height: auto } }
 .rankbtn:hover { background: color-mix(in srgb, var(--gold) 20%, var(--surface)) }
 .stable.rank td.num { white-space: nowrap }
 .stable.rank .rv { display: inline-flex; align-items: center; gap: 8px }
