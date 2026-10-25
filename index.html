@@ -177,6 +177,8 @@ html { -webkit-tap-highlight-color: transparent }
 .btn { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-size: 14px; display: inline-flex; gap: 6px; align-items: center }
 .btn:hover { border-color: var(--accent) }
 .btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
+/* the cog lit while Settings is open, so it shows where Settings lives (the "i" pop-up's button opens it from elsewhere) */
+#teamsBtn[aria-expanded="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
 
 .mock { background: var(--soft); color: var(--muted); font-size: 13px }
 .clockcol { display: grid; gap: 1px; line-height: 1.2; align-self: flex-end; margin-bottom: 4px } /* text baseline level with "by N1K" */
@@ -529,7 +531,7 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 .dres .rehide { justify-self: start }
 .livelink { font-size: 13px; font-weight: 700; color: var(--live); text-decoration: none; justify-self: end }
 .livelink:hover { text-decoration: underline }
-.ev .when .livelink { margin-top: 6px }
+.ev .when .livelink { margin-top: 3px; font-size: 12px }
 .ev .series { text-align: center; font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.2 }
 /* desktop: the series line sits in the spare room at the card's foot, so the card keeps its height */
 @media (min-width: 561px) { .ev .series { position: absolute; left: 0; right: 0; bottom: 3px; pointer-events: none } }
@@ -675,7 +677,7 @@ dialog#sheet { width: min(720px, 100%) }
 
 /* tighter cards, less dead space on wide screens */
 .wrap { max-width: 1120px }
-.ev .body { padding: 9px 12px; gap: 3px }
+.ev .body { padding: 6px 12px; gap: 3px }
 .ev .when { padding: 9px 14px; gap: 1px; min-width: 128px }
 .ev .nzl { font-size: 10px }
 .ev .nz { font-size: 22px }
@@ -709,7 +711,8 @@ dialog#sheet { width: min(720px, 100%) }
 .ev:not(.res) .body > .meta:last-child { margin-top: auto; padding-top: 8px }
 
 /* centred matchup: Home  v  Away, crests next to the v */
-.ev .teams.matchup { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 12px; flex: 1; padding-block: 6px }
+.ev .teams.matchup { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 12px; flex: 1; padding-block: 2px }
+:is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .teams.matchup { padding-block: 6px } /* compact cards keep their room */
 .ev .teams.matchup { align-items: start; flex: none; margin-block: auto }
 .matchup .v { align-self: center }
 .matchup .side { min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center }
@@ -791,7 +794,7 @@ html::-webkit-scrollbar-thumb:active, body::-webkit-scrollbar-thumb:active { bac
 .livedot.soondot { background: var(--soon); box-shadow: 0 0 0 3px color-mix(in srgb, var(--soon) 25%, transparent) }
 #soon .ev.is-soon { box-shadow: 0 0 0 1.5px var(--soon), 0 0 14px 1px color-mix(in srgb, var(--soon) 35%, transparent) }
 /* crests sit in a fixed-height row so names line up whatever the flag shape */
-.ev .teams.matchup:has(img) .side { display: grid; grid-template-rows: 2.95em auto; justify-items: center; align-items: center; row-gap: 6px }
+.ev .teams.matchup:has(img) .side { display: grid; grid-template-rows: 2.95em auto; justify-items: center; align-items: center; row-gap: 4px }
 .ev .teams.matchup:has(img) .side > img { grid-row: 1 }
 .ev .teams.matchup:has(img) .side > .nm { grid-row: 2; align-self: start }
 .ev .teams.matchup .flagimg, .ev .teams.matchup .flagimg.after { width: auto; height: 1.8em; max-width: 3.9em; margin: 0 }
@@ -815,7 +818,7 @@ a.svc:hover { text-decoration-color: currentColor }
 .ev .comp .sicon[src*="mma.svg"] { width: 26px; height: 26px; margin-block: -2px }
 .ev .comp { justify-content: center; text-align: center }
 /* time box: everything centred, top to bottom and side to side */
-@media (min-width: 561px) { .ev .when { align-content: center; justify-items: center; text-align: center; padding-top: 14px; padding-bottom: 14px } .ev .when > * { justify-self: center } .ev .when .score + .hl { margin-top: 6px } }
+@media (min-width: 561px) { .ev .when { align-content: center; justify-items: center; text-align: center; padding-top: 9px; padding-bottom: 9px } .ev .when > * { justify-self: center } .ev .when .score + .hl { margin-top: 6px } }
 .dsheet .comp .sicon, .detail .comp .sicon { margin-left: auto; font-size: 20px; line-height: 1 }
 .cicon { width: 16px; height: 16px; margin-right: 5px; vertical-align: -3px }
 .hubimg { width: 28px; height: 28px; display: block }
@@ -913,8 +916,8 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
 .sinfo:hover, .sinfo[aria-expanded="true"] { color: var(--ink); border-color: var(--muted) }
 #sportFilter .sinfo { width: 28px; height: 28px; margin: 0 3px 6px; vertical-align: top }
 .compbar .sinfo { display: none }
-.sinfopop { position: fixed; z-index: 60; width: min(260px, calc(100vw - 16px)); padding: 12px 14px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 28px rgb(0 0 0 / .45); font: 400 14px/1.4 var(--f-body); color: var(--ink); text-align: left }
-.sinfopop p { margin: 0 0 10px } .sinfogo { text-align: center } .sinfopop .sinfodef { margin: -6px 0 10px; font-size: 12px; color: var(--muted) } .sinfodef:empty { display: none } .sinfopop .btn { font-size: 13px; padding: 5px 12px }
+.sinfopop { position: fixed; z-index: 60; width: min(260px, calc(100vw - 16px)); padding: 12px 14px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 28px rgb(0 0 0 / .45); font: 400 14px/1.4 var(--f-body); color: var(--ink); text-align: center }
+.sinfopop p { margin: 0 0 10px } .sinfopop .sinfodef { margin: -6px 0 10px; font-size: 12px; color: var(--muted) } .sinfodef:empty { display: none } .sinfopop .btn { font-size: 13px; padding: 5px 12px }
 @media (max-width: 560px) {
   main { padding-top: 10px; gap: 12px }
   section > h2 { font-size: 19px; margin-bottom: 6px }
@@ -1065,10 +1068,10 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
   .tag { justify-self: start }
   /* the big cards (live, today) on a phone: still the biggest, but a size down all round (crests, names, the time and
      the space around them) so a phone shows more than one at a time */
-  .ev .body { padding: 7px 12px }
-  .ev .when { padding: 7px 14px }
+  .ev .body { padding: 5px 12px 6px }
+  .ev .when { padding: 6px 14px }
   .ev .teams { font-size: 20px }
-  .ev .teams.matchup { padding-block: 3px }
+  .ev .teams.matchup { padding-block: 2px }
   :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .teams.matchup { padding-block: 6px } /* compact cards stay as they were */
   .ev .teams.matchup .logo:not(.flagimg) { --lh: 2em; width: auto; height: 2em; max-width: 4em }
   .ev .teams.matchup .flagimg { width: auto; height: 1.4em }
@@ -1198,8 +1201,6 @@ div.pbox2.tbd { cursor: default; border-style: dashed } div.pbox2.tbd:hover { bo
 .trow .tr { text-align: right; white-space: nowrap; font-weight: 700 }
 .sheet-in .back { border: 0; background: none; padding: 0 0 10px; font: 600 14px var(--f-body); color: var(--muted); cursor: pointer }
 @media (max-width: 560px) {
-  /* phones offer Mixed and Compact (Big there is Mixed: the live game's card is big already) */
-  #viewSel [data-view="big"] { display: none }
   /* phone header: name, then the clock, then one row of buttons and the search box */
   .brand { flex: none; font-size: 27px }
   .clockcol { flex: 1 1 0; min-width: 0; justify-items: end; text-align: right; margin-bottom: 2px }
@@ -1812,7 +1813,9 @@ if (!store.get('bbOn', false)) { const kn = store.get('known', []); if (kn.inclu
   if (fresh.length) { fresh.forEach(k => picked.add(k)); store.set('teams', [...picked]); } store.set('known', ALL_KEYS); }
 { const known = new Set(store.get('known', ALL_KEYS)); ALL_KEYS.filter(k => !known.has(k) && !OPT_IN.has(k)).forEach(k => picked.add(k)); store.set('known', ALL_KEYS); store.set('teams', [...picked]); }
 const PHONE = matchMedia('(max-width: 560px)');
-let view = store.get('view', 'mixed');   // big, mixed (live big, today normal, the rest compact) or compact
+// mixed (Standard: live and today's games full size, the rest compact), compact or list. There was a Large (every card
+// full size); anyone who had it gets Standard
+let view = store.get('view', 'mixed'); if (!['mixed', 'compact', 'list'].includes(view)) view = 'mixed';
 let spoilers = store.get('spoilers', true);   // true = hide recent results
 let spoilDays = store.get('spoilDaysSet', false) ? store.get('spoilDays', 3) : 3; // default 3 days covers Friday night's games checked on Sunday night
 let revealed = new Set(store.get('revealed', []));
@@ -2314,9 +2317,9 @@ const LIVE_HOST = /(^|\.)(nba\.com|mlb\.com|nbl\.com\.au|nrl\.com|rlwc2026\.com|
 function liveLink(e) {
   let [name, url] = LIVE_TEAM[e.team] || LIVE_SITE[e.sport] || ['match centre', e.link || e.source];
   if (cricinfo(e)) [name, url] = ['Cricinfo', cricinfo(e)];
-  if (LIVE_TEAM[e.team]) return url ? `<a class="livelink" href="${esc(url)}" target="_blank" rel="noopener">Live ${e.sport === 'golf' ? 'scores' : 'racing'} on ${esc(name)} ↗</a>` : '';
+  if (LIVE_TEAM[e.team]) return url ? `<a class="livelink" href="${esc(url)}" target="_blank" rel="noopener">Live ${e.sport === 'golf' ? 'scores' : 'racing'} on ${esc(name)}\u00a0↗</a>` : '';
   if (!url) return '';
-  const a = t => `<a class="livelink" href="${esc(url)}" target="_blank" rel="noopener">${t} ↗</a>`;
+  const a = t => `<a class="livelink" href="${esc(url)}" target="_blank" rel="noopener">${t}\u00a0↗</a>`;
   let host = ''; try { host = new URL(url).hostname.replace(/^www\./, ''); } catch {}
   // Wikipedia is written up by hand, mostly after play, and TheSportsDB's pages after the game: where the score goes,
   // not a live one
@@ -3588,10 +3591,9 @@ function render() {
   const chips = shownSports();
   for (const k of [...sportSel]) if (!chips.some(([c]) => c === k)) sportSel.delete(k);
   into($('sportFilter')).html = [['all','All'], ...chips].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join(' ') + ' <button type="button" class="sinfo" data-sinfo="" aria-haspopup="dialog" aria-expanded="false" aria-label="Turning sports on or off" title="Turn sports on or off in Settings">i</button>';
-  document.body.classList.remove('v-big', 'v-mixed', 'v-compact', 'v-list');
-  const shownView = PHONE.matches && view === 'big' ? 'mixed' : view; // phones have no Big: it shows as Mixed there
-  document.body.classList.add('v-' + shownView);
-  $('viewSel').innerHTML = [['list', 'List'], ['compact', 'Compact'], ['mixed', 'Standard'], ['big', 'Large']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${shownView === k}">${l}</button>`).join('');
+  document.body.classList.remove('v-mixed', 'v-compact', 'v-list');
+  document.body.classList.add('v-' + view);
+  $('viewSel').innerHTML = [['list', 'List'], ['compact', 'Compact'], ['mixed', 'Standard']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${view === k}">${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   // an eye on each state (crossed out while results are hidden), and a gear on settings
   const eye = '<path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/>';
@@ -3746,10 +3748,14 @@ function markLone() {
 if (window.ResizeObserver) new ResizeObserver(markLone).observe($('teamGroups'));
 function balanceChips(box) {
   box.querySelectorAll('br').forEach(b => b.remove());
-  // the sport row's "i" starts its second line (under All), with room kept for it there
-  const info = box.querySelector(':scope > .sinfo'), extra = info?.offsetWidth ? info.offsetWidth + parseFloat(getComputedStyle(info).marginLeft) + parseFloat(getComputedStyle(info).marginRight) : 0;
-  const cs = [...box.children].filter(c => c !== info), W = box.clientWidth - 1, sports = box.classList.contains('ranksports'), first = W - (sports ? 68 : 0);
-  if (W < 1 || cs.length < 2) return;
+  const info = box.querySelector(':scope > .sinfo'), cs = [...box.children].filter(c => c !== info);
+  cs.forEach(c => c.style.marginRight = ''); if (info) info.style.marginLeft = '';
+  // the sport row's "i" starts its second line under All, right edges in line: its slot there is All's width
+  let extra = 0;
+  if (info?.offsetWidth && cs.length) { const st = getComputedStyle(info), pad = Math.max(0, cs[0].getBoundingClientRect().width - info.getBoundingClientRect().width);
+    info.style.marginLeft = `${parseFloat(st.marginLeft) + pad}px`; extra = info.getBoundingClientRect().width + parseFloat(st.marginLeft) + parseFloat(st.marginRight); }
+  const W = box.clientWidth - 1, sports = box.classList.contains('ranksports'), first = W - (sports ? 68 : 0);
+  if (W < 1 || cs.length < 2) { if (info) info.style.marginLeft = ''; return; }
   const widths = () => { const st = getComputedStyle(cs[0]), m = parseFloat(st.marginLeft) + parseFloat(st.marginRight); return cs.map(c => c.getBoundingClientRect().width + m); };
   const lay = (ws, t) => { const rows = [[]]; let x = 0; ws.forEach((w, i) => { if (x && x + w > (rows.length === 1 ? Math.min(t, first) : t)) { rows.push([]); x = rows.length === 2 ? extra : 0; } rows[rows.length - 1].push(i); x += w; }); return rows; };
   if (sports) box.classList.remove('bare');
@@ -3758,6 +3764,13 @@ function balanceChips(box) {
   let lo = 0, hi = W; while (hi - lo > 0.5) { const m = (lo + hi) / 2; lay(ws, m).length > n ? lo = m : hi = m; }
   lay(ws, hi).slice(1).forEach(r => cs[r[0]].before(document.createElement('br')));
   if (info) (box.querySelector(':scope > br') || cs[cs.length - 1]).after(info);
+  if (!extra) return;
+  if (!box.querySelector(':scope > br')) { info.style.marginLeft = ''; return; } // one row: the i just follows the last sport
+  // every row made as wide as the widest (room after a shorter row's last chip), so the centred rows all start at one
+  // edge: Baseball over League, All over the "i"
+  const rows = [[]]; for (const c of box.children) c.tagName === 'BR' ? rows.push([]) : rows[rows.length - 1].push(c);
+  const span = r => r[r.length - 1].getBoundingClientRect().right + parseFloat(getComputedStyle(r[r.length - 1]).marginRight) - r[0].getBoundingClientRect().left + parseFloat(getComputedStyle(r[0]).marginLeft), ss = rows.map(span), max = Math.max(...ss);
+  rows.forEach((r, i) => { if (max - ss[i] > 0.5) { const z = r[r.length - 1]; z.style.marginRight = `${parseFloat(getComputedStyle(z).marginRight) + max - ss[i]}px`; } });
 }
 // again whenever a row's width changes (a turned phone, a resized window) and once the fonts are in
 const chipRO = new ResizeObserver(es => es.forEach(e => { const w = Math.round(e.contentRect.width); if (e.target.dataset.bw != w) { e.target.dataset.bw = w; balanceChips(e.target); } }));
