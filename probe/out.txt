@@ -1,16 +1,6 @@
-https://eagles.rugby/news/wxv-heads-stateside-with-tests-in-texas-tennessee-and-new-jersey-2026623 -> 429 https://eagles.rugby/news/wxv-heads-stateside-with-tests-in-texas-tennessee-and-new-jersey-2026623
-  
-https://eagles.rugby/schedule -> 429 https://eagles.rugby/schedule
-  
-https://eagles.rugby/news -> 429 https://eagles.rugby/news
-  
-https://www.geodisparkstadium.com/events -> 404 https://www.geodisparkstadium.com/events
-  
-https://www.sportsillustratedstadium.com/events -> 200 https://www.sportsillustratedstadium.com/events
-  OCT 24, 2026 5:30 PM
-  OCT 30, 2026 5:15 PM
-  NOV 1, 2026 5:00 PM
-  NOV 7, 2026 4:00 PM
-  NOV 14, 2026 7:30 PM
-  MAR 13, 2027 10:00 PM
-  links: Ticketing Information => https://www.ticketmaster.com/red-bull-arena-tickets-harrison/venue/1269
+wiki-wallabies-2026-10-24-unitedstatesxvaustraliaa: United States XV v Australia A team=wallabies start=2026-10-24T23:00:00.000Z b=-
+wiki-wallabies-2026-10-31-unitedstatesxvaustraliaa: United States XV v Australia A team=wallabies start=2026-10-31T00:00:00.000Z b=-
+nza-inda-1-2026: alt=NZC live stream (nzc.nz / YouTube) note=Not on TV in NZ
+nza-inda-2-2026: alt=NZC live stream (nzc.nz / YouTube) note=Not on TV in NZ
+nza-inda-3-2026: alt=NZC live stream (nzc.nz / YouTube) note=Not on TV in NZ
+page has splitWatch=true tvt=true lcw=true tvnz sport=true 3px ends=true
