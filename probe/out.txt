@@ -1,18 +1,3 @@
-feed 2026-10-25T04:44:32.858Z
-nza-inda-1-2026 New Zealand A v India A 2026-10-23T21:30:00Z squads: New Zealand A 19 (Rhys Mariu, Adithya Ashok, Matt Boyle…) | India A 17 (Dhruv Jurel, Mukesh Choudhary, Akash Deep…)
-nza-inda-2-2026 New Zealand A v India A 2026-10-30T21:30:00Z squads: New Zealand A 19 (Rhys Mariu, Adithya Ashok, Matt Boyle…) | India A 17 (Dhruv Jurel, Mukesh Choudhary, Akash Deep…)
-nza-inda-3-2026 New Zealand A v India A 2026-11-06T21:30:00Z squads: New Zealand A 19 (Rhys Mariu, Adithya Ashok, Matt Boyle…) | India A 17 (Dhruv Jurel, Mukesh Choudhary, Akash Deep…)
-wiki-aucricket-2027-01-21-indiaaustralia India v Australia 2027-01-21T08:30:00.000Z squads: none
-wiki-aucricket-2027-01-29-indiaaustralia India v Australia 2027-01-29T08:30:00.000Z squads: none
-wiki-aucricket-2027-02-11-indiaaustralia India v Australia 2027-02-11T08:30:00.000Z squads: none
-wiki-aucricket-2027-02-19-indiaaustralia India v Australia 2027-02-19T08:30:00.000Z squads: none
-wiki-aucricket-2027-02-27-indiaaustralia India v Australia 2027-02-27T08:30:00.000Z squads: none
-bc-ind-t20i1-2026 squads: New Zealand 16 | India 16
-bc-ind-t20i2-2026 squads: New Zealand 16 | India 16
-bc-ind-t20i3-2026 squads: New Zealand 16 | India 16
-bc-ind-t20i4-2026 squads: New Zealand 16 | India 16
-bc-ind-t20i5-2026 squads: New Zealand 16 | India 16
-bc-ind-odi1-2026 squads: New Zealand 14 | India 16
-bc-ind-odi2-2026 squads: New Zealand 14 | India 16
-bc-ind-odi3-2026 squads: New Zealand 14 | India 16
-teamSquads India A: India A 54
+page version: 401
+page skips script-driven browsers: true
+stats page has the network lists: true
