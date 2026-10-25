@@ -1358,7 +1358,7 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 .ev.lrow .lcomp { display: none; font: 700 11px/1.2 var(--f-body); letter-spacing: .05em; text-transform: uppercase; color: var(--sport); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
 /* phones: the sport's colour down the side says the sport, so its icon goes, and the logos shrink, for the names' room */
 @media (max-width: 520px) { .ev.lrow { grid-template-columns: 4px 57px minmax(0, 1fr) 38px; column-gap: 5px } .ev.lrow .licon { display: none }
-  .ev.lrow .ltime { font-size: 16px } .ev.lrow .lteams { column-gap: 4px } .ev.lrow .lside { gap: 4px } .ev.lrow .logo { height: 18px; max-width: 22px } .ev.lrow .logo.flagimg { height: 12px } }
+  .ev.lrow .ltime { font-size: 16px } .ev.lrow .lteams { column-gap: 4px } .ev.lrow .lside { gap: 4px } }
 /* the time, icon and competition sit together at the left (one grid cell each on phones); on wider screens the names
    are centred on the row itself, the two sides an equal width either side of them. Where the competition needs more
    than its half, the names move right into the room on the other side rather than cut it short; only once that room
@@ -1381,8 +1381,10 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 .ev.lrow .lsolo { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center }
 .ev.lrow .lses { color: var(--muted); font-weight: 500 }
 .ev.lrow .lv { color: var(--muted); font-size: 13px }
-.ev.lrow .logo { height: 20px; width: auto; max-width: 28px; flex: none }
-.ev.lrow .logo.flagimg { height: 13px }
+/* a fixed box for every logo, loaded or not (they load as the page scrolls), drawn against its name: the names never move */
+.ev.lrow .logo { width: 28px; height: 20px; max-width: none; flex: none; object-position: right center } .ev.lrow .logo.after { object-position: left center }
+.ev.lrow .logo.flagimg { width: 20px; height: 13px } .ev.lrow .logo.face { width: 20px }
+@media (max-width: 520px) { .ev.lrow .logo { width: 22px; height: 18px } .ev.lrow .logo.flagimg { width: 18px; height: 12px } .ev.lrow .logo.face { width: 18px } }
 .ev.lrow .lend { display: flex; justify-content: flex-end; align-items: center; padding-right: 5px }
 .ev.lrow .lfree { font-size: 9px; padding: 3px 4px 2px }
 .ev.lrow .ltv { font-size: 13px; opacity: .7 }
@@ -3576,21 +3578,21 @@ function render() {
 }
 // List rows on wider screens: each one's competition and names at their full widths, which the CSS uses to centre the
 // names and move them right rather than cut the competition short. Text widths don't change with the window, so this
-// runs when the rows are drawn, once the fonts are in, as logos load and when the competition first shows (700px and
-// up). The names' full width is their width now plus whatever each name has cut off, and a logo not loaded yet counts
-// as its widest (28px and its gap)
+// runs when the rows are drawn, once the fonts are in and when the competition first shows (700px and up). Each is
+// measured by its text, never its box (a box the CSS has widened would feed back and push the names further each
+// time); the names' full width is their width now plus whatever each name has cut off (logos have fixed boxes)
+const textW = el => { const r = document.createRange(); r.selectNodeContents(el); return r.getBoundingClientRect().width; };
 function fitList() {
   if (view !== 'list' || !matchMedia('(min-width: 700px)').matches) return;
   const rows = [...document.querySelectorAll('.ev.lrow')].filter(r => r.offsetWidth);
-  const w = rows.map(r => { const c = r.querySelector('.lcomp'), t = r.querySelector('.lteams, .lsolo');
-    if (!t || t.classList.contains('lsolo')) return [c?.scrollWidth || 0, t?.scrollWidth || 0];
-    const cut = [...t.querySelectorAll('.nm')].reduce((a, x) => a + x.scrollWidth - x.clientWidth, 0), waiting = [...t.querySelectorAll('img')].filter(i => !i.complete).length * 33;
-    return [c?.scrollWidth || 0, Math.ceil(t.getBoundingClientRect().width + cut + waiting)]; });
+  const w = rows.map(r => { const c = r.querySelector('.lcomp'), t = r.querySelector('.lteams, .lsolo'), cw = c ? textW(c) : 0;
+    if (!t || t.classList.contains('lsolo')) return [cw, t ? textW(t) : 0];
+    const cut = [...t.querySelectorAll('.nm')].reduce((a, x) => a + Math.max(0, textW(x) - x.clientWidth), 0);
+    return [cw, t.getBoundingClientRect().width + cut]; });
   // the competition's width with 12px more, so it never runs right up to the names
-  rows.forEach((r, i) => { r.style.setProperty('--cw', w[i][0] + 12 + 'px'); r.style.setProperty('--nw', w[i][1] + 'px'); });
+  rows.forEach((r, i) => { r.style.setProperty('--cw', Math.ceil(w[i][0]) + 12 + 'px'); r.style.setProperty('--nw', Math.ceil(w[i][1]) + 1 + 'px'); });
 }
 matchMedia('(min-width: 700px)').addEventListener?.('change', fitList);
-{ let f = 0; document.addEventListener('load', ev => { if (ev.target.closest?.('.ev.lrow')) { cancelAnimationFrame(f); f = requestAnimationFrame(fitList); } }, true); }
 // The week strip's "+": about 6px across with bars about 1.5px thick, both a whole number of screen pixels, and the
 // bars' offset from the corner whole too (the same odd/even for length and thickness keeps them dead centre)
 function snapPlus() {
