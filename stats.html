@@ -72,6 +72,7 @@ button, input { font: inherit; color: inherit }
 #error .bar { grid-template-columns: minmax(0, 1fr) auto } #error .bar .t { display: none } #error .bar .k { white-space: normal; overflow-wrap: anywhere; font-size: 13px }
 .chartbox text { fill: var(--muted); font-size: 11px; font-family: var(--f-body) }
 .chartbox .end { font-size: 12px; font-weight: 600; fill: var(--ink) }
+.chartbox .peak { font-size: 11px; font-weight: 700; fill: var(--ink) }
 .tip { position: absolute; top: 0; pointer-events: none; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; font-size: 13px; white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,.35); transform: translateX(-50%) }
 .tip .d { color: var(--muted); font-size: 12px }
 .tip .row { display: flex; align-items: center; gap: 6px }
@@ -801,7 +802,7 @@ function hours(byHour) {
 // visitors and page views a day: two 2px lines on one count axis from zero, hairline grid, end labels, and a
 // crosshair that snaps to a day with both values in the tooltip
 function chart(list, per) {
-  const box = $('chart'), W = Math.max(280, box.clientWidth), H = 240, m = { l: 34, r: 92, t: 10, b: 24 };
+  const box = $('chart'), W = Math.max(280, box.clientWidth), H = 240, m = { l: 34, r: 92, t: 22, b: 24 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
   const S = [['visitors', 'People', 'var(--series-1)'], ['opens', 'Visits', 'var(--series-2)'], ['views', 'Page views', 'var(--series-3)']];
   const maxV = Math.max(4, ...list.flatMap(d => S.map(([k]) => per[d][k])));
@@ -826,6 +827,23 @@ function chart(list, per) {
   const over = ends.length ? ends[ends.length - 1].y - (m.t + ih + 4) : 0;
   if (over > 0) ends.forEach(x => { x.y -= over; });
   for (const e of ends) g += `<circle cx="${x(list.length - 1)}" cy="${y(e.last)}" r="4" fill="${e.c}" stroke="var(--surface)" stroke-width="2"/><text class="end" x="${m.l + iw + 10}" y="${e.y + 4}">${e.name} ${fmtN(e.last)}</text>`;
+  // each line's peak in the range: a ring on its highest day (the latest, on a tie) with the number above it, or below
+  // when another peak's number is already there; none when the peak is today (the end label says it) or nothing yet
+  const peaks = [];
+  for (const [k, , c] of S) {
+    let pi = -1;
+    list.forEach((d, i) => { if (per[d][k] > 0 && (pi < 0 || per[d][k] >= per[list[pi]][k])) pi = i; });
+    if (pi >= 0 && pi < list.length - 1) peaks.push({ px: x(pi), py: y(per[list[pi]][k]), v: per[list[pi]][k], c });
+  }
+  // boxes already taken: every peak's ring, then each number as it's placed
+  const taken = peaks.map(p => ({ x1: p.px - 6, x2: p.px + 6, y1: p.py - 6, y2: p.py + 6 }));
+  const free = b => !taken.some(o => b.x1 < o.x2 + 2 && o.x1 < b.x2 + 2 && b.y1 < o.y2 + 1 && o.y1 < b.y2 + 1);
+  for (const p of peaks) g += `<circle cx="${p.px}" cy="${p.py}" r="4.5" fill="var(--surface)" stroke="${p.c}" stroke-width="2"/>`;
+  for (const p of peaks.sort((a, b) => a.py - b.py)) {
+    const t = fmtN(p.v), w = t.length * 7 + 2, lx = Math.max(m.l + w / 2, Math.min(m.l + iw - w / 2, p.px));
+    const box = [p.py - 9, p.py + 18].map(ly => ({ ly, x1: lx - w / 2, x2: lx + w / 2, y1: ly - 9, y2: ly + 2 })).find(b => b.y2 < m.t + ih && free(b));
+    if (box) { taken.push(box); g += `<text class="peak" x="${lx}" y="${box.ly}" text-anchor="middle">${t}</text>`; }
+  }
   g += `<line id="xh" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="var(--muted)" stroke-width="1" visibility="hidden"/>`;
   for (const [k, , c] of S) g += `<circle class="hd" data-k="${k}" r="4" fill="${c}" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>`;
   g += `<rect x="${m.l}" y="0" width="${iw}" height="${H}" fill="transparent" id="hit"/>`;
