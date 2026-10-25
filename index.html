@@ -930,20 +930,19 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
   .day .dn { font-size: 11px }
   .nowbar { margin-bottom: -5px; gap: 4px }
   #sportFilter { margin-bottom: -8px }
-  /* the card sizes, NZ, Free TV and Rankings share one line down to a 360px phone */
-  .compbar { gap: 5px }
+  .compbar { gap: 6px }
   .compbar .lg { display: none } .compbar .sm { display: inline }
   .compbar .crow { flex: 0 0 100%; display: flex; justify-content: center; gap: 5px }
   .compbar .sinfo { display: inline-grid } #sportFilter .sinfo { display: none }
   /* a narrower competition menu on phones, so its line (menu, card sizes, Free) keeps clear of the screen's edges */
   #compSel { width: 132px; font-size: 13px; padding-left: 10px; padding-right: 24px; background-position: right 14px center, right 9px center }
-  .nzonly, .rankbtn { padding: 2px 7px; gap: 5px; font-size: 13px }
-  .compbar .seg button { padding: 2px 5px; font-size: 13px } #freeOnly { padding-inline: 6px }
+  .nzonly, .rankbtn { padding: 2px 8px; gap: 5px; font-size: 13px }
+  .compbar .seg button { padding: 2px 7px; font-size: 13px }
   #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px 5px } #sportFilter .cicon { margin-right: 4px }
   /* the rankings' chips as compact as the sport row's, so they take three rows, not four or five */
   :is(.ranksports, .rankchips, .rankrows .chips) .chip { font-size: 13px; padding: 2px 9px; margin: 0 2px 5px } .ranksports .cicon { margin-right: 4px }
 }
-@media (max-width: 389px) { .nzonly, .rankbtn, .compbar .seg button { font-size: 12px; padding-inline: 5px } .nzonly { gap: 4px } #freeOnly { padding-inline: 5px } .nzonly img { width: 15px; height: auto } }
+@media (max-width: 380px) { .nzonly, .rankbtn, .compbar .seg button { font-size: 12px; padding-inline: 6px } .nzonly img { width: 15px; height: auto } }
 .rankbtn:hover { background: color-mix(in srgb, var(--gold) 20%, var(--surface)) }
 .stable.rank td.num { white-space: nowrap }
 .stable.rank .rv { display: inline-flex; align-items: center; gap: 8px }
@@ -3598,8 +3597,10 @@ function render() {
   for (const k of [...sportSel]) if (!chips.some(([c]) => c === k)) sportSel.delete(k);
   into($('sportFilter')).html = [['all','All'], ...chips].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join(' ') + ' <button type="button" class="sinfo" data-sinfo="" aria-haspopup="dialog" aria-expanded="false" aria-label="Turning sports on or off" title="Turn sports on or off in Settings">i</button>';
   document.body.classList.remove('v-mixed', 'v-compact', 'v-list');
-  document.body.classList.add('v-' + view);
-  $('viewSel').innerHTML = [['list', 'List'], ['compact', 'Compact'], ['mixed', 'Standard']].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${view === k}">${l}</button>`).join('');
+  // phones offer List and Compact; Standard (the default) shows as Compact there, and stays Standard on a bigger screen
+  const shownView = PHONE.matches && view === 'mixed' ? 'compact' : view;
+  document.body.classList.add('v-' + shownView);
+  $('viewSel').innerHTML = [['list', 'List'], ['compact', 'Compact'], ...(PHONE.matches ? [] : [['mixed', 'Standard']])].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${shownView === k}">${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   // an eye on each state (crossed out while results are hidden), and a gear on settings
   const eye = '<path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/>';
@@ -3980,7 +3981,7 @@ document.addEventListener('click', ev => {
   else if (t.dataset.laterpage != null) { use('Later page turned'); laterPage = Math.max(0, +t.dataset.laterpage); render(); toSec('laterSec'); }
   else if (t.dataset.bigpage != null) { use('Events ahead page turned'); bigPage = Math.max(0, +t.dataset.bigpage); render(); }
   else if (t.dataset.runpage != null) { use('Running now page turned'); runPage = Math.max(0, +t.dataset.runpage); render(); }
-  else if (t.dataset.view) { if (t.dataset.view !== view) count({ e: 'use', k: `Card size ${t.textContent.trim()}` }); view = t.dataset.view; store.set('view', view); render(); }
+  else if (t.dataset.view) { if (t.dataset.view !== (PHONE.matches && view === 'mixed' ? 'compact' : view)) { count({ e: 'use', k: `Card size ${t.textContent.trim()}` }); view = t.dataset.view; store.set('view', view); render(); } }
   else if (t.id === 'nowMore' || t.id === 'nowBack') { use('Series row arrow'); const c = $('nowChips'); c.scrollBy({ left: c.clientWidth * (t.id === 'nowBack' ? -0.7 : 0.7), behavior: 'smooth' }); }
   else if (t.id === 'spoilBtn') { count({ e: 'use', k: 'Spoiler eye' }); spoilers = !spoilers; store.set('spoilers', spoilers); if (spoilers && !spoilDays) { spoilDays = 3; store.set('spoilDays', 3); } render(); }
   else if (t.id === 'panelClose') closeSettings();
