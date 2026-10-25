@@ -1,6 +1,24 @@
-wiki-wallabies-2026-10-24-unitedstatesxvaustraliaa: United States XV v Australia A team=wallabies start=2026-10-24T23:00:00.000Z b=-
-wiki-wallabies-2026-10-31-unitedstatesxvaustraliaa: United States XV v Australia A team=wallabies start=2026-10-31T00:00:00.000Z b=-
-nza-inda-1-2026: alt=NZC live stream (nzc.nz / YouTube) note=Not on TV in NZ
-nza-inda-2-2026: alt=NZC live stream (nzc.nz / YouTube) note=Not on TV in NZ
-nza-inda-3-2026: alt=NZC live stream (nzc.nz / YouTube) note=Not on TV in NZ
-page has splitWatch=true tvt=true lcw=true tvnz sport=true 3px ends=true
+https://www.skygo.co.nz/sports -> 200 https://www.skygo.co.nz/sports
+  title=Sky Go
+  heads=Supercars Championship | Rugby League World Cup | Constellation Cup | A-League: Women | F1 Academy | A-League: Men
+  links=/tv-guide /sports /register?callbackUrl=%2Fsports /login?callbackUrl=%2Fsports https://www.sky.co.nz/discover/sky-sport https://tvguide.sky.co.nz/
+https://www.skygo.co.nz/livetv -> 404 https://www.skygo.co.nz/livetv
+  title=Page Not Found | Sky Go
+  heads=
+  links=/tv-guide /sports /register?callbackUrl=%2Flivetv /login?callbackUrl=%2Flivetv https://www.sky.co.nz/discover/sky-sport https://tvguide.sky.co.nz/
+https://www.skygo.co.nz/live-tv -> 404 https://www.skygo.co.nz/live-tv
+  title=Page Not Found | Sky Go
+  heads=
+  links=/tv-guide /sports /register?callbackUrl=%2Flive-tv /login?callbackUrl=%2Flive-tv https://www.sky.co.nz/discover/sky-sport https://tvguide.sky.co.nz/
+https://www.skygo.co.nz/channels -> 404 https://www.skygo.co.nz/channels
+  title=Page Not Found | Sky Go
+  heads=
+  links=/tv-guide /sports /register?callbackUrl=%2Fchannels /login?callbackUrl=%2Fchannels https://www.sky.co.nz/discover/sky-sport https://tvguide.sky.co.nz/
+https://www.skygo.co.nz/tv-guide -> 200 https://www.skygo.co.nz/tv-guide
+  title=TV Guide | Sky Go
+  heads=TV Guide
+  links=/tv-guide /sports /register?callbackUrl=%2Ftv-guide /login?callbackUrl=%2Ftv-guide /watch-tv/0101?playerReferrer=TV Guide /watch-tv/SKY1?playerReferrer=TV Guide /watch-tv/SKY2?playerReferrer=TV Guide /watch-tv/UKTV?playerReferrer=TV Guide /watch-tv/BBCF?playerReferrer=TV Guide /watch-tv/0058?playerReferrer=TV Guide /watch-tv/0205?playerReferrer=TV Guide /watch-tv/LIV1?playerReferrer=TV Guide /watch-tv/0198?playerReferrer=TV Guide /watch-tv/0092?playerReferrer=TV Guide /watch-tv/0206?playerReferrer=TV Guide /watch-tv/0098?playerReferrer=TV Guide /watch-tv/0197?playerReferrer=TV Guide /watch-tv/ART2?playerReferrer=TV Guide /watch-tv/0036?playerReferrer=TV Guide /watch-tv/0025?playerReferrer=TV Guide /watch-tv/MOVI?playerReferrer=TV Guide /watch-tv/0065?playerReferrer=TV Guide /watch-tv/0064?playerReferrer=TV Guide /watch-tv/MOV3?playerReferrer=TV Guide /watch-tv/0059?playerReferrer=TV Guide /watch-tv/0096?playerReferrer=TV Guide /watch-tv/0155?playerReferrer=TV Guide /watch-tv/0162?playerReferrer=TV Guide /watch-tv/SPT1?playerReferrer=TV Guide /watch-tv/SPT2?playerReferrer=TV Guide
+https://www.sky.co.nz/sports -> 200 https://www.sky.co.nz/sports
+  title=Sky - Your Home of Sport
+  heads=
+  links=https://tvguide.sky.co.nz/ https://www.sky.co.nz/build-my-plan/checkout?offerCode=tv-sport-package-01323 https://www.welcome.skysportnow.co.nz/
