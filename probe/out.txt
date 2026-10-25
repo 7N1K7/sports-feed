@@ -1,5 +1,14 @@
-page: offnote=true skygo channel=true png flags=true slowWhy=true v=401
-note: offHub hidden=true vis=shown "" go=undefined | offWeek hidden=false vis=shown "NBA off in settings" go=Basketball
-version shown: 
-fr 360x240 rows0-2: 0,38,84,255 / 0,38,84,255 / 0,38,84,255 last3: 0,38,84,255 / 0,38,84,255 / 0,38,84,255
-in 360x240 rows0-2: 255,104,32,255 / 255,104,32,255 / 255,104,32,255 last3: 4,106,56,255 / 4,106,56,255 / 4,106,56,255
+== 2026 Women's Rugby League World Cup: 44189 chars 
+  |date=18 October 2026 |time=13:50 [[AEDT]] ([[UTC+11:00]])|team1={{rlw-r|NZL}} |team2={{rlw-l|FIJ}} |stadium=[[Newcastle International Sports Centre]], [[Newcastle, New South Wales|Newcastle]]
+  | location = s
+  |date=25 October 2026 |time=15:50 [[NZDT]] ([[UTC+13:00]]) |team1={{rlw-r|NZL}} |team2={{rlw-l|FRA}} |stadium=[[Te Kaha Stadium]], [[Christchurch]]
+  |date=31 October 2026 |time=16:55 [[AEST]] ([[UTC+10:00]]) |team1={{rlw-r|NZL}} |team2={{rlw-l|PNG}} |stadium=[[Robina Stadium]], [[Gold Coast, Queensland|Gold Coast]]|attendance=
+== 2026 Rugby League World Cup: 47157 chars 
+== 2026 Women's Rugby League World Cup group stage: 0 chars The page you specified doesn't exist.
+== 2026 Rugby League World Cup group stage: 0 chars The page you specified doesn't exist.
+feed rlwc-aus-nz 2026-10-15T09:05:00Z src=https://www.nrl.com/news/2026/10/15/jumping-jacks-flash-bostock-bags-t
+feed rlwcw-nz-fiji 2026-10-18T02:50:00Z src=https://www.flicks.co.nz/sport/rugby-league/rugby-league-world-cup/rlw
+feed rlwcw-nz-france 2026-10-25T02:50:00Z src=https://www.flicks.co.nz/sport/rugby-league/rugby-league-world-cup/rlw
+feed rlwc-nz-cook 2026-10-25T05:05:00Z src=https://www.flicks.co.nz/sport/rugby-league/rugby-league-world-cup/rlw
+feed rlwc-nz-fiji 2026-10-31T04:30:00Z src=https://www.flicks.co.nz/sport/rugby-league/rugby-league-world-cup/rlw
+feed rlwcw-nz-png 2026-10-31T06:55:00Z src=https://www.flicks.co.nz/sport/rugby-league/rugby-league-world-cup/rlw
