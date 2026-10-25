@@ -1,16 +1,11 @@
-// probe 200: the World Cup's New Zealand games on Wikipedia (kick-off times), and the live feed's times for them
+// probe 201: the men's World Cup page on Wikipedia: the lines around each New Zealand game (date, time, teams)
 import fs from 'fs';
 const L = [];
-const api = t => `https://en.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(t)}&prop=wikitext&format=json&formatversion=2&redirects=1`;
-for (const t of ["2026 Women's Rugby League World Cup", '2026 Rugby League World Cup', "2026 Women's Rugby League World Cup group stage", '2026 Rugby League World Cup group stage']) {
-  try { const j = await (await fetch(api(t), { headers: { 'user-agent': 'KickoffKiwi probe (https://kickoff.kiwi)' } })).json(); const w = j.parse?.wikitext || '';
-    L.push(`== ${t}: ${w.length} chars ${j.error ? j.error.info : ''}`);
-    // each match box naming New Zealand (or the Kiwi Ferns / Kiwis): its date, time and teams lines
-    const boxes = w.split(/\{\{\s*(?:Rugby league match|rugbyleaguebox|Rugby league box|footballbox)/i).slice(1);
-    for (const b of boxes) { const body = b.slice(0, 1500); if (!/New Zealand|NZL|Kiwi/i.test(body.slice(0, 600))) continue;
-      L.push('  ' + body.split('\n').filter(l => /^\s*\|\s*(date|time|team1|team2|home|away|stadium|location)\s*=/i.test(l)).map(l => l.trim()).join(' ')); }
-  } catch (e) { L.push(`${t} ERR ${e.message}`); }
-}
-const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
-for (const e of f.events.filter(e => /^rlwc/.test(e.id) && /New Zealand/.test(e.home + e.away))) L.push(`feed ${e.id} ${e.startUTC} src=${(e.source || '').slice(0, 70)}`);
+const j = await (await fetch('https://en.wikipedia.org/w/api.php?action=parse&page=2026_Rugby_League_World_Cup&prop=wikitext&format=json&formatversion=2&redirects=1', { headers: { 'user-agent': 'KickoffKiwi probe (https://kickoff.kiwi)' } })).json();
+const w = j.parse?.wikitext || '', lines = w.split('\n');
+L.push('templates: ' + [...new Set((w.match(/\{\{\s*[A-Za-z][\w ]{3,30}\s*\n?\|/g) || []).map(x => x.replace(/\s+/g, ' ').trim()))].slice(0, 30).join(', '));
+lines.forEach((l, i) => { if (/\b(NZL|New Zealand)\b/.test(l) && /team|rl-|rlw|NZL/.test(l)) L.push(`${i}: ` + lines.slice(Math.max(0, i - 4), i + 3).map(x => x.trim()).join(' ').slice(0, 400)); });
+// any sub-page for the group stage or Group A
+const links = [...new Set((w.match(/\[\[(2026 Rugby League World Cup[^\]|]*)/g) || []).map(x => x.slice(2)))];
+L.push('links: ' + links.join(' | '));
 fs.writeFileSync(new URL('./out.txt', import.meta.url), L.join('\n') + '\n');
