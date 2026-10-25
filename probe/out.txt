@@ -1,41 +1,42 @@
-WIKI:  players|1000th player]] for the Wallabies.<ref>{{cite news |last=Doyle |first=Michael |date=15 August 2026 |title=Wallabies vs Japan live: Australia scores 56 points in dominant win over Brave Blossoms |url=https://www.abc.net.au/news/2026-08-15/live-wallabies-japan-second-test-townsville/107027060 |work=[[ABC News (Australia)|ABC News]] |access-date=15 August 2026 }}</ref> ⏎ ---- ⏎ {{rugbybox ⏎ |date = 15 August 2026 ⏎ |time = 19:30 [[Eastern Daylight Time|EDT]] ([[UTC-04]]) ⏎ |team1 = {{ru-rt|USA|name=United States XV}} ⏎ |score = 25–24 ⏎ |report = [https://www.rugbypass.com/news/eagles-heavy-usa-xv-hold-on-for-nail-biting-win-over-argentina-xv/ Report] ⏎ |team2 = {{ruA|ARG}} ⏎ |try1 = [[Shilo Klein|Klein]] 22' m<br />[[Makeen Alikhan|Alikhan]] 34' c<br />[[Marno Redelinghuys|Redelinghuys]] 62' c ⏎ |con1 = [[Luke Carty|Carty]] (2/3) 35', 63' ⏎ |pen1 = [[Luke Carty|Carty]] (2/2) 4', 53' ⏎ |try2 = [[Martín Vaca|Vaca]] 9' m<br />{{ill|Nicolás Viola|lt=Viola|es|Nicolás Viola}} 30' m<br />[[Franco Rossetto|Ross
-
-mentions of "Australia A": 0
-
-https://www.rugby.com.au/news/australia-a-team-confirmed-to-play-usa-in-nashville-20261022
-  Pritchard to start as nine Wallabies named for Australia A in Nashville
-  22-year-old Kadin Pritchard will play his first senior match in gold, named at outside centre for Australia A’s clash with the United States of America in Nashville on Sunday morning AEDT.
-  Edmed is one of nine Wallabies in the matchday 23, including an all-Wallaby tight five consisting of props Tom Robertson and Zane Nonggorr, hooker and captain Matt Faessler and lock pairing Miles Amatosero and Nick Frost.
-  Following from his first Wallabies squad selection during the Bledisloe Cup Series, Toby Macpherson has earned game time in his first senior Australian side, as has former Australian Under 20s captain Eamon Doyle who are the remaining forward cover.
-  The match will be broadcast live on Stan Sport and is the first of two matches against the Eagles in the USA.
-  Australia A Head Coach Stephen Larkham said: “As coaches, we think this team has a good mix of experienced Wallabies who can lead the way for some younger players who have earned the right to test themselves for the first time at international level.
-  Australia A team to play the United States of America at Geodis Park Stadium in Nashville on Sunday 25 October at 9:00am AEDT
-  2026 Australia A fixtures
-  Australia A v USA Eagles, 9:00 am AEDT on Sunday 25 October at Geodis Park Stadium, Nashville
-  Australia A v USA Eagles, 10:00 am AEDT on Saturday 31 October at Sports Illustrated Stadium, New Jersey.
-  Australia A thump USA to open two-match series on high
-  Wallabies
-  How to Watch
-
-https://www.rugby.com.au/news/australia-a-thump-usa-to-open-twomatch-series-on-high-20261025
-  Australia A thump USA to open two-match series on high
-  Dylan Pietsch scored a double as the Australia A team thumped the USA. Photo: Getty Images
-  Australia A have eased past the USA, cruising to a 61-12 win in their opening match in Nashville.
-  Watch every second of the 2026 Nations Championship  live and on demand via Stan Sport.
-  Feliuai then set up a surging Nick Frost for the second, with the lock one of several standouts in the win.
-  Wallabies debutant Harry McLaughlin-Phillips got in on the action, celebrating his dream month with a five pointer.
-  The two teams will head to New Jersey next weekend for the second match.
-  Wallabies
-  How to Watch
-
-https://www.rugby.com.au/more/how-to-watch
-  Broadcasters
-  Our Broadcast and Digital Partners
-  Nine
-  Nine Entertainment brings you LIVE coverage of the Wallabies and Wallaroos, plus select matches of the Blue Crane Capital Shute Shield (NSW) and Sumo Energy Hospital Cup (QLD).
-  Visit Nine
-  Stan Sport
-  Stan Sport lets you stream every match. Live & On Demand.
-  ABC Grandstand is an offical radio broadcaster partner of Rugby Australia and production partner of RUGBY Radio, calling select matches throughout Australia on your local AM dial and online though Grandstand Digital or the ABC Listen app.
-  Wallabies
-  How to Watch
+{{Rugbybox
+|date = 24 October 2026
+|time = 18:00 [[Central Daylight Time|CDT]] ([[UTC-05]])
+|home = {{ru-rt|USA|name=United States XV}}
+|score = 
+|report = 
+|away = {{ruA|AUS}}
+|try1 = 
+|con1 = 
+|pen1 = 
+|drop1 = 
+|try2 = 
+|con2 = 
+|pen2 = 
+|drop2 = 
+|stadium = [[Geodis Park]], [[Nashville]]<ref name=USA>{{cite web|url=https://eagles.rugby/news/wxv-heads-stateside-with-tests-in-texas-tennessee-and-new-jersey-2026623|title=USA Eagles tour stateside with Tests in Texas, Tennessee and New Jersey|date=24 June 2026|access-date=24 June 2026}}</ref>
+|attendance = 
+|referee = [[Katsuki Furuse]] ([[Japan Rugby Football Union|Japan]])
+}}
+----
+{{Rugbybox
+|date = 30 October 2026
+|time = 20:00 [[Eastern Daylight Time|EDT]] ([[UTC-04]])
+|home = {{ru-rt|USA|name=United States XV}}
+|score = 
+|report = 
+|away = {{ruA|AUS}}
+|try1 = 
+|con1 = 
+|pen1 = 
+|drop1 = 
+|try2 = 
+|con2 = 
+|pen2 = 
+|drop2 = 
+|stadium = [[Sports Illustrated Stadium]], [[Harrison, New Jersey|Harrison]]<ref name="USA" />
+|attendance = 
+|referee = [[Damián Schneider]] ([[Argentine Rugby Union|Argentina]])
+}}
+----
+CONTEXT BEFORE: ] || || {{subon|60}} ⏎ |-  ⏎ |colspan=3|'''Coach:''' ⏎ |-  ⏎ |colspan="4"|{{flagdeco|RSA}} [[Jake White]] ⏎ |} ⏎ |} ⏎ {| width=100% ⏎ | ⏎ <!--'''Player of the Match:''' ⏎ <br /> ⏎ --> ⏎ '''Assistant referees:''' ⏎ <br />[[Reuben Keane]] ([[Rugby Australia|Australia]] ⏎ <br />Morgan White ([[Hong Kong China Rugby Union|Hong Kong China]]) ⏎ <br />'''Television match official:''' ⏎ <br />Glenn Newman ([[New Zealand Rugby|New Zealand]]) ⏎ <br />'''Foul play review officer:''' ⏎ <br />Matt Rodden ([[Hong Kong China Rugby Union|Hong Kong China]]) ⏎ |} ⏎ |} ⏎ '''Notes:''' ⏎ * [[Ruan Botha]], [[Chisu Lee]], [[Sanshiro Kihara]] (all Japan), [[Nacani Boginisoko]], [[Kavekini Boselawa]], [[Peni Naruma]] and [[Aporosa Vuniyayawa]] (all Fiji) made their international debuts. ⏎ ---- ⏎ {{Rugbybox ⏎ |date = 24 October 2026 ⏎ |time = 15:00 [[Central African Time|CAT]] ([[UTC+02]]) ⏎ |home = {{ru-rt|ZIM}} ⏎ |score = 36–33 ⏎ |report = ⏎ |away = {{ru|NAM}} ⏎ |try1 = [[Liam Larkan|Larkan]] 16' m<br />[[Darrel Makwasha|Makwasha]] 20' c<br />[[Aiden Burnett|Burnett]] 29' c<br />[[Godfrey Muzanargwo|Muzanargwo]] 31' c<br />[[Hilton Mudariki|Mudariki]] 59' c ⏎ |con1 = [[David Hayes (rugby union)|Hayes]] (4/5) 21', 30', 32', 60' ⏎ |pen1 = [[David Hayes (rugby union)|Hayes]] (1/1) 73' ⏎ |try2 = [[Edward Drotsky|Drotsky]] (2) 25' c, 36' c<br />[[Try (rugby)#Penalty try|Penalty try]] 55'<br />[[Armand Combrinck|Combrinck]] 69' c<br />[[Lazarus Joseph (rugby union)|Joseph]] 79' m ⏎ |con2 = [[Johann Tromp|
+ruA uses: {{ruA|SCO}} {{ruA|ENG|name=England A}} {{ruA|ARG}} {{ruA|AUS}}
