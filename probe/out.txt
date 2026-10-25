@@ -1,7 +1,122 @@
-feed 2026-10-25T11:50:04.164Z
-diag: streams per channel: NZ Cricket 11, Cricket Australia 26, Netball NZ 11, Hockey NZ 49, Basketball NZ 10, NZ Football 4, NZ Rugby League 5, Sports Central 5, Sports TV 5, Pakistan Cricket 3, World Rugby 2, FIFA 4, FIH 13, FIBA 43; matched 6: New Zealand A v India A (none); New Zealand A v India A (none); England v Pakistan (live); Zimbabwe v Afghanistan (none); England v Pakistan (live); Zimbabwe v Afghanistan (none)
-nza-inda-1-2026 New Zealand A v India A 2026-10-23T21:30:00Z | NZ Cricket none https://www.youtube.com/watch?v=Wmn0iRYH5wc ; NZ Cricket none https://www.youtube.com/watch?v=MPgQHztv4tc
-wiki-intlcricket-2026-10-25-englandpakistan England v Pakistan 2026-10-25T08:00:00.000Z | Sports TV live https://www.youtube.com/watch?v=PFF0uyCnWv8 ; Sports Central live https://www.youtube.com/watch?v=Ni-4S8Dlm-A
-wiki-intlcricket-2026-10-23-zimbabweafghanistan Zimbabwe v Afghanistan 2026-10-23T11:30:00.000Z | Sports Central none https://www.youtube.com/watch?v=ge8ifWCVW7g ; Sports TV none https://www.youtube.com/watch?v=Hexn2Grlph0
-tri? wiki-intlcricket-2026-10-25-englandpakistan England v Pakistan 2026-10-25T08:00:00.000Z yt 2
-tri? wiki-intlcricket-2026-10-27-pakistansrilanka Pakistan v Sri Lanka 2026-10-27T08:00:00.000Z yt 0
+feed 2026-10-25T23:20:27.898Z
+diag.f1Sessions: "United States Grand Prix: Practice 1 10, Practice 2 10, Practice 3 3 (top 3), Qualifying 22, Race 22"
+diag.f1SessionsSeen: {"id":"f1-2026-18","wikiReads":512,"tsdbReads":225,"lastTsdb":"2026-10-25T23:20Z","seen":{"Practice 1":{"top3":"2026-10-24T05:12Z","tsdb":"2026-10-25T03:11Z (10)"},"Practice 2":{"top3":"2026-10-24T05:12Z","tsdb":"2026-10-25T03:11Z (10)"},"Practice 3":{"top3":"2026-10-24T18:45Z"},"Qualifying":{"wiki":"2026-10-24T22:42Z (22)"},"Race":{"wiki":"2026-10-25T23:20Z (22)"}}}
+diag.f1Times: "6 of 23 races with start times, 20 sessions coming"
+race card f1-2026-18 status=final score? true summary? true link=https://en.wikipedia.org/wiki/2026_United_States_Grand_Prix sessPage=https://en.wikipedia.org/wiki/2026_United_States_Grand_Prix
+  Practice 1 2026-10-23T17:30:00.000Z src=t 10: 1.Charles Leclerc/Ferrari/1:36.052 ; 2.Max Verstappen/Red Bull/+0.084 ; 3.Lando Norris/McLaren/+0.245 ; 4.George Russell/Mercedes/+0.326 ; 5.Kimi Antonelli/Mercedes/+0.481 ; 6.Lewis Hamilton/Ferrari/+0.503 ; 7.Oscar Piastri/McLaren/+0.734 ; 8.Gabriel Bortoleto/Audi/+0.943 ; 9.Arvid Lindblad/Racing Bulls/+1.011 ; 10.Liam Lawson(NZ)/Racing Bulls/+1.257
+  Practice 2 2026-10-23T21:00:00.000Z src=t 10: 1.Charles Leclerc/Ferrari/1:35.291 ; 2.Kimi Antonelli/Mercedes/+0.042 ; 3.Max Verstappen/Red Bull/+0.189 ; 4.Lewis Hamilton/Ferrari/+0.615 ; 5.George Russell/Mercedes/+0.744 ; 6.Liam Lawson(NZ)/Racing Bulls/+1.040 ; 7.Lando Norris/McLaren/+1.082 ; 8.Oscar Piastri/McLaren/+1.096 ; 9.Isack Hadjar/Red Bull/+1.120 ; 10.Oliver Bearman/Haas/+1.245
+  Practice 3 2026-10-24T17:30:00.000Z src=w top3 3: 1.Lewis Hamilton/Ferrari/ ; 2.Max Verstappen/Red Bull/ ; 3.Charles Leclerc/Ferrari/
+  Qualifying 2026-10-24T21:00:00.000Z src=w 22: 1.Kimi Antonelli/Mercedes/1:34.035/Q3 ; 2.Max Verstappen/Red Bull Racing/1:34.214/Q3 ; 3.Isack Hadjar/Red Bull Racing/1:34.250/Q3 ; 4.Charles Leclerc/Ferrari/1:34.267/Q3 ; 5.Lewis Hamilton/Ferrari/1:34.311/Q3 ; 6.George Russell/Mercedes/1:34.476/Q3 ; 7.Oscar Piastri/McLaren/1:34.803/Q3 ; 8.Lando Norris/McLaren/1:35.049/Q3 ; 9.Arvid Lindblad/Racing Bulls/1:36.049/Q3 ; 10.Liam Lawson(NZ)/Racing Bulls/1:35.058/Q2 ; 11.Pierre Gasly/Alpine/1:35.080/Q2 ; 12.Nico Hülkenberg/Audi/1:35.158/Q2 ; 13.Gabriel Bortoleto/Audi/1:35.691/Q2 ; 14.Franco Colapinto/Alpine/1:35.722/Q2 ; 15.Fernando Alonso/Aston Martin Aramco/1:35.818/Q2 ; 16.Oliver Bearman/Haas/1:36.031/Q2 ; 17.Esteban Ocon/Haas/1:36.531/Q1 ; 18.Lance Stroll/Aston Martin Aramco/1:36.677/Q1 ; 19.Carlos Sainz Jr./Atlassian Williams/1:36.770/Q1 ; 20.Alexander Albon/Atlassian Williams/1:36.967/Q1 ; 21.Sergio Pérez/Cadillac/1:37.433/Q1 ; 22.Valtteri Bottas/Cadillac/1:37.523/Q1
+  Race 2026-10-25T20:00:00.000Z src=w 22: 1.Kimi Antonelli/Mercedes/1:35:16.650/25 ; 2.Charles Leclerc/Ferrari/+13.078/18 ; 3.Max Verstappen/Red Bull Racing/+17.485/15 ; 4.Lewis Hamilton/Ferrari/+18.515/12 ; 5.Lando Norris/McLaren/+30.521/10 ; 6.Isack Hadjar/Red Bull Racing/+34.373/8 ; 7.Oscar Piastri/McLaren/+52.674/6 ; 8.George Russell/Mercedes/+54.303/4 ; 9.Liam Lawson(NZ)/Racing Bulls/+1:19.183/2 ; 10.Pierre Gasly/Alpine/+1:27.516/1 ; 11.Nico Hülkenberg/Audi/+1:34.945 ; 12.Arvid Lindblad/Racing Bulls/+1 lap ; 13.Gabriel Bortoleto/Audi/+1 lap ; 14.Esteban Ocon/Haas/+1 lap ; 15.Lance Stroll/Aston Martin Aramco/+1 lap ; 16.Fernando Alonso/Aston Martin Aramco/+1 lap ; 17.Alexander Albon/Atlassian Williams/+1 lap ; 18.Carlos Sainz Jr./Atlassian Williams/+1 lap ; 19.Sergio Pérez/Cadillac/+1 lap ; 20.Valtteri Bottas/Cadillac/Engine ; Ret.Franco Colapinto/Alpine/Collision damage ; Ret.Oliver Bearman/Haas/Collision damage
+
+WIKI EDITS to "2026 United States Grand Prix" since 2026-10-25T19:30:00Z: 20
+2026-10-25T20:03:25Z size=21877 "/* */" +467,000 … Partly Cloudy
+2026-10-25T21:18:36Z size=21909 "" +cloudy … was … was … ran … over
+2026-10-25T21:39:04Z size=21927 "Dating maintenance tags: {{Current}}" +|date=October 2026
+2026-10-25T21:40:16Z size=22117 "" +[[Kimi Antonelli]] … ITA … [[Mercedes-Benz in Formula One|Mercedes]] … [[Charles Leclerc]] … MON … [[Scuderia Ferrari|Ferrari]] … [[Max … Verstappen]] … NED … [[Red Bull Racing]]-[[Red Bull Powertrain
+2026-10-25T21:43:05Z size=22177 "" +[[Charles Leclerc]] … MON … [[Scuderia Ferrari|Ferrari]] … 1:37.976 … 42
+2026-10-25T21:46:53Z size=24650 "/* References */" +
+2026-10-25T21:48:23Z size=24804 "" +. He went on to win the race, with [[Charles Leclerc]] of [[Scuderia Ferrari|Ferrari]] and [[Max Verstappen]] of [[Red Bull Racing]] completing the podium
+2026-10-25T21:49:03Z size=24744 "removed [[Category:Current sports events]] using [[WP:HC|Hot" +
+2026-10-25T21:51:07Z size=24723 "update tense" +was … a … was … was … had … was
+2026-10-25T21:54:02Z size=24854 "" +. After the race, Antonelli is just 2 points shy from becoming Drivers' Champion, having a 123 point lead over his teammate Russell
+2026-10-25T21:59:01Z size=24839 "" +Sunny
+2026-10-25T22:02:43Z size=24839 "" +432 … 650
+2026-10-25T22:36:26Z size=25152 "" +
+2026-10-25T22:51:18Z size=25172 "/* Qualifying classification */" +data-sort-value="22"
+2026-10-25T23:05:51Z size=25341 "/* Championship standings after the race */ teams and driver" +''' … *''' … ''' … *''' … ''' … *''' … ''' … *''' … ''' … *'''
+2026-10-25T23:06:30Z size=27343 "/* Race */" +12 … ant … ITA … Kimi Antonelli … Mercedes-Benz in Formula One|Mercedes … 1 … 16 … lec … MON … Charles Leclerc … Scuderia Ferrari|Ferrari … +13.078 … 4 … 3 … ver … NED … ''' … Max Verstappen … +17.485
+2026-10-25T23:10:37Z size=27470 "/* Race classification */ Valtteri classified as he complete" +20 … ref … 1 … a
+2026-10-25T23:10:58Z size=27468 "/* Race classification */ oops" +he
+2026-10-25T23:12:13Z size=27468 "/* Race classification */" +2 … 2
+2026-10-25T23:12:53Z size=27468 "/* Race classification */ to be honest how does this even wo" +1 … 1
+
+WIKI EDITS to "2026 Formula One World Championship" since 2026-10-25T21:00:00Z: 1
+2026-10-25T21:39:45Z size=138184 "/* Grands Prix */" +
+
+RACE TABLE at 18173 (comment? false):
+=== Race classification ===
+{| class="wikitable sortable" style="font-size: 85%;"
+! scope="col" |{{Tooltip|Pos.|Position}}
+! scope="col" |{{Tooltip|No.|Car number}}
+! scope="col" |Driver
+! scope="col" |Constructor
+! class="unsortable" scope="col" |{{Tooltip|Laps|Laps completed}}
+! class="unsortable" scope="col" |Time/Retired
+! scope="col" |{{Tooltip|Grid|Starting grid position}}
+! scope="col" |Points
+|-
+!1
+| align="center" |12
+|data-sort-value="ant"|{{flagicon|ITA}} '''[[Kimi Antonelli]]'''
+|'''[[Mercedes-Benz in Formula One|Mercedes]]'''
+| align="center" |56
+|1:35:16.650
+| align="center" |1
+| align="center" |'''25'''
+|-
+!2
+| align="center" |16
+|data-sort-value="lec"|{{flagicon|MON}} '''[[Charles Leclerc]]'''
+|'''[[Scuderia Ferrari|Ferrari]]'''
+| align="center" |56
+| +13.078
+| align="center" |4
+| align="center" |'''18'''
+|-
+!3
+| align="center" |3
+|data-sort-value="ver"|{{flagicon|NED}} '''[[Max Verstappen]]'''
+|'''[[Red Bull Racing]]-[[Red Bull Powertrains|Red Bull Ford]]'''
+| align="center" |56
+| +17.485
+| align="center" | 2
+| align="center" |'''15'''
+|-
+!4
+| align="center" |44
+| data-sort-value="ham" |{{flagicon|GBR}} '''[[Lewis Hamilton]]'''
+|'''[[Scuderia Ferrari|Ferrari]]'''
+| align="center" |56
+| +18.515
+| align="center" |5
+| align="center" |'''12'''
+|-
+!5
+| align="center" |1
+| data-sort-value="nor" |{{flagicon|GBR}} '''[[Lando Norris]]'''
+|'''[[McLaren]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]'''
+| align="center" |56
+| +30.521
+| align="center" |8
+| align="center" |'''10'''
+|-
+!6
+| align="center" |6
+| data-sort-value="had" |{{flagicon|FRA}} '''[[Isack Hadjar]]'''
+|'''[[Red Bull Racing]]-[[Red Bull Powertrains|Red Bull Ford]]'''
+| align="center" |56
+| +34.373
+| align="center" |3
+| align="center" |'''8'''
+|-
+!7
+| align="center" |81
+| data-sort-value="pia" |{{flagicon|AUS}} '''[[Oscar Piastri]]'''
+|'''[[McLaren]]-[[Mercedes AMG High Performance Powertrains|Mercedes]]'''
+| align="center" |56
+| +52.674
+| align="center" |7
+| align="center" |'''6'''
+|-
+!8
+| align="center" |63
+| data-sort-value="rus" |{{flagicon|GBR}} '''[[George Russell (racing driver)|George Russell]]'''
+|'''[[Mercedes-Benz in Formula One|Mercedes]]'''
+| align="center" |56
+| +54.3
+tsdb: United States Grand Prix Practice 1 lines=10 "Top 10 - FP1 Classification:\n1. Charles Leclerc (Ferrari) 1:36.052\n2. Max Verstappen (Red Bull) +0.084\n3. Lando Norris (McLaren) +0.245\n4. George Russell (Merce"
+tsdb: United States Grand Prix Practice 2 lines=10 "Top 10 - FP2 Classification:\n1. Charles Leclerc (Ferrari) 1:35.291\n2. Kimi Antonelli (Mercedes) +0.042\n3. Max Verstappen (Red Bull) +0.189\n4. Lewis Hamilton (Fe"
+tsdb: United States Grand Prix Practice 3 lines=0 ""
+tsdb: United States Grand Prix Qualifying lines=0 ""
+tsdb: United States Grand Prix lines=0 ""
