@@ -836,6 +836,13 @@ a.svc:hover { text-decoration-color: currentColor }
 .hubtop h2 { margin: 0; flex: 1; font-size: 26px }
 .hubicon { line-height: 0 }
 .hubclose { border: 1px solid var(--line); background: var(--surface); color: var(--ink); width: 34px; height: 34px; border-radius: 50%; font-size: 20px; line-height: 1; cursor: pointer }
+/* a picked sport, or a competition's page, with some of that sport switched off in Settings: a small note at the end of
+   the line (over the free space, so nothing moves) that opens Settings there */
+#weekSec > h2, .hubtop { position: relative }
+.offnote { position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: inline-flex; align-items: center; gap: 3px; padding: 3px 7px 3px 5px; font: 600 11px/1 var(--f-body); letter-spacing: 0; text-transform: none; color: var(--muted); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; cursor: pointer; white-space: nowrap }
+.offnote:hover { color: var(--ink); border-color: var(--muted) }
+.offnote svg { width: 11px; height: 11px; flex: none }
+.hubtop .offnote { right: 44px }
 .hubtabs { margin-top: 12px; padding-bottom: 4px; font-size: 0 } /* rows of near even length, by balanceChips (3 and 3, not 4 and 2) */
 .hubtabs button { margin: 0 8px 8px 0; vertical-align: top; border: 1px solid var(--line); background: var(--paper); font: inherit; font-weight: 700; font-size: 15px; color: var(--ink); padding: 7px 18px; border-radius: 999px; cursor: pointer; transition: background .15s, border-color .15s }
 .hubtabs button:hover { border-color: var(--sport); background: color-mix(in srgb, var(--sport) 12%, var(--paper)) }
@@ -1470,10 +1477,10 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 <main class="wrap">
   <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
-  <div class="compbar" id="compBar"><div class="crow"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false" title="NZ only: just New Zealand's teams" aria-label="NZ only"><img src="https://flagcdn.com/nz.svg" alt="" width="18" height="9"><span>NZ</span></button><button type="button" id="freeOnly" class="nzonly freeonly" aria-pressed="false" aria-label="Free to watch" title="Free to watch: only games you can watch for free (TVNZ, Three, Sky Open, DUKE, Whakaata Māori, or a free stream like TVNZ+ or YouTube)"><span class="fta" aria-hidden="true">FREE TV</span></button><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
+  <div class="compbar" id="compBar"><div class="crow"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false" title="NZ only: just New Zealand's teams" aria-label="NZ only"><img src="https://flagcdn.com/h240/nz.png" alt="" width="18" height="9"><span>NZ</span></button><button type="button" id="freeOnly" class="nzonly freeonly" aria-pressed="false" aria-label="Free to watch" title="Free to watch: only games you can watch for free (TVNZ, Three, Sky Open, DUKE, Whakaata Māori, or a free stream like TVNZ+ or YouTube)"><span class="fta" aria-hidden="true">FREE TV</span></button><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
   <section id="hubSec" hidden>
     <div class="hub">
-      <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
+      <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><button type="button" class="offnote" id="offHub" hidden></button><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
       <div class="hubtabs" role="tablist" id="hubTabs"></div>
     </div>
     <div id="hubBody"></div>
@@ -1487,7 +1494,7 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
     <div id="soon" class="daygroup"></div>
   </section>
   <section id="weekSec">
-    <h2>This week <small id="weekRange"></small></h2>
+    <h2>This week <small id="weekRange"></small><button type="button" class="offnote" id="offWeek" hidden></button></h2>
     <div class="week" id="week"></div>
     <div id="dayPick" class="daypick" hidden></div>
   </section>
@@ -1645,7 +1652,8 @@ const FLAGS = {
   Pakistan: '🇵🇰', 'West Indies': '🌴', Canada: '🇨🇦', USA: '🇺🇸', 'United States': '🇺🇸',
   Netherlands: '🇳🇱', Belgium: '🇧🇪', Germany: '🇩🇪', 'Great Britain': '🇬🇧', Malaysia: '🇲🇾', 'South Korea': '🇰🇷', China: '🇨🇳', Spain: '🇪🇸', Chile: '🇨🇱',
 };
-// flag emoji don't render on Windows, so use flag images (flagcdn.com SVG, sharp at any size) keyed by ISO code
+// flag emoji don't render on Windows, so use flag images (flagcdn.com) keyed by ISO code: PNGs drawn 240px tall, not the
+// SVGs, whose stacked stripes leave a pale line along the top and bottom edges at most sizes (France, India)
 const ISO = { 'New Zealand': 'nz', 'All Blacks': 'nz', 'Black Ferns': 'nz', Australia: 'au', Wallabies: 'au', England: 'gb-eng', Scotland: 'gb-sct',
   Wales: 'gb-wls', Ireland: 'ie', France: 'fr', Italy: 'it', 'South Africa': 'za', Argentina: 'ar', Japan: 'jp', Fiji: 'fj', Samoa: 'ws', Tonga: 'to',
   'Papua New Guinea': 'pg', 'Cook Islands': 'ck', India: 'in', 'Sri Lanka': 'lk', Bangladesh: 'bd', Pakistan: 'pk', Lebanon: 'lb', Canada: 'ca',
@@ -1662,7 +1670,7 @@ const OWN_FLAG = { 'West Indies': 'https://upload.wikimedia.org/wikipedia/common
 const flagOf = name => {
   const base = String(name || '').replace(/\s+(Invitation XI|Women|A|XI|XV|U\d+|Wheelchair)$/i, '').trim();
   const c = ISO[base];
-  return c ? `https://flagcdn.com/${c}.svg` : OWN_FLAG[base] || '';
+  return c ? `https://flagcdn.com/h240/${c}.png` : OWN_FLAG[base] || '';
 };
 // away side: name first, then logo/flag, so both crests sit beside the "v"
 // "Wellington Phoenix FC" -> "Wellington Phoenix"; keeps short names like "Auckland FC"
@@ -2188,10 +2196,13 @@ function evCard(e, now) {
     </div>
   </article>`;
 }
-// Watch services -> their sites (home pages; apps open from there)
+// Watch services -> their sites (home pages; apps open from there). Sky's channels play online in Sky Go (for Sky
+// customers): a named channel opens its own page there, plain "Sky Sport" Sky Go's sport page
+const SKY_GO = { 'Sky Sport Select': '0162', 'Sky Sport 1': 'SPT1', 'Sky Sport 2': 'SPT2', 'Sky Sport 3': 'SPT3', 'Sky Sport 4': '0001', 'Sky Sport 5': '0002', 'Sky Sport 6': '0003',
+  'Sky Sport 7': '0009', 'Sky Sport Premier League': '0004', 'Sky Sport 9': '0016', 'ESPN on Sky': '0026' };
 const SERVICES = {
-  'Sky Sport Now': 'https://www.skysportnow.co.nz', 'Sky Sport': 'https://www.sky.co.nz/sports',
-  'ESPN on Sky': 'https://www.sky.co.nz/sports/espn', 'Sky Arena': 'https://www.sky.co.nz/sports/sky-arena',
+  ...Object.fromEntries(Object.entries(SKY_GO).map(([ch, id]) => [ch, `https://www.skygo.co.nz/watch-tv/${id}`])),
+  'Sky Sport Now': 'https://www.skysportnow.co.nz', 'Sky Sport': 'https://www.skygo.co.nz/sports', 'Sky Arena': 'https://www.sky.co.nz/sports/sky-arena',
   'TVNZ+': 'https://www.tvnz.co.nz/sport', 'TVNZ 1': 'https://www.tvnz.co.nz/livetv/tvnz-1', 'ThreeNow': 'https://www.threenow.co.nz/live-tv-guide', 'Three': 'https://www.threenow.co.nz/live-tv-guide/three',
   'scoring.nzc.nz': 'https://scoring.nzc.nz', 'NZC YouTube': 'https://www.youtube.com/@blackcaps', 'NZC live stream': 'https://www.nzc.nz', 'nzc.nz': 'https://www.nzc.nz',
   RNZ: 'https://www.rnz.co.nz/radio', DAZN: 'https://www.dazn.com', Netflix: 'https://www.netflix.com', 'ICC.tv': 'https://www.icc.tv',
@@ -3270,6 +3281,38 @@ function morphKids(a, b) {
   });
   for (let i = an.length - 1; i >= bn.length; i--) an[i].remove();
 }
+// what of a picked sport (or the open competition's sport) is switched off in Settings: named on a small note at the end of
+// This week's line (or the competition's name), the longest wording that fits there; it opens Settings at that sport
+function drawOffNote() {
+  const sport = compSel && ((FEED.events || []).find(e => compOf(e) === compSel) || {}).sport, sports = compSel ? [sport].filter(Boolean) : [...sportSel];
+  const label = k => (TEAMS.flatMap(groupItems).find(([j]) => j === k) || [k, TEAM_NAME[k] || k])[1], groupOf = k => TEAMS.find(g => groupItems(g).some(([j]) => j === k))?.g;
+  // a competition's own team or league first (the NBA on the NBA's page); a sport with everything off is named as the sport
+  const own = new Set(compSel ? (FEED.events || []).filter(e => compOf(e) === compSel).map(e => e.team) : []);
+  const offs = sports.flatMap(sp => { const ks = (SPORT[sp] || []).filter(k => !picked.has(k)).sort((a, b) => own.has(b) - own.has(a));
+    return ks.length && ks.length === (SPORT[sp] || []).length ? [[groupOf(ks[0]), ks[0]]] : ks.map(k => [label(k), k]); });
+  // on a competition's page it goes by the name, or on This week's line when a long name leaves no room
+  for (const n of [$('offWeek'), $('offHub')]) {
+    n.hidden = !offs.length || (n.id === 'offHub' && !compSel); if (n.hidden) continue;
+    const [first] = offs[0], more = offs.length - 1;
+    Object.assign(n.dataset, { offgo: groupOf(offs[0][1]), l: `${first}${more ? ` + ${more} more` : ''} off in settings`, m: `${first}${more ? ` +${more}` : ''} off`, s: `${offs.length} off` });
+    n.title = `Off in Settings: ${offs.map(o => o[0]).join(', ')}. Tap to turn ${offs.length > 1 ? 'them' : 'it'} back on`;
+  }
+  fitOffNote();
+}
+function fitOffNote() {
+  let shown = false;
+  for (const n of [$('offHub'), $('offWeek')]) { if (n.hidden) continue; n.style.visibility = 'hidden'; if (shown || !n.offsetWidth) continue;
+    // the room between the line's words and its end (or the close button)
+    const words = n.id === 'offWeek' ? $('weekRange') : $('hubName'), r = document.createRange(); r.selectNodeContents(words);
+    const room = n.parentNode.getBoundingClientRect().right - parseFloat(getComputedStyle(n).right) - r.getBoundingClientRect().right - 10;
+    // the longest wording that fits, the cog dropped last
+    for (const k of ['l', 'm', 's', 's0']) { n.innerHTML = `${k === 's0' ? '' : `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${GEAR}</svg>`}${esc(n.dataset[k[0]])}`; if (n.offsetWidth <= room) break; }
+    if (n.offsetWidth <= room) { n.style.visibility = ''; shown = true; } // never over the words (a long name on a small phone)
+  }
+}
+addEventListener('resize', fitOffNote); document.fonts?.ready.then(fitOffNote);
+// the Settings button's cog
+const GEAR = '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>';
 function render() {
   const now = Date.now();
   renderNowBar(now);
@@ -3520,7 +3563,7 @@ function render() {
     $('compSel').title = compSel ? $('compSel').textContent : 'Pick a competition for far more data!'; // (with none picked, a tip that each has its own page)
     $('nzOnly').setAttribute('aria-pressed', String(nzOnly));
     $('freeOnly').setAttribute('aria-pressed', String(freeOnly)); document.body.classList.toggle('freeon', freeOnly);
-    renderHub(now);
+    renderHub(now); drawOffNote();
     $('compSel').classList.toggle('on', !!compSel);
     $('genderSel').innerHTML = [['all', 'All'], ['m', "Men's"], ['w', "Women's"]].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
     // the sport row dims while a competition is picked, unless it's the lone sport button that opened it
@@ -3543,7 +3586,7 @@ function render() {
   $('spoilBtn').innerHTML = ico(spoilers ? eye + '<path d="M3 3l18 18"/>' : eye);
   $('spoilBtn').title = spoilers ? 'Results are hidden: tap to show them' : 'Results are showing: tap to hide them';
   $('spoilBtn').setAttribute('aria-label', spoilers ? 'Spoilers hidden' : 'Spoilers shown');
-  $('teamsBtn').innerHTML = `${ico('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>')}`;
+  $('teamsBtn').innerHTML = `${ico(GEAR)}`;
   $('spoilDays').value = String(spoilDays);
   $('tzWord').textContent = tzLabel() === 'NZ' ? 'NZ' : tzLabel() + ' time';
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
@@ -3800,7 +3843,8 @@ document.addEventListener('click', ev => {
   if (sub) count({ e: sub.closest('#calList') ? 'cal' : 'alerts' });
   // which ways to watch people tap (the services, and the live scores link): just the service's name
   const svc = ev.target.closest('a.svc, a.livelink, a.fta[data-watch], a.tvw[data-watch], a.tvt[data-watch], a.ltv[data-watch]');
-  if (svc && (svc.classList.contains('livelink') || svc.dataset.watch || SERVICES[svc.textContent.trim()])) count({ e: 'watch', k: svc.classList.contains('livelink') ? 'Live scores link' : svc.dataset.watch || svc.textContent.trim() });
+  // (a Sky Sport channel's link counts as Sky Sport's)
+  if (svc && (svc.classList.contains('livelink') || svc.dataset.watch || SERVICES[svc.textContent.trim()])) count({ e: 'watch', k: svc.classList.contains('livelink') ? 'Live scores link' : (svc.dataset.watch || svc.textContent.trim()).replace(/^Sky Sport (\d|Select|Premier League)$/, 'Sky Sport') });
   // where people go from the site: any link out, by its site's name ("youtube.com", "en.wikipedia.org")
   const out = ev.target.closest('a[href^="http"]');
   if (out) { try { const h = new URL(out.href).hostname.replace(/^www\./, ''); if (!/(^|\.)kickoff\.kiwi$/.test(h)) count({ e: 'out', k: h }); } catch {} }
@@ -3837,7 +3881,9 @@ document.addEventListener('click', ev => {
   }
   if (t.dataset.tocomp) { count({ e: 'use', k: t.dataset.totab ? 'Sessions tab from race' : 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = t.dataset.totab || 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   // a name in the hidden-sports line: its group (a sport's own, or the one holding that competition), scrolled to and lit
-  if (t.dataset.hidgo) { count({ e: 'use', k: 'Hidden sports list name' }); const n = t.dataset.hidgo, gn = / sessions$/.test(n) ? 'Motorsport' : (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([, l]) => l === n)))?.g;
+  if (t.dataset.hidgo || t.dataset.offgo) { count({ e: 'use', k: t.dataset.offgo ? 'Off in settings note' : 'Hidden sports list name' }); const n = t.dataset.hidgo || t.dataset.offgo;
+    if ($('panel').hidden) { $('panel').hidden = false; $('teamsBtn').setAttribute('aria-expanded', 'true'); }
+    const gn = / sessions$/.test(n) ? 'Motorsport' : (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([, l]) => l === n)))?.g;
     const g = [...document.querySelectorAll('#teamGroups .group')].find(x => x.dataset.g === gn);
     // scroll the Settings box only (scrollIntoView would move the page behind it too)
     const box = document.querySelector('.panel .pbox'), to = el => box.scrollTo({ top: box.scrollTop + el.getBoundingClientRect().top - box.getBoundingClientRect().top - (box.clientHeight - el.offsetHeight) / 2, behavior: 'smooth' });
