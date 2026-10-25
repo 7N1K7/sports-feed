@@ -2,7 +2,8 @@
 // day. Unique visitors are counted without cookies: each visitor's address and browser are scrambled with a random
 // salt that changes every day and is deleted two days later, so the codes can't be traced back to anyone. Nothing
 // else about a visitor is kept: only totals by country, device, system and browser, app or not, and the site they came
-// from; and, from the page, totals of what was picked or searched for, errors, load speed and the hour of the day.
+// from; and, from the page, totals of what was picked or searched for, errors, load speed (and for a slow load, what
+// slowed it and the system and browser) and the hour of the day.
 // POST /report takes a visitor's "Report a problem" note (kept with the game it's about) or "Suggest an idea" note,
 // a few a day each at most.
 // GET /stats (with the owner's password) returns the totals, the reports and the site's data coverage at each version
@@ -14,7 +15,7 @@ const EVENTS = new Set(['install', 'appfirst', 'cal', 'alerts', 'rankings', 'ale
 // the words searched (search0: searches with no results), a page error, the load time band
 // and which way to watch was tapped, which team was followed or dropped in My teams, which sport was hidden or shown
 // there, which part of the site was used, and the sites people follow links out to
-const KEYED = { game: 'gameopen', sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed', watch: 'watch', follow: 'follow', unfollow: 'unfollow', use: 'use', hidesport: 'hidesport', showsport: 'showsport', out: 'outlink' };
+const KEYED = { game: 'gameopen', sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed', slow: 'slowload', watch: 'watch', follow: 'follow', unfollow: 'unfollow', use: 'use', hidesport: 'hidesport', showsport: 'showsport', out: 'outlink' };
 const USE = new Set(['Free to watch', 'Events button', 'Results button', 'News button', 'Series row chip', 'Running now tile', 'Events ahead tile', 'Results tab in a game', 'Day in the week strip', 'Dot in the week strip', 'Filters folded away', 'Filters opened', 'Hide sport', 'Show sport', 'Show all results',
   'Settings', 'Spoiler eye', 'NZ only', 'Competition Results tab', 'Competition Squads tab', 'Competition Table tab', 'Competition Rankings tab', 'Competition Playoffs tab',
   'Competition News tab', 'Competition Shows tab', 'Competition Build-up tab', 'Competition Fights tab', 'Competition Races tab', 'Starting soon card', 'Report opened', 'Report sent', 'Suggest opened', 'Idea sent', 'Coffee link', 'Coffee in Settings', 'Sport order A–Z', 'Competition page from game', "Men's teams off", "Men's teams on", "Women's teams off", "Women's teams on",
@@ -34,11 +35,15 @@ const keyOf = (e, k) => {
   if (e === 'out' && !/^[a-z0-9.-]{3,60}$/.test(v = v.toLowerCase())) return '';
   if (e === 'watch' || e === 'follow' || e === 'unfollow') v = v.replace(/[^\p{L}\p{N} '&.+()/-]/gu, '').slice(0, 40);
   if (e === 'game') v = v.replace(/[^\p{L}\p{N} '&.+()/:,-]/gu, '').replace(/\s+/g, ' ').slice(0, 100);
+  if (e === 'slow') v = v.replace(/[^a-z0-9 .·-]/gi, '').replace(/\s+/g, ' ').slice(0, 90);
   return v.length >= 2 ? v : '';
 };
 const nzHour = () => new Intl.DateTimeFormat('en-NZ', { timeZone: 'Pacific/Auckland', hour: '2-digit', hourCycle: 'h23' }).format(new Date()).padStart(2, '0');
 const osOf = ua => /iPhone|iPad|iPod/.test(ua) ? 'iOS' : /Android/.test(ua) ? 'Android' : /Windows/.test(ua) ? 'Windows' : /CrOS/.test(ua) ? 'ChromeOS' : /Mac OS X|Macintosh/.test(ua) ? 'Mac' : /Linux/.test(ua) ? 'Linux' : 'Other';
 const browserOf = ua => /SamsungBrowser/.test(ua) ? 'Samsung' : /Edg(A|iOS)?\//.test(ua) ? 'Edge' : /OPR\/|Opera/.test(ua) ? 'Opera' : /Firefox|FxiOS/.test(ua) ? 'Firefox' : /CriOS|Chrome\//.test(ua) ? 'Chrome' : /Safari\//.test(ua) ? 'Safari' : 'Other';
+// a browser's version, from what it says it is: iPhones and iPads by their system's (every browser there is Safari underneath)
+const versionOf = ua => (ua.match(/(?:iPhone|iPad|iPod).*? OS (\d+)/) || ua.match({ Samsung: /SamsungBrowser\/(\d+)/, Edge: /Edg(?:A|iOS)?\/(\d+)/, Opera: /OPR\/(\d+)/, Firefox: /(?:Firefox|FxiOS)\/(\d+)/,
+  Chrome: /(?:CriOS|Chrome)\/(\d+)/, Safari: /Version\/(\d+)/ }[browserOf(ua)] || /$^/) || [])[1] || '';
 const MAX_PER_VISITOR = 300; // a day's hits from one visitor; past that it's a script, not a person
 
 const nzDay = (t = Date.now()) => new Date(t).toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' });
@@ -78,7 +83,9 @@ async function hit(req, env, body) {
   if (visit) writes.push(bump(env, day, 'opens'), env.DB.prepare('INSERT INTO opens (day, h, n) VALUES (?1, ?2, 1) ON CONFLICT (day, h) DO UPDATE SET n = n + 1').bind(day, h));
   if (b.e) {
     if (EVENTS.has(b.e)) writes.push(bump(env, day, 'event', b.e));
-    const k = KEYED[b.e] && keyOf(b.e, b.k);
+    // a slow load gets the system and browser added ("iOS 17 Safari", "Android Chrome 120")
+    const k0 = KEYED[b.e] && keyOf(b.e, b.k), ios = /iPhone|iPad|iPod/.test(ua);
+    const k = k0 && b.e === 'slow' ? `${k0} · ${osOf(ua)} ${ios ? `${versionOf(ua)} ${browserOf(ua)}` : `${browserOf(ua)} ${versionOf(ua)}`}`.replace(/\s+/g, ' ').trim() : k0;
     if (k) writes.push(bump(env, day, KEYED[b.e], k));
   } else {
     writes.push(bump(env, day, 'views'), bump(env, day, 'hour', nzHour()));

@@ -4221,11 +4221,26 @@ async function load(woke) {
     }
     $('foot').innerHTML = `<div class="fbtns"><button type="button" class="fbtn" data-suggest="">Suggest an idea</button><a class="fbtn coffee" href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="">☕ Buy me a coffee</a><button type="button" class="fbtn" data-report="">Report a problem</button></div><p class="fsrc">Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)</p>`;
     render(); stamp(); openFromLink();
-    // how long until the first games were on screen, in bands
-    if (!load.timed) { load.timed = true; const t = performance.now() / 1000; count({ e: 'speed', k: t < 1 ? 'under 1s' : t < 2 ? '1-2s' : t < 4 ? '2-4s' : t < 8 ? '4-8s' : '8s or more' }); }
+    // how long until the first games were on screen, in bands; a slow one (4s or more) says why it might have been
+    if (!load.timed) { load.timed = true; const t = performance.now() / 1000; count({ e: 'speed', k: t < 1 ? 'under 1s' : t < 2 ? '1-2s' : t < 4 ? '2-4s' : t < 8 ? '4-8s' : '8s or more' }); if (t >= 4) count({ e: 'slow', k: slowWhy(t) }); }
   } catch (e) {
     if (!FEED.generatedAt) { $('mockBar').hidden = false; $('mockNote').textContent = 'Could not load the feed. Check your connection and refresh the page.'; }
   }
+}
+// a slow first load, in words: its band, the part that took longest (getting the page, starting it up, getting the feed,
+// drawing the games), the connection the browser reports (Chrome-based ones only), whether the page was out of sight
+// meanwhile (a tab opened behind, the phone locked) and the memory the browser reports (Chrome-based); the stats server
+// adds the system and browser with its version, from what the browser says it is
+const loadSeen = { hid: document.hidden || !!document.prerendering };
+addEventListener('visibilitychange', () => { if (document.hidden) loadSeen.hid = true; });
+function slowWhy(t) {
+  try {
+    const nav = performance.getEntriesByType('navigation')[0], feed = performance.getEntriesByType('resource').filter(r => /\/data\/feed\.json/.test(r.name)).pop();
+    const now = performance.now(), page = nav?.responseEnd || 0;
+    const parts = feed ? [['getting the page', page], ['starting up', feed.startTime - page], ['getting the feed', feed.responseEnd - feed.startTime], ['drawing', now - feed.responseEnd]] : [['getting the page', page], ['the rest', now - page]];
+    const net = navigator.connection?.effectiveType, mem = navigator.deviceMemory;
+    return [t < 8 ? '4-8s' : '8s or more', 'slowest ' + parts.sort((a, b) => b[1] - a[1])[0][0], net ? `${net} connection` : 'connection unknown', loadSeen.hid ? 'out of sight' : 'in sight', mem ? `${mem} GB memory` : 'memory unknown'].join(' · ');
+  } catch { return t < 8 ? '4-8s' : '8s or more'; }
 }
 tick(); render(); load();
 // the page view: with (counted once a day per visitor) the sports on in My teams and whether this browser has been here before
