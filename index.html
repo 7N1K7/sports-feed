@@ -3186,6 +3186,7 @@ function drawSearch() {
 const toSec = id => scrollTo({ top: $(id).getBoundingClientRect().top + scrollY - document.querySelector('header.top').offsetHeight - 10 });
 const closeSearch = () => { $('qList').hidden = true; $('q').setAttribute('aria-expanded', 'false'); };
 $('q').addEventListener('input', drawSearch);
+$('q').addEventListener('focus', () => use('Search box')); // the box tapped into; what's typed is counted as a search
 $('q').addEventListener('focus', drawSearch);
 $('q').addEventListener('keydown', ev => {
   if (ev.key === 'Escape') { $('q').value = ''; closeSearch(); }
@@ -3892,7 +3893,7 @@ document.addEventListener('click', ev => {
   if (dot && matchMedia('(pointer: fine)').matches) { count({ e: 'use', k: 'Dot in the week strip' }); openDetail(dot.dataset.dot); return; }
   const t = ev.target.closest('button');
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) { if (card.closest('#soon')) count({ e: 'use', k: 'Starting soon card' }); openDetail(card.dataset.open); } else if (ev.target === $('sheet')) $('sheet').close(); return; }
-  if (t.id === 'sheetClose') { $('sheet').close(); return; }
+  if (t.id === 'sheetClose') { use('Game pop-up closed'); $('sheet').close(); return; }
   if (t.dataset.sback) { use('Back in a pop-up'); const prev = sheetTrail.pop(); if (prev) { dTab = prev.tab; dTabId = prev.id; openDetail(prev.id, false, true); } return; }
   if (t.dataset.teampage) { if (!t.classList.contains('back')) use(t.classList.contains('qi') ? 'Search result team' : t.classList.contains('rteam') ? 'Team from rankings' : t.closest('.formrows') ? 'Team from form' : t.closest('.stable') ? 'Team from a table' : 'Team from a game'); closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport, t.classList.contains('rteam') ? $('sheet').dataset.rankings : ''); return; }
   if (t.dataset.goto) { use(t.classList.contains('qi') ? 'Search result game' : t.classList.contains('pbox2') ? 'Playoff bracket game' : 'Game from a team page'); const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
@@ -3984,7 +3985,7 @@ document.addEventListener('click', ev => {
   else if (t.dataset.view) { if (t.dataset.view !== (PHONE.matches && view === 'mixed' ? 'compact' : view)) { count({ e: 'use', k: `Card size ${t.textContent.trim()}` }); view = t.dataset.view; store.set('view', view); render(); } }
   else if (t.id === 'nowMore' || t.id === 'nowBack') { use('Series row arrow'); const c = $('nowChips'); c.scrollBy({ left: c.clientWidth * (t.id === 'nowBack' ? -0.7 : 0.7), behavior: 'smooth' }); }
   else if (t.id === 'spoilBtn') { count({ e: 'use', k: 'Spoiler eye' }); spoilers = !spoilers; store.set('spoilers', spoilers); if (spoilers && !spoilDays) { spoilDays = 3; store.set('spoilDays', 3); } render(); }
-  else if (t.id === 'panelClose') closeSettings();
+  else if (t.id === 'panelClose') { use('Settings closed'); closeSettings(); }
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); if (!p.hidden) count({ e: 'use', k: 'Settings' }); }
   else if (t.id === 'allOn') { count({ e: 'use', k: 'Select all teams' }); picked = new Set(ALL_KEYS); store.set('teams', [...picked]); render(); }
   else if (t.id === 'allDef') { count({ e: 'use', k: 'Default teams' }); picked = new Set(ALL_KEYS.filter(k => !OPT_IN.has(k))); store.set('teams', [...picked]); render(); }
@@ -4003,6 +4004,7 @@ function dselFor(sel) {
   btn.setAttribute('aria-label', sel.labels?.[0]?.textContent || '');
   btn.addEventListener('click', () => {
     const open = list.hidden; closeDsels(); if (!open) return;
+    const k = { tzSel: 'Time zone menu opened', spoilDays: 'Hide results for menu opened' }[sel.id]; if (k) use(k);
     list.innerHTML = [...sel.options].map(o => `<button type="button" class="dopt" role="option" data-v="${esc(o.value)}" aria-selected="${o.selected}">${esc(o.text)}</button>`).join('');
     list.hidden = false; btn.setAttribute('aria-expanded', 'true');
     const on = list.querySelector('[aria-selected="true"]'); if (on) list.scrollTop = on.offsetTop - (list.clientHeight - on.offsetHeight) / 2;
@@ -4016,7 +4018,7 @@ function dselFor(sel) {
   return w;
 }
 const syncDsel = sel => { dselFor(sel).firstChild.textContent = sel.selectedOptions[0]?.text || ''; };
-$('accentPick').addEventListener('click', ev => { ev.stopPropagation(); const w = document.querySelector('.accwrap'); w.classList.toggle('open'); $('accentPick').setAttribute('aria-expanded', w.classList.contains('open')); });
+$('accentPick').addEventListener('click', ev => { ev.stopPropagation(); const w = document.querySelector('.accwrap'); w.classList.toggle('open'); $('accentPick').setAttribute('aria-expanded', w.classList.contains('open')); if (w.classList.contains('open')) use('Theme menu opened'); });
 document.addEventListener('click', e => { if (!e.target.closest('.accwrap')) { document.querySelector('.accwrap')?.classList.remove('open'); $('accentPick')?.setAttribute('aria-expanded', 'false'); } });
 function closeDsels() { document.querySelectorAll('.dsel .dlist:not([hidden])').forEach(l => { l.hidden = true; l.previousElementSibling.setAttribute('aria-expanded', 'false'); }); }
 document.addEventListener('click', e => { if (!e.target.closest('.dsel')) closeDsels(); });
@@ -4208,7 +4210,7 @@ document.addEventListener('click', ev => {
   count({ e: 'use', k: reportIdea ? 'Suggest opened' : 'Report opened' });
 });
 document.addEventListener('click', ev => { const c = ev.target.closest('[data-coffee]'); if (c) count({ e: 'use', k: c.dataset.coffee === 'settings' ? 'Coffee in Settings' : 'Coffee link' }); });
-$('reportCancel').addEventListener('click', () => $('reportDlg').close());
+$('reportCancel').addEventListener('click', () => { use('Report cancelled'); $('reportDlg').close(); });
 $('reportDlg').addEventListener('click', ev => { if (ev.target === $('reportDlg')) $('reportDlg').close(); });
 $('reportForm').addEventListener('submit', async ev => {
   ev.preventDefault();
@@ -4289,6 +4291,22 @@ function slowWhy(t) {
     return [t < 8 ? '4-8s' : '8s or more', 'slowest ' + parts.sort((a, b) => b[1] - a[1])[0][0], net ? `${net} connection` : 'connection unknown', loadSeen.hid ? 'out of sight' : 'in sight', mem ? `${mem} GB memory` : 'memory unknown'].join(' · ');
   } catch { return t < 8 ? '4-8s' : '8s or more'; }
 }
+// how far down a visit gets: the furthest section that came into view and how much of the page, sent once, when the
+// page is first left (another tab or app, the phone locked, or closed)
+{ const SEC = [['hubSec', 'A competition'], ['liveSec', 'Live now'], ['soonSec', 'Starting soon'], ['weekSec', 'This week'], ['todaySec', 'On today'], ['tomSec', 'Tomorrow'],
+    ['upSec', 'Coming up'], ['runSec', 'Running now'], ['bigSec', 'Events ahead'], ['laterSec', 'Further ahead'], ['resSec', 'Results'], ['newsSec', 'News'], ['showSec', 'Shows'], ['foot', 'Foot of the page']];
+  let low = 0, sent = false;
+  const seen = () => { low = Math.max(low, scrollY + innerHeight); };
+  addEventListener('scroll', seen, { passive: true });
+  const send = () => {
+    if (sent) return; sent = true; seen();
+    const doc = document.documentElement.scrollHeight, pc = low / Math.max(1, doc);
+    let at = '';
+    for (const [id, name] of SEC) { const el = $(id); if (el && el.offsetParent !== null && el.getBoundingClientRect().top + scrollY < low - 40) at = name; }
+    count({ e: 'scroll', k: `${pc > 0.97 ? 'all of it' : pc >= 0.75 ? '75-100%' : pc >= 0.5 ? '50-75%' : pc >= 0.25 ? '25-50%' : 'under 25%'} · ${at || 'Top'}` });
+  };
+  addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') send(); });
+  addEventListener('pagehide', send); }
 tick(); render(); load();
 // the page view: with (counted once a day per visitor) the sports on in My teams and whether this browser has been here before
 { let ref = ''; try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch {}

@@ -26,7 +26,7 @@ try { const a = JSON.parse(localStorage.getItem('sf.statsAccent') || localStorag
 }
 * { box-sizing: border-box }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.45; padding-top: env(safe-area-inset-top, 0px) }
-.wrap { max-width: 860px; margin: 0 auto; padding: 16px max(16px, env(safe-area-inset-right, 0px)) 40px max(16px, env(safe-area-inset-left, 0px)) }
+.wrap { max-width: 1440px; margin: 0 auto; padding: 16px max(16px, env(safe-area-inset-right, 0px)) 40px max(16px, env(safe-area-inset-left, 0px)) }
 header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px }
 header img { width: 44px; height: 44px }
 header h1 { font-family: var(--f-display); font-size: 30px; line-height: 1; margin: 0; letter-spacing: .01em }
@@ -76,7 +76,10 @@ button, input { font: inherit; color: inherit }
 .tip .row i { width: 12px; height: 2px; border-radius: 1px; display: inline-block }
 .tip b { font-weight: 700 }
 /* bar lists */
-.lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px }
+.lists { columns: 260px; column-gap: 12px } /* the boxes packed in columns, as many as fit, so a wide screen shows more at once */
+.lists > .card { break-inside: avoid; margin: 0 0 12px }
+/* the two charts side by side on a wide screen */
+@media (min-width: 1100px) { .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start } .duo > .card { margin-top: 12px } }
 .lists .card { margin-top: 0 }
 .bars { display: grid; gap: 7px }
 /* data coverage: a row a sport, each figure coloured by how complete it is */
@@ -215,6 +218,7 @@ th { color: var(--muted); font-weight: 600 }
       <p class="note">Sent with Report a problem (a game's pop-up, or the foot of the page) and Suggest it (the foot of the page). Nothing about who sent them is kept.</p>
     </section>
 
+    <div class="duo">
     <section class="card">
       <h2>Each day</h2>
       <div class="legend"><span><i style="background:var(--series-1)"></i>People</span><span><i style="background:var(--series-2)"></i>Visits</span><span><i style="background:var(--series-3)"></i>Page views</span></div>
@@ -227,6 +231,7 @@ th { color: var(--muted); font-weight: 600 }
       <p class="note" style="margin-top:-4px">Page views by hour of the day, NZ time, over the chosen days.</p>
       <div class="chartbox" id="hours"></div>
     </section>
+    </div>
 
     <div class="lists" style="margin-top:12px">
       <section class="card"><h2>How often people come back</h2><div class="bars" id="repeat"></div><p class="note">People by how many visits they made in a day, over the chosen days (from the day this was added).</p></section>
@@ -253,6 +258,9 @@ th { color: var(--muted); font-weight: 600 }
         <h3 class="thh">Connection</h3><div class="bars" id="slownet"></div>
         <h3 class="thh">Memory</h3><div class="bars" id="slowmem"></div>
         <h3 class="thh">System and browser</h3><div class="bars" id="slowdev"></div></section>
+      <section class="card"><h2>How far people scroll</h2><p class="note">Each visit's furthest point down the page, sent when the page is left (counted from 25 Oct 2026).</p>
+        <h3 class="thh">Furthest section seen</h3><div class="bars" id="scrollsec"></div>
+        <h3 class="thh">How much of the page</h3><div class="bars" id="scrollpct"></div></section>
       <section class="card"><h2>Where people watch</h2><div class="bars" id="watch"></div><p class="note">Taps on a way to watch, in a game's pop-up or on a card, and on the live scores link.</p></section>
       <section class="card"><h2>Settings used</h2><div class="bars" id="setuse"></div><p class="note">Taps in the Settings box, all visitors together: opening it, a team turned on or off (which ones are in Teams followed and Teams dropped), a sport hidden or shown and the rest. Select all, Defaults, Clear, theme, time zone, Hide results for and the settings code are counted from 23 Oct 2026.</p></section>
       <section class="card"><h2>Teams followed</h2><div class="bars" id="follow"></div><p class="note">Teams turned on in My teams.</p></section>
@@ -315,9 +323,10 @@ const REPEAT_ORDER = ['1', '2-3', '4-9', '10+'], REPEAT_LABEL = { 1: 'Once', '2-
 const SPEED_ORDER = ['under 1s', '1-2s', '2-4s', '4-8s', '8s or more'];
 // the parts of the site used that are in the Settings box, listed on their own
 const SETTINGS_USE = new Set(['Settings', 'Hide sport', 'Show sport', "Men's teams off", "Men's teams on", "Women's teams off", "Women's teams on", 'Coffee in Settings', 'Sport order A–Z',
-  'Select all teams', 'Default teams', 'Clear all teams', 'Theme changed', 'Time zone changed', 'Hide results for changed', 'Settings code copied', 'Settings code used', 'Hidden sports list name', 'Off in settings note', 'Sports info button', 'Settings from sports info']);
+  'Select all teams', 'Default teams', 'Clear all teams', 'Theme changed', 'Time zone changed', 'Hide results for changed', 'Settings code copied', 'Settings code used', 'Hidden sports list name', 'Off in settings note', 'Sports info button', 'Settings from sports info',
+  'Settings closed', 'Theme menu opened', 'Time zone menu opened', 'Hide results for menu opened']);
 const SETTINGS_LABEL = { Settings: 'Settings opened', 'Hide sport': 'A sport hidden', 'Show sport': 'A sport shown', 'Select all teams': 'Select all', 'Default teams': 'Defaults', 'Clear all teams': 'Clear',
-  'Hide results for changed': 'Hide results for: changed', 'Hidden sports list name': 'A name in the hidden list tapped', 'Off in settings note': 'The "off in settings" note by a sport or competition tapped', 'Sports info button': 'The "i" by the sport buttons tapped', 'Settings from sports info': 'Open Settings from that "i"', 'Coffee in Settings': 'Coffee link' };
+  'Hide results for changed': 'Hide results for: changed', 'Hidden sports list name': 'A name in the hidden list tapped', 'Off in settings note': 'The "off in settings" note by a sport or competition tapped', 'Sports info button': 'The "i" by the sport buttons tapped', 'Settings from sports info': 'Open Settings from that "i"', 'Coffee in Settings': 'Coffee link', 'Settings closed': 'Settings closed with ×' };
 // errors already fixed: what the error says, the day of the fix, its version and what it was. One seen on a later day
 // shows as back
 const FIXED = [
@@ -677,6 +686,12 @@ function draw() {
     bars('slownet', part.slownet, k => k === 'connection unknown' ? 'Not reported' : k.replace(/ connection$/, '').replace(/^(\w)g$/, '$1G').replace(/^slow-2g$/, 'Slow 2G'));
     bars('slowmem', part.slowmem, k => k === 'memory unknown' ? 'Not reported' : k.replace(/ memory$/, ''));
     bars('slowdev', part.slowdev, k => k); }
+  // how far down visits get ("50-75% · Results"), split into the section and how much of the page, in page order
+  { const sec = {}, pct = {};
+    for (const [k, n] of Object.entries(sums.scrolldepth || {})) { const [p, s] = k.split(' · '); if (p) pct[p] = (pct[p] || 0) + n; if (s) sec[s] = (sec[s] || 0) + n; }
+    const SEC_ORDER = ['Top', 'A competition', 'Live now', 'Starting soon', 'This week', 'On today', 'Tomorrow', 'Coming up', 'Running now', 'Events ahead', 'Further ahead', 'Results', 'News', 'Shows', 'Foot of the page'];
+    bars('scrollsec', sec, k => k, SEC_ORDER.filter(k => sec[k]).concat(Object.keys(sec).filter(k => !SEC_ORDER.includes(k))));
+    bars('scrollpct', pct, k => k[0].toUpperCase() + k.slice(1), ['under 25%', '25-50%', '50-75%', '75-100%', 'all of it'].filter(k => pct[k])); }
   // each error matched against the fixed list: back when the page that sent it ([vN], sent from v404 on) is the fixed
   // version or later, or, untagged, when it was seen more than a day after the fix (a phone can run a saved older page
   // for a while)
