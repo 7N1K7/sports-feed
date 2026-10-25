@@ -1,51 +1,46 @@
-search "India A cricket team in New Zealand 2026": New Zealand cricket team in India in 2025–26 | Indian cricket team in New Zealand in 2026–27 | India national cricket team | New Zealand cricket team in England in 2026 | 2026 Men's T20 World Cup final | New Zealand national cricket team | India women's national cricket team | 2026 in New Zealand
-search "New Zealand A India A 2026 four-day": Indian cricket team in New Zealand in 2026–27 | 2026 in India | Daryl Mitchell (New Zealand cricketer) | 2026 in New Zealand | 2026 Men's T20 World Cup | 2026 Iran war fuel crisis | Four (New Zealand TV channel) | Adam Milne
-search "Indian A cricket team in New Zealand": Indian cricket team in New Zealand in 2026–27 | Indian cricket team in New Zealand in 2018–19 | Indian cricket team in New Zealand in 2019–20 | New Zealand Cricket | New Zealand cricket team in England in 2026 | New Zealand cricket team in India in 2025–26 | India national cricket team | Indian A cricket team in New Zealand in 2018–19
--- Indian A cricket team in New Zealand in 2026–27: missing
--- India A cricket team in New Zealand in 2026–27: missing
--- Indian A cricket team in New Zealand in 2026: missing
--- New Zealand A cricket team (New Zealand A cricket team): 3921 chars
-  headings: ==Season-by-season results summary== ==References==
--- India A cricket team (India A cricket team): 14446 chars
-==Current squad==
-This is a list of players who have received an India A call-up in the last 12 months, as of 14 May 2026.
-
-Players with international caps are marked in '''bold'''.
-
-{| class="wikitable sortable"
+search "India A" New Zealand Lincoln 2026: Indian cricket team in New Zealand in 2026–27 | Assassination | Nathan McSweeney | English Electric Canberra | 1967 in poetry | University Challenge | Lawyer | A+E Global Media | Pedestrian zone | Zohran Mamdani
+search "India A" "New Zealand A" October 2026: Australia A cricket team | Derek de Boorder | Indian cricket team in New Zealand in 2026–27 | Kuldeep Sen | Bangladesh A cricket team | Sanju Samson | Shikhar Dhawan | Rohit Sharma | List of solar eclipses in the 21st century | Wellington Phoenix FC
+search 2026–27 New Zealand cricket season: International cricket in 2026–27 | Indian cricket team in New Zealand in 2026–27 | Sri Lankan cricket team in New Zealand in 2026–27 | New Zealand cricket team in England in 2026 | Major League Cricket | New Zealand Cricket | List of 2026–27 Big Bash League personnel signings | New Zealand cricket team in Australia in 2026–27 | 2026 English cricket season | New Zealand cricket team in West Indies in 2026
+-- Indian cricket team in New Zealand in 2026–27: 23593 chars; headings: ==Squads== ==T20I series== ==ODI series== ==Test series== ==India A cricket team in New Zealand in 2026–27== == Notes == == References == ==External links==
+  38: The [[India national cricket team|India cricket team]] is touring New Zealand from October to December 2026 to play two [[Test cricket|Tests]], five [[One Day International]]s (ODIs) and five [[Twenty20 International]] (T20I) matches.<ref>{{cite web|url=https://www.icc-cricket.com/news/new-zealand-a
+  51: ! T20Is<ref>{{cite web |access-date=6 October 2026 |title=India and India A squads for New Zealand tour announced |url=https://www.bcci.tv/news/article/india-and-india-a-squads-for-new-zealand-tour-announced |website=[[Board of Control for Cricket in India]]}}</ref> |- style="vertical-align:top"
+  453: ==India A cricket team in New Zealand in 2026–27== {{Infobox cricket tour
+  455: |  series_name              = India A cricket team in New Zealand in 2026–27 |  team1_image              = Flag of New Zealand.svg
+  457: |  team1_name               = New Zealand A |  team2_image              = Flag of India.svg
+  459: |  team2_name               = India A |  from_date                = 24 October 
+  473: [[India A cricket team]] are touring [[New Zealand]] to play against [[New Zealand A cricket team]] in October and November 2026. The tour consists of three [[First-class cricket|First-class]] matches.<ref>{{cite web |url=https://www.cricinfo.com/story/india-a-to-play-three-red-ball-matches-in-new-z
+  477: ![[New Zealand A cricket team|New Zealand A]] {{flagdeco|NZ}}<ref>{{cite web |url=https://www.nzc.nz/eleven-blackcaps-named-in-new-zealand-a-red-ball-squad/ |title=Eleven BLACKCAPS named in New Zealand A red-ball squad |work=[[New Zealand Cricket]] |access-date=24 October 2025}}</ref> ! [[India A cr
+  478: ! [[India A cricket team|India A]] {{flagdeco|IND}}<ref>{{cite web |url=https://www.cricinfo.com/story/kl-rahul-yashasvi-jaiswal-picked-for-india-a-s-red-ball-matches-in-new-zealand-1557353 |title=Rahul and Jaiswal in India A squad for red-ball matches in New Zealand |work=[[Cricinfo]] |access-date=
+  519: On 12 October 2026, [[Rishabh Pant]] was ruled to for first two matches, he was replaced by [[Kumar Kushagra]].<ref>{{cite web |url=https://www.cricinfo.com/story/nz-a-vs-ind-a-kumar-kushagra-replaces-rishabh-pant-for-first-two-four-dayers-against-new-zealand-a-1558184 |title=Rishabh Pant ruled out 
+  525: | team1 = [[India A cricket team|India A]] {{flagdeco|IND}} | team2 = {{flagdeco|NZ}} [[New Zealand A cricket team|New Zealand A]]
+  526: | team2 = {{flagdeco|NZ}} [[New Zealand A cricket team|New Zealand A]] 
+  549: | toss = New Zealand A won the toss and elected to field. | rain = 
+  557: | team1 = [[New Zealand A cricket team|New Zealand A]] {{flagdeco|NZ}} | team2 = {{flagdeco|IND}} [[India A cricket team|India A]]
+  558: | team2 = {{flagdeco|IND}} [[India A cricket team|India A]] 
+  588: | team1 = [[New Zealand A cricket team|New Zealand A]] {{flagdeco|NZ}} | team2 = {{flagdeco|IND}} [[India A cricket team|India A]]
+  589: | team2 = {{flagdeco|IND}} [[India A cricket team|India A]] 
+==Squads==
+{| class="wikitable" style="text-align:center; margin:auto"
 |-
-! Name
-! Age
-! Batting style
-! Bowling style
-! Domestic team
-! Formats
+!colspan=3|{{cr|NZ}}
+!colspan=3|{{cr|IND}}
 |-
-! colspan="9" | [[Batter (cricket)|Batters]]
-|-
-|| '''[[Vaibhav Sooryavanshi]]'''|| {{age|2011|03|27}} || Left-handed ||  Slow left-arm orthodox || [[Bihar cricket team|Bihar]] || LA
-|-
-|| [[Ricky Bhui]] || {{age|1996|9|29}} || Right-handed || Right-arm [[leg spin]] || [[Andhra cricket team|Andhra]] || FC
-|-
-|| [[Abhimanyu Easwaran]] || {{age|1995|09|6}} || Right-handed ||  Right-arm [[leg spin]]|| [[Bengal cricket team|Bengal]]|| FC
-|-
-|| '''[[Ruturaj Gaikwad]]'''|| {{age|1997|01|31}} || Right-handed ||  Right-arm [[off spin]]|| [[Maharashtra cricket team|Maharashtra]]|| FC & LA
-|-
-|[[Shaik Rasheed]]
-|22
-|Right-handed
-|Right-arm [[leg spin]]
-|[[Andhra cricket team|Andhra]]
-|FC
-|-
-|| [[Baba Indrajith]] || {{age|1994|7|8}} || Right-handed || Right-arm [[leg spin]] || [[Tamil Nadu cricket team|Tamil Nadu]] || FC
-|-
-|| '''[[Yashasvi Jaiswal]]''' || {{age|2001|12|28}} || Left-handed || Right-arm [[leg spin]] || [[Mumbai cricket team|Mumbai]] || FC
-|-
-|| '''[[Sarfaraz Khan (cricketer)|Sarfaraz Khan]]''' || {{age|1997|10|22}} || Right-handed || Right-arm [[leg spin]] || [[Mumbai cricket team|Mumbai]] || FC
-|-
-|| '''[[Karun Nair]]''' || {{age|1991|12|6}} || Right-handed || Right-arm [[off spin]] || [[Vidarbha cricket team|Vidarbha]] || FC
-|-
-|| '''[[Devdutt Padikkal]]''' || {{age|2000|7|7}} || Left-handed || Right-arm [[off spin]] || [[Karnataka cricket team|Karnataka]] || FC
-|-
-|| '''[[Sai Sudharsan]]''' || {{age|2001|10|15}} || Left-handed || Right-arm [[leg spin]] || [[Tamil Nadu cricket team|Tamil
+! Tests
+! ODIs
+! T20Is
+! Tests
+! ODIs
+! T20Is
+|- style="vertical-align:top"
+|
+*
+|
+* [[Mitchell Santner]] ([[captain (cricket)|c]])
+* [[Finn Allen]]{{Efn|name=ODI4&5|Only for 4th and 5th ODIs}}
+* [[Michael Bracewell (cricketer)|Michael Bracewell]]
+* [[Mark Chapman (cricketer)|Mark Chapman]]
+* [[Devon Conway]] ([[Wicket-keeper|wk]]){{Efn|name=ODI1,2&3|Only for 1st, 2nd and 3rd ODIs}}
+* [[Kristian Clark
+-- 2026–27 New Zealand cricket season: missing
+-- International cricket in 2026–27: 56245 chars; headings: ==Season overview==
+ ==September== ==October== ==November== ==December== ==January== ==February== ==March== ==See also== == References ==
