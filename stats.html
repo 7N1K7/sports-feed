@@ -67,6 +67,8 @@ button, input { font: inherit; color: inherit }
 .erralert .btn { padding: 4px 12px; font-size: 13px; white-space: nowrap; color: inherit; text-decoration: none }
 .erralert:not(.on) { color: var(--muted) } @media (max-width: 560px) { .erralert .ex { display: none } }
 /* errors read as full sentences: no bar, the text wraps */
+/* a network's name is long ("Comcast Cable (United States)"): more room for it, less for the bar */
+.nets .bar { grid-template-columns: minmax(0, 1fr) minmax(0, 3.5em) auto }
 #error .bar { grid-template-columns: minmax(0, 1fr) auto } #error .bar .t { display: none } #error .bar .k { white-space: normal; overflow-wrap: anywhere; font-size: 13px }
 .chartbox text { fill: var(--muted); font-size: 11px; font-family: var(--f-body) }
 .chartbox .end { font-size: 12px; font-weight: 600; fill: var(--ink) }
@@ -236,7 +238,10 @@ th { color: var(--muted); font-weight: 600 }
     <div class="lists" style="margin-top:12px">
       <section class="card"><h2>How often people come back</h2><div class="bars" id="repeat"></div><p class="note">People by how many visits they made in a day, over the chosen days (from the day this was added).</p></section>
       <section class="card"><h2>By day of the week</h2><div class="bars" id="weekday"></div><p class="note">Visitors a day, on average.</p></section>
-      <section class="card"><h2>Countries</h2><div class="bars" id="country"></div><p class="note">Visitors, by the country their connection comes from.</p></section>
+      <section class="card"><h2>Countries</h2><div class="bars" id="country"></div><p class="note">Visitors, by the country their connection comes from.</p>
+        <h3 class="thh">Outside NZ, by network</h3><div class="bars nets" id="network"></div>
+        <h3 class="thh">Not counted: cloud servers</h3><div class="bars nets" id="datacentre"></div>
+        <p class="note">From 25 Oct 2026. A network is the internet provider a visitor outside NZ connects through: a phone or home provider is a person. A page run from a cloud company's servers (Amazon, Google, Microsoft and the like) is a script, a link checker or a search engine, so those are left out of every other number here, and so is a VPN on those networks.</p></section>
       <section class="card"><h2>Devices</h2><div class="bars" id="device"></div></section>
       <section class="card"><h2>App or browser</h2><div class="bars" id="mode"></div><p class="note">Visitors using the home-screen app, or a web browser.</p></section>
       <section class="card"><h2>Came from</h2><div class="bars" id="ref"></div><p class="note">Page views that arrived from a link on another site. Links opened from most chat apps arrive without one.</p></section>
@@ -315,6 +320,7 @@ const store = { get(k, d) { try { const v = localStorage.getItem('sf.' + k); ret
 const fmtN = n => n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e4 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : n.toLocaleString('en-NZ');
 const dayLabel = (d, o = { weekday: 'short', day: 'numeric', month: 'short' }) => new Date(d + 'T12:00:00Z').toLocaleDateString('en-NZ', { timeZone: 'UTC', ...o });
 const COUNTRY = new Intl.DisplayNames(['en'], { type: 'region' });
+const countryName = k => { if (!k || k === '?') return 'Unknown'; try { return COUNTRY.of(k); } catch { return k; } };
 const EVENT_LABEL = { cal: 'Calendars', alerts: 'Alert topics', install: 'App installs (Android and computers)', appfirst: 'App opened for the first time (every phone, iPhone too)', reveal: 'Results uncovered (Show result)', rankings: 'Rankings', 'alert-open': 'From an alert', team: 'Team pages', game: 'Games opened' };
 const MODE_LABEL = { app: 'App', browser: 'Browser' };
 const DEVICE_LABEL = { phone: 'Phone', tablet: 'Tablet', computer: 'Computer' };
@@ -645,7 +651,12 @@ function draw() {
     + tile('Using the app', people ? Math.round(100 * tot('appvisitors') / people) + '%' : '–', `of people · ${fmtN(tot('appvisitors'))} app users, ${fmtN(tot('appviews'))} app page views`);
   chart(list, per);
   $('table').innerHTML = `<table><thead><tr><th>Day</th><th>People</th><th>Visits</th><th>Page views</th></tr></thead><tbody>${list.slice().reverse().map(d => `<tr><td>${dayLabel(d)}</td><td>${per[d].visitors}</td><td>${per[d].opens}</td><td>${per[d].views}</td></tr>`).join('')}</tbody></table>`;
-  bars('country', sums.country, k => k === '?' ? 'Unknown' : (() => { try { return COUNTRY.of(k); } catch { return k; } })());
+  bars('country', sums.country, countryName);
+  // "US · Comcast Cable Communications, LLC" → "Comcast Cable Communications (US)"; the full name on a hold
+  const LEGAL = /,?\s+(Inc|LLC|L\.L\.C|Ltd|Limited|Corporation|Corp|Co|GmbH|AG|AB|SAS|SRL|S\.?A|B\.?V|PLC|Pty|Spolka Akcyjna|Sp\. z o\.o)\.?$/i;
+  const netLabel = k => { const [c, o = ''] = k.split(' · '); let n = o; while (LEGAL.test(n)) n = n.replace(LEGAL, ''); return `${n || 'Unknown'} (${c && c !== '?' ? c : '?'})`; };
+  bars('network', sums.network, netLabel);
+  bars('datacentre', sums.datacentre, netLabel);
   bars('device', sums.device, k => DEVICE_LABEL[k] || k);
   bars('mode', sums.mode, k => MODE_LABEL[k] || k);
   bars('ref', sums.ref, k => k);

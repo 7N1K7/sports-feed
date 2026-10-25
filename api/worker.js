@@ -1,8 +1,8 @@
 // Kickoff Kiwi's stats server. The site sends a small "page viewed" (or "feature used") message; this counts it by
 // day. Unique visitors are counted without cookies: each visitor's address and browser are scrambled with a random
 // salt that changes every day and is deleted two days later, so the codes can't be traced back to anyone. Nothing
-// else about a visitor is kept: only totals by country, device, system and browser, app or not, and the site they came
-// from; and, from the page, totals of what was picked or searched for, errors, load speed (and for a slow load, what
+// else about a visitor is kept: only totals by country, device, system and browser, app or not, the site they came
+// from and, outside NZ, the network the connection is on (the internet provider, or a cloud company); and, from the page, totals of what was picked or searched for, errors, load speed (and for a slow load, what
 // slowed it and the system and browser) and the hour of the day.
 // POST /report takes a visitor's "Report a problem" note (kept with the game it's about) or "Suggest an idea" note,
 // a few a day each at most.
@@ -48,6 +48,14 @@ const browserOf = ua => /SamsungBrowser/.test(ua) ? 'Samsung' : /Edg(A|iOS)?\//.
 const versionOf = ua => (ua.match(/(?:iPhone|iPad|iPod).*? OS (\d+)/) || ua.match({ Samsung: /SamsungBrowser\/(\d+)/, Edge: /Edg(?:A|iOS)?\/(\d+)/, Opera: /OPR\/(\d+)/, Firefox: /(?:Firefox|FxiOS)\/(\d+)/,
   Chrome: /(?:CriOS|Chrome)\/(\d+)/, Safari: /Version\/(\d+)/ }[browserOf(ua)] || /$^/) || [])[1] || '';
 const MAX_PER_VISITOR = 300; // a day's hits from one visitor; past that it's a script, not a person
+// cloud companies' networks: a page run from one of their servers is a script, a link checker or a search engine posing as
+// a browser, not a person (from 25 Oct 2026 these are counted apart, under their country and network, and nowhere else).
+// Microsoft (GitHub's servers too), Amazon, Google, DigitalOcean, Hetzner, OVH, Linode, Vultr, Oracle, Alibaba,
+// Tencent, M247 and Datacamp (VPN servers), Contabo, Scaleway, Leaseweb, ColoCrossing, QuadraNet, IONOS, Hostinger,
+// Psychz, Zenlayer. Apple's Private Relay (Akamai's 36183, Cloudflare, Fastly) carries real iPhones, so it isn't here
+const DATACENTRE = new Set([8075, 16509, 14618, 15169, 396982, 19527, 14061, 24940, 213230, 16276, 63949, 20473, 31898, 45102, 132203,
+  9009, 212238, 60068, 51167, 12876, 60781, 28753, 30633, 36352, 8100, 8560, 47583, 40676, 21859]);
+const network = req => `${req.cf?.country || '?'} · ${String(req.cf?.asOrganization || (req.cf?.asn ? 'AS' + req.cf.asn : 'unknown')).replace(/\s+/g, ' ').trim().slice(0, 60)}`;
 
 const nzDay = (t = Date.now()) => new Date(t).toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' });
 const hex = buf => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
@@ -73,6 +81,7 @@ async function hit(req, env, body) {
   const h = (await sha(`${salt}|${req.headers.get('cf-connecting-ip') || ''}|${ua}`)).slice(0, 20);
   const n = await env.DB.prepare('INSERT INTO seen (day, h, n) VALUES (?1, ?2, 1) ON CONFLICT (day, h) DO UPDATE SET n = n + 1 RETURNING n').bind(day, h).first('n');
   if (n > MAX_PER_VISITOR) return;
+  if (DATACENTRE.has(req.cf?.asn)) { if (n === 1) await bump(env, day, 'datacentre', network(req)).run(); return; }
   const writes = [];
   // the home-screen app and the browser on the same phone look like one visitor (same address and browser), and that
   // visitor's mode is set by whichever came first that day; so the app keeps its own tally of people who used it today
@@ -101,6 +110,7 @@ async function hit(req, env, body) {
     const device = /iPad|Tablet/i.test(ua) ? 'tablet' : /Mobi|Android|iPhone/i.test(ua) ? 'phone' : 'computer';
     writes.push(bump(env, day, 'visitors'), bump(env, day, 'country', req.cf?.country || '?'), bump(env, day, 'device', device), bump(env, day, 'mode', b.app ? 'app' : 'browser'),
       bump(env, day, 'os', osOf(ua)), bump(env, day, 'browser', browserOf(ua)));
+    if ((req.cf?.country || '?') !== 'NZ') writes.push(bump(env, day, 'network', network(req)));
     if (b.sp === 0 || b.sp === 1) writes.push(bump(env, day, 'spoil', b.sp ? 'hidden' : 'shown'));
     if (VIEWS.has(b.v)) writes.push(bump(env, day, 'view', b.v));
     if (THEMES.has(b.th)) writes.push(bump(env, day, 'theme', b.th));

@@ -1591,7 +1591,8 @@ const STATS_API = 'https://kickoff-api.kickoffkiwi.workers.dev';
 const use = k => count({ e: 'use', k }); // a tap on a part of the site, by the name the stats page lists it under
 const count = (msg = {}) => {
   if (!STATS_API || !/^(www\.)?kickoff\.kiwi$/.test(location.hostname)) return;
-  try { if (localStorage.getItem('sf.nocount') === 'true') return; navigator.sendBeacon(STATS_API + '/hit', JSON.stringify({ app: matchMedia('(display-mode: standalone)').matches || navigator.standalone === true ? 1 : 0, ...msg })); } catch {}
+  // a browser driven by a script (a test, a scraper, a page checker) says so in navigator.webdriver: not a person
+  try { if (localStorage.getItem('sf.nocount') === 'true' || navigator.webdriver) return; navigator.sendBeacon(STATS_API + '/hit', JSON.stringify({ app: matchMedia('(display-mode: standalone)').matches || navigator.standalone === true ? 1 : 0, ...msg })); } catch {}
 };
 // errors in this page's own code (not browser add-ons), so a breakage on someone's phone shows up: three a visit at most,
 // each tagged with this page's version (filled in when the site is built), so the stats page can tell a fixed error from
