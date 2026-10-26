@@ -9,7 +9,7 @@
 //   data/curated/*.json        -> fixtures the above lack (boxing, some tests), news, notes
 //   data/broadcast.json        -> where-to-watch rules by competition
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
-import { wikiEvents, tsdbEvents, tsdbBackfill, tsdb, f1StartTimes, f1Sessions, supercarsStartTimes, nbaGames, stateSquads, teamSquads } from './sources.mjs';
+import { wikiEvents, tsdbEvents, tsdbBackfill, tsdb, f1StartTimes, f1Sessions, supercarsStartTimes, supercarsResults, nbaGames, stateSquads, teamSquads } from './sources.mjs';
 import { rankings as getRankings, KIWI_GOLF } from './rankings.mjs';
 import { execSync } from 'node:child_process';
 
@@ -649,6 +649,7 @@ try { f1Cache = JSON.parse(await readFile(f1Url, 'utf8')); } catch {}
 await f1StartTimes(wiki, f1Cache, diag);
 await supercarsStartTimes(wiki, f1Cache, diag);
 try { await f1Sessions(wiki, f1Cache, diag); } catch (e) { diag.f1Sessions = 'error: ' + e.message; }
+try { await supercarsResults(wiki, f1Cache, diag); } catch (e) { diag.supercarsResults = 'error: ' + e.message; }
 try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(f1Url, JSON.stringify(f1Cache)); } catch {}
 // the NBA from balldontlie (free key): the games around now with the Wikipedia ones, the standings with the tables;
 // every result so far is remembered in .cache/nba.json
@@ -1946,7 +1947,11 @@ const hot = feed.events.some(e => {
   if (/^Practice/.test(s.n) || (s.rows && !s.top3)) return false;
   const over = now - Date.parse(s.t) - (s.n === 'Race' ? 2 : 1) * 36e5;
   return over > 0 && over < 3 * 36e5;
-}));
+})) || feed.events.some(e => {
+  // and a Supercars round's first 3 hours after its last race while a race's whole order is still missing
+  const over = now - Date.parse(e.startUTC) - 2 * 36e5;
+  return e.raceNos && (e.raceRes || []).length < e.raceNos.length && over > 0 && over < 3 * 36e5;
+});
 // "live": a game in its playing window right now (for a Test, the first 10 hours of each day), so refresh every 5 minutes
 const PLAY_H = { rugby: 2.5, league: 2.5, football: 2.5, hockey: 2, basketball: 2.5, netball: 1.5, mma: 6, boxing: 5, motor: 3 };
 const playing = feed.events.some(e => {

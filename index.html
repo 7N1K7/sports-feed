@@ -1322,6 +1322,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
 .sesgp { margin: 4px 0 2px; font-size: 15px } .sesnote { margin: 4px 0 10px } .sescover { width: 100%; margin-bottom: 8px }
 .sesboard td.steam, .sesboard th.steam { color: var(--muted); white-space: nowrap } .sesboard th, .sesboard td.num { white-space: nowrap }
 @media (max-width: 520px) { .sesboard .steam { display: none } }
+.rboard td.tn:has(.drv) { white-space: normal } .rboard .drv { white-space: nowrap }
 .sesmore { display: block; margin: 6px auto 10px } .rboard:not(.all) tr.rx, .rboard.all .rmore { display: none } .sesnext { list-style: none; margin: 0 0 10px; padding: 0; display: grid; gap: 4px }
 .ev .comp .ctitle > span { letter-spacing: .07em } /* in em on the text itself, so it shrinks with a fitted title */
 /* fitLines() measures with every title and name on one line; the names' text-wrap: balance would otherwise win */
@@ -3006,7 +3007,7 @@ function detail(e) {
   const sideScore = (s, i) => split ? ovRoom(scoreTag(split[i], wl(s))) : isPast && !solo(e) ? ovRoom('<span class="ts nos" aria-hidden="true">–</span>') : '';
   const res = isPast ? (hidden
     ? `<button class="cover big" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>Spoilers are hidden</button>`
-    : `<div class="dres">${split && e.summary ? '' : `<div class="score num ${/[a-z]{3}/i.test(e.score || '') ? 'long' : ''}">${esc(e.score || 'Result not in yet')}</div>`}${e.summary ? `<p${split ? ' class="dwin"' : ''}>${esc(e.summary)}</p>` : ''}${e.leaders?.length ? golfBoard(e) : ''}${e.cls?.length ? raceBoard(e) : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
+    : `<div class="dres">${split && e.summary ? '' : `<div class="score num ${/[a-z]{3}/i.test(e.score || '') ? 'long' : ''}">${esc(e.score || 'Result not in yet')}</div>`}${e.summary ? `<p${split ? ' class="dwin"' : ''}>${esc(e.summary)}</p>` : ''}${e.leaders?.length ? golfBoard(e) : ''}${raceBoards(e)}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
   // a game under way: "On now" and the live scores link at the right of the title, not a box of their own
   // the countdown is to the next round of a golf tournament (or day of a Test), named for a tournament: "Round 3 in 20h"
   const nd = nextAt(e, now), cd = countdown({ startUTC: nd.toISOString() }, now), stg = stagesOf(e) > 1 && stageNow(e, now);
@@ -3054,13 +3055,24 @@ const redditSub = e => e.sport === 'league' ? 'nrl' : e.sport === 'rugby' ? 'rug
 const golfBoard = e => `<div class="stable gboard"><h3 class="dh">Top 10</h3><div class="tscroll"><table><thead><tr><th>Pos</th><th class="tn">Player</th><th>To par</th><th class="rds">Rounds</th><th>Total</th></tr></thead><tbody>${
   e.leaders.map(r => `<tr class="${r.nz ? 'mine' : ''}"><td class="pos">${esc(r.p)}</td><td class="tn">${esc(r.n)}${r.nz ? ' <span class="muted small">NZ</span>' : ''}</td><td class="num">${esc(String(r.par).replace(/^-/, '−'))}</td><td class="rds num muted">${esc((r.r || []).join(' '))}</td><td class="num">${esc(r.t)}</td></tr>`).join('')
 }</tbody></table></div><p class="muted small rsrc">Leaderboard from <a href="https://www.thesportsdb.com" target="_blank" rel="noopener">TheSportsDB</a></p></div>`;
-// an F1 race's classification: place, driver, team, time or gap, and points; Kiwis marked. The points finishers (the
-// top 10) show, the rest on a tap (kept in place, so the pop-up doesn't jump)
-const raceAll = new Set();
-const raceBoard = e => { const n = e.cls.filter(r => +r.x > 0).length || 10, more = e.cls.length > n;
-  return `<div class="stable gboard sesboard rboard${more && !raceAll.has(e.id) ? '' : ' all'}"><h3 class="dh">Classification</h3><div class="tscroll"><table><thead><tr><th>Pos</th><th class="tn">Driver</th><th class="steam">Team</th><th>Time</th><th>Pts</th></tr></thead><tbody>${
-  e.cls.map((r, i) => `<tr class="${r.nz ? 'mine' : ''}${i >= n ? ' rx' : ''}"><td class="pos">${esc(r.p)}</td><td class="tn">${esc(r.d)}${r.nz ? ' <span class="muted small">NZ</span>' : ''}</td><td class="steam">${esc(r.tm)}</td><td class="num">${esc(r.t)}</td><td class="num">${esc(r.x || '')}</td></tr>`).join('')
-}</tbody></table></div>${more ? `<button type="button" class="chip sesmore rmore" data-raceall="${esc(e.id)}">All ${e.cls.length}</button>` : ''}<p class="muted small rsrc">Race classification from <a href="${esc(e.sessPage || e.link || e.source)}" target="_blank" rel="noopener">Wikipedia</a></p></div>`; };
+// a race's classification: place, driver, team, time or gap, and points (when the source gives them); Kiwis marked. The
+// points finishers (an F1 race's top 10), or a Supercars race's top 10 (they all score), show, the rest on a tap (kept in
+// place, so the pop-up doesn't jump). F1: the one race (e.cls); Supercars: each race of the round (e.raceRes), with
+// its championship number, drivers sharing a car (the enduros) as "A / B"
+const raceAll = new Set(), kiwi = ' <span class="muted small">NZ</span>';
+// (a pair breaks between its drivers when the pop-up is narrow, each name whole)
+const raceWho = r => { const k = i => Array.isArray(r.nz) ? r.nz.includes(i) : r.nz; const ns = r.d.split(' / ');
+  return ns.length > 1 ? ns.map((n, i) => `<span class="drv">${esc(n)}${k(i) ? kiwi : ''}</span>`).join(' / ') : esc(r.d) + (k(0) ? kiwi : ''); };
+const raceBoard = (key, title, cls, foot) => { const n = Math.min(10, cls.filter(r => +r.x > 0).length) || 10, more = cls.length > n, pts = cls.some(r => r.x);
+  return `<div class="stable gboard sesboard rboard${more && !raceAll.has(key) ? '' : ' all'}"><h3 class="dh">${esc(title)}</h3><div class="tscroll"><table><thead><tr><th>Pos</th><th class="tn">${cls.some(r => r.d.includes(' / ')) ? 'Drivers' : 'Driver'}</th><th class="steam">Team</th><th>Time</th>${pts ? '<th>Pts</th>' : ''}</tr></thead><tbody>${
+  cls.map((r, i) => `<tr class="${r.nz ? 'mine' : ''}${i >= n ? ' rx' : ''}"><td class="pos">${esc(r.p)}</td><td class="tn">${raceWho(r)}</td><td class="steam">${esc(r.tm)}</td><td class="num">${esc(r.t)}</td>${pts ? `<td class="num">${esc(r.x || '')}</td>` : ''}</tr>`).join('')
+}</tbody></table></div>${more ? `<button type="button" class="chip sesmore rmore" data-raceall="${esc(key)}">All ${cls.length}</button>` : ''}${foot}</div>`; };
+const raceBoards = e => {
+  if (e.cls?.length) return raceBoard(e.id, 'Classification', e.cls, `<p class="muted small rsrc">Race classification from <a href="${esc(e.sessPage || e.link || e.source)}" target="_blank" rel="noopener">Wikipedia</a></p>`);
+  if (!e.raceRes?.length) return '';
+  const src = [...new Map(e.raceRes.map(r => [r.src, r.link])).entries()].map(([s, l]) => `<a href="${esc(l)}" target="_blank" rel="noopener">${s === 'w' ? 'Wikipedia' : 'TheSportsDB'}</a>`).join(' and ');
+  return e.raceRes.map((r, i) => raceBoard(`${e.id}|${r.n}`, r.n, r.rows, i === e.raceRes.length - 1 ? `<p class="muted small rsrc">Race results from ${src}</p>` : '')).join('');
+};
 // Form guide: a side's last five results (ten on its own page, oldest first) before a given date, from the feed's
 // year-long list. The feed keeps women's sides under "|w" and wheelchair ones under "|wc", so a game (e) says which.
 // Results that spoilers cover are left out until revealed.
@@ -4013,7 +4025,7 @@ document.addEventListener('click', ev => {
     if (!t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   else if (t.dataset.sesall) { use('All session times'); sesAll.add(t.dataset.sesall); render(); }
-  else if (t.dataset.raceall) { use('All F1 race results'); raceAll.add(t.dataset.raceall); t.closest('.rboard').classList.add('all'); }
+  else if (t.dataset.raceall) { use(t.dataset.raceall.startsWith('supercars') ? 'All Supercars race results' : 'All F1 race results'); raceAll.add(t.dataset.raceall); t.closest('.rboard').classList.add('all'); }
   else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; if (hubTab !== 'games') count({ e: 'use', k: `Competition ${t.textContent.trim()} tab` }); render(); }
   else if (t.dataset.dtab) { if (t.dataset.dtab !== dTab) use(t.dataset.dtab === 'results' ? 'Results tab in a game' : 'Game tab in a game'); dTab = t.dataset.dtab; $('sheetBody').classList.toggle('on-results', dTab === 'results'); t.parentNode.querySelectorAll('[data-dtab]').forEach(b => b.setAttribute('aria-selected', b === t)); }
   else if (t.dataset.rank) { use('Rankings list button'); rankSel = t.dataset.rank; if ($('sheet').open && $('sheet').dataset.rankings) openRankings($('sheet').dataset.rankings); else render(); }

@@ -983,7 +983,8 @@ function supercarsSeason(text, year) {
     let race = nums[nums.length - 1], who;
     if (nums.length >= 2) { cur = nums[0]; who = cells[3]; const rep = (r.filter(l => l.startsWith('|'))[5] || '').match(/\[\[([^\]|]+)\|/); if (rep) reports[cur] = 'https://en.wikipedia.org/wiki/' + encodeURIComponent(rep[1].replace(/ /g, '_')); }
     else who = cells[2];
-    const w = clean(who || '').trim();
+    // (Bathurst and the other enduros: two drivers a car, a line each)
+    const w = clean(String(who || '').replace(/<br\s*\/?>/gi, ' / ')).trim();
     if (cur && w) (wins[cur] ||= []).push({ race, w });
   }
   const out = [];
@@ -1001,8 +1002,8 @@ function supercarsSeason(text, year) {
     out.push({
       id: `supercars-${year}-${round}`, team: 'supercars', tags: [], sport: 'motor', comp: `Supercars · Round ${round}`, round: `Round ${round}`,
       home: ev, away: '', startUTC: new Date(at).toISOString(), openUTC: new Date(localToUTC(...dr.start, 9, 0, tz)).toISOString(), timeTBC: true,
-      venue: circuit, city: place, tz, status: done ? 'final' : 'upcoming',
-      ...(done ? { score: w.length === 1 ? `${w[0].w.split(' ').slice(-1)[0]} wins` : `${w.length} races`, summary: w.map(x => `Race ${x.race}: ${x.w}`).join('. ') + '.' } : {}),
+      venue: circuit, city: place, tz, status: done ? 'final' : 'upcoming', raceNos: Array.from({ length: span }, (_, i) => nums[1] + i),
+      ...(done ? { score: w.length === 1 ? `${w[0].w.split(' / ').map(n => n.split(' ').pop()).join('/')} ${w[0].w.includes(' / ') ? 'win' : 'wins'}` : `${w.length} races`, summary: w.map(x => `Race ${x.race}: ${x.w}`).join('. ') + '.' } : {}),
       source: `https://en.wikipedia.org/wiki/${encodeURIComponent(`${year} Supercars Championship`.replace(/ /g, '_'))}`, ...(reports[round] ? { link: reports[round] } : {}),
     });
   }
@@ -1262,7 +1263,7 @@ export async function f1Sessions(events, cache, diag) {
   const top = cache._top ||= {}, keep = () => { for (const x of events) if (x.team === 'f1' && top[x.id]) x.cls = top[x.id]; };
   const e = events.filter(x => x.team === 'f1' && /^f1-\d{4}-\d+$/.test(x.id) && Date.parse(x.startUTC) - 4 * DAY < now)
     .sort((a, b) => a.startUTC.localeCompare(b.startUTC)).pop();
-  if (!e) { diag.f1Sessions = 'no weekend yet'; keep(); return; }
+  if (!e) { diag.f1Sessions = 'no weekend yet'; await f1Past(events, null, top, cache, diag); keep(); return; }
   const c = cache._sess?.id === e.id ? cache._sess : (cache._sess = { id: e.id, w: 0, ts: 0, prac: {} });
   const times = [...(cache[e.id]?.gp === e.home ? cache[e.id].sessions || [] : []), { n: 'Race', t: e.startUTC }];
   const notes = [];
@@ -1306,7 +1307,25 @@ export async function f1Sessions(events, cache, diag) {
   diag.f1SessionsSeen = { id: e.id, wikiReads: c.wikiReads || 0, tsdbReads: c.tsdbReads || 0, lastTsdb: c.ts ? new Date(c.ts).toISOString().slice(0, 16) + 'Z' : '', seen };
   const race = e.sess.find(s => s.n === 'Race' && s.rows && !s.top3);
   if (race?.rows.length >= 10) top[e.id] = race.rows.map(({ p, d, tm, t, x, nz }) => ({ p, d, tm, t, ...(x ? { x } : {}), ...(nz ? { nz } : {}) }));
+  await f1Past(events, e, top, cache, diag);
   keep();
+}
+// earlier races still in the feed (before this weekend's): each one's classification from its own article, three a run,
+// a race whose table isn't found asked again 6 hours on
+async function f1Past(events, cur, top, cache, diag) {
+  const now = Date.now(), tried = cache._topTried ||= {}, got = [], notes = [];
+  const due = events.filter(x => x.team === 'f1' && /^f1-\d{4}-\d+$/.test(x.id) && x.id !== cur?.id && x.status === 'final' && !top[x.id] && !(now - (tried[x.id] || 0) < 6 * 36e5))
+    .sort((a, b) => b.startUTC.localeCompare(a.startUTC)).slice(0, 3);
+  for (const x of due) try {
+    tried[x.id] = now;
+    const title = /wikipedia\.org\/wiki\//.test(x.link || '') ? decodeURIComponent(x.link.split('/wiki/')[1]).replace(/_/g, ' ') : `${x.startUTC.slice(0, 4)} ${x.home}`;
+    const r = await (await fetch(`https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=parse&prop=wikitext&redirects=1&page=${encodeURIComponent(title)}`, { headers: UA, signal: AbortSignal.timeout(15000) })).json();
+    if (!r.parse) throw new Error(r.error?.info || 'no article');
+    const t = f1Tables(r.parse.wikitext.replace(/<!--[\s\S]*?-->/g, '')), nz = new Set(Object.values(t).flat().filter(r => r.nz).map(r => r.d));
+    if (t.Race?.length >= 10) { top[x.id] = t.Race.map(({ p, d, tm, t, x }) => ({ p, d, tm, t, ...(x ? { x } : {}), ...(nz.has(d) ? { nz: true } : {}) })); got.push(x.home); }
+    else notes.push(`${x.home}: no race table yet`);
+  } catch (y) { notes.push(`${x.home}: ${y.message}`); }
+  if (due.length) diag.f1Past = [got.length ? `classification for ${got.join(', ')}` : '', ...notes].filter(Boolean).join('; ');
 }
 // a classification table's text without its markup: links to their words, templates gone ({{nowrap|x}} to x)
 const wikiPlain = s => {
@@ -1417,6 +1436,101 @@ export async function supercarsStartTimes(events, cache, diag) {
   }
   diag.supercarsTimes = [...notes, `${n} of ${rounds.length} rounds with start times, ${k} sessions coming`].join('; ');
 }
+
+// Supercars race results: each race's whole order, for its round's pop-up. Wikipedia's race tables on the round's report
+// page once editors have filled them in (with points: they put the empty table up first); until then TheSportsDB's
+// (order, team and time), which has them within hours. Read from the round's last race until a week on (Wikipedia
+// half-hourly the first two days, TheSportsDB every 10 minutes while a race is missing), and once for earlier rounds
+export async function supercarsResults(events, cache, diag) {
+  const now = Date.now(), store = cache._scRes ||= {}, notes = [], stamp = new Date(now).toISOString().slice(0, 16) + 'Z';
+  const rounds = events.filter(e => e.team === 'supercars' && /^supercars-\d{4}-\d+$/.test(e.id) && e.raceNos?.length)
+    .sort((a, b) => b.startUTC.localeCompare(a.startUTC));
+  let wikiLeft = 4, tsdbLeft = 1, oldLeft = 3;
+  for (const e of rounds) {
+    const s = store[e.id] ||= { w: 0, ts: 0, races: {}, seen: {} }, since = now - Date.parse(e.startUTC) - 2 * 36e5;
+    if (since < 0) continue;
+    const recent = since < 7 * DAY, fromWiki = e.raceNos.every(n => s.races[n]?.src === 'w');
+    // an earlier round: Wikipedia once, then TheSportsDB once for any race still missing; three such rounds a run
+    const page = /wikipedia\.org\/wiki\//.test(e.link || '');
+    if (!recent && !(((page && !s.w) || (!s.ts && !fromWiki && e.raceNos.some(n => !s.races[n]))) && oldLeft-- > 0)) continue;
+    if (page && wikiLeft && (recent ? now - s.w > (fromWiki ? 12 : since < 2 * DAY ? 0.5 : 3) * 36e5 : !s.w)) try {
+      wikiLeft--; s.w = now;
+      const title = decodeURIComponent(e.link.split('/wiki/')[1]).replace(/_/g, ' ');
+      const r = await (await fetch(`https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=parse&prop=wikitext&redirects=1&page=${encodeURIComponent(title)}`, { headers: UA, signal: AbortSignal.timeout(15000) })).json();
+      if (!r.parse) throw new Error(r.error?.info || 'no article');
+      const t = scTables(r.parse.wikitext.replace(/<!--[\s\S]*?-->/g, ''), e.raceNos);
+      s.nz = t.nz; s.page = `https://en.wikipedia.org/wiki/${encodeURIComponent(r.parse.title.replace(/ /g, '_'))}`;
+      for (const [n, rows] of Object.entries(t.races)) { s.races[n] = { src: 'w', rows }; (s.seen[n] ||= {}).wiki ||= stamp; }
+    } catch (x) { notes.push(`${e.home} on Wikipedia: ${x.message}`); }
+    // TheSportsDB for a race Wikipedia doesn't have yet (one call a run: each costs a 6-second wait)
+    if (tsdbLeft && e.raceNos.some(n => !s.races[n]) && (recent ? now - s.ts > 10 * 6e4 : !s.ts)) try {
+      tsdbLeft--; s.ts = now;
+      const [, season, round] = e.id.split('-'), d = await tsdb(`eventsround.php?id=4489&r=${round}&s=${season}`, { extra: true });
+      for (const ev of d.events || []) {
+        const n = +((String(ev.strEvent || '').match(/^(?!.*(?:qualifying|shootout|practice)).*\bRace (\d+)\s*$/i) || [])[1] || 0);
+        if (!e.raceNos.includes(n) || s.races[n]?.src === 'w') continue;
+        const rows = scTsdb(ev.strResult, new Set(s.nz || []));
+        if (rows.length >= 10) { s.races[n] = { src: 't', rows, ev: ev.idEvent }; (s.seen[n] ||= {}).tsdb ||= stamp; }
+      }
+    } catch (x) { notes.push(`${e.home} on TheSportsDB: ${x.message}`); }
+  }
+  let k = 0;
+  for (const e of rounds) {
+    const s = store[e.id], res = s ? e.raceNos.filter(n => s.races[n]).map(n => ({ n: `Race ${n}`, src: s.races[n].src, rows: s.races[n].rows,
+      link: s.races[n].src === 'w' ? s.page || e.link : `https://www.thesportsdb.com/event/${s.races[n].ev}` })) : [];
+    if (res.length) { e.raceRes = res; k++; }
+  }
+  diag.supercarsResults = [`${k} rounds with race results: ${rounds.filter(e => e.raceRes).map(e => `${e.round} ${e.raceRes.map(r => `${r.n} ${r.rows.length} (${r.src === 'w' ? 'Wikipedia' : 'TheSportsDB'})`).join(', ')}`).join('; ')}`, ...notes].join('; ');
+  diag.supercarsResultsSeen = Object.fromEntries(rounds.filter(e => store[e.id]?.seen && Object.keys(store[e.id].seen).length).slice(0, 3).map(e => [e.id, store[e.id].seen]));
+}
+// a report page's race tables ("=== Race ===" for a one-race round, "=== Race 1 ===", "=== Race 2 ===" ..., or the
+// championship's own race numbers) by race number: [{ p, d, tm, t, x (points), nz }], kept only once every row has its
+// driver. Drivers sharing a car (the enduros) go "A / B". `nz`: everyone the page flags as a New Zealander
+function scTables(w, nos) {
+  const nz = [...new Set([...w.matchAll(/\{\{flagicon\|NZL?\}\}\s*(?:\{\{[^{}]*\}\}\s*)?\[\[(?:[^\]|]*\|)?([^\]]+)\]\]/gi)].map(m => m[1].trim()))], races = {};
+  for (const m of w.matchAll(/^(={3,4})\s*Race(?:\s+(\d+))?\s*\1\s*$/gm)) {
+    const k = m[2] ? +m[2] : 1, n = k <= nos.length ? nos[k - 1] : nos.includes(k) ? k : 0, i = w.indexOf('{|', m.index), j = w.indexOf('\n|}', i);
+    if (!n || races[n] || i < 0 || j < 0 || w.slice(m.index + m[0].length, i).includes('\n==')) continue;
+    const [head, ...chunks] = w.slice(i, j).split(/\n\|-[^\n]*/);
+    const cellsOf = chunk => chunk.split('\n').filter(l => /^[!|]/.test(l) && !/^\{\|/.test(l)).flatMap(l => l.slice(1).split(/\|\||!!/))
+      .map(x => { const a = x.match(/^([^[{|]*?)\|(?!\|)/); return a && /=/.test(a[1]) ? x.slice(a[0].length) : x; });
+    const H = cellsOf(head).map(wikiPlain), col = re => H.findIndex(h => re.test(h));
+    const [P, D, T, TM, X] = [/^Pos/i, /^Drivers?$/i, /^Team/i, /^Time/i, /^(Pts|Points)/i].map(col);
+    if ([P, D, T, TM].some(c => c < 0)) continue;
+    let all = 0;
+    const rows = [];
+    for (const chunk of chunks) {
+      const c = cellsOf(chunk), p = wikiPlain(c[P] || '');
+      if (!/^(\d+|Ret|NC|DSQ|DNS|DNF|DNQ|EX|WD)$/i.test(p) || c.length <= TM) continue;
+      all++;
+      const parts = String(c[D]).split(/<br\s*\/?>/i).filter(x => wikiPlain(x)), d = parts.map(wikiPlain).join(' / ');
+      if (d) rows.push({ p, d, tm: wikiPlain(c[T]), t: wikiPlain(c[TM]), ...(X >= 0 && wikiPlain(c[X] || '') ? { x: wikiPlain(c[X]) } : {}), ...scNz(parts.map(x => /\{\{flagicon\|NZL?\}\}/i.test(x))) });
+    }
+    if (rows.length >= 10 && rows.length === all) races[n] = rows;
+  }
+  return { races, nz };
+}
+// TheSportsDB's strResult for a Supercars race: "1\t/Chaz Mostert\t\t/Mobil1 Optus Racing\t\t/1:55:45.274", with each
+// car's whole race time, and two drivers a car joined by a hyphen ("Brodie Kostecki-Todd Hazelwood"). Shown as gaps to
+// the winner; a time below the car ahead's means a lap or more down, which the feed doesn't say ("Lapped")
+function scTsdb(res, nz) {
+  const secs = t => { const m = String(t).match(/^(?:(\d+):)?(\d+):(\d+(?:\.\d+)?)$/); return m ? (+m[1] || 0) * 3600 + +m[2] * 60 + +m[3] : null; };
+  const gap = x => x < 60 ? x.toFixed(3) : `${Math.floor(x / 60)}:${(x % 60).toFixed(3).padStart(6, '0')}`;
+  let first = null, prev = 0, lapped = false;
+  return String(res || '').split(/\r?\n/).map(l => l.split('\t').map(x => x.replace(/^[/\s]+/, '').trim()).filter(Boolean)).filter(c => /^\d+$/.test(c[0]) && c.length >= 3).map(c => {
+    const [p, name, tm, t] = c.length >= 4 ? c : [c[0], c[1], '', c[2]], d = name.split(' ').length >= 3 ? name.replace(/(\S)-(?=[A-Z])/g, '$1 / ') : name;
+    const x = secs(t);
+    let shown = t;
+    if (x != null) {
+      if (first == null) first = prev = x;
+      else if (lapped || x < prev) { lapped = true; shown = 'Lapped'; }
+      else { prev = x; shown = '+' + gap(x - first); }
+    }
+    return { p, d, tm, t: shown, ...scNz(d.split(' / ').map(n => nz.has(n))) };
+  });
+}
+// a car's Kiwis: { nz: true } when every driver is one, { nz: [1] } (which of them) when one of two is, else nothing
+const scNz = k => k.every(Boolean) ? { nz: true } : k.some(Boolean) ? { nz: k.flatMap((x, i) => x ? [i] : []) } : {};
 
 // Cricket tour "Squads" tables: header rows give each column's team and/or format
 // (Tests / ODIs / T20Is), the cell under it lists players. Struck-out players are left out.
@@ -1932,4 +2046,4 @@ export async function tsdbBackfill(all, cache, diag, max = 2) {
   return out;
 }
 export { tennisFinals as _tennisFinals, dateRange as _dateRange, TENNIS as _TENNIS };
-export { f1Tables as _f1Tables, f1Top3 as _f1Top3, supercarsSeason as _supercarsSeason, readSquad as _readSquad, stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
+export { f1Past as _f1Past, scTables as _scTables, scTsdb as _scTsdb, f1Tables as _f1Tables, f1Top3 as _f1Top3, supercarsSeason as _supercarsSeason, readSquad as _readSquad, stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
