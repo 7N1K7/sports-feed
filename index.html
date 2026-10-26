@@ -511,8 +511,8 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 .plink:hover { text-decoration-style: solid }
 .dhnote { text-transform: none; letter-spacing: 0; font-weight: 500; margin-left: 6px }
 .dayhead { position: relative }
-/* out of the flow, so it showing or not never moves the cards below */
-.revall { position: absolute; right: 0; top: 3px; font: inherit; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 4px 10px; cursor: pointer }
+/* out of the flow, so it showing or not never moves the cards below; centred in the gap between the cards above and below */
+.revall { position: absolute; right: 0; top: -.5px; font: inherit; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 4px 10px; cursor: pointer }
 .revall:hover { border-color: var(--muted) }
 .rankrows { display: grid; gap: 8px; margin: 4px 0 14px }
 /* the UFC's lists: each row's name above its divisions, all centred and balanced like the rest */
@@ -522,6 +522,8 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 .stable .dh .wlim { white-space: nowrap }
 .stable .dh .wlim { text-transform: none; letter-spacing: 0; font-weight: 700; color: var(--sport); margin-left: 4px }
 @media (min-width: 561px) { .revall { right: 106px; translate: 50% 0; white-space: nowrap } } /* centred over the cards' 210px time column */
+/* the List's results and Show buttons are at the row's right end: its right edge lines up with theirs */
+body.v-list .revall { right: 12px; translate: none; white-space: nowrap }
 .dayhead::after { content: ""; display: block; height: 2px; width: 32px; background: var(--accent); margin-top: 4px; border-radius: 2px }
 
 
@@ -1407,6 +1409,8 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 .ev.lrow { container-type: inline-size; --li: 92px; --cl: 99px; --cr: 55px;
   --ls: calc(var(--li) - 20px - var(--cl) + var(--cr)); --lroom: calc(100cqw - var(--cl) - var(--cr) - var(--nw, 100cqw)) }
 .ev.lrow .lteams, .ev.lrow .lsolo { padding-left: clamp(0px, var(--ls), var(--lroom)); padding-right: clamp(0px, -1 * var(--ls), var(--lroom)) }
+/* the room between the names and their cell's right end, which a long result can reach into */
+.ev.lrow { --rspace: calc((var(--lroom) - clamp(-1 * var(--lroom), var(--ls), var(--lroom))) / 2) }
 @media (max-width: 520px) { .ev.lrow { --li: 66px; --cl: 71px; --cr: 43px } }
 @media (min-width: 700px) { .ev.lrow { grid-template-columns: 4px auto minmax(0, 1fr) 50px;
     --lw: max(150px, min(var(--cw, 0px) + 101px, 100cqw - var(--nw, 0px) - 75px)); --li: calc(99px + var(--lcw, 0px)); --cl: calc(var(--lw) + 18px); --cr: 57px }
@@ -1439,8 +1443,14 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 /* a live row keeps its way to watch: ON above the 📺 or FREE, in the same narrow end so nothing beside it moves */
 .ev.lrow .lend.lstack { flex-direction: column; justify-content: center; align-items: flex-end; gap: 2px }
 .ev.lrow .lstack .lnow { font-size: 9px; padding: 2px 4px 1px } .ev.lrow .lstack .ltv { height: 18px } .ev.lrow .lstack .lfree { font-size: 8px; padding: 2px 3px 1px }
-.ev.lrow .lscore { font: 700 15px/1 var(--f-display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 44px }
-.ev.lrow button.lscore { border: 0; background: none; padding: 0; margin: 0; color: inherit; cursor: pointer }
+/* a result ends where the Show button's word did (--spad: its border and padding; less on phones, where room is short),
+   and a long one ("Antonelli wins") reaches left into the room beside the names, 12px clear of them (--sgap when they
+   fill their cell), before it's cut */
+.ev.lrow { --spad: 7px; --sgap: 5px }
+@media (max-width: 520px) { .ev.lrow { --spad: 4px; --sgap: 3px } }
+.ev.lrow .lscore { font: 700 15px/1 var(--f-display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: none; padding-right: var(--spad);
+  max-width: calc(var(--cr) - 5px - var(--sgap) + max(0px, var(--rspace) - 12px + var(--sgap))) }
+.ev.lrow button.lscore { border: 0; background: none; padding: 0 var(--spad) 0 0; margin: 0; color: inherit; cursor: pointer }
 .ev.lrow .lcover { font: 700 11px/1 var(--f-body); padding: 5px 6px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface2, transparent); color: inherit; cursor: pointer }
 </style>
 <style>:root{padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>

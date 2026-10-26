@@ -728,10 +728,19 @@ for (const e of [...tsdbLive, ...wiki]) {
   if (e.card && /wikipedia/.test(e.source)) { hit.source = e.source; if (e.score) Object.assign(hit, { score: e.score, summary: e.summary, status: e.status }); }
 }
 
+const side = (x, y) => { const a = norm(x), b = norm(y); return !!a && !!b && (a.includes(b) || b.includes(a)); };
+const SIDE_KEYS = ['', 'Logo', 'Credit', 'LogoCredit', 'Badge'];
 const events = curated.events.map(e => ({ ...e }));
 for (const le of live) {
   const hit = events.find(e => same(e, le));
   if (hit) {
+    // a source listing the sides the other way round: a card kept by hand before its host was known (a final put in
+    // as "Northland v Canterbury" with the ground TBC) takes the source's order, home side first; otherwise the
+    // card's order stands and the source's score is turned to face it
+    const turned = side(le.home, hit.away) && side(le.away, hit.home) && !side(le.home, hit.home);
+    const reorder = turned && /^TBC\b/.test(hit.venue || '') && !/^TBC\b/.test(le.venue || 'TBC');
+    if (reorder) for (const k of SIDE_KEYS) { [hit['home' + k], hit['away' + k]] = [hit['away' + k], hit['home' + k]]; if (hit['home' + k] === undefined) delete hit['home' + k]; if (hit['away' + k] === undefined) delete hit['away' + k]; }
+    const faced = turned && !reorder && /^\d+\s*-\s*\d+$/.test(le.score || '') ? le.score.split('-').map(x => x.trim()).reverse().join('-') : le.score;
     // live sources win on time, status and score; curated keeps names, notes and broadcast. A kick-off kept by hand
     // from the official draw stands against one a few minutes off, though (Wikipedia had Samoa v Wales at 7:50 for the
     // draw's 7:45): only a real move, 20 minutes or more, replaces it
@@ -741,7 +750,7 @@ for (const le of live) {
     const ph = x => /\bor\b|winner|^TBC$/i.test(x || '');
     if ((ph(hit.home) || ph(hit.away)) && !ph(le.home) && !ph(le.away)) Object.assign(hit, { home: le.home, away: le.away, homeLogo: le.homeLogo, awayLogo: le.awayLogo });
     for (const k of ['venue', 'city']) if (/^TBC\b/.test(hit[k] || '') && le[k]) hit[k] = le[k];
-    if (le.score) Object.assign(hit, { score: le.score, status: le.status, summary: le.summary || hit.summary });
+    if (le.score) Object.assign(hit, { score: faced, status: le.status, summary: le.summary || hit.summary });
     hit.tags = [...new Set([...(hit.tags || []), ...(le.tags || [])])];
     if (!hit.tz && le.tz) hit.tz = le.tz;
     if (!hit.link && le.link) hit.link = le.link;
@@ -753,7 +762,6 @@ for (const le of live) {
 }
 // Fill-only TheSportsDB games: a final score or exact start time for the closest matching card that lacks one, never a
 // card of their own. TheSportsDB may list the sides the other way round, so the score is turned to face the card.
-const side = (x, y) => { const a = norm(x), b = norm(y); return !!a && !!b && (a.includes(b) || b.includes(a)); };
 const filled = [];
 for (const t of tsdbFill) {
   const hit = events.filter(e => same(e, t)).sort(near(Date.parse(t.startUTC)))[0];
