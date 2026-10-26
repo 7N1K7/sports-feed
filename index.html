@@ -1004,6 +1004,8 @@ dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback), dialog#sheet:has(.dtab
 .logo.face, .ev .teams.matchup .logo.face:not(.flagimg) { aspect-ratio: 1; width: var(--lh, 1.1em); max-width: none; object-fit: cover; object-position: 50% 20%; border-radius: 50%; box-shadow: 0 0 0 2px var(--line) }
 /* crests drawn small inside their image (Canterbury): scale up, and widen the box to match so it never overlaps the name */
 .logo.zoom, .ev .teams.matchup .logo.zoom, .ev .teams.matchup .logo.zoom.after { transform: scale(var(--z)); margin-inline: calc((var(--z) - 1) * var(--lh) / 2) }
+/* beside a name (the pop-up's title) it keeps the usual 5px clear of it, and 3px more: Canterbury's wordmark runs right to its edge */
+.dteams .logo.zoom { margin-right: calc((var(--z) - 1) * var(--lh) / 2 + 8px) }
 .stable .tn .flagimg { width: 1.4em; height: auto; vertical-align: -0.1em }
 /* table crests sit in one fixed slot so every name starts in line; a crest with a lot of empty space (Canterbury)
    fills its slot by cropping that space rather than scaling past it into the name */
@@ -1433,6 +1435,12 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 .ev.lrow .logo { width: 28px; height: 20px; max-width: none; flex: none; object-position: right center } .ev.lrow .logo.after { object-position: left center }
 .ev.lrow .logo.flagimg { width: 20px; height: 13px } .ev.lrow .logo.face { width: 20px }
 @media (max-width: 520px) { .ev.lrow .logo { width: 22px; height: 18px } .ev.lrow .logo.flagimg { width: 18px; height: 12px } .ev.lrow .logo.face { width: 18px } }
+/* a zoomed logo (one with lots of empty space round it: Canterbury's narrow shield over a wide wordmark) grows away
+   from the name, not into it, with the room it grows into kept for it, and 3px more clear of the name: its wordmark
+   runs right to its edge. --lgw/--lgh: the box's width and height (the image draws as a square that tall) */
+.ev.lrow { --lgw: 28px; --lgh: 20px } @media (max-width: 520px) { .ev.lrow { --lgw: 22px; --lgh: 18px } }
+.ev.lrow .logo.zoom { transform-origin: right center; margin: 0 3px 0 max(0px, var(--lgh) * var(--z) - var(--lgw)) }
+.ev.lrow .logo.zoom.after { transform-origin: left center; margin: 0 max(0px, var(--lgh) * var(--z) - var(--lgw)) 0 3px }
 .ev.lrow .lend { display: flex; justify-content: flex-end; align-items: center; padding-right: 5px }
 .ev.lrow .lfree { font-size: 9px; padding: 3px 4px 2px }
 /* the 📺 in a finger-sized box (a link to where it plays), the same box whether it links or not */
