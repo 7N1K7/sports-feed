@@ -1,1 +1,1 @@
-podium: true; medal sizing: true
+lscoreHtml: true; spacing: true; refit: true
