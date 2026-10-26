@@ -1476,7 +1476,7 @@ export async function supercarsResults(events, cache, diag) {
   }
   let k = 0;
   for (const e of rounds) {
-    const s = store[e.id], res = s ? e.raceNos.filter(n => s.races[n]).map(n => ({ n: `Race ${n}`, src: s.races[n].src, rows: s.races[n].rows,
+    const s = store[e.id], res = s ? e.raceNos.filter(n => s.races[n]).map(n => ({ n: `Race ${n}`, src: s.races[n].src, rows: scCut(s.races[n].rows),
       link: s.races[n].src === 'w' ? s.page || e.link : `https://www.thesportsdb.com/event/${s.races[n].ev}` })) : [];
     if (res.length) { e.raceRes = res; k++; }
   }
@@ -1517,7 +1517,10 @@ function scTsdb(res, nz) {
   const secs = t => { const m = String(t).match(/^(?:(\d+):)?(\d+):(\d+(?:\.\d+)?)$/); return m ? (+m[1] || 0) * 3600 + +m[2] * 60 + +m[3] : null; };
   const gap = x => x < 60 ? x.toFixed(3) : `${Math.floor(x / 60)}:${(x % 60).toFixed(3).padStart(6, '0')}`;
   let first = null, prev = 0, lapped = false;
-  return String(res || '').split(/\r?\n/).map(l => l.split('\t').map(x => x.replace(/^[/\s]+/, '').trim()).filter(Boolean)).filter(c => /^\d+$/.test(c[0]) && c.length >= 3).map(c => {
+  // the race's rows only: some races go on (after a blank line and a rule) with the championship's top 10, numbered too
+  const lines = String(res || '').split(/\r?\n/).map(l => l.split('\t').map(x => x.replace(/^[/\s]+/, '').trim()).filter(Boolean)), rows = [];
+  for (const c of lines) { if (/^\d+$/.test(c[0]) && c.length >= 3 && !(rows.length && +c[0] <= +rows[rows.length - 1][0])) rows.push(c); else if (rows.length) break; }
+  return rows.map(c => {
     const [p, name, tm, t] = c.length >= 4 ? c : [c[0], c[1], '', c[2]], d = name.split(' ').length >= 3 ? name.replace(/(\S)-(?=[A-Z])/g, '$1 / ') : name;
     const x = secs(t);
     let shown = t;
@@ -1529,6 +1532,9 @@ function scTsdb(res, nz) {
     return { p, d, tm, t: shown, ...scNz(d.split(' / ').map(n => nz.has(n))) };
   });
 }
+// a race's rows up to any place number that goes back down (TheSportsDB's standings after the race, read before the parser
+// stopped at them)
+const scCut = rows => { const i = rows.findIndex((r, k) => k && /^\d+$/.test(r.p) && /^\d+$/.test(rows[k - 1].p) && +r.p <= +rows[k - 1].p); return i > 0 ? rows.slice(0, i) : rows; };
 // a car's Kiwis: { nz: true } when every driver is one, { nz: [1] } (which of them) when one of two is, else nothing
 const scNz = k => k.every(Boolean) ? { nz: true } : k.some(Boolean) ? { nz: k.flatMap((x, i) => x ? [i] : []) } : {};
 
