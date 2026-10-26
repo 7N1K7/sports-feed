@@ -1258,9 +1258,11 @@ export async function f1StartTimes(events, cache, diag) {
 // the race, then every 6 hours; TheSportsDB at most every half hour, while a finished practice has no order yet
 export async function f1Sessions(events, cache, diag) {
   const now = Date.now();
+  // each race's points finishers, kept for its card's result after the sessions move on to the next weekend
+  const top = cache._top ||= {}, keep = () => { for (const x of events) if (x.team === 'f1' && top[x.id]) x.top = top[x.id]; };
   const e = events.filter(x => x.team === 'f1' && /^f1-\d{4}-\d+$/.test(x.id) && Date.parse(x.startUTC) - 4 * DAY < now)
     .sort((a, b) => a.startUTC.localeCompare(b.startUTC)).pop();
-  if (!e) { diag.f1Sessions = 'no weekend yet'; return; }
+  if (!e) { diag.f1Sessions = 'no weekend yet'; keep(); return; }
   const c = cache._sess?.id === e.id ? cache._sess : (cache._sess = { id: e.id, w: 0, ts: 0, prac: {} });
   const times = [...(cache[e.id]?.gp === e.home ? cache[e.id].sessions || [] : []), { n: 'Race', t: e.startUTC }];
   const notes = [];
@@ -1302,6 +1304,10 @@ export async function f1Sessions(events, cache, diag) {
   for (const [n, rows] of Object.entries(W.tables || {})) (seen[n] ||= {}).wiki ||= `${stamp} (${rows.length})`;
   if (e.status === 'final') (seen.Race ||= {}).card ||= stamp; // the race card's result (the season page's winner)
   diag.f1SessionsSeen = { id: e.id, wikiReads: c.wikiReads || 0, tsdbReads: c.tsdbReads || 0, lastTsdb: c.ts ? new Date(c.ts).toISOString().slice(0, 16) + 'Z' : '', seen };
+  const race = e.sess.find(s => s.n === 'Race' && s.rows && !s.top3);
+  const pts = race?.rows.filter(r => +r.x > 0) || [];
+  if (race?.rows.length >= 10) top[e.id] = (pts.length ? pts : race.rows).slice(0, 10).map(({ p, d, tm, t, x, nz }) => ({ p, d, tm, t, x, ...(nz ? { nz } : {}) }));
+  keep();
 }
 // a classification table's text without its markup: links to their words, templates gone ({{nowrap|x}} to x)
 const wikiPlain = s => {

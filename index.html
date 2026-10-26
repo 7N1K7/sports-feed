@@ -3006,7 +3006,7 @@ function detail(e) {
   const sideScore = (s, i) => split ? ovRoom(scoreTag(split[i], wl(s))) : isPast && !solo(e) ? ovRoom('<span class="ts nos" aria-hidden="true">–</span>') : '';
   const res = isPast ? (hidden
     ? `<button class="cover big" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>Spoilers are hidden</button>`
-    : `<div class="dres">${split && e.summary ? '' : `<div class="score num ${/[a-z]{3}/i.test(e.score || '') ? 'long' : ''}">${esc(e.score || 'Result not in yet')}</div>`}${e.summary ? `<p${split ? ' class="dwin"' : ''}>${esc(e.summary)}</p>` : ''}${e.leaders?.length ? golfBoard(e) : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
+    : `<div class="dres">${split && e.summary ? '' : `<div class="score num ${/[a-z]{3}/i.test(e.score || '') ? 'long' : ''}">${esc(e.score || 'Result not in yet')}</div>`}${e.summary ? `<p${split ? ' class="dwin"' : ''}>${esc(e.summary)}</p>` : ''}${e.leaders?.length ? golfBoard(e) : ''}${e.top?.length ? raceBoard(e) : ''}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
   // a game under way: "On now" and the live scores link at the right of the title, not a box of their own
   // the countdown is to the next round of a golf tournament (or day of a Test), named for a tournament: "Round 3 in 20h"
   const nd = nextAt(e, now), cd = countdown({ startUTC: nd.toISOString() }, now), stg = stagesOf(e) > 1 && stageNow(e, now);
@@ -3054,6 +3054,10 @@ const redditSub = e => e.sport === 'league' ? 'nrl' : e.sport === 'rugby' ? 'rug
 const golfBoard = e => `<div class="stable gboard"><h3 class="dh">Top 10</h3><div class="tscroll"><table><thead><tr><th>Pos</th><th class="tn">Player</th><th>To par</th><th class="rds">Rounds</th><th>Total</th></tr></thead><tbody>${
   e.leaders.map(r => `<tr class="${r.nz ? 'mine' : ''}"><td class="pos">${esc(r.p)}</td><td class="tn">${esc(r.n)}${r.nz ? ' <span class="muted small">NZ</span>' : ''}</td><td class="num">${esc(String(r.par).replace(/^-/, '−'))}</td><td class="rds num muted">${esc((r.r || []).join(' '))}</td><td class="num">${esc(r.t)}</td></tr>`).join('')
 }</tbody></table></div><p class="muted small rsrc">Leaderboard from <a href="https://www.thesportsdb.com" target="_blank" rel="noopener">TheSportsDB</a></p></div>`;
+// an F1 race's points finishers (the top 10): place, driver, team, time or gap, and points; Kiwis marked
+const raceBoard = e => `<div class="stable gboard sesboard"><h3 class="dh">Top 10</h3><div class="tscroll"><table><thead><tr><th>Pos</th><th class="tn">Driver</th><th class="steam">Team</th><th>Time</th><th>Pts</th></tr></thead><tbody>${
+  e.top.map(r => `<tr class="${r.nz ? 'mine' : ''}"><td class="pos">${esc(r.p)}</td><td class="tn">${esc(r.d)}${r.nz ? ' <span class="muted small">NZ</span>' : ''}</td><td class="steam">${esc(r.tm)}</td><td class="num">${esc(r.t)}</td><td class="num">${esc(r.x)}</td></tr>`).join('')
+}</tbody></table></div><p class="muted small rsrc">Race classification from <a href="${esc(e.sessPage || e.link || e.source)}" target="_blank" rel="noopener">Wikipedia</a></p></div>`;
 // Form guide: a side's last five results (ten on its own page, oldest first) before a given date, from the feed's
 // year-long list. The feed keeps women's sides under "|w" and wheelchair ones under "|wc", so a game (e) says which.
 // Results that spoilers cover are left out until revealed.
