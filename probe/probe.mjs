@@ -1,25 +1,22 @@
-// probe 215: where full Supercars race results could come from: each finished 2026 round's report page on Wikipedia
-// (its headings, and each table's heading, header row and row count), and TheSportsDB's round (strResult lines)
+// probe 216: the raw shapes of Supercars race tables (report pages), the season page's calendar and summary rows,
+// and TheSportsDB's strResult (incl. its non-finishers)
 import fs from 'fs';
 const ua = { 'user-agent': 'KickoffKiwi/1.0 (https://kickoff.kiwi) probe' }, L = [];
-const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
-const rounds = f.events.filter(e => e.team === 'supercars' && /^supercars-2026-\d+$/.test(e.id)).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
-L.push(`${rounds.length} rounds: ` + rounds.map(e => `${e.round} ${e.home} ${e.status} link=${e.link ? decodeURIComponent(e.link.split('/wiki/')[1]) : '-'}`).join(' | '));
-for (const e of rounds.filter(e => e.status === 'final').slice(-4)) {
-  if (!e.link) continue;
-  const title = decodeURIComponent(e.link.split('/wiki/')[1]).replace(/_/g, ' ');
-  const r = await (await fetch(`https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=parse&prop=wikitext&redirects=1&page=${encodeURIComponent(title)}`, { headers: ua })).json();
-  const w = String(r.parse?.wikitext || '').replace(/<!--[\s\S]*?-->/g, '');
-  L.push(`\n== ${title}: ${w.length} chars; headings: ${[...w.matchAll(/^(={2,4})\s*(.+?)\s*\1\s*$/gm)].map(m => m[1].length + ':' + m[2]).join(' / ')}`);
-  for (const m of w.matchAll(/\{\|[\s\S]*?\n\|\}/g)) {
-    const before = w.slice(0, m.index), h = [...before.matchAll(/^(={2,4})\s*(.+?)\s*\1\s*$/gm)].pop()?.[2] || '-';
-    const rows = m[0].split(/\n\|-/).length - 1, head = (m[0].match(/\n!([^\n]*(\n![^\n]*)*)/) || [''])[0].replace(/\s+/g, ' ').slice(0, 220);
-    L.push(`  table under "${h}": ${rows} rows | ${head}`);
-  }
+const wt = async t => String((await (await fetch(`https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=parse&prop=wikitext&redirects=1&page=${encodeURIComponent(t)}`, { headers: ua })).json()).parse?.wikitext || '').replace(/<!--[\s\S]*?-->/g, '');
+const raceTable = (w, h) => { const i = w.search(new RegExp(`^===\\s*${h}\\s*===\\s*$`, 'm')); if (i < 0) return '(no heading)'; const a = w.indexOf('{|', i), b = w.indexOf('\n|}', a); return w.slice(a, b + 3); };
+for (const [t, h] of [['2026 Gold Coast 500', 'Race 1'], ['2026 Bathurst 1000', 'Race']]) {
+  const tb = raceTable(await wt(t), h), rows = tb.split(/\n\|-[^\n]*/);
+  L.push(`\n== ${t} / ${h}: ${rows.length} chunks\n--- head:\n${rows[0].slice(0, 900)}\n--- rows 1-2:\n${rows.slice(1, 3).join('\n|-\n')}\n--- last 4:\n${rows.slice(-4).join('\n|-\n')}`);
 }
-for (const r of rounds.filter(e => e.status === 'final').slice(-2)) {
-  const n = r.id.split('-')[2];
-  const d = await (await fetch(`https://www.thesportsdb.com/api/v1/json/123/eventsround.php?id=4489&r=${n}&s=2026`, { headers: ua })).json();
-  for (const ev of d.events || []) L.push(`tsdb r${n}: ${ev.strEvent} | ${ev.strTimestamp} | result lines ${String(ev.strResult || '').split('\n').filter(x => /^\s*\d+\.?\s/.test(x)).length} ${JSON.stringify(String(ev.strResult || '').slice(0, 120))}`);
+const sp = await wt('2026 Supercars Championship');
+const sec = re => { const i = sp.search(re); return i < 0 ? '' : (sp.slice(i).match(/\{\|[\s\S]*?\n\|\}/) || [''])[0]; };
+const cal = sec(/^==\s*Calendar\s*==/im).split(/\n\|-[^\n]*/), sum = sec(/===\s*Season summary\s*===/i).split(/\n\|-[^\n]*/);
+L.push(`\n== calendar head + rows 1-3:\n${cal.slice(0, 4).join('\n|-\n').slice(0, 2500)}`);
+L.push(`\n== summary head + rows 1-2 and rows mentioning Bathurst/Gold Coast:\n${sum.slice(0, 3).join('\n|-\n').slice(0, 2000)}\n...\n${sum.filter(r => /Bathurst|Gold Coast/.test(r)).join('\n|-\n').slice(0, 2500)}`);
+const i31 = sum.findIndex(r => /Gold Coast/.test(r)); if (i31 >= 0) L.push(`--- row after Gold Coast:\n${sum[i31 + 1]}`);
+const d = await (await fetch('https://www.thesportsdb.com/api/v1/json/123/eventsround.php?id=4489&r=12&s=2026', { headers: ua })).json();
+for (const ev of (d.events || []).filter(ev => /Race 3\d$/.test(ev.strEvent) && !/Qualifying|Shootout/.test(ev.strEvent))) {
+  const lines = String(ev.strResult || '').split(/\r?\n/);
+  L.push(`\n== tsdb ${ev.strEvent} (${ev.idEvent}): ${lines.length} lines; dateUpdated? ${ev.strTimestamp}\n${lines.slice(0, 3).map(JSON.stringify).join('\n')}\n...\n${lines.slice(-5).map(JSON.stringify).join('\n')}`);
 }
 fs.writeFileSync(new URL('./out.txt', import.meta.url), L.join('\n') + '\n');
