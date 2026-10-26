@@ -1,35 +1,249 @@
-4 rounds: Round 11 Bathurst 1000 final link=2026_Bathurst_1000 | Round 12 Gold Coast 500 final link=2026_Gold_Coast_500 | Round 13 Sandown 500 upcoming link=2026_Sandown_500 | Round 14 Adelaide Grand Final upcoming link=2026_Adelaide_Grand_Final
 
-== 2026 Bathurst 1000: 37733 chars; headings: 2:Background / 3:Entry list / 2:Results / 3:Practice / 3:Qualifying / 4:Provisional / 4:Top 10 Shootout / 3:Grid / 3:Race / 2:Broadcast / 2:References / 2:External links
-  table under "Entry list": 14 rows |  !{{Tooltip|No.|Car number}} !Drivers !Team (Sponsors) !Car !rowspan="14"| !{{Tooltip|No.|Car number}} !Drivers !Team (Sponsors) !Car
-  table under "Practice": 8 rows |  ! rowspan="2" |Session ! rowspan="2" |Day ! colspan="7" |Fastest Lap
-  table under "Provisional": 25 rows |  !Pos. !No. !Driver !Team !Car !Time !Gap !Grid
-  table under "Top 10 Shootout": 11 rows |  !Pos. !No. !Driver !Team !Car !Time !Gap !Grid
-  table under "Grid": 27 rows |  ! colspan="3" width="275px" |{{tooltip|Inside row|Row closest to the pit wall}} ! rowspan="27" | ! colspan="3" width="275px" |{{tooltip|Outside row|Row furthest away from the pit wall}}
-  table under "Race": 28 rows |  !{{Tooltip|Pos.|Position}} !{{Tooltip|No.|Car number}} !Drivers !Team !Car !Laps !Time/Retired !{{Tooltip|Grid|Starting grid position}} !Points
-  table under "Broadcast": 1 rows |  !width=240px| Kayo Sports !width=275px| Seven Network<ref>{{cite news|url=https://speedcafe.com/supercars-news-2026-bathurst-1000-free-to-air-details-commentary-line-up-presenters-mel-mclaughlin-matt-white-mark-beretta/
+== 2026 Gold Coast 500 / Race 1: 25 chunks
+--- head:
+{| class="wikitable sortable" style="font-size: 85%; white-space:nowrap; "
+!scope="col" | {{Tooltip|Pos.|Position}}
+!scope="col" | {{Tooltip|No.|Car number}}
+!scope="col" | Driver
+!scope="col" | Team
+!scope="col" | Car
+!class="unsortable" scope="col" | {{Tooltip|Laps|Laps completed}}
+!class="unsortable" scope="col" | Time/Retired
+!scope="col" | {{Tooltip|Grid|Starting grid position}}
+!scope="col" | {{Tooltip|Pts|Points scored}}
+--- rows 1-2:
 
-== 2026 Gold Coast 500: 22018 chars; headings: 2:Background / 3:Support Series<ref name=":1" /> / 3:Entry list / 2:Results / 3:Qualifying 1 / 4:Provisional / 4:Top-Ten Shoot Out / 3:Race 1 / 3:Qualifying 2 / 4:Provisional / 4:Top-Ten Shoot Out / 3:Race 2 / 2:References / 2:External links
-  table under "Provisional": 25 rows |  !Pos. !No. !Driver !Team !Car !Time !Gap !Notes
-  table under "Top-Ten Shoot Out": 11 rows |  !Pos. !No. !Driver !Team !Car !Time !Gap !Grid
-  table under "Race 1": 24 rows |  !scope="col" | {{Tooltip|Pos.|Position}} !scope="col" | {{Tooltip|No.|Car number}} !scope="col" | Driver !scope="col" | Team !scope="col" | Car !class="unsortable" scope="col" | {{Tooltip|Laps|Laps completed}} !class="u
-  table under "Provisional": 25 rows |  !Pos. !No. !Driver !Team !Car !Time !Gap !Grid
-  table under "Top-Ten Shoot Out": 11 rows |  !Pos. !No. !Driver !Team !Car !Time !Gap !Grid
-  table under "Race 2": 25 rows |  !scope="col" | {{Tooltip|Pos.|Position}} !scope="col" | {{Tooltip|No.|Car number}} !scope="col" | Driver !scope="col" | Team !scope="col" | Car !class="unsortable" scope="col" | {{Tooltip|Laps|Laps completed}} !class="u
-tsdb r11: Repco Bathurst 1000 Practice 1 | 2026-10-08T02:30:00 | result lines 0 ""
-tsdb r11: Repco Bathurst 1000 Practice 2 | 2026-10-08T04:45:00 | result lines 0 ""
-tsdb r11: Repco Bathurst 1000 Practice 3 | 2026-10-08T23:05:00 | result lines 0 ""
-tsdb r11: Repco Bathurst 1000 Practice 4 | 2026-10-09T02:15:00 | result lines 0 ""
-tsdb r11: Repco Bathurst 1000 Qualifying Race 30 | 2026-10-09T05:10:00 | result lines 0 ""
-tsdb r11: Repco Bathurst 1000 Practice 5 | 2026-10-09T23:05:00 | result lines 0 ""
-tsdb r11: Repco Bathurst 1000 Practice 6 | 2026-10-10T02:10:00 | result lines 0 ""
-tsdb r11: Repco Bathurst 1000 Top 10 Shootout Race 30 | 2026-10-10T06:05:00 | result lines 0 ""
-tsdb r11: Repco Bathurst 1000 Race 30 | 2026-10-11T00:30:00 | result lines 26 "1\t/Brodie Kostecki-Todd Hazelwood\t\t/Shell V-Power Racing Team\t/5:54:04.749\r\n2\t/Will Brown-Scott Pye\t\t\t/Red Bull Ampol Ra"
-tsdb r12: Boost Mobile Gold Coast 500 Practice 1 | 2026-10-23T01:45:00 | result lines 0 ""
-tsdb r12: Boost Mobile Gold Coast 500 Practice 2 | 2026-10-23T03:50:00 | result lines 0 ""
-tsdb r12: Boost Mobile Gold Coast 500 Qualifying Race 31 | 2026-10-23T06:05:00 | result lines 0 ""
-tsdb r12: Boost Mobile Gold Coast 500  Race 31 | 2026-10-24T05:15:00 | result lines 24 "1\t/Chaz Mostert\t\t/Mobil1 Optus Racing\t\t/1:55:45.274\r\n2\t/David Reynolds\t\t/Snowy River Caravans Racing\t/1:56:08.735\r\n3\t/Ma"
-tsdb r12: Boost Mobile Gold Coast 500 Top 10 Shootout Race 31 | 2026-10-24T02:35:00 | result lines 0 ""
-tsdb r12: Boost Mobile Gold Coast 500  Race 32 | 2026-10-25T04:45:00 | result lines 24 "1\t/Broc Feeney\t\t/Red Bull Ampol Racing\t\t/1:45:31.660\r\n2\t/Brodie Kostecki\t/Shell V-Power Racing Team\t/1:45:38.569\r\n3\t/Cha"
-tsdb r12: Boost Mobile Gold Coast 500 Qualifying Race 32 | 2026-10-25T01:20:00 | result lines 0 ""
-tsdb r12: Boost Mobile Gold Coast 500 Top 10 Shootout Race 32 | 2026-10-25T02:05:00 | result lines 0 ""
+!scope="row" | 1
+|style="text-align:center" |
+|data-sort-value="mos" |
+|
+|
+|style="text-align:center" |
+|
+|style="text-align:center" |
+|style="text-align:center" |
+|-
+
+!scope="row" |2
+|style="text-align:center" |
+|data-sort-value="fee" |
+|
+|
+|style="text-align:center" |
+|
+|style="text-align:center" |
+|style="text-align:center" |
+--- last 4:
+
+!scope="row" data-sort-value="21"| 21
+|style="text-align:center" |
+|data-sort-value="hil" |
+|
+|
+|style="text-align:center" |
+|
+|style="text-align:center" |
+|
+|-
+
+!scope="row" data-sort-value="22"| 22
+|style="text-align:center" |
+|data-sort-value="eva" |
+|
+|
+|style="text-align:center" |
+|
+|style="text-align:center" |
+|
+|-
+
+!scope="row" data-sort-value="23"| 23
+|style="text-align:center" |
+|data-sort-value="mur" |
+|
+|
+|style="text-align:center" |
+|
+|style="text-align:center" |
+|
+|-
+
+| colspan="9" style="background-color:#eaecf0;text-align:center" |'''Sources:'''
+|}
+
+== 2026 Bathurst 1000 / Race: 29 chunks
+--- head:
+{| class="wikitable" style="font-size: 90%"
+!{{Tooltip|Pos.|Position}}
+!{{Tooltip|No.|Car number}}
+!Drivers
+!Team
+!Car
+!Laps
+!Time/Retired
+!{{Tooltip|Grid|Starting grid position}}
+!Points
+--- rows 1-2:
+
+!1
+|17
+|{{flagicon|AUS}} [[Brodie Kostecki]]<br>{{flagicon|AUS}} [[Todd Hazelwood]]
+|[[Dick Johnson Racing]]
+|[[Ford Mustang (seventh generation)|Ford Mustang S650]]
+|161
+|5:54:04.7490
+|2
+|300
+|-
+
+!2
+|888
+|{{flagicon|AUS}} [[Will Brown (racing driver)|Will Brown]]<br>{{flagicon|AUS}} [[Scott Pye]]
+|{{nowrap|[[Triple Eight Race Engineering]]}}
+|[[Ford Mustang (seventh generation)|Ford Mustang S650]]
+|161
+| +1.1844
+|6
+|276
+--- last 4:
+
+!Ret
+|18
+|{{nowrap|{{flagicon|AUS}} [[Anton de Pasquale]]}}<br>{{flagicon|AUS}} [[Lee Holdsworth]]
+|[[Team 18]]
+|[[Chevrolet Camaro (sixth generation)#ZL1|Chevrolet Camaro ZL1]]
+|160
+|Out of fuel
+|3
+|0
+|-
+
+!Ret
+|1
+|{{flagicon|AUS}} [[Chaz Mostert]]<br>{{nowrap|{{flagicon|NZL}} [[Fabian Coulthard]]}}
+|[[Walkinshaw TWG Racing]]
+|[[Toyota GR Supra]]
+|155
+|Crash
+|16
+|0
+|-
+
+|colspan="9" align=center| ''Fastest lap set by [[Brodie Kostecki]] - 2:06.4952 on lap 153''
+|-
+
+!colspan="9" | Source:<ref>{{Cite web |title=2026 Repco Supercars Championship {{!}} Results {{!}} 2026 Repco Bathurst 1000 {{!}} R17 {{!}} Supercars |url=https://www.supercars.com/results/2026/2026-bathurst-1000/R17 |access-date=2026-10-11 |website=www.supercars.com |language=en}}</ref>
+|}
+
+== calendar head + rows 1-3:
+{| class="wikitable" style="font-size:85%;"
+!Round
+!Race
+!Event
+!Circuit
+!Location
+!Dates
+! rowspan="2" |Maps
+|-
+
+! colspan="6" |Sprint Cup
+|-
+
+! rowspan="3" |1
+!1
+| rowspan="3" |[[Sydney Motorsport Park Supercars round|Sydney 500]]
+| rowspan="3" |{{flagicon|New South Wales}} [[Sydney Motorsport Park]]
+| rowspan="3" |{{nowrap|[[Eastern Creek, New South Wales|Eastern Creek]], [[New South Wales]]}}
+| rowspan="3" |20–22 February
+| rowspan="21" |{{location map+|Australia|float=none|width=350|caption=|places={{location map~ |Australia |lat=-37.84 |long=144.96 |label='''[[Albert Park Circuit|Albert Park]]''' |position=left }}
+{{location map~ |Australia |lat=-35.308333 |long=139.516667 |label='''[[The Bend Motorsport Park|Tailem Bend]]''' |position=right }}
+{{location map~ |Australia |lat=-31.66 |long=115.79 |label='''[[Wanneroo Raceway|Perth]]''' |position=right }}
+{{location map~ |Australia |lat=-41.65 |long=147.25 |label='''[[Symmons Plains Raceway|Launceston]]''' |position=left }}
+{{location map~ |Australia |lat=-12.44 |long=130.90 |label='''[[Hidden Valley Raceway|Darwin]]''' |position=left }}
+{{location map~ |Australia |lat=-19.27 |long=146.80 |label='''[[Reid Park Street Circuit|Townsville]]''' |position=left }}
+{{location map~ |Australia |lat=-27.690278 |long=152.6525 |label='''[[Queensland Raceway|Ipswich]]''' |position=top }}
+{{location map~ |Australia |lat=-33.80 |long=150.87 |label='''[[Sydney Motorsport Park|Sydney]]''' |position=bottom }}
+{{location map~ |Australia |lat=-37.95 |long=145.16 |label='''[[Sandown Raceway|Sandown]]''' |position=right }}
+{{location map~ |Australia |lat=-33.44 |long=149.55 |label='''[[Mount Panorama Circuit|Bathurst]]''' |position=left}}
+{{location map~ |Australia |lat=-27.98 |long=153.42 |label='''[[Surfers Paradise Street Circuit|Gold<br>Coast]]''' |position=bottom }}
+{{location map~ |Australia |lat=-34.92 |long=138.61 |label='''[[Adelaide Street Circuit|Adelaide]]''' |position=left }}}}
+|-
+
+!2
+
+== summary head + rows 1-2 and rows mentioning Bathurst/Gold Coast:
+{| class="wikitable" style="font-size:85%; white-space:nowrap;"
+!Round
+!Race
+!Event
+![[Pole position]]
+![[Fastest lap]]
+!Winning driver
+!Winning team
+!Report
+|-
+
+! rowspan="3" |1
+!1
+| rowspan="3" |[[Sydney Motorsport Park Supercars round|Sydney 500]]
+| {{flagicon|AUS}} [[James Golding (racing driver)|James Golding]]
+| {{flagicon|AUS}} [[Jayden Ojeda]]
+| {{flagicon|AUS}} [[Broc Feeney]]
+| nowrap="" | [[Triple Eight Race Engineering]]
+| rowspan="3" |[[2026 Sydney 500|Report]]
+|-
+
+!2
+| nowrap="" | {{flagicon|AUS}} [[Anton de Pasquale]]
+| {{flagicon|AUS}} [[James Golding (racing driver)|James Golding]]
+| nowrap="" | {{flagicon|AUS}} [[Anton de Pasquale]]
+| [[Team 18]]
+...
+
+! 11
+! 30
+| [[Bathurst 1000]]
+| {{flagicon|AUS}} [[Zach Bates]]
+| {{flagicon|AUS}} [[Brodie Kostecki]]
+| {{flagicon|AUS}} [[Brodie Kostecki]]<br>{{flagicon|AUS}} [[Todd Hazelwood]]
+| [[Dick Johnson Racing]]
+| [[2026 Bathurst 1000|Report]]
+|-
+
+! rowspan="2" |12
+!31
+| rowspan="2" |[[Gold Coast 500]]
+| {{flagicon|AUS}} [[Broc Feeney]]
+| {{flagicon|NZL}} [[Andre Heimgartner]]
+| {{flagicon|AUS}} [[Chaz Mostert]]
+| nowrap="" |[[Walkinshaw TWG Racing]]
+| rowspan="2" |[[2026 Gold Coast 500|Report]]
+--- row after Gold Coast:
+
+!32
+| {{flagicon|AUS}} [[Broc Feeney]]
+| {{flagicon|AUS}} [[Chaz Mostert]]
+| {{flagicon|AUS}} [[Broc Feeney]]
+| nowrap="" |[[Triple Eight Race Engineering]]
+
+== tsdb Boost Mobile Gold Coast 500  Race 31 (2419073): 24 lines; dateUpdated? 2026-10-24T05:15:00
+"1\t/Chaz Mostert\t\t/Mobil1 Optus Racing\t\t/1:55:45.274"
+"2\t/David Reynolds\t\t/Snowy River Caravans Racing\t/1:56:08.735"
+"3\t/Matthew Payne\t\t/Penrite Racing\t\t\t/1:56:09.597"
+...
+"20\t/Aaron Cameron\t\t/LIQUI MOLY BLAHST Racing\t/1:55:59.618"
+"21\t/Jobe Stewart\t\t/Erebus Motorsport\t\t/1:56:02.491"
+"22\t/Jack Le Brocq\t\t/Sherrin Rentals Racing\t\t/1:56:21.137"
+"23\t/Thomas Randle\t\t/Monster Castrol Racing\t\t/1:56:34.051"
+"24\t/Kai Allen\t\t/Penrite Racing\t\t\t/1:56:34.701"
+
+== tsdb Boost Mobile Gold Coast 500  Race 32 (2419074): 24 lines; dateUpdated? 2026-10-25T04:45:00
+"1\t/Broc Feeney\t\t/Red Bull Ampol Racing\t\t/1:45:31.660"
+"2\t/Brodie Kostecki\t/Shell V-Power Racing Team\t/1:45:38.569"
+"3\t/Chaz Mostert\t\t/Mobil1 Optus Racing\t\t/1:45:52.588"
+...
+"20\t/Jackson Walls\t\t/Objective Racing\t\t/1:46:37.623"
+"21\t/Jack Le Brocq\t\t/Sherrin Rentals Racing\t\t/1:45:37.198"
+"22\t/David Reynolds\t\t/Snowy River Caravans Racing\t/1:45:46.768"
+"23\t/Macauley Jones\t\t/Brad Jones Racing\t\t/1:46:21.197"
+"24\t/Jobe Stewart\t\t/Erebus Motorsport\t\t/DNF"
