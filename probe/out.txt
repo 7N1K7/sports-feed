@@ -1,1 +1,47 @@
-lscoreHtml: true; spacing: true; refit: true
+feed 2026-10-26T19:18:20.856Z
+f1Sessions: United States Grand Prix: Practice 1 10, Practice 2 10, Practice 3 22, Qualifying 22, Race 22
+seen: {"id":"f1-2026-18","wikiReads":581,"tsdbReads":270,"lastTsdb":"2026-10-26T19:18Z","seen":{"Practice 1":{"top3":"2026-10-24T05:12Z","tsdb":"2026-10-25T03:11Z (10)"},"Practice 2":{"top3":"2026-10-24T05:12Z","tsdb":"2026-10-25T03:11Z (10)"},"Practice 3":{"top3":"2026-10-24T18:45Z","tsdb":"2026-10-26T03:36Z (22)"},"Qualifying":{"wiki":"2026-10-24T22:42Z (22)","tsdb":"2026-10-26T03:36Z (22)"},"Race":{"wiki":"2026-10-25T23:20Z (22)","card":"2026-10-25T23:35Z"}}}
+sess: Practice 1 10 src=t; Practice 2 10 src=t; Practice 3 22 src=t; Qualifying 22 src=w; Race 22 src=w | cls 22
+Qualifying: Wikipedia 22 rows, ours 22; differing cells: none
+Race: Wikipedia 22 rows, ours 22; differing cells: none
+
+32 edits since 25 Oct 21:30 (newest first):
+  2026-10-26T19:58:13Z 27175 see talk page.
+  2026-10-26T19:46:42Z 27344 Undid revision [[Special:Diff/1382124696|1382124696]] by [[Special:Contributions/Island92|Island92]] ([[User t
+  2026-10-26T19:37:41Z 27175 /* Qualifying classification */
+  2026-10-26T19:28:58Z 27150 
+  2026-10-26T19:28:44Z 27151 
+  2026-10-26T19:25:54Z 27151 /* Championship permutations */
+  2026-10-26T19:24:42Z 27325 not the practice.
+  2026-10-26T15:51:50Z 27494 /* Race classification */
+  2026-10-26T14:57:24Z 27484 /* Championship standings after the race */ Island92, what you said is an honest opinion, not a fact, the fact
+  2026-10-26T09:23:41Z 27315 
+  2026-10-26T05:31:18Z 27376 not needed.
+  2026-10-26T05:18:05Z 27545 /* Race classification */
+  2026-10-26T00:16:23Z 27522 Retired (https://www.fia.com/system/files/decision-document/2026_united_states_grand_prix_-_final_race_classif
+  2026-10-26T00:08:04Z 27647 /* Championship permutations */
+  2026-10-25T23:12:53Z 27468 /* Race classification */ to be honest how does this even work??
+  2026-10-25T23:12:13Z 27468 /* Race classification */
+  2026-10-25T23:10:58Z 27468 /* Race classification */ oops
+  2026-10-25T23:10:37Z 27470 /* Race classification */ Valtteri classified as he completed more than 90% of the race
+  2026-10-25T23:06:30Z 27343 /* Race */
+  2026-10-25T23:05:51Z 25341 /* Championship standings after the race */ teams and drivers to have a chance for WCC/WDC
+  2026-10-25T22:51:18Z 25172 /* Qualifying classification */
+  2026-10-25T22:36:26Z 25152 
+  2026-10-25T22:02:43Z 24839 
+  2026-10-25T21:59:01Z 24839 
+  2026-10-25T21:54:02Z 24854 
+  2026-10-25T21:51:07Z 24723 update tense
+  2026-10-25T21:49:03Z 24744 removed [[Category:Current sports events]] using [[WP:HC|HotCat]]
+  2026-10-25T21:48:23Z 24804 
+  2026-10-25T21:46:53Z 24650 /* References */
+  2026-10-25T21:43:05Z 22177 
+  2026-10-25T21:40:16Z 22117 
+  2026-10-25T21:39:04Z 21927 Dating maintenance tags: {{Current}}
+
+TheSportsDB round 18:
+  United States Grand Prix Practice 1 | 2026-10-23T17:30:00 | 10 result lines | "Top 10 - FP1 Classification:\n1. Charles Leclerc (Ferrari) 1:36.052\n2. "
+  United States Grand Prix Practice 2 | 2026-10-23T21:00:00 | 10 result lines | "Top 10 - FP2 Classification:\n1. Charles Leclerc (Ferrari) 1:35.291\n2. "
+  United States Grand Prix Practice 3 | 2026-10-24T17:30:00 | 23 result lines | "2026 United States Grand Prix - Practice 3 (Circuit of The Americas, A"
+  United States Grand Prix Qualifying | 2026-10-24T21:00:00 | 23 result lines | "2026 United States Grand Prix - Qualifying (Circuit of The Americas, A"
+  United States Grand Prix | 2026-10-25T20:00:00 | 0 result lines | ""
