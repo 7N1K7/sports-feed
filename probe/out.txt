@@ -1,2 +1,142 @@
-feed 2026-10-26T02:12:41.859Z
-npc-final | Canterbury v Northland | 2026-10-26T01:10:00Z tbc=false | One NZ Stadium / Christchurch, New Zealand | status=upcoming | logos true/true | tv [{"ch":"TVNZ 1","at":"2026-10-26T00:30:00.000Z","delayed":false},{"ch":"TVNZ 1 plus 1","at":"2026-10-26T01:30:00.000Z","delayed":false}]
+141 logos
+3.21 | ink 90x28 of 100x100 ct6 | mid 0.98 low 0.16 | Melbourne Renegades (wbbl) | fy0wik1492607045.png/tiny 
+2.9 | ink 90x31 of 100x100 ct6 | mid 0.98 low 0.99 | New Zealand Breakers (breakers) | 83088b1725978587.png/tiny 
+2.78 | ink 100x36 of 100x100 ct6 | mid 0.94 low 0.98 | Mainland Tactix (anzprem) | s45fyk1555964004.png/tiny 
+2.5 | ink 100x40 of 100x100 ct6 | mid 1 low 0.7 | New Orleans Pelicans (nba) | xoxjsr1778226698.png/tiny 
+2.17 | ink 100x46 of 100x100 ct6 | mid 1 low 0.81 | Tasman Mako (npc) | lixu581694617296.png/tiny 
+2.13 | ink 100x47 of 100x100 ct6 | mid 0.52 low 1 | Canterbury (npc) | k861411648907649.png/tiny 
+2 | ink 100x50 of 100x100 ct6 | mid 0.93 low 1 | Adelaide Strikers (wbbl) | c36k301492606884.png/tiny 
+2 | ink 100x50 of 100x100 ct6 | mid 0.99 low 0.82 | Wellington Pride (fpc) | rl0dh31554410874.png/tiny 
+1.96 | ink 100x51 of 100x100 ct6 | mid 0.98 low 1 | Tampa Bay Rays (mlb) | littyt1554031623.png/tiny 
+1.92 | ink 92x48 of 100x100 ct6 | mid 0.99 low 0.71 | Illawarra Hawks (nbl) | juj7y91725980615.png/tiny 
+1.9 | ink 99x52 of 100x100 ct6 | mid 0.89 low 0.93 | Sydney Kings (nbl) | gsfe5x1550073324.png/tiny 
+1.89 | ink 100x53 of 100x100 ct6 | mid 0.84 low 0.99 | South Sydney Rabbitohs (nrl) | 0m4unp1552072677.png/tiny 
+1.69 | ink 98x58 of 100x100 ct6 | mid 0.99 low 1 | Hawke's Bay (npc) | n2ut6h1648907665.png/tiny 
+1.69 | ink 98x58 of 100x100 ct6 | mid 0.96 low 0.64 | Oklahoma City Thunder (nba) | bkhj5p1778199006.png/tiny 
+1.64 | ink 100x61 of 100x100 ct6 | mid 0.94 low 0.27 | Sydney Thunder (wbbl) | t0tooq1492606384.png/tiny 
+1.61 | ink 100x62 of 100x100 ct6 | mid 1 low 0.92 | Blues (blues) | w8kypi1555143121.png/tiny 
+1.61 | ink 100x62 of 100x100 ct6 | mid 0.93 low 0.42 | Perth Wildcats (breakers) | 7gkvnd1755701286.png/tiny 
+1.61 | ink 100x62 of 100x100 ct6 | mid 0.99 low 0.96 | Los Angeles Lakers (nba) | d8uoxw1714254511.png/tiny 
+1.59 | ink 100x63 of 100x100 ct6 | mid 0.99 low 0.44 | Southern Steel (anzprem) | a841zn1555966372.png/tiny 
+1.54 | ink 100x65 of 100x100 ct6 | mid 0.6 low 1 | Waratahs (aurugby) | yx31xh1555683522.png/tiny 
+1.47 | ink 100x68 of 100x100 ct6 | mid 0.51 low 0.4 | Utah Jazz (nba) | trct8w1778198868.png/tiny 
+1.35 | ink 92x68 of 100x100 ct6 | mid 1 low 0.98 | Perth Scorchers (wbbl) | ithlp51546681732.png/tiny 
+1.35 | ink 100x74 of 100x100 ct6 | mid 0.84 low 0.4 | Dolphins (warriors) | tyoy421672068536.png/tiny 
+1.32 | ink 95x72 of 100x100 ct6 | mid 0.99 low 0.94 | Sydney Sixers (wbbl) | jtkm601492607206.png/tiny 
+1.32 | ink 100x76 of 100x100 ct6 | mid 1 low 0.9 | Cronulla-Sutherland Sharks (nrl) | qn3n5r1552073088.png/tiny 
+1.25 | ink 100x80 of 100x100 ct6 | mid 0.91 low 0.5 | Brisbane Bullets (nbl) | ubzenr1545867000.png/tiny 
+1.23 | ink 100x81 of 100x100 ct6 | mid 0.95 low 0.99 | Queensland Reds (crusaders) | q499dj1554411648.png/tiny 
+1.23 | ink 100x81 of 100x100 ct6 | mid 0.92 low 0.44 | New York Knicks (nba) | 4k8obt1778226764.png/tiny 
+1.2 | ink 100x83 of 100x100 ct6 | mid 0.98 low 1 | Sunderland (epl) | tprtus1448813498.png/tiny 
+1.19 | ink 100x84 of 100x100 ct6 | mid 1 low 0.96 | Cairns Taipans (nbl) | v2c1wc1550073460.png/tiny 
+1.19 | ink 100x84 of 100x100 ct6 | mid 0.88 low 0.73 | Cleveland Guardians (mlb) | 3zvzao1640964590.png/tiny 
+1.19 | ink 100x84 of 100x100 ct6 | mid 0.97 low 0.98 | Orlando Magic (nba) | j0mpu81778198371.png/tiny 
+1.18 | ink 99x84 of 100x100 ct6 | mid 0.94 low 0.83 | Phoenix Suns (nba) | xfyknc1778198971.png/tiny 
+1.16 | ink 100x86 of 100x100 ct6 | mid 0.77 low 0.94 | Canterbury (nzdomestic) | uex7eq1705391931.png/tiny 
+1.16 | ink 100x86 of 100x100 ct6 | mid 0.88 low 0.87 | Cleveland Cavaliers (nba) | pch9ct1778195828.png/tiny 
+1.12 | ink 100x89 of 100x100 ct6 | mid 0.45 low 1 | Otago (npc) | p3fghu1554410255.png/tiny 
+1.12 | ink 100x89 of 100x100 ct6 | mid 0.95 low 0.4 | Chicago Bulls (nba) | ehq8l31778197349.png/tiny 
+1.11 | ink 97x87 of 100x100 ct6 | mid 0.89 low 0.84 | Taranaki Bulls (npc) | y4qamm1648907716.png/tiny 
+1.11 | ink 100x90 of 100x100 ct6 | mid 1 low 0.88 | Philadelphia Phillies (mlb) | 3xrldf1617528682.png/tiny 
+1.1 | ink 96x87 of 100x100 ct6 | mid 0.77 low 0.38 | Tasmania (audomestic) | 1yd06z1675431414.png/tiny 
+1.08 | ink 200x185 of 200x200 ct6 | mid 0.49 low 1 | Duncan (ufc) | rtc1pr1732796998.png/small 
+1.06 | ink 200x188 of 200x200 ct6 | mid 0.53 low 1 | Stirling (ufc) | ndioy11732797047.png/small 
+1.06 | ink 100x94 of 100x100 ct6 | mid 0.73 low 1 | Atlanta Braves (mlb) | yjs76e1617811496.png/tiny 
+1.06 | ink 100x94 of 100x100 ct6 | mid 0.8 low 0.46 | Houston Rockets (nba) | azoktf1780729261.png/tiny 
+1.06 | ink 100x94 of 100x100 ct6 | mid 1 low 0.84 | Memphis Grizzlies (nba) | v44qp21778197640.png/tiny 
+1.06 | ink 100x94 of 100x100 ct6 | mid 0.94 low 0.88 | Indiana Pacers (nba) | y3lutb1778226511.png/tiny 
+1.05 | ink 200x190 of 200x200 ct6 | mid 0.51 low 1 | Nolan (ufc) | azna0p1732797065.png/small 
+1.05 | ink 100x95 of 100x100 ct6 | mid 1 low 0.94 | North Queensland Cowboys (nrl) | q6xu7c1646347820.png/tiny 
+1.04 | ink 100x96 of 100x100 ct6 | mid 1 low 0.9 | Melbourne Stars (wbbl) | l0t7v31715269757.png/tiny 
+1.04 | ink 200x193 of 200x200 ct6 | mid 0.54 low 1 | Buckley (ufc) | ir0khq1732796200.png/small 
+1.04 | ink 99x95 of 100x100 ct6 | mid 0.81 low 0.67 | Charlotte Hornets (nba) | xqtvvp1422380623.png/tiny 
+1.03 | ink 98x95 of 100x100 ct6 | mid 1 low 0.78 | Yokohama DeNA BayStars (npb) | fuhqf21576013789.png/tiny 
+1.02 | ink 100x98 of 100x100 ct6 | mid 0.98 low 1 | Boston Red Sox (mlb) | stpsus1425120215.png/tiny 
+1.01 | ink 99x98 of 100x100 ct6 | mid 1 low 0.95 | Minnesota Timberwolves (nba) | epenxg1781034811.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.94 | Western Sydney Wanderers (aleague) | yotugj1759632879.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.95 | Melbourne City (aucklandfc) | rkeqme1603301840.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.94 | Wellington Phoenix (phoenix) | 4uj8271759632738.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 0.9 low 1 | Newcastle United (epl) | lhwuiz1621593302.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.94 | Chelsea (epl) | pbf4ul1782638263.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.95 | Manchester City (epl) | vwpvry1467462651.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.95 | Brentford (epl) | grv1aw1546453779.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.95 | Brighton and Hove Albion (epl) | ywypts1448810904.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.84 | Manchester United (epl) | xzqdr11517660252.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 0.93 low 0.97 | Sydney Roosters (nrl) | by299w1646347883.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.93 | Northern Mystics (anzprem) | q8tkxg1555966188.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.95 | Milwaukee Brewers (mlb) | 08kh2a1595775193.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.95 | Houston Astros (mlb) | miwigx1521893583.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.95 | Chicago Cubs (mlb) | wxbe071521892391.png/tiny 
+1 | ink 95x95 of 100x100 ct6 | mid 0.89 low 1 | Fukuoka SoftBank Hawks (npb) | ampozy1576009547.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.94 | Detroit Pistons (nba) | lg7qrc1621594751.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.96 | Golden State Warriors (nba) | xokycb1778197905.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.96 | Denver Nuggets (nba) | s8ch7m1778197814.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.94 | Atlanta Hawks (nba) | 7o1noy1778226315.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.94 | Washington Wizards (nba) | dxac7a1778227278.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.96 | Brooklyn Nets (nba) | hkafe61739948361.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.9 | Toronto Raptors (nba) | lct96a1778227205.png/tiny 
+1 | ink 100x100 of 100x100 ct6 | mid 1 low 0.95 | Dallas Mavericks (nba) | s5dx7c1778197536.png/tiny 
+0.99 | ink 99x100 of 100x100 ct6 | mid 0.99 low 0.96 | Auckland Storm (fpc) | by4lk71694617222.png/tiny 
+0.99 | ink 99x100 of 100x100 ct6 | mid 1 low 0.42 | Adelaide 36ers (nbl) | zp72061755701355.png/tiny 
+0.98 | ink 98x100 of 100x100 ct6 | mid 1 low 0.98 | Everton (epl) | eqayrf1523184794.png/tiny 
+0.98 | ink 98x100 of 100x100 ct6 | mid 0.92 low 1 | Brumbies (aurugby) | 0r9shp1555144049.png/tiny 
+0.98 | ink 98x100 of 100x100 ct6 | mid 0.83 low 1 | Penrith Panthers (nrl) | zjh0jo1771495164.png/tiny 
+0.96 | ink 96x100 of 100x100 ct6 | mid 0.96 low 1 | Waikato (npc) | cpi82g1648907724.png/tiny 
+0.96 | ink 96x100 of 100x100 ct6 | mid 1 low 0.56 | Miami Heat (nba) | b9tye31778226616.png/tiny 
+0.94 | ink 94x100 of 100x100 ct6 | mid 1 low 0.88 | Northern Districts (nzdomestic) | 7lnb4g1705391916.png/tiny 
+0.94 | ink 94x100 of 100x100 ct6 | mid 0.98 low 0.78 | New Zealand Warriors (warriors) | w8b9kw1646347767.png/tiny 
+0.94 | ink 94x100 of 100x100 ct6 | mid 1 low 0.63 | Los Angeles Dodgers (mlb) | 32uxn21778269451.png/tiny 
+0.91 | ink 82x90 of 100x100 ct6 | mid 0.99 low 0.67 | Hobart Hurricanes (wbbl) | vdcla41492606553.png/tiny 
+0.91 | ink 91x100 of 100x100 ct6 | mid 1 low 0.9 | Boston Celtics (nba) | 4j85bn1667936589.png/tiny 
+0.9 | ink 90x100 of 100x100 ct6 | mid 0.94 low 1 | Chiefs (chiefs) | ut9cpz1555142819.png/tiny 
+0.9 | ink 90x100 of 100x100 ct6 | mid 0.94 low 1 | Victoria (audomestic) | j5vbn41749588430.png/tiny 
+0.9 | ink 90x100 of 100x100 ct6 | mid 1 low 0.89 | New York Yankees (mlb) | wqwwxx1423478766.png/tiny 
+0.9 | ink 90x100 of 100x100 ct6 | mid 0.92 low 0.92 | Portland Trail Blazers (nba) | umehtv1778226952.png/tiny 
+0.88 | ink 88x100 of 100x100 ct6 | mid 1 low 0.7 | S.E. Melbourne Phoenix (nbl) | 73xo0d1755702709.png/tiny 
+0.88 | ink 88x100 of 100x100 ct6 | mid 1 low 0.98 | Sacramento Kings (nba) | k2buwo1778227426.png/tiny 
+0.86 | ink 86x100 of 100x100 ct6 | mid 1 low 0.9 | Adelaide United (aleague) | wpyuwv1473454602.png/tiny 
+0.86 | ink 86x100 of 100x100 ct6 | mid 1 low 0.84 | Arsenal (epl) | uyhbfe1612467038.png/tiny 
+0.85 | ink 85x100 of 100x100 ct6 | mid 0.95 low 0.99 | Newcastle Knights (warriors) | aes2o51646347790.png/tiny 
+0.85 | ink 85x100 of 100x100 ct6 | mid 1 low 0.85 | Northland (npc) | 8ojw051694618128.png/tiny 
+0.84 | ink 84x100 of 100x100 ct6 | mid 1 low 0.98 | Central Coast Mariners (aleague) | ncdx4p1759642161.png/tiny 
+0.84 | ink 84x100 of 100x100 ct6 | mid 1 low 0.86 | Melbourne Victory (phoenix) | wwvsqx1473454564.png/tiny 
+0.82 | ink 80x98 of 100x100 ct6 | mid 1 low 1 | North Harbour (npc) | qee9p31648907679.png/tiny 
+0.82 | ink 82x100 of 100x100 ct6 | mid 0.74 low 0.59 | San Antonio Spurs (nba) | yc5qfx1781459158.png/tiny 
+0.81 | ink 81x100 of 100x100 ct6 | mid 1 low 0.96 | Macarthur FC (aleague) | 9gr66g1579348350.png/tiny 
+0.8 | ink 80x100 of 100x100 ct6 | mid 0.99 low 0.72 | Wellington Firebirds (nzdomestic) | ep5kr31705391899.png/tiny 
+0.8 | ink 80x100 of 100x100 ct6 | mid 0.94 low 0.93 | Crusaders (crusaders) | 8nj0g71592726411.png/tiny 
+0.8 | ink 80x100 of 100x100 ct6 | mid 0.85 low 0.85 | Ipswich Town (epl) | mdj1ey1634670785.png/tiny 
+0.8 | ink 80x100 of 100x100 ct6 | mid 0.91 low 1 | Crystal Palace (epl) | ia6i3m1656014992.png/tiny 
+0.8 | ink 80x100 of 100x100 ct6 | mid 1 low 0.8 | Leeds United (epl) | jcgrml1756649030.png/tiny 
+0.8 | ink 80x100 of 100x100 ct6 | mid 0.94 low 1 | San Diego Padres (mlb) | 6wt1cn1617527530.png/tiny 
+0.8 | ink 80x100 of 100x100 ct6 | mid 1 low 1 | Milwaukee Bucks (nba) | olhug01621594702.png/tiny 
+0.79 | ink 79x100 of 100x100 ct6 | mid 1 low 0.89 | Sydney FC (aleague) | utgq8z1546110747.png/tiny 
+0.79 | ink 79x100 of 100x100 ct6 | mid 1 low 0.89 | Hull City (epl) | fbqqda1601726113.png/tiny 
+0.78 | ink 78x100 of 100x100 ct6 | mid 0.96 low 0.87 | Auckland Aces (nzdomestic) | gmbyx01705392031.png/tiny 
+0.78 | ink 77x99 of 100x100 ct6 | mid 1 low 0.79 | Perth Glory (aleague) | 2c9k5p1679114095.png/tiny 
+0.78 | ink 78x100 of 100x100 ct6 | mid 0.97 low 0.72 | Tasmania JackJumpers (nbl) | xbmi6c1755702783.png/tiny 
+0.77 | ink 77x100 of 100x100 ct6 | mid 1 low 0.81 | Bournemouth (epl) | y08nak1534071116.png/tiny 
+0.77 | ink 77x100 of 100x100 ct6 | mid 0.99 low 1 | Coventry City (epl) | uxyqys1424033798.png/tiny 
+0.76 | ink 150x198 of 200x200 ct6 | mid 0.96 low 1 | Willy Hutchinson (boxing) | nf0gz81740310318.png/small 
+0.76 | ink 76x100 of 100x100 ct6 | mid 1 low 1 | Fijian Drua (highlanders) | hwkiae1642447086.png/tiny 
+0.76 | ink 70x92 of 100x100 ct6 | mid 0.99 low 0.86 | Western Force (chiefs) | pwelh51573084191.png/tiny 
+0.76 | ink 76x100 of 100x100 ct6 | mid 1 low 0.93 | Fulham (epl) | xwwvyt1448811086.png/tiny 
+0.76 | ink 75x99 of 100x100 ct6 | mid 0.99 low 0.75 | New South Wales (audomestic) | fbj6w51675420971.png/tiny 
+0.76 | ink 76x100 of 100x100 ct6 | mid 0.99 low 0.99 | Philadelphia 76ers (nba) | j6rlbi1778226857.png/tiny 
+0.75 | ink 150x199 of 200x200 ct6 | mid 0.88 low 0.89 | Emanuel Navarrete (boxing) | ed5uxz1706344773.png/small 
+0.74 | ink 71x96 of 100x100 ct6 | mid 1 low 1 | Brisbane Heat (wbbl) | 6r5cly1492606239.png/tiny 
+0.74 | ink 74x100 of 100x100 ct6 | mid 0.97 low 0.76 | Brisbane Roar (aleague) | sypxsu1473454634.png/tiny 
+0.74 | ink 74x100 of 100x100 ct6 | mid 1 low 1 | Aston Villa (epl) | uwzw561787679026.png/tiny 
+0.74 | ink 74x100 of 100x100 ct6 | mid 1 low 1 | Melbourne United (nbl) | adpuke1755702629.png/tiny 
+0.72 | ink 141x197 of 200x200 ct6 | mid 1 low 1 | Fabio Wardley (boxing) | qvl9gd1761511248.png/small 
+0.72 | ink 72x100 of 100x100 ct6 | mid 1 low 0.86 | Auckland FC (aucklandfc) | f36lst1730017502.png/tiny 
+0.72 | ink 72x100 of 100x100 ct6 | mid 1 low 0.99 | Chicago White Sox (mlb) | yyz5dh1554140884.png/tiny 
+0.71 | ink 143x200 of 200x200 ct6 | mid 0.9 low 1 | O'Shaquie Foster (boxing) | 18m1d01708070954.png/small 
+0.71 | ink 71x100 of 100x100 ct6 | mid 1 low 0.94 | Newcastle Jets (aleague) | 5jevk91653487832.png/tiny 
+0.69 | ink 138x200 of 200x200 ct6 | mid 0.88 low 1 | Joshua Buatsi (boxing) | 05imp61706893943.png/small 
+0.67 | ink 67x100 of 100x100 ct6 | mid 0.84 low 0.81 | Central Stags (nzdomestic) | 34lmqg1705391924.png/tiny 
+0.63 | ink 122x193 of 200x200 ct6 | mid 1 low 0.98 | Nick Ball (boxing) | 7i2g4k1760723733.png/small 
+0.56 | ink 56x100 of 100x100 ct6 | mid 1 low 0.91 | Nottingham Forest (epl) | sar2y41781740886.png/tiny 
+0.55 | ink 55x100 of 100x100 ct6 | mid 0.73 low 0.89 | Liverpool (epl) | kfaher1737969724.png/tiny 
+0.45 | ink 45x99 of 100x100 ct6 | mid 1 low 0.53 | Otago Volts (nzdomestic) | am7ce21705391910.png/tiny 
+0.42 | ink 42x100 of 100x100 ct6 | mid 0.95 low 0.79 | Tottenham Hotspur (epl) | dfyfhl1604094109.png/tiny 
