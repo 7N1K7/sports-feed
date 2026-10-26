@@ -983,10 +983,10 @@ dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback), dialog#sheet:has(.dtab
 }
 .rankbody { padding-top: 6px }
 .stable.rank .rnote { font-weight: 400; white-space: normal }
-.stable.rank .medal { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; font-size: 12px; font-weight: 800; color: #3b2a00; box-shadow: inset 0 -2px 0 rgba(0,0,0,.18) }
-.stable.rank .medal.m1 { background: linear-gradient(145deg, #ffe58a, #e0a800) }
-.stable.rank .medal.m2 { background: linear-gradient(145deg, #f1f3f5, #aeb5bc); color: #2b3035 }
-.stable.rank .medal.m3 { background: linear-gradient(145deg, #f0b98a, #b8692e); color: #3a1d06 }
+.stable .medal { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; font-size: 12px; font-weight: 800; color: #3b2a00; box-shadow: inset 0 -2px 0 rgba(0,0,0,.18) }
+.stable .medal.m1 { background: linear-gradient(145deg, #ffe58a, #e0a800) }
+.stable .medal.m2 { background: linear-gradient(145deg, #f1f3f5, #aeb5bc); color: #2b3035 }
+.stable .medal.m3 { background: linear-gradient(145deg, #f0b98a, #b8692e); color: #3a1d06 }
 .stable.rank tr.gap td { text-align: center; color: var(--muted); padding: 2px }
 .stable.rank .tag { font-size: 10px; vertical-align: .1em }
 .tscroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface) }
@@ -1322,6 +1322,8 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
 .sesgp { margin: 4px 0 2px; font-size: 15px } .sesnote { margin: 4px 0 10px } .sescover { width: 100%; margin-bottom: 8px }
 .sesboard td.steam, .sesboard th.steam { color: var(--muted); white-space: nowrap } .sesboard th, .sesboard td.num { white-space: nowrap }
 @media (max-width: 520px) { .sesboard .steam { display: none } }
+/* a race's podium medal takes no more height than the place's number, so every row stays the same height */
+.sesboard .medal { margin: -3px 0; vertical-align: middle }
 .rboard td.tn:has(.drv) { white-space: normal } .rboard .drv { white-space: nowrap }
 .sesmore { display: block; margin: 6px auto 10px } .rboard:not(.all) tr.rx, .rboard.all .rmore { display: none } .sesnext { list-style: none; margin: 0 0 10px; padding: 0; display: grid; gap: 4px }
 .ev .comp .ctitle > span { letter-spacing: .07em } /* in em on the text itself, so it shrinks with a fitted title */
@@ -2815,7 +2817,7 @@ function sessionsHtml(now) {
     if (isHidden({ id, startUTC: s.t }, now)) return `${head}<button class="cover big sescover" type="button" data-reveal="${esc(id)}"><b>Show ${race(s.n) ? 'result' : 'times'}</b>Spoilers are hidden</button>`;
     // the top three alone (from Wikipedia's prose) come without times, so that table has no time column
     const timed = s.rows.some(r => r.t);
-    const rows = (more ? s.rows.slice(0, 10) : s.rows).map(r => `<tr class="${r.nz ? 'mine' : ''}"><td class="pos">${esc(r.p)}</td><td class="tn">${esc(r.d)}${r.nz ? ' <span class="muted small">NZ</span>' : ''}</td><td class="steam">${esc(r.tm)}</td>${timed ? `<td class="num">${esc(r.t)}${r.x && !race(s.n) ? ` <small class="muted">${esc(r.x)}</small>` : ''}</td>` : ''}${race(s.n) ? `<td class="num">${esc(r.x)}</td>` : ''}</tr>`).join('');
+    const rows = (more ? s.rows.slice(0, 10) : s.rows).map(r => `<tr class="${r.nz ? 'mine' : ''}"><td class="pos">${/^race$/i.test(s.n) ? podium(r.p) : esc(r.p)}</td><td class="tn">${esc(r.d)}${r.nz ? ' <span class="muted small">NZ</span>' : ''}</td><td class="steam">${esc(r.tm)}</td>${timed ? `<td class="num">${esc(r.t)}${r.x && !race(s.n) ? ` <small class="muted">${esc(r.x)}</small>` : ''}</td>` : ''}${race(s.n) ? `<td class="num">${esc(r.x)}</td>` : ''}</tr>`).join('');
     return `${head}<div class="stable sesboard"><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">Driver</th><th class="steam">Team</th>${timed ? `<th>${race(s.n) ? 'Time' : /^Practice/.test(s.n) ? 'Best lap' : 'Best'}</th>` : ''}${race(s.n) ? '<th>Pts</th>' : ''}</tr></thead><tbody>${rows}</tbody></table></div></div>`
       + (more ? `<button type="button" class="chip sesmore" data-sesall="${esc(id)}">All ${s.rows.length}</button>` : '')
       + (s.top3 ? '<p class="muted small sesnote">Just the top three for now, as Wikipedia names them: the full order follows from TheSportsDB.</p>' : '');
@@ -3060,12 +3062,14 @@ const golfBoard = e => `<div class="stable gboard"><h3 class="dh">Top 10</h3><di
 // place, so the pop-up doesn't jump). F1: the one race (e.cls); Supercars: each race of the round (e.raceRes), with
 // its championship number, drivers sharing a car (the enduros) as "A / B"
 const raceAll = new Set(), kiwi = ' <span class="muted small">NZ</span>';
+// the podium in gold, silver and bronze (the rankings' medals)
+const podium = p => /^[123]$/.test(p) ? `<span class="medal m${p}" aria-label="${['Gold', 'Silver', 'Bronze'][p - 1]}, ${p}">${p}</span>` : esc(p);
 // (a pair breaks between its drivers when the pop-up is narrow, each name whole)
 const raceWho = r => { const k = i => Array.isArray(r.nz) ? r.nz.includes(i) : r.nz; const ns = r.d.split(' / ');
   return ns.length > 1 ? ns.map((n, i) => `<span class="drv">${esc(n)}${k(i) ? kiwi : ''}</span>`).join(' / ') : esc(r.d) + (k(0) ? kiwi : ''); };
 const raceBoard = (key, title, cls, foot) => { const n = Math.min(10, cls.filter(r => +r.x > 0).length) || 10, more = cls.length > n, pts = cls.some(r => r.x);
   return `<div class="stable gboard sesboard rboard${more && !raceAll.has(key) ? '' : ' all'}"><h3 class="dh">${esc(title)}</h3><div class="tscroll"><table><thead><tr><th>Pos</th><th class="tn">${cls.some(r => r.d.includes(' / ')) ? 'Drivers' : 'Driver'}</th><th class="steam">Team</th><th>Time</th>${pts ? '<th>Pts</th>' : ''}</tr></thead><tbody>${
-  cls.map((r, i) => `<tr class="${r.nz ? 'mine' : ''}${i >= n ? ' rx' : ''}"><td class="pos">${esc(r.p)}</td><td class="tn">${raceWho(r)}</td><td class="steam">${esc(r.tm)}</td><td class="num">${esc(r.t)}</td>${pts ? `<td class="num">${esc(r.x || '')}</td>` : ''}</tr>`).join('')
+  cls.map((r, i) => `<tr class="${r.nz ? 'mine' : ''}${i >= n ? ' rx' : ''}"><td class="pos">${podium(r.p)}</td><td class="tn">${raceWho(r)}</td><td class="steam">${esc(r.tm)}</td><td class="num">${esc(r.t)}</td>${pts ? `<td class="num">${esc(r.x || '')}</td>` : ''}</tr>`).join('')
 }</tbody></table></div>${more ? `<button type="button" class="chip sesmore rmore" data-raceall="${esc(key)}">All ${cls.length}</button>` : ''}${foot}</div>`; };
 const raceBoards = e => {
   if (e.cls?.length) return raceBoard(e.id, 'Classification', e.cls, `<p class="muted small rsrc">Race classification from <a href="${esc(e.sessPage || e.link || e.source)}" target="_blank" rel="noopener">Wikipedia</a></p>`);
