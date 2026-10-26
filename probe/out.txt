@@ -1,6 +1,1 @@
-generated 2026-10-26T06:00:31.605Z; supercarsResults: 4 rounds with race results: Round 12 Race 31 24 (TheSportsDB), Race 32 24 (TheSportsDB); Round 11 Race 30 26 (Wikipedia); Round 10 Race 29 26 (Wikipedia); Round 9 Race 26 27 (Wikipedia), Race 27 27 (Wikipedia), Race 28 27 (Wikipedia); f1Past: classification for Singapore Grand Prix, Bahrain Grand Prix in Malaysia, Azerbaijan Grand Prix; seen {"supercars-2026-12":{"31":{"tsdb":"2026-10-26T06:00Z"},"32":{"tsdb":"2026-10-26T06:00Z"}},"supercars-2026-11":{"30":{"wiki":"2026-10-26T06:00Z"}},"supercars-2026-10":{"29":{"wiki":"2026-10-26T06:00Z"}}}
-f1-2026-17 Singapore Grand Prix final raceNos= cls=22 raceRes=-
-f1-2026-18 United States Grand Prix final raceNos= cls=22 raceRes=-
-supercars-2026-11 Bathurst 1000 final raceNos=30 cls=0 raceRes=Race 30:26(w, kiwis 5)
-supercars-2026-12 Gold Coast 500 final raceNos=31/32 cls=0 raceRes=Race 31:24(t, kiwis 2) Race 32:24(t, kiwis 2)
-site has raceBoards: true; drv css: true
+podium: true; medal sizing: true
