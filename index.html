@@ -1119,10 +1119,11 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
 :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .score { font-size: 20px }
 /* worded results ("Fundora won by KO (R12, 2:59)") read as text, not as a big scoreline, in every view */
 .ev .when .score.long, :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .score.long, .dres .score.long { font-size: 15px; font-family: var(--f-body); font-weight: 600; line-height: 1.3 }
-/* compact cards sit 6px apart; big ones 8px whichever view is on, so Mixed's big cards (live now, today's games) don't
-   shift when switching to Big */
+/* compact cards sit 6px apart, big ones (Standard's live now and today's games) 8px. Today's list keeps the compact
+   spacing round its headings and its compact groups (early tomorrow, earlier today), so with none of today's games to
+   come, Standard lays it out exactly as Compact does and switching moves nothing */
 :is(body.v-compact, body.v-mixed) :is(.daygroup, .donetoday) { gap: 6px }
-body.v-mixed :is(#live, #today > .daygroup) { gap: 8px }
+body.v-mixed #live { gap: 8px } body.v-mixed #today > .daygroup > .ev + .ev { margin-top: 2px }
 /* early tomorrow's games are further off: compact cards in Mixed, like the rest of the week */
 .early { display: grid; gap: 8px } :is(body.v-compact, body.v-mixed) .early { gap: 6px }
 @media (max-width: 560px) { :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .teams { font-size: 17px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .teams.matchup .side { gap: 6px } :is(body.v-compact, body.v-mixed :is(#upcoming, #tomorrow, #later, #results, .donetoday, #dayPick, #hubBody, .early), .dpane) .ev .teams.matchup .logo:not(.flagimg) { --lh: 1.95em; height: 1.95em } }
@@ -4193,6 +4194,11 @@ addEventListener('resize', () => { cancelAnimationFrame(fitFrame); fitFrame = re
 document.fonts?.ready.then(() => { fitLines(); lcwKey = ''; fitList(); });
 // the series chips were balanced before the web font arrived (wider or narrower chips): balance them again
 document.fonts?.ready.then(() => { balanceNow(); syncNowMore(); });
+// a weight first used once the cards are drawn (the team names' and titles' Barlow) can load after that first "ready",
+// leaving cards fitted to the fallback font's widths until the next redraw, so switching views or anything that redraws
+// reshaped them: fit everything again whenever more fonts finish loading
+document.fonts?.addEventListener('loadingdone', () => { fitLines(); lcwKey = ''; fitList(); balanceNow(); syncNowMore(); fitTop(); fitOffNote();
+  document.querySelectorAll('.ranksports, .rankchips, .rankrows .chips, #sportFilter').forEach(balanceChips); });
 // dots that fill exactly two rows of a day in the week strip (7px dots, 3px apart), measured from the strip itself, so
 // the "+" always lands in the last spot of the second row
 function dotCap() {
