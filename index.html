@@ -2169,15 +2169,19 @@ function seriesLine(e, now) {
   const n = all.findIndex(x => x.id === e.id) + 1;
   const base = s => (s || '').replace(/\s+Women('s)?$/, '').toLowerCase();
   const wins = { [e.home]: 0, [e.away]: 0 };
-  let counted = 0;
+  // the series score only when it's complete: an earlier game whose result spoilers hide (or one just played, its result
+  // not in yet) would leave it short ("1–0" when it's 2–0), so then it says the score is hidden, or nothing
+  let counted = 0, hid = 0, due = 0;
   for (const x of all.slice(0, n - 1)) {
-    if (x.status !== 'final' || isHidden(x, now)) continue;
+    if (x.status === 'final' && isHidden(x, now)) { hid++; continue; }
+    if (x.status !== 'final') { const ago = now - Date.parse(x.startUTC); if (ago > 0 && ago < 2 * 864e5) due++; continue; }
     const w = base(((x.summary || x.score || '').match(/^(.+?) won\b/i) || [])[1]);
     counted++;
     for (const t of [e.home, e.away]) if (w && (base(t) === w || base(t).startsWith(w) || w.startsWith(base(t)))) wins[t]++;
   }
   let state = '';
-  if (counted) {
+  if (hid) state = ` · ${f} series score hidden`;
+  else if (counted && !due) {
     const [a, b] = [e.home, e.away].sort((x, y) => wins[y] - wins[x]);
     state = wins[a] === wins[b] ? ` · ${f} series level ${wins[a]}–${wins[b]}` : ` · ${esc(displayName(a, e))} lead the ${f} series ${wins[a]}–${wins[b]}`;
   }
