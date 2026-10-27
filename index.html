@@ -537,6 +537,9 @@ body.v-list .revall { right: 0; translate: none; white-space: nowrap }
 .ev .series { text-align: center; font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.2 }
 /* desktop: the series line sits in the spare room at the card's foot, so the card keeps its height */
 @media (min-width: 561px) { .ev .series { position: absolute; left: 0; right: 0; bottom: 3px; pointer-events: none } }
+/* "series score hidden" (and the score it shows) taps to show and hide the score: text in the line, dotted underneath */
+:is(.ev .series, .dseries) .sertog { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; pointer-events: auto;
+  text-decoration: underline dotted; text-underline-offset: 2px } .ev .series .sertog:hover { color: var(--ink) }
 /* the sides (pictures, names and the "v") sit in the middle of the room between the competition line and the card's
    foot (or the series line, when there is one), a touch above true centre (4px more room below), which reads as
    centred: a flag is shorter than its slot, so a flag card has spare room above it, and a series line takes room at
@@ -973,6 +976,8 @@ dialog#sheet:has(.stable.rank), dialog#sheet:has(.rback), dialog#sheet:has(.dtab
 #sheetBody.on-results > :not(.back, .sheet-head, .dtabs, .dpane) { display: none }
 .dpane .dayhead:empty { display: none }
 .dpane .ev .teams { font-size: 20px } .dpane .ts .ov { display: none }
+.dpane .dseries { font-size: 14px; font-weight: 700; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px }
+.dpane .dseries .sertog:hover { color: var(--muted) }
 .dpane .dpdate { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-top: 6px }
 /* in a desktop window: up to nearly the window's height, so a tall window shows a whole list with no scroll bar. The
    rankings (and a team page opened from them) are as tall as their list and hang from a fixed top, so switching lists
@@ -1132,9 +1137,9 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 @media (max-width: 560px) { body.v-mixed #today .daygroup > .ev .teams { font-size: 22px } }
 /* scores beside the names on result cards */
 .ts { font-weight: 800; font-size: .95em; padding: 0 .3em; color: var(--ink); white-space: nowrap }
-.lscore .G, .score.gold { color: var(--gold) } .ts.W, .lscore .W { color: #2b8a3e } .ts.L, .lscore .L { color: #c92a2a } .ts.D, .lscore .D { color: var(--muted) }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) :is(.ts, .lscore *).W { color: #69db7c } :root:not([data-theme="light"]) :is(.ts, .lscore *).L { color: #ff8787 } }
-:root[data-theme="dark"] :is(.ts, .lscore *).W { color: #69db7c } :root[data-theme="dark"] :is(.ts, .lscore *).L { color: #ff8787 }
+.lscore .G, .score.gold { color: var(--gold) } .ts.W, :is(.lscore, .dseries) .W { color: #2b8a3e } .ts.L, :is(.lscore, .dseries) .L { color: #c92a2a } .ts.D, :is(.lscore, .dseries) .D { color: var(--muted) }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) :is(.ts, .lscore *, .dseries *).W { color: #69db7c } :root:not([data-theme="light"]) :is(.ts, .lscore *, .dseries *).L { color: #ff8787 } }
+:root[data-theme="dark"] :is(.ts, .lscore *, .dseries *).W { color: #69db7c } :root[data-theme="dark"] :is(.ts, .lscore *, .dseries *).L { color: #ff8787 }
 :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev .when .score.sm { font-size: 14px; font-family: var(--f-body); font-weight: 700; line-height: 1.3; color: var(--muted) }
 :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev .teams.matchup.scored:has(.ts) .side, :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev.res .teams.matchup .side { flex-wrap: wrap; row-gap: 2px }
 .ts .ov { font-size: .7em; font-weight: 600 }
@@ -1862,6 +1867,8 @@ let view = store.get('view', 'mixed'); if (!['mixed', 'compact', 'list'].include
 let spoilers = store.get('spoilers', true);   // true = hide recent results
 let spoilDays = store.get('spoilDaysSet', false) ? store.get('spoilDays', 3) : 3; // default 3 days covers Friday night's games checked on Sunday night
 let revealed = new Set(store.get('revealed', []));
+// tours whose series score was asked for while some of its results are still hidden ("Black Caps v India|T20I")
+let seriesShown = new Set(store.get('seriesShown', []));
 let newsKind = 'all', newsPage = 0;
 // sports picked in the All / Rugby / Cricket… row; several can be on at once, none means All
 let sportSel = (v => new Set(Array.isArray(v) ? v : v && v !== 'all' ? [v] : []))(store.get('sport', []));
@@ -2161,31 +2168,54 @@ const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now(
 
 // cricket tours: "Game 4 of 5 · India lead the T20I series 2–1", counting only results the spoiler setting shows
 const fmtOf = c => (/\bT20I?\b/i.test(c) ? 'T20I' : /\bODI\b/.test(c) ? 'ODI' : /\bTest\b/.test(c) ? 'Test' : '');
-function seriesLine(e, now) {
+// the series score only when it's complete: an earlier game whose result spoilers hide (or one just played, its result
+// not in yet) would leave it short ("1–0" when it's 2–0), so then it says the score is hidden, or nothing. "series score
+// hidden" is a button that shows it (counting the hidden results, which stay hidden on their own cards), and the score
+// shown that way hides it again. A card counts the games before its own; the pop-up's Series results every game so far
+function seriesTally(e, now, whole) {
   const f = fmtOf(e.comp || '');
-  if (e.sport !== 'cricket' || !f || !/(^|v )(Black Caps|White Ferns|Australia)( v |$)/.test(compOf(e))) return '';
+  if (e.sport !== 'cricket' || !f || !/(^|v )(Black Caps|White Ferns|Australia)( v |$)/.test(compOf(e))) return null;
   const all = (FEED.events || []).filter(x => compOf(x) === compOf(e) && fmtOf(x.comp || '') === f).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
-  if (all.length < 2) return '';
-  const n = all.findIndex(x => x.id === e.id) + 1;
+  if (all.length < 2) return null;
+  const n = all.findIndex(x => x.id === e.id) + 1, games = whole ? all : all.slice(0, n - 1);
   const base = s => (s || '').replace(/\s+Women('s)?$/, '').toLowerCase();
   const wins = { [e.home]: 0, [e.away]: 0 };
-  // the series score only when it's complete: an earlier game whose result spoilers hide (or one just played, its result
-  // not in yet) would leave it short ("1–0" when it's 2–0), so then it says the score is hidden, or nothing
+  const key = `${compOf(e)}|${f}`, open = seriesShown.has(key);
   let counted = 0, hid = 0, due = 0;
-  for (const x of all.slice(0, n - 1)) {
-    if (x.status === 'final' && isHidden(x, now)) { hid++; continue; }
-    if (x.status !== 'final') { const ago = now - Date.parse(x.startUTC); if (ago > 0 && ago < 2 * 864e5) due++; continue; }
-    const w = base(((x.summary || x.score || '').match(/^(.+?) won\b/i) || [])[1]);
+  for (const x of games) {
+    if (x.status === 'final' && isHidden(x, now)) { hid++; if (!open) continue; }
+    // a game on now isn't missing its result; one that has finished without it yet is
+    if (x.status !== 'final') { const ago = now - Date.parse(x.startUTC); if (ago > 0 && ago < 2 * 864e5 && !running(x, now)) due++; continue; }
+    const side = winnerOf(x), w = base(side === 'home' || side === 'away' ? x[side] : '');
     counted++;
     for (const t of [e.home, e.away]) if (w && (base(t) === w || base(t).startsWith(w) || w.startsWith(base(t)))) wins[t]++;
   }
+  const [a, b] = [e.home, e.away].sort((x, y) => wins[y] - wins[x]);
+  return { f, n, all, key, open, wins, a, b, counted, hid, due, done: whole && counted === all.length };
+}
+const serTog = (key, html, show) => `<button type="button" class="sertog" data-series="${esc(key)}" aria-label="${show ? 'Show the series score' : 'Hide the series score again'}">${html}</button>`;
+function seriesLine(e, now) {
+  const s = seriesTally(e, now);
+  if (!s) return '';
+  const { f, key, open, wins, a, b, counted, hid, due } = s;
   let state = '';
-  if (hid) state = ` · ${f} series score hidden`;
+  if (hid && !open) state = ` · ${serTog(key, `${f} series score hidden`, true)}`;
   else if (counted && !due) {
-    const [a, b] = [e.home, e.away].sort((x, y) => wins[y] - wins[x]);
-    state = wins[a] === wins[b] ? ` · ${f} series level ${wins[a]}–${wins[b]}` : ` · ${esc(displayName(a, e))} lead the ${f} series ${wins[a]}–${wins[b]}`;
+    const txt = wins[a] === wins[b] ? `${f} series level ${wins[a]}–${wins[b]}` : `${esc(displayName(a, e))} lead the ${f} series ${wins[a]}–${wins[b]}`;
+    state = ` · ${hid ? serTog(key, txt, false) : txt}`;
   }
-  return `<div class="series">${f === 'Test' ? 'Test' : 'Game'} ${n} of ${all.length}${state}</div>`;
+  return `<div class="series">${f === 'Test' ? 'Test' : 'Game'} ${s.n} of ${s.all.length}${state}</div>`;
+}
+// the pop-up's Series results: the score above the earlier games, the side ahead's number green and the side behind's red
+function seriesHead(e, now) {
+  const s = seriesTally(e, now, true);
+  if (!s) return '';
+  const { f, key, open, wins, a, b, counted, hid, due, done } = s;
+  if (hid && !open) return `<div class="dseries">${serTog(key, `${f} series score hidden`, true)}</div>`;
+  if (!counted || due) return '';
+  const lv = wins[a] === wins[b], sc = `<span class="${lv ? 'D' : 'W'}">${wins[a]}</span>–<span class="${lv ? 'D' : 'L'}">${wins[b]}</span>`;
+  const txt = lv ? `${f} series ${done ? 'drawn' : 'level'} ${sc}` : `${esc(displayName(a, e))} ${done ? 'won' : 'lead'} the ${f} series ${sc}`;
+  return `<div class="dseries">${hid ? serTog(key, txt, false) : txt}</div>`;
 }
 
 // List: a game a line (time, sport, competition on wider screens, the teams, then FREE, a TV, ON while live, or for a
@@ -3214,7 +3244,7 @@ function openDetail(id, fromTeam, goingBack) {
   if (res.length) {
     const word = GENERIC.test(compOf(e)) ? 'Results' : /World Cup|Championship|Cup|Series|Trophy|League|Finals|Playoffs/i.test(compOf(e)) ? 'Results so far' : 'Series results';
     $('sheetBody').querySelector('.sheet-head').insertAdjacentHTML('afterend', `<div class="dtabs sport-${e.sport}" role="tablist"><button type="button" role="tab" data-dtab="game" aria-selected="${dTab === 'game'}">This ${e.session && !/^(race \d+|sprint)$/i.test(e.session) ? 'session' : evWord(e.sport)}</button><button type="button" role="tab" data-dtab="results" aria-selected="${dTab === 'results'}">${word} <span class="dn">${res.length}</span></button></div>`
-      + `<div class="dpane daygroup">${res.length > 1 ? `<div class="dayhead">${revealAll(res, now)}</div>` : ''}${res.map(x => `<div class="dpdate">${esc(fmt(new Date(x.startUTC), NZ, { weekday: 'short', day: 'numeric', month: 'short' }))}</div>${resCard(x, now)}`).join('')}</div>`);
+      + `<div class="dpane daygroup">${seriesHead(e, now)}${res.length > 1 ? `<div class="dayhead">${revealAll(res, now)}</div>` : ''}${res.map(x => `<div class="dpdate">${esc(fmt(new Date(x.startUTC), NZ, { weekday: 'short', day: 'numeric', month: 'short' }))}</div>${resCard(x, now)}`).join('')}</div>`);
   }
   $('sheetBody').classList.toggle('on-results', !!res.length && dTab === 'results');
   // a small back arrow beside the close button, only after moving on from the game first opened
@@ -4026,6 +4056,7 @@ document.addEventListener('click', ev => {
   else if (t.dataset.hideall) { ev.stopPropagation(); use('Hide all results again'); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.revealall) { ev.stopPropagation(); count({ e: 'use', k: 'Show all results' }); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.reveal) { ev.stopPropagation(); count({ e: 'reveal' }); revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
+  else if (t.dataset.series) { ev.stopPropagation(); const k = t.dataset.series, on = !seriesShown.has(k); on ? seriesShown.add(k) : seriesShown.delete(k); store.set('seriesShown', [...seriesShown]); use(on ? 'Series score shown' : 'Series score hidden again'); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.rehide) { ev.stopPropagation(); use(t.classList.contains('lscore') ? 'Score in List view hidden again' : 'Hide a result again'); revealed.delete(t.dataset.rehide); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
   else if (t.dataset.gender) { if (t.dataset.gender !== genderSel) use({ all: "Men's and women's", m: "Men's only", w: "Women's only" }[t.dataset.gender]); genderSel = t.dataset.gender; store.set('gender', genderSel); render(); }
   else if (t.dataset.sport) {
@@ -4075,7 +4106,8 @@ document.addEventListener('click', ev => {
   else if (t.id === 'allDef') { count({ e: 'use', k: 'Default teams' }); picked = new Set(ALL_KEYS.filter(k => !OPT_IN.has(k))); store.set('teams', [...picked]); render(); }
   else if (t.id === 'allOff') { count({ e: 'use', k: 'Clear all teams' }); picked = new Set(); store.set('teams', []); render(); }
 });
-document.addEventListener('keydown', ev => { const c = ev.target.closest?.('[data-open]'); if (c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openDetail(c.dataset.open); } });
+// Enter or Space on a card opens it (a button or link inside the card answers its own key)
+document.addEventListener('keydown', ev => { const c = ev.target.closest?.('[data-open]'); if (c && (ev.target === c || !ev.target.matches('button, a')) && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openDetail(c.dataset.open); } });
 // the drawn dropdowns over the time and spoiler <select>s: the list is made from the select's options each time it
 // opens, and a choice sets the select and fires its "change", so everything else works as it did
 function dselFor(sel) {
