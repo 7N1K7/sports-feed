@@ -1281,27 +1281,17 @@ html.tight .search .qico { left: 10px; width: 13px; height: 13px; margin-top: -6
 html.tight .search:not(:focus-within):has(#q:placeholder-shown) .qico { left: calc(50% - 27px) }
 html.tight .search:not(:focus-within):has(#q:placeholder-shown) #q { padding-left: calc(50% - 10px) }
 html.tight header.top .wrap:has(.search:focus-within) :is(#toEvents, #toResults, #toNews) { display: none }
-/* Events, Results and News: one joined bar like a scoreboard's header row, in the title's capitals, with the cards'
-   coloured edge at its two outer ends; the one under the pointer gets a green line along its foot. As tall as the search box beside it. Each overlaps the
-   last by the row's gap and a border, so the dividers are single lines */
+/* Events, Results and News: each a small card, in the title's capitals, with the cards' coloured edge at both ends; the
+   one under the pointer gets a green line along its foot. As tall as the search box beside it */
 header.top .hbtns :is(#toEvents, #toResults, #toNews) { font: 600 15px/1 var(--f-display); text-transform: uppercase; letter-spacing: .07em; color: var(--ink);
-  border: 1px solid var(--line); background: var(--surface); border-radius: 0; padding: 0 14px; height: 36px; box-sizing: border-box; --edge: 0 0 transparent; box-shadow: var(--edge) }
-header.top .hbtns #toEvents { border-radius: 6px 0 0 6px; padding-left: 18px; --edge: inset 4px 0 0 var(--accent) }
-header.top .hbtns #toNews { border-radius: 0 6px 6px 0; padding-right: 18px; --edge: inset -4px 0 0 var(--accent) }
-header.top .hbtns :is(#toResults, #toNews) { margin-left: -11px }
+  border: 1px solid var(--line); background: var(--surface); border-radius: 6px; padding: 0 16px; height: 36px; box-sizing: border-box;
+  --edge: inset 4px 0 0 var(--accent), inset -4px 0 0 var(--accent); box-shadow: var(--edge) }
 @media (hover: hover) { header.top .hbtns :is(#toEvents, #toResults, #toNews):hover { border-color: var(--line); background: var(--soft); box-shadow: var(--edge), inset 0 -2px 0 var(--accent) } } /* not on a phone, where a tapped button would keep it */
 header.top .hbtns :is(#toEvents, #toResults, #toNews) .jarr { font-family: var(--f-body); font-size: .85em; opacity: .65 }
 header.top #q { border-radius: 6px }
 header.top .hbtns .ibtn { border-radius: 6px }
-@media (max-width: 560px) {
-  header.top .hbtns :is(#toEvents, #toResults, #toNews) { padding: 0 4px; height: 31px; font-size: 14px }
-  header.top .hbtns #toEvents { padding-left: 8px } header.top .hbtns #toNews { padding-right: 8px }
-  header.top .hbtns :is(#toResults, #toNews) { margin-left: -7px }
-}
-@media (max-width: 390px) { header.top .hbtns :is(#toResults, #toNews) { margin-left: -5px } }
-html.tight header.top .hbtns :is(#toEvents, #toResults, #toNews) { padding: 0 4px; height: 31px; font-size: 14px }
-html.tight header.top .hbtns #toEvents { padding-left: 8px } html.tight header.top .hbtns #toNews { padding-right: 8px }
-html.tight header.top .hbtns :is(#toResults, #toNews) { margin-left: -7px }
+@media (max-width: 560px) { header.top .hbtns :is(#toEvents, #toResults, #toNews) { padding: 0 8px; height: 31px; font-size: 14px } }
+html.tight header.top .hbtns :is(#toEvents, #toResults, #toNews) { padding: 0 8px; height: 31px; font-size: 14px }
 html.tight .qlist { left: 0; right: 0; width: auto }
 html.tight .compbar { gap: 6px }
 html.tight .compbar .lg { display: none } html.tight .compbar .sm { display: inline }
