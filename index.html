@@ -1737,11 +1737,14 @@ const ISO = { 'New Zealand': 'nz', 'All Blacks': 'nz', 'Black Ferns': 'nz', Aust
   Vanuatu: 'vu', Denmark: 'dk', Brazil: 'br', Rwanda: 'rw', Nigeria: 'ng', Botswana: 'bw', Cameroon: 'cm', 'Sierra Leone': 'sl', Mexico: 'mx' };
 // sides that play for no one country fly their own flag: the West Indies the cricket board's palm and island
 // (public domain, on Wikimedia Commons)
-const OWN_FLAG = { 'West Indies': 'https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg' };
+const OWN_FLAG = { 'West Indies': 'https://upload.wikimedia.org/wikipedia/commons/1/18/WestIndiesCricketFlagPre1999.svg',
+  // Bangladesh drawn here with its red disc in the middle: the real flag sets it towards the pole, which looks off-centre
+  // on a flag that isn't flying
+  Bangladesh: `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="400" height="240"><rect width="400" height="240" fill="#006a4e"/><circle cx="200" cy="120" r="80" fill="#f42a41"/></svg>')}` };
 const flagOf = name => {
   const base = String(name || '').replace(/\s+(Invitation XI|Women|A|XI|XV|U\d+|Wheelchair)$/i, '').trim();
   const c = ISO[base];
-  return c ? `https://flagcdn.com/h240/${c}.png` : OWN_FLAG[base] || '';
+  return OWN_FLAG[base] || (c ? `https://flagcdn.com/h240/${c}.png` : '');
 };
 // away side: name first, then logo/flag, so both crests sit beside the "v"
 // "Wellington Phoenix FC" -> "Wellington Phoenix"; keeps short names like "Auckland FC"
