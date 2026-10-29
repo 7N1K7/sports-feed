@@ -2176,8 +2176,9 @@ const freePrelims = e => prelimsOnly(e) ? (watchOptions(e).find(o => o.prelims)?
 const visible = x => (genderSel === 'all' || !genderOf(x) || genderOf(x) === genderSel) && (!nzOnly || isNZ(x)) && (!freeOnly || !x.startUTC || x.status === 'final' || !!freeTo(x) || !!freePrelims(x)) && visible0(x);
 // practice and Supercars' other races (minor) show on their competition's own page, with the Motorsport button picked,
 // or everywhere while that series' sessions are on in Settings; a race weekend's session has no result, so it goes once its two
-// hours on Live now are up
-const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now() ? false : x.startUTC ? (compSel ? compOf(x) === compSel : (!x.minor || (x.session && (sessOn.has(x.team) || sportSel.has(x.sport)))) && visibleTeam(x) && sportOn(x.sport || sportOf(x.team)))
+// hours on Live now are up. Wheelchair games are kept the same way: on their competition's own page (the RLWC), not the main list
+const minorOf = x => x.minor || /wheelchair/i.test(x.comp || '');
+const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now() ? false : x.startUTC ? (compSel ? compOf(x) === compSel : (!minorOf(x) || (x.session && (sessOn.has(x.team) || sportSel.has(x.sport)))) && visibleTeam(x) && sportOn(x.sport || sportOf(x.team)))
   : visibleTeam(x) && sportOn(sportOf(x.team));
 
 // cricket tours: "Game 4 of 5 · India lead the T20I series 2–1", counting only results the spoiler setting shows
