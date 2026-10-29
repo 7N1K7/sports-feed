@@ -2045,6 +2045,20 @@ function stageNow(e, now) {
   }
   return null;
 }
+// a double header: the next game at the same ground that day starts once the one before it is over, so a game's time
+// on Live now ends when the next one there begins (its result may not be in yet)
+const venueNext = new WeakMap();
+function nextHere(e) {
+  const evs = FEED.events || [];
+  if (!venueNext.has(evs)) {
+    const m = new Map(), by = new Map();
+    for (const x of evs) if (x.venue && x.startUTC && !x.timeTBC && !x.session) { const k = `${x.sport}|${x.venue}`; by.has(k) ? by.get(k).push(x) : by.set(k, [x]); }
+    for (const list of by.values()) { list.sort((p, q) => p.startUTC.localeCompare(q.startUTC));
+      list.forEach((x, i) => { const n = list[i + 1], t = n && Date.parse(n.startUTC); if (t && t > Date.parse(x.startUTC) + 2 * 36e5 && t - Date.parse(x.startUTC) < 12 * 36e5) m.set(x.id, t); }); }
+    venueNext.set(evs, m);
+  }
+  return venueNext.get(evs).get(e.id) || Infinity;
+}
 function onNow(e, now) {
   if (stagesOf(e) > 1) { const st = stageNow(e, now); return st?.on ? stageName(e, st) : null; }
   const s = new Date(e.startUTC);
@@ -2061,9 +2075,9 @@ function onNow(e, now) {
   // a Test placed at its usual 10am start isn't on until then (it waits under Starting soon); a game with no time at
   // all sits at 2pm, so widen both ways
   const early = e.usual ? 0 : e.timeTBC ? 5 * 36e5 : 0, late = e.usual ? 0 : e.timeTBC ? 4 * 36e5 : 0;
-  const over = dayOver(e);
+  const over = dayOver(e), cut = days > 1 ? Infinity : nextHere(e);
   for (let i = over; i < days; i++) {
-    const a = s.getTime() + i * 864e5 - early, b = a + early + hrs(i) * 36e5 + late;
+    const a = s.getTime() + i * 864e5 - early, b = Math.min(cut, a + early + hrs(i) * 36e5 + late);
     if (now >= a && now <= b) return days > 1 ? `Day ${i + 1}` : 'On now';
   }
   return null;
