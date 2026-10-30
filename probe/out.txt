@@ -1,1 +1,35 @@
-feed 200 1409335 bytes
+== 2026 Constellation Cup (45)
+(none: The page you specified doesn't exist.)
+== New Zealand national netball team: lines naming 2026/2027 fixtures
+| CWG prev      = 2026
+|[[1963 World Netball Tournament]]<ref name="1963todor66">{{cite web|url=http://www.todor66.com/others/Netball/World/Women_1963.html|title=Women Netball I World Championship 1963|publisher=www.todor66.com|access-date=5 J
+|[[1967 World Netball Tournament]]<ref name="sfnzshof1967"/><ref name="1967todor66">{{cite web|url=http://www.todor66.com/others/Netball/World/Women_1967.html#Teams_Composition|title=Women Netball II World Championship 1
+|[[1971 World Netball Tournament]]<ref name="1971todor66">{{cite web|url=http://www.todor66.com/others/Netball/World/Women_1971.html|title=Women Netball III World Championship 1971|publisher=www.todor66.com|access-date=5
+|[[1975 World Netball Tournament]]<ref name="1975todor66">{{cite web|url=http://www.todor66.com/others/Netball/World/Women_1975.html|title=Women Netball IV World Championship 1975|publisher=www.todor66.com|access-date=5 
+|[[1979 World Netball Tournament]]<ref name="1979todor66">{{cite web|url=http://www.todor66.com/others/Netball/World/Women_1979.html|title=Women Netball V World Championship 1979|publisher=www.todor66.com|access-date=5 J
+|[[1983 World Netball Tournament]]<ref name="1983todor66">{{cite web|url=http://www.todor66.com/others/Netball/World/Women_1983.html|title=Women Netball V World Championship 1983|publisher=www.todor66.com|access-date=5 J
+|[[1987 World Netball Tournament]]<ref name="sfnzshof1987"/><ref name="1987todor66">{{cite web|url=http://www.todor66.com/others/Netball/World/Women_1987.html#Teams_Composition|title=Women Netball VII World Championship 
+|[[1991 World Netball Championships]]<ref name="1991todor66">{{cite web|url=http://www.todor66.com/others/Netball/World/Women_1991.html|title=Women Netball VIII World Championship 1991|publisher=www.todor66.com|access-da
+|[[1999 World Netball Championships]]<ref name="wn1999">{{cite web|url=https://netball.sport/events-and-results/netball-world-cup/christchurch-1999/|title=Christchurch 1999 - Netball World Cup|work=[[World Netball]]|acce
+|[[2003 World Netball Championships]]<ref name="wn2003">{{cite web|url=https://netball.sport/events-and-results/netball-world-cup/kingston-2003/|title=Kingston 2003 - Netball World Cup|work=[[World Netball]]|archive-url=
+|[[2007 World Netball Championships]]<ref name="wn2007">{{cite web|url=https://netball.sport/events-and-results/netball-world-cup/christchurch-1999/|title=Auckland 2007 - Netball World Cup|work=[[World Netball]]|access-d
+|[[2019 Netball World Cup]]<ref name="2019todor66">{{cite web|url=http://www.todor66.com/others/Netball/World/Women_2019.html|title=Women Netball XV World Championship 2019|publisher=www.todor66.com|access-date=5 January
+|[[2023 Netball World Cup]]<ref name="bbc060823">{{Cite web|url=https://www.bbc.co.uk/sport/netball/66422985|title=Netball World Cup 2023: Jamaica 52-45 New Zealand - Sunshine Girls secure bronze|publisher=www.bbc.co.uk|
+|[[2027 Netball World Cup]]||
+New Zealand has competed at every [[Netball at the Commonwealth Games|netball tournament at the Commonwealth Games]].<ref name="cwgtodor66"/><ref name="silverferns2014cwg">{{Cite web|url=https://www.silverferns.co.nz/ima
+== New Zealand women's national field hockey team: lines naming 2026/2027 fixtures
+|'''[[2026 Women's FIH Hockey World Cup|2026]]'''
+Roster for the [[2026 Women's FIH Hockey World Cup]].<ref>{{Cite web |url=https://www.blacksticksnz.co.nz/news/2026-fih-hockey-world-cup-vantage-black-sticks-womens-squad |title=2026 FIH HOCKEY WORLD CUP VANTAGE BLACK ST
+|round      = [[2026 Women's Summer of Hockey Series|Match 1]]
+|round      = [[2026 Women's Summer of Hockey Series|Match 2]]
+|round      = [[2026 Women's Summer of Hockey Series|Match 3]]
+|round      = [[2026 Women's Summer of Hockey Series|Final]]
+====West Taihu Lake Cup 2026====
+====2026 FIH Nations Cup====
+====2026 Women's FIH Hockey World Cup====
+|round      = [[2026 Women's FIH Hockey World Cup|Pool B]]
+|round      = [[2026 Women's FIH Hockey World Cup|Pool B]]
+|round      = [[2026 Women's FIH Hockey World Cup|Pool B]]
+|round      = [[2026 Women's FIH Hockey World Cup|Pool H]]
+|round      = [[2026 Women's FIH Hockey World Cup|Pool H]]
+|round      = [[2026 Women's FIH Hockey World Cup|15th place match]]
