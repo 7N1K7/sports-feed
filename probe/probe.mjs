@@ -1,10 +1,11 @@
-// probe 228: Constellation Cup 2026 games 3 and 4 (Wikipedia), and what's announced next for the Silver Ferns and Black Sticks women
+// probe 229: Constellation Cup in TheSportsDB (league 5793) and on Wikipedia's Constellation Cup page
 import fs from 'fs';
 const L = [], UA = { 'User-Agent': 'kickoff.kiwi probe' };
-const wiki = async t => { const r = await fetch(`https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=wikitext&redirects=1&page=${encodeURIComponent(t)}`, { headers: UA }); const j = await r.json(); return j.parse?.wikitext?.['*'] || `(none: ${j.error?.info})`; };
-for (const t of ['2026 Constellation Cup']) { const w = await wiki(t); L.push(`== ${t} (${w.length})`); L.push(w.slice(0, 9000)); }
-for (const t of ['New Zealand national netball team', 'New Zealand women\'s national field hockey team']) {
-  const w = await wiki(t); L.push(`== ${t}: lines naming 2026/2027 fixtures`);
-  L.push(...w.split('\n').filter(x => /202[67]/.test(x) && /(fixture|series|tour|cup|league|nations|v |vs)/i.test(x)).slice(0, 25).map(x => x.slice(0, 220)));
+for (const u of ['eventsseason.php?id=5793&s=2026', 'eventspastleague.php?id=5793', 'eventsnextleague.php?id=5793']) {
+  const j = await (await fetch(`https://www.thesportsdb.com/api/v1/json/123/${u}`)).json().catch(e => ({ err: String(e) }));
+  const ev = j.events || j.results || [];
+  L.push(`== ${u}: ${ev.length}`); for (const e of ev) L.push(`${e.dateEvent} ${e.strTime} r${e.intRound} ${e.strEvent} | ${e.intHomeScore ?? ''}-${e.intAwayScore ?? ''} | ${e.strStatus} | ${e.strVenue}`);
 }
+const r = await fetch('https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=wikitext&redirects=1&page=Constellation_Cup', { headers: UA }); const w = (await r.json()).parse?.wikitext?.['*'] || '';
+const i = w.search(/2026/); L.push(`== Wikipedia Constellation Cup (${w.length}), around 2026:`); L.push(w.slice(Math.max(0, i - 200), i + 2500));
 fs.writeFileSync(new URL('./out.txt', import.meta.url), L.join('\n') + '\n');
