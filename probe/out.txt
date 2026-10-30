@@ -1,16 +1,1 @@
-feed 2026-10-27T02:08:31.370Z
-bc-ind-t20i1-2026 | 1st T20I v India | New Zealand v India | 2026-10-22T07:00:00Z | final | score="225/4 (20 overs) v 230/6 (19.4 overs)" | summary="India won by 4 wickets" | src https://hagleyoval.co.nz/purchase/blackcaps-vs-india-1st-t20
-nza-inda-1-2026 | NZ A v India A, 1st four-day match | New Zealand A v India A | 2026-10-23T21:30:00Z | upcoming | score="" | summary="" | src https://www.sportsdunia.com/cricket-news/india-a-tour-of-new
-bc-ind-t20i2-2026 | 2nd T20I v India | New Zealand v India | 2026-10-24T07:00:00Z | final | score="180/5 (20 overs) v 181/6 (19.5 overs)" | summary="India won by 4 wickets" | src https://www.icc-cricket.com/news/new-zealand-announce-schedu
-bc-ind-t20i3-2026 | 3rd T20I v India | New Zealand v India | 2026-10-27T07:00:00Z | upcoming | score="" | summary="" | src https://www.icc-cricket.com/news/new-zealand-announce-schedu
-bc-ind-t20i4-2026 | 4th T20I v India | New Zealand v India | 2026-10-30T07:00:00Z | upcoming | score="" | summary="" | src https://edenpark.co.nz/events/blackcaps-v-india-friday-30-oc
-nza-inda-2-2026 | NZ A v India A, 2nd four-day match | New Zealand A v India A | 2026-10-30T21:30:00Z | upcoming | score="" | summary="" | src https://www.sportsdunia.com/cricket-news/india-a-tour-of-new
-bc-ind-t20i5-2026 | 5th T20I v India | New Zealand v India | 2026-11-01T07:00:00Z | upcoming | score="" | summary="" | src https://www.icc-cricket.com/news/new-zealand-announce-schedu
-bc-ind-odi1-2026 | 1st ODI v India | New Zealand v India | 2026-11-04T02:00:00Z | upcoming | score="" | summary="" | src https://edenpark.co.nz/?p=8838
-nza-inda-3-2026 | NZ A v India A, 3rd four-day match | New Zealand A v India A | 2026-11-06T21:30:00Z | upcoming | score="" | summary="" | src https://www.sportsdunia.com/cricket-news/india-a-tour-of-new
-bc-ind-odi2-2026 | 2nd ODI v India | New Zealand v India | 2026-11-07T02:00:00Z | upcoming | score="" | summary="" | src https://www.hnrystadium.co.nz/event/blackcaps-v-india---odi
-bc-ind-odi3-2026 | 3rd ODI v India | New Zealand v India | 2026-11-10T02:00:00Z | upcoming | score="" | summary="" | src https://www.icc-cricket.com/news/new-zealand-announce-schedu
-bc-ind-odi4-2026 | 4th ODI v India | New Zealand v India | 2026-11-13T02:00:00Z | upcoming | score="" | summary="" | src https://www.icc-cricket.com/news/new-zealand-announce-schedu
-bc-ind-odi5-2026 | 5th ODI v India | New Zealand v India | 2026-11-15T02:00:00Z | upcoming | score="" | summary="" | src https://www.icc-cricket.com/news/new-zealand-announce-schedu
-bc-ind-test1-2026 | 1st Test v India | New Zealand v India | 2026-11-18T22:00:00Z | upcoming | score="" | summary="" | src https://www.icc-cricket.com/news/new-zealand-announce-schedu
-bc-ind-test2-2026 | 2nd Test v India | New Zealand v India | 2026-11-26T22:00:00Z | upcoming | score="" | summary="" | src https://hagleyoval.co.nz/?p=9738
+feed 200 1409335 bytes
