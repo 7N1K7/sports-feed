@@ -1415,8 +1415,10 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 .ev.lrow .stripe { width: 4px; height: 100%; grid-row: auto }
 /* the competition on wider screens, where a row has the room */
 .ev.lrow .lcomp { display: none; font: 700 11px/1.2 var(--f-body); letter-spacing: .05em; text-transform: uppercase; color: var(--sport); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
-/* phones: the sport's colour down the side says the sport, so its icon goes, and the logos shrink, for the names' room */
-@media (max-width: 520px) { .ev.lrow { grid-template-columns: 4px 57px minmax(0, 1fr) 38px; column-gap: 5px } .ev.lrow .licon { display: none }
+/* phones: a smaller sport icon beside the time (the colour down the side alone didn't say which sport), and the logos
+   shrink, for the names' room */
+@media (max-width: 520px) { .ev.lrow { grid-template-columns: 4px 52px 13px minmax(0, 1fr) 38px; column-gap: 5px } .ev.lrow .licon { width: 13px; height: 13px }
+  .ev.lrow .ltime .lappx { font-size: .7em; margin-left: -3px }
   .ev.lrow .ltime { font-size: 16px } .ev.lrow .lteams { column-gap: 4px } .ev.lrow .lside { gap: 4px } }
 /* the time, icon and competition sit together at the left (one grid cell each below 700px; on wider screens a box
    as wide as the row's own competition), and a competition is cut only once the names need the room, the names last.
@@ -1433,12 +1435,17 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 .ev.lrow .lteams, .ev.lrow .lsolo { padding-left: clamp(0px, var(--ls), var(--lroom)); padding-right: clamp(0px, -1 * var(--ls), var(--lroom)) }
 /* the room between the names and their cell's right end, which a long result can reach into */
 .ev.lrow { --rspace: calc((var(--lroom) - clamp(-1 * var(--lroom), var(--ls), var(--lroom))) / 2) }
-@media (max-width: 520px) { .ev.lrow { --li: 66px; --cl: 71px; --cr: 43px } }
+@media (max-width: 520px) { .ev.lrow { --li: 79px; --cl: 84px; --cr: 43px } }
+/* a result's row: its day ("Thu") needs less room than a time, so its score gets the room instead (results are listed
+   together, so their names still line up with each other) */
+.ev.lrow.lres { grid-template-columns: 4px 30px 16px minmax(0, 1fr) 86px; --li: 64px; --cl: 71px; --cr: 93px }
+@media (max-width: 520px) { .ev.lrow.lres { grid-template-columns: 4px 26px 13px minmax(0, 1fr) 82px; --li: 53px; --cl: 58px; --cr: 87px } }
 @media (min-width: 700px) { .ev.lrow { grid-template-columns: 4px auto minmax(0, 1fr) 50px;
     --lw: max(150px, min(var(--cw, 0px) + 101px, 100cqw - var(--nw, 0px) - 75px)); --li: calc(99px + var(--lcw, 0px)); --cl: calc(var(--lw) + 18px); --cr: 57px }
   .ev.lrow .lleft { display: flex; align-items: center; gap: 7px; padding-right: 12px; width: var(--lw) }
   .ev.lrow .lleft .ltime { flex: none; width: 58px } .ev.lrow .lleft .licon { flex: none }
-  .ev.lrow .lcomp { display: block; flex: 1 1 0; min-width: 0; contain: inline-size } }
+  .ev.lrow .lcomp { display: block; flex: 1 1 0; min-width: 0; contain: inline-size }
+  .ev.lrow.lres { grid-template-columns: 4px auto minmax(0, 1fr) 86px; --lw: max(150px, min(var(--cw, 0px) + 101px, 100cqw - var(--nw, 0px) - 111px)); --cr: 93px } }
 .ev.lrow .ltime { font: 700 17px/1 var(--f-display); color: var(--sport); text-align: right; white-space: nowrap }
 .ev.lrow .licon { width: 16px; height: 16px; opacity: .85 }
 /* line-height with room for g's and y's: the names clip at their box (for the ellipsis), descenders and all */
@@ -2267,8 +2274,8 @@ function listRow(e, now, isRes) {
     : canRehide(e.id, e.startUTC, now) ? `<button class="lscore num" type="button" data-rehide="${esc(e.id)}" title="${esc(e.score || '')} · tap to hide again" aria-label="Hide this result again">${lscoreHtml(e)}</button>`
     : `<span class="lscore num" title="${esc(e.score || '')}">${lscoreHtml(e)}</span>`)
     : (live ? '<span class="lnow">ON</span>' : '') + mark;
-  return `<article class="ev lrow sport-${e.sport} ${gcls(e)}${live ? ' is-live' : ''}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
-    <div class="stripe"></div><span class="lleft"><span class="ltime num">${esc(t)}</span>${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span></span>${who}<${go ? 'a' : 'span'} class="lend${live && mark ? ' lstack' : ''}"${go}>${end}</${go ? 'a' : 'span'}></article>`;
+  return `<article class="ev lrow${isRes ? ' lres' : ''} sport-${e.sport} ${gcls(e)}${live ? ' is-live' : ''}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
+    <div class="stripe"></div><span class="lleft"><span class="ltime num">${esc(t).replace(/^≈/, '<span class="lappx">≈</span>')}</span>${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span></span>${who}<${go ? 'a' : 'span'} class="lend${live && mark ? ' lstack' : ''}"${go}>${end}</${go ? 'a' : 'span'}></article>`;
 }
 // the one way to watch a card shows: a free one ahead of a paid one (Three over Sky Sport 1 when both show it). The
 // free channel goes up top with the competition's tags ("FREE on Three"): short, what's in brackets dropped, and a
@@ -2485,7 +2492,8 @@ const soloWin = e => solo(e) && /\b(wins?|won)$/.test(e.score || '');
 const lscoreHtml = e => {
   const sc = String(e.score || ''), win = winnerOf(e);
   if (soloWin(e)) return `<span class="G">${esc(sc)}</span>`;
-  const p = sc.match(/^(\d+)(\s*[-–]\s*)(\d+)$/)?.slice(1) || (e.sport === 'cricket' && sideScores(e) ? (([a, b]) => [a, ' v ', b])(sc.split(' v ')) : null);
+  // a cricket score without its overs ("8/165 v 2/162"): the full line is the row's hover title and in the pop-up
+  const p = sc.match(/^(\d+)(\s*[-–]\s*)(\d+)$/)?.slice(1) || (e.sport === 'cricket' && sideScores(e) ? (([a, b]) => [a, ' v ', b])(sc.split(' v ').map(x => x.replace(/\s*\([^)]*\)/g, '').trim())) : null);
   if (!p || !win) return esc(sc || '–');
   const c = side => win === 'draw' ? 'D' : win === side ? 'W' : 'L';
   return `<span class="${c('home')}">${esc(p[0])}</span>${esc(p[1])}<span class="${c('away')}">${esc(p[2])}</span>`;
