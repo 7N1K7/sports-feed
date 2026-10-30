@@ -1439,7 +1439,8 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 /* a result's row: its day ("Thu") needs less room than a time, so its score gets the room instead (results are listed
    together, so their names still line up with each other) */
 .ev.lrow.lres { grid-template-columns: 4px 30px 16px minmax(0, 1fr) 86px; --li: 64px; --cl: 71px; --cr: 93px }
-@media (max-width: 520px) { .ev.lrow.lres { grid-template-columns: 4px 26px 13px minmax(0, 1fr) 82px; --li: 53px; --cl: 58px; --cr: 87px } }
+/* phones: the day goes too (the heading above already says it), so the names keep the room they had */
+@media (max-width: 520px) { .ev.lrow.lres { grid-template-columns: 4px 13px minmax(0, 1fr) 82px; --li: 22px; --cl: 27px; --cr: 87px } .ev.lrow.lres .ltime { display: none } }
 @media (min-width: 700px) { .ev.lrow { grid-template-columns: 4px auto minmax(0, 1fr) 50px;
     --lw: max(150px, min(var(--cw, 0px) + 101px, 100cqw - var(--nw, 0px) - 75px)); --li: calc(99px + var(--lcw, 0px)); --cl: calc(var(--lw) + 18px); --cr: 57px }
   .ev.lrow .lleft { display: flex; align-items: center; gap: 7px; padding-right: 12px; width: var(--lw) }
