@@ -411,10 +411,11 @@ async function readCurated() {
 // From 25 Oct 2026 the world bodies' and rights holders' channels too, which stream games free where no broadcaster has
 // them: Sports Central and Sports TV (DRM, the PCB's streaming partner for the rest of the world: Pakistan's home
 // series), Pakistan Cricket, World Rugby, FIFA, FIH and FIBA. A stream shut to NZ isn't counted (World Rugby's Nations
-// Championship games are, as Sky has them here). From 30 Oct 2026 Fox League, whose channel is mostly shows and
-// highlights but would be picked up if it streams a game free
+// Championship games are, as Sky has them here). From 30 Oct 2026 Fox League and Fox Cricket, whose channels are
+// mostly shows and highlights but would be picked up if they stream a game free
 const YT_CHANNELS = [
   ['cricket', 'NZ Cricket', 'UCuKowzPg2-A0FcmyPa3yWug'], ['cricket', 'Cricket Australia', 'UC2naOExy27J5Qz3SO-w6xkQ'],
+  ['cricket', 'Fox Cricket', 'UCOkT6dccQ1vsnMFK1xJanmA'],
   ['netball', 'Netball NZ', 'UCBL_yvdSAenDVDAyfCQNOpQ'], ['hockey', 'Hockey NZ', 'UC3xM-N7a2Ad_WZOCcONDPmg'],
   ['basketball', 'Basketball NZ', 'UC4OycSjzkovtoJPLC3YBo2w'], ['football', 'NZ Football', 'UCOlVcyI-9J8QiPkxjKhT5zg'],
   ['league', 'NZ Rugby League', 'UCEztFfJS3r2MjXiHEdPDo9Q'], ['league', 'Fox League', 'UC4uG6XoaVfbDgv6eKq4kkfg'],
