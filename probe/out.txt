@@ -1,34 +1,6 @@
-== eventsseason.php?id=5793&s=2026: 4
-2026-10-18 06:40:00 r1 New Zealand Netball vs Australia Netball | - |  | Spark Arena
-2026-10-21 06:40:00 r2 New Zealand Netball vs Australia Netball | - |  | Športni park Svoboda
-2026-10-25 05:00:00 r3 Australia Netball vs New Zealand Netball | - | null | Afterpay Arena
-2026-10-28 08:30:00 r4 Australia Netball vs New Zealand Netball | 68-58 |  | John Cain Arena
-== eventspastleague.php?id=5793: 1
-2026-10-28 08:30:00 r4 Australia Netball vs New Zealand Netball | 68-58 |  | John Cain Arena
-== eventsnextleague.php?id=5793: 0
-== Wikipedia Constellation Cup (26571), around 2026:
-{{short description|International netball competition}}
-{{Use dmy dates|date=April 2022}}
-{{Infobox Sports league
-| title           = Constellation Cup
-| current_season  = 
-| upcoming_season = 2026 Constellation Cup
-| last_season     = 
-| logo            = Constellation_Cup_Logo.png
-| logo_size       = 
-| caption         = 
-| sport           = Netball
-| founded         = 
-| fame            = 
-| motto           = 
-| first           = [[2010 Constellation Cup|2010]]
-| teams           = 2
-| country         = 
-| champion        = {{Nb|New Zealand}}
-| most_titles     = {{Nb|Australia}} (11 titles)
-| folded          = 
-| website         = 
-| broadcaster     = [[Foxtel|Foxtel (Australia)]]<br />[[Sky Sport (New Zealand)]]
-}}
-
-The '''Constellation Cup''' is an international [[netball]] competition contested by [[Australia national netball team|Australia]] and [[New Zealand national netball team|New Zealand]]. The competition features a series of [[Test match (netball)|test matches]]. The two teams have competed for the trophy since [[2010 Constellation Cup|2010]]. Australia won the inaugural series and have gone on to become the competition's dominant team.<ref name="ns280221">{{cite web |url=https://netballscoop.com/ns-preview-constellation-cup-2021/|title=NS Preview: Constellation Cup 2021|publisher=netballscoop.com|archive-url=https://web.archive.org/web/20210228054110/https://netballscoop.com/ns-preview-constellation-cup-2021/|archive-date=28 February 2021|date=28 February 2021|access-date=16 March 2022}}</ref><ref name="diamondscp">{{Cite web|url=https://diamonds.netball.com.au/constellation-cup-2021|title=Constellation Cup 2021 - Australian Diamonds - Netball ...|publisher=diamonds.netball.com.au|access-date=21 February 2022}}</ref><ref name="smh121013">{{cite web|url=https://www.smh.com.au/sport/diamonds-vs-silver-ferns-old-foes-biggest-rivalry-20131011-2ve6y.html|title=Diamonds vs Silver Ferns: Old foes' biggest rivalry|publisher=www.smh.com.au|date=12 October 2013}}</ref><ref name="skysports060815">{{Cite web|url=https://www.skysports.com/netball/news/12415/9938535/looking-back-at-the-greatest-australia-v-new-zealand-netball-matches|title=Looking back at the greatest Australia v New Zealand netball matches|publisher=www.skysports.com|date=6 August 2015|access-date=8 July 2021}}</ref><ref name="upstart201118">{{Cite web|url=https://www.upstart.net.au/the-history-of-netballs-greatest-rivalry/|title=The history of netball's greatest rivalry|publisher=www.upstart.net.au|archive-url=https://web.archive.org/web/20200924042154/https://www.upstart.net.au/the-history-of-netballs-greatest-rivalry/|archive-date=24 September 2020|date=20 November 2018|acce
+feed 2026-10-30T02:00:21.229Z
+tsdb: 2 games, season 2026, rounds 3,4,5,6
+concup-2026-g1 final score set
+concup-2026-g2 final score set
+concup-2026-g3 final score set
+concup-2026-g4 final score set
