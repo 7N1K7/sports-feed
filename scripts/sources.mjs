@@ -1897,8 +1897,10 @@ function fromTsdb(ev, l) {
   const home = tsdbTeam(ev.strHomeTeam), away = tsdbTeam(ev.strAwayTeam);
   const cls = l.team ? { team: l.team, tags: l.tags || [] } : classify(l.classify, home, away);
   if (!cls || !ev.strTimestamp) return null;
-  const status = STATUS(ev.strStatus);
   const t = new Date(ev.strTimestamp.replace(/(\+00:00)?$/, '') + 'Z');
+  // some leagues (the Constellation Cup) never fill in the status: a game with both scores, three hours after it started, is over
+  const scored = ev.intHomeScore != null && ev.intHomeScore !== '' && ev.intAwayScore != null && ev.intAwayScore !== '';
+  const status = !ev.strStatus && scored && Date.now() - t > 3 * 36e5 ? 'final' : STATUS(ev.strStatus);
   const hasScore = ev.intHomeScore != null && ev.intHomeScore !== '' && status !== 'upcoming';
   // fill-only leagues: remember the round so the next run can ask for it directly; midnight UTC is a placeholder time
   const fill = l.fill ? { fill: true, tsdbRound: ev.intRound ?? null, tsdbSeason: ev.strSeason || null, ...(/T00:00(:00)?$/.test(ev.strTimestamp.replace(/\+00:00$/, '')) ? { timeTBC: true } : {}) } : {};
