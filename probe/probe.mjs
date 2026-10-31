@@ -1,12 +1,9 @@
-// probe 239: the rest of i.mjh.nz's robots.txt (its rules after the content-signal preamble), and the SkySportNow guide's format
+// probe 240: after v522: the TV guide's reach per source and what it lists for the next week's games
 import fs from 'fs';
 const L = [];
-const rb = await (await fetch('https://i.mjh.nz/robots.txt')).text();
-L.push('robots rules: ' + rb.split('\n').filter(l => l.trim() && !l.startsWith('#')).join(' | '));
-const x = await (await fetch('https://i.mjh.nz/SkySportNow/epg.xml')).text();
-const pr = x.match(/<programme[^>]*>/g) || [];
-L.push(`SkySportNow ${pr.length} programmes; first: ${pr[0]}; last: ${pr[pr.length - 1]}`);
-const st = pr.map(p => (p.match(/start="(\d{8})/) || [])[1]).filter(Boolean).sort(); L.push(`dates ${st[0]}..${st[st.length - 1]}`);
-const sky = await (await fetch('https://i.mjh.nz/SkyGo/epg.xml')).text(); const sp = sky.match(/<programme[^>]*>/g) || [];
-const sd = sp.map(p => (p.match(/start="(\d{8})/) || [])[1]).filter(Boolean); L.push(`SkyGo ${sp.length} programmes; dates ${sd.reduce((a, b) => a < b ? a : b)}..${sd.reduce((a, b) => a > b ? a : b)}; tail ${sp.slice(-2).join(' ')}`);
+let f; for (let i = 0; i < 40; i++) { f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json(); if (/SkySportNow/.test(f.diag.tvGuide || '')) break; await new Promise(r => setTimeout(r, 30e3)); }
+L.push(`feed ${f.generatedAt}`, `tvGuide: ${String(f.diag.tvGuide).slice(0, 1400)}`, `missing: ${f.diag.tvGuideMissing || '-'}`);
+const now = Date.now();
+for (const e of f.events.filter(e => e.status !== 'final' && Date.parse(e.startUTC) > now - 864e5 && Date.parse(e.startUTC) < now + 7 * 864e5 && (e.sport === 'cricket' || e.sport === 'tennis')))
+  L.push(`${e.comp} | ${e.home} v ${e.away || ''} | ${e.startUTC} | ${e.broadcast || '-'} | tv ${(e.tv || []).map(x => x.ch + (x.delayed ? '(d)' : '')).join(', ') || '-'}`);
 fs.writeFileSync(new URL('./out.txt', import.meta.url), L.join('\n') + '\n');
