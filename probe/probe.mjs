@@ -1,16 +1,10 @@
-// probe 233: Fox Cricket's YouTube channel (@foxcricket): its id, and its recent live streams (titles, times, NZ blocked?)
+// probe 234: a sweep of the live feed: coverage gaps per sport, sources reporting errors or nothing, and upcoming games missing a time or watch line
 import fs from 'fs';
-const key = process.env.YOUTUBE_API_KEY, L = [];
-const yt = async (p, q) => { const r = await fetch(`https://www.googleapis.com/youtube/v3/${p}?${q}&key=${key}`); return r.ok ? r.json() : { error: r.status }; };
-const c = await yt('channels', 'part=id,snippet,contentDetails&forHandle=foxcricket');
-const ch = c.items?.[0]; L.push(`channel ${ch?.id} ${ch?.snippet?.title} | ${c.error || ''}`);
-if (ch) {
-  const pl = await yt('playlistItems', `part=contentDetails&maxResults=50&playlistId=UU${ch.id.slice(2)}`);
-  const ids = (pl.items || []).map(x => x.contentDetails.videoId);
-  const v = ids.length ? await yt('videos', `part=snippet,contentDetails,liveStreamingDetails&id=${ids.join(',')}`) : { items: [] };
-  const all = v.items || [];
-  L.push(`${all.length} recent uploads; streams:`);
-  for (const x of all.filter(x => x.liveStreamingDetails)) { const r = x.contentDetails?.regionRestriction; L.push(`${x.liveStreamingDetails.actualStartTime || x.liveStreamingDetails.scheduledStartTime} | ${x.snippet.title.slice(0, 100)} | ${x.contentDetails.duration} | region ${r ? JSON.stringify(r).slice(0, 80) : 'open'}`); }
-  L.push('a sample of other uploads:'); for (const x of all.filter(x => !x.liveStreamingDetails).slice(0, 15)) L.push(`${x.snippet.publishedAt.slice(0, 10)} | ${x.snippet.title.slice(0, 100)} | ${x.contentDetails.duration}`);
-}
+const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json(), L = [`feed ${f.generatedAt} events ${f.events.length}`];
+L.push('coverage:'); for (const [sp, c] of Object.entries(f.coverage || {})) L.push(`${sp}: ${JSON.stringify(c).slice(0, 300)}`);
+L.push('diag with error/0/none:'); for (const [k, v] of Object.entries(f.diag || {})) if (/error|fail|\b0\b|none|no key|timeout|\b4\d\d\b|\b5\d\d\b/i.test(String(v))) L.push(`${k}: ${String(v).slice(0, 160)}`);
+const now = Date.now(), up = f.events.filter(e => e.status !== 'final' && Date.parse(e.startUTC) > now && Date.parse(e.startUTC) < now + 21 * 864e5);
+L.push(`next 3 weeks: ${up.length}`);
+L.push('no watch line:'); for (const e of up.filter(e => !e.broadcast && !e.watchNote && !e.watchAlt).slice(0, 25)) L.push(`${e.sport} | ${e.comp} | ${e.home || e.name} v ${e.away || ''} | ${e.startUTC}`);
+L.push('time TBC:'); for (const e of up.filter(e => e.tbc || e.timeTBC).slice(0, 15)) L.push(`${e.sport} | ${e.comp} | ${e.home || e.name} v ${e.away || ''} | ${e.startUTC}`);
 fs.writeFileSync(new URL('./out.txt', import.meta.url), L.join('\n') + '\n');
