@@ -21,6 +21,9 @@ behind a spoiler guard, no sign-up. Static GitHub Pages site plus a small Cloudf
   read `probe/out.txt`). Probe output is public: never print secrets. Browser probes of kickoff.kiwi set
   `localStorage sf.nocount=true` so they don't count as visits.
 - After a big addition of data or a filled gap, add a line to `ADDED` in `stats.html` (the coverage hub).
+- A bigger sweep for gaps (when the user asks for one) doesn't stop at the sources the feed already reads: search the web
+  for new sources for each gap left, check each one's terms, and add the ones that allow it. The feed's own runs only
+  check the known sources.
 - A new sport gets its own word for one event (`EV_WORD` in index.html: a race, a fight, a match, a tournament; a game
   otherwise) and its start's name (`START_LABEL`: Kick-off, First ball, Lights out), so labels never say "game" for a race.
 - No test suite; `node --check` the scripts.
