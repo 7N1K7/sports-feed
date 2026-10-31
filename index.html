@@ -1724,6 +1724,8 @@ function compBadge(e) {
 // international game: two national sides, or a Test / World Cup / international series
 const isIntl = e => !!(e.home && e.away && (flagOf(e.home) && flagOf(e.away)
   || /\b(World Cup|Tests?|T20I|ODI|internationals?|Nations Championship|Rugby Championship|WXV|Pacific (Championship|Cup))\b/i.test(`${e.comp || ''} ${e.stage || ''}`)));
+// a full international: national sides' first teams, not their A sides, XIs or age-group teams
+const isFull = e => isIntl(e) && ![e.home, e.away].some(n => /\s(A|XI|XV|U\d+|Emerging|Development)$/i.test(n || ''));
 const intlTag = e => isIntl(e) ? '<span class="badge intl" title="International game">INTL</span>' : '';
 const badge = k => { const b = BADGE[k]; return b ? `<span class="badge" style="background:${b[1]};color:${b[2]}" aria-hidden="true">${b[0]}</span>` : ''; };
 const FLAGS = {
@@ -3532,9 +3534,10 @@ function render() {
   // the first draw has to guess the width; once the boxes exist, redraw if two rows actually hold a different number
   const cap = dotCap(); drawWeek(cap); lastCap = dotCap(); if (lastCap !== cap) drawWeek(lastCap);
 
-  // live now: games under way, in their own section above the week; New Zealand's games first, then other
-  // internationals, then the rest, each by start time
-  const rank = e => isNZ(e) ? 0 : isIntl(e) ? 1 : 2;
+  // live now: games under way, in their own section above the week, by how big a game it is, then by start time: New
+  // Zealand in a full international (the Kiwis at the World Cup, a Black Caps Test) first, then other full
+  // internationals, then New Zealand's other games (A sides, clubs, domestic), then the rest
+  const rank = e => { const full = isFull(e), nz = isNZ(e); return nz && full ? 0 : full ? 1 : nz ? 2 : 3; };
   const byRank = (a, b) => rank(a) - rank(b) || nextAt(a, now) - nextAt(b, now);
   const lives = upcoming.filter(e => e.status === 'live' || onNow(e, now) || startsSoon(e, now)).sort(byRank);
   // starting soon: games (or a Test's next day) getting under way within the hour, a time known or the usual one
