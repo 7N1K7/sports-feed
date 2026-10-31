@@ -1,0 +1,257 @@
+{
+ "generatedAt": "2026-10-31T01:40:00Z",
+ "events": [
+  {
+   "sport": "hockey",
+   "timeTBC": false,
+   "status": "upcoming",
+   "id": "bs-ind-centenary-1-2026",
+   "team": "blacksticks",
+   "comp": "Indian Centenary Series · Match 1",
+   "home": "New Zealand",
+   "away": "India",
+   "startUTC": "2026-11-19T05:30:00Z",
+   "venue": "Lloyd Elsmore Park",
+   "city": "Auckland",
+   "tz": "Pacific/Auckland",
+   "broadcast": "TVNZ+ (free, every game)",
+   "note": "An invitational series, not official Tests",
+   "squads": [
+    {
+     "team": "New Zealand",
+     "players": [
+      {
+       "n": "Aidan Sarikaya"
+      },
+      {
+       "n": "Benji Culhane"
+      },
+      {
+       "n": "Dean Clarkson"
+      },
+      {
+       "n": "Dylan Thomas"
+      },
+      {
+       "n": "Gus Nelson"
+      },
+      {
+       "n": "Javahn Jones"
+      },
+      {
+       "n": "Joe Morrison"
+      },
+      {
+       "n": "Jonty Elmes"
+      },
+      {
+       "n": "Luke Holmes"
+      },
+      {
+       "n": "Matt Ruetsch"
+      },
+      {
+       "n": "Nic Woods"
+      },
+      {
+       "n": "Patrick Ward"
+      },
+      {
+       "n": "Richard Joyce"
+      },
+      {
+       "n": "Ryan Parr"
+      },
+      {
+       "n": "Sam Hiha"
+      },
+      {
+       "n": "Sam Lints"
+      },
+      {
+       "n": "Scott Cosslett"
+      },
+      {
+       "n": "Tim Greenwood"
+      },
+      {
+       "n": "Tim Neild"
+      },
+      {
+       "n": "Zander Fraser"
+      }
+     ]
+    }
+   ],
+   "source": "https://www.blacksticksnz.co.nz/india-centenary-series"
+  },
+  {
+   "sport": "hockey",
+   "timeTBC": false,
+   "status": "upcoming",
+   "id": "bs-ind-centenary-2-2026",
+   "team": "blacksticks",
+   "comp": "Indian Centenary Series · Match 2",
+   "home": "New Zealand",
+   "away": "India",
+   "startUTC": "2026-11-21T03:00:00Z",
+   "venue": "Lloyd Elsmore Park",
+   "city": "Auckland",
+   "tz": "Pacific/Auckland",
+   "broadcast": "TVNZ+ (free, every game)",
+   "note": "An invitational series, not official Tests",
+   "squads": [
+    {
+     "team": "New Zealand",
+     "players": [
+      {
+       "n": "Aidan Sarikaya"
+      },
+      {
+       "n": "Benji Culhane"
+      },
+      {
+       "n": "Dean Clarkson"
+      },
+      {
+       "n": "Dylan Thomas"
+      },
+      {
+       "n": "Gus Nelson"
+      },
+      {
+       "n": "Javahn Jones"
+      },
+      {
+       "n": "Joe Morrison"
+      },
+      {
+       "n": "Jonty Elmes"
+      },
+      {
+       "n": "Luke Holmes"
+      },
+      {
+       "n": "Matt Ruetsch"
+      },
+      {
+       "n": "Nic Woods"
+      },
+      {
+       "n": "Patrick Ward"
+      },
+      {
+       "n": "Richard Joyce"
+      },
+      {
+       "n": "Ryan Parr"
+      },
+      {
+       "n": "Sam Hiha"
+      },
+      {
+       "n": "Sam Lints"
+      },
+      {
+       "n": "Scott Cosslett"
+      },
+      {
+       "n": "Tim Greenwood"
+      },
+      {
+       "n": "Tim Neild"
+      },
+      {
+       "n": "Zander Fraser"
+      }
+     ]
+    }
+   ],
+   "source": "https://www.blacksticksnz.co.nz/india-centenary-series"
+  },
+  {
+   "sport": "hockey",
+   "timeTBC": false,
+   "status": "upcoming",
+   "id": "bs-ind-centenary-3-2026",
+   "team": "blacksticks",
+   "comp": "Indian Centenary Series · Match 3",
+   "home": "New Zealand",
+   "away": "India",
+   "startUTC": "2026-11-22T01:00:00Z",
+   "venue": "Lloyd Elsmore Park",
+   "city": "Auckland",
+   "tz": "Pacific/Auckland",
+   "broadcast": "TVNZ+ (free, every game)",
+   "note": "An invitational series, not official Tests",
+   "squads": [
+    {
+     "team": "New Zealand",
+     "players": [
+      {
+       "n": "Aidan Sarikaya"
+      },
+      {
+       "n": "Benji Culhane"
+      },
+      {
+       "n": "Dean Clarkson"
+      },
+      {
+       "n": "Dylan Thomas"
+      },
+      {
+       "n": "Gus Nelson"
+      },
+      {
+       "n": "Javahn Jones"
+      },
+      {
+       "n": "Joe Morrison"
+      },
+      {
+       "n": "Jonty Elmes"
+      },
+      {
+       "n": "Luke Holmes"
+      },
+      {
+       "n": "Matt Ruetsch"
+      },
+      {
+       "n": "Nic Woods"
+      },
+      {
+       "n": "Patrick Ward"
+      },
+      {
+       "n": "Richard Joyce"
+      },
+      {
+       "n": "Ryan Parr"
+      },
+      {
+       "n": "Sam Hiha"
+      },
+      {
+       "n": "Sam Lints"
+      },
+      {
+       "n": "Scott Cosslett"
+      },
+      {
+       "n": "Tim Greenwood"
+      },
+      {
+       "n": "Tim Neild"
+      },
+      {
+       "n": "Zander Fraser"
+      }
+     ]
+    }
+   ],
+   "source": "https://www.blacksticksnz.co.nz/india-centenary-series"
+  }
+ ]
+}
