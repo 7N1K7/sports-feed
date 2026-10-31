@@ -552,30 +552,36 @@ async function tvGuide(events) {
   const cacheUrl = new URL('.cache/tvguide.json', ROOT);
   let cache = {};
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
-  if (!cache.t || cache.v !== 3 || Date.now() - cache.t > 6 * 36e5) {
+  if (!cache.t || cache.v !== 4 || Date.now() - cache.t > 6 * 36e5) {
     try {
       const items = [], seen = new Set(), lo = Date.now() - 2 * DAY, hi = Date.now() + 15 * DAY;
-      // the Sky Go guide (every Sky channel and the free ones), then the free-to-air guide, which has some free-to-air
-      // listings the Sky one lacks (Three's cricket); a listing in both is kept once
-      for (const url of ['https://i.mjh.nz/SkyGo/epg.xml', 'https://i.mjh.nz/nz/epg.xml']) {
+      // the Sky Sport Now guide (Sky Sport 1-9, ESPN, Select: all sport, so every listing counts), the Sky Go guide
+      // (every Sky channel and the free ones; it stopped updating at the end of October 2026, so it may add nothing),
+      // then the free-to-air guide, which has some free-to-air listings the Sky ones lack (Three's cricket); a listing in
+      // more than one is kept once
+      for (const [url, allSport] of [['https://i.mjh.nz/SkySportNow/epg.xml', true], ['https://i.mjh.nz/SkyGo/epg.xml'], ['https://i.mjh.nz/nz/epg.xml']]) {
       const r = await fetch(url, { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } });
-      if (!r.ok) throw new Error(`${url} ${r.status}`);
+      // one guide down doesn't lose the others
+      if (!r.ok) { diag.tvGuideMissing = `${url} ${r.status}`; continue; }
       const xml = await r.text(), ent = x => x.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'");
       const ch = Object.fromEntries([...xml.matchAll(/<channel id="([^"]+)"[^>]*>\s*<display-name[^>]*>([^<]+)/g)].map(m => [m[1], ent(m[2]).trim().replace(/^DUKE$/, 'TVNZ DUKE')]));
       const when = v => Date.UTC(+v.slice(0, 4), +v.slice(4, 6) - 1, +v.slice(6, 8), +v.slice(8, 10), +v.slice(10, 12)) - (/([+-])(\d\d)(\d\d)/.test(v) ? (RegExp.$1 === '-' ? -1 : 1) * (+RegExp.$2 * 60 + +RegExp.$3) * 6e4 : 0);
-      for (const m of xml.matchAll(/<programme start="([^"]+)" stop="[^"]*" channel="([^"]+)">([\s\S]*?)<\/programme>/g)) {
+      // the guides put the programme's attributes in different orders (start first, or channel first)
+      for (const p of xml.matchAll(/<programme ([^>]*)>([\s\S]*?)<\/programme>/g)) {
+        const attr = k => (p[1].match(new RegExp(`\\b${k}="([^"]+)"`)) || [])[1] || '', m = [p[0], attr('start'), attr('channel'), p[2]];
+        if (!m[1] || !m[2]) continue;
         const body = m[3], cats = [...body.matchAll(/<category[^>]*>([^<]+)/g)].map(x => x[1]).join(' ');
         const at = when(m[1]); if (at < lo || at > hi || !ch[m[2]]) continue;
         const title = ent((body.match(/<title[^>]*>([^<]*)/) || [])[1] || ''), sub = ent((body.match(/<sub-title[^>]*>([^<]*)/) || [])[1] || ''), desc = ent((body.match(/<desc[^>]*>([^<]*)/) || [])[1] || '');
         // a sport listing by its category, or by a "X v Y" title (free-to-air channels don't always give a category)
-        if (!/sport|rugby|cricket|league|football|netball|hockey|basketball|motor|tennis|ufc|boxing/i.test(cats) && !/\S \s*(v|vs|V)\.? \S/.test(`${title} ${sub}`)) continue;
+        if (!allSport && !/sport|rugby|cricket|league|football|netball|hockey|basketball|motor|tennis|ufc|boxing/i.test(cats) && !/\S \s*(v|vs|V)\.? \S/.test(`${title} ${sub}`)) continue;
         if (TV_SKIP.test(`${title} ${sub}`)) continue;
         if (seen.has(`${ch[m[2]]}|${at}`)) continue;
         seen.add(`${ch[m[2]]}|${at}`);
-        items.push({ ch: ch[m[2]], at, text: `${title} | ${sub} | ${desc.slice(0, 240)}`, live: /\blive\b/i.test(`${title} ${sub} ${desc}`) });
+        items.push({ src: url.split('/')[3], ch: ch[m[2]], at, text: `${title} | ${sub} | ${desc.slice(0, 240)}`, live: /\blive\b/i.test(`${title} ${sub} ${desc}`) });
       }
       }
-      cache = { t: Date.now(), v: 3, items }; // v: bumped when what's kept changes, so an old cache is read again
+      cache = { t: Date.now(), v: 4, items }; // v: bumped when what's kept changes, so an old cache is read again
       try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
     } catch (err) { diag.tvGuide = 'error ' + err.message; if (!cache.items) return; }
   }
@@ -615,10 +621,11 @@ async function tvGuide(events) {
     e.tv = (all.some(x => !x.delayed) ? all.filter(x => !x.delayed) : all.slice(0, 1)).slice(0, 4);
     hits.push(`${e.home}${e.away ? ' v ' + e.away : ''}: ${e.tv.map(x => x.ch + (x.delayed ? ' (delayed)' : '')).join(', ')}`);
   }
-  // how far ahead the Sky channels' listings run: the Sky Go guide can stop updating (at the end of October 2026 it ran
-  // only to the day before), which leaves Sky games unlisted however good the matching
-  const skyTo = Math.max(0, ...items.filter(x => /^Sky/i.test(x.ch)).map(x => x.at));
-  diag.tvGuide = `${items.length} sport listings (read ${new Date(cache.t).toISOString().slice(0, 16)}; Sky channels listed to ${skyTo ? new Date(skyTo).toISOString().slice(0, 10) : 'none'}${skyTo && skyTo < Date.now() + DAY ? ', stale' : ''}); ${hits.length} games listed: ${hits.slice(0, 30).join('; ')}`;
+  // how far ahead each guide's sport listings run: a guide can stop updating (Sky Go's did at the end of October 2026),
+  // which leaves its channels' games unlisted however good the matching
+  const runs = {}; for (const x of items) runs[x.src] = Math.max(runs[x.src] || 0, x.at);
+  const ends = Object.entries(runs).map(([s, t]) => `${s} to ${new Date(t).toISOString().slice(0, 10)}${t < Date.now() + DAY ? ' (stale)' : ''}`).join(', ');
+  diag.tvGuide = `${items.length} sport listings (read ${new Date(cache.t).toISOString().slice(0, 16)}; ${ends || 'no guide'}); ${hits.length} games listed: ${hits.slice(0, 30).join('; ')}`;
 }
 const compOf0 = e => String(e.comp || '').replace(/\s*[·,(].*$/, '').trim();
 
