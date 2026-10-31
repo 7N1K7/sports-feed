@@ -1,4 +1,26 @@
-robots rules: 
-SkySportNow 1865 programmes; first: <programme channel="341" start="20261030060000 +0000" stop="20261030113500 +0000">; last: <programme channel="359" start="20261105230000 +0000" stop="20261106010000 +0000">
-dates 20261030..20261106
-SkyGo 53408 programmes; dates 20260929..20261030; tail <programme start="20261029230000 +0000" stop="20261030050000 +0000" channel="sky.999"> <programme start="20261030050000 +0000" stop="20261030110000 +0000" channel="sky.999">
+feed 2026-10-31T01:45:12.966Z
+tvGuide: 2168 sport listings (read 2026-10-31T01:47; SkySportNow to 2026-11-06, SkyGo to 2026-10-30 (stale), nz to 2026-11-14); 55 games listed: Adelaide Strikers v Melbourne Stars: Sky Sport 6; Perth Scorchers v Melbourne Renegades: Sky Sport Select (delayed); Sydney Thunder v Brisbane Heat: Sky Sport 4; Sydney Sixers v Hobart Hurricanes: Sky Sport 4; Melbourne Stars v Perth Scorchers: Sky Sport 1, Sky Sport 1 UHD; Hobart Hurricanes v Melbourne Renegades: Sky Sport 2; Adelaide Strikers v Brisbane Heat: Sky Sport 2; Sydney Thunder v Perth Scorchers: Sky Sport 2; New Zealand v India: Sky Sport 1, Sky Sport 1 UHD; New Zealand v India: Sky Sport 1, Sky Sport 1 UHD; New Zealand v Fiji: Sky Sport 1, Sky Sport 1 UHD, ThreeNow Sport 1; New Zealand v Papua New Guinea: Sky Sport 1, Sky Sport 1 UHD, ThreeNow Sport 1; England v Samoa: Sky Sport 1 (delayed); England v Papua New Guinea: Sky Sport 2; Fiji v France: Sky Sport Select; France v Scotland: Sky Sport 5; Australia v Cook Islands: Sky Sport 1, Sky Sport 1 UHD; Australia v Wales: Sky Sport 2; Lebanon v France: Sky Sport 2; Tonga v Samoa: Three, Sky Sport 2, ThreePlus1; Australia v Scotland: Sky Sport 1, Sky Sport 1 UHD; Ireland v Wales: Sky Sport 1, Sky Sport 1 UHD; England v USA: Sky Sport 1, Sky Sport 1 UHD; Black Ferns v France: Three, Sky Sport 2, ThreePlus1; Scotland v All Blacks: Three (delayed); Cortes-Acosta v Walker: TVNZ DUKE (delay
+missing: -
+Women's Big Bash League (WBBL|12), League | Adelaide Strikers v Melbourne Stars | 2026-10-31T05:10:00.000Z | Sky Sport / Sky Sport Now | tv Sky Sport 6
+Women's Big Bash League (WBBL|12), League | Perth Scorchers v Melbourne Renegades | 2026-10-31T11:10:00.000Z | Sky Sport / Sky Sport Now | tv Sky Sport Select(d)
+Women's Big Bash League (WBBL|12), League | Sydney Thunder v Brisbane Heat | 2026-11-01T04:40:00Z | Sky Sport / Sky Sport Now | tv Sky Sport 4
+Women's Big Bash League (WBBL|12), League | Sydney Sixers v Hobart Hurricanes | 2026-11-01T08:10:00Z | Sky Sport / Sky Sport Now | tv Sky Sport 4
+Women's Big Bash League (WBBL|12), League | Melbourne Stars v Perth Scorchers | 2026-11-02T08:10:00Z | Sky Sport / Sky Sport Now | tv Sky Sport 1, Sky Sport 1 UHD
+Women's Big Bash League (WBBL|12), League | Hobart Hurricanes v Melbourne Renegades | 2026-11-04T08:10:00Z | Sky Sport / Sky Sport Now | tv Sky Sport 2
+Women's Big Bash League (WBBL|12), League | Adelaide Strikers v Brisbane Heat | 2026-11-05T04:40:00Z | Sky Sport / Sky Sport Now | tv Sky Sport 2
+Women's Big Bash League (WBBL|12), League | Sydney Thunder v Perth Scorchers | 2026-11-05T08:10:00Z | Sky Sport / Sky Sport Now | tv Sky Sport 2
+Women's Big Bash League (WBBL|12), League | Melbourne Stars v Sydney Sixers | 2026-11-06T08:10:00Z | Sky Sport / Sky Sport Now | tv -
+NZ A v India A, 2nd four-day match | New Zealand A v India A | 2026-10-30T21:30:00Z | - | tv -
+Ford Trophy (men) | Northern Districts v Auckland Aces | 2026-10-30T21:30:00Z | NZC YouTube (free stream) | tv -
+Ford Trophy (men) | Wellington Firebirds v Canterbury | 2026-10-30T21:30:00Z | NZC YouTube (free stream) | tv -
+Ford Trophy (men) | Otago Volts v Central Stags | 2026-10-30T21:30:00Z | NZC YouTube (free stream) | tv -
+5th T20I v India | New Zealand v India | 2026-11-01T07:00:00Z | Sky Sport / Sky Sport Now | tv Sky Sport 1, Sky Sport 1 UHD
+1st ODI v India | New Zealand v India | 2026-11-04T02:00:00Z | Sky Sport / Sky Sport Now | tv Sky Sport 1, Sky Sport 1 UHD
+NZ A v India A, 3rd four-day match | New Zealand A v India A | 2026-11-06T21:30:00Z | - | tv -
+Bangladesh v West Indies | Bangladesh v West Indies | 2026-11-05T03:30:00Z | - | tv -
+Sheffield Shield | Queensland v Victoria | 2026-10-31T00:00:00Z | Sky Sport / Sky Sport Now | tv -
+Sheffield Shield | Tasmania v New South Wales | 2026-10-30T03:00:00.000Z | Sky Sport / Sky Sport Now | tv -
+Pakistan ODI Tri-Series | Pakistan v Sri Lanka | 2026-10-31T08:00:00.000Z | - | tv -
+United Arab Emirates Tri-Nation Series | United Arab Emirates v Netherlands | 2026-10-31T05:30:00.000Z | - | tv -
+United Arab Emirates Tri-Nation Series | Netherlands v Oman | 2026-11-02T05:30:00.000Z | - | tv -
+United Arab Emirates Tri-Nation Series | United Arab Emirates v Oman | 2026-11-04T05:30:00.000Z | - | tv -
