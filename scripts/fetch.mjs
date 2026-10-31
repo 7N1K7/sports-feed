@@ -615,12 +615,15 @@ async function tvGuide(events) {
     e.tv = (all.some(x => !x.delayed) ? all.filter(x => !x.delayed) : all.slice(0, 1)).slice(0, 4);
     hits.push(`${e.home}${e.away ? ' v ' + e.away : ''}: ${e.tv.map(x => x.ch + (x.delayed ? ' (delayed)' : '')).join(', ')}`);
   }
-  diag.tvGuide = `${items.length} sport listings (read ${new Date(cache.t).toISOString().slice(0, 16)}); ${hits.length} games listed: ${hits.slice(0, 30).join('; ')}`;
+  // how far ahead the Sky channels' listings run: the Sky Go guide can stop updating (at the end of October 2026 it ran
+  // only to the day before), which leaves Sky games unlisted however good the matching
+  const skyTo = Math.max(0, ...items.filter(x => /^Sky/i.test(x.ch)).map(x => x.at));
+  diag.tvGuide = `${items.length} sport listings (read ${new Date(cache.t).toISOString().slice(0, 16)}; Sky channels listed to ${skyTo ? new Date(skyTo).toISOString().slice(0, 10) : 'none'}${skyTo && skyTo < Date.now() + DAY ? ', stale' : ''}); ${hits.length} games listed: ${hits.slice(0, 30).join('; ')}`;
 }
 const compOf0 = e => String(e.comp || '').replace(/\s*[·,(].*$/, '').trim();
 
 function applyBroadcast(e, rules) {
-  const fits = r => (!r.team || r.team === e.team) && (!r.sport || r.sport === e.sport) && (!r.comp || new RegExp(r.comp, 'i').test(e.comp)) && (!r.home || new RegExp(r.home).test(e.home || ''));
+  const fits = r => (!r.team || r.team === e.team) && (!r.sport || r.sport === e.sport) && (!r.comp || new RegExp(r.comp, 'i').test(e.comp)) && (!r.home || new RegExp(r.home).test(e.home || '')) && (!r.away || new RegExp(r.away).test(e.away || ''));
   // how to watch in Australia (many of the games are Australian): added whatever NZ coverage the game already has
   if (!e.watchAU) { const a = rules.find(r => r.au && fits(r)); if (a) e.watchAU = a.au; }
   if (e.broadcast && e.broadcast !== 'TBC') return;
@@ -806,6 +809,12 @@ for (const e of events) if (e.team === 'lpga' ? !LPGA_MAJOR.test(e.home) : e.tea
     turned.push(`${e.home} v ${e.away} (${e.city || e.venue})`);
   }
   diag.homeSides = turned.length ? `home side put first: ${turned.join('; ')}` : 'none turned';
+}
+// a UFC night whose headliners changed: TheSportsDB can keep the first-billed pair ("Bonfim v Brady") after the event's
+// Wikipedia article is renamed for the new main event ("UFC Fight Night: Cortes-Acosta vs. Walker"); the article wins
+for (const e of events) {
+  const m = e.team === 'ufc' && decodeURIComponent(String(e.source || '').split('/wiki/')[1] || '').replace(/_/g, ' ').match(/^UFC[^:]*: (.+?) vs\. (.+)$/);
+  if (m && ![e.home, e.away].every(t => t && (m[1] + ' ' + m[2]).toLowerCase().includes(String(t).toLowerCase().split(' ').pop()))) Object.assign(e, { home: m[1], away: m[2] });
 }
 if (ESPN_ON) await espnCricket(events);
 await sportmonksCricket(events);
@@ -1276,6 +1285,8 @@ async function addFighterLinks(events) {
   const FIGHT_OCC = new Set(['Q11607585', 'Q11338576', 'Q13382533', 'Q1371925', 'Q13474373', 'Q6665249', 'Q18534714', 'Q14949394', 'Q19798842']);
   const PROPS = { ufc: 'P9722', sd: 'P2818', br: 'P1967', tp: 'P9728' };
   const near = events.filter(e => /^(mma|boxing)$/.test(e.sport) && Math.abs(Date.parse(e.startUTC) - now) < 60 * DAY);
+  // a boxing night from the curated list has no card of its own: its main event makes one, so the boxers' names link too
+  for (const e of near) if (e.sport === 'boxing' && !e.card?.length && e.home && e.away) e.card = [{ section: 'Main event', weight: e.comp, a: e.home, b: e.away, res: 'vs.', method: '', round: '', time: '' }];
   const kind = {};
   for (const e of near) for (const n of [e.home, e.away, ...(e.card || []).flatMap(b => [b.a, b.b])].map(strip)) if (ok(n)) kind[n] ||= e.sport === 'boxing' ? 'boxer' : 'fighter';
   const due = Object.keys(kind).filter(n => !cache[n] || now - cache[n].t > 30 * DAY).slice(0, 60);

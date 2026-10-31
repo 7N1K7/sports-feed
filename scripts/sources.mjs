@@ -555,7 +555,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
   // Adelaide and Hobart tournaments, from each tournament's own page.
   // Each gives a women's and a men's singles final (the tournament's last two days), with the champion once it's played.
   try {
-    const titles = years.flatMap(y => TENNIS.map(t => ({ ...t, y, title: t.title.replace('{Y}', y) })));
+    const titles = years.flatMap(y => TENNIS.map(t => ({ ...t, ...(t.at?.[y] || {}), y, title: t.title.replace('{Y}', y) })));
     const got = {};
     for (let i = 0; i < titles.length; i += 20) {
       const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&rvsection=0&redirects=1&titles=' + encodeURIComponent(titles.slice(i, i + 20).map(t => t.title).join('|')));
@@ -778,7 +778,8 @@ const TENNIS = [
   { title: '{Y} Wimbledon Championships', name: 'Wimbledon', city: 'London', venue: 'All England Club', tz: 'Europe/London', w: [-1, 16, 0], m: [0, 16, 0] },
   { title: '{Y} US Open (tennis)', name: 'US Open', city: 'New York', venue: 'Flushing Meadows', tz: 'America/New_York', w: [-1, 16, 0], m: [0, 14, 0] },
   { title: '{Y} ATP Finals', name: 'ATP Finals', city: 'Turin', venue: 'Inalpi Arena', tz: 'Europe/Rome', m: [0, 18, 0] },
-  { title: '{Y} WTA Finals', name: 'WTA Finals', city: 'Riyadh', venue: '', tz: 'Asia/Riyadh', w: [0, 19, 0] },
+  // Riyadh to 2025; from 2026 at Indian Wells (`at` gives a year's own city where it moves)
+  { title: '{Y} WTA Finals', name: 'WTA Finals', city: 'Riyadh', venue: '', tz: 'Asia/Riyadh', w: [0, 19, 0], at: { 2026: { city: 'Indian Wells', venue: 'Indian Wells Tennis Garden', tz: 'America/Los_Angeles' } } },
   { title: '{Y} ASB Classic', name: 'ASB Classic', city: 'Auckland', venue: 'ASB Tennis Arena', tz: 'Pacific/Auckland', w: [-7, 14, 0], m: [0, 15, 0], nz: true },
   // the Australian summer's lead-ins to the Australian Open: both finals on the last day (Hobart is women only)
   { title: '{Y} Brisbane International', name: 'Brisbane International', city: 'Brisbane', venue: 'Pat Rafter Arena', tz: 'Australia/Brisbane', w: [0, 15, 0], m: [0, 18, 0] },
