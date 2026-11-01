@@ -733,6 +733,8 @@ for (const e of [...tsdbLive, ...wiki]) {
   const hit = live.find(x => same(x, e));
   if (!hit) { live.push(e); continue; }
   if (hit.timeTBC && !e.timeTBC) Object.assign(hit, { startUTC: e.startUTC, timeTBC: false });
+  // a UFC card with no time yet on either: Wikipedia's usual evening start in the venue's time zone, not TheSportsDB's midnight UTC
+  else if (hit.team === 'ufc' && hit.timeTBC && e.timeTBC && e.tz) hit.startUTC = e.startUTC;
   if (!hit.score && e.score) Object.assign(hit, { score: e.score, status: e.status, summary: e.summary });
   if (/^TBC$/.test(hit.away) && e.away !== 'TBC') Object.assign(hit, { home: e.home, away: e.away });
   for (const k of ['venue', 'city', 'tz', 'link', 'card', 'squads', 'cricinfo', 'about']) if (!hit[k] && e[k]) hit[k] = e[k];

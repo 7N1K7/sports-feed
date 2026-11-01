@@ -308,8 +308,9 @@ function ufcFromList(text, cityTz) {
       out.push({
         id: `wiki-ufc-${name.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 60)}`, team: 'ufc', tags: [], sport: 'mma', comp: label,
         home: a || label, away: b || 'TBC', startUTC: new Date(t).toISOString(), timeTBC: true,
-        venue: /^(TBA|to be announced)$/i.test(venue) ? '' : venue, city: loc, tz, status: past ? 'final' : 'upcoming',
-        score: past ? 'Results on event page' : undefined,
+        // Wikipedia moves a card to Past events as it starts, so one from the last 12 hours may still be on
+        venue: /^(TBA|to be announced)$/i.test(venue) ? '' : venue, city: loc, tz, status: past && Date.now() - t > 12 * 36e5 ? 'final' : 'upcoming',
+        score: past && Date.now() - t > 12 * 36e5 ? 'Results on event page' : undefined,
         source: link ? `https://en.wikipedia.org/wiki/${encodeURIComponent(link.replace(/ /g, '_'))}` : 'https://en.wikipedia.org/wiki/List_of_UFC_events',
       });
     }
@@ -1979,9 +1980,13 @@ export async function tsdbEvents(all, diag, cache = {}, gapsFor = null) {
           const ev = (await tsdb(q)).events?.[0];
           if (!ev?.strTimestamp) continue;
           const m = (ev.strEvent || '').match(/^(UFC(?: Fight Night)? \d+)\s+(.+?)\s+vs\.?\s+(.+)$/i);
+          // midnight UTC is TheSportsDB's "no time yet": the event's date, not its start, which for a card in the Americas
+          // is the afternoon before (Friday 5pm in Las Vegas for a Saturday night). The time is TBC, Wikipedia's usual
+          // evening start takes over, and it isn't over until the day after
+          const at = new Date(ev.strTimestamp.replace(/(\+00:00)?$/, '') + 'Z'), tbc = /T00:00(:00)?$/.test(ev.strTimestamp.replace(/(\+00:00)?$/, ''));
           out.push({ id: `tsdb-${ev.idEvent}`, team: 'ufc', tags: [], sport: 'mma', comp: m ? m[1] : ev.strEvent, home: m ? m[2] : ev.strEvent, away: m ? m[3] : 'TBC',
-            startUTC: new Date(ev.strTimestamp.replace(/(\+00:00)?$/, '') + 'Z').toISOString(), timeTBC: false, venue: ev.strVenue || '', city: [ev.strCity, ev.strCountry].filter(Boolean).join(', '),
-            status: new Date(ev.strTimestamp + 'Z') < Date.now() - 8 * 36e5 ? 'final' : 'upcoming', source: `https://www.thesportsdb.com/event/${ev.idEvent}` });
+            startUTC: at.toISOString(), timeTBC: tbc, venue: ev.strVenue || '', city: [ev.strCity, ev.strCountry].filter(Boolean).join(', '),
+            status: at < Date.now() - (tbc ? 36 : 8) * 36e5 ? 'final' : 'upcoming', source: `https://www.thesportsdb.com/event/${ev.idEvent}` });
         }
         diag[`tsdb ${l.comp}`] = 'next/last event';
         cache[l.comp] = { t: Date.now(), events: out.slice(start) };
