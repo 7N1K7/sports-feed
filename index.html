@@ -3441,6 +3441,21 @@ const shortComp = c => {
   return w ? `${t.replace(/^Women's /, '').replace(/\u2009W\b/g, '')} (W)` : t;
 };
 const NOT_BAR = /Heartland XV/;
+// a two-side series without New Zealand where neither side is in the world's top five (in the series' formats, for
+// cricket) is too small for the series row (Bangladesh v West Indies); its games still show everywhere else
+const RANK_FMT = { Test: /Tests/, ODI: /ODIs/, T20I: /T20Is/ };
+function bestRank(side, sport, w, fmts) {
+  const n = String(side || '').replace(/\s+Women('s)?$/, '');
+  let best = Infinity;
+  for (const r of FEED.rankings || []) {
+    if (r.sport !== sport || /^Women/.test(r.title || '') !== w || /Wheelchair/i.test(r.title || '')) continue;
+    if (sport === 'cricket' && fmts.size && ![...fmts].some(f => RANK_FMT[f]?.test(r.title))) continue;
+    const row = (r.rows || []).find(x => x.name === n);
+    if (row && +row.rank) best = Math.min(best, +row.rank);
+  }
+  return best;
+}
+const minorSeries = (c, v) => !v.nz && !BIG_EVENT.test(c) && v.sides.size === 2 && v.intl && [...v.sides].every(n => bestRank(n, v.sport, v.w, v.fmts) > 5);
 // what's over, in the competition menu: a league's season, a World Cup's tournament, a tour's or short cup's series
 const overWord = c => GENERIC.test(c) || /play-?offs/i.test(c) ? 'Season over' : /World Cup|Championship|Tournament|Games\b|Open\b|Finals\b|Asia Cup|Champions Trophy/i.test(c) ? 'Tournament over' : 'Series over';
 // tournaments played in windows across the year: listed whenever the next window is near
@@ -3456,8 +3471,11 @@ function renderNowBar(now) {
     // nor are short tours too small for the row (the Heartland XV's), which stay with the games
     if (GENERIC.test(c) || NOT_BAR.test(c) || ['motor', 'sailing', 'golf'].includes(e.sport)) continue;
     const t = new Date(e.startUTC) - now;
-    const v = by.get(c) || { started: false, next: Infinity, nz: false, sport: e.sport, first: Infinity, last: -Infinity, n: 0 };
+    const v = by.get(c) || { started: false, next: Infinity, nz: false, sport: e.sport, first: Infinity, last: -Infinity, n: 0, sides: new Set(), fmts: new Set(), intl: true, w: genderOf(e) === 'w' };
     v.first = Math.min(v.first, t); v.last = Math.max(v.last, t); v.n++;
+    for (const n of [e.home, e.away]) if (n) v.sides.add(n);
+    if (formatOf(e)) v.fmts.add(formatOf(e));
+    if (!isIntl(e)) v.intl = false;
     // under way: a game in the last 10 days (with the next one close behind, checked below), its next game today, or open now
     if ((t <= 0 && t > -10 * 864e5) || (t > 0 && t <= 18 * 36e5) || (e.openUTC && new Date(e.openUTC) <= now)) v.started = true;
     if (t <= 0) {
@@ -3478,7 +3496,7 @@ function renderNowBar(now) {
   // a series or tournament that has just finished stays up a while so its results are a click away: 3 days after its last
   // game, a week after a World Cup or other big event
   const ended = (c, v) => v.next === Infinity && v.n >= 2 && v.lastEnd > -(BIG_EVENT.test(c) ? 7 : 3) * 864e5;
-  const on = [...by].filter(([c, v]) => ((v.started || WINDOWED.test(c)) && v.next < 21 * 864e5 && (v.next < 18 * 36e5 || v.lastPlayed === undefined || v.next < 10 * 864e5 || WINDOWED.test(c))) || ended(c, v))
+  const on = [...by].filter(([c, v]) => !minorSeries(c, v) && (((v.started || WINDOWED.test(c)) && v.next < 21 * 864e5 && (v.next < 18 * 36e5 || v.lastPlayed === undefined || v.next < 10 * 864e5 || WINDOWED.test(c))) || ended(c, v)))
     // the ones still running before the finished ones, if there are more than nine
     .sort((a, b) => (a[1].next === Infinity) - (b[1].next === Infinity) || b[1].nz - a[1].nz || a[1].next - b[1].next).slice(0, 9)
     // the nine at most shown (one row on a wide screen, a swipeable row on phones) sit in the sport buttons' order (A to Z by sport), New Zealand's first within a sport
