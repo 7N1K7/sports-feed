@@ -855,7 +855,8 @@ a.svc:hover { text-decoration-color: currentColor }
 .hubtop h2 { margin: 0; flex: 1; font-size: 26px }
 /* a finished series' outcome beside its name, in the winners' green */
 .hubtop h2 .hubres { display: inline-block; vertical-align: middle; margin-left: 8px; padding: 2px 9px; border: 1px solid #2f9e44; border-radius: 999px; font-size: 13px; font-weight: 700; letter-spacing: 0; color: #2b8a3e; white-space: nowrap; text-transform: none }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hubtop h2 .hubres { color: #69db7c } } :root[data-theme="dark"] .hubtop h2 .hubres { color: #69db7c }
+button.hubres.held { font-family: inherit; line-height: inherit; background: transparent; cursor: pointer; border-style: dashed; color: var(--muted) } @media (hover: hover) { button.hubres.held:hover { color: var(--ink) } }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hubtop h2 .hubres:not(.held) { color: #69db7c } } :root[data-theme="dark"] .hubtop h2 .hubres:not(.held) { color: #69db7c }
 .hubicon { line-height: 0 }
 .hubclose { border: 1px solid var(--line); background: var(--surface); color: var(--ink); width: 34px; height: 34px; border-radius: 50%; font-size: 20px; line-height: 1; cursor: pointer }
 /* a picked sport, or a competition's page, with some of that sport switched off in Settings: a small note at the end of
@@ -2927,7 +2928,12 @@ function sessionsHtml(now) {
     + `<p class="muted small">Qualifying, sprint and race orders from <a href="${esc(e.sessPage || e.source)}" target="_blank" rel="noopener">Wikipedia</a>, practice from TheSportsDB, each soon after the session. ${tzLabel()} times.</p>`;
 }
 // a finished series' or tournament's outcome, by the page's title: "Silver Ferns win 3–1", "Drawn 1–1", "Australia
-// win" (a tournament's final). Only once every game is over and none of its results is hidden by the spoiler guard
+// win" (a tournament's final, or the top of a league's only table). Once every game is over; while any of its results
+// is hidden by the spoiler guard, the tick shows with "Show result" in place of the outcome
+function seriesHidden(c, now) {
+  const evs = (FEED.events || []).filter(e => compOf(e) === c && visible(e) && e.away && !solo(e));
+  return evs.length >= 2 && evs.every(e => isDone(e, now)) ? evs.filter(e => isHidden(e, now)).map(e => e.id) : [];
+}
 function seriesResult(c, now) {
   const evs = (FEED.events || []).filter(e => compOf(e) === c && visible(e) && e.away && !solo(e));
   if (evs.length < 2 || evs.some(e => !isDone(e, now) || isHidden(e, now))) return '';
@@ -2948,7 +2954,10 @@ function seriesResult(c, now) {
   for (const e of evs) meets.set(pair(e), (meets.get(pair(e)) || 0) + 1);
   const extra = [...meets].every(([k, n]) => k === pair(last) || n < meets.get(pair(last)));
   const final = (/\bfinal\b/i.test(`${last.stage || ''} ${last.comp || ''}`) && !/semi|quarter|qualif|play-?off|eliminat/i.test(`${last.stage || ''} ${last.comp || ''}`)) || (!/\b(semi-?final|quarter-?final|play-?off|round|pool|group)\b/i.test(`${last.stage || ''} ${last.comp || ''}`) && extra);
-  return final && (w === 'home' || w === 'away') ? `${name(last[w], last)} win` : '';
+  if (final) return w === 'home' || w === 'away' ? `${name(last[w], last)} win` : '';
+  // a league with no final (a round robin): whoever tops its one table
+  const ts = c === compSel ? hubTables() : [], top = ts.length === 1 && ts[0].rows?.[0]?.p > 0 ? ts[0].rows[0].name : '';
+  return top ? `${displayName(top, last) || top} win` : '';
 }
 function renderHub(now) {
   const on = !!compSel;
@@ -2966,8 +2975,9 @@ function renderHub(now) {
   for (const id of ['liveSec', 'soonSec', 'weekSec', 'todaySec', 'tomSec', 'upSec', 'laterSec', 'resSec', 'newsSec', 'showSec']) $(id).classList.toggle('hubhide', (other && !(hubTab === 'results' && id === 'resSec')) || (on && (id === 'newsSec' || id === 'showSec')));
   if (!on) { $('hubBody').innerHTML = ''; return; }
   const sample = (FEED.events || []).find(e => compOf(e) === compSel);
-  const res = seriesResult(compSel, now);
-  $('hubName').innerHTML = esc(plural(compSel)) + (res ? ` <span class="hubres"><span class="enddot" role="img" aria-label="finished">✓</span>${esc(res)}</span>` : '');
+  const res = seriesResult(compSel, now), held = res ? [] : seriesHidden(compSel, now), tick = '<span class="enddot" role="img" aria-label="finished">✓</span>';
+  $('hubName').innerHTML = esc(plural(compSel)) + (res ? ` <span class="hubres">${tick}${esc(res)}</span>`
+    : held.length ? ` <button type="button" class="hubres held" data-revealall="${esc(held.join(' '))}" data-revk="Series result shown" title="Finished: show the result">${tick}Show result</button>` : '');
   $('hubIcon').innerHTML = COMP_IMG[compSel] ? `<img class="hubimg" src="${COMP_IMG[compSel]}" alt="" referrerpolicy="no-referrer">` : sIcon(sample?.team === 'f1' ? 'f1' : sample?.sport, 'hubimg');
   $('hubSec').style.setProperty('--sport', `var(--${sample?.sport || 'rugby'})`);
   $('hubTabs').innerHTML = tabs.map(([k, l]) => `<button type="button" role="tab" data-hubtab="${k}" aria-selected="${hubTab === k}">${l}</button>`).join('');
@@ -4142,7 +4152,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.sess) { const k = t.dataset.sess, l = SESS.find(([j]) => j === k)[1]; sessOn.has(k) ? sessOn.delete(k) : sessOn.add(k); store.set('sessTeams', [...sessOn]); use(`${l} sessions ${sessOn.has(k) ? 'on' : 'off'}`); render(); return; }
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); count({ e: picked.has(k) ? 'follow' : 'unfollow', k: TEAM_NAME[k] || k }); store.set('teams', [...picked]); render(); }
   else if (t.dataset.hideall) { ev.stopPropagation(); use('Hide all results again'); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
-  else if (t.dataset.revealall) { ev.stopPropagation(); count({ e: 'use', k: 'Show all results' }); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
+  else if (t.dataset.revealall) { ev.stopPropagation(); count({ e: 'use', k: t.dataset.revk || 'Show all results' }); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.reveal) { ev.stopPropagation(); count({ e: 'reveal' }); revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
   else if (t.dataset.series) { ev.stopPropagation(); const k = t.dataset.series, on = !seriesShown.has(k); on ? seriesShown.add(k) : seriesShown.delete(k); store.set('seriesShown', [...seriesShown]); use(on ? 'Series score shown' : 'Series score hidden again'); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.rehide) { ev.stopPropagation(); use(t.classList.contains('lscore') ? 'Score in List view hidden again' : 'Hide a result again'); revealed.delete(t.dataset.rehide); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
