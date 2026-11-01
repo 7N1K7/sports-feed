@@ -1929,6 +1929,14 @@ for (const e of events) {
   const end = Date.parse(e.startUTC) + (fmtDays(e) - 1) * DAY + (e.timeTBC ? 2 * DAY : 12 * 36e5);
   if (end < now && now - end < 7 * DAY) checks.noResult.push({ s: e.sport, c: baseComp(e), n: [e.home, e.away].filter(Boolean).join(' v '), at: e.startUTC, src: e.source || '', ...(hasRes.has(`${e.sport}|${baseComp(e)}`) ? {} : { noSource: true }) });
 }
+// international windows (dates NZ, first and last day): the FIFA match calendar, and FIBA's 2027 World Cup qualifiers
+// (en.wikipedia.org/wiki/FIFA_International_Match_Calendar, /2027_FIBA_Basketball_World_Cup_qualification); add the next
+// ones as they're set
+const INTL_BREAKS = [
+  ['football', 'm', '2026-11-09', '2026-11-17'], ['football', 'm', '2027-03-22', '2027-03-30'], ['football', 'm', '2027-06-07', '2027-06-15'],
+  ['football', 'w', '2026-11-24', '2026-12-05'], ['football', 'w', '2027-02-23', '2027-03-06'], ['football', 'w', '2027-04-13', '2027-04-24'],
+  ['basketball', 'm', '2026-11-23', '2026-12-01'], ['basketball', 'm', '2027-02-22', '2027-03-02'],
+].map(([s, g, a, b]) => [s, g, `${a}T00:00:00+13:00`, `${b}T00:00:00+13:00`]);
 const wk = t => Math.floor((t + 13 * 36e5 - 4 * DAY) / (7 * DAY)); // NZ weeks, Monday to Sunday (1 Jan 1970 was a Thursday)
 const byComp = new Map();
 for (const e of events) { if (e.session || e.formOnly || ['motor', 'golf', 'sailing', 'tennis'].includes(e.sport) || fmtDays(e) > 1) continue; const k = `${e.sport}|${baseComp(e)}|${genderKey(e)}`; (byComp.get(k) || byComp.set(k, []).get(k)).push(Date.parse(e.startUTC)); }
@@ -1938,11 +1946,13 @@ for (const [k, ts] of byComp) {
   const ws = [...counts.keys()].sort((a, b) => a - b), full = ws.map(w => counts.get(w)).sort((a, b) => a - b), usual = full[Math.floor(full.length / 2)];
   if (usual < 3) continue;
   if (/play-?offs?|finals?\b|knockouts?|World Series/i.test(k)) continue; // knockout rounds shrink by design
-  const near = (w, d) => [1, 2].some(i => counts.has(w + d * i));
+  const near = (w, d) => [1, 2].some(i => counts.has(w + d * i)), [sp0, , g0] = k.split('|');
+  // most of the week inside an international window for its sport: leagues stop for national teams
+  const inBreak = from => INTL_BREAKS.some(([s, g, a, b]) => s === sp0 && g === g0 && Math.min(Date.parse(b) + DAY, from + 7 * DAY) - Math.max(Date.parse(a), from) >= 3 * DAY);
   for (let w = ws[0] + 1; w < ws[ws.length - 1]; w++) {
     const n = counts.get(w) || 0, from = (w * 7 + 4) * DAY - 13 * 36e5;
     // a week with games on both sides within a fortnight: an off-season between two seasons' fixtures isn't a gap
-    if (n <= usual / 2 && near(w, -1) && near(w, 1) && from > now - 14 * DAY && from < now + 21 * DAY) { const [sp, c] = k.split('|'); checks.thinWeeks.push({ s: sp, c, week: new Date(from + 13 * 36e5).toISOString().slice(0, 10), n, usual }); }
+    if (n <= usual / 2 && near(w, -1) && near(w, 1) && from > now - 14 * DAY && from < now + 21 * DAY && !inBreak(from)) { const [sp, c] = k.split('|'); checks.thinWeeks.push({ s: sp, c, week: new Date(from + 13 * 36e5).toISOString().slice(0, 10), n, usual }); }
   }
 }
 checks.noResult.sort((a, b) => a.at.localeCompare(b.at)); checks.noResult.splice(40);
