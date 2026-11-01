@@ -466,6 +466,7 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 .nowchip[aria-pressed="true"] { background: var(--sport); color: var(--paper) }
 /* a series or tournament that has just finished: a dashed outline, quieter text and a green tick where the live dot goes */
 .nowchip.is-ended:not([aria-pressed="true"]) { border-style: dashed; background: var(--paper); color: var(--muted) }
+.hubres .enddot { display: inline-block; vertical-align: -1px; width: 14px; height: 14px; margin-right: 6px; border-radius: 50%; background: #2f9e44; color: #fff; font-size: 10px; line-height: 14px; text-align: center; font-weight: 700 }
 .nowchip .enddot { position: absolute; top: -2px; right: -2px; width: 14px; height: 14px; border-radius: 50%; background: #2f9e44; color: #fff; font-size: 10px; line-height: 14px; text-align: center; font-weight: 700; box-shadow: 0 0 0 2px var(--paper) }
 .sportchip[aria-pressed="true"] { background: var(--sport); border-color: var(--sport); color: var(--paper) }
 /* women's games in violet and wheelchair games in teal, whatever the sport, so mixed competitions read apart at a glance */
@@ -936,7 +937,7 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
 #sportFilter .sinfo { width: 28px; height: 28px; margin: 0 3px 6px; vertical-align: top }
 .compbar .sinfo { display: none }
 .sinfopop { position: fixed; z-index: 60; width: min(260px, calc(100vw - 16px)); padding: 12px 14px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 28px rgb(0 0 0 / .45); font: 400 14px/1.4 var(--f-body); color: var(--ink); text-align: center }
-.sinfopop p { margin: 0 0 10px } .sinfopop p b { font-weight: 700 } .sinfopop p .on { color: #69db7c } .sinfopop p .off { color: #ff8787 } .sinfopop .sinfodef { margin: -6px 0 10px; font-size: 12px; color: var(--muted) } .sinfodef:empty { display: none } .sinfopop .sinfomore { margin: 6px 0 0; font-size: 11px; color: var(--muted) } .sinfopop .btn { font-size: 13px; padding: 5px 12px; font-weight: 600; background: var(--accent); color: var(--accent-ink); border-color: var(--accent) } @media (hover: hover) { .sinfopop .btn:hover { filter: brightness(1.12) } } .sinfopop .btn .bico { margin-left: 5px }
+.sinfopop p { margin: 0 0 10px } .sinfopop p b { font-weight: 700 } .sinfopop p .on { color: #69db7c } .sinfopop p .off { color: #ff8787 } .sinfopop .sinfodef { margin: -6px 0 10px; font-size: 12px; color: var(--muted) } .sinfodef:empty { display: none } .sinfopop .sinfomore { margin: 6px 0 0; font-size: 11px; color: var(--muted) } .sinfopop .btn { font-size: 13px; padding: 5px 12px; font-weight: 600; background: var(--accent); color: var(--accent-ink); border-color: var(--accent) } @media (hover: hover) { .sinfopop .btn:hover { filter: brightness(1.12) } } .sinfopop .btn { display: inline-flex; align-items: center } .sinfopop .btn .bico { margin-left: 6px; width: 1.45em; height: 1.45em; vertical-align: 0 }
 /* the filters sit a little closer to the first section under them (Live now, Starting soon, This week) than the
    sections do to each other */
 #compBar { margin-bottom: -7px }
@@ -2941,7 +2942,13 @@ function seriesResult(c, now) {
     return x === y ? `Drawn ${x}–${y}${d}` : `${a} win ${x}–${y}${d}`;
   }
   const last = [...evs].sort((p, q) => q.startUTC.localeCompare(p.startUTC))[0], w = winnerOf(last);
-  return /\bfinal\b/i.test(`${last.stage || ''} ${last.comp || ''}`) && !/semi|quarter|qualif|play-?off|eliminat/i.test(`${last.stage || ''} ${last.comp || ''}`) && (w === 'home' || w === 'away') ? `${name(last[w], last)} win` : '';
+  // the last game is the final when it says so, or when it's one meeting more than any other pair has had (a tri-series'
+  // round robin, then the top two again)
+  const pair = e => [name(e.home, e), name(e.away, e)].sort().join('|'), meets = new Map();
+  for (const e of evs) meets.set(pair(e), (meets.get(pair(e)) || 0) + 1);
+  const extra = [...meets].every(([k, n]) => k === pair(last) || n < meets.get(pair(last)));
+  const final = (/\bfinal\b/i.test(`${last.stage || ''} ${last.comp || ''}`) && !/semi|quarter|qualif|play-?off|eliminat/i.test(`${last.stage || ''} ${last.comp || ''}`)) || (!/\b(semi-?final|quarter-?final|play-?off|round|pool|group)\b/i.test(`${last.stage || ''} ${last.comp || ''}`) && extra);
+  return final && (w === 'home' || w === 'away') ? `${name(last[w], last)} win` : '';
 }
 function renderHub(now) {
   const on = !!compSel;
@@ -2960,7 +2967,7 @@ function renderHub(now) {
   if (!on) { $('hubBody').innerHTML = ''; return; }
   const sample = (FEED.events || []).find(e => compOf(e) === compSel);
   const res = seriesResult(compSel, now);
-  $('hubName').innerHTML = esc(plural(compSel)) + (res ? ` <span class="hubres">${esc(res)}</span>` : '');
+  $('hubName').innerHTML = esc(plural(compSel)) + (res ? ` <span class="hubres"><span class="enddot" role="img" aria-label="finished">✓</span>${esc(res)}</span>` : '');
   $('hubIcon').innerHTML = COMP_IMG[compSel] ? `<img class="hubimg" src="${COMP_IMG[compSel]}" alt="" referrerpolicy="no-referrer">` : sIcon(sample?.team === 'f1' ? 'f1' : sample?.sport, 'hubimg');
   $('hubSec').style.setProperty('--sport', `var(--${sample?.sport || 'rugby'})`);
   $('hubTabs').innerHTML = tabs.map(([k, l]) => `<button type="button" role="tab" data-hubtab="${k}" aria-selected="${hubTab === k}">${l}</button>`).join('');

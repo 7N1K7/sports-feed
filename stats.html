@@ -294,6 +294,7 @@ th { color: var(--muted); font-weight: 600 }
       <p class="note" id="covAt"></p>
       <div id="cov"></div>
       <p class="note">How much the site has filled in, by sport: games with a set start time, a way to watch (free YouTube streams count, and have their own column) and squads; sides with a picture (logo, flag or photo) and team links. Green 90% and up, amber 60% and up. Click a figure for what's missing and what we have, or open a sport below for all its gaps.</p>
+      <div class="gaps" id="checks"></div>
       <details class="added"><summary>Data added lately</summary><ul id="added"></ul></details>
     </section>
     <section class="card">
@@ -404,6 +405,13 @@ async function drawCoverage() {
     return n ? `<details><summary>${esc(name(k))} · ${n} gap${n === 1 ? '' : 's'}</summary>${parts.map(([l, x]) => `<p><b>${l}:</b> ${list(x)}</p>`).join('')}</details>` : ''; }).join('');
   $('cov').innerHTML = `<div class="covwrap"><table class="cov"><thead><tr><th>Sport</th><th>Games</th><th>Start times</th><th>Where to watch</th><th title="Games listed in the NZ TV guide (i.mjh.nz)">In TV guide</th><th title="Games with a free stream on a sports body's YouTube channel">Free streams</th><th>Squads</th><th>Pictures</th><th>Team links</th></tr></thead><tbody>`
     + rows.map(([k, c]) => line(name(k), c, k)).join('') + line('All sports', all) + `</tbody></table></div><div class="gaps">${gaps}</div>`;
+  // games that may be missing or moved: no result well after their time, or a week with far fewer games than usual
+  const ck = f.checks || {}, day = t => new Date(t).toLocaleDateString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short' });
+  const nr = ck.noResult || [], tw = ck.thinWeeks || [];
+  $('checks').innerHTML = nr.length + tw.length ? `<details><summary>Possibly missing or moved · ${nr.length + tw.length}</summary>`
+    + (nr.length ? `<p><b>No result after its time (moved, called off, or no source for the result):</b> ${nr.map(x => `${esc(x.c)}: ${esc(x.n)} (${day(x.at)})`).join('; ')}</p>` : '')
+    + (tw.length ? `<p><b>Fewer games than usual in a week (a game left out, a fixture change, or a planned break):</b> ${tw.map(x => `${esc(x.c)}: week of ${day(x.week + 'T00:00:00+13:00')}, ${x.n} game${x.n === 1 ? '' : 's'} (usually ${x.usual})`).join('; ')}</p>` : '')
+    + '</details>' : '';
 }
 // the big additions of data, newest first: kept by hand, a line each time a gap is filled or a new kind of data comes in
 const ADDED = [

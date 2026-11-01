@@ -1910,6 +1910,36 @@ for (const e of events.filter(x => { const t = Date.parse(x.startUTC) - now; ret
 }
 for (const c of Object.values(coverage)) for (const k of ['time', 'watch', 'squads']) c.gaps[k] = Object.entries(c.gaps[k]).sort((a, b) => b[1] - a[1]);
 
+// Checks for games that may be missing or moved, for the stats page (the feed's runs can't search for why; a sweep does):
+// - no result: a game in the last week whose time has well passed (its last day, for a Test or first-class game) with no
+//   result and not marked live: moved, called off, or its source stopped following it
+// - thin week: a competition with a week in the next three (or last two) with well under its usual number of games,
+//   inside its season: a game left out, or a fixture changed (a planned break shows up here too). Tests and first-class
+//   games, a round every ten days or so, are left out
+const checks = { noResult: [], thinWeeks: [] };
+const fmtDays = e => /^(Test|First-class)$/i.test(e.format || '') || /Sheffield Shield|Plunket Shield|first.class|\bTests?\b/i.test(`${e.comp || ''} ${e.stage || ''}`) ? (/Test/i.test(`${e.format || ''} ${e.comp || ''} ${e.stage || ''}`) ? 5 : 4) : 1;
+const baseComp = e => String(e.comp || e.team || '').replace(/\s*[,·(].*$/, '').replace(/\s+(Round|Week|Match|Game)\s+\d+.*$/i, '').trim();
+for (const e of events) {
+  if (e.session || e.formOnly || e.status === 'final' || e.status === 'live' || e.score || e.liveScore) continue;
+  const end = Date.parse(e.startUTC) + (fmtDays(e) - 1) * DAY + (e.timeTBC ? 2 * DAY : 12 * 36e5);
+  if (end < now && now - end < 7 * DAY) checks.noResult.push({ s: e.sport, c: baseComp(e), n: [e.home, e.away].filter(Boolean).join(' v '), at: e.startUTC, src: e.source || '' });
+}
+const wk = t => Math.floor((t + 13 * 36e5 - 4 * DAY) / (7 * DAY)); // NZ weeks, Monday to Sunday (1 Jan 1970 was a Thursday)
+const byComp = new Map();
+for (const e of events) { if (e.session || e.formOnly || ['motor', 'golf', 'sailing', 'tennis'].includes(e.sport) || fmtDays(e) > 1) continue; const k = `${e.sport}|${baseComp(e)}|${genderKey(e)}`; (byComp.get(k) || byComp.set(k, []).get(k)).push(Date.parse(e.startUTC)); }
+for (const [k, ts] of byComp) {
+  if (ts.length < 8) continue;
+  const counts = new Map(); for (const t of ts) counts.set(wk(t), (counts.get(wk(t)) || 0) + 1);
+  const ws = [...counts.keys()].sort((a, b) => a - b), full = ws.map(w => counts.get(w)).sort((a, b) => a - b), usual = full[Math.floor(full.length / 2)];
+  if (usual < 3) continue;
+  for (let w = ws[0] + 1; w < ws[ws.length - 1]; w++) {
+    const n = counts.get(w) || 0, from = (w * 7 + 4) * DAY - 13 * 36e5;
+    if (n <= usual / 2 && from > now - 14 * DAY && from < now + 21 * DAY) { const [sp, c] = k.split('|'); checks.thinWeeks.push({ s: sp, c, week: new Date(from + 13 * 36e5).toISOString().slice(0, 10), n, usual }); }
+  }
+}
+checks.noResult.sort((a, b) => a.at.localeCompare(b.at)); checks.noResult.splice(40);
+diag.checks = `${checks.noResult.length} games with no result after their time, ${checks.thinWeeks.length} thin weeks`;
+
 const feed = {
   generatedAt: new Date(now).toISOString(),
   ...(site ? { site } : {}),
@@ -1923,6 +1953,7 @@ const feed = {
   ...(teamList.length ? { teamSquads: teamList } : {}),
   teamLinks: links,
   coverage,
+  checks,
   sources: [
     { name: 'Wikipedia (CC BY-SA)', url: 'https://en.wikipedia.org' }, { name: 'TheSportsDB', url: 'https://www.thesportsdb.com' }, { name: 'TV guide: i.mjh.nz (NZ XMLTV)', url: 'https://i.mjh.nz/' }, { name: 'Streams: YouTube', url: 'https://www.youtube.com' }, ...(ESPN_ON ? [{ name: 'Live cricket: ESPNcricinfo', url: 'https://www.espncricinfo.com' }] : []), ...(RNZ_ON ? [{ name: 'RNZ Sport', url: 'https://www.rnz.co.nz/news/sport' }] : []), { name: 'Headlines supplied by nzherald.co.nz', url: 'https://www.nzherald.co.nz/sport/' }, { name: 'Press releases via Scoop Media', url: 'https://www.scoop.co.nz/' }, ...FIGHT_FEEDS.map(([name, host]) => ({ name: `Fight headlines: ${name}`, url: `https://${host}/` })), { name: 'NBA and MLB headlines: SB Nation', url: 'https://www.sbnation.com/' },
     { name: 'NZ Rugby', url: 'https://www.allblacks.com' }, { name: 'NZ Cricket', url: 'https://www.nzc.nz' },
