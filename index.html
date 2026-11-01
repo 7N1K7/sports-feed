@@ -2935,22 +2935,32 @@ function sessionsHtml(now) {
 // a finished series' or tournament's outcome, by the page's title: "Silver Ferns win 3–1", "Drawn 1–1", "Australia
 // win" (a tournament's final, or the top of a league's only table). Once every game is over; while any of its results
 // is hidden by the spoiler guard, the tick shows with "Show result" in place of the outcome
+// a tour's warm-ups against a local XI ("Tour match") don't count
+const seriesGames = c => (FEED.events || []).filter(e => compOf(e) === c && visible(e) && e.away && !solo(e) && !/tour match|warm-?up|practice/i.test(e.stage || '') && ![e.home, e.away].some(n => /\bXI$/.test(n || '')));
 function seriesHidden(c, now) {
-  const evs = (FEED.events || []).filter(e => compOf(e) === c && visible(e) && e.away && !solo(e));
+  const evs = seriesGames(c);
   return evs.length >= 2 && evs.every(e => isDone(e, now)) ? evs.filter(e => isHidden(e, now)).map(e => e.id) : [];
 }
+// a tour of two or three formats gives each its own: "Proteas win Tests 2–1", "Australia win ODIs 2–1"
+const FORMAT_WORD = { Test: 'Tests', ODI: 'ODIs', T20I: 'T20Is', 'First-class': '' };
 function seriesResult(c, now) {
-  const evs = (FEED.events || []).filter(e => compOf(e) === c && visible(e) && e.away && !solo(e));
-  if (evs.length < 2 || evs.some(e => !isDone(e, now) || isHidden(e, now))) return '';
+  const evs = seriesGames(c);
+  if (evs.length < 2 || evs.some(e => !isDone(e, now) || isHidden(e, now))) return [];
   const name = (n, e) => displayName(n, e) || n, teams = new Set(evs.flatMap(e => [name(e.home, e), name(e.away, e)]));
   if (teams.size === 2) {
-    const wins = new Map([...teams].map(t => [t, 0])); let drawn = 0;
-    // every game's result is needed (one called off counts for neither), or the tally would be wrong
-    for (const e of evs) { const w = winnerOf(e); if (w === 'draw') drawn++; else if (w) wins.set(name(e[w], e), wins.get(name(e[w], e)) + 1); else if (!/abandon|no result|cancel|called off/i.test(`${e.score || ''} ${e.summary || ''}`)) return ''; }
-    const [[a, x], [b, y]] = [...wins].sort((p, q) => q[1] - p[1]);
-    if (!x && !y) return '';
-    const d = drawn ? ` (${drawn} drawn)` : '';
-    return x === y ? `Drawn ${x}–${y}${d}` : `${a} win ${x}–${y}${d}`;
+    const fmt = e => e.sport === 'cricket' ? FORMAT_WORD[formatOf(e)] || '' : '', groups = new Map();
+    for (const e of evs) (groups.get(fmt(e)) || groups.set(fmt(e), []).get(fmt(e))).push(e);
+    const out = [];
+    for (const [f, gs] of [...groups].sort((p, q) => p[1][0].startUTC.localeCompare(q[1][0].startUTC))) {
+      const wins = new Map([...teams].map(t => [t, 0])); let drawn = 0;
+      // every game's result is needed (one called off counts for neither), or the tally would be wrong
+      for (const e of gs) { const w = winnerOf(e); if (w === 'draw') drawn++; else if (w) wins.set(name(e[w], e), wins.get(name(e[w], e)) + 1); else if (!/abandon|no result|cancel|called off/i.test(`${e.score || ''} ${e.summary || ''}`)) return []; }
+      const [[a, x], [, y]] = [...wins].sort((p, q) => q[1] - p[1]);
+      if (!x && !y && !drawn) continue;
+      const d = drawn ? ` (${drawn} drawn)` : '', what = groups.size > 1 && f ? `${f} ` : '';
+      out.push(x === y ? `${what ? `${f} drawn` : 'Drawn'} ${x}–${y}${d}` : `${a} win ${what}${x}–${y}${d}`);
+    }
+    return out;
   }
   const last = [...evs].sort((p, q) => q.startUTC.localeCompare(p.startUTC))[0], w = winnerOf(last);
   // the last game is the final when it says so, or when it's one meeting more than any other pair has had (a tri-series'
@@ -2959,10 +2969,10 @@ function seriesResult(c, now) {
   for (const e of evs) meets.set(pair(e), (meets.get(pair(e)) || 0) + 1);
   const extra = [...meets].every(([k, n]) => k === pair(last) || n < meets.get(pair(last)));
   const final = (/\bfinal\b/i.test(`${last.stage || ''} ${last.comp || ''}`) && !/semi|quarter|qualif|play-?off|eliminat/i.test(`${last.stage || ''} ${last.comp || ''}`)) || (!/\b(semi-?final|quarter-?final|play-?off|round|pool|group)\b/i.test(`${last.stage || ''} ${last.comp || ''}`) && extra);
-  if (final) return w === 'home' || w === 'away' ? `${name(last[w], last)} win` : '';
+  if (final) return w === 'home' || w === 'away' ? [`${name(last[w], last)} win`] : [];
   // a league with no final (a round robin): whoever tops its one table
   const ts = c === compSel ? hubTables() : [], top = ts.length === 1 && ts[0].rows?.[0]?.p > 0 ? ts[0].rows[0].name : '';
-  return top ? `${displayName(top, last) || top} win` : '';
+  return top ? [`${displayName(top, last) || top} win`] : [];
 }
 function renderHub(now) {
   const on = !!compSel;
@@ -2982,10 +2992,11 @@ function renderHub(now) {
   for (const id of ['liveSec', 'soonSec', 'weekSec', 'todaySec', 'tomSec', 'upSec', 'laterSec', 'resSec', 'newsSec', 'showSec']) $(id).classList.toggle('hubhide', (other && !(hubTab === 'results' && id === 'resSec')) || (on && (id === 'newsSec' || id === 'showSec')));
   if (!on) { $('hubBody').innerHTML = ''; return; }
   const sample = (FEED.events || []).find(e => compOf(e) === compSel);
-  const res = seriesResult(compSel, now), held = res ? [] : seriesHidden(compSel, now), tick = '<span class="enddot" role="img" aria-label="finished">✓</span>';
-  // a result uncovered within the hiding window can be covered again with a tap, as a game's can
-  const back = res ? (FEED.events || []).filter(e => compOf(e) === compSel && visible(e) && canRehide(e.id, e.startUTC, now)).map(e => e.id) : [];
-  $('hubName').innerHTML = esc(plural(compSel)) + (res ? (back.length ? ` <button type="button" class="hubres" data-hideall="${esc(back.join(' '))}" data-revk="Series result hidden again" title="Tap to hide again">${tick}${esc(res)}</button>` : ` <span class="hubres">${tick}${esc(res)}</span>`)
+  const res = seriesResult(compSel, now), held = res.length ? [] : seriesHidden(compSel, now), tick = '<span class="enddot" role="img" aria-label="finished">✓</span>';
+  // a result uncovered within the hiding window can be covered again with a tap, as a game's can; a tour's formats a
+  // pill each
+  const back = res.length ? (FEED.events || []).filter(e => compOf(e) === compSel && visible(e) && canRehide(e.id, e.startUTC, now)).map(e => e.id) : [];
+  $('hubName').innerHTML = esc(plural(compSel)) + (res.length ? res.map(r => back.length ? ` <button type="button" class="hubres" data-hideall="${esc(back.join(' '))}" data-revk="Series result hidden again" title="Tap to hide again">${tick}${esc(r)}</button>` : ` <span class="hubres">${tick}${esc(r)}</span>`).join('')
     : held.length ? ` <button type="button" class="hubres held" data-revealall="${esc(held.join(' '))}" data-revk="Series result shown" title="Finished: show the result">${tick}Show result</button>` : '');
   $('hubIcon').innerHTML = COMP_IMG[compSel] ? `<img class="hubimg" src="${COMP_IMG[compSel]}" alt="" referrerpolicy="no-referrer">` : sIcon(sample?.team === 'f1' ? 'f1' : sample?.sport, 'hubimg');
   $('hubSec').style.setProperty('--sport', `var(--${sample?.sport || 'rugby'})`);
@@ -3426,6 +3437,7 @@ const shortComp = c => {
   const t = SHORT.reduce((t, [re, r]) => t.replace(re, r), c), w = /^Women's |\u2009W\b/.test(t);
   return w ? `${t.replace(/^Women's /, '').replace(/\u2009W\b/g, '')} (W)` : t;
 };
+const NOT_BAR = /Heartland XV/;
 // tournaments played in windows across the year: listed whenever the next window is near
 const WINDOWED = /^(Nations Championship|Rugby Championship)$/;
 let onNowComps = new Set(), endedComps = new Set(), liveComps = new Set();
@@ -3436,7 +3448,8 @@ function renderNowBar(now) {
     if (!visibleTeam(e) || e.minor) continue;
     const c = compOf(e);
     // season-long championships (F1, Supercars, SailGP, the golf tours) aren't a series: they're under Running now
-    if (GENERIC.test(c) || ['motor', 'sailing', 'golf'].includes(e.sport)) continue;
+    // nor are short tours too small for the row (the Heartland XV's), which stay with the games
+    if (GENERIC.test(c) || NOT_BAR.test(c) || ['motor', 'sailing', 'golf'].includes(e.sport)) continue;
     const t = new Date(e.startUTC) - now;
     const v = by.get(c) || { started: false, next: Infinity, nz: false, sport: e.sport, first: Infinity, last: -Infinity, n: 0 };
     v.first = Math.min(v.first, t); v.last = Math.max(v.last, t); v.n++;
