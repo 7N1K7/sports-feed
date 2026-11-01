@@ -418,6 +418,9 @@ async function drawCoverage() {
 // games the site missed or had wrong, newest first, kept by hand (the daily check adds a line for each one it finds, filled
 // or not): [date found, competition, game, what was wrong, what was done, found by]. Never a score or result here
 const MISSED = [
+  ['1 Nov 2026', "Women's Big Bash League", 'Adelaide Strikers v Melbourne Stars, Perth Scorchers v Melbourne Renegades', 'Shown 30 minutes and 3 hours late: Wikipedia gives every Big Bash time in Sydney time, and the feed read them as the ground\'s own', 'Every Big Bash game now takes its time zone from the page\'s own note', 'the feed\'s check'],
+  ['1 Nov 2026', 'Rugby League World Cup', 'New Zealand v Cook Islands, Australia v Fiji', 'No result: TheSportsDB posted them late, after the feed had stopped asking', 'The feed now asks again every 6 hours for a week', 'the feed\'s check'],
+  ['1 Nov 2026', 'Boxing', 'Dalton Smith v Alberto Puello, Emanuel Navarrete v O\'Shaquie Foster', 'No result: the fights are hand-kept and no source the feed reads has them', 'Not filled yet: one boxer\'s Wikipedia record has each, which the feed doesn\'t read', 'the feed\'s check'],
   ['1 Nov 2026', 'Ford Trophy', 'Wellington Firebirds v Otago Volts', 'Moved a day later, to Thursday 29 Oct, after flights were cancelled; the site still had Wednesday', 'Moved to the new day from NZC\'s announcement (after the game, so it showed on the wrong day)', 'the feed\'s check'],
   ['1 Nov 2026', 'Ford Trophy', 'Otago Volts v Central Stags', 'Moved to Sunday after the previous week\'s travel disruptions; the site still had the old day', 'Moved to the new day from NZC\'s announcement', 'you'],
   ['1 Nov 2026', 'South Africa v Australia', 'the 1st Test and the other games already played', 'Dropped once played, so the series showed only its latest game', 'A series still going now keeps its earlier games', 'you'],
