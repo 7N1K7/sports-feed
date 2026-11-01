@@ -1,6 +1,12 @@
-// probe 253: a copy of the live feed (daily missed-games check)
-import fs from 'fs';
-const r = await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now(), { headers: { 'cache-control': 'no-cache' } });
-const t = await r.text();
-fs.writeFileSync(new URL('./out-feed.json', import.meta.url), t);
-fs.writeFileSync(new URL('./out.txt', import.meta.url), `status ${r.status}, ${t.length} bytes, generated ${JSON.parse(t).generatedAt}\n`);
+import { writeFileSync } from 'fs';
+const out = [];
+const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
+out.push('generated ' + f.generatedAt);
+out.push('thinWeeks ' + JSON.stringify(f.checks.thinWeeks));
+const e = f.events.find(e => e.id === 'mbilli-canelo-2026-10-31');
+out.push('mbilli ' + (e && e.startUTC));
+const st = await (await fetch('https://kickoff.kiwi/stats.html?x=' + Date.now())).text();
+out.push('stats has line ' + st.includes("'2 Nov 2026', 'Boxing'"));
+const idx = await (await fetch('https://kickoff.kiwi/?x=' + Date.now())).text();
+out.push('version ' + (idx.match(/v\d{3,}/) || [''])[0]);
+writeFileSync('probe/out.txt', out.join('\n') + '\n');
