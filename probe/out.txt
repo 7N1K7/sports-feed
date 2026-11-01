@@ -1,8 +1,52 @@
-feed 2026-11-01T02:15:50.419Z checks: 13 games with no result after their time, 7 thin weeks
-Australia v South Africa | 1st Test | 2026-10-09T12:00:00.000Z | score has innings: true | score==summary: false
-Australia v South Africa | 2nd Test | 2026-10-18T12:00:00.000Z | score has innings: true | score==summary: false
-Australia v South Africa | 3rd Test | 2026-10-27T12:00:00.000Z | score has innings: true | score==summary: false
-Bangladesh v West Indies | 1st Test | 2026-10-28T08:00:00.000Z | score has innings: true | score==summary: false
-Otago Volts v Central Stags | 2026-10-31T21:30:00Z | upcoming | tbc false
-Otago Volts v Canterbury | 2026-11-18T11:00:00Z | upcoming | tbc true
-Moicano v Nolan | 2026-10-31T21:00:00.000Z | upcoming | tbc false
+video: New Zealand Heartland XV v Manumā Samoa | Match One | Live Stream | channel New Zealand Provincial Rugby UCK442Bjxkx0skmxEDi2BtSg | live {"actualStartTime":"2026-11-01T01:58:41Z","scheduledStartTime":"2026-11-01T02:00:00Z","concurrentViewers":"1293","activeLiveChatId":"Cg0KC1RHWXF4eHg0SzhnKicKGFVDSzQ0MkJqeGt4MHNrbXhFRGkyQnRTZxILVEdZcXh4eDRLOGc"} | region {} | embeddable true
+channel: New Zealand Provincial Rugby | NZ | subs 8600 | videos 280 | Welcome to the home of Provincial Rugby on YouTube - covering the Hilux NPC, the Farah Palmer Cup presented by Hilux and the Hilux Heartland Championship. From archive gold to fresh highlights, we’re celebrating 50 years of the NPC in 2026 and the moments that made it.
+  2026-10-29 | LIVE 2026-11-01T02:00:00Z | New Zealand Heartland XV v Manumā Samoa | Match One | Live Stream
+  2026-10-29 | LIVE 2026-11-06T04:30:00Z | New Zealand Heartland XV v Manumā Samoa | Match Two | Live Stream
+  2026-10-26 | LIVE 2026-10-26T01:00:00Z | Canterbury v Northland | Hilux NPC Final 2026 | Live Stream
+  2026-10-26 | vod | FINAL HIGHLIGHTS: Canterbury v Northland (Hilux NPC 2026)
+  2026-10-19 | vod | Have You Ever Seen a Stand-Off Like This in Rugby?
+  2026-10-19 | vod | What Happens When Nobody Backs Down From the Haka?
+  2026-10-18 | vod | HIGHLIGHTS: South Canterbury vs. Whanganui | Lochore Cup Final (2026)
+  2026-10-18 | vod | SEMIFINAL HIGHLIGHTS: Canterbury v Taranaki (Hilux NPC 2026)
+  2026-10-18 | LIVE 2026-10-18T02:30:00Z | Canterbury v Taranaki | Hilux NPC Semi Final 2026 | Live Stream
+  2026-10-17 | vod | HIGHLIGHTS: Mid Canterbury v King Country | Meads Cup Final (2026)
+  2026-10-16 | vod | SEMIFINAL HIGHLIGHTS: Northland v Otago (Hilux NPC 2026)
+  2026-10-16 | LIVE 2026-10-16T06:00:00Z | Northland v Otago | Hilux NPC Semi Final 2026 | Live Stream
+  2026-10-13 | vod | Canterbury v Auckland 2012 | Premiership Final | Mini Match
+  2026-10-11 | LIVE 2026-10-11T00:30:00Z | Canterbury v Waikato | Hilux NPC Quarter Final 2026 | Live Stream
+  2026-10-11 | vod | PREMIERSHIP FINAL HIGHLIGHTS: Canterbury v Auckland (Farah Palmer Cup 2026)
+  2026-10-11 | vod | QUARTERFINAL HIGHLIGHTS: Canterbury v Waikato (Hilux NPC 2026)
+  2026-10-10 | LIVE 2026-10-10T03:00:00Z | Otago v Hawke's Bay | Hilux NPC Quarter Final 2026 | Live Stream
+  2026-10-10 | LIVE 2026-10-10T01:30:00Z | North Harbour v Taranaki | Hilux NPC Quarter Final 2026 | Live Stream
+  2026-10-10 | vod | QUARTERFINAL HIGHLIGHTS: Otago v Hawke's Bay (Hilux NPC 2026)
+  2026-10-10 | vod | QUARTERFINAL HIGHLIGHTS: North Harbour v Taranaki (Hilux NPC 2026)
+  2026-10-10 | vod | CHAMPIONSHIP FINAL HIGHLIGHTS: Wellington v Northland (Farah Palmer Cup 2026)
+  2026-10-09 | LIVE 2026-10-09T06:00:00Z | Northland v Tasman | Hilux NPC Quarter Final 2026 | Live Stream
+  2026-10-09 | vod | QUARTERFINAL HIGHLIGHTS: Northland v Tasman (Hilux NPC 2026)
+  2026-10-07 | vod | Is this the BEST seaon of NPC ever?? 🏆
+  2026-10-06 | vod | Counties Manukau v Otago 2012 | Championship Final | Mini Match
+  2026-10-04 | vod | RD 10 HIGHLIGHTS: Taranaki v Wellington (Hilux NPC 2026)
+  2026-10-04 | vod | RD 10 HIGHLIGHTS: Bay Of Plenty v North Harbour (Hilux NPC 2026)
+  2026-10-03 | LIVE 2026-10-03T06:00:00Z | Waikato v Tasman | Hilux NPC Rd 10 2026 | Live Stream
+  2026-10-03 | vod | RD 10 HIGHLIGHTS: Waikato v Tasman (Hilux NPC 2026)
+  2026-10-03 | vod | RD 10 HIGHLIGHTS: Counties Manukau v Hawke's Bay (Hilux NPC 2026)
+  2026-10-03 | vod | RD 10 HIGHLIGHTS: Manawatū v Canterbury (Hilux NPC 2026)
+  2026-10-02 | LIVE 2026-10-02T06:00:00Z | Southland v Northland | Hilux NPC Rd 10 2026 | Live Stream
+  2026-10-02 | vod | RD 10 HIGHLIGHTS: Southland v Northland (Hilux NPC 2026)
+  2026-10-01 | vod | RD 10 HIGHLIGHTS: Otago v Auckland (Hilux NPC 2026)
+  2026-09-29 | vod | Taranaki v Manawatu 2012 | Kurt Baker Hat-Trick Heroics | Mini Match
+  2026-09-29 | vod | RD 9 HIGHLIGHTS: Canterbury v Southland (Hilux NPC 2026)
+  2026-09-27 | vod | RD 9 HIGHLIGHTS: Hawke's Bay v Taranaki (Hilux NPC 2026)
+  2026-09-27 | vod | RD 9 HIGHLIGHTS: Wellington v Waikato (Hilux NPC 2026)
+  2026-09-27 | vod | RD 5 HIGHLIGHTS: Wellington v Tasman (Farah Palmer Cup 2026)
+  2026-09-26 | vod | RD 9 HIGHLIGHTS: North Harbour v Otago (Hilux NPC 2026)
+  2026-09-26 | vod | RD 5 HIGHLIGHTS: North Harbour v Otago (Farah Palmer Cup 2026)
+  2026-09-26 | vod | RD 5 HIGHLIGHTS: Northland v Hawke's Bay (Farah Palmer Cup 2026)
+  2026-09-26 | vod | RD 9 HIGHLIGHTS: Northland v Counties Manukau (Hilux NPC 2026)
+  2026-09-25 | LIVE 2026-09-25T07:00:00Z | Auckland v Manawatu | Hilux NPC Rd 9 2026 | Live Stream
+  2026-09-25 | vod | RD 9 HIGHLIGHTS: Auckland v Manawatū (Hilux NPC 2026)
+  2026-09-25 | vod | RD 5 HIGHLIGHTS: Auckland v Manawatū (Farah Palmer Cup 2026)
+  2026-09-24 | LIVE 2026-09-24T07:00:00Z | Tasman v Bay Of Plenty | Hilux NPC Rd 9 2026 Live Stream
+  2026-09-24 | vod | RD 9 HIGHLIGHTS: Tasman v Bay of Plenty (Hilux NPC 2026)
+  2026-09-22 | vod | Taranaki v Tasman | 89-Point Ranfurly Shield Classic | Mini Match
+  2026-09-20 | vod | RD 4 HIGHLIGHTS: Wellington v Northland (Farah Palmer Cup 2026)
