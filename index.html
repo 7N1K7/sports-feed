@@ -855,7 +855,7 @@ a.svc:hover { text-decoration-color: currentColor }
 .hubtop h2 { margin: 0; flex: 1; font-size: 26px }
 /* a finished series' outcome beside its name, in the winners' green */
 .hubtop h2 .hubres { display: inline-flex; align-items: center; gap: 6px; vertical-align: middle; line-height: 1.3; margin-left: 8px; padding: 2px 9px; border: 1px solid #2f9e44; border-radius: 999px; font-size: 13px; font-weight: 700; letter-spacing: 0; color: #2b8a3e; white-space: nowrap; text-transform: none }
-button.hubres.held { font-family: inherit; line-height: inherit; background: transparent; cursor: pointer; border-style: dashed; color: var(--muted) } @media (hover: hover) { button.hubres.held:hover { color: var(--ink) } }
+button.hubres { font-family: inherit; background: transparent; cursor: pointer } button.hubres.held { border-style: dashed; color: var(--muted) } @media (hover: hover) { button.hubres.held:hover { color: var(--ink) } }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hubtop h2 .hubres:not(.held) { color: #69db7c } } :root[data-theme="dark"] .hubtop h2 .hubres:not(.held) { color: #69db7c }
 .hubicon { line-height: 0 }
 .hubclose { border: 1px solid var(--line); background: var(--surface); color: var(--ink); width: 34px; height: 34px; border-radius: 50%; font-size: 20px; line-height: 1; cursor: pointer }
@@ -1412,7 +1412,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
   :is(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide) { border-image: linear-gradient(transparent, transparent) 1 }
   :is(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide)::after {
     content: ""; position: absolute; inset: -1px; border: 2px solid; border-width: 2px 3px; border-color: inherit; border-radius: inherit; pointer-events: none }
-  .nowchip .livedot { z-index: 1 }
+  .nowchip :is(.livedot, .enddot) { z-index: 1 } .nowchip.is-ended:not([aria-pressed="true"])::after { border-style: dashed }
   .seg { border-width: 2px 3px; margin: -1px -2px }
   .dsel .dbtn { border-width: 2px; padding-block: 3px } #compSel { border-width: 2px 3px; padding: 1px 25px 1px 11px; background-position: right 13px center, right 8px center }
   @media (max-width: 560px) { #compSel { padding-left: 9px; padding-right: 23px } }
@@ -2982,7 +2982,9 @@ function renderHub(now) {
   if (!on) { $('hubBody').innerHTML = ''; return; }
   const sample = (FEED.events || []).find(e => compOf(e) === compSel);
   const res = seriesResult(compSel, now), held = res ? [] : seriesHidden(compSel, now), tick = '<span class="enddot" role="img" aria-label="finished">✓</span>';
-  $('hubName').innerHTML = esc(plural(compSel)) + (res ? ` <span class="hubres">${tick}${esc(res)}</span>`
+  // a result uncovered within the hiding window can be covered again with a tap, as a game's can
+  const back = res ? (FEED.events || []).filter(e => compOf(e) === compSel && visible(e) && canRehide(e.id, e.startUTC, now)).map(e => e.id) : [];
+  $('hubName').innerHTML = esc(plural(compSel)) + (res ? (back.length ? ` <button type="button" class="hubres" data-hideall="${esc(back.join(' '))}" data-revk="Series result hidden again" title="Tap to hide again">${tick}${esc(res)}</button>` : ` <span class="hubres">${tick}${esc(res)}</span>`)
     : held.length ? ` <button type="button" class="hubres held" data-revealall="${esc(held.join(' '))}" data-revk="Series result shown" title="Finished: show the result">${tick}Show result</button>` : '');
   $('hubIcon').innerHTML = COMP_IMG[compSel] ? `<img class="hubimg" src="${COMP_IMG[compSel]}" alt="" referrerpolicy="no-referrer">` : sIcon(sample?.team === 'f1' ? 'f1' : sample?.sport, 'hubimg');
   $('hubSec').style.setProperty('--sport', `var(--${sample?.sport || 'rugby'})`);
@@ -3461,7 +3463,8 @@ function renderNowBar(now) {
     // the ones still running before the finished ones, if there are more than nine
     .sort((a, b) => (a[1].next === Infinity) - (b[1].next === Infinity) || b[1].nz - a[1].nz || a[1].next - b[1].next).slice(0, 9)
     // the nine at most shown (one row on a wide screen, a swipeable row on phones) sit in the sport buttons' order (A to Z by sport), New Zealand's first within a sport
-    .sort((a, b) => sportRank(a[1].sport) - sportRank(b[1].sport) || b[1].nz - a[1].nz || a[1].next - b[1].next);
+    // finished ones after the rest, so what's still on comes first
+    .sort((a, b) => ended(...a) - ended(...b) || sportRank(a[1].sport) - sportRank(b[1].sport) || b[1].nz - a[1].nz || a[1].next - b[1].next);
   onNowComps = new Set(on.map(([c]) => c));
   endedComps = new Set(on.filter(([c, v]) => ended(c, v)).map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
@@ -4157,7 +4160,7 @@ document.addEventListener('click', ev => {
     count({ e: 'use', k: `${t.dataset.gsw === 'w' ? "Women's" : "Men's"} teams ${on ? 'off' : 'on'}` }); store.set('teams', [...picked]); render(); return; }
   if (t.dataset.sess) { const k = t.dataset.sess, l = SESS.find(([j]) => j === k)[1]; sessOn.has(k) ? sessOn.delete(k) : sessOn.add(k); store.set('sessTeams', [...sessOn]); use(`${l} sessions ${sessOn.has(k) ? 'on' : 'off'}`); render(); return; }
   if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); count({ e: picked.has(k) ? 'follow' : 'unfollow', k: TEAM_NAME[k] || k }); store.set('teams', [...picked]); render(); }
-  else if (t.dataset.hideall) { ev.stopPropagation(); use('Hide all results again'); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
+  else if (t.dataset.hideall) { ev.stopPropagation(); use(t.dataset.revk || 'Hide all results again'); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.revealall) { ev.stopPropagation(); count({ e: 'use', k: t.dataset.revk || 'Show all results' }); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.reveal) { ev.stopPropagation(); count({ e: 'reveal' }); revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
   else if (t.dataset.series) { ev.stopPropagation(); const k = t.dataset.series, on = !seriesShown.has(k); on ? seriesShown.add(k) : seriesShown.delete(k); store.set('seriesShown', [...seriesShown]); use(on ? 'Series score shown' : 'Series score hidden again'); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }

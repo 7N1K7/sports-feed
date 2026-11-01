@@ -27,7 +27,7 @@ const USE = new Set(['Free to watch', 'Events button', 'Results button', 'News b
   'Game pop-up closed', 'Settings closed', 'Search box', 'Theme menu opened', 'Time zone menu opened', 'Hide results for menu opened', 'Report cancelled',
   'Score in List view hidden again',
   // from 1 Nov 2026
-  'Series result shown']);
+  'Series result shown', 'Series result hidden again']);
 // a visitor's settings, counted once a day each: results hidden or shown, card size, colour theme
 const OG_THEMES = ['green', 'black', 'ocean', 'paua', 'purple', 'pink', 'red', 'orange', 'kowhai', 'lime'];
 const VIEWS = new Set(['big', 'mixed', 'compact', 'list']), THEMES = new Set(['green', 'ocean', 'red', 'black', 'kowhai', 'paua', 'purple', 'orange', 'lime', 'pink', 'kauri', 'silver', 'tui', 'navy', 'olive']);
