@@ -1,16 +1,11 @@
-// probe 243: the WXV Global Series page's wikitext around its standings
+// probe 244: Test match templates on two series pages (innings scores, the missing 1st Test)
 import fs from 'fs';
 const L = [];
-for (const t of ['2026 WXV Global Series', '2026 Nations Championship']) {
-  const w = await (await fetch(`https://en.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(t)}&prop=wikitext|sections&format=json&formatversion=2`, { headers: { 'user-agent': 'kickoff.kiwi probe' } })).json();
+for (const t of ['Australian cricket team in South Africa in 2026–27', 'West Indian cricket team in Bangladesh in 2026–27']) {
+  const w = await (await fetch(`https://en.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(t)}&prop=wikitext&format=json&formatversion=2`, { headers: { 'user-agent': 'kickoff.kiwi probe' } })).json();
   const wt = w.parse?.wikitext || '';
-  L.push(`== ${t}: ${wt.length} chars; sections: ${(w.parse?.sections || []).map(s => s.line).join(' / ')}`);
-  for (const m of wt.matchAll(/standings|Sports table|\{\{Rugby union standings|pos_|team\d+=|win_|\|\s*Pos\b/gi)) { if (L.length > 400) break; }
-  const i = wt.search(/\{\{\s*(Sports table|Rugby union standings|[^}\n]*standings)/i);
-  L.push('first table template at ' + i);
-  if (i >= 0) L.push(wt.slice(i, i + 1800));
-  const j = wt.search(/\n\{\|[^\n]*wikitable[^\n]*\n[^]*?(Pts|Points)/i);
-  L.push('first wikitable with Pts at ' + j);
-  if (j >= 0) L.push(wt.slice(j, j + 1500));
+  L.push(`== ${t}: ${wt.length} chars`);
+  for (const m of wt.matchAll(/\{\{\s*(Test match|Single-innings cricket match|Limited overs matches|cricket match)[^]*?\n\}\}/gi)) L.push(m[0].replace(/<ref[^]*?(<\/ref>|\/>)/g, '').slice(0, 1600), '----');
+  const i = wt.indexOf('1st Test'); L.push('1st Test mentions: ' + [...wt.matchAll(/1st Test/g)].length + (i >= 0 ? ' first ctx: ' + wt.slice(Math.max(0, i - 200), i + 300) : ''));
 }
 fs.writeFileSync(new URL('./out.txt', import.meta.url), L.join('\n') + '\n');
