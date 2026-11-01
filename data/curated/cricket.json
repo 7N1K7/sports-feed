@@ -288,13 +288,14 @@
    "format": "List A",
    "home": "Otago Volts",
    "away": "Central Stags",
-   "startUTC": "2026-10-30T21:30:00Z",
+   "startUTC": "2026-10-31T21:30:00Z",
    "venue": "University of Otago Oval",
    "city": "Dunedin, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
    "watchNote": "Not on Sky",
-   "source": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
+   "note": "Moved to Sunday after the previous week's travel disruptions (NZC)",
+   "source": "https://www.nzc.nz/ford-trophy-teams-named-for-split-round-two"
   },
   {
    "sport": "cricket",

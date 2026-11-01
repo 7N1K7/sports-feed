@@ -464,9 +464,9 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 .copt .ended { color: var(--muted); font-weight: 600 }
 .nowchip { border-color: var(--sport); background: color-mix(in srgb, var(--sport) 8%, var(--paper)); font-weight: 600 }
 .nowchip[aria-pressed="true"] { background: var(--sport); color: var(--paper) }
-/* a series or tournament that has just finished: a dashed outline, quieter text and a grey tick where the live dot goes */
+/* a series or tournament that has just finished: a dashed outline, quieter text and a green tick where the live dot goes */
 .nowchip.is-ended:not([aria-pressed="true"]) { border-style: dashed; background: var(--paper); color: var(--muted) }
-.nowchip .enddot { position: absolute; top: -2px; right: -2px; width: 14px; height: 14px; border-radius: 50%; background: var(--muted); color: var(--paper); font-size: 10px; line-height: 14px; text-align: center; font-weight: 700; box-shadow: 0 0 0 2px var(--paper) }
+.nowchip .enddot { position: absolute; top: -2px; right: -2px; width: 14px; height: 14px; border-radius: 50%; background: #2f9e44; color: #fff; font-size: 10px; line-height: 14px; text-align: center; font-weight: 700; box-shadow: 0 0 0 2px var(--paper) }
 .sportchip[aria-pressed="true"] { background: var(--sport); border-color: var(--sport); color: var(--paper) }
 /* women's games in violet and wheelchair games in teal, whatever the sport, so mixed competitions read apart at a glance */
 .ev.g-w { --sport: #7048e8 } .ev.g-wc { --sport: #0c8599 }
@@ -852,6 +852,9 @@ a.svc:hover { text-decoration-color: currentColor }
 .hub { border: 1px solid var(--line); border-top: 4px solid var(--sport); border-radius: var(--r); background: color-mix(in srgb, var(--sport) 6%, var(--surface)); padding: 12px 14px 0; margin-bottom: 14px }
 .hubtop { display: flex; align-items: center; gap: 10px }
 .hubtop h2 { margin: 0; flex: 1; font-size: 26px }
+/* a finished series' outcome beside its name, in the winners' green */
+.hubtop h2 .hubres { display: inline-block; vertical-align: middle; margin-left: 8px; padding: 2px 9px; border: 1px solid #2f9e44; border-radius: 999px; font-size: 13px; font-weight: 700; letter-spacing: 0; color: #2b8a3e; white-space: nowrap; text-transform: none }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hubtop h2 .hubres { color: #69db7c } } :root[data-theme="dark"] .hubtop h2 .hubres { color: #69db7c }
 .hubicon { line-height: 0 }
 .hubclose { border: 1px solid var(--line); background: var(--surface); color: var(--ink); width: 34px; height: 34px; border-radius: 50%; font-size: 20px; line-height: 1; cursor: pointer }
 /* a picked sport, or a competition's page, with some of that sport switched off in Settings: a small note at the end of
@@ -2074,6 +2077,7 @@ function nextHere(e) {
   }
   return venueNext.get(evs).get(e.id) || Infinity;
 }
+const FIGHT_HRS = { mma: 6.5, boxing: 5 };
 function onNow(e, now) {
   if (stagesOf(e) > 1) { const st = stageNow(e, now); return st?.on ? stageName(e, st) : null; }
   const s = new Date(e.startUTC);
@@ -2086,7 +2090,8 @@ function onNow(e, now) {
   const wet = i => e.sport === 'cricket' && (wetOn(`${e.weather || ''}. ${e.progress || ''}. ${e.wxNews?.title || ''}`, i + 1, days) || /\bdelay/i.test(e.progress || '')) ? 2 : 0;
   // a day of a Test is set down to finish about 5pm local, with half an hour more to make up lost overs;
   // a one-day game can run long, so give it two more hours (one for a T20)
-  const hrs = i => e.sport === 'cricket' ? (days > 1 ? 7.5 : (HOURS[f] || 8) + (/^T20/.test(f) ? 1 : 2)) + wet(i) : 2;
+  // a UFC night runs prelims to main event, about six hours; a boxing card about five
+  const hrs = i => e.sport === 'cricket' ? (days > 1 ? 7.5 : (HOURS[f] || 8) + (/^T20/.test(f) ? 1 : 2)) + wet(i) : FIGHT_HRS[e.sport] || 2;
   // a Test placed at its usual 10am start isn't on until then (it waits under Starting soon); a game with no time at
   // all sits at 2pm, so widen both ways
   const early = e.usual ? 0 : e.timeTBC ? 5 * 36e5 : 0, late = e.usual ? 0 : e.timeTBC ? 4 * 36e5 : 0;
@@ -2920,6 +2925,24 @@ function sessionsHtml(now) {
     + run.map(block).join('') + (next.length ? `<h3 class="dh">Still to come</h3><ul class="sesnext">${next.map(s => `<li><span class="ses-${sesKind(s.n)}">${esc(s.n)}</span> <span class="muted">${esc(when(new Date(s.t)))}</span></li>`).join('')}</ul>` : '')
     + `<p class="muted small">Qualifying, sprint and race orders from <a href="${esc(e.sessPage || e.source)}" target="_blank" rel="noopener">Wikipedia</a>, practice from TheSportsDB, each soon after the session. ${tzLabel()} times.</p>`;
 }
+// a finished series' or tournament's outcome, by the page's title: "Silver Ferns win 3–1", "Drawn 1–1", "Australia
+// win" (a tournament's final). Only once every game is over and none of its results is hidden by the spoiler guard
+function seriesResult(c, now) {
+  const evs = (FEED.events || []).filter(e => compOf(e) === c && visible(e) && e.away && !solo(e));
+  if (evs.length < 2 || evs.some(e => !isDone(e, now) || isHidden(e, now))) return '';
+  const name = (n, e) => displayName(n, e) || n, teams = new Set(evs.flatMap(e => [name(e.home, e), name(e.away, e)]));
+  if (teams.size === 2) {
+    const wins = new Map([...teams].map(t => [t, 0])); let drawn = 0;
+    // every game's result is needed (one called off counts for neither), or the tally would be wrong
+    for (const e of evs) { const w = winnerOf(e); if (w === 'draw') drawn++; else if (w) wins.set(name(e[w], e), wins.get(name(e[w], e)) + 1); else if (!/abandon|no result|cancel|called off/i.test(`${e.score || ''} ${e.summary || ''}`)) return ''; }
+    const [[a, x], [b, y]] = [...wins].sort((p, q) => q[1] - p[1]);
+    if (!x && !y) return '';
+    const d = drawn ? ` (${drawn} drawn)` : '';
+    return x === y ? `Drawn ${x}–${y}${d}` : `${a} win ${x}–${y}${d}`;
+  }
+  const last = [...evs].sort((p, q) => q.startUTC.localeCompare(p.startUTC))[0], w = winnerOf(last);
+  return /\bfinal\b/i.test(`${last.stage || ''} ${last.comp || ''}`) && !/semi|quarter|qualif|play-?off|eliminat/i.test(`${last.stage || ''} ${last.comp || ''}`) && (w === 'home' || w === 'away') ? `${name(last[w], last)} win` : '';
+}
 function renderHub(now) {
   const on = !!compSel;
   $('hubSec').hidden = !on;
@@ -2936,7 +2959,8 @@ function renderHub(now) {
   for (const id of ['liveSec', 'soonSec', 'weekSec', 'todaySec', 'tomSec', 'upSec', 'laterSec', 'resSec', 'newsSec', 'showSec']) $(id).classList.toggle('hubhide', (other && !(hubTab === 'results' && id === 'resSec')) || (on && (id === 'newsSec' || id === 'showSec')));
   if (!on) { $('hubBody').innerHTML = ''; return; }
   const sample = (FEED.events || []).find(e => compOf(e) === compSel);
-  $('hubName').textContent = plural(compSel);
+  const res = seriesResult(compSel, now);
+  $('hubName').innerHTML = esc(plural(compSel)) + (res ? ` <span class="hubres">${esc(res)}</span>` : '');
   $('hubIcon').innerHTML = COMP_IMG[compSel] ? `<img class="hubimg" src="${COMP_IMG[compSel]}" alt="" referrerpolicy="no-referrer">` : sIcon(sample?.team === 'f1' ? 'f1' : sample?.sport, 'hubimg');
   $('hubSec').style.setProperty('--sport', `var(--${sample?.sport || 'rugby'})`);
   $('hubTabs').innerHTML = tabs.map(([k, l]) => `<button type="button" role="tab" data-hubtab="${k}" aria-selected="${hubTab === k}">${l}</button>`).join('');
@@ -4130,7 +4154,8 @@ document.addEventListener('click', ev => {
   else if (t.dataset.bigcomp) {
     const again = compSel === t.dataset.bigcomp && t.classList.contains('nowchip');
     count({ e: 'use', k: t.classList.contains('nowchip') ? 'Series row chip' : t.classList.contains('runev') ? 'Running now tile' : 'Events ahead tile' });
-    hubTab = 'games'; compSel = again ? '' : t.dataset.bigcomp; store.set('comp', compSel); render();
+    // a series that has just finished opens on its results
+    compSel = again ? '' : t.dataset.bigcomp; hubTab = endedComps.has(compSel) ? 'results' : 'games'; store.set('comp', compSel); render();
     if (!t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   else if (t.dataset.sesall) { use('All session times'); sesAll.add(t.dataset.sesall); render(); }
@@ -4305,7 +4330,7 @@ function dotCap() {
 // redraw when the window changes how many fit
 let lastCap = 0;
 addEventListener('resize', () => { if (lastCap && dotCap() !== lastCap) render(); else { balanceNow(); syncNowMore(); } });
-$('compMenu').addEventListener('click', ev => { const b = ev.target.closest('[data-comp]'); if (!b) return; ev.stopPropagation(); compSel = b.dataset.comp; store.set('comp', compSel); if (compSel) count({ e: 'comp', k: compSel }); else use('All competitions picked'); closeComp(); render(); });
+$('compMenu').addEventListener('click', ev => { const b = ev.target.closest('[data-comp]'); if (!b) return; ev.stopPropagation(); compSel = b.dataset.comp; if (endedComps.has(compSel)) hubTab = 'results'; store.set('comp', compSel); if (compSel) count({ e: 'comp', k: compSel }); else use('All competitions picked'); closeComp(); render(); });
 document.addEventListener('click', ev => { if (!ev.target.closest('.cmenu')) closeComp(); }, true);
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape') { closeComp(); closeSettings(); closeSinfo(); } });
 function closeSinfo() { $('sinfoPop').hidden = true; document.querySelectorAll('.sinfo[aria-expanded="true"]').forEach(b => b.setAttribute('aria-expanded', 'false')); }
