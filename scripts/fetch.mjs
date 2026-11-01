@@ -1921,10 +1921,13 @@ for (const c of Object.values(coverage)) for (const k of ['time', 'watch', 'squa
 const checks = { noResult: [], thinWeeks: [] };
 const fmtDays = e => /^(Test|First-class)$/i.test(e.format || '') || /Sheffield Shield|Plunket Shield|first.class|\bTests?\b/i.test(`${e.comp || ''} ${e.stage || ''}`) ? (/Test/i.test(`${e.format || ''} ${e.comp || ''} ${e.stage || ''}`) ? 5 : 4) : 1;
 const baseComp = e => String(e.comp || e.team || '').replace(/\s*[,·(].*$/, '').replace(/\s+(Round|Week|Match|Game)\s+\d+.*$/i, '').trim();
+// competitions with a result for any game: in one with none (the Ford Trophy: its only results are NZC's, which can't
+// be reused), a game's missing result says nothing, but the game is still listed, to check it was played when shown
+const hasRes = new Set(events.filter(e => e.score || e.status === 'final').map(e => `${e.sport}|${baseComp(e)}`));
 for (const e of events) {
   if (e.session || e.formOnly || e.status === 'final' || e.status === 'live' || e.score || e.liveScore) continue;
   const end = Date.parse(e.startUTC) + (fmtDays(e) - 1) * DAY + (e.timeTBC ? 2 * DAY : 12 * 36e5);
-  if (end < now && now - end < 7 * DAY) checks.noResult.push({ s: e.sport, c: baseComp(e), n: [e.home, e.away].filter(Boolean).join(' v '), at: e.startUTC, src: e.source || '' });
+  if (end < now && now - end < 7 * DAY) checks.noResult.push({ s: e.sport, c: baseComp(e), n: [e.home, e.away].filter(Boolean).join(' v '), at: e.startUTC, src: e.source || '', ...(hasRes.has(`${e.sport}|${baseComp(e)}`) ? {} : { noSource: true }) });
 }
 const wk = t => Math.floor((t + 13 * 36e5 - 4 * DAY) / (7 * DAY)); // NZ weeks, Monday to Sunday (1 Jan 1970 was a Thursday)
 const byComp = new Map();

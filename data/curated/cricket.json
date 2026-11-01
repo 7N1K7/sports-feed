@@ -199,13 +199,14 @@
    "format": "List A",
    "home": "Wellington Firebirds",
    "away": "Otago Volts",
-   "startUTC": "2026-10-27T21:30:00Z",
+   "startUTC": "2026-10-28T21:30:00Z",
    "venue": "Basin Reserve",
    "city": "Wellington, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
    "watchNote": "Not on Sky",
-   "source": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
+   "note": "Moved to Thursday after flights were cancelled (NZC)",
+   "source": "https://www.nzc.nz/wellington-ford-trophy-match-rescheduled-to-thursday/"
   },
   {
    "sport": "cricket",

@@ -410,13 +410,15 @@ async function drawCoverage() {
   const ck = f.checks || {}, day = t => new Date(t).toLocaleDateString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short' });
   const nr = ck.noResult || [], tw = ck.thinWeeks || [];
   $('checks').innerHTML = nr.length + tw.length ? `<details><summary>Possibly missing or moved · ${nr.length + tw.length}</summary>`
-    + (nr.length ? `<p><b>No result after its time (moved, called off, or no source for the result):</b> ${nr.map(x => `${esc(x.c)}: ${esc(x.n)} (${day(x.at)})`).join('; ')}</p>` : '')
+    + [[nr.filter(x => !x.noSource), 'No result after its time, while others in its competition have one (moved, called off, or its result missed)'], [nr.filter(x => x.noSource), 'No result, in a competition with no result source (check it was played when listed)']]
+      .map(([x, l]) => x.length ? `<p><b>${l}:</b> ${x.map(x => `${esc(x.c)}: ${esc(x.n)} (${day(x.at)})`).join('; ')}</p>` : '').join('')
     + (tw.length ? `<p><b>Fewer games than usual in a week (a game left out, a fixture change, or a planned break):</b> ${tw.map(x => `${esc(x.c)}: week of ${day(x.week + 'T00:00:00+13:00')}, ${x.n} game${x.n === 1 ? '' : 's'} (usually ${x.usual})`).join('; ')}</p>` : '')
     + '</details>' : '';
 }
 // games the site missed or had wrong, newest first, kept by hand (the daily check adds a line for each one it finds, filled
 // or not): [date found, competition, game, what was wrong, what was done, found by]. Never a score or result here
 const MISSED = [
+  ['1 Nov 2026', 'Ford Trophy', 'Wellington Firebirds v Otago Volts', 'Moved a day later, to Thursday 29 Oct, after flights were cancelled; the site still had Wednesday', 'Moved to the new day from NZC\'s announcement (after the game, so it showed on the wrong day)', 'the feed\'s check'],
   ['1 Nov 2026', 'Ford Trophy', 'Otago Volts v Central Stags', 'Moved to Sunday after the previous week\'s travel disruptions; the site still had the old day', 'Moved to the new day from NZC\'s announcement', 'you'],
   ['1 Nov 2026', 'South Africa v Australia', 'the 1st Test and the other games already played', 'Dropped once played, so the series showed only its latest game', 'A series still going now keeps its earlier games', 'you'],
   ['1 Nov 2026', 'UFC', 'the night\'s fight card', 'Shown a day early and finished while still on: its source gave no start time', 'The time now comes from the event\'s own listing, and it stays on until well after', 'you'],
