@@ -1,4 +1,4 @@
-// probe 252: a copy of the live feed
+// probe 253: a copy of the live feed (daily missed-games check)
 import fs from 'fs';
 const r = await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now(), { headers: { 'cache-control': 'no-cache' } });
 const t = await r.text();
