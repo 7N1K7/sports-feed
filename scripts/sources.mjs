@@ -198,7 +198,10 @@ function eventsFromPage(title, text, cfg, cityTz) {
     // score
     let score, summary, status = 'upcoming', progress, liveScore;
     if (isCricket) {
-      const sc = n => clean(p[`score${n}`]) || (p[`runs${n}`] ? `${clean(p[`runs${n}`])}${p[`wickets${n}`] && clean(p[`wickets${n}`]) !== '10' ? '/' + clean(p[`wickets${n}`]) : ''}` : '');
+      // a two-innings match (a Test, a first-class game) gives each side's innings on their own: "425/9d" and "99 & 295 (f/o)",
+      // without the overs, which the one-day boxes keep
+      const inns = n => [1, 2].map(i => clean(p[`score-team${n}-inns${i}`] || '').replace(/\s*\([\d.]+ overs?\)/i, '').trim()).filter(x => /\d/.test(x)).join(' & ');
+      const sc = n => clean(p[`score${n}`]) || (p[`runs${n}`] ? `${clean(p[`runs${n}`])}${p[`wickets${n}`] && clean(p[`wickets${n}`]) !== '10' ? '/' + clean(p[`wickets${n}`]) : ''}` : '') || inns(n);
       const result = clean(p.result || '');
       // editors often write the state of play into the result line while a match is on ("Lunch, day 1", "Stumps, day 2")
       const playing = result && /\b(lunch|tea|stumps|day \d|in progress|live|innings break|drinks|rain|bad light|delayed|play (?:to )?(?:start|resume))\b/i.test(result)

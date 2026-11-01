@@ -1940,11 +1940,16 @@ for (const [k, ts] of byComp) {
 checks.noResult.sort((a, b) => a.at.localeCompare(b.at)); checks.noResult.splice(40);
 diag.checks = `${checks.noResult.length} games with no result after their time, ${checks.thinWeeks.length} thin weeks`;
 
+// series and tours (30 games or fewer) with a game in the last three weeks or to come
+const compSize = events.reduce((m, e) => m.set(e.comp, (m.get(e.comp) || 0) + 1), new Map());
+const ongoing = new Set(events.filter(e => e.comp && !e.formOnly && compSize.get(e.comp) <= 30 && now - new Date(e.startUTC) < 21 * DAY).map(e => e.comp));
 const feed = {
   generatedAt: new Date(now).toISOString(),
   ...(site ? { site } : {}),
   diag: { ...diag, liveSourceEvents: live.length, eventsByTeam: events.reduce((m, e) => (m[e.team] = (m[e.team] || 0) + 1, m), {}) },
-  events: events.filter(e => !e.formOnly && now - new Date(e.startUTC) < (isFinal(e) ? 150 : 21) * DAY),
+  // results go after three weeks (finals after five months), but a series or tour still going keeps its earlier games
+  // (up to four months back), so its Results and its series score are whole
+  events: events.filter(e => !e.formOnly && (now - new Date(e.startUTC) < (isFinal(e) ? 150 : 21) * DAY || (ongoing.has(e.comp) && now - new Date(e.startUTC) < 120 * DAY))),
   form,
   news,
   tables,
