@@ -15,7 +15,8 @@ const EVENTS = new Set(['install', 'appfirst', 'cal', 'alerts', 'rankings', 'ale
 // the words searched (search0: searches with no results), a page error, the load time band
 // and which way to watch was tapped, which team was followed or dropped in My teams, which sport was hidden or shown
 // there, which part of the site was used, and the sites people follow links out to
-const KEYED = { game: 'gameopen', sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed', slow: 'slowload', scroll: 'scrolldepth', watch: 'watch', follow: 'follow', unfollow: 'unfollow', use: 'use', hidesport: 'hidesport', showsport: 'showsport', out: 'outlink' };
+// (from 1 Nov 2026) and what a game opened before it's over was missing: start time, a way to watch, squads
+const KEYED = { miss: 'gapseen', game: 'gameopen', sport: 'sport', comp: 'comp', team: 'teampage', search: 'search', search0: 'search0', error: 'error', speed: 'speed', slow: 'slowload', scroll: 'scrolldepth', watch: 'watch', follow: 'follow', unfollow: 'unfollow', use: 'use', hidesport: 'hidesport', showsport: 'showsport', out: 'outlink' };
 const USE = new Set(['Free to watch', 'Events button', 'Results button', 'News button', 'Series row chip', 'Running now tile', 'Events ahead tile', 'Results tab in a game', 'Day in the week strip', 'Dot in the week strip', 'Filters folded away', 'Filters opened', 'Hide sport', 'Show sport', 'Show all results',
   'Settings', 'Spoiler eye', 'NZ only', 'Competition Results tab', 'Competition Squads tab', 'Competition Table tab', 'Competition Rankings tab', 'Competition Playoffs tab',
   'Competition News tab', 'Competition Shows tab', 'Competition Build-up tab', 'Competition Fights tab', 'Competition Races tab', 'Starting soon card', 'Report opened', 'Report sent', 'Suggest opened', 'Idea sent', 'Coffee link', 'Coffee in Settings', 'Sport order A–Z', 'Competition page from game', "Men's teams off", "Men's teams on", "Women's teams off", "Women's teams on",
@@ -41,6 +42,7 @@ const keyOf = (e, k) => {
   if (e === 'watch' || e === 'follow' || e === 'unfollow') v = v.replace(/[^\p{L}\p{N} '&.+()/-]/gu, '').slice(0, 40);
   if (e === 'game') v = v.replace(/[^\p{L}\p{N} '&.+()/:,-]/gu, '').replace(/\s+/g, ' ').slice(0, 100);
   if (e === 'slow') v = v.replace(/[^a-z0-9 .·-]/gi, '').replace(/\s+/g, ' ').slice(0, 90);
+  if (e === 'miss' && !/^((No start time|No way to watch|No squads)( \+ (No start time|No way to watch|No squads)){0,2}|Nothing missing) · [a-z]{2,12} · [\p{L}\p{N} '&.()\/+-]{2,50}$/u.test(v)) return '';
   if (e === 'scroll' && !/^(under 25%|25-50%|50-75%|75-100%|all of it) · [A-Za-z ]{3,24}$/.test(v)) return '';
   return v.length >= 2 ? v : '';
 };

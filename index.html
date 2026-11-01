@@ -3343,12 +3343,28 @@ function seriesResults(e, now) {
     && (x.status === 'final' || (x.status !== 'live' && new Date(x.startUTC) < now && !running(x, now) && (!x.timeTBC || now - new Date(x.startUTC) > 12 * 36e5))))
     .sort((a, b) => b.startUTC.localeCompare(a.startUTC));
 }
+// a game opened before it's over, and what it was missing then (a start time, a way to watch, squads for a game between
+// two named sides), so the stats show how often people land on a gap and where: one count per opening, by sport and
+// competition ("No start time + No way to watch · cricket · Ford Trophy", or "Nothing missing · ...")
+const NO_SQUAD_SPORTS = new Set(['motor', 'tennis', 'golf', 'sailing', 'mma', 'boxing']);
+function countGaps(e) {
+  const now = Date.now();
+  if (e.status === 'final' || (new Date(e.startUTC) < now - 12 * 36e5 && !onNow(e, now))) return;
+  const gaps = [];
+  if (e.timeTBC) gaps.push('No start time');
+  if (!((e.broadcast && e.broadcast !== 'TBC') || e.watchAlt || e.yt || e.tv)) gaps.push('No way to watch');
+  const sides = [e.home, e.away].filter(t => t && !/^(TBC|TBA|TBD)\b|winner|loser|\bXI$/i.test(t));
+  if (!NO_SQUAD_SPORTS.has(e.sport) && sides.length === 2 && !e.squads?.length) gaps.push('No squads');
+  // the competition itself, not the site's catch-all for it (the Ford Trophy, not NZ domestic cricket); a fight by its sport
+  const c0 = compOf(e) || e.sport, c = String(GENERIC.test(c0) && !/^(Boxing|UFC)$/.test(c0) ? (e.comp || c0).replace(/\s*[,·(|].*$/, '') : c0).replace(/[^\p{L}\p{N} '&.()\/+-]/gu, '').replace(/\s+/g, ' ').trim().slice(0, 50);
+  count({ e: 'miss', k: `${gaps.join(' + ') || 'Nothing missing'} · ${e.sport} · ${c}` });
+}
 function openDetail(id, fromTeam, goingBack) {
   const e = (FEED.events || []).find(x => x.id === id);
   if (!e) return;
   const dlg0 = $('sheet');
   if (!goingBack && dlg0.open && dlg0.dataset.id && dlg0.dataset.id !== id) sheetTrail.push({ id: dlg0.dataset.id, tab: dTab });
-  if (id !== dTabId) { count({ e: 'game', k: `${compOf(e) || e.sport}: ${[e.home, e.away].filter(Boolean).join(' v ')}` }); dTab = 'game'; dTabId = id; } // a fresh game opens on its own tab; a redraw keeps the tab
+  if (id !== dTabId) { count({ e: 'game', k: `${compOf(e) || e.sport}: ${[e.home, e.away].filter(Boolean).join(' v ')}` }); countGaps(e); dTab = 'game'; dTabId = id; } // a fresh game opens on its own tab; a redraw keeps the tab
   if (!fromTeam) teamBack = null;
   $('sheetBody').innerHTML = (teamBack ? `<button type="button" class="back" data-teampage="${esc(teamBack.name)}" data-tsport="${teamBack.sport}">‹ ${esc(displayName(teamBack.name, e))}</button>` : '') + detail(e);
   const now = Date.now(), res = seriesResults(e, now);
@@ -4171,9 +4187,12 @@ document.addEventListener('click', ev => {
   if (t.dataset.sinfo != null) { const pop = $('sinfoPop'), open = pop.hidden; closeSinfo(); if (!open) return;
     use('Sports info button'); $('sinfoDef').textContent = OPT_IN.size ? `Off by default: ${[...OPT_IN].map(k => TEAM_NAME[k] || k).join(', ')}` : ''; pop.hidden = false; t.setAttribute('aria-expanded', 'true'); const r = t.getBoundingClientRect();
     pop.style.top = `${Math.round(r.bottom + 8)}px`; pop.style.left = `${Math.round(Math.min(Math.max(8, r.left + r.width / 2 - pop.offsetWidth / 2), innerWidth - pop.offsetWidth - 8))}px`; return; }
+  // Settings opens at its top, as from the cog: the theme and time zone the pop-up mentions are there. On a short screen
+  // it starts just far enough down to show My teams, its note and buttons and the first sport, never past My teams' title
   if (t.id === 'sinfoGo') { use('Settings from sports info'); closeSinfo(); $('panel').hidden = false; $('teamsBtn').setAttribute('aria-expanded', 'true');
-    const box = document.querySelector('.panel .pbox'), h = [...document.querySelectorAll('.panel h2.ph')].find(x => /^My teams/.test(x.textContent)) || $('hidNote');
-    box.scrollTo({ top: box.scrollTop + h.getBoundingClientRect().top - box.getBoundingClientRect().top - 12, behavior: 'smooth' }); return; }
+    const box = document.querySelector('.panel .pbox'); box.scrollTop = 0;
+    const top = box.getBoundingClientRect().top, h = [...document.querySelectorAll('.panel h2.ph')].find(x => /^My teams/.test(x.textContent)), g = document.querySelector('#teamGroups .group');
+    if (h && g) box.scrollTop = Math.max(0, Math.min(g.getBoundingClientRect().bottom - top - box.clientHeight + 8, h.getBoundingClientRect().top - top - 8)); return; }
   if (t.id === 'loadSettings') { try { useSettingsCode($('settingsCode').value); count({ e: 'use', k: 'Settings code used' }); location.reload(); } catch { $('moveNote').textContent = "That doesn't look like a settings code. Copy it again from the other browser, the whole thing."; } return; }
   if (t.dataset.install) { use('Install app button'); if (installEvt) installEvt.prompt().then(() => installEvt.userChoice).then(() => { installEvt = null; $('appInstall').innerHTML = appHtml(); }); return; }
   if (t.dataset.calcopy) { count({ e: t.closest('#alertList') ? 'alerts' : 'cal' }); const u = t.dataset.calcopy; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { const was = t.textContent; t.textContent = 'Copied'; setTimeout(() => { t.textContent = was; }, 1600); }, () => prompt('Copy this', u)); return; }
