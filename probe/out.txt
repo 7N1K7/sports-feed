@@ -1,4 +1,222 @@
-RLWC past: 2026-10-31 Australia Rugby League vs Cook Islands Rugby League r3 s2026 score:yes
-RLWC r1 s2026: 2026-10-15 09:05:00 Australia Rugby League vs New Zealand Rugby League [FT] score:yes | 2026-10-16 06:45:00 Samoa Rugby League vs France Rugby League [FT] score:yes | 2026-10-17 04:25:00 Papua New Guinea Rugby League vs Lebanon Rugby League [FT] score:yes | 2026-10-17 09:05:00 England Rugby League vs Tonga Rugby League [FT] score:yes | 2026-10-18 05:05:00 Fiji Rugby League vs Cook Islands Rugby League [FT] score:yes
-RLWC r2 s2026: 2026-10-23 09:05:00 Tonga Rugby League vs Lebanon Rugby League [FT] score:yes | 2026-10-24 03:25:00 Papua New Guinea Rugby League vs Samoa Rugby League [FT] score:yes | 2026-10-24 06:35:00 England Rugby League vs France Rugby League [FT] score:yes | 2026-10-25 06:05:00 New Zealand Rugby League vs Cook Islands Rugby League [FT] score:yes | 2026-10-25 09:05:00 Australia Rugby League vs Fiji Rugby League [FT] score:yes
-RLWC r3 s2026: 2026-10-30 09:05:00 England Rugby League vs Papua New Guinea Rugby League [FT] score:yes | 2026-10-31 04:45:00 New Zealand Rugby League vs Fiji Rugby League [FT] score:yes | 2026-10-31 09:05:00 Australia Rugby League vs Cook Islands Rugby League [FT] score:yes | 2026-11-01 06:50:00 Lebanon Rugby League vs France Rugby League [NS] score:no | 2026-11-01 09:05:00 Tonga Rugby League vs Samoa Rugby League [NS] score:no
+length 62500
+first match template at 30866
+{{Single-innings cricket match
+| round = {{anchor|match1}} '''Match 1'''
+| date = 29 October 2026
+| time = 15:40
+| team1 = [[Melbourne Renegades (WBBL)|Melbourne Renegades]] (H)
+| team2 = [[Sydney Thunder (WBBL)|Sydney Thunder]]
+| venue = [[Junction Oval]], [[Melbourne]]
+| rain =
+}}
+<section end=match1/>
+----
+<section begin=match2/>
+
+----
+{{Single-innings cricket match
+| round = {{anchor|match2}} '''Match 2'''
+| date = 29 October 2026
+| time = 19:10
+| night = y
+| team1 = [[Melbourne Stars (WBBL)|Melbourne Stars]] (H)
+| team2 = [[Hobart Hurricanes (WBBL)|Hobart Hurricanes]]
+| venue = [[Junction Oval]], [[Melbourne]]
+| rain =
+}}
+<section end=match2/>
+----
+<section begin=match3/>
+
+----
+{{Single-innings cricket match
+| round = {{anchor|match3}} '''Match 3'''
+| date = 30 October 2026
+| time = 19:10
+| night = y
+| team1 = [[Brisbane Heat (WBBL)|Brisbane Heat]] (H)
+| team2 = [[Sydney Sixers (WBBL)|Sydney Sixers]]
+| venue = [[Allan Border Field]], [[Brisbane]]
+| rain =
+}}
+<section end=match3/>
+----
+<section begin=match4/>
+
+----
+{{Single-innings cricket match
+| round = {{anchor|match4}} '''Match 4'''
+| date = 31 October 2026
+| time = 15:40
+| team1 = [[Adelaide Strikers (WBBL)|Adelaide Strikers]] (H)
+| team2 = [[Melbourne Stars (WBBL)|Melbourne Stars]]
+| venue = [[Karen Rolton Oval]], [[Adelaide]]
+| rain =
+}}
+<section end=match4/>
+----
+<section begin=match5/>
+
+----
+{{Single-innings cricket match
+| round = {{anchor|match5}} '''Match 5'''
+| date = 31 October 2026
+| time = 19:10
+| daynight = y
+| team1 = [[Perth Scorchers (WBBL)|Perth Scorchers]] (H)
+| team2 = [[Melbourne Renegades (WBBL)|Melbourne Renegades]]
+| venue = [[WACA Ground]], [[Perth]]
+| rain =
+}}
+<section end=match5/>
+----
+<section begin=match6/>
+
+----
+{{Single-innings cricket match
+| round = {{anchor|match6}} '''Match 6'''
+| date = 1 November 2026
+| time = 15:40
+| team1 = [[Sydney Thunder (WBBL)|Sydney Thunder]] (H)
+| team2 = [[Brisbane Heat (WBBL)|Brisbane Heat]]
+| venue = [[Drummoyne Oval]], [[Sydney]]
+| rain =
+}}
+<section end=match6/>
+----
+<section begin=match7/>
+
+----
+{{Single-innings cricket match
+| round = {{anchor|match7}} '''Match 7'''
+| date = 1 November 2026
+| time = 19:10
+| night = y
+| team1 = [[Sydney Sixers (WBBL)|Sydney Sixers]] (H)
+| team2 = [[Hobart Hurricanes (WBBL)|Hobart Hurricanes]]
+| venue = [[Drummoyne Oval]], [[Sydney]]
+| rain =
+}}
+<section end=match7/>
+----
+<section begin=match8/>
+
+----
+{{Single-innings cricket match
+| round = {{anchor|match8}} '''Match 8'''
+| date = 2 November 2026
+| time = 19:10
+| night = y
+| team1 = [[Melbourne Stars (WBBL)|Melbourne Stars]] (H)
+| team2 = [[Perth Scorchers (WBBL)|Perth Scorchers]]
+| venue = [[Junction Oval]], [[Melbourne]]
+| rain =
+}}
+<section end=match8/>
+----
+<section begin=match9/>
+
+----
+{{Single-innings cricket match
+| round = {{anchor|match9}} '''Match 9'''
+| date = 4 November 2026
+| time = 19:10
+| night = y
+| team1 = [[Hobart Hurricanes (WBBL)|Hobart Hurricanes]] (H)
+| team2 = [[Melbourne Renegades (WBBL)|Melbourne Renegades]]
+| venue = [[Bellerive Oval]], [[Hobart]]
+| rain =
+}}
+<section end=match9/>
+----
+<section begin=match10/>
+
+----
+{{Single-innings cricket match
+| round = {{anchor|match10}} '''Match 10'''
+| date = 5 November 2026
+| time = 15:40
+| team1 = [[Adelaide Strikers (WBBL)|Adelaide Strikers]] (H)
+| team2 = [[Brisbane Heat (WBBL)|Brisbane Heat]]
+| venue = [[Drummoyne Oval]], [[Sydney]]
+| rain =
+}}
+<section end=match10/>
+----
+<section begin=match11/>
+
+----
+{{Single-innings cricket match
+| round = {{anchor|match11}} '''Match 11'''
+| date = 5 November 2026
+| time = 19:10
+| night = y
+| team1 = [[Sydney Thunder (WBBL)|Sydney Thunder]] (H)
+| team2 = [[Perth Scorchers (WBBL)|Perth Scorchers]]
+| venue = [[Drummoyne Oval]], [[Sydney]]
+| rain =
+}}
+<section end=match11/>
+----
+<section begin=match12/>
+
+----
+{{Single-innings cricket match
+| round = {{anchor|match12}} '''Match 12'''
+| date = 6 November 2026
+| time = 19:10
+| night = y
+| team1 = [[Melbourne Stars (WBBL)|Melbourne Stars]] (H)
+| team2 = [[Sydney Sixers (WBBL)|Sydney Sixers]]
+| venue = [[Junction Oval]], [[Melbourne]]
+| rain =
+}}
+<section end=match12/>
+----
+<section begin=match13/>
+
+----
+{{Single-innings cricket match
+| round = {{anchor|match13}} '''Match 13'''
+| date = 7 November 2026
+| time = 15:40
+| team1 = [[Melbourne Renegades (WBBL)|Melbourne Renegades]] (H)
+| team2 = [[Adelaide Strikers (WBBL)|Adelaide Strikers]]
+| venue = [[Junction Oval]], [[Melbourne]]
+| rain =
+}}
+<section end=match13/>
+----
+<section begin=match14/>
+
+----
+{{Single-innings cricket match
+| round = {{anchor|match14}} '''Match 14'''
+| date = 7 November 2026
+| time = 19:10
+| night = y
+| team1 = [[Brisbane Heat (WBBL)|Brisbane Heat]] (H)
+| team2 = [[Hobart Hurricanes (WBBL)|Hobart Hurricanes]]
+| venue = [[Allan Border Field]], [[Brisbane]]
+| rain =
+}}
+<section end=match14/>
+----
+<section begin=match15/>
+
+----
+{{Single-innings cricket match
+| round = {{anchor|match15}} '''Match 15'''
+| date = 8 November 2026
+| time = 13:40
+| team1 = [[Sydney Sixers (WBBL)|Sydney Sixers]] (H)
+| team2 = [[Sydney Thunder (WBBL)|Sydney Thunder]]
+| venue = [[North Sydney Oval]], [[Sydney]]
+| rain =
+}}
+<section end=match15/>
+----
+<section begin=match16/>
+
+----
+{{hatnote|All times in [[Daylight saving time in Australia|Australian Eastern Daylight Time]] ([[UTC+11:00]])}}
