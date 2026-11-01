@@ -127,7 +127,7 @@ button, input { font: inherit; color: inherit }
 .totop { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 40; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: var(--ink); color: var(--paper); font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.2) }
 .totop[hidden] { display: none }
 .gaps details { border-top: 1px solid var(--line); padding: 6px 0 } .gaps summary { cursor: pointer; font-weight: 700; font-size: 14px }
-.added { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 6px } .added summary { cursor: pointer; font-weight: 700; font-size: 14px } .added ul { margin: 6px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.5 } .added b { margin-right: 6px }
+.added { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 6px } .added summary { cursor: pointer; font-weight: 700; font-size: 14px } .added ul { margin: 6px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.5 } .added b { margin-right: 6px } .added .by { color: var(--muted); white-space: nowrap }
 .gaps p { margin: 6px 0 0 14px; font-size: 13px } .gaps b { color: var(--muted); font-weight: 700 }
 /* coverage over time: a tile a measure, three a row (two on a phone) so the six sit in even rows, each with a sparkline
    of every version; then a row a sport. The sparkline's box is a set height, so nothing moves when it's drawn */
@@ -295,6 +295,7 @@ th { color: var(--muted); font-weight: 600 }
       <div id="cov"></div>
       <p class="note">How much the site has filled in, by sport: games with a set start time, a way to watch (free YouTube streams count, and have their own column) and squads; sides with a picture (logo, flag or photo) and team links. Green 90% and up, amber 60% and up. Click a figure for what's missing and what we have, or open a sport below for all its gaps.</p>
       <div class="gaps" id="checks"></div>
+      <details class="added"><summary id="missedSum">Missed games found</summary><ul id="missed"></ul></details>
       <details class="added"><summary>Data added lately</summary><ul id="added"></ul></details>
     </section>
     <section class="card">
@@ -413,6 +414,14 @@ async function drawCoverage() {
     + (tw.length ? `<p><b>Fewer games than usual in a week (a game left out, a fixture change, or a planned break):</b> ${tw.map(x => `${esc(x.c)}: week of ${day(x.week + 'T00:00:00+13:00')}, ${x.n} game${x.n === 1 ? '' : 's'} (usually ${x.usual})`).join('; ')}</p>` : '')
     + '</details>' : '';
 }
+// games the site missed or had wrong, newest first, kept by hand (the daily check adds a line for each one it finds, filled
+// or not): [date found, competition, game, what was wrong, what was done, found by]. Never a score or result here
+const MISSED = [
+  ['1 Nov 2026', 'Ford Trophy', 'Otago Volts v Central Stags', 'Moved to Sunday after the previous week\'s travel disruptions; the site still had the old day', 'Moved to the new day from NZC\'s announcement', 'you'],
+  ['1 Nov 2026', 'South Africa v Australia', 'the 1st Test and the other games already played', 'Dropped once played, so the series showed only its latest game', 'A series still going now keeps its earlier games', 'you'],
+  ['1 Nov 2026', 'UFC', 'the night\'s fight card', 'Shown a day early and finished while still on: its source gave no start time', 'The time now comes from the event\'s own listing, and it stays on until well after', 'you'],
+  ['1 Nov 2026', 'New Zealand Heartland XV v Samoa', 'both games', 'In none of the feed\'s sources', 'Added by hand, with the free NZ Provincial Rugby stream', 'you'],
+];
 // the big additions of data, newest first: kept by hand, a line each time a gap is filled or a new kind of data comes in
 const ADDED = [
   ['1 Nov 2026', 'Free streams from the NZ Provincial Rugby YouTube channel (some NPC and Farah Palmer Cup games, the Heartland XV), and the Heartland XV v Samoa series; Tests now show both innings, and a series still going keeps its earlier games'],
@@ -651,6 +660,8 @@ addEventListener('scroll', () => { $('toTop').hidden = scrollY < 700; }, { passi
 $('det').addEventListener('click', ev => { if (ev.target === $('det')) $('det').close(); }); // a click on the backdrop
 function draw() {
   drawCoverage();
+  $('missedSum').textContent = `Missed games found · ${MISSED.length}`;
+  $('missed').innerHTML = MISSED.map(([d, c, g, what, did, by]) => `<li><b>${esc(d)}</b> ${esc(c)}: ${esc(g)}. ${esc(what)}. ${esc(did)}. <span class="by">Found by ${esc(by)}</span></li>`).join('');
   $('added').innerHTML = ADDED.map(([d, t]) => `<li><b>${esc(d)}</b> ${esc(t)}</li>`).join('');
   document.querySelectorAll('[data-days]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.days === days)));
   const { list, per, sums } = shape();

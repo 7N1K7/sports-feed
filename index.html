@@ -518,7 +518,7 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 .dayhead { position: relative }
 /* out of the flow, so it showing or not never moves the cards below; centred in the gap between the cards above and below */
 .revall { position: absolute; right: 0; top: -.5px; font: inherit; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 4px 10px; cursor: pointer }
-.revall:hover { border-color: var(--muted) }
+.revall:hover { border-color: var(--muted) } .revall { display: inline-flex; align-items: center; gap: 5px } .revall .reye { flex: none; width: 13px; height: 13px; margin-left: -2px }
 .rankrows { display: grid; gap: 8px; margin: 4px 0 14px }
 /* the UFC's lists: each row's name above its divisions, all centred and balanced like the rest */
 .rankrows .rrow { display: grid; row-gap: 4px; justify-items: center; text-align: center }
@@ -938,8 +938,8 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
 .sinfo:hover, .sinfo[aria-expanded="true"] { color: var(--ink); border-color: var(--muted) }
 #sportFilter .sinfo { width: 28px; height: 28px; margin: 0 3px 6px; vertical-align: top }
 .compbar .sinfo { display: none }
-.sinfopop { position: fixed; z-index: 60; width: min(260px, calc(100vw - 16px)); padding: 12px 14px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 28px rgb(0 0 0 / .45); font: 400 14px/1.4 var(--f-body); color: var(--ink); text-align: center }
-.sinfopop p { margin: 0 0 10px } .sinfopop p b { font-weight: 700 } .sinfopop p .on { color: #69db7c } .sinfopop p .off { color: #ff8787 } .sinfopop .sinfodef { margin: -6px 0 10px; font-size: 12px; color: var(--muted) } .sinfodef:empty { display: none } .sinfopop .sinfomore { margin: 6px 0 0; font-size: 11px; color: var(--muted) } .sinfopop .btn { font-size: 13px; padding: 5px 12px; font-weight: 600; background: var(--accent); color: var(--accent-ink); border-color: var(--accent) } @media (hover: hover) { .sinfopop .btn:hover { filter: brightness(1.12) } } .sinfopop .btn { display: inline-flex; align-items: center } .sinfopop .btn .bico { margin-left: 6px; width: 1.45em; height: 1.45em; vertical-align: 0 }
+.sinfopop { position: fixed; z-index: 60; width: min(280px, calc(100vw - 16px)); padding: 12px 14px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 28px rgb(0 0 0 / .45); font: 400 14px/1.4 var(--f-body); color: var(--ink); text-align: center }
+.sinfopop p { margin: 0 0 10px } .sinfopop .sinfohead { white-space: nowrap } .sinfopop p b { font-weight: 700 } .sinfopop p .on { color: #69db7c } .sinfopop p .off { color: #ff8787 } .sinfopop .sinfodef { margin: -6px 0 10px; font-size: 12px; color: var(--muted) } .sinfodef:empty { display: none } .sinfopop .sinfomore { margin: 6px 0 0; font-size: 11px; color: var(--muted) } .sinfopop .btn { font-size: 13px; padding: 5px 12px; font-weight: 600; background: var(--accent); color: var(--accent-ink); border-color: var(--accent) } @media (hover: hover) { .sinfopop .btn:hover { filter: brightness(1.12) } } .sinfopop .btn { display: inline-flex; align-items: center } .sinfopop .btn .bico { margin-left: 6px; width: 1.45em; height: 1.45em; vertical-align: 0 }
 /* the filters sit a little closer to the first section under them (Live now, Starting soon, This week) than the
    sections do to each other */
 #compBar { margin-bottom: -7px }
@@ -1567,7 +1567,7 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
   <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
   <div class="compbar" id="compBar"><div class="crow"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><button type="button" class="sinfo" data-sinfo="" aria-haspopup="dialog" aria-expanded="false" aria-label="Turning sports on or off" title="Turn sports on or off in Settings">i</button></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false" title="NZ only: just New Zealand's teams" aria-label="NZ only"><img src="https://flagcdn.com/h240/nz.png" alt="" width="18" height="9"><span>NZ</span></button><button type="button" id="freeOnly" class="nzonly freeonly" aria-pressed="false" aria-label="Free to watch" title="Free to watch: only games you can watch for free (TVNZ, Three, Sky Open, DUKE, Whakaata Māori, or a free stream like TVNZ+ or YouTube)"><span class="fta" aria-hidden="true">FREE TV</span></button><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
-  <div class="sinfopop" id="sinfoPop" role="dialog" aria-label="Turning sports on or off" hidden><p><b class="off">Remove</b> sports from the list</p><p class="sinfodef" id="sinfoDef"></p><div class="sinfogo"><button type="button" class="btn" id="sinfoGo">Open Settings</button></div><p class="sinfomore">Also: theme, time zone</p></div>
+  <div class="sinfopop" id="sinfoPop" role="dialog" aria-label="Turning sports on or off" hidden><p class="sinfohead"><b class="off">Remove</b> sports from the list above</p><p class="sinfodef" id="sinfoDef"></p><div class="sinfogo"><button type="button" class="btn" id="sinfoGo">Open Settings</button></div><p class="sinfomore">Also: theme, time zone</p></div>
   <section id="hubSec" hidden>
     <div class="hub">
       <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><button type="button" class="offnote" id="offHub" hidden></button><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
@@ -2179,11 +2179,14 @@ function canRehide(id, start, now) { return spoilers && revealed.has(id) && now 
 const rehideBtn = id => `<button class="rehide" type="button" data-rehide="${esc(id)}">Hide again</button>`;
 // "Show all" beside a results heading uncovers every hidden result under it in one go; once none are hidden it
 // turns into "Hide all", which covers them again
+// the eye from the spoiler button at the top right, on Show all (open) and Hide all (crossed out), so the two read as one thing
+const EYE_P = '<path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/>';
+const eyeIco = off => `<svg class="reye" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${EYE_P}${off ? '<path d="M3 3l18 18"/>' : ''}</svg>`;
 const revealAll = (list, now) => {
   const ids = list.filter(e => isHidden(e, now)).map(e => e.id);
-  if (ids.length > 1) return `<button type="button" class="revall" data-revealall="${esc(ids.join(' '))}">Show all ${ids.length} results</button>`;
+  if (ids.length > 1) return `<button type="button" class="revall" data-revealall="${esc(ids.join(' '))}">${eyeIco(false)}Show all ${ids.length} results</button>`;
   const back = list.filter(e => canRehide(e.id, e.startUTC, now)).map(e => e.id);
-  return !ids.length && back.length > 1 ? `<button type="button" class="revall" data-hideall="${esc(back.join(' '))}">Hide all results</button>` : '';
+  return !ids.length && back.length > 1 ? `<button type="button" class="revall" data-hideall="${esc(back.join(' '))}">${eyeIco(true)}Hide all results</button>` : '';
 };
 function isHidden(e, now) {
   if (!spoilers || revealed.has(e.id)) return false;
@@ -3438,6 +3441,8 @@ const shortComp = c => {
   return w ? `${t.replace(/^Women's /, '').replace(/\u2009W\b/g, '')} (W)` : t;
 };
 const NOT_BAR = /Heartland XV/;
+// what's over, in the competition menu: a league's season, a World Cup's tournament, a tour's or short cup's series
+const overWord = c => GENERIC.test(c) || /play-?offs/i.test(c) ? 'Season over' : /World Cup|Championship|Tournament|Games\b|Open\b|Finals\b|Asia Cup|Champions Trophy/i.test(c) ? 'Tournament over' : 'Series over';
 // tournaments played in windows across the year: listed whenever the next window is near
 const WINDOWED = /^(Nations Championship|Rugby Championship)$/;
 let onNowComps = new Set(), endedComps = new Set(), liveComps = new Set();
@@ -3803,7 +3808,7 @@ function render() {
     const comps = [...counts].filter(([c, n]) => n >= 2 || nextOf.get(c) < Infinity || hasTable.has(c) || c === compSel).map(([c]) => c)
       .sort((a, b) => (COMP_LABEL[a] || a).localeCompare(COMP_LABEL[b] || b, 'en', { sensitivity: 'base' }));
     const groups = [[['rugby'], 'Rugby'], [['league'], 'Rugby league'], [['cricket'], 'Cricket'], [['football'], 'Football'], [['hockey'], 'Hockey'], [['basketball'], 'Basketball'], [['netball'], 'Netball'], [['motor'], 'Motorsport'], [['sailing'], 'Sailing'], [['tennis'], 'Tennis'], [['golf'], 'Golf'], [['baseball'], 'Baseball'], [['mma', 'boxing'], 'Fighting']].sort((a, b) => a[1].localeCompare(b[1])); // sports A to Z: Cricket, Fighting, Football…
-    const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}"><span class="lb" data-l="${esc(COMP_LABEL[c] || c)}"><span>${esc(COMP_LABEL[c] || c)}</span></span>${liveComps.has(c) ? '<span class="onnow">Live</span>' : onNowComps.has(c) && !endedComps.has(c) ? '<span class="current">Current</span>' : !c || nextOf.get(c) < Infinity ? '' : '<span class="ended">Season over</span>'}</button>`;
+    const opt = c => `<button type="button" role="option" class="copt" data-comp="${esc(c)}" aria-selected="${c === compSel}"><span class="lb" data-l="${esc(COMP_LABEL[c] || c)}"><span>${esc(COMP_LABEL[c] || c)}</span></span>${liveComps.has(c) ? '<span class="onnow">Live</span>' : onNowComps.has(c) && !endedComps.has(c) ? '<span class="current">Current</span>' : !c || nextOf.get(c) < Infinity ? '' : `<span class="ended">${overWord(c)}</span>`}</button>`;
     $('compMenu').innerHTML = `<div class="ctip">Pick one for its own page: every game, plus its table, playoffs, rankings and news where it has them</div>` + opt('') .replace('></button>', '>All competitions</button>') + groups.map(([ks, l]) => {
       const cs = comps.filter(c => ks.includes(sportOfComp.get(c))).sort((a, b) => ks.indexOf(sportOfComp.get(a)) - ks.indexOf(sportOfComp.get(b)));
       if (!cs.length) return '';
@@ -3836,7 +3841,7 @@ function render() {
   $('viewSel').innerHTML = [['list', 'List'], ['compact', 'Compact'], ...(PHONE.matches ? [] : [['mixed', 'Standard']])].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${shownView === k}">${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   // an eye on each state (crossed out while results are hidden), and a gear on settings
-  const eye = '<path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/>';
+  const eye = EYE_P;
   const ico = body => `<svg class="bico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
   // both labels sit in the same spot, the unused one invisible, so the button keeps one width and nothing beside it moves
   $('spoilBtn').innerHTML = ico(spoilers ? eye + '<path d="M3 3l18 18"/>' : eye);

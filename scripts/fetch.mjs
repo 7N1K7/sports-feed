@@ -1916,7 +1916,7 @@ for (const c of Object.values(coverage)) for (const k of ['time', 'watch', 'squa
 // - no result: a game in the last week whose time has well passed (its last day, for a Test or first-class game) with no
 //   result and not marked live: moved, called off, or its source stopped following it
 // - thin week: a competition with a week in the next three (or last two) with well under its usual number of games,
-//   inside its season: a game left out, or a fixture changed (a planned break shows up here too). Tests and first-class
+//   inside its season (games within a fortnight either side; knockout rounds left out): a game left out, or a fixture changed (a planned break shows up here too). Tests and first-class
 //   games, a round every ten days or so, are left out
 const checks = { noResult: [], thinWeeks: [] };
 const fmtDays = e => /^(Test|First-class)$/i.test(e.format || '') || /Sheffield Shield|Plunket Shield|first.class|\bTests?\b/i.test(`${e.comp || ''} ${e.stage || ''}`) ? (/Test/i.test(`${e.format || ''} ${e.comp || ''} ${e.stage || ''}`) ? 5 : 4) : 1;
@@ -1934,9 +1934,12 @@ for (const [k, ts] of byComp) {
   const counts = new Map(); for (const t of ts) counts.set(wk(t), (counts.get(wk(t)) || 0) + 1);
   const ws = [...counts.keys()].sort((a, b) => a - b), full = ws.map(w => counts.get(w)).sort((a, b) => a - b), usual = full[Math.floor(full.length / 2)];
   if (usual < 3) continue;
+  if (/play-?offs?|finals?\b|knockouts?|World Series/i.test(k)) continue; // knockout rounds shrink by design
+  const near = (w, d) => [1, 2].some(i => counts.has(w + d * i));
   for (let w = ws[0] + 1; w < ws[ws.length - 1]; w++) {
     const n = counts.get(w) || 0, from = (w * 7 + 4) * DAY - 13 * 36e5;
-    if (n <= usual / 2 && from > now - 14 * DAY && from < now + 21 * DAY) { const [sp, c] = k.split('|'); checks.thinWeeks.push({ s: sp, c, week: new Date(from + 13 * 36e5).toISOString().slice(0, 10), n, usual }); }
+    // a week with games on both sides within a fortnight: an off-season between two seasons' fixtures isn't a gap
+    if (n <= usual / 2 && near(w, -1) && near(w, 1) && from > now - 14 * DAY && from < now + 21 * DAY) { const [sp, c] = k.split('|'); checks.thinWeeks.push({ s: sp, c, week: new Date(from + 13 * 36e5).toISOString().slice(0, 10), n, usual }); }
   }
 }
 checks.noResult.sort((a, b) => a.at.localeCompare(b.at)); checks.noResult.splice(40);
