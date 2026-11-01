@@ -1292,11 +1292,11 @@ html.tight .search:not(:focus-within):has(#q:placeholder-shown) .qico { left: ca
 html.tight .search:not(:focus-within):has(#q:placeholder-shown) #q { padding-left: calc(50% - 10px) }
 html.tight header.top .wrap:has(.search:focus-within) :is(#toEvents, #toResults, #toNews) { display: none }
 /* Events, Results and News: each a small card, in the title's capitals, with the cards' coloured edge at both ends; the
-   one under the pointer fills with a green tint and takes a green border. As tall as the search box beside it */
+   one under the pointer fills with a green tint between its edges. As tall as the search box beside it */
 header.top .hbtns :is(#toEvents, #toResults, #toNews) { font: 600 15px/1 var(--f-display); text-transform: uppercase; letter-spacing: .07em; color: var(--ink);
   border: 1px solid var(--line); background: var(--surface); border-radius: 6px; padding: 0 16px; height: 36px; box-sizing: border-box;
   --edge: inset 4px 0 0 var(--accent), inset -4px 0 0 var(--accent); box-shadow: var(--edge) }
-@media (hover: hover) { header.top .hbtns :is(#toEvents, #toResults, #toNews):hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); background: color-mix(in srgb, var(--accent) 18%, var(--surface)); box-shadow: var(--edge) } } /* not on a phone, where a tapped button would keep it */
+@media (hover: hover) { header.top .hbtns :is(#toEvents, #toResults, #toNews):hover { border-color: var(--line); background: color-mix(in srgb, var(--accent) 22%, var(--surface)); box-shadow: var(--edge) } } /* not on a phone, where a tapped button would keep it */
 header.top .hbtns :is(#toEvents, #toResults, #toNews) .jarr { font-family: var(--f-body); font-size: .85em; opacity: .65 }
 header.top #q { border-radius: 6px }
 header.top .hbtns .ibtn { border-radius: 6px }
