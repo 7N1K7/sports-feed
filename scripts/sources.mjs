@@ -1929,9 +1929,11 @@ function fromTsdb(ev, l) {
 const FILL_LEAGUE = 3, FILL_RUN = 6;
 async function fillLeague(l, out, diag, cache, gapsFor, left) {
   const key = `fill ${l.id}`, now = Date.now();
-  let got = (cache[key]?.events || []).filter(e => now - Date.parse(e.startUTC) < 3 * DAY);
+  let got = (cache[key]?.events || []).filter(e => now - Date.parse(e.startUTC) < 8 * DAY);
   const miss = Object.fromEntries(Object.entries(cache[key]?.miss || {}).filter(([, t]) => now - t < DAY));
-  const due = g => (g.need === 'score' && g.known) || !(now - (miss[g.e.id] || 0) < 36e5);
+  // a score still missing 12 hours on (TheSportsDB was late, or a rate limit ate the run's calls) is asked for again
+  // every 6 hours for a week, so a result the site missed fills itself in
+  const due = g => g.late ? !(now - (miss[g.e.id] || 0) < 6 * 36e5) : (g.need === 'score' && g.known) || !(now - (miss[g.e.id] || 0) < 36e5);
   let open = gapsFor ? gapsFor(l, got) : [];
   const before = open.length, asking = open.filter(due);
   const need = n => open.some(g => g.need === n && due(g));
@@ -1950,7 +1952,7 @@ async function fillLeague(l, out, diag, cache, gapsFor, left) {
     if (need('score') && calls < max) {
       const k = open.find(g => g.need === 'score' && g.known?.tsdbSeason)?.known;
       if (k) await round(k.tsdbRound, k.tsdbSeason);
-      else { const [last] = await call(`eventspastleague.php?id=${l.id}`); add([last]); if (last && need('score')) await round(last.intRound, last.strSeason); }
+      else { const [last] = await call(`eventspastleague.php?id=${l.id}`); add([last]); if (last && need('score')) await round(last.intRound, last.strSeason); if (last && need('score') && +last.intRound > 1) await round(+last.intRound - 1, last.strSeason); }
     }
     if (need('time') && calls < max) {
       const [next] = await call(`eventsnextleague.php?id=${l.id}`); add([next]);
@@ -1959,7 +1961,7 @@ async function fillLeague(l, out, diag, cache, gapsFor, left) {
       if (next && need('time') && l.fill.days) await round(+next.intRound + 1, next.strSeason);
     }
   } catch (e) { err = `; error: ${e.message}`; }
-  if (calls) for (const g of open) if (asking.some(a => a.e === g.e) && !(g.need === 'score' && g.known)) miss[g.e.id] = now;
+  if (calls) for (const g of open) if (asking.some(a => a.e === g.e) && (g.late || !(g.need === 'score' && g.known))) miss[g.e.id] = now;
   out.push(...got);
   cache[key] = { t: now, events: got, miss };
   diag[`tsdb ${l.comp}`] = `fill: ${before ? `${before} cards lacking a score or time, ${open.length} still open` : 'nothing to fill'}; ${calls} calls; ${got.length} games known${err}`;
