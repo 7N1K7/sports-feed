@@ -21,7 +21,7 @@
   { "team": "nba", "broadcast": "ESPN on Sky / Sky Sport Now / NBA League Pass", "au": "ESPN on Kayo or Foxtel / NBA League Pass" },
   { "team": "mlb", "broadcast": "ESPN on Sky / Sky Sport Now", "au": "ESPN on Kayo or Foxtel" },
   { "team": "npb", "broadcast": "", "watchNote": "Not on TV or streamed in NZ: Japanese TV only" },
-  { "comp": "Sheffield Shield", "broadcast": "Sky Sport / Sky Sport Now", "au": "Kayo (every game) / Fox Cricket (selected games) / cricket.com.au" },
+  { "comp": "Sheffield Shield", "broadcast": "Sky Sport (selected games, no free stream in NZ)", "au": "Kayo (every game) / Fox Cricket (selected games) / cricket.com.au" },
   { "comp": "Dean Jones Trophy", "broadcast": "Sky Sport (selected games)", "au": "Kayo / cricket.com.au" },
   { "comp": "Big Bash", "broadcast": "Sky Sport / Sky Sport Now", "au": "Fox Cricket and Kayo (every game) / Channel 7 and 7plus (most games)" },
   { "comp": "World Cup", "broadcast": "Sky Sport / Sky Sport Now" },
