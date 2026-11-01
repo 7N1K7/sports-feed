@@ -1,8 +1,131 @@
-feed 2026-11-01T01:39:50.875Z
-ft-4-2026 | nzdomestic | Ford Trophy (men) | Northern Districts v Auckland Aces | 2026-10-30T21:30:00Z tbc false | upcoming | minor false | https://possible11.com/series/ford-trophy-2026-27/fixture/
-ft-5-2026 | nzdomestic | Ford Trophy (men) | Wellington Firebirds v Canterbury | 2026-10-30T21:30:00Z tbc false | upcoming | minor false | https://possible11.com/series/ford-trophy-2026-27/fixture/
-ft-6-2026 | nzdomestic | Ford Trophy (men) | Otago Volts v Central Stags | 2026-10-30T21:30:00Z tbc false | upcoming | minor false | https://possible11.com/series/ford-trophy-2026-27/fixture/
-tsdb-2601526 | ufc | UFC Fight Night 292 | Moicano v Nolan | 2026-10-31T21:00:00.000Z tbc false | upcoming | minor false | https://en.wikipedia.org/wiki/UFC_Fight_Night%3A_Moicano_vs._Nolan
-tsdb-2540122 | aleague | A-League Men · Round 3 | Melbourne Victory v Central Coast Mariners | 2026-11-01T04:00:00.000Z tbc false | upcoming | minor false | https://www.thesportsdb.com/event/2540122
-tables: 
-diag keys with WXV/ford: wikipedia={"2026 Hilux NPC":79,"List of 2026 Super Rugby Pacific matches":77,"List of 2027 Super Rugby Pacific matches":80,"2026 Super Rugby Pacific season":6,"2027 Super Rugby Pacific season":5,"2026 Nations Championship":0,"The Rugby Championship":0,"2027 Rugby Championship":10,"2026 men's rugby union inter | scoop="CU: 1 of 15 matching; SP: 0 of 0 matching | e.g. ACES Head To Bay Oval After Winning Ford Trophy Opener [nzdomestic] img=no" | womenNoKiwi="53 left out (518 headlines read); back with a Kiwi: BMW Ladies Championship (Ryan Fox); left out: Elif Nur Turhan v Alycia Baumgardner; Gabriela Fundora v Jasmina Zapotoczna; Hilton Grand Vacations Tournament of Champions; Honda LPGA Thailand; HSBC Women's World Championship; Blue Bay LPGA; Fortine | logoLeagues={"Super Rugby":10,"Super Rugby Pacific":0,"Mitre 10 Cup":0,"Bunnings NPC":0,"NPC":0,"NRL":0,"Australian National Rugby League":10,"Australian A-League":10,"Australian A-League Men":0,"Big Bash League":0,"Super Smash":0,"Plunket Shield":0,"Ford Trophy":0,"Womens Big Bash League":0,"Sheffield Shield": | calendars="nz 399; blackcaps 24, whiteferns 13, nzdomestic 13, aucricket 27, audomestic 46, intlcricket 71, bbl 48, wbbl 46, allblacks 15, blackferns 9, npc 79, fpc 2, wallabies 15, wxv 30, blues 32, chiefs 33, hurricanes 53, crusaders 32, highlanders 30, moana 5, aurugby 98, superrugby 166, kiwis 10, kiwifer | eventsByTeam={"wbbl":46,"bbl":48,"boxing":15,"whiteferns":13,"blackcaps":24,"nzdomestic":13,"intlcricket":117,"audomestic":46,"blacksticks":19,"kiwis":10,"kiwiferns":7,"warriors":3,"silverferns":4,"rlwc":56,"npc":79,"fpc":2,"crusaders":18,"highlanders":15,"blues":32,"chiefs":29,"wxv":24,"blackferns":9,"allblacks
+== 2026 WXV Global Series: 51015 chars; sections: Participating nations / Fixtures / France home series – September / England home series – September / Scotland home series – September / Wales home series – September / Italy home series – September / Ireland home series – September / Spain home series – October / Red Roses tour of North America – October / Australia vs Scotland – October / New Zealand vs France – October / USA vs Italy – October / South Africa vs Ireland – October / Japan vs Wales – October / Leading scorers / Most points / Most tries / See also / References
+first table template at -1
+first wikitable with Pts at 1715
+
+{|class="wikitable"
+!rowspan="2"|Nation
+!colspan="3"| Stadium
+!rowspan="2"|Competition
+!rowspan="2"|Regional association
+!rowspan="2"|World Rugby ranking
+|-
+|- 
+! Home stadium
+! Capacity
+! Location
+|-
+|rowspan="2"| {{ruw|AUS}} 
+|[[Stadium Australia]]
+|80,000
+|[[Sydney]]
+|rowspan="2"|  [[Pacific Four Series]]
+|rowspan="2"|  [[Oceania Rugby|Oceania]]
+|rowspan="2"| 9
+|-
+|[[Canberra Stadium]]
+|25,011
+|[[Canberra]]
+|-
+|rowspan="2"| {{ruw|CAN}}
+|[[BMO Field]]
+|28,745
+|[[Toronto]]
+|rowspan="2"| Pacific Four Series
+|rowspan="2"|[[Rugby Americas North|North America]]
+|rowspan="2"|3
+|-
+|[[TD Place Stadium]]
+|25,269
+|[[Ottawa]]
+|-
+|rowspan="3"| {{ruw|ENG}}
+|[[Twickenham Stadium]]
+|82,000
+|[[London]]
+|rowspan="3"| [[Women's Six Nations Championship|Six Nations]]
+|rowspan="3"|[[Rugby Europe|Europe]]
+|rowspan="3"|1
+|-
+|[[CorpAcq Stadium]]
+|11,404
+|[[Sale, Greater Manchester|Sale]]
+|-
+|[[Sandy Park]]
+|15,600
+|[[Exeter]]
+|-
+|rowspan="3"| {{ruw|FRA}}
+|[[Stade de Gerland]]
+|35,029
+|[[Lyon]]
+|rowspan="3"| Six Nations
+|rowspan="3"| Europe
+|rowspan="3"|4
+|-
+|[[Stade Maurice David]]
+|8,787
+|[[Aix-en-Provence]]
+|-
+|[[Stade Marcel-Deflandre]]
+|18,000
+|[[La Rochelle]]
+|-
+|rowspan="2"| {{ruw|IRE}}
+|[[Tallaght Stadium]]
+|10,547
+|[[Dublin]]
+|rowspan="2"| Six Nations
+|rowspan="2"| Europe
+|rowspan="2"| 5
+|-
+|[[Dexcom Stadium]]
+|10,500
+|[[Galway]]
+|-
+| {{ruw|ITA}}
+| [[ASD Comunale Fontanafredda|Stadio Omero Tognon]]
+| 5,000
+| [[Fontanafredda]]
+| Six Nations
+| Europe
+| 6
+|-
+|rowspan="2"| {{ruw|JPN}}
+| [[Ch
+== 2026 Nations Championship: 35927 chars; sections: Participants / Format / Fiji home games / Japan v Ireland game / Championship division: Tables / Northern Hemisphere / Southern Hemisphere / Fixtures / Southern Hemisphere Series / Round 1 / Round 2 / Round 3 / Northern Hemisphere Series / Round 4 / Round 5 / Round 6 / Finals / Eleventh place final / Ninth place final / Seventh place final / Fifth place final / Third place final / Nations Championship Final / Leading scorers / Most points / Most tries / Discipline / Summary / Red Cards / Yellow Cards / See also / Notes / References
+first table template at -1
+first wikitable with Pts at 3170
+
+{| class="wikitable sortable"
+|-
+!rowspan="2"| Team
+!colspan="3"| Stadium
+!rowspan="2"| Head coach
+!rowspan="2"| Captain
+|-
+! Home stadium
+! Capacity
+! Location
+|-
+|rowspan="3"| {{ru|ARG}}
+| [[Estadio Mario Alberto Kempes]]
+|align=center| 57,000
+| [[Cordoba, Argentina|Cordoba]]
+|rowspan="3"| {{flagdeco|ARG}} [[Felipe Contepomi]]<ref>{{cite web |title=Los Pumas legend Contepomi takes over as Argentina rugby coach |url=https://www.news24.com/sport/rugby/los-pumas-legend-contepomi-takes-over-as-argentina-rugby-coach-20231219 |website=News24 |access-date=15 April 2026 |date=19 December 2023}}</ref>
+|rowspan="3"| [[Julián Montoya]]
+|-
+| [[Estadio San Juan del Bicentenario]]
+|align=center| 25,286
+| [[San Juan, Argentina|San Juan]]
+|-
+| [[Estadio Único Madre de Ciudades]]
+|align=center| 30,000
+| [[Santiago del Estero]]
+|-
+|rowspan="3"| {{ru|AUS}}
+| [[Lang Park]]
+|align=center| 52,500
+| [[Brisbane]]
+|rowspan="3"| {{plainlist|
+* {{flagdeco|NZL}} [[Joe Schmidt (rugby union)|Joe Schmidt]]{{refn|group=N|For the [[2026 Nations Championship Southern Hemisphere Series|Southern Hemisphere Series]].<ref name="Aus-Coach">{{cite web |last1=Williamson |first1=Nathan |title=Joe Schmidt to stay as Wallabies coach until mid-2026, Les Kiss anointed successor |url=https://www.rugby.com.au/news/joe-schmidt-to-stay-as-wallabies-coach-until-2026-les-kiss-anointed-successor-2025429 |website=Rugby Australia |access-date=15 April 2026 |date=29 April 2025}}</ref>}}
+* {{flagdeco|AUS}} [[Les Kiss]]{{refn|gro
