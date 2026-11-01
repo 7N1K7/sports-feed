@@ -412,7 +412,8 @@ async function readCurated() {
 // them: Sports Central and Sports TV (DRM, the PCB's streaming partner for the rest of the world: Pakistan's home
 // series), Pakistan Cricket, World Rugby, FIFA, FIH and FIBA. A stream shut to NZ isn't counted (World Rugby's Nations
 // Championship games are, as Sky has them here). From 30 Oct 2026 Fox League and Fox Cricket, whose channels are
-// mostly shows and highlights but would be picked up if they stream a game free
+// mostly shows and highlights but would be picked up if they stream a game free. From 1 Nov 2026 NZ Provincial
+// Rugby, which streams some NPC and Farah Palmer Cup games and the Heartland XV's free
 const YT_CHANNELS = [
   ['cricket', 'NZ Cricket', 'UCuKowzPg2-A0FcmyPa3yWug'], ['cricket', 'Cricket Australia', 'UC2naOExy27J5Qz3SO-w6xkQ'],
   ['cricket', 'Fox Cricket', 'UCOkT6dccQ1vsnMFK1xJanmA'],
@@ -422,6 +423,7 @@ const YT_CHANNELS = [
   ['cricket', 'Sports Central', 'UC-fzWbU1zavz77kP1gPPdSg'], ['cricket', 'Sports TV', 'UCmHCyBKDCQk5GwJB3NvTbdw'],
   ['cricket', 'Pakistan Cricket', 'UCiWrjBhlICf_L_RK5y6Vrxw'], ['rugby', 'World Rugby', 'UCE28rwYoaV7jvU6GVzdu_GQ'],
   ['football', 'FIFA', 'UCpcTrCXblq78GZrTUTLWeBw'], ['hockey', 'FIH', 'UCsRwclNMmdK1Kiy2O3eL6hg'], ['basketball', 'FIBA', 'UCtInrnU3QbWqFGsdKT1GZtg'],
+  ['rugby', 'NZ Provincial Rugby', 'UCK442Bjxkx0skmxEDi2BtSg'],
 ];
 // streams that name both sides but aren't the game: press conferences, watch-alongs, previews and the like
 const YT_NOT_GAME = /press conference|presser|media (briefing|scrum)|watch ?-?along|reaction|preview|analysis|playing xi|\bchat\b|\bpodcast\b/i;
