@@ -172,23 +172,12 @@ export function classify(kind, home, away) {
 // ---------- Wikipedia -------------------------------------------------------
 const BOX = /^(rugby ?box|rugby ?league ?box|rlbox|single-innings cricket match|two-innings cricket match|limited overs international|footballbox|football box(?: collapsible)?|field ?hockey ?box|hockey ?box|basketball ?box(?: collapsible)?|netball ?box)$/i;
 
-// a page's own note on the times it gives ("All times in Australian Eastern Daylight Time (UTC+11:00)", as the Big Bash
-// pages write over every game, wherever it's played): its zone, or a fixed offset when it names none we know. A page
-// giving local times ("All times are local") has none, and each game's own ground decides
-const ZONE_NAMES = [[/Australian Eastern/i, 'Australia/Sydney'], [/Australian Central/i, 'Australia/Adelaide'], [/Australian Western/i, 'Australia/Perth'],
-  [/New Zealand/i, 'Pacific/Auckland'], [/British Summer|Greenwich|\bUK time/i, 'Europe/London'], [/Central European/i, 'Europe/Paris'],
-  [/South Africa/i, 'Africa/Johannesburg'], [/India(n)? Standard/i, 'Asia/Kolkata'], [/Pakistan Standard/i, 'Asia/Karachi']];
-function pageTimeZone(text) {
-  const m = String(text || '').replace(/\[\[(?:[^|\]]*\|)?([^\]]*)\]\]/g, '$1').match(/\bAll (?:match |kick-off |start |game )?times (?:are |listed |shown |given )?(?:are )?(?:in )?([^\n}]{2,160})/i);
-  if (!m || /\blocal\b/i.test(m[1])) return null;
-  const s = m[1], named = ZONE_NAMES.find(([re]) => re.test(s))?.[1], abbr = (s.match(/\b([A-Z]{2,5})\b/g) || []).find(a => ABBR_TZ[a]);
-  if (named || abbr) return { tz: named || ABBR_TZ[abbr] };
-  const off = s.match(/UTC\s*([+−-])\s*(\d{1,2})(?::?(\d{2}))?/);
-  return off ? { offsetMin: (off[1] === '+' ? 1 : -1) * (+off[2] * 60 + +(off[3] || 0)) } : null;
-}
+// a page that gives every game's time in one zone, wherever it's played, says so in its config ("timesTz"): the WBBL
+// page writes Adelaide's and Perth's games in Sydney time. Not read from the page's own "All times in AEDT" note, which
+// the men's Big Bash page carries too while giving each ground's local time
 function eventsFromPage(title, text, cfg, cityTz) {
   const year = +(title.match(/\b(20\d\d)/) || [])[1] || new Date().getUTCFullYear();
-  const out = [], pageTz = pageTimeZone(text);
+  const out = [], pageTz = cfg.timesTz ? { tz: cfg.timesTz } : null;
   for (const tpl of templates(text, BOX)) {
     const { named: p } = params(tpl.body);
     const isCricket = /cricket|overs/i.test(tpl.name);
@@ -207,8 +196,7 @@ function eventsFromPage(title, text, cfg, cityTz) {
     const tz = (tm && tm.tz) || cityTz(city) || cityTz(parts[0]) || (cfg.homeTz && cityTz(home)) || cfg.tz || null;
     let t, tbc = false;
     if (tm && tm.offsetMin != null) t = Date.UTC(d.y, d.m, d.d, tm.h, tm.mi) - tm.offsetMin * 6e4;
-    else if (tm && !tm.tz && pageTz?.tz) t = localToUTC(d.y, d.m, d.d, tm.h, tm.mi, pageTz.tz);
-    else if (tm && !tm.tz && pageTz?.offsetMin != null) t = Date.UTC(d.y, d.m, d.d, tm.h, tm.mi) - pageTz.offsetMin * 6e4;
+    else if (tm && !tm.tz && pageTz) t = localToUTC(d.y, d.m, d.d, tm.h, tm.mi, pageTz.tz);
     else if (tm && tz) t = localToUTC(d.y, d.m, d.d, tm.h, tm.mi, tz);
     else { tbc = true; t = localToUTC(d.y, d.m, d.d, 14, 0, tz || 'Pacific/Auckland'); }
     // score
@@ -2081,4 +2069,4 @@ export async function tsdbBackfill(all, cache, diag, max = 2) {
   return out;
 }
 export { tennisFinals as _tennisFinals, dateRange as _dateRange, TENNIS as _TENNIS };
-export { pageTimeZone as _pageTimeZone, f1Past as _f1Past, scTables as _scTables, scTsdb as _scTsdb, f1Tables as _f1Tables, f1Top3 as _f1Top3, supercarsSeason as _supercarsSeason, readSquad as _readSquad, stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
+export { f1Past as _f1Past, scTables as _scTables, scTsdb as _scTsdb, f1Tables as _f1Tables, f1Top3 as _f1Top3, supercarsSeason as _supercarsSeason, readSquad as _readSquad, stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };

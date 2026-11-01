@@ -18,7 +18,7 @@
     { "title": "{Y} Wheelchair Rugby League World Cup", "sport": "league", "comp": "Wheelchair Rugby League World Cup", "classify": "rlwc" },
     { "title": "{Y} Rugby League Pacific Championships", "sport": "league", "comp": "Pacific Championships", "classify": "leaguetests", "formPrev": true },
     { "title": "{S} Big Bash League season", "sport": "cricket", "comp": "Big Bash League", "team": "bbl", "tz": "Australia/Sydney", "showRound": true, "formPrev": true },
-    { "title": "{S} Women's Big Bash League season", "sport": "cricket", "comp": "Women's Big Bash League", "team": "wbbl", "tz": "Australia/Sydney", "showRound": true, "formPrev": true },
+    { "title": "{S} Women's Big Bash League season", "sport": "cricket", "comp": "Women's Big Bash League", "team": "wbbl", "tz": "Australia/Sydney", "timesTz": "Australia/Sydney", "showRound": true, "formPrev": true },
     { "title": "{S} Sheffield Shield season", "sport": "cricket", "comp": "Sheffield Shield", "team": "audomestic", "format": "First-class", "homeTz": true, "formPrev": true },
     { "title": "{S} Dean Jones Trophy", "sport": "cricket", "comp": "Dean Jones Trophy", "team": "audomestic", "format": "List A", "homeTz": true, "formPrev": true },
     { "title": "{S} Plunket Shield season", "sport": "cricket", "comp": "Plunket Shield", "team": "nzdomestic", "tz": "Pacific/Auckland", "format": "First-class", "formOnly": true, "formPrev": true },
