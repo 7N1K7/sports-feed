@@ -1,131 +1,92 @@
-== 2026 WXV Global Series: 51015 chars; sections: Participating nations / Fixtures / France home series – September / England home series – September / Scotland home series – September / Wales home series – September / Italy home series – September / Ireland home series – September / Spain home series – October / Red Roses tour of North America – October / Australia vs Scotland – October / New Zealand vs France – October / USA vs Italy – October / South Africa vs Ireland – October / Japan vs Wales – October / Leading scorers / Most points / Most tries / See also / References
-first table template at -1
-first wikitable with Pts at 1715
+== Australian cricket team in South Africa in 2026–27: 30461 chars
+{{Single-innings cricket match
+| date = 24 September 2026
+| time = 10:00
+| night = 
+| team1 = {{cr-rt|SA}}
+| team2 = {{cr|AUS}}
+| score1 = 297/8 (50 overs)
+| runs1 = [[Matthew Breetzke]] 112 (106)
+| wickets1 = [[Nathan Ellis]] 3/57 (10 overs)
+| score2 = 230 (41.2 overs)
+| runs2 = [[Mitchell Marsh]] 60 (36)
+| wickets2 = [[Keshav Maharaj]] 4/20 (9.2 overs)
+| result = South Africa won by 67 runs
+| report = [https://www.cricinfo.com/ci/engine/match/1525655.html Scorecard]
+| venue = [[Kingsmead Cricket Ground]], [[Durban]]
+| umpires = [[Lubabalo Gcuma]] (SA) and [[Asif Yaqoob]] (Pak) 
+| motm = [[Matthew Breetzke]] (SA)
+| toss = Australia won the toss and elected to field.
+| rain = 
+| notes = [[Jack Edwards (cricketer, born 2000)|Jack Edwards]] (Aus) made his ODI debut.
+}}
+----
+{{Single-innings cricket match
+| date = 27 September 2026
+| time = 10:00
+| night = 
+| team1 = {{cr-rt|SA}}
+| team2 = {{cr|AUS}}
+| score1 = 365/9 (50 overs)
+| runs1 = [[David Miller (South African cricketer)|David Miller]] 142 (93)
+| wickets1 = [[Jack Edwards (cricketer, born 2000)|Jack Edwards]] 5/67 (10 overs)
+| score2 = 333 (49.5 overs)
+| runs2 = [[Mitchell Marsh]] 84 (53)
+| wickets2 = [[Lizaad Williams]] 3/54 (7.5 overs)
+| result = South Africa won by 32 runs
+| report = [https://www.cricinfo.com/ci/engine/match/1525656.html Scorecard]
+| venue = [[Wanderers Stadium]], [[Johannesburg]]
+| umpires = [[Richard Illingworth]] (Eng) and [[Arno Jacobs]] (SA) 
+| motm = [[David Miller (South African cricketer)|David Miller]] (SA)
+| toss = Australia won the toss and elected to field.
+| rain = 
+| notes = [[David Miller (South African cricketer)|David Miller]] (SA) hit his 150th six in ODIs. He became the second South African after [[AB de Villiers]] to achieve this record.
+* [[Jack Edwards (cricketer, born 2000)|Jack Edwards]] (Aus) took his maiden [[five-wicket haul]] in ODIs.
+}}
+----
+{{Single-innings cricket match
+| date = 30 September 2026
+| time = 13:30
+| daynight = y
+| team1 = {{cr-rt|AUS}}
+| team2 = {{cr|SA}}
+| score1 = 322/9 (50 overs)
+| runs1 = [[Alex Carey]] 74 (88)
+| wickets1 = [[Corbin Bosch]] 4/60 (9 overs)
+| score2 = 145/4 (28 overs)
+| runs2 = [[Ryan Rickelton]] 71[[not out|*]] (81)
+| wickets2 = [[Xavier Bartlett]] 2/25 (5 overs)
+| result = Australia won by 45 runs ([[Duckworth-Lewis-Stern method|DLS method]])
+| report = [https://www.cricinfo.com/ci/engine/match/1525657.html Scorecard]
+| venue = [[JB Marks Oval]], [[Potchefstroom]]
+| umpires = [[Lubabalo Gcuma]] (SA) and [[Asif Yaqoob]] (Pak)
+| motm = [[Alex Carey]] (Aus)
+| toss = South Africa won the toss and elected to field.
+| rain = South Africa's innings was curtailed at 28 overs due to rain; DLS par score was 191.
+| notes = [[Alex Carey]] (Aus) scored his 2,500th run in ODIs.
+}}
+----
+1st Test mentions: 3 first ctx: nd |ldxD=0 |ldyD=0
 
-{|class="wikitable"
-!rowspan="2"|Nation
-!colspan="3"| Stadium
-!rowspan="2"|Competition
-!rowspan="2"|Regional association
-!rowspan="2"|World Rugby ranking
-|-
-|- 
-! Home stadium
-! Capacity
-! Location
-|-
-|rowspan="2"| {{ruw|AUS}} 
-|[[Stadium Australia]]
-|80,000
-|[[Sydney]]
-|rowspan="2"|  [[Pacific Four Series]]
-|rowspan="2"|  [[Oceania Rugby|Oceania]]
-|rowspan="2"| 9
-|-
-|[[Canberra Stadium]]
-|25,011
-|[[Canberra]]
-|-
-|rowspan="2"| {{ruw|CAN}}
-|[[BMO Field]]
-|28,745
-|[[Toronto]]
-|rowspan="2"| Pacific Four Series
-|rowspan="2"|[[Rugby Americas North|North America]]
-|rowspan="2"|3
-|-
-|[[TD Place Stadium]]
-|25,269
-|[[Ottawa]]
-|-
-|rowspan="3"| {{ruw|ENG}}
-|[[Twickenham Stadium]]
-|82,000
-|[[London]]
-|rowspan="3"| [[Women's Six Nations Championship|Six Nations]]
-|rowspan="3"|[[Rugby Europe|Europe]]
-|rowspan="3"|1
-|-
-|[[CorpAcq Stadium]]
-|11,404
-|[[Sale, Greater Manchester|Sale]]
-|-
-|[[Sandy Park]]
-|15,600
-|[[Exeter]]
-|-
-|rowspan="3"| {{ruw|FRA}}
-|[[Stade de Gerland]]
-|35,029
-|[[Lyon]]
-|rowspan="3"| Six Nations
-|rowspan="3"| Europe
-|rowspan="3"|4
-|-
-|[[Stade Maurice David]]
-|8,787
-|[[Aix-en-Provence]]
-|-
-|[[Stade Marcel-Deflandre]]
-|18,000
-|[[La Rochelle]]
-|-
-|rowspan="2"| {{ruw|IRE}}
-|[[Tallaght Stadium]]
-|10,547
-|[[Dublin]]
-|rowspan="2"| Six Nations
-|rowspan="2"| Europe
-|rowspan="2"| 5
-|-
-|[[Dexcom Stadium]]
-|10,500
-|[[Galway]]
-|-
-| {{ruw|ITA}}
-| [[ASD Comunale Fontanafredda|Stadio Omero Tognon]]
-| 5,000
-| [[Fontanafredda]]
-| Six Nations
-| Europe
-| 6
-|-
-|rowspan="2"| {{ruw|JPN}}
-| [[Ch
-== 2026 Nations Championship: 35927 chars; sections: Participants / Format / Fiji home games / Japan v Ireland game / Championship division: Tables / Northern Hemisphere / Southern Hemisphere / Fixtures / Southern Hemisphere Series / Round 1 / Round 2 / Round 3 / Northern Hemisphere Series / Round 4 / Round 5 / Round 6 / Finals / Eleventh place final / Ninth place final / Seventh place final / Fifth place final / Third place final / Nations Championship Final / Leading scorers / Most points / Most tries / Discipline / Summary / Red Cards / Yellow Cards / See also / Notes / References
-first table template at -1
-first wikitable with Pts at 3170
+|label1='''[[Durban]]''' |mark-coord1={{Coord|-29.85|31.027778}} |ldx1=-5 |ldy1=-8
+|mark-title1=[[Durban]] |mark-image1= |mark-description1=[[Kingsmead Cricket Ground]]
+|label2='''1st Test''' |label-size2=11 |label-color2=#000000 |mark-coord2={{Coord|-29.85|31.027778}} |ldx2=-3 |ldy2=-24
+|mark-title2='''''1st Test''' |label-pos1=top
 
-{| class="wikitable sortable"
-|-
-!rowspan="2"| Team
-!colspan="3"| Stadium
-!rowspan="2"| Head coach
-!rowspan="2"| Captain
-|-
-! Home stadium
-! Capacity
-! Location
-|-
-|rowspan="3"| {{ru|ARG}}
-| [[Estadio Mario Alberto Kempes]]
-|align=center| 57,000
-| [[Cordoba, Argentina|Cordoba]]
-|rowspan="3"| {{flagdeco|ARG}} [[Felipe Contepomi]]<ref>{{cite web |title=Los Pumas legend Contepomi takes over as Argentina rugby coach |url=https://www.news24.com/sport/rugby/los-pumas-legend-contepomi-takes-over-as-argentina-rugby-coach-20231219 |website=News24 |access-date=15 April 2026 |date=19 December 2023}}</ref>
-|rowspan="3"| [[Julián Montoya]]
-|-
-| [[Estadio San Juan del Bicentenario]]
-|align=center| 25,286
-| [[San Juan, Argentina|San Juan]]
-|-
-| [[Estadio Único Madre de Ciudades]]
-|align=center| 30,000
-| [[Santiago del Estero]]
-|-
-|rowspan="3"| {{ru|AUS}}
-| [[Lang Park]]
-|align=center| 52,500
-| [[Brisbane]]
-|rowspan="3"| {{plainlist|
-* {{flagdeco|NZL}} [[Joe Schmidt (rugby union)|Joe Schmidt]]{{refn|group=N|For the [[2026 Nations Championship Southern Hemisphere Series|Southern Hemisphere Series]].<ref name="Aus-Coach">{{cite web |last1=Williamson |first1=Nathan |title=Joe Schmidt to stay as Wallabies coach until mid-2026, Les Kiss anointed successor |url=https://www.rugby.com.au/news/joe-schmidt-to-stay-as-wallabies-coach-until-2026-les-kiss-anointed-successor-2025429 |website=Rugby Australia |access-date=15 April 2026 |date=29 April 2025}}</ref>}}
-* {{flagdeco|AUS}} [[Les Kiss]]{{refn|gro
+|label3='''[[Johannesburg]]''' |mark-coord3={{Coord|-26.131111|28.0575}} |ldx3=9 |ldy3=-9
+|mark-title3=[[Johannesburg]] |mark-image3= |mark-desc
+== West Indian cricket team in Bangladesh in 2026–27: 8077 chars
+1st Test mentions: 1 first ctx: a|Bashundhara Sports City Cricket Ground]], [[Dhaka]]
+| umpires = [[Sajidul Islam]] (Ban) and [[Morshed Ali Khan]] (Ban)
+| toss = West Indies won the toss and elected to field.
+}}
+
+==Test series==
+===1st Test===
+{{Two-innings cricket match
+| date = 28–31 October 2026<ref name="Day" group="n">While five days of play were scheduled for this Test, the test reached a result in four days.</ref>
+| team1 = {{cr-rt|BAN}}
+| team2 = {{cr|WIN}}
+
+| score-team1-inns1 = 272 (97.4 overs)
+| runs-team1-inns1 = [
