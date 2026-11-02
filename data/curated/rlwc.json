@@ -496,6 +496,9 @@
     {
       "id": "rlwc-w-semi-final-1",
       "team": "rlwc",
+      "tags": [
+        "kiwiferns"
+      ],
       "sport": "league",
       "comp": "Women's Rugby League World Cup, Semi-final 1",
       "home": "TBC",
@@ -512,6 +515,9 @@
     {
       "id": "rlwc-m-semi-final-1",
       "team": "rlwc",
+      "tags": [
+        "kiwis"
+      ],
       "sport": "league",
       "comp": "Rugby League World Cup, Semi-final 1",
       "home": "TBC",
@@ -528,6 +534,9 @@
     {
       "id": "rlwc-w-semi-final-2",
       "team": "rlwc",
+      "tags": [
+        "kiwiferns"
+      ],
       "sport": "league",
       "comp": "Women's Rugby League World Cup, Semi-final 2",
       "home": "TBC",
@@ -544,6 +553,9 @@
     {
       "id": "rlwc-m-semi-final-2",
       "team": "rlwc",
+      "tags": [
+        "kiwis"
+      ],
       "sport": "league",
       "comp": "Rugby League World Cup, Semi-final 2",
       "home": "TBC",
@@ -688,6 +700,9 @@
     {
       "id": "rlwc-w-final",
       "team": "rlwc",
+      "tags": [
+        "kiwiferns"
+      ],
       "sport": "league",
       "comp": "Women's Rugby League World Cup, Final",
       "home": "TBC",
@@ -704,6 +719,9 @@
     {
       "id": "rlwc-m-final",
       "team": "rlwc",
+      "tags": [
+        "kiwis"
+      ],
       "sport": "league",
       "comp": "Rugby League World Cup, Final",
       "home": "TBC",

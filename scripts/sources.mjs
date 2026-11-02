@@ -67,7 +67,7 @@ const stripRefs = s => String(s || '').replace(/<!--[\s\S]*?-->/g, '').replace(/
 function clean(s) {
   let t = stripRefs(s);
   for (let k = 0; k < 4; k++) {
-    t = t.replace(/\{\{\s*(?:nowrap|nobr|small|abbr|sort|rus|rut|ru stadium|stadium)\s*\|([^{}]*?)\}\}/gi, (_, a) => a.split('|').filter(x => !x.includes('=')).pop() || '')
+    t = t.replace(/\{\{\s*(?:nowrap|nobr|small|abbr|sort|rus|rut|ru stadium|stadium|score ?link)\s*\|([^{}]*?)\}\}/gi, (_, a) => a.split('|').filter(x => !x.includes('=')).pop() || '')
       .replace(/\{\{\s*(?:nbsp|snd|spnd|spaced[ _]e?ndash|e?ndash|mdash|·|dot|efn|refn|notetag|cite[^|}]*|flagicon|flagdeco|flag decoration|colou?r box|vanchor|anchor)[^{}]*\}\}/gi, m => /ndash|snd|spnd/.test(m) ? '–' : /mdash/.test(m) ? '—' : /nbsp/.test(m) ? ' ' : '');
   }
   return t.replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1').replace(/\[https?:\S+\s+([^\]]*)\]/g, '$1').replace(/'''?/g, '')
@@ -90,7 +90,9 @@ const CODES = {
 // Australian domestic cricket's sides, as {{cr-Aus|QLD}} writes them
 const AU_STATES = { QLD: 'Queensland', NSW: 'New South Wales', VIC: 'Victoria', SA: 'South Australia', WA: 'Western Australia', TAS: 'Tasmania' };
 function teamOf(v) {
-  const raw = stripRefs(v);
+  // a team template inside a wrapper ({{nowrap|{{rlw-r|NZL}}}}) is read as if bare
+  let raw = stripRefs(v);
+  for (let k = 0, w; k < 3 && (w = templates(raw, /^(nowrap|nobr|small)$/i)[0]); k++) { const bar = w.body.indexOf('|'); raw = raw.slice(0, w.at) + (bar < 0 ? '' : w.body.slice(bar + 1)) + raw.slice(w.at + w.body.length + 4); }
   const tpl = templates(raw, /^[A-Za-z][\w\- ]{0,14}$/).find(t => !/^(colou?r ?box|flag ?deco(ration)?|flagicon|nowrap|small|abbr|sort)$/i.test(t.name));
   if (tpl) {
     const p = params('x|' + tpl.body.slice(tpl.name.length + 1));

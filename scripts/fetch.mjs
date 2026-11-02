@@ -680,7 +680,9 @@ try { tsdbCache = JSON.parse(await readFile(tsdbCacheUrl, 'utf8')); } catch {}
 const WOMEN_KEYS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'fpc', 'wxv', 'wbbl', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
 const isW = e => WOMEN_KEYS.has(e.team) || /women|wheelchair/i.test([e.comp, e.home, e.away].join(' '));
 // a race weekend's sessions (qualifying, practice, Supercars' Saturday race) are never the race itself
-const same = (a, b) => a.team === b.team && isW(a) === isW(b) && (a.session || '') === (b.session || '') && (a.team === 'ufc' ? Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) < 1.5 * DAY : sameMatch(a, b));
+// women's, wheelchair or men's: a wheelchair game is never a women's one (England v Wales took England v Samoa's score)
+const gKind = e => /wheelchair/i.test([e.comp, e.home, e.away].join(' ')) ? 'wc' : isW(e) ? 'w' : 'm';
+const same = (a, b) => a.team === b.team && gKind(a) === gKind(b) && (a.session || '') === (b.session || '') && (a.team === 'ufc' ? Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) < 1.5 * DAY : sameMatch(a, b));
 const near = t => (a, b) => Math.abs(Date.parse(a.startUTC) - t) - Math.abs(Date.parse(b.startUTC) - t);
 
 // Fill-only TheSportsDB leagues: which Wikipedia or curated cards could one complete? Men's games of its teams and
@@ -748,8 +750,42 @@ for (const e of [...tsdbLive, ...wiki]) {
 const side = (x, y) => { const a = norm(x), b = norm(y); return !!a && !!b && (a.includes(b) || b.includes(a)); };
 const SIDE_KEYS = ['', 'Logo', 'Credit', 'LogoCredit', 'Badge'];
 const events = curated.events.map(e => ({ ...e }));
+// knockout cards kept from the draw before the sides are known ("TBC v TBC", Semi-final 1): a source's card for the same
+// competition within half an hour is that game once it names the sides, whatever team it's filed under, so the draw's
+// card takes the sides and the team and tags that go with them (one game, not two or three). A source's own stand-ins
+// ("Group A winner v Group B runner-up") on a day the draw's cards already cover add nothing
+const STANDIN = /^(TBC|TBA|TBD)\b|winner|loser|\bplaced?\b|\bgroup\b|\bpool\b|semi-final|runners?[- ]up|qualifier|^\d(st|nd|rd|th)\b|\{\{/i;
+const standIns = e => [e.home, e.away].every(n => !n || STANDIN.test(n));
+const drawKind = e => `${e.sport}|${/wheelchair/i.test(e.comp || '') ? 'wc' : /women/i.test(`${e.comp} ${e.home} ${e.away}`) ? 'w' : 'm'}|${String(e.comp || '').replace(/\s*[,·(].*$/, '').trim()}`;
+const nzDay = t => new Date(Date.parse(t) + 13 * 36e5).toISOString().slice(0, 10);
+const drawIds = new Set(curated.events.filter(e => !e.session && standIns(e)).map(e => e.id));
+function drawCard(le) {
+  if (le.session) return null;
+  const cards = events.filter(e => drawIds.has(e.id) && standIns(e) && drawKind(e) === drawKind(le));
+  if (standIns(le)) {
+    // only when the draw has at least as many cards that day as the source has stand-ins; a lone card with no time yet
+    // takes the source's (the Big Bash finals: Wikipedia has their times before their sides)
+    const day = cards.filter(e => nzDay(e.startUTC) === nzDay(le.startUTC));
+    if (day.length < live.filter(x => !x.session && standIns(x) && drawKind(x) === drawKind(le) && nzDay(x.startUTC) === nzDay(le.startUTC)).length) return null;
+    if (day.length === 1 && day[0].timeTBC && !le.timeTBC) {
+      Object.assign(day[0], { startUTC: le.startUTC, timeTBC: false });
+      for (const k of ['venue', 'city', 'tz']) if ((!day[0][k] || /^TBC\b/.test(day[0][k])) && le[k] && !/^TBC\b/.test(le[k])) day[0][k] = le[k];
+    }
+    return 'drop';
+  }
+  const near = cards.filter(e => le.timeTBC ? nzDay(e.startUTC) === nzDay(le.startUTC) : Math.abs(Date.parse(e.startUTC) - Date.parse(le.startUTC)) <= 30 * 6e4);
+  return near.length === 1 ? near[0] : null;
+}
+const drawn = [];
 for (const le of live) {
-  const hit = events.find(e => same(e, le));
+  const twin = events.find(e => same(e, le)), drew = twin ? null : drawCard(le), hit = twin || drew;
+  if (hit === 'drop') continue;
+  if (drew) {
+    Object.assign(drew, { team: le.team, tags: [...(le.tags || [])] });
+    // the team's own way to watch (the Kiwis' games are free on Three too), which the card from the draw doesn't have
+    const c = { ...drew, broadcast: '', watchAlt: '' }; applyBroadcast(c, rules); if (c.watchAlt && !drew.watchAlt) drew.watchAlt = c.watchAlt;
+    drawn.push(`${drew.id}: ${le.home} v ${le.away}`);
+  }
   if (hit) {
     // a source listing the sides the other way round: a card kept by hand before its host was known (a final put in
     // as "Northland v Canterbury" with the ground TBC) takes the source's order, home side first; otherwise the
@@ -777,6 +813,7 @@ for (const le of live) {
     if (!hit.source && le.source) hit.source = le.source;
   } else events.push(le);
 }
+if (drawn.length) diag.drawCards = `sides named on the draw's cards: ${drawn.join('; ')}`;
 // Fill-only TheSportsDB games: a final score or exact start time for the closest matching card that lacks one, never a
 // card of their own. TheSportsDB may list the sides the other way round, so the score is turned to face the card.
 const filled = [];
