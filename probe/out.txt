@@ -1,1 +1,206 @@
-generated 2026-11-01T23:49:08.772Z
+=== 2026 Women's Rugby League World Cup 55201
+49: On 3 August 2023, the date the tournament was announced, the only qualified teams for the 2026 tournament were the semi-finalists of the [[2021 Women's Rugby League World Cup|2021 World Cup]]. The qualification process f
+246: |team1=AUS|name_AUS={{rlw-l|Australia}}
+248: |team2=SAM|name_SAM={{rlw-l|Samoa}}
+256: |col_A=green1|text_A=Advance to knockout stage 
+268: |date= 16 October 2026
+270: |team1={{rlw-r|AUS}}
+277: |score=#–#
+281: |team2={{nowrap|{{rlw-l|SAM}}}}
+347: |date=17 October 2026
+349: |team1={{rlw-r|ENG}}
+356: |score=#–#
+360: |team2={{rlw-l|WAL}}
+427: |date=23 October 2026
+429: |team1={{rlw-r|SAM}}
+432: |score=#–#
+436: |team2={{rlw-l|WAL}}
+497: |date=24 October 2026
+499: |team1={{rlw-r|AUS}}
+502: |score=#–#
+506: |team2={{rlw-l|ENG}}
+566: |date=30 October 2026
+570: |score=#–#
+574: |team2={{rlw-l|SAM}}
+638: |date=1 November 2026
+646: |score=#–#
+650: |team2={{rlw-l|WAL}}
+718: |team2=FIJ|name_FIJ={{rlw-l|Fiji}}
+720: |team1=NZL|name_NZL={{rlw-l|New Zealand}}
+728: |col_A=green1|text_A=Advance to knockout stage
+737: |date=17 October 2026
+739: |team1={{rlw-r|PNG}}
+746: |score=#–#
+752: |team2={{rlw-l|FRA}}
+818: |date=18 October 2026
+826: |score=#–#
+832: |team2={{rlw-l|FIJ}}
+899: |date=24 October 2026
+901: |team1={{rlw-r|PNG}}
+904: |score=#–#
+908: |team2={{rlw-l|FIJ}}
+970: |date=25 October 2026
+972: |team1={{rlw-r|NZL}}
+975: |score=#–#
+979: |team2={{rlw-l|FRA}}
+1039: |date=31 October 2026
+1041: |team1={{rlw-r|FIJ}}
+1049: |score=#–#
+1055: |team2={{rlw-l|FRA}}
+1120: |date=31 October 2026
+1122: |team1={{rlw-r|NZL}}
+1125: |score=#–#
+1129: |team2={{rlw-l|PNG}}
+1194: == Knockout stage ==
+1195: Following the conclusion of Round 2, the [[National Rugby League]] announced that the Australian men's and women's teams, having qualified for their respective semi-finals, would both play in Sydney on 8 November 2026.<r
+1200: <!-- semi-finals -->
+1201: |7 November – [[Newcastle International Sports Centre|Newcastle]]|{{nowrap|{{rlw-l|NZL}}}}| – |{{rlw-l|Samoa}}| –
+1206: ===Semi-finals===
+1209: |date=7 November 2026
+1211: |team1={{nowrap|{{rlw-r|NZL}}}}
+1218: |score=
+1224: |team2= {{nowrap|{{rlw-l|Samoa}}}}
+1243: |date=8 November 2026
+1245: |team1={{rlw-r|AUS}}
+1252: |score=
+1258: |team2={{nowrap|{{rlw-l|FIJ}}}}
+1275: ===Final===
+1278: |date=15 November 2026|time=15:15 [[AEST]] ([[UTC+10:00]])
+1279: |team1=First semi-final winner
+1286: |score=
+1292: |team2=Second semi-final winner
+=== 2026 Wheelchair Rugby League World Cup 37018
+46: On 3 August 2023, the date the tournament was confirmed, the only qualified teams for the 2026 tournament were the semi-finalists of the [[2021 Wheelchair Rugby League World Cup|2021 World Cup]].
+289: |team2=ENG|name_ENG={{wrl-l|ENG}}
+290: |team1=IRE|name_IRE={{wrl-l|IRE}} 
+299: |col_A=green1|text_A=Advance to main semi-finals |text_B=Ranking semi-finals 
+308: |date=30 October 2026
+310: |team1= {{wrl-r|IRE|rugby league}}|
+317: |score=#–#
+321: |team2={{wrl-l|USA}} 
+368: |date=30 October 2026
+370: |team1={{wrl-r|ENG}}
+377: |score=#–#
+383: |team2={{flagicon|WAL}} [[Wales national wheelchair rugby league team|Wales]]
+431: |date= 3 November 2026
+433: |team1= {{wrl-r|IRE}}
+440: |score=
+446: |team2={{wrl-l|WAL}}
+464: |date=3 November 2026
+466: |team1= {{wrl-r|ENG}}
+473: |score=
+479: |team2={{wrl-l|USA}} 
+498: |date=6 November 2026
+500: |team1= {{wrl-r|WAL}}
+507: |score=
+513: |team2={{wrl-l|USA}}
+531: |date= 6 November 2026
+533: |team1= {{wrl-r|ENG}}
+540: |score=
+546: |team2={{wrl-l|IRE|}} 
+567: |team2=AUS|name_AUS={{wrl-l|AUS}}
+568: |team1=FRA|name_FRA={{wrl-l|FRA}} 
+577: |col_A=green1|text_A=Advance to main semi-finals |text_B=Ranking semi-finals 
+585: |date=31 October 2026
+587: |team1={{wrl-r|FRA}}
+594: |score=#–#
+598: |team2={{wrl-l|SCO}}
+639: |date=31 October 2026
+641: |team1= {{wrl-r|AUS}}
+648: |score=#–#
+652: |team2={{wrl-l|NZL}} 
+700: |date= 3 November 2026
+702: |team1= {{wrl-r|FRA}}
+709: |score=
+715: |team2={{wrl-l|NZL}}
+733: |date=3 November 2026
+735: |team1={{wrl-r|AUS}}
+742: |score=
+748: |team2={{wrl-l|SCO}}
+767: |date=6 November 2026
+769: |team1= {{wrl-r|SCO}}
+776: |score=
+782: |team2={{wrl-l|NZL}}
+800: |date= 6 November 2026
+802: |team1={{wrl-r|AUS}}
+809: |score=
+815: |team2={{wrl-l|FRA}}
+832: == Knockout stage ==
+835: <section begin=WC_bracket2/>{{Round4|3rdplace=yes|RD1=Ranking semi-finals|RD2=5th/6th play-off|Consol=7th/8th play-off
+837: <!-- semi-finals -->
+844: ====Ranking semi-finals====
+847: |date= 9 November 2026
+849: |team1=Group B 3rd place
+856: |score=
+862: |team2=Group A 4th place
+881: |date= 9 November 2026
+883: |team1=Group A 3rd place
+890: |score=
+896: |team2=Group B 4th place
+916: |date= 12 November 2026
+918: |team1=First ranking semi-final loser
+925: |score=
+931: |team2=Second ranking semi-final loser
+951: |date= 12 November 2026
+953: |team1=First ranking semi-final winner
+960: |score=
+966: |team2=Second ranking semi-final winner
+987: <!-- semi-finals -->
+994: ====Semi-finals====
+997: |date= 10 November 2026
+999: |team1=Group B Winner
+1006: |score=
+1012: |team2=Group A Runner Up
+1031: |date= 10 November 2026
+1033: |team1=Group A Winner
+1040: |score=
+1046: |team2=Group B Runner Up||try2=
+1065: |date= 13 November 2026
+1067: |team1=First semi-final loser
+1074: |score=
+1080: |team2=Second semi-final loser||try2=
+1096: ====Final====
+1099: |date= 13 November 2026
+1101: |team1=First semi-final winner
+1108: |score=
+1114: |team2=Second semi-final winner||try2=
+=== 2026 Men's Rugby League World Cup Pools B & C 37208
+13: |team1=TON|name_TON={{rl|Tonga}}
+14: |team2=SAM|name_SAM={{rl|Samoa}}
+27: |col_A=green1|text_A=Advance to [[2026 Men's Rugby League World Cup knockout stage|knockout stage]] 
+42: | date       = 16 October 2026
+44: | team1      = {{rl-rt|Samoa}}
+45: |score={{score link|2026 Men's Rugby League World Cup Pools B & C#Samoa vs France|#–#}}
+48: | team2      = {{rl|France}}
+162: | date       = 17 October 2026
+164: | team1      = {{rl-rt|Papua New Guinea}}
+165: | score      = {{score link|2026 Men's Rugby League World Cup Pools B & C#Papua New Guinea vs Lebanon|#–#}}
+168: | team2      = {{rl|Lebanon}}
+282: | date       = 17 October 2026
+284: | team1      = {{rl-rt|England}}
+285: |score={{score link|2026 Men's Rugby League World Cup Pools B & C#England vs Tonga|#–#}}
+288: | team2      = {{rl|Tonga}}
+402: | date       = 23 October 2026
+404: | team1      = {{rl-rt|Tonga}}
+405: |score={{score link|2026 Men's Rugby League World Cup Pools B & C#Tonga vs Lebanon|#–#}}
+408: | team2      = {{rl|Lebanon}}
+522: | date       = 24 October 2026
+524: | team1      = {{rl-rt|Papua New Guinea}}
+525: |score={{score link|2026 Men's Rugby League World Cup Pools B & C#Papua New Guinea vs Samoa|#–#}}
+528: | team2      = {{rl|Samoa}}
+643: | date       = 24 October 2026
+645: | team1      = {{rl-rt|England}}
+646: |score={{score link|2026 Men's Rugby League World Cup Pools B & C#England vs France|#–#}}
+649: | team2      = {{rl|France}}
+763: | date       = 30 October 2026
+765: | team1      = {{rl-rt|England}}
+766: | score      = {{score link|2026 Men's Rugby League World Cup Pools B & C#England vs Papua New Guinea|#–#}}
+767: | team2      = {{rl|Papua New Guinea}}
+883: | date       = 1 November 2026
+885: | team1      = {{rl-rt|Lebanon}}
+886: | score      = {{score link|2026 Men's Rugby League World Cup Pools B & C#Lebanon vs France|#–#}} {{goldenpt}}
+889: | team2      = {{rl|France}}
+1012: | date       = 1 November 2026
+1014: | team1      = {{rl-rt|Tonga}}
+1015: | score      = {{score link|2026 Men's Rugby League World Cup Pools B & C#Tonga vs Samoa|#–#}}
+1016: | team2      = {{rl|Samoa}}
