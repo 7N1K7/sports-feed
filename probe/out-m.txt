@@ -1,67 +1,71 @@
 {{Short description|Rugby League World Cup results}}
-'''Pools B and C of the 2026 Rugby League World Cup''' are two of the three pools in the [[2026 Men's Rugby League World Cup|2026 Rugby League World Cup]]. Pool B comprises automatic qualifiers [[England national rugby league team|England]], [[Lebanon national rugby league team|Lebanon]] and [[Samoa national rugby league team|Samoa]]. Pool C comprises hosts [[Papua New Guinea national rugby league team|Papua New Guinea]], automatic qualifiers [[Tonga national rugby league team|Tonga]], and [[France national rugby league team|France]], who qualified through the [[2026 Men's Rugby League World Cup qualification#Inter-confederation play-offs|Northern Hemisphere play-offs]].
 
-Rather than playing the other two teams in their pool, each nation plays the three teams from the other pool.<ref>{{Cite web|url=https://www.nrl.com/news/2026/10/16/must-win-unique-world-cup-structure-raises-the-stakes/|title=Must-win: Unique World Cup structure raises the stakes|date=16 October 2026|website=NRL.com}}</ref>
+'''Pool A of the 2026 Rugby League World Cup''' is one of the three groups in the [[2026 Men's Rugby League World Cup|2026 Rugby League World Cup]]. The group comprises hosts [[Australia national rugby league team|Australia]] and [[New Zealand national rugby league team|New Zealand]], as well as automatic qualifiers [[Fiji national rugby league team|Fiji]], and [[Cook Islands national rugby league team|Cook Islands]], who qualified through the [[2026 Men's Rugby League World Cup qualification#Inter-confederation play-offs|Southern Hemisphere play-offs]].<ref>{{Cite web|url=https://www.nrl.com/news/2026/10/16/only-one-jumper-for-me-iro-cooks-up-something-special/|title=Only one jumper for me: Iro cooks up something special|date=16 October 2026|website=NRL.com}}</ref><ref>{{Cite web|url=https://www.nrl.com/news/2025/11/09/cook-islands-claim-last-world-cup-berth/|title=Cook Islands claim last World Cup berth|date=9 November 2025|website=NRL.com}}</ref><ref>{{Cite web|url=https://www.foxsports.com.au/nrl/world-cup/rugby-league-world-cup-2026-schedule-draw-fixtures-pools-dates-and-times-final-how-many-teams-go-through-from-each-pool/news-story/6cc5826befd16b9fee93091b2198dbf4|title=Full 2026 Rugby League World Cup schedule... and how it works|date=13 October 2026|website=Fox Sports}}</ref>
 
-== Standings ==
-<section begin=WC_GBCtable/>
+==Standings==
+<section begin=WC_GAtable/>
 
 {{#invoke:sports table|main|style=WDL
 |for_against_style=points
 |winpoints=2
-|show_groups=yes
-|group_header=Pool
-|team1=TON|name_TON={{rl|Tonga}}
-|team2=SAM|name_SAM={{rl|Samoa}}
-|team3=ENG|name_ENG={{rl|England}}
-|team4=PNG|name_PNG={{rl|Papua New Guinea}}
-|team5=LEB|name_LEB={{rl|Lebanon}}
-|team6=FRA|name_FRA={{rl|France}} 
-|win_TON=3|draw_TON=0|loss_TON=0|pf_TON=86|pa_TON=30 |group_TON=C
-|win_SAM=2|draw_SAM=0|loss_SAM=1|pf_SAM=160|pa_SAM=30|group_SAM=B
-|win_ENG=2|draw_ENG=0|loss_ENG=1|pf_ENG=128|pa_ENG=42|group_ENG=B
-|win_PNG=1|draw_PNG=0|loss_PNG=2|pf_PNG=60|pa_PNG=116|group_PNG=C|status_PNG=H
-|win_LEB=1|draw_LEB=0|loss_LEB=2|pf_LEB=42|pa_LEB=98 |group_LEB=B
-|win_FRA=0|draw_FRA=0|loss_FRA=3|pf_FRA=24|pa_FRA=184|group_FRA=C
+|team1=AUS|name_AUS={{rl|Australia}}
+|team4=COK|name_COK={{rl|Cook Islands}}
+|team3=FIJ|name_FIJ={{rl|Fiji}}
+|team2=NZL|name_NZL={{rl|New Zealand}}
+|win_AUS=3|draw_AUS=0|loss_AUS=0|pf_AUS=126|pa_AUS=50|status_AUS=H
+|win_COK=0|draw_COK=0|loss_COK=3|pf_COK=34|pa_COK=188
+|win_FIJ=1|draw_FIJ=0|loss_FIJ=2|pf_FIJ=62|pa_FIJ=126
+|win_NZL=2|draw_NZL=0|loss_NZL=1|pf_NZL=182|pa_NZL=40|status_NZL=H
 
 |res_col_header=Q
 |col_A=green1|text_A=Advance to [[2026 Men's Rugby League World Cup knockout stage|knockout stage]] 
-||result1=A|result2=A
-|start_date=16 October 2026
+|result1=A|result2=A
+|start_date=15 October 2026
 |update=complete
 |source=[https://www.bbc.co.uk/sport/rugby-league/mens-world-cup/table Source]
 |class_rules=[[2026 Men's Rugby League World Cup#Tiebreakers|Pool stage tiebreakers]]
 }}
-<section end=WC_GBCtable/>
 
-== Matches ==
-<section begin="WC_GBC" />
-=== Samoa vs France ===
-<section begin=SAMvFRA /><section begin=SAMvFRA1 />
-{{rugbyleaguebox
-| event      = 
-| date       = 16 October 2026
-| time       = 17:45 [[AEDT]] ([[UTC+11:00]])
-| team1      = {{rl-rt|Samoa}}
-|score={{score link|2026 Men's Rugby League World Cup Pools B & C#Samoa vs France|78–4}}
-|1sthalf=34–4
-|2ndhalf=44–0
-| team2      = {{rl|France}}
-|try1= '''14''' <br/> [[Deine Mariner|Mariner]] {{try|2}} <br/> [[Ben Ioelu|Ioelu]] {{try|5|80}} <br/> [[Jermaine McEwen|McEwen]] {{try|7}} <br/> [[Sualauvi Fa'alogo|Fa'alogo]] {{try|13|36|63|67}} <br/> [[Hamiso Tabuai-Fidow|Tabuai-Fidow]] {{try|17}} <br/> [[Stephen Crichton|Crichton]] {{try|42}} <br/> [[Shawn Blore|Blore]] {{try|55}} <br/> [[Chanel Harris-Tavita|Harris-Tavita]] {{try|70}} <br/> [[Izack Tago|Tago]] {{try|74}} <br/> [[Francis Molo|Molo]] {{try|77}}
-|goal1= '''11''' <br/> [[Stephen Crichton|Crichton]] (11/15) {{kick|4|6|8|19|38|44|57|71|76|78|80}}
-| drop1      = 
-|try2= '''1''' <br/> [[Guillermo Aispuro-Bichet|Aispuro-Bichet]] {{try|24}}
-|goal2= '''0''' <br/> [[Arthur Mourgue|Mourgue]] (0/1)
-| drop2      = 
-| stadium    = [[Western Sydney Stadium]], [[Sydney]]
-| attendance = 13,174
-| referee    = [[Ashley Klein]] ([[ARLC|Australia]])<ref name='refs1'>{{cite news|url=https://www.nrl.com/news/2026/10/13/world-cup-team-lists-mens-round-1/|title=World Cup Late Mail: Men's Round 1|date=16 October 2026|access-date=16 October 2026|website=[[National Rugby League]]}}</ref>
-|vreferee= Chris Butler ([[ARLC|Australia]])
-|touch= Kieron Irons ([[ARLC|Australia]]), Daniel Luttringer ([[ARLC|Australia]])
-|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-1/samoa-v-france/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2564 Report (IRL)]
-| manofmatch = [[Francis Manuleleua]] (Samoa)<ref>{{Cite web|url=https://www.nine.com.au/sport/nrl/rugby-league-world-cup-live-scores-france-samoa-australia-jillaroos-results-latest-news-20261016-p6168m.html|title= ‘Scrappy’ performance not enough to derail Jillaroos dominance|date=16 October 2026|website=Nine.com.au}}</ref>
-}}<section end=SAMvFRA1 />
+<section end="WC_GAtable" />
 
+==Matches==
+<section begin=WC_GA/>
+===Australia vs New Zealand===
+<section begin=AUSvNZL /><section begin=AUSvNZL1 />
+{{rugbyleaguebox|bg=
+|event=
+|date=15 October 2026
+|time=20:05 [[AEDT]] ([[UTC+11:00]])
+|team1={{rl-rt|AUS}}
+|try1='''5''' <br/> [[Jack Bostock|Bostock]] {{try|19|56|75}} <br/> [[Tom Trbojevic|Trbojevic]] {{try|30}} <br/> [[Reece Walsh|Walsh]] {{try|68}}
+|goal1='''2''' <br/> [[Reece Walsh|Walsh]] (2/4) {{kick|32|57}} <br/> [[Latrell Mitchell|Mitchell]] (0/1)
+|drop1=
+|field1=
+|sinbin1=[[Kotoni Staggs|Staggs]] {{sin bin|37|47}}
+|sentoff1= 
+|score={{score link|2026 Men's Rugby League World Cup Pool A#Australia vs New Zealand|24–22}}
+|1sthalf=10–10
+|2ndhalf=14–12
+|ExtraTime1=
+|ExtraTime2=
+|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-1/australia-v-new-zealand/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2563 Report (IRL)]
+|team2={{rl|NZL}}
+|try2='''3''' <br/> [[Casey McLean|McLean]] {{try|3}} <br/> [[Kalyn Ponga|Ponga]] {{try|46|59}}
+|goal2='''5''' <br/> [[Jamayne Isaako|Isaako]] (5/5) {{kick|5|pen 25|pen 38|48|61}}
+|drop2=
+|field2=
+|sinbin2=
+|sentoff2= 
+|stadium=[[Sydney Football Stadium (2022)|Sydney Football Stadium]], [[Sydney]]
+|attendance=41,255
+|referee= [[Adam Gee (referee)|Adam Gee]] ([[Australian Rugby League Commission|Australia]])
+|referee2=
+|vreferee=Chris Butler ([[Australian Rugby League Commission|Australia]])
+|touch=Matt Noyen ([[Australian Rugby League Commission|Australia]]), Tyson Brough ([[Australian Rugby League Commission|Australia]])
+|manofmatch=[[Jack Bostock]] (Australia)
+|potmaward=
+|potmwinner=
+}}<section end=AUSvNZL1 />
 {| width="100%" class="mw-collapsible mw-collapsed"
 |+ class="nowrap" | '''Team lists:'''
 | valign="top" width="50%" |
@@ -69,119 +73,131 @@ Rather than playing the other two teams in their pool, each nation plays the thr
 ! width="25" |
 ! width="25" |
 |-
-|FB ||'''1'''|| [[Hamiso Tabuai-Fidow]]
+|FB ||'''1'''|| [[Reece Walsh]]
 |-
-|WG ||'''2'''|| [[Brian To'o]]
+|WG ||'''2'''|| [[Jack Bostock]]
 |-
-|CE ||'''3'''|| [[Izack Tago]]
+|CE ||'''3'''|| [[Latrell Mitchell]]
 |-
-|CE ||'''4'''|| [[Stephen Crichton]]
+|CE ||'''4'''|| [[Kotoni Staggs]]
 |-
-|WG ||'''5'''|| [[Deine Mariner]]
+|WG ||'''5'''|| [[Tom Trbojevic]]
 |-
-|FE ||'''6'''|| [[Chanel Harris-Tavita]]
+|FE ||'''6'''|| [[Cameron Munster]]
 |-
-|HB ||'''7'''|| [[Jarome Luai]] (c)
+|HB ||'''7'''|| [[Mitchell Moses]]
 |-
-|PR ||'''8'''|| [[Francis Molo]]
+|PR ||'''8'''|| [[Patrick Carrigan]]
 |-
-|HK ||'''9'''|| [[Benaiah Ioelu]]
+|HK ||'''9'''|| [[Harry Grant (rugby league)|Harry Grant]]
 |-
-|PR ||'''10'''|| [[Junior Paulo (rugby league, born 1993)|Junior Paulo]]
+|PR ||'''10'''|| [[Tino Fa'asuamaleaui]]
 |-
-|SR ||'''11'''|| [[Connelly Lemuelu]]
+|SR ||'''11'''||  [[Jacob Preston (rugby league)|Jacob Preston]]
 |-
-|SR ||'''12'''|| [[Jermaine McEwen]]
+|SR ||'''12'''|| [[Liam Martin]]
 |-
-|LK ||'''13'''|| [[Francis Manuleleua]]
+|LK ||'''13'''|| [[Isaah Yeo]] (c)
 |-
 |colspan=3|'''Substitutions:'''
 |-
-|IC ||'''14'''|| [[Jazz Tevaga]]
+|IC ||'''14'''|| [[Tom Dearden]]
 |-
-|IC ||'''15'''|| [[Spencer Leniu]]
+|IC ||'''15'''|| [[Cameron Murray (rugby league)|Cameron Murray]]
 |-
-|IC ||'''16'''|| [[Shawn Blore]]
+|IC ||'''16'''|| [[Reuben Cotter]]
 |-
-|IC ||'''17'''|| [[Sualauvi Fa'alogo]]
+|IC ||'''17'''|| [[Keaon Koloamatangi]]
 |-
 |colspan=3|'''Coach:'''
 |-
-|colspan="4"|{{flagicon|AUS}} [[Ben Gardiner]]
+|colspan="4"|{{flagicon|AUS}} [[Kevin Walters]]
 |}
 | valign="top" width="50%" |
 {| cellspacing="0" cellpadding="0" align="center" style="font-size: 90%"
 ! width="25" |
 ! width="25" |
 |-
-|FB ||'''1'''|| [[Arthur Mourgue]]
+|FB ||'''1'''|| [[Kalyn Ponga]]
 |-
-|WG ||'''2'''|| [[Benjamin Laguerre]]
+|WG ||'''2'''|| [[Jamayne Isaako]]
 |-
-|CE ||'''3'''|| [[Latrell Siegwalt]]
+|CE ||'''3'''|| [[Dane Gagai]]
 |-
-|CE ||'''4'''|| [[Guillermo Aispuro-Bichet]]
+|CE ||'''4'''|| [[Casey McLean]]
 |-
-|WG ||'''5'''|| [[Leo Darrelatour]]
+|WG ||'''5'''|| [[Ronaldo Mulitalo]]
 |-
-|FE ||'''6'''|| [[Cesar Rougé]]
+|FE ||'''6'''|| [[Kodi Nikorima]]
 |-
-|HB ||'''7'''|| [[Theo Fages]]
+|HB ||'''7'''|| [[Jahrome Hughes]]
 |-
-|PR ||'''8'''|| [[Romain Navarrete]]
+|PR ||'''8'''|| [[James Fisher-Harris]] (c)
 |-
-|HK ||'''9'''|| [[Benjamin Garcia]] (c)
+|HK ||'''9'''|| [[Jeremy Marshall-King]]
 |-
-|PR ||'''10'''|| [[Lambert Belmas]]
+|PR ||'''10'''|| [[Moses Leota]]
 |-
-|SR ||'''11'''|| [[Arthur Romano (rugby league)|Arthur Romano]]
+|SR ||'''11'''|| [[Isaiah Papali'i]]
 |-
-|SR ||'''12'''|| [[Mathieu Jussaume]]
+|SR ||'''12'''|| [[Briton Nikora]]
 |-
-|LK ||'''17'''|| [[Mathieu Cozza]]
+|LK ||'''13'''|| [[Joseph Tapine]]
 |-
 |colspan=3|'''Substitutions:'''
 |-
-|IC ||'''14'''|| [[Amir Bourouh]]
+|IC ||'''15'''|| [[Leo Thompson]]
 |-
-|IC ||'''15'''|| [[Tiaki Chan]]
+|IC ||'''16'''|| [[Erin Clark]]
 |-
-|IC ||'''16'''|| [[Jordan Dezaria]]
+|IC ||'''17'''|| [[Xavier Willison]]
 |-
-|IC ||'''19'''|| [[Louis Grossemy]]
+|IC ||'''19'''|| [[Keano Kini]]
 |-
 |colspan=3|'''Coach:'''
 |-
-|colspan="4"|{{flagicon|FRA}} [[Laurent Frayssinous]]
+|colspan="4"|{{flagicon|NZL}} [[Stacey Jones]]
 |}
-|}<section end=SAMvFRA />
+|}
+<section end=AUSvNZL />
 
-=== Papua New Guinea vs Lebanon ===
-<section begin=PNGvLBN /><section begin=PNGvLBN1 />
+=== Fiji vs Cook Islands ===
+<section begin=FIJvCOK /><section begin=FIJvCOK1 />
 {{rugbyleaguebox
-| event      = 
-| date       = 17 October 2026
-| time       = 14:25 [[Time in Papua New Guinea|PNGST]] ([[UTC+11:00]])
-| team1      = {{rl-rt|Papua New Guinea}}
-| score      = {{score link|2026 Men's Rugby League World Cup Pools B & C#Papua New Guinea vs Lebanon|42–18}}
-|1sthalf=18–12
-|2ndhalf=24–6
-| team2      = {{rl|Lebanon}}
-|try1= '''7''' <br/> [[Gairo Voro|Voro]] {{try|7}} <br/> [[Robert Derby|Derby]] {{try|19}} <br/> [[Nixon Putt|Putt]] {{try|30}} <br/> [[Finley Glare|Glare]] {{try|42}} <br/> [[Epel Kapinias|Kapinias]] {{try|47}} <br/> [[Rhyse Martin|Martin]] {{try|71}} <br/> [[Bailey Biondi-Odo|Biondi-Odo]] {{try|74}}
-|goal1= '''7''' <br/> [[Rhyse Martin|Martin]] (7/7) {{kick|8|21|31|43|49|72|74}}
-| drop1      = 
-|try2= '''3''' <br/> [[Abbas Miski|Miski]] {{try|35|53}} <br/> [[Tony Sukkar (rugby league)|Sukkar]] {{try|39}}
-|goal2= '''3''' <br/> [[Alex Conti (rugby league)|Conti]] (3/3) {{kick|37|40|55}}
-| drop2      = 
-| stadium    = [[PNG Football Stadium]], [[Port Moresby]]
-| attendance = 11,624
-| referee    = [[Grant Atkins]] ([[ARLC|Australia]])<ref name='refs1'/>
-|touch= Jarrod Cole ([[ARLC|Australia]]), Jarrod Cole ([[ARLC|Australia]])
-|vreferee = Liam Kennedy ([[ARLC|Australia]])
-|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-1/papua-new-guinea-v-lebanon/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2565 Report (IRL)]
-| manofmatch = [[Gairo Voro]] (Papua New Guinea)
-}}<section end=PNGvLBN1 />
-
+|bg=
+|event=
+|date=18 October 2026
+|time=16:05 [[AEDT]] ([[UTC+11:00]])
+|team1={{rl-rt|FIJ}}
+|try1='''7''' <br/> [[Solomone Saukuru|Saukuru]] {{try|5|69}} <br/> [[Waqa Blake|Blake]] {{try|12}} <br/> [[Jacob Saifiti|Saifiti]] {{try|28}} <br/> [[Taane Milne|Milne]] {{try|35}} <br/> [[Caleb Navale|Navale]] {{try|37}} <br/> [[Kitione Kautoga|Kautoga]] {{try|47}}
+|goal1='''6''' <br/> [[Brandon Wakeham|Wakeham]] (6/7) {{kick|7|13|30|36|48|71}}
+|drop1=
+|field1=
+|sinbin1=
+|sentoff1= 
+|score={{score link|2026 Men's Rugby League World Cup Pool A#Fiji vs Cook Islands|40–12}}
+|1sthalf=28–0
+|2ndhalf=12–12
+|ExtraTime1=
+|ExtraTime2=
+|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-1/fiji-v-cook-islands/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2567 Report (IRL)]
+|team2={{rl|COK}}
+|try2='''2''' <br/> [[Maui Winitana-Patelesio|Winitana-Patelesio]] {{try|59}} <br/> [[Davvy Moale|Moale]] {{try|63}}
+|goal2='''2''' <br/> [[Maui Winitana-Patelesio|Winitana-Patelesio]] (2/2) {{kick|60|64}}
+|drop2=
+|field2=
+|sinbin2=
+|sentoff2= 
+|stadium=[[Newcastle International Sports Centre]], [[Newcastle, New South Wales|Newcastle]]
+|attendance=10,604
+|referee= [[Chris Kendall]] ([[Rugby Football League|England]])
+|referee2=
+|vreferee=Wyatt Raymond ([[Australian Rugby League Commission|Australia]])
+|touch=Drew Oultram ([[Australian Rugby League Commission|Australia]]), Jon Stone (Australia)
+|manofmatch=[[Brandon Wakeham]] (Fiji)
+|potmaward=
+|potmwinner=
+}}<section end=FIJvCOK1 />
 {| width="100%" class="mw-collapsible mw-collapsed"
 |+ class="nowrap" | '''Team lists:'''
 | valign="top" width="50%" |
@@ -189,479 +205,357 @@ Rather than playing the other two teams in their pool, each nation plays the thr
 ! width="25" |
 ! width="25" |
 |-
-|FB ||'''1'''|| [[Morea Morea]]
+|FB ||'''1'''|| [[Bayleigh Bentley-Hape]]
 |-
-|WG ||'''2'''|| [[Robert Derby]]
+|WG ||'''2'''|| [[Sunia Turuva]]
 |-
-|CE ||'''3'''|| [[Zac Laybutt]]
+|CE ||'''3'''|| [[Waqa Blake]]
 |-
-|CE ||'''4'''|| [[Nene Macdonald]]
+|CE ||'''4'''|| [[Solomone Saukuru]]
 |-
-|WG ||'''5'''|| [[Dudley Dotoi]]
+|WG ||'''5'''|| [[Semi Valemei]]
 |-
-|FE ||'''6'''|| [[Gairo Voro]]
+|FE ||'''6'''|| [[Kurt Donoghoe]]
 |-
-|HB ||'''14'''|| [[Finley Glare]]
+|HB ||'''7'''|| [[Brandon Wakeham]]
 |-
-|PR ||'''8'''|| [[Valentine Richard]]
+|PR ||'''8'''|| [[Jacob Saifiti]]
 |-
-|HK ||'''9'''|| [[Edwin Ipape]]
+|HK ||'''9'''|| [[Apisai Koroisau]] (c)
 |-
-|PR ||'''10'''|| [[Luca Moretti]]
+|PR ||'''10'''|| [[Mitchell Prest]]
 |-
-|SR ||'''11'''|| [[Rhyse Martin]] (c)
+|SR ||'''11'''|| [[Taane Milne]]
 |-
-|SR ||'''12'''|| [[Nixon Putt]]
+|SR ||'''12'''|| [[Kitione Kautoga]]
 |-
-|LK ||'''15'''|| [[Liam Horne]]
+|LK ||'''13'''|| [[Caleb Navale]]
 |-
 |colspan=3|'''Substitutions:'''
 |-
-|IC ||'''7'''|| [[Bailey Biondi-Odo]]
+|IC ||'''14'''|| [[Josese Lanyon]]
 |-
-|IC ||'''13'''|| [[Jack de Belin]]
+|IC ||'''15'''|| [[Emosi Ravosai]]
 |-
-|IC ||'''16'''|| [[Epel Kapinias]]
+|IC ||'''16'''|| [[Elijah Keung]]
 |-
-|IC ||'''17'''|| [[Sylvester Namo]]
+|IC ||'''19'''|| [[Jordin Leiu]]
 |-
 |colspan=3|'''Coach:'''
 |-
-|colspan="4"|{{flagicon|AUS}} [[Jason Demetriou (rugby league)|Jason Demetriou]]
+|colspan="4"|{{flagicon|AUS}} [[Mick Potter]]
 |}
 | valign="top" width="50%" |
 {| cellspacing="0" cellpadding="0" align="center" style="font-size: 90%"
 ! width="25" |
 ! width="25" |
 |-
-|FB ||'''1'''|| [[Jacob Kiraz]]
+|FB ||'''1'''|| [[Esom Ioka]]
 |-
-|WG ||'''2'''|| [[Tony Francis (rugby league)|Tony Francis]]
+|WG ||'''2'''|| [[Paul Ulberg]]
 |-
-|CE ||'''3'''|| [[Michael Gabrael]]
+|CE ||'''3'''|| [[KL Iro]] (c)
 |-
-|CE ||'''4'''|| [[Jordan Samrani]]
+|CE ||'''4'''|| [[Reubenn Rennie]]
 |-
-|WG ||'''5'''|| [[Jason Saab]]
+|WG ||'''5'''|| [[Cameron Brown (rugby league)|Cameron Brown]]
 |-
-|FE ||'''6'''|| [[Khaled Rajab]]
+|FE ||'''6'''|| [[Maui Winitana-Patelesio]]
 |-
-|HB ||'''7'''|| [[Alex Conti (rugby league)|Alex Conti]]
+|HB ||'''7'''|| [[Esan Marsters]]
 |-
-|PR ||'''8'''|| [[Jaxson Rahme]]
+|PR ||'''8'''|| [[Davvy Moale]]
 |-
-|HK ||'''9'''|| [[Yehya Ayache]]
+|HK ||'''9'''|| [[Mason Teague]]
 |-
-|PR ||'''10'''|| [[James Roumanos]]
+|PR ||'''10'''|| [[Makahesi Makatoa]]
 |-
-|SR ||'''11'''|| [[Tony Sukkar (rugby league)|Tony Sukkar]]
+|SR ||'''11'''|| [[Reuben Porter]]
 |-
-|SR ||'''15'''|| [[Mikael Ibrahim]]
+|SR ||'''12'''|| [[Delahia Wigmore]]
 |-
-|LK ||'''13'''|| [[Alex Twal]] (c)
+|LK ||'''13'''|| [[Pride Petterson-Robati]]
 |-
 |colspan=3|'''Substitutions:'''
 |-
-|IC ||'''14'''|| [[Moustafa Dirani]]
+|IC ||'''14'''|| [[Rua Ngatikaura]]
 |-
-|IC ||'''16'''|| [[Jalal Bazzaz]]
+|IC ||'''15'''|| [[K-Ci Newton-Whare]]
 |-
-|IC ||'''19'''|| [[Abbas Miski]]
+|IC ||'''17'''|| [[Brad Takairangi]]
 |-
-|IC ||'''20'''|| [[Tupou Francis]]
+|IC ||'''19'''|| [[Chaev Kolone]]
 |-
 |colspan=3|'''Coach:'''
 |-
-|colspan="4"|{{flagicon|AUS}} [[Michael Cheika]]
+|colspan="4"|{{flagicon|AUS}} [[Karmichael Hunt]]
 |}
-|}<section end=PNGvLBN />
+|}<section end=FIJvCOK />
 
-=== England vs Tonga ===
-<section begin=ENGvTON /><section begin=ENGvTON1 />
+=== New Zealand vs Cook Islands ===
+<section begin=NZLvCOK /><section begin=NZLvCOK1 />
 {{rugbyleaguebox
 | event      = 
-| date       = 17 October 2026
-| time       = 17:05 [[time in Australia|AWST]] ([[UTC+08:00]])
-| team1      = {{rl-rt|England}}
-|score={{score link|2026 Men's Rugby League World Cup Pools B & C#England vs Tonga|12–30}}
-|1sthalf=0–10
-|2ndhalf=12–20
-| team2      = {{rl|Tonga}}
-|try1= '''2''' <br/> [[AJ Brimson|Brimson]] {{try|45}} <br/> [[Dom Young|Young]] {{try|62}}
-|goal1= '''2''' <br/> [[Hugo Savala|Savala]] (2/2) {{kick|47|63}}
-| drop1      = 
-|try2= '''4''' <br/> [[Stefano Utoikamanu|Utoikamanu]] {{try|23}} <br/> [[Haumole Olakau'atu|Olakau'atu]] {{try|52|70}} <br/> [[Toluta'u Koula (rugby league)|Koula]] {{try|55}}
-|goal2= '''8''' <br/> [[Isaiya Katoa|Katoa]] (7/8) {{kick|24|pen 27|pen 39|53|57|pen 60|pen 75}}
-| drop2      =
-| stadium    = [[Perth Rectangular Stadium]], [[Perth]]
-| attendance = 18,302
-| referee    = [[Gerard Sutton (referee)|Gerard Sutton]] ([[ARLC|Australia]])<ref name='refs1'/>
-|vreferee=[[Ashley Klein]] ([[Australian Rugby League Commission|Australia]])
-|touch= Ziggy Przeklasa-Adamski ([[ARLC|Australia]]), Adam Munroe ([[ARLC|Australia]])
-|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-1/england-v-tonga/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2566 Report (IRL)]
-| manofmatch = [[Isaiya Katoa]] (Tonga)<ref>{{Cite web|url=https://7news.com.au/sport/rugby-league/tonga-claim-statement-win-to-put-england-under-immediate-threat-in-rugby-league-world-cup-c-23035627|title=Tonga claim statement win to put ENgland under immediate threat|date=17 October 2026|website=7News}}</ref>
-}}<section end=ENGvTON1 />
-
-{| width="100%" class="mw-collapsible mw-collapsed"
-|+ class="nowrap" | '''Team lists:'''
-| valign="top" width="50%" |
-{| cellspacing="0" cellpadding="0" style="font-size: 90%"
-! width="25" |
-! width="25" |
-|-
-|FB ||'''1'''|| [[AJ Brimson]]
-|-
-|WG ||'''2'''|| [[Dom Young]]
-|-
-|CE ||'''3'''|| [[Hugo Savala]]
-|-
-|CE ||'''4'''|| [[Herbie Farnworth]]
-|-
-|WG ||'''5'''|| [[Zach Eckersley]]
-|-
-|FE ||'''6'''|| [[George Williams (rugby league, born 1994)|George Williams]] (c)
-|-
-|HB ||'''7'''|| [[Harry Smith (rugby league)|Harry Smith]]
-|-
-|PR ||'''8'''|| [[Max King (rugby league)|Max King]]
-|-
-|HK ||'''9'''|| [[Brad O'Neill]]
-|-
-|PR ||'''15'''|| [[Luke Thompson (rugby league)|Luke Thompson]]
-|-
-|SR ||'''11'''|| [[Junior Nsemba]]
-|-
-|SR ||'''12'''|| [[Kai Pearce-Paul]]
-|-
-|LK ||'''13'''|| [[Victor Radley]]
-|-
-|colspan=3|'''Substitutions:'''
-|-
-|IC ||'''14'''|| [[Jez Litten]]
-|-
-|IC ||'''16'''|| [[Ethan Havard]]
-|-
-|IC ||'''17'''|| [[Sam Walters (rugby league)|Sam Walters]]
-|-
-|IC ||'''20'''|| [[Ben Currie]]
-|-
-|colspan=3|'''Coach:'''
-|-
-|colspan="4"|{{flagicon|ENG}} [[Brian McDermott (rugby league)|Brian McDermott]]
-|}
-| valign="top" width="50%" |
-{| cellspacing="0" cellpadding="0" align="center" style="font-size: 90%"
-! width="25" |
-! width="25" |
-|-
-|FB ||'''1'''|| [[Lehi Hopoate]]
-|-
-|WG ||'''2'''|| [[Dallin Watene-Zelezniak]]
-|-
-|CE ||'''3'''|| [[Toluta'u Koula (rugby league)|Toluta'u Koula]]
-|-
-|CE ||'''4'''|| [[Robert Toia]]
-|-
-|WG ||'''5'''|| [[Jojo Fifita]]
-|-
-|FE ||'''6'''|| [[Latu Fainu]]
-|-
-|HB ||'''7'''|| [[Isaiya Katoa]]
-|-
-|PR ||'''8'''|| [[Addin Fonua-Blake]]
-|-
-|HK ||'''14'''|| [[Salesi Foketi]]
-|-
-|PR ||'''10'''|| [[Jason Taumalolo]] (c)
-|-
-|SR ||'''11'''|| [[Haumole Olakau'atu]]
-|-
-|SR ||'''12'''|| [[Siua Wong]]
-|-
-|LK ||'''13'''|| [[Tyson Frizell]]
-|-
-|colspan=3|'''Substitutions:'''
-|-
-|IC ||'''15'''|| [[Stefano Utoikamanu]]
-|-
-|IC ||'''16'''|| [[Demitric Vaimauga]]
-|-
-|IC ||'''17'''|| [[Leka Halasima]]
-|-
-|IC ||'''18'''|| [[Tuimoala Lolohea]]
-|-
-|colspan=3|'''Coach:'''
-|-
-|colspan="4"|{{flagicon|AUS}} [[Kristian Woolf]]
-|}
-|}<section end=ENGvTON />
-
-=== Tonga vs Lebanon ===
-<section begin=TONvLBN /><section begin=TONvLBN1 />
-{{rugbyleaguebox
-| event      = 
-| date       = 23 October 2026
-| time       = 20:05 [[AEDT]] ([[UTC+11:00]])
-| team1      = {{rl-rt|Tonga}}
-|score={{score link|2026 Men's Rugby League World Cup Pools B & C#Tonga vs Lebanon|36–0}}
-|1sthalf=14–0
-|2ndhalf=22–0
-| team2      = {{rl|Lebanon}}
-| try1       = '''7''' <br/> [[Sione Katoa (rugby league, born 1997)|Katoa]] {{try|12|79}} <br/> [[Paul Alamoti|Alamoti]] {{try|20}} <br/> [[Toluta'u Koula (rugby league)|Koula]] {{try|36}} <br/> [[Sosefo Fifita|Fifita]] {{try|43|73}} <br/> [[Leka Halasima|Halasima]] {{try|69}}
-| goal1      = '''4''' <br/> [[Paul Alamoti|Alamoti]] (1/4) {{kick|21}} <br/> [[Tuimoala Lolohea|Lolohea]] (3/3) {{kick|70|74|79}}
-| drop1      = 
-| try2       = 
-| goal2      = 
-| drop2      = 
-| stadium    = [[Western Sydney Stadium]], [[Sydney]]
-| attendance = 25,065
-| referee    = Liam Moore ([[Rugby Football League|England]])
-|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-2/tonga-v-lebanon/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2569 Report (IRL)]
-|touch=Ziggy Przeklasa-Adamski ([[ARLC|Australia]]), Jarrod Cole ([[ARLC|Australia]])
-|vreferee=[[Grant Atkins]] ([[ARLC|Australia]])
-|manofmatch= [[Toluta'u Koula (rugby league)|Tolutau Koula]] (Tonga)<ref>[https://www.nrl.com/news/2026/10/23/tolutau-koula-named-player-of-the-match/ TONvLBN PotM]</ref>
-}}<section end=TONvLBN1 />
-
-{| width="100%" class="mw-collapsible mw-collapsed"
-|+ class="nowrap" | '''Team lists:'''
-| valign="top" width="50%" |
-{| cellspacing="0" cellpadding="0" style="font-size: 90%"
-! width="25" |
-! width="25" |
-|-
-|FB ||'''1'''|| [[Lehi Hopoate]]
-|-
-|WG ||'''2'''|| [[Sione Katoa (rugby league, born 1997)|Sione Katoa]]
-|-
-|CE ||'''3'''|| [[Toluta'u Koula (rugby league)|Toluta'u Koula]]
-|-
-|CE ||'''4'''|| [[Paul Alamoti]]
-|-
-|WG ||'''5'''|| [[Jojo Fifita]]
-|-
-|FE ||'''18'''|| [[Latu Fainu]]
-|-
-|HB ||'''6'''|| [[Tuimoala Lolohea]]
-|-
-|PR ||'''8'''|| [[Addin Fonua-Blake]]
-|-
-|HK ||'''9'''|| [[Salesi Foketi]]
-|-
-|PR ||'''10'''|| [[Stefano Utoikamanu]]
-|-
-|SR ||'''11'''|| [[Haumole Olakau'atu]]
-|-
-|SR ||'''12'''|| [[Kulikefu Finefeuiaki]]
-|-
-|LK ||'''13'''|| [[Jason Taumalolo]] (c)
-|-
-|colspan=3|'''Substitutions:'''
-|-
-|IC ||'''14'''|| [[Soni Luke]]
-|-
-|IC ||'''15'''|| [[Taniela Paseka]]
-|-
-|IC ||'''17'''|| [[Leka Halasima]]
-|-
-|IC ||'''22'''|| [[Siua Wong]]
-|-
-|colspan=3|'''Coach:'''
-|-
-|colspan="4"|{{flagicon|AUS}} [[Kristian Woolf]]
-|}
-| valign="top" width="50%" |
-{| cellspacing="0" cellpadding="0" align="center" style="font-size: 90%"
-! width="25" |
-! width="25" |
-|-
-|FB ||'''1'''|| [[Jacob Kiraz]]
-|-
-|WG ||'''2'''|| [[Tony Francis (rugby league)|Tony Francis]]
-|-
-|CE ||'''3'''|| [[Michael Gabrael]]
-|-
-|CE ||'''4'''|| [[Jordan Samrani]]
-|-
-|WG ||'''5'''|| [[Jason Saab]]
-|-
-|FE ||'''6'''|| [[Khaled Rajab]]
-|-
-|HB ||'''7'''|| [[Alex Conti (rugby league)|Alex Conti]]
-|-
-|PR ||'''10'''|| [[James Roumanos]]
-|-
-|HK ||'''8'''|| [[Jaxson Rahme]]
-|-
-|PR ||'''16'''|| [[Jalal Bazzaz]]
-|-
-|SR ||'''11'''|| [[Tony Sukkar (rugby league)|Tony Sukkar]]
-|-
-|SR ||'''19'''|| [[Abbas Miski]]
-|-
-|LK ||'''13'''|| [[Alex Twal]] (c)
-|-
-|colspan=3|'''Substitutions:'''
-|-
-|IC ||'''9'''|| [[Moustafa Dirani]]
-|-
-|IC ||'''12'''|| [[Mikael Ibrahim]]
-|-
-|IC ||'''15'''|| [[Tupou Francis]]
-|-
-|IC ||'''18'''|| [[Joseph Nohra]]
-|-
-|colspan=3|'''Coach:'''
-|-
-|colspan="4"|{{flagicon|AUS}} [[Michael Cheika]]
-|}
-|}<section end=TONvLBN />
-
-=== Papua New Guinea vs Samoa ===
-<section begin=PNGvSAM /><section begin=PNGvSAM1 />
-{{rugbyleaguebox
-| event      = 
-| date       = 24 October 2026
-| time       = 14:25 [[Time in Papua New Guinea|PNGST]] ([[UTC+11:00]])
-| team1      = {{rl-rt|Papua New Guinea}}
-|score={{score link|2026 Men's Rugby League World Cup Pools B & C#Papua New Guinea vs Samoa|6–64}}
-|1sthalf=6–14
-|2ndhalf=0–50
-| team2      = {{rl|Samoa}}
-| try1       = '''1''' <br/> [[Bailey Biondi-Odo|Biondi-Odo]] {{try|18}}
-| goal1      = '''1''' <br/> [[Rhyse Martin|Martin]] (1/1) {{kick|18}}
-| sinbin1    = [[Robert Derby|Derby]] {{sin bin|63|73}}
-| drop1      = 
-| try2       = '''13''' <br/> [[Sualauvi Fa'alogo|Fa'alogo]] {{try|1|44}} <br/> [[Spencer Leniu|Leniu]] {{try|30}} <br/> [[Stephen Crichton|Crichton]] {{try|36}} <br/> [[Francis Manuleleua|Manuleleua]] {{try|47}} <br/> [[Hamiso Tabuai-Fidow|Tabuai-Fidow]] {{try|52|68}} <br/> [[Brian To'o|To'o]] {{try|58}} <br/> [[Shawn Blore|Blore]] {{try|65|77}} <br/> [[Ronald Volkman|Volkman]] {{try|66}} <br/> [[Izack Tago|Tago]] {{try|70}} <br/> [[Ata Mariota|Mariota]] {{try|79}}
-| goal2      = '''6''' <br/> [[Stephen Crichton|Crichton]] (1/3) {{kick|30}} <br/> [[Chanel Harris-Tavita|Harris-Tavita]] (2/6) {{kick|46|67}} <br/> [[Ronald Volkman|Volkman]] (3/4) {{kick|70|72|79}}
-| drop2      =
-| stadium    = [[PNG Football Stadium]], [[Port Moresby]]
-| attendance = 15,008
-| referee    = Chris Kendall ([[Rugby Football League|England]])
-|vreferee=Liam Kennedy ([[ARLC|Australia]])
-|touch=Kieren Irons ([[ARLC|Australia]]), Daniel Luttringer ([[ARLC|Australia]])
-|manofmatch=[[Francis Manuleleua]] (Samoa)<ref>[https://www.nrl.com/news/2026/10/24/francis-manuleleua-named-player-of-the-match/ PNGvSAM PotM]</ref>
-|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-2/papua-new-guinea-v-samoa/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2570 Report (IRL)]
-}}<section end=PNGvSAM1 />
-
-{| width="100%" class="mw-collapsible mw-collapsed"
-|+ class="nowrap" | '''Team lists:'''
-| valign="top" width="50%" |
-{| cellspacing="0" cellpadding="0" style="font-size: 90%"
-! width="25" |
-! width="25" |
-|-
-|FB ||'''1'''|| [[Morea Morea]]
-|-
-|WG ||'''2'''|| [[Robert Derby]]
-|-
-|CE ||'''3'''|| [[Zac Laybutt]]
-|-
-|CE ||'''18'''|| [[Rodrick Tai]]
-|-
-|WG ||'''5'''|| [[Dudley Dotoi]]
-|-
-|FE ||'''6'''|| [[Gairo Voro]]
-|-
-|HB ||'''7'''|| [[Bailey Biondi-Odo]]
-|-
-|PR ||'''8'''|| [[Epel Kapinias]]
-|-
-|HK ||'''9'''|| [[Edwin Ipape]]
-|-
-|PR ||'''16'''|| [[Valentine Richard]]
-|-
-|SR ||'''11'''|| [[Rhyse Martin]] (c)
-|-
-|SR ||'''12'''|| [[Nixon Putt]]
-|-
-|LK ||'''13'''|| [[Jack de Belin]]
-|-
-|colspan=3|'''Substitutions:'''
-|-
-|IC ||'''14'''|| [[Finley Glare]]
-|-
-|IC ||'''15'''|| [[Liam Horne]]
-|-
-|IC ||'''17'''|| [[Khaiya Waiembi]]
-|-
-|IC ||'''22'''|| [[Zev John]]
-|-
-|colspan=3|'''Coach:'''
-|-
-|colspan="4"|{{flagicon|AUS}} [[Jason Demetriou (rugby league)|Jason Demetriou]]
-|}
-| valign="top" width="50%" |
-{| cellspacing="0" cellpadding="0" align="center" style="font-size: 90%"
-! width="25" |
-! width="25" |
-|-
-|FB ||'''1'''|| [[Hamiso Tabuai-Fidow]]
-|-
-|WG ||'''2'''|| [[Brian To'o]]
-|-
-|CE ||'''3'''|| [[Izack Tago]]
-|-
-|CE ||'''4'''|| [[Stephen Crichton]]
-|-
-|WG ||'''5'''|| [[Sualauvi Fa'alogo]]
-|-
-|FE ||'''6'''|| [[Chanel Harris-Tavita]]
-|-
-|HB ||'''7'''|| [[Jarome Luai]] (c)
-|-
-|PR ||'''8'''|| [[Francis Molo]]
-|-
-|HK ||'''9'''|| [[Benaiah Ioelu]]
-|-
-|PR ||'''10'''|| [[Junior Paulo (rugby league, born 1993)|Junior Paulo]]
-|-
-|SR ||'''11'''|| [[Connelly Lemuelu]]
-|-
-|SR ||'''12'''|| [[Jermaine McEwen]]
-|-
-|LK ||'''13'''|| [[Francis Manuleleua]]
-|-
-|colspan=3|'''Substitutions:'''
-|-
-|IC ||'''15'''|| [[Spencer Leniu]]
-|-
-|IC ||'''16'''|| [[Shawn Blore]]
-|-
-|IC ||'''17'''|| [[Ata Mariota]]
-|-
-|IC ||'''19'''|| [[Ronald Volkman]]
-|-
-|colspan=3|'''Coach:'''
-|-
-|colspan="4"|{{flagicon|AUS}} [[Ben Gardiner]]
-|}
-|}<section end=PNGvSAM />
-
-=== England vs France ===
-<section begin=ENGvFRA /><section begin=ENGvFRA1 />
-{{rugbyleaguebox
-| event      = 
-| date       = 24 October 2026
-| time       = 14:35 [[time in Australia|AWST]] ([[UTC+08:00]])
-| team1      = {{rl-rt|England}}
-|score={{score link|2026 Men's Rugby League World Cup Pools B & C#England vs France|82–0}}
-|1sthalf=36–0
+| date       = 25 October 2026
+| time       = 18:05 [[NZDT]] ([[UTC+12:00]])
+| team1      = {{rl-rt|New Zealand}}
+|score={{score link|2026 Men's Rugby League World Cup Pool A#New Zealand vs Cook Islands|82–16}}
+|1sthalf=36–16
 |2ndhalf=46–0
-| team2      = {{rl|France}}
-| try1       = '''14''' <br/> [[Dominic Young|Young]] {{try|22|45|63}} <br/> [[Matty Ashton|Ashton]] {{try|24}} <br/> [[Herbie Farnworth|Farnworth]] {{try|26|34|39}} <br/> [[George Williams (rugby league, born 1994)|Williams]] {{try|37}} <br/> [[Victor Radley|Radley]] {{try|48}} <br/> [[Jez Litten|Litten]] {{try|58}} <br/> [[Mikey Lewis|Lewis]] {{try|62|68}} <br/> [[Jack Welsby|Welsby]] {{try|66}} <br/> [[AJ Brimson|Brimson]] {{try|77}}
-| goal1      = '''13''' <br/> [[Hugo Savala|Savala]] (13/14) {{kick|23|25|27|36|38|39|49|59|63|65|66|69|77}}
+| team2      = {{rl|Cook Islands}}
+| try1       = '''14''' <br/> [[Jamayne Isaako|Isaako]] {{try|1|23|73}} <br/> [[Ronaldo Mulitalo|Mulitalo]] {{try|6|64}} <br/> [[Scott Sorensen|Sorensen]] {{try|27}} <br/> [[Tanner Stowers-Smith|Stowers-Smith]] {{try|32|49}} <br/> [[Casey McLean|McLean]] {{try|37|58}} <br/> [[Keano Kini|Kini]] {{try|42}} <br/> [[Kodi Nikorima|Nikorima]] {{try|51}} <br/> [[Te Maire Martin|Martin]] {{try|76}} <br/> [[Charnze Nicoll-Klokstad|Nicoll-Klokstad]] {{try|77}}
+| goal1      = '''13''' <br/> [[Jamayne Isaako|Isaako]] (13/14) {{kick|3|8|24|28|34|39|44|50|53|58|75|76|78}}
 | drop1      = 
+| try2       = '''3''' <br/> [[Esom Ioka|Ioka]] {{try|10|14|18}}
+| goal2      = '''2''' <br/> [[Valentine Holmes|Holmes]] (2/3) {{kick|16|19}}
+| drop2      = 
+| stadium    = [[Te Kaha (stadium)|Te Kaha Stadium]], [[Christchurch]]
+| attendance = 24,868{{Efn|Match attendance was posted as 26,800 by several difference sources, but NRL website lists it officially as 24,868<ref>https://www.austadiums.com/sport/event/33563</ref><ref>https://www.rugbyleagueproject.org/matches/world-cup-2026/game-9/new-zealand-vs-cook-islands.html</ref>}}   
+| referee    = [[Ashley Klein]] ([[ARLC|Australia]])
+|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-2/new-zealand-v-cook-islands/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2572 Report (IRL)]
+| manofmatch = [[Casey McLean]] (New Zealand)<ref>[https://www.nrl.com/news/2026/10/25/casey-mclean-named-player-of-the-match/ NZNvCOK PotM]</ref>
+|vreferee=Wyatt Raymond 
+|touch=Jon Stone ([[ARLC|Australia]]), Drew Oultram ([[ARLC|Australia]])
+}}<section end=NZLvCOK1 />
+
+{| width="100%" class="mw-collapsible mw-collapsed"
+|+ class="nowrap" | '''Team lists:'''
+| valign="top" width="50%" |
+{| cellspacing="0" cellpadding="0" style="font-size: 90%"
+! width="25" |
+! width="25" |
+|-
+|FB ||'''1'''|| [[Keano Kini]]
+|-
+|WG ||'''2'''|| [[Jamayne Isaako]]
+|-
+|CE ||'''3'''|| [[Charnze Nicoll-Klokstad]]
+|-
+|CE ||'''4'''|| [[Casey McLean]]
+|-
+|WG ||'''5'''|| [[Ronaldo Mulitalo]]
+|-
+|FE ||'''6'''|| [[Kodi Nikorima]]
+|-
+|HB ||'''7'''|| [[Jahrome Hughes]]
+|-
+|PR ||'''8'''|| [[James Fisher-Harris]] (c)
+|-
+|HK ||'''9'''|| [[Jeremy Marshall-King]]
+|-
+|PR ||'''10'''|| [[Joseph Tapine]]
+|-
+|SR ||'''11'''|| [[Xavier Willison]]
+|-
+|SR ||'''12'''|| [[Scott Sorensen]]
+|-
+|LK ||'''13'''|| [[Erin Clark]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|IC ||'''14'''|| [[Te Maire Martin]]
+|-
+|IC ||'''15'''|| [[Leo Thompson]]
+|-
+|IC ||'''16'''|| [[Tanner Stowers-Smith]]
+|-
+|IC ||'''17'''|| [[Jacob Laban]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagicon|NZL}} [[Stacey Jones]]
+|}
+| valign="top" width="50%" |
+{| cellspacing="0" cellpadding="0" align="center" style="font-size: 90%"
+! width="25" |
+! width="25" |
+|-
+|FB ||'''1'''|| [[Valentine Holmes]]
+|-
+|WG ||'''2'''|| [[Esom Ioka]]
+|-
+|CE ||'''3'''|| [[KL Iro]] (c)
+|-
+|CE ||'''4'''|| [[Reubenn Rennie]]
+|-
+|WG ||'''5'''|| [[Cameron Brown (rugby league)|Cameron Brown]]
+|-
+|FE ||'''6'''|| [[Maui Winitana-Patelesio]]
+|-
+|HB ||'''17'''|| [[Brad Takairangi]]
+|-
+|PR ||'''8'''|| [[Davvy Moale]]
+|-
+|HK ||'''9'''|| [[Rua Ngatikaura]]
+|-
+|PR ||'''10'''|| [[Rhys Dakin (rugby league)|Rhys Dakin]]
+|-
+|SR ||'''11'''|| [[Amare Milford]]
+|-
+|SR ||'''12'''|| [[Delahia Wigmore]]
+|-
+|LK ||'''13'''|| [[Mason Teague]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|IC ||'''7'''|| [[Esan Marsters]]
+|-
+|IC ||'''14'''|| [[K-Ci Newton-Whare]]
+|-
+|IC ||'''15'''|| [[David Tuariki]]
+|-
+|IC ||'''16'''|| [[Makahesi Makatoa]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagicon|AUS}} [[Karmichael Hunt]]
+|}
+|}<section end=NZLvCOK />
+
+=== Australia vs Fiji ===
+<section begin=AUSvFIJ /><section begin=AUSvFIJ1 />
+{{rugbyleaguebox
+| event      = 
+| date       = 25 October 2026
+| time       = 19:05 [[AEST]] ([[UTC+10:00]])
+| team1      = {{rl-rt|Australia}}
+|score={{score link|2026 Men's Rugby League World Cup Pool A#Australia vs Fiji|36–22}}
+|1sthalf=12–10
+|2ndhalf=24–12
+| team2      = {{rl|Fiji}}
+| try1       = '''6''' <br/> [[Kotoni Staggs|Staggs]] {{try|7}} <br/> [[Sam Walker (rugby league)|Walker]] {{try|33}} <br/> [[Tom Trbojevic|Trbojevic]] {{try|47|57|62}} <br/> [[Jacob Preston (rugby league)|Preston]] {{try|76}}
+| goal1      = '''6''' <br/> [[Sam Walker (rugby league)|Walker]] (6/7) {{kick|9|34|pen 54|58|63|78}}
+| drop1      = 
+| try2       = '''4''' <br/> [[Semi Valemei|Valemei]] {{try|17|43|69}} <br/> [[Taane Milne|Milne]] {{try|25}}
+| goal2      = '''3''' <br/> [[Brandon Wakeham|Wakeham]] (3/4) {{kick|26|44|71}}
+| drop2      = 
+| stadium    = [[Lang Park]], [[Brisbane]]
+| attendance = 41,108
+| referee    = [[Gerard Sutton (referee)|Gerard Sutton]] ([[ARLC|Australia]])
+|vreferee=Chris Butler ([[ARLC|Australia]])
+|touch=Nick Pelgrave ([[ARLC|Australia]]), Michael Wise ([[ARLC|Australia]])
+|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-2/australia-v-fiji/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2573 Report (IRL)]
+| manofmatch = [[Kurt Donoghoe]] (Fiji)<ref>[https://www.nrl.com/news/2026/10/25/kurt-donoghoe-named-player-of-the-match2/ AUSvFIJ PotM]</ref>
+}}<section end=AUSvFIJ1 />
+
+{| width="100%" class="mw-collapsible mw-collapsed"
+|+ class="nowrap" | '''Team lists:'''
+| valign="top" width="50%" |
+{| cellspacing="0" cellpadding="0" style="font-size: 90%"
+! width="25" |
+! width="25" |
+|-
+|FB ||'''1'''|| [[James Tedesco]] (c)
+|-
+|WG ||'''2'''|| [[Jack Bostock]]
+|-
+|CE ||'''3'''|| [[Kotoni Staggs]]
+|-
+|CE ||'''4'''|| [[Bradman Best]]
+|-
+|WG ||'''5'''|| [[Tom Trbojevic]]
+|-
+|FE ||'''6'''|| [[Tom Dearden]]
+|-
+|HB ||'''7'''|| [[Sam Walker (rugby league)|Sam Walker]]
+|-
+|PR ||'''8'''|| [[Keaon Koloamatangi]]
+|-
+|HK ||'''9'''|| [[Blayke Brailey]]
+|-
+|PR ||'''10'''|| [[Lindsay Smith (rugby league)|Lindsay Smith]]
+|-
+|SR ||'''11'''|| [[David Fifita (rugby league, born 2000)|David Fifita]]
+|-
+|SR ||'''12'''|| [[Reuben Cotter]]
+|-
+|LK ||'''13'''|| [[Cameron Murray (rugby league)|Cameron Murray]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|IC ||'''14'''|| [[Tino Fa'asuamaleaui]]
+|-
+|IC ||'''15'''|| [[Jacob Preston (rugby league)|Jacob Preston]]
+|-
+|IC ||'''16'''|| [[Patrick Carrigan]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagicon|AUS}} [[Kevin Walters]]
+|}
+| valign="top" width="50%" |
+{| cellspacing="0" cellpadding="0" align="center" style="font-size: 90%"
+! width="25" |
+! width="25" |
+|-
+|FB ||'''1'''|| [[Bayleigh Bentley-Hape]]
+|-
+|WG ||'''2'''|| [[Sunia Turuva]]
+|-
+|CE ||'''3'''|| [[Waqa Blake]]
+|-
+|CE ||'''4'''|| [[Solomone Saukuru]]
+|-
+|WG ||'''5'''|| [[Semi Valemei]]
+|-
+|FE ||'''6'''|| [[Kurt Donoghoe]]
+|-
+|HB ||'''7'''|| [[Brandon Wakeham]]
+|-
+|PR ||'''8'''|| [[Jacob Saifiti]]
+|-
+|HK ||'''9'''|| [[Apisai Koroisau]] (c)
+|-
+|PR ||'''10'''|| [[Mitchell Prest]]
+|-
+|SR ||'''11'''|| [[Taane Milne]]
+|-
+|SR ||'''12'''|| [[Kitione Kautoga]]
+|-
+|LK ||'''13'''|| [[Caleb Navale]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|IC ||'''14'''|| [[Josese Lanyon]]
+|-
+|IC ||'''15'''|| [[Emosi Ravosai]]
+|-
+|IC ||'''17'''|| [[Ronald Philitoga]]
+|-
+|IC ||'''18'''|| [[Jordin Leiu]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagicon|FIJ}} [[Mick Potter]]
+|}
+|}<section end=AUSvFIJ />
+
+=== New Zealand vs Fiji ===
+<section begin=NZLvFIJ /><section begin=NZLvFIJ1 />
+{{rugbyleaguebox
+| event      = 
+| date       = 31 October 2026
+| time       = 14:45 [[AEST]] ([[UTC+10:00]])
+| team1      = {{rl-rt|New Zealand}}
+| score      = {{score link|2026 Men's Rugby League World Cup Pool A#New Zealand vs Fiji|78–0}}
+| 1sthalf    = 48–0
+| 2ndhalf    = 30–0
+| team2      = {{rl|Fiji}}
+| try1       = '''13''' <br/> [[Jahrome Hughes|Hughes]] {{try|1}} <br/> [[Keano Kini|Kini]] {{try|4|78}} <br/> [[Casey McLean|McLean]] {{try|8|25|55|61}} <br/> [[Dane Gagai|Gagai]] {{try|11}} <br/> [[James Fisher-Harris|Fisher-Harris]] {{try|19}} <br/> [[Ronaldo Mulitalo|Mulitalo]] {{try|29}} <br/> [[Xavier Willison|Willison]] {{try|32}} <br/> [[Briton Nikora|Nikora]] {{try|63}} <br/> [[Erin Clark|Clark]] {{try|72}}
+| goal1      = '''13''' <br/> [[Jamayne Isaako|Isaako]] (13/13) {{kick|3|5|10|12|21|26|30|34|57|62|65|73|79}}
+| sentoff1   = [[Ronaldo Mulitalo|Mulitalo]] {{sent off|0|51}}
 | try2       = 
 | goal2      = 
-| drop2      = 
-| stadium    = [[Perth Rectangular Stadium]], [[Perth]]
-|attendance=10,723
-| referee    = [[Adam Gee (referee)|Adam Gee]] ([[ARLC|Australia]])
-|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-2/england-v-france/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2571 Report (IRL)]
-|vreferee=Chris Butler ([[ARLC|Australia]])
-|touch=Jon Stone ([[ARLC|Australia]]), Matt Noyen ([[ARLC|Australia]])
-|manofmatch=[[AJ Brimson]] (England)<ref>[https://www.nrl.com/news/2026/10/24/aj-brimson-named-player-of-the-match/ ENGvFRA PotM]</ref>
-}}<section end=ENGvFRA1 />
+| sinbin2    = [[Jordan Miller (rugby league)|Miller]] {{sin bin|77|80}}
+| sentoff2   = [[Brandon Wakeham|Wakeham]] {{sent off|0|51}}
+| stadium    = [[Robina Stadium]], [[Gold Coast, Queensland|Gold Coast]]
+| attendance =23,659 
+| referee    = [[Grant Atkins]] (Australia)
+| touch      = Jarrod Cole (Australia), Kieren Irons (Australia)
+| vreferee   = [[Todd Smith (referee)|Todd Smith]] (Australia)
+|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-3/new-zealand-v-fiji/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2575 Report (IRL)]
+| manofmatch = [[Naufahu Whyte]] (New Zealand)<ref>[https://www.nrl.com/news/2026/10/31/naufahu-whyte-named-player-of-the-match/ NZLvFIJ PotM]</ref>
+}}<section end=NZLvFIJ1 />
 
 {| width="100%" class="mw-collapsible mw-collapsed"
 |+ class="nowrap" | '''Team lists:'''
@@ -670,118 +564,118 @@ Rather than playing the other two teams in their pool, each nation plays the thr
 ! width="25" |
 ! width="25" |
 |-
-|FB ||'''1'''|| [[AJ Brimson]]
+|FB ||'''1'''|| [[Keano Kini]]
 |-
-|WG ||'''2'''|| [[Dom Young]]
+|WG ||'''2'''|| [[Jamayne Isaako]]
 |-
-|CE ||'''3'''|| [[Hugo Savala]]
+|CE ||'''3'''|| [[Dane Gagai]]
 |-
-|CE ||'''4'''|| [[Herbie Farnworth]]
+|CE ||'''4'''|| [[Casey McLean]]
 |-
-|WG ||'''19'''|| [[Matty Ashton]]
+|WG ||'''5'''|| [[Ronaldo Mulitalo]]
 |-
-|FE ||'''6'''|| [[George Williams (rugby league, born 1994)|George Williams]] (c)
+|FE ||'''6'''|| [[Kodi Nikorima]]
 |-
-|HB ||'''7'''|| [[Harry Smith (rugby league)|Harry Smith]]
+|HB ||'''7'''|| [[Jahrome Hughes]]
 |-
-|PR ||'''8'''|| [[Max King (rugby league)|Max King]]
+|PR ||'''8'''|| [[James Fisher-Harris]] (c)
 |-
-|HK ||'''9'''|| [[Brad O'Neill]]
+|HK ||'''9'''|| [[Jeremy Marshall-King]]
 |-
-|PR ||'''10'''|| [[Luke Thompson (rugby league)|Luke Thompson]]
+|PR ||'''10'''|| [[Moses Leota]]
 |-
-|SR ||'''11'''|| [[Junior Nsemba]]
+|SR ||'''11'''|| [[Isaiah Papali'i]]
 |-
-|SR ||'''12'''|| [[Kai Pearce-Paul]]
+|SR ||'''12'''|| [[Briton Nikora]]
 |-
-|LK ||'''13'''|| [[Victor Radley]]
+|LK ||'''13'''|| [[Joseph Tapine]]
 |-
 |colspan=3|'''Substitutions:'''
 |-
-|IC ||'''14'''|| [[Jez Litten]]
+|IC ||'''14'''|| [[Te Maire Martin]]
 |-
-|IC ||'''17'''|| [[Sam Walters (rugby league)|Sam Walters]]
+|IC ||'''15'''|| [[Naufahu Whyte]]
 |-
-|IC ||'''18'''|| [[Jack Welsby]]
+|IC ||'''16'''|| [[Erin Clark]]
 |-
-|RE ||'''21'''|| [[Mikey Lewis]]
+|IC ||'''17'''|| [[Xavier Willison]]
 |-
 |colspan=3|'''Coach:'''
 |-
-|colspan="4"|{{flagicon|ENG}} [[Brian McDermott (rugby league)|Brian McDermott]]
+|colspan="4"|{{flagicon|NZL}} [[Stacey Jones]]
 |}
 | valign="top" width="50%" |
 {| cellspacing="0" cellpadding="0" align="center" style="font-size: 90%"
 ! width="25" |
 ! width="25" |
 |-
-|FB ||'''1'''|| [[Arthur Mourgue]]
+|FB ||'''1'''|| [[Sunia Turuva]]
 |-
-|WG ||'''5'''|| [[Benjamin Laguerre]]
+|WG ||'''2'''|| [[Ronald Philitoga]]
 |-
-|CE ||'''3'''|| [[Latrell Siegwalt]]
+|CE ||'''3'''|| [[Waqa Blake]]
 |-
-|CE ||'''4'''|| [[Roméo Tropis]]
+|CE ||'''4'''|| [[Solomone Saukuru]]
 |-
-|WG ||'''19'''|| [[Fouad Yaha]]
+|WG ||'''5'''|| [[Semi Valemei]]
 |-
-|FE ||'''6'''|| [[Thomas Lacans]]
+|FE ||'''6'''|| [[Kurt Donoghoe]]
 |-
-|HB ||'''7'''|| [[Theo Fages]]
+|HB ||'''7'''|| [[Brandon Wakeham]]
 |-
-|PR ||'''8'''|| [[Romain Navarrete]]
+|PR ||'''8'''|| [[Jacob Saifiti]]
 |-
-|HK ||'''9'''|| [[Amir Bourouh]]
+|HK ||'''9'''|| [[Apisai Koroisau]] (c)
 |-
-|PR ||'''10'''|| [[Julian Bousquet]]
+|PR ||'''10'''|| [[Emosi Ravosai]]
 |-
-|SR ||'''11'''|| [[Arthur Romano (rugby league)|Arthur Romano]]
+|SR ||'''11'''|| [[Taane Milne]]
 |-
-|SR ||'''12'''|| [[Mathieu Jussaume]]
+|SR ||'''12'''|| [[Kitione Kautoga]]
 |-
-|LK ||'''13'''|| [[Benjamin Garcia]] (c)
+|LK ||'''13'''|| [[Caleb Navale]]
 |-
 |colspan=3|'''Substitutions:'''
 |-
-|IC ||'''2'''|| [[Guillermo Aispuro-Bichet]]
+|IC ||'''14'''|| [[Josese Lanyon]]
 |-
-|IC ||'''15'''|| [[Lambert Belmas]]
+|IC ||'''15'''|| [[Jordan Miller (rugby league)|Jordan Miller]]
 |-
-|IC ||'''16'''|| [[Mathieu Cozza]]
+|IC ||'''16'''|| [[Elijah Keung]]
 |-
-|IC ||'''17'''|| [[Louis Grossemy]]
+|IC ||'''17'''|| [[Joseph Litidamu]]
+|-
+|IC ||'''19'''|| [[Apenisa Driti]]
 |-
 |colspan=3|'''Coach:'''
 |-
-|colspan="4"|{{flagicon|FRA}} [[Laurent Frayssinous]]
+|colspan="4"|{{flagicon|AUS}} [[Mick Potter]]
 |}
-|}<section end=ENGvFRA />
+|}<section end=NZLvFIJ />
 
-=== England vs Papua New Guinea ===
-<section begin=ENGvPNG /><section begin=ENGvPNG1 />
+=== Australia vs Cook Islands ===
+<section begin=AUSvCOK /><section begin=AUSvCOK1 />
 {{rugbyleaguebox
 | event      = 
-| date       = 30 October 2026
-| time       = 20:05 [[AEDT]] ([[UTC+11:00]])
-| team1      = {{rl-rt|England}}
-| score      = {{score link|2026 Men's Rugby League World Cup Pools B & C#England vs Papua New Guinea|34–12}}
-| team2      = {{rl|Papua New Guinea}}
-| 1sthalf    =24–0
-| 2ndhalf    =10–12
-| try1       = '''6''' <br> [[Matty Ashton|Ashton]] {{try|5}} <br> [[AJ Brimson|Brimson]] {{try|11}} <br> [[Dom Young|Young]] {{try|18}} <br> [[Harry Smith (rugby league)|Smith]] {{try|20}} <br> [[Morgan Knowles|Knowles]] {{try|68}} <br> [[Mikey Lewis|Lewis]] {{try|79}}
-| goal1      = '''5''' <br> [[Hugo Savala|Savala]] (4/5) {{kick|6|12|21|pen 39}} <br> [[Harry Smith (rugby league)|Smith]] (1/2) {{kick|68}}
-| drop1      = 
-| try2       = '''2''' <br> [[Dudley Dotoi|Dotoi]] {{try|44}} <br> [[Gairo Voro|Voro]] {{try|50}} 
-| goal2      = '''2''' <br> [[Rhyse Martin|Martin]] (2/2) {{kick|46|51}}
-| drop2      = 
-| stadium    = [[Wollongong Showground]], [[Wollongong]]
-| attendance = 15,063
-| referee    = [[Gerard Sutton (referee)|Gerard Sutton]] ([[ARLC|Australia]])
-| touch      = [[Dave Munro (referee)|Dave Munro]] ([[ARLC|Australia]]), Drew Oultram ([[ARLC|Australia]])
-| vreferee   = [[Todd Smith (referee)|Todd Smith]] ([[ARLC|Australia]])
-|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-3/england-v-papua-new-guinea/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2574 Report (IRL)]
-| manofmatch = [[Kai Pearce-Paul]] (England)<ref>{{Cite web|url=https://www.nrl.com/news/2026/10/30/kai-pearce-paul-named-player-of-the-match/|title=Kai Pearce-Paul named player of the match|date=30 Oct 2026|website=NRL|access-date=31 Oct 2026}}</ref>
-}}<section end=ENGvPNG1 />
+| date       = 31 October 2026
+| time       = 19:05 [[AEST]] ([[UTC+10:00]])
+| team1      = {{rl-rt|Australia}}
+| score      = {{score link|2026 Men's Rugby League World Cup Pool A#Australia vs Cook Islands|66–6}}
+| 1sthalf    = 28–6
+| 2ndhalf    = 38–0
+| team2      = {{rl|Cook Islands}}
+| try1       = '''12''' <br/> [[Jack Bostock|Bostock]] {{try|2|44|59}} <br/> [[Tom Trbojevic|Trbojevic]] {{try|17|47|57}} <br/> [[Tino Fa'asuamaleaui|Fa'asuamaleaui]] {{try|20|54}} <br/> [[Kotoni Staggs|Staggs]] {{try|26}} <br/> [[Reece Walsh|Walsh]] {{try|30}} <br/> [[Jacob Preston (rugby league)|Preston]] {{try|51}} <br/> [[Harry Grant (rugby league)|Grant]] {{try|77}}
+| goal1      = '''9''' <br/> [[Reece Walsh|Walsh]] (3/4) {{kick|18|21|27}} <br/> [[Cameron Munster|Munster]] (5/7) {{kick|32|46|53|56|58}} <br/> [[Ethan Strange|Strange]] (1/1) {{kick|79}}
+| try2       = '''1''' <br/> [[Rua Ngatikaura|Ngatikaura]] {{try|8}}
+| goal2      = '''1''' <br/> [[Valentine Holmes|Holmes]] (1/1) {{kick|10}}
+| stadium    = [[North Queensland Stadium]], [[Townsville]]
+| attendance =19,172 
+| referee    = [[Ashley Klein]] (Australia)
+| touch      = Michael Wise  (Australia), Nick Pelgrave (Australia)
+| vreferee   = [[Chris Butler (referee)|Chris Butler]] (Australia)
+|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-3/australia-v-cook-islands/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2576 Report (IRL)]
+| manofmatch = [[Reece Walsh]] (Australia)<ref>[https://www.nrl.com/news/2026/10/31/reece-walsh-named-player-of-the-match-against-the-cook-islands/ AUSvCOK PotM]</ref>
+}}<section end=AUSvCOK1 />
 
 {| width="100%" class="mw-collapsible mw-collapsed"
 |+ class="nowrap" | '''Team lists:'''
@@ -790,351 +684,92 @@ Rather than playing the other two teams in their pool, each nation plays the thr
 ! width="25" |
 ! width="25" |
 |-
-|FB ||'''1'''|| [[AJ Brimson]]
+|FB ||'''1'''|| [[Reece Walsh]]
 |-
-|WG ||'''2'''|| [[Dominic Young]]
+|WG ||'''2'''|| [[Jack Bostock]]
 |-
-|CE ||'''3'''|| [[Hugo Savala]]
+|CE ||'''3'''|| [[Kotoni Staggs]]
 |-
-|CE ||'''4'''|| [[Herbie Farnworth]]
+|CE ||'''4'''|| [[Bradman Best]]
 |-
-|WG ||'''5'''|| [[Matty Ashton]]
+|WG ||'''5'''|| [[Tom Trbojevic]]
 |-
-|FE ||'''6'''|| [[George Williams (rugby league, born 1994)|George Williams]] (c)
+|FE ||'''6'''|| [[Cameron Munster]]
 |-
-|HB ||'''7'''|| [[Harry Smith (rugby league)|Harry Smith]]
+|HB ||'''7'''|| [[Tom Dearden]]
 |-
-|PR ||'''8'''|| [[Max King (rugby league)|Max King]]
+|PR ||'''8'''|| [[Patrick Carrigan]]
 |-
-|HK ||'''9'''|| [[Jez Litten]]
+|HK ||'''9'''|| [[Harry Grant (rugby league)|Harry Grant]]
 |-
-|PR ||'''10'''|| [[Luke Thompson (rugby league)|Luke Thompson]]
+|PR ||'''10'''|| [[Tino Fa'asuamaleaui]]
 |-
-|SR ||'''11'''|| [[Junior Nsemba]]
+|SR ||'''11'''|| [[Jacob Preston (rugby league)|Jacob Preston]]
 |-
-|SR ||'''12'''|| [[Kai Pearce-Paul]]
+|SR ||'''12'''|| [[Liam Martin]]
 |-
-|LK ||'''13'''|| [[Morgan Knowles]]
+|LK ||'''13'''|| [[Isaah Yeo]]
 |-
 |colspan=3|'''Substitutions:'''
 |-
-|IC ||'''14'''|| [[Mikey Lewis]]
+|IC ||'''14'''|| [[Ethan Strange]]
 |-
-|IC ||'''15'''|| [[Sam Walters (rugby league)|Sam Walters]]
+|IC ||'''15'''|| [[Keaon Koloamatangi]]
 |-
-|IC ||'''16'''|| [[Ethan Havard]]
+|IC ||'''16'''|| [[Reuben Cotter]]
 |-
-|IC ||'''22'''|| [[Kallum Watkins]]
+|IC ||'''19'''|| [[Lindsay Smith (rugby league)|Lindsay Smith]]
 |-
 |colspan=3|'''Coach:'''
 |-
-|colspan="4"|{{flagicon|ENG}} [[Brian McDermott (rugby league)|Brian McDermott]]
+|colspan="4"|{{flagicon|AUS}} [[Kevin Walters]]
 |}
 | valign="top" width="50%" |
 {| cellspacing="0" cellpadding="0" align="center" style="font-size: 90%"
 ! width="25" |
 ! width="25" |
 |-
-|FB ||'''1'''|| [[Zac Laybutt]]
+|FB ||'''1'''|| [[Valentine Holmes]]
 |-
-|WG ||'''2'''|| [[Robert Derby]]
+|WG ||'''2'''|| [[Cameron Brown (rugby league)|Cameron Brown]]
 |-
-|CE ||'''3'''|| [[Josh Feledy]]
+|CE ||'''3'''|| [[KL Iro]] (c)
 |-
-|CE ||'''16'''|| [[Robert Mathias (rugby league)|Robert Mathias]]
+|CE ||'''4'''|| [[Reubenn Rennie]]
 |-
-|WG ||'''5'''|| [[Dudley Dotoi]]
+|WG ||'''5'''|| [[Esan Marsters]]
 |-
-|FE ||'''6'''|| [[Gairo Voro]]
+|FE ||'''6'''|| [[Maui Winitana-Patelesio]]
 |-
-|HB ||'''7'''|| [[Bailey Biondi-Odo]]
+|HB ||'''7'''|| [[Brad Takairangi]]
 |-
-|PR ||'''8'''|| [[Epel Kapinias]]
+|PR ||'''8'''|| [[Davvy Moale]]
 |-
-|HK ||'''13'''|| [[Liam Horne]]
+|HK ||'''9'''|| [[Rua Ngatikaura]]
 |-
-|PR ||'''18'''|| [[Valentine Richard]]
+|PR ||'''10'''|| [[Rhys Dakin (rugby league)|Rhys Dakin]]
 |-
-|SR ||'''11'''|| [[Rhyse Martin]] (c)
+|SR ||'''11'''|| [[Chaev Kolone]]
 |-
-|SR ||'''12'''|| [[Nixon Putt]]
+|SR ||'''12'''|| [[Delahia Wigmore]]
 |-
-|LK ||'''10'''|| [[Luca Moretti]]
-|-
-|colspan=3|'''Substitutions:'''
-|-
-|IC ||'''4'''|| [[Nene Macdonald]]
-|-
-|IC ||'''14'''|| [[Finley Glare]]
-|-
-|IC ||'''15'''|| [[Jacob Taulani]]
-|-
-|IC ||'''17'''|| [[Sanny Wabo]]
-|-
-|colspan=3|'''Coach:'''
-|-
-|colspan="4"|{{flagicon|AUS}} [[Jason Demetriou (rugby league)|Jason Demetriou]]
-|}
-|}<section end=ENGvPNG />
-
-=== Lebanon vs France ===
-<section begin=LBNvFRA /><section begin=LBNvFRA1 />
-{{rugbyleaguebox
-| event      = 
-| date       = 1 November 2026
-| time       = 17:50 [[AEDT]] ([[UTC+11:00]])
-| team1      = {{rl-rt|Lebanon}}
-| score      = {{score link|2026 Men's Rugby League World Cup Pools B & C#Lebanon vs France|24–20}} {{goldenpt}}
-| 1sthalf = 8–6
-| 2ndhalf = 12–14 <br/> Golden point: 4–0
-| team2      = {{rl|France}}
-| try1       = '''4''' <br/> [[Alex Conti|Conti]] {{try|3}} <br/> [[Michael Gabrael|Gabrael]] {{try|45}} <br/> [[Tony Francis (rugby league)|Francis]] {{try|60}} <br/> [[Abbas Miski|Miski]] {{try|84}}
-| goal1      = '''4''' <br/> [[Alex Conti|Conti]] (4/6) {{kick|5|pen 24|47|pen 75}}
-| sinbin1    = [[Alex Twal|Twal]] {{sin bin|76|84}}
-| try2       = '''3''' <br/> [[Amir Bourouh|Bourouh]] {{try|31}} <br/> [[Guillermo Aispuro-Bichet|Aispuro-Bichet]] {{try|52}} <br/> [[Cesar Rouge|Rouge]] {{try|70}}
-| goal2      = '''3''' <br/> [[Arthur Mourgue|Mourgue]] (3/3) {{kick|32|54|71}}
-| field2     = '''1''' <br/> [[Arthur Mourgue|Mourgue]] {{kick|2pt 79}}
-| sinbin2    = [[Julian Bousquet|Bousquet]] {{sin bin|76|84}}
-|stadium=[[Western Sydney Stadium]], [[Sydney]]{{Efn|Match was a double-header with the Tonga v Samoa fixture.<ref name="Fixtures26">{{Cite web|url=https://www.nrl.com/news/2025/11/23/2026-rugby-league-world-cup-fixtures-announced/|title=2026 Rugby League World Cup fixtures announced|date=23 November 2025|website=National Rugby League|accessdate=27 April 2026}}</ref>}}
-| attendance =29,411 
-| referee    = [[Liam Moore (referee)|Liam Moore]] ([[Rugby Football League|England]])
-| touch      = Matt Noyen ([[ARLC|Australia]]), [[Jon Stone (referee)|Jon Stone]] ([[ARLC|Australia]])
-| vreferee   = [[Todd Smith (referee)|Todd Smith]] ([[ARLC|Australia]])
-|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-3/lebanon-v-france/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2577 Report (IRL)]
-| manofmatch = [[Alex Conti]] (Lebanon)
-}}<section end=LBNvFRA1 />
-
-{| width="100%" class="mw-collapsible mw-collapsed"
-|+ class="nowrap" | '''Team lists:'''
-| valign="top" width="50%" |
-{| cellspacing="0" cellpadding="0" style="font-size: 90%"
-! width="25" |
-! width="25" |
-|-
-|FB ||'''1'''|| [[Jacob Kiraz]]
-|-
-|WG ||'''2'''|| [[Tony Francis (rugby league)|Tony Francis]]
-|-
-|CE ||'''3'''|| [[Michael Gabrael]]
-|-
-|CE ||'''4'''|| [[Jordan Samrani]]
-|-
-|WG ||'''5'''|| [[Jason Saab]]
-|-
-|FE ||'''18'''|| [[Shadi Hammoud]]
-|-
-|HB ||'''7'''|| [[Alex Conti (rugby league)|Alex Conti]]
-|-
-|PR ||'''8'''|| [[Jaxson Rahme]]
-|-
-|HK ||'''9'''|| [[Moustafa Dirani]]
-|-
-|PR ||'''10'''|| [[James Roumanos]]
-|-
-|SR ||'''11'''|| [[Tony Sukkar (rugby league)|Tony Sukkar]]
-|-
-|SR ||'''12'''|| [[Abbas Miski]]
-|-
-|LK ||'''13'''|| [[Alex Twal]] (c)
+|LK ||'''13'''|| [[Mason Teague]]
 |-
 |colspan=3|'''Substitutions:'''
 |-
-|IC ||'''15'''|| [[Tupou Francis]]
+|IC ||'''14'''|| [[David Tuariki]]
 |-
-|IC ||'''16'''|| [[Jalal Bazzaz]]
+|IC ||'''15'''|| [[Makahesi Makatoa]]
 |-
-|IC ||'''17'''|| [[Khalil Rahme]]
+|IC ||'''16'''|| [[Pride Petterson-Robati]]
 |-
-|IC ||'''19'''|| [[Mikael Ibrahim]]
-|-
-|IC ||'''20'''|| [[Ibrahim El Labban]]
-|-
-|IC ||'''21'''|| [[Cameron Kanaan]]
+|IC ||'''17'''|| [[Amare Milford]]
 |-
 |colspan=3|'''Coach:'''
 |-
-|colspan="4"|{{flagicon|AUS}} [[Michael Cheika]]
+|colspan="4"|{{flagicon|AUS}} [[Karmichael Hunt]]
 |}
-| valign="top" width="50%" |
-{| cellspacing="0" cellpadding="0" align="center" style="font-size: 90%"
-! width="25" |
-! width="25" |
-|-
-|FB ||'''1'''|| [[Arthur Mourgue]]
-|-
-|WG ||'''2'''|| [[Leo Darrelatour]]
-|-
-|CE ||'''3'''|| [[Guillermo Aispuro-Bichet]]
-|-
-|CE ||'''4'''|| [[Roméo Tropis]]
-|-
-|WG ||'''5'''|| [[Benjamin Laguerre]]
-|-
-|FE ||'''6'''|| [[César Rougé]]
-|-
-|HB ||'''7'''|| [[Thomas Lacans]]
-|-
-|PR ||'''8'''|| [[Romain Navarrete]]
-|-
-|HK ||'''9'''|| [[Alrix Da Costa]]
-|-
-|PR ||'''10'''|| [[Julian Bousquet]]
-|-
-|SR ||'''11'''|| [[Mathieu Cozza]]
-|-
-|SR ||'''12'''|| [[Mathieu Jussaume]]
-|-
-|LK ||'''13'''|| [[Benjamin Garcia]] (c)
-|-
-|colspan=3|'''Substitutions:'''
-|-
-|IC ||'''14'''|| [[Amir Bourouh]]
-|-
-|IC ||'''15'''|| [[Lambert Belmas]]
-|-
-|IC ||'''16'''|| [[Jordan Dezaria]]
-|-
-|IC ||'''17'''|| [[Jowasa Drodrolagi]]
-|-
-|IC ||'''18'''|| [[Theo Fages]]
-|-
-|IC ||'''19'''|| [[Fouad Yaha]]
-|-
-|colspan=3|'''Coach:'''
-|-
-|colspan="4"|{{flagicon|FRA}} [[Laurent Frayssinous]]
-|}
-|}<section end=LBNvFRA />
-
-=== Tonga vs Samoa ===
-<section begin=TONvSAM /><section begin=TONvSAM1 />
-{{rugbyleaguebox
-| event      = 
-| date       = 1 November 2026
-| time       = 20:05 [[AEDT]] ([[UTC+11:00]])
-| team1      = {{rl-rt|Tonga}}
-| score      = {{score link|2026 Men's Rugby League World Cup Pools B & C#Tonga vs Samoa|20–18}}
-| team2      = {{rl|Samoa}}
-| 1sthalf = 8–4
-| 2ndhalf = 12–14
-| try1       = '''3''' <br/> [[Robert Toia|Toia]] {{try|26}} <br/> [[Sosefo Fifita|Fifita]] {{try|45}} <br/> [[Addin Fonua-Blake|Fonua-Blake]] {{try|72}}
-| goal1      = '''4''' <br/> [[Isaiya Katoa|Katoa]] (4/4) {{kick|27|pen 35|47|74}}
-| try2       = '''4''' <br/> [[Brian To'o|To'o]] {{try|37|50}} <br/> [[Hamiso Tabuai-Fidow|Tabuai-Fidow]] {{try|62}} <br/> [[Ronald Volkman|Volkman]] {{try|67}}
-| goal2      = '''1''' <br/> [[Chanel Harris-Tavita|Harris-Tavita]] (0/2) <br/> [[Ronald Volkman|Volkman]] (1/2) {{kick|69}}
-|stadium=[[Western Sydney Stadium]], [[Sydney]]{{Efn|Match was a double-header with the Lebanon v France fixture.<ref name="Fixtures26" />}}
-| attendance =29,411 
-| referee    = [[Adam Gee (referee)|Adam Gee]] ([[ARLC|Australia]])
-| touch      = Ziggy Przeklasa-Adamski ([[ARLC|Australia]]), Daniel Luttringer ([[ARLC|Australia]])
-| vreferee   = [[Chris Butler (referee)|Chris Butler]] ([[ARLC|Australia]])
-|report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-3/tonga-v-samoa/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2578 Report (IRL)]
-| manofmatch = [[Robert Toia]] (Tonga)
-}}<section end=TONvSAM1 />
-
-{| width="100%" class="mw-collapsible mw-collapsed"
-|+ class="nowrap" | '''Team lists:'''
-| valign="top" width="50%" |
-{| cellspacing="0" cellpadding="0" style="font-size: 90%"
-! width="25" |
-! width="25" |
-|-
-|FB ||'''1'''|| [[Lehi Hopoate]]
-|-
-|WG ||'''2'''|| [[Dallin Watene-Zelezniak]]
-|-
-|CE ||'''3'''|| [[Toluta'u Koula (rugby league)|Toluta'u Koula]]
-|-
-|CE ||'''4'''|| [[Robert Toia]]
-|-
-|WG ||'''5'''|| [[Jojo Fifita]]
-|-
-|FE ||'''6'''|| [[Tuimoala Lolohea]]
-|-
-|HB ||'''7'''|| [[Isaiya Katoa]]
-|-
-|PR ||'''8'''|| [[Addin Fonua-Blake]]
-|-
-|HK ||'''9'''|| [[Salesi Foketi]]
-|-
-|PR ||'''10'''|| [[Jason Taumalolo]] (c)
-|-
-|SR ||'''11'''|| [[Haumole Olakau'atu]]
-|-
-|SR ||'''12'''|| [[Siua Wong]]
-|-
-|LK ||'''13'''|| [[Tyson Frizell]]
-|-
-|colspan=3|'''Substitutions:'''
-|-
-|IC ||'''14'''|| [[Soni Luke]]
-|-
-|IC ||'''15'''|| [[Stefano Utoikamanu]]
-|-
-|IC ||'''16'''|| [[Demitric Vaimauga]]
-|-
-|IC ||'''17'''|| [[Taniela Paseka]]
-|-
-|IC ||'''18'''|| [[Leka Halasima]]
-|-
-|IC ||'''19'''|| [[Latu Fainu]]
-|-
-|IC ||'''21'''|| [[Kulikefu Finefeuiaki]]
-|-
-|colspan=3|'''Coach:'''
-|-
-|colspan="4"|{{flagicon|AUS}} [[Kristian Woolf]]
-|}
-| valign="top" width="50%" |
-{| cellspacing="0" cellpadding="0" align="center" style="font-size: 90%"
-! width="25" |
-! width="25" |
-|-
-|FB ||'''1'''|| [[Hamiso Tabuai-Fidow]]
-|-
-|WG ||'''2'''|| [[Brian To'o]]
-|-
-|CE ||'''3'''|| [[Izack Tago]]
-|-
-|CE ||'''4'''|| [[Stephen Crichton]]
-|-
-|WG ||'''5'''|| [[Sualauvi Fa'alogo]]
-|-
-|FE ||'''6'''|| [[Chanel Harris-Tavita]]
-|-
-|HB ||'''7'''|| [[Jarome Luai]]
-|-
-|PR ||'''8'''|| [[Francis Molo]]
-|-
-|HK ||'''9'''|| [[Benaiah Ioelu]]
-|-
-|PR ||'''10'''|| [[Junior Paulo (rugby league, born 1993)|Junior Paulo]]
-|-
-|SR ||'''11'''|| [[Connelly Lemuelu]]
-|-
-|SR ||'''12'''|| [[Jermaine McEwen]]
-|-
-|LK ||'''13'''|| [[Francis Manuleleua]]
-|-
-|colspan=3|'''Substitutions:'''
-|-
-|IC ||'''14'''|| [[Jazz Tevaga]]
-|-
-|IC ||'''15'''|| [[Spencer Leniu]]
-|-
-|IC ||'''16'''|| [[Shawn Blore]]
-|-
-|IC ||'''17'''|| [[Ata Mariota]]
-|-
-|IC ||'''18'''|| [[Clayton Faulalo]]
-|-
-|IC ||'''19'''|| [[Ronald Volkman]]
-|-
-|IC ||'''21'''|| [[Enari Tuala]]
-|-
-|colspan=3|'''Coach:'''
-|-
-|colspan="4"|{{flagicon|AUS}} [[Ben Gardiner]]
-|}
-|}<section end=TONvSAM /><section end="WC_GBC" />
+|}<section end=AUSvCOK /><section end="WC_GA" />
 
 == See also ==
 *[[2026 Men's Rugby League World Cup squads]]
@@ -1146,15 +781,12 @@ Rather than playing the other two teams in their pool, each nation plays the thr
 == References ==
 {{reflist}}
 
-== External links ==
-* [https://www.rlwc2026.com/ Official RLWC 2026 Site]
-
 {{RLWC2026}}
 {{Rlwc}}
 {{2026 RLWC venues}}
 {{2026 in rugby league}}
 
-[[Category:2026 Rugby League World Cup| ]]
+[[Category:2026 Rugby League World Cup|2026 Rugby League World Cup]]
 [[Category:Current rugby league seasons|World Cup 2026]]
 [[Category:October 2026 sports events in Oceania|Rugby League World Cup]]
 [[Category:November 2026 sports events in Oceania|Rugby League World Cup]]
