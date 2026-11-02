@@ -1,145 +1,23 @@
---- women 560-660
-561: | awayIN5 = [[Hope Millard]]
-562: }}
-563: 
-564: ----
-565: {{rugbyleaguebox|bg=
-566: |event=
-567: |date=30 October 2026
-568: |time=17:50 [[AEDT]] ([[UTC+11:00]])|team1={{rlw-r|ENG}}
-569: |try1= [[Evie Cousins|Cousins]] 43'
-570: |goal1= [[Georgia Roche|Roche]] (1/1) 
-571: |score=<masked>
-572: |1sthalf=#–#
-573: |2ndhalf=#–#
-574: |report=[https://www.intrl.sport/match-details/2590 Report]
-575: |team2={{rlw-l|SAM}}
-576: |try2= [[Freedom Ropati|Ropati]] 8', 17', 29'<br/>[[Mercedez Taulelei-Saila|Taulelei-Saila]] 37'<br/>[[Fanua Rimoni|Rimoni]] 65' 
-577: |goal2= [[Pauline Piliae|Piliae]] (2/5)
-578: |drop2=
-579: |field2=
-580: |sinbin2=
-581: |sentoff2=
-582: |stadium=[[Wollongong Showground]], [[Wollongong]]|attendance=
-583: |referee=[[Chris Kendall]] (England)<ref name = "Round 3 team lists">{{Cite web|url=https://www.nrl.com/news/2026/10/27/world-cup-team-lists-womens-round-3/|tit
-584: |referee2=
-585: |vreferee=[[Adam Gee (referee)|Adam Gee]] (Australia)
-586: |touch=Dillan Wells (Australia), Karra-Lee Nolan (Australia)
-587: |manofmatch=[[Freedom Crichton Ropati]] (Samoa)
-588: |potmaward=
-589: |potmwinner=}}
-590: {{Rugby league match squad
-591: | collapsed = y
-592: | align = center
-593: | abbr = y
-594: | hometeam = England
-595: | awayteam = Samoa
-596: | squadsize = 18
-597: | location = ns
-598: | homeCoach = [[Stuart Barrow]]
-599: | homeFB =  [[Francesca Goldthorp]]
-600: | homeWG1 = [[Anna Davies (rugby league)|Anna Davies]]
-601: | homeCE1 = [[Georgia Wilson (rugby league)|Georgia Wilson]]
-602: | homeCE2 = [[Connie Boyd]]
-603: | homeWG2 = [[Evie Cousins]]
-604: | homeSO = [[Georgia Roche]]
-605: | homeSH = [[Isabel Rowe]]
-606: | homePR1 =  [[Mary Coleman (rugby league)|Mary Coleman]]
-607: | homeHK = [[Keara Bennett]]
-608: | homePR2 = [[Liv Wood]]
-609: | homeSR1 = [[Hollie Dodd]]
-610: | homeSR2 = [[Lucy Murray (rugby league)|Lucy Murray]]
-611: | homeLF = [[Megan Williams (rugby league)|Megan Williams]]
-612: | homeIN1 = [[Jodie Cunningham]]
-613: | homeIN2 = [[Victoria Whitfield]]
-614: | homeIN3 = [[Hope Millard]]
-615: | homeIN4 = [[Lucie Sams]]
-616: | homeIN5 = [[Jenna Foubister]]
-617: | awayCoach = [[Frank Pritchard]]
-618: | awayFB = [[Destiny Sinapati]]
-619: | awayWG1 = [[Mercedez Taulelei-Saila]]
-620: | awayCE1 = [[Monica Tagoai]]
-621: | awayCE2 = [[Tyra Le Ekepati]]
-622: | awayWG2 = [[Freedom Ropati]]
-623: | awaySO = [[Evania Isa'Ako]]
-624: | awaySH = [[Pauline Piliae]]
-625: | awayPR1 = [[Annetta Nuuausala]]
-626: | awayHK = [[Mary Jane Taito]]
-627: | awayPR2 = [[Laikha Clarke]]
-628: | awaySR1 = [[Leilani Wilson]]
-629: | awaySR2 = [[Ivana Lolesio]]
-630: | awayLF = [[Tavarna Papalii]]
-631: | awayIN1 = [[Jetaya Faifua]]
-632: | awayIN2 = [[Fanua Rimoni]]
-633: | awayIN3 = [[Jaydika Tafua]]
-634: | awayIN4 = [[Christabelle Onesome-Tuilaepa]]
-635: | awayIN5 = [[Jasmine Fogavini]]
-636: }}
-637: {{rugbyleaguebox|bg=
-638: |event=
-639: |date=1 November 2026
-640: |time=15:45 [[AEDT]] ([[UTC+11:00]])|team1={{rlw-r|AUS}}
-641: |try1= [[Olivia Kernick|Kernick]] 5'<br/>[[Jaime Chapman|Chapman]] 7', 10', 26', 42', 64', 69'<br/>[[Abbi Church|Church]] 14', 49'<br/>[[Jesse Southwell|Southwe
-642: |goal1=[[Jesse Southwell|Southwell]] (20/21)
-643: |drop1=
-644: |field1=
-645: |sinbin1=
-646: |sentoff1=
-647: |score=<masked>
-648: |1sthalf=#–#
-649: |2ndhalf=#–#
-650: |report=[https://www.intrl.sport/match-details/2592 Report]
-651: |team2={{rlw-l|WAL}}
-652: |try2= [[Paige Travis|Travis]] 59'
-653: |goal2= [[Tayla Preston|Preston]] (1/1)
-654: |drop2=
-655: |field2=
-656: |sinbin2=
-657: |sentoff2=
-658: |stadium=[[Western Sydney Stadium]], [[Sydney]]
-659: |attendance=
-660: |referee=[[Kasey Badger]] (Australia)<ref name = "Round 3 team lists"/>
---- men BC near 1 Nov at 883
-881: <section begin=LBNvFRA /><section begin=LBNvFRA1 />
-882: {{rugbyleaguebox
-883: | event      = 
-884: | date       = 1 November 2026
-885: | time       = 17:50 [[AEDT]] ([[UTC+11:00]])
-886: | team1      = {{rl-rt|Lebanon}}
-887: | score      = <masked> link|2026 Men's Rugby League World Cup Pools B & C#Lebanon vs France|#–#}} {{goldenpt}}
-888: | 1sthalf = #–#
-889: | 2ndhalf = #–# <br/> Golden point: #–#
-890: | team2      = {{rl|France}}
-891: | try1       = '''4''' <br/> [[Alex Conti|Conti]] {{try|3}} <br/> [[Michael Gabrael|Gabrael]] {{try|45}} <br/> [[Tony Francis (rugby league)|Francis]] {{try|60}
-892: | goal1      = '''4''' <br/> [[Alex Conti|Conti]] (4/6) {{kick|5|pen 24|47|pen 75}}
-893: | sinbin1    = [[Alex Twal|Twal]] {{sin bin|76|84}}
-894: | try2       = '''3''' <br/> [[Amir Bourouh|Bourouh]] {{try|31}} <br/> [[Guillermo Aispuro-Bichet|Aispuro-Bichet]] {{try|52}} <br/> [[Cesar Rouge|Rouge]] {{try|
-895: | goal2      = '''3''' <br/> [[Arthur Mourgue|Mourgue]] (3/3) {{kick|32|54|71}}
-896: | field2     = '''1''' <br/> [[Arthur Mourgue|Mourgue]] {{kick|2pt 79}}
-897: | sinbin2    = [[Julian Bousquet|Bousquet]] {{sin bin|76|84}}
-898: |stadium=[[Western Sydney Stadium]], [[Sydney]]{{Efn|Match was a double-header with the Tonga v Samoa fixture.<ref name="Fixtures26">{{Cite web|url=https://www.
-899: | attendance =29,411 
-900: | referee    = [[Liam Moore (referee)|Liam Moore]] ([[Rugby Football League|England]])
-901: | touch      = Matt Noyen ([[ARLC|Australia]]), [[Jon Stone (referee)|Jon Stone]] ([[ARLC|Australia]])
-902: | vreferee   = [[Todd Smith (referee)|Todd Smith]] ([[ARLC|Australia]])
-903: |report=[https://www.nrl.com/draw/rugby-league-world-cup/2026/round-3/lebanon-v-france/ Report (NRL)]<br />[https://www.intrl.sport/match-details/2577 Report (I
-904: | manofmatch = [[Alex Conti]] (Lebanon)
-905: }}<section end=LBNvFRA1 />
-906: 
-907: {| width="100%" class="mw-collapsible mw-collapsed"
-908: |+ class="nowrap" | '''Team lists:'''
-909: | valign="top" width="50%" |
-910: {| cellspacing="0" cellpadding="0" style="font-size: 90%"
-911: ! width="25" |
-912: ! width="25" |
-913: |-
-914: |FB ||'''1'''|| [[Jacob Kiraz]]
-915: |-
-916: |WG ||'''2'''|| [[Tony Francis (rugby league)|Tony Francis]]
-917: |-
-918: |CE ||'''3'''|| [[Michael Gabrael]]
-919: |-
-920: |CE ||'''4'''|| [[Jordan Samrani]]
-921: |-
-922: |WG ||'''5'''|| [[Jason Saab]]
-923: |-
+women 571: |score=#–##
+women 647: |score=###–#
+men 898: |stadium=[[Western Sydney Stadium]], [[Sydney]]{{Efn|Match was a double-header with the Tonga v Samoa fixture.<ref name="Fixtures##">{{Cite web|url=https://www.nrl.com/news/####/##/##/####-rugby-leagu
+men 1009: === Tonga vs Samoa ===
+men 1010: <section begin=TONvSAM /><section begin=TONvSAM# />
+men 1016: | score      = {{score link|#### Men's Rugby League World Cup Pools B & C#Tonga vs Samoa|##–##}}
+men 1029: |report=[https://www.nrl.com/draw/rugby-league-world-cup/####/round-#/tonga-v-samoa/ Report (NRL)]<br />[https://www.intrl.sport/match-details/#### Report (IRL)]
+men 1031: }}<section end=TONvSAM# />
+men 1137: |}<section end=TONvSAM /><section end="WC_GBC" />
+  1010: <section begin=TONvSAM /><section begin=TONvSAM# />
+  1011: {{rugbyleaguebox
+  1012: | event      = 
+  1013: | date       = # November ####
+  1014: | time       = ##:## [[AEDT]] ([[UTC+##:##]])
+  1015: | team#      = {{rl-rt|Tonga}}
+  1016: | score      = {{score link|#### Men's Rugby League World Cup Pools B & C#Tonga vs Samoa|##–##}}
+  1017: | team#      = {{rl|Samoa}}
+  1018: | #sthalf = #–#
+  1019: | #ndhalf = ##–##
+  1020: | try#       = '''#''' <br/> [[Robert Toia|Toia]] {{try|##}} <br/> [[Sosefo Fifita|Fifita]] {{try|##}} <br/> [[Addin Fonua-Blake|Fonua-Blake]] {{try|##}}
+  1021: | goal#      = '''#''' <br/> [[Isaiya Katoa|Katoa]] (#/#) {{kick|##|pen ##|##|##}}
+  1022: | try#       = '''#''' <br/> [[Brian To'o|To'o]] {{try|##|##}} <br/> [[Hamiso Tabuai-Fidow|Tabuai-Fidow]] {{try|##}} <br/> [[Ronald Volkman|Volkman]] {{try|##}}
+  1023: | goal#      = '''#''' <br/> [[Chanel Harris-Tavita|Harris-Tavita]] (#/#) <br/> [[Ronald Volkman|Volkman]] (#/#) {{kick|##}}
