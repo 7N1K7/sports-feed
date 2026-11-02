@@ -1,12 +1,4 @@
 import { writeFileSync } from 'fs';
-const out = [];
 const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
-out.push('generated ' + f.generatedAt);
-out.push('thinWeeks ' + JSON.stringify(f.checks.thinWeeks));
-const e = f.events.find(e => e.id === 'mbilli-canelo-2026-10-31');
-out.push('mbilli ' + (e && e.startUTC));
-const st = await (await fetch('https://kickoff.kiwi/stats.html?x=' + Date.now())).text();
-out.push('stats has line ' + st.includes("'2 Nov 2026', 'Boxing'"));
-const idx = await (await fetch('https://kickoff.kiwi/?x=' + Date.now())).text();
-out.push('version ' + (idx.match(/v\d{3,}/) || [''])[0]);
-writeFileSync('probe/out.txt', out.join('\n') + '\n');
+writeFileSync('probe/out-feed.json', JSON.stringify(f));
+writeFileSync('probe/out.txt', 'generated ' + f.generatedAt + '\n');
