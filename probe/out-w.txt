@@ -1,0 +1,1338 @@
+{{Short description|Seventh staging of the Women's Rugby League World Cup}}
+{{Infobox rugby league international tournament
+| year               = 2026
+| title              = Women's Rugby League World Cup
+| image              =
+| imagesize          =
+| alt                =
+| finalists          = 8
+| country            = Australia 
+| country2           = Papua New Guinea
+|country3            = New Zealand
+| winners            = 
+| count              = 
+| matches            = 8 of 15
+| attendance         = 
+| points             = 
+| tries              = 
+| topscorer-flag     = Australia 
+| topscorer          = [[Jocelyn Kelleher]] (38)
+| top try scorer-flag= New Zealand 
+| top try scorer     = [[Stacey Waaka]] (5)
+| tournaments        = Rugby League World Cup
+| last               = [[2021 Women's Rugby League World Cup|2021]]
+| next               = [[2030 Women's Rugby League World Cup|2030]]
+}}
+The '''2026 Women's Rugby League World Cup''' is the seventh staging of the [[Women's Rugby League World Cup]], and is one of three major tournaments that make up the [[2026 Rugby League World Cup]].
+
+The competition was to be held in during October and  November 2025,<ref>{{cite web |title=2025 Rugby League World Cup: France promises low carbon event after being named host |url=https://www.sportspromedia.com/news/rugby-league-world-cup-2025-france-host-sustainability/ |website=SportsPro |access-date=25 March 2022 |date=11 January 2022}}</ref> but was moved to 2026 following the withdrawal of France as hosts nation.<ref name="26Confirmed1">{{Cite web |date=2023-08-03 |title=Southern hemisphere to host 2026 World Cup |url=https://www.bbc.com/sport/rugby-league/66390816 |access-date=2023-08-10 |website=BBC Sport |language=en-GB}}</ref><ref name="26Confirmed2">{{Cite web |title=Reduced Rugby League World Cup to take place in 2026 |url=https://www.theguardian.com/sport/2023/aug/03/rugby-league-world-cup-announced-2026 |access-date=2023-08-10 |website=The Guardian|date=3 August 2023 }}</ref><ref name="26Confirmed3">{{Cite web |date=2023-08-03 |title=2026 Rugby League World Cup to be hosted in southern hemisphere |url=https://www.independent.co.uk/sport/australia-france-new-zealand-b2386872.html |access-date=2023-08-10 |website=The Independent |language=en}}</ref><ref name="26Confirmed4">{{Cite web |date=2023-08-03 |title=Rugby League World Cup 2025 to be delayed; full details announced for new look tournament |url=https://www.loverugbyleague.com/post/rugby-league-world-cup-2025-to-be-delayed-full-details-announced-for-new-look-tournament |access-date=2023-08-10 |website=LoveRugbyLeague |language=en}}</ref> The competition runs in parallel with the men's and wheelchair tournaments.<ref>{{cite news |title=France 2025: 13 questions answered about the Rugby League World Cup |url=https://www.theguardian.com/sport/no-helmets-required/2022/jan/19/france-2025-rugby-league-world-cup-england |access-date=25 March 2022 |work=[[The Guardian]] |date=19 January 2022}}</ref>
+
+Due to the rescheduling, the competition features eight teams only. An expansion was planned to double the number of teams for the original 2025 tournament.<ref name="26Confirmed1" /><ref name="26Confirmed2" /><ref name="26Confirmed3" /><ref name="26Confirmed4" />
+
+==Host selection==
+{{see also|2025 Rugby League World Cup#Host selection}}
+The [[International Rugby League]] (IRL) originally decided in 2016 to have the tournaments hosted in the United States and Canada.<ref name="America1">{{cite news 
+  | title = Rugby League World Cup moves to North America in 2025
+  | publisher = stuff sport
+  | date = 20 November 2016
+| url = http://www.stuff.co.nz/sport/league/86672646/rugby-league-world-cup-moves-to-north-america-in-2025
+  | accessdate = 21 November 2016}}</ref><ref name="America2">{{Cite web |date=2016-12-01 |title=North America to Host 2025 Rugby league World Cup |url=https://www.canadarugbyleague.com/north-america-host-2025-rugby-league-world-cup/ |access-date=2023-05-17 |website=Canada Rugby League Association |language=en-CA}}</ref> In December 2019 however, the IRL withdrew the hosting rights due to the promoters, Moore Sports International, being unable to guarantee the staging of the tournaments.<ref>{{cite news|url=https://www.smh.com.au/sport/nrl/us-world-cup-hosting-plans-torpedoed-by-money-trouble-20181204-p50k5p.html |title=US World Cup hosting plans torpedoed by money trouble |newspaper=Sydney Morning Herald |author= Adrian Proszenko |date=4 December 2018 |access-date= 25 March 2022}}</ref><ref name="torpedoed">{{cite news|url=https://www.smh.com.au/sport/nrl/us-world-cup-hosting-plans-torpedoed-by-money-trouble-20181204-p50k5p.html |title=US World Cup hosting plans torpedoed by money trouble |newspaper=Sydney Morning Herald |author= Adrian Proszenko |date=4 December 2018 |access-date= 28 December 2018}}</ref>
+
+After re-opening the bidding to host the tournaments, the IRL awarded the hosting rights to France.<ref name="France1">{{Cite web|date=8 January 2022|title=France to host 2025 World Cup|url=https://www.nrl.com/news/2022/01/09/france-to-host-2025-world-cup/|access-date=8 January 2022|website=National Rugby League}}</ref><ref name="France2">{{Cite web |last=Shaw |first=Matthew |date=2022-01-11 |title=French Prime Minister Jean Castex's pride after securing Rugby League World Cup |url=https://www.examinerlive.co.uk/sport/rugby-league/france-rugby-league-world-cup-22709319 |access-date=2023-05-17 |website=YorkshireLive |language=en}}</ref><ref name="France3">{{Cite web |last= |first= |date=2022-01-11 |title=France set to host the 2025 Rugby League World Cups |url=https://asiapacificrl.com/2022/01/11/france-set-to-host-the-2025-rugby-league-world-cups/ |access-date=2023-05-17 |website=Asia Pacific Rugby League |language=en-US |archive-url=https://web.archive.org/web/20220127060604/https://asiapacificrl.com/2022/01/11/france-set-to-host-the-2025-rugby-league-world-cups/ |archive-date=2022-01-27}}</ref> On 15 May 2023, the France 2025 organising committee was forced to withdraw from hosting the tournament, due to financial concerns from the [[Borne government|new French government]] elected in May 2022.<ref name="Withdraw1">{{cite news |title=France pulls out of hosting Rugby League World Cup |url=https://www.bbc.co.uk/sport/rugby-league/65601619 |access-date=15 May 2023 |work=BBC Sport |date=15 May 2023}}</ref><ref name="Withdraw2">{{cite news |title=France no longer able to host 2025 Rugby League World Cup.|url=https://www.seriousaboutrl.com/revealed-what-next-for-the-world-cup-as-france-no-longer-able-to-host-74758/|access-date=15 May 2023|work=seriousaboutrl.com}}</ref><ref name="Withdraw3">{{cite news |last1=Bower |first1=Aaron |title=2025 Rugby League World Cup in doubt after France pull out of staging event |url=https://www.theguardian.com/sport/2023/may/15/2025-rugby-league-world-cup-in-doubt-after-france-pull-out-of-staging-event |access-date=15 May 2023 |work=[[The Guardian]] |date=15 May 2023}}</ref><ref name="Withdraw4">{{Cite web |title=France withdraw from hosting 2025 Rugby League World Cup over financial concerns |url=https://www.skysports.com/rugby-league/news/12196/12881613/france-withdraw-from-hosting-2025-rugby-league-world-cup-over-financial-concerns |access-date=2023-05-17 |website=Sky Sports |language=en}}</ref><ref name="Withdraw5">{{Cite web |date=2023-05-15 |title=Confirmed: France will not host 2025 Rugby League World Cup |url=https://www.loverugbyleague.com/post/confirmed-france-will-not-host-2025-rugby-league-world-cup |access-date=2023-05-17 |website=LoveRugbyLeague |language=en}}</ref>
+
+On 3 August 2023 it was confirmed that the tournament would be moved to 2026 and held in the Southern Hemisphere.<ref name="26Confirmed1" /><ref name="26Confirmed2" /><ref name="26Confirmed3" /><ref name="26Confirmed4" /> On 24 July 2024, the IRL announced 
+that [[Australia]] would host the 2026 tournament, with a number of games played in [[Papua New Guinea]].<ref>{{Cite news |date=2024-07-24 |title=Australia to host 2026 World Cup |url=https://www.bbc.co.uk/sport/rugby-league/articles/czd92pqdj81o |access-date=2024-07-24 |website=BBC Sport |language=en}}</ref><ref>{{Cite web|url=https://www.nrl.com/news/2024/07/24/arlc-welcomes-rugby-league-world-cup-2026-hosting-rights/|title=ARLC welcomes Rugby League World Cup 2026 hosting rights|date=July 24, 2024|website=National Rugby League}}</ref>
+
+==Teams==
+===Qualification===
+{{main|2026 Women's Rugby League World Cup qualification}}
+
+On 3 August 2023, the date the tournament was announced, the only qualified teams for the 2026 tournament were the semi-finalists of the [[2021 Women's Rugby League World Cup|2021 World Cup]]. The qualification process for the remaining teams was announced 15 December 2023.<ref>{{cite web|url=https://www.intrl.sport/news/rlwc2026-women-s-qualifying-process-announced/|title=Rugby League World Cup 2026 women's qualifying process announced|website=Rugby League International Federation|date=15 December 2023|access-date=11 January 2024}}</ref>
+
+Two teams would qualify directly via the European qualifications group stages on 22 June 2024,<ref>{{cite web |title=France, Wales women qualify for RLWC2026 |url=https://www.intrl.sport/article/179/france,-wales-women-qualify-for-rlwc2026 |website=Rugby League International Federation |access-date=24 June 2024 |date=23 June 2024}}</ref> and one team would qualify directly via the [[2024 Rugby League Pacific Championships#Women's Pacific Bowl|2024 Women's Pacific Bowl]] on 2 November 2024.<ref>{{cite web|url=https://www.nrl.com/news/2024/11/02/late-surge-earns-fetu-samoa-world-cup-qualification-and-promotion-shot/ |title=Late surge earns Samoa World Cup spot, promotion shot |website=National Rugby League |date=2 November 2024 |access-date=2 November 2024}}</ref>
+
+The [[2026 Women's Rugby League World Cup qualification #World Series|2025 World Series]] determined the final team to qualify, with one team from each confederation qualifying for the World Series.<ref>{{cite web |title=Match Detail |url=https://www.internationalrugbyleague.com/match-details/2517 |website=Rugby League International Federation |access-date=24 November 2025}}</ref>
+{{#lst:2026 Women's Rugby League World Cup qualification|Teams}}
+
+=== Draw ===
+The draw was announced on 23 November 2025.<ref>{{Cite web|url=https://www.bbc.co.uk/sport/rugby-league/articles/cr5z48v62d6o|title=Rugby League World Cup 2026: England avoid Australia & NZ in men's draw|date=23 November 2025|website=BBC Sport|accessdate=24 November 2025}}</ref>
+
+{| class="wikitable"
+! width="25%" |Group A
+! width="25%" |Group B
+|-
+|
+:{{rlw-l|AUS}}
+:{{rlw-l|ENG}}
+:{{rlw-l|SAM}}
+:{{rlw-l|WAL}}
+|
+:{{rlw-l|FIJ}}
+:{{rlw-l|FRA}}
+:{{rlw-l|NZL}}
+:{{rlw-l|PNG}}
+|}
+
+===Squads===
+{{main|2026 Women's Rugby League World Cup squads|2026 Women's Rugby League World Cup statistics}}
+
+==Venues==
+{{OSM location map
+| coord= {{coord|-26.5392100206976| 140.51687439649967}}
+| zoom= 3
+| title = Venues for the 2026 Women's Rugby League World Cup
+| float= centre
+| width = 525
+| height = 375
+
+| label1 = PNG Football Stadium
+| mark-coord1 = {{coord|-9.468333| 147.198333}}
+| shape1 = n-circle
+| shape-color1 = red 
+| label-pos1 = left
+| label-size1 =11
+| label-color1 = dark grey
+| mark-title1 = [[#PNG Football Stadium]]
+| mark-image1 =
+| mark-description1 = [[PNG Football Stadium]] in [[Port Moresby]]
+
+| label2 = Te Kaha
+| mark-coord2 = {{coord|-43.5341| 172.6442}} 
+| label-pos2 = left
+| label-size2 =11
+| label-color2 = dark grey
+| mark-title2 = [[#Te Kaha]]
+| mark-image2 =
+| mark-description2 = [[Te Kaha (stadium)|Te Kaha]] in [[Christchurch]]
+
+| label3= Perth Rectangular Stadium
+| mark-coord3= {{coord|-33| 116}}
+| label-pos3 = top       
+| label-size3 = 11          
+| label-color3 =dark grey
+| mark-title3 = [[#Perth Rectangular Stadium]]  <!-- Text shown when hovering over or clicking on marker in fullscreen map -->
+| mark-image3 = 
+| mark-description3= [[Perth Rectangular Stadium]], [[Perth]]
+
+| label4= Lang Park
+| mark-coord4 = {{coord|-27.464722| 153.009444}} 
+| label-pos4 = west, with-line
+| label-size4=11
+| label-color4= dark grey
+| mark-title4 = [[#Lang Park]]
+| mark-image4=
+| mark-description4 = [[Lang Park]] Stadium in [[Brisbane]]
+
+| label5= Robina Stadium
+| mark-coord5 = {{coord|-28.066944 | 153.378889}} 
+| label-pos5 = east, with-line
+| label-size5=11
+| label-color5= dark grey
+| mark-title5 = [[#Robina Stadium]]
+| mark-image5=
+| mark-description5 = [[Robina Stadium]] in [[Robina, Queensland]]
+
+| label6=  Newcastle International Sports Centre
+| mark-coord6=  {{coord|-32.918889| 151.726667}} 
+| label-pos6=  right, with-line
+| label-size6= 11
+| label-color6=  dark grey
+| mark-title6=  [[#Newcastle International Sports Centre]]
+| mark-image6= 
+| mark-description6=  [[Newcastle International Sports Centre]] in [[Newcastle, New South Wales]]
+
+| label7=  Sydney Football Stadium
+| mark-coord7=  {{coord|-33.889167| 151.225278}} 
+| label-pos7=  left, with-line
+| label-size7= 11
+| label-color7=  dark grey
+| mark-title7=  [[#Sydney Football Stadium]]
+| mark-image7= 
+| mark-description7=  [[Sydney Football Stadium (2002)|Sydney Football Stadium]]
+
+| label8=  Western Sydney Stadium
+| mark-coord8=  {{coord|-33.808056| 150.999722}} 
+| label-pos8=  south east, with-line
+| label-size8= 11
+| label-color8=  dark grey
+| mark-title8=  [[#Western Sydney Stadium]]
+| mark-image8= 
+| mark-description8=  [[Western Sydney Stadium]] in [[Parramatta]]
+
+| label9=  Wollongong Showground
+| mark-coord9=  {{coord|-34.427778| 150.9025}} 
+| label-pos9=  south
+| label-size9= 11
+| label-color9=  dark grey
+| mark-title9=  [[#Wollongong Showground]]
+| mark-image9= 
+| mark-description9=  [[Wollongong Showground]] in [[Parramatta]]
+}}
+
+{{Table alignment}}
+{| class="wikitable col6center col7center col8center col9center col10right"
+|-
+! colspan=4 | Stadium !! colspan=2 | Location !! rowspan=2 | Games !! rowspan=2 | Capacity
+|-
+! # !! Original Name !! Sponsored Name !! Image !! City !! Region 
+|-
+| {{vanchor|1|PNG Football Stadium}} || [[PNG Football Stadium]] ||  ''Santos National Football Stadium'' ||[[File:NFS, PORT MORESBY, PNG..jpg|200px]] || [[Port Moresby]]  || style="text-align: center;" | {{flagdeco|NCD}} [[National Capital District (Papua New Guinea)|NCD]]  || 2 || 14,800
+|- 
+| {{vanchor|2|Te Kaha}} || [[Te Kaha (stadium)|Te Kaha]] ||  ''One New Zealand Stadium'' || [[File:Te Kaha May 2025 06.jpg|200px]] || [[Christchurch]]  || style="text-align: center;" | [[Canterbury Region|Canterbury]] || 1 || 30,000
+|-
+| {{vanchor|3|Perth Rectangular Stadium}} || [[Perth Rectangular Stadium]] ||  ''HBF Park'' || [[File:Perth Oval Panorama January 2017.jpg|200px]] || [[Perth]] || {{flagdeco|Western Australia}} [[Western Australia|WA]] || 2 || 20,500
+|-
+| {{vanchor|4|Lang Park}} || [[Lang Park]] ||  ''Suncorp Stadium'' || [[File:Suncorp Stadium Brisbane Australia 01.jpg|200px]] || [[Brisbane]] || {{flagdeco|QLD}} [[Queensland|QLD]] || 1 || 52,500
+|-
+| {{vanchor|5|Robina Stadium}} || [[Robina Stadium]] ||  ''Cbus Super Stadium'' || [[File:Western Grandstand of Robina Stadium.jpg|200px]] || [[Robina, Queensland|Robina]], [[Gold Coast, Queensland|Gold Coast]] || {{flagdeco|QLD}} [[Queensland|QLD]]  || 2 || 27,690
+|-
+| {{vanchor|6|Newcastle International Sports Centre}} || [[Newcastle International Sports Centre]] ||  ''McDonald Jones Stadium'' || [[File:Ausgrid Stadium.jpg|200px]] || [[Newcastle, New South Wales|Newcastle]] || {{flagdeco|NSW}} [[New South Wales|NSW]] || 2  || 33,000
+|-
+| {{vanchor|7|Sydney Football Stadium}} || [[Sydney Football Stadium (2022)|Sydney Football Stadium]] ||  ''Allianz Stadium'' || [[File:SydneyFootballStadium Aug2022 Pre-open.jpg |200px]] || [[Sydney]] || {{flagdeco|NSW}} [[New South Wales|NSW]] || 1 || 42,500
+|-
+| {{vanchor|8|Western Sydney Stadium}} || [[Western Sydney Stadium]] ||  ''CommBank Stadium'' || [[File:2022 Aus Cup Final - Stadium view.jpg|200px]] || [[Parramatta]], [[Sydney]] || {{flagdeco|NSW}} [[New South Wales|NSW]] || 3 || 30,000
+|-
+| {{vanchor|9|Wollongong Showground}} || [[Wollongong Showground]] ||  ''WIN Stadium'' || [[File:WIN STADIUM, Wollongong.jpg|200px]] || [[Wollongong]] || {{flagdeco|NSW}} [[New South Wales|NSW]] || 1 || 23,750
+|}
+
+== Officiating ==
+===Match officials===
+Match officials were announced on the [[National Rugby League]] website, along with team lists, on the Tuesday afternoon preceding matches.<ref>{{Cite web|url=https://www.nrl.com/news/2026/10/13/world-cup-team-lists-womens-round-1/|title=World Cup team lists: Women's Round 1|date=13 Oct 2026|website=NRL|access-date=13 Oct 2026}}</ref><ref>{{Cite web|url=https://www.ffr13.fr/coupe-du-monde-2026-geoffrey-poumes-designe-pour-png-france-feminin/|title=Coupe du monde 2026 : Geoffrey Poumes désigné pour PNG–France féminin|date=14 Oct 2026|website=FFR13|publisher=FFR XIII - Fédération Française de Rugby à XIII﻿|access-date=22 Oct 2026|language=French}}</ref><ref>{{Cite web|url=https://www.nrl.com/news/2026/10/20/world-cup-team-lists-womens-round-2/|title=World Cup Team Lists: Women's Round 2|date=20 Oct 2026|website=NRL|access-date=20 Oct 2026}}</ref><ref name = "Round 3 team lists"/>
+{{Table alignment}}
+{| class="wikitable sortable defaultcenter col1left col2left"
+|-
+! rowspan=2 | Match Official || rowspan=2 | Country || colspan=4 | Women's tournament appearances
+|-
+! Referee !! Touch judge || Video referee !! Total
+|-
+| {{sortname|Grant|Atkins}} || {{flagdeco|Australia}} Australia || 0 || 0 || 1 || 1
+|-
+| {{sortname|Kasey|Badger}} || {{flagdeco|Australia}} Australia || 2 || 0 || 0 || 2
+|-
+| {{sortname|Izzy|Davidson|nolink=1}} || {{flagdeco|Australia}} Australia || 0 || 2 || 0 || 2
+|-
+| {{sortname|Jack|Feavers|nolink=1}} || {{flagdeco|New Zealand}} New Zealand || 0 || 2 || 0 || 2
+|-
+| {{sortname|Peter|Gough|dab=referee|nolink=1}} || {{flagdeco|Australia}} Australia || 0 || 0 || 5 || 5
+|-
+| {{sortname|Tara|Jones}} || {{flagdeco|England}} England || 2 || 1 || 0 || 3
+|-
+| {{sortname|Liam|Moore|dab=referee|nolink=1}} || {{flagdeco|England}} England || 1 || 0 || 0 || 1
+|-
+| {{sortname|Karra-Lee|Nolan|nolink=1}} || {{flagdeco|Australia}} Australia || 0 || 2 || 0 || 2
+|-
+| {{sortname|Paki|Parkinson|nolink=1}} || {{flagdeco|New Zealand}} New Zealand || 0 || 2 || 0 || 2
+|-
+| {{sortname|Geoffrey|Poumes|nolink=1}} || {{flagdeco|France}} France || 0 || 2 || 0 || 2
+|-
+| {{sortname|Belinda|Sharpe}} || {{flagdeco|Australia}} Australia || 2 || 0 || 0 || 2
+|-
+| {{sortname|Todd|Smith|dab=referee|nolink=1}} || {{flagdeco|Australia}} Australia || 0 || 0 || 2 || 2
+|-
+| {{sortname|Rochelle|Tamarua}} || {{flagdeco|New Zealand}} New Zealand || 1 || 1 || 0 || 2
+|-
+| {{sortname|Dillan|Wells|nolink=1}} || {{flagdeco|Australia}} Australia || 0 || 2 || 0 || 2
+|-
+| {{sortname|Tori|Wilkie|nolink=1}} || {{flagdeco|Australia}} Australia || 0 || 2 || 0 || 2
+|}
+
+== Rule changes ==
+Contrary to the international laws of the game,<ref>https://www.intrl.sport/about/laws-of-the-game</ref> matches of the 2026 women's world cup will be 70 minutes long, matching Australia's domestic competition – the [[NRL Women's Premiership|NRLW]]. This was done to "ensure consistency and familiarity for fans, broadcasters and key tournament stakeholders, as well as coaches and players".<ref>https://www.intrl.sport/article/711/irl-rugby-league-world-cup-2026-rules-confirmed-</ref>
+
+== Group stage ==
+===Group A===
+<section begin=WC_GAtable/>{{#invoke:sports table|main|style=WDL
+|for_against_style=points
+|winpoints=2
+|team1=AUS|name_AUS={{rlw-l|Australia}}
+|team3=ENG|name_ENG={{rlw-l|England}}
+|team2=SAM|name_SAM={{rlw-l|Samoa}}
+|team4=WAL|name_WAL={{rlw-l|Wales}}
+|win_AUS=3|draw_AUS=0|loss_AUS=0|pf_AUS=242|pa_AUS=6|status_AUS=H
+|win_ENG=1|draw_ENG=0|loss_ENG=2|pf_ENG=76|pa_ENG=108
+|win_SAM=2|draw_SAM=0|loss_SAM=1|pf_SAM=100|pa_SAM=46
+|win_WAL=0|draw_WAL=0|loss_WAL=3|pf_WAL=12|pa_WAL=270
+
+|res_col_header=Q
+|col_A=green1|text_A=Advance to knockout stage 
+|result1=A|result2=A
+|start_date=16 October 2026
+|update=complete
+|source=[https://www.bbc.co.uk/sport/rugby-league/womens-world-cup/table Source]
+}}
+<section end=WC_GAtable/>
+
+<section begin=WC_GA/>
+{{rugbyleaguebox
+|bg=
+|event=
+|date= 16 October 2026
+|time=20:05 [[AEDT]] ([[UTC+11:00]])
+|team1={{rlw-r|AUS}}
+|try1= [[Jaime Chapman|Chapman]] 10'<br/>[[Julia Robinson|Robinson]] 17'<br/>[[Shaylee Bent|Bent]] 22'<br/>[[Keeley Nizza|Nizza]] 26'<br/>[[Olivia Kernick|Kernick]] 34'<br/>[[Keilee Joseph|Joseph]] 44'<br/>[[Jessica Sergis|Sergis]] 67'
+|goal1= [[Jocelyn Kelleher|Kelleher]] (6/7) 
+|drop1=
+|field1=
+|sinbin1=
+|sentoff1=
+|score=40–0
+|1sthalf=28–0
+|2ndhalf=12–0
+|report=[https://www.intrl.sport/match-details/2582 Report]
+|team2={{nowrap|{{rlw-l|SAM}}}}
+|try2=
+|goal2=
+|drop2=
+|field2=
+|sinbin2=
+|sentoff2=
+|stadium=[[Western Sydney Stadium]], [[Sydney]]
+|attendance=13,174
+|referee=[[Kasey Badger]] ([[ARLC|Australia]])
+|vreferee=Peter Gough (Australia)
+|touch=Karra-Lee Nolan (Australia), Izzy Davidson (Australia)
+|manofmatch= [[Jocelyn Kelleher]] (Australia)
+|potmaward=
+|potmwinner=}}
+{{Rugby league match squad
+| collapsed = y
+| align = center
+| abbr = y
+| hometeam = Australia
+| awayteam = Samoa
+| squadsize = 18
+| location = s
+| homeCoach = [[Jess Skinner]]
+| homeFB =  [[Tamika Upton]]
+| homeWG1 = [[Jaime Chapman]]
+| homeCE1 = [[Jessica Sergis]]
+| homeCE2 = [[Isabelle Kelly]]
+| homeWG2 = [[Julia Robinson (rugby league)|Julia Robinson]]
+| homeSO = [[Jocelyn Kelleher]]
+| homeSH = [[Tarryn Aiken]]
+| homePR1 =  [[Millie Elliott]]
+| homeHK = [[Olivia Higgins]]
+| homePR2 = [[Simaima Taufa]]
+| homeSR1 = [[Kezie Apps]]
+| homeSR2 = [[Shaylee Bent]]
+| homeLF = [[Olivia Kernick]]
+| homeIN1 = [[Keeley Nizza]]
+| homeIN2 = [[Keilee Joseph]]
+| homeIN3 = [[Tiana Penitani]]
+| homeIN4 = [[Ellie Johnston (rugby league)|Ellie Johnston]]
+| homeIN5 = [[Makenzie Weale]]
+| awayCoach = [[Frank Pritchard]]
+| awayFB = [[Destiny Mino-Sinapati]]
+| awayWG1 = [[Mercedez Taulelei-Siala]]
+| awayCE1 = [[Monica Tagoai]]
+| awayCE2 = [[Sarina Masaga]]
+| awayWG2 = [[Freedom Crichton-Ropati]]
+| awaySO = [[Taliah Fuimaono]]
+| awaySH = [[Pauline Piliae-Rasabale]]
+| awayPR1 = [[Annetta Nuuausala]]
+| awayHK = [[Mary Jane Taito]]
+| awayPR2 = [[Laikha Clarke]]
+| awaySR1 = [[Evania Pelite|Evania Isa'ako]]
+| awaySR2 = [[Ivana Lolesio]]
+| awayLF = [[Leilani Wilson]]
+| awayIN1 = [[Evelyn Roberts]]
+| awayIN2 = [[Fanua Rimoni]]
+| awayIN3 = [[Amber Hall (rugby league)|Amber Hall]]
+| awayIN4 = [[Jasmine Fogavini]]
+| awayIN5 = [[Tavarna Papalii]]
+}}
+
+{{rugbyleaguebox
+|bg=
+|event=
+|date=17 October 2026
+|time=14:35 [[Time in Australia#Australian Western Standard Time (AWST) – UTC+08:00|AWST]] ([[UTC+08:00]])
+|team1={{rlw-r|ENG}}
+|try1= [[Amelia Brown|Brown]] 2', 56'<br/>[[Georgia Wilson (rugby league)|Wilson]] 13'<br/>[[Connie Boyd|Boyd]] 17', 22', 63'<br/>[[Hollie Dodd|Dodd]] 19'<br/>[[Anna Davies (rugby league)|Davies]] 26', 67', 70'<br/>[[Isabel Rowe|Rowe]] 35', 47'<br/>[[Jasmin Strange|Strange]] 37' 
+|goal1=[[Isabel Rowe|Rowe]] (10/13)
+|drop1=
+|field1=
+|sinbin1=
+|sentoff1=
+|score=70–6
+|1sthalf=40–6
+|2ndhalf=30–0
+|report=[https://www.intrl.sport/match-details/2584 Report]
+|team2={{rlw-l|WAL}}
+|try2= [[Paige Travis|Travis]] 9' 
+|goal2= [[Tayla Preston|Preston]] (1/1) 
+|drop2=
+|field2=
+|sinbin2=
+|sentoff2=
+|stadium=[[Perth Rectangular Stadium]], [[Perth]]
+|attendance=7,188
+|referee=[[Tara Jones]] ([[RFL|England]])
+|vreferee=Peter Gough (Australia)
+|touch=Tori Wilkie (Australia), [[Rochelle Tamarua]] (New Zealand)
+|manofmatch=[[Isabel Rowe]]<ref>{{Cite web|url=https://www.youtube.com/watch?v=IsUunf9KtWE|title=AUDIO: Stu Barrow and Izzy Rowe speak after England beat Wales - Forty20 TV|date=18 Oct 2026|website=YouTube|publisher=Forty20 - Rugby League TV|access-date=26 Oct 2026}}</ref>
+|potmaward=
+|potmwinner=}}
+{{Rugby league match squad
+| collapsed = y
+| align = center
+| abbr = y
+| hometeam = England
+| awayteam = Wales
+| squadsize = 18
+| location = n
+| homeCoach = [[Stuart Barrow]]
+| homeFB =  [[Francesca Goldthorp]]
+| homeWG1 = [[Anna Davies (rugby league)|Anna Davies]]
+| homeCE1 = [[Georgia Wilson (rugby league)|Georgia Wilson]]
+| homeCE2 = [[Connie Boyd]]
+| homeWG2 = [[Amelia Brown]]
+| homeSO = [[Isabel Rowe]]
+| homeSH = [[Georgia Roche]]
+| homePR1 =  [[Mary Coleman (rugby league)|Mary Coleman]]
+| homeHK = [[Keara Bennett]]
+| homePR2 = [[Hollie Dodd]]
+| homeSR1 = [[Jasmin Strange]]
+| homeSR2 = [[Eva Hunter]]
+| homeLF = [[Megan Williams (rugby league)|Megan Williams]]
+| homeIN1 = [[Jodie Cunningham]]
+| homeIN2 = [[Victoria Whitfield]]
+| homeIN3 = [[Jenna Foubister]]
+| homeIN4 = [[Hope Millard]]
+| homeIN5 = [[Liv Wood]]
+| awayCoach = [[Thomas Brindle (rugby league)|Thomas Brindle]]
+| awayFB = [[Leanne Burnell]]
+| awayWG1 = [[Danielle Mcgifford]]
+| awayCE1 = [[Hannah Bluck]]
+| awayCE2 = [[Zoe Heeley]]
+| awayWG2 = [[Frances Layton]]
+| awaySO = [[Ffion Lewis]]
+| awaySH = [[Tayla Preston]]
+| awayPR1 = [[Agnes Wood (rugby league)|Agnes Wood]]
+| awayHK = [[Jasmine Gibbons]]
+| awayPR2 = [[Emily Hughes (rugby league)|Hughes]]
+| awaySR1 = [[Georgia Cussons]]
+| awaySR2 = [[Paige Travis]]
+| awayLF = [[Bethan Dainton]]
+| awayIN1 = [[Carys Marsh]]
+| awayIN2 = [[Kathryn Salter]]
+| awayIN3 = [[Katie Carr (rugby league)|Katie Carr]]
+| awayIN4 = [[Erin Williams (rugby league)|Erin Williams]]
+| awayIN5 = [[Jade Mullen]]
+}}
+
+----
+{{rugbyleaguebox
+|bg=
+|event=
+|date=23 October 2026
+|time=17:50 [[AEDT]] ([[UTC+11:00]])
+|team1={{rlw-r|SAM}}
+|try1= [[Laikha Clarke|Clarke]] 8'<br/>[[Tyra Le Ekepati|Le Ekepati]] 10', 21', 65'<br/>[[Destiny Sinapati|Sinapati]] 14, 49'<br/>[[Amber Hall (rugby league)|Hall]] 25'<br/>[[Mercedez Taulelei-Saila|Taulelei-Saila]] 30, 52'<br/>[[Ivana Lolesio|Lolesio]] 34'<br/>[[Evania Pelite|Isa'ako]] 44'<br/>[[Monica Tagoai|Tagoai]] 45'<br/>[[Freedom Ropati|Ropate]] 59'<br/>[[Tavarna Papalii|Papalii]] 78' 
+|goal1= [[Pauline Piliae|Piliae]] (10/14) 
+|score=76–0
+|1sthalf=40–0
+|2ndhalf=36–0
+|report=[https://www.intrl.sport/match-details/2586 Report]
+|team2={{rlw-l|WAL}}
+|stadium=[[Western Sydney Stadium]], [[Sydney]]
+|referee=[[Rochelle Tamarua]] (New Zealand)
+|vreferee=Peter Gough (Australia)
+|attendance=3,991
+|touch=[[Tara Jones]] (England), Geoffrey Poumes (France)
+|manofmatch=[[Amber Hall (rugby league)|Amber Hall]] (Samoa)<ref>{{Cite web|url=https://www.nrl.com/news/2026/10/23/amber-hall-named-player-of-the-match/|title=Amber Hall named player of the match|date=23 Oct 2026|website=NRL|publisher=7Sport|access-date=25 Oct 2026}}</ref>
+|potmaward=
+|potmwinner=}}
+{{Rugby league match squad
+| collapsed = y
+| align = center
+| abbr = y
+| hometeam = Samoa
+| awayteam = Wales
+| squadsize = 18
+| location = sn
+| homeCoach = [[Frank Pritchard]]
+| homeFB =  [[Destiny Sinapati]]
+| homeWG1 = [[Mercedez Taulelei-Saila]]
+| homeCE1 = [[Monica Tagoai]]
+| homeCE2 = [[Tyra Le Ekepati]]
+| homeWG2 = [[Freedom Ropati]]
+| homeSO = [[Evania Pelite|Evania Isa'Ako]]
+| homeSH = [[Pauline Piliae]]
+| homePR1 =  [[Annetta Nuuausala]]
+| homeHK = [[Mary Jane Taito]]
+| homePR2 = [[Laikha Clarke]]
+| homeSR1 = [[Leilani Wilson]]
+| homeSR2 = [[Ivana Lolesio]]
+| homeLF = [[Tavarna Papalii]]
+| homeIN1 = [[Jetaya Faifua]]
+| homeIN2 = [[Fanua Rimoni]]
+| homeIN3 = [[Amber Hall (rugby league)|Amber Hall]]
+| homeIN4 = [[Christabelle Onesome-Tuilaepa]]
+| homeIN5 = [[Jaydika Tafua]]
+| awayCoach = [[Thomas Brindle (rugby league)|Thomas Brindle]]
+| awayFB = [[Leanne Burnell]]
+| awayWG1 = [[Zoe Heeley]]
+| awayCE1 = [[Jade Mullen]]
+| awayCE2 = [[Hannah Bluck]]
+| awayWG2 = [[Sian Williams (rugby league)|Sian Williams]]
+| awaySO = [[Amberley Ruck]]
+| awaySH = [[Tayla Preston]]
+| awayPR1 = [[Agnes Wood (rugby league)|Agnes Wood]]
+| awayHK = [[Jasmine Gibbons]]
+| awayPR2 = [[Emily Hughes (rugby league)|Emily Hughes]]
+| awaySR1 = [[Georgia Cussons]]
+| awaySR2 = [[Paige Travis]]
+| awayLF = [[Bethan Dainton]]
+| awayIN1 = [[Carys Marsh]]
+| awayIN2 = [[Kathryn Salter]]
+| awayIN3 = [[Erin Williams (rugby league)|Erin Williams]]
+| awayIN4 = [[Gracie Hobbs]]
+| awayIN5 = [[Katie Carr (rugby league)|Katie Carr]]
+}}
+
+
+{{rugbyleaguebox
+|bg=
+|event=
+|date=24 October 2026
+|time=17:05 [[Time in Australia#Australian Western Standard Time (AWST) – UTC+08:00|AWST]] ([[UTC+08:00]])
+|team1={{rlw-r|AUS}}
+|try1= [[Jaime Chapman|Chapman]] 2', 5'<br/>[[Jocelyn Kelleher|Kelleher]] 12', 21'<br/>[[Julia Robinson|Robinson]] 15'<br/>[[Isabelle Kelly|Kelly]] 25', 64'<br/>[[Abbi Church|Church]] 27', 46'<br/>[[Tarryn Aiken|Aiken]] 37'<br/>[[Olivia Kernick|Kernick]] 39'<br/>[[Quincy Dodd|Dodd]] 44'<br/>[[Makenzie Weale|Weale]] 50'<br/>[[Tiana Penitani|Penitiani]] 53'<br/>[[Shaylee Bent|Bent]] 67'
+|goal1=[[ Jocelyn Kelleher|Kelleher]] (9/15) 
+|score=78–0
+|1sthalf=36–0
+|2ndhalf= 42–0
+|report=[https://www.intrl.sport/match-details/2588 Report]
+|team2={{rlw-l|ENG}}
+|stadium=[[Perth Rectangular Stadium]], [[Perth]]
+|attendance=13,087
+|referee=[[Belinda Sharpe]] (Australia)
+|vreferee=Grant Atkins (Australia)
+|touch=Dillan Wells (Australia), Karra-Lee Nolan (Australia)
+|manofmatch=[[Olivia Kernick]] (Australia)<ref>{{Cite web|url=https://www.nrl.com/news/2026/10/24/kernick-named-player-of-the-match/|title=Kernick named player of the match|date=24 Oct 2026|website=NRL|publisher=7Sport|access-date=25 Oct 2026}}</ref>
+|potmaward=
+|potmwinner=}}
+{{Rugby league match squad
+| collapsed = y
+| align = center
+| abbr = y
+| hometeam = Australia
+| awayteam = England
+| squadsize = 18
+| location = sn
+| homeCoach = [[Jess Skinner]]
+| homeFB =  [[Tamika Upton]]
+| homeWG1 = [[Jaime Chapman]]
+| homeCE1 = [[Julia Robinson (rugby league)|Julia Robinson]]
+| homeCE2 = [[Isabelle Kelly]]
+| homeWG2 = [[Abbi Church]]
+| homeSO = [[Jocelyn Kelleher]]
+| homeSH = [[Tarryn Aiken]]
+| homePR1 =  [[Millie Elliott]]
+| homeHK = [[Olivia Higgins]]
+| homePR2 = [[Simaima Taufa]]
+| homeSR1 = [[Tiana Penitani]]
+| homeSR2 = [[Shaylee Bent]]
+| homeLF = [[Olivia Kernick]]
+| homeIN1 = [[Quincy Dodd]]
+| homeIN2 = [[Sarah Togatuki]]
+| homeIN3 = [[Makenzie Weale]]
+| homeIN4 = [[Sariah Paki]]
+| homeIN5 = [[Ellie Johnston (rugby league)|Ellie Johnston]]
+| awayCoach = [[Stuart Barrow]]
+| awayFB = [[Francesca Goldthorp]]
+| awayWG1 = [[Anna Davies (rugby league)|Anna Davies]]
+| awayCE1 = [[Molly Jones]]
+| awayCE2 = [[Connie Boyd]]
+| awayWG2 = [[Amelia Brown]]
+| awaySO = [[Isabel Rowe]]
+| awaySH = [[Jenna Foubister]]
+| awayPR1 = [[Liv Wood]]
+| awayHK = [[Keara Bennett]]
+| awayPR2 = [[Hollie Dodd]]
+| awaySR1 = [[Lucy Murray (rugby league)|Lucy Murray]]
+| awaySR2 = [[Eva Hunter]]
+| awayLF = [[Megan Williams (rugby league)|Megan Williams]]
+| awayIN1 = [[Jodie Cunningham]]
+| awayIN2 = [[Victoria Whitfield]]
+| awayIN3 = [[Georgia Roche]]
+| awayIN4 = [[Lucie Sams]]
+| awayIN5 = [[Hope Millard]]
+}}
+
+----
+{{rugbyleaguebox|bg=
+|event=
+|date=30 October 2026
+|time=17:50 [[AEDT]] ([[UTC+11:00]])|team1={{rlw-r|ENG}}
+|try1= [[Evie Cousins|Cousins]] 43'
+|goal1= [[Georgia Roche|Roche]] (1/1) 
+|score=6–24
+|1sthalf=0–12
+|2ndhalf=6–12
+|report=[https://www.intrl.sport/match-details/2590 Report]
+|team2={{rlw-l|SAM}}
+|try2= [[Freedom Ropati|Ropati]] 8', 17', 29'<br/>[[Mercedez Taulelei-Saila|Taulelei-Saila]] 37'<br/>[[Fanua Rimoni|Rimoni]] 65' 
+|goal2= [[Pauline Piliae|Piliae]] (2/5)
+|drop2=
+|field2=
+|sinbin2=
+|sentoff2=
+|stadium=[[Wollongong Showground]], [[Wollongong]]|attendance=
+|referee=[[Chris Kendall]] (England)<ref name = "Round 3 team lists">{{Cite web|url=https://www.nrl.com/news/2026/10/27/world-cup-team-lists-womens-round-3/|title=World Cup Team Lists: Women's Round 3|date=27 Oct 2026|website=NRL|access-date=28 Oct 2026}}</ref>
+|referee2=
+|vreferee=[[Adam Gee (referee)|Adam Gee]] (Australia)
+|touch=Dillan Wells (Australia), Karra-Lee Nolan (Australia)
+|manofmatch=[[Freedom Crichton Ropati]] (Samoa)
+|potmaward=
+|potmwinner=}}
+{{Rugby league match squad
+| collapsed = y
+| align = center
+| abbr = y
+| hometeam = England
+| awayteam = Samoa
+| squadsize = 18
+| location = ns
+| homeCoach = [[Stuart Barrow]]
+| homeFB =  [[Francesca Goldthorp]]
+| homeWG1 = [[Anna Davies (rugby league)|Anna Davies]]
+| homeCE1 = [[Georgia Wilson (rugby league)|Georgia Wilson]]
+| homeCE2 = [[Connie Boyd]]
+| homeWG2 = [[Evie Cousins]]
+| homeSO = [[Georgia Roche]]
+| homeSH = [[Isabel Rowe]]
+| homePR1 =  [[Mary Coleman (rugby league)|Mary Coleman]]
+| homeHK = [[Keara Bennett]]
+| homePR2 = [[Liv Wood]]
+| homeSR1 = [[Hollie Dodd]]
+| homeSR2 = [[Lucy Murray (rugby league)|Lucy Murray]]
+| homeLF = [[Megan Williams (rugby league)|Megan Williams]]
+| homeIN1 = [[Jodie Cunningham]]
+| homeIN2 = [[Victoria Whitfield]]
+| homeIN3 = [[Hope Millard]]
+| homeIN4 = [[Lucie Sams]]
+| homeIN5 = [[Jenna Foubister]]
+| awayCoach = [[Frank Pritchard]]
+| awayFB = [[Destiny Sinapati]]
+| awayWG1 = [[Mercedez Taulelei-Saila]]
+| awayCE1 = [[Monica Tagoai]]
+| awayCE2 = [[Tyra Le Ekepati]]
+| awayWG2 = [[Freedom Ropati]]
+| awaySO = [[Evania Isa'Ako]]
+| awaySH = [[Pauline Piliae]]
+| awayPR1 = [[Annetta Nuuausala]]
+| awayHK = [[Mary Jane Taito]]
+| awayPR2 = [[Laikha Clarke]]
+| awaySR1 = [[Leilani Wilson]]
+| awaySR2 = [[Ivana Lolesio]]
+| awayLF = [[Tavarna Papalii]]
+| awayIN1 = [[Jetaya Faifua]]
+| awayIN2 = [[Fanua Rimoni]]
+| awayIN3 = [[Jaydika Tafua]]
+| awayIN4 = [[Christabelle Onesome-Tuilaepa]]
+| awayIN5 = [[Jasmine Fogavini]]
+}}
+{{rugbyleaguebox|bg=
+|event=
+|date=1 November 2026
+|time=15:45 [[AEDT]] ([[UTC+11:00]])|team1={{rlw-r|AUS}}
+|try1= [[Olivia Kernick|Kernick]] 5'<br/>[[Jaime Chapman|Chapman]] 7', 10', 26', 42', 64', 69'<br/>[[Abbi Church|Church]] 14', 49'<br/>[[Jesse Southwell|Southwell]] 17'<br/>[[Jessica Sergis|Sergis]] 19', 29', 38', 53'<br/>[[Kezie Apps|Apps]] 23'<br/>[[Sariah Paki|Paki]] 31'<br/>[[Keilee Joseph|Joseph]] 36', 44'<br/>[[Tamika Upton|Upton]] 55', 68'<br/>[[Keeley Nizza|Nizza]] 62'
+|goal1=[[Jesse Southwell|Southwell]] (20/21)
+|drop1=
+|field1=
+|sinbin1=
+|sentoff1=
+|score=124–6
+|1sthalf=60–0
+|2ndhalf=64–6
+|report=[https://www.intrl.sport/match-details/2592 Report]
+|team2={{rlw-l|WAL}}
+|try2= [[Paige Travis|Travis]] 59'
+|goal2= [[Tayla Preston|Preston]] (1/1)
+|drop2=
+|field2=
+|sinbin2=
+|sentoff2=
+|stadium=[[Western Sydney Stadium]], [[Sydney]]
+|attendance=
+|referee=[[Kasey Badger]] (Australia)<ref name = "Round 3 team lists"/>
+|referee2=
+|vreferee=[[Peter Gough (referee)|Peter Gough]] (Australia)
+|touch=Karra-Lee Nolan (Australia), Dillan Wells (Australia)
+|manofmatch=
+|potmaward=
+|potmwinner=}}
+{{Rugby league match squad
+| collapsed = y
+| align = center
+| abbr = y
+| hometeam = Australia
+| awayteam = Wales
+| squadsize = 18
+| location = sn
+| homeCoach = [[Jess Skinner]]
+| homeFB =  [[Tamika Upton]]
+| homeWG1 = [[Jaime Chapman]]
+| homeCE1 = [[Jessica Sergis]]
+| homeCE2 = [[Isabelle Kelly]]
+| homeWG2 = [[Abbi Church]]
+| homeSO = [[Jesse Southwell]]
+| homeSH = [[Tarryn Aiken]]
+| homePR1 = [[Ellie Johnston (rugby league)|Ellie Johnston]]
+| homeHK = [[Quincy Dodd]]
+| homePR2 = [[Makenzie Weale]]
+| homeSR1 = [[Kezie Apps]]
+| homeSR2 = [[Sariah Paki]]
+| homeLF = [[Olivia Kernick]]
+| homeIN1 = [[Keeley Nizza]]
+| homeIN2 = [[Keilee Joseph]]
+| homeIN3 = [[Sarah Togatuki]]
+| homeIN4 = [[Sheridan Gallagher]]
+| homeIN5 = [[Olivia Higgins]]
+| awayCoach = [[Thomas Brindle (rugby league)|Thomas Brindle]]
+| awayFB = [[Leanne Burnell]]
+| awayWG1 = [[Zoe Heeley]]
+| awayCE1 = [[Jade Mullen]]
+| awayCE2 = [[Hannah Bluck]]
+| awayWG2 = [[Sian Williams (rugby league)|Sian Willams]]
+| awaySO = [[Ffion Lewis]]
+| awaySH = [[Tayla Preston]]
+| awayPR1 = [[Agnes Wood (rugby league)|Agnes Wood]]
+| awayHK = [[Carys Marsh (rugby league)|Carys Marsh]]
+| awayPR2 = [[Emily Hughes (rugby league)|Emily Hughes]]
+| awaySR1 = [[Georgia Cussons]]
+| awaySR2 = [[Paige Travis]]
+| awayLF = [[Bethan Dainton]]
+| awayIN1 = [[Kathryn Salter]]
+| awayIN2 = [[Erin Williams (rugby league)|Erin Williams]]
+| awayIN3 = [[Gracie Hobbs]]
+| awayIN4 = [[Lucia Davies]]
+| awayIN5 = [[Danielle Mcgifford]]
+}}<section end="WC_GA" />
+
+===Group B===
+<section begin=WC_GBtable/>{{#invoke:sports table|main|style=WDL
+|for_against_style=points
+|winpoints=2
+|team2=FIJ|name_FIJ={{rlw-l|Fiji}}
+|team4=FRA|name_FRA={{rlw-l|France}}
+|team1=NZL|name_NZL={{rlw-l|New Zealand}}
+|team3=PNG|name_PNG={{rlw-l|Papua New Guinea}}
+|win_FIJ=2|draw_FIJ=0|loss_FIJ=1|pf_FIJ=106|pa_FIJ=28|
+|win_FRA=0|draw_FRA=0|loss_FRA=3|pf_FRA=10|pa_FRA=204
+|win_NZL=3|draw_NZL=0|loss_NZL=0|pf_NZL=150|pa_NZL=24|status_NZL=H
+|win_PNG=1|draw_PNG=0|loss_PNG=2|pf_PNG=74|pa_PNG=84|status_PNG=H
+
+|res_col_header=Q
+|col_A=green1|text_A=Advance to knockout stage
+|result1=A|result2=A
+|start_date=17 October 2026
+|update=complete
+|source=[https://www.bbc.co.uk/sport/rugby-league/womens-world-cup/table Source]
+}}
+<section end=WC_GBtable/><section begin="WC_GB" />{{rugbyleaguebox
+|bg=
+|event=
+|date=17 October 2026
+|time=12:15 [[Time in Papua New Guinea|PNGST]] ([[UTC+10:00]])
+|team1={{rlw-r|PNG}}
+|try1=[[Relna Wuriki-Hosea|Wuriki-Hosea]] 6'<br/>[[Shellie Long|Long]] 18', 64'<br/>[[Fleur Ginn|Ginn]] 20', 47'<br/>[[Tia Molo|Molo]] 24', 50'<br/>[[Naomi Kelly|Kelly]] 28', 44', 52', 62'<br/>[[Ivania Wong|Wong]] 32' 
+|goal1=[[Anika Butler|Butler]] (0/2)<br/>[[Emily Veivers|Veiver]] (5/10) 
+|drop1=
+|field1=
+|sinbin1=
+|sentoff1=
+|score=58–4
+|1sthalf=32–0
+|2ndhalf=26–4
+|ExtraTime1=
+|ExtraTime2=
+|report=[https://www.intrl.sport/match-details/2583 Report]
+|team2={{rlw-l|FRA}}
+|try2= [[Manon Samarra|Samarra]] 37'
+|goal2=
+|drop2=
+|field2=
+|sinbin2=
+|sentoff2=
+|stadium=[[PNG Football Stadium]], [[Port Moresby]]
+|attendance=6,868
+|referee=Liam Moore ([[RFL|England]])
+|referee2=
+|vreferee=Todd Smith ([[ARLC|Australia]])
+|touch=Geoffrey Poumes ([[French Rugby League Federation|France]]), Dillan Wells (Australia)
+|manofmatch=[[Tia Molo]] (PNG)<ref>{{Cite web|url=https://www.abc.net.au/pacific/rlwc-2026-png-kumuls-orchids-win-opening-matches-in-port-moresby/107283360|title=Rugby League World Cup 2026 first round sees Kumuls and Orchids take wins in front of home fans|last=Haro|first=Jamie|date=19 Oct 2026|website=ABC|publisher=ABC Pacific|access-date=26 Oct 2026}}</ref>
+|potmaward=
+|potmwinner=}}
+{{Rugby league match squad
+| collapsed = y
+| align = center
+| abbr = y
+| hometeam = Papua New Guinea
+| awayteam = France
+| squadsize = 18
+| location = sn
+| homeCoach = [[Craig Sandercock]]
+| homeFB =  [[Anika Butler]]
+| homeWG1 = [[Ivania Wong]]
+| homeCE1 = [[Relna Wuriki-Hosea]]
+| homeCE2 = [[Tia Molo]]
+| homeWG2 = [[Naomi Kelly]]
+| homeSO = [[Fleur Ginn]]
+| homeSH = [[Cynthia Peters]]
+| homePR1 =  [[Elsie Albert]]
+| homeHK = [[Ua Ravu]]
+| homePR2 = [[Jafinda Sap]]
+| homeSR1 = [[Belinda Gwasamun]]
+| homeSR2 = [[Shellie Long]]
+| homeLF = [[Emily Veivers]]
+| homeIN1 = [[Therese Aiton]]
+| homeIN2 = [[Essay Banu]]
+| homeIN3 = [[Jenny David]]
+| homeIN4 = [[India Seeto]]
+| homeIN5 = [[Gemma Schnaubelt]]
+| awayCoach = [[Alan Walsh (rugby league)|Alan Walsh]]
+| awayFB = [[Manon Samarra]]
+| awayWG1 = [[Perle Ramazeilles]]
+| awayCE1 = [[Melisa Medina]]
+| awayCE2 = [[Amaël Vilanove]]
+| awayWG2 = [[Haoua Kessely]]
+| awaySO = [[Camille Boudad]]
+| awaySH = [[Lisa Diraison]]
+| awayPR1 = [[Elisa Akpa]]
+| awayHK = [[Cristina Song Puche]]
+| awayPR2 = [[Elodie Pacull]]
+| awaySR1 = [[Perrine Monsarrat]]
+| awaySR2 = [[Stecy Bessier]]
+| awayLF = [[Leila Bessahli]]
+| awayIN1 = [[Fanny Ramos (rugby league)|Fanny Ramos]]
+| awayIN2 = [[Salome Segala]]
+| awayIN3 = [[Louisa Tooman]]
+| awayIN4 = [[Justine Roses]]
+| awayIN5 = [[Margot Canal]]
+}}
+
+{{rugbyleaguebox|bg=
+|event=
+|date=18 October 2026
+|time=13:50 [[AEDT]] ([[UTC+11:00]])|team1={{rlw-r|NZL}}
+|try1= [[Stacey Waaka|Waaka]] 2', 31'<br/>[[Leianne Tufuga|Tufuga]] 67' 
+|goal1= [[Zahara Temara|Temara]] (3/3)
+|drop1=
+|field1=
+|sinbin1=
+|sentoff1=
+|score=18–12
+|1sthalf=10–12
+|2ndhalf=8–0
+|ExtraTime1=
+|ExtraTime2=
+|report=[https://www.intrl.sport/match-details/2585 Report]
+|team2={{rlw-l|FIJ}}
+|try2= [[Losana Lutu|Lutu]] 21'<br/>[[Sienna Rose Laing|Laing]] 27'
+|goal2= [[Luisa Yaranuma|Yaranuma]] (1/1)<br/>[[Sere Naitokatoka|Naitokatoka]] (1/1)
+|drop2=
+|field2=
+|sinbin2=
+|sentoff2=
+|stadium=[[Newcastle International Sports Centre]], [[Newcastle, New South Wales|Newcastle]]
+|attendance=10,604
+|referee=[[Belinda Sharpe]] (Australia)
+|referee2=
+|vreferee=Peter Gough (Australia)
+|touch=Paki Parkinson (New Zealand), Jack Feavers (New Zealand)
+|manofmatch=[[Stacey Waaka]] (New Zealand)
+|potmaward=
+|potmwinner=}}
+{{Rugby league match squad
+| collapsed = y
+| align = center
+| abbr = y
+| hometeam = New Zealand
+| awayteam = Fiji
+| squadsize = 18
+| location = s
+| homeCoach = [[Ricky Henry (rugby league)|Ricky Henry]]
+| homeFB =  [[Apii Nicholls]]
+| homeWG1 = [[Leianne Tufuga]]
+| homeCE1 = [[Mele Hufanga]]
+| homeCE2 = [[Abigail Roache]]
+| homeWG2 = [[Stacey Waaka]]
+| homeSO = [[Zahara Temara]]
+| homeSH = [[Raecene Mcgregor]]
+| homePR1 =  [[Otesa Pule]]
+| homeHK = [[Georgia Hale (rugby league)|Georgia Hale]]
+| homePR2 = [[Shannon Lorraine Mato]]
+| homeSR1 = [[Nessa Biddle]]
+| homeSR2 = [[Kaiyah Atai]]
+| homeLF = [[Angelina Teakaraanga Katoa]]
+| homeIN1 = [[Ashleigh Quinlan]]
+| homeIN2 = [[Alexis Tauaneai]]
+| homeIN3 = [[Ivana Lauititi]]
+| homeIN4 = [[Brianna Clark]]
+| homeIN5 = [[Brooke Anderson (rugby league)|Brooke Anderson]]
+| awayCoach = [[Jone Wesele]]
+| awayFB = [[Cassandra Staples]]
+| awayWG1 = [[Maria Paseka (rugby league)|Maria Paseka]]
+| awayCE1 = [[Isabella Waterman]]
+| awayCE2 = [[Taina Naividi]]
+| awayWG2 = [[Sienna Rose Laing]]
+| awaySO = [[Luisa Yaranamu]]
+| awaySH = [[Losana Lutu]]
+| awayPR1 = [[Latisha Smythe Uluibanu]]
+| awayHK = [[Sere Naitokatoka]]
+| awayPR2 = [[Leilani Asham]]
+| awaySR1 = [[Grace Naleba]]
+| awaySR2 = [[Tamika Jones]]
+| awayLF = [[Talei Holmes]]
+| awayIN1 = [[Tahlia Marshall]]
+| awayIN2 = [[Teaghan Laing-Hartigan]]
+| awayIN3 = [[Lorren Leli]]
+| awayIN4 = [[Nanise Vakacavu]]
+| awayIN5 = [[Naomi Sivoi Tegu]]
+}}
+
+----
+{{rugbyleaguebox|bg=
+|event=
+|date=24 October 2026
+|time=12:15 [[Time in Papua New Guinea|PNGST]] ([[UTC+10:00]])
+|team1={{rlw-r|PNG}}
+|try1=[[Ua Rave|Ravu]] 8'
+|goal1=[[Anika Butler|Butler]] (0/1)
+|score=4–40
+|1sthalf=4–30
+|2ndhalf=0–10
+|report=[https://www.intrl.sport/match-details/2587 Report]
+|team2={{rlw-l|FIJ}}
+|try2=[[Sienna Rose Laing|Laing]] 4'<br/>[[Luisa Yaranamu|Yaranamu]] 19'<br/>[[Taina Naividi|Naividi]] 24'<br/>[[Losana Lutu|Lutu]] 30'<br/>[[Tahlia Marshall|Marshall]] 33', 40', 44' 
+|goal2=[[Sere Naitokatoka|Naitokatoka]] (6/7) 
+|stadium=[[PNG Football Stadium]], [[Port Moresby]]
+|attendance= 7,475
+|referee=[[Kasey Badger]] (Australia)
+|referee2=
+|vreferee=Todd Smith (Australia)
+|touch=Tori Wilkie (Australia), Izzy Davidson (Australia)
+|manofmatch=[[Taina Naividi]] (Fiji)<ref>{{Cite web|url=https://www.nrl.com/news/2026/10/24/taina-naividi-named-player-of-the-match/|title=Taina Naividi named player of the match|date=24 Oct 2026|website=NRL|access-date=25 Oct 2026}}</ref>
+|potmaward=
+|potmwinner=}}
+{{Rugby league match squad
+| collapsed = y
+| align = center
+| abbr = y
+| hometeam = Papua New Guinea
+| awayteam = Fiji
+| squadsize = 18
+| location = s
+| homeCoach = [[Craig Sandercock]]
+| homeFB =  [[Anika Butler]]
+| homeWG1 = [[Ivania Wong]]
+| homeCE1 = [[Relna Wuriki-Hosea]]
+| homeCE2 = [[Tia Molo]]
+| homeWG2 = [[Naomi Kelly]]
+| homeSO = [[Fleur Ginn]]
+| homeSH = [[Cynthia Peters]]
+| homePR1 =  [[Elsie Albert]]
+| homeHK = [[Ua Ravu]]
+| homePR2 = [[Jenny David]]
+| homeSR1 = [[Belinda Gwasamun]]
+| homeSR2 = [[Shellie Long]]
+| homeLF = [[Emily Veivers]]
+| homeIN1 = [[Venesa Nakas]]
+| homeIN2 = [[Essay Banu]]
+| homeIN3 = [[India Seeto]]
+| homeIN4 = [[Therese Aiton]]
+| homeIN5 = [[Gemma Schnaubelt]]
+| awayCoach = [[Jone Wesele]]
+| awayFB = [[Cassandra Staples]]
+| awayWG1 = [[Sienna Rose Laing]]
+| awayCE1 = [[Isabella Waterman]]
+| awayCE2 = [[Taina Naividi]]
+| awayWG2 = [[Tahlia Marshall]]
+| awaySO = [[Luisa Yaranamu]]
+| awaySH = [[Losana Lutu]]
+| awayPR1 = [[Latisha Smythe Uluibanu]]
+| awayHK = [[Sere Naitokatoka]]
+| awayPR2 = [[Leilani Asham]]
+| awaySR1 = [[Grace Naleba]]
+| awaySR2 = [[Nanise Vakacavu]]
+| awayLF = [[Talei Holmes]]
+| awayIN1 = [[Tahlia Marshall]]
+| awayIN2 = [[Teaghan Laing-Hartigan]]
+| awayIN3 = [[Lorren Ieli]]
+| awayIN4 = [[Naomi Sivoi Tegu]]
+| awayIN5 = [[Ema Masi]]
+}}
+
+{{rugbyleaguebox|bg=
+|event=
+|date=25 October 2026
+|time=15:50 [[NZDT]] ([[UTC+13:00]])
+|team1={{rlw-r|NZL}}
+|try1=[[Mackenzie Wiki|Wiki]] 1', 57'<br/>[[Apii Nicholls|Nicholls]] 4', 10', 61', 69'<br/>[[Chanty Kiria-Ratu|Kiria-Ratu]] 7'<br/>[[Raecene Mcgregor|Mcgregor]] 19', 40'<br/>[[Stacey Waaka|Waaka]] 22', 28', 52'<br/>[[Mele Hufanga|Hufanga]] 25', 32', 35'<br/>[[Kaiyah Atai|Atai]] 42'<br/>[[Tenika Willison|Willison]] 46', 48'<br/>
+|goal1=[[Chanty Kiria-Ratu|Kiria-Ratu]] (9/17)<br/>[[Apii Nicholls|Nicholls]] (1/1)
+|score=92–0
+|1sthalf=46–0
+|2ndhalf=46–0
+|report=[https://www.intrl.sport/match-details/2589 Report]
+|team2={{rlw-l|FRA}}
+|stadium=[[Te Kaha Stadium]], [[Christchurch]]
+|attendance=
+|referee=[[Tara Jones]] (England)
+|vreferee=Peter Gough (Australia)
+|touch=Jack Feavers (New Zealand), Paki Parkinson (New Zealand)
+|manofmatch=[[Mele Hufanga]] (New Zealand)<ref>{{Cite web|url=https://www.nrl.com/news/2026/10/25/mele-hufanga-named-player-of-the-match/|title=Mele Hufanga named player of the match|date=25 Oct 2026|website=NRL|publisher=Sky NZ|access-date=25 Oct 2026}}</ref>
+|potmaward=
+|potmwinner=}}
+{{Rugby league match squad
+| collapsed = y
+| align = center
+| abbr = y
+| hometeam = New Zealand
+| awayteam = France
+| squadsize = 18
+| location = sn
+| homeCoach = [[Ricky Henry (rugby league)|Ricky Henry]]
+| homeFB =  [[Apii Nicholls]]
+| homeWG1 = [[Tenika Willison]]
+| homeCE1 = [[Mele Hufanga]]
+| homeCE2 = [[Stacey Waaka]]
+| homeWG2 = [[Mackenzie Wiki]]
+| homeSO = [[Chanty Kiria-Ratu]]
+| homeSH = [[Raecene Mcgregor]]
+| homePR1 =  [[Alexis Tauaneai]]
+| homeHK = [[Georgia Hale (rugby league)|Georgia Hale]]
+| homePR2 = [[Ivana Lauititi]]
+| homeSR1 = [[Nessa Biddle]]
+| homeSR2 = [[Kaiyah Atai]]
+| homeLF = [[Brooke Anderson (rugby league)|Brooke Anderson]]
+| homeIN1 = [[Ashleigh Quinlan]]
+| homeIN2 = [[Shaniece Monschau]]
+| homeIN3 = [[Trinity Tauaneai]]
+| homeIN4 = [[Angelina Teakaraanga Katoa]]
+| homeIN5 = [[Abigail Roache]]
+| awayCoach = [[Alan Walsh (rugby league)|Alan Walsh]]
+| awayFB = [[Manon Samarra]]
+| awayWG1 = [[Margot Canal]]
+| awayCE1 = [[Melisa Medina]]
+| awayCE2 = [[Perle Ramazeilles]]
+| awayWG2 = [[Haoua Kessely]]
+| awaySO = [[Camille Boudad]]
+| awaySH = [[Lisa Diraison]]
+| awayPR1 = [[Elisa Akpa]]
+| awayHK = [[Fanny Ramos (rugby league)|Fanny Ramos]]
+| awayPR2 = [[Leila Bessahli]]
+| awaySR1 = [[Perrine Monsarrat]]
+| awaySR2 = [[Stecy Bessier]]
+| awayLF = [[Tallis Eranossian]]
+| awayIN1 = [[Justine Roses]]
+| awayIN2 = [[Noemie Samuel]]
+| awayIN3 = [[Salome Segala]]
+| awayIN4 = [[Elodie Pacull]]
+| awayIN5 = [[Cristina Song Puche]]
+}}
+
+----
+{{rugbyleaguebox|bg=
+|event=
+|date=31 October 2026
+|time=12:35 [[AEST]] ([[UTC+10:00]])
+|team1={{rlw-r|FIJ}}
+|try1=[[Tahlia Marshall|Marshall]] 3', 45'<br/>[[Maria Paseka (rugby league)|Paseka]] 19'<br/>[[Aliti Namoce|Namoce]] 24'<br/>[[Losana Lutu|Lutu]] 27'<br/>[[Cassandra Staples|Staples]] 39'<br/>
+[[Latisha Smythe Uluibanu|Uluibanu]] 51'<br/>[[Leilani Asham|Asham]] 54'<br/>[[Taina Naividi|Naividi]] 63'<br/>[[Lorren Ieli|Ieli]] 67'
+|goal1=[[Luisa Yaranamu|Yaranamu]] (7/10)
+|drop1=
+|field1=
+|sinbin1=
+|sentoff1=
+|score=54–6
+|1sthalf=20–0
+|2ndhalf=34–6
+|ExtraTime1=
+|ExtraTime2=
+|report=[https://www.intrl.sport/match-details/2591 Report]
+|team2={{rlw-l|FRA}}
+|try2= [[Stecy Bessier|Bessier]] 38'
+|goal2= [[Lisa Diralison|Diralison]] (1/1) 
+|drop2=
+|field2=
+|sinbin2=
+|sentoff2=
+|stadium=[[Robina Stadium]], [[Gold Coast, Queensland|Gold Coast]]
+|attendance=
+|referee= [[Tara Jones]] (England)<ref name = "Round 3 team lists"/>
+|touch=Izzy Davidson (Australia), Geoffrey Poumes (France)
+|vreferee=[[Kasey Badger]] (Australia)
+|manofmatch=[[Latisha Smythe]] (Fiji)
+|potmaward=
+|potmwinner=}}
+{{Rugby league match squad
+| collapsed = y
+| align = center
+| abbr = y
+| hometeam = Fiji
+| awayteam = France 
+| squadsize = 18
+| location = sn
+| homeCoach = [[Jone Wesele]]
+| homeFB =  [[Cassandra Staples]]
+| homeWG1 = [[Maria Paseka (rugby league)|Maria Paseka]]
+| homeCE1 = [[Isabella Waterman]]
+| homeCE2 = [[Taina Naividi]]
+| homeWG2 = [[Tahlia Marshall]]
+| homeSO = [[Luisa Yaranamu]]
+| homeSH = [[Losana Lutu]]
+| homePR1 =  [[Latisha Smythe Uluibanu]]
+| homeHK = [[Sere Naitokatoka]]
+| homePR2 = [[Lorren Ieli]]
+| homeSR1 = [[Grace Naleba]]
+| homeSR2 = [[Talei Holmes]]
+| homeLF = [[Leilani Asham]]
+| homeIN1 = [[Ema Masi]]
+| homeIN2 = [[Aliti Namoce]]
+| homeIN3 = [[Naomi Sivoi Tegu]]
+| homeIN4 = [[Rory Muller]]
+| homeIN5 = [[Ebony Laing]]
+| awayCoach = [[Alan Walsh (rugby league)|Alan Walsh]]
+| awayFB = [[Manon Samarra]]
+| awayWG1 = [[Margot Canal]]
+| awayCE1 = [[Melisa Medina]]
+| awayCE2 = [[Perle Ramazeilles]]
+| awayWG2 = [[Haoua Kessely]]
+| awaySO = [[Camille Boudad]]
+| awaySH = [[Lisa Diraison]]
+| awayPR1 = [[Elisa Akpa]]
+| awayHK = [[Cristina Song Puche]]
+| awayPR2 = [[Elodie Pacull]]
+| awaySR1 = [[Perrine Monsarrat]]
+| awaySR2 = [[Stecy Bessier]]
+| awayLF = [[Leila Bessahli]]
+| awayIN1 = [[Fanny Ramos (rugby league)|Fanny Ramos]]
+| awayIN2 = [[Salome Segala]]
+| awayIN3 = [[Louisa Tooman]]
+| awayIN4 = [[Justine Roses]]
+| awayIN5 = [[Tessa Benmalek]]
+}}
+
+{{rugbyleaguebox|bg=
+|event=
+|date=31 October 2026
+|time=16:55 [[AEST]] ([[UTC+10:00]])
+|team1={{rlw-r|NZL}}
+|try1=[[Stacey Waaka|Waaka]] 5'<br/>[[Mackenzie Wiki|Wiki]] 18,45'<br/>[[Kaiyah Atai|Atai]] 33'<br/>[[Otesa Pule|Pule]] 35'<br/>[[Leianne Tufuga|Tufuga]] 52'<br/>[[Abigail Roache|Roache]] 54,62' 
+|goal1=[[Zahara Temara|Temara]] (4/8) 
+|score=40–12
+|1sthalf=14–12
+|2ndhalf=26–0
+|report=[https://www.intrl.sport/match-details/2593 Report]
+|team2={{rlw-l|PNG}}
+|try2=[[Tia Molo|Molo]] 8'<br/>[[Elsie Albert|Albert]] 21'
+|goal2=[[Emily Veivers|Veivers]] (2/2) 
+|drop2=
+|field2=
+|sinbin2=
+|sentoff2=
+|stadium=[[Robina Stadium]], [[Gold Coast, Queensland|Gold Coast]]|attendance=
+|referee=[[Belinda Sharpe]] (Australia)<ref name = "Round 3 team lists"/>
+|referee2=
+|vreferee=[[Gerard Sutton (referee)|Gerard Sutton]] (Australia)
+|touch=Tori Wilkie (Australia), [[Rochelle Tamarua]] (New Zealand)
+|manofmatch=[[Apii Nicholls-Pualau|Apii Nicholls]] (New Zealand)
+|potmaward=
+|potmwinner=}}
+{{Rugby league match squad
+| collapsed = y
+| align = center
+| abbr = y
+| hometeam = New Zealand
+| awayteam = Papua New Guinea
+| squadsize = 18
+| location = s
+| homeCoach = [[Ricky Henry (rugby league)|Ricky Henry]]
+| homeFB =  [[Apii Nicholls]]
+| homeWG1 = [[Leianne Tufuga]]
+| homeCE1 = [[Abigail Roache]]
+| homeCE2 = [[Stacey Waaka]]
+| homeWG2 = [[Mackenzie Wiki]]
+| homeSO = [[Zahara Temara]]
+| homeSH = [[Raecene Mcgregor]]
+| homePR1 =  [[Alexis Tauaneai]]
+| homeHK = [[Georgia Hale (rugby league)|Georgia Hale]]
+| homePR2 = [[Shannon Lorraine Mato]]
+| homeSR1 = [[Shaniece Monschau]]
+| homeSR2 = [[Kaiyah Atai]]
+| homeLF = [[Angelina Teakaraanga Katoa]]
+| homeIN1 = [[Ashleigh Quinlan]]
+| homeIN2 = [[Otesa Pule]]
+| homeIN3 = [[Brooke Anderson (rugby league)|Brooke Anderson]]
+| homeIN4 = [[Ivana Lauititi]]
+| homeIN5 = [[Tenika Willison]]
+| awayCoach = [[Craig Sandercock]]
+| awayFB = [[Anika Butler]]
+| awayWG1 = [[Mala Mark]]
+| awayCE1 = [[Relna Wuriki-Hosea]]
+| awayCE2 = [[Tia Molo]]
+| awayWG2 = [[Naomi Kelly]]
+| awaySO = [[Fleur Ginn]]
+| awaySH = [[Gemma Schnaubelt]]
+| awayPR1 = [[Elsie Albert]]
+| awayHK = [[Therese Aiton]]
+| awayPR2 = [[Jenny David]]
+| awaySR1 = [[Emily Veivers]]
+| awaySR2 = [[Shellie Long]]
+| awayLF = [[India Seeto]]
+| awayIN1 = [[Essay Banu]]
+| awayIN2 = [[Venesa Nakas]]
+| awayIN3 = [[Mya Muller]]
+| awayIN4 = [[Jafinda Sap]]
+| awayIN5 = [[Ua Ravu]]
+}}
+
+<section end="WC_GB" />
+
+== Knockout stage ==
+Following the conclusion of Round 2, the [[National Rugby League]] announced that the Australian men's and women's teams, having qualified for their respective semi-finals, would both play in Sydney on 8 November 2026.<ref>{{Cite web|url=https://www.nrl.com/news/2026/10/25/rugby-league-world-cup-semi-finals/ |title=Rugby League World Cup semi-finals|date=25 October 2026|website=NRL|publisher=NRL Media Release|accessdate=26 October 2026}}</ref>
+
+===Bracket===
+<section begin=WC_bracket/>{{Round4|3rdplace=no
+<!-- Date-Place|Team 1|Score 1|Team 2|Score 2 -->
+<!-- semi-finals -->
+|7 November – [[Newcastle International Sports Centre|Newcastle]]|{{nowrap|{{rlw-l|NZL}}}}| – |{{rlw-l|Samoa}}| –
+|8 November – [[Sydney Football Stadium (2022)|Sydney]]|{{rlw-l|AUS}}| – |{{rlw-l|FIJ}}| –
+<!-- final -->
+|15 November – [[Lang Park|Brisbane]]|SF1 Winner| – |SF2 Winner| – }}<section end=WC_bracket/>
+
+===Semi-finals===
+<section begin="WC_SF" />{{rugbyleaguebox|bg=
+|event=
+|date=7 November 2026
+|time=17:55 [[AEDT]] ([[UTC+11:00]])
+|team1={{nowrap|{{rlw-r|NZL}}}}
+|try1=
+|goal1=
+|drop1=
+|field1=
+|sinbin1=
+|sentoff1=
+|score=
+|1sthalf=
+|2ndhalf=
+|ExtraTime1=
+|ExtraTime2=
+|report=[https://www.rlwc2026.com/articles/2026-rugby-league-world-cup-fixtures-announced Source]
+|team2= {{nowrap|{{rlw-l|Samoa}}}}
+|try2=
+|goal2=
+|drop2=
+|field2=
+|sinbin2=
+|sentoff2=
+|stadium=[[Newcastle International Sports Centre]], [[Newcastle, New South Wales|Newcastle]]
+|attendance=
+|referee=
+|referee2=
+|vreferee=
+|touch=
+|manofmatch=
+|potmaward=
+|potmwinner=}}
+----
+{{rugbyleaguebox|bg=
+|event=
+|date=8 November 2026
+|time=17:55 [[AEDT]] ([[UTC+11:00]])
+|team1={{rlw-r|AUS}}
+|try1=
+|goal1=
+|drop1=
+|field1=
+|sinbin1=
+|sentoff1=
+|score=
+|1sthalf=
+|2ndhalf=
+|ExtraTime1=
+|ExtraTime2=
+|report=[https://www.rlwc2026.com/articles/2026-rugby-league-world-cup-fixtures-announced Source]
+|team2={{nowrap|{{rlw-l|FIJ}}}}
+|try2=
+|goal2=
+|drop2=
+|field2=
+|sinbin2=
+|sentoff2=
+|stadium=[[Sydney Football Stadium (2022)|Sydney Football Stadium]], [[Sydney]]
+|attendance=
+|referee=
+|referee2=
+|vreferee=
+|touch=
+|manofmatch=
+|potmaward=
+|potmwinner=}}<section end="WC_SF" />
+
+===Final===
+<section begin="WC_F" />{{rugbyleaguebox|bg=
+|event=
+|date=15 November 2026|time=15:15 [[AEST]] ([[UTC+10:00]])
+|team1=First semi-final winner
+|try1=
+|goal1=
+|drop1=
+|field1=
+|sinbin1=
+|sentoff1=
+|score=
+|1sthalf=
+|2ndhalf=
+|ExtraTime1=
+|ExtraTime2=
+|report=[https://www.rlwc2026.com/articles/2026-rugby-league-world-cup-fixtures-announced Source]
+|team2=Second semi-final winner
+|try2=
+|goal2=
+|drop2=
+|field2=
+|sinbin2=
+|sentoff2=
+|stadium=[[Lang Park]], [[Brisbane]]
+|attendance=
+|referee=
+|referee2=
+|vreferee=
+|touch=
+|manofmatch=
+|potmaward=
+|potmwinner=}}<section end="WC_F" />
+
+==Statistics==
+{{Main|2026 Women's Rugby League World Cup statistics}}
+===Most tries===
+{{#lst:2026 Women's Rugby League World Cup statistics|2026RLWC_WOMEN_TRIES}}
+
+===Most points===
+{{#lst:2026 Women's Rugby League World Cup statistics|2026RLWC_WOMEN_POINTS}}
+
+==See also==
+* [[2026 Men's Rugby League World Cup]]
+* [[2026 Wheelchair Rugby League World Cup]]
+* [[2026 Women's Rugby League World Cup squads]]
+* [[2026 Women's Rugby League World Cup statistics]]
+
+==Notes==
+{{notelist}}
+
+==References==
+{{reflist}}{{RLWC2026}}{{Women's Rugby League World Cup}}
+{{2026 RLWC venues}}
+{{2026 in rugby league}}
+
+[[Category:2026 Rugby League World Cup]]
+[[Category:2026 in rugby league|Women's World Cup]]
+[[Category:Current sports events|Rugby League World Cup]]
+[[Category:Women's Rugby League World Cup|2026]]
+[[Category:Women's rugby league competitions in Australia]]
+[[Category:International rugby league competitions hosted by Papua New Guinea]]
+[[Category:2026 in women's rugby league|World Cup]]
