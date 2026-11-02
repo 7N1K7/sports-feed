@@ -1453,17 +1453,18 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 /* the room between the names and their cell's right end, which a long result can reach into */
 .ev.lrow { --rspace: calc((var(--lroom) - clamp(-1 * var(--lroom), var(--ls), var(--lroom))) / 2) }
 @media (max-width: 520px) { .ev.lrow { --li: 79px; --cl: 84px; --cr: 43px } }
-/* a result's row: its day ("Thu") needs less room than a time, so its score gets the room instead (results are listed
-   together, so their names still line up with each other) */
-.ev.lrow.lres { grid-template-columns: 4px 30px 16px minmax(0, 1fr) 86px; --li: 64px; --cl: 71px; --cr: 93px }
-/* phones: the day goes too (the heading above already says it), so the names keep the room they had */
+/* a result's row: its day ("Thu") needs less room than a time, so its score gets the room instead. Its names sit at the
+   same spot as the games' above and below (the same --li), so a day's results line up with its games */
+.ev.lrow.lres { grid-template-columns: 4px 30px 16px minmax(0, 1fr) 86px; --li: 92px; --cl: 71px; --cr: 93px }
+/* phones: the day goes too (the heading above already says it). The games' spot is out of reach here (the score needs
+   its room), so a day's results line up at their own spot, a little left of the games' */
 @media (max-width: 520px) { .ev.lrow.lres { grid-template-columns: 4px 13px minmax(0, 1fr) 82px; --li: 22px; --cl: 27px; --cr: 87px } .ev.lrow.lres .ltime { display: none } }
 @media (min-width: 700px) { .ev.lrow { grid-template-columns: 4px auto minmax(0, 1fr) 50px;
     --lw: max(150px, min(var(--cw, 0px) + 101px, 100cqw - var(--nw, 0px) - 75px)); --li: calc(99px + var(--lcw, 0px)); --cl: calc(var(--lw) + 18px); --cr: 57px }
   .ev.lrow .lleft { display: flex; align-items: center; gap: 7px; padding-right: 12px; width: var(--lw) }
   .ev.lrow .lleft .ltime { flex: none; width: 58px } .ev.lrow .lleft .licon { flex: none }
   .ev.lrow .lcomp { display: block; flex: 1 1 0; min-width: 0; contain: inline-size }
-  .ev.lrow.lres { grid-template-columns: 4px auto minmax(0, 1fr) 86px; --lw: max(150px, min(var(--cw, 0px) + 101px, 100cqw - var(--nw, 0px) - 111px)); --cr: 93px } }
+  .ev.lrow.lres { grid-template-columns: 4px auto minmax(0, 1fr) 86px; --lw: max(150px, min(var(--cw, 0px) + 101px, 100cqw - var(--nw, 0px) - 111px)); --li: calc(99px + var(--lcw, 0px)); --cl: calc(var(--lw) + 18px); --cr: 93px } }
 .ev.lrow .ltime { font: 700 17px/1 var(--f-display); color: var(--sport); text-align: right; white-space: nowrap }
 .ev.lrow .licon { width: 16px; height: 16px; opacity: .85 }
 /* line-height with room for g's and y's: the names clip at their box (for the ellipsis), descenders and all */
@@ -2180,6 +2181,11 @@ setInterval(() => {
     if (ms <= SOON && ms > SOON - 1500 && el.closest('#soon')) { render(); break; }
   }
 }, 1000);
+// spoilers count from a game's last day, not its first: a four-day Shield game or a Test that ends today stays covered
+// as long as a game played today (the form guide's results, which carry only their first day, go by their game's)
+const spoilAt = e => { const s = new Date(e.startUTC).getTime(); return e.sport === 'cricket' ? s + ((DAYS[formatOf(e)] || 1) - 1) * 864e5 : s; };
+let spoilIds = null, spoilKey = '';
+const spoilAtId = (id, d) => { if (spoilKey !== FEED.generatedAt) { spoilKey = FEED.generatedAt; spoilIds = new Map((FEED.events || []).map(e => [e.id, e])); } const e = spoilIds.get(id); return e ? spoilAt(e) : Date.parse(d); };
 function canRehide(id, start, now) { return spoilers && revealed.has(id) && now - new Date(start) < spoilDays * 864e5; }
 const rehideBtn = id => `<button class="rehide" type="button" data-rehide="${esc(id)}">Hide again</button>`;
 // "Show all" beside a results heading uncovers every hidden result under it in one go; once none are hidden it
@@ -2190,12 +2196,12 @@ const eyeIco = off => `<svg class="reye" viewBox="0 0 24 24" aria-hidden="true" 
 const revealAll = (list, now) => {
   const ids = list.filter(e => isHidden(e, now)).map(e => e.id);
   if (ids.length > 1) return `<button type="button" class="revall" data-revealall="${esc(ids.join(' '))}">${eyeIco(false)}Show all ${ids.length} results</button>`;
-  const back = list.filter(e => canRehide(e.id, e.startUTC, now)).map(e => e.id);
+  const back = list.filter(e => canRehide(e.id, spoilAt(e), now)).map(e => e.id);
   return !ids.length && back.length > 1 ? `<button type="button" class="revall" data-hideall="${esc(back.join(' '))}">${eyeIco(true)}Hide all results</button>` : '';
 };
 function isHidden(e, now) {
   if (!spoilers || revealed.has(e.id)) return false;
-  return now - new Date(e.startUTC) < spoilDays * 864e5;
+  return now - spoilAt(e) < spoilDays * 864e5;
 }
 // an event also shows for the other side when both are followed (e.g. Blues v Hurricanes)
 const CLUBS = ['blues','chiefs','hurricanes','crusaders','highlanders','warriors'];
@@ -2298,7 +2304,7 @@ function listRow(e, now, isRes) {
     : `<span class="lteams"><span class="lside home">${teamName(e.home, e.homeLogo, e)}</span><span class="lv">v</span><span class="lside away">${teamNameR(e.away, e.awayLogo, e)}</span></span>`;
   // a result shown while spoilers are hidden: tapping its score covers it again
   const end = isRes ? (hidden ? `<button class="lcover" type="button" data-reveal="${esc(e.id)}">Show</button>`
-    : canRehide(e.id, e.startUTC, now) ? `<button class="lscore num" type="button" data-rehide="${esc(e.id)}" title="${esc(e.score || '')} · tap to hide again" aria-label="Hide this result again">${lscoreHtml(e)}</button>`
+    : canRehide(e.id, spoilAt(e), now) ? `<button class="lscore num" type="button" data-rehide="${esc(e.id)}" title="${esc(e.score || '')} · tap to hide again" aria-label="Hide this result again">${lscoreHtml(e)}</button>`
     : `<span class="lscore num" title="${esc(e.score || '')}">${lscoreHtml(e)}</span>`)
     : (live ? '<span class="lnow">ON</span>' : '') + mark;
   return `<article class="ev lrow${isRes ? ' lres' : ''} sport-${e.sport} ${gcls(e)}${live ? ' is-live' : ''}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
@@ -2533,7 +2539,7 @@ function resCard(e, now) {
   if (view === 'list') return listRow(e, now, true);
   const d = new Date(e.startUTC);
   const hidden = isHidden(e, now);
-  const left = Math.ceil((spoilDays * 864e5 - (now - d)) / 864e5);
+  const left = Math.ceil((spoilDays * 864e5 - (now - spoilAt(e))) / 864e5);
   const long = (e.score || '').length > 9;
   // revealed scores sit beside each side's name, green for the winner and red for the loser
   const split = !hidden && !solo(e) ? sideScores(e) : null, win = split && winnerOf(e);
@@ -2550,7 +2556,7 @@ function resCard(e, now) {
   const right = hidden
     ? `<button class="cover" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>hidden ${left} more day${left === 1 ? '' : 's'}</button>`
     : (split || short ? `<div class="score sm one" title="${esc(e.score)}">${esc(short || e.score)}</div>` : e.score ? `<div class="score num ${long ? 'long one' : ''}${soloWin(e) ? ' gold' : ''}" title="${esc(e.score)}">${esc(e.score)}</div>` : `<div class="pending">Result not in yet</div>`)
-      + `<span class="acts">${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</span>`;
+      + `<span class="acts">${highlights(e, now)}${canRehide(e.id, spoilAt(e), now) ? rehideBtn(e.id) : ''}</span>`;
   return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
@@ -3003,7 +3009,7 @@ function renderHub(now) {
   const res = seriesResult(compSel, now), held = res.length ? [] : seriesHidden(compSel, now), tick = '<span class="enddot" role="img" aria-label="finished">✓</span>';
   // a result uncovered within the hiding window can be covered again with a tap, as a game's can; a tour's formats a
   // pill each
-  const back = res.length ? (FEED.events || []).filter(e => compOf(e) === compSel && visible(e) && canRehide(e.id, e.startUTC, now)).map(e => e.id) : [];
+  const back = res.length ? (FEED.events || []).filter(e => compOf(e) === compSel && visible(e) && canRehide(e.id, spoilAt(e), now)).map(e => e.id) : [];
   $('hubName').innerHTML = esc(plural(compSel)) + (res.length ? res.map(r => back.length ? ` <button type="button" class="hubres" data-hideall="${esc(back.join(' '))}" data-revk="Series result hidden again" title="Tap to hide again">${tick}${esc(r)}</button>` : ` <span class="hubres">${tick}${esc(r)}</span>`).join('')
     : held.length ? ` <button type="button" class="hubres held" data-revealall="${esc(held.join(' '))}" data-revk="Series result shown" title="Finished: show the result">${tick}Show result</button>` : '');
   $('hubIcon').innerHTML = COMP_IMG[compSel] ? `<img class="hubimg" src="${COMP_IMG[compSel]}" alt="" referrerpolicy="no-referrer">` : sIcon(sample?.team === 'f1' ? 'f1' : sample?.sport, 'hubimg');
@@ -3172,7 +3178,7 @@ function detail(e) {
   const sideScore = (s, i) => split ? ovRoom(scoreTag(split[i], wl(s))) : isPast && !solo(e) ? ovRoom('<span class="ts nos" aria-hidden="true">–</span>') : '';
   const res = isPast ? (hidden
     ? `<button class="cover big" type="button" data-reveal="${esc(e.id)}"><b>Show result</b>Spoilers are hidden</button>`
-    : `<div class="dres">${(split || e.score === e.summary) && e.summary ? '' : `<div class="score num ${/[a-z]{3}/i.test(e.score || '') ? 'long' : ''}${soloWin(e) ? ' gold' : ''}">${esc(e.score || 'Result not in yet')}</div>`}${e.summary ? `<p${split ? ' class="dwin"' : ''}>${esc(e.summary)}</p>` : ''}${e.leaders?.length ? golfBoard(e) : ''}${raceBoards(e)}${highlights(e, now)}${canRehide(e.id, e.startUTC, now) ? rehideBtn(e.id) : ''}</div>`) : '';
+    : `<div class="dres">${(split || e.score === e.summary) && e.summary ? '' : `<div class="score num ${/[a-z]{3}/i.test(e.score || '') ? 'long' : ''}${soloWin(e) ? ' gold' : ''}">${esc(e.score || 'Result not in yet')}</div>`}${e.summary ? `<p${split ? ' class="dwin"' : ''}>${esc(e.summary)}</p>` : ''}${e.leaders?.length ? golfBoard(e) : ''}${raceBoards(e)}${highlights(e, now)}${canRehide(e.id, spoilAt(e), now) ? rehideBtn(e.id) : ''}</div>`) : '';
   // a game under way: "On now" and the live scores link at the right of the title, not a box of their own
   // the countdown is to the next round of a golf tournament (or day of a Test), named for a tournament: "Round 3 in 20h"
   const nd = nextAt(e, now), cd = countdown({ startUTC: nd.toISOString() }, now), stg = stagesOf(e) > 1 && stageNow(e, now);
@@ -3248,7 +3254,7 @@ const formList = (name, sport, e) => (FEED.form || {})[`${sport}|${name}${e ? ({
 function formOf(name, sport, before, format = '', e = null, n = 5) {
   const now = Date.now(), day = before ? String(before).slice(0, 10) : '';
   return formList(name, sport, e)
-    .filter(f => (!format || f.f === format) && (!day || f.d < day) && !(spoilers && !revealed.has(f.id) && now - Date.parse(f.d) < spoilDays * 864e5)).slice(-n);
+    .filter(f => (!format || f.f === format) && (!day || f.d < day) && !(spoilers && !revealed.has(f.id) && now - spoilAtId(f.id, f.d) < spoilDays * 864e5)).slice(-n);
 }
 const RES_WORD = { W: 'Won', L: 'Lost', D: 'Drew' };
 const formHtml = (name, sport, before, format = '', e = null, n = 5) => {
