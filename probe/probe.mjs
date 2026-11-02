@@ -1,10 +1,11 @@
 import { writeFileSync } from 'fs';
 const out = [];
 const get = async t => (await fetch('https://en.wikipedia.org/w/index.php?action=raw&title=' + encodeURIComponent(t), { headers: { 'user-agent': 'kickoff.kiwi probe' } })).text();
-const mask = l => l.replace(/\b\d{1,3}\s*[–-]\s*\d{1,3}\b/g, '#–#').replace(/(score\s*=\s*)\S+/, '$1<masked>');
+const mask = l => l.replace(/\d/g, '#');
 let s = (await get("2026 Women's Rugby League World Cup")).split('\n');
-out.push('--- women 560-660'); s.slice(560, 660).forEach((l, i) => out.push((561 + i) + ': ' + mask(l).slice(0, 160)));
+for (const n of [571, 647]) out.push('women ' + n + ': ' + mask(s[n - 1]).slice(0, 300));
 s = (await get("2026 Men's Rugby League World Cup Pools B & C")).split('\n');
-const i = s.findIndex((l, k) => /1 November 2026/.test(l));
-out.push('--- men BC near 1 Nov at ' + i); s.slice(Math.max(0, i - 3), i + 40).forEach((l, k) => out.push((i - 2 + k) + ': ' + mask(l).slice(0, 160)));
+s.forEach((l, i) => { if (/TONvSAM|Tonga.{0,40}Samoa/i.test(l) && i < s.length) out.push('men ' + (i + 1) + ': ' + mask(l).slice(0, 200)); });
+const i = s.findIndex(l => /section begin=TONvSAM/.test(l));
+if (i >= 0) s.slice(i, i + 14).forEach((l, k) => out.push('  ' + (i + 1 + k) + ': ' + mask(l).slice(0, 200)));
 writeFileSync('probe/out.txt', out.join('\n') + '\n');
