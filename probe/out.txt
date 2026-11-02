@@ -1,4 +1,2 @@
-generated 2026-11-02T02:10:57.464Z
-thinWeeks []
-noResult 8
-RLWC knockout cards 15
+spoilAt true
+lres li true
