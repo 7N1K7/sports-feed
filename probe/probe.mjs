@@ -1,10 +1,10 @@
 import { writeFileSync } from 'fs';
 const out = [];
-for (const t of ["2026 Women's Rugby League World Cup", "2026 Wheelchair Rugby League World Cup", "2026 Men's Rugby League World Cup Pools B & C"]) {
-  const r = await fetch('https://en.wikipedia.org/w/index.php?action=raw&title=' + encodeURIComponent(t), { headers: { 'user-agent': 'kickoff.kiwi probe' } });
-  const s = await r.text();
-  out.push('=== ' + t + ' ' + s.length);
-  const lines = s.split('\n');
-  lines.forEach((l, i) => { if (/nowrap\|\s*\{\{|knockout|Semi-final|==\s*Final|^\{\{Rugby league box|^\|\s*(team1|team2|score|date)\s*=/i.test(l) && i > 0) out.push(i + ': ' + l.slice(0, 220).replace(/\b\d{1,3}\s*[–-]\s*\d{1,3}\b/g, '#–#')); });
-}
+const get = async t => (await fetch('https://en.wikipedia.org/w/index.php?action=raw&title=' + encodeURIComponent(t), { headers: { 'user-agent': 'kickoff.kiwi probe' } })).text();
+const mask = l => l.replace(/\b\d{1,3}\s*[–-]\s*\d{1,3}\b/g, '#–#').replace(/(score\s*=\s*)\S+/, '$1<masked>');
+let s = (await get("2026 Women's Rugby League World Cup")).split('\n');
+out.push('--- women 560-660'); s.slice(560, 660).forEach((l, i) => out.push((561 + i) + ': ' + mask(l).slice(0, 160)));
+s = (await get("2026 Men's Rugby League World Cup Pools B & C")).split('\n');
+const i = s.findIndex((l, k) => /1 November 2026/.test(l));
+out.push('--- men BC near 1 Nov at ' + i); s.slice(Math.max(0, i - 3), i + 40).forEach((l, k) => out.push((i - 2 + k) + ': ' + mask(l).slice(0, 160)));
 writeFileSync('probe/out.txt', out.join('\n') + '\n');
