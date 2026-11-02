@@ -1,2 +1,4 @@
-generated 2026-11-02T02:05:46.571Z
-sides named on the draw's cards: rlwc-m-semi-final-1: New Zealand v Tonga; rlwc-m-semi-final-2: Australia v Samoa; rlwc-w-semi-final-1: New Zealand Women v Samoa Women; rlwc-w-semi-final-2: Australia Women v Fiji Women
+generated 2026-11-02T02:10:57.464Z
+thinWeeks []
+noResult 8
+RLWC knockout cards 15
