@@ -1976,7 +1976,9 @@ const INTL_BREAKS = [
 ].map(([s, g, a, b]) => [s, g, `${a}T00:00:00+13:00`, `${b}T00:00:00+13:00`]);
 const wk = t => Math.floor((t + 13 * 36e5 - 4 * DAY) / (7 * DAY)); // NZ weeks, Monday to Sunday (1 Jan 1970 was a Thursday)
 const byComp = new Map();
-for (const e of events) { if (e.session || e.formOnly || ['motor', 'golf', 'sailing', 'tennis'].includes(e.sport) || fmtDays(e) > 1) continue; const k = `${e.sport}|${baseComp(e)}|${genderKey(e)}`; (byComp.get(k) || byComp.set(k, []).get(k)).push(Date.parse(e.startUTC)); }
+// knockout games are left out: the rounds shrink by design (a World Cup's semi-finals week has two games, not five)
+const KO = /semi-final|quarter-final|\bfinals?\b|play-?offs?|knockout|eliminator|challenger|qualifier/i;
+for (const e of events) { if (e.session || e.formOnly || ['motor', 'golf', 'sailing', 'tennis'].includes(e.sport) || fmtDays(e) > 1 || KO.test(`${e.comp || ''} ${e.stage || ''}`)) continue; const k = `${e.sport}|${baseComp(e)}|${genderKey(e)}`; (byComp.get(k) || byComp.set(k, []).get(k)).push(Date.parse(e.startUTC)); }
 for (const [k, ts] of byComp) {
   if (ts.length < 8) continue;
   const counts = new Map(); for (const t of ts) counts.set(wk(t), (counts.get(wk(t)) || 0) + 1);
