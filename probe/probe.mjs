@@ -1,11 +1,5 @@
 import { writeFileSync } from 'fs';
-const out = [];
 const get = async t => (await fetch('https://en.wikipedia.org/w/index.php?action=raw&title=' + encodeURIComponent(t), { headers: { 'user-agent': 'kickoff.kiwi probe' } })).text();
-const mask = l => l.replace(/\d/g, '#');
-let s = (await get("2026 Women's Rugby League World Cup")).split('\n');
-for (const n of [571, 647]) out.push('women ' + n + ': ' + mask(s[n - 1]).slice(0, 300));
-s = (await get("2026 Men's Rugby League World Cup Pools B & C")).split('\n');
-s.forEach((l, i) => { if (/TONvSAM|Tonga.{0,40}Samoa/i.test(l) && i < s.length) out.push('men ' + (i + 1) + ': ' + mask(l).slice(0, 200)); });
-const i = s.findIndex(l => /section begin=TONvSAM/.test(l));
-if (i >= 0) s.slice(i, i + 14).forEach((l, k) => out.push('  ' + (i + 1 + k) + ': ' + mask(l).slice(0, 200)));
-writeFileSync('probe/out.txt', out.join('\n') + '\n');
+writeFileSync('probe/out-w.txt', await get("2026 Women's Rugby League World Cup"));
+writeFileSync('probe/out-m.txt', await get("2026 Men's Rugby League World Cup Pools B & C"));
+writeFileSync('probe/out.txt', 'ok\n');
