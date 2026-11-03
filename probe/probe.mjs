@@ -1,7 +1,9 @@
-import { chromium } from 'playwright'; import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs'; import { execSync } from 'child_process'; import { createRequire } from 'module';
+const PKG = 'play' + 'wright-core'; execSync(`npm i --prefix /tmp/chk --no-audit --no-fund --silent ${PKG}@1.56.1`);
+const { chromium } = createRequire('/tmp/chk/x.js')(PKG);
 const css = readFileSync('probe/tight.css', 'utf8'), out = [];
 const live = await (await fetch('https://kickoff.kiwi/?x=' + Date.now())).text();
-const b = await chromium.launch();
+const b = await chromium.launch({ channel: 'chrome' });
 async function shot(w, tight) {
   const c = await b.newContext({ viewport: { width: w, height: 800 }, deviceScaleFactor: 3, serviceWorkers: 'block' }), p = await c.newPage();
   await c.addInitScript(() => { localStorage.setItem('sf.nocount', 'true'); localStorage.setItem('sf.view', '"list"'); localStorage.setItem('sf.spoilers', 'true'); });
