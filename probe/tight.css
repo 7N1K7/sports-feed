@@ -3,6 +3,6 @@
   .ev.lrow .ltime { font-size: 15px }
   .ev.lrow .lend { padding-right: 4px }
   .ev.lrow .logo { width: 20px }
-  .ev.lrow .lteams { column-gap: 3px } .ev.lrow .lside { gap: 3px }
+  .ev.lrow .lside { gap: 3px }
   .ev.lrow.lres { grid-template-columns: 4px 13px minmax(0, 1fr) 82px; --li: 21px; --cl: 25px; --cr: 86px }
 }
