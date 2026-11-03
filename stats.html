@@ -280,6 +280,7 @@ th { color: var(--muted); font-weight: 600 }
       <section class="card"><h2>Card size</h2><div class="bars" id="view"></div><p class="note">Visitors, by the card size they use.</p></section>
       <section class="card"><h2>Theme colour</h2><div class="bars" id="theme"></div><p class="note">Visitors, by the colour theme they picked.</p></section>
       <section class="card" id="errCard"><h2>Errors on visitors' devices</h2><div class="bars" id="error"></div><p class="note">Problems in the site's own code; each is worth a look. <b>✓ Fixed</b> marks one already dealt with (counts from before the fix stay in the range); <b>⚠ Back</b> means a page with the fix sent it again. From v404 each error ends with the version of the page that sent it, [v404].</p></section>
+      <section class="card"><h2>Site checks</h2><div id="sitechk"></div><p class="note">The live site, checked from outside every 10 minutes (from 3 Nov 2026): the page and its feed answer, and the feed is whole and less than 90 minutes old. A problem's times are the checks either side of it, so it's known to 10 minutes. A problem only one visitor's connection had doesn't show here: a page that had to ask for its feed again shows in Errors as "Feed asked again". Kept 30 days.</p></section>
       <section class="card"><h2>Features used</h2><div class="bars" id="event"></div><p class="note">Taps on each feature, all visitors together. Calendars and alert topics count taps on their links and copy buttons; from an alert counts games opened by tapping a phone alert.</p></section>
     </div>
 
@@ -776,6 +777,7 @@ function draw() {
   bars('weekday', Object.fromEntries(Object.keys(wd).map(k => [k, Math.round(wd[k] / wn[k] * 10) / 10])), k => k, WEEKDAYS);
   hours(sums.hour || {});
   drawReports(list[0]);
+  drawChecks(data.checks);
   try { drawTrend(); } catch (e) { console.error(e); $('cvTiles').innerHTML = '<p class="note">Couldn\'t draw this.</p>'; }
 }
 // the reports in the range, newest first: a game's links to its pop-up on the site
@@ -787,6 +789,19 @@ function drawReports(from) {
     : '<div class="empty">No reports or ideas in this range.</div>';
 }
 
+// the outside checks of the live site: the newest, then each time they found a problem (newest first), how long it
+// lasted (from the first failed check to the next good one) and what was wrong
+function drawChecks(c) {
+  const box = $('sitechk');
+  if (!c || !c.last) { box.innerHTML = '<div class="empty">No checks yet: the first comes within 10 minutes of the stats server going up.</div>'; return; }
+  // "Tue 3 Nov 1:10pm", or just "1:10pm" for the end of a problem on the day it began
+  const when = (at, day = true) => day ? nzDay(at, true) : nzDay(at, true).replace(/^.* /, '');
+  const sameDay = (a, b) => nzDay(a) === nzDay(b);
+  const mins = (a, b) => { const m = Math.round((Date.parse(b) - Date.parse(a)) / 6e4); return m < 60 ? `${m} min` : `${Math.floor(m / 60)} hr${m % 60 ? ` ${m % 60} min` : ''}`; };
+  const l = c.last, head = l.ok ? `<b>✓ Fine</b> at the last check, ${esc(when(l.at))} (page and feed in ${(l.ms / 1000).toFixed(1)}s)` : `<b>⚠ ${esc(l.note)}</b> at the last check, ${esc(when(l.at))}`;
+  const rows = (c.down || []).slice().reverse().map(d => `<div class="rep"><div class="rh"><b>${esc(when(d.from))} to ${d.to ? esc(when(d.to, !sameDay(d.from, d.to))) : 'now'}</b> · ${d.to ? 'about ' + mins(d.from, d.to) : 'still going'}</div><p>${esc(d.notes.join('; '))}</p></div>`).join('');
+  box.innerHTML = `<p class="note" style="margin:0 0 8px">${head}</p>` + (rows || `<div class="empty">No problems in ${c.n} checks since ${esc(when(c.first))}.</div>`);
+}
 // a ranked list of horizontal bars, the top 7 and the rest as "Other"; names go in as text, never as markup
 // the top line: errors not yet fixed (or back after a fix) that turned up since they were last marked checked on this
 // device (a later day, or more of them the same day); "Mark checked" keeps each one's last day and count

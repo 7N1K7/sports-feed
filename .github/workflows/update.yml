@@ -13,6 +13,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  issues: write   # the alert when a new build doesn't show its games (below)
 
 # One run at a time, and at most one waiting. Nothing cancels a running build, so a burst of pushes
 # can't stall the scores; the chain job below steps aside as soon as another run is waiting.
@@ -52,6 +53,37 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           # balldontlie's free API key: the NBA's games and results; skipped when the secret isn't set
           BALLDONTLIE_KEY: ${{ secrets.BALLDONTLIE_KEY }}
+      # The new site, opened in Chrome (already on GitHub's machines) before it goes live, on a desktop and a phone-sized
+      # screen. If its games aren't drawn, this build stops here: the site that's live stays up, and an issue is opened
+      # on the repo so the owner gets an email; the next build that draws fine closes it. A problem with the check
+      # itself (the browser or its driver not to hand) only warns
+      - name: Check the new site shows its games
+        id: check
+        run: |
+          npm i --prefix "$RUNNER_TEMP/chk" --no-audit --no-fund --silent playwright-core@1.56.1 || echo "::warning::Couldn't install the site check"
+          CHECK_DEPS="$RUNNER_TEMP/chk" CHECK_OUT="$RUNNER_TEMP/check.txt" node scripts/check-site.mjs
+      - name: Raise the alarm (the new build wasn't put live)
+        if: failure() && steps.check.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: "The site's new build didn't show its games, so it wasn't put live"
+        run: |
+          n=$(gh api "repos/$GITHUB_REPOSITORY/issues?state=open&per_page=100" --jq '.[] | select(.pull_request == null and .title == env.TITLE) | .number' | head -1)
+          [ -n "$n" ] && { echo "Already raised in #$n"; exit 0; }
+          { echo "The build in $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID was opened in Chrome before going live, and its games weren't drawn, so it wasn't deployed. The site keeps showing the last good build: its games and times are there, but scores and changes stop updating until this is fixed."
+            echo; echo "What the check saw:"; echo; sed 's/^/- /' "$RUNNER_TEMP/check.txt"
+            echo; echo "This closes by itself when a later build shows its games again. cc @$GITHUB_REPOSITORY_OWNER"; } > "$RUNNER_TEMP/issue.md"
+          gh api "repos/$GITHUB_REPOSITORY/issues" -f title="$TITLE" -F body=@"$RUNNER_TEMP/issue.md" --jq '.html_url'
+      - name: All clear (closes the alarm, if one is open)
+        continue-on-error: true   # never holds back a good build
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: "The site's new build didn't show its games, so it wasn't put live"
+        run: |
+          for n in $(gh api "repos/$GITHUB_REPOSITORY/issues?state=open&per_page=100" --jq '.[] | select(.pull_request == null and .title == env.TITLE) | .number'); do
+            gh api "repos/$GITHUB_REPOSITORY/issues/$n/comments" -f body="Fixed: the build in $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID showed its games and went live." --silent || true
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/$n" -f state=closed -f state_reason=completed --silent || true
+          done
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .

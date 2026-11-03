@@ -4534,11 +4534,26 @@ function openFromLink() {
 }
 addEventListener('hashchange', () => { if (FEED.events) openFromLink(); });
 let pageV = null;
+// the feed, given up on after a while: a request that stalls (a dropped connection, a slow server) would otherwise
+// leave the page on "Loading" for good, with nothing said
+async function feedOnce(ms) {
+  const ac = new AbortController(), t = setTimeout(() => ac.abort(), ms);
+  try { const r = await fetch('data/feed.json', { cache: 'no-store', signal: ac.signal }); if (!r.ok) throw new Error(r.status); return await r.json(); }
+  finally { clearTimeout(t); }
+}
 async function load(woke) {
+  let drawing = false;
   try {
-    const r = await fetch('data/feed.json', { cache: 'no-store' });
-    if (!r.ok) throw new Error(r.status);
-    FEED = await r.json();
+    // the first load is asked again once, after saying so, before the page gives up; a later refresh just keeps what's shown
+    let f;
+    try { f = await feedOnce(15000); }
+    catch (e) {
+      if (FEED.generatedAt) throw e;
+      count({ e: 'error', k: `Feed asked again: ${e.name === 'AbortError' ? 'no answer in 15s' : String(e.message || e).slice(0, 60)}` });
+      $('mockNote').textContent = 'Taking longer than usual. Trying again…';
+      f = await feedOnce(25000);
+    }
+    FEED = f; drawing = true;
     // a phone app can sit open in the background for days: when it's opened again on an older version of the site than
     // the feed's, reload once to get the new one (once per version, so a slow cache can't loop it)
     const v = FEED.site?.version;
@@ -4569,7 +4584,10 @@ async function load(woke) {
     // how long until the first games were on screen, in bands; a slow one (4s or more) says why it might have been
     if (!load.timed) { load.timed = true; const t = performance.now() / 1000; count({ e: 'speed', k: t < 1 ? 'under 1s' : t < 2 ? '1-2s' : t < 4 ? '2-4s' : t < 8 ? '4-8s' : '8s or more' }); if (t >= 4) count({ e: 'slow', k: slowWhy(t) }); }
   } catch (e) {
-    if (!FEED.generatedAt) { $('mockBar').hidden = false; $('mockNote').textContent = 'Could not load the feed. Check your connection and refresh the page.'; }
+    // a fault in drawing the games (not in getting the feed) goes to the stats like any other error in the page's code,
+    // and a first load that fails at either step says so, rather than leaving "Loading" up for good
+    if (drawing) self.reportError?.(e);
+    if (!load.timed) { $('mockBar').hidden = false; $('mockNote').textContent = drawing ? 'Something went wrong showing the games. Refresh the page to try again.' : 'Could not load the feed. Check your connection and refresh the page.'; }
   }
 }
 // a slow first load, in words: its band, the part that took longest (getting the page, starting it up, getting the feed,

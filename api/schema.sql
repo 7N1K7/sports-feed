@@ -14,3 +14,6 @@ CREATE TABLE IF NOT EXISTS reports (id INTEGER PRIMARY KEY AUTOINCREMENT, at TEX
 -- coverage: the site's data coverage at each site version (v): when that feed was built and its figures by sport as
 -- JSON (games, start times, ways to watch, squads, pictures, team links...), for the stats page's chart over time
 CREATE TABLE IF NOT EXISTS coverage (v INTEGER PRIMARY KEY, at TEXT NOT NULL, data TEXT NOT NULL);
+-- checks: the live site checked from outside every 10 minutes (when, whether all was well, how long the page and feed
+-- took in ms, what was wrong), kept 30 days, so the stats page can say when the site was down or stale and for how long
+CREATE TABLE IF NOT EXISTS checks (at TEXT PRIMARY KEY, ok INTEGER NOT NULL, ms INTEGER NOT NULL DEFAULT 0, note TEXT NOT NULL DEFAULT '');

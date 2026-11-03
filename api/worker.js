@@ -166,7 +166,7 @@ async function repeats(env, day) {
 // the site's data coverage at each version: of the next three weeks' games, how many have a start time, a way to watch,
 // squads and so on (data/coverage.json, written by the feed builder). Read from the live site every hour and when the
 // stats page opens, so the page can chart it over time; a version's row keeps the latest figures it had. Never throws
-const COVERAGE_CRON = '47 * * * *', CLEANUP_CRON = '17 14 * * *'; // the same strings as in wrangler.toml
+const COVERAGE_CRON = '47 * * * *', CLEANUP_CRON = '17 14 * * *'; // the same strings as in wrangler.toml (and SITE_CRON below)
 async function snapCoverage(env) {
   try {
     // a fresh copy (the time in the address gets past any cache), and never a long wait (the stats page waits for this)
@@ -184,6 +184,49 @@ async function snapCoverage(env) {
   } catch (e) { console.error('coverage snapshot failed:', e.message); }
 }
 
+// every 10 minutes, the live site from outside (Cloudflare's network, not anyone's browser or connection): the page and
+// its feed answer, the feed is whole and was built in the last 90 minutes. Each check is kept 30 days, so the stats page
+// can say when the site was down or stale and for how long. Never throws
+const SITE_CRON = '*/10 * * * *', STALE_MIN = 90;
+async function siteCheck(env) {
+  const t0 = Date.now(), bad = [];
+  const get = async (path, what) => {
+    try {
+      const r = await fetch(`https://kickoff.kiwi/${path}?check=${t0}`, { signal: AbortSignal.timeout(20000) });
+      if (!r.ok) { bad.push(`${what}: answered ${r.status}`); return ''; }
+      return await r.text();
+    } catch (e) { bad.push(`${what}: ${e.name === 'TimeoutError' ? 'no answer in 20s' : `didn't answer (${String(e.message).slice(0, 60)})`}`); return ''; }
+  };
+  const [page, feed] = await Promise.all([get('', 'page'), get('data/feed.json', 'feed')]);
+  if (page && !page.includes('id="mockBar"')) bad.push('page: not the site');
+  if (feed) {
+    const at = Date.parse((feed.slice(0, 300).match(/"generatedAt":\s*"([^"]+)"/) || [])[1]);
+    if (!feed.trimEnd().endsWith('}')) bad.push('feed: cut short');
+    else if (!at) bad.push('feed: no build time');
+    else if (t0 - at > STALE_MIN * 6e4) bad.push(`feed: not updated for over ${STALE_MIN} minutes`);
+  }
+  try {
+    await env.DB.batch([
+      env.DB.prepare('INSERT OR REPLACE INTO checks (at, ok, ms, note) VALUES (?1, ?2, ?3, ?4)').bind(new Date(t0).toISOString(), bad.length ? 0 : 1, Date.now() - t0, bad.join('; ').slice(0, 200)),
+      env.DB.prepare('DELETE FROM checks WHERE at < ?1').bind(new Date(t0 - 30 * 864e5).toISOString()),
+    ]);
+  } catch (e) { console.error('site check not saved:', e.message); }
+}
+// the last 30 days' checks as the stats page shows them: the newest, how many, and each run of failed checks (from the
+// first failed one to the next good one, or still going)
+async function siteChecks(env) {
+  const { results } = await env.DB.prepare('SELECT at, ok, ms, note FROM checks WHERE at >= ?1 ORDER BY at').bind(new Date(Date.now() - 30 * 864e5).toISOString()).all();
+  const down = []; let cur = null;
+  for (const r of results) {
+    if (!r.ok) {
+      if (!cur) down.push(cur = { from: r.at, to: null, n: 0, notes: [] });
+      cur.n++;
+      for (const x of String(r.note).split('; ')) if (x && !cur.notes.includes(x) && cur.notes.length < 4) cur.notes.push(x);
+    } else if (cur) { cur.to = r.at; cur = null; }
+  }
+  return { n: results.length, first: results[0]?.at || null, last: results[results.length - 1] || null, down: down.slice(-30) };
+}
+
 async function stats(env, url) {
   const days = Math.min(400, Math.max(1, +url.searchParams.get('days') || 60));
   const from = nzDay(Date.now() - (days - 1) * 864e5);
@@ -196,7 +239,8 @@ async function stats(env, url) {
   // the coverage snapshots: the newest 150 versions, oldest first
   const { results: snaps } = await env.DB.prepare('SELECT v, at, data FROM coverage ORDER BY v DESC LIMIT 150').all();
   const coverage = snaps.reverse().map(r => ({ v: r.v, at: r.at, cov: JSON.parse(r.data) }));
-  return { from, today: nzDay(), rows: results, reports, coverage };
+  const checks = await siteChecks(env).catch(e => (console.error('site checks not read:', e.message), null));
+  return { from, today: nzDay(), rows: results, reports, coverage, checks };
 }
 
 export default {
@@ -232,9 +276,11 @@ export default {
     }
     return new Response('Kickoff Kiwi stats', { status: 404 });
   },
-  // hourly: the site's coverage figures (see snapCoverage). Daily: the visitor codes and salts older than two days go,
+  // every 10 minutes: the live site checked from outside (see siteCheck). Hourly: the site's coverage figures (see
+  // snapCoverage). Daily: the visitor codes and salts older than two days go,
   // so old codes can never be matched to anyone. Each runs on its own cron only
   async scheduled(event, env) {
+    if (event.cron === SITE_CRON) return siteCheck(env);
     if (event.cron === COVERAGE_CRON) return snapCoverage(env);
     if (event.cron !== CLEANUP_CRON) return;
     // sum up the visits per visitor of each finished day still held, then let the codes go
