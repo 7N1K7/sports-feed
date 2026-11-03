@@ -1434,9 +1434,9 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
    shrink, for the names' room */
 .ev.lrow .ltime.lcd::before { content: 'in'; font-size: .7em; opacity: .8; margin-right: 2px }
 @media (max-width: 520px) { .ev.lrow .ltime.lcd { font-size: .9em; letter-spacing: -.02em } }
-@media (max-width: 520px) { .ev.lrow { grid-template-columns: 4px 52px 13px minmax(0, 1fr) 38px; column-gap: 5px } .ev.lrow .licon { width: 13px; height: 13px }
+@media (max-width: 520px) { .ev.lrow { grid-template-columns: 4px 48px 13px minmax(0, 1fr) 34px; column-gap: 4px } .ev.lrow .licon { width: 13px; height: 13px }
   .ev.lrow .ltime .lappx { font-size: .7em; margin-left: -3px }
-  .ev.lrow .ltime { font-size: 16px } .ev.lrow .lteams { column-gap: 4px } .ev.lrow .lside { gap: 4px } }
+  .ev.lrow .ltime { font-size: 15px } .ev.lrow .lteams { column-gap: 4px } .ev.lrow .lside { gap: 3px } }
 /* the time, icon and competition sit together at the left (one grid cell each below 700px; on wider screens a box
    as wide as the row's own competition), and a competition is cut only once the names need the room, the names last.
    --cw and --nw are the row's own competition and names widths (fitList), 101px the time, icon and gaps beside the
@@ -1452,13 +1452,13 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 .ev.lrow .lteams, .ev.lrow .lsolo { padding-left: clamp(0px, var(--ls), var(--lroom)); padding-right: clamp(0px, -1 * var(--ls), var(--lroom)) }
 /* the room between the names and their cell's right end, which a long result can reach into */
 .ev.lrow { --rspace: calc((var(--lroom) - clamp(-1 * var(--lroom), var(--ls), var(--lroom))) / 2) }
-@media (max-width: 520px) { .ev.lrow { --li: 79px; --cl: 84px; --cr: 43px } }
+@media (max-width: 520px) { .ev.lrow { --li: 73px; --cl: 77px; --cr: 38px } }
 /* a result's row: its day ("Thu") needs less room than a time, so its score gets the room instead. Its names sit at the
    same spot as the games' above and below (the same --li), so a day's results line up with its games */
 .ev.lrow.lres { grid-template-columns: 4px 30px 16px minmax(0, 1fr) 86px; --li: 92px; --cl: 71px; --cr: 93px }
 /* phones: the day goes too (the heading above already says it). The games' spot is out of reach here (the score needs
    its room), so a day's results line up at their own spot, a little left of the games' */
-@media (max-width: 520px) { .ev.lrow.lres { grid-template-columns: 4px 13px minmax(0, 1fr) 82px; --li: 22px; --cl: 27px; --cr: 87px } .ev.lrow.lres .ltime { display: none } }
+@media (max-width: 520px) { .ev.lrow.lres { grid-template-columns: 4px 13px minmax(0, 1fr) 82px; --li: 21px; --cl: 25px; --cr: 86px } .ev.lrow.lres .ltime { display: none } }
 @media (min-width: 700px) { .ev.lrow { grid-template-columns: 4px auto minmax(0, 1fr) 50px;
     --lw: max(150px, min(var(--cw, 0px) + 101px, 100cqw - var(--nw, 0px) - 75px)); --li: calc(99px + var(--lcw, 0px)); --cl: calc(var(--lw) + 18px); --cr: 57px }
   .ev.lrow .lleft { display: flex; align-items: center; gap: 7px; padding-right: 12px; width: var(--lw) }
@@ -1480,14 +1480,15 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 /* a fixed box for every logo, loaded or not (they load as the page scrolls), drawn against its name: the names never move */
 .ev.lrow .logo { width: 28px; height: 20px; max-width: none; flex: none; object-position: right center } .ev.lrow .logo.after { object-position: left center }
 .ev.lrow .logo.flagimg { width: 20px; height: 13px } .ev.lrow .logo.face { width: 20px }
-@media (max-width: 520px) { .ev.lrow .logo { width: 22px; height: 18px } .ev.lrow .logo.flagimg { width: 18px; height: 12px } .ev.lrow .logo.face { width: 18px } }
+@media (max-width: 520px) { .ev.lrow .logo { width: 20px; height: 18px } .ev.lrow .logo.flagimg { width: 18px; height: 12px } .ev.lrow .logo.face { width: 18px } }
 /* a zoomed logo (one with lots of empty space round it: Canterbury's narrow shield over a wide wordmark) grows away
    from the name, not into it, with the room it grows into kept for it, and 3px more clear of the name: its wordmark
    runs right to its edge. --lgw/--lgh: the box's width and height (the image draws as a square that tall) */
-.ev.lrow { --lgw: 28px; --lgh: 20px } @media (max-width: 520px) { .ev.lrow { --lgw: 22px; --lgh: 18px } }
+.ev.lrow { --lgw: 28px; --lgh: 20px } @media (max-width: 520px) { .ev.lrow { --lgw: 20px; --lgh: 18px } }
 .ev.lrow .logo.zoom { transform-origin: right center; margin: 0 3px 0 max(0px, var(--lgh) * var(--z) - var(--lgw)) }
 .ev.lrow .logo.zoom.after { transform-origin: left center; margin: 0 max(0px, var(--lgh) * var(--z) - var(--lgw)) 0 3px }
 .ev.lrow .lend { display: flex; justify-content: flex-end; align-items: center; padding-right: 5px }
+@media (max-width: 520px) { .ev.lrow .lend { padding-right: 4px } }
 .ev.lrow .lfree { font-size: 9px; padding: 3px 4px 2px }
 /* the 📺 in a finger-sized box (a link to where it plays), the same box whether it links or not */
 .ev.lrow .ltv { display: grid; place-items: center; width: 30px; height: 30px; margin-right: -8px; border-radius: 6px; font-size: 13px; opacity: .7 }
@@ -2874,6 +2875,7 @@ const SHOWS = {
   ],
   mma: [
     { n: 'UFC', t: 'yt', d: 'Free fights, Embedded vlogs, press conferences and highlights' },
+    { n: 'UFC on Paramount+', t: 'yt', url: 'https://www.youtube.com/@UFConParamount', d: 'Fight previews, panel shows and podcasts from the home of UFC in the US' },
     { n: 'The Ariel Helwani Show', t: 'yt', d: "Big-name interviews and news from MMA's best-known reporter" },
     { n: 'Anik & Florian', t: 'pod', q: 'Anik and Florian podcast', d: 'Jon Anik and Kenny Florian preview and review every UFC card' },
     { n: 'Believe You Me', t: 'pod', q: 'Believe You Me Bisping', d: 'Former champ Michael Bisping on the latest fights, picks and news' },
@@ -2916,7 +2918,7 @@ function hubShows(sport) {
 function showsHtml(list, note = true) {
   const card = s => {
     const href = s.url || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(s.q || s.n);
-    return `<a class="show" href="${esc(href)}" target="_blank" rel="noopener"><span class="stype st-${s.t}">${SHOW_TYPE[s.t]}</span><span class="sname">${esc(s.n)}</span><span class="sdesc">${esc(s.d)}</span><span class="sgo">${s.url ? 'Listen' : 'Search YouTube'} ↗</span></a>`;
+    return `<a class="show" href="${esc(href)}" target="_blank" rel="noopener"><span class="stype st-${s.t}">${SHOW_TYPE[s.t]}</span><span class="sname">${esc(s.n)}</span><span class="sdesc">${esc(s.d)}</span><span class="sgo">${!s.url ? 'Search YouTube' : s.t === 'yt' ? 'Watch on YouTube' : 'Listen'} ↗</span></a>`;
   };
   return `${note ? '<p class="muted small showsnote">Panel shows, YouTube breakdowns and podcasts for the wider chat around the game.</p>' : ''}<div class="shows">${list.map(card).join('')}</div>`;
 }
