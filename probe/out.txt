@@ -1,2 +1,4 @@
-feed 2026-11-03T03:35:08.199Z v559
-{"id":"gallen-asofa-solomona-2026-11-06","team":"boxing","tags":["nzboxing"],"startUTC":"2026-11-06T08:00:00Z","broadcast":"NZ TBC","watchAU":"Main Event pay-per-view on Kayo and Foxtel","homeImg":false,"awayImg":false}
+360 now: 64 rows, 92 names cut by more than 2px, 2808px hidden
+360 tight: 64 rows, 64 names cut by more than 2px, 1775px hidden
+412 now: 64 rows, 56 names cut by more than 2px, 954px hidden
+412 tight: 64 rows, 23 names cut by more than 2px, 300px hidden
