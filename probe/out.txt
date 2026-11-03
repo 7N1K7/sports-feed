@@ -1,1 +1,4 @@
-generated 2026-11-02T18:38:52.550Z
+feed status 200 214858 Mon, 02 Nov 2026 23:55:19 GMT
+bytes 1462342
+generated 2026-11-02T23:50:33.685Z events 984
+index status 200 bytes 478353 last-modified Mon, 02 Nov 2026 23:55:18 GMT
