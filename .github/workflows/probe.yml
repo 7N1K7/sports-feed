@@ -8,8 +8,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      # the browser only when the probe uses it (it takes minutes to install)
-      - run: if grep -q playwright probe/probe.mjs; then npm i --no-save playwright@1.56.1 && npx playwright install --with-deps chromium; fi
+      # the browser driver only when the probe uses it; the browser is the runner's own Chrome (launch with
+      # channel: 'chrome'), as Playwright can't download its Chromium for this runner's Ubuntu
+      - run: if grep -q playwright probe/probe.mjs; then npm i --no-save playwright@1.56.1; fi
       - run: rm -f probe/out-*.png && node probe/probe.mjs > probe/out.txt 2>&1 || true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
