@@ -2079,8 +2079,9 @@ const playing = feed.events.some(e => {
   }
   return age < (PLAY_H[e.sport] || 3) * 36e5;
 });
-if (process.env.GITHUB_OUTPUT) await writeFile(process.env.GITHUB_OUTPUT, `hot=${hot}\nevery=${playing ? 300 : 600}\n`, { flag: 'a' });
-console.log(playing ? 'A game is being played: next refresh in 5 minutes' : hot ? 'Games on or starting soon: next refresh in 10 minutes' : 'Nothing on: next refresh on the slower schedule');
+// and every 30 minutes otherwise: GitHub's own schedule can't be counted on for that (on 3 Nov 2026 it left a 7-hour gap)
+if (process.env.GITHUB_OUTPUT) await writeFile(process.env.GITHUB_OUTPUT, `hot=${hot}\nevery=${playing ? 300 : hot ? 600 : 1800}\n`, { flag: 'a' });
+console.log(playing ? 'A game is being played: next refresh in 5 minutes' : hot ? 'Games on or starting soon: next refresh in 10 minutes' : 'Nothing on: next refresh in 30 minutes');
 console.log(`feed.json: ${feed.events.length} events (${wiki.length} from Wikipedia, ${tsdbLive.length} from TheSportsDB), ${news.length} news`);
 // what the tennis and squad-role readers found, as run annotations (readable on the run page without the full log)
 if (process.env.GITHUB_ACTIONS) {

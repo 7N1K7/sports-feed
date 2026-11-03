@@ -96,15 +96,16 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
-  # After a good deploy, wait until 10 minutes after this run's build began, then start the next run.
+  # After a good deploy, wait until 10 minutes after this run's build began (5 while a game is being played, 30 when
+  # nothing's on), then start the next run. It always runs: GitHub's own schedule is too patchy to lean on (on
+  # 3 Nov 2026 it fired once in 7 hours), so the half-hourly cron is only the fallback that restarts a broken chain.
   # Skips the dispatch when another run of this workflow is already queued or running (a push, the
   # fallback cron, a manual run): that run carries the chain on, so there is only ever one chain.
   chain:
     needs: [build, deploy]
-    # only while a game is on or about to start; otherwise the half-hourly schedule is enough
-    if: github.ref == 'refs/heads/main' && needs.build.outputs.hot == 'true'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 40
     permissions:
       actions: write
     env:
