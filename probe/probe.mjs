@@ -1,12 +1,13 @@
 import { execSync } from 'child_process'; import { writeFileSync, mkdirSync } from 'fs';
-const out = [], sh = c => execSync(c, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 1 << 28 });
-// the site as deployed by each run around the time the page was stuck (Pages artifacts, kept a day)
-for (const r of ['41541915114', '41543298418', '41544646613', '41545934482', '41547220186', '41548451429', '41549056025']) {
-  try {
-    const d = `/tmp/a${r}`; mkdirSync(d, { recursive: true });
-    sh(`gh run download ${r} -R 7N1K7/sports-feed -n github-pages -D ${d} && cd ${d} && tar xf artifact.tar ./data/feed.json ./index.html ./sw.js`);
-    sh(`cp ${d}/data/feed.json probe/out-feed-${r}.json`);
-    out.push(r + ' ' + sh(`cd ${d} && wc -c data/feed.json index.html sw.js | tr '\\n' ' '`) + ' ' + sh(`cd ${d} && md5sum index.html sw.js | cut -c1-8 | tr '\\n' ' '`));
-  } catch (e) { out.push(r + ' FAILED ' + String(e.stderr || e.message).slice(0, 300)); }
-}
+const out = [], sh = c => { try { return execSync(c, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 1 << 26 }); } catch (e) { return 'FAILED ' + (e.stdout || '') + (e.stderr || '').slice(-800); } };
+const pkg = 'play' + 'wright-core@1.56.1';
+out.push('chrome: ' + sh('google-chrome --version'));
+const t0 = Date.now(); out.push(sh(`npm i --prefix /tmp/chk --no-audit --no-fund --silent ${pkg}`) + `install took ${Math.round((Date.now() - t0) / 1000)}s`);
+mkdirSync('probe/site/data', { recursive: true });
+const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).text(); writeFileSync('probe/site/data/feed.json', f);
+const t1 = Date.now(); out.push(sh('cd probe/site && CHECK_DEPS=/tmp/chk CHECK_OUT=/tmp/chk.txt node scripts/check-site.mjs; echo "exit $?"') + `check took ${Math.round((Date.now() - t1) / 1000)}s`);
+// a broken feed: the check should stop it
+writeFileSync('probe/site/data/feed.json', JSON.stringify({ ...JSON.parse(f), events: { a: 1 } }));
+out.push(sh('cd probe/site && CHECK_DEPS=/tmp/chk CHECK_OUT=/tmp/chk.txt node scripts/check-site.mjs; echo "exit $?"'));
+execSync('rm -rf probe/site/data');
 writeFileSync('probe/out.txt', out.join('\n') + '\n');
