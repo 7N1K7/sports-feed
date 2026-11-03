@@ -1,13 +1,3 @@
-chrome: Google Chrome 156.0.8078.47 
-
-install took 1s
-Site check (desktop, 1280px): 76 games drawn
-Site check (phone, 412px): 76 games drawn
-exit 0
-check took 7s
-::warning::Site check (desktop): page error: object is not iterable (cannot read property Symbol(Symbol.iterator))
-::warning::Site check (phone): page error: object is not iterable (cannot read property Symbol(Symbol.iterator))
-::error::On a desktop screen (1280px) the games weren't drawn: the page says "Something went wrong showing the games. Refresh the page to try again.". Page errors: object is not iterable (cannot read property Symbol(Symbol.iterator))
-::error::On a phone screen (412px) the games weren't drawn: the page says "Something went wrong showing the games. Refresh the page to try again.". Page errors: object is not iterable (cannot read property Symbol(Symbol.iterator))
-exit 1
-
+live page has the retry: true, version 558
+live sw has the 8s fallback: true
+live stats page has Site checks: true
