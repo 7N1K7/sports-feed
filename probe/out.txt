@@ -1,4 +1,4 @@
 360 now: 64 rows, 92 names cut by more than 2px, 2808px hidden
-360 tight: 64 rows, 64 names cut by more than 2px, 1775px hidden
+360 tight: 64 rows, 64 names cut by more than 2px, 1966px hidden
 412 now: 64 rows, 56 names cut by more than 2px, 954px hidden
-412 tight: 64 rows, 23 names cut by more than 2px, 300px hidden
+412 tight: 64 rows, 32 names cut by more than 2px, 411px hidden
