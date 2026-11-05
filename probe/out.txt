@@ -1,70 +1,25 @@
-feed 2026-11-03T18:46:54.110Z v561
-{
- "noResult": [
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Auckland Aces v Canterbury",
-   "at": "2026-10-27T21:30:00Z",
-   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/",
-   "noSource": true
-  },
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Central Stags v Northern Districts",
-   "at": "2026-10-27T21:30:00Z",
-   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/",
-   "noSource": true
-  },
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Wellington Firebirds v Otago Volts",
-   "at": "2026-10-28T21:30:00Z",
-   "src": "https://www.nzc.nz/wellington-ford-trophy-match-rescheduled-to-thursday/",
-   "noSource": true
-  },
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Northern Districts v Auckland Aces",
-   "at": "2026-10-30T21:30:00Z",
-   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/",
-   "noSource": true
-  },
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Wellington Firebirds v Canterbury",
-   "at": "2026-10-30T21:30:00Z",
-   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/",
-   "noSource": true
-  },
-  {
-   "s": "boxing",
-   "c": "WBC super middleweight title",
-   "n": "Christian Mbilli v Saul 'Canelo' Alvarez",
-   "at": "2026-10-31T17:00:00Z",
-   "src": "https://www.forbes.com/sites/brianmazique/2026/10/31/canelo-alvarez-vs-christian-mbilli-is-today---heres-when-the-ring-walk-should-actually-happen/",
-   "noSource": true
-  },
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Otago Volts v Central Stags",
-   "at": "2026-10-31T21:30:00Z",
-   "src": "https://www.nzc.nz/ford-trophy-teams-named-for-split-round-two",
-   "noSource": true
-  },
-  {
-   "s": "rugby",
-   "c": "New Zealand Heartland XV v Samoa",
-   "n": "New Zealand Heartland XV v Samoa",
-   "at": "2026-11-01T02:00:00Z",
-   "src": "https://www.youtube.com/watch?v=TGYqxxx4K8g",
-   "noSource": true
-  }
- ],
- "thinWeeks": []
-}
+feed 2026-11-05T15:52:53.268Z v561
+{"noResult":[{"s":"cricket","c":"Ford Trophy","n":"Northern Districts v Auckland Aces","at":"2026-10-30T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Wellington Firebirds v Canterbury","at":"2026-10-30T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"boxing","c":"WBC super middleweight title","n":"Christian Mbilli v Saul 'Canelo' Alvarez","at":"2026-10-31T17:00:00Z","src":"https://www.forbes.com/sites/brianmazique/2026/10/31/canelo-alvarez-vs-christian-mbilli-is-today---heres-when-the-ring-walk-should-actually-happen/","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Otago Volts v Central Stags","at":"2026-10-31T21:30:00Z","src":"https://www.nzc.nz/ford-trophy-teams-named-for-split-round-two","noSource":true},{"s":"rugby","c":"New Zealand Heartland XV v Samoa","n":"New Zealand Heartland XV v Samoa","at":"2026-11-01T02:00:00Z","src":"https://www.youtube.com/watch?v=TGYqxxx4K8g","noSource":true}],"thinWeeks":[]}
+youtube diag: streams per channel: NZ Cricket 23, Cricket Australia 25, Fox Cricket 0, Netball NZ 11, Hockey NZ 49, Basketball NZ 10, NZ Football 3, NZ Rugby League 3, Fox League 0, Sports Central 12, Sports TV 13, Pakistan Cricket 15, World Rugby 18, FIFA 6, FIH 11, FIBA 38, NZ Provincial Rugby 2; matched 16: New Zealand A v India A (none); New Zealand A v India A (none); New Zealand A v India A (none); Otago Volts v Central Stags (none); New Zealand A v India A (none); Northern Districts v Auckland Aces (none); Wellington Firebirds v Canterbury (none); Wellington Firebirds v Otago Volts (none); Auckland A
+WI/BAN:
+2026-11-05T03:30:00Z Bangladesh v West Indies Bangladesh v West Indies |  |  | yt []
+2026-11-15T12:00:00.000Z South Africa v Bangladesh South Africa v Bangladesh |  |  | yt []
+2026-10-28T08:00:00.000Z Bangladesh v West Indies Bangladesh v West Indies |  |  | yt []
+channel: {"kind":"youtube#channelListResponse","etag":"RuuXzTIr0OoDqI4S0RU6n4FqKEM","pageInfo":{"totalResults":0,"resultsPerPage":5}}
+search:
+  The Cricket Forum (UCsHLkIoM2x4nZUEYXY-oRKg) | 🔴🏏 LIVE TEST CRICKET! 🌴 West Indies vs Bangladesh 🇧🇩 | 2nd Test Day 1| Join
+  CRICKET DESI LOVERS (UCroSHzKfgGLZSJ4jcAR_SLw) | বাংলাদেশ বনাম ওয়েস্ট ইন্ডিজ লাইভ দেখি ১ম দিন ২য় টেস্ট | Bangladesh vs West Indie
+  CRICKET DESI LOVERS (UCroSHzKfgGLZSJ4jcAR_SLw) | বাংলাদেশ বনাম ওয়েস্ট ইন্ডিজ লাইভ দেখি ১ম দিন ২য় টেস্ট | Bangladesh vs West Indie
+  ONLINE TV BANGLA (UCtqhyXrC2qP-x40NrL4bPRw) | Live: Bangladesh vs West Indies, 2nd Test, Day 1 | বাংলাদেশ বনাম ও. ইন্ডিজ- Cric
+  T Sports (UC2t9imwIR7xlDfma3CmRKJQ) | LIVE | Straight Drive | Mid Show | Day 1 | 2nd Test | West Indies tour of Bangla
+  CRICKET DESI LOVERS (UCroSHzKfgGLZSJ4jcAR_SLw) | বাংলাদেশ বনাম ওয়েস্ট ইন্ডিজ লাইভ দেখি ১ম দিন ২য় টেস্ট | Bangladesh vs West Indie
+  Chandan Commentary (UC1SC0EAixPdfQZHGywNk4Qw) | Bangladesh vs West Indies 2nd Test Live Score | BAN vs WI 2nd Test Day 1 Live Au
+  Nizam Sports (UCRSQefLBUB5gka9UT7NsU1A) | 🔴Live: Bangladesh vs West Indies | 2nd Test | Live Cricket Score &amp; Commenta
+  Blink Sports (UC0hynOfR6nUFrkipQOoa2XQ) | Bangladesh vs West Indies 2nd Test LIVE | BAN vs WI | West Indies Tour of Bangla
+  ONLINE TV BANGLA (UCtqhyXrC2qP-x40NrL4bPRw) | Live: BAN vs WI, 2nd Test, Day 1 | বাংলাদেশ বনাম ওয়েস্ট ইন্ডিজ ২য় টেস্ট | Cricke
+  Maruf Sports  (UCnzUn7TQh2oY2rI72IQfHJw) | LIVE: Bangladesh vs West Indies 2nd Test | BAN vs WI Day-1, Session-2 Live Score
+  CricZeno Info (UC6BrlP5QDQIJ7kFWINdQt_g) | West Indies vs Bangladesh 2nd Test Match, | Live Cricket Match WI vs BAN Live Sc
+  ONLINE TV BANGLA (UCtqhyXrC2qP-x40NrL4bPRw) | Live: Bangladesh vs West Indies, 2nd Test, Day 1 | বাংলাদেশ বনাম ও. ইন্ডিজ- Cric
+  Maruf Sports  (UCnzUn7TQh2oY2rI72IQfHJw) | LIVE: Bangladesh vs West Indies 2nd Test | BAN vs WI Day-1, Session-3 Live Score
+  Maruf Sports  (UCnzUn7TQh2oY2rI72IQfHJw) | LIVE: Bangladesh vs West Indies 2nd Test | BAN vs WI Day-1, Session-1 Live Score
+
