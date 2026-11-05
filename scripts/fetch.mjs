@@ -414,6 +414,9 @@ async function readCurated() {
 // Championship games are, as Sky has them here). From 30 Oct 2026 Fox League and Fox Cricket, whose channels are
 // mostly shows and highlights but would be picked up if they stream a game free. From 1 Nov 2026 NZ Provincial
 // Rugby, which streams some NPC and Farah Palmer Cup games and the Heartland XV's free
+// From 5 Nov 2026 Bangladesh's rights holders, Rabbitholebd Sports and T Sports, which stream some Bangladesh games
+// free (a stream they shut to NZ isn't counted). An open YouTube search for games was tried and left out: nearly all
+// its results are unofficial restreams and score channels
 const YT_CHANNELS = [
   ['cricket', 'NZ Cricket', 'UCuKowzPg2-A0FcmyPa3yWug'], ['cricket', 'Cricket Australia', 'UC2naOExy27J5Qz3SO-w6xkQ'],
   ['cricket', 'Fox Cricket', 'UCOkT6dccQ1vsnMFK1xJanmA'],
@@ -424,6 +427,7 @@ const YT_CHANNELS = [
   ['cricket', 'Pakistan Cricket', 'UCiWrjBhlICf_L_RK5y6Vrxw'], ['rugby', 'World Rugby', 'UCE28rwYoaV7jvU6GVzdu_GQ'],
   ['football', 'FIFA', 'UCpcTrCXblq78GZrTUTLWeBw'], ['hockey', 'FIH', 'UCsRwclNMmdK1Kiy2O3eL6hg'], ['basketball', 'FIBA', 'UCtInrnU3QbWqFGsdKT1GZtg'],
   ['rugby', 'NZ Provincial Rugby', 'UCK442Bjxkx0skmxEDi2BtSg'],
+  ['cricket', 'Rabbitholebd Sports', 'UCNU0Vv6U1xZS82cIQrgDeqw'], ['cricket', 'T Sports', 'UC2t9imwIR7xlDfma3CmRKJQ'],
 ];
 // streams that name both sides but aren't the game: press conferences, watch-alongs, previews and the like
 const YT_NOT_GAME = /press conference|presser|media (briefing|scrum)|watch ?-?along|reaction|preview|analysis|playing xi|\bchat\b|\bpodcast\b/i;
