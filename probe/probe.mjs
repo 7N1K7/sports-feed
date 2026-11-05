@@ -14,3 +14,4 @@ for (const q of [pid && `id=${pid}`, 'forUsername=RabbitholebdSports', 'forHandl
   for (const x of (v.items || []).filter(x => x.liveStreamingDetails).slice(0, 8)) out.push(`  ${x.snippet.liveBroadcastContent} ${x.liveStreamingDetails.actualStartTime || x.liveStreamingDetails.scheduledStartTime} | ${x.snippet.title.slice(0, 90)} | region ${JSON.stringify(x.contentDetails.regionRestriction || {})}`);
 }
 writeFileSync('probe/out.txt', out.join('\n') + '\n');
+// 278
