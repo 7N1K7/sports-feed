@@ -1,15 +1,4 @@
-page channelId: UCNU0Vv6U1xZS82cIQrgDeqw
-id=UCNU0Vv6U1xZS82cIQrgDeqw: UCNU0Vv6U1xZS82cIQrgDeqw | Rabbitholebd Sports | @mychannel-k8v | BD | Top sports platform in the territory of Bangladesh
-  none 2026-11-05T02:45:11Z | Bangladesh vs West Indies | 2nd Test | Day 1 | Pre Match Analysis | Syed Abid Hussain Sami | region {}
-  none 2026-10-31T16:33:41Z | Bangladesh vs West Indies | 1st Test | Day 4 | Post Match Analysis | Dugout Dialog | region {}
-forUsername=RabbitholebdSports: none
-forHandle=rabbitholebd: none
-id=UC2t9imwIR7xlDfma3CmRKJQ: UC2t9imwIR7xlDfma3CmRKJQ | T Sports | @tsportsbd | BD | T Sports is Bangladesh's pioneering sports channel, leading the way in bringing comprehensive sports coverage to the nation. As the first channel of its kind in
-  live 2026-11-05T15:19:02Z | LIVE | Comfit Composite Knit LTD vs 3K Fashion | BGMEA Cup 2026 | Quarter-final 3 | T Spor | region {}
-  live 2026-11-05T14:24:00Z | LIVE | Sonargaon University Vs United International University | Cricket | ABG University  | region {}
-  none 2026-11-05T13:48:30Z | LIVE | Apical Industries vs DBL Group | BGMEA Cup 2026 | Quarter-final 2 | T Sports | region {}
-  none 2026-11-05T10:52:25Z | LIVE | BRAC University vs Daffodil International University | Cricket | ABG University Cup | region {}
-  none 2026-11-05T12:24:56Z | LIVE | Fabrica Knit Composite LTD. Vs Kims Corporation LTD | BGMEA Cup 2026 | Quarter-fina | region {}
-  none 2026-11-05T13:09:13Z | LIVE | Pre Show | Bhutan vs Bangladesh | Match - 02 | Group A | SAFF Championship Banglade | region {}
-  none 2026-11-05T08:41:17Z | LIVE | Pre Show | Pakistan vs India | Match - 01 | SAFF Championship Bangladesh 2026 | T S | region {}
-  none 2026-11-05T06:37:49Z | LIVE | The Football Show | Episode 565 | Talk Show | Football | Football Analyst | T Sport | region {}
+feed 2026-11-05T16:19:10.966Z v563
+Ford Trophy games: 32; next: 2026-11-07T21:30:00Z Northern Districts v Otago Volts; 2026-11-07T21:30:00Z Wellington Firebirds v Auckland Aces; 2026-11-07T21:30:00Z Central Stags v Canterbury
+stopped: []
+yt: Rabbitholebd Sports 0,T Sports 22
