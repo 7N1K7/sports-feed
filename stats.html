@@ -414,12 +414,14 @@ async function drawCoverage() {
   $('checks').innerHTML = nr.length + tw.length ? `<details><summary>Possibly missing or moved · ${nr.length + tw.length}</summary>`
     + [[nr.filter(x => !x.noSource), 'No result after its time, while others in its competition have one (moved, called off, or its result missed)'], [nr.filter(x => x.noSource), 'No result, in a competition with no result source (check it was played when listed)']]
       .map(([x, l]) => x.length ? `<p><b>${l}:</b> ${x.map(x => `${esc(x.c)}: ${esc(x.n)} (${day(x.at)})`).join('; ')}</p>` : '').join('')
-    + (tw.length ? `<p><b>Fewer games than usual in a week (a game left out, a fixture change, or a planned break):</b> ${tw.map(x => `${esc(x.c)}: week of ${day(x.week + 'T00:00:00+13:00')}, ${x.n} game${x.n === 1 ? '' : 's'} (usually ${x.usual})`).join('; ')}</p>` : '')
+    + (tw.some(x => x.stopped) ? `<p><b>No games listed after its last one, and no final yet (next rounds not added, or the season's end):</b> ${tw.filter(x => x.stopped).map(x => `${esc(x.c)}: last game ${day(x.week + 'T00:00:00+13:00')}`).join('; ')}</p>` : '')
+    + (tw.some(x => !x.stopped) ? `<p><b>Fewer games than usual in a week (a game left out, a fixture change, or a planned break):</b> ${tw.filter(x => !x.stopped).map(x => `${esc(x.c)}: week of ${day(x.week + 'T00:00:00+13:00')}, ${x.n} game${x.n === 1 ? '' : 's'} (usually ${x.usual})`).join('; ')}</p>` : '')
     + '</details>' : '';
 }
 // games the site missed or had wrong, newest first, kept by hand (the daily check adds a line for each one it finds, filled
 // or not): [date found, competition, game, what was wrong, what was done, found by]. Never a score or result here
 const MISSED = [
+  ['4 Nov 2026', 'Ford Trophy', 'Rounds 3 to 10 and both finals (26 games), from Wed 4 Nov', "Not on the site: only the first two rounds were added by hand, and no free source the feed reads has the competition", 'Added the rest of the season from the published fixture list; the feed now flags a competition whose listed games run out before a final', 'you'],
   ['2 Nov 2026', 'Rugby League World Cup', 'Semi-finals and finals (men\'s and women\'s), and the WBBL and BBL finals', "Each listed two or three times, from the draw and from Wikipedia, and the women's semi-finals showed a stray code where the teams go", "Now one card each, which takes the teams once they're known", 'the weekend check'],
   ['2 Nov 2026', "Rugby League World Cup (women's and wheelchair)", "Wheelchair England v Wales, women's England v Samoa, wheelchair France v Scotland", "The wheelchair game showed the women's game's score and time, and the other two had no result: the feed took wheelchair and women's games for the same thing", "Fixed: they're kept apart now", 'the weekend check'],
   ['2 Nov 2026', 'Rugby League World Cup', 'Fiji v Cook Islands, Tonga v Lebanon, Papua New Guinea v Samoa, England v France, Tonga v Samoa', "No result: Wikipedia's scores for these sit inside a link the feed didn't read, and TheSportsDB didn't have them", 'The feed reads them now', 'the weekend check'],

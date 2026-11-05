@@ -1994,6 +1994,18 @@ for (const [k, ts] of byComp) {
     if (n <= usual / 2 && near(w, -1) && near(w, 1) && from > now - 14 * DAY && from < now + 21 * DAY && !inBreak(from)) { const [sp, c] = k.split('|'); checks.thinWeeks.push({ s: sp, c, week: new Date(from + 13 * 36e5).toISOString().slice(0, 10), n, usual }); }
   }
 }
+// a hand-kept domestic league whose listed games stop dead: its last game was in the past ten days, nothing is listed
+// after it and no final is. The next rounds haven't been added (the Ford Trophy ran out after two rounds in Nov 2026);
+// the daily check reads these with the thin weeks (stopped: true) and fills them. Leagues only, since a tour or a
+// national side's series just ends
+const handLeague = new Set(curated.events.filter(e => /^(nzdomestic|audomestic|npc|fpc|bbl|wbbl)$/.test(e.team || '')).map(e => `${e.sport}|${baseComp(e)}`));
+for (const [k, ts] of byComp) {
+  if (ts.length < 4 || !handLeague.has(k.split('|').slice(0, 2).join('|')) || /play-?offs?|finals?\b|knockouts?/i.test(k)) continue;
+  const last = Math.max(...ts); if (last > now || now - last > 10 * DAY) continue;
+  const [sp, c] = k.split('|');
+  if (events.some(e => e.sport === sp && baseComp(e) === c && (Date.parse(e.startUTC) > now || KO.test(`${e.comp || ''} ${e.stage || ''}`)))) continue;
+  checks.thinWeeks.push({ s: sp, c, week: new Date(last + 13 * 36e5).toISOString().slice(0, 10), n: 0, usual: ts.length, stopped: true });
+}
 checks.noResult.sort((a, b) => a.at.localeCompare(b.at)); checks.noResult.splice(40);
 diag.checks = `${checks.noResult.length} games with no result after their time, ${checks.thinWeeks.length} thin weeks`;
 
