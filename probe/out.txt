@@ -1,4 +1,11 @@
-feed 2026-11-05T16:19:10.966Z v563
-Ford Trophy games: 32; next: 2026-11-07T21:30:00Z Northern Districts v Otago Volts; 2026-11-07T21:30:00Z Wellington Firebirds v Auckland Aces; 2026-11-07T21:30:00Z Central Stags v Canterbury
-stopped: []
-yt: Rabbitholebd Sports 0,T Sports 22
+feed 2026-11-05T18:25:31.161Z v563
+NR 2026-10-30T21:30:00Z | cricket | Ford Trophy | Northern Districts v Auckland Aces | nosrc
+NR 2026-10-30T21:30:00Z | cricket | Ford Trophy | Wellington Firebirds v Canterbury | nosrc
+NR 2026-10-31T17:00:00Z | boxing | WBC super middleweight title | Christian Mbilli v Saul 'Canelo' Alvarez | nosrc
+NR 2026-10-31T21:30:00Z | cricket | Ford Trophy | Otago Volts v Central Stags | nosrc
+NR 2026-11-01T02:00:00Z | rugby | New Zealand Heartland XV v Samoa | New Zealand Heartland XV v Samoa | nosrc
+NR 2026-11-03T21:30:00Z | cricket | Ford Trophy | Otago Volts v Canterbury | nosrc
+NR 2026-11-03T21:30:00Z | cricket | Ford Trophy | Wellington Firebirds v Northern Districts | nosrc
+NR 2026-11-03T21:30:00Z | cricket | Ford Trophy | Central Stags v Auckland Aces | nosrc
+NR 2026-11-05T04:40:00Z | cricket | Women's Big Bash League | Adelaide Strikers v Brisbane Heat | 
+
