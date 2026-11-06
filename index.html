@@ -942,6 +942,55 @@ button.hubres { font-family: inherit; background: transparent; cursor: pointer }
 .hubtabs button:hover { border-color: var(--sport); background: color-mix(in srgb, var(--sport) 12%, var(--paper)) }
 .hubtabs button[aria-selected="true"] { background: var(--sport); border-color: var(--sport); color: var(--surface) }
 .hubhide { display: none !important }
+/* A series page's header. A series between two countries has each side's flag large, faded and slanted at its end; a
+   tournament with a look of its own (the series row's) its logo or a trophy large and faded at the right, its glow
+   along the top and its logo or trophy by the name. A women's series has the pink line along the panel's bottom. The
+   layer sits behind the words, so nothing moves. On a phone or a narrow window the title and tabs are centred (the
+   close button's width kept free on the left too), and a two-sided title puts each side's name on its own side of the
+   sport's icon, shortened (its code, "SA Women") only when it doesn't fit; the full name stays on desktop */
+.hub { position: relative; isolation: isolate }
+.hubwm { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; z-index: -1; pointer-events: none }
+.hubwm:empty { display: none }
+.hubwm .wm { position: absolute; top: -20px; bottom: -20px; width: 260px; background: center / cover no-repeat; opacity: .26; transform: skewX(-12deg) }
+.hubwm .wm.l { left: -40px; -webkit-mask-image: linear-gradient(90deg, #000 25%, transparent); mask-image: linear-gradient(90deg, #000 25%, transparent) }
+.hubwm .wm.r { right: -40px; -webkit-mask-image: linear-gradient(270deg, #000 25%, transparent); mask-image: linear-gradient(270deg, #000 25%, transparent) }
+.hub.wm-tb { border-top-color: var(--tb-glow); background: linear-gradient(100deg, var(--surface) 35%, color-mix(in srgb, var(--tb-glow) 14%, var(--surface))) }
+.hubwm .wmt { position: absolute; right: 60px; top: 50%; transform: translateY(-50%) rotate(-12deg); width: 150px; height: 150px; opacity: .22; display: grid; place-items: center; color: var(--tb-mark) }
+.hubwm .wmt .troph { width: 150px; height: 150px }
+.hubwm .wmt i, .hublead i { display: block; background: center / contain no-repeat }
+.hublead { display: grid; place-items: center; width: 28px; height: 28px }
+.hublead .troph { width: 26px; height: 26px; color: var(--tb-mark); filter: drop-shadow(0 0 5px color-mix(in srgb, var(--tb-mark) 70%, transparent)) }
+.hublead i { filter: drop-shadow(0 0 4px color-mix(in srgb, var(--tb-glow) 60%, transparent)) }
+.hub.wom::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: #d6336c; border-radius: 0 0 var(--r) var(--r); pointer-events: none }
+.hubtop h2 .hsplit { display: none }
+.hubtop h2 .hn { min-width: 0; overflow: hidden; white-space: nowrap } .hubtop h2 .hn.ha { text-align: right } .hubtop h2 .hn.hb { text-align: left }
+.hubtop h2 .hmid { line-height: 0 } .hubtop h2 .hmid img { width: 24px; height: 24px; display: block }
+@media (max-width: 560px) {
+  .hubtop { padding-left: 44px }
+  .hubtop .hubicon { margin-left: auto }
+  .hubtop h2 { flex: 0 1 auto; margin-right: auto; text-align: center }
+  .hubtabs { text-align: center }
+  .hubtabs button { margin: 0 4px 8px }
+  .hub.hsplit-on .hubtop .hubicon { display: none }
+  .hub.hsplit-on .hubtop h2 { flex: 1 1 auto; margin-right: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 10px }
+  .hub.hsplit-on .hubtop h2 .hfull { display: none }
+  .hub.hsplit-on .hubtop h2 .hsplit { display: contents }
+  .hub.hsplit-on .hubtop h2.hsmall .hn { font-size: .86em }
+  .hubtop h2.hsmall .hfull { font-size: .86em }
+  .hubtop.hroom { padding-left: 0 }
+}
+html.tight .hubtop { padding-left: 44px }
+html.tight .hubtop .hubicon { margin-left: auto }
+html.tight .hubtop h2 { flex: 0 1 auto; margin-right: auto; text-align: center }
+html.tight .hubtabs { text-align: center }
+html.tight .hubtabs button { margin: 0 4px 8px }
+html.tight .hub.hsplit-on .hubtop .hubicon { display: none }
+html.tight .hub.hsplit-on .hubtop h2 { flex: 1 1 auto; margin-right: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 10px }
+html.tight .hub.hsplit-on .hubtop h2 .hfull { display: none }
+html.tight .hub.hsplit-on .hubtop h2 .hsplit { display: contents }
+html.tight .hub.hsplit-on .hubtop h2.hsmall .hn { font-size: .86em }
+html.tight .hubtop h2.hsmall .hfull { font-size: .86em }
+html.tight .hubtop.hroom { padding-left: 0 }
 .stable { margin-bottom: 18px }
 .rankchips { margin: 4px 0 6px }
 .swap { display: inline-grid } .swap > span { grid-area: 1 / 1; text-align: center } .swap > .off { visibility: hidden }
@@ -1643,7 +1692,7 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
   <div class="compbar" id="compBar"><div class="crow"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><button type="button" class="sinfo" data-sinfo="" aria-haspopup="dialog" aria-expanded="false" aria-label="Turning sports on or off" title="Turn sports on or off in Settings">i</button></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false" title="NZ only: just New Zealand's teams" aria-label="NZ only"><img src="https://flagcdn.com/h240/nz.png" alt="" width="18" height="9"><span>NZ</span></button><button type="button" id="freeOnly" class="nzonly freeonly" aria-pressed="false" aria-label="Free to watch" title="Free to watch: only games you can watch for free (TVNZ, Three, Sky Open, DUKE, Whakaata Māori, or a free stream like TVNZ+ or YouTube)"><span class="fta" aria-hidden="true">FREE TV</span></button><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
   <div class="sinfopop" id="sinfoPop" role="dialog" aria-label="Turning sports on or off" hidden><p class="sinfohead"><b class="off">Remove</b> sports from the list</p><p class="sinfodef" id="sinfoDef"></p><div class="sinfogo"><button type="button" class="btn" id="sinfoGo">Open Settings</button></div><p class="sinfomore">Also: theme, time zone</p></div>
   <section id="hubSec" hidden>
-    <div class="hub">
+    <div class="hub" id="hubBox"><div class="hubwm" id="hubWm" aria-hidden="true"></div>
       <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><span class="offwrap" id="offHubW" hidden><button type="button" class="offnote" id="offHub"></button><button type="button" class="herebtn" id="hereHub" aria-pressed="false"></button></span><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
       <div class="hubtabs" role="tablist" id="hubTabs"></div>
     </div>
@@ -3088,9 +3137,26 @@ function renderHub(now) {
   // a result uncovered within the hiding window can be covered again with a tap, as a game's can; a tour's formats a
   // pill each
   const back = res.length ? (FEED.events || []).filter(e => compOf(e) === compSel && visible(e) && canRehide(e.id, spoilAt(e), now)).map(e => e.id) : [];
-  $('hubName').innerHTML = esc(plural(compSel)) + (res.length ? res.map(r => back.length ? ` <button type="button" class="hubres" data-hideall="${esc(back.join(' '))}" data-revk="Series result hidden again" title="Tap to hide again">${tick}${esc(r)}</button>` : ` <span class="hubres">${tick}${esc(r)}</span>`).join('')
+  const resHTML = (res.length ? res.map(r => back.length ? ` <button type="button" class="hubres" data-hideall="${esc(back.join(' '))}" data-revk="Series result hidden again" title="Tap to hide again">${tick}${esc(r)}</button>` : ` <span class="hubres">${tick}${esc(r)}</span>`).join('')
     : held.length ? ` <button type="button" class="hubres held" data-revealall="${esc(held.join(' '))}" data-revk="Series result shown" title="Finished: show the result">${tick}Show result</button>` : '');
-  $('hubIcon').innerHTML = COMP_IMG[compSel] ? `<img class="hubimg" src="${COMP_IMG[compSel]}" alt="" referrerpolicy="no-referrer">` : sIcon(sample?.team === 'f1' ? 'f1' : sample?.sport, 'hubimg');
+  // the header's look: a series between two countries, their flags; a tournament with a look of its own, that
+  const sides = seriesSides(compSel), look = sides ? null : LOOKS.find(([re, o]) => re.test(compSel) && (!o.s || o.s === sample?.sport))?.[1];
+  const box = $('hubBox'), w = !!sample && genderOf(sample) === 'w', [, tbg, glow0, tink, tmk, logo] = look ? look.l : [];
+  box.classList.toggle('wm-two', !!sides); box.classList.toggle('wm-tb', !!look); box.classList.toggle('wom', !!sides && w);
+  for (const [k, v] of [['--tb-bg', tbg], ['--tb-glow', w && !look?.w ? '#f06595' : glow0], ['--tb-ink', tink], ['--tb-mark', tmk]]) look ? box.style.setProperty(k, v) : box.style.removeProperty(k);
+  const crop = h => logo ? `<i style="width:${Math.round(h * logo[4] / (logo[5] || 22))}px;height:${h}px;background-image:url('${logo[0]}');background-size:${logo[1]}%;background-position:${logo[2]}% ${logo[3]}%"></i>` : TROPHY;
+  const wmKey = sides ? sides.join('|') : look ? compSel : '';
+  if ($('hubWm').dataset.k !== wmKey) { $('hubWm').dataset.k = wmKey;
+    $('hubWm').innerHTML = sides ? sides.map((n, i) => `<i class="wm ${i ? 'r' : 'l'}" style="background-image:url('${esc(flagOf(n))}')"></i>`).join('') : look ? `<span class="wmt">${crop(150)}</span>` : ''; }
+  // a narrow header's two-sided title, each name on its own flag's side; fitHubName shows the longest that fits its half
+  const split = sides && !resHTML ? compSel.split(' v ').map((n, i) => { const wn = /\s+Women('s)?$/i.test(n), base = n.replace(/\s+Women('s)?$/i, ''), code = SIDE_CODE[sides[i]];
+    // a nickname (White Ferns, All Blacks) stays whole; a country shortens to its code when needed: SA Women, then SA
+    return base !== sides[i] || !code ? [n] : [...new Set([n, wn || w ? `${code} Women` : code, code])]; }) : null;
+  box.classList.toggle('hsplit-on', !!split);
+  $('hubName').innerHTML = `<span class="hfull">${esc(plural(compSel))}</span>` + (split ? `<span class="hsplit">${split.map((c, i) => `<span class="hn h${i ? 'b' : 'a'}">${c.map(t => `<b>${esc(t)}</b>`).join('')}</span>${i ? '' : `<span class="hmid">${sIcon(sample?.sport, '')}</span>`}`).join('')}</span>` : '') + resHTML;
+  if (split) $('hubName').title = plural(compSel); else $('hubName').removeAttribute('title');
+  $('hubIcon').innerHTML = look ? `<span class="hublead">${crop(28)}</span>` : COMP_IMG[compSel] ? `<img class="hubimg" src="${COMP_IMG[compSel]}" alt="" referrerpolicy="no-referrer">` : sIcon(sample?.team === 'f1' ? 'f1' : sample?.sport, 'hubimg');
+  fitHubName();
   $('hubSec').style.setProperty('--sport', `var(--${sample?.sport || 'rugby'})`);
   $('hubTabs').innerHTML = tabs.map(([k, l]) => `<button type="button" role="tab" data-hubtab="${k}" aria-selected="${hubTab === k}">${l}</button>`).join('');
   if (tabs.length) { balanceChips($('hubTabs')); chipRO.observe($('hubTabs')); }
@@ -3769,6 +3835,24 @@ function keepAt(el, y0, ms = 900) {
     if (Math.abs(d) >= 1) scrollBy(0, d); if (performance.now() < end) requestAnimationFrame(fix); };
   fix();
 }
+// a narrow header's title, which is centred: a two-sided one has each side's name in the longest wording that fits
+// its half, a touch smaller before giving up on one; a long one-name title that would wrap gets a touch smaller, then
+// gives up the room kept on its left to balance the ×
+function fitHubName() {
+  const h = $('hubName'), top = h.parentElement, sp = h.querySelector('.hsplit');
+  h.classList.remove('hsmall'); top.classList.remove('hroom');
+  if (getComputedStyle(h).textAlign !== 'center') return;
+  if (sp && getComputedStyle(sp).display !== 'none') {
+    const fit = () => [...h.querySelectorAll('.hn')].map(side => { const bs = [...side.children];
+      return bs.some((b, i) => { bs.forEach((x, j) => { x.hidden = j !== i; }); return side.scrollWidth <= side.clientWidth; }); }).every(Boolean);
+    if (!fit()) { h.classList.add('hsmall'); fit(); }
+    return;
+  }
+  const full = h.querySelector('.hfull'), wraps = () => !!full && new Set([...full.getClientRects()].map(r => Math.round(r.top))).size > 1;
+  if (wraps()) { h.classList.add('hsmall'); if (wraps()) top.classList.add('hroom'); }
+}
+// again when the panel's width changes (on the next frame, so the fitting never re-triggers itself)
+let hubW = 0; new ResizeObserver(([en]) => { const w = Math.round(en.contentRect.width); if (w !== hubW) { hubW = w; requestAnimationFrame(fitHubName); } }).observe($('hubBox'));
 function fitOffNote() {
   let shown = false;
   for (const n of [$('offHub'), $('offWeek')]) { const w = n.parentNode, h = w.lastElementChild; if (w.hidden) continue; w.style.visibility = 'hidden'; if (shown || !w.offsetWidth) continue;
@@ -4585,7 +4669,7 @@ document.fonts?.ready.then(() => { balanceNow(); syncNowMore(); });
 // a weight first used once the cards are drawn (the team names' and titles' Barlow) can load after that first "ready",
 // leaving cards fitted to the fallback font's widths until the next redraw, so switching views or anything that redraws
 // reshaped them: fit everything again whenever more fonts finish loading
-document.fonts?.addEventListener('loadingdone', () => { fitLines(); lcwKey = ''; fitList(); balanceNow(); syncNowMore(); fitTop(); fitOffNote();
+document.fonts?.addEventListener('loadingdone', () => { fitHubName(); fitLines(); lcwKey = ''; fitList(); balanceNow(); syncNowMore(); fitTop(); fitOffNote();
   document.querySelectorAll('.ranksports, .rankchips, .rankrows .chips, #sportFilter').forEach(balanceChips); });
 // dots that fill exactly two rows of a day in the week strip (7px dots, 3px apart), measured from the strip itself, so
 // the "+" always lands in the last spot of the second row
