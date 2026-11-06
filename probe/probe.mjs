@@ -13,4 +13,4 @@ try {
   out.push(`news tagged nations ${news.length}: ` + news.map(n => `${n.source}: ${n.title.replace(/\d+\s*[-–]\s*\d+/g, '#')}`).join(' | ').slice(0, 1500));
   out.push('tables: ' + (f.tables || []).filter(t => /Nations/.test(t.comp)).map(t => `${t.title} ${t.rows.length}`).join(', '));
 } catch (e) { out.push('feed error ' + e.message); }
-writeFileSync('probe/out.txt', 'nc308\n' + out.join('\n').replace(/key=[^&"\s]*/g, 'key=X') + '\n');
+writeFileSync('probe/out.txt', 'nc309\n' + out.join('\n').replace(/key=[^&"\s]*/g, 'key=X') + '\n');
