@@ -475,7 +475,7 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 .hubres .enddot { display: block; flex: none; width: 14px; height: 14px; border-radius: 50%; background: #2f9e44; color: #fff; font-size: 10px; line-height: 14px; text-align: center; font-weight: 700 }
 .nowchip .enddot { position: absolute; top: -2px; left: -2px; width: 14px; height: 14px; border-radius: 50%; background: #2f9e44; color: #fff; font-size: 10px; line-height: 14px; text-align: center; font-weight: 700; box-shadow: 0 0 0 2px var(--paper) }
 .sportchip[aria-pressed="true"] { background: var(--sport); border-color: var(--sport); color: var(--paper) }
-/* Series row (v572): a series between two sides is split in their colours with their flags, the sport's icon in a disc
+/* Series row: a series between two sides is split in their colours with their flags, the sport's icon in a disc
    between them, the sport's colour round the edge and a pink line along the bottom for a women's series; a tournament
    wears its own look (its colours, a glow, its logo where TheSportsDB has one, a trophy otherwise). Every chip the same
    height, so the rows stay even; picking one rings it in white, so nothing moves */
@@ -744,6 +744,33 @@ dialog#sheet { width: min(720px, 100%) }
 
 .compbar { display: flex; justify-content: center; margin-top: 2px }
 #sportFilter.dim .chip[aria-pressed="true"] { background: transparent; color: var(--ink) }
+/* Sport buttons: each a dark button warming to its sport's colour, with a mark of the sport fading in at its end
+   (hoops for rugby, stumps for cricket, grass stripes for football, chequers for motorsport, court lines for tennis,
+   a cage for MMA...). Picked, it fills with colour and the mark goes dark. Only colours change, so nothing moves */
+#sportFilter .sportchip { position: relative; isolation: isolate; background: linear-gradient(100deg, #0d1210 30%, color-mix(in srgb, var(--sport) 28%, #0d1210)); border-color: var(--sport); color: #f1f5f3; text-shadow: 0 1px 2px rgb(0 0 0 / .7);
+  box-shadow: 0 0 8px 0 color-mix(in srgb, var(--sport) 32%, transparent); --pc: color-mix(in srgb, var(--sport) 36%, transparent) }
+#sportFilter .sportchip::before { content: ''; position: absolute; inset: 0 0 0 30%; z-index: -1; border-radius: inherit; background: var(--pat); pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 65%); mask-image: linear-gradient(90deg, transparent, #000 65%) }
+#sportFilter .sportchip[aria-pressed="true"] { background: linear-gradient(100deg, color-mix(in srgb, var(--sport) 75%, #fff), var(--sport) 60%); color: #0b0f0e; text-shadow: none; --pc: rgb(0 0 0 / .2);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .5), 0 0 14px 2px color-mix(in srgb, var(--sport) 60%, transparent) }
+/* a sport still picked while another sport's competition is chosen goes back to its unpicked look */
+#sportFilter.dim .sportchip[aria-pressed="true"] { background: linear-gradient(100deg, #0d1210 30%, color-mix(in srgb, var(--sport) 28%, #0d1210)); color: #f1f5f3; text-shadow: 0 1px 2px rgb(0 0 0 / .7); box-shadow: 0 0 8px 0 color-mix(in srgb, var(--sport) 32%, transparent); --pc: color-mix(in srgb, var(--sport) 36%, transparent) }
+#sportFilter .sport-rugby { --pc: color-mix(in srgb, var(--sport) 30%, transparent); --pat: repeating-linear-gradient(0deg, var(--pc) 0 3px, transparent 3px 7px) }
+#sportFilter .sport-league { --pat: repeating-linear-gradient(90deg, transparent 0 4px, var(--pc) 4px 6px, transparent 6px 12px), linear-gradient(115deg, transparent 0 45%, var(--pc) 45% 70%, transparent 70%) }
+#sportFilter .sport-cricket { --pat: linear-gradient(90deg, transparent 0 calc(100% - 27px), var(--pc) 0 calc(100% - 25px), transparent 0 calc(100% - 21px), var(--pc) 0 calc(100% - 19px), transparent 0 calc(100% - 15px), var(--pc) 0 calc(100% - 13px), transparent 0) center 6px / 100% calc(100% - 9px) no-repeat, linear-gradient(var(--pc), var(--pc)) right 11px top 4px / 18px 2px no-repeat }
+#sportFilter .sport-football { --pat: repeating-linear-gradient(90deg, var(--pc) 0 6px, transparent 6px 12px) }
+#sportFilter .sport-tennis { --pc: color-mix(in srgb, var(--sport) 60%, transparent); --pat: linear-gradient(var(--pc), var(--pc)) center 4px / 100% 1px no-repeat, linear-gradient(var(--pc), var(--pc)) center calc(100% - 4px) / 100% 1px no-repeat, linear-gradient(var(--pc), var(--pc)) right 5px center / 1px 100% no-repeat }
+#sportFilter .sport-motor { --pat: repeating-conic-gradient(var(--pc) 0 25%, transparent 0 50%) 0 0 / 8px 8px }
+#sportFilter .sport-hockey { --pat: repeating-linear-gradient(-45deg, var(--pc) 0 2px, transparent 2px 7px) }
+#sportFilter .sport-basketball { --pc: color-mix(in srgb, var(--sport) 50%, transparent); --pat: radial-gradient(circle at 100% 50%, transparent 0 8px, var(--pc) 8px 9.5px, transparent 9.5px 17px, var(--pc) 17px 18.5px, transparent 18.5px) }
+#sportFilter .sport-netball { --pc: color-mix(in srgb, var(--sport) 50%, transparent); --pat: radial-gradient(circle at 72% 50%, transparent 0 6px, var(--pc) 6px 7.5px, transparent 7.5px), linear-gradient(90deg, transparent calc(40% - .75px), var(--pc) 0 calc(40% + .75px), transparent 0) }
+#sportFilter .sport-boxing { --pc: color-mix(in srgb, var(--sport) 60%, transparent); --pat: linear-gradient(var(--pc), var(--pc)) center 4px / 100% 1.5px no-repeat, linear-gradient(var(--pc), var(--pc)) center calc(100% - 4px) / 100% 1.5px no-repeat, linear-gradient(var(--pc), var(--pc)) right 5px center / 2px 100% no-repeat }
+#sportFilter .sport-mma { --pat: repeating-linear-gradient(45deg, var(--pc) 0 1px, transparent 1px 6px), repeating-linear-gradient(-45deg, var(--pc) 0 1px, transparent 1px 6px) }
+#sportFilter .sport-golf { --pc: color-mix(in srgb, var(--sport) 45%, transparent); --pat: radial-gradient(circle, var(--pc) 0 1.2px, transparent 1.7px) 0 0 / 5px 5px }
+#sportFilter .sport-baseball { --pc: color-mix(in srgb, var(--sport) 60%, transparent); --pat: repeating-linear-gradient(60deg, var(--pc) 0 1.5px, transparent 1.5px 5px) center 2px / 100% 4px no-repeat, repeating-linear-gradient(-60deg, var(--pc) 0 1.5px, transparent 1.5px 5px) center calc(100% - 2px) / 100% 4px no-repeat }
+#sportFilter .sport-sailing { --pc: color-mix(in srgb, var(--sport) 60%, transparent); --pat: radial-gradient(circle at 50% 100%, transparent 0 3px, var(--pc) 3px 4.5px, transparent 4.5px) left 0 bottom 1px / 10px 6px repeat-x }
+#sportFilter .sportchip.sport-all { border-color: transparent; background: linear-gradient(100deg, #0d1210, #1c2521) padding-box, linear-gradient(90deg, #51cf66, #3bc9db, #4dabf7, #9775fa, #f06595, #ff6b6b, #ff922b, #fcc419) border-box; --pat: none }
+#sportFilter .sportchip.sport-all[aria-pressed="true"] { background: linear-gradient(90deg, #51cf66, #3bc9db, #4dabf7, #9775fa, #f06595, #ff6b6b, #ff922b, #fcc419) border-box; color: #0b0f0e; box-shadow: inset 0 1px 0 rgb(255 255 255 / .5), 0 0 14px 2px rgb(151 117 250 / .45) }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0) }
 
 /* bigger time, names and logos */
@@ -3501,7 +3528,8 @@ const shortComp = c => {
   return w ? `${t.replace(/^Women's /, '').replace(/\u2009W\b/g, '')} (W)` : t;
 };
 // the series row's chips. A series between two national sides is split in their colours, each with its flag: the
-// colours are each side's usual kit (by sport where it differs: the All Whites in white, the Kangaroos in green)
+// colours are each side's usual kit (by sport where it differs: the All Whites in white, the Kangaroos in green). The
+// flags are only 11px tall here, so they come 40px tall, not 240: shrunk that far a big picture looks jagged on phones
 const NICKS = { 'New Zealand': /^(Black Caps|White Ferns|All Blacks|Black Ferns|Black Sticks|Tall Blacks|Tall Ferns|Silver Ferns|All Whites|Football Ferns|Kiwis|Kiwi Ferns)$/,
   Australia: /^(Wallabies|Wallaroos|Kangaroos|Jillaroos|Socceroos|Matildas|Diamonds|Boomers|Opals|Kookaburras|Hockeyroos)$/ };
 const KIT = { 'New Zealand': ['#000000', '#ffffff'], Australia: ['#ffcd00', '#00843d'], India: ['#1f6fe0', '#ffffff'], England: ['#f1f3f5', '#c8102e'],
@@ -3526,7 +3554,7 @@ const sideCountry = n => { const b = String(n || '').replace(/\s+(Women('s)?|Men
   return KIT[b] && (ISO[b] || OWN_FLAG[b]) ? b : ''; };
 // a two-sided series' two countries, in the name's order, or null
 const seriesSides = c => { const m = String(c || '').match(/^(.+?) v (.+)$/); if (!m) return null; const a = sideCountry(m[1]), b = sideCountry(m[2]); return a && b && a !== b ? [a, b] : null; };
-// a tournament's own look: [label, background, glow, text, mark colour, logo [url, size %, x %, y %, width]]. A women's
+// a tournament's own look: [label, background, glow, text, mark colour, logo [url, size %, x %, y %, width, height]]. A women's
 // event sharing the men's look takes a pink glow; one with a look of its own says so (w)
 const TSDB = 'https://r2.thesportsdb.com/images/media/league/badge/';
 const TROPHY = `<svg class="troph" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 2h12v2h3v3.5A4.5 4.5 0 0 1 16.9 12a6 6 0 0 1-3.9 3.4V18h3v2H8v-2h3v-2.6A6 6 0 0 1 7.1 12 4.5 4.5 0 0 1 3 7.5V4h3V2zm0 4H5v1.5a2.5 2.5 0 0 0 1.2 2.1A6 6 0 0 1 6 8V6zm12 0v2c0 .5 0 1-.2 1.6A2.5 2.5 0 0 0 19 7.5V6h-1zM7 21h10v1.5H7z"/></svg>`;
@@ -3537,7 +3565,7 @@ const LOOKS = [
   [/T20 World Cup|Cricket World Cup|ODI World Cup|Champions Trophy|World Test Championship/, { l: ICC }],
   [/Rugby League World Cup/, { l: ['', 'linear-gradient(105deg, #061a40 0%, #0b2d6b 50%, #8a6d1d 100%)', '#e3b341', '#fff', '#f2c94c'] }],
   [/State of Origin/, { l: ['', 'linear-gradient(110deg, #6d1a36 0 52%, #2f7fc9 52% 100%)', '#9cc9f0', '#fff', '#fff', [TSDB + '255k0e1771589044.png/small', 100, 50, 0, 16]] }],
-  [/Nations Championship/, { l: ['', '#0b0f0e', '#e8ff00', '#e8ff00', '#e8ff00', [TSDB + 'jifczi1773608397.png/small', 240, 50, 27, 22]] }],
+  [/Nations Championship/, { l: ['', '#0b0f0e', '#e8ff00', '#e8ff00', '#e8ff00', [TSDB + 'jifczi1773608397.png/small', 250, 49.6, 35, 16, 16]] }],
   [/Rugby Championship/, { l: ['', 'linear-gradient(105deg, #101418 0%, #2b3440 60%, #7d8a98 100%)', '#cfd8e3', '#fff', '#e6ecf2'] }],
   [/WXV/, { w: true, l: ['', 'linear-gradient(105deg, #2b0a45 0%, #6a1d78 50%, #c2367a 100%)', '#ff8cc6', '#fff', '#ffd6ea'] }],
   [/Women's Rugby World Cup/, { w: true, l: ['', 'linear-gradient(105deg, #0d1530 0%, #1d2a55 100%)', '#d4a72c', '#f5d77a', '#f5d77a', [TSDB + 'vphokh1755422562.png/small', 150, 50, 30, 22]] }],
@@ -3559,7 +3587,7 @@ const nowChip = (c, v, st) => {
   const cls = `chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''} ${v.rain ? 'is-rain' : ''} ${st.ended ? 'is-ended' : ''}`;
   const sides = seriesSides(c);
   if (sides) {
-    const seg = (n, k) => { const [bg, ink] = KIT_SPORT[v.sport]?.[n] || KIT[n], f = flagOf(n), img = f ? `<img src="${esc(f)}" alt="" referrerpolicy="no-referrer">` : '';
+    const seg = (n, k) => { const [bg, ink] = KIT_SPORT[v.sport]?.[n] || KIT[n], f = flagOf(n).replace('flagcdn.com/h240/', 'flagcdn.com/h40/'), img = f ? `<img src="${esc(f)}" alt="" referrerpolicy="no-referrer">` : '';
       return `<span class="nside ns${k}" style="background:${bg};color:${ink}">${k === 'a' ? img : ''}${SIDE_CODE[n] || n.slice(0, 3).toUpperCase()}${k === 'b' ? img : ''}</span>`; };
     return `<button type="button" class="${cls} two" data-bigcomp="${esc(c)}" aria-pressed="${st.sel}" title="${tip}" aria-label="${esc(plural(c))}">${seg(sides[0], 'a')}<span class="nico"><span>${sIcon(v.sport, '')}</span></span>${seg(sides[1], 'b')}${v.w ? '<span class="wline" aria-hidden="true"></span>' : ''}${mark}</button>`;
   }
@@ -3568,7 +3596,7 @@ const nowChip = (c, v, st) => {
   const [label, bg, glow0, ink, mk, logo] = look ? look.l : ['', 'linear-gradient(105deg, color-mix(in srgb, var(--sport) 22%, #0b0f0e) 0%, color-mix(in srgb, var(--sport) 55%, #0b0f0e) 100%)', 'var(--sport)', '#fff', 'var(--sport)'];
   const glow = v.w && !look?.w ? '#f06595' : glow0;
   const name = label || shortComp(plural(c)).replace(/\s*\(W\)$/, '');
-  const lead = logo ? `<i class="tblogo" style="background-image:url('${logo[0]}');background-size:${logo[1]}%;background-position:${logo[2]}% ${logo[3]}%;width:${logo[4]}px" aria-hidden="true"></i>` : TROPHY;
+  const lead = logo ? `<i class="tblogo" style="background-image:url('${logo[0]}');background-size:${logo[1]}%;background-position:${logo[2]}% ${logo[3]}%;width:${logo[4]}px${logo[5] ? `;height:${logo[5]}px;margin:0` : ''}" aria-hidden="true"></i>` : TROPHY;
   return `<button type="button" class="${cls} tbrand" data-bigcomp="${esc(c)}" aria-pressed="${st.sel}" title="${tip}" style="--tb-bg:${bg};--tb-glow:${glow};--tb-ink:${ink};--tb-mark:${mk}">${lead}<span class="tbt">${esc(name)}</span>${mark}</button>`;
 };
 const NOT_BAR = /Heartland XV|Second XI/;
