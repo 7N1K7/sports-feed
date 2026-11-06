@@ -1,21 +1,8 @@
-feed299
-feed 2026-11-06T02:52:54.264Z site {"version":572,"changedAt":"2026-11-06T02:52:06Z"}
-  2xi ca2xiw-2026-11-03-tasmaniaaustraliancapitalterritory | Tasmania v Australian Capital Territory | upcoming | 1 streams
-  2xi ca2xiw-2026-11-04-southaustraliaaustraliancapitalterritory | South Australia v Australian Capital Territory | upcoming | 1 streams
-  2xi ca2xiw-2026-11-05-southaustraliatasmania | South Australia v Tasmania | live | 1 streams
-events with highlights: 61; by channel: {"Big Bash":11,"DAZN Boxing":1,"Sky Sport NZ":36,"NZ Rugby League":1,"RLWC":12}
-  hl 2026-10-31 boxing WBC super middleweight title | Christian Mbilli v Saul 'Canelo' Alvarez -> https://www.youtube.com/watch?v=5PrpHaKTnSs (DAZN Boxing)
-  hl 2026-10-31 kiwiferns Women's Rugby League World Cup, Group B, | New Zealand v Papua New Guinea -> https://www.youtube.com/watch?v=XYrwm_rQOSo (RLWC)
-  hl 2026-10-31 rlwc Wheelchair Rugby League World Cup, Group | France v Scotland -> https://www.youtube.com/watch?v=uX91AzrIhtM (RLWC)
-  hl 2026-10-31 rlwc Rugby League World Cup, Group A, Round 3 | Australia v Cook Islands -> https://www.youtube.com/watch?v=Gfk2IJE-ddI (RLWC)
-  hl 2026-11-01 rlwc Women's Rugby League World Cup, Group A, | Australia v Wales -> https://www.youtube.com/watch?v=RO4jdlgoEwc (RLWC)
-  hl 2026-11-01 rlwc Rugby League World Cup, Group B/C, Round | Lebanon v France -> https://www.youtube.com/watch?v=JbdnCAgT5v4 (RLWC)
-  hl 2026-11-01 rlwc Rugby League World Cup, Group B/C, Round | Tonga v Samoa -> https://www.youtube.com/watch?v=hcJ8yHULytk (RLWC)
-  hl 2026-11-03 rlwc Wheelchair Rugby League World Cup, Group | Australia v Scotland -> https://www.youtube.com/watch?v=ZhIDSlz6ST8 (RLWC)
-  hl 2026-11-03 rlwc Wheelchair Rugby League World Cup, Group | Ireland v Wales -> https://www.youtube.com/watch?v=PcmJvO_5Zsg (RLWC)
-  hl 2026-11-03 rlwc Wheelchair Rugby League World Cup, Group | England v USA -> https://www.youtube.com/watch?v=FCkhEtXuLnU (RLWC)
-  hl 2026-10-31 kiwis Wheelchair Rugby League World Cup | Australia v New Zealand -> https://www.youtube.com/watch?v=UxV1---c_d4 (RLWC)
-  hl 2026-11-03 kiwis Wheelchair Rugby League World Cup | France v New Zealand -> https://www.youtube.com/watch?v=Uw-GDvDqmLA (RLWC)
-  hl 2026-11-06 kiwis Wheelchair Rugby League World Cup | Scotland v New Zealand -> https://www.youtube.com/watch?v=msbQp5Nv2Kk (RLWC)
-yt diag counts: streams per channel: NZ Cricket 24, Cricket Australia 25, Fox Cricket 0, Netball NZ 11, Hockey NZ 49, Basketball NZ 10, NZ Football 3, NZ Rugby League 3, Fox League 0, Sports Central 12, Sports TV 13, Pakistan Cricket 14, World Rugby 18, FIFA 5, FIH 11, FIBA 37, NZ Provincial Rugby 2, Rabbitholebd Sports 0, T Sports 21, Sky Sport NZ 0, Big Bash 0, RLWC 1, DAZN Boxing 0, DAZN Football 0
-yt diag end: ; highlights videos on 61 games; Second XI games from Cricket Australia's streams: Women's Second XI Tasmania v Australian Capital Territory 2026-11-03; Women's Second XI South Australia v Australian Capital Territory 2026-11-04; Women's Second XI South Australia v Tasmania 2026-11-05
+flags300
+200 image/png 536B 80x40 https://flagcdn.com/h40/nz.png
+200 image/png 311B 60x40 https://flagcdn.com/h40/in.png
+200 image/png 107B 67x40 https://flagcdn.com/h40/gb-eng.png
+200 image/png 418B 60x40 https://flagcdn.com/h40/za.png
+200 image/png 2284B 480x240 https://flagcdn.com/h240/nz.png
+200 image/png 6403B 200x200 https://r2.thesportsdb.com/images/media/league/badge/jifczi1773608397.png/small
+site has nowChip: true, tbrand: true
