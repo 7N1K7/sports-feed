@@ -486,7 +486,8 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
       if (sq.length) for (const e of evs) { const s = squadsFor(sq, e); if (s.length) e.squads = s; }
     }
     out.push(...evs);
-    if (!c.seriesTitle && !c.ufc && !c.formOnly) tableSrc.push({ c, title: pg.title, text: pg.text });
+    // (noTables: a page whose tables copy another's, as the Nations Championship's series pages copy its main page's)
+    if (!c.seriesTitle && !c.ufc && !c.formOnly && !c.noTables) tableSrc.push({ c, title: pg.title, text: pg.text });
   }
   diag.wikipedia = per;
   if (formPrev.length) diag.formPrev = formPrev.map(([t]) => `${t}: ${texts[t] ? `${per[texts[t].title] ?? 0} games${texts[t].text ? '' : ' (no text)'}` : 'no page'}`).join('; ');
