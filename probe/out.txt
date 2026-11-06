@@ -1,10 +1,41 @@
-live591
-NRL: vundefined | hub wm-tb | glow #3ddc84 | wm small loaded 200 | lead I | tabs 6, picked bg rgb(255, 255, 255)
-Formula 1: vundefined | hub wm-tb | glow #ff1e00 | wm small loaded 200 | lead I | tabs 6, picked bg rgb(255, 255, 255)
-NBA: vundefined | hub wm-tb | glow #ff4d6d | wm small loaded 200 | lead I | tabs 5, picked bg rgb(255, 255, 255)
-NPC: vundefined | hub wm-tb stripe | glow #f06030 | wm small loaded 200 | lead I | tabs 7, picked bg rgb(255, 255, 255)
-WTA Finals: vundefined | hub wm-tb | glow #ff6ad5 | wm small loaded 200 | lead I | tabs 4, picked bg rgb(255, 255, 255)
-Women's Big Bash: vundefined | hub wm-tb | glow #19d3c5 | wm cricket.webp?v=2 loaded 128 | lead IMG | tabs 7, picked bg rgb(255, 255, 255)
-Rugby Championship: vundefined | hub wm-tb | glow #cfd8e3 | wm small loaded 200 | lead I | tabs 7, picked bg rgb(255, 255, 255)
-Black Caps v India: vundefined | hub wm-two hsplit-on | glow  | wm nz.png loaded 480 | lead IMG | tabs 6, picked bg rgb(252, 196, 25)
-SailGP: vundefined | hub wm-tb | glow #748ffc | wm sailing.webp?v=2 loaded 128 | lead IMG | tabs 2, picked bg rgb(255, 255, 255)
+live592
+1280 motor: vundefined cc logos 2/2 | , 
+   opened: Formula 1 | same true | again: closed true, same true
+1280 cricket: vundefined cccccc logos 13/13 | Black Caps v India, , , Australia v England, Bangladesh v West Indies, Pakistan v Sri Lanka
+   opened: Black Caps v IndiaBlack CapsIndiaIND | same true | again: closed true, same true
+1280 football: vundefined cc logos 2/2 | , 
+   opened: A-League Men | same true | again: closed true, same true
+1280 rugby: vundefined c logos 1/1 | 
+   opened: Nations Championship | same true | again: closed true, same true
+1280 basketball: vundefined c [off note] logos 1/1 | 
+   opened: NBL | same true | again: closed true, same true
+820 motor: vundefined cc logos 2/2 | , 
+   opened: Formula 1 | same true | again: closed true, same true
+820 cricket: vundefined tttttt logos 9/9 | Black Caps v India, Women's Big Bash, Sheffield Shield, Australia v England, Bangladesh v West Indies, Pakistan v Sri Lanka
+   opened: Black Caps v IndiaBlack CapsIndiaIND | same true | again: closed true, same true
+820 football: vundefined cc logos 2/2 | , 
+   opened: A-League Men | same true | again: closed true, same true
+820 rugby: vundefined c logos 1/1 | 
+   opened: Nations Championship | same true | again: closed true, same true
+820 basketball: vundefined c [off note] logos 1/1 | 
+   opened: NBL | same true | again: closed true, same true
+412 motor: vundefined cc (dates hidden) logos 2/2 | , 
+   opened: Formula 1 | same true | again: closed true, same true
+412 cricket: vundefined tttttt (dates hidden) logos 9/9 | Black Caps v India, Women's Big Bash, Sheffield Shield, Australia v England, Bangladesh v West Indies, Pakistan v Sri Lanka
+   opened: Black Caps v IndiaBlack CapsIndiaIND | same true | again: closed true, same true
+412 football: vundefined cc (dates hidden) logos 2/2 | , 
+   opened: A-League Men | same true | again: closed true, same true
+412 rugby: vundefined c logos 1/1 | 
+   opened: Nations Championship | same true | again: closed true, same true
+412 basketball: vundefined c (dates hidden) [off note] logos 1/1 | 
+   opened: NBL | same true | again: closed true, same true
+360 motor: vundefined cc (dates hidden) logos 2/2 | , 
+   opened: Formula 1 | same true | again: closed true, same true
+360 cricket: vundefined tttt+2 (dates hidden) logos 5/5 | Black Caps v India, Women's Big Bash, Sheffield Shield, Australia v England, 2 more competitions
+   opened: Black Caps v IndiaBlack CapsIndiaIND | same true | again: closed true, same true | +N list open true
+360 football: vundefined cc (dates hidden) logos 2/2 | , 
+   opened: A-League Men | same true | again: closed true, same true
+360 rugby: vundefined c (dates hidden) logos 1/1 | 
+   opened: Nations Championship | same true | again: closed true, same true
+360 basketball: vundefined c (dates hidden) [off note] logos 1/1 | 
+   opened: NBL | same true | again: closed true, same true
