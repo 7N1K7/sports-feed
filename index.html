@@ -478,7 +478,8 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 /* Series row: a series between two sides is split in their colours with their flags, the sport's icon in a disc
    between them, the sport's colour round the edge and a pink line along the bottom for a women's series; a tournament
    wears its own look (its colours, a glow, its logo where TheSportsDB has one, a trophy otherwise). Every chip the same
-   height, so the rows stay even; picking one rings it in white, so nothing moves */
+   height, so the rows stay even; picking one turns its edge white with a soft white glow, like the All sport button, so
+   nothing moves */
 #nowChips > .nowchip.two, #nowChips > .nowchip.tbrand { height: 31px; box-sizing: border-box; padding-top: 0; padding-bottom: 0 }
 .nowchip.two { padding: 0; gap: 0; overflow: hidden; background: var(--paper) }
 .nowchip.two .nside { display: inline-flex; align-items: center; gap: 5px; align-self: stretch; font-weight: 700; padding: 0 13px 0 10px; border-radius: 999px 0 0 999px; white-space: nowrap }
@@ -494,7 +495,7 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 .nowchip.tbrand .tbt { text-transform: uppercase; font-size: 12.5px; white-space: nowrap }
 .nowchip.tbrand .troph { width: 15px; height: 15px; flex: none; color: var(--tb-mark); filter: drop-shadow(0 0 3px color-mix(in srgb, var(--tb-mark) 70%, transparent)) }
 .nowchip.tbrand .tblogo { display: inline-block; flex: none; height: 22px; width: 22px; margin: -4px -2px -4px -3px; background: center / contain no-repeat }
-.nowchip.two[aria-pressed="true"], .nowchip.tbrand[aria-pressed="true"] { background: var(--tb-bg, var(--paper)); color: var(--tb-ink, inherit); box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px #fff }
+.nowchip.two[aria-pressed="true"], .nowchip.tbrand[aria-pressed="true"] { background: var(--tb-bg, var(--paper)); color: var(--tb-ink, inherit); border-color: #fff; box-shadow: 0 0 0 1px #fff, 0 0 12px 2px rgb(255 255 255 / .4) }
 .nowchip.tbrand.is-live { border-color: var(--tb-glow) }
 .nowchip.tbrand.is-rain { border-color: #1c7ed6; box-shadow: 0 0 9px 1px color-mix(in srgb, #1c7ed6 55%, transparent) }
 .nowchip.two.is-ended:not([aria-pressed="true"]), .nowchip.tbrand.is-ended:not([aria-pressed="true"]) { background: var(--tb-bg, var(--paper)); color: var(--tb-ink, inherit); border-style: dashed }
@@ -1482,7 +1483,8 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
   :is(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide)::after {
     content: ""; position: absolute; inset: -1px; border: 2px solid; border-width: 2px 3px; border-color: inherit; border-radius: inherit; pointer-events: none }
   .nowchip :is(.livedot, .enddot) { z-index: 1 } .nowchip.is-ended:not([aria-pressed="true"])::after { border-style: dashed }
-  .nowchip.two { border-image: none; border-width: 2px 3px } .nowchip.two::after { content: none }
+  /* (with the id, to outweigh the :is() list above, which counts as an id) */
+  #nowChips .nowchip.two { border-image: none; border-width: 2px 3px } #nowChips .nowchip.two::after { content: none }
   .seg { border-width: 2px 3px; margin: -1px -2px }
   .dsel .dbtn { border-width: 2px; padding-block: 3px } #compSel { border-width: 2px 3px; padding: 1px 25px 1px 11px; background-position: right 13px center, right 8px center }
   @media (max-width: 560px) { #compSel { padding-left: 9px; padding-right: 23px } }
