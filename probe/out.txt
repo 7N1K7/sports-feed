@@ -1,25 +1,12 @@
-lg311
-Australia Cricket: 2
-  4461 | Cricket | Australian Big Bash League | KFC Big Bash League | Australia | badge badge/yko7ny1546635346.png | logo logo/qsy7vw1546510965.png
-  5530 | Cricket | Sheffield Shield |  | Australia | badge badge/cd4akv1742154549.png | logo -
-World Rugby: 5
-  5854 | Rugby | Asia Rugby Championship |  | World | badge badge/ojcb2d1773685766.png | logo -
-  5855 | Rugby | Asia Rugby Division 1 |  | World | badge badge/euwjvg1773686571.png | logo -
-  5852 | Rugby | Nations Championship | Championnat des nations, ネーションズチャンピオンシップ | World | badge badge/jifczi1773608397.png | logo logo/6g9qp71773608397.png
-  5853 | Rugby | Rugby Africa Cup | Coupe d'Afrique de rugby à XV | World | badge badge/qddzm81773660193.png | logo logo/53n1uj1773660154.png
-  5682 | Rugby | Womens Rugby World Cup |  | World | badge badge/vphokh1755422562.png | logo logo/9k2l331755425809.png
-World Cricket: 0
-New Zealand Rugby: 1
-  5278 | Rugby | New Zealand National Provincial Championship | Bunnings, NPC | New Zealand | badge badge/0rbyp71786623355.png | logo logo/1aajmy1786623368.png
-Australia Basketball: 5
-  4434 | Basketball | Australian NBL |  | Australia | badge badge/gvz6vb1726086476.png | logo logo/526c5q1725980344.png
-  5113 | Basketball | Australian WNBL | Women | Australia | badge badge/hnate81749406441.png | logo logo/ocwva01642004693.png
-  5667 | Basketball | NBL1 Central |  | Australia | badge badge/8qtlej1754382440.png | logo -
-  5669 | Basketball | NBL1 East |  | Australia | badge badge/olkqwi1754384283.png | logo -
-  5670 | Basketball | NBL1 North |  | Australia | badge badge/773nz11754386845.png | logo -
-World Motorsport: 0
-Australia Motorsport: 1
-  4489 | Motorsport | V8 Supercars | Supercars Championship, Repco Supercars Championship, Supercars | Australia | badge badge/64f67s1770108650.png | logo logo/pk55ch1614547894.png
-World Tennis: 0
-World Sailing: 0
-World Golf: 0
+lg312
+cd4akv1742154549 35405
+0rbyp71786623355 6132
+gasy9d1737743125 16275
+g5ocbs1777721333 11342
+2u78lm1638459575 5013
+bewnz31717531281 5547
+gvz6vb1726086476 17921
+64f67s1770108650 16185
+6edvvh1767868334 17620
+yko7ny1546635346 45427
+F1 Formula 1 badge https://r2.thesportsdb.com/images/media/league/badge/g8cofl1513623681.png
