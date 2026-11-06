@@ -445,7 +445,12 @@ const YT_CHANNELS = [
   // the RLWC's own, DAZN's boxing (its free undercard and fight streams count as a way to watch) and DAZN Football's
   // (mostly European leagues, so few games here; asked only every half hour: slow)
   ['league', 'RLWC', 'UC_3_k_SqxQWafdAYanYQXdg'], ['boxing', 'DAZN Boxing', 'UCurvRE5fGcdUgCYWgh-BDsg'], ['football', 'DAZN Football', 'UCSZ21xyG8w_33KriMM69IxQ', 'slow'],
+  // Fox Sports Australia's: Australian fight nights' free prelims streams (Gallen v Asofa-Solomona's, 6 Nov 2026), open
+  // to NZ; its netball streams are shut to Australia, so they're left out anyway
+  ['boxing', 'Fox Sports Australia', 'UCaoTOpfjVfdm_XlYvwbVicQ'],
 ];
+// a fight night's stream of its prelims or undercard only ("... | Prelims | Main Event | Fox Sports Australia")
+const YT_PRE = /\bprelims?\b|\bundercard\b|preliminary card/i, FIGHT_SPORT = /^(boxing|mma)$/;
 // streams that name both sides but aren't the game: press conferences, watch-alongs, previews and the like
 const YT_NOT_GAME = /press conference|presser|media (briefing|scrum)|watch ?-?along|reaction|preview|analysis|playing xi|\bchat\b|\bpodcast\b|build-?up|fan ?zone|pre-?(game|match) show|countdown|weigh-?ins?|face-?offs?|open workouts?|ring ?walks?|arrivals|free fight|full fight|replay|\bclassic\b/i;
 // the word a title names a side by: "Central Stags" -> central, "New South Wales" -> new south wales, "NSW" too
@@ -519,7 +524,7 @@ async function youtubeStreams(events) {
         const wc = x => /wheelchair|\bwheel ?(kiwis|hawks)\b|wheelaroos/i.test(`${x.snippet.title} ${String(x.snippet.description || '').split('\n')[0]}`);
         // (a highlights premiere is a stream too, but not the game)
         streams = (v.items || []).filter(x => x.liveStreamingDetails && !shut(x) && !YT_HL.test(x.snippet.title)).map(x => ({ id: x.id, title: x.snippet.title, state: x.snippet.liveBroadcastContent,
-          at: x.liveStreamingDetails.actualStartTime || x.liveStreamingDetails.scheduledStartTime || '', s: x.liveStreamingDetails.scheduledStartTime || '', d: line1(x.snippet.description), ...(wc(x) ? { wc: true } : {}) }))
+          at: x.liveStreamingDetails.actualStartTime || x.liveStreamingDetails.scheduledStartTime || '', s: x.liveStreamingDetails.scheduledStartTime || '', d: line1(x.snippet.description), ...(wc(x) ? { wc: true } : {}), ...(YT_PRE.test(x.snippet.title) ? { pre: true } : {}) }))
           .filter(x => x.at && !YT_NOT_GAME.test(x.title));
         // its highlights videos, up now (not a premiere still to come), for the card's Highlights link
         // (the main package first: "Highlights | Bangladesh vs West Indies | 2nd Test | Day 1" before a clip that says
@@ -538,7 +543,8 @@ async function youtubeStreams(events) {
           const start = Date.parse(e.startUTC), days = /shield|plunket|test|first[- ]class|four[- ]day/i.test(`${e.comp} ${e.format || ''}`) ? 5 : 1;
           if (at < start - 3 * 36e5 || at > start + (days - 1) * DAY + 12 * 36e5) continue;
           if (!ytFor(e, sport, st)) continue;
-          (e.yt ||= []).push({ url: `https://www.youtube.com/watch?v=${st.id}`, ch, at: st.at, state: st.state });
+          // a fight night's prelims stream is only the prelims: the card says so, and it isn't a free way to watch the fight
+          (e.yt ||= []).push({ url: `https://www.youtube.com/watch?v=${st.id}`, ch, at: st.at, state: st.state, ...(st.pre && FIGHT_SPORT.test(e.sport) ? { prelims: true } : {}) });
           hit.add(st.id);
           found.push(`${e.home} v ${e.away} (${st.state})`);
         }
@@ -1736,7 +1742,7 @@ async function phoneAlerts(events) {
     const nzTime = t => new Date(t).toLocaleTimeString('en-NZ', { timeZone: 'Pacific/Auckland', hour: 'numeric', minute: '2-digit' }).replace(/\s/g, '').toLowerCase();
     const tvLive = (e.tv || []).filter(x => !x.delayed);
     const watch = tvLive.length ? 'On ' + tvLive.map(x => `${x.ch} from ${nzTime(x.at)}`).join(', ')
-      : e.yt?.length ? `Free on YouTube (${e.yt[0].ch})` : e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
+      : e.yt?.some(x => !x.prelims) ? `Free on YouTube (${e.yt.find(x => !x.prelims).ch})` : e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
     const where = [watch, [e.venue, e.city].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
     // runs are 5 to 10 minutes apart, so the first one inside 40 minutes sends it
     if (!e.timeTBC && e.status !== 'final' && mins > 0 && mins <= 40)

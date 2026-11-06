@@ -2343,7 +2343,7 @@ const TV_FREE_CH = /^(TVNZ 1|TVNZ 2|Three|Sky Open|TVNZ DUKE|Whakaata Māori|Rus
 function freeTo(e) {
   const tv = !prelimsOnly(e) && (e.tv || []).find(x => !x.delayed && TV_FREE_CH.test(x.ch));
   if (tv) return tv.ch;
-  if (e.yt?.length) return 'YouTube';
+  if (e.yt?.some(x => !x.prelims)) return 'YouTube';
   const o = watchOptions(e).find(o => /^(Free|Free stream|Free-to-air TV)$/.test(o.kind) && !o.prelims && !/highlight|delayed|some games|prelims|radio|scoring|digital|replay/i.test(o.label));
   return o ? o.label : '';
 }
@@ -2352,6 +2352,7 @@ function freeTo(e) {
 // a free channel, its "+1" an hour later too
 const freeCh = ch => TV_FREE_CH.test(String(ch || '').replace(/\s*\+1$/, ''));
 const prelimsOnly = e => /\bprelims\b/i.test(`${e.broadcast || ''} ${e.watchAlt || ''}`);
+// (a fight's prelims stream on YouTube stays in its pop-up's where-to-watch list, off the card)
 const freePrelims = e => prelimsOnly(e) ? (watchOptions(e).find(o => o.prelims)?.label || 'free') : '';
 // Free to watch narrows the games still to come; results and news are left as they are
 const visible = x => (genderSel === 'all' || !genderOf(x) || genderOf(x) === genderSel) && (!nzOnly || isNZ(x)) && (!freeOnly || !x.startUTC || x.status === 'final' || !!freeTo(x) || !!freePrelims(x)) && visible0(x);
@@ -2450,7 +2451,7 @@ function listRow(e, now, isRes) {
 // link to where it plays
 function watchPick(e) {
   const free = freeTo(e).replace(/^free\s*(?:on|to watch on|:)?\s*/i, '').replace(/\s*\(free\)$/i, '').replace(/\s*\([^)]*$/, '');
-  const tv = free || (e.tv || []).find(x => !x.delayed && !(prelimsOnly(e) && freeCh(x.ch)))?.ch || (e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : '') || (e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt ? 'YouTube (free)' : '');
+  const tv = free || (e.tv || []).find(x => !x.delayed && !(prelimsOnly(e) && freeCh(x.ch)))?.ch || (e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : '') || (e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt?.some(x => !x.prelims) ? 'YouTube (free)' : '');
   const freeTag = free.replace(/\s*\(.*$/, '').replace(/ live stream$/, ' stream').trim(), freeAt = free && freeHref(e, free);
   return { free, tv: tv.trim(), freeTag, freeAt };
 }
@@ -2518,7 +2519,7 @@ const linkWatch = t => esc(t).replace(SVC_RE, m => `<a class="svc" href="${SERVI
 const FREE_SITE = { 'TVNZ 1': 'https://www.tvnz.co.nz/livetv/tvnz-1', 'TVNZ 2': 'https://www.tvnz.co.nz/livetv/tvnz-2', 'TVNZ DUKE': 'https://www.tvnz.co.nz/livetv/tvnz-duke', Three: 'https://www.threenow.co.nz/live-tv-guide/three',
   Rush: 'https://www.threenow.co.nz/live-tv-guide/rush', Bravo: 'https://www.threenow.co.nz/live-tv-guide/bravo', eden: 'https://www.threenow.co.nz/live-tv-guide/eden', 'Sky Open': 'https://www.threenow.co.nz/live-tv-guide/sky-open', 'Whakaata Māori': 'https://www.maoriplus.co.nz/live' };
 function freeHref(e, f) {
-  if (f === 'YouTube') { const ys = e.yt || []; return (ys.find(x => x.state === 'live') || ys.find(x => x.state === 'upcoming') || ys[ys.length - 1])?.url || ''; }
+  if (f === 'YouTube') { const ys = (e.yt || []).filter(x => !x.prelims); return (ys.find(x => x.state === 'live') || ys.find(x => x.state === 'upcoming') || ys[ys.length - 1])?.url || ''; }
   const m = String(f).match(SVC_RE);
   return FREE_SITE[f] || SERVICES[f] || (m ? SERVICES[m[0]] : '');
 }
@@ -3306,8 +3307,10 @@ function detail(e) {
   // every way to watch, the card's one first, each with what it is and what you need for it
   const opts = watchOptions(e);
   // a free stream on the sport body's own YouTube channel: the live one, else the next to start, else the last (a replay)
-  const yts = e.yt || [], yt = yts.find(x => x.state === 'live') || yts.find(x => x.state === 'upcoming' && new Date(x.at) > now - 6 * 36e5) || yts[yts.length - 1];
-  const ytLi = yt ? `<li class="wopt"><span class="wkind k-free">Free</span><div><b><a class="svc" data-watch="YouTube" href="${esc(yt.url)}" target="_blank" rel="noopener">YouTube</a></b> <span class="muted small">(${esc(yt.ch)})</span><div class="muted small">${yt.state === 'live' ? 'Streaming live now' : yt.state === 'upcoming' ? `Live stream from ${time(new Date(yt.at), NZ)} ${fmt(new Date(yt.at), NZ, { weekday: 'short' })}` : 'Stream replay'}</div></div></li>` : '';
+  // (a fight night's prelims stream on its own line, saying it's only the prelims)
+  const ytPick = yts => yts.find(x => x.state === 'live') || yts.find(x => x.state === 'upcoming' && new Date(x.at) > now - 6 * 36e5) || yts[yts.length - 1];
+  const ytLine = (yt, pre) => yt ? `<li class="wopt"><span class="wkind k-free">${pre ? 'Prelims' : 'Free'}</span><div><b><a class="svc" data-watch="${pre ? 'YouTube prelims' : 'YouTube'}" href="${esc(yt.url)}" target="_blank" rel="noopener">YouTube</a></b> <span class="muted small">(${esc(yt.ch)})</span><div class="muted small">${pre ? 'The prelims only, free. ' : ''}${yt.state === 'live' ? 'Streaming live now' : yt.state === 'upcoming' ? `Live stream from ${time(new Date(yt.at), NZ)} ${fmt(new Date(yt.at), NZ, { weekday: 'short' })}` : 'Stream replay'}</div></div></li>` : '';
+  const ytLi = ytLine(ytPick((e.yt || []).filter(x => !x.prelims))) + ytLine(ytPick((e.yt || []).filter(x => x.prelims)), true);
   // what the TV guide lists for this game (free channels first), each with when its coverage starts
   // the card shows the first live listing when there is one, so that's the one marked
   const onCard = (e.tv || []).find(x => !x.delayed && !(prelimsOnly(e) && freeCh(x.ch)));
