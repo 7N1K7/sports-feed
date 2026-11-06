@@ -1,8 +1,8 @@
-flags300
-200 image/png 536B 80x40 https://flagcdn.com/h40/nz.png
-200 image/png 311B 60x40 https://flagcdn.com/h40/in.png
-200 image/png 107B 67x40 https://flagcdn.com/h40/gb-eng.png
-200 image/png 418B 60x40 https://flagcdn.com/h40/za.png
-200 image/png 2284B 480x240 https://flagcdn.com/h240/nz.png
-200 image/png 6403B 200x200 https://r2.thesportsdb.com/images/media/league/badge/jifczi1773608397.png/small
-site has nowChip: true, tbrand: true
+badges301
+200 24936B lg-4549
+200 29831B lg-4574
+200 22802B lg-4985
+200 6945B lg-5587
+200 8052B lg-5806
+lookup 4985: Pacific Nations Cup | Rugby | https://r2.thesportsdb.com/images/media/league/badge/egbkvq1716567039.png
+lookup 4549: FIBA Basketball World Cup | Basketball | https://r2.thesportsdb.com/images/media/league/badge/x45gjq1764423537.png
