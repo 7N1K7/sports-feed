@@ -1,33 +1,26 @@
-lg294
-Australia/Rugby: 4417 Australian National Rugby Championship | badge | logo
-Australia/Rugby: 4416 Australian National Rugby League | badge | logo
-Australia/Rugby: 5171 Australian Shute Shield | badge | logo
-Australia/Rugby: 5835 State of Origin | badge | logo
-Australia/Rugby: 5701 Super Rugby Aus | badge | -
-New Zealand/Rugby: 5278 New Zealand National Provincial Championship | badge | logo
-World/Rugby: 5854 Asia Rugby Championship | badge | -
-World/Rugby: 5855 Asia Rugby Division 1 | badge | -
-World/Rugby: 5852 Nations Championship | badge | logo
-World/Rugby: 5853 Rugby Africa Cup | badge | logo
-World/Rugby: 5682 Womens Rugby World Cup | badge | logo
-Australia/Soccer: 4620 Australia ACT NPL | badge | logo
-Australia/Soccer: 5013 Australia Brisbane Premier League | badge | logo
-Australia/Soccer: 5180 Australia Cup | badge | logo
-Australia/Soccer: 5011 Australia New South Wales NPL | badge | logo
-Australia/Soccer: 5010 Australia Northern NSW NPL | badge | logo
-England/Soccer: 4570 EFL Cup | badge | logo
-England/Soccer: 4847 EFL Trophy | badge | logo
-England/Soccer: 5225 English Isthmian League North Division | badge | -
-England/Soccer: 4647 English Isthmian League Premier Division | badge | logo
-England/Soccer: 5226 English Isthmian League South Central Division | badge | -
-Australia/Basketball: 4434 Australian NBL | badge | logo
-Australia/Basketball: 5113 Australian WNBL | badge | logo
-Australia/Basketball: 5667 NBL1 Central | badge | -
-Australia/Basketball: 5669 NBL1 East | badge | -
-Australia/Basketball: 5670 NBL1 North | badge | -
-New Zealand/Netball: 4538 New Zealand Netball League | badge | logo
-Australia/Netball: error Unexpected token '<', "<!doctype "... is not valid JSON
-World/Field Hockey: error Unexpected token '<', "<!doctype "... is not valid JSON
-New Zealand/Cricket: error Unexpected token '<', "<!doctype "... is not valid JSON
-Australia/Cricket: error Unexpected token '<', "<!doctype "... is not valid JSON
-World/Cricket: error Unexpected token '<', "<!doctype "... is not valid JSON
+lg295
+4416 Australian National Rugby League (Rugby) | badge | logo
+4551 Super Rugby (Rugby) | badge | logo
+4328 English Premier League (Soccer) | badge | logo
+4387 NBA (Basketball) | badge | logo
+4424 MLB (Baseball) | badge | logo
+4443 UFC (Fighting) | badge | logo
+4356 Australian A-League (Soccer) | badge | logo
+4434 Australian NBL (Basketball) | badge | logo
+4538 New Zealand Netball League (Netball) | badge | logo
+5278 New Zealand National Provincial Championship (Rugby) | badge | logo
+5530 Sheffield Shield (Cricket) | badge | -
+4714 Six Nations Championship (Rugby) | badge | logo
+4574: none
+4986: none
+5113 Australian WNBL (Basketball) | badge | logo
+4429 FIFA World Cup (Soccer) | badge | logo
+4446 United Rugby Championship (Rugby) | badge | logo
+5069 Currie Cup (Rugby) | badge | logo
+4401 French Ligue 2 (Soccer) | badge | logo
+4352: none
+New Zealand/Cricket: 5174 New Zealand Super Smash | badge | -
+Australia/Cricket: 4461 Australian Big Bash League | badge | logo
+Australia/Cricket: 5530 Sheffield Shield | badge | -
+Australia/Netball: 5973 ANZ Championship | badge | -
+Australia/Netball: 4540 Australian Super Netball League | badge | logo
