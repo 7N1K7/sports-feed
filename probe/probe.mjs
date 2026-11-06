@@ -1,8 +1,15 @@
 import { writeFileSync } from 'fs';
-const ITEMS = [["melbourne-renegades", "https://r2.thesportsdb.com/images/media/team/badge/fy0wik1492607045.png/small"], ["sydney-thunder", "https://r2.thesportsdb.com/images/media/team/badge/t0tooq1492606384.png/small"], ["melbourne-stars", "https://r2.thesportsdb.com/images/media/team/badge/l0t7v31715269757.png/small"], ["hobart-hurricanes", "https://r2.thesportsdb.com/images/media/team/badge/vdcla41492606553.png/small"], ["brisbane-heat", "https://r2.thesportsdb.com/images/media/team/badge/6r5cly1492606239.png/small"], ["sydney-sixers", "https://r2.thesportsdb.com/images/media/team/badge/jtkm601492607206.png/small"], ["adelaide-strikers", "https://r2.thesportsdb.com/images/media/team/badge/c36k301492606884.png/small"], ["perth-scorchers", "https://r2.thesportsdb.com/images/media/team/badge/ithlp51546681732.png/small"], ["auckland-aces", "https://r2.thesportsdb.com/images/media/team/badge/gmbyx01705392031.png/small"], ["canterbury", "https://r2.thesportsdb.com/images/media/team/badge/uex7eq1705391931.png/small"], ["central-stags", "https://r2.thesportsdb.com/images/media/team/badge/34lmqg1705391924.png/small"], ["northern-districts", "https://r2.thesportsdb.com/images/media/team/badge/7lnb4g1705391916.png/small"], ["wellington-firebirds", "https://r2.thesportsdb.com/images/media/team/badge/ep5kr31705391899.png/small"], ["otago-volts", "https://r2.thesportsdb.com/images/media/team/badge/am7ce21705391910.png/small"], ["flag-nz", "https://flagcdn.com/h240/nz.png"], ["flag-au", "https://flagcdn.com/h240/au.png"], ["flag-fj", "https://flagcdn.com/h240/fj.png"], ["flag-fr", "https://flagcdn.com/h240/fr.png"], ["flag-ck", "https://flagcdn.com/h240/ck.png"], ["flag-pg", "https://flagcdn.com/h240/pg.png"], ["flag-ws", "https://flagcdn.com/h240/ws.png"], ["flag-lb", "https://flagcdn.com/h240/lb.png"], ["flag-gb-eng", "https://flagcdn.com/h240/gb-eng.png"], ["flag-gb-wls", "https://flagcdn.com/h240/gb-wls.png"], ["flag-gb-sct", "https://flagcdn.com/h240/gb-sct.png"], ["flag-to", "https://flagcdn.com/h240/to.png"], ["flag-ie", "https://flagcdn.com/h240/ie.png"], ["flag-us", "https://flagcdn.com/h240/us.png"], ["flag-it", "https://flagcdn.com/h240/it.png"], ["flag-za", "https://flagcdn.com/h240/za.png"], ["flag-ar", "https://flagcdn.com/h240/ar.png"], ["flag-jp", "https://flagcdn.com/h240/jp.png"]];
-const out = [];
-for (const [n, u] of ITEMS) {
-  try { const r = await fetch(u); if (r.ok) { const buf = Buffer.from(await r.arrayBuffer()); writeFileSync(`probe/out-img-${n}.png`, buf); out.push(`${n} ok ${buf.length}`); } else out.push(`${n} ${r.status}`); } catch (e) { out.push(`${n} err ${String(e.message).slice(0, 60)}`); }
-  await new Promise(r => setTimeout(r, 300));
+const key = process.env.YOUTUBE_API_KEY, out = [];
+const yt = async (p, q) => { const r = await fetch(`https://www.googleapis.com/youtube/v3/${p}?${q}&key=${key}`); return r.ok ? r.json() : { err: r.status }; };
+const v = await yt('videos', 'part=snippet,contentDetails,liveStreamingDetails&id=EPeyvf9G3FQ');
+for (const x of v.items || []) {
+  out.push(`video: ${x.snippet.title} | channel ${x.snippet.channelTitle} ${x.snippet.channelId} | state ${x.snippet.liveBroadcastContent} | live ${JSON.stringify(x.liveStreamingDetails || {})} | region ${JSON.stringify(x.contentDetails?.regionRestriction || {})}`);
+  out.push('desc: ' + (x.snippet.description || '').slice(0, 600).replace(/\n/g, ' / '));
+  // the channel's other recent streams, to see what else it shows
+  const pl = await yt('playlistItems', `part=contentDetails&maxResults=50&playlistId=UU${x.snippet.channelId.slice(2)}`);
+  const ids = (pl.items || []).map(i => i.contentDetails.videoId);
+  const vs = ids.length ? await yt('videos', `part=snippet,liveStreamingDetails&id=${ids.join(',')}`) : { items: [] };
+  for (const s of vs.items || []) if (s.liveStreamingDetails) out.push(`  stream ${s.liveStreamingDetails.actualStartTime || s.liveStreamingDetails.scheduledStartTime} ${s.snippet.liveBroadcastContent} | ${s.snippet.title}`);
 }
-writeFileSync('probe/out.txt', 'imgs291\n' + out.join('\n') + '\n');
+if (v.err) out.push('error ' + v.err);
+writeFileSync('probe/out.txt', 'yt292\n' + out.join('\n').replace(/key=[^&\s]+/g, 'key=X') + '\n');
