@@ -442,9 +442,12 @@ const YT_CHANNELS = [
   ['cricket', 'Rabbitholebd Sports', 'UCNU0Vv6U1xZS82cIQrgDeqw'], ['cricket', 'T Sports', 'UC2t9imwIR7xlDfma3CmRKJQ'],
   // for highlights only (hl): Sky Sport NZ's channel (every sport it shows: '*') and the Big Bash's own
   ['*', 'Sky Sport NZ', 'UC8f1U3h2TAcKOktgonnL0Yw', 'hl'], ['cricket', 'Big Bash', 'UCv5-1Ypl3Adf4uGaR_H0mlg', 'hl'],
+  // the RLWC's own, DAZN's boxing (its free undercard and fight streams count as a way to watch) and DAZN Football's
+  // (mostly European leagues, so few games here; asked only every half hour: slow)
+  ['league', 'RLWC', 'UC_3_k_SqxQWafdAYanYQXdg'], ['boxing', 'DAZN Boxing', 'UCurvRE5fGcdUgCYWgh-BDsg'], ['football', 'DAZN Football', 'UCSZ21xyG8w_33KriMM69IxQ', 'slow'],
 ];
 // streams that name both sides but aren't the game: press conferences, watch-alongs, previews and the like
-const YT_NOT_GAME = /press conference|presser|media (briefing|scrum)|watch ?-?along|reaction|preview|analysis|playing xi|\bchat\b|\bpodcast\b/i;
+const YT_NOT_GAME = /press conference|presser|media (briefing|scrum)|watch ?-?along|reaction|preview|analysis|playing xi|\bchat\b|\bpodcast\b|build-?up|fan ?zone|pre-?(game|match) show|countdown|weigh-?ins?|face-?offs?|open workouts?|ring ?walks?|arrivals|free fight|full fight|replay|\bclassic\b/i;
 // the word a title names a side by: "Central Stags" -> central, "New South Wales" -> new south wales, "NSW" too
 const ytSide = t => { const n = String(t || '').toLowerCase().replace(/\s+women('s)?$/, '').trim();
   const two = /^(new|south|western|northern|north|central|sydney|melbourne|brisbane|perth|adelaide|hobart|papua|cook)\b/.test(n);
@@ -454,11 +457,13 @@ const YT_ALIAS = { 'new south wales': ['nsw'], 'northern districts': ['northern 
   'manchester city': ['man city'], 'manchester united': ['man utd', 'man united'], 'tottenham hotspur': ['spurs'] };
 const YT_HL = /\bhighlights?\b/i;
 const YT_W_TEAMS = ['whiteferns', 'wbbl', 'blacksticksw', 'kiwiferns', 'silverferns', 'tallferns', 'anzprem', 'footballferns'];
-// the names titles use for national sides (Sky Sport NZ's "BLACKCAPS vs India", "Diamonds vs SILVER FERNS"): New
-// Zealand's by the team followed, Australia's by sport, men's then women's
-const YT_NZ_NICK = { blackcaps: ['blackcaps', 'black caps'], whiteferns: ['white ferns'], allwhites: ['all whites'], footballferns: ['football ferns'], kiwis: ['kiwis'],
-  kiwiferns: ['kiwi ferns'], silverferns: ['silver ferns'], blacksticks: ['black sticks'], blacksticksw: ['black sticks'], tallblacks: ['tall blacks'], tallferns: ['tall ferns'] };
-const YT_AU_NICK = { netball: ['diamonds', 'diamonds'], rugby: ['wallabies', 'wallaroos'], league: ['kangaroos', 'jillaroos'], football: ['socceroos', 'matildas'], basketball: ['boomers', 'opals'], hockey: ['kookaburras', 'hockeyroos'] };
+// the names titles use for national sides (Sky Sport NZ's "BLACKCAPS vs India", "Diamonds vs SILVER FERNS", the
+// RLWC's "Kiwi Ferns v Jillaroos"), by sport: the men's, then the women's
+const YT_NICK = {
+  'New Zealand': { cricket: [['blackcaps', 'black caps'], ['white ferns']], rugby: [['all blacks'], ['black ferns']], league: [['kiwis'], ['kiwi ferns']], football: [['all whites'], ['football ferns']],
+    netball: [['silver ferns'], ['silver ferns']], hockey: [['black sticks'], ['black sticks']], basketball: [['tall blacks'], ['tall ferns']] },
+  Australia: { netball: [['diamonds'], ['diamonds']], rugby: [['wallabies'], ['wallaroos']], league: [['kangaroos'], ['jillaroos']], football: [['socceroos'], ['matildas']],
+    basketball: [['boomers'], ['opals']], hockey: [['kookaburras'], ['hockeyroos']] } };
 // a women's title outside cricket (where WOMEN_TITLE has the women's sides' names)
 const W_LINE = /women|football ferns|kiwi ferns|tall ferns|wallaroos|jillaroos|matildas|\bopals\b|hockeyroos|nrlw/i;
 // each sport's own words, for a channel of every sport
@@ -474,9 +479,14 @@ function ytFor(e, sport, v) {
   if ((sport !== '*' && e.sport !== sport) || !e.home || !e.away || e.status === 'cancelled') return false;
   const title = ` ${v.title.toLowerCase()} `, line = `${v.title} ${v.d || ''}`;
   const women = /women/i.test(`${e.comp} ${e.home} ${e.away}`) || YT_W_TEAMS.includes(e.team);
-  const nick = t => { const b = String(t).replace(/\s+Women('s)?$/i, ''); return b === 'New Zealand' ? YT_NZ_NICK[e.team] || [] : b === 'Australia' && YT_AU_NICK[e.sport] ? [YT_AU_NICK[e.sport][+women]] : []; };
-  if (![e.home, e.away].every(t => [...ytNames(t), ...nick(t)].some(n => title.includes(n.endsWith(' ') ? ` ${n}` : n)))) return false;
+  const nick = t => YT_NICK[String(t).replace(/\s+Women('s)?$/i, '')]?.[e.sport]?.[+women] || [];
+  // a fighter by surname, as a word ("Parker vs Wardley")
+  const fighter = t => { const n = String(t).toLowerCase().split(/\s+/).pop().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); return n.length > 2 && new RegExp(`(^|[^a-z])${n}([^a-z]|$)`).test(title); };
+  if (/^(boxing|mma)$/.test(e.sport) ? ![e.home, e.away].every(fighter)
+    : ![e.home, e.away].every(t => [...ytNames(t), ...nick(t)].some(n => title.includes(n.endsWith(' ') ? ` ${n}` : n)))) return false;
   if (lowKey(`${e.comp || ''} ${e.stage || ''}`) !== lowKey(line)) return false;
+  // a wheelchair game's video only for a wheelchair game, and the other way round
+  if (!!v.wc !== /wheelchair/i.test(`${e.comp || ''} ${e.stage || ''} ${e.home} ${e.away}`)) return false;
   // (netball's games here are all women's, whatever the title says)
   return e.sport === 'netball' || (e.sport === 'cricket' ? WOMEN_TITLE : W_LINE).test(line) === women;
 }
@@ -504,15 +514,18 @@ async function youtubeStreams(events) {
         const shut = x => { const r = x.contentDetails?.regionRestriction; return !!r && (r.allowed ? !r.allowed.includes('NZ') : !!r.blocked?.includes('NZ')); };
         // the description's first line when it's a short label, not a sentence or a link ("CASC Toyota Second XI Round 1")
         const line1 = t => { const l = String(t || '').split('\n')[0].trim(); return l.length <= 80 && !/https?:|www\./i.test(l) ? l : ''; };
+        // a wheelchair game's video: the RLWC's titles don't say so ("Scotland v New Zealand | Match Highlights"), but its
+        // sides' names or the description's first line do ("... the New Zealand Wheel Kiwis face off in ... Wheelchair")
+        const wc = x => /wheelchair|\bwheel ?(kiwis|hawks)\b|wheelaroos/i.test(`${x.snippet.title} ${String(x.snippet.description || '').split('\n')[0]}`);
         // (a highlights premiere is a stream too, but not the game)
         streams = (v.items || []).filter(x => x.liveStreamingDetails && !shut(x) && !YT_HL.test(x.snippet.title)).map(x => ({ id: x.id, title: x.snippet.title, state: x.snippet.liveBroadcastContent,
-          at: x.liveStreamingDetails.actualStartTime || x.liveStreamingDetails.scheduledStartTime || '', s: x.liveStreamingDetails.scheduledStartTime || '', d: line1(x.snippet.description) }))
+          at: x.liveStreamingDetails.actualStartTime || x.liveStreamingDetails.scheduledStartTime || '', s: x.liveStreamingDetails.scheduledStartTime || '', d: line1(x.snippet.description), ...(wc(x) ? { wc: true } : {}) }))
           .filter(x => x.at && !YT_NOT_GAME.test(x.title));
         // its highlights videos, up now (not a premiere still to come), for the card's Highlights link
         // (the main package first: "Highlights | Bangladesh vs West Indies | 2nd Test | Day 1" before a clip that says
         // "... Day 1 Highlights"; short clips tagged #shorts are left out)
         hls = (v.items || []).filter(x => YT_HL.test(x.snippet.title) && !/#shorts?\b/i.test(x.snippet.title) && !shut(x) && !/^(live|upcoming)$/.test(x.snippet.liveBroadcastContent) && !YT_NOT_GAME.test(x.snippet.title))
-          .map(x => ({ id: x.id, title: x.snippet.title, at: x.snippet.publishedAt || '', d: line1(x.snippet.description), main: /^\W*highlights?\b/i.test(x.snippet.title) })).filter(x => x.at);
+          .map(x => ({ id: x.id, title: x.snippet.title, at: x.snippet.publishedAt || '', d: line1(x.snippet.description), main: /^\W*highlights?\b/i.test(x.snippet.title), ...(wc(x) ? { wc: true } : {}) })).filter(x => x.at);
         if (only === 'hl') streams = [];
         cache[id] = { t: now, streams, hl: hls };
       }
