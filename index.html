@@ -954,6 +954,14 @@ button.hubres { font-family: inherit; background: transparent; cursor: pointer }
 #weekRange.qhide { visibility: hidden }
 /* a competition that's off in Settings: greyed and dimmed, with a dashed edge (its own colours while its page is open) */
 .qcs .is-off:not([aria-pressed="true"]) { filter: grayscale(1) brightness(.7); border-style: dashed !important; box-shadow: none !important }
+/* its eye, joined to it: puts its games in this sport's list (and the button gets its colours back), or takes them out */
+.qcs .qpair { display: flex; align-items: center; flex: none }
+.qcs .qpair > :first-child { border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important }
+.qcs .qeye { flex: none; height: 25px; width: 26px; box-sizing: border-box; padding: 0; border: 1px dashed #6c757d; border-left: 0; border-radius: 0 999px 999px 0; background: #1a1f1e; color: #adb5bd; display: grid; place-items: center; cursor: pointer }
+.qcs .qt + .qeye { height: 26px; border-radius: 0 8px 8px 0 }
+.qcs .qeye svg { width: 15px; height: 15px }
+.qcs .qeye[aria-pressed="true"] { border-style: solid; border-color: var(--accent); background: var(--accent); color: var(--paper) } .qcs .qeye[aria-pressed="true"] .slash { display: none }
+@media (hover: hover) { .qcs .qeye:hover { color: var(--ink); border-color: var(--muted) } .qcs .qeye[aria-pressed="true"]:hover { color: var(--paper); filter: brightness(1.1) } }
 /* Show here: what's off shows on this sport's page (or this competition's) anyway, and stays out of the main list. Both
    wordings sit in the same spot, so the button keeps its width when tapped */
 .herebtn { display: inline-grid; padding: 3px 8px; font: 600 11px/1 var(--f-body); letter-spacing: 0; text-transform: none; color: var(--ink); background: var(--paper); border: 1px solid var(--muted); border-radius: 999px; cursor: pointer; white-space: nowrap }
@@ -2398,7 +2406,7 @@ const sportPageOnly = x => /Second XI/.test(x.comp || '');
 // a sport whose leagues are off in Settings can show them on its own page anyway: Show here, by the off note on This
 // week's line. They stay out of the main list of every sport (a competition's own page shows its games whatever Settings say)
 let showHere = new Set(store.get('showHere', []));
-const shownHere = x => { const sp = x.sport || sportOf(x.team); return !compSel && showHere.has(sp) && sportSel.has(sp); };
+const shownHere = x => { const sp = x.sport || sportOf(x.team); return !compSel && sportSel.has(sp) && (showHere.has(sp) || showHere.has(x.team)); };
 const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now() ? false : x.startUTC ? (compSel ? compOf(x) === compSel : (!minorOf(x) || (x.session && (sessOn.has(x.team) || sportSel.has(x.sport)))) && (!sportPageOnly(x) || sportSel.has(x.sport)) && (visibleTeam(x) || shownHere(x)) && sportOn(x.sport || sportOf(x.team)))
   : visibleTeam(x) && sportOn(sportOf(x.team));
 
@@ -3896,7 +3904,7 @@ function drawOffNote() {
   for (const n of [$('offWeek'), $('offHub')]) {
     const w = n.parentNode, h = w.lastElementChild;
     let os = n.id === 'offWeek' ? offs.filter(([, k]) => !covered.has(k)) : offs; if (!os.length && left.length) os = offs;
-    h.hidden = n.id === 'offHub' || !!compSel;
+    h.hidden = n.id === 'offHub' || !!compSel || (n.id === 'offWeek' && !offs.filter(([, k]) => !covered.has(k)).length && !left.length);
     w.hidden = !offs.length || (n.id === 'offHub' && !compSel) || (!os.length && h.hidden); if (w.hidden) continue;
     n.hidden = !os.length; if (!os.length) os = offs;
     const [first] = os[0], more = os.length - 1;
@@ -3976,11 +3984,15 @@ function drawWeekComps(now) {
 }
 // one competition's button: the series button (c), or its logo alone (t). A country series is its two flags; one with no
 // logo, its short name (WBBL) or initials
+const EYE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="slash" d="M4 20 20 4"/></svg>';
 function weekComp(x, kind) {
   const h = weekComp1(x, kind); if (!x.off) return h;
-  const name = esc(plural(x.c)), al = ` aria-label="${name}, off in Settings"`;
-  const m = h.replace(' nowchip ', ' nowchip is-off ').replace('class="qt"', 'class="qt is-off"').replace(/ title="[^"]*"/, ` title="${name}: off in Settings. Tap for its page"`);
-  return / aria-label="/.test(m) ? m.replace(/ aria-label="[^"]*"/, al) : m.replace(' title="', `${al} title="`);
+  const name = esc(plural(x.c)), al = ` aria-label="${name}, off in Settings"`, sport = esc((SPORT_CHIPS.find(([k]) => k === x.sport) || [, x.sport])[1]);
+  const here = [...x.keys].every(k => showHere.has(k) || showHere.has(x.sport));
+  let m = h.replace(/^<button type="button" class="/, `<button type="button" data-off="1" class="${here ? '' : 'is-off '}`).replace(/ title="[^"]*"/, ` title="${name}: off in Settings. Tap for its page"`);
+  m = / aria-label="/.test(m) ? m.replace(/ aria-label="[^"]*"/, al) : m.replace(' title="', `${al} title="`);
+  const tip = here ? `Showing the ${name}'s games in ${sport}'s list. Tap to hide them again` : `Show the ${name}'s games in ${sport}'s list (it stays off everywhere else)`;
+  return `<span class="qpair">${m}<button type="button" class="qeye" data-hereteams="${esc([...x.keys].join(' '))}" data-heresp="${esc(x.sport)}" aria-pressed="${here}" title="${tip}" aria-label="${tip}">${EYE}</button></span>`;
 }
 function weekComp1(x, kind) {
   const sel = compSel === x.c;
@@ -4632,6 +4644,11 @@ document.addEventListener('click', ev => {
     keys.forEach(k => on ? picked.delete(k) : picked.add(k)); count({ e: on ? 'hidesport' : 'showsport', k: t.dataset.gsports.split(' ')[0] }); store.set('teams', [...picked]); render(); return;
   }
   if (t.dataset.tocomp) { count({ e: 'use', k: t.dataset.totab ? 'Sessions tab from race' : 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = t.dataset.totab || 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
+  if (t.dataset.hereteams != null) { const ks = t.dataset.hereteams.split(' ').filter(Boolean), sp = t.dataset.heresp, on = t.getAttribute('aria-pressed') === 'true';
+    if (on && showHere.has(sp)) { showHere.delete(sp); (SPORT[sp] || []).filter(k => !picked.has(k)).forEach(k => showHere.add(k)); }
+    ks.forEach(k => on ? showHere.delete(k) : showHere.add(k));
+    store.set('showHere', [...showHere]); use(on ? 'This week eye: hidden again' : 'This week eye: shown here');
+    const y0 = t.getBoundingClientRect().top; render(); keepAt($('weekComps'), y0); return; }
   if (t.dataset.here) { const ss = t.dataset.here.split(' '), on = ss.every(sp => showHere.has(sp)); ss.forEach(sp => on ? showHere.delete(sp) : showHere.add(sp));
     store.set('showHere', [...showHere]); use(on ? 'Hide hidden league here' : 'Show hidden league here');
     // games come and go above This week's line (live now, starting soon), so the page scrolls with it: the button stays under
@@ -4671,7 +4688,7 @@ document.addEventListener('click', ev => {
   else if (t.dataset.jump) { if (!t.classList.contains('dayclose')) count({ e: 'use', k: 'Day in the week strip' }); selDay = selDay === t.dataset.jump || t.dataset.jump === dayKey(new Date()) ? '' : t.dataset.jump; drawDayPick(); }
   else if (t.dataset.bigcomp) {
     const wk = !!t.closest('#weekComps'), again = compSel === t.dataset.bigcomp && (wk || t.classList.contains('nowchip'));
-    count({ e: 'use', k: wk ? (t.classList.contains('is-off') ? 'This week off competition button' : 'This week competition button') : t.classList.contains('nowchip') ? 'Series row chip' : t.classList.contains('runev') ? 'Running now tile' : 'Events ahead tile' });
+    count({ e: 'use', k: wk ? (t.dataset.off ? 'This week off competition button' : 'This week competition button') : t.classList.contains('nowchip') ? 'Series row chip' : t.classList.contains('runev') ? 'Running now tile' : 'Events ahead tile' });
     // a series that has just finished opens on its results
     compSel = again ? '' : t.dataset.bigcomp; hubTab = endedComps.has(compSel) ? 'results' : 'games'; store.set('comp', compSel); render();
     if (wk || !t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
