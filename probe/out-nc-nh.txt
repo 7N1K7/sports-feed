@@ -1,0 +1,1250 @@
+{{Short description|International rugby union tournament}}
+{{main|2026 Nations Championship}}
+The '''2026 Nations Championship Northern Hemisphere Series''' will be the second phase of matches (rounds 4–6) in the inaugural edition of the [[Nations Championship]], a biennial international men's [[rugby union]] competition between the [[Six Nations Championship|Six Nations]] sides, [[SANZAAR]], [[Fiji national rugby union team|Fiji]] and [[Japan national rugby union team|Japan]].<ref name="SixNations">{{cite web |title=Hemispheres collide and rugby's future redefined with 2026 Nations Championship |url=https://www.sixnationsrugby.com/en/autumn-nations-series/news/nations-champions-launch-2026 |website=Six Nations Rugby |access-date=19 November 2025}}</ref><ref name="BBC">{{Cite web |last=Henson |first=Mike |date=17 November 2025 |title=Nations Championship to feature north v south hemisphere contest |url=https://www.bbc.co.uk/sport/rugby-union/articles/c0rpl9v1ly5o |access-date=17 November 2025 |website=BBC Sport}}</ref>
+
+The Northern Hemisphere Series will take place between 6 November and 21 November, during the [[End-of-year rugby union internationals|November International window]]. The matches replaces the traditional tours between the travelling SANZAAR, the leading Tier 2 nations in the Pacific Islands and Japan, and the Six Nation sides.
+
+==Championship division: Tables==
+The below shows the tables for the two conferences.
+
+===Southern Hemisphere ===
+{{excerpt|2026 Nations Championship|Southern Hemisphere}}
+
+===Northern Hemisphere===
+{{excerpt|2026 Nations Championship|Northern Hemisphere}}
+
+==Fixtures==
+Northern Hemisphere teams will host all the matches.<ref name="BBC"/><ref name="SixNations"/>
+
+===Round 4===
+====Ireland v Argentina====
+{{rugbybox
+|id = Ireland v Argentina
+|date = 6 November 2026
+|time = 20:10 [[Greenwich Mean Time|GMT]] ([[UTC+0]])
+|team1 = {{ru-rt|IRE}}
+|score =
+|report =
+|team2 = {{ru|ARG}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Aviva Stadium]], [[Dublin]]
+|attendance =
+|referee = [[Luke Pearce]] ([[Rugby Football Union|England]])
+}}
+{| style="width:100%"
+|-
+|style="vertical-align:top;width:50%"|
+{| cellspacing="0" cellpadding="0"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Hugo Keenan]]
+|-
+|RW ||'''14'''||[[Robert Baloucoune]]
+|-
+|OC ||'''13'''||[[Robbie Henshaw]]
+|-
+|IC ||'''12'''||[[Stuart McCloskey]]
+|-
+|LW ||'''11'''||[[Mack Hansen]]
+|-
+|FH ||'''10'''||[[Sam Prendergast]]
+|-
+|SH ||'''9''' ||[[Craig Casey]]
+|-
+|N8 ||'''8''' ||[[Sean Jansen]]
+|-
+|OF ||'''7''' ||[[Nick Timoney]]
+|-
+|BF ||'''6''' ||[[Ryan Baird]]
+|-
+|RL ||'''5''' ||[[Tadhg Beirne]]
+|-
+|LL ||'''4''' ||[[Joe McCarthy (rugby union)|Joe McCarthy]]
+|-
+|TP ||'''3''' ||[[Tadhg Furlong]]
+|-
+|HK ||'''2''' ||[[Dan Sheehan (rugby union)|Dan Sheehan]] ([[Captain (sports)|c]])
+|-
+|LP ||'''1''' ||[[Andrew Porter (rugby union)|Andrew Porter]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Rónan Kelleher]]
+|-
+|PR ||'''17'''||[[Tom O'Toole (rugby union)|Tom O'Toole]]
+|-
+|PR ||'''18'''||[[Sam Illo]]
+|-
+|LK ||'''19'''||[[James Ryan (rugby union, born 1996)|James Ryan]]
+|-
+|BR ||'''20'''||[[Josh van der Flier]]
+|-
+|SH ||'''21'''||[[Jamison Gibson-Park]]
+|-
+|FH ||'''22'''||[[Ciarán Frawley]]
+|-
+|CE ||'''23'''||[[Bundee Aki]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|ENG}} [[Andy Farrell]]
+|}
+|valign="top" width="50%"|
+{| cellspacing="0" cellpadding="0" style="margin:auto"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Juan Cruz Mallía]]
+|-
+|RW ||'''14'''||[[Bautista Delguy]]
+|-
+|OC ||'''13'''||[[Justo Piccardo]]
+|-
+|IC ||'''12'''||[[Santiago Chocobares]]
+|-
+|LW ||'''11'''||[[Mateo Carreras]]
+|-
+|FH ||'''10'''||[[Tomás Albornoz]]
+|-
+|SH ||'''9''' ||[[Gonzalo García (rugby union, born 1999)|Gonzalo García]]
+|-
+|N8 ||'''8''' ||[[Pablo Matera]]
+|-
+|OF ||'''7''' ||[[Marcos Kremer]]
+|-
+|BF ||'''6''' ||[[Juan Martín González]]
+|-
+|RL ||'''5''' ||[[Pedro Rubiolo]]
+|-
+|LL ||'''4''' ||[[Guido Petti]]
+|-
+|TP ||'''3''' ||[[Francisco Moreno (rugby union)|Francisco Moreno]]
+|-
+|HK ||'''2''' ||[[Julián Montoya]] ([[Captain (sports)|c]])
+|-
+|LP ||'''1''' ||[[Boris Wenger]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Leonel Oviedo]]
+|-
+|PR ||'''17'''||[[Mayco Vivas]]
+|-
+|PR ||'''18'''||[[Joel Sclavi]]
+|-
+|LK ||'''19'''||[[Efraín Elías]]
+|-
+|BR ||'''20'''||[[Juan Martín Scelzo]]
+|-
+|SH ||'''21'''||[[Simón Benítez Cruz]]
+|-
+|FH ||'''22'''||[[Gerónimo Prisciantelli]]
+|-
+|CE ||'''23'''||[[Lucio Cinti]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|ARG}} [[Felipe Contepomi]]
+|}
+|}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Hollie Davidson]] ([[Scottish Rugby Union|Scotland]])
+<br />[[Morné Ferreira]] ([[South African Rugby Union|South Africa]])
+<br />'''Television match official:'''
+<br />Andrew Jackson ([[Rugby Football Union|England]])
+<br />'''Foul play review officer:'''
+<br />Matteo Liperini ([[Italian Rugby Federation|Italy]])
+|}
+
+====Italy v South Africa====
+{{rugbybox
+|id = Italy v South Africa
+|date = 7 November 2026
+|time = 12:40 [[Central European Time|CET]] ([[UTC+1]])
+|team1 = {{ru-rt|ITA}}
+|score =
+|report =
+|team2 = {{ru|RSA}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Juventus Stadium]], [[Turin]]
+|attendance =
+|referee = [[Eoghan Cross]] ([[Irish Rugby Football Union|Ireland]])
+}}
+{| style="width:100%"
+|-
+|style="vertical-align:top;width:50%"|
+{| cellspacing="0" cellpadding="0"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Mirko Belloni]]
+|-
+|RW ||'''14'''||[[Ange Capuozzo]]
+|-
+|OC ||'''13'''||[[Paolo Odogwu]]
+|-
+|IC ||'''12'''||[[Leonardo Marin]]
+|-
+|LW ||'''11'''||[[Monty Ioane]]
+|-
+|FH ||'''10'''||[[Paolo Garbisi]]
+|-
+|SH ||'''9''' ||[[Alessandro Fusco]]
+|-
+|N8 ||'''8''' ||[[Lorenzo Cannone]]
+|-
+|OF ||'''7''' ||[[Samuele Locatelli]]
+|-
+|BF ||'''6''' ||[[Alessandro Ortombina]]
+|-
+|RL ||'''5''' ||[[Federico Ruzza]]
+|-
+|LL ||'''4''' ||[[Niccolò Cannone]]
+|-
+|TP ||'''3''' ||[[Simone Ferrari (rugby union)|Simone Ferrari]]
+|-
+|HK ||'''2''' ||[[Giacomo Nicotera]] ([[Captain (sports)|c]])
+|-
+|LP ||'''1''' ||[[Muhamed Hasa]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Tommaso Di Bartolomeo]]
+|-
+|PR ||'''17'''||[[Danilo Fischetti]]
+|-
+|PR ||'''18'''||[[Ion Neculai]]
+|-
+|LK ||'''19'''||[[Enoch Opoku-Gyamfi]]
+|-
+|BR ||'''20'''||[[Ross Vintcent]]
+|-
+|BR ||'''21'''||[[Manuel Zuliani]]
+|-
+|SH ||'''22'''||[[Stephen Varney]]
+|-
+|FH ||'''23'''||[[Tommaso Allan]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|ARG}} [[Gonzalo Quesada]]
+|}
+|valign="top" width="50%"|
+{| cellspacing="0" cellpadding="0" style="margin:auto"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Damian Willemse]]
+|- 
+|RW ||'''14'''||[[Kurt-Lee Arendse]]
+|-
+|OC ||'''13'''||[[Jesse Kriel]]
+|-
+|IC ||'''12'''||[[Damian de Allende]]
+|-
+|LW ||'''11'''||[[Ethan Hooker]]
+|-
+|FH ||'''10'''||[[Sacha Feinberg-Mngomezulu]]
+|-
+|SH ||'''9''' ||[[Morné van den Berg]]
+|-
+|N8 ||'''8''' ||[[Jasper Wiese]]
+|-
+|BF ||'''7''' ||[[Pieter-Steph du Toit]]
+|-
+|OF ||'''6''' ||[[Siya Kolisi]] ([[Captain (sports)|c]])
+|-
+|RL ||'''5''' ||[[Ruan Nortjé]]
+|-
+|LL ||'''4''' ||[[Salmaan Moerat]]
+|-
+|TP ||'''3''' ||[[Thomas du Toit]]
+|-
+|HK ||'''2''' ||[[Malcolm Marx]]
+|-
+|LP ||'''1''' ||[[Ox Nché]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Jan-Hendrik Wessels]]
+|-
+|PR ||'''17'''||[[Gerhard Steenekamp]]
+|-
+|PR ||'''18'''||[[Wilco Louw]]
+|-
+|LK ||'''19'''||[[Lood de Jager]]
+|-
+|BR ||'''20'''||[[Cameron Hanekom]]
+|-
+|BR ||'''21'''||[[Paul de Villiers]]
+|-
+|SH ||'''22'''||[[Grant Williams (rugby union)|Grant Williams]]
+|-
+|FH ||'''23'''||[[Manie Libbok]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|RSA}} [[Rassie Erasmus]]
+|}
+|}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[James Doleman]] ([[New Zealand Rugby|New Zealand]])
+<br />[[Sam Grove-White]] ([[Scottish Rugby Union|Scotland]])
+<br />'''Television match official:'''
+<br />Brett Cronan ([[Rugby Australia|Australia]])
+<br />'''Foul play review officer:'''
+<br />[[Mike Adamson (rugby union)|Mike Adamson]] ([[Scottish Rugby Union|Scotland]])
+|}
+
+====Scotland v New Zealand====
+{{rugbybox
+|id = Scotland v New Zealand
+|date = 7 November 2026
+|time = 14:10 [[Greenwich Mean Time|GMT]] ([[UTC+0]])
+|team1 = {{ru-rt|SCO}}
+|score =
+|report =
+|team2 = {{ru|NZL}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Murrayfield Stadium]], [[Edinburgh]]
+|attendance =
+|referee = [[Andrew Brace]] ([[Irish Rugby Football Union|Ireland]])
+}}
+{| style="width:100%"
+|-
+|style="vertical-align:top;width:50%"|
+{| cellspacing="0" cellpadding="0"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Kyle Rowe]]
+|-
+|RW ||'''14'''||[[Kyle Steyn]]
+|-
+|OC ||'''13'''||[[Huw Jones (rugby union)|Huw Jones]]
+|-
+|IC ||'''12'''||[[Sione Tuipulotu (rugby union, born February 1997)|Sione Tuipulotu]] ([[Captain (sports)|c]])
+|-
+|LW ||'''11'''||[[Jamie Dobie]]
+|-
+|FH ||'''10'''||[[Finn Russell]]
+|-
+|SH ||'''9''' ||[[Ben White (rugby union, born 1998)|Ben White]]
+|-
+|N8 ||'''8''' ||[[Jack Dempsey (rugby union)|Jack Dempsey]]
+|-
+|OF ||'''7''' ||[[Rory Darge]]
+|-
+|BF ||'''6''' ||[[Matt Fagerson]]
+|-
+|RL ||'''5''' ||[[Scott Cummings (rugby union)|Scott Cummings]]
+|-
+|LL ||'''4''' ||[[Gregor Brown]]
+|-
+|TP ||'''3''' ||[[Zander Fagerson]]
+|-
+|HK ||'''2''' ||[[Ewan Ashman]]
+|-
+|LP ||'''1''' ||[[Rory Sutherland (rugby union)|Rory Sutherland]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Gregor Hiddleston]]
+|-
+|PR ||'''17'''||[[Pierre Schoeman]]
+|-
+|PR ||'''18'''||[[Will Hurd (rugby union)|Will Hurd]]
+|-
+|LK ||'''19'''||[[Max Williamson]]
+|-
+|BR ||'''20'''||[[Josh Bayliss]]
+|-
+|SH ||'''21'''||[[George Horne (rugby union)|George Horne]]
+|-
+|FH ||'''22'''||[[Tom Jordan (rugby union)|Tom Jordan]]
+|-
+|FB ||'''23'''||[[Blair Kinghorn]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|SCO}} [[Gregor Townsend]]
+|}
+|valign="top" width="50%"|
+{| cellspacing="0" cellpadding="0" style="margin:auto"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Beauden Barrett]]
+|- 
+|RW ||'''14'''||[[Will Jordan (rugby union)|Will Jordan]]
+|-
+|OC ||'''13'''||[[Quinn Tupaea]]
+|-
+|IC ||'''12'''||[[Jordie Barrett]]
+|-
+|LW ||'''11'''||[[Josh Moorby]]
+|-
+|FH ||'''10'''||[[Damian McKenzie]]
+|-
+|SH ||'''9''' ||[[Cam Roigard]]
+|-
+|N8 ||'''8''' ||[[Wallace Sititi]]
+|-
+|OF ||'''7''' ||[[Peter Lakai]]
+|-
+|BF ||'''6''' ||[[Tupou Vaa'i]]
+|-
+|RL ||'''5''' ||[[Fabian Holland (rugby union)|Fabian Holland]]
+|-
+|LL ||'''4''' ||[[Scott Barrett (rugby union)|Scott Barrett]]
+|-
+|TP ||'''3''' ||[[Fletcher Newell]]
+|-
+|HK ||'''2''' ||[[Codie Taylor]] ([[Captain (sports)|c]])
+|-
+|LP ||'''1''' ||[[Ethan de Groot]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Asafo Aumua]]
+|-
+|PR ||'''17'''||[[George Bower (rugby union)|George Bower]]
+|-
+|PR ||'''18'''||[[Pasilio Tosi]]
+|-
+|BR ||'''19'''||[[Christian Lio-Willie]]
+|-
+|BR ||'''20'''||[[Anton Segner]]
+|-
+|SH ||'''21'''||[[Cortez Ratima]]
+|-
+|CE ||'''22'''||[[Timoci Tavatavanawai]]
+|-
+|WG ||'''23'''||[[Rieko Ioane]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|NZL}} [[Dave Rennie]]
+|}
+|}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Andrea Piardi]] ([[Italian Rugby Federation|Italy]])
+<br />[[Jordan Way]] ([[Rugby Australia|Australia]])
+<br />'''Television match official:'''
+<br />Olly Hodges ([[Irish Rugby Football Union|Ireland]])
+<br />'''Foul play review officer:'''
+<br />[[Marius van der Westhuizen]] ([[South African Rugby Union|South Africa]])
+|}
+
+====Wales v Japan====
+{{rugbybox
+|id = Wales v Japan
+|date = 7 November 2026
+|time = 16:40 [[Greenwich Mean Time|GMT]] ([[UTC+0]])
+|team1 = {{ru-rt|WAL}}
+|score =
+|report =
+|team2 = {{ru|JPN}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Millennium Stadium]], [[Cardiff]]
+|attendance =
+|referee = [[Paul Williams (rugby union referee)|Paul Williams]] ([[New Zealand Rugby|New Zealand]])
+}}
+{| style="width:100%"
+|-
+|style="vertical-align:top;width:50%"|
+{| cellspacing="0" cellpadding="0"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Blair Murray]]
+|-
+|RW ||'''14'''||[[Louis Rees-Zammit]]
+|-
+|OC ||'''13'''||[[Eddie James (rugby union)|Eddie James]]
+|-
+|IC ||'''12'''||[[Max Llewellyn (rugby union)|Max Llewellyn]]
+|-
+|LW ||'''11'''||[[Josh Adams (rugby union)|Josh Adams]]
+|-
+|FH ||'''10'''||[[Sam Costelow]]
+|-
+|SH ||'''9''' ||[[Tomos Williams]]
+|-
+|N8 ||'''8''' ||[[Aaron Wainwright]]
+|-
+|OF ||'''7''' ||[[Jac Morgan]]
+|-
+|BF ||'''6''' ||[[Alex Mann (rugby union)|Alex Mann]]
+|-
+|RL ||'''5''' ||[[Ben Carter (rugby union)|Ben Carter]]
+|-
+|LL ||'''4''' ||[[Dafydd Jenkins (rugby union)|Dafydd Jenkins]]
+|-
+|TP ||'''3''' ||[[Archie Griffin (rugby union)|Archie Griffin]]
+|-
+|HK ||'''2''' ||[[Dewi Lake]] ([[Captain (sports)|c]])
+|-
+|LP ||'''1''' ||[[Nicky Smith (rugby union)|Nicky Smith]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Ryan Elias]]
+|-
+|PR ||'''17'''||[[Rhys Carré]]
+|-
+|PR ||'''18'''||[[Tomas Francis]]
+|-
+|LK ||'''19'''||[[Teddy Williams (rugby union)|Teddy Williams]]
+|-
+|BR ||'''20'''||[[James Botham]]
+|-
+|SH ||'''21'''||[[Reuben Morgan-Williams]]
+|-
+|FH ||'''22'''||[[Dan Edwards (rugby union)|Dan Edwards]]
+|-
+|CE ||'''23'''||[[Louie Hennessey]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|WAL}} [[Steve Tandy]]
+|}
+|valign="top" width="50%"|
+{| cellspacing="0" cellpadding="0" style="margin:auto"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Kazuma Ueda]]
+|- 
+|RW ||'''14'''||[[Kippei Ishida]]
+|-
+|OC ||'''13'''||[[Dylan Riley (rugby union)|Dylan Riley]]
+|-
+|IC ||'''12'''||[[Samisoni Tua]]
+|-
+|LW ||'''11'''||[[Inoke Burua]]
+|-
+|FH ||'''10'''||[[Riku Kitahara]]
+|-
+|SH ||'''9''' ||[[Naoto Saitō]]
+|-
+|N8 ||'''8''' ||[[Jack Cornelsen]]
+|-
+|OF ||'''7''' ||[[Kanji Shimokawa]]
+|-
+|BF ||'''6''' ||[[Ben Gunter]]
+|-
+|RL ||'''5''' ||[[Warner Dearns]] ([[Captain (sports)|c]])
+|-
+|LL ||'''4''' ||[[Harry Hockings]]
+|-
+|TP ||'''3''' ||[[Shuhei Takeuchi]]
+|-
+|HK ||'''2''' ||[[Mamoru Harada]]
+|-
+|LP ||'''1''' ||[[Yota Kamimori]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|PR ||'''16'''||[[Kenji Sato (rugby union)|Kenji Sato]]
+|-
+|HK ||'''17'''||[[Sojiro Otsuka]]
+|-
+|PR ||'''18'''||[[Opeti Helu]]
+|-
+|LK ||'''19'''||[[Michael Stolberg]]
+|-
+|BR ||'''20'''||[[Tiennan Costley]]
+|-
+|SH ||'''21'''||[[Kenta Fukuda]]
+|-
+|FH ||'''22'''||[[Shinya Komura]]
+|-
+|CE ||'''23'''||[[Chisu Lee]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|AUS}} [[Eddie Jones (rugby union)|Eddie Jones]]
+|}
+|}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Christophe Ridley]] ([[Rugby Football Union|England]])
+<br />[[Angus Mabey]] ([[New Zealand Rugby|New Zealand]])
+<br />'''Television match official:'''
+<br />Glenn Newman ([[New Zealand Rugby|New Zealand]])
+<br />'''Foul play review officer:'''
+<br />Eric Gauzins ([[French Rugby Federation|France]])
+|}
+
+====France v Fiji====
+{{rugbybox
+|id = France v Fiji
+|date = 7 November 2026
+|time = 21:10 [[Central European Time|CET]] ([[UTC+1]])
+|team1 = {{ru-rt|FRA}}
+|score =
+|report =
+|team2 = {{ru|FIJ}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Parc Olympique Lyonnais]], [[Lyon]]
+|attendance =
+|referee = [[Karl Dickson]] ([[Rugby Football Union|England]])
+}}
+{| style="width:100%"
+|-
+|style="vertical-align:top;width:50%"|
+{| cellspacing="0" cellpadding="0"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Théo Attissogbe]]
+|-
+|RW ||'''14'''||[[Aaron Grandidier-Nkanang]]
+|-
+|OC ||'''13'''||[[Kalvin Gourgues]]
+|-
+|IC ||'''12'''||[[Yoram Moefana]]
+|-
+|LW ||'''11'''||[[Louis Bielle-Biarrey]]
+|-
+|FH ||'''10'''||[[Romain Ntamack]]
+|-
+|SH ||'''9''' ||[[Antoine Dupont]] ([[Captain (sports)|c]])
+|-
+|N8 ||'''8''' ||[[François Cros]]
+|-
+|OF ||'''7''' ||[[Paul Boudehent]]
+|-
+|BF ||'''6''' ||[[Cameron Woki]]
+|-
+|RL ||'''5''' ||[[Mickaël Guillard]]
+|-
+|LL ||'''4''' ||[[Florian Verhaeghe]]
+|-
+|TP ||'''3''' ||[[Sipili Falatea]]
+|-
+|HK ||'''2''' ||[[Maxime Lamothe]]
+|-
+|LP ||'''1''' ||[[Jean-Baptiste Gros]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Peato Mauvaka]]
+|-
+|PR ||'''17'''||[[Jefferson Poirot]]
+|-
+|PR ||'''18'''||[[Régis Montagne]]
+|-
+|BR ||'''19'''||[[Charles Ollivon]]
+|-
+|LK ||'''20'''||[[Tom Staniforth]]
+|-
+|BR ||'''21'''||[[Esteban Capilla]]
+|-
+|SH ||'''22'''||[[Maxime Lucu]]
+|-
+|CE ||'''23'''||[[Émilien Gailleton]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|FRA}} [[Fabien Galthié]]
+|}
+|valign="top" width="50%"|
+{| cellspacing="0" cellpadding="0" style="margin:auto"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Salesi Rayasi]]
+|-
+|RW ||'''14'''||[[Selestino Ravutaumada]]
+|-
+|OC ||'''13'''||[[Iosefo Masi]]
+|-
+|IC ||'''12'''||[[Vinaya Habosi]]
+|-
+|LW ||'''11'''||[[Jiuta Wainiqolo]]
+|-
+|FH ||'''10'''||[[Isikeli Rabitu]]
+|-
+|SH ||'''9''' ||[[Simione Kuruvoli (rugby union)|Simione Kuruvoli]]
+|-
+|N8 ||'''8''' ||[[Nathan Hughes]]
+|-
+|OF ||'''7''' ||[[Kitione Salawa Jr.]]
+|-
+|BF ||'''6''' ||[[Pita Gus Sowakula]]
+|-
+|RL ||'''5''' ||[[Isoa Nasilasila]]
+|-
+|LL ||'''4''' ||[[Mesake Vocevoce]]
+|-
+|TP ||'''3''' ||[[Luke Tagi]]
+|-
+|HK ||'''2''' ||[[Tevita Ikanivere]] ([[Captain (sports)|c]])
+|-
+|LP ||'''1''' ||[[Eroni Mawi]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Zuriel Togiatama]]
+|-
+|PR ||'''17'''||[[Peni Ravai]]
+|-
+|PR ||'''18'''||[[Inoke Ravuiwasa]]
+|-
+|BR ||'''19'''||[[Peceli Yato]]
+|-
+|BR ||'''20'''||[[Peceli Yato]]
+|-
+|SH ||'''21'''||[[Frank Lomani]]
+|-
+|FH ||'''22'''||[[Ben Volavola]]
+|-
+|CE ||'''23'''||[[Sireli Maqala]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|RSA}} [[Jake White]]
+|}
+|}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Damián Schneider]] ([[Argentine Rugby Union|Argentina]])
+<br />[[Katsuki Furuse]] ([[Japan Rugby Football Union|Japan]])
+<br />'''Television match official:'''
+<br />Ian Tempest ([[Rugby Football Union|England]])
+<br />'''Foul play review officer:'''
+<br />Leo Colgan ([[Irish Rugby Football Union|Ireland]])
+|}
+
+====England v Australia====
+{{rugbybox
+|id = England v Australia
+|date = 8 November 2026
+|time = 15:10 [[Greenwich Mean Time|GMT]] ([[UTC+0]])
+|team1 = {{ru-rt|ENG}}
+|score =
+|report =
+|team2 = {{ru|AUS}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Twickenham Stadium]], [[London]]
+|attendance =
+|referee = [[Pierre Brousset]] ([[French Rugby Federation|France]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Nika Amashukeli]] ([[Georgian Rugby Union|Georgia]])
+<br />Jérémy Rozier ([[French Rugby Federation|France]])
+<br />'''Television match official:'''
+<br />[[Tual Trainini]] ([[French Rugby Federation|France]])
+<br />'''Foul play review officer:'''
+<br />Matteo Liperini ([[Italian Rugby Federation|Italy]])
+|}
+
+===Round 5===
+====France v South Africa====
+{{rugbybox
+|id = France v South Africa
+|date = 13 November 2026
+|time = 21:10 [[Central European Time|CET]] ([[UTC+1]])
+|team1 = {{ru-rt|FRA}}
+|score =
+|report =
+|team2 = {{ru|RSA}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Stade de France]], [[Paris]]
+|attendance =
+|referee = [[Andrea Piardi]] ([[Italian Rugby Federation|Italy]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Christophe Ridley]] ([[Rugby Football Union|England]])
+<br />[[Gianluca Gnecchi]] ([[Italian Rugby Federation|Italy]])
+<br />'''Television match official:'''
+<br />Matteo Liperini ([[Italian Rugby Federation|Italy]])
+<br />'''Foul play review officer:'''
+<br />Andrew Jackson ([[Rugby Football Union|England]])
+|}
+
+====Italy v Argentina====
+{{rugbybox
+|id = Italy v Argentina
+|date = 14 November 2026
+|time = 12:40 [[Central European Time|CET]] ([[UTC+1]])
+|team1 = {{ru-rt|ITA}}
+|score =
+|report =
+|team2 = {{ru|ARG}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Stadio Luigi Ferraris]], [[Genoa]]
+|attendance =
+|referee = [[Nika Amashukeli]] ([[Georgian Rugby Union|Georgia]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Karl Dickson]] ([[Rugby Football Union|England]])
+<br />[[Morné Ferreira]] ([[South African Rugby Union|South Africa]])
+<br />'''Television match official:'''
+<br />Olly Hodges ([[Irish Rugby Football Union|Ireland]])
+<br />'''Foul play review officer:'''
+<br />Ian Tempest ([[Rugby Football Union|England]])
+|}
+
+====Wales v New Zealand====
+{{rugbybox
+|id = Wales v New Zealand
+|date = 14 November 2026
+|time = 14:10 [[Greenwich Mean Time|GMT]] ([[UTC+0]])
+|team1 = {{ru-rt|WAL}}
+|score =
+|report =
+|team2 = {{ru|NZL}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Millennium Stadium]], [[Cardiff]]
+|attendance =
+|referee = [[Pierre Brousset]] ([[French Rugby Federation|France]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Nic Berry]] ([[Rugby Australia|Australia]])
+<br />[[Luc Ramos]] ([[French Rugby Federation|France]])
+<br />'''Television match official:'''
+<br />[[Tual Trainini]] ([[French Rugby Federation|France]])
+<br />'''Foul play review officer:'''
+<br />Leo Colgan ([[Irish Rugby Football Union|Ireland]])
+|}
+
+====England v Japan====
+{{rugbybox
+|id = England v Japan
+|date = 14 November 2026
+|time = 16:40 [[Greenwich Mean Time|GMT]] ([[UTC+0]])
+|team1 = {{ru-rt|ENG}}
+|score =
+|report =
+|team2 = {{ru|JPN}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Twickenham Stadium]], [[London]]
+|attendance =
+|referee = [[Damián Schneider]] ([[Argentine Rugby Union|Argentina]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Ben O'Keeffe]] ([[New Zealand Rugby|New Zealand]])
+<br />[[Craig Evans (rugby union referee)|Craig Evans]] ([[Welsh Rugby Union|Wales]])
+<br />'''Television match official:'''
+<br />[[Marius van der Westhuizen]] ([[South African Rugby Union|South Africa]])
+<br />'''Foul play review officer:'''
+<br />Aled Griffiths ([[Welsh Rugby Union|Wales]])
+|}
+
+====Ireland v Fiji====
+{{rugbybox
+|id = Ireland v Fiji
+|date = 14 November 2026
+|time = 20:10 [[Greenwich Mean Time|GMT]] ([[UTC+0]])
+|team1 = {{ru-rt|IRE}}
+|score =
+|report =
+|team2 = {{ru|FIJ}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Aviva Stadium]], [[Dublin]]
+|attendance =
+|referee = [[Angus Gardner]] ([[Rugby Australia|Australia]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Luke Pearce]] ([[Rugby Football Union|England]])
+<br />[[Damon Murphy]] ([[Rugby Australia|Australia]])
+<br />'''Television match official:'''
+<br />[[Mike Adamson (rugby union)|Mike Adamson]] ([[Scottish Rugby Union|Scotland]])
+<br />'''Foul play review officer:'''
+<br />Eric Gauzins ([[French Rugby Federation|France]])
+|}
+
+====Scotland v Australia====
+{{rugbybox
+|id = Scotland v Australia
+|date = 15 November 2026
+|time = 15:10 [[Greenwich Mean Time|GMT]] ([[UTC+0]])
+|team1 = {{ru-rt|SCO}}
+|score =
+|report =
+|team2 = {{ru|AUS}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Murrayfield Stadium]], [[Edinburgh]]
+|attendance =
+|referee = [[James Doleman]] ([[New Zealand Rugby|New Zealand]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Paul Williams (rugby union referee)|Paul Williams]] ([[New Zealand Rugby|New Zealand]])
+<br />[[Angus Mabey]] ([[New Zealand Rugby|New Zealand]])
+<br />'''Television match official:'''
+<br />Andrew Jackson ([[Rugby Football Union|England]])
+<br />'''Foul play review officer:'''
+<br />Matteo Liperini ([[Italian Rugby Federation|Italy]])
+|}
+
+===Round 6===
+====England v New Zealand====
+{{rugbybox
+|id = England v New Zealand
+|date = 21 November 2026
+|time = 14:10 [[Greenwich Mean Time|GMT]] ([[UTC+0]])
+|team1 = {{ru-rt|ENG}}
+|score =
+|report =
+|team2 = {{ru|NZL}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Twickenham Stadium]], [[London]]
+|attendance =
+|referee = [[Nic Berry]] ([[Rugby Australia|Australia]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Nika Amashukeli]] ([[Georgian Rugby Union|Georgia]])
+<br />[[Damon Murphy]] ([[Rugby Australia|Australia]])
+<br />'''Television match official:'''
+<br />[[Marius van der Westhuizen]] ([[South African Rugby Union|South Africa]])
+<br />'''Foul play review officer:'''
+<br />Olly Hodges ([[Italian Rugby Federation|Italy]])
+|}
+
+====Scotland v Japan====
+{{rugbybox
+|id = Scotland v Japan
+|date = 21 November 2026
+|time = 14:10 [[Greenwich Mean Time|GMT]] ([[UTC+0]])
+|team1 = {{ru-rt|SCO}}
+|score =
+|report =
+|team2 = {{ru|JPN}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Murrayfield Stadium]], [[Edinburgh]]
+|attendance =
+|referee = [[Ben O'Keeffe]] ([[New Zealand Rugby|New Zealand]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[James Doleman]] ([[New Zealand Rugby|New Zealand]])
+<br />[[Craig Evans (rugby union referee)|Craig Evans]] ([[Welsh Rugby Union|Wales]])
+<br />'''Television match official:'''
+<br />Richard Kelly ([[New Zealand Rugby|New Zealand]])
+<br />'''Foul play review officer:'''
+<br />Aled Griffiths ([[Welsh Rugby Union|Wales]])
+|}
+
+====Ireland v South Africa====
+{{rugbybox
+|id = Ireland v South Africa
+|date = 21 November 2026
+|time = 16:40 [[Greenwich Mean Time|GMT]] ([[UTC+0]])
+|team1 = {{ru-rt|IRE}}
+|score =
+|report =
+|team2 = {{ru|RSA}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Aviva Stadium]], [[Dublin]]
+|attendance =
+|referee = [[Christophe Ridley]] ([[Rugby Football Union|England]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Angus Gardner]] ([[Rugby Australia|Australia]])
+<br />Anthony Woodthorpe ([[Rugby Football Union|England]])
+<br />'''Television match official:'''
+<br />Ian Tempest ([[Rugby Football Union|England]])
+<br />'''Foul play review officer:'''
+<br />[[Tual Trainini]] ([[French Rugby Federation|France]])
+|}
+
+====Italy v Fiji====
+{{rugbybox
+|id = Italy v Fiji
+|date = 21 November 2026
+|time = 17:40 [[Central European Time|CET]] ([[UTC+1]])
+|team1 = {{ru-rt|ITA}}
+|score =
+|report =
+|team2 = {{ru|FIJ}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Stadio Friuli]], [[Udine]]
+|attendance =
+|referee = [[Andrew Brace]] ([[Irish Rugby Football Union|Ireland]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Paul Williams (rugby union referee)|Paul Williams]] ([[New Zealand Rugby|New Zealand]])
+<br />[[Eoghan Cross]] ([[Irish Rugby Football Union|Ireland]])
+<br />'''Television match official:'''
+<br />Leo Colgan ([[Irish Rugby Football Union|Ireland]])
+<br />'''Foul play review officer:'''
+<br />Dan Jones ([[Rugby Football Union|England]])
+|}
+
+====Wales v Australia====
+{{rugbybox
+|id = Wales v Australia
+|date = 21 November 2026
+|time = 20:10 [[Greenwich Mean Time|GMT]] ([[UTC+0]])
+|team1 = {{ru-rt|WAL}}
+|score =
+|report =
+|team2 = {{ru|AUS}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Millennium Stadium]], [[Cardiff]]
+|attendance =
+|referee = [[Luc Ramos]] ([[French Rugby Federation|France]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Karl Dickson]] ([[Rugby Football Union|England]])
+<br />Jérémy Rozier ([[French Rugby Federation|France]])
+<br />'''Television match official:'''
+<br />Eric Gauzins ([[French Rugby Federation|France]])
+<br />'''Foul play review officer:'''
+<br />Andrew Jackson ([[Rugby Football Union|England]])
+|}
+
+====France v Argentina====
+{{rugbybox
+|id = France v Argentina
+|date = 21 November 2026
+|time = 21:10 [[Central European Time|CET]] ([[UTC+1]])
+|team1 = {{ru-rt|FRA}}
+|score =
+|report =
+|team2 = {{ru|ARG}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Stade de France]], [[Paris]]
+|attendance =
+|referee = [[Hollie Davidson]] ([[Scottish Rugby Union|Scotland]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Matthew Carley]] ([[Rugby Football Union|England]])
+<br />[[Sam Grove-White]] ([[Scottish Rugby Union|Scotland]])
+<br />'''Television match official:'''
+<br />[[Mike Adamson (rugby union)|Mike Adamson]] ([[Scottish Rugby Union|Scotland]])
+<br />'''Foul play review officer:'''
+<br />Matteo Liperini ([[Italian Rugby Federation|Italy]])
+|}
+
+==See also==
+* [[2026 World Rugby Nations Cup]]
+* [[2026 Nations Championship Southern Hemisphere Series]]
+* [[2026 World Rugby Nations Cup Americas-Pacific Series]]
+* [[2026 World Rugby Nations Cup European-African-Asian Series]]
+* [[2026 men's rugby union internationals]]
+
+==References==
+{{reflist}}
+
+{{Nations Championship}}
+
+[[Category:2026 rugby union tournaments for national teams]]
+[[Category:Scheduled rugby football competitions|World Rugby Nations Cup]]
