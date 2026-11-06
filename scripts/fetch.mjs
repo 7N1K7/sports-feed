@@ -2003,8 +2003,11 @@ for (const [k, ts] of byComp) {
 // the daily check reads these with the thin weeks (stopped: true) and fills them. Leagues only, since a tour or a
 // national side's series just ends
 const handLeague = new Set(curated.events.filter(e => /^(nzdomestic|audomestic|npc|fpc|bbl|wbbl)$/.test(e.team || '')).map(e => `${e.sport}|${baseComp(e)}`));
-for (const [k, ts] of byComp) {
-  if (ts.length < 4 || !handLeague.has(k.split('|').slice(0, 2).join('|')) || /play-?offs?|finals?\b|knockouts?/i.test(k)) continue;
+// (multi-day games too, so the Plunket Shield counts: the thin-weeks map leaves those out)
+const handComp = new Map();
+for (const e of events) { const k = `${e.sport}|${baseComp(e)}`; if (!e.session && handLeague.has(k) && !KO.test(`${e.comp || ''} ${e.stage || ''}`)) (handComp.get(k) || handComp.set(k, []).get(k)).push(Date.parse(e.startUTC)); }
+for (const [k, ts] of handComp) {
+  if (ts.length < 3 || /play-?offs?|finals?\b|knockouts?/i.test(k)) continue;
   const last = Math.max(...ts); if (last > now || now - last > 10 * DAY) continue;
   const [sp, c] = k.split('|');
   if (events.some(e => e.sport === sp && baseComp(e) === c && (Date.parse(e.startUTC) > now || KO.test(`${e.comp || ''} ${e.stage || ''}`)))) continue;

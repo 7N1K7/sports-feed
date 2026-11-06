@@ -880,7 +880,7 @@
   },
   {
    "sport": "cricket",
-   "timeTBC": true,
+   "timeTBC": false,
    "status": "upcoming",
    "id": "hjs-nd-cd-2026",
    "team": "nzdomestic",
@@ -893,7 +893,7 @@
    "city": "Palmerston North, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
-   "watchNote": "Not on Sky",
+   "watchNote": "Not on Sky. The usual 10:30am start",
    "source": "https://www.nzc.nz/media/1cxbi35u/print_2026_hbj-schedule.pdf",
    "usual": true
   },
@@ -918,7 +918,7 @@
   },
   {
    "sport": "cricket",
-   "timeTBC": true,
+   "timeTBC": false,
    "status": "upcoming",
    "id": "ps-r1-1-2026",
    "team": "nzdomestic",
@@ -926,17 +926,17 @@
    "format": "First-class",
    "home": "Otago Volts",
    "away": "Canterbury",
-   "startUTC": "2026-11-18T11:00:00Z",
+   "startUTC": "2026-11-18T21:30:00Z",
    "venue": "University of Otago Oval",
    "city": "Dunedin, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
-   "watchNote": "Not on Sky; free entry",
-   "source": "https://www.nzc.nz/red-ball-fans-rejoice-plunket-shield-schedule-announced/"
+   "watchNote": "Not on Sky; free entry. The usual 10:30am start",
+   "source": "https://en.wikipedia.org/wiki/2026%E2%80%9327_Plunket_Shield_season"
   },
   {
    "sport": "cricket",
-   "timeTBC": true,
+   "timeTBC": false,
    "status": "upcoming",
    "id": "ps-r1-2-2026",
    "team": "nzdomestic",
@@ -944,17 +944,17 @@
    "format": "First-class",
    "home": "Northern Districts",
    "away": "Auckland Aces",
-   "startUTC": "2026-11-18T11:00:00Z",
+   "startUTC": "2026-11-18T21:30:00Z",
    "venue": "Seddon Park",
    "city": "Hamilton, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
-   "watchNote": "Not on Sky; free entry",
-   "source": "https://www.nzc.nz/red-ball-fans-rejoice-plunket-shield-schedule-announced/"
+   "watchNote": "Not on Sky; free entry. The usual 10:30am start",
+   "source": "https://en.wikipedia.org/wiki/2026%E2%80%9327_Plunket_Shield_season"
   },
   {
    "sport": "cricket",
-   "timeTBC": true,
+   "timeTBC": false,
    "status": "upcoming",
    "id": "ps-r1-3-2026",
    "team": "nzdomestic",
@@ -962,13 +962,13 @@
    "format": "First-class",
    "home": "Central Stags",
    "away": "Wellington Firebirds",
-   "startUTC": "2026-11-18T11:00:00Z",
+   "startUTC": "2026-11-18T21:30:00Z",
    "venue": "Fitzherbert Park",
    "city": "Palmerston North, New Zealand",
    "tz": "Pacific/Auckland",
    "broadcast": "NZC YouTube (free stream)",
-   "watchNote": "Not on Sky; free entry",
-   "source": "https://www.nzc.nz/red-ball-fans-rejoice-plunket-shield-schedule-announced/"
+   "watchNote": "Not on Sky; free entry. The usual 10:30am start",
+   "source": "https://en.wikipedia.org/wiki/2026%E2%80%9327_Plunket_Shield_season"
   },
   {
    "sport": "cricket",
