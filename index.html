@@ -480,7 +480,7 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
    wears its own look (its colours, a glow, its logo where TheSportsDB has one, a trophy otherwise). Every chip the same
    height, so the rows stay even; picking one turns its edge white with a soft white glow, like the All sport button, so
    nothing moves */
-#nowChips > .nowchip.two, #nowChips > .nowchip.tbrand { height: 31px; box-sizing: border-box; padding-top: 0; padding-bottom: 0 }
+:is(#nowChips, #weekComps) > .nowchip.two, :is(#nowChips, #weekComps) > .nowchip.tbrand { height: 31px; box-sizing: border-box; padding-top: 0; padding-bottom: 0 }
 .nowchip.two { padding: 0; gap: 0; overflow: hidden; background: var(--paper) }
 .nowchip.two .nside { display: inline-flex; align-items: center; gap: 5px; align-self: stretch; font-weight: 700; padding: 0 13px 0 10px; border-radius: 999px 0 0 999px; white-space: nowrap }
 .nowchip.two .nsb { padding: 0 10px 0 13px; border-radius: 0 999px 999px 0 }
@@ -496,7 +496,7 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 .nowchip.tbrand .troph { width: 15px; height: 15px; flex: none; color: var(--tb-mark); filter: drop-shadow(0 0 3px color-mix(in srgb, var(--tb-mark) 70%, transparent)) }
 .nowchip.tbrand .tblogo { display: inline-block; flex: none; height: 22px; width: 22px; margin: -4px -2px -4px -3px; background: center / contain no-repeat }
 /* (with the id, so a picked button's white edge wins over the live and rain-delay edges) */
-#nowChips > .nowchip.two[aria-pressed="true"], #nowChips > .nowchip.tbrand[aria-pressed="true"] { background: var(--tb-bg, var(--paper)); color: var(--tb-ink, inherit); border-color: #fff; box-shadow: 0 0 0 1px #fff, 0 0 12px 2px rgb(255 255 255 / .4) }
+:is(#nowChips, #weekComps) > .nowchip.two[aria-pressed="true"], :is(#nowChips, #weekComps) > .nowchip.tbrand[aria-pressed="true"] { background: var(--tb-bg, var(--paper)); color: var(--tb-ink, inherit); border-color: #fff; box-shadow: 0 0 0 1px #fff, 0 0 12px 2px rgb(255 255 255 / .4) }
 .nowchip.tbrand.is-live { border-color: var(--tb-glow) }
 .nowchip.tbrand.is-rain { border-color: #1c7ed6; box-shadow: 0 0 9px 1px color-mix(in srgb, #1c7ed6 55%, transparent) }
 .nowchip.two.is-ended:not([aria-pressed="true"]), .nowchip.tbrand.is-ended:not([aria-pressed="true"]) { background: var(--tb-bg, var(--paper)); color: var(--tb-ink, inherit); border-style: dashed }
@@ -935,6 +935,23 @@ button.hubres { font-family: inherit; background: transparent; cursor: pointer }
 .offnote:hover { color: var(--ink); border-color: var(--muted) }
 .offnote svg { width: 11px; height: 11px; flex: none }
 .hubtop .offwrap { right: 44px }
+/* a picked sport's competitions this week, at the end of This week's line (over the free space, so nothing moves): its
+   series buttons, smaller, when they all fit; otherwise just their logos; otherwise as many logos as fit and a +N that opens
+   the competitions list. On a phone they can take the dates' place */
+.qcs { position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; font-size: 0; letter-spacing: 0; text-transform: none; white-space: nowrap }
+.qcs[hidden] { display: none }
+.qcs .nowchip { zoom: .8; margin: 0 }
+.qcs .qt { flex: none; position: relative; height: 26px; min-width: 26px; padding: 0 4px; box-sizing: border-box; border-radius: 8px; border: 1px solid var(--tb-glow); background: var(--tb-bg); box-shadow: 0 0 7px -2px var(--tb-glow);
+  display: inline-flex; align-items: center; justify-content: center; gap: 2px; color: var(--tb-ink); font: 800 10.5px/1 var(--f-body); letter-spacing: .02em; cursor: pointer }
+.qcs .qt i { display: block; width: 20px; height: 20px; background: center / contain no-repeat }
+.qcs .qt i.wide { width: 34px; background-size: 100% }
+.qcs .qt .fl { display: block; width: 16px; height: 11px; border-radius: 2px; background: center / cover no-repeat }
+.qcs .qt .livedot { position: absolute; top: -3px; left: -3px; width: 8px; height: 8px; margin: 0; border-radius: 50%; background: #e03131; box-shadow: 0 0 0 2px var(--paper) }
+@media (prefers-reduced-motion: no-preference) { .qcs .qt .livedot { animation: tagpulse 2s ease-in-out infinite } }
+.qcs :is(.qt, .qmore)[aria-pressed="true"] { border-color: #fff; box-shadow: 0 0 0 1px #fff, 0 0 10px 1px rgb(255 255 255 / .4) }
+.qcs .qmore { flex: none; height: 24px; min-width: 30px; padding: 0 8px; box-sizing: border-box; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 700 12px/22px var(--f-body); cursor: pointer }
+.qcs .qmore:hover { border-color: var(--muted) } @media (hover: hover) { .qcs .qt:hover { filter: brightness(1.18) } }
+#weekRange.qhide { visibility: hidden }
 /* Show here: what's off shows on this sport's page (or this competition's) anyway, and stays out of the main list. Both
    wordings sit in the same spot, so the button keeps its width when tapped */
 .herebtn { display: inline-grid; padding: 3px 8px; font: 600 11px/1 var(--f-body); letter-spacing: 0; text-transform: none; color: var(--ink); background: var(--paper); border: 1px solid var(--muted); border-radius: 999px; cursor: pointer; white-space: nowrap }
@@ -1560,7 +1577,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
     content: ""; position: absolute; inset: -1px; border: 2px solid; border-width: 2px 3px; border-color: inherit; border-radius: inherit; pointer-events: none }
   .nowchip :is(.livedot, .enddot) { z-index: 1 } .nowchip.is-ended:not([aria-pressed="true"])::after { border-style: dashed }
   /* (with the id, to outweigh the :is() list above, which counts as an id) */
-  #nowChips .nowchip.two { border-image: none; border-width: 2px 3px } #nowChips .nowchip.two::after { content: none }
+  :is(#nowChips, #weekComps) .nowchip.two { border-image: none; border-width: 2px 3px } :is(#nowChips, #weekComps) .nowchip.two::after { content: none }
   .seg { border-width: 2px 3px; margin: -1px -2px }
   .dsel .dbtn { border-width: 2px; padding-block: 3px } #compSel { border-width: 2px 3px; padding: 1px 25px 1px 11px; background-position: right 13px center, right 8px center }
   @media (max-width: 560px) { #compSel { padding-left: 9px; padding-right: 23px } }
@@ -1733,7 +1750,7 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
     <div id="soon" class="daygroup"></div>
   </section>
   <section id="weekSec">
-    <h2>This week <small id="weekRange"></small><span class="offwrap" id="offWeekW" hidden><button type="button" class="offnote" id="offWeek"></button><button type="button" class="herebtn" id="hereWeek" aria-pressed="false"></button></span></h2>
+    <h2>This week <small id="weekRange"></small><span class="qcs" id="weekComps" hidden></span><span class="offwrap" id="offWeekW" hidden><button type="button" class="offnote" id="offWeek"></button><button type="button" class="herebtn" id="hereWeek" aria-pressed="false"></button></span></h2>
     <div class="week" id="week"></div>
     <div id="dayPick" class="daypick" hidden></div>
   </section>
@@ -3913,6 +3930,74 @@ let hubW = 0; new ResizeObserver(([en]) => { const w = Math.round(en.contentRect
 const textRight = el => { let x = el.getBoundingClientRect().left; const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
   for (let tn; (tn = tw.nextNode());) { const r = document.createRange(); r.selectNodeContents(tn); for (const b of r.getClientRects()) if (b.width) x = Math.max(x, b.right); }
   return x; };
+// a picked sport's competitions with a game this week (whatever competition is open): live first, New Zealand's next, then
+// the soonest, with the small ones (a Second XI, a series too small for the series row) last. Not the catch-alls (one-off Tests, warm-ups, friendlies, the domestic list), and not a sport that is just one
+// competition (F1's page opens with the sport)
+const WEEK_SKIP = /^(Test match|Women's test|Second XI|NZ domestic cricket|International friendly|Boxing|Black Caps|White Ferns|Australia)$/;
+let wcList = [], wcLast = null;
+function drawWeekComps(now) {
+  const box = $('weekComps'), sp = sportSel.size === 1 ? [...sportSel][0] : '', by = new Map();
+  if (sp) {
+    const c0 = compSel; compSel = '';
+    try {
+      for (const e of FEED.events || []) {
+        if ((e.sport || sportOf(e.team)) !== sp || !e.startUTC) continue;
+        const t = Date.parse(e.startUTC) - now, live = e.status === 'live' || (e.status !== 'final' && running(e, now));
+        if (!live && (t < -3 * 36e5 || t > 7 * 864e5)) continue;
+        if (!visible(e)) continue;
+        const c = compOf(e); if (!c || WEEK_SKIP.test(c)) continue;
+        const x = by.get(c) || { c, sport: sp, live: false, nz: false, next: Infinity, w: genderOf(e) === 'w', sides: new Set(), fmts: new Set(), intl: true };
+        x.live ||= live; x.nz ||= isNZ(e); x.next = Math.min(x.next, t); by.set(c, x);
+        for (const n of [e.home, e.away]) if (n) x.sides.add(n);
+        if (formatOf(e)) x.fmts.add(formatOf(e));
+        if (!isIntl(e)) x.intl = false;
+      }
+    } finally { compSel = c0; }
+  }
+  for (const x of by.values()) x.small = NOT_BAR.test(x.c) || minorSeries(x.c, x);
+  let list = [...by.values()].sort((a, b) => a.small - b.small || b.live - a.live || b.nz - a.nz || a.next - b.next);
+  // (none on another sport's competition page, opened from the series row)
+  if ((list.length === 1 && compsOfSport(sp).length < 2) || (compSel && !compsOfSport(sp).includes(compSel))) list = [];
+  wcList = list; box.hidden = !list.length;
+  if (sp) box.style.setProperty('--sport', `var(--${sp})`);
+}
+// one competition's button: the series button (c), or its logo alone (t). A country series is its two flags; one with no
+// logo, its short name (WBBL) or initials
+function weekComp(x, kind) {
+  const sel = compSel === x.c;
+  if (kind === 'c') return nowChip(x.c, { sport: x.sport, w: x.w, live: x.live }, { sel, ended: false });
+  const look = LOOKS.find(([re, o]) => re.test(x.c) && (!o.s || o.s === x.sport))?.[1], sides = seriesSides(x.c);
+  const [, bg, glow0, ink, , logo] = look ? look.l : TB_PLAIN, glow = x.w && !look?.w ? '#f06595' : glow0;
+  const inner = sides ? sides.map(n => { const f = flagOf(n).replace('flagcdn.com/h240/', 'flagcdn.com/h40/');
+      return f ? `<span class="fl" style="background-image:url('${esc(f)}')"></span>` : esc(SIDE_CODE[n] || n.slice(0, 3).toUpperCase()); }).join('')
+    : logo ? `<i class="${logo[4] > 30 ? 'wide' : ''}" style="background-image:url('${logo[0]}');background-size:${logo[4] > 30 ? '100%' : logo[1] + '%'};background-position:${logo[2]}% ${logo[3]}%${logo[6] ? `;filter:${MONO}` : ''}"></i>`
+    : esc((n => (/^\S{2,5}$/.test(n) ? n : n.split(/\s+/).map(w => w[0]).join('').slice(0, 3)).toUpperCase())((look?.l[0] || shortComp(plural(x.c))).replace(/\s*\(W\)$/, '')));
+  const name = plural(x.c);
+  return `<button type="button" class="qt" data-bigcomp="${esc(x.c)}" aria-pressed="${sel}" title="${esc(name)}${x.live ? ' (live now)' : ''}" aria-label="${esc(name)}" style="--tb-bg:${sides ? '#141a18' : bg};--tb-glow:${sides ? 'var(--sport)' : glow};--tb-ink:${ink || '#fff'}">${inner}${x.live ? '<span class="livedot" role="img" aria-label="live"></span>' : ''}</button>`;
+}
+function fitWeekComps() {
+  const box = $('weekComps'), range = $('weekRange'), list = wcList;
+  range.classList.remove('qhide');
+  if (box.hidden || !list.length || !box.parentNode.offsetWidth) { box.innerHTML = ''; return; }
+  // the off note keeps its place at the end of the line; the buttons go before it
+  // (its room stays kept while the same list is drawn: opening a competition moves the note into that page's header)
+  const ow = $('offWeekW'), key = `${list.map(x => x.c).join('|')} ${innerWidth} ${document.fonts?.status} ${ow.hidden ? '' : $('offWeek').dataset.s}`;
+  const off = Math.max(!ow.hidden && ow.style.visibility !== 'hidden' ? ow.offsetWidth + 8 : 0, wcLast?.key === key ? wcLast.off : 0);
+  box.style.right = off + 'px';
+  const r = document.createRange(); r.selectNodeContents(range); const rr = r.getBoundingClientRect();
+  const edge = box.parentNode.getBoundingClientRect().right - off, after = edge - rr.right - 16, instead = edge - rr.left, phone = innerWidth <= 560;
+  const more = n => `<button type="button" class="qmore" data-weekmore="1" aria-pressed="${list.slice(n).some(x => x.c === compSel)}" title="${esc(list.slice(n).map(x => plural(x.c)).join('\n'))}" aria-label="${list.length - n} more competitions">+${list.length - n}</button>`;
+  const fill = (kind, room) => {
+    if (kind !== 'n') { box.innerHTML = list.map(x => weekComp(x, kind)).join(''); return box.getBoundingClientRect().width <= room; }
+    // as many logos as fit beside the +N
+    for (let n = list.length - 1; n >= 0; n--) { box.innerHTML = list.slice(0, n).map(x => weekComp(x, 't')).join('') + more(n); if (box.getBoundingClientRect().width <= room || !n) return true; }
+  };
+  // most room first: the series buttons, then logos only, then logos and +N (on a phone, in the dates' place when that's what fits)
+  const modes = [['c', after, false], phone && ['c', instead, true], ['t', after, false], phone && ['t', instead, true], ['n', phone ? instead : after, phone]].filter(Boolean);
+  // the same list at the same width keeps the way it was drawn while that still fits (opening one of them changes nothing else)
+  if (wcLast?.key === key) { const m = modes.find(([k, , hide]) => k === wcLast.k && hide === wcLast.hide); if (m) modes.unshift(m); }
+  for (const [k, room, hide] of modes) if (fill(k, room)) { range.classList.toggle('qhide', hide); wcLast = { key, k, hide, off }; return; }
+}
 function fitOffNote() {
   let shown = false;
   for (const n of [$('offHub'), $('offWeek')]) { const w = n.parentNode, h = w.lastElementChild; if (w.hidden) continue; w.style.visibility = 'hidden'; if (shown || !w.offsetWidth) continue;
@@ -3928,6 +4013,7 @@ function fitOffNote() {
       if (w.offsetWidth <= room) break; }
     if (w.offsetWidth <= room) { w.style.visibility = ''; shown = true; } // never over the words (a long name on a small phone)
   }
+  fitWeekComps();
 }
 addEventListener('resize', fitOffNote); document.fonts?.ready.then(fitOffNote);
 // the Settings button's cog
@@ -4183,7 +4269,7 @@ function render() {
     $('compSel').title = compSel ? $('compSel').textContent : 'Pick a competition for far more data!'; // (with none picked, a tip that each has its own page)
     $('nzOnly').setAttribute('aria-pressed', String(nzOnly));
     $('freeOnly').setAttribute('aria-pressed', String(freeOnly)); document.body.classList.toggle('freeon', freeOnly);
-    renderHub(now); drawOffNote();
+    renderHub(now); drawWeekComps(now); drawOffNote();
     $('compSel').classList.toggle('on', !!compSel);
     $('genderSel').innerHTML = [['all', 'All'], ['m', "Men's"], ['w', "Women's"]].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
     // the sport row dims while a competition is picked, unless it's the lone sport button that opened it
@@ -4565,12 +4651,14 @@ document.addEventListener('click', ev => {
   else if (t.dataset.newspage != null) { use('News page turned'); newsPage = Math.max(0, +t.dataset.newspage); render(); toSec(compSel && hubTab === 'news' ? 'hubSec' : 'newsSec'); }
   else if (t.dataset.jump) { if (!t.classList.contains('dayclose')) count({ e: 'use', k: 'Day in the week strip' }); selDay = selDay === t.dataset.jump || t.dataset.jump === dayKey(new Date()) ? '' : t.dataset.jump; drawDayPick(); }
   else if (t.dataset.bigcomp) {
-    const again = compSel === t.dataset.bigcomp && t.classList.contains('nowchip');
-    count({ e: 'use', k: t.classList.contains('nowchip') ? 'Series row chip' : t.classList.contains('runev') ? 'Running now tile' : 'Events ahead tile' });
+    const wk = !!t.closest('#weekComps'), again = compSel === t.dataset.bigcomp && (wk || t.classList.contains('nowchip'));
+    count({ e: 'use', k: wk ? 'This week competition button' : t.classList.contains('nowchip') ? 'Series row chip' : t.classList.contains('runev') ? 'Running now tile' : 'Events ahead tile' });
     // a series that has just finished opens on its results
     compSel = again ? '' : t.dataset.bigcomp; hubTab = endedComps.has(compSel) ? 'results' : 'games'; store.set('comp', compSel); render();
-    if (!t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (wk || !t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+  // the +N: the competitions list, opened
+  else if (t.dataset.weekmore) { ev.stopPropagation(); use('This week more competitions'); if (folded) { folded = false; store.set('folded', false); syncFold(); } $('sportFilter').scrollIntoView({ block: 'start' }); $('compMenu').hidden = false; $('compSel').setAttribute('aria-expanded', 'true'); fitComp(); }
   else if (t.dataset.sesall) { use('All session times'); sesAll.add(t.dataset.sesall); render(); }
   else if (t.dataset.raceall) { use(t.dataset.raceall.startsWith('supercars') ? 'All Supercars race results' : 'All F1 race results'); raceAll.add(t.dataset.raceall); t.closest('.rboard').classList.add('all'); }
   else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; if (hubTab !== 'games') count({ e: 'use', k: `Competition ${t.textContent.trim()} tab` }); render(); }
