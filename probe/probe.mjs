@@ -1,20 +1,26 @@
 import { writeFileSync } from 'fs';
-const out = [];
-const IDS = [4416, 4551, 4328, 4387, 4424, 4443, 4356, 4434, 4538, 5278, 5530, 4714, 4574, 4986, 5113, 4429, 4446, 5069, 4401, 4352];
-const get = async u => { for (let i = 0; i < 3; i++) { const r = await fetch(u); const t = await r.text(); if (t.trim().startsWith('{')) return JSON.parse(t); await new Promise(r => setTimeout(r, 15000)); } return {}; };
-for (const id of IDS) {
-  const l = ((await get(`https://www.thesportsdb.com/api/v1/json/123/lookupleague.php?id=${id}`)).leagues || [])[0];
-  if (!l) { out.push(`${id}: none`); continue; }
-  out.push(`${id} ${l.strLeague} (${l.strSport}) | ${l.strBadge ? 'badge' : '-'} | ${l.strLogo ? 'logo' : '-'}`);
-  for (const [k, u] of [['b', l.strBadge], ['l', l.strLogo]]) if (u) { const r = await fetch(u + '/small'); if (r.ok) writeFileSync(`probe/out-lg-${id}-${k}.png`, Buffer.from(await r.arrayBuffer())); }
-  await new Promise(r => setTimeout(r, 3000));
+const key = process.env.YOUTUBE_API_KEY, out = [];
+const yt = async (p, q) => { const r = await fetch(`https://www.googleapis.com/youtube/v3/${p}?${q}&key=${key}`); return r.ok ? r.json() : { err: r.status }; };
+const line1 = t => String(t || '').split('\n')[0].slice(0, 100);
+const v = await yt('videos', 'part=snippet,contentDetails,liveStreamingDetails&id=IZxhbn8-1As,2CW2baagUg8');
+const chans = new Set();
+for (const x of v.items || []) {
+  out.push(`video ${x.id}: ${x.snippet.title} | channel ${x.snippet.channelTitle} ${x.snippet.channelId} | pub ${x.snippet.publishedAt} | state ${x.snippet.liveBroadcastContent} | streamed ${!!x.liveStreamingDetails} | region ${JSON.stringify(x.contentDetails?.regionRestriction || {})} | d: ${line1(x.snippet.description)}`);
+  chans.add(x.snippet.channelId);
 }
-for (const [c, s] of [['New Zealand', 'Cricket'], ['Australia', 'Cricket'], ['Australia', 'Netball'], ['World', 'Rugby League']]) {
-  const j = await get(`https://www.thesportsdb.com/api/v1/json/123/search_all_leagues.php?c=${encodeURIComponent(c)}&s=${encodeURIComponent(s)}`);
-  for (const l of (j.countries || j.countrys || [])) {
-    out.push(`${c}/${s}: ${l.idLeague} ${l.strLeague} | ${l.strBadge ? 'badge' : '-'} | ${l.strLogo ? 'logo' : '-'}`);
-    if (/Plunket|Ford|Dean Jones|One-Day|Sheffield|Super Netball|WNCL|Womens National|Hallyburton|League World Cup|NRL/i.test(l.strLeague)) for (const [k, u] of [['b', l.strBadge], ['l', l.strLogo]]) if (u) { const r = await fetch(u + '/small'); if (r.ok) writeFileSync(`probe/out-lg-${l.idLeague}-${k}.png`, Buffer.from(await r.arrayBuffer())); }
-  }
-  await new Promise(r => setTimeout(r, 3000));
+if (v.err) out.push('error ' + v.err);
+for (const c of chans) {
+  const pl = await yt('playlistItems', `part=contentDetails&maxResults=50&playlistId=UU${c.slice(2)}`);
+  const ids = (pl.items || []).map(i => i.contentDetails.videoId);
+  const vs = ids.length ? await yt('videos', `part=snippet,liveStreamingDetails&id=${ids.join(',')}`) : { items: [] };
+  out.push(`channel ${c}: ${vs.items?.length || 0} uploads`);
+  for (const s of vs.items || []) out.push(`  ${s.snippet.publishedAt} ${s.liveStreamingDetails ? 'stream ' + s.snippet.liveBroadcastContent : 'video'} | ${s.snippet.title} || ${line1(s.snippet.description)}`);
 }
-writeFileSync('probe/out.txt', 'lg295\n' + out.join('\n') + '\n');
+// the deployed feed: the Second XI games and their streams
+try {
+  const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
+  out.push(`feed ${f.generatedAt}`);
+  for (const e of f.events.filter(e => /Second XI/.test(e.comp || ''))) out.push(`  2xi ${e.id} | ${e.comp} ${e.stage || ''} | ${e.home} v ${e.away} | ${e.startUTC} | ${e.status} | ${(e.yt || []).map(y => y.url + ' ' + y.state).join(', ')} | ${e.broadcast} | ${e.watchAU || ''}`);
+  out.push('  yt diag tail: ' + String(f.diag?.youtube || '').split('; Second XI')[1]);
+} catch (err) { out.push('feed error ' + err.message); }
+writeFileSync('probe/out.txt', 'yt296\n' + out.join('\n').replace(/key=[^&\s]+/g, 'key=X') + '\n');
