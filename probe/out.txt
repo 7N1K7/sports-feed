@@ -1,5 +1,5 @@
-nc308
-feed 2026-11-06T05:53:50.708Z v589
+nc309
+feed 2026-11-06T06:03:58.411Z v590
 NC events 25; upcoming 25; by team {"nations":18,"allblacks":4,"wallabies":3}
   2026-11-06T20:10:00.000Z | Ireland v Argentina |  | nations ["nations"] | Aviva Stadium, Dublin | Sky Sport / Sky Sport Now | tv Sky Sport 1 UHD/Sky Sport 1 | id wiki-nations-2026-11-06-irelandargentina
   2026-11-07T11:40:00.000Z | Italy v South Africa |  | nations ["nations"] | Juventus Stadium, Turin | Sky Sport / Sky Sport Now | tv Sky Sport 2 | id wiki-nations-2026-11-07-italysouthafrica
@@ -29,4 +29,4 @@ NC events 25; upcoming 25; by team {"nations":18,"allblacks":4,"wallabies":3}
 wikipedia: {"2026 Nations Championship":6,"2026 Nations Championship Northern Hemisphere Series":18,"2026 Nations Championship Southern Hemisphere Series":18,"Men's FIH Hockey Nations Cup":0}
 yt: Nations Championship 0
 news tagged nations 4: BBC Sport: Wales opt for centre power pair against Japan | BBC Sport: Fixtures and standings as Nations Championship returns on Friday | BBC Sport: GB sprint star Hunt visits England training camp | BBC Sport: Gibson-Park on Ireland bench as Casey, Jansen and Timoney start
-tables: Northern Hemisphere 6, Southern Hemisphere 6, Most points (to 19 July) 14, Most tries (to 19 July) 7, Northern Hemisphere 6, Southern Hemisphere 6
+tables: Northern Hemisphere 6, Southern Hemisphere 6, Most points (to 19 July) 14, Most tries (to 19 July) 7
