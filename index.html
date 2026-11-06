@@ -2496,6 +2496,9 @@ function replayOn(e) {
 function highlights(e, now) {
   const age = now - new Date(e.startUTC);
   if (age < 3 * 36e5 || age > 8 * 864e5) return '';
+  // the highlights video a followed channel put up (the feed keeps its address only, as titles can carry the result),
+  // else a YouTube search
+  if (e.hl?.url) return `<a class="hl" href="${esc(e.hl.url)}" target="_blank" rel="noopener">▶ Highlights</a>`;
   const q = solo(e) ? `${plural(compOf(e))} ${e.startUTC.slice(0, 4)} ${e.home} highlights` : `${displayName(e.home, e)} v ${displayName(e.away, e)} ${plural(compOf(e))} highlights`;
   return `<a class="hl" href="https://www.youtube.com/results?search_query=${encodeURIComponent(q)}" target="_blank" rel="noopener">▶ Highlights</a>`;
 }

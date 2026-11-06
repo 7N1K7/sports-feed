@@ -417,6 +417,10 @@ async function readCurated() {
 // From 5 Nov 2026 Bangladesh's rights holders, Rabbitholebd Sports and T Sports, which stream some Bangladesh games
 // free (a stream they shut to NZ isn't counted). An open YouTube search for games was tried and left out: nearly all
 // its results are unofficial restreams and score channels
+// From 6 Nov 2026 the channels' highlights videos too, for the card's Highlights link (straight to the video, not a
+// search), and two channels followed for those only, whose own streams aren't games free to watch: Sky Sport NZ's
+// (all its sports, so a title naming sides two sports share, "New Zealand v India", needs its sport's word too) and
+// the Big Bash's. A channel followed for highlights only is asked every half hour, not every run near a game
 // From 6 Nov 2026 Cricket Australia's own streams are its Second XI games (the men's four-day Toyota Second XI, the
 // Women's Second XI), its trial and Indigenous games, not the Shield or the Dean Jones Trophy: their titles look just
 // like a Shield game's ("South Australia v Tasmania"), and only the description's first line says which ("CASC Women
@@ -436,6 +440,8 @@ const YT_CHANNELS = [
   ['football', 'FIFA', 'UCpcTrCXblq78GZrTUTLWeBw'], ['hockey', 'FIH', 'UCsRwclNMmdK1Kiy2O3eL6hg'], ['basketball', 'FIBA', 'UCtInrnU3QbWqFGsdKT1GZtg'],
   ['rugby', 'NZ Provincial Rugby', 'UCK442Bjxkx0skmxEDi2BtSg'],
   ['cricket', 'Rabbitholebd Sports', 'UCNU0Vv6U1xZS82cIQrgDeqw'], ['cricket', 'T Sports', 'UC2t9imwIR7xlDfma3CmRKJQ'],
+  // for highlights only (hl): Sky Sport NZ's channel (every sport it shows: '*') and the Big Bash's own
+  ['*', 'Sky Sport NZ', 'UC8f1U3h2TAcKOktgonnL0Yw', 'hl'], ['cricket', 'Big Bash', 'UCv5-1Ypl3Adf4uGaR_H0mlg', 'hl'],
 ];
 // streams that name both sides but aren't the game: press conferences, watch-alongs, previews and the like
 const YT_NOT_GAME = /press conference|presser|media (briefing|scrum)|watch ?-?along|reaction|preview|analysis|playing xi|\bchat\b|\bpodcast\b/i;
@@ -443,8 +449,38 @@ const YT_NOT_GAME = /press conference|presser|media (briefing|scrum)|watch ?-?al
 const ytSide = t => { const n = String(t || '').toLowerCase().replace(/\s+women('s)?$/, '').trim();
   const two = /^(new|south|western|northern|north|central|sydney|melbourne|brisbane|perth|adelaide|hobart|papua|cook)\b/.test(n);
   return n.split(/\s+/).slice(0, two ? (/^(new south|papua new)/.test(n) ? 3 : 2) : 1).join(' '); };
-const YT_ALIAS = { 'new south wales': ['nsw'], 'northern districts': ['northern brave', 'nd '], 'central stags': ['central districts', 'cd '], 'central': ['central districts'] };
-const WOMEN_TITLE = /women|wahine|wncl|wbbl|hearts|magicians|blaze|sparks|hinds|brave women|\bfire\b|meteors|scorpions|spirit|fury|breakers/i;
+const YT_ALIAS = { 'new south wales': ['nsw'], 'northern districts': ['northern brave', 'nd '], 'central stags': ['central districts', 'cd '], 'central': ['central districts'],
+  // Sky Sport NZ's Premier League highlights ("Man City vs Brighton")
+  'manchester city': ['man city'], 'manchester united': ['man utd', 'man united'], 'tottenham hotspur': ['spurs'] };
+const YT_HL = /\bhighlights?\b/i;
+const YT_W_TEAMS = ['whiteferns', 'wbbl', 'blacksticksw', 'kiwiferns', 'silverferns', 'tallferns', 'anzprem', 'footballferns'];
+// the names titles use for national sides (Sky Sport NZ's "BLACKCAPS vs India", "Diamonds vs SILVER FERNS"): New
+// Zealand's by the team followed, Australia's by sport, men's then women's
+const YT_NZ_NICK = { blackcaps: ['blackcaps', 'black caps'], whiteferns: ['white ferns'], allwhites: ['all whites'], footballferns: ['football ferns'], kiwis: ['kiwis'],
+  kiwiferns: ['kiwi ferns'], silverferns: ['silver ferns'], blacksticks: ['black sticks'], blacksticksw: ['black sticks'], tallblacks: ['tall blacks'], tallferns: ['tall ferns'] };
+const YT_AU_NICK = { netball: ['diamonds', 'diamonds'], rugby: ['wallabies', 'wallaroos'], league: ['kangaroos', 'jillaroos'], football: ['socceroos', 'matildas'], basketball: ['boomers', 'opals'], hockey: ['kookaburras', 'hockeyroos'] };
+// a women's title outside cricket (where WOMEN_TITLE has the women's sides' names)
+const W_LINE = /women|football ferns|kiwi ferns|tall ferns|wallaroos|jillaroos|matildas|\bopals\b|hockeyroos|nrlw/i;
+// each sport's own words, for a channel of every sport
+const SPORT_WORD = { cricket: /cricket|\bT20I?\b|\bODI\b|\bTest\b|black ?caps|white ferns|super smash|ford trophy|plunket|big bash|\bW?BBL\b|shield/i,
+  rugby: /rugby(?! league)|all blacks|black ferns|\bNPC\b|farah palmer|\bWXV\b/i, league: /rugby league|\bNRLW?\b|kiwis|kiwi ferns|warriors/i,
+  football: /football|soccer|all whites|football ferns|premier league|a-league|\bFIFA\b|matchweek/i, netball: /netball|silver ferns|diamonds|constellation cup|ANZ Premiership/i,
+  hockey: /hockey|black sticks/i, basketball: /basketball|tall (blacks|ferns)|breakers|\bNBL\b|\bNBA\b/i };
+// a video is for a game when its title names both sides, it names the game's grade (YT_LOW: a Second XI or under-19
+// video only for a game of that grade, a top-level one never for one), and it's a women's video just when the game is
+// one (the description's first line counts too: Cricket Australia's titles don't say women)
+const ytNames = t => { const k = ytSide(t); return [k, ...(YT_ALIAS[k] || []), ...(YT_ALIAS[String(t).toLowerCase()] || [])]; };
+function ytFor(e, sport, v) {
+  if ((sport !== '*' && e.sport !== sport) || !e.home || !e.away || e.status === 'cancelled') return false;
+  const title = ` ${v.title.toLowerCase()} `, line = `${v.title} ${v.d || ''}`;
+  const women = /women/i.test(`${e.comp} ${e.home} ${e.away}`) || YT_W_TEAMS.includes(e.team);
+  const nick = t => { const b = String(t).replace(/\s+Women('s)?$/i, ''); return b === 'New Zealand' ? YT_NZ_NICK[e.team] || [] : b === 'Australia' && YT_AU_NICK[e.sport] ? [YT_AU_NICK[e.sport][+women]] : []; };
+  if (![e.home, e.away].every(t => [...ytNames(t), ...nick(t)].some(n => title.includes(n.endsWith(' ') ? ` ${n}` : n)))) return false;
+  if (lowKey(`${e.comp || ''} ${e.stage || ''}`) !== lowKey(line)) return false;
+  // (netball's games here are all women's, whatever the title says)
+  return e.sport === 'netball' || (e.sport === 'cricket' ? WOMEN_TITLE : W_LINE).test(line) === women;
+}
+const WOMEN_TITLE = /women|white ferns|wahine|wncl|wbbl|hearts|magicians|blaze|sparks|hinds|brave women|\bfire\b|meteors|scorpions|spirit|fury|breakers/i;
 async function youtubeStreams(events) {
   const key = process.env.YOUTUBE_API_KEY;
   if (!key) { diag.youtube = 'no key (add the YOUTUBE_API_KEY secret to switch it on)'; return; }
@@ -454,12 +490,12 @@ async function youtubeStreams(events) {
   // .cache/yt-streams.json in between), so the key's 10,000 daily units last however many runs a busy day has
   const cacheUrl = new URL('.cache/yt-streams.json', ROOT);
   let cache = {}; try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
-  const found = [], notes = [], hit = new Set();
+  const found = [], notes = [], hit = new Set(), hlFor = new Map();
   let caStreams = [];
-  for (const [sport, ch, id] of YT_CHANNELS) {
+  for (const [sport, ch, id, only] of YT_CHANNELS) {
     try {
-      const hot = events.some(e => e.sport === sport && e.status !== 'final' && Date.parse(e.startUTC) < now + 90 * 60e3 && Date.parse(e.startUTC) > now - 30 * 60e3);
-      let streams = cache[id] && !hot && now - cache[id].t < 30 * 60e3 ? cache[id].streams : null;
+      const hot = !only && events.some(e => e.sport === sport && e.status !== 'final' && Date.parse(e.startUTC) < now + 90 * 60e3 && Date.parse(e.startUTC) > now - 30 * 60e3);
+      let streams = cache[id] && !hot && now - cache[id].t < 30 * 60e3 ? cache[id].streams : null, hls = streams ? cache[id].hl || [] : null;
       if (!streams) {
         const pl = await yt('playlistItems', `part=contentDetails&maxResults=50&playlistId=UU${id.slice(2)}`);
         const ids = (pl.items || []).map(x => x.contentDetails.videoId);
@@ -468,37 +504,51 @@ async function youtubeStreams(events) {
         const shut = x => { const r = x.contentDetails?.regionRestriction; return !!r && (r.allowed ? !r.allowed.includes('NZ') : !!r.blocked?.includes('NZ')); };
         // the description's first line when it's a short label, not a sentence or a link ("CASC Toyota Second XI Round 1")
         const line1 = t => { const l = String(t || '').split('\n')[0].trim(); return l.length <= 80 && !/https?:|www\./i.test(l) ? l : ''; };
-        streams = (v.items || []).filter(x => x.liveStreamingDetails && !shut(x)).map(x => ({ id: x.id, title: x.snippet.title, state: x.snippet.liveBroadcastContent,
+        // (a highlights premiere is a stream too, but not the game)
+        streams = (v.items || []).filter(x => x.liveStreamingDetails && !shut(x) && !YT_HL.test(x.snippet.title)).map(x => ({ id: x.id, title: x.snippet.title, state: x.snippet.liveBroadcastContent,
           at: x.liveStreamingDetails.actualStartTime || x.liveStreamingDetails.scheduledStartTime || '', s: x.liveStreamingDetails.scheduledStartTime || '', d: line1(x.snippet.description) }))
           .filter(x => x.at && !YT_NOT_GAME.test(x.title));
-        cache[id] = { t: now, streams };
+        // its highlights videos, up now (not a premiere still to come), for the card's Highlights link
+        // (the main package first: "Highlights | Bangladesh vs West Indies | 2nd Test | Day 1" before a clip that says
+        // "... Day 1 Highlights"; short clips tagged #shorts are left out)
+        hls = (v.items || []).filter(x => YT_HL.test(x.snippet.title) && !/#shorts?\b/i.test(x.snippet.title) && !shut(x) && !/^(live|upcoming)$/.test(x.snippet.liveBroadcastContent) && !YT_NOT_GAME.test(x.snippet.title))
+          .map(x => ({ id: x.id, title: x.snippet.title, at: x.snippet.publishedAt || '', d: line1(x.snippet.description), main: /^\W*highlights?\b/i.test(x.snippet.title) })).filter(x => x.at);
+        if (only === 'hl') streams = [];
+        cache[id] = { t: now, streams, hl: hls };
       }
       notes.push(`${ch} ${streams.length}`);
       if (id === CA_YT) caStreams = streams;
       for (const st of streams) {
         // (a stream cached before 6 Nov 2026 has no description line: d is '')
-        const title = ` ${st.title.toLowerCase()} `, at = Date.parse(st.at), line = `${st.title} ${st.d || ''}`, low = lowKey(line);
+        const at = Date.parse(st.at);
         for (const e of events) {
-          if (e.sport !== sport || !e.home || !e.away || e.status === 'cancelled') continue;
           const start = Date.parse(e.startUTC), days = /shield|plunket|test|first[- ]class|four[- ]day/i.test(`${e.comp} ${e.format || ''}`) ? 5 : 1;
           if (at < start - 3 * 36e5 || at > start + (days - 1) * DAY + 12 * 36e5) continue;
-          const names = t => { const k = ytSide(t); return [k, ...(YT_ALIAS[k] || []), ...(YT_ALIAS[String(t).toLowerCase()] || [])]; };
-          if (![e.home, e.away].every(t => names(t).some(n => title.includes(n.endsWith(' ') ? ` ${n}` : n)))) continue;
-          // a Second XI (or under-19, trial...) stream only for a game of that grade, and a top-level stream never for one
-          if (lowKey(`${e.comp || ''} ${e.stage || ''}`) !== low) continue;
-          const women = /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'wbbl', 'blacksticksw', 'kiwiferns', 'silverferns', 'tallferns', 'anzprem', 'footballferns'].includes(e.team);
-          if ((sport === 'cricket' ? WOMEN_TITLE : /women/i).test(line) !== women) continue;
+          if (!ytFor(e, sport, st)) continue;
           (e.yt ||= []).push({ url: `https://www.youtube.com/watch?v=${st.id}`, ch, at: st.at, state: st.state });
           hit.add(st.id);
           found.push(`${e.home} v ${e.away} (${st.state})`);
         }
       }
+      // a highlights video goes to the game it's for: the latest of its sides' games that started before it went up, in
+      // the 8 days before (so a series' second game's highlights don't land on the first)
+      for (const h of hls) {
+        const at = Date.parse(h.at);
+        let fits = events.filter(e => Date.parse(e.startUTC) <= at && at - Date.parse(e.startUTC) <= 8 * DAY && ytFor(e, sport, h));
+        // a channel of every sport: games of two sports between the same sides need the title to say which
+        if (sport === '*' && new Set(fits.map(e => e.sport)).size > 1) fits = fits.filter(e => SPORT_WORD[e.sport]?.test(`${h.title} ${h.d || ''}`));
+        const e = fits.sort((a, b) => b.startUTC.localeCompare(a.startUTC))[0];
+        if (e) (hlFor.get(e) || hlFor.set(e, []).get(e)).push({ url: `https://www.youtube.com/watch?v=${h.id}`, ch, at: h.at, main: !!h.main });
+      }
     } catch (err) { notes.push(`${ch} error ${err.message}`); }
   }
+  // the card's Highlights link: the latest (for a multi-day game, the latest day's). Only its address and channel: the
+  // video's title can carry the result
+  for (const [e, hs] of hlFor) { const [h] = hs.sort((a, b) => b.main - a.main || b.at.localeCompare(a.at)); e.hl = { url: h.url, ch: h.ch }; }
   const made = caSecondXI(caStreams.filter(st => !hit.has(st.id)), events);
   for (const e of events) if (e.yt) e.yt.sort((a, b) => a.at < b.at ? -1 : 1);
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
-  diag.youtube = `streams per channel: ${notes.join(', ')}; matched ${found.length}${found.length ? ': ' + found.slice(0, 20).join('; ') : ''}; Second XI games from Cricket Australia's streams: ${made.length ? made.map(e => `${e.comp} ${e.home} v ${e.away} ${e.startUTC.slice(0, 10)}`).join('; ') : 'none'}`;
+  diag.youtube = `streams per channel: ${notes.join(', ')}; matched ${found.length}${found.length ? ': ' + found.slice(0, 20).join('; ') : ''}; highlights videos on ${hlFor.size} games; Second XI games from Cricket Australia's streams: ${made.length ? made.map(e => `${e.comp} ${e.home} v ${e.away} ${e.startUTC.slice(0, 10)}`).join('; ') : 'none'}`;
 }
 // Cricket Australia's Second XI games, listed from its streams (no other free source lists them): the men's four-day
 // Toyota Second XI and the Women's Second XI, named by the stream description's first line ("CASC Toyota Second XI Round
