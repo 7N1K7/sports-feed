@@ -1,5 +1,29 @@
-badges302
-lookup 4551: Super Rugby | Rugby | International | https://r2.thesportsdb.com/images/media/league/badge/alpxhe1675871443.png
-lookup 5174: New Zealand Super Smash | Cricket | New Zealand | https://r2.thesportsdb.com/images/media/league/badge/3d5cld1645179187.png
-lookup 5278: New Zealand National Provincial Championship | Rugby | New Zealand | https://r2.thesportsdb.com/images/media/league/badge/0rbyp71786623355.png
-lookup 5701: Super Rugby Aus | Rugby | Australia | https://r2.thesportsdb.com/images/media/league/badge/b9v2541758885749.png
+nc303
+feed generated ?; NC events 4
+  2026-11-07T14:10:00Z | Scotland v All Blacks | upcoming | team=allblacks | src=https://www.allblacks.com/news/the-nations-championship-explained | id=ab-sco-nz-2026-11-07
+  2026-11-14T14:10:00Z | Wales v All Blacks | upcoming | team=allblacks | src=https://www.allblacks.com/news/the-nations-championship-explained | id=ab-wal-nz-2026-11-14
+  2026-11-21T14:10:00Z | England v All Blacks | upcoming | team=allblacks | src=https://www.allblacks.com/news/the-nations-championship-explained | id=ab-eng-nz-2026-11-21
+  2026-11-27T00:00:00Z | All Blacks v TBC (northern hemisphere side, by standings) | upcoming | team=allblacks | src=https://www.visitlondon.com/things-to-do/event/51197521 | id=ab-nc-finals-2026-11
+feed keys: generatedAt,site,diag,events,form,news,tables,rankings,stateSquads,teamSquads,teamLinks,coverage,checks,sources
+diag NC: {"wikipedia":{"2026 Hilux NPC":79,"List of 2026 Super Rugby Pacific matches":77,"List of 2027 Super Rugby Pacific matches":80,"2026 Super Rugby Pacific season":6,"2027 Super Rugby Pacific season":5,"2026 Nations Championship":0,"The Rugby Championship":0,"2027 Rugby Championship":10,"2026 men's rugby union internationals":13,"2027 men's rugby union internationals":1,"2026 women's rugby union internationals":3,"2026 WXV Global Series":30,"2026 Men's Rugby League World Cup":18,"2026 Women's Rugby League World Cup":15,"2026 Wheelchair Rugby League World Cup":20,"2026–27 Big Bash League season":44,"2026–27 Women's Big Bash League season":43,"2026–27 Sheffield Shield season":30,"2026–27 Dean Jones Trophy":16,"2026–27 Plunket Shield season":0,"2026–27 Ford Trophy":30,"2026–27 Super Smash (men's cricket)":0,"2026–27 Hallyburton Johnstone Shield":0,"2026–27 Super Smash (women's cricket)":0,"2026–27 A-League Men":0,"2026–27 Premier League":0,"2026 NRL season":1,"2027 NRL season":0,"2026 NRL finals series":9,"List of UFC events":14,"New Zealand men's national field hockey team":19,"New Zealand women's national field hockey team":21,"2026–27 Men's FIH Pro League":0,"2026–27 Women's FIH Pro League":0,"Men's FIH Hockey Nations Cup":0,"2026 Men's FIH Hockey World Cup":6,"2026 Women's FIH Hockey World Cup":6,"2026–27 NBL season":165,"2027 FIBA Basketball World Cup qualification (Asia)":12,"2027 FIBA Basketball World Cup":0,"2026 FIBA Women's Basketball World Cup":0,"2026 ANZ Premiership sea
+wiki wikitext 36043 chars, rugbybox 6
+tsdb eventsnextleague.php?id=5852: 1
+  2026-11-06T20:10:00 | Ireland Rugby v Argentina Rugby | r4 | NS
+tsdb eventspastleague.php?id=5852: 1
+  2026-07-18T19:10:00 | Argentina Rugby v England Rugby | r3 | FT
+tsdb eventsseason.php?id=5852&s=2026: 15
+  2026-07-04T08:40:00 | Japan Rugby v Italy Rugby | r1 | FT
+  2026-07-04T07:10:00 | New Zealand Rugby v France Rugby | r1 | FT
+  2026-07-04T10:10:00 | Australia Rugby v Ireland Rugby | r1 | FT
+  2026-07-04T13:10:00 | Fiji Rugby v Wales Rugby | r1 | FT
+  2026-07-04T15:40:00 | South Africa Rugby v England Rugby | r1 | FT
+  2026-07-04T19:10:00 | Argentina Rugby v Scotland Rugby | r1 | FT
+  2026-07-11T10:10:00 | Japan Rugby v Ireland Rugby | r2 | FT
+  2026-07-11T05:10:00 | New Zealand Rugby v Italy Rugby | r2 | FT
+  2026-07-11T07:40:00 | Australia Rugby v France Rugby | r2 | FT
+  2026-07-11T13:10:00 | Fiji Rugby v England Rugby | r2 | FT
+  2026-07-11T15:40:00 | South Africa Rugby v Scotland Rugby | r2 | FT
+  2026-07-11T19:00:00 | Argentina Rugby v Wales Rugby | r2 | FT
+  2026-07-18T05:40:00 | Japan Rugby v France Rugby | r3 | FT
+  2026-07-18T07:10:00 | New Zealand Rugby v Ireland Rugby | r3 | FT
+  2026-07-18T08:10:00 | Australia Rugby v Italy Rugby | r3 | FT
