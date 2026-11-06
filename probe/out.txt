@@ -1,9 +1,33 @@
-leagues2
-4461 Australian Big Bash League | badge https://r2.thesportsdb.com/images/media/league/badge/yko7ny1546635346.png
-5530 Sheffield Shield | badge https://r2.thesportsdb.com/images/media/league/badge/cd4akv1742154549.png
-5854 Asia Rugby Championship | badge https://r2.thesportsdb.com/images/media/league/badge/ojcb2d1773685766.png
-5855 Asia Rugby Division 1 | badge https://r2.thesportsdb.com/images/media/league/badge/euwjvg1773686571.png
-5852 Nations Championship | badge https://r2.thesportsdb.com/images/media/league/badge/jifczi1773608397.png
-5853 Rugby Africa Cup | badge https://r2.thesportsdb.com/images/media/league/badge/qddzm81773660193.png
-5682 Womens Rugby World Cup | badge https://r2.thesportsdb.com/images/media/league/badge/vphokh1755422562.png
-5174 New Zealand Super Smash | badge https://r2.thesportsdb.com/images/media/league/badge/3d5cld1645179187.png
+imgs291
+melbourne-renegades ok 15280
+sydney-thunder ok 22450
+melbourne-stars ok 43855
+hobart-hurricanes ok 30658
+brisbane-heat ok 18144
+sydney-sixers ok 33665
+adelaide-strikers ok 28645
+perth-scorchers ok 46338
+auckland-aces ok 9961
+canterbury ok 21167
+central-stags ok 10429
+northern-districts ok 26243
+wellington-firebirds ok 14236
+otago-volts ok 6550
+flag-nz ok 2284
+flag-au ok 2414
+flag-fj ok 5012
+flag-fr ok 183
+flag-ck ok 3838
+flag-pg ok 2772
+flag-ws ok 1036
+flag-lb ok 1572
+flag-gb-eng ok 144
+flag-gb-wls ok 10476
+flag-gb-sct ok 1437
+flag-to ok 156
+flag-ie ok 207
+flag-us ok 2663
+flag-it ok 183
+flag-za ok 1063
+flag-ar ok 1777
+flag-jp ok 1058
