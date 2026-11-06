@@ -894,12 +894,15 @@ a.svc:hover { text-decoration-color: currentColor }
 .ev .body { position: relative }
 .ev .comp .sicon { width: 22px; height: 22px; flex: none }
 /* the octagon's dark rim fades into a dark card, so it is drawn a little bigger to look the same size as the ball or bat */
-.ev .comp .sicon[src*="mma.svg"] { width: 26px; height: 26px; margin-block: -2px }
 .ev .comp { justify-content: center; text-align: center }
 /* time box: everything centred, top to bottom and side to side */
 @media (min-width: 561px) { .ev .when { align-content: center; justify-items: center; text-align: center; padding-top: 9px; padding-bottom: 9px } .ev .when > * { justify-self: center } .ev .when .score + .hl { margin-top: 6px } }
 .dsheet .comp .sicon, .detail .comp .sicon { margin-left: auto; font-size: 20px; line-height: 1 }
 .cicon { width: 16px; height: 16px; margin-right: 5px; vertical-align: -3px }
+/* the sport buttons' 3D icons a little bigger, where their detail shows; they sit inside the line, so the buttons keep their height */
+#sportFilter .sportchip .cicon { width: 20px; height: 20px; margin-block: -2px; vertical-align: -5px }
+html.tight #sportFilter .sportchip .cicon { width: 19px; height: 19px }
+@media (max-width: 560px) { #sportFilter .sportchip .cicon { width: 19px; height: 19px } }
 .hubimg { width: 28px; height: 28px; display: block }
 .sheet-head .comp { display: flex; align-items: center; gap: 6px; flex-wrap: wrap }
 .sheet-head .sicon { width: 22px; height: 22px }
@@ -1910,7 +1913,7 @@ const LOGO_ZOOM = { 'rugby|Canterbury': 1.8 };
 // decided, "Winner of...", nor a fighter, who has a photo or nothing)
 const NOT_SIDE = /^(TBC|TBA|TBD)\b|\b(winner|loser|placed|group|pool|semi-final|runners?[- ]up|qualifier|knockout|challenger)\b|^\d(st|nd|rd|th)\/|\bXI$/i;
 const placeholder = (n, after, sport) => sport && !FIGHT.test(sport) && !['motor', 'tennis', 'sailing', 'golf'].includes(sport) && n && !NOT_SIDE.test(n)
-  ? `<img class="logo ph ${after ? 'after' : ''}" src="icons/${sport}.svg?v=3" alt="" title="No logo for ${esc(n)} yet">` : '';
+  ? `<img class="logo ph ${after ? 'after' : ''}" src="icons/3d/${sport}.webp?v=1" alt="" title="No logo for ${esc(n)} yet">` : '';
 const crest = (n, logo, after, sport) => {
   // a national side's flag over a crest found on Wikipedia (Scotland's women had Scottish Rugby's)
   if (logo && LOGO_CREDITS[logo] && flagOf(n)) logo = '';
@@ -1991,8 +1994,8 @@ const soloTitle = e => `<div class="teams solo"><span class="nm">${esc(e.home)}<
 const BIG_EVENT = /World Cup|Nations Championship|Olympic|Commonwealth Games|Lions Tour|Champions Trophy|ATP Finals|WTA Finals|Australian Open|French Open|Roland Garros|Wimbledon|US Open|Constellation Cup|Taini Jamison|Nations Cup|Pro League|Asia Cup/i;
 // motorsport's button and most of its cards carry a chequered flag; Formula 1's own cards and page keep the F1 car
 const SPORT_ICON = { f1: '🏎️', rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', mma: '🥋', boxing: '🥊', motor: '🏁', tennis: '🎾', hockey: '🏑', basketball: '🏀', netball: '🏐', sailing: '⛵', golf: '⛳', baseball: '⚾' };
-// same-size icons on every device (Twemoji, CC BY 4.0), rather than each system's own emoji
-const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/${s}.svg?v=4" alt="" aria-hidden="true">` : '';
+// same-size icons on every device (Microsoft's Fluent Emoji in 3D, MIT: icons/3d/LICENSE), rather than each system's own emoji
+const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/3d/${s}.webp?v=1" alt="" aria-hidden="true">` : '';
 // what one of a sport's events is called: a race, a fight, a match in tennis, otherwise a game. A new sport gets its
 // word here (and its start's name in START_LABEL)
 const EV_WORD = { motor: 'race', mma: 'fight', boxing: 'fight', tennis: 'match', golf: 'tournament', sailing: 'race', baseball: 'game' };
@@ -4850,7 +4853,7 @@ async function load(woke) {
         if (sq.length) { e.squads = sq; e.seasonSquads = true; }
       }
     }
-    $('foot').innerHTML = `<div class="fbtns"><button type="button" class="fbtn" data-suggest="">Suggest an idea</button><a class="fbtn coffee" href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="">☕ Buy me a coffee</a><button type="button" class="fbtn" data-report="">Report a problem</button></div><p class="fsrc">Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (CC BY 4.0) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)</p>`;
+    $('foot').innerHTML = `<div class="fbtns"><button type="button" class="fbtn" data-suggest="">Suggest an idea</button><a class="fbtn coffee" href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="">☕ Buy me a coffee</a><button type="button" class="fbtn" data-report="">Report a problem</button></div><p class="fsrc">Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/microsoft/fluentui-emoji" target="_blank" rel="noopener">Fluent Emoji</a> (Microsoft, MIT) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)</p>`;
     render(); stamp(); openFromLink();
     // how long until the first games were on screen, in bands; a slow one (4s or more) says why it might have been
     if (!load.timed) { load.timed = true; const t = performance.now() / 1000; count({ e: 'speed', k: t < 1 ? 'under 1s' : t < 2 ? '1-2s' : t < 4 ? '2-4s' : t < 8 ? '4-8s' : '8s or more' }); if (t >= 4) count({ e: 'slow', k: slowWhy(t) }); }
