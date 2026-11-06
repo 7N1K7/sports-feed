@@ -1,36 +1,20 @@
 import { writeFileSync } from 'fs';
 const out = [];
-const UA = { headers: { 'user-agent': 'kickoff-kiwi-probe/1.0 (https://kickoff.kiwi)' } };
-const key = process.env.YOUTUBE_API_KEY;
-const yt = async (path, q) => { const r = await fetch(`https://www.googleapis.com/youtube/v3/${path}?${q}&key=${key}`); if (!r.ok) throw new Error(`${path} ${r.status}`); return r.json(); };
-// 1. the series' own Wikipedia pages, as wikitext
-for (const [t, f] of [['2026 Nations Championship Northern Hemisphere Series', 'nh'], ['2026 Nations Championship Southern Hemisphere Series', 'sh'], ['2026 Nations Championship Finals', 'fin']]) {
+// 1. the live feed's Gallen card: its streams (no scores)
+try {
+  const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
+  out.push('feed ' + f.generatedAt + ' v' + f.site?.version);
+  const g = (f.events || []).find(e => /gallen/.test(e.id)); out.push('gallen yt: ' + JSON.stringify(g?.yt || null));
+  out.push('yt diag: ' + String(f.diag?.youtube || '').slice(0, 900));
+} catch (e) { out.push('feed error ' + e.message); }
+// 2. Sky's guide: what it lists for this week's Nations Championship games
+for (const u of ['https://i.mjh.nz/SkySportNow/epg.xml', 'https://i.mjh.nz/SkyGo/epg.xml']) {
   try {
-    const j = await (await fetch('https://en.wikipedia.org/w/api.php?action=parse&prop=wikitext&format=json&formatversion=2&redirects=1&page=' + encodeURIComponent(t), UA)).json();
-    const w = j.parse?.wikitext || ''; writeFileSync(`probe/out-nc-${f}.txt`, w);
-    out.push(`${t}: ${w.length} chars, rugbybox ${(w.match(/\{\{\s*rugby ?box/gi) || []).length}${j.error ? ' error ' + j.error.info : ''}`);
-  } catch (e) { out.push(t + ' error ' + e.message); }
-}
-// 2. the Nations Championship's YouTube channel: its latest uploads (streams, highlights)
-for (const ch of ['UCMDN3VEKhM1LIJTDtGd7_Hw', 'UCBcHtMmG1n2V6CB4SWPsMUA']) {
-  try {
-    const c = await yt('channels', `part=snippet,statistics&id=${ch}`); const ci = c.items?.[0];
-    out.push(`channel ${ch}: ${ci?.snippet?.title} | subs ${ci?.statistics?.subscriberCount} | videos ${ci?.statistics?.videoCount} | ${ci?.snippet?.country || ''}`);
-    const pl = await yt('playlistItems', `part=contentDetails&maxResults=30&playlistId=UU${ch.slice(2)}`);
-    const ids = (pl.items || []).map(i => i.contentDetails.videoId);
-    if (!ids.length) continue;
-    const vs = await yt('videos', `part=snippet,contentDetails,liveStreamingDetails,status&id=${ids.join(',')}`);
-    for (const x of vs.items || []) out.push(`  ${x.snippet.publishedAt} | ${x.snippet.title} | ${x.snippet.liveBroadcastContent} | ${x.contentDetails.duration} | region ${JSON.stringify(x.contentDetails?.regionRestriction || null)} | embed ${x.status?.embeddable}`);
-  } catch (e) { out.push('yt error ' + ch + ' ' + e.message); }
-}
-// 3. news feeds: stories naming the Nations Championship
-for (const u of ['https://feeds.bbci.co.uk/sport/rugby-union/rss.xml', 'https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/sport/rugby/?outputType=xml&_website=nzh', 'https://www.rnz.co.nz/rss/sport.xml']) {
-  try {
-    const x = await (await fetch(u, UA)).text(); const items = [...x.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(m => m[1]);
-    const t = items.map(i => (i.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || '').map(s => s.replace(/<!\[CDATA\[|\]\]>/g, ''));
-    const d = items.map(i => (i.match(/<description>([\s\S]*?)<\/description>/) || [])[1] || '');
-    out.push(`${u.split('/')[2]}: ${items.length} items; NC: ${t.filter((s, i) => /Nations Championship/i.test(s + d[i])).length}`);
-    t.forEach((s, i) => { if (/Nations Championship|Ireland|Argentina|Scotland|Wales|England|France|Italy|Springboks|South Africa|Fiji|Japan|Wallabies/i.test(s)) out.push('   ' + s.slice(0, 140)); });
+    const x = await (await fetch(u)).text();
+    const chans = Object.fromEntries([...x.matchAll(/<channel id="([^"]+)">[\s\S]*?<display-name[^>]*>([^<]+)</g)].map(m => [m[1], m[2]]));
+    const progs = [...x.matchAll(/<programme start="(\d{12})[^"]*" stop="[^"]*" channel="([^"]+)"[^>]*>\s*<title[^>]*>([^<]+)<\/title>(?:\s*<desc[^>]*>([^<]*)<\/desc>)?/g)];
+    out.push(`${u}: ${x.length} bytes, ${progs.length} programmes`);
+    for (const m of progs) if (/Ireland v Argentina|Italy v South Africa|Wales v Japan|France v Fiji|England v Australia|Scotland v (New Zealand|All Blacks)|Nations Championship/i.test(m[3] + ' ' + (m[4] || ''))) out.push(`  ${m[1]} | ${chans[m[2]] || m[2]} | ${m[3]} | ${(m[4] || '').slice(0, 90)}`);
   } catch (e) { out.push(u + ' error ' + e.message); }
 }
-writeFileSync('probe/out.txt', 'nc305\n' + out.join('\n').replace(/key=[^&"\s]*/g, 'key=X') + '\n');
+writeFileSync('probe/out.txt', 'nc306\n' + out.join('\n').replace(/key=[^&"\s]*/g, 'key=X') + '\n');
