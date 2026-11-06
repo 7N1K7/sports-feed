@@ -23,6 +23,7 @@
   { "team": "npb", "broadcast": "", "watchNote": "Not on TV or streamed in NZ: Japanese TV only" },
   { "comp": "Sheffield Shield", "broadcast": "Sky Sport (selected games, no free stream in NZ)", "au": "Kayo (every game) / Fox Cricket (selected games) / cricket.com.au" },
   { "comp": "Dean Jones Trophy", "broadcast": "Sky Sport (selected games)", "au": "Kayo / cricket.com.au" },
+  { "comp": "Second XI", "broadcast": "", "watchNote": "Not on TV in NZ: streamed free on Cricket Australia's YouTube channel", "au": "Free on Cricket Australia's YouTube channel" },
   { "comp": "Big Bash", "broadcast": "Sky Sport / Sky Sport Now", "au": "Fox Cricket and Kayo (every game) / Channel 7 and 7plus (most games)" },
   { "comp": "World Cup", "broadcast": "Sky Sport / Sky Sport Now" },
   { "team": "nzdomestic", "broadcast": "", "watchAlt": "NZC live stream (nzc.nz / YouTube)", "watchNote": "Not on TV in NZ" },

@@ -2007,8 +2007,8 @@ const CITY_FIX = { Carins: 'Cairns', Launcerston: 'Launceston' };
 const cityOf = e => { const c = (e.city || '').split(',')[0]; return CITY_FIX[c] || c; };
 
 // rough match lengths, used for "On now"
-const HOURS = { Test: 7 * 24 * 0 + 8, ODI: 8, 'List A': 8, T20I: 3.5, T20: 3.5, 'First-class': 8 };
-const DAYS = { Test: 5, 'First-class': 4 };
+const HOURS = { Test: 7 * 24 * 0 + 8, ODI: 8, 'List A': 8, T20I: 3.5, T20: 3.5, 'First-class': 8, 'Four-day': 8 };
+const DAYS = { Test: 5, 'First-class': 4, 'Four-day': 4 }; // Four-day: a multi-day game that isn't first-class (the Second XI)
 // cricket format from the feed, or from the stage/comp name ("2nd Test", "1st T20I")
 const formatOf = e => e.format || (/\bTests?\b/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'Test' : /Sheffield Shield|Plunket Shield|first.class/i.test(`${e.stage || ''} ${e.comp || ''}`) ? 'First-class' : /\bODI/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'ODI' : /\bT20/.test(`${e.stage || ''} ${e.comp || ''}`) ? 'T20I' : '');
 // a Test or first-class game with no start time listed: nearly all begin about 10am (Tests) or 10:30am local, so show
@@ -2958,7 +2958,7 @@ function seriesHidden(c, now) {
   return evs.length >= 2 && evs.every(e => isDone(e, now)) ? evs.filter(e => isHidden(e, now)).map(e => e.id) : [];
 }
 // a tour of two or three formats gives each its own: "Proteas win Tests 2–1", "Australia win ODIs 2–1"
-const FORMAT_WORD = { Test: 'Tests', ODI: 'ODIs', T20I: 'T20Is', 'First-class': '' };
+const FORMAT_WORD = { Test: 'Tests', ODI: 'ODIs', T20I: 'T20Is', 'First-class': '', 'Four-day': '' };
 function seriesResult(c, now) {
   const evs = seriesGames(c);
   if (evs.length < 2 || evs.some(e => !isDone(e, now) || isHidden(e, now))) return [];
@@ -3469,7 +3469,7 @@ const shortComp = c => {
   const t = SHORT.reduce((t, [re, r]) => t.replace(re, r), c), w = /^Women's |\u2009W\b/.test(t);
   return w ? `${t.replace(/^Women's /, '').replace(/\u2009W\b/g, '')} (W)` : t;
 };
-const NOT_BAR = /Heartland XV/;
+const NOT_BAR = /Heartland XV|Second XI/;
 // a two-side series without New Zealand where neither side is in the world's top five (in the series' formats, for
 // cricket) is too small for the series row (Bangladesh v West Indies); its games still show everywhere else
 const RANK_FMT = { Test: /Tests/, ODI: /ODIs/, T20I: /T20Is/ };
@@ -3497,7 +3497,7 @@ function renderNowBar(now) {
     if (!visibleTeam(e) || e.minor) continue;
     const c = compOf(e);
     // season-long championships (F1, Supercars, SailGP, the golf tours) aren't a series: they're under Running now
-    // nor are short tours too small for the row (the Heartland XV's), which stay with the games
+    // nor are short tours too small for the row (the Heartland XV's), nor the Second XI, which stay with the games
     if (GENERIC.test(c) || NOT_BAR.test(c) || ['motor', 'sailing', 'golf'].includes(e.sport)) continue;
     const t = new Date(e.startUTC) - now;
     const v = by.get(c) || { started: false, next: Infinity, nz: false, sport: e.sport, first: Infinity, last: -Infinity, n: 0, sides: new Set(), fmts: new Set(), intl: true, w: genderOf(e) === 'w' };

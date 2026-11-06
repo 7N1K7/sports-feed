@@ -417,6 +417,14 @@ async function readCurated() {
 // From 5 Nov 2026 Bangladesh's rights holders, Rabbitholebd Sports and T Sports, which stream some Bangladesh games
 // free (a stream they shut to NZ isn't counted). An open YouTube search for games was tried and left out: nearly all
 // its results are unofficial restreams and score channels
+// From 6 Nov 2026 Cricket Australia's own streams are its Second XI games (the men's four-day Toyota Second XI, the
+// Women's Second XI), its trial and Indigenous games, not the Shield or the Dean Jones Trophy: their titles look just
+// like a Shield game's ("South Australia v Tasmania"), and only the description's first line says which ("CASC Women
+// Women's Second XI Round 2"). So a stream that names a lower grade (YT_LOW) only counts for a game of that grade, and
+// the Second XI games, which no other free source lists, are listed from the streams (caSecondXI)
+const CA_YT = 'UC2naOExy27J5Qz3SO-w6xkQ';
+const YT_LOW = /second xi|2nd xi|under[- ]?19|\bu-?19\b|\btrials?\b|indigenous|academy|futures/i;
+const lowKey = s => (String(s || '').match(YT_LOW)?.[0] || '').toLowerCase().replace(/^2nd/, 'second').replace(/^(u-?|under[- ]?)19$/, 'under-19').replace(/^trials$/, 'trial');
 const YT_CHANNELS = [
   ['cricket', 'NZ Cricket', 'UCuKowzPg2-A0FcmyPa3yWug'], ['cricket', 'Cricket Australia', 'UC2naOExy27J5Qz3SO-w6xkQ'],
   ['cricket', 'Fox Cricket', 'UCOkT6dccQ1vsnMFK1xJanmA'],
@@ -446,7 +454,8 @@ async function youtubeStreams(events) {
   // .cache/yt-streams.json in between), so the key's 10,000 daily units last however many runs a busy day has
   const cacheUrl = new URL('.cache/yt-streams.json', ROOT);
   let cache = {}; try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
-  const found = [], notes = [];
+  const found = [], notes = [], hit = new Set();
+  let caStreams = [];
   for (const [sport, ch, id] of YT_CHANNELS) {
     try {
       const hot = events.some(e => e.sport === sport && e.status !== 'final' && Date.parse(e.startUTC) < now + 90 * 60e3 && Date.parse(e.startUTC) > now - 30 * 60e3);
@@ -457,30 +466,77 @@ async function youtubeStreams(events) {
         const v = ids.length ? await yt('videos', `part=snippet,contentDetails,liveStreamingDetails&id=${ids.join(',')}`) : { items: [] };
         // a stream shut to NZ (its region list leaves NZ out, or blocks it) is no use here
         const shut = x => { const r = x.contentDetails?.regionRestriction; return !!r && (r.allowed ? !r.allowed.includes('NZ') : !!r.blocked?.includes('NZ')); };
+        // the description's first line when it's a short label, not a sentence or a link ("CASC Toyota Second XI Round 1")
+        const line1 = t => { const l = String(t || '').split('\n')[0].trim(); return l.length <= 80 && !/https?:|www\./i.test(l) ? l : ''; };
         streams = (v.items || []).filter(x => x.liveStreamingDetails && !shut(x)).map(x => ({ id: x.id, title: x.snippet.title, state: x.snippet.liveBroadcastContent,
-          at: x.liveStreamingDetails.actualStartTime || x.liveStreamingDetails.scheduledStartTime || '' })).filter(x => x.at && !YT_NOT_GAME.test(x.title));
+          at: x.liveStreamingDetails.actualStartTime || x.liveStreamingDetails.scheduledStartTime || '', s: x.liveStreamingDetails.scheduledStartTime || '', d: line1(x.snippet.description) }))
+          .filter(x => x.at && !YT_NOT_GAME.test(x.title));
         cache[id] = { t: now, streams };
       }
       notes.push(`${ch} ${streams.length}`);
+      if (id === CA_YT) caStreams = streams;
       for (const st of streams) {
-        const title = ` ${st.title.toLowerCase()} `, at = Date.parse(st.at);
+        // (a stream cached before 6 Nov 2026 has no description line: d is '')
+        const title = ` ${st.title.toLowerCase()} `, at = Date.parse(st.at), line = `${st.title} ${st.d || ''}`, low = lowKey(line);
         for (const e of events) {
           if (e.sport !== sport || !e.home || !e.away || e.status === 'cancelled') continue;
           const start = Date.parse(e.startUTC), days = /shield|plunket|test|first[- ]class|four[- ]day/i.test(`${e.comp} ${e.format || ''}`) ? 5 : 1;
           if (at < start - 3 * 36e5 || at > start + (days - 1) * DAY + 12 * 36e5) continue;
           const names = t => { const k = ytSide(t); return [k, ...(YT_ALIAS[k] || []), ...(YT_ALIAS[String(t).toLowerCase()] || [])]; };
           if (![e.home, e.away].every(t => names(t).some(n => title.includes(n.endsWith(' ') ? ` ${n}` : n)))) continue;
+          // a Second XI (or under-19, trial...) stream only for a game of that grade, and a top-level stream never for one
+          if (lowKey(`${e.comp || ''} ${e.stage || ''}`) !== low) continue;
           const women = /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'wbbl', 'blacksticksw', 'kiwiferns', 'silverferns', 'tallferns', 'anzprem', 'footballferns'].includes(e.team);
-          if ((sport === 'cricket' ? WOMEN_TITLE : /women/i).test(st.title) !== women) continue;
+          if ((sport === 'cricket' ? WOMEN_TITLE : /women/i).test(line) !== women) continue;
           (e.yt ||= []).push({ url: `https://www.youtube.com/watch?v=${st.id}`, ch, at: st.at, state: st.state });
+          hit.add(st.id);
           found.push(`${e.home} v ${e.away} (${st.state})`);
         }
       }
     } catch (err) { notes.push(`${ch} error ${err.message}`); }
   }
+  const made = caSecondXI(caStreams.filter(st => !hit.has(st.id)), events);
   for (const e of events) if (e.yt) e.yt.sort((a, b) => a.at < b.at ? -1 : 1);
   try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
-  diag.youtube = `streams per channel: ${notes.join(', ')}; matched ${found.length}${found.length ? ': ' + found.slice(0, 20).join('; ') : ''}`;
+  diag.youtube = `streams per channel: ${notes.join(', ')}; matched ${found.length}${found.length ? ': ' + found.slice(0, 20).join('; ') : ''}; Second XI games from Cricket Australia's streams: ${made.length ? made.map(e => `${e.comp} ${e.home} v ${e.away} ${e.startUTC.slice(0, 10)}`).join('; ') : 'none'}`;
+}
+// Cricket Australia's Second XI games, listed from its streams (no other free source lists them): the men's four-day
+// Toyota Second XI and the Women's Second XI, named by the stream description's first line ("CASC Toyota Second XI Round
+// 1"). One game for each pair of sides: a four-day game has a stream a day ("Toyota Second XI - Victoria v South
+// Australia (Day 2)", or just "Queensland v Victoria"), and a women's game can have a few on its day (restarts). From
+// three days back, so the past ones don't pile up. Its time is the stream's set start; no results (the streams don't
+// carry them), and no squads (the state squads kept in the feed are the Shield sides'). Trial and Indigenous games are
+// left out
+const CA_SXI = /^CASC (Women Women's Second XI|Toyota Second XI) Round (\d+)/i;
+function caSecondXI(streams, events) {
+  const groups = [];
+  for (const st of [...streams].sort((a, b) => a.at.localeCompare(b.at))) {
+    const m = String(st.d || '').match(CA_SXI); if (!m) continue;
+    const women = /women/i.test(m[1]), days = women ? 1 : 4;
+    const day = +(st.title.match(/\(day\s*(\d)\)/i)?.[1] || 1);
+    const sides = st.title.replace(/^.*?second xi\s*[-–:|]\s*/i, '').replace(/\s*\(day\s*\d\)\s*$/i, '').split(/\s+vs?\.?\s+/i).map(t => t.trim());
+    if (sides.length !== 2 || !sides.every(Boolean)) continue;
+    const start = Date.parse(st.s || st.at) - (day - 1) * DAY;
+    const g = groups.find(g => g.women === women && g.round === m[2] && g.home === sides[0] && g.away === sides[1] && start > g.start - 12 * 36e5 && start < g.start + (days - 1) * DAY + 12 * 36e5);
+    if (g) g.streams.push(st); else groups.push({ women, days, round: m[2], home: sides[0], away: sides[1], start, streams: [st] });
+  }
+  const logo = n => events.find(e => e.team === 'audomestic' && (e.home === n ? e.homeLogo : e.away === n && e.awayLogo));
+  const made = [];
+  for (const g of groups) {
+    const last = Math.max(...g.streams.map(st => Date.parse(st.at)));
+    if (last < now - 3 * DAY && !g.streams.some(st => st.state === 'live' || st.state === 'upcoming')) continue;
+    const day = new Date(g.start).toISOString().slice(0, 10), slug = t => t.toLowerCase().replace(/[^a-z]+/g, '');
+    const e = { id: `ca2xi${g.women ? 'w' : ''}-${day}-${slug(g.home)}${slug(g.away)}`, team: 'audomestic', tags: [], sport: 'cricket',
+      comp: g.women ? "Women's Second XI" : 'Second XI', stage: `Round ${g.round}`, ...(g.women ? {} : { format: 'Four-day' }),
+      home: g.home, away: g.away, startUTC: new Date(g.start).toISOString(), timeTBC: false,
+      status: g.streams.some(st => st.state === 'live') ? 'live' : 'upcoming', source: `https://www.youtube.com/channel/${CA_YT}`,
+      yt: g.streams.map(st => ({ url: `https://www.youtube.com/watch?v=${st.id}`, ch: 'Cricket Australia', at: st.at, state: st.state })), squads: [], ytOnly: true };
+    for (const side of ['home', 'away']) { const o = logo(e[side]); if (o) { const k = o.home === e[side] ? 'home' : 'away'; e[side + 'Logo'] = o[k + 'Logo']; if (o[k + 'LogoCredit']) e[side + 'LogoCredit'] = o[k + 'LogoCredit']; } }
+    if (events.some(x => x.id === e.id)) continue;
+    applyBroadcast(e, rules);
+    events.push(e); made.push(e);
+  }
+  return made;
 }
 // UFC's fight-week videos on its own YouTube channel, free to watch: Embedded, Countdown, the press conference, media
 // day, open workouts, the weigh-ins. Two requests a run (its latest 50 uploads, then their times); what's matched is
@@ -1964,13 +2020,13 @@ for (const c of Object.values(coverage)) for (const k of ['time', 'watch', 'squa
 //   inside its season (games within a fortnight either side; knockout rounds left out): a game left out, or a fixture changed (a planned break shows up here too). Tests and first-class
 //   games, a round every ten days or so, are left out
 const checks = { noResult: [], thinWeeks: [] };
-const fmtDays = e => /^(Test|First-class)$/i.test(e.format || '') || /Sheffield Shield|Plunket Shield|first.class|\bTests?\b/i.test(`${e.comp || ''} ${e.stage || ''}`) ? (/Test/i.test(`${e.format || ''} ${e.comp || ''} ${e.stage || ''}`) ? 5 : 4) : 1;
+const fmtDays = e => /^(Test|First-class|Four-day)$/i.test(e.format || '') || /Sheffield Shield|Plunket Shield|first.class|\bTests?\b/i.test(`${e.comp || ''} ${e.stage || ''}`) ? (/Test/i.test(`${e.format || ''} ${e.comp || ''} ${e.stage || ''}`) ? 5 : 4) : 1;
 const baseComp = e => String(e.comp || e.team || '').replace(/\s*[,·(].*$/, '').replace(/\s+(Round|Week|Match|Game)\s+\d+.*$/i, '').trim();
 // competitions with a result for any game: in one with none (the Ford Trophy: its only results are NZC's, which can't
 // be reused), a game's missing result says nothing, but the game is still listed, to check it was played when shown
 const hasRes = new Set(events.filter(e => e.score || e.status === 'final').map(e => `${e.sport}|${baseComp(e)}`));
 for (const e of events) {
-  if (e.session || e.formOnly || e.status === 'final' || e.status === 'live' || e.score || e.liveScore) continue;
+  if (e.session || e.formOnly || e.ytOnly || e.status === 'final' || e.status === 'live' || e.score || e.liveScore) continue;
   const end = Date.parse(e.startUTC) + (fmtDays(e) - 1) * DAY + (e.timeTBC ? 2 * DAY : 12 * 36e5);
   if (end < now && now - end < 7 * DAY) checks.noResult.push({ s: e.sport, c: baseComp(e), n: [e.home, e.away].filter(Boolean).join(' v '), at: e.startUTC, src: e.source || '', ...(hasRes.has(`${e.sport}|${baseComp(e)}`) ? {} : { noSource: true }) });
 }
@@ -1986,7 +2042,7 @@ const wk = t => Math.floor((t + 13 * 36e5 - 4 * DAY) / (7 * DAY)); // NZ weeks, 
 const byComp = new Map();
 // knockout games are left out: the rounds shrink by design (a World Cup's semi-finals week has two games, not five)
 const KO = /semi-final|quarter-final|\bfinals?\b|play-?offs?|knockout|eliminator|challenger|qualifier/i;
-for (const e of events) { if (e.session || e.formOnly || ['motor', 'golf', 'sailing', 'tennis'].includes(e.sport) || fmtDays(e) > 1 || KO.test(`${e.comp || ''} ${e.stage || ''}`)) continue; const k = `${e.sport}|${baseComp(e)}|${genderKey(e)}`; (byComp.get(k) || byComp.set(k, []).get(k)).push(Date.parse(e.startUTC)); }
+for (const e of events) { if (e.session || e.formOnly || e.ytOnly || ['motor', 'golf', 'sailing', 'tennis'].includes(e.sport) || fmtDays(e) > 1 || KO.test(`${e.comp || ''} ${e.stage || ''}`)) continue; const k = `${e.sport}|${baseComp(e)}|${genderKey(e)}`; (byComp.get(k) || byComp.set(k, []).get(k)).push(Date.parse(e.startUTC)); }
 for (const [k, ts] of byComp) {
   if (ts.length < 8) continue;
   const counts = new Map(); for (const t of ts) counts.set(wk(t), (counts.get(wk(t)) || 0) + 1);
