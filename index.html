@@ -930,7 +930,7 @@ button.hubres { font-family: inherit; background: transparent; cursor: pointer }
    the line (over the free space, so nothing moves) that opens Settings there */
 #weekSec > h2, .hubtop { position: relative }
 .offwrap { position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: inline-flex; align-items: center; gap: 4px }
-.offwrap[hidden] { display: none }
+.offwrap[hidden], .offnote[hidden] { display: none }
 .offnote { display: inline-flex; align-items: center; gap: 3px; padding: 3px 7px 3px 5px; font: 600 11px/1 var(--f-body); letter-spacing: 0; text-transform: none; color: var(--muted); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; cursor: pointer; white-space: nowrap }
 .offnote:hover { color: var(--ink); border-color: var(--muted) }
 .offnote svg { width: 11px; height: 11px; flex: none }
@@ -952,6 +952,8 @@ button.hubres { font-family: inherit; background: transparent; cursor: pointer }
 .qcs .qmore { flex: none; height: 24px; min-width: 30px; padding: 0 8px; box-sizing: border-box; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 700 12px/22px var(--f-body); cursor: pointer }
 .qcs .qmore:hover { border-color: var(--muted) } @media (hover: hover) { .qcs .qt:hover { filter: brightness(1.18) } }
 #weekRange.qhide { visibility: hidden }
+/* a competition that's off in Settings: greyed and dimmed, with a dashed edge (its own colours while its page is open) */
+.qcs .is-off:not([aria-pressed="true"]) { filter: grayscale(1) brightness(.7); border-style: dashed !important; box-shadow: none !important }
 /* Show here: what's off shows on this sport's page (or this competition's) anyway, and stays out of the main list. Both
    wordings sit in the same spot, so the button keeps its width when tapped */
 .herebtn { display: inline-grid; padding: 3px 8px; font: 600 11px/1 var(--f-body); letter-spacing: 0; text-transform: none; color: var(--ink); background: var(--paper); border: 1px solid var(--muted); border-radius: 999px; cursor: pointer; white-space: nowrap }
@@ -3888,15 +3890,20 @@ function drawOffNote() {
     return ks.length && ks.length === (SPORT[sp] || []).length ? [[groupOf(ks[0]), ks[0]]] : ks.map(k => [label(k), k]); });
   const here = [...offSports], hereOn = here.length > 0 && here.every(sp => showHere.has(sp));
   // on a competition's page it goes by the name, or on This week's line when a long name leaves no room
+  // (This week's line leaves out what has its own button there, marked off; a sport with all of it off keeps its words)
+  const covered = new Set(wcList.filter(x => x.off).flatMap(x => [...x.keys])); wcOffKey = offs.map(o => o[1]).sort().join();
+  const left = sports.flatMap(sp => (SPORT[sp] || []).filter(k => !picked.has(k) && !covered.has(k)));
   for (const n of [$('offWeek'), $('offHub')]) {
     const w = n.parentNode, h = w.lastElementChild;
-    w.hidden = !offs.length || (n.id === 'offHub' && !compSel); if (w.hidden) continue;
+    let os = n.id === 'offWeek' ? offs.filter(([, k]) => !covered.has(k)) : offs; if (!os.length && left.length) os = offs;
     h.hidden = n.id === 'offHub' || !!compSel;
-    const [first] = offs[0], more = offs.length - 1;
+    w.hidden = !offs.length || (n.id === 'offHub' && !compSel) || (!os.length && h.hidden); if (w.hidden) continue;
+    n.hidden = !os.length; if (!os.length) os = offs;
+    const [first] = os[0], more = os.length - 1;
     h.dataset.here = here.join(' '); h.setAttribute('aria-pressed', String(hereOn)); h.setAttribute('aria-label', 'Show here');
     h.title = hereOn ? `Showing ${offs.map(o => o[0]).join(', ')} on this page. Tap to hide ${offs.length > 1 ? 'them' : 'it'} here again` : `Show ${offs.map(o => o[0]).join(', ')} on this page, still leaving ${offs.length > 1 ? 'them' : 'it'} out of the main list`;
-    Object.assign(n.dataset, { offgo: groupOf(offs[0][1]), l: `${first}${more ? ` + ${more} more` : ''} off in settings`, m: `${first}${more ? ` +${more}` : ''} off`, s: `${offs.length} off` });
-    n.title = `Off in Settings: ${offs.map(o => o[0]).join(', ')}. Tap to turn ${offs.length > 1 ? 'them' : 'it'} back on`;
+    Object.assign(n.dataset, { offgo: groupOf(os[0][1]), l: `${first}${more ? ` + ${more} more` : ''} off in settings`, m: `${first}${more ? ` +${more}` : ''} off`, s: `${os.length} off` });
+    n.title = `Off in Settings: ${os.map(o => o[0]).join(', ')}. Tap to turn ${os.length > 1 ? 'them' : 'it'} back on`;
   }
   fitOffNote();
 }
@@ -3931,31 +3938,37 @@ const textRight = el => { let x = el.getBoundingClientRect().left; const tw = do
   for (let tn; (tn = tw.nextNode());) { const r = document.createRange(); r.selectNodeContents(tn); for (const b of r.getClientRects()) if (b.width) x = Math.max(x, b.right); }
   return x; };
 // a picked sport's competitions with a game this week (whatever competition is open): live first, New Zealand's next, then
-// the soonest, with the small ones (a Second XI, a series too small for the series row) last. Not the catch-alls (one-off Tests, warm-ups, friendlies, the domestic list), and not a sport that is just one
+// the soonest, with the small ones (a Second XI, a series too small for the series row) last, then the ones off in Settings
+// (the NBA, marked off; its page shows its games whatever Settings say). Not the catch-alls (one-off Tests, warm-ups, friendlies, the domestic list), and not a sport that is just one
 // competition (F1's page opens with the sport)
 const WEEK_SKIP = /^(Test match|Women's test|Second XI|NZ domestic cricket|International friendly|Boxing|Black Caps|White Ferns|Australia)$/;
-let wcList = [], wcLast = null;
+let wcList = [], wcLast = null, wcOffKey = '';
 function drawWeekComps(now) {
   const box = $('weekComps'), sp = sportSel.size === 1 ? [...sportSel][0] : '', by = new Map();
   if (sp) {
-    const c0 = compSel; compSel = '';
+    const c0 = compSel, offTeams = new Set((SPORT[sp] || []).filter(k => !picked.has(k))); compSel = '';
     try {
       for (const e of FEED.events || []) {
         if ((e.sport || sportOf(e.team)) !== sp || !e.startUTC) continue;
         const t = Date.parse(e.startUTC) - now, live = e.status === 'live' || (e.status !== 'final' && running(e, now));
         if (!live && (t < -3 * 36e5 || t > 7 * 864e5)) continue;
-        if (!visible(e)) continue;
+        // a game left out only because its league is off in Settings counts too, for that league's button
+        let vis = visible(e), off = false;
+        if (!vis && offTeams.has(e.team)) { picked.add(e.team); try { vis = off = visible(e); } finally { picked.delete(e.team); } }
+        if (!vis) continue;
         const c = compOf(e); if (!c || WEEK_SKIP.test(c)) continue;
-        const x = by.get(c) || { c, sport: sp, live: false, nz: false, next: Infinity, w: genderOf(e) === 'w', sides: new Set(), fmts: new Set(), intl: true };
+        const x = by.get(c) || { c, sport: sp, live: false, nz: false, next: Infinity, w: genderOf(e) === 'w', sides: new Set(), fmts: new Set(), intl: true, on: false, keys: new Set() };
         x.live ||= live; x.nz ||= isNZ(e); x.next = Math.min(x.next, t); by.set(c, x);
+        // on: one of its games is here for a team or league that's on (not just shown here by Show here)
+        if (!off && visibleTeam(e)) x.on = true; else x.keys.add(e.team);
         for (const n of [e.home, e.away]) if (n) x.sides.add(n);
         if (formatOf(e)) x.fmts.add(formatOf(e));
         if (!isIntl(e)) x.intl = false;
       }
     } finally { compSel = c0; }
   }
-  for (const x of by.values()) x.small = NOT_BAR.test(x.c) || minorSeries(x.c, x);
-  let list = [...by.values()].sort((a, b) => a.small - b.small || b.live - a.live || b.nz - a.nz || a.next - b.next);
+  for (const x of by.values()) { x.small = NOT_BAR.test(x.c) || minorSeries(x.c, x); x.off = !x.on; }
+  let list = [...by.values()].sort((a, b) => a.off - b.off || a.small - b.small || b.live - a.live || b.nz - a.nz || a.next - b.next);
   // (none on another sport's competition page, opened from the series row)
   if ((list.length === 1 && compsOfSport(sp).length < 2) || (compSel && !compsOfSport(sp).includes(compSel))) list = [];
   wcList = list; box.hidden = !list.length;
@@ -3964,6 +3977,12 @@ function drawWeekComps(now) {
 // one competition's button: the series button (c), or its logo alone (t). A country series is its two flags; one with no
 // logo, its short name (WBBL) or initials
 function weekComp(x, kind) {
+  const h = weekComp1(x, kind); if (!x.off) return h;
+  const name = esc(plural(x.c)), al = ` aria-label="${name}, off in Settings"`;
+  const m = h.replace(' nowchip ', ' nowchip is-off ').replace('class="qt"', 'class="qt is-off"').replace(/ title="[^"]*"/, ` title="${name}: off in Settings. Tap for its page"`);
+  return / aria-label="/.test(m) ? m.replace(/ aria-label="[^"]*"/, al) : m.replace(' title="', `${al} title="`);
+}
+function weekComp1(x, kind) {
   const sel = compSel === x.c;
   if (kind === 'c') return nowChip(x.c, { sport: x.sport, w: x.w, live: x.live }, { sel, ended: false });
   const look = LOOKS.find(([re, o]) => re.test(x.c) && (!o.s || o.s === x.sport))?.[1], sides = seriesSides(x.c);
@@ -3981,7 +4000,7 @@ function fitWeekComps() {
   if (box.hidden || !list.length || !box.parentNode.offsetWidth) { box.innerHTML = ''; return; }
   // the off note keeps its place at the end of the line; the buttons go before it
   // (its room stays kept while the same list is drawn: opening a competition moves the note into that page's header)
-  const ow = $('offWeekW'), key = `${list.map(x => x.c).join('|')} ${innerWidth} ${document.fonts?.status} ${ow.hidden ? '' : $('offWeek').dataset.s}`;
+  const ow = $('offWeekW'), key = `${list.map(x => x.c).join('|')} ${innerWidth} ${document.fonts?.status} ${wcOffKey}`;
   const off = Math.max(!ow.hidden && ow.style.visibility !== 'hidden' ? ow.offsetWidth + 8 : 0, wcLast?.key === key ? wcLast.off : 0);
   box.style.right = off + 'px';
   const r = document.createRange(); r.selectNodeContents(range); const rr = r.getBoundingClientRect();
@@ -4652,7 +4671,7 @@ document.addEventListener('click', ev => {
   else if (t.dataset.jump) { if (!t.classList.contains('dayclose')) count({ e: 'use', k: 'Day in the week strip' }); selDay = selDay === t.dataset.jump || t.dataset.jump === dayKey(new Date()) ? '' : t.dataset.jump; drawDayPick(); }
   else if (t.dataset.bigcomp) {
     const wk = !!t.closest('#weekComps'), again = compSel === t.dataset.bigcomp && (wk || t.classList.contains('nowchip'));
-    count({ e: 'use', k: wk ? 'This week competition button' : t.classList.contains('nowchip') ? 'Series row chip' : t.classList.contains('runev') ? 'Running now tile' : 'Events ahead tile' });
+    count({ e: 'use', k: wk ? (t.classList.contains('is-off') ? 'This week off competition button' : 'This week competition button') : t.classList.contains('nowchip') ? 'Series row chip' : t.classList.contains('runev') ? 'Running now tile' : 'Events ahead tile' });
     // a series that has just finished opens on its results
     compSel = again ? '' : t.dataset.bigcomp; hubTab = endedComps.has(compSel) ? 'results' : 'games'; store.set('comp', compSel); render();
     if (wk || !t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
