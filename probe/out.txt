@@ -1,41 +1,9 @@
-live592
-1280 motor: vundefined cc logos 2/2 | , 
-   opened: Formula 1 | same true | again: closed true, same true
-1280 cricket: vundefined cccccc logos 13/13 | Black Caps v India, , , Australia v England, Bangladesh v West Indies, Pakistan v Sri Lanka
-   opened: Black Caps v IndiaBlack CapsIndiaIND | same true | again: closed true, same true
-1280 football: vundefined cc logos 2/2 | , 
-   opened: A-League Men | same true | again: closed true, same true
-1280 rugby: vundefined c logos 1/1 | 
-   opened: Nations Championship | same true | again: closed true, same true
-1280 basketball: vundefined c [off note] logos 1/1 | 
-   opened: NBL | same true | again: closed true, same true
-820 motor: vundefined cc logos 2/2 | , 
-   opened: Formula 1 | same true | again: closed true, same true
-820 cricket: vundefined tttttt logos 9/9 | Black Caps v India, Women's Big Bash, Sheffield Shield, Australia v England, Bangladesh v West Indies, Pakistan v Sri Lanka
-   opened: Black Caps v IndiaBlack CapsIndiaIND | same true | again: closed true, same true
-820 football: vundefined cc logos 2/2 | , 
-   opened: A-League Men | same true | again: closed true, same true
-820 rugby: vundefined c logos 1/1 | 
-   opened: Nations Championship | same true | again: closed true, same true
-820 basketball: vundefined c [off note] logos 1/1 | 
-   opened: NBL | same true | again: closed true, same true
-412 motor: vundefined cc (dates hidden) logos 2/2 | , 
-   opened: Formula 1 | same true | again: closed true, same true
-412 cricket: vundefined tttttt (dates hidden) logos 9/9 | Black Caps v India, Women's Big Bash, Sheffield Shield, Australia v England, Bangladesh v West Indies, Pakistan v Sri Lanka
-   opened: Black Caps v IndiaBlack CapsIndiaIND | same true | again: closed true, same true
-412 football: vundefined cc (dates hidden) logos 2/2 | , 
-   opened: A-League Men | same true | again: closed true, same true
-412 rugby: vundefined c logos 1/1 | 
-   opened: Nations Championship | same true | again: closed true, same true
-412 basketball: vundefined c (dates hidden) [off note] logos 1/1 | 
-   opened: NBL | same true | again: closed true, same true
-360 motor: vundefined cc (dates hidden) logos 2/2 | , 
-   opened: Formula 1 | same true | again: closed true, same true
-360 cricket: vundefined tttt+2 (dates hidden) logos 5/5 | Black Caps v India, Women's Big Bash, Sheffield Shield, Australia v England, 2 more competitions
-   opened: Black Caps v IndiaBlack CapsIndiaIND | same true | again: closed true, same true | +N list open true
-360 football: vundefined cc (dates hidden) logos 2/2 | , 
-   opened: A-League Men | same true | again: closed true, same true
-360 rugby: vundefined c (dates hidden) logos 1/1 | 
-   opened: Nations Championship | same true | again: closed true, same true
-360 basketball: vundefined c (dates hidden) [off note] logos 1/1 | 
-   opened: NBL | same true | again: closed true, same true
+live593
+1280: NBL, off:NBA, off in Settings | faded grayscale(1) brightness(0.7) dashed | words (none) | here Show hereHide here
+   tapped: page NBA, its header note "NBA off in settings" | line same true | again: closed true, same true
+820: NBL, off:NBA, off in Settings | faded grayscale(1) brightness(0.7) dashed | words (none) | here Show hereHide here
+   tapped: page NBA, its header note "NBA off in settings" | line same true | again: closed true, same true
+412: NBL, off:NBA, off in Settings | faded grayscale(1) brightness(0.7) dashed | words (none) | here Show hereHide here
+   tapped: page NBA, its header note "NBA off" | line same true | again: closed true, same true
+360: NBL, off:NBA, off in Settings | faded grayscale(1) brightness(0.7) dashed | words (none) | here Show hereHide here
+   tapped: page NBA, its header note "1 off" | line same true | again: closed true, same true
