@@ -1,17 +1,26 @@
 import { writeFileSync } from 'fs';
+import { chromium } from 'playwright';
 const out = [];
-const UA = { 'user-agent': 'Mozilla/5.0 (compatible; kickoff-kiwi-probe)' };
-const strip = h => h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&nbsp;|&#160;/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&rsquo;/g, "'").replace(/\s+/g, ' ');
-// Kayo Sports' terms: may its public schedule (what's on Kayo and when) be read automatically and reused?
-for (const u of ['https://kayosports.com.au/robots.txt', 'https://kayosports.com.au/terms-of-use', 'https://kayosports.com.au/terms', 'https://help.kayosports.com.au/s/article/Kayo-Terms-of-Use', 'https://help.kayosports.com.au/s/terms-of-use', 'https://kayosports.com.au/legal', 'https://www.hubbl.com.au/legal/kayo-terms-of-use', 'https://kayosports.com.au/']) {
+// v591 live: each competition page's header look (text only, no screenshots: no results shown)
+const b = await chromium.launch({ channel: 'chrome' });
+for (const c of ['NRL', 'Formula 1', 'NBA', 'NPC', 'WTA Finals', "Women's Big Bash", 'Rugby Championship', 'Black Caps v India', 'SailGP']) {
+  const ctx = await b.newContext({ viewport: { width: 1280, height: 900 }, serviceWorkers: 'block' });
+  const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
+  await p.addInitScript(cc => { try { localStorage.setItem('sf.nocount', 'true'); localStorage.setItem('sf.comp', JSON.stringify(cc)); } catch (e) {} }, c);
   try {
-    const r = await fetch(u, { headers: UA, redirect: 'follow' }); const t = await r.text();
-    out.push(`== ${u} -> ${r.status} ${r.url} len ${t.length}`);
-    if (/robots\.txt$/.test(u)) { out.push(t.slice(0, 1500)); continue; }
-    const s = strip(t);
-    out.push('  title: ' + (t.match(/<title[^>]*>([^<]*)/i)?.[1] || '').slice(0, 120));
-    const links = [...t.matchAll(/href="([^"]*(?:terms|legal|conditions)[^"]*)"/gi)].map(m => m[1]); out.push('  links: ' + [...new Set(links)].slice(0, 12).join(' '));
-    for (const m of s.matchAll(/[^.]{0,220}(scrap|crawl|robot|spider|automat|data min|harvest|reproduc|framing|commercial purpose|personal use|non-commercial)[^.]{0,220}\./gi)) out.push('  > ' + m[0].trim().slice(0, 460));
-  } catch (e) { out.push(`== ${u} error ${e.message}`); }
+    await p.goto('https://kickoff.kiwi/?v=' + Date.now(), { waitUntil: 'networkidle', timeout: 45000 });
+    await p.waitForSelector('#hubBox', { timeout: 15000 }); await p.waitForTimeout(1500);
+    const r = await p.evaluate(async () => {
+      const h = document.getElementById('hubBox'), cs = getComputedStyle(h), wm = h.querySelector('#hubWm i, #hubWm .wm'), lead = h.querySelector('#hubIcon i, #hubIcon img');
+      const url = (wm && (getComputedStyle(wm).backgroundImage.match(/url\("?([^")]+)/) || [])[1]) || '';
+      const ok = url ? await new Promise(res => { const im = new Image(); im.onload = () => res(im.naturalWidth); im.onerror = () => res('ERR'); im.src = url; }) : '-';
+      const ver = (document.body.innerText.match(/\bv(5\d\d)\b/) || [])[1];
+      const chip = document.querySelector(`#nowChips [data-bigcomp]`);
+      return `v${ver} | ${h.className} | glow ${cs.getPropertyValue('--tb-glow').trim()} | wm ${url.replace(/^.*\//, '').slice(0, 40)} loaded ${ok} | lead ${lead ? lead.tagName : '-'} | tabs ${[...h.querySelectorAll('#hubTabs button')].length}, picked bg ${getComputedStyle(h.querySelector('#hubTabs [aria-selected="true"]') || h).backgroundColor}`;
+    });
+    out.push(`${c}: ${r}${errs.length ? ' | ERR ' + errs.join('; ') : ''}`);
+  } catch (e) { out.push(`${c}: error ${e.message.split('\n')[0]}`); }
+  await ctx.close();
 }
-writeFileSync('probe/out.txt', 'kayo1\n' + out.join('\n') + '\n');
+await b.close();
+writeFileSync('probe/out.txt', 'live591\n' + out.join('\n') + '\n');
