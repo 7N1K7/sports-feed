@@ -1,29 +1,35 @@
-nc303
-feed generated ?; NC events 4
-  2026-11-07T14:10:00Z | Scotland v All Blacks | upcoming | team=allblacks | src=https://www.allblacks.com/news/the-nations-championship-explained | id=ab-sco-nz-2026-11-07
-  2026-11-14T14:10:00Z | Wales v All Blacks | upcoming | team=allblacks | src=https://www.allblacks.com/news/the-nations-championship-explained | id=ab-wal-nz-2026-11-14
-  2026-11-21T14:10:00Z | England v All Blacks | upcoming | team=allblacks | src=https://www.allblacks.com/news/the-nations-championship-explained | id=ab-eng-nz-2026-11-21
-  2026-11-27T00:00:00Z | All Blacks v TBC (northern hemisphere side, by standings) | upcoming | team=allblacks | src=https://www.visitlondon.com/things-to-do/event/51197521 | id=ab-nc-finals-2026-11
-feed keys: generatedAt,site,diag,events,form,news,tables,rankings,stateSquads,teamSquads,teamLinks,coverage,checks,sources
-diag NC: {"wikipedia":{"2026 Hilux NPC":79,"List of 2026 Super Rugby Pacific matches":77,"List of 2027 Super Rugby Pacific matches":80,"2026 Super Rugby Pacific season":6,"2027 Super Rugby Pacific season":5,"2026 Nations Championship":0,"The Rugby Championship":0,"2027 Rugby Championship":10,"2026 men's rugby union internationals":13,"2027 men's rugby union internationals":1,"2026 women's rugby union internationals":3,"2026 WXV Global Series":30,"2026 Men's Rugby League World Cup":18,"2026 Women's Rugby League World Cup":15,"2026 Wheelchair Rugby League World Cup":20,"2026–27 Big Bash League season":44,"2026–27 Women's Big Bash League season":43,"2026–27 Sheffield Shield season":30,"2026–27 Dean Jones Trophy":16,"2026–27 Plunket Shield season":0,"2026–27 Ford Trophy":30,"2026–27 Super Smash (men's cricket)":0,"2026–27 Hallyburton Johnstone Shield":0,"2026–27 Super Smash (women's cricket)":0,"2026–27 A-League Men":0,"2026–27 Premier League":0,"2026 NRL season":1,"2027 NRL season":0,"2026 NRL finals series":9,"List of UFC events":14,"New Zealand men's national field hockey team":19,"New Zealand women's national field hockey team":21,"2026–27 Men's FIH Pro League":0,"2026–27 Women's FIH Pro League":0,"Men's FIH Hockey Nations Cup":0,"2026 Men's FIH Hockey World Cup":6,"2026 Women's FIH Hockey World Cup":6,"2026–27 NBL season":165,"2027 FIBA Basketball World Cup qualification (Asia)":12,"2027 FIBA Basketball World Cup":0,"2026 FIBA Women's Basketball World Cup":0,"2026 ANZ Premiership sea
-wiki wikitext 36043 chars, rugbybox 6
-tsdb eventsnextleague.php?id=5852: 1
-  2026-11-06T20:10:00 | Ireland Rugby v Argentina Rugby | r4 | NS
-tsdb eventspastleague.php?id=5852: 1
-  2026-07-18T19:10:00 | Argentina Rugby v England Rugby | r3 | FT
-tsdb eventsseason.php?id=5852&s=2026: 15
-  2026-07-04T08:40:00 | Japan Rugby v Italy Rugby | r1 | FT
-  2026-07-04T07:10:00 | New Zealand Rugby v France Rugby | r1 | FT
-  2026-07-04T10:10:00 | Australia Rugby v Ireland Rugby | r1 | FT
-  2026-07-04T13:10:00 | Fiji Rugby v Wales Rugby | r1 | FT
-  2026-07-04T15:40:00 | South Africa Rugby v England Rugby | r1 | FT
-  2026-07-04T19:10:00 | Argentina Rugby v Scotland Rugby | r1 | FT
-  2026-07-11T10:10:00 | Japan Rugby v Ireland Rugby | r2 | FT
-  2026-07-11T05:10:00 | New Zealand Rugby v Italy Rugby | r2 | FT
-  2026-07-11T07:40:00 | Australia Rugby v France Rugby | r2 | FT
-  2026-07-11T13:10:00 | Fiji Rugby v England Rugby | r2 | FT
-  2026-07-11T15:40:00 | South Africa Rugby v Scotland Rugby | r2 | FT
-  2026-07-11T19:00:00 | Argentina Rugby v Wales Rugby | r2 | FT
-  2026-07-18T05:40:00 | Japan Rugby v France Rugby | r3 | FT
-  2026-07-18T07:10:00 | New Zealand Rugby v Ireland Rugby | r3 | FT
-  2026-07-18T08:10:00 | Australia Rugby v Italy Rugby | r3 | FT
+gal304
+video: 3ebBxHb4PN4 | FOX SPORTS AUSTRALIA (UCaoTOpfjVfdm_XlYvwbVicQ) | LIVE: Paul Gallen v Nelson Asofa-Solomona | Prelims 🥊 | Main Event | Fox Sports Australia | upcoming | sched 2026-11-06T06:00:00Z | actual - | region null | embeddable true
+desc line1: Catch all the action from the prelims before Paul Gallen and Nelson Asofa-Solomona square off in their much anticipated bout in Gold Coast, Australia. /  / #GallenNAS / 📆 Friday 6 November
+channel uploads 50; streams:
+  f3-k-f57DCo | FOX SPORTS AUSTRALIA (UCaoTOpfjVfdm_XlYvwbVicQ) | LIVE: Paul Gallen v Nelson Asofa-Solomona | Weigh-ins 🥊 | Main Event | Fox Sports Australia | none | sched 2026-11-05T01:00:00Z | actual 2026-11-05T01:00:22Z | region null | embeddable true
+  CFMhWvqIGtQ | FOX SPORTS AUSTRALIA (UCaoTOpfjVfdm_XlYvwbVicQ) | LIVE: Paul Gallen v Nelson Asofa-Solomona | Press Conference 🥊 | Live Stream I Fox Sports Australia | none | sched 2026-11-03T23:30:00Z | actual 2026-11-03T23:30:18Z | region null | embeddable true
+  fW8vaQn4gCQ | FOX SPORTS AUSTRALIA (UCaoTOpfjVfdm_XlYvwbVicQ) | LIVE: Paul Gallen v Nelson Asofa-Solomona | Grand Arrivals 🥊 | Main Event | Fox Sports Australia | none | sched 2026-11-02T01:30:00Z | actual 2026-11-02T01:30:43Z | region null | embeddable true
+  3ebBxHb4PN4 | FOX SPORTS AUSTRALIA (UCaoTOpfjVfdm_XlYvwbVicQ) | LIVE: Paul Gallen v Nelson Asofa-Solomona | Prelims 🥊 | Main Event | Fox Sports Australia | upcoming | sched 2026-11-06T06:00:00Z | actual - | region null | embeddable true
+  lx5uo0u7sh0 | FOX SPORTS AUSTRALIA (UCaoTOpfjVfdm_XlYvwbVicQ) | LIVE: Australia v New Zealand | Game 4 | Constellation Cup 2026 | none | sched 2026-10-28T08:00:00Z | actual 2026-10-28T07:55:23Z | region {"allowed":["AU"]} | embeddable true
+  5Of4Q-FdhGg | FOX SPORTS AUSTRALIA (UCaoTOpfjVfdm_XlYvwbVicQ) | LIVE: Australia v New Zealand | Game 3 | Constellation Cup 2026 | none | sched 2026-10-25T05:00:00Z | actual 2026-10-25T04:52:59Z | region {"allowed":["AU"]} | embeddable true
+  x9eIOtmPVWs | FOX SPORTS AUSTRALIA (UCaoTOpfjVfdm_XlYvwbVicQ) | LIVE: New Zealand v Australia | Game 2 | Constellation Cup 2026 | none | sched 2026-10-21T06:00:00Z | actual 2026-10-21T05:56:14Z | region {"allowed":["AU"]} | embeddable true
+  KVkE54cK-Cw | FOX SPORTS AUSTRALIA (UCaoTOpfjVfdm_XlYvwbVicQ) | LIVE: New Zealand v Australia | Game 1 | Constellation Cup 2026 | none | sched 2026-10-18T06:40:00Z | actual 2026-10-18T06:07:08Z | region {"allowed":["AU"]} | embeddable true
+channel: Nations Championship | UCMDN3VEKhM1LIJTDtGd7_Hw | Official YouTube Channel of the Nations Championship Where Hemispheres Collide.
+channel:  2026 Rugby Nations Championship | UCBcHtMmG1n2V6CB4SWPsMUA | 
+channel: Guinness Men's Six Nations | UCL5bAcVfbxSAs-UM5f5ncWg | Welcome to the official rugby channel of the Six Nations. Subscribe to the channel for highlights and special features f
+channel: Super Rugby Pacific | UCDOGExGCsrrt_RrGDgLuMww | Super Rugby Pacific is the Southern Hemisphere's pre-eminent club rugby tournament featuring the best teams from Austral
+channel: World Rugby | UCE28rwYoaV7jvU6GVzdu_GQ | Subscribe to watch the best from World Rugby. Keep up-to-date on all things rugby by following World Rugby on social med
+channel: Quilter Nations Series | UChQabsc9xJxQfcBHoFM2HBw | The Quilter Nations Series returns in 2025. Subscribe now so you don't miss a thing! #QuilterNationsSeries.
+channel: Two Cents Rugby | UC2qxMYu8Afo2vIs6XBNDx_Q | I talk rugby, giving my two cents on players, coaches and performances. Welcome a bit of banter from rugby fans all over
+channel: United Rugby Championship | UC-S6cXyil4qbIPfb2hrcH4w | The official home of the URC on YouTube. 16 powerhouse teams compete across 5 nations to earn the coveted URC trophy.
+video: 2026-11-05T22:51:51Z | Two Cents Rugby | UC2qxMYu8Afo2vIs6XBNDx_Q | CAN SCOTLAND FINALLY BEAT THE ALL BLACKS?! | Nations Championship Preview
+video: 2026-11-05T17:55:37Z | Mellothletic  | UCUx5SDVmQzKyQecEMsXeiNg | ZIMBABWE SABLES ARE READY FOR THE NEXT BATTLE! 🇿🇼🔥 | TONGA RECAP | SAMOA NEXT! #NationsCup2026
+video: 2026-11-05T17:00:27Z | Andrew Forde | UCdrvYqIXnyx1iOLcmJhEgGg | Rassie Erasmus&#39; Rugby Playing Highlights!
+video: 2026-11-05T16:00:12Z | USA YHS Rugby | UCLvX8ASFpzqRyNuYP9IJJAg | Girls rugby&#39;s biggest stage is coming back to Salt Lake City 🏉 #GirlsRugby
+video: 2026-11-05T06:15:06Z | United Rugby Championship | UC-S6cXyil4qbIPfb2hrcH4w | Springbok Call Up After 4 URC Games | Yaqeen Ahmed Highlights
+video: 2026-11-04T19:00:06Z | World Rugby | UCE28rwYoaV7jvU6GVzdu_GQ | A MUST-WIN in Shizuoka ⚡ | South Africa v Italy | Rugby World Cup 2019 | Full Match Replay
+video: 2026-11-04T18:07:54Z | Go Rugby | UCjCzBcKWU0ZSpZ5gil4-OhQ | France vs England — THE GREATEST LE CRUNCH EVER? 😱🔥 | Six Nations 2026 Highlights
+video: 2026-11-04T17:00:06Z | Andrew Forde | UCdrvYqIXnyx1iOLcmJhEgGg | Prime Rassie Erasmus was UNREAL
+video: 2026-11-04T12:30:08Z | Investec Champions Cup & EPCR Challenge Cup | UCqn9RhigXvnvVUkKm5iAjxg | The Irish provinces came out SWINGING in Round 1 🥵
+video: 2026-11-03T19:00:02Z | BRUT STUDIO | UCCxLukmr_ZQDMTNtlBgL43g | Incroyable France vs Fidji 2026 : Le match qu&#39;il ne faut pas rater 🏉✨ #rugby #lyon #shorts
+video: 2026-11-03T06:30:19Z | Two Cents Rugby | UC2qxMYu8Afo2vIs6XBNDx_Q | WHAT DOES THE ALGO SAY?! | Nations Championship Preview with Sports Forecast
+video: 2026-11-03T04:27:04Z | The Rugby Blueprint | UCPQBCvlMY-kqz8zBrX7oGlQ | The Boks Could Win Every Game and Still Miss the Final
+video: 2026-11-01T12:12:20Z | 7Sport | UCxjyNmdeMBoExeefLOuQaqg | A rollercoaster night in Sydney | Tonga v Samoa, Rugby League World Cup
+video: 2026-11-01T11:34:03Z | The Kiwi Lads | UC8RD-WJtwx3R-iqIAeJe_ag | TONGA vs SAMOA Rugby League World Cup 2026 Live Commentary (Toa Samoa vs Tonga MMT 2026)
+video: 2026-11-01T11:13:40Z | Rugby League World Cup | UC_3_k_SqxQWafdAYanYQXdg | RLWC 2026 | Tonga v Toa Samoa | Match Highlights | Round 3
