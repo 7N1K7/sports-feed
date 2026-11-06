@@ -1,28 +1,33 @@
-yt293
-video: South Australia v Tasmania | channel Cricket Australia UC2naOExy27J5Qz3SO-w6xkQ | state live | live {"actualStartTime":"2026-11-05T23:20:48Z","scheduledStartTime":"2026-11-05T23:30:00Z","concurrentViewers":"55","activeLiveChatId":"Cg0KC0VQZXl2ZjlHM0ZRKicKGFVDMm5hT0V4eTI3SjVRejNTTy13NnhrURILRVBleXZmOUczRlE"} | region {}
-desc: CASC Women Women's Second XI Round 2
-  stream 2026-11-05T23:20:48Z live | South Australia v Tasmania || CASC Women Women's Second XI Round 2
-  stream 2026-11-04T23:20:17Z none | South Australia v Australian Capital Territory || CASC Women Women's Second XI Round 2
-  stream 2026-11-03T23:20:20Z none | Tasmania v Australian Capital Territory || CASC Women Women's Second XI Round 1
-  stream 2026-11-02T23:12:36Z none | South Australia v Tasmania || CASC Women Women's Second XI Round 1
-  stream 2026-10-28T23:20:16Z none | Toyota Second XI - Victoria v South Australia (Day 4) || CASC Toyota Second XI Round 1
-  stream 2026-10-27T22:53:47Z none | Toyota Second XI - Victoria v South Australia (Day 3) || CASC Toyota Second XI Round 1
-  stream 2026-10-26T23:20:18Z none | Toyota Second XI - Victoria v South Australia (Day 2) || CASC Toyota Second XI Round 1
-  stream 2026-10-25T23:20:19Z none | Toyota Second XI - Victoria v South Australia (Day 1) || CASC Toyota Second XI Round 1
-  stream 2026-09-30T23:18:47Z none | Queensland v Victoria || CASC Toyota Second XI Round 1
-  stream 2026-09-29T23:04:03Z none | Queensland v Victoria || CASC Toyota Second XI Round 1
-  stream 2026-09-30T00:20:45Z none | South Australia v New South Wales || CASC Toyota Second XI Round 1
-  stream 2026-09-28T23:44:16Z none | South Australia v New South Wales || CASC Toyota Second XI Round 1
-  stream 2026-09-28T23:08:49Z none | Queensland v Victoria || CASC Toyota Second XI Round 1
-  stream 2026-09-28T00:14:58Z none | South Australia v New South Wales || CASC Toyota Second XI Round 1
-  stream 2026-09-27T23:20:20Z none | Queensland v Victoria || CASC Toyota Second XI Round 1
-  stream 2026-09-17T00:20:17Z none | South Australia v Victoria || CASC Women Women's Second XI Round 1
-  stream 2026-09-15T00:20:19Z none | South Australia v Victoria || CASC Women Women's Second XI Round 1
-  stream 2026-09-15T02:22:26Z none | South Australia v Victoria || CASC Women Women's Second XI Round 1
-  stream 2026-09-15T01:44:47Z none | South Australia v Victoria || CASC Women Women's Second XI Round 1
-  stream 2026-09-03T23:08:47Z none | QC Elite Women v Tasmania || CASC Trial Matches Round 1
-  stream 2026-09-03T23:20:35Z none | QC Elite Women v Tasmania || CASC Trial Matches Round 1
-  stream 2026-09-02T22:34:37Z none | Victoria Women v Tasmania || CASC Trial Matches Round 1
-  stream 2026-09-01T23:20:18Z none | Victoria Women v New South Wales || CASC Trial Matches Round 1
-  stream 2026-08-31T23:20:21Z none | New South Wales v Tasmania || CASC Trial Matches Round 1
-  stream 2026-04-19T03:54:23Z none | Western Australia Indigenous (Male) v Victoria Indigenous (Male) || CASC National Indigenous Cricket Championships (Male) Grand Final
+lg294
+Australia/Rugby: 4417 Australian National Rugby Championship | badge | logo
+Australia/Rugby: 4416 Australian National Rugby League | badge | logo
+Australia/Rugby: 5171 Australian Shute Shield | badge | logo
+Australia/Rugby: 5835 State of Origin | badge | logo
+Australia/Rugby: 5701 Super Rugby Aus | badge | -
+New Zealand/Rugby: 5278 New Zealand National Provincial Championship | badge | logo
+World/Rugby: 5854 Asia Rugby Championship | badge | -
+World/Rugby: 5855 Asia Rugby Division 1 | badge | -
+World/Rugby: 5852 Nations Championship | badge | logo
+World/Rugby: 5853 Rugby Africa Cup | badge | logo
+World/Rugby: 5682 Womens Rugby World Cup | badge | logo
+Australia/Soccer: 4620 Australia ACT NPL | badge | logo
+Australia/Soccer: 5013 Australia Brisbane Premier League | badge | logo
+Australia/Soccer: 5180 Australia Cup | badge | logo
+Australia/Soccer: 5011 Australia New South Wales NPL | badge | logo
+Australia/Soccer: 5010 Australia Northern NSW NPL | badge | logo
+England/Soccer: 4570 EFL Cup | badge | logo
+England/Soccer: 4847 EFL Trophy | badge | logo
+England/Soccer: 5225 English Isthmian League North Division | badge | -
+England/Soccer: 4647 English Isthmian League Premier Division | badge | logo
+England/Soccer: 5226 English Isthmian League South Central Division | badge | -
+Australia/Basketball: 4434 Australian NBL | badge | logo
+Australia/Basketball: 5113 Australian WNBL | badge | logo
+Australia/Basketball: 5667 NBL1 Central | badge | -
+Australia/Basketball: 5669 NBL1 East | badge | -
+Australia/Basketball: 5670 NBL1 North | badge | -
+New Zealand/Netball: 4538 New Zealand Netball League | badge | logo
+Australia/Netball: error Unexpected token '<', "<!doctype "... is not valid JSON
+World/Field Hockey: error Unexpected token '<', "<!doctype "... is not valid JSON
+New Zealand/Cricket: error Unexpected token '<', "<!doctype "... is not valid JSON
+Australia/Cricket: error Unexpected token '<', "<!doctype "... is not valid JSON
+World/Cricket: error Unexpected token '<', "<!doctype "... is not valid JSON
