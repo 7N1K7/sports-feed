@@ -1,35 +1,7 @@
-feed 2026-11-06T01:12:58.823Z v564
-ss-qld-vic-2026-10-31 2026-10-31T00:00:00Z  audomestic Queensland v Victoria | Sky Sport (selected games, no free stream in NZ)
-ss-qld-tas-2026-11-11 2026-11-11T00:30:00Z  audomestic Queensland v Tasmania | Sky Sport (selected games, no free stream in NZ)
-ss-vic-wa-2026-11-11 2026-11-10T23:30:00Z  audomestic Victoria v Western Australia | Sky Sport (selected games, no free stream in NZ)
-ss-vic-qld-2026-12-03 2026-12-02T23:30:00Z  audomestic Victoria v Queensland | Sky Sport (selected games, no free stream in NZ)
-ss-vic-tas-2027-02-08 2027-02-08T03:30:00Z  audomestic Victoria v Tasmania | Sky Sport (selected games, no free stream in NZ)
-ss-qld-wa-2027-02-08 2027-02-08T04:00:00Z  audomestic Queensland v Western Australia | Sky Sport (selected games, no free stream in NZ)
-ss-nsw-sa-2026-11 2026-11-10T23:30:00Z  audomestic New South Wales v South Australia | Sky Sport (selected games, no free stream in NZ)
-ss-nsw-qld-2026-11 2026-11-21T23:30:00Z  audomestic New South Wales v Queensland | Sky Sport (selected games, no free stream in NZ)
-ss-wa-tas-2026-11 2026-11-23T02:30:00Z  audomestic Western Australia v Tasmania | Sky Sport (selected games, no free stream in NZ)
-ss-sa-vic-2026-11 2026-11-24T00:00:00Z  audomestic South Australia v Victoria | Sky Sport (selected games, no free stream in NZ)
-pak-sl-t1-2026 2026-11-09T05:00:00Z  intlcricket Pakistan v Sri Lanka | 
-pak-sl-t2-2026 2026-11-17T05:00:00Z  intlcricket Pakistan v Sri Lanka | 
-sa-ban-t1-2026 2026-11-15T08:00:00Z  intlcricket South Africa v Bangladesh | 
-sa-ban-t2-2026 2026-11-23T08:00:00Z  intlcricket South Africa v Bangladesh | 
-aw-ind-1-2026 2026-11-12T06:00:00Z  allwhites New Zealand v India | TVNZ 1 / TVNZ+ (free)
-aw-ind-2-2026 2026-11-15T06:00:00Z TBC allwhites New Zealand v India | TVNZ 1 / TVNZ+ (free)
-wiki-audomestic-2026-12-03-newsouthwaleswesternaustralia 2026-12-03T03:00:00.000Z TBC audomestic New South Wales v Western Australia | Sky Sport (selected games, no free stream in NZ)
-wiki-audomestic-2026-12-03-southaustraliatasmania 2026-12-03T03:30:00.000Z TBC audomestic South Australia v Tasmania | Sky Sport (selected games, no free stream in NZ)
-wiki-audomestic-2027-02-08-southaustralianewsouthwales 2027-02-08T03:30:00.000Z TBC audomestic South Australia v New South Wales | Sky Sport (selected games, no free stream in NZ)
-wiki-audomestic-2027-02-20-newsouthwalesvictoria 2027-02-20T03:00:00.000Z TBC audomestic New South Wales v Victoria | Sky Sport (selected games, no free stream in NZ)
-wiki-audomestic-2027-02-20-tasmaniaqueensland 2027-02-20T03:00:00.000Z TBC audomestic Tasmania v Queensland | Sky Sport (selected games, no free stream in NZ)
-wiki-audomestic-2027-02-20-westernaustraliasouthaustralia 2027-02-20T06:00:00.000Z TBC audomestic Western Australia v South Australia | Sky Sport (selected games, no free stream in NZ)
-wiki-audomestic-2027-03-02-queenslandnewsouthwales 2027-03-02T04:00:00.000Z TBC audomestic Queensland v New South Wales | Sky Sport (selected games, no free stream in NZ)
-wiki-audomestic-2027-03-02-tasmaniasouthaustralia 2027-03-02T03:00:00.000Z TBC audomestic Tasmania v South Australia | Sky Sport (selected games, no free stream in NZ)
-wiki-audomestic-2027-03-02-westernaustraliavictoria 2027-03-02T06:00:00.000Z TBC audomestic Western Australia v Victoria | Sky Sport (selected games, no free stream in NZ)
-wiki-audomestic-2027-03-14-queenslandsouthaustralia 2027-03-14T04:00:00.000Z TBC audomestic Queensland v South Australia | Sky Sport (selected games, no free stream in NZ)
-wiki-audomestic-2027-03-14-victorianewsouthwales 2027-03-14T03:00:00.000Z TBC audomestic Victoria v New South Wales | Sky Sport (selected games, no free stream in NZ)
-wiki-audomestic-2027-03-14-tasmaniawesternaustralia 2027-03-14T03:00:00.000Z TBC audomestic Tasmania v Western Australia | Sky Sport (selected games, no free stream in NZ)
-wiki-intlcricket-2026-12-01-bangladeshsouthafrica 2026-12-01T11:30:00.000Z  intlcricket South Africa v Bangladesh | 
-wiki-intlcricket-2026-12-04-bangladeshsouthafrica 2026-12-04T11:30:00.000Z  intlcricket South Africa v Bangladesh | 
-wiki-intlcricket-2026-12-07-bangladeshsouthafrica 2026-12-07T11:30:00.000Z  intlcricket South Africa v Bangladesh | 
-wiki-intlcricket-2026-12-10-bangladeshsouthafrica 2026-12-10T16:00:00.000Z  intlcricket South Africa v Bangladesh | 
-wiki-intlcricket-2026-12-12-bangladeshsouthafrica 2026-12-12T12:30:00.000Z  intlcricket South Africa v Bangladesh | 
-wiki-intlcricket-2026-12-13-bangladeshsouthafrica 2026-12-13T12:30:00.000Z  intlcricket South Africa v Bangladesh | 
+feed 2026-11-06T01:17:58.021Z v564
+supercars: standings: Drivers' championship 33 (top Matt Payne 4150), Teams' championship 16 (top Grove Racing 4864); 28 rounds, 12 with results: Round 1 Sydney 500 2026-02-22; Round 2 Melbourne SuperSprint 2026-03-08; Round 3 Taupō Super 440 2026-04-11; Round 4 Christchurch Super 440 2026-04-19; Round 5 Tasmania Super 440 2026-05-24; Round 6 Darwin Triple Crown 2026-06-21; Round 7 Townsville 500 2026-07-12; Round 8 Perth Super 440 2026-08-02; Round 9 Ipswich Super 440 2026-08-23; Round 10 The Bend 500 202
+tsdb NRL: error: thesportsdb skipped this run
+tsdb Super Rugby Pacific: error: thesportsdb skipped this run
+womenNoKiwi: 54 left out (523 headlines read); back with a Kiwi: none; left out: Elif Nur Turhan v Alycia Baumgardner; Gabriela Fundora v Jasmina Zapotoczna; Hilton Grand Vacations Tournament of Champions; Honda LPGA Thailand; HSBC Women's World Championship; Blue Bay LPGA; Fortinet Founders Cup; Ford Championship; Aramco Championship; JM Eagle LA Championship
+teamSquads: 141 of 142: Northern Districts missing
+calendars: nz 423; blackcaps 24, whiteferns 13, nzdomestic 39, aucricket 27, audomestic 46, intlcricket 71, bbl 44, wbbl 43, allblacks 15, blackferns 9, npc 81, fpc 2, wallabies 15, wxv 30, blues 32, chiefs 33, hurricanes 53, crusaders 32, highlanders 30, moana 5, aurugby 98, superrugby 166, kiwis 8, kiwiferns 5, warriors 12, nrl 10, rlwc 53, allwhites 2, footballferns 0, phoenix 4, aucklandfc 3, aleague 23, epl 40, blacksticks 19, blacksticksw 19, tallblacks 11, tallferns 0, breakers 33, nbl 150, nba 136,
