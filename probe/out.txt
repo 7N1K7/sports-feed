@@ -1,2 +1,9 @@
-leagues
-
+leagues2
+4461 Australian Big Bash League | badge https://r2.thesportsdb.com/images/media/league/badge/yko7ny1546635346.png
+5530 Sheffield Shield | badge https://r2.thesportsdb.com/images/media/league/badge/cd4akv1742154549.png
+5854 Asia Rugby Championship | badge https://r2.thesportsdb.com/images/media/league/badge/ojcb2d1773685766.png
+5855 Asia Rugby Division 1 | badge https://r2.thesportsdb.com/images/media/league/badge/euwjvg1773686571.png
+5852 Nations Championship | badge https://r2.thesportsdb.com/images/media/league/badge/jifczi1773608397.png
+5853 Rugby Africa Cup | badge https://r2.thesportsdb.com/images/media/league/badge/qddzm81773660193.png
+5682 Womens Rugby World Cup | badge https://r2.thesportsdb.com/images/media/league/badge/vphokh1755422562.png
+5174 New Zealand Super Smash | badge https://r2.thesportsdb.com/images/media/league/badge/3d5cld1645179187.png
