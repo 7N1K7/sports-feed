@@ -1,4 +1,4 @@
-Paul Gallen | Australia international rugby league footballer | img Paul_Gallen_March_2015.jpg | Q3371274
-Nelson Asofa-Solomona | New Zealand international rugby league footballer | img Nelson_Asofa-Solomona.jpg | Q19866865
-Masamichi Yabuki | Japanese boxer (born 1992) | img - | Q81033502
-commons: File:Nelson Asofa-Solomona.jpg ; File:NELSON ASOFA-SOLOMONA (14516376366).jpg ; File:NELSON ASOFA-SOLOMONA (14352889339).jpg ; File:NELSON ASOFA-SOLOMONA (14538006504).jpg ; File:NELSON ASOFA-SOLOMONA (14536087361).jpg ; File:NELSON ASOFA-SOLOMONA (14352891399).jpg ; File:NELSON ASOFA-SOLOMONA (13547147615).jpg ; File:NELSON ASOFA-SOLOMONA (14538510682).jpg ; File:NELSON ASOFA-SOLOMONA (14353010287).jpg ; File:NELSON ASOFA-SOLOMONA (14539496985).jpg
+feed 2026-11-06T01:45:38.337Z v566
+awayLogo yes | 
+homeLogo yes
+faces: 124/224 fighters with a free photo (14 from Commons search or categories, 0 from Openverse); 13 looked up
