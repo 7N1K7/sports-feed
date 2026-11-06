@@ -1,9 +1,13 @@
-live593
-1280: NBL, off:NBA, off in Settings | faded grayscale(1) brightness(0.7) dashed | words (none) | here Show hereHide here
-   tapped: page NBA, its header note "NBA off in settings" | line same true | again: closed true, same true
-820: NBL, off:NBA, off in Settings | faded grayscale(1) brightness(0.7) dashed | words (none) | here Show hereHide here
-   tapped: page NBA, its header note "NBA off in settings" | line same true | again: closed true, same true
-412: NBL, off:NBA, off in Settings | faded grayscale(1) brightness(0.7) dashed | words (none) | here Show hereHide here
-   tapped: page NBA, its header note "NBA off" | line same true | again: closed true, same true
-360: NBL, off:NBA, off in Settings | faded grayscale(1) brightness(0.7) dashed | words (none) | here Show hereHide here
-   tapped: page NBA, its header note "1 off" | line same true | again: closed true, same true
+live594
+1280: c,c,eye | eye false faded true dots 9 note none
+   eye tapped: eye true faded false dots 60 same true
+   again: eye false faded true dots 9 same true
+820: c,c,eye | eye false faded true dots 9 note none
+   eye tapped: eye true faded false dots 60 same true
+   again: eye false faded true dots 9 same true
+412: c,c,eye | eye false faded true dots 9 note none
+   eye tapped: eye true faded false dots 52 same true
+   again: eye false faded true dots 9 same true
+360: c,c,eye | eye false faded true dots 9 note none
+   eye tapped: eye true faded false dots 42 same true
+   again: eye false faded true dots 9 same true
