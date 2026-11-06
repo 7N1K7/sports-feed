@@ -958,11 +958,25 @@ button.hubres { font-family: inherit; background: transparent; cursor: pointer }
 .hubwm .wm { position: absolute; top: -20px; bottom: -20px; width: 260px; background: center / cover no-repeat; opacity: .26; transform: skewX(-12deg) }
 .hubwm .wm.l { left: -40px; -webkit-mask-image: linear-gradient(90deg, #000 25%, transparent); mask-image: linear-gradient(90deg, #000 25%, transparent) }
 .hubwm .wm.r { right: -40px; -webkit-mask-image: linear-gradient(270deg, #000 25%, transparent); mask-image: linear-gradient(270deg, #000 25%, transparent) }
-.hub.wm-tb { border-top-color: var(--tb-glow); background: linear-gradient(100deg, var(--surface) 35%, color-mix(in srgb, var(--tb-glow) 14%, var(--surface))) }
-.hubwm .wmt { position: absolute; right: 60px; top: 50%; transform: translateY(-50%) rotate(-12deg); width: 150px; height: 150px; opacity: .22; display: grid; place-items: center; color: var(--tb-mark) }
+/* a competition's page (any but a series between two countries): the whole panel in its series button's colours,
+   darkened so the words read, with the button's glow along the top and round the edge; glass tabs, the picked one white */
+.hub.wm-tb { border-color: color-mix(in srgb, var(--tb-glow) 50%, transparent); border-top-color: var(--tb-glow); background: linear-gradient(rgb(5 8 7 / .45), rgb(5 8 7 / .45)), var(--tb-bg);
+  box-shadow: 0 0 16px -3px color-mix(in srgb, var(--tb-glow) 55%, transparent), inset 0 0 24px color-mix(in srgb, var(--tb-glow) 14%, transparent) }
+.hub.wm-tb .hubtop h2 { color: var(--tb-ink); text-shadow: 0 1px 3px rgb(0 0 0 / .55) }
+.hub.wm-tb .hubtabs button { background: rgb(5 8 7 / .5); border-color: rgb(255 255 255 / .16); color: #fff }
+.hub.wm-tb .hubtabs button:hover { background: rgb(5 8 7 / .66); border-color: color-mix(in srgb, var(--tb-glow) 70%, transparent) }
+.hub.wm-tb .hubtabs button[aria-selected="true"] { background: #fff; border-color: #fff; color: #0b0f0e }
+/* the NPC's stripes, its unions' colours, along the top */
+.hub.wm-tb.stripe { border-top-color: transparent }
+.hub.wm-tb.stripe::before { content: ''; position: absolute; z-index: 1; top: -4px; left: 6px; right: 6px; height: 4px; border-radius: 4px 4px 0 0; pointer-events: none;
+  background: linear-gradient(90deg, #c8102e 0 14%, #f06030 14% 28%, #f2c230 28% 42%, #2e8b57 42% 56%, #1f6fb8 56% 70%, #6a2c91 70% 84%, #e9ecef 84% 100%) }
+/* its logo (or its sport's icon) large and faded at the right; a wide wordmark is capped so it stays clear of the tabs */
+.hubwm .wmt { position: absolute; right: 60px; top: 50%; transform: translateY(-50%) rotate(-12deg); min-width: 150px; height: 150px; opacity: .26; display: grid; place-items: center; color: var(--tb-mark) }
 .hubwm .wmt .troph { width: 150px; height: 150px }
 .hubwm .wmt i, .hublead i { display: block; background: center / contain no-repeat }
-.hublead { display: grid; place-items: center; width: 28px; height: 28px }
+.hubwm .wmt i { max-width: 170px }
+@media (max-width: 560px) { .hubwm .wmt { right: -14px; opacity: .17 } }
+.hublead { display: grid; place-items: center; min-width: 28px; height: 28px }
 .hublead .troph { width: 26px; height: 26px; color: var(--tb-mark); filter: drop-shadow(0 0 5px color-mix(in srgb, var(--tb-mark) 70%, transparent)) }
 .hublead i { filter: drop-shadow(0 0 4px color-mix(in srgb, var(--tb-glow) 60%, transparent)) }
 .hub.wom::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: #d6336c; border-radius: 0 0 var(--r) var(--r); pointer-events: none }
@@ -3155,15 +3169,18 @@ function renderHub(now) {
   const back = res.length ? (FEED.events || []).filter(e => compOf(e) === compSel && visible(e) && canRehide(e.id, spoilAt(e), now)).map(e => e.id) : [];
   const resHTML = (res.length ? res.map(r => back.length ? ` <button type="button" class="hubres" data-hideall="${esc(back.join(' '))}" data-revk="Series result hidden again" title="Tap to hide again">${tick}${esc(r)}</button>` : ` <span class="hubres">${tick}${esc(r)}</span>`).join('')
     : held.length ? ` <button type="button" class="hubres held" data-revealall="${esc(held.join(' '))}" data-revk="Series result shown" title="Finished: show the result">${tick}Show result</button>` : '');
-  // the header's look: a series between two countries, their flags; a tournament with a look of its own, that
+  // the header's look: a series between two countries, their flags; any other competition, its series button's
+  // colours (its own look, or its sport's) with its logo, or its sport's icon when it has none
   const sides = seriesSides(compSel), look = sides ? null : LOOKS.find(([re, o]) => re.test(compSel) && (!o.s || o.s === sample?.sport))?.[1];
-  const box = $('hubBox'), w = !!sample && genderOf(sample) === 'w', [, tbg, glow0, tink, tmk, logo] = look ? look.l : [];
-  box.classList.toggle('wm-two', !!sides); box.classList.toggle('wm-tb', !!look); box.classList.toggle('wom', !!sides && w);
-  for (const [k, v] of [['--tb-bg', tbg], ['--tb-glow', w && !look?.w ? '#f06595' : glow0], ['--tb-ink', tink], ['--tb-mark', tmk]]) look ? box.style.setProperty(k, v) : box.style.removeProperty(k);
-  const crop = h => logo ? `<i style="width:${Math.round(h * logo[4] / (logo[5] || 22))}px;height:${h}px;background-image:url('${logo[0]}');background-size:${logo[1]}%;background-position:${logo[2]}% ${logo[3]}%"></i>` : TROPHY;
-  const wmKey = sides ? sides.join('|') : look ? compSel : '';
+  const box = $('hubBox'), w = !!sample && genderOf(sample) === 'w', [, tbg, glow0, tink, tmk, logo0] = look ? look.l : TB_PLAIN, logo = look?.page || logo0;
+  const sp = sample?.team === 'f1' ? 'f1' : sample?.sport;
+  box.classList.toggle('wm-two', !!sides); box.classList.toggle('wm-tb', !sides); box.classList.toggle('stripe', !!look?.stripe); box.classList.toggle('wom', !!sides && w);
+  for (const [k, v] of [['--tb-bg', tbg], ['--tb-glow', w && !look?.w ? '#f06595' : glow0], ['--tb-ink', tink], ['--tb-mark', tmk]]) sides ? box.style.removeProperty(k) : box.style.setProperty(k, v);
+  const crop = h => logo ? `<i style="width:${Math.round(h * logo[4] / (logo[5] || 22))}px;height:${h}px;background-image:url('${logo[0]}');background-size:${logo[1]}%;background-position:${logo[2]}% ${logo[3]}%${logo[6] ? `;filter:${MONO}` : ''}"></i>`
+    : SPORT_ICON[sp] ? `<i style="width:${h}px;height:${h}px;background-image:url('icons/3d/${sp}.webp?v=2')"></i>` : TROPHY;
+  const wmKey = sides ? sides.join('|') : compSel + '|' + sp;
   if ($('hubWm').dataset.k !== wmKey) { $('hubWm').dataset.k = wmKey;
-    $('hubWm').innerHTML = sides ? sides.map((n, i) => `<i class="wm ${i ? 'r' : 'l'}" style="background-image:url('${esc(flagOf(n))}')"></i>`).join('') : look ? `<span class="wmt">${crop(150)}</span>` : ''; }
+    $('hubWm').innerHTML = sides ? sides.map((n, i) => `<i class="wm ${i ? 'r' : 'l'}" style="background-image:url('${esc(flagOf(n))}')"></i>`).join('') : `<span class="wmt">${crop(150)}</span>`; }
   // a two-sided title, each name on its own flag's side; fitHubName shows the longest that fits its half
   const split = sides && !resHTML ? compSel.split(' v ').map((n, i) => { const wn = /\s+Women('s)?$/i.test(n), base = n.replace(/\s+Women('s)?$/i, ''), code = SIDE_CODE[sides[i]];
     // a nickname (White Ferns, All Blacks) stays whole; a country shortens to its code when needed: SA Women, then SA
@@ -3171,7 +3188,7 @@ function renderHub(now) {
   box.classList.toggle('hsplit-on', !!split);
   $('hubName').innerHTML = `<span class="hfull">${esc(plural(compSel))}</span>` + (split ? `<span class="hsplit">${split.map((c, i) => `<span class="hn h${i ? 'b' : 'a'}">${c.map(t => `<b>${esc(t)}</b>`).join('')}</span>${i ? '' : `<span class="hmid">${sIcon(sample?.sport, '')}</span>`}`).join('')}</span>` : '') + resHTML;
   if (split) $('hubName').title = plural(compSel); else $('hubName').removeAttribute('title');
-  $('hubIcon').innerHTML = look ? `<span class="hublead">${crop(28)}</span>` : COMP_IMG[compSel] ? `<img class="hubimg" src="${COMP_IMG[compSel]}" alt="" referrerpolicy="no-referrer">` : sIcon(sample?.team === 'f1' ? 'f1' : sample?.sport, 'hubimg');
+  $('hubIcon').innerHTML = logo ? `<span class="hublead">${crop(28)}</span>` : COMP_IMG[compSel] ? `<img class="hubimg" src="${COMP_IMG[compSel]}" alt="" referrerpolicy="no-referrer">` : sIcon(sp, 'hubimg') || `<span class="hublead">${TROPHY}</span>`;
   fitHubName();
   $('hubSec').style.setProperty('--sport', `var(--${sample?.sport || 'rugby'})`);
   $('hubTabs').innerHTML = tabs.map(([k, l]) => `<button type="button" role="tab" data-hubtab="${k}" aria-selected="${hubTab === k}">${l}</button>`).join('');
@@ -3668,7 +3685,7 @@ const LOOKS = [
   [/Rugby League World Cup/, { l: ['', 'linear-gradient(105deg, #061a40 0%, #0b2d6b 50%, #8a6d1d 100%)', '#e3b341', '#fff', '#f2c94c', [TSDB + 'sxoc6h1768739073.png/small', 242, 0, 50, 15, 20]] }],
   [/State of Origin/, { l: ['', 'linear-gradient(110deg, #6d1a36 0 52%, #2f7fc9 52% 100%)', '#9cc9f0', '#fff', '#fff', [TSDB + '255k0e1771589044.png/small', 100, 50, 0, 16]] }],
   [/Nations Championship/, { l: ['', '#0b0f0e', '#e8ff00', '#e8ff00', '#e8ff00', [TSDB + 'jifczi1773608397.png/small', 250, 49.6, 35, 16, 16]] }],
-  [/Rugby Championship/, { l: ['', 'linear-gradient(105deg, #101418 0%, #2b3440 60%, #7d8a98 100%)', '#cfd8e3', '#fff', '#e6ecf2'] }],
+  [/Rugby Championship/, { l: ['', 'linear-gradient(105deg, #101418 0%, #2b3440 60%, #7d8a98 100%)', '#cfd8e3', '#fff', '#e6ecf2'], page: [TSDB + 'dy0n4c1716684531.png/small', 100, 50, 50, 41, 22] }],
   [/WXV/, { w: true, l: ['', 'linear-gradient(105deg, #2b0a45 0%, #6a1d78 50%, #c2367a 100%)', '#ff8cc6', '#fff', '#ffd6ea'] }],
   [/Women's Rugby World Cup/, { w: true, l: ['', 'linear-gradient(105deg, #0d1530 0%, #1d2a55 100%)', '#d4a72c', '#f5d77a', '#f5d77a', [TSDB + 'vphokh1755422562.png/small', 150, 50, 30, 22]] }],
   [/Rugby World Cup/, { l: ['', 'linear-gradient(105deg, #0b1f3a 0%, #143d6b 55%, #b38b2d 100%)', '#e3b341', '#fff', '#f2c94c', [TSDB + '1otaxh1773613283.png/small', 100, 50, 50, 20, 20]] }],
@@ -3684,7 +3701,28 @@ const LOOKS = [
   [/French Open|Roland Garros/, { s: 'tennis', l: ['', 'linear-gradient(105deg, #5c2410 0%, #a8441f 60%, #d0612f 100%)', '#ffb38a', '#fff', '#ffe0cc'] }],
   [/US Open/, { s: 'tennis', l: ['', 'linear-gradient(105deg, #00288c 0%, #1e64c8 100%)', '#ffd43b', '#fff', '#ffe066'] }],
   [/Commonwealth Games|Olympic/, { l: ['', 'linear-gradient(105deg, #1b1464 0%, #5b1a8a 50%, #0a7c6e 100%)', '#ffd43b', '#fff', '#ffe066'] }],
+  // colours taken from each one's logo (TheSportsDB's badge). A wide wordmark is 41 by 22 on its button; one that's
+  // too small to read there (the NPC's, the Rugby Championship's) is on its page only (page). A logo too dark for the
+  // panel shows in white (its 7th item)
+  [/^NPC$/, { s: 'rugby', stripe: true, l: ['', 'linear-gradient(105deg, #111315 0%, #24282c 60%, #3b2b22 100%)', '#f06030', '#fff', '#f06030'], page: [TSDB + '0rbyp71786623355.png/small', 105, 50, 50, 34, 22] }],
+  [/^Sheffield Shield$/, { l: ['', 'linear-gradient(105deg, #001634 0%, #003060 55%, #2f6f8f 100%)', '#9fd4f0', '#fff', '#c0d8f0', [TSDB + 'cd4akv1742154549.png/small', 100, 50, 50, 22]] }],
+  [/^Premier League$/, { s: 'football', l: ['', 'linear-gradient(105deg, #1c0024 0%, #37003c 55%, #5c1a6e 100%)', '#00ff85', '#fff', '#e9d7ff', [TSDB + 'gasy9d1737743125.png/small', 100, 50, 50, 22]] }],
+  [/^NRL$/, { s: 'league', l: ['', 'linear-gradient(105deg, #03200f 0%, #075a2c 55%, #0c9a4a 100%)', '#3ddc84', '#fff', '#b2f2bb', [TSDB + 'g5ocbs1777721333.png/small', 100, 50, 50, 22]] }],
+  [/^A-League Men$/, { l: ['', 'linear-gradient(105deg, #0a0c3a 0%, #1e22aa 60%, #3a2fd0 100%)', '#ff4d5e', '#fff', '#ffd6dc', [TSDB + '2u78lm1638459575.png/small', 100, 50, 50, 22]] }],
+  [/^Constellation Cup$/, { w: true, l: ['', 'linear-gradient(105deg, #07071f 0%, #1a1650 55%, #4b2a8a 100%)', '#b197fc', '#fff', '#e5dbff', [TSDB + '6edvvh1767868334.png/small', 100, 50, 50, 22]] }],
+  [/^NBL$/, { s: 'basketball', l: ['', 'linear-gradient(105deg, #0b0b0b 0%, #2b1708 55%, #c2561a 100%)', '#ff8a3d', '#fff', '#ffd8a8', [TSDB + 'gvz6vb1726086476.png/small', 100, 50, 50, 22]] }],
+  [/^NBA$/, { s: 'basketball', l: ['', 'linear-gradient(105deg, #0a1a4a 0%, #17408b 55%, #a3072a 100%)', '#ff4d6d', '#fff', '#dbe4ff', [TSDB + 'frdjqy1536585083.png/small', 100, 50, 50, 22]] }],
+  [/^Formula 1$/, { l: ['', 'linear-gradient(105deg, #0b0b0d 0%, #22222b 55%, #a30d00 100%)', '#ff1e00', '#fff', '#ffc9c9', [TSDB + 'g8cofl1513623681.png/small', 100, 50, 50, 41, 22]] }],
+  [/^Supercars$/, { l: ['', 'linear-gradient(105deg, #0b0b0b 0%, #2e0707 50%, #d1150f 100%)', '#ff453a', '#fff', '#ffc9c9', [TSDB + '64f67s1770108650.png/small', 100, 50, 50, 22]] }],
+  [/^UFC$/, { l: ['', 'linear-gradient(105deg, #0b0b0b 0%, #2a0505 55%, #9e0b0f 100%)', '#ff2b2b', '#fff', '#ff8787', [TSDB + 'bewnz31717531281.png/small', 100, 50, 50, 41, 22]] }],
+  [/^ATP Finals$/, { s: 'tennis', l: ['', 'linear-gradient(105deg, #001233 0%, #002865 55%, #0a5bd1 100%)', '#6ec1ff', '#fff', '#d0ebff', [TSDB + 'q7aej51769857150.png/small', 100, 50, 50, 41, 22]] }],
+  [/^WTA Finals$/, { s: 'tennis', w: true, l: ['', 'linear-gradient(105deg, #1a0633 0%, #4a1680 55%, #b0127a 100%)', '#ff6ad5', '#fff', '#ffdeeb', [TSDB + 'bddhun1768230678.png/small', 100, 50, 50, 41, 22, 1]] }],
+  [/^PGA Tour$/, { s: 'golf', l: ['', 'linear-gradient(105deg, #00102e 0%, #0a2a66 55%, #1d4f91 100%)', '#ff5a5f', '#fff', '#dbe4ff', [TSDB + 'quvqqr1423564787.png/small', 100, 50, 50, 22]] }],
+  [/^Japan Series$/, { s: 'baseball', l: ['', 'linear-gradient(105deg, #00102e 0%, #0b2f7a 55%, #b3122a 100%)', '#ff6b6b', '#fff', '#dbe4ff', [TSDB + 'lk85rg1575038781.png/small', 100, 50, 50, 22]] }],
 ];
+// a competition with no look of its own: its sport's colour, deepened (its button and its page)
+const TB_PLAIN = ['', 'linear-gradient(105deg, color-mix(in srgb, var(--sport) 22%, #0b0f0e) 0%, color-mix(in srgb, var(--sport) 55%, #0b0f0e) 100%)', 'var(--sport)', '#fff', 'var(--sport)'];
+const MONO = 'brightness(0) invert(1) drop-shadow(0 0 4px rgb(255 255 255 / .35))';
 const nowChip = (c, v, st) => {
   const tip = `${esc(plural(c))}${v.rain ? ' (live, rain affected)' : v.live ? ' (live now)' : st.ended ? ' (finished)' : ''}`;
   const mark = v.live ? '<span class="livedot" role="img" aria-label="live"></span>' : st.ended ? '<span class="enddot" role="img" aria-label="finished">✓</span>' : '';
@@ -3697,10 +3735,10 @@ const nowChip = (c, v, st) => {
   }
   const look = LOOKS.find(([re, o]) => re.test(c) && (!o.s || o.s === v.sport))?.[1];
   // a tournament with no look of its own: its sport's colour, deepened, and a trophy
-  const [label, bg, glow0, ink, mk, logo] = look ? look.l : ['', 'linear-gradient(105deg, color-mix(in srgb, var(--sport) 22%, #0b0f0e) 0%, color-mix(in srgb, var(--sport) 55%, #0b0f0e) 100%)', 'var(--sport)', '#fff', 'var(--sport)'];
+  const [label, bg, glow0, ink, mk, logo] = look ? look.l : TB_PLAIN;
   const glow = v.w && !look?.w ? '#f06595' : glow0;
   const name = label || shortComp(plural(c)).replace(/\s*\(W\)$/, '');
-  const lead = logo ? `<i class="tblogo" style="background-image:url('${logo[0]}');background-size:${logo[1]}%;background-position:${logo[2]}% ${logo[3]}%;width:${logo[4]}px${logo[5] ? `;height:${logo[5]}px;margin:0` : ''}" aria-hidden="true"></i>` : TROPHY;
+  const lead = logo ? `<i class="tblogo" style="background-image:url('${logo[0]}');background-size:${logo[1]}%;background-position:${logo[2]}% ${logo[3]}%;width:${logo[4]}px${logo[5] ? `;height:${logo[5]}px;margin:0` : ''}${logo[6] ? `;filter:${MONO}` : ''}" aria-hidden="true"></i>` : TROPHY;
   return `<button type="button" class="${cls} tbrand" data-bigcomp="${esc(c)}" aria-pressed="${st.sel}" title="${tip}" style="--tb-bg:${bg};--tb-glow:${glow};--tb-ink:${ink};--tb-mark:${mk}">${lead}<span class="tbt">${esc(name)}</span>${mark}</button>`;
 };
 const NOT_BAR = /Heartland XV|Second XI/;
