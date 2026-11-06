@@ -1,12 +1,10 @@
 import { writeFileSync } from 'fs';
 const out = [];
-const T = 'https://www.thesportsdb.com/api/v1/json/123/';
-const wait = ms => new Promise(r => setTimeout(r, ms));
-const get = async u => { for (let i = 0; i < 3; i++) { await wait(6500 + i * 15000); const r = await fetch(T + u); if (r.ok) return r.json(); if (r.status !== 429) throw new Error(r.status); } throw new Error('429 x3'); };
-const row = l => `${l.idLeague} | ${l.strSport} | ${l.strLeague} | ${l.strLeagueAlternate || ''} | ${l.strCountry || ''} | badge ${(l.strBadge || '-').replace(/^.*league\//, '')} | logo ${(l.strLogo || '-').replace(/^.*league\//, '')}`;
-const badges = new Set();
-for (const [c, s] of [['Australia', 'Cricket'], ['World', 'Rugby'], ['World', 'Cricket'], ['New Zealand', 'Rugby'], ['Australia', 'Basketball'], ['World', 'Motorsport'], ['Australia', 'Motorsport'], ['World', 'Tennis'], ['World', 'Sailing'], ['World', 'Golf']]) {
-  try { const j = await get(`search_all_leagues.php?c=${encodeURIComponent(c)}&s=${encodeURIComponent(s)}`); const ls = j.countries || j.countrys || j.leagues || [];
-    out.push(`${c} ${s}: ${ls.length}`); for (const l of ls) { out.push('  ' + row(l)); } } catch (e) { out.push(`${c} ${s} error ${e.message}`); }
+// competition badges from TheSportsDB's image store, for the series page mock-ups
+for (const h of ['cd4akv1742154549', '0rbyp71786623355', 'gasy9d1737743125', 'g5ocbs1777721333', '2u78lm1638459575', 'bewnz31717531281', 'gvz6vb1726086476', '64f67s1770108650', '6edvvh1767868334', 'yko7ny1546635346']) {
+  try { const r = await fetch(`https://r2.thesportsdb.com/images/media/league/badge/${h}.png/small`); const b = Buffer.from(await r.arrayBuffer());
+    if (r.ok && b.length > 500) { writeFileSync(`probe/out-lg-${h}.png`, b); out.push(`${h} ${b.length}`); } else out.push(`${h} ${r.status} ${b.length}`); } catch (e) { out.push(h + ' error ' + e.message); }
 }
-writeFileSync('probe/out.txt', 'lg311\n' + out.join('\n') + '\n');
+// Formula 1's league
+try { await new Promise(r => setTimeout(r, 3000)); const j = await (await fetch('https://www.thesportsdb.com/api/v1/json/123/lookupleague.php?id=4370')).json(); const l = j.leagues?.[0]; out.push(`F1 ${l?.strLeague} badge ${l?.strBadge}`); } catch (e) { out.push('f1 error ' + e.message); }
+writeFileSync('probe/out.txt', 'lg312\n' + out.join('\n') + '\n');
