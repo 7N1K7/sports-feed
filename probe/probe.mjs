@@ -1,6 +1,10 @@
 import { writeFileSync } from 'fs';
-const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
-const out = [`feed ${f.generatedAt} v${f.site?.version}`];
-const scrub = s => String(s).replace(/key=[^&\s"]+/g, 'key=…').replace(/[A-Za-z0-9_-]{30,}/g, '…');
-for (const [k, v] of Object.entries(f.diag || {})) { const s = scrub(typeof v === 'string' ? v : JSON.stringify(v)); if (/error|fail|\b4\d\d\b|\b5\d\d\b|timeout|timed out|skipped|missing|not found|no key|unavailable/i.test(s)) out.push(`${k}: ${s.slice(0, 500)}`); }
+const out = [];
+for (const t of ["Northern Districts men's cricket team", "Northern Districts women's cricket team", 'Wellington cricket team']) {
+  const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(t), { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed)' } });
+  const j = await r.json(), pg = j.query.pages[0], c = pg.revisions?.[0]?.slots?.main?.content || '';
+  out.push(`== ${t} -> ${pg.title} ${pg.missing ? 'MISSING' : ''} len ${c.length} redirects ${JSON.stringify(j.query.redirects || [])}`);
+  out.push(...c.split('\n').filter(l => /^=+/.test(l)).map(l => '  ' + l));
+  const i = c.search(/=+\s*(Current )?squad/i); if (i >= 0) out.push('  SQUAD: ' + c.slice(i, i + 900).replace(/\n/g, ' ⏎ '));
+}
 writeFileSync('probe/out.txt', out.join('\n') + '\n');
