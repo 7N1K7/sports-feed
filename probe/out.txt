@@ -1,6 +1,30 @@
-daily1107b
-TSDB round 5: 2026-11-20 08:40:00 Western Sydney Wanderers vs Adelaide United | 2026-11-21 04:00:00 Auckland FC vs Melbourne Victory | 2026-11-21 06:00:00 Central Coast Mariners vs Perth Glory | 2026-11-21 08:40:00 Brisbane Roar vs Sydney FC | 2026-11-22 02:00:00 Wellington Phoenix vs Macarthur FC
-TSDB round 6: 2026-11-27 08:40:00 Macarthur FC vs Melbourne City | 2026-11-28 08:40:00 Central Coast Mariners vs Auckland FC | 2026-12-06 02:00:00 Wellington Phoenix vs Adelaide United
-TSDB round 7: 2026-12-05 08:40:00 Western Sydney Wanderers vs Perth Glory | 2026-12-06 06:00:00 Sydney FC vs Melbourne Victory
-Wikipedia: 37848 chars; mentions of round 6: 
-Wikipedia FIFA/break: 
+daily1107c
+Wellington Phoenix FC: 45854 chars, 33 boxes, 26 league
+   5 22 November 2026 17:00 [[UTC+13:00 Wellington Phoenix v Macarthur FC
+   6 6 December 2026 15:00 [[UTC+13:00 Wellington Phoenix v Adelaide United FC
+Auckland FC: 40505 chars, 7 boxes, 0 league
+   
+Melbourne City FC: 35641 chars, 8 boxes, 3 league
+   
+Newcastle Jets FC: 45444 chars, 28 boxes, 10 league
+   
+Sydney FC: 43505 chars, 21 boxes, 12 league
+   7 6 December 2026 17:00 [[UTC+10:00 Sydney FC v Melbourne Victory FC
+Perth Glory FC: 42641 chars, 13 boxes, 11 league
+   
+Brisbane Roar FC: 39788 chars, 20 boxes, 10 league
+   
+Melbourne Victory FC: 51318 chars, 40 boxes, 27 league
+   5 21 November 2026 15:00 [[UTC+10:00 Auckland FC v Melbourne Victory
+   7 6 December 2026 17:00 [[UTC+10:00 Sydney FC v Melbourne Victory
+Adelaide United FC: 49132 chars, 33 boxes, 29 league
+   5 20 November 2026 19:40 [[UTC+11:00 Western Sydney Wanderers FC v Adelaide United
+   6 6 December 2026 15:00 [[UTC+13:00 Wellington Phoenix FC v Adelaide United
+   5 25 November 2026  Tai Po F.C. v {{flagicon
+   6 3 December 2026  Adelaide United {{flagicon v {{flagicon
+Central Coast Mariners FC: 43476 chars, 16 boxes, 11 league
+   
+Western Sydney Wanderers FC: no page SyntaxError: Unexpected token 'Y', "You are ma"... is not valid JSON
+   
+Macarthur FC: no page SyntaxError: Unexpected token 'Y', "You are ma"... is not valid JSON
+   
