@@ -442,7 +442,7 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 .sportchip { border-color: var(--sport) }
 /* "Current series" title on its own line, the chips under it in a row that scrolls sideways when it runs out of room */
 .nowbar { min-width: 0; max-width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; margin: 0 auto -6px; padding: 2px }
-.nowbar .nowchips { display: flex; flex-wrap: nowrap; align-items: center; justify-content: safe center; gap: 6px; max-width: 100%; overflow-x: auto; scrollbar-width: none; padding: 2px }
+.nowbar .nowchips { display: flex; flex-wrap: nowrap; align-items: center; justify-content: safe center; gap: 6px; max-width: 100%; overflow-x: auto; scrollbar-width: none; padding: 4px }
 .nowbar .nowchips::-webkit-scrollbar { display: none }
 .nowwrap { position: relative; min-width: 0; max-width: 100% }
 /* the "more this way" arrow: faded over the last chip, shown only while the row has more to scroll to */
@@ -475,6 +475,31 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 .hubres .enddot { display: block; flex: none; width: 14px; height: 14px; border-radius: 50%; background: #2f9e44; color: #fff; font-size: 10px; line-height: 14px; text-align: center; font-weight: 700 }
 .nowchip .enddot { position: absolute; top: -2px; left: -2px; width: 14px; height: 14px; border-radius: 50%; background: #2f9e44; color: #fff; font-size: 10px; line-height: 14px; text-align: center; font-weight: 700; box-shadow: 0 0 0 2px var(--paper) }
 .sportchip[aria-pressed="true"] { background: var(--sport); border-color: var(--sport); color: var(--paper) }
+/* Series row (v572): a series between two sides is split in their colours with their flags, the sport's icon in a disc
+   between them, the sport's colour round the edge and a pink line along the bottom for a women's series; a tournament
+   wears its own look (its colours, a glow, its logo where TheSportsDB has one, a trophy otherwise). Every chip the same
+   height, so the rows stay even; picking one rings it in white, so nothing moves */
+#nowChips > .nowchip.two, #nowChips > .nowchip.tbrand { height: 31px; box-sizing: border-box; padding-top: 0; padding-bottom: 0 }
+.nowchip.two { padding: 0; gap: 0; overflow: hidden; background: var(--paper) }
+.nowchip.two .nside { display: inline-flex; align-items: center; gap: 5px; align-self: stretch; font-weight: 700; padding: 0 13px 0 10px; border-radius: 999px 0 0 999px; white-space: nowrap }
+.nowchip.two .nsb { padding: 0 10px 0 13px; border-radius: 0 999px 999px 0 }
+.nowchip.two .nside img { width: 16px; height: 11px; border-radius: 2px; object-fit: cover; box-shadow: 0 0 0 1px rgba(0,0,0,.25); flex: none }
+.nowchip.two .nico { position: relative; width: 0; align-self: stretch }
+.nowchip.two .nico span { position: absolute; left: -10px; top: 50%; transform: translateY(-50%); z-index: 1; width: 20px; height: 20px; border-radius: 50%; background: #1d2421; box-shadow: 0 0 0 1.5px var(--paper); display: grid; place-items: center }
+.nowchip.two .nico img { width: 13px; height: 13px; margin: 0 }
+.nowchip.two .wline { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: #d6336c; z-index: 2; pointer-events: none }
+.nowchip.two .livedot, .nowchip.two .enddot { z-index: 3 }
+.nowchip.tbrand { gap: 6px; padding-left: 9px; padding-right: 12px; background: var(--tb-bg); color: var(--tb-ink); font-weight: 800; letter-spacing: .02em; border-color: var(--tb-glow);
+  box-shadow: 0 0 9px 0 color-mix(in srgb, var(--tb-glow) 55%, transparent), inset 0 0 6px color-mix(in srgb, var(--tb-glow) 25%, transparent) }
+.nowchip.tbrand .tbt { text-transform: uppercase; font-size: 12.5px; white-space: nowrap }
+.nowchip.tbrand .troph { width: 15px; height: 15px; flex: none; color: var(--tb-mark); filter: drop-shadow(0 0 3px color-mix(in srgb, var(--tb-mark) 70%, transparent)) }
+.nowchip.tbrand .tblogo { display: inline-block; flex: none; height: 22px; width: 22px; margin: -4px -2px -4px -3px; background: center / contain no-repeat }
+.nowchip.two[aria-pressed="true"], .nowchip.tbrand[aria-pressed="true"] { background: var(--tb-bg, var(--paper)); color: var(--tb-ink, inherit); box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px #fff }
+.nowchip.tbrand.is-live { border-color: var(--tb-glow) }
+.nowchip.tbrand.is-rain { border-color: #1c7ed6; box-shadow: 0 0 9px 1px color-mix(in srgb, #1c7ed6 55%, transparent) }
+.nowchip.two.is-ended:not([aria-pressed="true"]), .nowchip.tbrand.is-ended:not([aria-pressed="true"]) { background: var(--tb-bg, var(--paper)); color: var(--tb-ink, inherit); border-style: dashed }
+.nowchip.tbrand.is-ended:not([aria-pressed="true"]) { box-shadow: none; filter: saturate(.45) brightness(.8) }
+.nowchip.two.is-ended:not([aria-pressed="true"]) .nside { filter: saturate(.45) brightness(.8) }
 /* women's games in violet and wheelchair games in teal, whatever the sport, so mixed competitions read apart at a glance */
 .ev.g-w { --sport: #7048e8 } .ev.g-wc { --sport: #0c8599 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ev.g-w { --sport: #9775fa } :root:not([data-theme="light"]) .ev.g-wc { --sport: #3bc9db } }
@@ -1419,6 +1444,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
   :is(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide)::after {
     content: ""; position: absolute; inset: -1px; border: 2px solid; border-width: 2px 3px; border-color: inherit; border-radius: inherit; pointer-events: none }
   .nowchip :is(.livedot, .enddot) { z-index: 1 } .nowchip.is-ended:not([aria-pressed="true"])::after { border-style: dashed }
+  .nowchip.two { border-image: none; border-width: 2px 3px } .nowchip.two::after { content: none }
   .seg { border-width: 2px 3px; margin: -1px -2px }
   .dsel .dbtn { border-width: 2px; padding-block: 3px } #compSel { border-width: 2px 3px; padding: 1px 25px 1px 11px; background-position: right 13px center, right 8px center }
   @media (max-width: 560px) { #compSel { padding-left: 9px; padding-right: 23px } }
@@ -3474,6 +3500,77 @@ const shortComp = c => {
   const t = SHORT.reduce((t, [re, r]) => t.replace(re, r), c), w = /^Women's |\u2009W\b/.test(t);
   return w ? `${t.replace(/^Women's /, '').replace(/\u2009W\b/g, '')} (W)` : t;
 };
+// the series row's chips. A series between two national sides is split in their colours, each with its flag: the
+// colours are each side's usual kit (by sport where it differs: the All Whites in white, the Kangaroos in green)
+const NICKS = { 'New Zealand': /^(Black Caps|White Ferns|All Blacks|Black Ferns|Black Sticks|Tall Blacks|Tall Ferns|Silver Ferns|All Whites|Football Ferns|Kiwis|Kiwi Ferns)$/,
+  Australia: /^(Wallabies|Wallaroos|Kangaroos|Jillaroos|Socceroos|Matildas|Diamonds|Boomers|Opals|Kookaburras|Hockeyroos)$/ };
+const KIT = { 'New Zealand': ['#000000', '#ffffff'], Australia: ['#ffcd00', '#00843d'], India: ['#1f6fe0', '#ffffff'], England: ['#f1f3f5', '#c8102e'],
+  'South Africa': ['#007a4d', '#ffb612'], Pakistan: ['#01411c', '#ffffff'], 'Sri Lanka': ['#1b3f9b', '#ffffff'], Bangladesh: ['#006a4e', '#ffffff'],
+  'West Indies': ['#7b1e3a', '#ffcd00'], Afghanistan: ['#1e4b9c', '#ffffff'], Zimbabwe: ['#c8102e', '#ffcd00'], Ireland: ['#169b62', '#ffffff'],
+  Scotland: ['#0065bd', '#ffffff'], Wales: ['#c8102e', '#ffffff'], France: ['#1f3fa8', '#ffffff'], Italy: ['#0b62c4', '#ffffff'], Argentina: ['#75aadb', '#0b1f3a'],
+  Japan: ['#c8102e', '#ffffff'], Fiji: ['#f1f3f5', '#111111'], Samoa: ['#002b7f', '#ffffff'], Tonga: ['#c8102e', '#ffffff'], 'Papua New Guinea': ['#c8102e', '#ffcd00'],
+  'Cook Islands': ['#0a7a3a', '#ffffff'], USA: ['#0a3161', '#ffffff'], 'United States': ['#0a3161', '#ffffff'], Canada: ['#c8102e', '#ffffff'], Netherlands: ['#f36c21', '#ffffff'],
+  Germany: ['#111111', '#ffffff'], Belgium: ['#c8102e', '#ffffff'], Spain: ['#c60b1e', '#ffc400'], Malaysia: ['#010066', '#ffcc00'], 'South Korea': ['#c8102e', '#ffffff'],
+  China: ['#de2910', '#ffde00'], Chile: ['#d52b1e', '#ffffff'], Uruguay: ['#5cbfeb', '#0b1f3a'], Georgia: ['#c8102e', '#ffffff'], Portugal: ['#046a38', '#ffffff'],
+  Lebanon: ['#c8102e', '#ffffff'], 'Great Britain': ['#012169', '#ffffff'], Nepal: ['#c8102e', '#ffffff'], Oman: ['#c8102e', '#ffffff'], 'United Arab Emirates': ['#00732f', '#ffffff'],
+  Namibia: ['#003580', '#ffffff'], Kenya: ['#006600', '#ffffff'], Jamaica: ['#009b3a', '#fed100'] };
+const KIT_SPORT = { football: { 'New Zealand': ['#f1f3f5', '#111111'] }, league: { Australia: ['#00843d', '#ffcd00'] }, hockey: { Australia: ['#00843d', '#ffcd00'] }, cricket: { England: ['#10307a', '#ffffff'] } };
+const SIDE_CODE = { 'New Zealand': 'NZ', Australia: 'AUS', India: 'IND', England: 'ENG', 'South Africa': 'SA', 'Sri Lanka': 'SL', Pakistan: 'PAK', Bangladesh: 'BAN',
+  'West Indies': 'WI', Afghanistan: 'AFG', Zimbabwe: 'ZIM', Ireland: 'IRE', Scotland: 'SCO', Wales: 'WAL', France: 'FRA', Italy: 'ITA', Argentina: 'ARG', Japan: 'JPN',
+  Fiji: 'FIJ', Samoa: 'SAM', Tonga: 'TGA', 'Papua New Guinea': 'PNG', 'Cook Islands': 'COK', USA: 'USA', 'United States': 'USA', Canada: 'CAN', Netherlands: 'NED',
+  Germany: 'GER', Belgium: 'BEL', Spain: 'ESP', Malaysia: 'MAS', 'South Korea': 'KOR', China: 'CHN', Chile: 'CHI', Uruguay: 'URU', Georgia: 'GEO', Portugal: 'POR',
+  Lebanon: 'LBN', 'Great Britain': 'GB', Nepal: 'NEP', Oman: 'OMA', 'United Arab Emirates': 'UAE', Namibia: 'NAM', Kenya: 'KEN', Jamaica: 'JAM' };
+// a side named in a series ("Black Caps", "India Women") as its country, or nothing when it isn't one
+const sideCountry = n => { const b = String(n || '').replace(/\s+(Women('s)?|Men('s)?)$/i, '').trim();
+  for (const [c, re] of Object.entries(NICKS)) if (re.test(b) || b === c) return c;
+  return KIT[b] && (ISO[b] || OWN_FLAG[b]) ? b : ''; };
+// a two-sided series' two countries, in the name's order, or null
+const seriesSides = c => { const m = String(c || '').match(/^(.+?) v (.+)$/); if (!m) return null; const a = sideCountry(m[1]), b = sideCountry(m[2]); return a && b && a !== b ? [a, b] : null; };
+// a tournament's own look: [label, background, glow, text, mark colour, logo [url, size %, x %, y %, width]]. A women's
+// event sharing the men's look takes a pink glow; one with a look of its own says so (w)
+const TSDB = 'https://r2.thesportsdb.com/images/media/league/badge/';
+const TROPHY = `<svg class="troph" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 2h12v2h3v3.5A4.5 4.5 0 0 1 16.9 12a6 6 0 0 1-3.9 3.4V18h3v2H8v-2h3v-2.6A6 6 0 0 1 7.1 12 4.5 4.5 0 0 1 3 7.5V4h3V2zm0 4H5v1.5a2.5 2.5 0 0 0 1.2 2.1A6 6 0 0 1 6 8V6zm12 0v2c0 .5 0 1-.2 1.6A2.5 2.5 0 0 0 19 7.5V6h-1zM7 21h10v1.5H7z"/></svg>`;
+const ICC = ['', 'linear-gradient(105deg, #06283d 0%, #0f6e8c 55%, #19a7b8 100%)', '#5ef0f5', '#fff', '#e9f7fb'];
+const LOOKS = [
+  [/Women's Big Bash/, { w: true, l: ['WBBL', 'linear-gradient(105deg, #3a0f6e 0%, #6b2c91 45%, #0a9b95 100%)', '#19d3c5', '#fff', '#7ff5ea'] }],
+  [/Big Bash/, { l: ['Big Bash', 'radial-gradient(120% 160% at 0% 50%, #2a3a00 0%, #0a0c08 55%)', '#c6ff00', '#fff', '#c6ff00', [TSDB + 'yko7ny1546635346.png/small', 100, 50, 50, 22]] }],
+  [/T20 World Cup|Cricket World Cup|ODI World Cup|Champions Trophy|World Test Championship/, { l: ICC }],
+  [/Rugby League World Cup/, { l: ['', 'linear-gradient(105deg, #061a40 0%, #0b2d6b 50%, #8a6d1d 100%)', '#e3b341', '#fff', '#f2c94c'] }],
+  [/State of Origin/, { l: ['', 'linear-gradient(110deg, #6d1a36 0 52%, #2f7fc9 52% 100%)', '#9cc9f0', '#fff', '#fff', [TSDB + '255k0e1771589044.png/small', 100, 50, 0, 16]] }],
+  [/Nations Championship/, { l: ['', '#0b0f0e', '#e8ff00', '#e8ff00', '#e8ff00', [TSDB + 'jifczi1773608397.png/small', 240, 50, 27, 22]] }],
+  [/Rugby Championship/, { l: ['', 'linear-gradient(105deg, #101418 0%, #2b3440 60%, #7d8a98 100%)', '#cfd8e3', '#fff', '#e6ecf2'] }],
+  [/WXV/, { w: true, l: ['', 'linear-gradient(105deg, #2b0a45 0%, #6a1d78 50%, #c2367a 100%)', '#ff8cc6', '#fff', '#ffd6ea'] }],
+  [/Women's Rugby World Cup/, { w: true, l: ['', 'linear-gradient(105deg, #0d1530 0%, #1d2a55 100%)', '#d4a72c', '#f5d77a', '#f5d77a', [TSDB + 'vphokh1755422562.png/small', 150, 50, 30, 22]] }],
+  [/Rugby World Cup/, { l: ['', 'linear-gradient(105deg, #0b1f3a 0%, #143d6b 55%, #b38b2d 100%)', '#e3b341', '#fff', '#f2c94c'] }],
+  [/Pacific Nations|Pacific Four|Pacific Championships?/, { l: ['', 'linear-gradient(105deg, #04395e 0%, #0b7a75 100%)', '#7ff5ea', '#fff', '#c3fae8'] }],
+  [/FIFA World Cup$|^World Cup$/, { l: ['World Cup', 'linear-gradient(105deg, #0b0b0b 0%, #1d2b22 55%, #2e6b3a 100%)', '#e9ecef', '#fff', '#fff', [TSDB + 'e7er5g1696521789.png/small', 100, 50, 50, 14]] }],
+  [/FIBA/, { l: ['', 'linear-gradient(105deg, #161616 0%, #3d2a14 50%, #e8701a 100%)', '#ffa94d', '#fff', '#ffd8a8'] }],
+  [/FIH|Hockey|Nations Cup|Pro League/, { s: 'hockey', l: ['', 'linear-gradient(105deg, #002f6c 0%, #0060a8 55%, #00a6cf 100%)', '#7fe3ff', '#fff', '#d0f4ff'] }],
+  [/MLB|World Series/, { s: 'baseball', l: ['', 'linear-gradient(105deg, #041e42 0%, #0c2c5a 55%, #6d1430 100%)', '#a5c8ff', '#fff', '#fff', [TSDB + 'c5r83j1521893739.png/small', 100, 50, 50, 26]] }],
+  [/Australian Open/, { s: 'tennis', l: ['', 'linear-gradient(105deg, #0039a6 0%, #0077d4 60%, #00a9e8 100%)', '#8fdcff', '#fff', '#e3f6ff'] }],
+  [/Wimbledon/, { s: 'tennis', l: ['', 'linear-gradient(105deg, #00432a 0%, #006633 55%, #54008b 100%)', '#c9b6ff', '#fff', '#e5dbff'] }],
+  [/French Open|Roland Garros/, { s: 'tennis', l: ['', 'linear-gradient(105deg, #5c2410 0%, #a8441f 60%, #d0612f 100%)', '#ffb38a', '#fff', '#ffe0cc'] }],
+  [/US Open/, { s: 'tennis', l: ['', 'linear-gradient(105deg, #00288c 0%, #1e64c8 100%)', '#ffd43b', '#fff', '#ffe066'] }],
+  [/Commonwealth Games|Olympic/, { l: ['', 'linear-gradient(105deg, #1b1464 0%, #5b1a8a 50%, #0a7c6e 100%)', '#ffd43b', '#fff', '#ffe066'] }],
+];
+const nowChip = (c, v, st) => {
+  const tip = `${esc(plural(c))}${v.rain ? ' (live, rain affected)' : v.live ? ' (live now)' : st.ended ? ' (finished)' : ''}`;
+  const mark = v.live ? '<span class="livedot" role="img" aria-label="live"></span>' : st.ended ? '<span class="enddot" role="img" aria-label="finished">✓</span>' : '';
+  const cls = `chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''} ${v.rain ? 'is-rain' : ''} ${st.ended ? 'is-ended' : ''}`;
+  const sides = seriesSides(c);
+  if (sides) {
+    const seg = (n, k) => { const [bg, ink] = KIT_SPORT[v.sport]?.[n] || KIT[n], f = flagOf(n), img = f ? `<img src="${esc(f)}" alt="" referrerpolicy="no-referrer">` : '';
+      return `<span class="nside ns${k}" style="background:${bg};color:${ink}">${k === 'a' ? img : ''}${SIDE_CODE[n] || n.slice(0, 3).toUpperCase()}${k === 'b' ? img : ''}</span>`; };
+    return `<button type="button" class="${cls} two" data-bigcomp="${esc(c)}" aria-pressed="${st.sel}" title="${tip}" aria-label="${esc(plural(c))}">${seg(sides[0], 'a')}<span class="nico"><span>${sIcon(v.sport, '')}</span></span>${seg(sides[1], 'b')}${v.w ? '<span class="wline" aria-hidden="true"></span>' : ''}${mark}</button>`;
+  }
+  const look = LOOKS.find(([re, o]) => re.test(c) && (!o.s || o.s === v.sport))?.[1];
+  // a tournament with no look of its own: its sport's colour, deepened, and a trophy
+  const [label, bg, glow0, ink, mk, logo] = look ? look.l : ['', 'linear-gradient(105deg, color-mix(in srgb, var(--sport) 22%, #0b0f0e) 0%, color-mix(in srgb, var(--sport) 55%, #0b0f0e) 100%)', 'var(--sport)', '#fff', 'var(--sport)'];
+  const glow = v.w && !look?.w ? '#f06595' : glow0;
+  const name = label || shortComp(plural(c)).replace(/\s*\(W\)$/, '');
+  const lead = logo ? `<i class="tblogo" style="background-image:url('${logo[0]}');background-size:${logo[1]}%;background-position:${logo[2]}% ${logo[3]}%;width:${logo[4]}px" aria-hidden="true"></i>` : TROPHY;
+  return `<button type="button" class="${cls} tbrand" data-bigcomp="${esc(c)}" aria-pressed="${st.sel}" title="${tip}" style="--tb-bg:${bg};--tb-glow:${glow};--tb-ink:${ink};--tb-mark:${mk}">${lead}<span class="tbt">${esc(name)}</span>${mark}</button>`;
+};
 const NOT_BAR = /Heartland XV|Second XI/;
 // a two-side series without New Zealand where neither side is in the world's top five (in the series' formats, for
 // cricket) is too small for the series row (Bangladesh v West Indies); its games still show everywhere else
@@ -3540,7 +3637,7 @@ function renderNowBar(now) {
   endedComps = new Set(on.filter(([c, v]) => ended(c, v)).map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
   $('nowBar').hidden = !on.length;
-  into($('nowBar')).html = on.length ? `<span class="nowlbl">Current running series</span><div class="nowwrap" id="nowWrap"><div class="nowchips" id="nowChips">${on.map(([c, v]) => `<button type="button" class="chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''} ${v.rain ? 'is-rain' : ''} ${endedComps.has(c) ? 'is-ended' : ''}" data-bigcomp="${esc(c)}" aria-pressed="${compSel === c}" title="${esc(plural(c))}${v.rain ? ' (live, rain affected)' : v.live ? ' (live now)' : endedComps.has(c) ? ' (finished)' : ''}">${sIcon(v.sport, 'cicon')}${esc(shortComp(plural(c)))}${v.live ? '<span class="livedot" role="img" aria-label="live"></span>' : endedComps.has(c) ? '<span class="enddot" role="img" aria-label="finished">✓</span>' : ''}</button>`).join('')}</div><button type="button" class="nowback" id="nowBack" tabindex="-1" aria-hidden="true">‹</button><button type="button" class="nowmore" id="nowMore" tabindex="-1" aria-hidden="true">›</button></div>` : '';
+  into($('nowBar')).html = on.length ? `<span class="nowlbl">Current running series</span><div class="nowwrap" id="nowWrap"><div class="nowchips" id="nowChips">${on.map(([c, v]) => nowChip(c, v, { ended: endedComps.has(c), sel: compSel === c })).join('')}</div><button type="button" class="nowback" id="nowBack" tabindex="-1" aria-hidden="true">‹</button><button type="button" class="nowmore" id="nowMore" tabindex="-1" aria-hidden="true">›</button></div>` : '';
   balanceNow();
   // once per row of chips (redraws keep the same element now)
   if ($('nowChips')) { if (!nowWatched.has($('nowChips'))) { nowWatched.add($('nowChips')); $('nowChips').addEventListener('scroll', syncNowMore, { passive: true }); } syncNowMore(); }
