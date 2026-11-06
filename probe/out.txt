@@ -1,64 +1,56 @@
-feed 2026-11-06T00:54:36.017Z v563 events 1029
-keys: generatedAt,site,diag,events,form,news,tables,rankings,stateSquads,teamSquads,teamLinks,coverage,checks,sources
-diag keys: sections,wikipedia,tables,f1,supercars,sailgp,golf,baseball,tennis,ufcCards,f1Times,supercarsTimes,f1Sessions,f1SessionsSeen,supercarsResults,supercarsResultsSeen,nba,tsdb NBL,tsdb Rugby League World Cup,tsdb NPC,tsdb Test match,tsdb Nations Championship,tsdb Pacific Cup,tsdb NRL,tsdb Super Rugby Pacific,tsdb Constellation Cup,tsdb Taini Jamison Trophy,tsdb UFC,tsdb A-League Men,tsdb Premier League,tsdb backfill A-League Men,tsdb backfill Premier League,tsdb backfill Constellation Cup,drawCards,tsdbFilled,homeSides,sportmonks,youtube,ufcVideos,tvGuide,herald,scoop,fightNews,usNews,bbc,womenNoKiwi,rainHeadlines,thumbnails,golfTop10,golfCourses,cricketLogos,natBadges,logos,logoLeagues,facesSearch,facesCommons,facesSportsDB,facesOpenverse,faces,facesMain,facesMissing,stateSquads,teamSquads,players,fighterLinks,teamLinks,wikiLogos,form,rankings,motorRankings,calendars,alerts,checks,liveSourceEvents,eventsByTeam
-cricket: games 62 time 50 watch 58 squads 62/62 pic 29/32 links 32
-  no time: [["Sheffield Shield",4],["Plunket Shield",3],["Pakistan v Sri Lanka",2],["South Africa v Bangladesh",2],["Hallyburton Johnstone Shield",1]]
-  no watch: [["Pakistan v Sri Lanka",2],["South Africa v Bangladesh",2]]
-  no squads: []
-  no pic: Central Hinds; Western Australia; South Australia
-boxing: games 3 time 1 watch 2 squads 0/0 pic 4/6 links 5
-  no time: [["Interim WBC light heavyweight title",1],["IBF flyweight title",1]]
-  no watch: [["IBF flyweight title",1]]
-  no squads: []
-  no pic: Nelson Asofa-Solomona; Masamichi Yabuki
-hockey: games 3 time 3 watch 3 squads 3/3 pic 2/2 links 2
-  no time: []
-  no watch: []
-  no squads: []
-  no pic: 
-league: games 18 time 18 watch 18 squads 8/8 pic 14/14 links 14
-  no time: []
-  no watch: []
-  no squads: []
-  no pic: 
-rugby: games 5 time 4 watch 5 squads 5/5 pic 5/6 links 6
-  no time: [["Nations Championship Finals Weekend",1]]
-  no watch: []
-  no squads: []
-  no pic: New Zealand Heartland XV
-mma: games 3 time 0 watch 3 squads 0/0 pic 6/6 links 6
-  no time: [["UFC Fight Night 293",1],["UFC Fight Night",1],["UFC 334",1]]
-  no watch: []
-  no squads: []
-  no pic: 
-football: games 31 time 31 watch 31 squads 31/31 pic 31/31 links 31
-  no time: []
-  no watch: []
-  no squads: []
-  no pic: 
-basketball: games 102 time 102 watch 102 squads 102/102 pic 40/40 links 40
-  no time: []
-  no watch: []
-  no squads: []
-  no pic: 
-motor: games 20 time 20 watch 20 squads 0/0 pic 0/0 links 0
-  no time: []
-  no watch: []
-  no squads: []
-  no pic: 
-sailing: games 1 time 0 watch 1 squads 0/0 pic 0/0 links 0
-  no time: [["SailGP",1]]
-  no watch: []
-  no squads: []
-  no pic: 
-golf: games 5 time 0 watch 5 squads 0/0 pic 0/0 links 0
-  no time: [["PGA Tour",3],["PGA Tour of Australasia",2]]
-  no watch: []
-  no squads: []
-  no pic: 
-tennis: games 2 time 0 watch 1 squads 0/0 pic 0/0 links 0
-  no time: [["ATP Finals",1],["WTA Finals",1]]
-  no watch: [["WTA Finals",1]]
-  no squads: []
-  no pic: 
-checks: []
+TBC 2026-11-07T12:00:00Z boxing | Interim WBC light heavyweight title | Joshua Buatsi v Willy Hutchinson | tTBC | DAZN |  | https://queensberry.co.uk/pages/joshua-buatsi-vs-willy-hutchinson-2-po
+TBC 2026-11-26T03:00:00Z boxing | IBF flyweight title | Masamichi Yabuki v Miel Fajardo | tTBC | TBC |  | https://fightnews.com/world-title-twinbill-in-november-announced-in-ja
+TBC 2026-11-13T21:30:00Z cricket | Hallyburton Johnstone Shield (women) opener | Central Hinds v Northern Districts | tTBC | NZC YouTube (free stream) |  | https://www.nzc.nz/media/1cxbi35u/print_2026_hbj-schedule.pdf
+TBC 2026-11-18T11:00:00Z cricket | Plunket Shield, Round 1 | Otago Volts v Canterbury | tTBC | NZC YouTube (free stream) |  | https://www.nzc.nz/red-ball-fans-rejoice-plunket-shield-schedule-annou
+TBC 2026-11-18T11:00:00Z cricket | Plunket Shield, Round 1 | Northern Districts v Auckland Aces | tTBC | NZC YouTube (free stream) |  | https://www.nzc.nz/red-ball-fans-rejoice-plunket-shield-schedule-annou
+TBC 2026-11-18T11:00:00Z cricket | Plunket Shield, Round 1 | Central Stags v Wellington Firebirds | tTBC | NZC YouTube (free stream) |  | https://www.nzc.nz/red-ball-fans-rejoice-plunket-shield-schedule-annou
+TBC 2026-11-27T00:00:00Z rugby | Nations Championship Finals Weekend | All Blacks v TBC (northern hemisphere side, by standings) | tTBC | Sky Sport / Sky Sport Now | Three (delayed) / ThreeNow (delayed) | https://www.visitlondon.com/things-to-do/event/51197521
+TBC 2026-11-08T02:00:00.000Z mma | UFC Fight Night 293 | Cortes-Acosta v Walker | tTBC | TVNZ+ (free) / TVNZ Duke (free) / UFC Fight Pass |  | https://en.wikipedia.org/wiki/UFC_Fight_Night%3A_Cortes-Acosta_vs._Wal
+TBC 2026-11-11T03:00:00.000Z cricket | Sheffield Shield | New South Wales v South Australia | tTBC | Sky Sport (selected games, no free stream in NZ) |  | https://en.wikipedia.org/wiki/2026%E2%80%9327_Sheffield_Shield_season
+TBC 2026-11-22T03:00:00.000Z cricket | Sheffield Shield | New South Wales v Queensland | tTBC | Sky Sport (selected games, no free stream in NZ) |  | https://en.wikipedia.org/wiki/2026%E2%80%9327_Sheffield_Shield_season
+TBC 2026-11-23T06:00:00.000Z cricket | Sheffield Shield | Western Australia v Tasmania | tTBC | Sky Sport (selected games, no free stream in NZ) |  | https://en.wikipedia.org/wiki/2026%E2%80%9327_Sheffield_Shield_season
+TBC 2026-11-24T03:30:00.000Z cricket | Sheffield Shield | South Australia v Victoria | tTBC | Sky Sport (selected games, no free stream in NZ) |  | https://en.wikipedia.org/wiki/2026%E2%80%9327_Sheffield_Shield_season
+TBC 2026-11-21T15:00:00.000Z mma | UFC Fight Night | Procházka v Stirling | tTBC | TVNZ+ (free) / TVNZ Duke (free) / UFC Fight Pass |  | https://en.wikipedia.org/wiki/UFC_Fight_Night%3A_Proch%C3%A1zka_vs._St
+TBC 2026-11-14T23:00:00.000Z mma | UFC 334 | Gane v Hokit | tTBC | Sky Arena (pay-per-view) / UFC Fight Pass (pay-per-view) | Prelims free on TVNZ+ / TVNZ Duke | https://en.wikipedia.org/wiki/UFC_334
+TBC 2026-11-27T01:00:00.000Z basketball | FIBA World Cup qualifiers | Jordan v New Zealand | tTBC | Sky Sport / Sky Sport Now |  | https://en.wikipedia.org/wiki/2027_FIBA_Basketball_World_Cup_qualifica
+TBC 2026-11-09T09:00:00.000Z cricket | Pakistan v Sri Lanka | Pakistan v Sri Lanka | tTBC | - |  | https://en.wikipedia.org/wiki/Sri_Lankan_cricket_team_in_Pakistan_in_2
+TBC 2026-11-17T09:00:00.000Z cricket | Pakistan v Sri Lanka | Pakistan v Sri Lanka | tTBC | - |  | https://en.wikipedia.org/wiki/Sri_Lankan_cricket_team_in_Pakistan_in_2
+TBC 2026-11-15T12:00:00.000Z cricket | South Africa v Bangladesh | South Africa v Bangladesh | tTBC | - |  | https://en.wikipedia.org/wiki/Bangladeshi_cricket_team_in_South_Africa
+TBC 2026-11-23T12:00:00.000Z cricket | South Africa v Bangladesh | South Africa v Bangladesh | tTBC | - |  | https://en.wikipedia.org/wiki/Bangladeshi_cricket_team_in_South_Africa
+TBC 2026-11-22T11:00:00.000Z sailing | SailGP · Round 12 | Dubai Sail Grand Prix v  | tTBC | ThreeNow (free stream) | Three (delayed, the next afternoon) | https://en.wikipedia.org/wiki/2026_SailGP_championship
+TBC 2026-11-08T20:00:00.000Z golf | PGA Tour | World Wide Technology Championship v  | tTBC | Sky Sport / Sky Sport Now |  | https://en.wikipedia.org/wiki/2026_PGA_Tour
+TBC 2026-11-15T20:00:00.000Z golf | PGA Tour | Austin Championship v  | tTBC | Sky Sport / Sky Sport Now |  | https://en.wikipedia.org/wiki/2026_PGA_Tour
+TBC 2026-11-22T19:00:00.000Z golf | PGA Tour | RSM Classic v  | tTBC | Sky Sport / Sky Sport Now |  | https://en.wikipedia.org/wiki/2026_PGA_Tour
+TBC 2026-11-15T03:00:00.000Z golf | PGA Tour of Australasia | Ford NSW Open v  | tTBC | Sky Sport / Sky Sport Now |  | https://en.wikipedia.org/wiki/2026%E2%80%9327_PGA_Tour_of_Australasia
+TBC 2026-11-22T04:00:00.000Z golf | PGA Tour of Australasia | Queensland PGA Championship v  | tTBC | Sky Sport / Sky Sport Now |  | https://en.wikipedia.org/wiki/2026%E2%80%9327_PGA_Tour_of_Australasia
+TBC 2026-11-22T17:00:00.000Z tennis | ATP Finals | Men's final v  | tTBC | Disney+ (ESPN) |  | https://en.wikipedia.org/wiki/2026_ATP_Finals
+TBC 2026-11-16T03:00:00.000Z tennis | WTA Finals | Women's final v  | tTBC | - |  | https://en.wikipedia.org/wiki/2026_WTA_Finals
+
+wbbl: 26 (11-05 11-05 11-06 11-07 11-07 11-08)
+boxing: 3 (11-06 11-07 11-26)
+nzdomestic: 11 (11-07 11-07 11-07 11-11 11-11 11-11)
+blackcaps: 6 (11-07 11-10 11-13 11-15 11-18 11-26)
+intlcricket: 5 (11-05 11-09 11-17 11-15 11-23)
+audomestic: 9 (11-11 11-10 11-11 11-22 11-23 11-24)
+blacksticks: 3 (11-19 11-21 11-22)
+rlwc: 15 (11-06 11-06 11-06 11-08 11-08 11-09)
+kiwiferns: 1 (11-07)
+kiwis: 2 (11-07 11-06)
+npc: 1 (11-06)
+allblacks: 4 (11-07 11-14 11-21 11-27)
+ufc: 3 (11-08 11-21 11-14)
+aleague: 8 (11-06 11-07 11-07 11-08 11-08 11-20)
+phoenix: 2 (11-07 11-22)
+aucklandfc: 1 (11-21)
+epl: 20 (11-06 11-07 11-07 11-07 11-07 11-08)
+breakers: 5 (11-06 11-13 11-15 11-18 11-21)
+nbl: 16 (11-07 11-07 11-08 11-08 11-11 11-12)
+tallblacks: 1 (11-27)
+aucricket: 5 (11-13 11-15 11-18 11-21 11-24)
+f1: 10 (11-08 11-22 11-06 11-06 11-07 11-07)
+supercars: 10 (11-08 11-06 11-06 11-07 11-07 11-07)
+sailgp: 1 (11-22)
+pgatour: 3 (11-08 11-15 11-22)
+golfanz: 2 (11-15 11-22)
+tennis: 2 (11-22 11-16)
+nba: 81 (11-06 11-06 11-07 11-07 11-07 11-07)
