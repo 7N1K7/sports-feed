@@ -1,32 +1,35 @@
-nc309
-feed 2026-11-06T06:03:58.411Z v590
-NC events 25; upcoming 25; by team {"nations":18,"allblacks":4,"wallabies":3}
-  2026-11-06T20:10:00.000Z | Ireland v Argentina |  | nations ["nations"] | Aviva Stadium, Dublin | Sky Sport / Sky Sport Now | tv Sky Sport 1 UHD/Sky Sport 1 | id wiki-nations-2026-11-06-irelandargentina
-  2026-11-07T11:40:00.000Z | Italy v South Africa |  | nations ["nations"] | Juventus Stadium, Turin | Sky Sport / Sky Sport Now | tv Sky Sport 2 | id wiki-nations-2026-11-07-italysouthafrica
-  2026-11-07T14:10:00Z | Scotland v All Blacks |  | allblacks ["nations"] | Scottish Gas Murrayfield, Edinburgh, Scotland | Sky Sport / Sky Sport Now | tv Sky Sport 1 UHD/Sky Sport 1 | id ab-sco-nz-2026-11-07
-  2026-11-07T16:40:00.000Z | Wales v Japan |  | nations ["nations"] | Millennium Stadium, Cardiff | Sky Sport / Sky Sport Now | tv Sky Sport 3 | id wiki-nations-2026-11-07-walesjapan
-  2026-11-07T20:10:00.000Z | France v Fiji |  | nations ["nations"] | Parc Olympique Lyonnais, Lyon | Sky Sport / Sky Sport Now | tv Sky Sport 1 UHD/Sky Sport 1/Sky Sport 3 | id wiki-nations-2026-11-07-francefiji
-  2026-11-08T15:10:00.000Z | England v Australia |  | wallabies ["nations","wallabies"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv Sky Sport 2 | id wiki-wallabies-2026-11-08-englandaustralia
-  2026-11-13T20:10:00.000Z | France v South Africa |  | nations ["nations"] | Stade de France, Paris | Sky Sport / Sky Sport Now | tv Sky Sport 1 | id wiki-nations-2026-11-13-francesouthafrica
-  2026-11-14T11:40:00.000Z | Italy v Argentina |  | nations ["nations"] | Stadio Luigi Ferraris, Genoa | Sky Sport / Sky Sport Now | tv Sky Sport 2 | id wiki-nations-2026-11-14-italyargentina
-  2026-11-14T14:10:00Z | Wales v All Blacks |  | allblacks ["nations"] | Principality Stadium, Cardiff, Wales | Sky Sport / Sky Sport Now | tv Sky Sport 1 | id ab-wal-nz-2026-11-14
-  2026-11-14T16:40:00.000Z | England v Japan |  | nations ["nations"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv Sky Sport 2 | id wiki-nations-2026-11-14-englandjapan
-  2026-11-14T20:10:00.000Z | Ireland v Fiji |  | nations ["nations"] | Aviva Stadium, Dublin | Sky Sport / Sky Sport Now | tv Sky Sport 1 | id wiki-nations-2026-11-14-irelandfiji
-  2026-11-15T15:10:00.000Z | Scotland v Australia |  | wallabies ["nations","wallabies"] | Murrayfield Stadium, Edinburgh | Sky Sport / Sky Sport Now | tv Sky Sport 1 | id wiki-wallabies-2026-11-15-scotlandaustralia
-  2026-11-21T14:10:00.000Z | Scotland v Japan |  | nations ["nations"] | Murrayfield Stadium, Edinburgh | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-21-scotlandjapan
-  2026-11-21T14:10:00Z | England v All Blacks |  | allblacks ["nations"] | Allianz Stadium, Twickenham, London, England | Sky Sport / Sky Sport Now | tv  | id ab-eng-nz-2026-11-21
-  2026-11-21T16:40:00.000Z | Ireland v South Africa |  | nations ["nations"] | Aviva Stadium, Dublin | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-21-irelandsouthafrica
-  2026-11-21T16:40:00.000Z | Italy v Fiji |  | nations ["nations"] | Stadio Friuli, Udine | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-21-italyfiji
-  2026-11-21T20:10:00.000Z | Wales v Australia |  | wallabies ["nations","wallabies"] | Millennium Stadium, Cardiff | Sky Sport / Sky Sport Now | tv  | id wiki-wallabies-2026-11-21-walesaustralia
-  2026-11-21T20:10:00.000Z | France v Argentina |  | nations ["nations"] | Stade de France, Paris | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-21-franceargentina
-  2026-11-27T00:00:00Z TBC | All Blacks v TBC (northern hemisphere side, by standings) |  | allblacks [] | Allianz Stadium, Twickenham, London, England | Sky Sport / Sky Sport Now | tv  | id ab-nc-finals-2026-11
-  2026-11-27T16:40:00.000Z | North 6th v South 6th | Eleventh place final | nations ["nations"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-27-northernsouthern
-  2026-11-27T20:10:00.000Z | North 3rd v South 3rd | Fifth place final | nations ["nations"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-27-northernsouthern
-  2026-11-28T13:10:00.000Z | North 5th v South 5th | Ninth place final | nations ["nations"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-28-northernsouthern
-  2026-11-28T16:40:00.000Z | North 2nd v South 2nd | Third place final | nations ["nations"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-28-northernsouthern
-  2026-11-29T13:10:00.000Z | North 4th v South 4th | Seventh place final | nations ["nations"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-29-northernsouthern
-  2026-11-29T16:40:00.000Z | North 1st v South 1st | Final | nations ["nations"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-29-northernsouthern
-wikipedia: {"2026 Nations Championship":6,"2026 Nations Championship Northern Hemisphere Series":18,"2026 Nations Championship Southern Hemisphere Series":18,"Men's FIH Hockey Nations Cup":0}
-yt: Nations Championship 0
-news tagged nations 4: BBC Sport: Wales opt for centre power pair against Japan | BBC Sport: Fixtures and standings as Nations Championship returns on Friday | BBC Sport: GB sprint star Hunt visits England training camp | BBC Sport: Gibson-Park on Ireland bench as Casey, Jansen and Timoney start
-tables: Northern Hemisphere 6, Southern Hemisphere 6, Most points (to 19 July) 14, Most tries (to 19 July) 7
+lg310
+id 4356 | Soccer | Australian A-League | A-League Men | Australia | badge https://r2.thesportsdb.com/images/media/league/badge/2u78lm1638459575.png | logo https://r2.thesportsdb.com/images/media/league/logo/bw1bs81689572839.png
+id 4328 | Soccer | English Premier League | Premier League, EPL, England | England | badge https://r2.thesportsdb.com/images/media/league/badge/gasy9d1737743125.png | logo https://r2.thesportsdb.com/images/media/league/logo/4c377s1535214890.png
+id 4416 | Rugby | Australian National Rugby League | NRL | Australia | badge https://r2.thesportsdb.com/images/media/league/badge/g5ocbs1777721333.png | logo https://r2.thesportsdb.com/images/media/league/logo/xryyuy1422583450.png
+id 4551 | Rugby | Super Rugby | Super Rugby Trans-Tasman | International | badge https://r2.thesportsdb.com/images/media/league/badge/alpxhe1675871443.png | logo https://r2.thesportsdb.com/images/media/league/logo/exmbsn1675871442.png
+id 5793 | Netball | Constellation Cup |  | International | badge https://r2.thesportsdb.com/images/media/league/badge/6edvvh1767868334.png | logo https://r2.thesportsdb.com/images/media/league/logo/gcza5u1767868327.png
+id 5794 | Netball | Taini Jamison Trophy | Taini Jamison Trophy Series | International | badge https://r2.thesportsdb.com/images/media/league/badge/9jmgmx1767898715.png | logo https://r2.thesportsdb.com/images/media/league/logo/qbb5ey1767898715.png
+id 4443 | Fighting | UFC | Ultimate Fighting Championship | Worldwide | badge https://r2.thesportsdb.com/images/media/league/badge/bewnz31717531281.png | logo https://r2.thesportsdb.com/images/media/league/logo/1gp4vo1722604906.png
+id 5806 | Rugby | Rugby League World Cup | Men's Rugby League World Cup | International | badge https://r2.thesportsdb.com/images/media/league/badge/sxoc6h1768739073.png | logo https://r2.thesportsdb.com/images/media/league/logo/ty6vd21768739072.png
+id 5278 | Rugby | New Zealand National Provincial Championship | Bunnings, NPC | New Zealand | badge https://r2.thesportsdb.com/images/media/league/badge/0rbyp71786623355.png | logo https://r2.thesportsdb.com/images/media/league/logo/1aajmy1786623368.png
+id 5479 | Rugby | Rugby Union International Friendlies |  | Worldwide | badge https://r2.thesportsdb.com/images/media/league/badge/wvurc21720171967.png | logo -
+id 5852 error 429
+id 5807 error 429
+id 4434 error 429
+Australia Cricket error 429
+New Zealand Cricket error 429
+New Zealand Rugby error 429
+World Rugby error 429
+Australia Rugby error 429
+World Cricket error 429
+World Rugby League error 429
+Australia Rugby League error 429
+New Zealand Netball error 429
+World Netball error 429
+World Field Hockey error 429
+World Tennis error 429
+World Motorsport error 429
+Australia Motorsport error 429
+World Golf error 429
+Australia Golf error 429
+World Sailing error 429
+World Basketball error 429
+Japan Baseball error 429
+World Fighting error 429
+World Boxing error 429
