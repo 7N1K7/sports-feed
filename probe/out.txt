@@ -1,8 +1,5 @@
-badges301
-200 24936B lg-4549
-200 29831B lg-4574
-200 22802B lg-4985
-200 6945B lg-5587
-200 8052B lg-5806
-lookup 4985: Pacific Nations Cup | Rugby | https://r2.thesportsdb.com/images/media/league/badge/egbkvq1716567039.png
-lookup 4549: FIBA Basketball World Cup | Basketball | https://r2.thesportsdb.com/images/media/league/badge/x45gjq1764423537.png
+badges302
+lookup 4551: Super Rugby | Rugby | International | https://r2.thesportsdb.com/images/media/league/badge/alpxhe1675871443.png
+lookup 5174: New Zealand Super Smash | Cricket | New Zealand | https://r2.thesportsdb.com/images/media/league/badge/3d5cld1645179187.png
+lookup 5278: New Zealand National Provincial Championship | Rugby | New Zealand | https://r2.thesportsdb.com/images/media/league/badge/0rbyp71786623355.png
+lookup 5701: Super Rugby Aus | Rugby | Australia | https://r2.thesportsdb.com/images/media/league/badge/b9v2541758885749.png
