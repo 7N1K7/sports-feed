@@ -1,30 +1,89 @@
-daily1107d
-Wellington Phoenix FC: 26 league
-   5 22 November 2026 17:00 [[UTC+13:00 Wellington Phoenix v Macarthur FC
-   6 6 December 2026 15:00 [[UTC+13:00 Wellington Phoenix v Adelaide United FC
-Auckland FC: 0 league
-   
-Melbourne City FC: 3 league
-   
-Newcastle Jets FC: 10 league
-   
-Sydney FC: 12 league
-   7 6 December 2026 17:00 [[UTC+10:00 Sydney FC v Melbourne Victory FC
-Perth Glory FC: 11 league
-   
-Brisbane Roar FC: 10 league
-   
-Melbourne Victory FC: 27 league
-   5 21 November 2026 15:00 [[UTC+10:00 Auckland FC v Melbourne Victory
-   7 6 December 2026 17:00 [[UTC+10:00 Sydney FC v Melbourne Victory
-Adelaide United FC: 29 league
-   5 20 November 2026 19:40 [[UTC+11:00 Western Sydney Wanderers FC v Adelaide United
-   6 6 December 2026 15:00 [[UTC+13:00 Wellington Phoenix FC v Adelaide United
-   5 25 November 2026  Tai Po F.C. v {{flagicon
-   6 3 December 2026  Adelaide United {{flagicon v {{flagicon
-Central Coast Mariners FC: 11 league
-   
-Western Sydney Wanderers FC: no page
-   
-Macarthur FC: no page
-   
+sat9am
+feed generatedAt 2026-11-06T19:58:49.520Z age 7 min, events 1055, checks {"noResult":[{"s":"cricket","c":"Ford Trophy","n":"Northern Districts v Auckland Aces","at":"2026-10-30T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Wellington Firebirds v Canterbury","at":"2026-10-30T21:30:00Z",
+Nations NH: page ok, 7 boxes
+   6 November 2026 | 20:10 GMT (UTC+0) | {{ru-rt|IRE v {{ru|ARG | Aviva Stadium, Dublin
+   7 November 2026 | 14:10 GMT (UTC+0) | {{ru-rt|SCO v {{ru|NZL | Murrayfield Stadium, Edinburgh
+   7 November 2026 | 16:40 GMT (UTC+0) | {{ru-rt|WAL v {{ru|JPN | Millennium Stadium, Cardiff
+   14 November 2026 | 14:10 GMT (UTC+0) | {{ru-rt|WAL v {{ru|NZL | Millennium Stadium, Cardiff
+   15 November 2026 | 15:10 GMT (UTC+0) | {{ru-rt|SCO v {{ru|AUS | Murrayfield Stadium, Edinburgh
+   21 November 2026 | 14:10 GMT (UTC+0) | {{ru-rt|ENG v {{ru|NZL | Twickenham Stadium, London
+india search: Indian cricket team in New Zealand in 2026–27 / New Zealand cricket team in India in 2025–26 / India national cricket team / Daryl Mitchell (New Zealand cricketer)
+India tour Indian cricket team in New Zealand in 2026–27: page ok, 6 boxes
+   1 November 2026 | 20:00 | {{cr-rt|IND v {{cr|NZ | Seddon Park, Hamilton
+   4 November 2026 | 15:00 | {{cr-rt|NZ v {{cr|IND | Eden Park, Auckland
+   7 November 2026 | 15:00 | {{cr-rt|NZ v {{cr|IND | Wellington Regional Stadium, Wellington
+   10 November 2026 | 15:00 | {{cr-rt|NZ v {{cr|IND | Seddon Park, Hamilton
+   13 November 2026 | 15:00 | {{cr-rt|NZ v {{cr|IND | Bay Oval, Tauranga
+   15 November 2026 | 15:00 | {{cr-rt|NZ v {{cr|IND | Bay Oval, Tauranga
+RLWC: page ok, 0 boxes
+WRLWC: page ok, 0 boxes
+Auckland FC: page ok, 0 boxes
+Breakers: page ok, 0 boxes
+
+1280: NZ 7/11/2026, 9:05:41 am | Starting soon hidden (0) | Live now shown (4) | On today 17 | series chips 4 | week buttons 0 | err FEED is not defined
+   live rugby | Ireland v Los Pumas | KICK-OFF NZ 9:10am Sat, 7 Nov 8:10pm Fri in Dublin | -
+   live motor | São Paulo Grand Prix Practice 2 | STARTS NZ 8:00am Sat, 7 Nov 4:00pm Fri in São Paul | - | LIVE
+   live football | Everton v Coventry City | KICK-OFF NZ 9:00am Sat, 7 Nov 8:00pm Fri in Englan | - | LIVE
+   live golf | World Wide Technology Championship | ROUND 2 NZ ≈9:00am Sat, 7 Nov ≈2:00pm Fri in Mexic | - | LIVE
+   today cricket | New Zealand A v India A | FIRST BALL NZ 10:30am Sat, 7 Nov Lincoln in 1h 24m | -
+   today cricket | Black Caps v India | FIRST BALL NZ 3:00pm Sat, 7 Nov Wellington in 5h 5 | -
+   today cricket | Bangladesh v Windies | FIRST BALL NZ 4:30pm Sat, 7 Nov 9:30am Sat in Sylh | -
+   today football | Auckland FC v Wellington Phoenix | KICK-OFF NZ 5:00pm Sat, 7 Nov New Zealand in 7h 54 | -
+   today cricket | Melbourne Renegades v Adelaide Strikers | FIRST BALL NZ 5:40pm Sat, 7 Nov 3:40pm Sat in Melb | -
+   today basketball | Adelaide 36ers v Illawarra Hawks | TIP-OFF NZ 6:00pm Sat, 7 Nov 3:30pm Sat in Adelaid | -
+   today basketball | Melbourne United v Brisbane Bullets | TIP-OFF NZ 6:30pm Sat, 7 Nov 4:30pm Sat in Melbour | -
+   today league | Kiwi Ferns v Fetu Samoa | KICK-OFF NZ 7:45pm Sat, 7 Nov 5:45pm Sat in Newcas | -
+   today cricket | Brisbane Heat v Hobart Hurricanes | FIRST BALL NZ 9:10pm Sat, 7 Nov 6:10pm Sat in Bris | -
+   today football | Melbourne City v Western Sydney Wanderers | KICK-OFF NZ 9:40pm Sat, 7 Nov 7:40pm Sat in Austra | -
+   today league | Kiwis v Tonga | KICK-OFF NZ 10:05pm Sat, 7 Nov 8:05pm Sat in Newca | -
+   today football | Perth Glory v Newcastle Jets | KICK-OFF NZ 11:45pm Sat, 7 Nov 9:45pm Sat in Austr | -
+   today football | Sydney FC v Central Coast Mariners | Show result hidden 3 more days Fri, 6 Nov · Austra | -
+   today cricket | Melbourne Stars v Sydney Sixers | Show result hidden 3 more days Fri, 6 Nov · Melbou | -
+   today boxing | Paul Gallen v Nelson Asofa-Solomona | Show result hidden 3 more days Fri, 6 Nov · Sydney | -
+   today basketball | Tasmania JackJumpers v New Zealand Breakers | Show result hidden 3 more days Fri, 6 Nov · Launce | -
+   today rugby | New Zealand Heartland XV v Manu Samoa | Show result hidden 3 more days Fri, 6 Nov | -
+   chips: Black Caps v India / Women's Big Bash / Rugby League World Cup / Nations Championship
+   IRE v ARG: no row on the page
+   comp Nations Championship: menu "Nations Championship" today 0 week rows 0
+      closed: menu "All competitions"
+   comp Rugby League World Cup: menu "Rugby League World Cup" today 5 week rows 0
+      closed: menu "All competitions"
+   comp Black Caps v India: menu "Black Caps v India" today 1 week rows 0
+      closed: menu "All competitions"
+   comp /Sandown|Supercars/i: no chip
+   no page errors
+   basketball 1280: faded true eye false dots 9 today 3 -> eye true dots 60 today 14 same true -> back eye false dots 9 same true | NBA tap: "NBA" today 11 week 0
+
+412: NZ 7/11/2026, 9:05:55 am | Starting soon hidden (0) | Live now shown (4) | On today 17 | series chips 4 | week buttons 0 | err FEED is not defined
+   live rugby | Ireland v Los Pumas | 9:10am Sat, 7 Nov in 4:04 | -
+   live motor | São Paulo Grand Prix Practice 2 | 8:00am Sat, 7 Nov On now Results on Wikipedia ↗ | - | LIVE
+   live football | Everton v Coventry City | 9:00am Sat, 7 Nov On now Scores on TheSportsDB ↗ | - | LIVE
+   live golf | World Wide Technology Championship | ≈9:00am Sat, 7 Nov On now Live scores on pgatour.c | - | LIVE
+   today cricket | New Zealand A v India A | 10:30am Sat, 7 Nov in 1h 24m | -
+   today cricket | Black Caps v India | 3:00pm Sat, 7 Nov in 5h 54m | -
+   today cricket | Bangladesh v Windies | 4:30pm Sat, 7 Nov Day 3 · in 7h 24m Stumps, Day 2  | -
+   today football | Auckland FC v Wellington Phoenix | 5:00pm Sat, 7 Nov in 7h 54m | -
+   today cricket | Melbourne Renegades v Adelaide Strikers | 5:40pm Sat, 7 Nov in 8h 34m | -
+   today basketball | Adelaide 36ers v Illawarra Hawks | 6:00pm Sat, 7 Nov in 8h 54m | -
+   today basketball | Melbourne United v Brisbane Bullets | 6:30pm Sat, 7 Nov in 9h 24m | -
+   today league | Kiwi Ferns v Fetu Samoa | 7:45pm Sat, 7 Nov in 10h 39m | -
+   today cricket | Brisbane Heat v Hobart Hurricanes | 9:10pm Sat, 7 Nov in 12h 4m | -
+   today football | Melbourne City v Western Sydney Wanderers | 9:40pm Sat, 7 Nov in 12h 34m | -
+   today league | Kiwis v Tonga | 10:05pm Sat, 7 Nov in 12h 59m | -
+   today football | Perth Glory v Newcastle Jets | 11:45pm Sat, 7 Nov in 14h 39m | -
+   today football | Sydney FC v Central Coast Mariners | Show result hidden 3 more days Fri, 6 Nov · Austra | -
+   today cricket | Melbourne Stars v Sydney Sixers | Show result hidden 3 more days Fri, 6 Nov · Melbou | -
+   today boxing | Paul Gallen v Nelson Asofa-Solomona | Show result hidden 3 more days Fri, 6 Nov · Sydney | -
+   today basketball | Tasmania JackJumpers v New Zealand Breakers | Show result hidden 3 more days Fri, 6 Nov · Launce | -
+   today rugby | New Zealand Heartland XV v Manu Samoa | Show result hidden 3 more days Fri, 6 Nov | -
+   chips: Black Caps v India / Women's Big Bash / Rugby League World Cup / Nations Championship
+   IRE v ARG: no row on the page
+   comp Nations Championship: menu "Nations Championship" today 0 week rows 0
+      closed: menu "All competitions"
+   comp Rugby League World Cup: menu "Rugby League World Cup" today 5 week rows 0
+      closed: menu "All competitions"
+   comp Black Caps v India: menu "Black Caps v India" today 1 week rows 0
+      closed: menu "All competitions"
+   comp /Sandown|Supercars/i: no chip
+   no page errors
+   basketball 412: faded true eye false dots 9 today 3 -> eye true dots 52 today 14 same true -> back eye false dots 9 same true | NBA tap: "NBA" today 11 week 0
