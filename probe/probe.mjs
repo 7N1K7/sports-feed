@@ -1,16 +1,15 @@
 import { writeFileSync } from 'fs';
 const out = [];
-try {
-  const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
-  out.push('feed ' + f.generatedAt + ' v' + f.site?.version);
-  const nc = (f.events || []).filter(e => /Nations Championship/.test(e.comp || '')).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
-  out.push(`NC events ${nc.length}; upcoming ${nc.filter(e => e.status !== 'final').length}; by team ${JSON.stringify(nc.reduce((m, e) => (m[e.team] = (m[e.team] || 0) + 1, m), {}))}`);
-  // the games still to come (no scores)
-  for (const e of nc.filter(e => e.status !== 'final')) out.push(`  ${e.startUTC}${e.timeTBC ? ' TBC' : ''} | ${e.home} v ${e.away} | ${e.stage || ''} | ${e.team} ${JSON.stringify(e.tags || [])} | ${e.venue}, ${e.city} | ${e.broadcast || ''} | tv ${(e.tv || []).map(x => x.ch).join('/')} | id ${e.id}`);
-  out.push('wikipedia: ' + JSON.stringify(Object.fromEntries(Object.entries(f.diag?.wikipedia || {}).filter(([k]) => /Nations/.test(k)))));
-  out.push('yt: ' + String(f.diag?.youtube || '').match(/Nations Championship[^,;]*/)?.[0]);
-  const news = (f.news || []).filter(n => n.team === 'nations');
-  out.push(`news tagged nations ${news.length}: ` + news.map(n => `${n.source}: ${n.title.replace(/\d+\s*[-–]\s*\d+/g, '#')}`).join(' | ').slice(0, 1500));
-  out.push('tables: ' + (f.tables || []).filter(t => /Nations/.test(t.comp)).map(t => `${t.title} ${t.rows.length}`).join(', '));
-} catch (e) { out.push('feed error ' + e.message); }
-writeFileSync('probe/out.txt', 'nc309\n' + out.join('\n').replace(/key=[^&"\s]*/g, 'key=X') + '\n');
+const T = 'https://www.thesportsdb.com/api/v1/json/123/';
+const get = async u => { await new Promise(r => setTimeout(r, 2100)); const r = await fetch(T + u); if (!r.ok) throw new Error(r.status); return r.json(); };
+const row = l => `${l.idLeague} | ${l.strSport} | ${l.strLeague} | ${l.strLeagueAlternate || ''} | ${l.strCountry || ''} | badge ${l.strBadge || '-'} | logo ${l.strLogo || '-'}`;
+// leagues the feed reads, by id
+for (const id of [4356, 4328, 4416, 4551, 5793, 5794, 4443, 5806, 5278, 5479, 5852, 5807, 4434]) {
+  try { const j = await get('lookupleague.php?id=' + id); for (const l of j.leagues || []) out.push('id ' + row(l)); } catch (e) { out.push('id ' + id + ' error ' + e.message); }
+}
+// the rest, by country and sport
+for (const [c, s] of [['Australia', 'Cricket'], ['New Zealand', 'Cricket'], ['New Zealand', 'Rugby'], ['World', 'Rugby'], ['Australia', 'Rugby'], ['World', 'Cricket'], ['World', 'Rugby League'], ['Australia', 'Rugby League'], ['New Zealand', 'Netball'], ['World', 'Netball'], ['World', 'Field Hockey'], ['World', 'Tennis'], ['World', 'Motorsport'], ['Australia', 'Motorsport'], ['World', 'Golf'], ['Australia', 'Golf'], ['World', 'Sailing'], ['World', 'Basketball'], ['Japan', 'Baseball'], ['World', 'Fighting'], ['World', 'Boxing']]) {
+  try { const j = await get(`search_all_leagues.php?c=${encodeURIComponent(c)}&s=${encodeURIComponent(s)}`); const ls = j.countries || j.countrys || j.leagues || [];
+    out.push(`${c} ${s}: ${ls.length}`); for (const l of ls) out.push('  ' + row(l)); } catch (e) { out.push(`${c} ${s} error ${e.message}`); }
+}
+writeFileSync('probe/out.txt', 'lg310\n' + out.join('\n') + '\n');
