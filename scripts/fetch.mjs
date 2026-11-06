@@ -1108,7 +1108,7 @@ async function addFaces(events) {
   const plain = h => String(h || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
   // "Alexander Volkanovski (c)" -> "Alexander Volkanovski"; "Saul 'Canelo' Alvarez" -> "Saul Alvarez"
   const strip = n => String(n || '').replace(/\s*\((c|ic)\)$/i, '').replace(/\s+['"‘“][^'"’”]+['"’”]\s+/, ' ').trim();
-  const FIGHTER = /box|fight|martial|mma|kickbox|wrestl|judo|jiu|muay|sambo|karate|taekwondo/i;
+  const FIGHTER = /box|fight|martial|mma|kickbox|wrestl|judo|jiu|muay|sambo|karate|taekwondo/i, CROSS = /rugby|footballer|athlete|sportsperson|cricketer|basketball/i;
   // nearest fights first, so they are looked up first
   const near = events.filter(e => /^(mma|boxing)$/.test(e.sport) && Math.abs(Date.parse(e.startUTC) - now) < 60 * DAY)
     .sort((x, y) => Math.abs(Date.parse(x.startUTC) - now) - Math.abs(Date.parse(y.startUTC) - now));
@@ -1131,7 +1131,9 @@ async function addFaces(events) {
     for (const e of soon) { const b = (e.card || [])[i]; if (b) for (const n of [strip(b.a), strip(b.b)]) if (ok(n)) kindOf[n] ||= e.sport === 'boxing' ? 'boxer' : 'fighter'; }
   const names = Object.keys(kindOf);
   // 40 a run keeps each update quick (a second per call); the rest follow on the next runs, and the cache holds what was found
-  const due = names.filter(n => !cache[n] || now - cache[n].t > (cache[n].src ? 30 : 3) * DAY || cache[n].v !== 5 || cache[n].why === 'not looked up').slice(0, 40);
+  const due = names.filter(n => !cache[n] || now - cache[n].t > (cache[n].src ? 30 : 3) * DAY || cache[n].v !== 5 || cache[n].why === 'not looked up'
+    // asked again once since crossover athletes count (6 Nov 2026)
+    || (/^not a fighter page/.test(cache[n].why || '') && cache[n].t < Date.parse('2026-11-06T02:00:00Z'))).slice(0, 40);
   const found = {}, miss = {};
   try {
     // 1. the English article: free lead image, short description and Wikidata id; titles to retry as "Name (fighter)"
@@ -1145,7 +1147,9 @@ async function addFaces(events) {
         for (const pg of r.query?.pages || []) {
           const t = back[pg.title] || pg.title, name = asked[t] || t;
           if (lead[name] || qids[name]) continue;
-          const fighter = !pg.missing && !pg.pageprops?.disambiguation && FIGHTER.test(pg.description || '');
+          // a boxing card's name on an article about another sport's player counts too: crossover fights (Paul Gallen
+          // v Nelson Asofa-Solomona, two rugby league players) put athletes from other codes in the ring
+          const fighter = !pg.missing && !pg.pageprops?.disambiguation && (FIGHTER.test(pg.description || '') || (kindOf[name] === 'boxer' && CROSS.test(pg.description || '')));
           if (fighter) { delete miss[name]; if (pg.pageimage) lead[name] = 'File:' + pg.pageimage; if (pg.pageprops?.wikibase_item) qids[name] = pg.pageprops.wikibase_item; }
           else if (!asked[t]) retry.push(name);
           if (!fighter || !pg.pageimage) miss[name] ||= pg.missing ? 'no article' : !fighter ? `not a fighter page (${pg.description || 'no description'})` : 'no free photo';
@@ -1341,7 +1345,7 @@ async function addFighterLinks(events) {
   for (const e of near) if (e.sport === 'boxing' && !e.card?.length && e.home && e.away) e.card = [{ section: 'Main event', weight: e.comp, a: e.home, b: e.away, res: 'vs.', method: '', round: '', time: '' }];
   const kind = {};
   for (const e of near) for (const n of [e.home, e.away, ...(e.card || []).flatMap(b => [b.a, b.b])].map(strip)) if (ok(n)) kind[n] ||= e.sport === 'boxing' ? 'boxer' : 'fighter';
-  const due = Object.keys(kind).filter(n => !cache[n] || now - cache[n].t > 30 * DAY).slice(0, 60);
+  const due = Object.keys(kind).filter(n => !cache[n] || now - cache[n].t > 30 * DAY || (kind[n] === 'boxer' && cache[n].t < Date.parse('2026-11-06T02:00:00Z'))).slice(0, 60);
   try {
     // 1. the English article, also tried as "Name (fighter)" / "(boxer)" when the plain title is someone else
     const wp = {}, qid = {};
@@ -1352,7 +1356,7 @@ async function addFighterLinks(events) {
         for (const m of [...(r.query?.normalized || []), ...(r.query?.redirects || [])]) back[m.to] = back[m.from] || m.from;
         for (const pg of r.query?.pages || []) {
           const t = back[pg.title] || pg.title, name = asked[t] || t;
-          if (wp[name] || pg.missing || pg.pageprops?.disambiguation || !FIGHTER.test(pg.description || '')) continue;
+          if (wp[name] || pg.missing || pg.pageprops?.disambiguation || !(FIGHTER.test(pg.description || '') || (kind[name] === 'boxer' && /rugby|footballer|athlete|sportsperson|cricketer|basketball/i.test(pg.description || '')))) continue;
           wp[name] = pg.title;
           if (pg.pageprops?.wikibase_item) qid[name] = pg.pageprops.wikibase_item;
         }
