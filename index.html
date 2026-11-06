@@ -2175,7 +2175,7 @@ setInterval(() => {
   const now = new Date();
   for (const el of document.querySelectorAll('[data-cd]')) {
     const ms = new Date(el.dataset.cd) - now;
-    if (ms > 0 && ms < 36e5) el.textContent = countdown({ startUTC: el.dataset.cd }, now).replace(el.classList.contains('lcd') ? /^in / : /$^/, '');
+    if (ms > 0 && ms < 36e5) el.textContent = (countdown({ startUTC: el.dataset.cd }, now) || '').replace(el.classList.contains('lcd') ? /^in / : /$^/, '');
     // a game in Live now that reaches its start turns to On now straight away, not at the next minute's redraw
     else if (ms <= 0 && ms > -1500 && el.closest('#live')) { render(); break; }
     // and one under Starting soon moves up to Live now as it reaches five minutes to go
@@ -2300,7 +2300,7 @@ function listRow(e, now, isRes) {
   const mark = isRes ? '' : free ? '<span class="fta lfree">FREE</span>' : paid ? '<span class="ltv" aria-hidden="true">📺</span>' : '';
   const t = isRes ? fmt(d, NZ, { weekday: 'short' }) : e.timeTBC ? (e.usual ? '≈' + time(d, NZ) : 'TBC') : time(d, NZ);
   // in the hour before a set start, the row's time gives way to the countdown (as the cards' tag does), ticking each second
-  const soonCd = !isRes && !live && !e.timeTBC && d - now > 0 && d - now < 36e5 ? countdown({ startUTC: e.startUTC }, now).replace(/^in /, '') : '';
+  const soonCd = !isRes && !live && !e.timeTBC && d - now > 0 && d - now < 36e5 ? (countdown({ startUTC: d.toISOString() }, now) || '').replace(/^in /, '') : '';
   const who = solo(e) ? `<span class="lsolo">${esc(displayName(e.home, e))}${e.session ? ` <span class="lses ses-${sesKind(e.session)}">${esc(e.session)}</span>` : ''}</span>`
     : `<span class="lteams"><span class="lside home">${teamName(e.home, e.homeLogo, e)}</span><span class="lv">v</span><span class="lside away">${teamNameR(e.away, e.awayLogo, e)}</span></span>`;
   // a result shown while spoilers are hidden: tapping its score covers it again
