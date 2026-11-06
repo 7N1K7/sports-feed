@@ -1,5 +1,32 @@
-gal307
-feed 2026-11-06T05:35:12.945Z v587
-gallen yt: [{"url":"https://www.youtube.com/watch?v=3ebBxHb4PN4","ch":"Fox Sports Australia","at":"2026-11-06T06:00:00Z","state":"upcoming","prelims":true}]
-yt diag: Fox Sports Australia 1 | matched 22
-site has prelims line: true
+nc308
+feed 2026-11-06T05:53:50.708Z v589
+NC events 25; upcoming 25; by team {"nations":18,"allblacks":4,"wallabies":3}
+  2026-11-06T20:10:00.000Z | Ireland v Argentina |  | nations ["nations"] | Aviva Stadium, Dublin | Sky Sport / Sky Sport Now | tv Sky Sport 1 UHD/Sky Sport 1 | id wiki-nations-2026-11-06-irelandargentina
+  2026-11-07T11:40:00.000Z | Italy v South Africa |  | nations ["nations"] | Juventus Stadium, Turin | Sky Sport / Sky Sport Now | tv Sky Sport 2 | id wiki-nations-2026-11-07-italysouthafrica
+  2026-11-07T14:10:00Z | Scotland v All Blacks |  | allblacks ["nations"] | Scottish Gas Murrayfield, Edinburgh, Scotland | Sky Sport / Sky Sport Now | tv Sky Sport 1 UHD/Sky Sport 1 | id ab-sco-nz-2026-11-07
+  2026-11-07T16:40:00.000Z | Wales v Japan |  | nations ["nations"] | Millennium Stadium, Cardiff | Sky Sport / Sky Sport Now | tv Sky Sport 3 | id wiki-nations-2026-11-07-walesjapan
+  2026-11-07T20:10:00.000Z | France v Fiji |  | nations ["nations"] | Parc Olympique Lyonnais, Lyon | Sky Sport / Sky Sport Now | tv Sky Sport 1 UHD/Sky Sport 1/Sky Sport 3 | id wiki-nations-2026-11-07-francefiji
+  2026-11-08T15:10:00.000Z | England v Australia |  | wallabies ["nations","wallabies"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv Sky Sport 2 | id wiki-wallabies-2026-11-08-englandaustralia
+  2026-11-13T20:10:00.000Z | France v South Africa |  | nations ["nations"] | Stade de France, Paris | Sky Sport / Sky Sport Now | tv Sky Sport 1 | id wiki-nations-2026-11-13-francesouthafrica
+  2026-11-14T11:40:00.000Z | Italy v Argentina |  | nations ["nations"] | Stadio Luigi Ferraris, Genoa | Sky Sport / Sky Sport Now | tv Sky Sport 2 | id wiki-nations-2026-11-14-italyargentina
+  2026-11-14T14:10:00Z | Wales v All Blacks |  | allblacks ["nations"] | Principality Stadium, Cardiff, Wales | Sky Sport / Sky Sport Now | tv Sky Sport 1 | id ab-wal-nz-2026-11-14
+  2026-11-14T16:40:00.000Z | England v Japan |  | nations ["nations"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv Sky Sport 2 | id wiki-nations-2026-11-14-englandjapan
+  2026-11-14T20:10:00.000Z | Ireland v Fiji |  | nations ["nations"] | Aviva Stadium, Dublin | Sky Sport / Sky Sport Now | tv Sky Sport 1 | id wiki-nations-2026-11-14-irelandfiji
+  2026-11-15T15:10:00.000Z | Scotland v Australia |  | wallabies ["nations","wallabies"] | Murrayfield Stadium, Edinburgh | Sky Sport / Sky Sport Now | tv Sky Sport 1 | id wiki-wallabies-2026-11-15-scotlandaustralia
+  2026-11-21T14:10:00.000Z | Scotland v Japan |  | nations ["nations"] | Murrayfield Stadium, Edinburgh | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-21-scotlandjapan
+  2026-11-21T14:10:00Z | England v All Blacks |  | allblacks ["nations"] | Allianz Stadium, Twickenham, London, England | Sky Sport / Sky Sport Now | tv  | id ab-eng-nz-2026-11-21
+  2026-11-21T16:40:00.000Z | Ireland v South Africa |  | nations ["nations"] | Aviva Stadium, Dublin | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-21-irelandsouthafrica
+  2026-11-21T16:40:00.000Z | Italy v Fiji |  | nations ["nations"] | Stadio Friuli, Udine | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-21-italyfiji
+  2026-11-21T20:10:00.000Z | Wales v Australia |  | wallabies ["nations","wallabies"] | Millennium Stadium, Cardiff | Sky Sport / Sky Sport Now | tv  | id wiki-wallabies-2026-11-21-walesaustralia
+  2026-11-21T20:10:00.000Z | France v Argentina |  | nations ["nations"] | Stade de France, Paris | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-21-franceargentina
+  2026-11-27T00:00:00Z TBC | All Blacks v TBC (northern hemisphere side, by standings) |  | allblacks [] | Allianz Stadium, Twickenham, London, England | Sky Sport / Sky Sport Now | tv  | id ab-nc-finals-2026-11
+  2026-11-27T16:40:00.000Z | North 6th v South 6th | Eleventh place final | nations ["nations"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-27-northernsouthern
+  2026-11-27T20:10:00.000Z | North 3rd v South 3rd | Fifth place final | nations ["nations"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-27-northernsouthern
+  2026-11-28T13:10:00.000Z | North 5th v South 5th | Ninth place final | nations ["nations"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-28-northernsouthern
+  2026-11-28T16:40:00.000Z | North 2nd v South 2nd | Third place final | nations ["nations"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-28-northernsouthern
+  2026-11-29T13:10:00.000Z | North 4th v South 4th | Seventh place final | nations ["nations"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-29-northernsouthern
+  2026-11-29T16:40:00.000Z | North 1st v South 1st | Final | nations ["nations"] | Twickenham Stadium, London | Sky Sport / Sky Sport Now | tv  | id wiki-nations-2026-11-29-northernsouthern
+wikipedia: {"2026 Nations Championship":6,"2026 Nations Championship Northern Hemisphere Series":18,"2026 Nations Championship Southern Hemisphere Series":18,"Men's FIH Hockey Nations Cup":0}
+yt: Nations Championship 0
+news tagged nations 4: BBC Sport: Wales opt for centre power pair against Japan | BBC Sport: Fixtures and standings as Nations Championship returns on Friday | BBC Sport: GB sprint star Hunt visits England training camp | BBC Sport: Gibson-Park on Ireland bench as Casey, Jansen and Timoney start
+tables: Northern Hemisphere 6, Southern Hemisphere 6, Most points (to 19 July) 14, Most tries (to 19 July) 7, Northern Hemisphere 6, Southern Hemisphere 6
