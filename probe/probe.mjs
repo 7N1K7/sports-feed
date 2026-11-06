@@ -1,9 +1,10 @@
 import { writeFileSync } from 'fs';
 const out = [];
-const dims = b => { const u = new Uint8Array(b); return u[1] === 0x50 ? `${(u[16] << 24 | u[17] << 16 | u[18] << 8 | u[19])}x${(u[20] << 24 | u[21] << 16 | u[22] << 8 | u[23])}` : 'not png'; };
-for (const u of ['https://flagcdn.com/h40/nz.png', 'https://flagcdn.com/h40/in.png', 'https://flagcdn.com/h40/gb-eng.png', 'https://flagcdn.com/h40/za.png', 'https://flagcdn.com/h240/nz.png',
-  'https://r2.thesportsdb.com/images/media/league/badge/jifczi1773608397.png/small']) {
-  try { const r = await fetch(u); const b = await r.arrayBuffer(); out.push(`${r.status} ${r.headers.get('content-type')} ${b.byteLength}B ${dims(b)} ${u}`); } catch (e) { out.push('err ' + e.message + ' ' + u); }
+const L = { 5587: 'r7gr431740091965', 5806: 'sxoc6h1768739073', 4574: '1otaxh1773613283', 4985: 'egbkvq1716567039', 4549: 'x45gjq1764423537' };
+for (const [id, b] of Object.entries(L)) {
+  try { const r = await fetch(`https://r2.thesportsdb.com/images/media/league/badge/${b}.png/small`); const buf = Buffer.from(await r.arrayBuffer()); writeFileSync(`probe/out-lg-${id}.png`, buf); out.push(`${r.status} ${buf.length}B lg-${id}`); } catch (e) { out.push(`err ${id} ${e.message}`); }
 }
-try { const h = await (await fetch('https://kickoff.kiwi/?x=' + Date.now())).text(); out.push(`site has nowChip: ${h.includes('const nowChip = (c, v, st)')}, tbrand: ${h.includes('nowchip.tbrand')}`); } catch (e) { out.push('site err ' + e.message); }
-writeFileSync('probe/out.txt', 'flags300\n' + out.join('\n') + '\n');
+for (const id of [4985, 4549]) {
+  try { await new Promise(r => setTimeout(r, 2500)); const j = await (await fetch(`https://www.thesportsdb.com/api/v1/json/123/lookupleague.php?id=${id}`)).json(); const l = j.leagues?.[0] || {}; out.push(`lookup ${id}: ${l.strLeague} | ${l.strSport} | ${l.strBadge}`); } catch (e) { out.push(`lookup err ${id} ${e.message}`); }
+}
+writeFileSync('probe/out.txt', 'badges301\n' + out.join('\n') + '\n');
