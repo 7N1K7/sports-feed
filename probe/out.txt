@@ -1,1 +1,2 @@
-flags nz 200, in 200, au 200, za 200, pk 200, lk 200, bd 200
+leagues
+
