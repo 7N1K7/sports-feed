@@ -1,30 +1,30 @@
-daily1107c
-Wellington Phoenix FC: 45854 chars, 33 boxes, 26 league
+daily1107d
+Wellington Phoenix FC: 26 league
    5 22 November 2026 17:00 [[UTC+13:00 Wellington Phoenix v Macarthur FC
    6 6 December 2026 15:00 [[UTC+13:00 Wellington Phoenix v Adelaide United FC
-Auckland FC: 40505 chars, 7 boxes, 0 league
+Auckland FC: 0 league
    
-Melbourne City FC: 35641 chars, 8 boxes, 3 league
+Melbourne City FC: 3 league
    
-Newcastle Jets FC: 45444 chars, 28 boxes, 10 league
+Newcastle Jets FC: 10 league
    
-Sydney FC: 43505 chars, 21 boxes, 12 league
+Sydney FC: 12 league
    7 6 December 2026 17:00 [[UTC+10:00 Sydney FC v Melbourne Victory FC
-Perth Glory FC: 42641 chars, 13 boxes, 11 league
+Perth Glory FC: 11 league
    
-Brisbane Roar FC: 39788 chars, 20 boxes, 10 league
+Brisbane Roar FC: 10 league
    
-Melbourne Victory FC: 51318 chars, 40 boxes, 27 league
+Melbourne Victory FC: 27 league
    5 21 November 2026 15:00 [[UTC+10:00 Auckland FC v Melbourne Victory
    7 6 December 2026 17:00 [[UTC+10:00 Sydney FC v Melbourne Victory
-Adelaide United FC: 49132 chars, 33 boxes, 29 league
+Adelaide United FC: 29 league
    5 20 November 2026 19:40 [[UTC+11:00 Western Sydney Wanderers FC v Adelaide United
    6 6 December 2026 15:00 [[UTC+13:00 Wellington Phoenix FC v Adelaide United
    5 25 November 2026  Tai Po F.C. v {{flagicon
    6 3 December 2026  Adelaide United {{flagicon v {{flagicon
-Central Coast Mariners FC: 43476 chars, 16 boxes, 11 league
+Central Coast Mariners FC: 11 league
    
-Western Sydney Wanderers FC: no page SyntaxError: Unexpected token 'Y', "You are ma"... is not valid JSON
+Western Sydney Wanderers FC: no page
    
-Macarthur FC: no page SyntaxError: Unexpected token 'Y', "You are ma"... is not valid JSON
+Macarthur FC: no page
    
