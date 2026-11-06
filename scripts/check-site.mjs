@@ -20,8 +20,10 @@ try { browser = await chromium.launch(process.env.CHECK_CHROME ? { executablePat
 catch (e) { warn(`Site check skipped: Chrome would not start (${String(e.message).split('\n')[0]})`); process.exit(0); }
 
 // one look at the site at one screen size: did the games get drawn, and what did the page say if not
-async function look(width, height) {
+async function look(width, height, view, ahead) {
   const ctx = await browser.newContext({ serviceWorkers: 'block', viewport: { width, height } }), page = await ctx.newPage(), errors = [];
+  // later in the day too, as some bugs only show at certain times (a game under way, one starting within the hour)
+  if (ahead) await page.clock.setFixedTime(new Date(Date.now() + ahead * 36e5));
   page.on('pageerror', e => errors.push(String(e.message).split('\n')[0]));
   // the site's own files from this build; nothing from other sites (pictures, fonts, the stats server) is asked for
   await ctx.route('**/*', route => {
@@ -31,7 +33,7 @@ async function look(width, height) {
     if (!f.startsWith(ROOT + '/') || !existsSync(f)) return route.fulfill({ status: 404, body: '' });
     return route.fulfill({ body: readFileSync(f), contentType: TYPES[extname(f)] || 'application/octet-stream' });
   });
-  await ctx.addInitScript(() => { try { localStorage.setItem('sf.nocount', 'true'); } catch {} });
+  await ctx.addInitScript(v => { try { localStorage.setItem('sf.nocount', 'true'); if (v) localStorage.setItem('sf.view', JSON.stringify(v)); } catch {} }, view || '');
   let drawn = false, note = '';
   try {
     await page.goto(HOST + '/', { timeout: 30000 });
@@ -49,10 +51,12 @@ async function look(width, height) {
 }
 
 const failed = [];
-for (const [name, w, h] of [['desktop', 1280, 900], ['phone', 412, 860]]) {
+// the cards and the list view (each person's choice, kept in their browser), now and later today
+for (const [name, w, h, view, ahead] of [['desktop', 1280, 900], ['phone', 412, 860], ['phone, list view', 412, 860, 'list'], ['phone, compact view', 412, 860, 'compact'],
+  ['desktop, list view, in 3 hours', 1280, 900, 'list', 3], ['phone, in 12 hours', 412, 860, '', 12], ['phone, list view, in 12 hours', 412, 860, 'list', 12]]) {
   // a second look before calling it broken, in case the first was a hiccup of the check's own
-  let r = await look(w, h);
-  if (!r.drawn) r = await look(w, h);
+  let r = await look(w, h, view, ahead);
+  if (!r.drawn) r = await look(w, h, view, ahead);
   for (const e of r.errors) warn(`Site check (${name}): page error: ${e}`);
   if (r.drawn) console.log(`Site check (${name}, ${w}px): ${r.rows} games drawn`);
   else failed.push(`On a ${name} screen (${w}px) the games weren't drawn: ${r.note}${r.errors.length ? `. Page errors: ${r.errors.join('; ')}` : ''}`);
