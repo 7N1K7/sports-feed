@@ -1,56 +1,35 @@
-TBC 2026-11-07T12:00:00Z boxing | Interim WBC light heavyweight title | Joshua Buatsi v Willy Hutchinson | tTBC | DAZN |  | https://queensberry.co.uk/pages/joshua-buatsi-vs-willy-hutchinson-2-po
-TBC 2026-11-26T03:00:00Z boxing | IBF flyweight title | Masamichi Yabuki v Miel Fajardo | tTBC | TBC |  | https://fightnews.com/world-title-twinbill-in-november-announced-in-ja
-TBC 2026-11-13T21:30:00Z cricket | Hallyburton Johnstone Shield (women) opener | Central Hinds v Northern Districts | tTBC | NZC YouTube (free stream) |  | https://www.nzc.nz/media/1cxbi35u/print_2026_hbj-schedule.pdf
-TBC 2026-11-18T11:00:00Z cricket | Plunket Shield, Round 1 | Otago Volts v Canterbury | tTBC | NZC YouTube (free stream) |  | https://www.nzc.nz/red-ball-fans-rejoice-plunket-shield-schedule-annou
-TBC 2026-11-18T11:00:00Z cricket | Plunket Shield, Round 1 | Northern Districts v Auckland Aces | tTBC | NZC YouTube (free stream) |  | https://www.nzc.nz/red-ball-fans-rejoice-plunket-shield-schedule-annou
-TBC 2026-11-18T11:00:00Z cricket | Plunket Shield, Round 1 | Central Stags v Wellington Firebirds | tTBC | NZC YouTube (free stream) |  | https://www.nzc.nz/red-ball-fans-rejoice-plunket-shield-schedule-annou
-TBC 2026-11-27T00:00:00Z rugby | Nations Championship Finals Weekend | All Blacks v TBC (northern hemisphere side, by standings) | tTBC | Sky Sport / Sky Sport Now | Three (delayed) / ThreeNow (delayed) | https://www.visitlondon.com/things-to-do/event/51197521
-TBC 2026-11-08T02:00:00.000Z mma | UFC Fight Night 293 | Cortes-Acosta v Walker | tTBC | TVNZ+ (free) / TVNZ Duke (free) / UFC Fight Pass |  | https://en.wikipedia.org/wiki/UFC_Fight_Night%3A_Cortes-Acosta_vs._Wal
-TBC 2026-11-11T03:00:00.000Z cricket | Sheffield Shield | New South Wales v South Australia | tTBC | Sky Sport (selected games, no free stream in NZ) |  | https://en.wikipedia.org/wiki/2026%E2%80%9327_Sheffield_Shield_season
-TBC 2026-11-22T03:00:00.000Z cricket | Sheffield Shield | New South Wales v Queensland | tTBC | Sky Sport (selected games, no free stream in NZ) |  | https://en.wikipedia.org/wiki/2026%E2%80%9327_Sheffield_Shield_season
-TBC 2026-11-23T06:00:00.000Z cricket | Sheffield Shield | Western Australia v Tasmania | tTBC | Sky Sport (selected games, no free stream in NZ) |  | https://en.wikipedia.org/wiki/2026%E2%80%9327_Sheffield_Shield_season
-TBC 2026-11-24T03:30:00.000Z cricket | Sheffield Shield | South Australia v Victoria | tTBC | Sky Sport (selected games, no free stream in NZ) |  | https://en.wikipedia.org/wiki/2026%E2%80%9327_Sheffield_Shield_season
-TBC 2026-11-21T15:00:00.000Z mma | UFC Fight Night | Procházka v Stirling | tTBC | TVNZ+ (free) / TVNZ Duke (free) / UFC Fight Pass |  | https://en.wikipedia.org/wiki/UFC_Fight_Night%3A_Proch%C3%A1zka_vs._St
-TBC 2026-11-14T23:00:00.000Z mma | UFC 334 | Gane v Hokit | tTBC | Sky Arena (pay-per-view) / UFC Fight Pass (pay-per-view) | Prelims free on TVNZ+ / TVNZ Duke | https://en.wikipedia.org/wiki/UFC_334
-TBC 2026-11-27T01:00:00.000Z basketball | FIBA World Cup qualifiers | Jordan v New Zealand | tTBC | Sky Sport / Sky Sport Now |  | https://en.wikipedia.org/wiki/2027_FIBA_Basketball_World_Cup_qualifica
-TBC 2026-11-09T09:00:00.000Z cricket | Pakistan v Sri Lanka | Pakistan v Sri Lanka | tTBC | - |  | https://en.wikipedia.org/wiki/Sri_Lankan_cricket_team_in_Pakistan_in_2
-TBC 2026-11-17T09:00:00.000Z cricket | Pakistan v Sri Lanka | Pakistan v Sri Lanka | tTBC | - |  | https://en.wikipedia.org/wiki/Sri_Lankan_cricket_team_in_Pakistan_in_2
-TBC 2026-11-15T12:00:00.000Z cricket | South Africa v Bangladesh | South Africa v Bangladesh | tTBC | - |  | https://en.wikipedia.org/wiki/Bangladeshi_cricket_team_in_South_Africa
-TBC 2026-11-23T12:00:00.000Z cricket | South Africa v Bangladesh | South Africa v Bangladesh | tTBC | - |  | https://en.wikipedia.org/wiki/Bangladeshi_cricket_team_in_South_Africa
-TBC 2026-11-22T11:00:00.000Z sailing | SailGP · Round 12 | Dubai Sail Grand Prix v  | tTBC | ThreeNow (free stream) | Three (delayed, the next afternoon) | https://en.wikipedia.org/wiki/2026_SailGP_championship
-TBC 2026-11-08T20:00:00.000Z golf | PGA Tour | World Wide Technology Championship v  | tTBC | Sky Sport / Sky Sport Now |  | https://en.wikipedia.org/wiki/2026_PGA_Tour
-TBC 2026-11-15T20:00:00.000Z golf | PGA Tour | Austin Championship v  | tTBC | Sky Sport / Sky Sport Now |  | https://en.wikipedia.org/wiki/2026_PGA_Tour
-TBC 2026-11-22T19:00:00.000Z golf | PGA Tour | RSM Classic v  | tTBC | Sky Sport / Sky Sport Now |  | https://en.wikipedia.org/wiki/2026_PGA_Tour
-TBC 2026-11-15T03:00:00.000Z golf | PGA Tour of Australasia | Ford NSW Open v  | tTBC | Sky Sport / Sky Sport Now |  | https://en.wikipedia.org/wiki/2026%E2%80%9327_PGA_Tour_of_Australasia
-TBC 2026-11-22T04:00:00.000Z golf | PGA Tour of Australasia | Queensland PGA Championship v  | tTBC | Sky Sport / Sky Sport Now |  | https://en.wikipedia.org/wiki/2026%E2%80%9327_PGA_Tour_of_Australasia
-TBC 2026-11-22T17:00:00.000Z tennis | ATP Finals | Men's final v  | tTBC | Disney+ (ESPN) |  | https://en.wikipedia.org/wiki/2026_ATP_Finals
-TBC 2026-11-16T03:00:00.000Z tennis | WTA Finals | Women's final v  | tTBC | - |  | https://en.wikipedia.org/wiki/2026_WTA_Finals
-
-wbbl: 26 (11-05 11-05 11-06 11-07 11-07 11-08)
-boxing: 3 (11-06 11-07 11-26)
-nzdomestic: 11 (11-07 11-07 11-07 11-11 11-11 11-11)
-blackcaps: 6 (11-07 11-10 11-13 11-15 11-18 11-26)
-intlcricket: 5 (11-05 11-09 11-17 11-15 11-23)
-audomestic: 9 (11-11 11-10 11-11 11-22 11-23 11-24)
-blacksticks: 3 (11-19 11-21 11-22)
-rlwc: 15 (11-06 11-06 11-06 11-08 11-08 11-09)
-kiwiferns: 1 (11-07)
-kiwis: 2 (11-07 11-06)
-npc: 1 (11-06)
-allblacks: 4 (11-07 11-14 11-21 11-27)
-ufc: 3 (11-08 11-21 11-14)
-aleague: 8 (11-06 11-07 11-07 11-08 11-08 11-20)
-phoenix: 2 (11-07 11-22)
-aucklandfc: 1 (11-21)
-epl: 20 (11-06 11-07 11-07 11-07 11-07 11-08)
-breakers: 5 (11-06 11-13 11-15 11-18 11-21)
-nbl: 16 (11-07 11-07 11-08 11-08 11-11 11-12)
-tallblacks: 1 (11-27)
-aucricket: 5 (11-13 11-15 11-18 11-21 11-24)
-f1: 10 (11-08 11-22 11-06 11-06 11-07 11-07)
-supercars: 10 (11-08 11-06 11-06 11-07 11-07 11-07)
-sailgp: 1 (11-22)
-pgatour: 3 (11-08 11-15 11-22)
-golfanz: 2 (11-15 11-22)
-tennis: 2 (11-22 11-16)
-nba: 81 (11-06 11-06 11-07 11-07 11-07 11-07)
+feed 2026-11-06T01:12:58.823Z v564
+ss-qld-vic-2026-10-31 2026-10-31T00:00:00Z  audomestic Queensland v Victoria | Sky Sport (selected games, no free stream in NZ)
+ss-qld-tas-2026-11-11 2026-11-11T00:30:00Z  audomestic Queensland v Tasmania | Sky Sport (selected games, no free stream in NZ)
+ss-vic-wa-2026-11-11 2026-11-10T23:30:00Z  audomestic Victoria v Western Australia | Sky Sport (selected games, no free stream in NZ)
+ss-vic-qld-2026-12-03 2026-12-02T23:30:00Z  audomestic Victoria v Queensland | Sky Sport (selected games, no free stream in NZ)
+ss-vic-tas-2027-02-08 2027-02-08T03:30:00Z  audomestic Victoria v Tasmania | Sky Sport (selected games, no free stream in NZ)
+ss-qld-wa-2027-02-08 2027-02-08T04:00:00Z  audomestic Queensland v Western Australia | Sky Sport (selected games, no free stream in NZ)
+ss-nsw-sa-2026-11 2026-11-10T23:30:00Z  audomestic New South Wales v South Australia | Sky Sport (selected games, no free stream in NZ)
+ss-nsw-qld-2026-11 2026-11-21T23:30:00Z  audomestic New South Wales v Queensland | Sky Sport (selected games, no free stream in NZ)
+ss-wa-tas-2026-11 2026-11-23T02:30:00Z  audomestic Western Australia v Tasmania | Sky Sport (selected games, no free stream in NZ)
+ss-sa-vic-2026-11 2026-11-24T00:00:00Z  audomestic South Australia v Victoria | Sky Sport (selected games, no free stream in NZ)
+pak-sl-t1-2026 2026-11-09T05:00:00Z  intlcricket Pakistan v Sri Lanka | 
+pak-sl-t2-2026 2026-11-17T05:00:00Z  intlcricket Pakistan v Sri Lanka | 
+sa-ban-t1-2026 2026-11-15T08:00:00Z  intlcricket South Africa v Bangladesh | 
+sa-ban-t2-2026 2026-11-23T08:00:00Z  intlcricket South Africa v Bangladesh | 
+aw-ind-1-2026 2026-11-12T06:00:00Z  allwhites New Zealand v India | TVNZ 1 / TVNZ+ (free)
+aw-ind-2-2026 2026-11-15T06:00:00Z TBC allwhites New Zealand v India | TVNZ 1 / TVNZ+ (free)
+wiki-audomestic-2026-12-03-newsouthwaleswesternaustralia 2026-12-03T03:00:00.000Z TBC audomestic New South Wales v Western Australia | Sky Sport (selected games, no free stream in NZ)
+wiki-audomestic-2026-12-03-southaustraliatasmania 2026-12-03T03:30:00.000Z TBC audomestic South Australia v Tasmania | Sky Sport (selected games, no free stream in NZ)
+wiki-audomestic-2027-02-08-southaustralianewsouthwales 2027-02-08T03:30:00.000Z TBC audomestic South Australia v New South Wales | Sky Sport (selected games, no free stream in NZ)
+wiki-audomestic-2027-02-20-newsouthwalesvictoria 2027-02-20T03:00:00.000Z TBC audomestic New South Wales v Victoria | Sky Sport (selected games, no free stream in NZ)
+wiki-audomestic-2027-02-20-tasmaniaqueensland 2027-02-20T03:00:00.000Z TBC audomestic Tasmania v Queensland | Sky Sport (selected games, no free stream in NZ)
+wiki-audomestic-2027-02-20-westernaustraliasouthaustralia 2027-02-20T06:00:00.000Z TBC audomestic Western Australia v South Australia | Sky Sport (selected games, no free stream in NZ)
+wiki-audomestic-2027-03-02-queenslandnewsouthwales 2027-03-02T04:00:00.000Z TBC audomestic Queensland v New South Wales | Sky Sport (selected games, no free stream in NZ)
+wiki-audomestic-2027-03-02-tasmaniasouthaustralia 2027-03-02T03:00:00.000Z TBC audomestic Tasmania v South Australia | Sky Sport (selected games, no free stream in NZ)
+wiki-audomestic-2027-03-02-westernaustraliavictoria 2027-03-02T06:00:00.000Z TBC audomestic Western Australia v Victoria | Sky Sport (selected games, no free stream in NZ)
+wiki-audomestic-2027-03-14-queenslandsouthaustralia 2027-03-14T04:00:00.000Z TBC audomestic Queensland v South Australia | Sky Sport (selected games, no free stream in NZ)
+wiki-audomestic-2027-03-14-victorianewsouthwales 2027-03-14T03:00:00.000Z TBC audomestic Victoria v New South Wales | Sky Sport (selected games, no free stream in NZ)
+wiki-audomestic-2027-03-14-tasmaniawesternaustralia 2027-03-14T03:00:00.000Z TBC audomestic Tasmania v Western Australia | Sky Sport (selected games, no free stream in NZ)
+wiki-intlcricket-2026-12-01-bangladeshsouthafrica 2026-12-01T11:30:00.000Z  intlcricket South Africa v Bangladesh | 
+wiki-intlcricket-2026-12-04-bangladeshsouthafrica 2026-12-04T11:30:00.000Z  intlcricket South Africa v Bangladesh | 
+wiki-intlcricket-2026-12-07-bangladeshsouthafrica 2026-12-07T11:30:00.000Z  intlcricket South Africa v Bangladesh | 
+wiki-intlcricket-2026-12-10-bangladeshsouthafrica 2026-12-10T16:00:00.000Z  intlcricket South Africa v Bangladesh | 
+wiki-intlcricket-2026-12-12-bangladeshsouthafrica 2026-12-12T12:30:00.000Z  intlcricket South Africa v Bangladesh | 
+wiki-intlcricket-2026-12-13-bangladeshsouthafrica 2026-12-13T12:30:00.000Z  intlcricket South Africa v Bangladesh | 
