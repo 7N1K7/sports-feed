@@ -1,15 +1,15 @@
 import { writeFileSync } from 'fs';
-const key = process.env.YOUTUBE_API_KEY, out = [];
-const yt = async (p, q) => { const r = await fetch(`https://www.googleapis.com/youtube/v3/${p}?${q}&key=${key}`); return r.ok ? r.json() : { err: r.status }; };
-const v = await yt('videos', 'part=snippet,contentDetails,liveStreamingDetails&id=EPeyvf9G3FQ');
-for (const x of v.items || []) {
-  out.push(`video: ${x.snippet.title} | channel ${x.snippet.channelTitle} ${x.snippet.channelId} | state ${x.snippet.liveBroadcastContent} | live ${JSON.stringify(x.liveStreamingDetails || {})} | region ${JSON.stringify(x.contentDetails?.regionRestriction || {})}`);
-  out.push('desc: ' + (x.snippet.description || '').slice(0, 600).replace(/\n/g, ' / '));
-  // the channel's other recent streams, to see what else it shows
-  const pl = await yt('playlistItems', `part=contentDetails&maxResults=50&playlistId=UU${x.snippet.channelId.slice(2)}`);
-  const ids = (pl.items || []).map(i => i.contentDetails.videoId);
-  const vs = ids.length ? await yt('videos', `part=snippet,liveStreamingDetails&id=${ids.join(',')}`) : { items: [] };
-  for (const s of vs.items || []) if (s.liveStreamingDetails) out.push(`  stream ${s.liveStreamingDetails.actualStartTime || s.liveStreamingDetails.scheduledStartTime} ${s.snippet.liveBroadcastContent} | ${s.snippet.title} || ${(s.snippet.description || '').split('\n')[0].slice(0, 120)}`);
+const out = [];
+const WANT = /^(National Rugby League|NRL|Super Rugby|Bunnings NPC|NPC|National Provincial|Rugby Championship|The Rugby Championship|WXV|Womens Rugby World Cup|A-League|Australian A-League|English Premier League|Australian National Basketball League|NBL|NBA|MLB|UFC|Sheffield Shield|Marsh One-Day Cup|One-Day Cup|Dean Jones|Plunket Shield|Ford Trophy|New Zealand Super Smash|ANZ Premiership|Netball|FIH|Rugby League World Cup|Womens Big Bash|Australian Big Bash|State of Origin|Six Nations|Pacific Nations|Super Netball|Hockey)/i;
+const PAIRS = [['Australia', 'Rugby'], ['New Zealand', 'Rugby'], ['World', 'Rugby'], ['Australia', 'Soccer'], ['England', 'Soccer'], ['Australia', 'Basketball'], ['USA', 'Basketball'], ['USA', 'Baseball'], ['USA', 'Fighting'], ['New Zealand', 'Netball'], ['Australia', 'Netball'], ['World', 'Field Hockey'], ['New Zealand', 'Cricket'], ['Australia', 'Cricket'], ['World', 'Cricket']];
+for (const [c, s] of PAIRS) {
+  try {
+    const j = await (await fetch(`https://www.thesportsdb.com/api/v1/json/123/search_all_leagues.php?c=${encodeURIComponent(c)}&s=${encodeURIComponent(s)}`)).json();
+    for (const l of (j.countries || j.countrys || [])) {
+      out.push(`${c}/${s}: ${l.idLeague} ${l.strLeague} | ${l.strBadge ? 'badge' : '-'} | ${l.strLogo ? 'logo' : '-'}`);
+      if (WANT.test(l.strLeague)) for (const [k, u] of [['b', l.strBadge], ['l', l.strLogo]]) if (u) { const r = await fetch(u + '/small'); if (r.ok) writeFileSync(`probe/out-lg-${l.idLeague}-${k}.png`, Buffer.from(await r.arrayBuffer())); }
+    }
+  } catch (e) { out.push(`${c}/${s}: error ${e.message}`); }
+  await new Promise(r => setTimeout(r, 2500));
 }
-if (v.err) out.push('error ' + v.err);
-writeFileSync('probe/out.txt', 'yt293\n' + out.join('\n').replace(/key=[^&\s]+/g, 'key=X') + '\n');
+writeFileSync('probe/out.txt', 'lg294\n' + out.join('\n') + '\n');
