@@ -1913,7 +1913,7 @@ const LOGO_ZOOM = { 'rugby|Canterbury': 1.8 };
 // decided, "Winner of...", nor a fighter, who has a photo or nothing)
 const NOT_SIDE = /^(TBC|TBA|TBD)\b|\b(winner|loser|placed|group|pool|semi-final|runners?[- ]up|qualifier|knockout|challenger)\b|^\d(st|nd|rd|th)\/|\bXI$/i;
 const placeholder = (n, after, sport) => sport && !FIGHT.test(sport) && !['motor', 'tennis', 'sailing', 'golf'].includes(sport) && n && !NOT_SIDE.test(n)
-  ? `<img class="logo ph ${after ? 'after' : ''}" src="icons/3d/${sport}.webp?v=1" alt="" title="No logo for ${esc(n)} yet">` : '';
+  ? `<img class="logo ph ${after ? 'after' : ''}" src="icons/3d/${sport}.webp?v=2" alt="" title="No logo for ${esc(n)} yet">` : '';
 const crest = (n, logo, after, sport) => {
   // a national side's flag over a crest found on Wikipedia (Scotland's women had Scottish Rugby's)
   if (logo && LOGO_CREDITS[logo] && flagOf(n)) logo = '';
@@ -1995,7 +1995,7 @@ const BIG_EVENT = /World Cup|Nations Championship|Olympic|Commonwealth Games|Lio
 // motorsport's button and most of its cards carry a chequered flag; Formula 1's own cards and page keep the F1 car
 const SPORT_ICON = { f1: '🏎️', rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', mma: '🥋', boxing: '🥊', motor: '🏁', tennis: '🎾', hockey: '🏑', basketball: '🏀', netball: '🏐', sailing: '⛵', golf: '⛳', baseball: '⚾' };
 // same-size icons on every device (Microsoft's Fluent Emoji in 3D, MIT: icons/3d/LICENSE), rather than each system's own emoji
-const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/3d/${s}.webp?v=1" alt="" aria-hidden="true">` : '';
+const sIcon = (s, cls = 'sicon') => SPORT_ICON[s] ? `<img class="${cls}" src="icons/3d/${s}.webp?v=2" alt="" aria-hidden="true">` : '';
 // what one of a sport's events is called: a race, a fight, a match in tennis, otherwise a game. A new sport gets its
 // word here (and its start's name in START_LABEL)
 const EV_WORD = { motor: 'race', mma: 'fight', boxing: 'fight', tennis: 'match', golf: 'tournament', sailing: 'race', baseball: 'game' };
