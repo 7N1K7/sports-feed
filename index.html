@@ -2876,7 +2876,7 @@ function bracketHtml(fmtB, list, now) {
   return `${divs}<p class="muted small">${evs.length ? 'Tap a match for its details. ' : ''}TBD games fill in as teams qualify.</p>`;
 }
 function tableHtml(t) {
-  const cols = t.style === 'points' ? [['pts', 'Pts']] : t.style === 'cricket' ? [['p', 'P'], ['w', 'W'], ['l', 'L'], ['nr', 'NR'], ['nrr', 'NRR'], ['pts', 'Pts']]
+  const cols = t.style === 'points' ? [['pts', t.unit || 'Pts']] : t.style === 'cricket' ? [['p', 'P'], ['w', 'W'], ['l', 'L'], ['nr', 'NR'], ['nrr', 'NRR'], ['pts', 'Pts']]
     : t.style === 'rugby' ? [['p', 'P'], ['w', 'W'], ['d', 'D'], ['l', 'L'], ['f', 'PF', 'wide'], ['a', 'PA', 'wide'], ['diff', '+/−'], ['bp', 'BP'], ['pts', 'Pts']]
     // basketball ladders: wins and losses, no draws, ranked by win percentage
     : t.style === 'wl' ? [['p', 'P'], ['w', 'W'], ['l', 'L'], ['f', 'PF', 'wide'], ['a', 'PA', 'wide'], ['diff', '+/−'], ['pct', 'Win%', 'pts']]
@@ -2898,9 +2898,11 @@ function tableHtml(t) {
     const v = k => k === 'diff' ? (diff > 0 ? '+' + diff : String(diff)) : k === 'nrr' ? (r.nrr || '–') : k === 'pct' ? (r.pct === '' || isNaN(+r.pct) ? '–' : (+r.pct).toFixed(1)) : r[k];
     const mine = picked.has(Object.keys(TEAM_NAME).find(k => TEAM_NAME[k] === r.name)) || NZ_NAMES.test(r.name) || r.nz;
     const shown = teamName(/Women/.test(t.page) ? r.name.replace(/\s+Women('s)?$/, '') : r.name, logoOf(r.name), ev), page = t.style !== 'points' && pageOf(r.name);
-    return `<tr class="${r.q ? 'q' : ''} ${mine ? 'mine' : ''}"><td class="pos">${i + 1}</td><td class="tn">${page ? `<button type="button" class="tlink rteam" data-teampage="${esc(page)}" data-tsport="${t.sport}" title="${esc(displayName(page, ev))}: games and form">${shown}</button>` : shown}${r.champ ? ' <span class="tag">Champions</span>' : ''}</td>${cols.map(([k, , c]) => `<td class="num ${c || ''} ${k === 'pts' ? 'pts' : ''}">${esc(String(v(k)))}</td>`).join('')}</tr>`;
+    // (a leading scorer: the player, then their country small)
+    const who = t.player ? `${esc(r.name)} <span class="muted small">${esc(r.from)}</span>` : shown;
+    return `<tr class="${r.q ? 'q' : ''} ${mine ? 'mine' : ''}"><td class="pos">${r.pos || i + 1}</td><td class="tn">${page && !t.player ? `<button type="button" class="tlink rteam" data-teampage="${esc(page)}" data-tsport="${t.sport}" title="${esc(displayName(page, ev))}: games and form">${shown}</button>` : who}${r.champ ? ' <span class="tag">Champions</span>' : ''}</td>${cols.map(([k, , c]) => `<td class="num ${c || ''} ${k === 'pts' ? 'pts' : ''}">${esc(String(v(k)))}</td>`).join('')}</tr>`;
   }).join('');
-  return `<div class="stable ${t.style === 'points' ? 'points' : ''}"><h3 class="dh">${esc(t.label)}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${t.style === 'points' && /driver/i.test(t.title) ? 'Driver' : 'Team'}</th>${cols.map(([, l, c]) => `<th class="${c || ''}">${l}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div></div>`;
+  return `<div class="stable ${t.style === 'points' ? 'points' : ''}"><h3 class="dh">${esc(t.label)}</h3><div class="tscroll"><table><thead><tr><th>#</th><th class="tn">${t.player ? 'Player' : t.style === 'points' && /driver/i.test(t.title) ? 'Driver' : 'Team'}</th>${cols.map(([, l, c]) => `<th class="${c || ''}">${l}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div></div>`;
 }
 // Rankings tab: world rankings for the hub's sport (international competitions and the UFC)
 function hubRankings() {
@@ -3176,7 +3178,7 @@ function renderHub(now) {
   if (tabs.length) { balanceChips($('hubTabs')); chipRO.observe($('hubTabs')); }
   if (hubTab === 'table') {
     const ts = hubTables();
-    $('hubBody').innerHTML = ts.map(tableHtml).join('') + `<p class="muted small">Standings from Wikipedia.${ts.some(t => t.rows.some(r => r.q)) ? ' Highlighted rows are in a qualifying spot.' : ''}${ts.some(t => t.rows.some(r => r.nz)) ? ' New Zealanders highlighted.' : ''}</p>`;
+    $('hubBody').innerHTML = ts.map(tableHtml).join('') + `<p class="muted small">${ts.some(t => t.player) ? 'Standings and leading scorers' : 'Standings'} from Wikipedia.${ts.some(t => t.rows.some(r => r.q)) ? ' Highlighted rows are in a qualifying spot.' : ''}${ts.some(t => t.rows.some(r => r.nz)) ? ' New Zealanders highlighted.' : ''}</p>`;
   } else if (hubTab === 'sessions') {
     $('hubBody').innerHTML = sessionsHtml(now);
   } else if (hubTab === 'playoffs') {

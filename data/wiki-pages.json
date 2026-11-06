@@ -6,7 +6,7 @@
     { "title": "{Y} Farah Palmer Cup", "sport": "rugby", "comp": "Farah Palmer Cup", "team": "fpc", "tz": "Pacific/Auckland", "formPrev": true },
     { "title": "List of {Y} Super Rugby Pacific matches", "sport": "rugby", "comp": "Super Rugby Pacific", "classify": "superrugby", "formPrev": true },
     { "title": "{Y} Super Rugby Pacific season", "sport": "rugby", "comp": "Super Rugby Pacific", "classify": "superrugby" },
-    { "title": "{Y} Nations Championship", "sport": "rugby", "comp": "Nations Championship", "classify": "nations", "headingStage": true },
+    { "title": "{Y} Nations Championship", "sport": "rugby", "comp": "Nations Championship", "classify": "nations", "headingStage": true, "leaders": true },
     { "title": "{Y} Nations Championship Northern Hemisphere Series", "sport": "rugby", "comp": "Nations Championship", "classify": "nations" },
     { "title": "{Y} Nations Championship Southern Hemisphere Series", "sport": "rugby", "comp": "Nations Championship", "classify": "nations" },
     { "title": "{Y} Rugby Championship", "sport": "rugby", "comp": "Rugby Championship", "classify": "rugbytests", "formPrev": true },

@@ -278,6 +278,25 @@ function eventsFromPage(title, text, cfg, cityTz) {
 const NBL_CLUBS = ['New Zealand Breakers', 'Adelaide 36ers', 'Brisbane Bullets', 'Cairns Taipans', 'Illawarra Hawks', 'Melbourne United', 'Perth Wildcats', 'Sydney Kings', 'Tasmania JackJumpers', 'S.E. Melbourne Phoenix'];
 const BIG_CRICKET = /^(New Zealand|Australia|England|India|Pakistan|Sri Lanka|South Africa|West Indies)$/;
 
+// a tournament page's leading scorers ("===Most points===", "===Most tries===": position, player, country, total), the
+// top ten and those level with the tenth, as points tables after its standings in the Table tab
+function leaderTables(text, page, c) {
+  const out = [], asOf = clean((text.match(/==\s*Leading scorers\s*==\s*\n+''As of ([^'\n]+)''/i) || [])[1] || '');
+  for (const [head, unit] of [['Most points', 'Pts'], ['Most tries', 'Tries']]) {
+    const at = text.search(new RegExp(`^===\\s*${head}\\s*===`, 'm'));
+    const tb = at < 0 ? null : text.slice(at).match(/\{\|[\s\S]*?\n\|\}/);
+    if (!tb) continue;
+    const rows = [];
+    for (const r of tableRows(tb[0])) {
+      if (r.length < 4) continue;
+      const pos = +clean(r[0]), name = clean(r[1]), from = teamOf(r[2]), n = +clean(r[3]);
+      if (!pos || !name || !from || isNaN(n) || (pos > 10 && rows.length >= 10)) continue;
+      rows.push({ name, from, pts: n, pos, ...(/^New Zealand$/.test(from) ? { nz: true } : {}) });
+    }
+    if (rows.length >= 3) out.push({ comp: c.comp, sport: c.sport, page, title: head + (asOf ? ` (to ${asOf.replace(/\s+\d{4}$/, '')})` : ''), style: 'points', unit, player: true, rows });
+  }
+  return out;
+}
 // Simple wikitable reader with rowspan support: rows of cell strings
 function tableRows(table) {
   const rows = [], carry = [];
@@ -490,7 +509,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
       // inline the transcluded table templates where they sit, so headings still apply
       text = text.replace(/\{\{\s*([^{}|#\n]{4,90}?(?:table|standings|ladder)(?:\s+\d{4}(?:[–-]\d{2,4})?)?)\s*\}\}/gi, (m, n) => tplTexts['Template:' + n.trim()] || m);
       // a basketball league's ladder can be a plain wikitable (the NBL's), ahead of its cup tables (Blitz, Ignite Cup)
-      tables.push(...(src.c.classify === 'nbl' ? wikiLadder(text, src.title, src.c) : []), ...sportsTables(text, src.title, src.c));
+      tables.push(...(src.c.classify === 'nbl' ? wikiLadder(text, src.title, src.c) : []), ...sportsTables(text, src.title, src.c), ...(src.c.leaders ? leaderTables(text, src.title, src.c) : []));
     }
   } catch (e) { diag.tables = 'error: ' + e.message; }
   if (!diag.tables) diag.tables = tables.map(t => `${t.page} / ${t.title}: ${t.rows.length}`);
