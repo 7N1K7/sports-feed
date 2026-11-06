@@ -923,10 +923,18 @@ button.hubres { font-family: inherit; background: transparent; cursor: pointer }
 /* a picked sport, or a competition's page, with some of that sport switched off in Settings: a small note at the end of
    the line (over the free space, so nothing moves) that opens Settings there */
 #weekSec > h2, .hubtop { position: relative }
-.offnote { position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: inline-flex; align-items: center; gap: 3px; padding: 3px 7px 3px 5px; font: 600 11px/1 var(--f-body); letter-spacing: 0; text-transform: none; color: var(--muted); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; cursor: pointer; white-space: nowrap }
+.offwrap { position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: inline-flex; align-items: center; gap: 4px }
+.offwrap[hidden] { display: none }
+.offnote { display: inline-flex; align-items: center; gap: 3px; padding: 3px 7px 3px 5px; font: 600 11px/1 var(--f-body); letter-spacing: 0; text-transform: none; color: var(--muted); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; cursor: pointer; white-space: nowrap }
 .offnote:hover { color: var(--ink); border-color: var(--muted) }
 .offnote svg { width: 11px; height: 11px; flex: none }
-.hubtop .offnote { right: 44px }
+.hubtop .offwrap { right: 44px }
+/* Show here: what's off shows on this sport's page (or this competition's) anyway, and stays out of the main list. Both
+   wordings sit in the same spot, so the button keeps its width when tapped */
+.herebtn { display: inline-grid; padding: 3px 8px; font: 600 11px/1 var(--f-body); letter-spacing: 0; text-transform: none; color: var(--ink); background: var(--paper); border: 1px solid var(--muted); border-radius: 999px; cursor: pointer; white-space: nowrap }
+.herebtn > span { grid-area: 1 / 1; text-align: center } .herebtn > span + span, .herebtn[aria-pressed="true"] > span:first-child { visibility: hidden } .herebtn[aria-pressed="true"] > span + span { visibility: visible }
+.herebtn[hidden] { display: none } .herebtn:hover { border-color: var(--ink) }
+.herebtn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--paper) }
 .hubtabs { margin-top: 12px; padding-bottom: 4px; font-size: 0 } /* rows of near even length, by balanceChips (3 and 3, not 4 and 2) */
 .hubtabs button { margin: 0 8px 8px 0; vertical-align: top; border: 1px solid var(--line); background: var(--paper); font: inherit; font-weight: 700; font-size: 15px; color: var(--ink); padding: 7px 18px; border-radius: 999px; cursor: pointer; transition: background .15s, border-color .15s }
 .hubtabs button:hover { border-color: var(--sport); background: color-mix(in srgb, var(--sport) 12%, var(--paper)) }
@@ -1633,7 +1641,7 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
   <div class="sinfopop" id="sinfoPop" role="dialog" aria-label="Turning sports on or off" hidden><p class="sinfohead"><b class="off">Remove</b> sports from the list</p><p class="sinfodef" id="sinfoDef"></p><div class="sinfogo"><button type="button" class="btn" id="sinfoGo">Open Settings</button></div><p class="sinfomore">Also: theme, time zone</p></div>
   <section id="hubSec" hidden>
     <div class="hub">
-      <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><button type="button" class="offnote" id="offHub" hidden></button><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
+      <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><span class="offwrap" id="offHubW" hidden><button type="button" class="offnote" id="offHub"></button><button type="button" class="herebtn" id="hereHub" aria-pressed="false"></button></span><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
       <div class="hubtabs" role="tablist" id="hubTabs"></div>
     </div>
     <div id="hubBody"></div>
@@ -1647,7 +1655,7 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
     <div id="soon" class="daygroup"></div>
   </section>
   <section id="weekSec">
-    <h2>This week <small id="weekRange"></small><button type="button" class="offnote" id="offWeek" hidden></button></h2>
+    <h2>This week <small id="weekRange"></small><span class="offwrap" id="offWeekW" hidden><button type="button" class="offnote" id="offWeek"></button><button type="button" class="herebtn" id="hereWeek" aria-pressed="false"></button></span></h2>
     <div class="week" id="week"></div>
     <div id="dayPick" class="daypick" hidden></div>
   </section>
@@ -2289,7 +2297,11 @@ const visible = x => (genderSel === 'all' || !genderOf(x) || genderOf(x) === gen
 const minorOf = x => x.minor || /wheelchair/i.test(x.comp || '');
 // the Second XI games (from Cricket Australia's streams) show on the cricket page, not in the main list of every sport
 const sportPageOnly = x => /Second XI/.test(x.comp || '');
-const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now() ? false : x.startUTC ? (compSel ? compOf(x) === compSel : (!minorOf(x) || (x.session && (sessOn.has(x.team) || sportSel.has(x.sport)))) && (!sportPageOnly(x) || sportSel.has(x.sport)) && visibleTeam(x) && sportOn(x.sport || sportOf(x.team)))
+// a sport whose leagues are off in Settings can show them on its own page anyway: Show here, by the off note on This
+// week's line. They stay out of the main list of every sport (a competition's own page shows its games whatever Settings say)
+let showHere = new Set(store.get('showHere', []));
+const shownHere = x => { const sp = x.sport || sportOf(x.team); return !compSel && showHere.has(sp) && sportSel.has(sp); };
+const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now() ? false : x.startUTC ? (compSel ? compOf(x) === compSel : (!minorOf(x) || (x.session && (sessOn.has(x.team) || sportSel.has(x.sport)))) && (!sportPageOnly(x) || sportSel.has(x.sport)) && (visibleTeam(x) || shownHere(x)) && sportOn(x.sport || sportOf(x.team)))
   : visibleTeam(x) && sportOn(sportOf(x.team));
 
 // cricket tours: "Game 4 of 5 · India lead the T20I series 2–1", counting only results the spoiler setting shows
@@ -3727,26 +3739,43 @@ function drawOffNote() {
   const label = k => (TEAMS.flatMap(groupItems).find(([j]) => j === k) || [k, TEAM_NAME[k] || k])[1], groupOf = k => TEAMS.find(g => groupItems(g).some(([j]) => j === k))?.g;
   // a competition's own team or league first (the NBA on the NBA's page); a sport with everything off is named as the sport
   const own = new Set(compSel ? (FEED.events || []).filter(e => compOf(e) === compSel).map(e => e.team) : []);
-  const offs = sports.flatMap(sp => { const ks = (SPORT[sp] || []).filter(k => !picked.has(k)).sort((a, b) => own.has(b) - own.has(a));
+  const offSports = new Set();
+  const offs = sports.flatMap(sp => { const ks = (SPORT[sp] || []).filter(k => !picked.has(k)).sort((a, b) => own.has(b) - own.has(a)); if (ks.length) offSports.add(sp);
     return ks.length && ks.length === (SPORT[sp] || []).length ? [[groupOf(ks[0]), ks[0]]] : ks.map(k => [label(k), k]); });
+  const here = [...offSports], hereOn = here.length > 0 && here.every(sp => showHere.has(sp));
   // on a competition's page it goes by the name, or on This week's line when a long name leaves no room
   for (const n of [$('offWeek'), $('offHub')]) {
-    n.hidden = !offs.length || (n.id === 'offHub' && !compSel); if (n.hidden) continue;
+    const w = n.parentNode, h = w.lastElementChild;
+    w.hidden = !offs.length || (n.id === 'offHub' && !compSel); if (w.hidden) continue;
+    h.hidden = n.id === 'offHub' || !!compSel;
     const [first] = offs[0], more = offs.length - 1;
+    h.dataset.here = here.join(' '); h.setAttribute('aria-pressed', String(hereOn)); h.setAttribute('aria-label', 'Show here');
+    h.title = hereOn ? `Showing ${offs.map(o => o[0]).join(', ')} on this page. Tap to hide ${offs.length > 1 ? 'them' : 'it'} here again` : `Show ${offs.map(o => o[0]).join(', ')} on this page, still leaving ${offs.length > 1 ? 'them' : 'it'} out of the main list`;
     Object.assign(n.dataset, { offgo: groupOf(offs[0][1]), l: `${first}${more ? ` + ${more} more` : ''} off in settings`, m: `${first}${more ? ` +${more}` : ''} off`, s: `${offs.length} off` });
     n.title = `Off in Settings: ${offs.map(o => o[0]).join(', ')}. Tap to turn ${offs.length > 1 ? 'them' : 'it'} back on`;
   }
   fitOffNote();
 }
+// keep an element where it was on the screen while the page above it changes, until things settle or the person scrolls
+function keepAt(el, y0, ms = 900) {
+  const end = performance.now() + ms; let stop = false; const quit = () => { stop = true; };
+  for (const k of ['wheel', 'touchstart', 'keydown']) addEventListener(k, quit, { once: true, passive: true });
+  const fix = () => { if (stop || !el?.isConnected || el.closest('[hidden]')) return; const d = el.getBoundingClientRect().top - y0;
+    if (Math.abs(d) >= 1) scrollBy(0, d); if (performance.now() < end) requestAnimationFrame(fix); };
+  fix();
+}
 function fitOffNote() {
   let shown = false;
-  for (const n of [$('offHub'), $('offWeek')]) { if (n.hidden) continue; n.style.visibility = 'hidden'; if (shown || !n.offsetWidth) continue;
+  for (const n of [$('offHub'), $('offWeek')]) { const w = n.parentNode, h = w.lastElementChild; if (w.hidden) continue; w.style.visibility = 'hidden'; if (shown || !w.offsetWidth) continue;
     // the room between the line's words and its end (or the close button)
     const words = n.id === 'offWeek' ? $('weekRange') : $('hubName'), r = document.createRange(); r.selectNodeContents(words);
-    const room = n.parentNode.getBoundingClientRect().right - parseFloat(getComputedStyle(n).right) - r.getBoundingClientRect().right - 10;
-    // the longest wording that fits, the cog dropped last
-    for (const k of ['l', 'm', 's', 's0']) { n.innerHTML = `${k === 's0' ? '' : `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${GEAR}</svg>`}${esc(n.dataset[k[0]])}`; if (n.offsetWidth <= room) break; }
-    if (n.offsetWidth <= room) { n.style.visibility = ''; shown = true; } // never over the words (a long name on a small phone)
+    const room = w.parentNode.getBoundingClientRect().right - parseFloat(getComputedStyle(w).right) - r.getBoundingClientRect().right - 10;
+    // the longest wording that fits: the league named before Show here is said in full, the cog dropped last
+    for (const [k, hk] of [['l', 'l'], ['m', 'l'], ['m', 's'], ['s', 's'], ['s0', 's']]) {
+      n.innerHTML = `${k === 's0' ? '' : `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${GEAR}</svg>`}${esc(n.dataset[k[0]])}`;
+      h.innerHTML = hk === 'l' ? '<span>Show here</span><span>Hide here</span>' : '<span>Show</span><span>Hide</span>'; if (h.hidden && hk === 's') continue;
+      if (w.offsetWidth <= room) break; }
+    if (w.offsetWidth <= room) { w.style.visibility = ''; shown = true; } // never over the words (a long name on a small phone)
   }
 }
 addEventListener('resize', fitOffNote); document.fonts?.ready.then(fitOffNote);
@@ -4347,6 +4376,11 @@ document.addEventListener('click', ev => {
     keys.forEach(k => on ? picked.delete(k) : picked.add(k)); count({ e: on ? 'hidesport' : 'showsport', k: t.dataset.gsports.split(' ')[0] }); store.set('teams', [...picked]); render(); return;
   }
   if (t.dataset.tocomp) { count({ e: 'use', k: t.dataset.totab ? 'Sessions tab from race' : 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = t.dataset.totab || 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
+  if (t.dataset.here) { const ss = t.dataset.here.split(' '), on = ss.every(sp => showHere.has(sp)); ss.forEach(sp => on ? showHere.delete(sp) : showHere.add(sp));
+    store.set('showHere', [...showHere]); use(on ? 'Hide hidden league here' : 'Show hidden league here');
+    // games come and go above This week's line (live now, starting soon), so the page scrolls with it: the button stays under
+    // the finger, for the moment the cards above take to settle (or until the person scrolls)
+    const y0 = t.getBoundingClientRect().top; render(); keepAt($('hereWeek'), y0); return; }
   // a name in the hidden-sports line: its group (a sport's own, or the one holding that competition), scrolled to and lit
   if (t.dataset.hidgo || t.dataset.offgo) { count({ e: 'use', k: t.dataset.offgo ? 'Off in settings note' : 'Hidden sports list name' }); const n = t.dataset.hidgo || t.dataset.offgo;
     if ($('panel').hidden) { $('panel').hidden = false; $('teamsBtn').setAttribute('aria-expanded', 'true'); }
