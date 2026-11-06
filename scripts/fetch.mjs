@@ -75,7 +75,7 @@ const NEWS_TEAMS = [
   ['wallabies', /Wallabies/], ['superrugby', /Super Rugby/i],
   ['rlwc', /Rugby League World Cup|\bRLWC\b/i], ['nrl', /\bNRL\b/],
   ['wbbl', /\bWBBL\b|Women's Big Bash/i], ['bbl', /\bBBL\b|Big Bash/i],
-  ['phoenix', /Wellington Phoenix|\bPhoenix\b/], ['aucklandfc', /Auckland FC/i], ['aleague', /A-League/i], ['epl', /Premier League|\bEPL\b/],
+  ['footballferns', /Football Ferns/i], ['allwhites', /All Whites/i], ['phoenix', /Wellington Phoenix|\bPhoenix\b/], ['aucklandfc', /Auckland FC/i], ['aleague', /A-League/i], ['epl', /Premier League|\bEPL\b/],
   ['nzboxing', /Joseph Parker|David Nyika|Mea Motu|Lani Daniels|Andrei Mikhailovich/i],
   ['ufc', /\bUFC\b|\bMMA\b|Adesanya|Kara-France|Dan Hooker|Carlos Ulberg/i], ['boxing', /\bboxing\b|\bboxer\b|heavyweight title/i],
   ['npb', /Japan Series|\bNPB\b|Nippon Professional Baseball/i], ['mlb', /\bMLB\b|Major League Baseball/], ['nba', /\bNBA\b|Steven Adams/],
@@ -470,7 +470,7 @@ async function youtubeStreams(events) {
           if (at < start - 3 * 36e5 || at > start + (days - 1) * DAY + 12 * 36e5) continue;
           const names = t => { const k = ytSide(t); return [k, ...(YT_ALIAS[k] || []), ...(YT_ALIAS[String(t).toLowerCase()] || [])]; };
           if (![e.home, e.away].every(t => names(t).some(n => title.includes(n.endsWith(' ') ? ` ${n}` : n)))) continue;
-          const women = /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'wbbl', 'blacksticksw', 'kiwiferns', 'silverferns', 'tallferns', 'anzprem'].includes(e.team);
+          const women = /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'wbbl', 'blacksticksw', 'kiwiferns', 'silverferns', 'tallferns', 'anzprem', 'footballferns'].includes(e.team);
           if ((sport === 'cricket' ? WOMEN_TITLE : /women/i).test(st.title) !== women) continue;
           (e.yt ||= []).push({ url: `https://www.youtube.com/watch?v=${st.id}`, ch, at: st.at, state: st.state });
           found.push(`${e.home} v ${e.away} (${st.state})`);
@@ -599,7 +599,7 @@ async function tvGuide(events) {
   for (const e of events) {
     if (e.status === 'final' || !e.startUTC) continue;
     const start = Date.parse(e.startUTC), solo = !e.away || /^(motor|tennis|mma|boxing|sailing|golf)$/.test(e.sport);
-    const women = /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'blackferns', 'kiwiferns', 'silverferns', 'tallferns', 'blacksticksw', 'wbbl', 'fpc', 'anzprem', 'lpga'].includes(e.team);
+    const women = /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'blackferns', 'kiwiferns', 'silverferns', 'tallferns', 'blacksticksw', 'wbbl', 'fpc', 'anzprem', 'footballferns', 'lpga'].includes(e.team);
     const found = [];
     for (const it of items) {
       const d = it.at - start;
@@ -681,7 +681,7 @@ let tsdbCache = {};
 try { tsdbCache = JSON.parse(await readFile(tsdbCacheUrl, 'utf8')); } catch {}
 
 // same fixture from two sources? UFC cards match on date alone
-const WOMEN_KEYS = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'fpc', 'wxv', 'wbbl', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
+const WOMEN_KEYS = new Set(['footballferns', 'blackferns', 'whiteferns', 'kiwiferns', 'fpc', 'wxv', 'wbbl', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
 const isW = e => WOMEN_KEYS.has(e.team) || /women|wheelchair/i.test([e.comp, e.home, e.away].join(' '));
 // a race weekend's sessions (qualifying, practice, Supercars' Saturday race) are never the race itself
 // women's, wheelchair or men's: a wheelchair game is never a women's one (England v Wales took England v Samoa's score)
@@ -1801,7 +1801,7 @@ const stateList = events.some(e => e.team === 'audomestic' && Math.abs(Date.pars
   ? Object.entries(await stateSquads(diag)).map(([team, players]) => ({ team, players })) : [];
 // other sides' current squads (NZ domestic cricket, the Big Bash, NBL, A-League, national and Super Rugby sides), from
 // their own pages, for sides with a game within four weeks; kept once in the feed, the page puts them on each game
-const WOMEN = new Set(['blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc', 'wxv', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
+const WOMEN = new Set(['footballferns', 'blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc', 'wxv', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
 const genderKey = e => /wheelchair/i.test(e.comp || '') ? 'wc' : WOMEN.has(e.team) || /women|\bWBBL\b/i.test(`${e.comp} ${e.home} ${e.away}`) ? 'w' : 'm';
 const squadKeys = [...new Set(events.filter(e => Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY)
   .flatMap(e => [e.home, e.away].map(t => `${e.sport}|${genderKey(e)}|${String(t || '').replace(/\s+Women('s)?$/, '')}`)))];

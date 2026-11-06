@@ -1,0 +1,41 @@
+{
+ "generatedAt": "2026-11-06T01:30:00Z",
+ "events": [
+  {
+   "sport": "football",
+   "timeTBC": false,
+   "status": "upcoming",
+   "id": "aw-ind-1-2026",
+   "team": "allwhites",
+   "comp": "International friendly",
+   "home": "New Zealand",
+   "away": "India",
+   "startUTC": "2026-11-12T06:00:00Z",
+   "venue": "Go Media Stadium (Mt Smart)",
+   "city": "Auckland",
+   "tz": "Pacific/Auckland",
+   "broadcast": "TVNZ 1 / TVNZ+ (free)",
+   "watchNote": "TVNZ holds the All Whites' home rights; confirm closer to the day",
+   "note": "First of two games against India",
+   "source": "https://www.aucklandstadiums.co.nz/event/all-whites-vs-india"
+  },
+  {
+   "sport": "football",
+   "timeTBC": true,
+   "status": "upcoming",
+   "id": "aw-ind-2-2026",
+   "team": "allwhites",
+   "comp": "International friendly",
+   "home": "New Zealand",
+   "away": "India",
+   "startUTC": "2026-11-15T06:00:00Z",
+   "venue": "One New Zealand Stadium (Te Kaha)",
+   "city": "Christchurch",
+   "tz": "Pacific/Auckland",
+   "broadcast": "TVNZ 1 / TVNZ+ (free)",
+   "watchNote": "TVNZ holds the All Whites' home rights; confirm closer to the day",
+   "note": "The first football game at Christchurch's new stadium",
+   "source": "https://www.christchurchnz.com/visit/whats-on/all-whites-v-india"
+  }
+ ]
+}
