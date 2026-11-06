@@ -1,4 +1,1 @@
-feed 2026-11-06T01:45:38.337Z v566
-awayLogo yes | 
-homeLogo yes
-faces: 124/224 fighters with a free photo (14 from Commons search or categories, 0 from Openverse); 13 looked up
+flags nz 200, in 200, au 200, za 200, pk 200, lk 200, bd 200
