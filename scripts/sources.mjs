@@ -150,6 +150,8 @@ export function classify(kind, home, away) {
       if (tags.length) return { team: 'wallabies', tags };
       return null;
     }
+    // the Nations Championship: every game, the All Blacks' and the Wallabies' as theirs, the rest under its own pick
+    case 'nations': { const au = /\bAustralia\b/.test(names) && !women; return { team: nz ? (women ? 'blackferns' : 'allblacks') : au ? 'wallabies' : 'nations', tags: ['nations', ...(au ? ['wallabies'] : [])] }; }
     // the WXV: every game, the Black Ferns' as theirs
     case 'wxv': return { team: nz ? 'blackferns' : 'wxv', tags: ['wxv'] };
     case 'rlwc': return { team: nz ? (women ? 'kiwiferns' : 'kiwis') : 'rlwc', tags: ['rlwc'] };
@@ -264,6 +266,12 @@ function eventsFromPage(title, text, cfg, cityTz) {
   if (cfg.classify === 'tricricket') {
     const sides = [...new Set(out.flatMap(e => [e.home, e.away]))];
     if (!sides.some(n => /^(New Zealand|Australia)\b/.test(n)) && sides.filter(n => BIG_CRICKET.test(n)).length < 2) for (const e of out) e.minor = true;
+  }
+  // the Nations Championship's finals before the sides are known: "Northern 1 v Southern 1" reads "North 1st v South 1st"
+  if (cfg.classify === 'nations') for (const e of out) for (const s of ['home', 'away']) {
+    const m = String(e[s]).match(/^(North|South)(?:ern)?(?: Hemisphere)? (\d)$/i);
+    if (m) e[s] = `${m[1][0].toUpperCase() + m[1].slice(1).toLowerCase()} ${m[2]}${['st', 'nd', 'rd'][+m[2] - 1] || 'th'}`;
+    if (s === 'away' && e.stage) e.stage = e.stage.replace(/^Nations Championship\s+/i, '').replace(/^final$/, 'Final');
   }
   return out;
 }

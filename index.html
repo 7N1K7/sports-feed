@@ -1816,7 +1816,7 @@ const PAGE_V = '__SITE_V__';
 const TEAMS = [ // in the sport row's order: cricket, rugby, league, football, hockey, basketball, F1, tennis, golf, baseball, fights, netball, sailing
   { g: 'Cricket', items: [['blackcaps','Black Caps'],['whiteferns','White Ferns'],['nzdomestic','Domestic cricket'],['aucricket','Australia men'],['audomestic','Aussie domestic'],['intlcricket','Other tours'],['bbl','Big Bash'],['wbbl','Women\'s Big Bash']] },
   // the Super Rugby clubs are rugby too: their own labelled line in the rugby group, not a sport of their own
-  { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup'],['wallabies','Wallabies'],['wxv','WXV']],
+  { g: 'Rugby', items: [['allblacks','All Blacks'],['blackferns','Black Ferns'],['npc','NPC'],['fpc','Farah Palmer Cup'],['wallabies','Wallabies'],['wxv','WXV'],['nations','Nations Championship']],
     sub: { g: 'Super Rugby Pacific', items: [['blues','Blues'],['chiefs','Chiefs'],['hurricanes','Hurricanes'],['crusaders','Crusaders'],['highlanders','Highlanders'],['moana','Moana Pasifika'],['aurugby','Australian teams'],['superrugby','Every game']] } },
   { g: 'Rugby league', items: [['kiwis','Kiwis'],['kiwiferns','Kiwi Ferns'],['warriors','Warriors'],['nrl','NRL'],['rlwc','League World Cup']] },
   { g: 'Football', items: [['allwhites','All Whites'],['footballferns','Football Ferns'],['phoenix','Wellington Phoenix'],['aucklandfc','Auckland FC'],['aleague','A-League Men'],['epl','Premier League']] },
@@ -1838,7 +1838,7 @@ const BADGE = {
   blues: ['BLU', '#0b3d91', '#ffffff'], chiefs: ['CHI', '#d6001c', '#ffd200'], hurricanes: ['HUR', '#ffcd00', '#000000'], crusaders: ['CRU', '#c8102e', '#000000'],
   highlanders: ['HIG', '#1d2f6f', '#f2a900'], moana: ['MP', '#00807f', '#ffffff'],
   blackcaps: ['BC', '#111111', '#7fe0d0'], whiteferns: ['WF', '#ffffff', '#111111'], nzdomestic: ['NZC', '#2b3a67', '#ffffff'],
-  wallabies: ['WAL', '#f2c200', '#0b3d2e'], aurugby: ['AUS', '#0b3d91', '#f2c200'], superrugby: ['SRP', '#00205b', '#ffffff'], wxv: ['WXV', '#5f3dc4', '#ffffff'],
+  wallabies: ['WAL', '#f2c200', '#0b3d2e'], aurugby: ['AUS', '#0b3d91', '#f2c200'], superrugby: ['SRP', '#00205b', '#ffffff'], wxv: ['WXV', '#5f3dc4', '#ffffff'], nations: ['NC', '#0b0f0e', '#e8ff00'],
   bbl: ['BBL', '#ff6b00', '#111111'], wbbl: ['WBBL', '#7b2cbf', '#ffffff'], nrl: ['NRL', '#003b7a', '#ffffff'], rlwc: ['RLWC', '#0b6e4f', '#ffffff'],
   allwhites: ['AW', '#ffffff', '#000000'], footballferns: ['FF', '#ffffff', '#000000'], phoenix: ['WNP', '#ffd100', '#000000'], aucklandfc: ['AFC', '#0033a0', '#ffffff'], aleague: ['ALM', '#e4002b', '#ffffff'], aucricket: ['AUS', '#ffcd00', '#00573f'], audomestic: ['AUD', '#7a1f3d', '#ffffff'], intlcricket: ['INT', '#1c7ed6', '#ffffff'], epl: ['EPL', '#3d195b', '#ffffff'], ufc: ['UFC', '#d20a0a', '#ffffff'], boxing: ['BOX', '#8a1c1c', '#ffd43b'], nzboxing: ['NZB', '#000000', '#ffd43b'],
   kiwis: ['KIW', '#000000', '#ffffff'], kiwiferns: ['KF', '#000000', '#ffffff'], warriors: ['WAR', '#0d1f4c', '#7fd13b'],
@@ -2977,6 +2977,7 @@ const SHOWS = {
   rugby: [
     { n: 'Black Ferns', t: 'yt', c: /Farah Palmer|WXV|Women/, q: 'Black Ferns rugby', d: 'Behind the scenes, interviews and highlights from the Black Ferns' },
     { n: 'Super Rugby Pacific', t: 'yt', c: /Super Rugby/, d: 'Highlights and features from every round' },
+    { n: 'Nations Championship', t: 'yt', c: /Nations Championship/, url: 'https://www.youtube.com/channel/UCMDN3VEKhM1LIJTDtGd7_Hw', d: "The tournament's own channel: highlights, every try and classic matches" },
     { n: 'The Breakdown', t: 'tv', q: 'The Breakdown Sky Sport NZ', d: "Sky Sport's Sunday-night rugby panel with Jeff Wilson, Mils Muliaina and Justin Marshall" },
     { n: 'Sky Sport NZ', t: 'yt', q: 'Sky Sport NZ rugby', d: "Sky's free highlights, clips and segments from its rugby shows" },
     { n: 'Rugby Direct', t: 'pod', url: 'https://www.newstalkzb.co.nz/podcasts/rugby-direct/', d: "Newstalk ZB's NZ rugby interviews and news" },
@@ -4414,7 +4415,7 @@ function syncPulse() {
   if (!document.getAnimations) return;
   document.querySelectorAll('.nowchip.is-live .livedot, .ev.is-live').forEach(el => el.getAnimations().forEach(a => { if (a.startTime !== 0) a.startTime = 0; }));
 }
-const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby','wxv'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','audomestic','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['allwhites','footballferns','phoenix','aucklandfc','aleague','epl'], hockey: ['blacksticks','blacksticksw'], basketball: ['tallblacks','tallferns','breakers','nbl','nba'], netball: ['silverferns','anzprem'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1', 'supercars'], sailing: ['sailgp'], tennis: ['tennis'], golf: ['pgatour', 'lpga', 'golfanz'], baseball: ['mlb', 'npb'] };
+const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby','wxv','nations'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','audomestic','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['allwhites','footballferns','phoenix','aucklandfc','aleague','epl'], hockey: ['blacksticks','blacksticksw'], basketball: ['tallblacks','tallferns','breakers','nbl','nba'], netball: ['silverferns','anzprem'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1', 'supercars'], sailing: ['sailgp'], tennis: ['tennis'], golf: ['pgatour', 'lpga', 'golfanz'], baseball: ['mlb', 'npb'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
 
 function tick() { $('clock').textContent = `${tzLabel()} ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; syncInfo(); }

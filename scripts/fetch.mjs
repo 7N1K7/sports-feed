@@ -72,7 +72,7 @@ const NEWS_TEAMS = [
   ['blacksticksw', /Black Sticks Women|Black Sticks women/i], ['blacksticks', /Black Sticks/i],
   ['tallferns', /Tall Ferns/i], ['tallblacks', /Tall Blacks/i], ['breakers', /\bBreakers\b/], ['nbl', /\bNBL\b/], ['silverferns', /Silver Ferns/i], ['anzprem', /ANZ Premiership/i],
   ['f1', /Formula (One|1)\b|\bF1\b|Liam Lawson/i], ['supercars', /Supercars|Bathurst 1000/i],
-  ['wallabies', /Wallabies/], ['superrugby', /Super Rugby/i],
+  ['wallabies', /Wallabies/], ['nations', /Nations Championship/i], ['superrugby', /Super Rugby/i],
   ['rlwc', /Rugby League World Cup|\bRLWC\b/i], ['nrl', /\bNRL\b/],
   ['wbbl', /\bWBBL\b|Women's Big Bash/i], ['bbl', /\bBBL\b|Big Bash/i],
   ['footballferns', /Football Ferns/i], ['allwhites', /All Whites/i], ['phoenix', /Wellington Phoenix|\bPhoenix\b/], ['aucklandfc', /Auckland FC/i], ['aleague', /A-League/i], ['epl', /Premier League|\bEPL\b/],
@@ -448,6 +448,8 @@ const YT_CHANNELS = [
   // Fox Sports Australia's: Australian fight nights' free prelims streams (Gallen v Asofa-Solomona's, 6 Nov 2026), open
   // to NZ; its netball streams are shut to Australia, so they're left out anyway
   ['boxing', 'Fox Sports Australia', 'UCaoTOpfjVfdm_XlYvwbVicQ'],
+  // the Nations Championship's own (its highlights, open to NZ, for every game's Highlights link)
+  ['rugby', 'Nations Championship', 'UCMDN3VEKhM1LIJTDtGd7_Hw'],
 ];
 // a fight night's stream of its prelims or undercard only ("... | Prelims | Main Event | Fox Sports Australia")
 const YT_PRE = /\bprelims?\b|\bundercard\b|preliminary card/i, FIGHT_SPORT = /^(boxing|mma)$/;
@@ -1028,6 +1030,16 @@ const newsAll = [...curated.news];
     const re = new RegExp(`\\b${esc(n)}\\b`), sw = place(n) && (SPORT_WORDS[sp] || /$^/);
     return [{ test: text => re.test(text) && (!sw || sw.test(text)) }, t];
   });
+  // a Nations Championship game between two other nations: a rugby story naming both its sides (by name or nickname,
+  // "Wales opt for centre power pair against Japan") is that game's, though countries alone count for nothing above
+  const NICK = { 'South Africa': 'Springboks|Boks', Argentina: 'Pumas', Fiji: 'Flying Fijians', Japan: 'Brave Blossoms', Italy: 'Azzurri' };
+  const RUGBY_WORD = /\b(rugby|tests?|tries|try|fly-half|scrum-half|half-back|centres?|wings?|flankers?|locks?|props?|hookers?|back row|front row|scrum|line-?out|Murrayfield|Twickenham|Aviva|Principality|Stade de France|Nations Championship)\b/i;
+  for (const e of events) {
+    const age = now - Date.parse(e.startUTC);
+    if (e.team !== 'nations' || age > 2 * DAY || age < -14 * DAY || /^(North|South) \d/.test(e.home)) continue;
+    const [a, b] = [e.home, e.away].map(n => new RegExp(`\\b(${esc(n)}${NICK[n] ? '|' + NICK[n] : ''})\\b`));
+    EVENT_NAMES.push([{ test: text => a.test(text) && b.test(text) && RUGBY_WORD.test(text) }, 'nations']);
+  }
 }
 // RNZ's RSS terms (rnz.co.nz/rss) say "No audio or text from these may be posted to a web site ... without the express
 // permission of Radio New Zealand", so the feed stays off; the page links to RNZ Sport instead. Only switch this back on
