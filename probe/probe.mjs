@@ -9,7 +9,7 @@ for (const x of v.items || []) {
   const pl = await yt('playlistItems', `part=contentDetails&maxResults=50&playlistId=UU${x.snippet.channelId.slice(2)}`);
   const ids = (pl.items || []).map(i => i.contentDetails.videoId);
   const vs = ids.length ? await yt('videos', `part=snippet,liveStreamingDetails&id=${ids.join(',')}`) : { items: [] };
-  for (const s of vs.items || []) if (s.liveStreamingDetails) out.push(`  stream ${s.liveStreamingDetails.actualStartTime || s.liveStreamingDetails.scheduledStartTime} ${s.snippet.liveBroadcastContent} | ${s.snippet.title}`);
+  for (const s of vs.items || []) if (s.liveStreamingDetails) out.push(`  stream ${s.liveStreamingDetails.actualStartTime || s.liveStreamingDetails.scheduledStartTime} ${s.snippet.liveBroadcastContent} | ${s.snippet.title} || ${(s.snippet.description || '').split('\n')[0].slice(0, 120)}`);
 }
 if (v.err) out.push('error ' + v.err);
-writeFileSync('probe/out.txt', 'yt292\n' + out.join('\n').replace(/key=[^&\s]+/g, 'key=X') + '\n');
+writeFileSync('probe/out.txt', 'yt293\n' + out.join('\n').replace(/key=[^&\s]+/g, 'key=X') + '\n');
