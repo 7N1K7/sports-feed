@@ -348,10 +348,10 @@ const REPEAT_ORDER = ['1', '2-3', '4-9', '10+'], REPEAT_LABEL = { 1: 'Once', '2-
 const SPEED_ORDER = ['under 1s', '1-2s', '2-4s', '4-8s', '8s or more'];
 // the parts of the site used that are in the Settings box, listed on their own
 const SETTINGS_USE = new Set(['Settings', 'Hide sport', 'Show sport', "Men's teams off", "Men's teams on", "Women's teams off", "Women's teams on", 'Coffee in Settings', 'Sport order A–Z',
-  'Select all teams', 'Default teams', 'Clear all teams', 'Theme changed', 'Time zone changed', 'Hide results for changed', 'Settings code copied', 'Settings code used', 'Hidden sports list name', 'Turned-off name in sports info', 'Off in settings note', 'Show hidden league here', 'Hide hidden league here', 'Sports info button', 'Settings from sports info',
+  'Select all teams', 'Default teams', 'Clear all teams', 'Theme changed', 'Time zone changed', 'Hide results for changed', 'Settings code copied', 'Settings code used', 'Hidden sports list name', 'Turned-off name in sports info', 'Off-by-default name in sports info', 'Off in settings note', 'Show hidden league here', 'Hide hidden league here', 'Sports info button', 'Settings from sports info',
   'Settings closed', 'Theme menu opened', 'Time zone menu opened', 'Hide results for menu opened']);
 const SETTINGS_LABEL = { Settings: 'Settings opened', 'Hide sport': 'A sport hidden', 'Show sport': 'A sport shown', 'Select all teams': 'Select all', 'Default teams': 'Defaults', 'Clear all teams': 'Clear',
-  'Hide results for changed': 'Hide results for: changed', 'Hidden sports list name': 'A name in the hidden list tapped', 'Turned-off name in sports info': 'A turned-off name in the i pop-up tapped', 'Off in settings note': 'The "off in settings" note by a sport or competition tapped', 'Show hidden league here': 'Show here by that note: what is off shown on that sport page', 'Hide hidden league here': 'Hide here by that note', 'Sports info button': 'The "i" by the sport buttons tapped', 'Settings from sports info': 'Open Settings from that "i"', 'Coffee in Settings': 'Coffee link', 'Settings closed': 'Settings closed with ×' };
+  'Hide results for changed': 'Hide results for: changed', 'Hidden sports list name': 'A name in the hidden list tapped', 'Turned-off name in sports info': 'A turned-off name in the i pop-up tapped', 'Off-by-default name in sports info': 'The NBA in the i pop-up\'s off-by-default line tapped', 'Off in settings note': 'The "off in settings" note by a sport or competition tapped', 'Show hidden league here': 'Show here by that note: what is off shown on that sport page', 'Hide hidden league here': 'Hide here by that note', 'Sports info button': 'The "i" by the sport buttons tapped', 'Settings from sports info': 'Open Settings from that "i"', 'Coffee in Settings': 'Coffee link', 'Settings closed': 'Settings closed with ×' };
 // errors already fixed: what the error says, the day of the fix, its version and what it was. One seen on a later day
 // shows as back
 const FIXED = [
@@ -514,6 +514,7 @@ const RESEARCH = [
 ];
 // the big additions of data, newest first: kept by hand, a line each time a gap is filled or a new kind of data comes in
 const ADDED = [
+  ['7 Nov 2026', 'The NBA in the i pop-up\'s off-by-default line is a tag too, opening Settings at Basketball; taps counted as Off-by-default name in sports info'],
   ['7 Nov 2026', 'The i pop-up in the sport row names what this browser has turned off (whole sports and single competitions), each tapping through to it in Settings; taps counted as Turned-off name in sports info'],
   ['7 Nov 2026', 'NBL: the whole season\'s start times from TheSportsDB, round by round, as Wikipedia\'s are an hour out in daylight saving'],
   ['7 Nov 2026', 'Where to watch: every A-League game on Sky, Disney+ (ESPN) for the NBA and NBL, a TVNZ+ Event Pass for UFC numbered events, and In Australia lists for F1 and the Black Caps'],

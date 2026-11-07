@@ -1094,7 +1094,7 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
 :is(#sportFilter, .compbar) .sinfo { --ir: color-mix(in srgb, var(--accent) 45%, white); border: 0; background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--accent) 40%, white), var(--accent) 55%, color-mix(in srgb, var(--accent) 72%, black)); color: var(--accent-ink); font-weight: 800; box-shadow: inset 0 0 0 1.5px var(--ir), 0 0 10px 1px color-mix(in srgb, var(--accent) 70%, transparent) }
 :is(#sportFilter, .compbar) .sinfo[aria-expanded="true"] { color: var(--accent-ink); box-shadow: inset 0 0 0 1.5px #fff, 0 0 14px 3px color-mix(in srgb, var(--accent) 85%, transparent) }
 @media (hover: hover) { :is(#sportFilter, .compbar) .sinfo:hover { color: var(--accent-ink); box-shadow: inset 0 0 0 1.5px #fff, 0 0 14px 3px color-mix(in srgb, var(--accent) 85%, transparent) } }
-.sinfopop { position: fixed; z-index: 60; width: min(260px, calc(100vw - 16px)); padding: 12px 14px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 28px rgb(0 0 0 / .45); font: 400 14px/1.4 var(--f-body); color: var(--ink); text-align: center }
+.sinfopop { position: fixed; z-index: 60; width: min(276px, calc(100vw - 16px)); padding: 12px 14px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 28px rgb(0 0 0 / .45); font: 400 14px/1.4 var(--f-body); color: var(--ink); text-align: center }
 .sinfopop p { margin: 0 0 10px } .sinfopop .sinfohead { white-space: nowrap } .sinfopop p b { font-weight: 700 } .sinfopop p .on { color: #69db7c } .sinfopop p .off { color: #ff8787 } .sinfopop .sinfodef { margin: -6px 0 10px; font-size: 12px; color: var(--muted) } .sinfodef:empty { display: none } .sinfopop .sinfomore { margin: 6px 0 0; font-size: 11px; color: var(--muted) } .sinfopop .btn { font-size: 13px; padding: 5px 12px; font-weight: 600; background: var(--accent); color: var(--accent-ink); border-color: var(--accent) } @media (hover: hover) { .sinfopop .btn:hover { filter: brightness(1.12) } } .sinfopop .btn { display: inline-flex; align-items: center } .sinfopop .btn .bico { margin-left: 6px; width: 1.45em; height: 1.45em; vertical-align: 0 }
 /* what's been turned off, in the pop-up: the same sport-coloured tags as Settings' hidden list, in centred rows */
 .sinfopop .sinfooff { margin: -4px 0 10px; font-size: 12px; line-height: 22px; color: var(--muted) } .sinfooff:empty { display: none } .sinfooffh { display: block; line-height: 18px; margin-bottom: 2px } .sinfooffl { display: block; text-wrap: balance } .sinfoffmore { white-space: nowrap }
@@ -3567,7 +3567,7 @@ function offList() {
     ...(followedSport('motor') ? SESS.filter(([k]) => picked.has(k) && !sessOn.has(k)).map(([, l]) => [`${l} sessions`, 'motor', false]) : [])];
 }
 // one name in that list, a small tag in its sport's colour that goes to it in Settings
-const hgo = ([n, sp, all, k], where = 'settings') => `<button type="button" class="hidgo${all ? ' whole' : ''}" data-hidgo="${esc(n)}"${k ? ` data-hidk="${esc(k)}"` : ''}${where === 'pop' ? ' data-hidpop=""' : ''} style="--hc:var(--${sp === 'rugby' ? 'rugbyt' : sp})" title="${sp === 'accent' ? `Turned off with the ${where === 'pop' ? "men's and women's switch" : 'switch above'}` : all ? 'The whole sport is off' : 'Just this one is off'}: tap to go to it">${esc(n)}</button>`;
+const hgo = ([n, sp, all, k], where = 'settings') => `<button type="button" class="hidgo${all ? ' whole' : ''}" data-hidgo="${esc(n)}"${k ? ` data-hidk="${esc(k)}"` : ''}${where === 'pop' || where === 'def' ? ' data-hidpop=""' : ''}${where === 'def' ? ' data-hiddef=""' : ''} style="--hc:var(--${sp === 'rugby' ? 'rugbyt' : sp})" title="${where === 'def' ? 'Off until you turn it on' : sp === 'accent' ? `Turned off with the ${where === 'pop' ? "men's and women's switch" : 'switch above'}` : all ? 'The whole sport is off' : 'Just this one is off'}: tap to go to it in Settings">${esc(n)}</button>`;
 // My teams changed from what a new visitor starts with (everything on but the opt-ins)
 const myTeamsChanged = () => { const def = ALL_KEYS.filter(k => !OPT_IN.has(k)); return picked.size !== def.length || def.some(k => !picked.has(k)); };
 const shownSports = () => { const all = SPORT_CHIPS, f = all.filter(([k]) => followedSport(k)); return f.length ? f : all; };
@@ -4656,7 +4656,7 @@ document.addEventListener('click', ev => {
   if (t.id === 'copySettings') { count({ e: 'use', k: 'Settings code copied' }); const c = settingsCode(); (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { $('moveNote').textContent = 'Copied. Paste it into the box on the other browser, then tap "Use these settings".'; }, () => prompt('Copy this code', c)); return; }
   // the sport row's "i": a note under it, and from there Settings at My teams
   if (t.dataset.sinfo != null) { const pop = $('sinfoPop'), open = pop.hidden; closeSinfo(); if (!open) return;
-    use('Sports info button'); $('sinfoDef').textContent = OPT_IN.size ? `Off by default: ${[...OPT_IN].map(k => TEAM_NAME[k] || k).join(', ')} – too many games` : '';
+    use('Sports info button'); $('sinfoDef').innerHTML = OPT_IN.size ? `Off by default: ${[...OPT_IN].map(k => hgo([TEAM_NAME[k] || k, sportOf(k), false, k], 'def')).join(' ')} – too many games` : '';
     // and what this browser has turned off (not the busy ones still off by default, named just above, nor race-weekend
     // practice sessions): up to 8, then a count
     { const os = offList().filter(o => !(o[3] && OPT_IN.has(o[3])) && !/ sessions$/.test(o[0])), max = os.length > 8 ? 7 : 8;
@@ -4688,7 +4688,7 @@ document.addEventListener('click', ev => {
     // the finger, for the moment the cards above take to settle (or until the person scrolls)
     const y0 = t.getBoundingClientRect().top; render(); keepAt($('hereWeek'), y0); return; }
   // a name in the hidden-sports line: its group (a sport's own, or the one holding that competition), scrolled to and lit
-  if (t.dataset.hidgo || t.dataset.offgo) { count({ e: 'use', k: t.dataset.offgo ? 'Off in settings note' : t.dataset.hidpop != null ? 'Turned-off name in sports info' : 'Hidden sports list name' }); const n = t.dataset.hidgo || t.dataset.offgo;
+  if (t.dataset.hidgo || t.dataset.offgo) { count({ e: 'use', k: t.dataset.offgo ? 'Off in settings note' : t.dataset.hiddef != null ? 'Off-by-default name in sports info' : t.dataset.hidpop != null ? 'Turned-off name in sports info' : 'Hidden sports list name' }); const n = t.dataset.hidgo || t.dataset.offgo;
     if (t.dataset.hidpop != null) closeSinfo();
     if ($('panel').hidden) { $('panel').hidden = false; $('teamsBtn').setAttribute('aria-expanded', 'true'); }
     const gn = / sessions$/.test(n) ? 'Motorsport' : (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([j, l]) => t.dataset.hidk ? j === t.dataset.hidk : l === n)))?.g;
