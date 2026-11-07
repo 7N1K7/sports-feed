@@ -4832,8 +4832,9 @@ document.addEventListener('click', ev => {
     if (wk || !t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
     // a series row button opens its series below the filters: on a short phone screen with the filters open that's out of
     // sight, so the tap looked to do nothing. Then the page moves down to the series' box, just under the bar at the top
-    // (from v631); where the box and the start of its games already show, nothing moves
-    else if (compSel) requestAnimationFrame(() => { if ($('hubBox').getBoundingClientRect().bottom + 120 > innerHeight) scrollTo({ top: $('hubSec').getBoundingClientRect().top + scrollY - Math.max(document.querySelector('header.top').getBoundingClientRect().bottom, $('foldBtn').getBoundingClientRect().bottom) - 10, behavior: 'smooth' }); });
+    // (from v631); where the box and the top of its first game already show, nothing moves
+    else if (compSel) requestAnimationFrame(() => { const box = $('hubBox').getBoundingClientRect(), first = [...document.querySelectorAll('main .ev')].map(x => x.getBoundingClientRect()).find(r => r.height && r.top >= box.bottom);
+      if (box.bottom > innerHeight || !first || first.top + 60 > innerHeight) scrollTo({ top: $('hubSec').getBoundingClientRect().top + scrollY - Math.max(document.querySelector('header.top').getBoundingClientRect().bottom, $('foldBtn').getBoundingClientRect().bottom) - 10, behavior: 'smooth' }); });
   }
   // the +N: the competitions list, opened
   else if (t.dataset.weekmore) { ev.stopPropagation(); use('This week more competitions'); if (folded) { folded = false; store.set('folded', false); syncFold(); } $('sportFilter').scrollIntoView({ block: 'start' }); $('compMenu').hidden = false; $('compSel').setAttribute('aria-expanded', 'true'); fitComp(); }
