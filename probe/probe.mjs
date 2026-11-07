@@ -1,6 +1,6 @@
-// nc5: mock-up shots of the Nations Cup added (this branch's page and a feed with its games, on the live site's images). No scores
+// nc6: mock-up shots (the pop-up again, with its watch note) of the Nations Cup added (this branch's page and a feed with its games, on the live site's images). No scores
 import { chromium } from 'playwright'; import { execSync } from 'child_process'; import { writeFileSync, readFileSync } from 'fs';
-const out = ['nc5 ' + new Date().toISOString()], now = Date.now();
+const out = ['nc6 ' + new Date().toISOString()], now = Date.now();
 const PAGE = readFileSync('probe/nc-index.html', 'utf8'), FEED = readFileSync('probe/nc-feed.json', 'utf8');
 const ID = 'wiki-nationscup-2026-11-07-spainuruguay', ID2 = 'wiki-nationscup-2026-11-08-hongkongusa';
 const b = await chromium.launch({ channel: 'chrome' });
@@ -14,7 +14,7 @@ const open = async (w, hash = '') => {
   await p.addStyleTag({ content: '.form, .fm, .dform, .score, .res, .sres, [class*="form"] { filter: blur(6px) !important }' });
   return { p, ctx, errs };
 };
-for (const w of [1280, 800, 412, 360]) try {
+for (const w of []) try {
   const { p, ctx, errs } = await open(w);
   const bar = await p.$('#nowBar'); await bar.screenshot({ path: `probe/out-ncup-bar-${w}.png` });
   const names = await p.evaluate(() => [...document.querySelectorAll('#nowChips .nowchip')].map(x => x.textContent.trim()).join(' | '));
@@ -35,7 +35,7 @@ for (const w of [1280, 412]) try {
   out.push(`pop-up ${w}: watch: ${watch}; errors=${errs.length}`);
   await ctx.close();
 } catch (er) { out.push('pop err ' + String(er.message).slice(0, 160)); }
-await b.close(); writeFileSync('probe/out-nc5.txt', out.join('\n') + '\n');
-try { execSync('git -c user.name=bot -c user.email=bot@x add -A probe/out-nc5.txt probe/out-ncup-*.png && git -c user.name=bot -c user.email=bot@x commit -q -m out', { stdio: 'pipe' }); } catch {}
+await b.close(); writeFileSync('probe/out-nc6.txt', out.join('\n') + '\n');
+try { execSync('git -c user.name=bot -c user.email=bot@x add -A probe/out-nc6.txt probe/out-ncup-*.png && git -c user.name=bot -c user.email=bot@x commit -q -m out', { stdio: 'pipe' }); } catch {}
 for (let i = 0; i < 4; i++) try { execSync('git push -q origin HEAD:probe', { stdio: 'pipe' }); break; } catch { try { execSync('git fetch -q origin probe && git -c user.name=bot -c user.email=bot@x rebase -q --autostash origin/probe', { stdio: 'pipe' }); } catch {} }
 console.log(out.join('\n'));
