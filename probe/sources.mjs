@@ -67,7 +67,7 @@ const stripRefs = s => String(s || '').replace(/<!--[\s\S]*?-->/g, '').replace(/
 function clean(s) {
   let t = stripRefs(s);
   for (let k = 0; k < 4; k++) {
-    t = t.replace(/\{\{\s*(?:nowrap|nobr|small|abbr|sort|rus|rut|ru stadium|stadium)\s*\|([^{}]*?)\}\}/gi, (_, a) => a.split('|').filter(x => !x.includes('=')).pop() || '')
+    t = t.replace(/\{\{\s*(?:nowrap|nobr|small|abbr|sort|rus|rut|ru stadium|stadium|score ?link)\s*\|([^{}]*?)\}\}/gi, (_, a) => a.split('|').filter(x => !x.includes('=')).pop() || '')
       .replace(/\{\{\s*(?:nbsp|snd|spnd|spaced[ _]e?ndash|e?ndash|mdash|·|dot|efn|refn|notetag|cite[^|}]*|flagicon|flagdeco|flag decoration|colou?r box|vanchor|anchor)[^{}]*\}\}/gi, m => /ndash|snd|spnd/.test(m) ? '–' : /mdash/.test(m) ? '—' : /nbsp/.test(m) ? ' ' : '');
   }
   return t.replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1').replace(/\[https?:\S+\s+([^\]]*)\]/g, '$1').replace(/'''?/g, '')
@@ -90,7 +90,9 @@ const CODES = {
 // Australian domestic cricket's sides, as {{cr-Aus|QLD}} writes them
 const AU_STATES = { QLD: 'Queensland', NSW: 'New South Wales', VIC: 'Victoria', SA: 'South Australia', WA: 'Western Australia', TAS: 'Tasmania' };
 function teamOf(v) {
-  const raw = stripRefs(v);
+  // a team template inside a wrapper ({{nowrap|{{rlw-r|NZL}}}}) is read as if bare
+  let raw = stripRefs(v);
+  for (let k = 0, w; k < 3 && (w = templates(raw, /^(nowrap|nobr|small)$/i)[0]); k++) { const bar = w.body.indexOf('|'); raw = raw.slice(0, w.at) + (bar < 0 ? '' : w.body.slice(bar + 1)) + raw.slice(w.at + w.body.length + 4); }
   const tpl = templates(raw, /^[A-Za-z][\w\- ]{0,14}$/).find(t => !/^(colou?r ?box|flag ?deco(ration)?|flagicon|nowrap|small|abbr|sort)$/i.test(t.name));
   if (tpl) {
     const p = params('x|' + tpl.body.slice(tpl.name.length + 1));
@@ -172,9 +174,12 @@ export function classify(kind, home, away) {
 // ---------- Wikipedia -------------------------------------------------------
 const BOX = /^(rugby ?box|rugby ?league ?box|rlbox|single-innings cricket match|two-innings cricket match|limited overs international|footballbox|football box(?: collapsible)?|field ?hockey ?box|hockey ?box|basketball ?box(?: collapsible)?|netball ?box)$/i;
 
+// a page that gives every game's time in one zone, wherever it's played, says so in its config ("timesTz"): the WBBL
+// page writes Adelaide's and Perth's games in Sydney time. Not read from the page's own "All times in AEDT" note, which
+// the men's Big Bash page carries too while giving each ground's local time
 function eventsFromPage(title, text, cfg, cityTz) {
   const year = +(title.match(/\b(20\d\d)/) || [])[1] || new Date().getUTCFullYear();
-  const out = [];
+  const out = [], pageTz = cfg.timesTz ? { tz: cfg.timesTz } : null;
   for (const tpl of templates(text, BOX)) {
     const { named: p } = params(tpl.body);
     const isCricket = /cricket|overs/i.test(tpl.name);
@@ -193,12 +198,16 @@ function eventsFromPage(title, text, cfg, cityTz) {
     const tz = (tm && tm.tz) || cityTz(city) || cityTz(parts[0]) || (cfg.homeTz && cityTz(home)) || cfg.tz || null;
     let t, tbc = false;
     if (tm && tm.offsetMin != null) t = Date.UTC(d.y, d.m, d.d, tm.h, tm.mi) - tm.offsetMin * 6e4;
+    else if (tm && !tm.tz && pageTz) t = localToUTC(d.y, d.m, d.d, tm.h, tm.mi, pageTz.tz);
     else if (tm && tz) t = localToUTC(d.y, d.m, d.d, tm.h, tm.mi, tz);
     else { tbc = true; t = localToUTC(d.y, d.m, d.d, 14, 0, tz || 'Pacific/Auckland'); }
     // score
     let score, summary, status = 'upcoming', progress, liveScore;
     if (isCricket) {
-      const sc = n => clean(p[`score${n}`]) || (p[`runs${n}`] ? `${clean(p[`runs${n}`])}${p[`wickets${n}`] && clean(p[`wickets${n}`]) !== '10' ? '/' + clean(p[`wickets${n}`]) : ''}` : '');
+      // a two-innings match (a Test, a first-class game) gives each side's innings on their own: "425/9d" and "99 & 295 (f/o)",
+      // without the overs, which the one-day boxes keep
+      const inns = n => [1, 2].map(i => clean(p[`score-team${n}-inns${i}`] || '').replace(/\s*\([\d.]+ overs?\)/i, '').trim()).filter(x => /\d/.test(x)).join(' & ');
+      const sc = n => clean(p[`score${n}`]) || (p[`runs${n}`] ? `${clean(p[`runs${n}`])}${p[`wickets${n}`] && clean(p[`wickets${n}`]) !== '10' ? '/' + clean(p[`wickets${n}`]) : ''}` : '') || inns(n);
       const result = clean(p.result || '');
       // editors often write the state of play into the result line while a match is on ("Lunch, day 1", "Stumps, day 2")
       const playing = result && /\b(lunch|tea|stumps|day \d|in progress|live|innings break|drinks|rain|bad light|delayed|play (?:to )?(?:start|resume))\b/i.test(result)
@@ -308,8 +317,9 @@ function ufcFromList(text, cityTz) {
       out.push({
         id: `wiki-ufc-${name.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 60)}`, team: 'ufc', tags: [], sport: 'mma', comp: label,
         home: a || label, away: b || 'TBC', startUTC: new Date(t).toISOString(), timeTBC: true,
-        venue: /^(TBA|to be announced)$/i.test(venue) ? '' : venue, city: loc, tz, status: past ? 'final' : 'upcoming',
-        score: past ? 'Results on event page' : undefined,
+        // Wikipedia moves a card to Past events as it starts, so one from the last 12 hours may still be on
+        venue: /^(TBA|to be announced)$/i.test(venue) ? '' : venue, city: loc, tz, status: past && Date.now() - t > 12 * 36e5 ? 'final' : 'upcoming',
+        score: past && Date.now() - t > 12 * 36e5 ? 'Results on event page' : undefined,
         source: link ? `https://en.wikipedia.org/wiki/${encodeURIComponent(link.replace(/ /g, '_'))}` : 'https://en.wikipedia.org/wiki/List_of_UFC_events',
       });
     }
@@ -555,7 +565,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
   // Adelaide and Hobart tournaments, from each tournament's own page.
   // Each gives a women's and a men's singles final (the tournament's last two days), with the champion once it's played.
   try {
-    const titles = years.flatMap(y => TENNIS.map(t => ({ ...t, y, title: t.title.replace('{Y}', y) })));
+    const titles = years.flatMap(y => TENNIS.map(t => ({ ...t, ...(t.at?.[y] || {}), y, title: t.title.replace('{Y}', y) })));
     const got = {};
     for (let i = 0; i < titles.length; i += 20) {
       const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&rvsection=0&redirects=1&titles=' + encodeURIComponent(titles.slice(i, i + 20).map(t => t.title).join('|')));
@@ -778,7 +788,8 @@ const TENNIS = [
   { title: '{Y} Wimbledon Championships', name: 'Wimbledon', city: 'London', venue: 'All England Club', tz: 'Europe/London', w: [-1, 16, 0], m: [0, 16, 0] },
   { title: '{Y} US Open (tennis)', name: 'US Open', city: 'New York', venue: 'Flushing Meadows', tz: 'America/New_York', w: [-1, 16, 0], m: [0, 14, 0] },
   { title: '{Y} ATP Finals', name: 'ATP Finals', city: 'Turin', venue: 'Inalpi Arena', tz: 'Europe/Rome', m: [0, 18, 0] },
-  { title: '{Y} WTA Finals', name: 'WTA Finals', city: 'Riyadh', venue: '', tz: 'Asia/Riyadh', w: [0, 19, 0] },
+  // Riyadh to 2025; from 2026 at Indian Wells (`at` gives a year's own city where it moves)
+  { title: '{Y} WTA Finals', name: 'WTA Finals', city: 'Riyadh', venue: '', tz: 'Asia/Riyadh', w: [0, 19, 0], at: { 2026: { city: 'Indian Wells', venue: 'Indian Wells Tennis Garden', tz: 'America/Los_Angeles' } } },
   { title: '{Y} ASB Classic', name: 'ASB Classic', city: 'Auckland', venue: 'ASB Tennis Arena', tz: 'Pacific/Auckland', w: [-7, 14, 0], m: [0, 15, 0], nz: true },
   // the Australian summer's lead-ins to the Australian Open: both finals on the last day (Hobart is women only)
   { title: '{Y} Brisbane International', name: 'Brisbane International', city: 'Brisbane', venue: 'Pat Rafter Arena', tz: 'Australia/Brisbane', w: [0, 15, 0], m: [0, 18, 0] },
@@ -1476,7 +1487,7 @@ export async function supercarsResults(events, cache, diag) {
   }
   let k = 0;
   for (const e of rounds) {
-    const s = store[e.id], res = s ? e.raceNos.filter(n => s.races[n]).map(n => ({ n: `Race ${n}`, src: s.races[n].src, rows: s.races[n].rows,
+    const s = store[e.id], res = s ? e.raceNos.filter(n => s.races[n]).map(n => ({ n: `Race ${n}`, src: s.races[n].src, rows: scCut(s.races[n].rows),
       link: s.races[n].src === 'w' ? s.page || e.link : `https://www.thesportsdb.com/event/${s.races[n].ev}` })) : [];
     if (res.length) { e.raceRes = res; k++; }
   }
@@ -1517,7 +1528,10 @@ function scTsdb(res, nz) {
   const secs = t => { const m = String(t).match(/^(?:(\d+):)?(\d+):(\d+(?:\.\d+)?)$/); return m ? (+m[1] || 0) * 3600 + +m[2] * 60 + +m[3] : null; };
   const gap = x => x < 60 ? x.toFixed(3) : `${Math.floor(x / 60)}:${(x % 60).toFixed(3).padStart(6, '0')}`;
   let first = null, prev = 0, lapped = false;
-  return String(res || '').split(/\r?\n/).map(l => l.split('\t').map(x => x.replace(/^[/\s]+/, '').trim()).filter(Boolean)).filter(c => /^\d+$/.test(c[0]) && c.length >= 3).map(c => {
+  // the race's rows only: some races go on (after a blank line and a rule) with the championship's top 10, numbered too
+  const lines = String(res || '').split(/\r?\n/).map(l => l.split('\t').map(x => x.replace(/^[/\s]+/, '').trim()).filter(Boolean)), rows = [];
+  for (const c of lines) { if (/^\d+$/.test(c[0]) && c.length >= 3 && !(rows.length && +c[0] <= +rows[rows.length - 1][0])) rows.push(c); else if (rows.length) break; }
+  return rows.map(c => {
     const [p, name, tm, t] = c.length >= 4 ? c : [c[0], c[1], '', c[2]], d = name.split(' ').length >= 3 ? name.replace(/(\S)-(?=[A-Z])/g, '$1 / ') : name;
     const x = secs(t);
     let shown = t;
@@ -1529,6 +1543,9 @@ function scTsdb(res, nz) {
     return { p, d, tm, t: shown, ...scNz(d.split(' / ').map(n => nz.has(n))) };
   });
 }
+// a race's rows up to any place number that goes back down (TheSportsDB's standings after the race, read before the parser
+// stopped at them)
+const scCut = rows => { const i = rows.findIndex((r, k) => k && /^\d+$/.test(r.p) && /^\d+$/.test(rows[k - 1].p) && +r.p <= +rows[k - 1].p); return i > 0 ? rows.slice(0, i) : rows; };
 // a car's Kiwis: { nz: true } when every driver is one, { nz: [1] } (which of them) when one of two is, else nothing
 const scNz = k => k.every(Boolean) ? { nz: true } : k.some(Boolean) ? { nz: k.flatMap((x, i) => x ? [i] : []) } : {};
 
@@ -1891,8 +1908,10 @@ function fromTsdb(ev, l) {
   const home = tsdbTeam(ev.strHomeTeam), away = tsdbTeam(ev.strAwayTeam);
   const cls = l.team ? { team: l.team, tags: l.tags || [] } : classify(l.classify, home, away);
   if (!cls || !ev.strTimestamp) return null;
-  const status = STATUS(ev.strStatus);
   const t = new Date(ev.strTimestamp.replace(/(\+00:00)?$/, '') + 'Z');
+  // some leagues (the Constellation Cup) never fill in the status: a game with both scores, three hours after it started, is over
+  const scored = ev.intHomeScore != null && ev.intHomeScore !== '' && ev.intAwayScore != null && ev.intAwayScore !== '';
+  const status = !ev.strStatus && scored && Date.now() - t > 3 * 36e5 ? 'final' : STATUS(ev.strStatus);
   const hasScore = ev.intHomeScore != null && ev.intHomeScore !== '' && status !== 'upcoming';
   // fill-only leagues: remember the round so the next run can ask for it directly; midnight UTC is a placeholder time
   const fill = l.fill ? { fill: true, tsdbRound: ev.intRound ?? null, tsdbSeason: ev.strSeason || null, ...(/T00:00(:00)?$/.test(ev.strTimestamp.replace(/\+00:00$/, '')) ? { timeTBC: true } : {}) } : {};
@@ -1916,9 +1935,11 @@ function fromTsdb(ev, l) {
 const FILL_LEAGUE = 3, FILL_RUN = 6;
 async function fillLeague(l, out, diag, cache, gapsFor, left) {
   const key = `fill ${l.id}`, now = Date.now();
-  let got = (cache[key]?.events || []).filter(e => now - Date.parse(e.startUTC) < 3 * DAY);
+  let got = (cache[key]?.events || []).filter(e => now - Date.parse(e.startUTC) < 8 * DAY);
   const miss = Object.fromEntries(Object.entries(cache[key]?.miss || {}).filter(([, t]) => now - t < DAY));
-  const due = g => (g.need === 'score' && g.known) || !(now - (miss[g.e.id] || 0) < 36e5);
+  // a score still missing 12 hours on (TheSportsDB was late, or a rate limit ate the run's calls) is asked for again
+  // every 6 hours for a week, so a result the site missed fills itself in
+  const due = g => g.late ? !(now - (miss[g.e.id] || 0) < 6 * 36e5) : (g.need === 'score' && g.known) || !(now - (miss[g.e.id] || 0) < 36e5);
   let open = gapsFor ? gapsFor(l, got) : [];
   const before = open.length, asking = open.filter(due);
   const need = n => open.some(g => g.need === n && due(g));
@@ -1937,7 +1958,7 @@ async function fillLeague(l, out, diag, cache, gapsFor, left) {
     if (need('score') && calls < max) {
       const k = open.find(g => g.need === 'score' && g.known?.tsdbSeason)?.known;
       if (k) await round(k.tsdbRound, k.tsdbSeason);
-      else { const [last] = await call(`eventspastleague.php?id=${l.id}`); add([last]); if (last && need('score')) await round(last.intRound, last.strSeason); }
+      else { const [last] = await call(`eventspastleague.php?id=${l.id}`); add([last]); if (last && need('score')) await round(last.intRound, last.strSeason); if (last && need('score') && +last.intRound > 1) await round(+last.intRound - 1, last.strSeason); }
     }
     if (need('time') && calls < max) {
       const [next] = await call(`eventsnextleague.php?id=${l.id}`); add([next]);
@@ -1946,7 +1967,7 @@ async function fillLeague(l, out, diag, cache, gapsFor, left) {
       if (next && need('time') && l.fill.days) await round(+next.intRound + 1, next.strSeason);
     }
   } catch (e) { err = `; error: ${e.message}`; }
-  if (calls) for (const g of open) if (asking.some(a => a.e === g.e) && !(g.need === 'score' && g.known)) miss[g.e.id] = now;
+  if (calls) for (const g of open) if (asking.some(a => a.e === g.e) && (g.late || !(g.need === 'score' && g.known))) miss[g.e.id] = now;
   out.push(...got);
   cache[key] = { t: now, events: got, miss };
   diag[`tsdb ${l.comp}`] = `fill: ${before ? `${before} cards lacking a score or time, ${open.length} still open` : 'nothing to fill'}; ${calls} calls; ${got.length} games known${err}`;
@@ -1970,9 +1991,13 @@ export async function tsdbEvents(all, diag, cache = {}, gapsFor = null) {
           const ev = (await tsdb(q)).events?.[0];
           if (!ev?.strTimestamp) continue;
           const m = (ev.strEvent || '').match(/^(UFC(?: Fight Night)? \d+)\s+(.+?)\s+vs\.?\s+(.+)$/i);
+          // midnight UTC is TheSportsDB's "no time yet": the event's date, not its start, which for a card in the Americas
+          // is the afternoon before (Friday 5pm in Las Vegas for a Saturday night). The time is TBC, Wikipedia's usual
+          // evening start takes over, and it isn't over until the day after
+          const at = new Date(ev.strTimestamp.replace(/(\+00:00)?$/, '') + 'Z'), tbc = /T00:00(:00)?$/.test(ev.strTimestamp.replace(/(\+00:00)?$/, ''));
           out.push({ id: `tsdb-${ev.idEvent}`, team: 'ufc', tags: [], sport: 'mma', comp: m ? m[1] : ev.strEvent, home: m ? m[2] : ev.strEvent, away: m ? m[3] : 'TBC',
-            startUTC: new Date(ev.strTimestamp.replace(/(\+00:00)?$/, '') + 'Z').toISOString(), timeTBC: false, venue: ev.strVenue || '', city: [ev.strCity, ev.strCountry].filter(Boolean).join(', '),
-            status: new Date(ev.strTimestamp + 'Z') < Date.now() - 8 * 36e5 ? 'final' : 'upcoming', source: `https://www.thesportsdb.com/event/${ev.idEvent}` });
+            startUTC: at.toISOString(), timeTBC: tbc, venue: ev.strVenue || '', city: [ev.strCity, ev.strCountry].filter(Boolean).join(', '),
+            status: at < Date.now() - (tbc ? 36 : 8) * 36e5 ? 'final' : 'upcoming', source: `https://www.thesportsdb.com/event/${ev.idEvent}` });
         }
         diag[`tsdb ${l.comp}`] = 'next/last event';
         cache[l.comp] = { t: Date.now(), events: out.slice(start) };
