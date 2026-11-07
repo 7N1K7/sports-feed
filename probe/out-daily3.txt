@@ -1,0 +1,7 @@
+daily3 2026-11-07T18:53:01.668Z
+league 4461 Australian Big Bash League
+league 5530 Sheffield Shield
+Australian Big Bash League: past 1, next 1
+  past 2026-01-25T08:15:00 Perth Scorchers v Sydney Sixers season=2025-2026 round=200 hasScore=true status=set
+  next 2026-12-12T09:10:00 Melbourne Renegades v Perth Scorchers season=2026-2027 round=1
+  season 2026-2027: 15 events; 7 Nov games: 
