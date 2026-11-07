@@ -1,25 +1,26 @@
-nc-july-3
-feed 2026-11-07T01:58:08.942Z v605
-wikipedia: {"2026 Nations Championship":6,"2026 Nations Championship Northern Hemisphere Series":18,"2026 Nations Championship Southern Hemisphere Series":18}
-youtube: SANZAAR TV 0 | highlights videos on 81 games
-NC events 43 {"2026-07 final":18,"2026-11 final":1,"2026-11 upcoming":24}
-  2026-07-04T07:10:00.000Z | New Zealand v France | Te Kaha, Christchurch | final | has result true | allblacks | wiki-allblacks-2026-07-04-newzealandfrance
-  2026-07-04T08:40:00.000Z | Japan v Italy | Chichibunomiya Rugby Stadium, Tokyo | final | has result true | nations | wiki-nations-2026-07-04-japanitaly
-  2026-07-04T10:10:00.000Z | Australia v Ireland | Sydney Football Stadium, Sydney | final | has result true | wallabies | wiki-wallabies-2026-07-04-australiaireland
-  2026-07-04T13:10:00.000Z | Fiji v Wales | Cardiff City Stadium, Cardiff (Wales) | final | has result true | nations | wiki-nations-2026-07-04-fijiwales
-  2026-07-04T15:40:00.000Z | South Africa v England | Ellis Park Stadium, Johannesburg | final | has result true | nations | wiki-nations-2026-07-04-southafricaengland
-  2026-07-04T19:10:00.000Z | Argentina v Scotland | Estadio Mario Alberto Kempes, Cordoba | final | has result true | nations | wiki-nations-2026-07-04-argentinascotland
-  2026-07-11T05:10:00.000Z | New Zealand v Italy | Wellington Regional Stadium, Wellington | final | has result true | allblacks | wiki-allblacks-2026-07-11-newzealanditaly
-  2026-07-11T07:40:00.000Z | Australia v France | Lang Park, Brisbane | final | has result true | wallabies | wiki-wallabies-2026-07-11-australiafrance
-  2026-07-11T10:10:00.000Z | Japan v Ireland | Newcastle International Sports Centre, Newcastle | final | has result true | nations | wiki-nations-2026-07-11-japanireland
-  2026-07-11T13:10:00.000Z | Fiji v England | Hill Dickinson Stadium, Liverpool (England) | final | has result true | nations | wiki-nations-2026-07-11-fijiengland
-  2026-07-11T15:40:00.000Z | South Africa v Scotland | Loftus Versfeld Stadium, Pretoria | final | has result true | nations | wiki-nations-2026-07-11-southafricascotland
-  2026-07-11T19:10:00.000Z | Argentina v Wales | Estadio San Juan del Bicentenario, San Juan | final | has result true | nations | wiki-nations-2026-07-11-argentinawales
-  2026-07-18T07:10:00.000Z | New Zealand v Ireland | Eden Park, Auckland | final | has result true | allblacks | wiki-allblacks-2026-07-18-newzealandireland
-  2026-07-18T08:40:00.000Z | Japan v France | Japan National Stadium, Tokyo | final | has result true | nations | wiki-nations-2026-07-18-japanfrance
-  2026-07-18T10:10:00.000Z | Australia v Italy | Perth Rectangular Stadium, Perth | final | has result true | wallabies | wiki-wallabies-2026-07-18-australiaitaly
-  2026-07-18T13:10:00.000Z | Fiji v Scotland | Murrayfield Stadium, Edinburgh (Scotland) | final | has result true | nations | wiki-nations-2026-07-18-fijiscotland
-  2026-07-18T15:40:00.000Z | South Africa v Wales | Kings Park Stadium, Durban | final | has result true | nations | wiki-nations-2026-07-18-southafricawales
-  2026-07-18T19:10:00.000Z | Argentina v England | Estadio Único Madre de Ciudades, Santiago del Estero | final | has result true | nations | wiki-nations-2026-07-18-argentinaengland
-duplicate ids 0; finals ids 2026-07-04-southafricaengland, 2026-07-11-southafricascotland, 2026-07-18-southafricawales, 2026-11-27-northernsouthern-6, 2026-11-27-northernsouthern-3, 2026-11-28-northernsouthern-5, 2026-11-28-northernsouthern-2, 2026-11-29-northernsouthern-4, 2026-11-29-northernsouthern-1
-SANZAAR highlights on: 2026-09-12 South Africa v New Zealand; 2026-09-27 Australia v South Africa
+live605
+feed 2026-11-07T02:03:07.495Z v605
+tsdb NBL: "fill: 83 cards lacking a score or time, 83 still open; 0 calls; 23 games known" | tsdbFilled: Adelaide 36ers v Illawarra Hawks (wiki-nbl-2026-11-07-adelaideersillawarrahawks): start time 2026-11-07T05:00:00.000Z to 2026-11-07T06:30:00.000Z,Melbourne United v Brisbane Bullets (wiki-nbl-2026-11-07-melbourneunitedbrisbanebullets): start time 2026-11-07T05:30:00.000Z to 2026-11-07T08:30:00.000Z,Sydney Kings v S.E. Melbourne Phoenix (wiki-nbl-2026-11-08-sydneykingssemelbournephoenix): start tim
+  NBL 2026-11-07T06:30:00.000Z | Sat 7:30 pm NZ | Adelaide 36ers v Illawarra Hawks | upcoming | tv ["ESPN"]
+  NBL 2026-11-07T08:30:00.000Z | Sat 9:30 pm NZ | Melbourne United v Brisbane Bullets | upcoming | tv ["ESPN"]
+  NBL 2026-11-08T04:00:00.000Z | Sun 5:00 pm NZ | Sydney Kings v S.E. Melbourne Phoenix | upcoming | tv []
+  NBL 2026-11-08T06:00:00.000Z | Sun 7:00 pm NZ | Perth Wildcats v Cairns Taipans | upcoming | tv ["ESPN"]
+  NBL 2026-11-11T08:30:00.000Z | Wed 9:30 pm NZ | S.E. Melbourne Phoenix v Illawarra Hawks | upcoming | tv []
+  NBL 2026-11-12T08:30:00.000Z | Thu 9:30 pm NZ | Adelaide 36ers v Melbourne United | upcoming | tv ["ESPN"]
+  NBL 2026-11-12T10:30:00.000Z | Thu 11:30 pm NZ | Perth Wildcats v Tasmania JackJumpers | upcoming | tv ["ESPN"]
+  NBL 2026-11-13T06:30:00.000Z | Fri 7:30 pm NZ | New Zealand Breakers v Brisbane Bullets | upcoming | tv ["ESPN"]
+  NBL 2026-11-13T08:30:00.000Z | Fri 9:30 pm NZ | Cairns Taipans v Sydney Kings | upcoming | tv ["ESPN"]
+  NBL 2026-11-14T08:30:00.000Z | Sat 9:30 pm NZ | Melbourne United v S.E. Melbourne Phoenix | upcoming | tv []
+  NBL 2026-11-14T10:30:00.000Z | Sat 11:30 pm NZ | Perth Wildcats v Illawarra Hawks | upcoming | tv ["ESPN"]
+  NBL 2026-11-15T04:00:00.000Z | Sun 5:00 pm NZ | Sydney Kings v New Zealand Breakers | upcoming | tv ["ESPN"]
+  NBL 2026-11-15T06:00:00.000Z | Sun 7:00 pm NZ | Brisbane Bullets v Tasmania JackJumpers | upcoming | tv ["ESPN"]
+ODI 2026-11-07T02:00:00Z status=upcoming progress=null rainInProgress=false wxNews=none keys=sport,timeTBC,status,id,team,comp,format,home,away,startUTC,venue,city,tz,broadcast,watchAlt,watchNote,source,tags,link,squads,cricinfo,watchAU,tv
+rainHeadlines: 0 rain headlines this week | on our matches: none
+Kiwis v Tonga: 2026-11-07T09:05:00Z New Zealand v Tonga | broadcast=Sky Sport / Sky Sport Now | watchAlt=Free on Three / ThreeNow | tv=[{"ch":"Sky Sport 2","at":"2026-11-07T08:35:00.000Z","delayed":false}]
+Auckland FC v Phoenix: 2026-11-07T04:00:00.000Z Auckland FC v Wellington Phoenix | broadcast=Sky Sport / Sky Sport Now | watchAlt=Some games free on Sky Open | tv=[{"ch":"Sky Sport 2","at":"2026-11-07T03:00:00.000Z","delayed":false}]
+Auckland FC v Phoenix: 2026-11-08T04:00:00.000Z Sydney Kings v S.E. Melbourne Phoenix | broadcast=ESPN on Sky / Sky Sport Now / Disney+ (ESPN) | watchAlt= | tv=[]
+Auckland FC v Phoenix: 2026-11-08T02:00:00.000Z Phoenix Suns v Houston Rockets | broadcast=ESPN on Sky / Sky Sport Now / Disney+ (ESPN) / NBA League Pass | watchAlt= | tv=[]
+NBL watch: ESPN on Sky / Sky Sport Now / Disney+ (ESPN)
+Nations Championship events 43, July 18
+browser 1280: version vundefined | i {"border":"0px","shadow":"color(srgb 0.673529 0.888824 0.809412) 0px 0px 0px 1.5px ins","x":279.25,"y":204.375,"w":28} | pop {"shown":true,"w":276,"def":"Off by default: NBA – too many games","defTag":true,"defH":18,"off":"","r":[155,240,276,129.828125]} | NBA tag tap {"popHidden":true,"panel":true,"flash":"Basketball"} | NBA on Basketball {"rows":68,"faded":false} | errors none
+browser 412: version vundefined | i {"border":"0px","shadow":"color(srgb 0.673529 0.888824 0.809412) 0px 0px 0px 1.5px ins","x":329.578125,"y":356.65625,"w":24} | pop {"shown":true,"w":276,"def":"Off by default: NBA – too many games","defTag":true,"defH":18,"off":"","r":[128,389,276,129.828125]} | NBA tag tap {"popHidden":true,"panel":true,"flash":"Basketball"} | NBA on Basketball {"rows":68,"faded":false} | errors none
