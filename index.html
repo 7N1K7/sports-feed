@@ -1738,6 +1738,8 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 .ev.lrow a.lend { align-self: stretch; margin: 0 -6px 0 -4px; padding-left: 4px; padding-right: 11px; text-decoration: none; color: inherit; border-radius: 0 8px 8px 0 }
 .ev.lrow a.lend:hover .ltv { opacity: 1; background: var(--soft) } .ev.lrow a.lend:hover .lfree { filter: brightness(1.15) }
 .ev.lrow .lnow { font: 800 10px/1 var(--f-body); letter-spacing: .06em; color: #fff; background: var(--live, #e03131); border-radius: 4px; padding: 3px 5px 2px }
+.ev.lrow .lnow.lrain { background: #1c7ed6; display: inline-flex; align-items: center; gap: 1px } .ev.lrow .lnow.lrain i { font-style: normal; font-size: .9em; line-height: 1; letter-spacing: 0 }
+@media (max-width: 520px) { .ev.lrow .lnow.lrain { padding-inline: 3px; letter-spacing: .02em } .ev.lrow .lnow.lrain i { font-size: .8em } }
 /* a live row keeps its way to watch: ON above the 📺 or FREE, in the same narrow end so nothing beside it moves */
 .ev.lrow .lend.lstack { flex-direction: column; justify-content: center; align-items: flex-end; gap: 2px }
 .ev.lrow .lstack .lnow { font-size: 9px; padding: 2px 4px 1px } .ev.lrow .lstack .ltv { height: 18px } .ev.lrow .lstack .lfree { font-size: 8px; padding: 2px 3px 1px }
@@ -2545,6 +2547,8 @@ function seriesHead(e, now) {
 function listRow(e, now, isRes) {
   const d = isRes ? new Date(e.startUTC) : nextAt(e, now), hidden = isRes && isHidden(e, now);
   const live = !isRes && (e.status === 'live' || onNow(e, now));
+  // rain about (as the cards' stamp and the series button's blue dot): the ON turns blue with a small cloud in it
+  const rain = live && e.sport === 'cricket' && !!rainNow(e, now);
   const free = isRes ? '' : freeTo(e), paid = !isRes && !free && (e.broadcast && e.broadcast !== 'TBC' || (e.tv || []).length);
   // the FREE or 📺 at the row's end opens where it plays, as a card's channel does: the whole end of the row (ON too, on
   // a live one) is that link, so a tap near it never opens the game instead
@@ -2561,7 +2565,7 @@ function listRow(e, now, isRes) {
   const end = isRes ? (hidden ? `<button class="lcover" type="button" data-reveal="${esc(e.id)}">Show</button>`
     : canRehide(e.id, spoilAt(e), now) ? `<button class="lscore num" type="button" data-rehide="${esc(e.id)}" title="${esc(e.score || '')} · tap to hide again" aria-label="Hide this result again">${lscoreHtml(e)}</button>`
     : `<span class="lscore num" title="${esc(e.score || '')}">${lscoreHtml(e)}</span>`)
-    : (live ? '<span class="lnow">ON</span>' : '') + mark;
+    : (live ? (rain ? '<span class="lnow lrain" title="Live, rain affected"><i aria-hidden="true">🌧</i>ON</span>' : '<span class="lnow">ON</span>') : '') + mark;
   return `<article class="ev lrow${isRes ? ' lres' : ''} sport-${e.sport} ${gcls(e)}${live ? ' is-live' : ''}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div><span class="lleft">${soonCd ? `<span class="ltime num lcd" data-cd="${esc(e.startUTC)}" title="Starts ${esc(t)}">${esc(soonCd)}</span>` : `<span class="ltime num">${esc(t).replace(/^≈/, '<span class="lappx">≈</span>')}</span>`}${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span></span>${who}<${go ? 'a' : 'span'} class="lend${live && mark ? ' lstack' : ''}"${go}>${end}</${go ? 'a' : 'span'}></article>`;
 }
