@@ -1,34 +1,83 @@
-one2 2026-11-07T03:41:27.161Z
-# search_all_leagues.php?c=Singapore: 1: 4795 Singapore Premier League (Soccer)
-# search_all_leagues.php?c=Thailand: 3: 4743 Thai Premier League (Soccer); 4744 Thai League 2 (Soccer); 4775 All Thailand Golf Tour (Golf)
-# search_all_leagues.php?c=Singapore&s=Fighting: 0: 
-# search_all_leagues.php?c=Thailand&s=Fighting: 0: 
-# search_all_leagues.php?c=Japan&s=Fighting: 5: 4876 AJKF (Fighting); 4594 AJPW (Fighting); 4705 AJW (Fighting); 4608 Battlarts (Fighting); 4609 BJW (Fighting)
-# search_all_leagues.php?c=Worldwide&s=Fighting: 5: 5590 _Defunct Fighting Teams (Fighting); 4840 _No League Fighting (Fighting); 4467 Bellator (Fighting); 4445 Boxing (Fighting); 5360 Commonwealth Games Boxing (Fighting)
-# search_all_leagues.php?c=United%20States&s=Fighting: 5: 4978 AAW Pro (Fighting); 4563 AEW (Fighting); 4799 Affliction (Fighting); 4987 AIW Wrestling (Fighting); 5061 Bar Wrestling (Fighting)
-# searchevents ONE Fight Night 49: 1
-  2458020 | 4495 | ONE | ONE Fight Night 49 | 2026-11-07 | 02:00:00 | 2026-11-07T02:00:00 | Lumpinee Boxing Stadium | Bangkok | Thailand |  |  | 
-# searchevents ONE Fight Night 50: 0
-# searchevents ONE Samurai 5: 1
-  2612859 | 4495 | ONE | ONE Samurai 5 | 2026-11-18 | 08:30:00 | 2026-11-18T08:30:00 | Ota City General Gymnasium | Tokyo | Japan | NS |  | 
-searchevents ONE Friday Fights 179: 429
-searchevents ONE Fight Night: 429
-searchevents ONE Championship: 429
-searchevents ONE_Fight_Night_48: 429
-lookup 429
-eventsnextleague.php?id=4495 429
-eventspastleague.php?id=4495 429
-eventsseason.php?id=4495&s=2026 429
-# yt @ONEChampionship: UCiormkBf3jm6mfb7k0yPbKA ONE Championship country=US
-uploads 50, streams 3, shut to NZ 2
-  live | ONE Fight Night 49 | sched 2026-11-07T02:00:00Z | actual 2026-11-07T01:45:04Z | NZ shut | 🔴 [Live in HD] ONE Fight Night 49: Gabriel vs. Magomedov
-  none | ONE Friday Fights 177 | sched 2026-11-06T13:30:00Z | actual 2026-11-06T13:19:35Z | NZ shut | 
-  none | (other) | sched 2026-11-05T11:00:00Z | actual 2026-11-05T11:00:07Z | NZ open | 
-# yt @ONEChampionshipJapan: none
-# yt @ONELumpinee: UCp9baqNarUv-uhEna4TkrCQ Señorita country=undefined
-uploads 5, streams 0, shut to NZ 0
-# https://i.mjh.nz/SkySportNow/epg.xml: 942470 chars, channels: Sky Sport 1, Sky Sport 5, Sky Sport 4, ESPN, ESPN 2, Sky Sport Select, Sky Sport 3, Sky Sport Premier League, Sky Sport 9, Sky Sport 7, Sky Sport 2, Sky Sport 6, Sky Sport 1 UHD
-  ESPN | 20261106133000 +0000 - 20261106163000 +0000 | Live: ONE Championship Mixed |  | live:true | cats Fight Sport
-  1 ONE listings
-# https://i.mjh.nz/nz/epg.xml: 13845170 chars, channels: ThreeNow Sport 1, ThreeNow Sport 2, HGTV, CNN Headlines International, MovieSphere, Below Deck Vault, MythBusters, Warner Bros TV True Crime, Warner Bros TV Paranormal, Warner Bros TV Motorheads, Warner Bros TV Deadliest Catch, Warner Bros TV House Hunters, JuiceTV, J2, Big Rig, Melo, The Groat, TVNZ 1, TVNZ 2, Three, Bravo, Whakaata Māori, DUKE, TVNZ 2 plus 1, Sky Open, RUSH, Te Reo, TVNZ 1 plus 
-  0 ONE listings
+one3 2026-11-07T03:42:55.335Z
+league 4495: ONE | alt ONE Fighting Championship | Fighting | season 2026 | badge https://r2.thesportsdb.com/images/media/league/badge/lk795c1545411843.png | logo https://r2.thesportsdb.com/images/media/league/logo/fw81iq1545508019.png | poster https://r2.thesportsdb.com/images/media/league/poster/ic1ihq1709145795.jpg | banner https://r2.thesportsdb.com/images/media/league/banner/oxjgb91545508112.jpg | trophy https://r2.thesportsdb.com/images/media/league/trophy/hlqeuw1707478889.png | col undefined/undefined/undefined | web www.onefc.com
+badge small: 200
+logo small: 200
+# eventsnextleague.php?id=4495: 1
+  2612859 | ONE Samurai 5 | 2026-11-18 08:30:00 | ts 2026-11-18T08:30:00 | local 2026-11-18 17:30:00 | Ota City General Gymnasium | Tokyo | NS | 
+# eventspastleague.php?id=4495: 1
+  2458020 | ONE Fight Night 49 | 2026-11-07 02:00:00 | ts 2026-11-07T02:00:00 | local 2026-11-07 09:00:00 | Lumpinee Boxing Stadium | Bangkok |  | 
+# eventsseason.php?id=4495&s=2026: 15
+  2407997 | ONE Friday Fights 138 Pompet vs Decho | 2026-01-16 12:30:00 | ts 2026-01-16T12:30:00 | local 2026-01-16 19:30:00 | Lumpinee Boxing Stadium | undefined | FT | PT
+  2422312 | ONE Friday Fights 139 Worapon vs Soe Lin Oo | 2026-01-23 12:30:00 | ts 2026-01-23T12:30:00 | local 2026-01-23 19:30:00 | Lumpinee Boxing Stadium | undefined | NS | T
+  2391929 | ONE Fight Night 39 Rambolek vs Dayakaev  | 2026-01-24 02:00:00 | ts 2026-01-24T02:00:00 | local 2026-01-24 09:00:00 | Lumpinee Boxing Stadium | undefined | FT | 
+  2425540 | ONE Friday Fights 140 Kongchai vs Thway Lin Htet | 2026-01-30 12:30:00 | ts 2026-01-30T12:30:00 | local 2026-01-30 19:30:00 | Lumpinee Boxing Stadium | undefined | FT | T
+  2428603 | ONE Friday Fights 141 Komawut vs Samingdam | 2026-02-06 12:30:00 | ts 2026-02-06T12:30:00 | local 2026-02-06 19:30:00 | Lumpinee Boxing Stadium | undefined | FT | T
+  2612225 | ONE The Inner Circle 1 | 2026-02-06 11:30:00 | ts 2026-02-06T11:30:00 | local 2026-02-06 18:30:00 | Lumpinee Boxing Stadium | undefined |  | 
+  2428604 | ONE Friday Fights 142 Apiwat vs Panpadej | 2026-02-13 12:30:00 | ts 2026-02-13T12:30:00 | local 2026-02-13 19:30:00 | Lumpinee Boxing Stadium | undefined | NS | T
+  2612226 | ONE The Inner Circle 2 | 2026-02-13 11:30:00 | ts 2026-02-13T11:30:00 | local 2026-02-13 18:30:00 | Lumpinee Boxing Stadium | undefined |  | 
+  2407998 | ONE Fight Night 40 Buntan vs Hemetsberger 2 | 2026-02-14 02:00:00 | ts 2026-02-14T02:00:00 | local 2026-02-13 09:00:00 | Lumpinee Boxing Stadium | undefined | NS | PT
+  2435791 | ONE Friday Fights 143 Vero vs Cohen | 2026-02-20 12:30:00 | ts 2026-02-20T12:30:00 | local 2026-02-20 19:30:00 | Lumpinee Boxing Stadium | undefined | FT | T
+  2612227 | ONE The Inner Circle 3 | 2026-02-20 11:30:00 | ts 2026-02-20T11:30:00 | local 2026-02-20 18:30:00 | Lumpinee Boxing Stadium | undefined |  | 
+  2439560 | ONE Friday Fights 144 Chatpichit vs Tubtimthong | 2026-02-27 12:30:00 | ts 2026-02-27T12:30:00 | local 2026-02-27 19:30:00 | Lumpinee Boxing Stadium | undefined | NS | T
+  2612228 | ONE The Inner Circle 4 | 2026-02-27 11:30:00 | ts 2026-02-27T11:30:00 | local 2026-02-27 18:30:00 | Lumpinee Boxing Stadium | undefined |  | 
+  2444431 | ONE Friday Fights 145 Worapon vs Brossier | 2026-03-06 12:30:00 | ts 2026-03-06T12:30:00 | local 2026-03-06 19:30:00 | Lumpinee Boxing Stadium | undefined | NS | T
+  2612229 | ONE The Inner Circle 5 | 2026-03-06 11:30:00 | ts 2026-03-06T11:30:00 | local 2026-03-06 18:30:00 | Lumpinee Boxing Stadium | undefined |  | 
+# eventsseason.php?id=4495&s=2027: 0
+  ESPN 2 | 20261106090000 +0000 | NBC NFL | 
+  ESPN 2 | 20261106113000 +0000 | E:60 | 
+  ESPN 2 | 20261106123000 +0000 | Ball or Nothin' | 
+  ESPN 2 | 20261106130000 +0000 | Live: Get Up | 
+  ESPN 2 | 20261106150000 +0000 | Live: First Take | 
+  ESPN 2 | 20261106170000 +0000 | NBA Mini | 
+  ESPN 2 | 20261106173000 +0000 | NFL Blitz | 
+  ESPN 2 | 20261106180000 +0000 | Get Up | 
+  ESPN 2 | 20261106200000 +0000 | First Take | 
+  ESPN 2 | 20261106220000 +0000 | NBA Action | 
+  ESPN 2 | 20261106223000 +0000 | Live: Pardon The Interruption | 
+  ESPN 2 | 20261106230000 +0000 | Live: SportsCenter | 
+  ESPN 2 | 20261107000000 +0000 | Live: NCAA | 
+  ESPN 2 | 20261107031500 +0000 | Live: NCAA | 
+  ESPN 2 | 20261107061500 +0000 | Live: SportsCenter | 
+  ESPN 2 | 20261107071500 +0000 | ESPN FC Daily | 
+  ESPN 2 | 20261107073000 +0000 | ESPN FC Daily | 
+  ESPN 2 | 20261107080000 +0000 | Live: WNBL | 
+  ESPN 2 | 20261107100000 +0000 | NCAA | 
+  ESPN 2 | 20261107120000 +0000 | NCAA | 
+  ESPN 2 | 20261107140000 +0000 | Live: NCAAF College GameDay | 
+  ESPN 2 | 20261107170000 +0000 | Live: NCAA Football | 
+  ESPN 2 | 20261107200000 +0000 | Live: College Football Scoreboard | 
+  ESPN 2 | 20261107203000 +0000 | Live: College Football | 
+  ESPN 2 | 20261107204000 +0000 | Live: NCAA Football | 
+  ESPN 2 | 20261107233000 +0000 | Live: College Football Scoreboard | 
+  ESPN | 20261106083000 +0000 | Live: National Basketball League | 
+  ESPN | 20261106103000 +0000 | NBA Basketball | 
+  ESPN | 20261106123000 +0000 | NFL Mini | 
+  ESPN | 20261106130000 +0000 | NBA Mini | 
+  ESPN | 20261106133000 +0000 | Live: ONE Championship Mixed | 
+  ESPN | 20261106163000 +0000 | NFL Blitz | 
+  ESPN | 20261106170000 +0000 | Live: The Pat McAfee Show | 
+  ESPN | 20261106190000 +0000 | Live: College Football | 
+  ESPN | 20261106200000 +0000 | Live: NBA Today | 
+  ESPN | 20261106210000 +0000 | Live: NFL Live | 
+  ESPN | 20261106220000 +0000 | The Pat McAfee Show | 
+  ESPN | 20261107000000 +0000 | SportsCenter | 
+  ESPN | 20261107003000 +0000 | College Football Live | 
+  ESPN | 20261107010000 +0000 | Pardon The Interruption | 
+  ESPN | 20261107013000 +0000 | Ball or Nothin' | 
+  ESPN | 20261107020000 +0000 | Live: MMA One Fight Night | 
+  ESPN | 20261107060000 +0000 | Ball or Nothin' | 
+  ESPN | 20261107063000 +0000 | Live: National Basketball League | 
+  ESPN | 20261107083000 +0000 | Live: National Basketball League | 
+  ESPN | 20261107103000 +0000 | NCAA | 
+  ESPN | 20261107123000 +0000 | MMA One Fight Night | 
+  ESPN | 20261107163000 +0000 | SportsCenter | 
+  ESPN | 20261107170000 +0000 | Live: NCAA | 
+  ESPN | 20261107200000 +0000 | In Depth with Graham Bensinger | 
+  ESPN | 20261107203000 +0000 | SportsCenter | 
+  ESPN | 20261107210000 +0000 | NBC NFL | 
+  ESPN | 20261107213000 +0000 | Ball or Nothin' | 
+  ESPN | 20261107220000 +0000 | Live: NBA Basketball | 
+# listings naming ONE:
+  ONE? ESPN | 20261106133000 +0000 - 20261106163000 +0000 | Live: ONE Championship Mixed | 
+  ONE? ESPN | 20261107020000 +0000 - 20261107060000 +0000 | Live: MMA One Fight Night | 
+  ONE? ESPN | 20261107123000 +0000 - 20261107163000 +0000 | MMA One Fight Night | 
