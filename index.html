@@ -2419,7 +2419,9 @@ const minorOf = x => x.minor || /wheelchair/i.test(x.comp || '');
 const sportPageOnly = x => /Second XI/.test(x.comp || '');
 // a sport whose leagues are off in Settings can show them on its own page anyway: Show here, by the off note on This
 // week's line. They stay out of the main list of every sport (a competition's own page shows its games whatever Settings say)
-let showHere = new Set(store.get('showHere', []));
+// what an off competition's eye shows in its sport's own list: the NBA's starts on (off in Settings, so out of the main
+// list, but its games show with Basketball picked) until its eye is tapped
+let showHere = new Set(store.get('showHere', [...OPT_IN]));
 const shownHere = x => { const sp = x.sport || sportOf(x.team); return !compSel && sportSel.has(sp) && (showHere.has(sp) || showHere.has(x.team)); };
 const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now() ? false : x.startUTC ? (compSel ? compOf(x) === compSel : (!minorOf(x) || (x.session && (sessOn.has(x.team) || sportSel.has(x.sport)))) && (!sportPageOnly(x) || sportSel.has(x.sport)) && (visibleTeam(x) || shownHere(x)) && sportOn(x.sport || sportOf(x.team)))
   : visibleTeam(x) && sportOn(sportOf(x.team));
