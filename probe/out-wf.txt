@@ -1,0 +1,5 @@
+wfinal1 2026-11-07T02:12:55.137Z
+2026_Women's_Rugby_League_World_Cup: 55976 chars 
+  section Semi-finals: |date=7 November 2026 ; |time=17:55 [[AEDT]] ([[UTC+11:00]]) ; |date=8 November 2026 ; |time=17:55 [[AEDT]] ([[UTC+11:00]]) ; |date=15 November 2026|time=15:15 [[AEST]] ([[UTC+10:00]])
+2026_Men's_Rugby_League_World_Cup: 32607 chars 
+  section Semi-finals: |date=7 November 2026|time=20:05 [[AEDT]] ([[UTC+11:00]])|team1={{rl-rt|NZL}}|points1=|try1=|goal1=|drop1=|field1=|sinbi ; |date=8 November 2026|time=20:05 [[AEDT]] ([[UTC+11:00]])|team1={{rl-rt|AUS}}|points1=|try1=|goal1=|drop1=|field1=|sinbi ; |date=15 November 2026|time=18:35 [[AEST]] ([[UTC+10:00]])|team1=First semi-final winner|points1=|try1=|goal1=|drop1=|fi
