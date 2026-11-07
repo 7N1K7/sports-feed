@@ -1,5 +1,3 @@
-wx2 2026-11-07T03:00:02.195Z
-feed 2026-11-07T02:55:29.793Z v609
-bc-ind-odi2-2026 2nd ODI v India | status upcoming | weather "The match was reduced to 47 overs per side due to rain." | progress null | source https://www.hnrystadium.co.nz/event/blackcaps-v-india---odi | keys sport,timeTBC,status,id,team,comp,format,home,away,startUTC,venue,city,tz,broadcast,watchAlt,watchNote,source,tags,link,squads,cricinfo,weather,watchAU,tv
-wiki diag for the tour: {"Indian cricket team in New Zealand in 2026–27":15,"Sri Lankan cricket team in New Zealand in 2026–27":8,"Zimbabwe women's cricket team in New Zealand in 2025–26":6,"South African cricket team in New Zealand in 2025–26":5,"Australian cricket team in New Zealand in 2025–26":3,"English cricket team in New Zealand in 2025–26":6,"South Africa women's cricket team in New Zealand in 2025–26":8,"West Indian cricket team in New Zealand in 2025–26":12,"New Zealand cricket team in India in 2025–26":8,"Australian cricket team in India in 2026–27":5,"Indian cricket team in Australia in 2025–26":8,"Zimbab
-diag keys with wiki/cache: wikipedia, wikiLogos
+two611 2026-11-07T03:27:12.501Z
+1197: {"bar":[364.8125,91.6875,455.359375,66.390625],"live":true,"dot":"0.608648","ov":"visible"}
+412: {"bar":[81,122.890625,238,101.390625],"live":true,"dot":"0.998996","ov":"visible"}
