@@ -165,7 +165,7 @@ button, input { font: inherit; color: inherit }
 /* the chart looks, as swatches: three colours and a name */
 .looks { display: grid; grid-template-columns: repeat(6, max-content); gap: 6px }
 .lk { display: inline-flex; align-items: center; gap: 7px; font: 600 13px var(--f-body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px 4px 8px; cursor: pointer }
-.lk .d { display: inline-flex; gap: 2px } .lk .d i { width: 9px; height: 14px; border-radius: 3px }
+.lk .d { display: inline-flex; gap: 2px; flex: none } .lk .d i { width: 9px; height: 14px; border-radius: 3px }
 .lk[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
 .lk[data-look="neon"] .d i, .lk[data-look="rata"] .d i { box-shadow: 0 0 6px -1px currentColor }
 @media (max-width: 760px) { .looks { grid-template-columns: repeat(3, minmax(0, 1fr)) } }
@@ -306,7 +306,7 @@ th { color: var(--muted); font-weight: 600 }
 .swatches { display: grid; grid-template-columns: repeat(5, max-content); gap: 6px }
 @media (max-width: 760px) { .swatches { grid-template-columns: repeat(3, minmax(0, 1fr)) } .swatches .swatch { font-size: 12px } } /* fifteen themes: five rows of three */
 .sw { display: inline-flex; align-items: center; gap: 6px; font: 600 13px var(--f-body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px 4px 6px; cursor: pointer }
-.sw i { width: 14px; height: 14px; border-radius: 50%; background: var(--c) }
+.sw i { width: 14px; height: 14px; border-radius: 50%; background: var(--c); flex: none }
 .sw[data-theme-k="black"] i { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 35%, transparent) } /* All Black's dot shows on the dark page */
 .sw[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
 
