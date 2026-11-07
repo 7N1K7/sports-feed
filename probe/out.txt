@@ -1,5 +1,5 @@
-stt 2026-11-07T08:20:47.819Z
-1280: menu bottom 510 clipped=[] errors=none
-800: menu bottom 510 clipped=[] errors=none
-412: menu bottom 572 clipped=[] errors=none
-360: menu bottom 621 clipped=[] errors=none
+stl2 2026-11-07T08:38:38.782Z
+1280 v624: open=true rows themes 3/3/3/3/3 looks 3/3 clipped=0 sideScroll=false barStill=true picked(open,theme,chart,card theme,card look)=true,ocean,bush,ocean,bush escCloses=true errors=none
+800 v624: open=true rows themes 3/3/3/3/3 looks 3/3 clipped=0 sideScroll=false barStill=true picked(open,theme,chart,card theme,card look)=true,ocean,bush,ocean,bush escCloses=true errors=none
+412 v624: open=true rows themes 3/3/3/3/3 looks 3/3 clipped=0 sideScroll=false barStill=true picked(open,theme,chart,card theme,card look)=true,ocean,bush,ocean,bush escCloses=true errors=none
+360 v624: open=true rows themes 3/3/3/3/3 looks 3/3 clipped=0 sideScroll=false barStill=true picked(open,theme,chart,card theme,card look)=true,ocean,bush,ocean,bush escCloses=true errors=none
