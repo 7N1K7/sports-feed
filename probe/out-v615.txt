@@ -1,0 +1,6 @@
+v615 2026-11-07T04:44:35.324Z
+1280 bc-ind-odi2- facts gaps [144,144] link breaks 0 
+1280 wiki-onefc-o facts gaps [168,168] link breaks 0 
+412 bc-ind-odi2- facts gaps [28,28] link breaks 2 
+412 wiki-onefc-o facts gaps [28,28] link breaks 1 
+MMA line: ONE Championship, UFC | ONE cards listed: 8
