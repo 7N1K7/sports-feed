@@ -1,23 +1,18 @@
-nc4 2026-11-07T14:48:41.651Z
-feed built 2026-11-07T14:43:35.038Z
-feed: heartland-sam-2026-1 | 2026-11-01 | New Zealand Heartland XV v Samoa | comp=New Zealand Heartland XV v Samoa | src=https://www.youtube.com/watch?v=TGYqxxx4K8g | team=npc | tags=
-feed: heartland-sam-2026-2 | 2026-11-06 | New Zealand Heartland XV v Samoa | comp=New Zealand Heartland XV v Samoa | src=https://www.youtube.com/channel/UCK442Bjxkx0skmxEDi2BtSg | team=npc | tags=
-feed: wiki-wallabies-2026-10-24-unitedstatesxvaustraliaa | 2026-10-24 | United States XV v Australia A | comp=Test match | src=https://en.wikipedia.org/wiki/2026_men's_rugby_union_internationals | team=wallabies | tags=wallabies
-feed: wiki-wallabies-2026-10-31-unitedstatesxvaustraliaa | 2026-10-31 | United States XV v Australia A | comp=Test match | src=https://en.wikipedia.org/wiki/2026_men's_rugby_union_internationals | team=wallabies | tags=wallabies
-feed: wiki-wxv-2026-09-26-francewomencanadawomen | 2026-09-26 | France Women v Canada Women | comp=WXV Global Series | src=https://en.wikipedia.org/wiki/2026_WXV_Global_Series | team=wxv | tags=wxv
-feed: wiki-wxv-2026-09-19-englandwomencanadawomen | 2026-09-19 | England Women v Canada Women | comp=WXV Global Series | src=https://en.wikipedia.org/wiki/2026_WXV_Global_Series | team=wxv | tags=wxv
-feed: wiki-wxv-2026-09-12-scotlandwomencanadawomen | 2026-09-12 | Scotland Women v Canada Women | comp=WXV Global Series | src=https://en.wikipedia.org/wiki/2026_WXV_Global_Series | team=wxv | tags=wxv
-feed: wiki-wxv-2026-09-26-waleswomenusawomen | 2026-09-26 | Wales Women v USA Women | comp=WXV Global Series | src=https://en.wikipedia.org/wiki/2026_WXV_Global_Series | team=wxv | tags=wxv
-feed: wiki-wxv-2026-09-20-irelandwomenusawomen | 2026-09-20 | Ireland Women v USA Women | comp=WXV Global Series | src=https://en.wikipedia.org/wiki/2026_WXV_Global_Series | team=wxv | tags=wxv
-feed: wiki-wxv-2026-10-04-spainwomensouthafricawomen | 2026-10-04 | Spain Women v South Africa Women | comp=WXV Global Series | src=https://en.wikipedia.org/wiki/2026_WXV_Global_Series | team=wxv | tags=wxv
-feed: wiki-wxv-2026-10-16-canadawomenenglandwomen | 2026-10-16 | Canada Women v England Women | comp=WXV Global Series | src=https://en.wikipedia.org/wiki/2026_WXV_Global_Series | team=wxv | tags=wxv
-feed: wiki-wxv-2026-10-23-canadawomenenglandwomen | 2026-10-23 | Canada Women v England Women | comp=WXV Global Series | src=https://en.wikipedia.org/wiki/2026_WXV_Global_Series | team=wxv | tags=wxv
-feed: wiki-wxv-2026-10-30-usawomenenglandwomen | 2026-10-30 | USA Women v England Women | comp=WXV Global Series | src=https://en.wikipedia.org/wiki/2026_WXV_Global_Series | team=wxv | tags=wxv
-feed: wiki-wxv-2026-10-17-usawomenitalywomen | 2026-10-17 | USA Women v Italy Women | comp=WXV Global Series | src=https://en.wikipedia.org/wiki/2026_WXV_Global_Series | team=wxv | tags=wxv
-feed: wiki-wxv-2026-10-24-usawomenitalywomen | 2026-10-24 | USA Women v Italy Women | comp=WXV Global Series | src=https://en.wikipedia.org/wiki/2026_WXV_Global_Series | team=wxv | tags=wxv
-strings with those names: Zimbabwe women's cricket team in New Zealand in 2025–26 || Australian cricket team in Zimbabwe in 2026 || Zimbabwean cricket team in India in 2026–27 || Indian cricket team in Zimbabwe in 2026 || Bangladeshi cricket team in Zimbabwe in 2026 || inal-1: New Zealand v Tonga; rlwc-m-semi-final-2: Australia v Samoa; rlwc-m-final: New Zealand v Second semi-final winner; rlwc || -w-semi-final-1: New Zealand Women v Samoa Women; rlwc-w-semi-final-2: Australia Women v Fiji Women || ); New Zealand A v India A (none); New Zealand Heartland XV v Samoa (none); New Zealand Heartland XV v Samoa (none); highlights || nia*, Western Australia, New South Wales*, South Australia, Zimbabwe, South Africa Invitation XI, Afghanistan, United Arab Emira || New Zealand Heartland XV v Samoa || India v Zimbabwe || Zimbabwe || https://en.wikipedia.org/wiki/Zimbabwean_cricket_team_in_India_in_2026%E2%80%9327 || Zimbabwe won by 99 runs || Zimbabwe Women || cricket|Zimbabwe || Zimbabwe women's national cricket team
-wiki search "2026 World Rugby Nations Cup": 2026 World Rugby Nations Cup | World Rugby Nations Cup | 2026 Rugby League World Cup | 2026 Men's Rugby League World Cup | 2026 World Rugby Pacific Nations Cup | 2026 World Rugby Nations Cup Americas-Pacific Series
-wiki search "2026 Nations Cup rugby union": 2026 World Rugby Nations Cup | World Rugby Nations Cup | 2026 Nations Championship | 2026 World Rugby Pacific Nations Cup | 2027 Rugby World Cup | 2026 men's rugby union internationals
-wiki search "World Rugby Nations Cup": World Rugby Nations Cup | 2026 World Rugby Nations Cup | 2027 Rugby World Cup | Rugby World Cup | 2026 World Rugby Pacific Nations Cup | Nations Championship
-wiki search "2026 Nations Championship second division": 2026 Nations Championship | 2026 World Rugby Nations Cup | Nations Championship | World Rugby Nations Cup | 2026 Nations Championship Southern Hemisphere Series | 2026 Nations Championship Northern Hemisphere Series
-page hits: none
+wnc 2026-11-07T14:50:22.731Z
+search: Rugby Europe International Championships | World Rugby Pacific Nations Cup | Rugby union in Belgium | Italy A national rugby union team | Australia A national rugby union team | Spain national rugby union team | Bulgaria national rugby union team | Malta national rugby union team | Georgia national rugby union team | Russia national rugby union team | World Rugby Nations Cup (2006–2019) | Austria national rugby union team | World Rugby Tbilisi Cup | Hungary national rugby union team | Israel national rugby union team | Sweden national rugby union team | Montenegro national rugby union team | Denmark national rugby union team | Ukraine national rugby union team | Finland national rugby union team
+2026 World Rugby Nations Cup -> 2026 World Rugby Nations Cup: 25158 chars, 0 rugby boxes; sections: Background / Participants / Format / Standings / Americas-Pacific pool / European-African-Asian pool / Fixtures / Americas-Pacific Series / Round 1 / Round 2 / Round 3 / European-African-Asian Series / Round 4 / Round 5 / Round 6 / Player statistics / Most points / Most tries / See also / References / External links
+  teams: 
+  dates: November 2025}} ; 4 July – 21 November 2026 ; 12 December 2024 ; 2 April 2026}}</ref> ; 17 November 2025 ; 31 March 2026
+World Rugby Nations Cup -> World Rugby Nations Cup: 5390 chars, 0 rugby boxes; sections: Teams / See also / References / External links
+  teams: 
+  dates: March 2026}} ; November 2025}} ; 12 December 2024 ; 17 November 2025
+2026 World Rugby Nations Cup Americas-Pacific Series -> 2026 World Rugby Nations Cup Americas-Pacific Series: 93778 chars, 18 rugby boxes; sections: Championship division: Tables / Americas-Pacific pool / European-African-Asian pool / Fixtures / Round 1 / Uruguay v Georgia / Samoa v Hong Kong / Chile v Romania / Tonga v Zimbabwe / United States v Portugal / Canada v Spain / Round 2 / Uruguay v Romania / Samoa v Georgia / Tonga v Spain / Chile v Hong Kong / United States v Zimbabwe / Canada v Portugal / Round 3 / Samoa v Romania / Uruguay v Hong Kong / Chile v Georgia / Tonga v Portugal / United States v Spain / Canada v Zimbabwe / See also /
+  teams: 
+  dates: 17 November 2025 ; 31 March 2026 ; 4 July 2026 ; 3 July 2026 ; 5 July 2026 ; 6 July 2020 ; 16 March 2019 ; 11 July 2026 ;  ; 12 July 2026 ; 18 July 2026
+2026 World Rugby Nations Cup European Series: missingtitle
+2026 World Rugby Nations Cup Northern Hemisphere Series: missingtitle
+2026 World Rugby Nations Cup Southern Hemisphere Series: missingtitle
+tsdb rugby leagues with Nations: 
+tsdb search Nations: 4416 Australian National Rugby League badge=yes logo=yes | 4417 Australian National Rugby Championship badge=yes logo=yes
+SkySportNow: Nations Cup titles: Rugby: Nations Cup; rugby titles with those sides: none
+SkyGo: Nations Cup titles: Rugby: Nations Cup; rugby titles with those sides: none
