@@ -752,6 +752,12 @@ dialog#sheet { width: min(720px, 100%) }
 #sheetBody .sheet-head.bn:has(> .hlive) { grid-template-columns: minmax(0, 1fr) }
 #sheetBody .sheet-head.bn > .hlive { grid-column: 1; grid-row: auto; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 12px; margin: 0; text-align: center; translate: none }
 #sheetBody > .sheet-head.bn + .dtabs { justify-content: center }
+/* under it, the rest of the pop-up's top centred too: its facts as one block (labels and values still in their two
+   columns, so the lines start together) and the links; where to watch and everything after start at the left */
+#sheetBody:has(> .sheet-head.bn) > .facts { width: fit-content; max-width: min(100%, 560px); margin-inline: auto }
+/* the links as centred rows of near even length (balanceChips: 2 and 2, not 3 and 1) */
+#sheetBody:has(> .sheet-head.bn) > .dlinks { display: block; text-align: center; font-size: 0 }
+#sheetBody:has(> .sheet-head.bn) > .dlinks > * { display: inline-block; margin: 3px; vertical-align: top }
 .stable.rank > .dh, .rsrc { text-align: center }
 /* a UFC list's name on one line, its weight range (pound for pound: all divisions) and date on the next, so every list's
    heading is the same two lines and the table never moves when you switch; phones leave out the pounds so it fits */
@@ -2131,10 +2137,11 @@ const store = {
 };
 tzPick = store.get('tz', 'Pacific/Auckland'); NZ = tzPick === 'device' ? deviceTZ : tzPick;
 // competitions with games most days start switched off, so they can't fill the feed: for new visitors, and for people
-// whose picks were saved before they were added. My teams says they're off, and turns them on. ONE Championship's cards
-// with a New Zealander on them show anyway, as NZ fighters
-const OPT_IN = new Set(['nba', 'onefc']);
+// whose picks were saved before they were added. My teams says they're off, and turns them on
+const OPT_IN = new Set(['nba']);
 let picked = new Set(store.get('teams', ALL_KEYS.filter(k => !OPT_IN.has(k))));
+// ONE Championship started off in v614 and is on since: switch it on once for those who saw it then
+if (!store.get('oneOn', false)) { if (store.get('known', []).includes('onefc')) { picked.add('onefc'); store.set('teams', [...picked]); } store.set('oneOn', true); }
 // baseball started off in v401 and is on since: switch it on once for those who saw it then
 if (!store.get('bbOn', false)) { const kn = store.get('known', []); if (kn.includes('mlb')) { ['mlb', 'npb'].forEach(k => picked.add(k)); store.set('teams', [...picked]); } store.set('bbOn', true); }
 // teams added to the site later are switched on for people who already saved their picks
@@ -3663,6 +3670,7 @@ function countGaps(e) {
   const c0 = compOf(e) || e.sport, c = String(GENERIC.test(c0) && !/^(Boxing|UFC|ONE Championship)$/.test(c0) ? (e.comp || c0).replace(/\s*[,·(|].*$/, '') : c0).replace(/[^\p{L}\p{N} '&.()\/+-]/gu, '').replace(/\s+/g, ' ').trim().slice(0, 50);
   count({ e: 'miss', k: `${gaps.join(' + ') || 'Nothing missing'} · ${e.sport} · ${c}` });
 }
+let dLinks = null;
 function openDetail(id, fromTeam, goingBack) {
   const e = (FEED.events || []).find(x => x.id === id);
   if (!e) return;
@@ -3685,6 +3693,9 @@ function openDetail(id, fromTeam, goingBack) {
   dlg.dataset.id = id; dlg.dataset.rankings = '';
   if (!dlg.open) dlg.showModal();
   alignLive();
+  // the links' rows balanced, and again when the pop-up's width changes
+  if (dLinks) chipRO.unobserve(dLinks);
+  dLinks = $('sheetBody').querySelector(':scope > .dlinks:not(:empty)'); if (dLinks) { balanceChips(dLinks); chipRO.observe(dLinks); }
 }
 // "On now" and the live scores link sit at the title's right, the link's text on the same line as the teams' names
 function alignLive() {

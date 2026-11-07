@@ -2229,9 +2229,8 @@ await writeFile(new URL('data/fights.txt', ROOT), [
 
 // "hot" while a game is on or about to start (Tests count for five days), so the workflow refreshes every
 // 10 minutes then and only now and again otherwise, sparing Wikipedia and TheSportsDB needless requests
-// the busy overseas leagues (off unless picked) wait for the slower schedule; a ONE card with a Kiwi on it (shown to
-// everyone) doesn't
-const QUIET = /^(mlb|npb|nba|onefc)$/;
+// the busy overseas leagues (off unless picked) wait for the slower schedule
+const QUIET = /^(mlb|npb|nba)$/;
 const hot = feed.events.some(e => {
   if (e.status === 'final' || (QUIET.test(e.team) && !e.nzEvent)) return false;
   const age = now - new Date(e.startUTC);
