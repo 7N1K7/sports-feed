@@ -1,25 +1,17 @@
-// rainwatch: every 2 minutes for 45 minutes, which sources show the 2nd ODI's weather delay (BBC Sport and Herald
-// cricket headlines, Wikipedia's rain field) and whether the live feed has it. Only yes/no and times: no headline text,
-// no scores. Pushes probe/out-rain.txt as it goes
+// three1: Three's and the free channels' line-up tonight (7pm to midnight NZ), and any listing of Kiwis v Tonga or rugby
+// league anywhere in the Freeview guide. Programme titles only. Writes and pushes probe/out-three.txt itself
 import { writeFileSync } from 'fs'; import { execSync } from 'child_process';
-const WET = /\b(rain\w*|showers?|wet outfield|washed out|wash-?out|delay(ed|s)?|bad light|abandon\w*|no play|covers|weather)\b/i;
-const items = x => [...x.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(m => (m[1].match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/) || [])[1] || '');
-const hdr = { headers: { 'user-agent': 'Mozilla/5.0 kickoff.kiwi probe' } };
-const out = ['rainwatch start ' + new Date().toISOString()], first = {};
-const push = () => { writeFileSync('probe/out-rain.txt', out.join('\n') + '\n'); try { execSync('git -c user.name=bot -c user.email=bot@x add -f probe/out-rain.txt && git -c user.name=bot -c user.email=bot@x commit -q -m out && git pull -q --rebase && git push -q', { stdio: 'ignore' }); } catch {} };
-const end = Date.now() + 45 * 60e3;
-while (Date.now() < end) {
-  const r = {}; const t = new Date().toISOString().slice(11, 16) + 'Z';
-  try { r.bbc = items(await (await fetch('https://feeds.bbci.co.uk/sport/cricket/rss.xml?x=' + Date.now(), hdr)).text()).some(s => /india/i.test(s) && /new zealand/i.test(s) && WET.test(s)); } catch { r.bbc = 'err'; }
-  try { r.herald = items(await (await fetch('https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/sport/cricket/?outputType=xml&_website=nzh&x=' + Date.now(), hdr)).text()).some(s => /india/i.test(s) && WET.test(s)); } catch { r.herald = 'err'; }
-  try { const w = await (await fetch('https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=wikitext&page=Indian_cricket_team_in_New_Zealand_in_2026%E2%80%9327', { headers: { 'user-agent': 'kickoff.kiwi probe' } })).json();
-    const s = w.parse?.wikitext?.['*'] || '', i = s.search(/2nd ODI/i), sec = s.slice(i, i + 2500); r.wiki = /\|\s*rain\s*=\s*[^\s|}]/i.test(sec); } catch { r.wiki = 'err'; }
-  try { const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json(); const o = (f.events || []).find(e => e.id === 'bc-ind-odi2-2026');
-    r.feed = `${f.generatedAt.slice(11, 16)}Z ${o?.status} progress=${o?.progress ? (/\b(rain|wet|bad light|delayed|no play)\b/i.test(o.progress) ? 'wet' : 'set') : 'none'} wxNews=${o?.wxNews ? 'yes' : 'no'}`;
-    r.feedHas = !!(o?.wxNews || /\b(rain|wet|bad light|delayed|no play)\b/i.test(o?.progress || '')); } catch { r.feed = 'err'; }
-  for (const k of ['bbc', 'herald', 'wiki', 'feedHas']) if (r[k] === true && !first[k]) first[k] = t;
-  out.push(`${t} bbc=${r.bbc} herald=${r.herald} wiki=${r.wiki} | feed ${r.feed} | first: ${JSON.stringify(first)}`);
-  push();
-  await new Promise(res => setTimeout(res, 120e3));
-}
-out.push('rainwatch end'); push();
+const out = ['three1 ' + new Date().toISOString()];
+const x = await (await fetch('https://i.mjh.nz/nz/epg.xml?x=' + Date.now())).text();
+const chans = Object.fromEntries([...x.matchAll(/<channel id="([^"]+)">[\s\S]*?<display-name[^>]*>([^<]+)</g)].map(m => [m[1], m[2]]));
+const ts = s => { const m = s.match(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)(\d\d) ([+-]\d\d)(\d\d)/); return Date.UTC(+m[1], m[2] - 1, +m[3], +m[4], +m[5]) - (m[7][0] === '-' ? -1 : 1) * ((+m[7].slice(1)) * 60 + +m[8]) * 60e3; };
+const progs = [...x.matchAll(/<programme start="([^"]+)" stop="([^"]+)" channel="([^"]+)"[^>]*>([\s\S]*?)<\/programme>/g)].map(m => ({ a: ts(m[1]), b: ts(m[2]), ch: chans[m[3]] || m[3], t: (m[4].match(/<title[^>]*>([^<]*)/) || [])[1] || '', d: (m[4].match(/<desc[^>]*>([^<]*)/) || [])[1] || '' }));
+const lo = Date.parse('2026-11-07T06:00:00Z'), hi = Date.parse('2026-11-07T11:00:00Z');
+const nz = t => new Date(t).toLocaleTimeString('en-NZ', { timeZone: 'Pacific/Auckland', hour: 'numeric', minute: '2-digit' });
+out.push('channels named Three: ' + Object.values(chans).filter(n => /three|^3\b/i.test(n)).join(', '));
+for (const p of progs.filter(p => /^(Three|3)\b/i.test(p.ch) && p.b > lo && p.a < hi).sort((a, b) => a.a - b.a)) out.push(`  ${p.ch} ${nz(p.a)}-${nz(p.b)} ${p.t}`);
+out.push('anything naming Tonga, Kiwis or rugby league, 6 to 8 Nov:');
+for (const p of progs.filter(p => /tonga|kiwis|rugby league/i.test(p.t + ' ' + p.d) && p.a > Date.parse('2026-11-06T18:00Z') && p.a < Date.parse('2026-11-08T12:00Z')).sort((a, b) => a.a - b.a)) out.push(`  ${p.ch} ${new Date(p.a).toISOString()} (${nz(p.a)} NZ) ${p.t} | ${p.d.slice(0, 120)}`);
+writeFileSync('probe/out-three.txt', out.join('\n') + '\n');
+for (let i = 0; i < 4; i++) try { execSync('git -c user.name=bot -c user.email=bot@x add -f probe/out-three.txt && (git diff --cached --quiet || git -c user.name=bot -c user.email=bot@x commit -q -m out) && git pull -q --rebase && git push -q', { stdio: 'ignore' }); break; } catch { await new Promise(r => setTimeout(r, 3000)); }
+console.log(out.join('\n'));
