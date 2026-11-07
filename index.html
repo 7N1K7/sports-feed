@@ -2393,9 +2393,9 @@ function between(e, now) {
   return next > days ? null : `Day ${next} next`;
 }
 const running = (e, now) => onNow(e, now) || between(e, now);
-// a game with a set time joins Live now five minutes before it starts, its countdown ticking down to the first ball;
-// in the hour before that it waits under Starting soon
-const SOON = 5 * 6e4, SOON_SEC = 60 * 6e4;
+// a game with a set time joins Live now ten minutes before it starts (five until v625: more room for a start time
+// that's a little out), its countdown ticking down to the first ball; in the hour before that it waits under Starting soon
+const SOON = 10 * 6e4, SOON_SEC = 60 * 6e4;
 const startsSoon = (e, now) => e.status !== 'final' && e.status !== 'live' && !e.timeTBC && !e.usual && new Date(e.startUTC) - now > 0 && new Date(e.startUTC) - now <= SOON;
 // when a game next gets under way: its start, or for a Test between days the start of the next day's play
 // (or, while a later day is being played, when that day began: day 4 of a Test shows day 4's date, not the first day's)
@@ -2428,7 +2428,7 @@ setInterval(() => {
     if (ms > 0 && ms < 36e5) el.textContent = (countdown({ startUTC: el.dataset.cd }, now) || '').replace(el.classList.contains('lcd') ? /^in / : /$^/, '');
     // a game in Live now that reaches its start turns to On now straight away, not at the next minute's redraw
     else if (ms <= 0 && ms > -1500 && el.closest('#live')) { render(); break; }
-    // and one under Starting soon moves up to Live now as it reaches five minutes to go
+    // and one under Starting soon moves up to Live now as it reaches ten minutes to go
     if (ms <= SOON && ms > SOON - 1500 && el.closest('#soon')) { render(); break; }
   }
 }, 1000);
