@@ -1,83 +1,48 @@
-one3 2026-11-07T03:42:55.335Z
-league 4495: ONE | alt ONE Fighting Championship | Fighting | season 2026 | badge https://r2.thesportsdb.com/images/media/league/badge/lk795c1545411843.png | logo https://r2.thesportsdb.com/images/media/league/logo/fw81iq1545508019.png | poster https://r2.thesportsdb.com/images/media/league/poster/ic1ihq1709145795.jpg | banner https://r2.thesportsdb.com/images/media/league/banner/oxjgb91545508112.jpg | trophy https://r2.thesportsdb.com/images/media/league/trophy/hlqeuw1707478889.png | col undefined/undefined/undefined | web www.onefc.com
-badge small: 200
-logo small: 200
-# eventsnextleague.php?id=4495: 1
-  2612859 | ONE Samurai 5 | 2026-11-18 08:30:00 | ts 2026-11-18T08:30:00 | local 2026-11-18 17:30:00 | Ota City General Gymnasium | Tokyo | NS | 
-# eventspastleague.php?id=4495: 1
-  2458020 | ONE Fight Night 49 | 2026-11-07 02:00:00 | ts 2026-11-07T02:00:00 | local 2026-11-07 09:00:00 | Lumpinee Boxing Stadium | Bangkok |  | 
-# eventsseason.php?id=4495&s=2026: 15
-  2407997 | ONE Friday Fights 138 Pompet vs Decho | 2026-01-16 12:30:00 | ts 2026-01-16T12:30:00 | local 2026-01-16 19:30:00 | Lumpinee Boxing Stadium | undefined | FT | PT
-  2422312 | ONE Friday Fights 139 Worapon vs Soe Lin Oo | 2026-01-23 12:30:00 | ts 2026-01-23T12:30:00 | local 2026-01-23 19:30:00 | Lumpinee Boxing Stadium | undefined | NS | T
-  2391929 | ONE Fight Night 39 Rambolek vs Dayakaev  | 2026-01-24 02:00:00 | ts 2026-01-24T02:00:00 | local 2026-01-24 09:00:00 | Lumpinee Boxing Stadium | undefined | FT | 
-  2425540 | ONE Friday Fights 140 Kongchai vs Thway Lin Htet | 2026-01-30 12:30:00 | ts 2026-01-30T12:30:00 | local 2026-01-30 19:30:00 | Lumpinee Boxing Stadium | undefined | FT | T
-  2428603 | ONE Friday Fights 141 Komawut vs Samingdam | 2026-02-06 12:30:00 | ts 2026-02-06T12:30:00 | local 2026-02-06 19:30:00 | Lumpinee Boxing Stadium | undefined | FT | T
-  2612225 | ONE The Inner Circle 1 | 2026-02-06 11:30:00 | ts 2026-02-06T11:30:00 | local 2026-02-06 18:30:00 | Lumpinee Boxing Stadium | undefined |  | 
-  2428604 | ONE Friday Fights 142 Apiwat vs Panpadej | 2026-02-13 12:30:00 | ts 2026-02-13T12:30:00 | local 2026-02-13 19:30:00 | Lumpinee Boxing Stadium | undefined | NS | T
-  2612226 | ONE The Inner Circle 2 | 2026-02-13 11:30:00 | ts 2026-02-13T11:30:00 | local 2026-02-13 18:30:00 | Lumpinee Boxing Stadium | undefined |  | 
-  2407998 | ONE Fight Night 40 Buntan vs Hemetsberger 2 | 2026-02-14 02:00:00 | ts 2026-02-14T02:00:00 | local 2026-02-13 09:00:00 | Lumpinee Boxing Stadium | undefined | NS | PT
-  2435791 | ONE Friday Fights 143 Vero vs Cohen | 2026-02-20 12:30:00 | ts 2026-02-20T12:30:00 | local 2026-02-20 19:30:00 | Lumpinee Boxing Stadium | undefined | FT | T
-  2612227 | ONE The Inner Circle 3 | 2026-02-20 11:30:00 | ts 2026-02-20T11:30:00 | local 2026-02-20 18:30:00 | Lumpinee Boxing Stadium | undefined |  | 
-  2439560 | ONE Friday Fights 144 Chatpichit vs Tubtimthong | 2026-02-27 12:30:00 | ts 2026-02-27T12:30:00 | local 2026-02-27 19:30:00 | Lumpinee Boxing Stadium | undefined | NS | T
-  2612228 | ONE The Inner Circle 4 | 2026-02-27 11:30:00 | ts 2026-02-27T11:30:00 | local 2026-02-27 18:30:00 | Lumpinee Boxing Stadium | undefined |  | 
-  2444431 | ONE Friday Fights 145 Worapon vs Brossier | 2026-03-06 12:30:00 | ts 2026-03-06T12:30:00 | local 2026-03-06 19:30:00 | Lumpinee Boxing Stadium | undefined | NS | T
-  2612229 | ONE The Inner Circle 5 | 2026-03-06 11:30:00 | ts 2026-03-06T11:30:00 | local 2026-03-06 18:30:00 | Lumpinee Boxing Stadium | undefined |  | 
-# eventsseason.php?id=4495&s=2027: 0
-  ESPN 2 | 20261106090000 +0000 | NBC NFL | 
-  ESPN 2 | 20261106113000 +0000 | E:60 | 
-  ESPN 2 | 20261106123000 +0000 | Ball or Nothin' | 
-  ESPN 2 | 20261106130000 +0000 | Live: Get Up | 
-  ESPN 2 | 20261106150000 +0000 | Live: First Take | 
-  ESPN 2 | 20261106170000 +0000 | NBA Mini | 
-  ESPN 2 | 20261106173000 +0000 | NFL Blitz | 
-  ESPN 2 | 20261106180000 +0000 | Get Up | 
-  ESPN 2 | 20261106200000 +0000 | First Take | 
-  ESPN 2 | 20261106220000 +0000 | NBA Action | 
-  ESPN 2 | 20261106223000 +0000 | Live: Pardon The Interruption | 
-  ESPN 2 | 20261106230000 +0000 | Live: SportsCenter | 
-  ESPN 2 | 20261107000000 +0000 | Live: NCAA | 
-  ESPN 2 | 20261107031500 +0000 | Live: NCAA | 
-  ESPN 2 | 20261107061500 +0000 | Live: SportsCenter | 
-  ESPN 2 | 20261107071500 +0000 | ESPN FC Daily | 
-  ESPN 2 | 20261107073000 +0000 | ESPN FC Daily | 
-  ESPN 2 | 20261107080000 +0000 | Live: WNBL | 
-  ESPN 2 | 20261107100000 +0000 | NCAA | 
-  ESPN 2 | 20261107120000 +0000 | NCAA | 
-  ESPN 2 | 20261107140000 +0000 | Live: NCAAF College GameDay | 
-  ESPN 2 | 20261107170000 +0000 | Live: NCAA Football | 
-  ESPN 2 | 20261107200000 +0000 | Live: College Football Scoreboard | 
-  ESPN 2 | 20261107203000 +0000 | Live: College Football | 
-  ESPN 2 | 20261107204000 +0000 | Live: NCAA Football | 
-  ESPN 2 | 20261107233000 +0000 | Live: College Football Scoreboard | 
-  ESPN | 20261106083000 +0000 | Live: National Basketball League | 
-  ESPN | 20261106103000 +0000 | NBA Basketball | 
-  ESPN | 20261106123000 +0000 | NFL Mini | 
-  ESPN | 20261106130000 +0000 | NBA Mini | 
-  ESPN | 20261106133000 +0000 | Live: ONE Championship Mixed | 
-  ESPN | 20261106163000 +0000 | NFL Blitz | 
-  ESPN | 20261106170000 +0000 | Live: The Pat McAfee Show | 
-  ESPN | 20261106190000 +0000 | Live: College Football | 
-  ESPN | 20261106200000 +0000 | Live: NBA Today | 
-  ESPN | 20261106210000 +0000 | Live: NFL Live | 
-  ESPN | 20261106220000 +0000 | The Pat McAfee Show | 
-  ESPN | 20261107000000 +0000 | SportsCenter | 
-  ESPN | 20261107003000 +0000 | College Football Live | 
-  ESPN | 20261107010000 +0000 | Pardon The Interruption | 
-  ESPN | 20261107013000 +0000 | Ball or Nothin' | 
-  ESPN | 20261107020000 +0000 | Live: MMA One Fight Night | 
-  ESPN | 20261107060000 +0000 | Ball or Nothin' | 
-  ESPN | 20261107063000 +0000 | Live: National Basketball League | 
-  ESPN | 20261107083000 +0000 | Live: National Basketball League | 
-  ESPN | 20261107103000 +0000 | NCAA | 
-  ESPN | 20261107123000 +0000 | MMA One Fight Night | 
-  ESPN | 20261107163000 +0000 | SportsCenter | 
-  ESPN | 20261107170000 +0000 | Live: NCAA | 
-  ESPN | 20261107200000 +0000 | In Depth with Graham Bensinger | 
-  ESPN | 20261107203000 +0000 | SportsCenter | 
-  ESPN | 20261107210000 +0000 | NBC NFL | 
-  ESPN | 20261107213000 +0000 | Ball or Nothin' | 
-  ESPN | 20261107220000 +0000 | Live: NBA Basketball | 
-# listings naming ONE:
-  ONE? ESPN | 20261106133000 +0000 - 20261106163000 +0000 | Live: ONE Championship Mixed | 
-  ONE? ESPN | 20261107020000 +0000 - 20261107060000 +0000 | Live: MMA One Fight Night | 
-  ONE? ESPN | 20261107123000 +0000 - 20261107163000 +0000 | MMA One Fight Night | 
+one3 2026-11-07T04:06:12.564Z
+-- 2025 as at 2025-11-20T00:00:00Z: articles wanted 4, read 4: ONE 173 +infobox; ONE Fight Night 37 +infobox; ONE Fight Night 38 +infobox; ONE Fight Night 36 +infobox
+  ONE Fight Night 36 | 2025-10-04T01:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
+  ONE Friday Fights 130 | 2025-10-24T13:30:00.000Z usual | Bangkok, Thailand | bouts 12 (ONE Friday Fights 130) | weights 12 | kiwi yes | own article no
+  ONE Fight Night 37 | 2025-11-08T02:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
+  ONE 173 | 2025-11-16T09:00:00.000Z | Tokyo, Japan | bouts 0 | weights 0 | kiwi no | own article yes
+  ONE Fight Night 38 | 2025-12-06T02:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
+-- 2025 as at 2025-10-01T00:00:00Z: articles wanted 5, read 5: ONE Fight Night 36 +infobox; ONE Fight Night 35 +infobox; ONE Fight Night 37 +infobox; ONE 173 +infobox; ONE Fight Night 38 +infobox
+  ONE Fight Night 34 | 2025-08-02T01:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
+  ONE Fight Night 35 | 2025-09-06T01:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
+  ONE Fight Night 36 | 2025-10-04T01:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
+  ONE Friday Fights 130 | 2025-10-24T13:30:00.000Z usual | Bangkok, Thailand | bouts 12 (ONE Friday Fights 130) | weights 12 | kiwi yes | own article no
+  ONE Fight Night 37 | 2025-11-08T02:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
+  ONE 173 | 2025-11-16T09:00:00.000Z | Tokyo, Japan | bouts 0 | weights 0 | kiwi no | own article yes
+  ONE Fight Night 38 | 2025-12-06T02:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
+-- 2026 as at 2026-01-20T00:00:00Z: articles wanted 1, read 1: ONE Fight Night 39 +infobox
+  ONE Fight Night 39 | 2026-01-24T02:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
+  ONE Fight Night 40 | 2026-02-14T02:00:00.000Z usual | Bangkok, Thailand | bouts 8 (ONE Fight Night 40) | weights 8 | kiwi no | own article no
+  ONE Friday Fights 145 | 2026-03-06T13:30:00.000Z usual | Bangkok, Thailand | bouts 14 (ONE Friday Fights 145/The Inner Circle 5) | weights 14 | kiwi yes | own article no
+  ONE Fight Night 41 | 2026-03-14T01:00:00.000Z usual | Bangkok, Thailand | bouts 9 (ONE Fight Night 41) | weights 9 | kiwi no | own article no
+  ONE Fight Night 42 | 2026-04-11T01:00:00.000Z usual | Bangkok, Thailand | bouts 8 (ONE Fight Night 42) | weights 8 | kiwi no | own article no
+  ONE Samurai 1 | 2026-04-29T08:30:00.000Z usual | Tokyo, Japan | bouts 15 (ONE Samurai 1) | weights 15 | kiwi no | own article no
+  ONE Fight Night 43 | 2026-05-16T01:00:00.000Z usual | Bangkok, Thailand | bouts 9 (ONE Fight Night 43) | weights 9 | kiwi no | own article no
+  ONE Friday Fights 158 | 2026-06-12T13:30:00.000Z usual | Bangkok, Thailand | bouts 14 (ONE Friday Fights 158/The Inner Circle 18) | weights 14 | kiwi yes | own article no
+  ONE Fight Night 44 | 2026-06-27T01:00:00.000Z usual | Bangkok, Thailand | bouts 9 (ONE Fight Night 44) | weights 9 | kiwi yes | own article no
+  ONE Fight Night 45 | 2026-07-18T01:00:00.000Z usual | Bangkok, Thailand | bouts 9 (ONE Fight Night 45) | weights 9 | kiwi no | own article no
+  ONE Samurai 2 | 2026-08-08T08:30:00.000Z usual | Tokyo, Japan | bouts 8 (ONE Samurai 2) | weights 8 | kiwi no | own article no
+  ONE Fight Night 46 | 2026-08-15T01:00:00.000Z usual | Bangkok, Thailand | bouts 8 (ONE Fight Night 46) | weights 8 | kiwi no | own article no
+  ONE Fight Night 47 | 2026-09-05T01:00:00.000Z usual | Bangkok, Thailand | bouts 8 (ONE Fight Night 47) | weights 8 | kiwi no | own article no
+  ONE Samurai 3 | 2026-09-12T08:30:00.000Z usual | Yokohama, Japan | bouts 10 (ONE Samurai 3) | weights 10 | kiwi no | own article no
+  ONE Fight Night 48 | 2026-10-03T01:00:00.000Z usual | Bangkok, Thailand | bouts 8 (ONE Fight Night 48) | weights 8 | kiwi yes | own article no
+  ONE Samurai 4 | 2026-10-17T08:30:00.000Z usual | Tokyo, Japan | bouts 10 (ONE Samurai 4) | weights 10 | kiwi no | own article no
+  ONE Friday Fights 176 | 2026-10-30T13:30:00.000Z usual | Bangkok, Thailand | bouts 12 (ONE Friday Fights 176/The Inner Circle 36) | weights 12 | kiwi yes | own article no
+  ONE Friday Fights 177 | 2026-11-06T13:30:00.000Z usual | Bangkok, Thailand | bouts 14 (ONE Friday Fights 177/The Inner Circle 37) | weights 14 | kiwi yes | own article no
+  ONE Fight Night 49 | 2026-11-07T02:00:00.000Z usual | Bangkok, Thailand | bouts 9 (ONE Fight Night 49) | weights 9 | kiwi no | own article no
+  ONE Samurai 5 | 2026-11-18T08:30:00.000Z usual | Tokyo, Japan | bouts 10 (ONE Samurai 5) | weights 10 | kiwi no | own article no
+  ONE Samurai 6 | 2026-12-02T08:30:00.000Z usual | Yokohama, Japan | bouts 1 (ONE Samurai 6) | weights 1 | kiwi no | own article no
+  ONE Fight Night 50 | 2026-12-19T02:00:00.000Z usual | Bangkok, Thailand | bouts 6 (ONE Fight Night 50) | weights 6 | kiwi no | own article no
+-- 2026 as at now: articles wanted 0, read 0: 
+  ONE Samurai 3 | 2026-09-12T08:30:00.000Z usual | Yokohama, Japan | bouts 10 (ONE Samurai 3) | weights 10 | kiwi no | own article no
+  ONE Fight Night 48 | 2026-10-03T01:00:00.000Z usual | Bangkok, Thailand | bouts 8 (ONE Fight Night 48) | weights 8 | kiwi yes | own article no
+  ONE Samurai 4 | 2026-10-17T08:30:00.000Z usual | Tokyo, Japan | bouts 10 (ONE Samurai 4) | weights 10 | kiwi no | own article no
+  ONE Friday Fights 176 | 2026-10-30T13:30:00.000Z usual | Bangkok, Thailand | bouts 12 (ONE Friday Fights 176/The Inner Circle 36) | weights 12 | kiwi yes | own article no
+  ONE Friday Fights 177 | 2026-11-06T13:30:00.000Z usual | Bangkok, Thailand | bouts 14 (ONE Friday Fights 177/The Inner Circle 37) | weights 14 | kiwi yes | own article no
+  ONE Fight Night 49 | 2026-11-07T02:00:00.000Z usual | Bangkok, Thailand | bouts 9 (ONE Fight Night 49) | weights 9 | kiwi no | own article no
+  ONE Samurai 5 | 2026-11-18T08:30:00.000Z usual | Tokyo, Japan | bouts 10 (ONE Samurai 5) | weights 10 | kiwi no | own article no
+  ONE Samurai 6 | 2026-12-02T08:30:00.000Z usual | Yokohama, Japan | bouts 1 (ONE Samurai 6) | weights 1 | kiwi no | own article no
+  ONE Fight Night 50 | 2026-12-19T02:00:00.000Z usual | Bangkok, Thailand | bouts 6 (ONE Fight Night 50) | weights 6 | kiwi no | own article no
