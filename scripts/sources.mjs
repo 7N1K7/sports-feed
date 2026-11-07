@@ -1942,7 +1942,9 @@ function fromTsdb(ev, l) {
   const status = !ev.strStatus && scored && Date.now() - t > 3 * 36e5 ? 'final' : STATUS(ev.strStatus);
   const hasScore = ev.intHomeScore != null && ev.intHomeScore !== '' && status !== 'upcoming';
   // fill-only leagues: remember the round so the next run can ask for it directly; midnight UTC is a placeholder time
-  const fill = l.fill ? { fill: true, tsdbRound: ev.intRound ?? null, tsdbSeason: ev.strSeason || null, ...(/T00:00(:00)?$/.test(ev.strTimestamp.replace(/\+00:00$/, '')) ? { timeTBC: true } : {}) } : {};
+  // `seen`: when it was read, so a league whose start times win over Wikipedia's ("times") asks again once a day, in
+  // case a game moves for TV
+  const fill = l.fill ? { fill: true, tsdbRound: ev.intRound ?? null, tsdbSeason: ev.strSeason || null, seen: Date.now(), ...(l.fill.times ? { timesWin: true } : {}), ...(/T00:00(:00)?$/.test(ev.strTimestamp.replace(/\+00:00$/, '')) ? { timeTBC: true } : {}) } : {};
   return {
     id: `tsdb-${ev.idEvent}`, team: cls.team, tags: cls.tags, sport: l.sport, comp: l.comp + (ev.intRound && +ev.intRound < 50 ? ` · Round ${ev.intRound}` : ''),
     home, away, startUTC: t.toISOString(), timeTBC: false, venue: ev.strVenue || '', city: [ev.strCity, ev.strCountry].filter(Boolean).join(', '), tz: l.tz || null,
@@ -1989,10 +1991,20 @@ async function fillLeague(l, out, diag, cache, gapsFor, left) {
       else { const [last] = await call(`eventspastleague.php?id=${l.id}`); add([last]); if (last && need('score')) await round(last.intRound, last.strSeason); if (last && need('score') && +last.intRound > 1) await round(+last.intRound - 1, last.strSeason); }
     }
     if (need('time') && calls < max) {
-      const [next] = await call(`eventsnextleague.php?id=${l.id}`); add([next]);
-      if (next && need('time')) await round(next.intRound, next.strSeason);
-      // a league filled further ahead (the NBL, a week) may need the round after too
-      if (next && need('time') && l.fill.days) await round(+next.intRound + 1, next.strSeason);
+      // the round holding the first game waiting on a time: a round a week on from the nearest round already known (in
+      // the cache), or from the league's next game. That "next" can be a pre-season game months back (the NBL's was in
+      // September), so the next round alone would miss the games a league filled further ahead is waiting on
+      const first = Math.min(...open.filter(g => g.need === 'time' && due(g)).map(g => Date.parse(g.e.startUTC)));
+      const dist = x => Math.abs(Date.parse(x.startUTC) - first);
+      let ref = got.filter(x => x.tsdbRound != null && x.tsdbSeason && !x.timeTBC).sort((a, b) => dist(a) - dist(b))[0];
+      if (!ref) { const [next] = await call(`eventsnextleague.php?id=${l.id}`); add([next]); ref = next ? { tsdbRound: next.intRound, tsdbSeason: next.strSeason, startUTC: tsdbISO(next.strTimestamp) } : null; }
+      if (ref && Number.isFinite(+ref.tsdbRound) && Number.isFinite(first)) {
+        const r = Math.max(1, +ref.tsdbRound + Math.round((first - Date.parse(ref.startUTC)) / (7 * DAY)));
+        if (need('time')) await round(r, ref.tsdbSeason);
+        // a league filled further ahead (the NBL) may need the round after too, or the one before when a round ran long
+        if (need('time') && l.fill.days) await round(r + 1, ref.tsdbSeason);
+        if (need('time') && l.fill.days && r > 1) await round(r - 1, ref.tsdbSeason);
+      }
     }
   } catch (e) { err = `; error: ${e.message}`; }
   if (calls) for (const g of open) if (asking.some(a => a.e === g.e) && (g.late || !(g.need === 'score' && g.known))) miss[g.e.id] = now;

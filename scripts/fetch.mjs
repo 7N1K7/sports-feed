@@ -829,7 +829,10 @@ function gapsFor(l, known) {
     twins.forEach(x => seen.add(x));
     const k = known.filter(x => same(e, x)).sort(near(Date.parse(e.startUTC)))[0];
     if (twins.some(x => x.score || x.status === 'final') || k?.score) continue;
-    const timed = [...twins, k].find(x => x && !x.timeTBC);
+    // a league whose start times win over Wikipedia's ("times": the NBL's, where Wikipedia gives standard time all
+    // season) asks for each game itself, again once a day
+    const own = l.fill.times ? [] : twins, kt = k && (!l.fill.times || now - (k.seen || 0) < DAY) ? k : null;
+    const timed = [...own, kt].find(x => x && !x.timeTBC);
     const age = now - Date.parse((timed || e).startUTC);
     if (timed ? age > 110 * 6e4 && age < 7 * DAY : age > 0 && age < 7 * DAY) gaps.push({ e, need: 'score', known: k, late: age > 12 * 36e5 });
     else if (!timed && age <= 0 && age > -(l.fill.days || 2) * DAY) gaps.push({ e, need: 'time', known: k });
@@ -953,6 +956,9 @@ for (const t of tsdbFill) {
   if (!hit) continue;
   const did = [];
   if (hit.timeTBC && !t.timeTBC) { Object.assign(hit, { startUTC: t.startUTC, timeTBC: false }); did.push('start time'); }
+  // its time wins for a league marked so (the NBL's Wikipedia times ignore daylight saving, and miss a game moved for TV)
+  else if (t.timesWin && !t.timeTBC && hit.startUTC !== t.startUTC && Math.abs(Date.parse(hit.startUTC) - Date.parse(t.startUTC)) < 12 * 36e5 && hit.status !== 'final') {
+    did.push(`start time ${hit.startUTC} to ${t.startUTC}`); hit.startUTC = t.startUTC; }
   if (!hit.score && hit.status !== 'final' && t.status === 'final' && t.score) {
     const flip = (side(t.home, hit.away) && !side(t.home, hit.home)) || (side(t.away, hit.home) && !side(t.away, hit.away));
     Object.assign(hit, { score: flip ? t.score.split('-').reverse().join('-') : t.score, status: 'final' });
