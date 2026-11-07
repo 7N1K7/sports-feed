@@ -753,9 +753,14 @@ dialog#sheet { width: min(720px, 100%) }
 #sheetBody .sheet-head.bn:has(> .hlive) { grid-template-columns: minmax(0, 1fr) }
 #sheetBody .sheet-head.bn > .hlive { grid-column: 1; grid-row: auto; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 12px; margin: 0; text-align: center; translate: none }
 #sheetBody > .sheet-head.bn + .dtabs { justify-content: center }
-/* under it, the rest of the pop-up's top centred too: its facts as one block (labels and values still in their two
-   columns, so the lines start together) and the links; where to watch and everything after start at the left */
-#sheetBody:has(> .sheet-head.bn) > .facts { width: fit-content; max-width: min(100%, 560px); margin-inline: auto }
+/* under it, the rest of the pop-up centred too: its facts as one block (labels and values still in their two columns,
+   so the lines start together), the links, and where to watch in NZ and Australia the same way as the facts. Each
+   section's heading is centred over it; the squads, fight card and news keep their full width */
+#sheetBody:has(> .sheet-head.bn) > :is(.facts, .watchlist) { width: fit-content; max-width: min(100%, 560px); margin-inline: auto }
+#sheetBody:has(> .sheet-head.bn) > :is(.dh, .wnote, .dh + p.muted) { text-align: center } /* .dh + p: "No recent news yet" */
+/* the block is as wide as its widest channel, not its notes: the notes under it (live scores, the start time) wrap to
+   that width, so the channels line up with little room left on the right */
+#sheetBody:has(> .sheet-head.bn) > .watchlist:has(> li.wopt) > li:not(.wopt) { contain: inline-size }
 /* the links as centred rows of near even length (balanceChips: 2 and 2, not 3 and 1) */
 #sheetBody:has(> .sheet-head.bn) > .dlinks { display: block; text-align: center; font-size: 0 }
 #sheetBody:has(> .sheet-head.bn) > .dlinks > * { display: inline-block; margin: 3px; vertical-align: top }
