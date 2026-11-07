@@ -1,29 +1,32 @@
-// nc4: where Zimbabwe/Samoa/Georgia games show as NC, and the second-tier competition's Wikipedia page (names only, no scores)
-import { chromium } from 'playwright'; import { execSync } from 'child_process'; import { writeFileSync } from 'fs';
-const out = ['nc4 ' + new Date().toISOString()], now = Date.now(), UA = { 'User-Agent': 'KickoffKiwiBot/1.0 (https://kickoff.kiwi)' };
-const RX = /Zimbabwe|Samoa|Georgia|Tonga|Romania|Uruguay|Portugal|Spain|Chile|Canada|USA|United States|Namibia|Hong Kong|Belgium|Netherlands/;
-try { const t = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + now)).text(); writeFileSync('probe/out-feed.json', t); const f = JSON.parse(t);
-  out.push('feed built ' + f.generatedAt);
-  for (const e of f.events || []) if (e.sport === 'rugby' && RX.test(`${e.home} ${e.away}`)) out.push(`feed: ${e.id} | ${e.startUTC?.slice(0, 10)} | ${e.home} v ${e.away} | comp=${e.comp} | src=${e.source} | team=${e.team} | tags=${(e.tags || []).join(',')}`);
-  // the TV guide lines too, in case that's where they show
-  const g = JSON.stringify(f).match(/[^"]{0,60}(Zimbabwe|Georgia v|v Georgia|Samoa v|v Samoa)[^"]{0,60}/g) || [];
-  out.push('strings with those names: ' + [...new Set(g)].slice(0, 25).join(' || '));
-} catch (er) { out.push('feed err ' + String(er.message).slice(0, 100)); }
-for (const q of ['2026 World Rugby Nations Cup', '2026 Nations Cup rugby union', 'World Rugby Nations Cup', '2026 Nations Championship second division']) try {
-  const r = await (await fetch('https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srlimit=6&srsearch=' + encodeURIComponent(q), { headers: UA })).json();
-  out.push(`wiki search "${q}": ` + r.query.search.map(x => x.title).join(' | '));
-} catch (er) { out.push('wiki err ' + String(er.message).slice(0, 80)); }
-const b = await chromium.launch({ channel: 'chrome' });
+// wnc: the World Rugby Nations Cup's Wikipedia pages (saved for the parser), TheSportsDB's leagues, and the NZ TV guide (names, dates and counts only)
+import { execSync } from 'child_process'; import { writeFileSync } from 'fs';
+const out = ['wnc ' + new Date().toISOString()], UA = { 'User-Agent': 'KickoffKiwiBot/1.0 (https://kickoff.kiwi)' };
+const W = t => fetch('https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=wikitext|sections&redirects=1&page=' + encodeURIComponent(t), { headers: UA }).then(r => r.json());
 try {
-  const p = await (await b.newContext({ viewport: { width: 1280, height: 900 } })).newPage();
-  await p.addInitScript(() => { try { localStorage.setItem('sf.nocount', 'true'); } catch (e) {} });
-  await p.goto('https://kickoff.kiwi/?x=' + now, { waitUntil: 'load' }); await p.waitForTimeout(5000);
-  const hits = await p.evaluate(rx => { const re = new RegExp(rx); const o = [];
-    for (const el of document.querySelectorAll('[data-open], .ev, li, .row')) { const t = el.innerText || ''; if (re.test(t) && /\bNC\b|Nations/.test(t) && t.length < 400) o.push(((el.closest('section,[id]')?.id) || '?') + ': ' + t.replace(/\d+\s*[-–]\s*\d+/g, '#').replace(/\s+/g, ' ').slice(0, 160)); }
-    return [...new Set(o)].slice(0, 15); }, RX.source);
-  out.push('page hits: ' + (hits.join(' || ') || 'none'));
-} catch (er) { out.push('err ' + String(er.message).slice(0, 160)); }
-await b.close(); writeFileSync('probe/out-nc4.txt', out.join('\n') + '\n');
-try { execSync('git -c user.name=bot -c user.email=bot@x add -A probe/out-nc4.txt probe/out-feed.json && git -c user.name=bot -c user.email=bot@x commit -q -m out', { stdio: 'pipe' }); } catch {}
+  const s = await (await fetch('https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srlimit=20&srsearch=' + encodeURIComponent('"Nations Cup" 2026 rugby union World Rugby'), { headers: UA })).json();
+  out.push('search: ' + s.query.search.map(x => x.title).join(' | '));
+} catch (e) { out.push('search err ' + e.message); }
+for (const t of ['2026 World Rugby Nations Cup', 'World Rugby Nations Cup', '2026 World Rugby Nations Cup Americas-Pacific Series', '2026 World Rugby Nations Cup European Series', '2026 World Rugby Nations Cup Northern Hemisphere Series', '2026 World Rugby Nations Cup Southern Hemisphere Series']) try {
+  const r = await W(t); if (r.error) { out.push(`${t}: ${r.error.code}`); continue; }
+  const wt = r.parse.wikitext['*'], f = 'probe/out-wnc-' + t.replace(/\W+/g, '_') + '.txt'; writeFileSync(f, wt);
+  const boxes = (wt.match(/\{\{\s*rugby ?box/gi) || []).length;
+  const teams = [...new Set((wt.match(/\|\s*(?:home|away)\s*=\s*([^\n|]+)/g) || []).map(x => x.replace(/^\|\s*(home|away)\s*=\s*/, '').trim()))].slice(0, 30);
+  const dates = [...new Set((wt.match(/\|\s*date\s*=\s*([^\n|]+)/g) || []).map(x => x.replace(/^\|\s*date\s*=\s*/, '').trim()))].slice(0, 40);
+  out.push(`${t} -> ${r.parse.title}: ${wt.length} chars, ${boxes} rugby boxes; sections: ${r.parse.sections.map(x => x.line).join(' / ').slice(0, 500)}`);
+  out.push(`  teams: ${teams.join(' ; ')}`); out.push(`  dates: ${dates.join(' ; ')}`);
+} catch (e) { out.push(`${t} err ${e.message}`); }
+try {
+  const l = await (await fetch('https://www.thesportsdb.com/api/v1/json/123/all_leagues.php')).json();
+  out.push('tsdb rugby leagues with Nations: ' + (l.leagues || []).filter(x => /Rugby/i.test(x.strSport) && /Nation/i.test(x.strLeague)).map(x => `${x.idLeague} ${x.strLeague}`).join(' | '));
+  const s = await (await fetch('https://www.thesportsdb.com/api/v1/json/123/search_all_leagues.php?s=Rugby')).json();
+  out.push('tsdb search Nations: ' + (s.countries || s.countrys || []).filter(x => /Nation/i.test(x.strLeague)).map(x => `${x.idLeague} ${x.strLeague} badge=${x.strBadge ? 'yes' : 'no'} logo=${x.strLogo ? 'yes' : 'no'}`).join(' | '));
+} catch (e) { out.push('tsdb err ' + e.message); }
+for (const u of ['https://i.mjh.nz/SkySportNow/epg.xml', 'https://i.mjh.nz/SkyGo/epg.xml']) try {
+  const x = await (await fetch(u)).text(); const t = [...new Set((x.match(/<title[^>]*>[^<]*Nations Cup[^<]*<\/title>/gi) || []).map(s => s.replace(/<[^>]+>/g, '')))].slice(0, 15);
+  const c = [...new Set((x.match(/<title[^>]*>[^<]*(Spain|Uruguay|Georgia|Portugal|Chile|Canada|Romania|Samoa|Tonga|Zimbabwe)[^<]*Rugby[^<]*<\/title>|<title[^>]*>[^<]*Rugby[^<]*(Spain|Uruguay|Georgia|Portugal|Chile|Canada|Romania|Samoa|Tonga|Zimbabwe)[^<]*<\/title>/gi) || []).map(s => s.replace(/<[^>]+>/g, '')))].slice(0, 15);
+  out.push(`${u.split('/')[3]}: Nations Cup titles: ${t.join(' | ') || 'none'}; rugby titles with those sides: ${c.join(' | ') || 'none'}`);
+} catch (e) { out.push('epg err ' + e.message); }
+writeFileSync('probe/out-wnc.txt', out.join('\n') + '\n');
+try { execSync('git -c user.name=bot -c user.email=bot@x add -A probe/out-wnc*.txt && git -c user.name=bot -c user.email=bot@x commit -q -m out', { stdio: 'pipe' }); } catch {}
 for (let i = 0; i < 4; i++) try { execSync('git push -q origin HEAD:probe', { stdio: 'pipe' }); break; } catch { try { execSync('git fetch -q origin probe && git -c user.name=bot -c user.email=bot@x rebase -q --autostash origin/probe', { stdio: 'pipe' }); } catch {} }
 console.log(out.join('\n'));
