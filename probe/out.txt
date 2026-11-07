@@ -1,30 +1,54 @@
-nbltimes
-wiki chars 119296
-boxes 165 templates basketballbox collapsible
-  7 November 2026 | 15:30 | [[2026–27 Adelaide 36ers seaso v [[2026–27 Illawarra Hawks seas | [[Adelaide]]
-  7 November 2026 | 16:30 | [[2026–27 Melbourne United sea v [[2026–27 Brisbane Bullets sea | [[Melbourne]]
-  8 November 2026 | 14:00 | [[2026–27 Sydney Kings season| v [[2026–27 S.E. Melbourne Phoen | [[Sydney]]
-  8 November 2026 | 14:00 | [[2026–27 Perth Wildcats seaso v [[2026–27 Cairns Taipans seaso | [[Perth]]
-  11 November 2026 | 18:30 | [[2026–27 S.E. Melbourne Phoen v [[2026–27 Illawarra Hawks seas | [[Melbourne]]
-  12 November 2026 | 18:00 | [[2026–27 Adelaide 36ers seaso v [[2026–27 Melbourne United sea | [[Adelaide]]
-  12 November 2026 | 18:30 | [[2026–27 Perth Wildcats seaso v [[2026–27 Tasmania JackJumpers | [[Perth]]
-  13 November 2026 | 18:30 | [[2026–27 New Zealand Breakers v [[2026–27 Brisbane Bullets sea | [[Auckland]]
-  13 November 2026 | 18:30 | [[2026–27 Cairns Taipans seaso v [[2026–27 Sydney Kings season| | [[Cairns]]
-  14 November 2026 | 18:30 | [[2026–27 Melbourne United sea v [[2026–27 S.E. Melbourne Phoen | [[Melbourne]]
-  14 November 2026 | 18:30 | [[2026–27 Perth Wildcats seaso v [[2026–27 Illawarra Hawks seas | [[Perth]]
-  15 November 2026 | 14:00 | [[2026–27 Sydney Kings season| v [[2026–27 New Zealand Breakers | [[Sydney]]
-  15 November 2026 | 16:00 | [[2026–27 Brisbane Bullets sea v [[2026–27 Tasmania JackJumpers | [[Brisbane]]
-  tsdb r8 Tasmania JackJumpers vs New Zealand Breakers | ts 2026-11-06T08:30:00 | date 2026-11-06 time 08:30:00 | local 2026-11-06 
-  tsdb r8 Adelaide 36ers vs Illawarra Hawks | ts 2026-11-07T06:30:00 | date 2026-11-07 time 06:30:00 | local null null
-  tsdb r8 Melbourne United vs Brisbane Bullets | ts 2026-11-07T08:30:00 | date 2026-11-07 time 08:30:00 | local null null
-  tsdb r8 Sydney Kings vs South East Melbourne Phoenix | ts 2026-11-08T04:00:00 | date 2026-11-08 time 04:00:00 | local null null
-  tsdb r8 Perth Wildcats vs Cairns Taipans | ts 2026-11-08T06:00:00 | date 2026-11-08 time 06:00:00 | local null null
-  tsdb r9 South East Melbourne Phoenix vs Illawarra Hawks | ts 2026-11-11T08:30:00 | date 2026-11-11 time 08:30:00 | local null null
-  tsdb r9 Adelaide 36ers vs Melbourne United | ts 2026-11-12T08:30:00 | date 2026-11-12 time 08:30:00 | local null null
-  tsdb r9 Perth Wildcats vs Tasmania JackJumpers | ts 2026-11-12T10:30:00 | date 2026-11-12 time 10:30:00 | local null null
-  tsdb r9 New Zealand Breakers vs Brisbane Bullets | ts 2026-11-13T06:30:00 | date 2026-11-13 time 06:30:00 | local null null
-  tsdb r9 Cairns Taipans vs Sydney Kings | ts 2026-11-13T08:30:00 | date 2026-11-13 time 08:30:00 | local null null
-  tsdb r9 Melbourne United vs South East Melbourne Phoenix | ts 2026-11-14T08:30:00 | date 2026-11-14 time 08:30:00 | local null null
-  tsdb r9 Perth Wildcats vs Illawarra Hawks | ts 2026-11-14T10:30:00 | date 2026-11-14 time 10:30:00 | local null null
-  tsdb r9 Sydney Kings vs New Zealand Breakers | ts 2026-11-15T04:00:00 | date 2026-11-15 time 04:00:00 | local null null
-  tsdb r9 Brisbane Bullets vs Tasmania JackJumpers | ts 2026-11-15T06:00:00 | date 2026-11-15 time 06:00:00 | local null null
+nc-july-1
+feed 2026-11-07T01:28:14.342Z v599
+wikipedia: {"2026 Nations Championship":6,"2026 Nations Championship Northern Hemisphere Series":18,"2026 Nations Championship Southern Hemisphere Series":18,"2026 men's rugby union internationals":13,"2027 men's rugby union internationals":1,"2026 women's rugby union internationals":3,"Men's FIH Hockey Nations Cup":0}
+NC events 25 {"2026-11 upcoming":24,"2026-11 final":1}
+NC sources {"https://www.allblacks.com/news/the-nations-championship-explained":3,"https://www.visitlondon.com/things-to-do/event/51197521":1,"2026_Nations_Championship":6,"2026_Nations_Championship_Northern_Hemisphere_Series":15}
+rugby June/July events in feed: 0 
+tsdb diag keys tsdb Test match,tsdb Nations Championship,tsdb Pacific Cup,tsdb NBL,tsdb Rugby League World Cup,tsdb NPC,tsdb NRL,tsdb Super Rugby Pacific,tsdb Constellation Cup,tsdb Taini Jamison Trophy,tsdb UFC,tsdb A-League Men,tsdb Premier League,tsdb backfill A-League Men,tsdb backfill Premier League,tsdb backfill Constellation Cup,tsdbFilled,facesSportsDB
+tsdbBackfill: ""
+2026 Nations Championship Southern Hemisphere Series missing=false chars 115327 boxes 18
+  4 July 2026 | 19:10 [[NZST]] ([[UTC+12]]) | (1 BP) {{ru-rt|NZL}} v {{ru|FRA}} (2 BP) | [[Te Kaha (stadium)|Te Kaha]], [[Christchurch]]
+  4 July 2026 | 17:40 [[Japan_Standard_Time|JST]] ([[UTC | {{ru-rt|JPN}} v {{ru|ITA}} | [[Chichibunomiya Rugby Stadium]], [[Tokyo]]
+  4 July 2026 | 20:10 [[Australian Eastern Standard Time | (2 BP) {{ru-rt|AUS}} v {{ru|IRE}} (1 BP) | [[Sydney Football Stadium (2022)|Sydney Football Stadium]], 
+  4 July 2026 | 14:10 [[British Summer Time|BST]] ([[UTC | {{ru-rt|FIJ}} v {{ru|WAL}} (1 BP) | [[Cardiff City Stadium]], [[Cardiff]] ([[Wales]])
+  4 July 2026 | 17:40 [[South African Standard Time|SAST | (1 BP) {{ru-rt|RSA}} v {{ru|ENG}} | [[Ellis Park Stadium]], [[Johannesburg]]
+  4 July 2026 | 16:10 [[Time in Argentina|ART]] ([[UTC-0 | (1 BP) {{ru-rt|ARG}} v {{ru|SCO}} (1 BP) | [[Estadio Mario Alberto Kempes]], [[Cordoba, Argentina|Cordo
+  11 July 2026 | 17:10 [[NZST]] ([[UTC+12]]) | (1 BP) {{ru-rt|NZL}} v {{ru|ITA}} | [[Wellington Regional Stadium]], [[Wellington]]
+  11 July 2026 | 17:40 [[Australian Eastern Standard Time | (1 BP) {{ru-rt|AUS}} v {{ru|FRA}} (1 BP) | [[Lang Park]], [[Brisbane]]
+  11 July 2026 | 20:10 [[Australian Eastern Standard Time | {{ru-rt|JPN}} v {{ru|IRE}} (1 BP) | [[Newcastle International Sports Centre]], [[Newcastle, New 
+  11 July 2026 | 14:10 [[British Summer Time|BST]] ([[UTC | {{ru-rt|FIJ}} v {{ru|ENG}} (1 BP) | [[Hill Dickinson Stadium]], [[Liverpool]] ([[England]])
+  11 July 2026 | 17:40 [[South African Standard Time|SAST | (1 BP) {{ru-rt|RSA}} v {{ru|SCO}} (1 BP) | [[Loftus Versfeld Stadium]], [[Pretoria]]
+  11 July 2026 | 16:10 [[Time in Argentina|ART]] ([[UTC-0 | {{ru-rt|ARG}} v {{ru|WAL}} | [[Estadio San Juan del Bicentenario]], [[San Juan, Argentina
+  18 July 2026 | 19:10 [[NZST]] ([[UTC+12]]) | (1 BP) {{ru-rt|NZL}} v {{ru|IRE}} | [[Eden Park]], [[Auckland]]
+  18 July 2026 | 17:40 [[Japan Standard Time|JST]] ([[UTC | {{ru-rt|JPN}} v {{ru|FRA}} (1 BP) | [[Japan National Stadium]], [[Tokyo]]
+  18 July 2026 | 18:10 [[Australian Western Standard Time | (1 BP) {{ru-rt|AUS}} v {{ru|ITA}} | [[Perth Rectangular Stadium]], [[Perth]]
+  18 July 2026 | 14:10 [[British Summer Time|BST]] ([[UTC | {{ru-rt|FIJ}} v {{ru|SCO}} (1 BP) | [[Murrayfield Stadium]], [[Edinburgh]] ([[Scotland]])
+  18 July 2026 | 17:40 [[South African Standard Time|SAST | (1 BP) {{ru-rt|RSA}} v {{ru|WAL}} | [[Kings Park Stadium]], [[Durban]]
+  18 July 2026 | 16:10 [[Time in Argentina|ART]] ([[UTC-0 | (1 BP) {{ru-rt|ARG}} v {{ru|ENG}} (1 BP) | [[Estadio Único Madre de Ciudades]], [[Santiago del Estero]]
+channel UCvMgypvk0d5P0K3F3bB19Eg: SANZAAR TV | @sanzaartv | country AU | subs 15300 | videos 211 | since 2026-04-27T01:42:30.377511Z
+  about: SANZAAR TV is your home for world class international rugby played by South Africa, New Zealand, Argentina and Australia Rugby: including action from major international tournaments, including the Nations Championship; The Rugby Championship; Bledisloe Cup; Tour matches; plus more. Subscribe now. 
+  2026-11-05T06:30:29Z | INTERNATIONAL CLASSIC | South Africa v Italy | Pretoria 2025 | none | PT1H42M23S | region null | embed true | desc1 5 July 2025, Loftus Versfeld hosted an Italian side for the first time ever as t
+  2026-11-04T17:30:20Z | INTERNATIONAL CLASSIC | New Zealand v Scotland | Auckland 1996 | none | PT1H29M14S | region null | embed true | desc1 INTERNATIONAL CLASSIC | 1996 New Zealand v Scotland | Auckland
+  2026-11-04T06:45:33Z | INTERNATIONAL CLASSIC | Australia v England | Perth 2010 | none | PT1H36M25S | region null | embed true | desc1 12 June 2010, Subiaco Oval - In the first of a two-Test series the Wallabies hos
+  2026-10-17T07:22:50Z | AUSTRALIA v NEW ZEALAND | 2nd Test Rapid Recap | Bledisloe Cup 2026 | none | PT3M | region null | embed true | desc1 The Wallabies host the All Blacks in the return leg of the Bledisloe Cup at Acco
+  2026-10-17T07:19:12Z | AUSTRALIA v NEW ZEALAND | BLEDISLOE CUP 2 | LIVE STREAM | none | PT2H13M14S | region {"allowed":["AL","AM","AZ","BA","BE","BG","BY","CH","CN","CY","CZ","DK","DZ","EG","EH","FI","GE","GR","HR","HU","IN","IS","IT","KZ","LI","LK","LY","MA","MD","ME","MK","MT","NO","PL","RO","RS","RU","SE","SI","SK","SM","TN","TR","UA","VA"]} | embed true | desc1 The Wallabies host the All Blacks in the return leg of the Bledisloe Cup at Acco
+  2026-10-17T07:17:18Z | AUSTRALIA v NEW ZEALAND | 2nd Test Highlights | Bledisloe Cup 2026 | none | PT8M47S | region null | embed true | desc1 The Wallabies host the All Blacks in the return leg of the Bledisloe Cup at Acco
+  2026-10-10T08:33:40Z | NEW ZEALAND v AUSTRALIA | 1st Test Rapid Recap | Bledisloe Cup 2026 | none | PT2M46S | region null | embed true | desc1 The Wallabies head into Eden Park and the hardest task in rugby as they look to 
+  2026-10-10T08:30:01Z | NEW ZEALAND v AUSTRALIA | 1st Test Highlights | Bledisloe Cup 2026 | none | PT8M13S | region null | embed true | desc1 The Wallabies head into Eden Park and the hardest task in rugby as they look to 
+  2026-10-10T08:12:57Z | NEW ZEALAND v AUSTRALIA | BLEDISLOE CUP 1 | LIVE STREAM | none | PT1H55M22S | region {"allowed":["AL","AM","AZ","BA","BE","BG","BY","CH","CN","CY","CZ","DK","DZ","EG","EH","FI","GE","GR","HR","HU","IN","IS","IT","KZ","LI","LK","LY","MA","MD","ME","MK","MT","NO","PL","RO","RS","RU","SE","SI","SK","SM","TN","TR","UA","VA"]} | embed true | desc1 The Wallabies head into Eden Park and the hardest task in rugby as they look to 
+  2026-10-07T07:45:05Z | RUGBY CHAMPIONSHIP CLASSIC | Australia v New Zealand | Sydney 2024 | none | PT2H11M40S | region null | embed true | desc1 21 September 2024, Accor Stadium - In a thrilling Bledisloe Cup encounter the Wa
+  2026-10-05T07:45:14Z | TRI NATIONS CLASSIC | Australia v New Zealand | Sydney 2008 | none | PT1H25M10S | region null | embed true | desc1 26 July 2008, ANZ Stadium - In Kiwi Robbie Deans' first game at the helm of the 
+  2026-10-01T05:30:36Z | BLEDISLOE CLASSIC | Australia v New Zealand | Hong Kong 2010 | none | PT1H43M51S | region null | embed true | desc1 30 October 2010, Hong Kong Stadium - It would go down as one of the all-time gre
+  2026-09-29T05:30:33Z | BLEDISLOE CLASSIC | Australia v New Zealand | Sydney 1998 | none | PT1H44M41S | region null | embed true | desc1 29 August 1998, Sydney Football Stadium - The Wallabies hosted the All Blacks in
+  2026-09-28T08:30:28Z | Tupou Vaa'i gets across the line! | none | PT17S | region null | embed true | desc1 SUBSCRIBE FOR MORE SOUTHERN HEMISPHERE RUGBY
+  2026-09-27T12:43:15Z | AUSTRALIA v SOUTH AFRICA | Rapid Recap | International Test 2026 | none | PT3M1S | region {"blocked":["AO","BF","BI","BJ","BW","CD","CF","CG","CI","CM","CV","DJ","ER","GA","GH","GM","GN","GQ","GW","KE","KM","LR","LS","MG","ML","MR","MU","MW","MZ","NA","NE","NG","RE","RW","SC","SD","SH","SL","SN","SO","SS","ST","SZ","TD","TG","TZ","UG","YT","ZA","ZM","ZW"]} | embed true | desc1 The Wallabies host the Springboks in a one off Test at Optus Stadium in Perth.
+  2026-09-27T12:35:36Z | AUSTRALIA v SOUTH AFRICA | Highlights | International Test 2026 | none | PT10M2S | region {"blocked":["AO","BF","BI","BJ","BW","CD","CF","CG","CI","CM","CV","DJ","ER","GA","GH","GM","GN","GQ","GW","KE","KM","LR","LS","MG","ML","MR","MU","MW","MZ","NA","NE","NG","RE","RW","SC","SD","SH","SL","SN","SO","SS","ST","SZ","TD","TG","TZ","UG","YT","ZA","ZM","ZW"]} | embed true | desc1 The Wallabies host the Springboks in a one off Test at Optus Stadium in Perth.
+  2026-09-27T12:13:22Z | AUSTRALIA v SOUTH AFRICA | LIVE STREAM | none | PT1H57M5S | region {"allowed":["AL","AM","AZ","BA","BE","BG","BY","CH","CN","CY","CZ","DK","DZ","EG","EH","FI","GE","GR","HR","HU","IN","IS","IT","KZ","LI","LK","LY","MA","MD","ME","MK","MT","NO","PL","RO","RS","RU","SE","SI","SK","SM","TN","TR","UA","VA"]} | embed true | desc1 The Wallabies host the Springboks in a one off Test at Optus Stadium in Perth.
+  2026-09-27T08:15:36Z | Who doesn't love the Bledsloe Cup?! | none | PT16S | region null | embed true | desc1 SUBSCRIBE FOR MORE SOUTHERN HEMISPHERE RUGBY
+  2026-09-26T08:00:23Z | A Debut try for Tom Wright in 2020 | none | PT16S | region null | embed true | desc1 Sometimes you have to love the bounce!
+  2026-09-25T08:00:17Z | Australia were simply UNSTOPPABLE. | none | PT20S | region null | embed true | desc1 SUBSCRIBE FOR MORE SOUTHERN HEMISPHERE RUGBY
+  2026-09-24T08:30:03Z | Rieko Ioane LOVES Rugby | none | PT14S | region null | embed true | desc1 SUBSCRIBE FOR MORE SOUTHERN HEMISPHERE RUGBY
+  2026-09-23T20:15:39Z | TRI NATIONS CLASSIC | South Africa v Australia | Pretoria 2005 | none | PT1H35M1S | region null | embed true | desc1 30 July 2005, Loftus Versfeld - In the opening round of the 2005 Tri Nations the
+  2026-09-23T08:00:37Z | THAT IS BRILLIANT FROM THE ALL BLACKS! | none | PT20S | region null | embed true | desc1 Leroy Carter finishes an incredible team try for the All Blacks against South Af
+  2026-09-22T11:00:31Z | This is what Cross-Field Kicking looks like! | none | PT13S | region null | embed true | desc1 Australia and New Zealand went head to head striving for the top in the 2003 Ble
+  2026-09-21T19:30:23Z | TRI NATIONS CLASSIC | South Africa v Australia | Cape Town 2007 | none | PT1H37M44S | region null | embed true | desc1 16 June 2007, Newlands - In the opening game of the 2007 Tri Nations the Springb
