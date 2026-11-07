@@ -371,18 +371,29 @@ const ONE_USUAL = [
 const ONE_NZ = /^(NZL|NZ|New Zealand)$/i;
 function oneCard(body) {
   const card = [];
+  const flag = c => (String(c || '').match(/\{\{\s*flag(?:icon|deco)?\s*\|\s*([^|}]+)/i) || [])[1]?.trim() || '';
+  const bout = (section, cells) => {
+    const [weight, a, res, b, method, round, time] = cells.map(clean);
+    if (a && b) card.push({ section, weight, a, b, res: /def/i.test(res) ? 'def.' : /draw/i.test(res) ? 'draw' : /nc|no contest/i.test(res) ? 'NC' : 'vs.', method, round, time,
+      ...(ONE_NZ.test(flag(cells[1])) ? { aNZ: true } : {}), ...(ONE_NZ.test(flag(cells[3])) ? { bNZ: true } : {}) });
+  };
   // each results table: its title row names the card ("ONE Fight Night 49 (Amazon Prime Video)"), then a row a bout
   for (const chunk of body.split(/\n\{\|/).slice(1)) {
     const tbl = chunk.split(/\n\|\}/)[0];
     const section = clean((tbl.match(/'''([^'\n]+)'''/) || [])[1] || '').replace(/\s*\([^)]*\)\s*$/, '');
     for (const row of tbl.split(/\n\|-[^\n]*/).slice(1)) {
       const cells = row.split(/\n\|(?!\})/).slice(1).map(c => c.replace(/^\s*(?:[a-z-]+=(?:"[^"]*"|[^|\s]+)\s*)+\|(?!\|)/i, '').trim());
-      if (cells.length < 4 || !/flag/i.test(cells[1] + cells[3])) continue;
-      const flag = c => (c.match(/\{\{\s*flag(?:icon|deco)?\s*\|\s*([^|}]+)/i) || [])[1]?.trim() || '';
-      const [weight, a, res, b, method, round, time] = cells.map(clean);
-      if (!a || !b) continue;
-      card.push({ section, weight, a, b, res: /def/i.test(res) ? 'def.' : /draw/i.test(res) ? 'draw' : /nc|no contest/i.test(res) ? 'NC' : 'vs.', method, round, time,
-        ...(ONE_NZ.test(flag(cells[1])) ? { aNZ: true } : {}), ...(ONE_NZ.test(flag(cells[3])) ? { bNZ: true } : {}) });
+      if (cells.length >= 4 && /flag/i.test(cells[1] + cells[3])) bout(section, cells);
+    }
+  }
+  // a card's own article: the usual MMA templates instead, {{MMAevent card|Main card (…)}} then a {{MMAevent bout|weight|
+  // fighter|def. or vs.|fighter|method|round|time|notes}} each
+  if (!card.length) {
+    let section = '';
+    for (const tpl of templates(body, /^MMAevent (card|bout)$/i)) {
+      const { name, pos } = params(tpl.body);
+      if (/card/i.test(name)) section = clean(pos[0] || '').replace(/\s*\([^)]*\)\s*$/, '');
+      else bout(section, pos);
     }
   }
   return card.slice(0, 24);
