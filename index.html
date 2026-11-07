@@ -4633,7 +4633,7 @@ document.addEventListener('click', ev => {
   if (t.id === 'copySettings') { count({ e: 'use', k: 'Settings code copied' }); const c = settingsCode(); (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { $('moveNote').textContent = 'Copied. Paste it into the box on the other browser, then tap "Use these settings".'; }, () => prompt('Copy this code', c)); return; }
   // the sport row's "i": a note under it, and from there Settings at My teams
   if (t.dataset.sinfo != null) { const pop = $('sinfoPop'), open = pop.hidden; closeSinfo(); if (!open) return;
-    use('Sports info button'); $('sinfoDef').textContent = OPT_IN.size ? `Off by default: ${[...OPT_IN].map(k => TEAM_NAME[k] || k).join(', ')}` : ''; pop.hidden = false; t.setAttribute('aria-expanded', 'true'); const r = t.getBoundingClientRect();
+    use('Sports info button'); $('sinfoDef').textContent = OPT_IN.size ? `Off by default: ${[...OPT_IN].map(k => TEAM_NAME[k] || k).join(', ')} – too many games` : ''; pop.hidden = false; t.setAttribute('aria-expanded', 'true'); const r = t.getBoundingClientRect();
     pop.style.top = `${Math.round(r.bottom + 8)}px`; pop.style.left = `${Math.round(Math.min(Math.max(8, r.left + r.width / 2 - pop.offsetWidth / 2), innerWidth - pop.offsetWidth - 8))}px`; return; }
   // Settings opens at its top, as from the cog: the theme and time zone the pop-up mentions are there. On a short screen
   // it starts just far enough down to show My teams, its note and buttons and the first sport, never past My teams' title
