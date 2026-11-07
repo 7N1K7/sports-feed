@@ -2369,8 +2369,8 @@ function onNow(e, now) {
   return null;
 }
 // a Test between days of play (overnight, or after an early close) is still running, not finished
-// rain on a cricket match now: "Rain delay" when the current state of play says so; once play is on (or at a break)
-// older rain notes are history and show nothing; with no state of play, a rain headline from the last six hours or the
+// rain on a cricket match now: "Rain delay" when the current state of play says so; once a live source says play is on
+// (or at a break) older rain notes are history and show nothing; with no state of play, a rain headline from the last six hours or the
 // match box's weather note makes it "Rain affected", as long as it's about the day being played (or, between days, the
 // day coming up): rain on day 1 of a Test says nothing about day 4. fresh: the state of play is from today
 function wxToday(e, now) {
@@ -2379,9 +2379,12 @@ function wxToday(e, now) {
 }
 function rainNow(e, now, fresh = true) {
   const wet = /\b(rain|wet|drizzle|bad light|covers)\b/i.test(e.progress || '');
-  const current = fresh && (e.liveState ? now - Date.parse(e.liveAt) < 90 * 6e4 : !!e.progress);
+  // a live source's state of play (liveState, from the last 90 minutes) is the match as it is now; the result line
+  // Wikipedia's editors fill in ("In progress", "Innings break") isn't, so it never hides the box's rain note (until
+  // v627 it did, and a one-day international held up by rain showed only On now)
+  const live = !!e.liveState && now - Date.parse(e.liveAt) < 90 * 6e4, current = fresh && (e.liveState ? live : !!e.progress);
   if (current && wet) return 'Rain delay';
-  if (current && e.progress) return '';
+  if (fresh && live && e.progress) return '';
   const { day, days } = wxToday(e, now);
   // a headline naming a day counts on that day; one naming none, for three hours after it came out
   const named = e.wxNews && daysNamed(e.wxNews.title).map(d => d === 9 ? days : d);
