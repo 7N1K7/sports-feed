@@ -1,0 +1,1337 @@
+{{Short description|International rugby union tournament}}
+{{main|2026 World Rugby Nations Cup}}
+The '''2026 World Rugby Nations Cup European-African-Asian Series''' will be the second phase of matches (rounds 4–6) in the inaugural edition of the [[World Rugby Nations Cup (2026–)|World Rugby Nations Cup]], the second tier of a biennial international men's [[rugby union]] competition, predominantly made of Tier 2 nations from [[Rugby Africa|Africa]], [[Rugby Americas North|Americas North]], [[Asia Rugby|Asia]], [[Rugby Europe|Europe]] and [[Sudamérica Rugby|Sudamérica]].<ref>{{Cite web |date=17 November 2025 |title=Canada, Chile, Uruguay and USA all in 2026 World Rugby Nations Cup |url=https://www.americasrugbynews.com/2025/11/17/canada-chile-uruguay-and-usa-all-in-2026-world-rugby-nations-cup/ |access-date=20 November 2025 |website=Americas Rugby News}}</ref><ref name="WR-2">{{cite web|url=https://www.world.rugby/news/1043084/world-rugby-nations-cup-heads-to-the-americas-in-july-for-inaugural-2026-edition|title=World Rugby Nations Cup heads to the Americas in July for inaugural 2026 edition|website=World Rugby|date=31 March 2026|access-date=31 March 2026}}</ref>
+
+The European-African-Asian Series will take place between 6 November and 21 November, during the [[End-of-year rugby union internationals|November International window]]. The matches replaces the traditional tours between the travelling Tier 2 nations from the Pacific Islands and Americas to Europe.
+
+==Championship division: Tables==
+The below shows the tables for the two conferences. <!--To show only standings for the Americas-Pacific Series, main article to show overall at the conclusion-->
+{{col-begin}}
+{{col-break}}
+
+===Americas-Pacific===
+{{#section:2026 World Rugby Nations Cup |ap standings}}
+{{col-break}}
+
+===European-African-Asian===
+{{#section:2026 World Rugby Nations Cup |eaa standings}}
+{{col-end}}
+
+==Fixtures==
+European teams will host all of their matches at home. [[Zimbabwe national rugby union team|Zimbabwe]] will host their games in England. [[Hong Kong national rugby union team|Hong Kong]] will play their first two matches in Europe, with the third (against Tonga) being held in Hong Kong.<ref>[https://www.scmp.com/sport/rugby/hong-kong-rugby-union/article/3350611/world-rugby-boss-robinson-hails-hong-kongs-global-influence-wxv-announcement?module=perpetual_scroll_0&pgtype=article World Rugby boss Robinson hails Hong Kong's ‘global influence’ at WXV announcement]</ref> Confirmation of venues will come in due course for the second leg of matches played in November.<ref>[https://www.world.rugby/nations-cup/en/news/1043086/everything-you-need-to-know-about-the-world-rugby-nations-cup Everything you need to know about the World Rugby Nations Cup]</ref>
+
+===Round 4===
+====Romania v Tonga====
+{{rugbybox
+|id = Romania v Tonga
+|date = 6 November 2026
+|time = 18:30 [[Eastern European Time|EET]] ([[UTC+02:00|UTC+02]])
+|team1 = (2 BP) {{ru-rt|ROM}}
+|score = 38–43
+|report = [https://www.rugbypass.com/news/patrick-pellegrini-the-difference-maker-as-tonga-survive-romania-scare/ Report]
+|team2 = {{ru|TON}} (1 BP)
+|try1 = [[Marius Simionescu|Simionescu]] 6' c<br />[[Iulian Harțig|Harțig]] 26' m<br />[[Tudor Butnariu|Butnariu]] 37' m<br />[[Logan Weidner|Weidner]] 50' c<br />[[Gheorghe Gajion|Gajion]] (2) 65' c, 80' c
+|con1 = [[Alin Conache|Conache]] (2/4) 7', 51'<br />[[Gabriel Rupanu|Rupanu]] (2) 66', 81'
+|try2 = [[Veikoso Poloniati|Poloniati]] 9' m<br />[[Taniela Filimone|Filimone]] 17' c<br />[[John Tapueluelu|Tapueluelu]] 20' c<br />[[Anzelo Tuitavuki|Tuitavuki]] 42' c<br />[[Efi Ma'afu|Ma'afu]] 56' c<br />[[Toma'akino Taufa|Taufa]] 71' c
+|con2 = [[Patrick Pellegrini|Pellegrini]] (5/6) 17', 21', 43', 57', 72'
+|pen2 =  [[Patrick Pellegrini|Pellegrini]] (1/1) 41'
+|stadium = [[Arcul de Triumf Stadium (2021)|Stadionul National Arcul de Triumf]], [[Bucharest]]
+|attendance =
+|referee = [[Angus Gardner]] ([[Rugby Australia|Australia]])
+}}
+{| style="width:100%"
+|-
+|style="vertical-align:top;width:50%"|
+{| cellspacing="0" cellpadding="0"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Marius Simionescu]]
+|-
+|RW ||'''14'''||[[Tevita Manumua]] || || {{suboff|57}}
+|-
+|OC ||'''13'''||[[Nicolas Onuțu]]
+|-
+|IC ||'''12'''||[[Taylor Gontineac]]
+|-
+|LW ||'''11'''||[[Iliesa Tiqe]]
+|-
+|FH ||'''10'''||[[Daniel Plai]] || || {{suboff|78}}
+|-
+|SH ||'''9''' ||[[Alin Conache]] || || {{suboff|57}}
+|-
+|N8 ||'''8''' ||[[Etienne Terblanche]] || || {{suboff|53}}
+|-
+|OF ||'''7''' ||[[Keanan Murray]]
+|-
+|BF ||'''6''' ||[[Cristi Boboc]] ([[Captain (sports)|c]])
+|-
+|RL ||'''5''' ||[[Adrian Moțoc]]
+|-
+|LL ||'''4''' ||[[Logan Weidner]] || || {{suboff|64}}
+|-
+|TP ||'''3''' ||[[Jean-Pierre Smith (rugby union, born 1997)|Jean-Pierre Smith]] || || {{suboff|64}}
+|-
+|HK ||'''2''' ||[[Tudor Butnariu]] || || {{suboff|78}}
+|-
+|LP ||'''1''' ||[[Iulian Harțig]] || || {{suboff|53}}
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Adrian Țală]] || || {{subon|78}}
+|-
+|PR ||'''17'''||[[Alexandru Savin]] || || {{subon|53}}
+|-
+|PR ||'''18'''||[[Gheorghe Gajion]] || || {{subon|64}}
+|-
+|LK ||'''19'''||[[Ștefan Iancu]] || || {{subon|64}}
+|-
+|BR ||'''20'''||[[Adrian Mitu]] || || {{subon|53}}
+|-
+|SH ||'''21'''||[[Gabriel Rupanu]] || || {{subon|57}}
+|-
+|FH ||'''22'''||[[Ștefan Cojocariu]] || || {{subon|78}}
+|-
+|CE ||'''23'''||[[Atila Septar]] || || {{subon|57}}
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|FRA}} [[David Gérard]]
+|}
+|valign="top" width="50%"|
+{| cellspacing="0" cellpadding="0" style="margin:auto"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Taniela Filimone]]
+|-
+|RW ||'''14'''||[[John Tapueluelu]]
+|-
+|OC ||'''13'''||[[Fine Inisi]] || || {{suboff|67}}
+|-
+|IC ||'''12'''||[[Fetuli Paea]] ([[Captain (sports)|c]])
+|-
+|LW ||'''11'''||[[Anzelo Tuitavuki]] || || {{suboff|62}}
+|-
+|FH ||'''10'''||[[Patrick Pellegrini]]
+|-
+|SH ||'''9''' ||[[Siaosi Nginingini]] || || {{suboff|73}}
+|-
+|N8 ||'''8''' ||[[Lotu Inisi]] || || {{suboff|66}}
+|-
+|OF ||'''7''' ||[[Semisi Paea]]
+|-
+|BF ||'''6''' ||[[Sam Tuitupou (rugby union, born 2005)|Sam Tuitupou]]
+|-
+|RL ||'''5''' ||[[Justin Mataele]] || || {{suboff|64}}
+|-
+|LL ||'''4''' ||[[Veikoso Poloniati]]
+|-
+|TP ||'''3''' ||[[Paula Latu]] || || {{suboff|55}}
+|-
+|HK ||'''2''' ||[[Siua Maile]] || || {{suboff|55}}
+|-
+|LP ||'''1''' ||[[Siegfried Fisiʻihoi]] || || {{suboff|79}}
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Efi Ma'afu]] || || {{subon|55}}
+|-
+|PR ||'''17'''||[[Toma'akino Taufa]] || || {{subon|55}}
+|-
+|PR ||'''18'''||[[Phil Kite (rugby union)|Phil Kite]] || || {{subon|79}}
+|-
+|LK ||'''19'''||[[Leva Fifita]] || || {{subon|64}}
+|-
+|BR ||'''20'''||[[Otunuku Pauta]] || || {{subon|66}}
+|-
+|SH ||'''21'''||[[Sonatane Takulua]] || || {{subon|73}}
+|-
+|FH ||'''22'''||[[Manu Vunipola (rugby union, born 2000)|Manu Vunipola]] || || {{subon|62}}
+|-
+|CE ||'''23'''||[[Malakai Fekitoa]] || || {{subon|67}}
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|TON}} [[Tevita Tuʻifua]]
+|}
+|}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />Saba Abulashvili ([[Georgian Rugby Union|Georgia]])
+<br />Saba Makharadze ([[Georgian Rugby Union|Georgia]])
+<br />'''Television match official:'''
+<br />Stefano Penne ([[Italian Rugby Federation|Italy]])
+|}
+'''Notes:'''
+* [[Adrian Țală]] (Romania), [[Efi Ma'afu]] and [[Manu Vunipola (rugby union, born 2000)|Manu Vunipola]] (both Tonga) made their international debuts.
+
+====Georgia v Canada====
+{{rugbybox
+|id = Georgia v Canada
+|date = 7 November 2026
+|time = 18:00 [[Georgia Standard Time|GET]] ([[UTC+04:00|UTC+04]])
+|team1 = {{ru-rt|GEO}}
+|score =
+|report =
+|team2 = {{ru|CAN}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Avchala Rugby Stadium]], [[Tbilisi]]
+|attendance =
+|referee = [[Gianluca Gnecchi]] ([[Italian Rugby Federation|Italy]])
+}}
+{| style="width:100%"
+|-
+|style="vertical-align:top;width:50%"|
+{| cellspacing="0" cellpadding="0"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Davit Niniashvili]] ([[Captain (sports)|c]])
+|-
+|RW ||'''14'''||[[Akaki Tabutsadze]]
+|-
+|OC ||'''13'''||[[Luka Tabatadze]]
+|-
+|IC ||'''12'''||[[Tornike Kakhoidze]]
+|-
+|LW ||'''11'''||[[Dachi Papunashvili]]
+|-
+|FH ||'''10'''||[[Luka Matkava]]
+|-
+|SH ||'''9''' ||[[Vasil Lobzhanidze]]
+|-
+|N8 ||'''8''' ||[[Beka Shvangiradze]]
+|-
+|OF ||'''7''' ||[[Beka Saghinadze]]
+|-
+|BF ||'''6''' ||[[Luka Ivanishvili]]
+|-
+|RL ||'''5''' ||[[Giorgi Javakhia]]
+|-
+|LL ||'''4''' ||[[Lado Chachanidze]]
+|-
+|TP ||'''3''' ||[[Bachuki Tchumbadze]]
+|-
+|HK ||'''2''' ||[[Vakhtang Jincharadze]]
+|-
+|LP ||'''1''' ||[[Giorgi Akhaladze]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Vano Karkadze]]
+|-
+|PR ||'''17'''||[[Sergo Abramishvili]]
+|-
+|PR ||'''18'''||[[Beka Gigashvili]]
+|-
+|LK ||'''19'''||[[Gagi Margvelashvili]]
+|-
+|BR ||'''20'''||[[Mikheil Shioshvili]]
+|-
+|BR ||'''21'''||[[Ilia Spanderashvili]]
+|-
+|SH ||'''22'''||[[Gela Aprasidze]]
+|-
+|CE ||'''23'''||[[Giorgi Shvelidze]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|FRA}} [[Pierre-Henry Broncan]]
+|}
+|valign="top" width="50%"|
+{| cellspacing="0" cellpadding="0" style="margin:auto"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Takoda McMullin]]
+|-
+|RW ||'''14'''||[[Kyle Tremblay]]
+|-
+|OC ||'''13'''||[[Jacob Ince]]
+|-
+|IC ||'''12'''||[[Ben LeSage]]
+|-
+|LW ||'''11'''||[[Nic Benn]]
+|-
+|FH ||'''10'''||[[Spencer Jones (rugby union)|Spencer Jones]]
+|-
+|SH ||'''9''' ||[[Jesse Kilgour]]
+|-
+|N8 ||'''8''' ||[[Tyler Ardron]]
+|-
+|OF ||'''7''' ||[[Lucas Rumball]] ([[Captain (sports)|c]])
+|-
+|BF ||'''6''' ||[[Matt Beukeboom]]
+|-
+|RL ||'''5''' ||[[Izzak Kelly]]
+|-
+|LL ||'''4''' ||[[Daragh Doyle]]
+|-
+|TP ||'''3''' ||[[Kyle Steeves]]
+|-
+|HK ||'''2''' ||[[Foster DeWitt]]
+|-
+|LP ||'''1''' ||[[Cali Martinez]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Austin Creighton]]
+|-
+|PR ||'''17'''||[[Sam Miller (rugby union)|Sam Miller]]
+|-
+|PR ||'''18'''||[[Tyler Matchem]]
+|-
+|LK ||'''19'''||[[Barnaby Waddell]]
+|-
+|BR ||'''20'''||[[Siôn Parry]]
+|-
+|SH ||'''21'''||[[Stephen Webb (rugby union)|Stephen Webb]]
+|-
+|FH ||'''22'''||[[Jack Gore (rugby union)|Jack Gore]]
+|-
+|WG ||'''23'''||[[Liam James (rugby union)|Liam James]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|AUS}} [[Steve Meehan]]
+|}
+|}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />Federico Vedovelli ([[Italian Rugby Federation|Italy]])
+<br />Filippo Russo ([[Italian Rugby Federation|Italy]])
+<br />'''Television match official:'''
+<br />Stefano Penne ([[Italian Rugby Federation|Italy]])
+|}
+
+====Portugal v Chile====
+{{rugbybox
+|id = Portugal v Chile
+|date = 7 November 2026
+|time = 15:00 [[Western European Time|WET]] ([[UTC+00:00|UTC+0]])
+|team1 = {{ru-rt|POR}}
+|score =
+|report =
+|team2 = {{ru|CHI}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Estádio Nacional]], [[Lisbon]]
+|attendance =
+|referee = [[Nic Berry]] ([[Rugby Australia|Australia]])
+}}
+{| style="width:100%"
+|-
+|style="vertical-align:top;width:50%"|
+{| cellspacing="0" cellpadding="0"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Manuel Vareiro]]
+|-
+|RW ||'''14'''||[[Raffaele Storti]]
+|-
+|OC ||'''13'''||[[Rodrigo Marta]]
+|-
+|IC ||'''12'''||[[Tomás Appleton]]
+|-
+|LW ||'''11'''||[[Manuel Cardoso Pinto]]
+|-
+|FH ||'''10'''||[[Domingos Cabral]]
+|-
+|SH ||'''9''' ||[[Samuel Marques]]
+|-
+|N8 ||'''8''' ||[[José Monteiro (rugby union)|José Monteiro]]
+|-
+|OF ||'''7''' ||[[David Wallis (rugby union)|David Wallis]]
+|-
+|BF ||'''6''' ||[[José Madeira]] ([[Captain (sports)|c]])
+|-
+|RL ||'''5''' ||[[Martim Bello]]
+|-
+|LL ||'''4''' ||[[Duarte Torgal]]
+|-
+|TP ||'''3''' ||[[António Prim]]
+|-
+|HK ||'''2''' ||[[Nuno Mascarenhas]]
+|-
+|LP ||'''1''' ||[[Abel da Cunha]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|PR ||'''16'''||[[Cody Thomas (rugby union)|Cody Thomas]]
+|-
+|HK ||'''17'''||[[Luka Begic]]
+|-
+|PR ||'''18'''||[[Diogo Ferreira (rugby union)|Diogo Ferreira]]
+|-
+|BR ||'''19'''||[[Francisco Almeida (rugby union)|Francisco Almeida]]
+|-
+|BR ||'''20'''||[[André da Cunha]]
+|-
+|SH ||'''21'''||[[Hugo Camacho]]
+|-
+|WG ||'''22'''||[[Simão Bento]]
+|-
+|WG ||'''23'''||[[Vincent Pinto]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|NZL}} [[Simon Mannix]]
+|}
+|valign="top" width="50%"|
+{| cellspacing="0" cellpadding="0" style="margin:auto"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Matías Garafulic]]
+|-
+|RW ||'''14'''||[[Manuel Bustamante]]
+|-
+|OC ||'''13'''||[[Santiago Videla]] ([[Captain (sports)|c]])
+|-
+|IC ||'''12'''||[[Domingo Saavedra]]
+|-
+|LW ||'''11'''||[[Felipe Mendez (rugby union)|Felipe Mendez]]
+|-
+|FH ||'''10'''||[[Rodrigo Fernández (rugby union)|Rodrigo Fernández]]
+|-
+|SH ||'''9''' ||[[Benjamín Videla]]
+|-
+|N8 ||'''8''' ||[[Alfonso Escobar (rugby union, born 1997)|Alfonso Escobar]]
+|-
+|OF ||'''7''' ||[[Clemente Saavedra]]
+|-
+|BF ||'''6''' ||[[Raimundo Martínez]]
+|-
+|RL ||'''5''' ||[[Javier Eissmann]]
+|-
+|LL ||'''4''' ||[[Santiago Pedrero]]
+|-
+|TP ||'''3''' ||[[Iñaki Gurruchaga]]
+|-
+|HK ||'''2''' ||[[Augusto Böhme]]
+|-
+|LP ||'''1''' ||[[Vittorio Lastra]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Norman Aguayo]]
+|-
+|PR ||'''17'''||[[Benjamín Moreno (rugby union)|Benjamín Moreno]]
+|-
+|PR ||'''18'''||[[Matías Dittus]]
+|-
+|LK ||'''19'''||[[Bruno Sáez]]
+|-
+|BR ||'''20'''||[[Ernesto Tchimino]]
+|-
+|SH ||'''21'''||[[Lucas Berti]]
+|-
+|FB ||'''22'''||[[Iñaki Ayarza]]
+|-
+|WG ||'''23'''||[[Clemente Armstrong]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|URU}} [[Pablo Lemoine]]
+|}
+|}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Damon Murphy]] ([[Rugby Australia|Australia]])
+<br />Ben Connor ([[Welsh Rugby Union|Wales]])
+<br />'''Television match official:'''
+<br />Aled Griffiths ([[Welsh Rugby Union|Wales]])
+|}
+
+====Spain v Uruguay====
+{{rugbybox
+|id = Spain v Uruguay
+|date = 7 November 2026
+|time = 16:00 [[Central European Time|CET]] ([[UTC+01:00|UTC+01]])
+|team1 = {{ru-rt|ESP}}
+|score =
+|report =
+|team2 = {{ru|URU}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Estadio Nacional Complutense]], [[Madrid]]
+|attendance =
+|referee = [[Ben O'Keeffe]] ([[New Zealand Rugby|New Zealand]])
+}}
+{| style="width:100%"
+|-
+|style="vertical-align:top;width:50%"|
+{| cellspacing="0" cellpadding="0"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[JW Bell]]
+|-
+|RW ||'''14'''||[[Martiniano Cian]]
+|-
+|OC ||'''13'''||[[Iñaki Mateu]]
+|-
+|IC ||'''12'''||[[Yago Fernández]]
+|-
+|LW ||'''11'''||[[Alejandro Laforga]]
+|-
+|FH ||'''10'''||[[Bautista Güemes]]
+|-
+|SH ||'''9''' ||[[Estanislao Bay]]
+|-
+|N8 ||'''8''' ||[[Raphael Nieto]]
+|-
+|OF ||'''7''' ||[[Manex Ariceta]]
+|-
+|BF ||'''6''' ||[[Matthew Foulds (rugby union)|Matthew Foulds]]
+|-
+|RL ||'''5''' ||[[Antonio Suárez (rugby union)|Antonio Suárez]]
+|-
+|LL ||'''4''' ||[[Ignacio Piñeiro (rugby union)|Ignacio Piñeiro]]
+|-
+|TP ||'''3''' ||[[Jon Zabala]] ([[Captain (sports)|c]])
+|-
+|HK ||'''2''' ||[[Santiago Ovejero]]
+|-
+|LP ||'''1''' ||[[Thierry Futeu]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Diego González (rugby union)|Diego González]]
+|-
+|PR ||'''17'''||[[Lucas Santamaría]]
+|-
+|PR ||'''18'''||[[Hugo Pirlet]]
+|-
+|BR ||'''19'''||[[Vicente Boronat]]
+|-
+|BR ||'''20'''||[[Gabriel Vélez]]
+|-
+|SH ||'''21'''||[[Kerman Aurrekoetxea]]
+|-
+|CE ||'''22'''||[[Oriol Marsinyac]]
+|-
+|WG ||'''23'''||[[Gauthier Minguillon]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|ARG}} [[Pablo Bouza]]
+|}
+|valign="top" width="50%"|
+{| cellspacing="0" cellpadding="0" style="margin:auto"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Ignacio Álvarez Akiki]]
+|-
+|RW ||'''14'''||[[Juan Gonzalez (rugby union)|Juan Gonzalez]]
+|-
+|OC ||'''13'''||[[Justo Ferrario]]
+|-
+|IC ||'''12'''||[[Joaquín Súarez (rugby union)|Joaquín Súarez]]
+|-
+|LW ||'''11'''||[[Ignacio Facciolo]]
+|-
+|FH ||'''10'''||[[Ícaro Amarillo]]
+|-
+|SH ||'''9''' ||[[Ignacio Rodríguez Bosch]]
+|-
+|N8 ||'''8''' ||[[Manuel Diana]]
+|-
+|OF ||'''7''' ||[[Lucas Bianchi]]
+|-
+|BF ||'''6''' ||[[Manuel Ardao]]
+|-
+|RL ||'''5''' ||[[Manuel Leindekar]] ([[Captain (sports)|c]])
+|-
+|LL ||'''4''' ||[[Ignacio Dotti]]
+|-
+|TP ||'''3''' ||[[Reinaldo Piussi]]
+|-
+|HK ||'''2''' ||[[Germán Kessler]]
+|-
+|LP ||'''1''' ||[[Mateo Sanguinetti]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Sebastián Pérez (rugby union)|Sebastián Pérez]]
+|-
+|PR ||'''17'''||[[Mateo Perillo]]
+|-
+|PR ||'''18'''||[[Ignacio Péculo]]
+|-
+|LK ||'''19'''||[[Felipe Aliaga]]
+|-
+|LK ||'''20'''||[[Manuel Rosmarino]]
+|-
+|BR ||'''21'''||[[Mateo Sosa]]
+|-
+|SH ||'''22'''||[[Pedro Hoblog]]
+|-
+|CE ||'''23'''||[[Alfonso Vidal]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|URU}} [[Guzmán Barreiro]]
+|}
+|}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />Peter Martin ([[Irish Rugby Football Union|Ireland]])
+<br />Robbie Jenkinson ([[Irish Rugby Football Union|Ireland]])
+<br />'''Television match official:'''
+<br />Paulo Duarte ([[Portuguese Rugby Federation|Portugal]])
+|}
+
+====Zimbabwe v Samoa====
+{{rugbybox
+|id = Zimbabwe v Samoa
+|date = 7 November 2026
+|time = 15:00 [[GMT]] ([[UTC+00:00|UTC+00]])
+|team1 = {{ru-rt|ZIM}}
+|score =
+|report =
+|team2 = {{ru|SAM}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Belle Vue (Wakefield)|Belle Vue]], [[Wakefield]] ([[England]])
+|attendance =
+|referee = [[Matthew Carley]] ([[Rugby Football Union|England]])
+}}
+{| style="width:100%"
+|-
+|style="vertical-align:top;width:50%"|
+{| cellspacing="0" cellpadding="0"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Jason Robertson (rugby union)|Jason Robertson]]
+|-
+|RW ||'''14'''||[[Tapiwa Mafura]]
+|-
+|OC ||'''13'''||[[Brandon Mudzekenyedzi]]
+|-
+|IC ||'''12'''||[[Kudzai Mashawi]]
+|-
+|LW ||'''11'''||[[Edward Sigauke]]
+|-
+|FH ||'''10'''||[[Ian Prior (rugby union)|Ian Prior]]
+|-
+|SH ||'''9''' ||[[Hilton Mudariki]] ([[Captain (sports)|c]])
+|-
+|N8 ||'''8''' ||[[Aiden Burnett]]
+|-
+|OF ||'''7''' ||[[Godfrey Muzanargwo]]
+|-
+|BF ||'''6''' ||[[Tinotenda Mavesere]]
+|-
+|RL ||'''5''' ||[[Gary Porter (rugby union)|Gary Porter]]
+|-
+|LL ||'''4''' ||[[Dale Lemon]]
+|-
+|TP ||'''3''' ||[[Cleopas Kundiona]]
+|-
+|HK ||'''2''' ||[[Liam Larkan]]
+|-
+|LP ||'''1''' ||[[Victor Mupunga]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Matthew Mandioma]]
+|-
+|PR ||'''17'''||[[Tjide Visser]]
+|-
+|PR ||'''18'''||[[Bornwell Gwinji]]
+|-
+|LK ||'''19'''||[[Daniel Cooke (rugby union)|Daniel Cooke]]
+|-
+|BR ||'''20'''||[[Tadiwanashe Gwashu]]
+|-
+|FH ||'''21'''||[[Bruce Houston]]
+|-
+|SH ||'''22'''||[[Tyrone Gombe]]
+|-
+|CE ||'''23'''||[[Dion Khumalo]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|ZIM}} [[Pieter Benade]]
+|}
+|valign="top" width="50%"|
+{| cellspacing="0" cellpadding="0" style="margin:auto"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Shaun Stevenson]]
+|-
+|RW ||'''14'''||[[Latrell Smiler-Ah Kiong]]
+|-
+|OC ||'''13'''||[[Lalomilo Lalomilo]]
+|-
+|IC ||'''12'''||[[Peter Umaga-Jensen]]
+|-
+|LW ||'''11'''||[[AJ Lam]]
+|-
+|FH ||'''10'''||[[Jacob Umaga]]
+|-
+|SH ||'''9''' ||[[Connor Tupai]]
+|-
+|N8 ||'''8''' ||[[Abraham Papali'i]]
+|-
+|OF ||'''7''' ||[[Niko Jones]]
+|-
+|BF ||'''6''' ||[[Miracle Faiʻilagi]]
+|-
+|RL ||'''5''' ||[[Theo McFarland]] ([[Captain (sports)|c]])
+|-
+|LL ||'''4''' ||[[Ben Nee-Nee]]
+|-
+|TP ||'''3''' ||[[Michael Alaalatoa]]
+|-
+|HK ||'''2''' ||[[Richie Asiata]]
+|-
+|LP ||'''1''' ||[[Scott Sio]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|FL ||'''16'''||[[Sama Malolo]]
+|-
+|PR ||'''17'''||[[Aki Seiuli]]
+|-
+|PR ||'''18'''||[[Tietie Tuimauga]]
+|-
+|LK ||'''19'''||[[Chris Gabriel (rugby union)|Chris Gabriel]]
+|-
+|BR ||'''20'''||[[Alamanda Motuga]]
+|-
+|SH ||'''21'''||[[Joel Lam]]
+|-
+|FH ||'''22'''||[[Josh Ioane]]
+|-
+|CE ||'''23'''||[[Duncan Paia'aua]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|SAM}} [[Tusi Pisi]]
+|}
+|}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Craig Evans (rugby union referee)|Craig Evans]] ([[Welsh Rugby Union|Wales]])
+<br />Ben Breakspear ([[Welsh Rugby Union|Wales]])
+<br />'''Television match official:'''
+<br />Dan Jones ([[Rugby Football Union|England]])
+|}
+
+====Hong Kong v United States====
+{{rugbybox
+|id = Hong Kong v USA
+|date = 8 November 2026
+|time = 15:45 [[Central European Time|CET]] ([[UTC+01:00|UTC+01]])
+|team1 = {{ru-rt|HKG}}
+|score =
+|report =
+|team2 = {{ru|USA}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Stade Marcel-Verchère]], [[Bourg-en-Bresse]] ([[France]])
+|attendance =
+|referee = [[Luc Ramos]] ([[French Rugby Federation|France]])
+}}
+{| style="width:100%"
+|-
+|style="vertical-align:top;width:50%"|
+{| cellspacing="0" cellpadding="0"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Dylan McCann]]
+|-
+|RW ||'''14'''||[[Sebastian Brien]]
+|-
+|OC ||'''13'''||[[Marcus Ramage]]
+|-
+|IC ||'''12'''||[[Isaac Campbell-Wu]]
+|-
+|LW ||'''11'''||[[Harry Sayers (rugby union)|Harry Sayers]]
+|-
+|FH ||'''10'''||[[Nathan de Thierry]]
+|-
+|SH ||'''9''' ||[[Jack Combes]]
+|-
+|N8 ||'''8''' ||[[Joshua Hrstich]] ([[Captain (sports)|c]])
+|-
+|OF ||'''7''' ||[[Callum McCullough]]
+|-
+|BF ||'''6''' ||[[Jack Bartlett (rugby union)|Jack Bartlett]]
+|-
+|RL ||'''5''' ||[[Maximilian Murphy]]
+|-
+|LL ||'''4''' ||[[James Rivers (rugby union)|James Rivers]]
+|-
+|TP ||'''3''' ||[[Faizal Solomona Penesa]]
+|-
+|HK ||'''2''' ||[[Alexander Post]]
+|-
+|LP ||'''1''' ||[[Sunia Fameitau]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Harry Baron]]
+|-
+|PR ||'''17'''||[[Thomas Concu]]
+|-
+|PR ||'''18'''||[[	Keelan Chapman]]
+|-
+|LK ||'''19'''||[[Lachlan Doheny]]
+|-
+|BR ||'''20'''||[[Dana Fourie]]
+|-
+|SH ||'''21'''||[[Eric Chui]]
+|-
+|FH ||'''22'''||[[Joe Barker]]
+|-
+|CE ||'''23'''||[[Thomas Hill (rugby union)|Thomas Hill]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|NZL}} [[Andrew Douglas (rugby union)| Andrew Douglas]]
+|}
+|valign="top" width="50%"|
+{| cellspacing="0" cellpadding="0" style="margin:auto"
+|-
+!width="25"| !!width="25"|
+|-
+|FB ||'''15'''||[[Perry Mayo]]
+|-
+|RW ||'''14'''||[[Rufus McLean]]
+|-
+|OC ||'''13'''||[[Tavite Lopeti]]
+|-
+|IC ||'''12'''||[[Dominic Besag]]
+|-
+|LW ||'''11'''||[[Noah Brown (rugby union)| Noah Brown]]
+|-
+|FH ||'''10'''||[[Christopher Hilsenbeck]]
+|-
+|SH ||'''9''' ||[[Oscar Lennon (rugby union)| Oscar Lennon]]
+|-
+|N8 ||'''8''' ||[[Jamason Faʻanana-Schultz]]
+|-
+|OF ||'''7''' ||[[Makeen Alikhan]]
+|-
+|BF ||'''6''' ||[[Benjamín Bonasso]]
+|-
+|RL ||'''5''' ||[[Jason Damm]] ([[Captain (sports)|c]])
+|-
+|LL ||'''4''' ||[[Nathan Den Hoedt]]
+|-
+|TP ||'''3''' ||[[Tonga Kofe]]
+|-
+|HK ||'''2''' ||[[Shilo Klein]]
+|-
+|LP ||'''1''' ||[[Payton Telea-Ilalio]]
+|-
+|colspan=3|'''Substitutions:'''
+|-
+|HK ||'''16'''||[[Kaleb Geiger]]
+|-
+|PR ||'''17'''||[[Ezekiel Lindenmuth]]
+|-
+|PR ||'''18'''||[[Charlie Abel]]
+|-
+|LK ||'''19'''||[[Sam Golla]]
+|-
+|BR ||'''20'''||[[Marno Redelinghuys]]
+|-
+|SH ||'''21'''||[[Michael Baska]]
+|-
+|CE ||'''22'''||[[Cassh Maluia]]
+|-
+|FH ||'''23'''||[[Tom Pittman (rugby union)| Tom Pittman]]
+|-
+|colspan=3|'''Coach:'''
+|-
+|colspan="4"|{{flagdeco|USA}} [[Scott Lawrence (rugby union)|Scott Lawrence]]
+|}
+|}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />Kevin Bralley ([[French Rugby Federation|France]])
+<br />Benoît Rousselet ([[French Rugby Federation|France]])
+<br />'''Television match official:'''
+<br />Dan Jones ([[Rugby Football Union|England]])
+|}
+
+===Round 5===
+====Georgia v Tonga====
+{{rugbybox
+|id = Georgia v Tonga
+|date = 14 November 2026
+|time = 18:00 [[Georgia Standard Time|GET]] ([[UTC+04:00|UTC+04]])
+|team1 = {{ru-rt|GEO}}
+|score =
+|report =
+|team2 = {{ru|TON}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Avchala Rugby Stadium]], [[Tbilisi]]
+|attendance =
+|referee = [[Sam Grove-White]] ([[Scottish Rugby Union|Scotland]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Jordan Way]] ([[Rugby Australia|Australia]])
+<br />[[Ruairidh Campbell]] ([[Scottish Rugby Union|Scotland]])
+<br />'''Television match official:'''
+<br />Paulo Duarte ([[Portuguese Rugby Federation|Portugal]])
+|}
+
+====Hong Kong v Canada====
+{{rugbybox
+|id = Hong Kong v Canada
+|date = 14 November 2026
+|time = 15:00 [[Central European Time|CET]] ([[UTC+01:00|UTC+01]])
+|team1 = {{ru-rt|HKG}}
+|score =
+|report =
+|team2 = {{ru|CAN}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Chambéry Savoie Stadium]], [[Chambery]] ([[France]])
+|attendance =
+|referee = Jérémy Rozier ([[French Rugby Federation|France]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />Kevin Bralley ([[French Rugby Federation|France]])
+<br />Benoît Rousselet ([[French Rugby Federation|France]])
+<br />'''Television match official:'''
+<br />Julien Castaignède ([[French Rugby Federation|France]])
+|}
+
+====Portugal v Samoa====
+{{rugbybox
+|id = Portugal v Samoa
+|date = 14 November 2026
+|time = 15:00 [[Western European Time|WET]] ([[UTC+00:00|UTC+0]])
+|team1 = {{ru-rt|POR}}
+|score =
+|report =
+|team2 = {{ru|SAM}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Estádio Nacional]], [[Lisbon]]
+|attendance =
+|referee = [[Eoghan Cross]] ([[Irish Rugby Football Union|Ireland]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />Peter Martin ([[Irish Rugby Football Union|Ireland]])
+<br />Robbie Jenkinson ([[Irish Rugby Football Union|Ireland]])
+<br />'''Television match official:'''
+<br />[[Adam Jones (referee)|Adam Jones]] ([[Welsh Rugby Union|Wales]])
+|}
+
+====Zimbabwe v Uruguay====
+{{rugbybox
+|id = Zimbabwe v Uruguay
+|date = 14 November 2026
+|time = 15:00 [[GMT]] ([[UTC+00:00|UTC+00]])
+|team1 = {{ru-rt|ZIM}}
+|score =
+|report =
+|team2 = {{ru|URU}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Trailfinders Sports Ground]], [[Ealing]] ([[England]])
+|attendance =
+|referee = [[Katsuki Furuse]] ([[Japan Rugby Football Union|Japan]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />Ben Breakspear ([[Welsh Rugby Union|Wales]])
+<br />Ben Connor ([[Welsh Rugby Union|Wales]])
+<br />'''Television match official:'''
+<br />Stefano Penne ([[Italian Rugby Federation|Italy]])
+|}
+
+====Spain v Chile====
+{{rugbybox
+|id = Spain v Chile
+|date = 14 November 2026
+|time = 17:00 [[Central European Time|CET]] ([[UTC+01:00|UTC+01]])
+|team1 = {{ru-rt|ESP}}
+|score =
+|report =
+|team2 = {{ru|CHI}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Butarque Stadium]], [[Leganés]]
+|attendance =
+|referee = [[Hollie Davidson]] ([[Scottish Rugby Union|Scotland]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Matthew Carley]] ([[Rugby Football Union|England]])
+<br />George Selwood ([[Rugby Football Union|England]])
+<br />'''Television match official:'''
+<br />Dan Jones ([[Rugby Football Union|England]])
+|}
+
+====Romania v United States====
+{{rugbybox
+|id = Romania v USA
+|date = 14 November 2026
+|time = 18:30 [[Eastern European Time|EET]] ([[UTC+02:00|UTC+02]])
+|team1 = {{ru-rt|ROM}}
+|score =
+|report =
+|team2 = {{ru|USA}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Arcul de Triumf Stadium (2021)|Stadionul National Arcul de Triumf]], [[Bucharest]]
+|attendance =
+|referee = Anthony Woodthorpe ([[Rugby Football Union|England]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />Saba Abulashvili ([[Georgian Rugby Union|Georgia]])
+<br />Saba Makharadze ([[Georgian Rugby Union|Georgia]])
+<br />'''Television match official:'''
+<br />Paulo Duarte ([[Portuguese Rugby Federation|Portugal]])
+|}
+
+===Round 6===
+====Romania v Canada====
+{{rugbybox
+|id = Romania v Canada
+|date = 20 November 2026
+|time = 18:30 [[Eastern European Time|EET]] ([[UTC+02:00|UTC+02]])
+|team1 = {{ru-rt|ROM}}
+|score =
+|report =
+|team2 = {{ru|CAN}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Arcul de Triumf Stadium (2021)|Stadionul National Arcul de Triumf]], [[Bucharest]]
+|attendance =
+|referee = [[Damián Schneider]] ([[Argentine Rugby Union|Argentina]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />Federico Vedovelli ([[Italian Rugby Federation|Italy]])
+<br />Filippo Russo ([[Italian Rugby Federation|Italy]])
+<br />'''Television match official:'''
+<br />Francisco González ([[Uruguayan Rugby Union|Uruguay]])
+|}
+
+====Hong Kong v Tonga====
+{{rugbybox
+|id = Hong Kong v Tonga
+|date = 21 November 2026
+|time = 18:00 [[Hong Kong Time|HKT]] ([[UTC+08:00|UTC+08]])
+|team1 = {{ru-rt|HKG}}
+|score =
+|report =
+|team2 = {{ru|TON}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Kai Tak Stadium|Kai Tak Youth Sports Ground]], [[Hong Kong]]
+|attendance =
+|referee = [[Jordan Way]] ([[Rugby Australia|Australia]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Katsuki Furuse]] ([[Japan Rugby Football Union|Japan]])
+<br />Ibuki Tetsuka ([[Japan Rugby Football Union|Japan]])
+<br />'''Television match official:'''
+<br />Julien Castaignède ([[French Rugby Federation|France]])
+|}
+
+====Georgia v United States====
+{{rugbybox
+|id = Georgia v USA
+|date = 21 November 2026
+|time = 18:00 [[Georgia Standard Time|GET]] ([[UTC+04:00|UTC+04]])
+|team1 = {{ru-rt|GEO}}
+|score =
+|report =
+|team2 = {{ru|USA}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Mikheil Meskhi Stadium]], [[Tbilisi]]
+|attendance =
+|referee = [[Morné Ferreira]] ([[South African Rugby Union|South Africa]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />Peter Martin ([[Irish Rugby Football Union|Ireland]])
+<br />Robbie Jenkinson ([[Irish Rugby Football Union|Ireland]])
+<br />'''Television match official:'''
+<br />Paulo Duarte ([[Portuguese Rugby Federation|Portugal]])
+|}
+
+====Portugal v Uruguay====
+{{rugbybox
+|id = Portugal v Uruguay
+|date = 21 November 2026
+|time = 15:00 [[Western European Time|WET]] ([[UTC+00:00|UTC+0]])
+|team1 = {{ru-rt|POR}}
+|score =
+|report =
+|team2 = {{ru|URU}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Estádio Nacional]], [[Lisbon]]
+|attendance =
+|referee = Kevin Bralley ([[French Rugby Federation|France]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />Thomas Charabas ([[French Rugby Federation|France]])
+<br />[[Ruairidh Campbell]] ([[Scottish Rugby Union|Scotland]])
+<br />'''Television match official:'''
+<br />Julien Castaignède ([[French Rugby Federation|France]])
+|}
+
+====Zimbabwe v Chile====
+{{rugbybox
+|id = Zimbabwe v Chile
+|date = 21 November 2026
+|time = 16:45 [[Central European Time|CET]] ([[UTC+01:00|UTC+01]])
+|team1 = {{ru-rt|ZIM}}
+|score =
+|report =
+|team2 = {{ru|CHI}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = {{ill|Stade Chanzy|lt=Stade Chanzy|fr|Stade Chanzy}}, [[Angouleme]] ([[France]])
+|attendance =
+|referee = Ben Breakspear ([[Welsh Rugby Union|Wales]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />Evan Urruzmend ([[French Rugby Federation|France]])
+<br />Julien Caulier ([[French Rugby Federation|France]])
+<br />'''Television match official:'''
+<br />Paulo Duarte ([[Portuguese Rugby Federation|Portugal]])
+|}
+
+====Spain v Samoa====
+{{rugbybox
+|id = Spain v Samoa
+|date = 21 November 2026
+|time = 17:00 [[Central European Time|CET]] ([[UTC+01:00|UTC+01]])
+|team1 = {{ru-rt|ESP}}
+|score =
+|report =
+|team2 = {{ru|SAM}}
+|try1 =
+|con1 =
+|pen1 =
+|drop1 =
+|try2 =
+|con2 =
+|pen2 =
+|drop2 =
+|stadium = [[Estadio Ciudad de Málaga]], [[Malaga]]
+|attendance =
+|referee = Ben Connor ([[Welsh Rugby Union|Wales]])
+}}
+{| style="width:100%"
+|
+<!--'''Player of the Match:'''
+<br />
+-->
+'''Assistant referees:'''
+<br />[[Adam Jones (referee)|Adam Jones]] ([[Welsh Rugby Union|Wales]])
+<br />Jamie Parr ([[Rugby Football Union|England]])
+<br />'''Television match official:'''
+<br />Francisco González ([[Uruguayan Rugby Union|Uruguay]])
+|}
+
+==See also==
+* [[2026 World Rugby Nations Cup]]
+* [[2026 Nations Championship Northern Hemisphere Series]]
+* [[2026 men's rugby union internationals]]
+
+==Notes==
+{{reflist|group=N}}
+
+==References==
+{{reflist}}
+
+{{World Rugby Nations Cup}}
+
+[[Category:World Rugby Nations Cup (2026–)]]
+[[Category:2026 rugby union tournaments for national teams]]
+[[Category:November 2026 sports events in Europe|World Rugby Nations Cup]]
+[[Category:Scheduled rugby football competitions|World Rugby Nations Cup]]
