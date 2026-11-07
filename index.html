@@ -490,6 +490,16 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 .nowchip.two .nico img { width: 13px; height: 13px; margin: 0 }
 .nowchip.two .wline { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: #d6336c; z-index: 2; pointer-events: none }
 .nowchip.two .livedot, .nowchip.two .enddot { z-index: 3 }
+/* country v country: the two halves run under the button's edge, which is drawn on top (in the button's own colour, so
+   hover, pressed, live and finished still change it), so no dark gap shows where the halves meet the curved ends, and
+   nothing is clipped: the live dot shows whole. The women's pink line is each half's own inner shadow, so it follows
+   the curve. Sizes and positions stay as they were */
+:is(#nowChips, #weekComps) > .nowchip.two { --bw: 1px; --bwx: 1px; overflow: visible; background: transparent; border-image: linear-gradient(transparent, transparent) 1 }
+:is(#nowChips, #weekComps) > .nowchip.two::after { content: ""; position: absolute; inset: calc(-1 * var(--bw)) calc(-1 * var(--bwx)); border: solid; border-width: var(--bw) var(--bwx); border-color: inherit; border-style: inherit; border-radius: inherit; pointer-events: none; z-index: 2 }
+:is(#nowChips, #weekComps) > .nowchip.two .nside { margin-block: calc(-1 * var(--bw)) }
+:is(#nowChips, #weekComps) > .nowchip.two .nsa { margin-left: calc(-1 * var(--bwx)); padding-left: calc(10px + var(--bwx)) }
+:is(#nowChips, #weekComps) > .nowchip.two .nsb { margin-right: calc(-1 * var(--bwx)); padding-right: calc(10px + var(--bwx)) }
+:is(#nowChips, #weekComps) > .nowchip.two:has(.wline) .nside { box-shadow: inset 0 calc(-3px - var(--bw)) #d6336c } :is(#nowChips, #weekComps) > .nowchip.two .wline { display: none }
 .nowchip.tbrand { gap: 6px; padding-left: 9px; padding-right: 12px; background: var(--tb-bg); color: var(--tb-ink); font-weight: 800; letter-spacing: .02em; border-color: var(--tb-glow);
   box-shadow: 0 0 9px 0 color-mix(in srgb, var(--tb-glow) 55%, transparent), inset 0 0 6px color-mix(in srgb, var(--tb-glow) 25%, transparent) }
 .nowchip.tbrand .tbt { text-transform: uppercase; font-size: 12.5px; white-space: nowrap }
@@ -1613,7 +1623,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
     content: ""; position: absolute; inset: -1px; border: 2px solid; border-width: 2px 3px; border-color: inherit; border-radius: inherit; pointer-events: none }
   .nowchip :is(.livedot, .enddot) { z-index: 1 } .nowchip.is-ended:not([aria-pressed="true"])::after { border-style: dashed }
   /* (with the id, to outweigh the :is() list above, which counts as an id) */
-  :is(#nowChips, #weekComps) .nowchip.two { border-image: none; border-width: 2px 3px } :is(#nowChips, #weekComps) .nowchip.two::after { content: none }
+  :is(#nowChips, #weekComps) > .nowchip.two { --bw: 2px; --bwx: 3px; border-width: 2px 3px; border-image: linear-gradient(transparent, transparent) 1 } :is(#nowChips, #weekComps) > .nowchip.two::after { content: ""; inset: calc(-1 * var(--bw)) calc(-1 * var(--bwx)); border-width: var(--bw) var(--bwx); border-style: inherit }
   .seg { border-width: 2px 3px; margin: -1px -2px }
   #compBar .seg { --bw: 2px; --bwx: 3px }
   .dsel .dbtn { border-width: 2px; padding-block: 3px } #compSel { border-width: 2px 3px; padding: 1px 25px 1px 11px; background-position: right 13px center, right 8px center }
