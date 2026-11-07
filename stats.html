@@ -472,8 +472,10 @@ function shape(n = spanDays(), back = 0) {
   const inRange = new Set(list), per = Object.fromEntries(list.map(d => [d, { visitors: 0, opens: 0, views: 0, appviews: 0, appvisitors: 0 }])), sums = {};
   for (const r of data.rows) {
     if (!inRange.has(r.day)) continue;
+    // the card size called Standard until v621 is Large now (and the older every-card Large became it)
+    const key = r.metric === 'view' && r.key === 'big' ? 'mixed' : r.metric === 'use' && r.key === 'Card size Standard' ? 'Card size Large' : r.key;
     if (r.metric in per[r.day]) per[r.day][r.metric] += r.n;
-    else { sums[r.metric] = sums[r.metric] || {}; sums[r.metric][r.key] = (sums[r.metric][r.key] || 0) + r.n; }
+    else { sums[r.metric] = sums[r.metric] || {}; sums[r.metric][key] = (sums[r.metric][key] || 0) + r.n; }
   }
   for (const d of list) if (!per[d].opens) per[d].opens = per[d].views; // days before visits were counted: page views stand in
   // competition pages opened by name are counted from 7 Nov 2026; on the days before, the competitions menu's picks
@@ -930,7 +932,7 @@ function draw() {
   const siteUse = Object.fromEntries(Object.entries(sums.use || {}).filter(([k]) => !SETTINGS_USE.has(k)));
   bars('use', siteUse, k => k, Object.entries(siteUse).sort((a, b) => b[1] - a[1]).map(([k]) => k));
   bars('spoil', sums.spoil, k => ({ hidden: 'Results hidden', shown: 'Results shown' })[k] || k);
-  bars('view', sums.view, k => ({ big: 'Large', mixed: 'Standard', compact: 'Compact', list: 'List' })[k] || k);
+  bars('view', sums.view, k => ({ mixed: 'Large', compact: 'Compact', list: 'List' })[k] || k);
   bars('theme', sums.theme, k => ({ green: 'Kiwi green', ocean: 'Ocean blue', red: 'Pōhutukawa red', black: 'All Black', kowhai: 'Kōwhai gold', paua: 'Pāua teal', purple: 'Twilight purple', orange: 'Sunset orange', lime: 'Kawakawa lime', pink: 'Rātā pink', kauri: 'Kauri brown', silver: 'Silver fern', tui: 'Tūī indigo', navy: 'Moana navy', olive: 'Harakeke olive' })[k] || k);
   bars('speed', sums.speed, k => k, SPEED_ORDER);
   // each slow load is one line ("8s or more · slowest getting the feed · 4g connection · in sight · 4 GB memory · Android
