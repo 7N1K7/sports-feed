@@ -356,6 +356,161 @@ function ufcFromList(text, cityTz) {
   return out;
 }
 
+// ONE Championship: "{Y} in ONE Championship" gives each event a section: its infobox (name, date, venue, city) and its
+// card as plain tables, a row a bout (weight | fighter | def. or vs. | fighter | method | round | time | notes), each
+// fighter after their flag, the main event first. The big cards are listed: ONE Fight Night (monthly at Lumpinee), ONE
+// Samurai (in Japan), the numbered events and any other named card; the weekly ONE Friday Fights and The Inner Circle
+// only with a New Zealander on the card. (List of ONE Championship events is months behind, so it isn't read.)
+// Wikipedia gives no start times: each series' usual one until TheSportsDB has the real one (oneStartTimes)
+const ONE_USUAL = [
+  // US prime time on Prime Video: 9pm Friday in New York, so Saturday 8am in Bangkok (9am in the US winter)
+  [/Fight Night/i, { h: 21, mi: 0, tz: 'America/New_York', back: 1 }],
+  [/Friday Fights|Inner Circle/i, { h: 20, mi: 30 }],
+  [/Samurai/i, { h: 17, mi: 30 }],
+];
+const ONE_NZ = /^(NZL|NZ|New Zealand)$/i;
+function oneCard(body) {
+  const card = [];
+  const flag = c => (String(c || '').match(/\{\{\s*flag(?:icon|deco)?\s*\|\s*([^|}]+)/i) || [])[1]?.trim() || '';
+  const bout = (section, cells) => {
+    const [weight, a, res, b, method, round, time] = cells.map(clean);
+    if (a && b) card.push({ section, weight, a, b, res: /def/i.test(res) ? 'def.' : /draw/i.test(res) ? 'draw' : /nc|no contest/i.test(res) ? 'NC' : 'vs.', method, round, time,
+      ...(ONE_NZ.test(flag(cells[1])) ? { aNZ: true } : {}), ...(ONE_NZ.test(flag(cells[3])) ? { bNZ: true } : {}) });
+  };
+  // each results table: its title row names the card ("ONE Fight Night 49 (Amazon Prime Video)"), then a row a bout
+  for (const chunk of body.split(/\n\{\|/).slice(1)) {
+    const tbl = chunk.split(/\n\|\}/)[0];
+    const section = clean((tbl.match(/'''([^'\n]+)'''/) || [])[1] || '').replace(/\s*\([^)]*\)\s*$/, '');
+    for (const row of tbl.split(/\n\|-[^\n]*/).slice(1)) {
+      const cells = row.split(/\n\|(?!\})/).slice(1).map(c => c.replace(/^\s*(?:[a-z-]+=(?:"[^"]*"|[^|\s]+)\s*)+\|(?!\|)/i, '').trim());
+      if (cells.length >= 4 && /flag/i.test(cells[1] + cells[3])) bout(section, cells);
+    }
+  }
+  // a card's own article: the usual MMA templates instead, {{MMAevent card|Main card (…)}} then a {{MMAevent bout|weight|
+  // fighter|def. or vs.|fighter|method|round|time|notes}} each
+  if (!card.length) {
+    let section = '';
+    for (const tpl of templates(body, /^MMAevent (card|bout)$/i)) {
+      const { name, pos } = params(tpl.body);
+      if (/card/i.test(name)) section = clean(pos[0] || '').replace(/\s*\([^)]*\)\s*$/, '');
+      else bout(section, pos);
+    }
+  }
+  return card.slice(0, 24);
+}
+// the year page's event tables (Scheduled events, Past events): a row a card, its name (linked to its section, or to its
+// own article once it has one), date, venue, city and country. A big card's section shrinks to "{{Main|ONE 173}}" once
+// it has an article (all of 2025's did), so the table and that article fill in for it
+function oneTable(text) {
+  const out = [];
+  for (const chunk of text.split(/\n\{\|/).slice(1)) {
+    const tbl = chunk.split(/\n\|\}/)[0];
+    if (!/^!.*\bEvent\b/m.test(tbl) || !/^!.*\bDate\b/m.test(tbl)) continue;
+    for (const row of tbl.split(/\n\|-[^\n]*/).slice(1)) {
+      const cells = row.split(/\n\|(?!\})/).slice(1).map(c => c.replace(/^\s*(?:[a-z-]+=(?:"[^"]*"|[^|\s]+)\s*)+\|(?!\|)/i, '').trim());
+      const di = cells.findIndex(c => /\{\{\s*dts\s*\|/i.test(c));
+      if (di < 1) continue;
+      const dm = cells[di].match(/\{\{\s*dts\s*\|\s*(\d{4})\s*\|\s*([A-Za-z]+|\d{1,2})\s*\|\s*(\d{1,2})/i);
+      const lm = cells[di - 1].match(/\[\[\s*(#?)([^|\]]+?)\s*(?:\|([^\]]+))?\]\]/);
+      if (!dm) continue;
+      const mo = /^\d+$/.test(dm[2]) ? +dm[2] : MONTHS.indexOf(dm[2].slice(0, 3).toLowerCase()) + 1;
+      const name = clean(lm ? lm[3] || lm[2] : cells[di - 1]);
+      if (!name || !mo) continue;
+      out.push({ name, label: name.replace(/\s*\/\s*The Inner Circle.*$/i, '').split(/:\s*/)[0].trim(), article: lm && !lm[1] ? lm[2] : '', d: [+dm[1], mo, +dm[3]],
+        venue: clean(cells[di + 1] || ''), city: [clean(cells[di + 2] || ''), clean(cells[di + 3] || '')].filter(Boolean).join(', ') });
+    }
+  }
+  return out;
+}
+// the articles of the cards near now (two months back to four ahead) that have one, for wikiEvents to fetch: at most 8
+export function oneArticles(text) {
+  const now = Date.now(), at = r => Date.UTC(r.d[0], r.d[1] - 1, r.d[2]);
+  return oneTable(text).filter(r => r.article && at(r) > now - 62 * DAY && at(r) < now + 120 * DAY)
+    .sort((a, b) => Math.abs(at(a) - now) - Math.abs(at(b) - now)).slice(0, 8).map(r => r.article);
+}
+function oneFromYear(text, cityTz, page, arts = {}) {
+  const out = [], now = Date.now(), seen = new Set();
+  const table = oneTable(text), row = l => table.find(r => r.label.toLowerCase() === l.toLowerCase());
+  // one card: from its infobox and results tables (the section, or its own article), else from its table row alone
+  const add = (head, body, src) => {
+    let box = templates(body, /^Infobox MMA event$/i)[0], p = box ? params(box.body).named : {};
+    const r = row(head);
+    // a section that only points to the card's own article: that article, if fetched and about this card
+    if (!box && (r?.article || /\{\{\s*Main\s*\|/i.test(body))) {
+      const t = r?.article || (body.match(/\{\{\s*Main\s*\|\s*([^|}]+)/i) || [])[1]?.trim(), a = arts[t];
+      const ab = a && templates(a.text, /^Infobox MMA event$/i)[0], ap = ab ? params(ab.body).named : {};
+      if (ab && clean(ap.name || '').split(/:\s*/)[0].trim().toLowerCase() === head.toLowerCase()) {
+        box = ab; p = ap; body = a.text; src = `https://en.wikipedia.org/wiki/${encodeURIComponent(a.title.replace(/ /g, '_'))}`;
+      } else if (t) src = `https://en.wikipedia.org/wiki/${encodeURIComponent(t.replace(/ /g, '_'))}`;
+    }
+    let d = (String(p.date || '').match(/\|\s*(\d{4})\s*\|\s*(\d{1,2})\s*\|\s*(\d{1,2})/) || []).slice(1).map(Number);
+    if (!box) { if (!r) return; p = { name: r.name, venue: r.venue, city: r.city }; d = r.d; }
+    if (d.length < 3) return;
+    // "ONE Fight Night 49: Gabriel vs. Magomedov"; "ONE Friday Fights 176 / The Inner Circle 36"
+    const [label, bout = ''] = clean(p.name || head).replace(/\s*\/\s*The Inner Circle.*$/i, '').split(/:\s*/);
+    seen.add(head.toLowerCase()); seen.add(label.toLowerCase());
+    const card = box ? oneCard(body) : [];
+    const kiwis = [...new Set(card.flatMap(b => [b.aNZ && b.a, b.bNZ && b.b]).filter(Boolean).map(n => n.replace(/\s*\((c|ic)\)$/i, '')))];
+    if (/Friday Fights|Inner Circle/i.test(`${label} ${head}`) && !kiwis.length) return;
+    const city = clean(p.city), bits = city.split(',').map(x => x.trim());
+    const tz = cityTz(bits[0]) || cityTz(bits[bits.length - 1]) || 'Asia/Bangkok';
+    const u = ONE_USUAL.find(([re]) => re.test(label))?.[1];
+    // the usual start in the series' own time zone (the day before for the New York slot), else 6pm local, to be confirmed
+    const t = u?.tz ? localToUTC(d[0], d[1] - 1, d[2] - (u.back || 0), u.h, u.mi, u.tz) : localToUTC(d[0], d[1] - 1, d[2], u ? u.h : 18, u ? u.mi : 0, tz);
+    if (now - t > 60 * DAY) return;
+    const main = card[0], [a, b] = bout.split(/\s+vs\.?\s+/i);
+    const home = a || (main ? main.a.replace(/\s*\((c|ic)\)$/i, '') : label), away = b || (main ? main.b.replace(/\s*\((c|ic)\)$/i, '') : 'TBC');
+    const won = main?.res === 'def.', over = now - t > 12 * 36e5;
+    out.push({
+      id: `wiki-onefc-${label.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 60)}`, team: 'onefc', tags: kiwis.length ? ['nzboxing'] : [], sport: 'mma', comp: label,
+      home, away, startUTC: new Date(t).toISOString(), timeTBC: true, ...(u ? { usual: true } : {}),
+      venue: /^(TBA|TBD|to be announced)$/i.test(clean(p.venue)) ? '' : clean(p.venue), city, tz,
+      status: won || over ? 'final' : 'upcoming', ...(won ? { score: `${main.a} won`, summary: `${main.a} def. ${main.b}${main.method ? ` by ${main.method}` : ''}${main.round ? `, round ${main.round}` : ''}` } : over ? { score: 'Results on event page' } : {}),
+      ...(card.length ? { card: card.map(({ aNZ, bNZ, ...x }) => x) } : {}),
+      // a New Zealander on the card: the card shows by default (with NZ fighters) and says who
+      ...(kiwis.length ? { nzEvent: true, note: `${kiwis.length > 1 ? kiwis.slice(0, -1).join(', ') + ' and ' + kiwis[kiwis.length - 1] : kiwis[0]} (NZ) ${kiwis.length > 1 ? 'are' : 'is'} fighting` } : {}),
+      // (the card's section on the year page, or its own article; onefc.com is link-only, and the UFC's cards link no promoter page either)
+      source: src,
+    });
+  };
+  const heads = [...text.matchAll(/^==\s*([^=\n][^\n]*?)\s*==\s*$/gm)];
+  heads.forEach((h, i) => {
+    const body = text.slice(h.index + h[0].length, heads[i + 1]?.index ?? text.length);
+    if (/cancel/i.test(h[1]) || !/^ONE\b/.test(h[1]) && !templates(body, /^Infobox MMA event$/i).length) return;
+    add(h[1], body, `https://en.wikipedia.org/wiki/${encodeURIComponent(page.replace(/ /g, '_'))}#${encodeURIComponent(h[1].replace(/ /g, '_'))}`);
+  });
+  // a card in the table with no section yet
+  for (const r of table) if (!seen.has(r.label.toLowerCase()) && !/cancel/i.test(r.name)) add(r.label, '', `https://en.wikipedia.org/wiki/${encodeURIComponent(page.replace(/ /g, '_'))}`);
+  return out;
+}
+// ONE start times from TheSportsDB (its "ONE" league, 4495, on the free key): each card looked up by its name ("ONE Fight
+// Night 49"), the two soonest still waiting on a time each run. A time found is asked again every 12 hours (in case it
+// moves), a card not listed yet every 6. Midnight UTC is TheSportsDB's "no time yet"
+export async function oneStartTimes(events, cache, diag) {
+  const now = Date.now(), c = cache._one ||= {}, all = events.filter(e => e.team === 'onefc');
+  const notes = [];
+  const due = all.filter(e => e.status !== 'final' && Date.parse(e.startUTC) > now - DAY && Date.parse(e.startUTC) < now + 30 * DAY && (!c[e.comp] || now - c[e.comp].t > (c[e.comp].at ? 12 : 6) * 36e5))
+    .sort((a, b) => a.startUTC.localeCompare(b.startUTC)).slice(0, 2);
+  for (const e of due) {
+    try {
+      const evs = (await tsdb(`searchevents.php?e=${encodeURIComponent(e.comp)}`)).event || [];
+      // "ONE Fight Night 49", or "ONE Friday Fights 176 Lamsing vs Rhenimi": the name, then not another digit, within a day and a half
+      const re = new RegExp(`^${e.comp.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?!\\d)`, 'i');
+      const hit = evs.find(ev => String(ev.idLeague) === '4495' && re.test(String(ev.strEvent || '').trim()) && ev.strTimestamp && Math.abs(Date.parse(tsdbISO(ev.strTimestamp)) - Date.parse(e.startUTC)) < 1.5 * DAY);
+      const at = hit && !/T00:00(:00)?$/.test(hit.strTimestamp.replace(/(\+00:00|Z)$/, '')) ? tsdbISO(hit.strTimestamp) : null;
+      c[e.comp] = { t: now, at };
+      notes.push(`${e.comp}: ${at || (hit ? 'listed, no time yet' : 'not listed yet')}`);
+    } catch (err) { notes.push(`${e.comp}: ${err.message}`); break; }
+  }
+  let n = 0;
+  for (const e of all) {
+    const k = c[e.comp];
+    if (k?.at && Math.abs(Date.parse(k.at) - Date.parse(e.startUTC)) < 1.5 * DAY) { e.startUTC = k.at; e.timeTBC = false; delete e.usual; n++; }
+  }
+  for (const k of Object.keys(c)) if (now - c[k].t > 60 * DAY) delete c[k];
+  diag.oneTimes = [...notes, `${n} of ${all.length} ONE cards with TheSportsDB's start time`].join('; ');
+}
+
 export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true } = {}) {
   const nowD = new Date();
   const Y = nowD.getUTCFullYear(), M = nowD.getUTCMonth();
@@ -475,11 +630,28 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
       diag.sections = sectPages.map(pg => `${pg}: ${src[pg] ? 'read' : 'missing'}`).join('; ');
     } catch (e) { diag.sections = 'error: ' + e.message; }
   }
+  // ONE's big cards near now that have their own article (the year page then only points to it): one more ask for those
+  const oneArts = {};
+  const oneWant = [...new Set([...want].filter(([t, c]) => c.onefc && texts[t]).flatMap(([t]) => oneArticles(texts[t].text)))].slice(0, 20);
+  if (oneWant.length) {
+    try {
+      for (let cont = {}, n = 0; cont && n < 5; n++) {
+        const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(oneWant.join('|')) + Object.entries(cont).map(([k, v]) => `&${k}=${encodeURIComponent(v)}`).join(''));
+        const back = Object.fromEntries([...(r.query?.redirects || []), ...(r.query?.normalized || [])].map(x => [x.to, x.from]));
+        for (const pg of r.query?.pages || []) {
+          const text = pg.revisions?.[0]?.slots?.main?.content;
+          if (!pg.missing && text) oneArts[back[back[pg.title]] || back[pg.title] || pg.title] = { title: pg.title, text };
+        }
+        cont = r.continue?.rvcontinue ? r.continue : null;
+      }
+      diag.oneArticles = `${Object.keys(oneArts).length} of ${oneWant.length} read`;
+    } catch (e) { diag.oneArticles = 'error: ' + e.message; }
+  }
   const out = [], per = {}, tableSrc = [];
   for (const [want_t, c] of want) {
     const pg = texts[want_t];
     if (!pg) continue;
-    const evs = c.ufc ? ufcFromList(pg.text, cityTz) : eventsFromPage(pg.title, pg.text, c.seriesTitle ? { ...c, comp: seriesComp(pg.title, c) } : c, cityTz);
+    const evs = c.ufc ? ufcFromList(pg.text, cityTz) : c.onefc ? oneFromYear(pg.text, cityTz, pg.title, oneArts) : eventsFromPage(pg.title, pg.text, c.seriesTitle ? { ...c, comp: seriesComp(pg.title, c) } : c, cityTz);
     if (c.seriesTitle) for (const e of evs) hostFirst(e, pg.title);
     if (c.formOnly) for (const e of evs) e.formOnly = true;
     per[pg.title] = evs.length;
@@ -489,7 +661,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
     }
     out.push(...evs);
     // (noTables: a page whose tables copy another's, as the Nations Championship's series pages copy its main page's)
-    if (!c.seriesTitle && !c.ufc && !c.formOnly && !c.noTables) tableSrc.push({ c, title: pg.title, text: pg.text });
+    if (!c.seriesTitle && !c.ufc && !c.onefc && !c.formOnly && !c.noTables) tableSrc.push({ c, title: pg.title, text: pg.text });
   }
   diag.wikipedia = per;
   if (formPrev.length) diag.formPrev = formPrev.map(([t]) => `${t}: ${texts[t] ? `${per[texts[t].title] ?? 0} games${texts[t].text ? '' : ' (no text)'}` : 'no page'}`).join('; ');
@@ -2114,4 +2286,4 @@ export async function tsdbBackfill(all, cache, diag, max = 2) {
   return out;
 }
 export { tennisFinals as _tennisFinals, dateRange as _dateRange, TENNIS as _TENNIS };
-export { f1Past as _f1Past, scTables as _scTables, scTsdb as _scTsdb, f1Tables as _f1Tables, f1Top3 as _f1Top3, supercarsSeason as _supercarsSeason, readSquad as _readSquad, stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, fightCard as _fightCard, sportsTables as _sportsTables };
+export { f1Past as _f1Past, scTables as _scTables, scTsdb as _scTsdb, f1Tables as _f1Tables, f1Top3 as _f1Top3, supercarsSeason as _supercarsSeason, readSquad as _readSquad, stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, oneFromYear as _oneFromYear, oneTable as _oneTable, fightCard as _fightCard, sportsTables as _sportsTables };

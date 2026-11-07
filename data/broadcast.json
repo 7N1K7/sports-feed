@@ -17,6 +17,8 @@
   { "comp": "\\bNBL\\b", "broadcast": "ESPN on Sky / Sky Sport Now / Disney+ (ESPN)", "au": "ESPN on Kayo, Foxtel or Disney+ (every game) / 9Now (free, Saturday games)" },
   { "comp": "^UFC Fight Night", "broadcast": "TVNZ+ (free) / TVNZ Duke (free) / UFC Fight Pass" },
   { "comp": "^UFC \\d", "broadcast": "Sky Arena (pay-per-view) / TVNZ+ Event Pass (pay-per-view) / UFC Fight Pass (pay-per-view)", "watchAlt": "Prelims free on TVNZ+ / TVNZ Duke" },
+  { "team": "onefc", "comp": "Samurai", "broadcast": "live.onefc.com (pay-per-view)", "watchAlt": "Prelims free on ONE YouTube (the first two fights)", "au": "live.onefc.com (pay-per-view) / the first two fights free on ONE YouTube" },
+  { "team": "onefc", "broadcast": "ESPN on Sky / Sky Sport Now / Disney+ (ESPN)", "watchAlt": "Highlights and full fights free on ONE YouTube", "au": "ESPN on Kayo, Foxtel or Disney+" },
   { "comp": "Formula 1", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Highlights free on Sky Open", "au": "Kayo and Foxtel (every session)" },
   { "team": "supercars", "broadcast": "Sky Sport / Sky Sport Now", "au": "Kayo / Fox Sports / Seven / 7plus (free, selected rounds)" },
   { "comp": "^(PGA Tour|LPGA Tour)", "broadcast": "Sky Sport / Sky Sport Now" },

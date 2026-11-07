@@ -9,7 +9,7 @@
 //   data/curated/*.json        -> fixtures the above lack (boxing, some tests), news, notes
 //   data/broadcast.json        -> where-to-watch rules by competition
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
-import { wikiEvents, tsdbEvents, tsdbBackfill, tsdb, f1StartTimes, f1Sessions, supercarsStartTimes, supercarsResults, nbaGames, stateSquads, teamSquads } from './sources.mjs';
+import { wikiEvents, tsdbEvents, tsdbBackfill, tsdb, f1StartTimes, f1Sessions, supercarsStartTimes, oneStartTimes, supercarsResults, nbaGames, stateSquads, teamSquads } from './sources.mjs';
 import { rankings as getRankings, KIWI_GOLF } from './rankings.mjs';
 import { execSync } from 'node:child_process';
 
@@ -77,6 +77,8 @@ const NEWS_TEAMS = [
   ['wbbl', /\bWBBL\b|Women's Big Bash/i], ['bbl', /\bBBL\b|Big Bash/i],
   ['footballferns', /Football Ferns/i], ['allwhites', /All Whites/i], ['phoenix', /Wellington Phoenix|\bPhoenix\b/], ['aucklandfc', /Auckland FC/i], ['aleague', /A-League/i], ['epl', /Premier League|\bEPL\b/],
   ['nzboxing', /Joseph Parker|David Nyika|Mea Motu|Lani Daniels|Andrei Mikhailovich/i],
+  // (ONE before the UFC, whose "MMA" would take a ONE story too)
+  ['onefc', /\bONE (Championship|Fight Night|Friday Fights|Samurai)\b|\bONE \d{3}\b/],
   ['ufc', /\bUFC\b|\bMMA\b|Adesanya|Kara-France|Dan Hooker|Carlos Ulberg/i], ['boxing', /\bboxing\b|\bboxer\b|heavyweight title/i],
   ['npb', /Japan Series|\bNPB\b|Nippon Professional Baseball/i], ['mlb', /\bMLB\b|Major League Baseball/], ['nba', /\bNBA\b|Steven Adams/],
   // golf: the women's tour by name or its players, the Australasian tour's events, and the rest of golf under the PGA Tour
@@ -201,7 +203,7 @@ async function scoopNews() {
 }
 
 // Fight news: NZ outlets rarely cover UFC or world boxing, so headlines come from the specialist sites' public RSS
-// feeds too. Headline and link only (as with the Herald), the newest few that are about a UFC or boxing card we list
+// feeds too. Headline and link only (as with the Herald), the newest few that are about a UFC, ONE or boxing card we list
 const FIGHT_FEEDS = [
   ['MMA Fighting', 'mmafighting.com', 'https://www.mmafighting.com/rss/index.xml'],
   ['MMA Mania', 'mmamania.com', 'https://www.mmamania.com/rss/index.xml'],
@@ -215,7 +217,7 @@ const US_FEEDS = [
 ];
 async function fightNews(feeds = FIGHT_FEEDS, diagKey = 'fightNews') {
   const out = [], notes = [];
-  for (const [name, host, feedUrl, keep = /^(ufc|boxing|nzboxing)$/, fallback] of feeds) {
+  for (const [name, host, feedUrl, keep = /^(ufc|onefc|boxing|nzboxing)$/, fallback] of feeds) {
     let xml;
     try {
       const r = await fetch(feedUrl, { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' }, signal: AbortSignal.timeout(10000) });
@@ -738,7 +740,8 @@ async function tvGuide(events) {
       if (d < -2.5 * 36e5 || d > 30 * 36e5) continue;
       const t = it.text;
       if (solo) {
-        const key = e.sport === 'mma' ? 'ufc' : e.team === 'supercars' ? 'supercars' : e.team === 'sailgp' ? 'sailgp' : e.sport === 'golf' ? '(golf|pga|lpga)' : e.team === 'f1' ? '(formula 1|f1)' : String(compOf0(e)).toLowerCase();
+        // a ONE card is listed as "Live: MMA One Fight Night" or "Live: ONE Championship Mixed" (ESPN, from Feb 2026)
+        const key = e.team === 'onefc' ? '\\bone (championship|fight night|friday fights|samurai|lumpinee)\\b' : e.sport === 'mma' ? 'ufc' : e.team === 'supercars' ? 'supercars' : e.team === 'sailgp' ? 'sailgp' : e.sport === 'golf' ? '(golf|pga|lpga)' : e.team === 'f1' ? '(formula 1|f1)' : String(compOf0(e)).toLowerCase();
         if (!new RegExp(key, 'i').test(t) || (e.team === 'f1' && !has(t, String(e.home).replace(/ grand prix$/i, '').toLowerCase()))) continue;
         // a golf listing names the tournament: one of its own words ("Bermuda", "Annika"), not "Open" or "Championship"
         if (e.sport === 'golf') { const ws = String(e.home).toLowerCase().split(/[^a-z]+/).filter(w => w.length > 3 && !/^(open|championship|classic|tour|golf|ladies|women|invitational|presented|tournament|champions|the)$/.test(w)); if (!(ws.length ? ws : [String(e.home).toLowerCase()]).some(w => has(t, w))) continue; }
@@ -798,6 +801,8 @@ let f1Cache = {};
 try { f1Cache = JSON.parse(await readFile(f1Url, 'utf8')); } catch {}
 await f1StartTimes(wiki, f1Cache, diag);
 await supercarsStartTimes(wiki, f1Cache, diag);
+// ONE Championship start times from TheSportsDB, two cards a run at most, kept with F1's
+try { await oneStartTimes(wiki, f1Cache, diag); } catch (e) { diag.oneTimes = 'error: ' + e.message; }
 try { await f1Sessions(wiki, f1Cache, diag); } catch (e) { diag.f1Sessions = 'error: ' + e.message; }
 try { await supercarsResults(wiki, f1Cache, diag); } catch (e) { diag.supercarsResults = 'error: ' + e.message; }
 try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(f1Url, JSON.stringify(f1Cache)); } catch {}
@@ -2219,15 +2224,16 @@ await writeFile(new URL('data/fights.txt', ROOT), [
   ...feed.events.filter(e => /^(mma|boxing)$/.test(e.sport) && Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY)
     .map(e => [e.startUTC.slice(0, 10), e.comp, `${e.home} v ${e.away}`, e.status, e.score || '', `${(e.card || []).length} bouts`, `photos ${[e.homeLogo, e.awayLogo, ...(e.card || []).flatMap(b => [b.aImg, b.bImg])].filter(Boolean).length}`, e.about ? 'intro' : ''].join(' | ')),
   '', `# ${diag.faces}`, `# ${diag.facesSearch || ''} / openverse: ${diag.facesOpenverse || ''}`, ...(diag.facesMissing || []),
-  '', `# fight headlines (${diag.fightNews || ''})`, ...feed.news.filter(n => /^(ufc|boxing|nzboxing)$/.test(n.team)).map(n => [n.date, n.team, n.source, n.title].join(' | ')),
+  '', `# fight headlines (${diag.fightNews || ''})`, ...feed.news.filter(n => /^(ufc|onefc|boxing|nzboxing)$/.test(n.team)).map(n => [n.date, n.team, n.source, n.title].join(' | ')),
 ].join('\n') + '\n');
 
 // "hot" while a game is on or about to start (Tests count for five days), so the workflow refreshes every
 // 10 minutes then and only now and again otherwise, sparing Wikipedia and TheSportsDB needless requests
-// the busy overseas leagues (off unless picked) wait for the slower schedule
-const QUIET = /^(mlb|npb|nba)$/;
+// the busy overseas leagues (off unless picked) wait for the slower schedule; a ONE card with a Kiwi on it (shown to
+// everyone) doesn't
+const QUIET = /^(mlb|npb|nba|onefc)$/;
 const hot = feed.events.some(e => {
-  if (e.status === 'final' || QUIET.test(e.team)) return false;
+  if (e.status === 'final' || (QUIET.test(e.team) && !e.nzEvent)) return false;
   const age = now - new Date(e.startUTC);
   const span = e.sport === 'cricket' && /\bTests?\b/.test(`${e.stage || ''} ${e.comp || ''}`) ? 5 * DAY : 12 * 36e5;
   return age > -90 * 6e4 && age < span;

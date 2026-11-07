@@ -1935,7 +1935,7 @@ const TEAMS = [ // in the sport row's order: cricket, rugby, league, football, h
   { g: 'Tennis', items: [['tennis','Grand Slams, Finals, ASB Classic and the Australian summer events']] },
   { g: 'Golf', items: [['pgatour','PGA Tour'],['lpga','LPGA Tour'],['golfanz','PGA Tour of Australasia']] },
   { g: 'Baseball', items: [['mlb','MLB'],['npb','Japan (NPB)']] },
-  { g: 'Fight sports', items: [['ufc','UFC events'],['boxing','Major boxing'],['nzboxing','NZ boxers']] },
+  { g: 'Fight sports', items: [['ufc','UFC events'],['onefc','ONE Championship'],['boxing','Major boxing'],['nzboxing','NZ fighters']] },
   { g: 'Netball', items: [['silverferns','Silver Ferns'],['anzprem','ANZ Premiership']] },
   { g: 'Sailing', items: [['sailgp','SailGP']] },
 ];
@@ -1949,14 +1949,14 @@ const BADGE = {
   blackcaps: ['BC', '#111111', '#7fe0d0'], whiteferns: ['WF', '#ffffff', '#111111'], nzdomestic: ['NZC', '#2b3a67', '#ffffff'],
   wallabies: ['WAL', '#f2c200', '#0b3d2e'], aurugby: ['AUS', '#0b3d91', '#f2c200'], superrugby: ['SRP', '#00205b', '#ffffff'], wxv: ['WXV', '#5f3dc4', '#ffffff'], nations: ['NC', '#0b0f0e', '#e8ff00'],
   bbl: ['BBL', '#ff6b00', '#111111'], wbbl: ['WBBL', '#7b2cbf', '#ffffff'], nrl: ['NRL', '#003b7a', '#ffffff'], rlwc: ['RLWC', '#0b6e4f', '#ffffff'],
-  allwhites: ['AW', '#ffffff', '#000000'], footballferns: ['FF', '#ffffff', '#000000'], phoenix: ['WNP', '#ffd100', '#000000'], aucklandfc: ['AFC', '#0033a0', '#ffffff'], aleague: ['ALM', '#e4002b', '#ffffff'], aucricket: ['AUS', '#ffcd00', '#00573f'], audomestic: ['AUD', '#7a1f3d', '#ffffff'], intlcricket: ['INT', '#1c7ed6', '#ffffff'], epl: ['EPL', '#3d195b', '#ffffff'], ufc: ['UFC', '#d20a0a', '#ffffff'], boxing: ['BOX', '#8a1c1c', '#ffd43b'], nzboxing: ['NZB', '#000000', '#ffd43b'],
+  allwhites: ['AW', '#ffffff', '#000000'], footballferns: ['FF', '#ffffff', '#000000'], phoenix: ['WNP', '#ffd100', '#000000'], aucklandfc: ['AFC', '#0033a0', '#ffffff'], aleague: ['ALM', '#e4002b', '#ffffff'], aucricket: ['AUS', '#ffcd00', '#00573f'], audomestic: ['AUD', '#7a1f3d', '#ffffff'], intlcricket: ['INT', '#1c7ed6', '#ffffff'], epl: ['EPL', '#3d195b', '#ffffff'], ufc: ['UFC', '#d20a0a', '#ffffff'], onefc: ['ONE', '#000000', '#ffffff'], boxing: ['BOX', '#8a1c1c', '#ffd43b'], nzboxing: ['NZB', '#000000', '#ffd43b'],
   kiwis: ['KIW', '#000000', '#ffffff'], kiwiferns: ['KF', '#000000', '#ffffff'], warriors: ['WAR', '#0d1f4c', '#7fd13b'],
   f1: ['F1', '#e10600', '#ffffff'], tennis: ['TEN', '#c5db2e', '#1b1f1d'], blacksticks: ['BS', '#000000', '#ffffff'], blacksticksw: ['BSW', '#000000', '#ffffff'],
   tallblacks: ['TB', '#000000', '#ffffff'], tallferns: ['TF', '#000000', '#ffffff'], breakers: ['BRK', '#000000', '#7ac8ed'], sailgp: ['SGP', '#0a1f44', '#ffffff'], pgatour: ['PGA', '#00205b', '#ffffff'], lpga: ['LPGA', '#0c2340', '#ffffff'], golfanz: ['PGA', '#1d3c87', '#ffffff'], nbl: ['NBL', '#e4002b', '#ffffff'], silverferns: ['SF', '#000000', '#ffffff'], anzprem: ['ANZ', '#5b2a86', '#ffffff'],
   mlb: ['MLB', '#041e42', '#ffffff'], npb: ['NPB', '#bc002d', '#ffffff'], nba: ['NBA', '#1d428a', '#ffffff'],
 };
 // the card's badge names the competition (or the cricket format), not the team: NPC, RLWC, TEST, ODI
-const COMP_BADGE = { NPC: 'npc', 'Farah Palmer Cup': 'fpc', 'Super Rugby Pacific': 'superrugby', 'Rugby League World Cup': 'rlwc', NRL: 'nrl', 'A-League Men': 'aleague', 'Premier League': 'epl', 'Big Bash': 'bbl', "Women's Big Bash": 'wbbl', UFC: 'ufc', Boxing: 'boxing', 'NZ domestic cricket': 'nzdomestic',
+const COMP_BADGE = { NPC: 'npc', 'Farah Palmer Cup': 'fpc', 'Super Rugby Pacific': 'superrugby', 'Rugby League World Cup': 'rlwc', NRL: 'nrl', 'A-League Men': 'aleague', 'Premier League': 'epl', 'Big Bash': 'bbl', "Women's Big Bash": 'wbbl', UFC: 'ufc', 'ONE Championship': 'onefc', Boxing: 'boxing', 'NZ domestic cricket': 'nzdomestic',
   'Rugby Championship': ['RC', '#1d3557', '#ffffff'], 'Nations Championship': ['NC', '#1d3557', '#ffffff'], 'Test match': ['TEST', '#1b1f1d', '#ffffff'], "Women's test": ['TEST', '#1b1f1d', '#ffffff'], 'WXV Global Series': ['WXV', '#5f3dc4', '#ffffff'], 'Pacific Championships': ['PAC', '#0b6e4f', '#ffffff'], 'Formula 1': ['F1', '#e10600', '#ffffff'], Supercars: ['SC', '#1b1f1d', '#ffffff'],
   'Sheffield Shield': ['SHIELD', '#7a1f3d', '#ffffff'], 'Dean Jones Trophy': ['DJT', '#1d3c87', '#ffffff'],
   'FIH Pro League': ['PRO', '#0b7285', '#ffffff'],
@@ -2131,8 +2131,9 @@ const store = {
 };
 tzPick = store.get('tz', 'Pacific/Auckland'); NZ = tzPick === 'device' ? deviceTZ : tzPick;
 // competitions with games most days start switched off, so they can't fill the feed: for new visitors, and for people
-// whose picks were saved before they were added. My teams says they're off, and turns them on
-const OPT_IN = new Set(['nba']);
+// whose picks were saved before they were added. My teams says they're off, and turns them on. ONE Championship's cards
+// with a New Zealander on them show anyway, as NZ fighters
+const OPT_IN = new Set(['nba', 'onefc']);
 let picked = new Set(store.get('teams', ALL_KEYS.filter(k => !OPT_IN.has(k))));
 // baseball started off in v401 and is on since: switch it on once for those who saw it then
 if (!store.get('bbOn', false)) { const kn = store.get('known', []); if (kn.includes('mlb')) { ['mlb', 'npb'].forEach(k => picked.add(k)); store.set('teams', [...picked]); } store.set('bbOn', true); }
@@ -2191,7 +2192,7 @@ const titleParts = (t, ses) => String(t || '').split(' · ').map(p => `<span cla
 const cardComp = e => e.team === 'aucricket' || e.team === 'intlcricket' ? compOf(e) + (e.stage ? ' · ' + e.stage : '') : /^(hockey|basketball|netball|baseball)$/.test(e.sport) ? plural(e.comp) + (e.stage ? ' · ' + e.stage : '') : plural(e.comp);
 function compOf(e) {
   const c = e.comp || '';
-  if (e.sport === 'mma') return 'UFC';
+  if (e.sport === 'mma') return e.team === 'onefc' ? 'ONE Championship' : 'UFC';
   if (e.sport === 'boxing') return 'Boxing';
   if (e.team === 'f1') return 'Formula 1';
   if (e.team === 'supercars') return 'Supercars';
@@ -2619,6 +2620,7 @@ const SERVICES = {
   'scoring.nzc.nz': 'https://scoring.nzc.nz', 'NZC YouTube': 'https://www.youtube.com/@blackcaps', 'NZC live stream': 'https://www.nzc.nz', 'nzc.nz': 'https://www.nzc.nz',
   RNZ: 'https://www.rnz.co.nz/radio', DAZN: 'https://www.dazn.com', Netflix: 'https://www.netflix.com', 'ICC.tv': 'https://www.icc.tv',
   'TVNZ Duke': 'https://www.tvnz.co.nz/livetv/tvnz-duke', 'Sky Open': 'https://www.threenow.co.nz/live-tv-guide/sky-open', 'Sky Go': 'https://www.skygo.co.nz/sports', 'UFC Fight Pass': 'https://ufcfightpass.com',
+  'live.onefc.com': 'https://live.onefc.com', 'ONE YouTube': 'https://www.youtube.com/@ONEChampionship',
   // in Australia
   Kayo: 'https://kayosports.com.au', 'Paramount+': 'https://www.paramountplus.com/au/', 'Network 10': 'https://10.com.au/sport', '9Now': 'https://www.9now.com.au',
   'Fox Cricket': 'https://www.foxsports.com.au/cricket', 'Channel 7': 'https://7plus.com.au/sport', '7plus': 'https://7plus.com.au/sport', 'Disney+': 'https://www.disneyplus.com', 'cricket.com.au': 'https://www.cricket.com.au',
@@ -2648,7 +2650,7 @@ const WATCH_INFO = {
   'DAZN PPV': ['Pay-per-view', 'Bought on DAZN for this event'], DAZN: ['Streaming', 'A DAZN subscription'], Netflix: ['Streaming', 'A Netflix subscription'],
   'ICC.tv': ['Streaming', "The ICC's own streaming service, where it's shown in NZ"], ESPN: ['TV', 'Sky TV, on the ESPN channels'], 'Kayo': ['Streaming', 'A Kayo subscription (Australia)'],
   'TVNZ Duke': ['Free-to-air TV', 'On TVNZ Duke (Freeview 6, Sky 23), no subscription'], 'Sky Open': ['Free-to-air TV', "Sky's free channel: Freeview 8, ThreeNow and Sky Go"],
-  'UFC Fight Pass': ['Streaming', "The UFC's own streaming service (a pay-per-view for numbered events)"], 'Disney+': ['Streaming', 'A Disney+ subscription (its ESPN sport)'],
+  'UFC Fight Pass': ['Streaming', "The UFC's own streaming service (a pay-per-view for numbered events)"], 'live.onefc.com': ['Pay-per-view', "ONE Championship's own site, bought for this event"], 'ONE YouTube': ['Free stream', "ONE Championship's YouTube channel"], 'Disney+': ['Streaming', 'A Disney+ subscription (its ESPN sport)'],
 };
 const WATCH_KEYS = Object.keys(WATCH_INFO).sort((a, b) => b.length - a.length);
 // "Sky Sport / Sky Sport Now", "Radio: RNZ / Sport Nation", "Free on Three / ThreeNow": one entry each, the kind and
@@ -2821,7 +2823,8 @@ function resCard(e, now) {
 // ---- competition view: Games / Table / News for one competition -------------
 function hubTeams() {
   const keys = new Set();
-  for (const e of FEED.events || []) if (compOf(e) === compSel) { keys.add(e.team); (e.tags || []).forEach(t => keys.add(t)); }
+  // (a tag from another sport isn't this one's: a ONE card with a Kiwi on it is tagged NZ fighters, whose news is boxing's)
+  for (const e of FEED.events || []) if (compOf(e) === compSel) { keys.add(e.team); (e.tags || []).forEach(t => sportOf(t) === e.sport && keys.add(t)); }
   return keys;
 }
 function hubNews(n) {
@@ -3020,7 +3023,8 @@ function hubRankings() {
   const evs = (FEED.events || []).filter(e => compOf(e) === compSel);
   const sport = evs[0]?.sport;
   // a list kept for one competition (golf's FedEx Cup) shows on that competition's page only
-  const lists = (FEED.rankings || []).filter(r => r.sport === sport && (!r.comp || r.comp === compSel));
+  // (the MMA lists are the UFC's own, so not on ONE Championship's page)
+  const lists = (FEED.rankings || []).filter(r => r.sport === sport && (!r.comp || r.comp === compSel) && !(sport === 'mma' && compSel !== 'UFC'));
   return lists.length && (sport === 'mma' || sport === 'tennis' || sport === 'golf' || evs.some(isIntl)) ? lists : [];
 }
 function rankDefault(lists) {
@@ -3126,13 +3130,15 @@ const SHOWS = {
     { n: 'Premier League', t: 'yt', c: /Premier League/, d: "The league's own highlights, goals and features" },
   ],
   mma: [
-    { n: 'UFC', t: 'yt', d: 'Free fights, Embedded vlogs, press conferences and highlights' },
-    { n: 'UFC on Paramount+', t: 'yt', url: 'https://www.youtube.com/@UFConParamount', d: 'Fight previews, panel shows and podcasts from the home of UFC in the US' },
+    { n: 'UFC', t: 'yt', c: /^UFC$/, d: 'Free fights, Embedded vlogs, press conferences and highlights' },
+    { n: 'UFC on Paramount+', t: 'yt', c: /^UFC$/, url: 'https://www.youtube.com/@UFConParamount', d: 'Fight previews, panel shows and podcasts from the home of UFC in the US' },
     { n: 'The Ariel Helwani Show', t: 'yt', d: "Big-name interviews and news from MMA's best-known reporter" },
-    { n: 'Anik & Florian', t: 'pod', q: 'Anik and Florian podcast', d: 'Jon Anik and Kenny Florian preview and review every UFC card' },
+    { n: 'Anik & Florian', t: 'pod', c: /^UFC$/, q: 'Anik and Florian podcast', d: 'Jon Anik and Kenny Florian preview and review every UFC card' },
     { n: 'Believe You Me', t: 'pod', q: 'Believe You Me Bisping', d: 'Former champ Michael Bisping on the latest fights, picks and news' },
-    { n: 'MMA Junkie', t: 'yt', q: 'MMA Junkie', d: 'UFC news, interviews and post-fight press conferences' },
+    { n: 'MMA Junkie', t: 'yt', c: /^UFC$/, q: 'MMA Junkie', d: 'UFC news, interviews and post-fight press conferences' },
     { n: 'Luke Thomas', t: 'yt', q: 'Luke Thomas MMA', d: 'Thoughtful fight breakdowns and live chats from analyst Luke Thomas' },
+    // (ONE's live streams there are mostly shut to NZ, ESPN having its rights here; its other videos aren't)
+    { n: 'ONE Championship', t: 'yt', c: /^ONE Championship$/, url: 'https://www.youtube.com/@ONEChampionship', d: 'Highlights, full fights and interviews from ONE itself' },
   ],
   boxing: [
     { n: 'DAZN Boxing', t: 'yt', d: 'Fight highlights, press conferences and The DAZN Boxing Show' },
@@ -3654,7 +3660,7 @@ function countGaps(e) {
   const sides = [e.home, e.away].filter(t => t && !/^(TBC|TBA|TBD)\b|winner|loser|\bXI$/i.test(t));
   if (!NO_SQUAD_SPORTS.has(e.sport) && sides.length === 2 && !e.squads?.length) gaps.push('No squads');
   // the competition itself, not the site's catch-all for it (the Ford Trophy, not NZ domestic cricket); a fight by its sport
-  const c0 = compOf(e) || e.sport, c = String(GENERIC.test(c0) && !/^(Boxing|UFC)$/.test(c0) ? (e.comp || c0).replace(/\s*[,·(|].*$/, '') : c0).replace(/[^\p{L}\p{N} '&.()\/+-]/gu, '').replace(/\s+/g, ' ').trim().slice(0, 50);
+  const c0 = compOf(e) || e.sport, c = String(GENERIC.test(c0) && !/^(Boxing|UFC|ONE Championship)$/.test(c0) ? (e.comp || c0).replace(/\s*[,·(|].*$/, '') : c0).replace(/[^\p{L}\p{N} '&.()\/+-]/gu, '').replace(/\s+/g, ' ').trim().slice(0, 50);
   count({ e: 'miss', k: `${gaps.join(' + ') || 'Nothing missing'} · ${e.sport} · ${c}` });
 }
 function openDetail(id, fromTeam, goingBack) {
@@ -3741,7 +3747,7 @@ document.addEventListener('click', ev => { if (!ev.target.closest('.search')) cl
 // Season-long leagues and catch-all groups stay in the competition menu.
 // long seasons and catch-alls stay out of the running-series row, which is for international series and short tournaments
 // (World Cups, the Big Bash)
-const GENERIC = /^(Test match|Women's test|Boxing|UFC|NZ domestic cricket|Black Caps|White Ferns|NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|A-League Men|Premier League|Formula 1|Supercars|SailGP|PGA Tour|LPGA Tour|PGA Tour of Australasia|Sheffield Shield|Dean Jones Trophy|NBL|NBA|ANZ Premiership)$/;
+const GENERIC = /^(Test match|Women's test|Boxing|UFC|ONE Championship|NZ domestic cricket|Black Caps|White Ferns|NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|A-League Men|Premier League|Formula 1|Supercars|SailGP|PGA Tour|LPGA Tour|PGA Tour of Australasia|Sheffield Shield|Dean Jones Trophy|NBL|NBA|ANZ Premiership)$/;
 // short names for the Current bar, so its chips stay small: "SA v AUS", "RLWC", "Const. Cup", "NZ v BAN (W)" (the chip's
 // hover label keeps the full name)
 const SHORT = [[/Women's Rugby League World Cup/, "Women's RLWC"], [/Wheelchair Rugby League World Cup/, 'Wheelchair RLWC'], [/Rugby League World Cup/, 'RLWC'], [/Nations Championship/, 'Nations Champ.'], [/Rugby Championship/, 'Rugby Champ.'], [/WXV Global Series/, 'WXV'],
@@ -3823,6 +3829,8 @@ const LOOKS = [
   [/^Formula 1$/, { l: ['', 'linear-gradient(105deg, #0b0b0d 0%, #22222b 55%, #a30d00 100%)', '#ff1e00', '#fff', '#ffc9c9', [TSDB + 'g8cofl1513623681.png/small', 100, 50, 50, 41, 22]] }],
   [/^Supercars$/, { l: ['', 'linear-gradient(105deg, #0b0b0b 0%, #2e0707 50%, #d1150f 100%)', '#ff453a', '#fff', '#ffc9c9', [TSDB + '64f67s1770108650.png/small', 100, 50, 50, 22]] }],
   [/^UFC$/, { l: ['', 'linear-gradient(105deg, #0b0b0b 0%, #2a0505 55%, #9e0b0f 100%)', '#ff2b2b', '#fff', '#ff8787', [TSDB + 'bewnz31717531281.png/small', 100, 50, 50, 41, 22]] }],
+  // ONE's logo is a white wordmark on black: TheSportsDB's league logo (its badge adds a small "Championship" under it)
+  [/^ONE Championship$/, { l: ['', 'linear-gradient(105deg, #050505 0%, #1c1c1c 55%, #4a4a4a 100%)', '#e9ecef', '#fff', '#fff', ['https://r2.thesportsdb.com/images/media/league/logo/fw81iq1545508019.png/small', 100, 50, 50, 41, 22]] }],
   [/^ATP Finals$/, { s: 'tennis', l: ['', 'linear-gradient(105deg, #001233 0%, #002865 55%, #0a5bd1 100%)', '#6ec1ff', '#fff', '#d0ebff', [TSDB + 'q7aej51769857150.png/small', 100, 50, 50, 41, 22]] }],
   [/^WTA Finals$/, { s: 'tennis', w: true, l: ['', 'linear-gradient(105deg, #1a0633 0%, #4a1680 55%, #b0127a 100%)', '#ff6ad5', '#fff', '#ffdeeb', [TSDB + 'bddhun1768230678.png/small', 100, 50, 50, 41, 22, 1]] }],
   [/^PGA Tour$/, { s: 'golf', l: ['', 'linear-gradient(105deg, #00102e 0%, #0a2a66 55%, #1d4f91 100%)', '#ff5a5f', '#fff', '#dbe4ff', [TSDB + 'quvqqr1423564787.png/small', 100, 50, 50, 22]] }],
@@ -4268,7 +4276,7 @@ function render() {
   // each is from the games listed, never a score. Ten a page
   const runBy = new Map();
   for (const e of evs) {
-    const c = compOf(e); if (/^(Test match|Women's test|Boxing|UFC|Black Caps|White Ferns|NZ domestic cricket)$/.test(c)) continue;
+    const c = compOf(e); if (/^(Test match|Women's test|Boxing|UFC|ONE Championship|Black Caps|White Ferns|NZ domestic cricket)$/.test(c)) continue;
     const t = new Date(e.startUTC) - now, v = runBy.get(c) || { sport: e.sport, played: 0, all: 0, next: null, last: -Infinity, nz: false, live: false };
     v.all++; if (t < 0) { v.played++; v.last = Math.max(v.last, t); } else if (!v.next || t < new Date(v.next.startUTC) - now) v.next = e;
     if (isNZ(e)) v.nz = true; if (e.status === 'live' || (e.status !== 'final' && onNow(e, now))) v.live = true;
@@ -4299,7 +4307,7 @@ function render() {
   // (between rounds, not about to start). A series starting in the next few days still counts as ahead.
   const ongoing = new Set(evs.filter(e => { const t = new Date(e.startUTC) - now; return t < 0 && (t > -6 * 864e5 || (t > -21 * 864e5 && GENERIC.test(compOf(e)))); }).map(compOf));
   // a series of 4 or more games, a big one-off (World Cups, finals, Grand Slams), or an NZ side's series of 2 or more
-  const ahead8 = [...firsts].filter(([c, v]) => !ongoing.has(c) && !/^(Test match|Women's test|Boxing|UFC|Black Caps|White Ferns|NZ domestic cricket|Sheffield Shield|Dean Jones Trophy)$/.test(c) && (v.count >= 4 || BIG_EVENT.test(c) || v.nz >= 2) && new Date(v.first.startUTC) - now < 150 * 864e5)
+  const ahead8 = [...firsts].filter(([c, v]) => !ongoing.has(c) && !/^(Test match|Women's test|Boxing|UFC|ONE Championship|Black Caps|White Ferns|NZ domestic cricket|Sheffield Shield|Dean Jones Trophy)$/.test(c) && (v.count >= 4 || BIG_EVENT.test(c) || v.nz >= 2) && new Date(v.first.startUTC) - now < 150 * 864e5)
     .sort((a, b) => a[1].first.startUTC.localeCompare(b[1].first.startUTC));
   // ten a page. The first page: the soonest, no more than four from one sport while others are waiting, so cricket
   // can't fill it; later pages: the rest, soonest first
@@ -4658,7 +4666,7 @@ function syncPulse() {
   if (!document.getAnimations) return;
   document.querySelectorAll('.nowchip.is-live .livedot, .ev.is-live').forEach(el => el.getAnimations().forEach(a => { if (a.startTime !== 0) a.startTime = 0; }));
 }
-const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby','wxv','nations'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','audomestic','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['allwhites','footballferns','phoenix','aucklandfc','aleague','epl'], hockey: ['blacksticks','blacksticksw'], basketball: ['tallblacks','tallferns','breakers','nbl','nba'], netball: ['silverferns','anzprem'], mma: ['ufc'], boxing: ['boxing','nzboxing'], motor: ['f1', 'supercars'], sailing: ['sailgp'], tennis: ['tennis'], golf: ['pgatour', 'lpga', 'golfanz'], baseball: ['mlb', 'npb'] };
+const SPORT = { rugby: ['allblacks','blackferns','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby','wxv','nations'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','audomestic','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['allwhites','footballferns','phoenix','aucklandfc','aleague','epl'], hockey: ['blacksticks','blacksticksw'], basketball: ['tallblacks','tallferns','breakers','nbl','nba'], netball: ['silverferns','anzprem'], mma: ['ufc', 'onefc'], boxing: ['boxing','nzboxing'], motor: ['f1', 'supercars'], sailing: ['sailgp'], tennis: ['tennis'], golf: ['pgatour', 'lpga', 'golfanz'], baseball: ['mlb', 'npb'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
 
 function tick() { $('clock').textContent = `${tzLabel()} ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; syncInfo(); }
