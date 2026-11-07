@@ -73,6 +73,8 @@ const NEWS_TEAMS = [
   ['tallferns', /Tall Ferns/i], ['tallblacks', /Tall Blacks/i], ['breakers', /\bBreakers\b/], ['nbl', /\bNBL\b/], ['silverferns', /Silver Ferns/i], ['anzprem', /ANZ Premiership/i],
   ['f1', /Formula (One|1)\b|\bF1\b|Liam Lawson/i], ['supercars', /Supercars|Bathurst 1000/i],
   ['wallabies', /Wallabies/], ['nations', /Nations Championship/i], ['superrugby', /Super Rugby/i],
+  // the rugby Nations Cup only: netball and hockey have Nations Cups too
+  ['nationscup', /World Rugby Nations Cup|\bNations Cup\b.{0,80}\brugby\b|\brugby\b.{0,80}\bNations Cup\b/i],
   ['rlwc', /Rugby League World Cup|\bRLWC\b/i], ['nrl', /\bNRL\b/],
   ['wbbl', /\bWBBL\b|Women's Big Bash/i], ['bbl', /\bBBL\b|Big Bash/i],
   ['footballferns', /Football Ferns/i], ['allwhites', /All Whites/i], ['phoenix', /Wellington Phoenix|\bPhoenix\b/], ['aucklandfc', /Auckland FC/i], ['aleague', /A-League/i], ['epl', /Premier League|\bEPL\b/],
@@ -1046,15 +1048,16 @@ const newsAll = [...curated.news];
     const re = new RegExp(`\\b${esc(n)}\\b`), sw = place(n) && (SPORT_WORDS[sp] || /$^/);
     return [{ test: text => re.test(text) && (!sw || sw.test(text)) }, t];
   });
-  // a Nations Championship game between two other nations: a rugby story naming both its sides (by name or nickname,
-  // "Wales opt for centre power pair against Japan") is that game's, though countries alone count for nothing above
-  const NICK = { 'South Africa': 'Springboks|Boks', Argentina: 'Pumas', Fiji: 'Flying Fijians', Japan: 'Brave Blossoms', Italy: 'Azzurri' };
+  // a Nations Championship or Nations Cup game between two other nations: a rugby story naming both its sides (by name or
+  // nickname, "Wales opt for centre power pair against Japan") is that game's, though countries alone count for nothing above
+  const NICK = { 'South Africa': 'Springboks|Boks', Argentina: 'Pumas', Fiji: 'Flying Fijians', Japan: 'Brave Blossoms', Italy: 'Azzurri',
+    Samoa: 'Manu Samoa', Tonga: 'Ikale Tahi', Georgia: 'Lelos', Romania: 'Oaks', Spain: 'Leones', Portugal: 'Lobos', Uruguay: 'Teros', Chile: 'Cóndores|Condores', Zimbabwe: 'Sables', USA: 'United States|USA Eagles' };
   const RUGBY_WORD = /\b(rugby|tests?|tries|try|fly-half|scrum-half|half-back|centres?|wings?|flankers?|locks?|props?|hookers?|back row|front row|scrum|line-?out|Murrayfield|Twickenham|Aviva|Principality|Stade de France|Nations Championship)\b/i;
   for (const e of events) {
     const age = now - Date.parse(e.startUTC);
-    if (e.team !== 'nations' || age > 2 * DAY || age < -14 * DAY || /^(North|South) \d/.test(e.home)) continue;
+    if (!['nations', 'nationscup'].includes(e.team) || age > 2 * DAY || age < -14 * DAY || /^(North|South) \d/.test(e.home)) continue;
     const [a, b] = [e.home, e.away].map(n => new RegExp(`\\b(${esc(n)}${NICK[n] ? '|' + NICK[n] : ''})\\b`));
-    EVENT_NAMES.push([{ test: text => a.test(text) && b.test(text) && RUGBY_WORD.test(text) }, 'nations']);
+    EVENT_NAMES.push([{ test: text => a.test(text) && b.test(text) && RUGBY_WORD.test(text) }, e.team]);
   }
 }
 // RNZ's RSS terms (rnz.co.nz/rss) say "No audio or text from these may be posted to a web site ... without the express

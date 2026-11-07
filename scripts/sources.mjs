@@ -152,6 +152,8 @@ export function classify(kind, home, away) {
     }
     // the Nations Championship: every game, the All Blacks' and the Wallabies' as theirs, the rest under its own pick
     case 'nations': { const au = /\bAustralia\b/.test(names) && !women; return { team: nz ? (women ? 'blackferns' : 'allblacks') : au ? 'wallabies' : 'nations', tags: ['nations', ...(au ? ['wallabies'] : [])] }; }
+    // the World Rugby Nations Cup (the Nations Championship's second tier: Georgia, Samoa, Tonga and nine more): every game, under its own pick
+    case 'nationscup': return { team: 'nationscup', tags: ['nationscup'] };
     // the WXV: every game, the Black Ferns' as theirs
     case 'wxv': return { team: nz ? 'blackferns' : 'wxv', tags: ['wxv'] };
     case 'rlwc': return { team: nz ? (women ? 'kiwiferns' : 'kiwis') : 'rlwc', tags: ['rlwc'] };
@@ -309,7 +311,8 @@ function tableRows(table) {
     const take = () => { while (carry[row.length]?.left > 0) { row.push(carry[row.length].v); carry[row.length - 1].left--; } };
     for (const c of cells) {
       take();
-      const m = c.match(/^((?:\s*[a-z]+="[^"]*"\s*)+)\|(?!\|)([\s\S]*)$/i);
+      // a cell's attributes, quoted or not ("rowspan=3|3", as the Nations Cup's scorers table writes a shared place)
+      const m = c.match(/^((?:\s*[a-z]+=(?:"[^"]*"|[^\s|"\[{]+)\s*)+)\|(?!\|)([\s\S]*)$/i);
       const attrs = m ? m[1] : '', v = (m ? m[2] : c).trim();
       const rs = +((attrs.match(/rowspan="?(\d+)/i) || [])[1] || 1);
       if (rs > 1) carry[row.length] = { v, left: rs - 1 };

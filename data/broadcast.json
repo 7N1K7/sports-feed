@@ -8,6 +8,7 @@
   { "team": "blackferns", "broadcast": "Sky Sport / Sky Sport Now" },
   { "team": "wxv", "broadcast": "Sky Sport / Sky Sport Now" },
   { "comp": "Nations Championship", "broadcast": "Sky Sport / Sky Sport Now" },
+  { "comp": "World Rugby Nations Cup", "broadcast": "Sky Sport Select / Sky Sport Now", "watchNote": "Some games live, the rest shown delayed later in the week" },
   { "team": "warriors", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Free on Three / ThreeNow", "au": "Fox League and Kayo (every game) / Nine and 9Now (free, selected games)" },
   { "comp": "^NRL", "broadcast": "Sky Sport / Sky Sport Now", "au": "Fox League and Kayo (every game) / Nine and 9Now (free, selected games)" },
   { "comp": "Premier League", "broadcast": "Sky Sport / Sky Sport Now" },
