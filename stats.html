@@ -13,6 +13,9 @@
 <script>
 // the colour theme before anything paints: this page's own pick, else the main page's
 try { const a = JSON.parse(localStorage.getItem('sf.statsAccent') || localStorage.getItem('sf.accent') || '"green"'); if (a !== 'green') document.documentElement.dataset.accent = a; } catch {}
+// and the charts' look (colours and style), this page's own pick
+try { const c = JSON.parse(localStorage.getItem('sf.statsChart') || '"kiwi"'), L = { neon: ['kiwi', 'glow'], twilight: ['twilight', 'soft'], rata: ['rata', 'glow'], bush: ['bush', 'soft'], mono: ['mono', 'flat'] }[c] || ['kiwi', 'flat'];
+  document.documentElement.dataset.chart = L[0]; document.documentElement.dataset.cstyle = L[1]; } catch {}
 </script>
 <style>
 /* the site's own dark colours; chart series validated against the card surface (dataviz palette, dark steps) */
@@ -22,8 +25,24 @@ try { const a = JSON.parse(localStorage.getItem('sf.statsAccent') || localStorag
   --series-1: #3987e5; /* people */
   --series-2: #d95926; /* visits */
   --series-3: #199e70; /* page views */
+  --other: #5f6e68; /* the rest, in a share bar */
   --f-display: 'Barlow Condensed', system-ui, sans-serif; --f-body: 'Source Sans 3', system-ui, sans-serif;
 }
+/* the charts' looks: each a set of three colours from the dataviz palette's dark steps, checked as a set for colour
+   blindness and contrast on this surface (blue, orange, aqua; violet, yellow, magenta; magenta, blue, yellow; aqua,
+   violet, yellow), or greys (Mono); and a style: flat, glow (a soft light round lines and bars) or soft (shading under
+   the lines, bars that fade in). Switching looks only changes these, so nothing is redrawn or moves */
+:root[data-chart="twilight"] { --series-1: #9085e9; --series-2: #c98500; --series-3: #d55181 }
+:root[data-chart="rata"] { --series-1: #d55181; --series-2: #3987e5; --series-3: #c98500 }
+:root[data-chart="bush"] { --series-1: #199e70; --series-2: #9085e9; --series-3: #c98500 }
+:root[data-chart="mono"] { --series-1: var(--ink); --series-2: color-mix(in srgb, var(--ink) 58%, var(--surface)); --series-3: color-mix(in srgb, var(--ink) 34%, var(--surface)); --other: color-mix(in srgb, var(--ink) 18%, var(--surface)) }
+.chartbox .area { display: none } :root[data-cstyle="soft"] .chartbox .area { display: inline }
+:root[data-cstyle="glow"] .chartbox .ln, :root[data-cstyle="glow"] .spk polyline { filter: drop-shadow(0 0 4px currentColor) }
+:root[data-cstyle="glow"] .chartbox .hb { filter: drop-shadow(0 0 5px var(--series-1)) }
+:root[data-cstyle="glow"] :is(.bar .t i, .rank .t i) { box-shadow: 0 0 9px -1px var(--series-1) }
+:root[data-cstyle="glow"] .heat i.hot { box-shadow: 0 0 10px -2px var(--series-1) }
+:root[data-cstyle="soft"] :is(.bar .t i, .rank .t i) { background: linear-gradient(90deg, color-mix(in srgb, var(--series-1) 30%, transparent), var(--series-1)) }
+:root[data-cstyle="soft"] .chartbox .hb { opacity: .85 }
 * { box-sizing: border-box }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.45; padding-top: env(safe-area-inset-top, 0px) }
 .wrap { max-width: 1440px; margin: 0 auto; padding: 16px max(16px, env(safe-area-inset-right, 0px)) 40px max(16px, env(safe-area-inset-left, 0px)) }
@@ -106,6 +125,34 @@ button, input { font: inherit; color: inherit }
 .tip .row { display: flex; align-items: center; gap: 6px }
 .tip .row i { width: 12px; height: 2px; border-radius: 1px; display: inline-block }
 .tip b { font-weight: 700 }
+/* when people visit: a row a day of the week, a square an hour, darker for more page views (one colour, light to dark) */
+.heat { display: grid; grid-template-columns: 2.6em repeat(24, minmax(0, 1fr)); gap: 3px; align-items: center; font-size: 11px; color: var(--muted); position: relative; touch-action: pan-y }
+.heat i { display: block; aspect-ratio: 1.5; border-radius: 3px; background: color-mix(in srgb, var(--series-1) var(--v), var(--paper)); cursor: default }
+.heat i:hover { outline: 1.5px solid var(--ink); outline-offset: 1px }
+.heat .hh { text-align: left; white-space: nowrap; overflow: visible } .heat .hd { text-align: left }
+.hkey { display: flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 12px; color: var(--muted) }
+.hkey b { display: block; width: 120px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, color-mix(in srgb, var(--series-1) 6%, var(--paper)), var(--series-1)) }
+@media (max-width: 640px) { .heat { gap: 2px; grid-template-columns: 2.2em repeat(24, minmax(0, 1fr)) } .heat i { aspect-ratio: .8; border-radius: 2px } }
+/* a split (phone, computer, tablet): one bar in shares, a line a part with its count and share, then each day's split */
+.share .sb { display: flex; gap: 2px; height: 14px; border-radius: 4px; overflow: hidden }
+.share .sb i { display: block; height: 100%; min-width: 3px } .share .sb i:first-child { border-radius: 4px 0 0 4px } .share .sb i:last-child { border-radius: 0 4px 4px 0 }
+.share .sl { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto 3.2em; gap: 4px 8px; align-items: center; margin-top: 10px; font-size: 14px }
+.share .sl i { width: 10px; height: 10px; border-radius: 3px } .share .sl .n { font-weight: 700; text-align: right; font-variant-numeric: tabular-nums } .share .sl .pc { color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; font-size: 13px }
+.share .sl .k { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.share .sd { margin-top: 12px } .share .sd .dl2 { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 3px }
+.share .cols { display: flex; gap: 2px; height: 40px; align-items: stretch; position: relative }
+.share .cols > span { flex: 1 1 0; min-width: 1px; display: flex; flex-direction: column-reverse; border-radius: 2px; overflow: hidden; gap: 1px }
+.share .cols > span > i { display: block; min-height: 0 } .share .cols > span:hover { outline: 1px solid var(--ink) }
+.share .sd .lbl { font-size: 11px; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .06em }
+/* a popular row's own line over the days */
+.rank .spk { width: 44px; height: 16px; display: block; overflow: visible } .rank .spk polyline { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; color: var(--series-1) }
+/* the chart looks, as swatches: three colours and a name */
+.looks { display: grid; grid-template-columns: repeat(6, max-content); gap: 6px }
+.lk { display: inline-flex; align-items: center; gap: 7px; font: 600 13px var(--f-body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px 4px 8px; cursor: pointer }
+.lk .d { display: inline-flex; gap: 2px } .lk .d i { width: 9px; height: 14px; border-radius: 3px }
+.lk[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
+.lk[data-look="neon"] .d i, .lk[data-look="rata"] .d i { box-shadow: 0 0 6px -1px currentColor }
+@media (max-width: 760px) { .looks { grid-template-columns: repeat(3, minmax(0, 1fr)) } }
 /* bar lists */
 /* a group's cards in even rows (three across a wide screen, two on a small computer, one on a phone), each card as tall
    as its row with its note at the foot; a card with several lists takes two rows. A long list shows its first ten and
@@ -114,7 +161,7 @@ button, input { font: inherit; color: inherit }
 .grid > .card { margin: 0; display: flex; flex-direction: column; min-width: 0 } .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)) }
 .card > h2 + .thh { margin-top: 0 }
 .grid > .card > .note:last-child { margin-top: auto; padding-top: 10px; margin-bottom: 0 }
-.pop.nodl .rank li { grid-template-columns: 1.6em minmax(0, 1fr) auto 0 } .pop.nodl .rank .dl { display: none }
+.pop.nodl .rank li { grid-template-columns: 1.6em minmax(0, 1fr) 44px auto 0 } .pop.nodl .rank .dl { display: none }
 @media (max-width: 1099px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)) }
   .grid:not(.pop):not(.two) > .card:last-child:nth-child(odd), .grid.pop > .card:first-child { grid-column: 1 / -1 } }
 @media (max-width: 640px) { .grid, .grid.two { grid-template-columns: minmax(0, 1fr) }
@@ -123,12 +170,12 @@ button, input { font: inherit; color: inherit }
 /* the popular lists: a row each (rank, name, how many, the change on the days before), a thin bar under the name */
 .rank { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-rows: 34px; max-height: calc(10 * 34px); overflow: hidden }
 .rank.all { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin }
-.rank li { display: grid; grid-template-columns: 1.6em minmax(0, 1fr) auto 4.4em; grid-template-rows: auto 3px; column-gap: 6px; row-gap: 3px; align-content: center; font-size: 14px }
+.rank li { display: grid; grid-template-columns: 1.6em minmax(0, 1fr) 44px auto 4.4em; grid-template-rows: auto 3px; column-gap: 6px; row-gap: 3px; align-content: center; font-size: 14px }
 .rank .rk { grid-row: 1 / 3; align-self: center; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; text-align: right }
 .rank .k { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap } .rank .k small { color: var(--muted); font-size: 12px; margin-left: 5px }
 .rank .n { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right }
 .rank .dl { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap }
-.rank .t { grid-column: 2 / 4; height: 3px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 7%, transparent) } .rank .t i { display: block; height: 100%; border-radius: 2px; background: var(--series-1); min-width: 2px }
+.rank .t { grid-column: 2 / 5; height: 3px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 7%, transparent) } .rank .t i { display: block; height: 100%; border-radius: 2px; background: var(--series-1); min-width: 2px }
 .rank .empty { display: block; padding-top: 6px }
 .more { align-self: flex-start; margin-top: 8px; border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 2px 11px; font: 600 12.5px/18px var(--f-body); color: var(--muted); cursor: pointer }
 .more:hover { color: var(--ink); border-color: var(--muted) } .more[hidden] { display: none }
@@ -290,6 +337,7 @@ th { color: var(--muted); font-weight: 600 }
       <div class="chartbox" id="hours"></div>
     </section>
     </div>
+      <section class="card"><h2>When people visit</h2><div class="heat" id="heat" role="img" aria-label="Page views by day of the week and hour"></div><div class="hkey">Fewer<b></b>More page views</div><p class="note">Page views by day of the week and hour of the day, NZ time: the average a day over the chosen days. Hold or hover on a square for its number.</p></section>
       <section class="card">
       <h2>Reports and ideas</h2>
       <div class="reps" id="reports"></div>
@@ -326,6 +374,12 @@ th { color: var(--muted); font-weight: 600 }
     </div>
 
     <h2 class="grp" id="g-use">Using the site</h2>
+      <section class="card">
+      <h2>Activity each day <span class="note" id="actSub" style="text-transform:none;letter-spacing:0;font-weight:500"></span></h2>
+      <div class="legend"><span><i style="background:var(--series-1)"></i>Games opened</span><span><i style="background:var(--series-2)"></i>Ways to watch</span><span><i style="background:var(--series-3)"></i>Links out</span></div>
+      <div class="chartbox" id="act"></div>
+      <p class="note">Games whose pop-up was opened, taps on a way to watch, and taps on links to other sites, each day. Taps on every button together are in the Taps a visit tile at the top.</p>
+    </section>
     <div class="grid">
       <section class="card"><h2>Parts of the site used</h2><div class="bars" id="use"></div><p class="note">Taps on each part, all visitors together, every one listed. Most buttons are counted from 24 Oct 2026.</p></section>
       <section class="card"><h2>Features used</h2><div class="bars" id="event"></div><p class="note">Taps on each feature, all visitors together. Calendars and alert topics count taps on their links and copy buttons; from an alert counts games opened by tapping a phone alert.</p></section>
@@ -397,6 +451,9 @@ th { color: var(--muted); font-weight: 600 }
       <h3 class="thh">Theme</h3>
       <div class="swatches" id="themes" role="group" aria-label="Theme"></div>
       <p class="note">For this page on this device; it starts from the main page's theme.</p>
+      <h3 class="thh">Chart look</h3>
+      <div class="looks" id="looks" role="group" aria-label="Chart look"></div>
+      <p class="note">The charts' colours and style, for this page on this device. Each set of colours is checked to stay easy to tell apart with colour blindness; Mono is shades of grey.</p>
     </section>
   </div>
 </div>
@@ -469,20 +526,20 @@ const spanDays = () => days || Math.round((Date.parse(data.today) - Date.parse(f
 function shape(n = spanDays(), back = 0) {
   const list = [];
   for (let i = n - 1; i >= 0; i--) list.push(dayAdd(data.today, -i - back));
-  const inRange = new Set(list), per = Object.fromEntries(list.map(d => [d, { visitors: 0, opens: 0, views: 0, appviews: 0, appvisitors: 0 }])), sums = {};
+  const inRange = new Set(list), per = Object.fromEntries(list.map(d => [d, { visitors: 0, opens: 0, views: 0, appviews: 0, appvisitors: 0 }])), sums = {}, ds = Object.fromEntries(list.map(d => [d, { hubs: {} }]));
   for (const r of data.rows) {
     if (!inRange.has(r.day)) continue;
     // the card size called Standard until v621 is Large now (and the older every-card Large became it)
     const key = r.metric === 'view' && r.key === 'big' ? 'mixed' : r.metric === 'use' && r.key === 'Card size Standard' ? 'Card size Large' : r.key;
     if (r.metric in per[r.day]) per[r.day][r.metric] += r.n;
-    else { sums[r.metric] = sums[r.metric] || {}; sums[r.metric][key] = (sums[r.metric][key] || 0) + r.n; }
+    else { sums[r.metric] = sums[r.metric] || {}; sums[r.metric][key] = (sums[r.metric][key] || 0) + r.n; const o = ds[r.day][r.metric] ||= {}; o[key] = (o[key] || 0) + r.n; }
   }
   for (const d of list) if (!per[d].opens) per[d].opens = per[d].views; // days before visits were counted: page views stand in
   // competition pages opened by name are counted from 7 Nov 2026; on the days before, the competitions menu's picks
   const hubDays = new Set(data.rows.filter(r => r.metric === 'comppage').map(r => r.day));
   sums.hubs = {};
-  for (const r of data.rows) if (inRange.has(r.day) && (r.metric === 'comppage' || (r.metric === 'comp' && !hubDays.has(r.day)))) sums.hubs[r.key] = (sums.hubs[r.key] || 0) + r.n;
-  return { list, per, sums };
+  for (const r of data.rows) if (inRange.has(r.day) && (r.metric === 'comppage' || (r.metric === 'comp' && !hubDays.has(r.day)))) { sums.hubs[r.key] = (sums.hubs[r.key] || 0) + r.n; ds[r.day].hubs[r.key] = (ds[r.day].hubs[r.key] || 0) + r.n; }
+  return { list, per, sums, ds };
 }
 // the same number of days just before, to compare with: only when every one of them has numbers (not for Today, part
 // of a day, or All)
@@ -866,7 +923,7 @@ function draw() {
   const RTAG = { done: 'Done', todo: 'To do', idea: 'Idea', no: "Can't use", ok: 'Checked' };
   $('researchList').innerHTML = RESEARCH.map((r, i) => `<details class="rsw"${i ? '' : ' open'}><summary>${esc(r.d)} · ${esc(r.t)}</summary><p class="note">${esc(r.sum)}</p>${r.g.map(([h, items]) => `<h3>${esc(h)}</h3><ul>${items.map(([st, txt, src]) => `<li><span class="rst ${esc(st)}">${RTAG[st] || esc(st)}</span><span>${esc(txt)}.${src.length ? ` <span class="rsrc">${src.map(([n, u, v]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)}</a> <span class="rv">(${esc(v)})</span>`).join(' · ')}</span>` : ''}</span></li>`).join('')}</ul>`).join('')}</details>`).join('');
   document.querySelectorAll('[data-days]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.days === days)));
-  const n = spanDays(), { list, per, sums } = shape(), prev = prevShape();
+  const n = spanDays(), { list, per, sums, ds } = shape(), prev = prevShape();
   const tot = (k, sh = { list, per }) => sh.list.reduce((a, d) => a + sh.per[d][k], 0);
   const people = tot('visitors'), visits = tot('opens'), views = tot('views'), app = sums.mode?.app || 0, br = sums.mode?.browser || 0;
   const short = d => dayLabel(d, { weekday: 'short', day: 'numeric', month: 'short' });
@@ -881,10 +938,20 @@ function draw() {
     + tile('Yesterday', fmtN(yday.visitors), `people · ${fmtN(yday.opens)} visits`)
     + tile('Average a day', fmtN(Math.round(people / n)), `people · ${fmtN(Math.round(visits / n))} visits`)
     + tile('Visits per person', people ? (visits / people).toFixed(1) : '–', 'a day, on average')
-    + tile('Using the app', people ? Math.round(100 * tot('appvisitors') / people) + '%' : '–', `of people · ${fmtN(tot('appvisitors'))} app users, ${fmtN(tot('appviews'))} app page views`);
+    + tile('Using the app', people ? Math.round(100 * tot('appvisitors') / people) + '%' : '–', `of people · ${fmtN(tot('appvisitors'))} app users, ${fmtN(tot('appviews'))} app page views`)
+    + (() => { const taps = Object.values(usedOf(sums)).reduce((a, x) => a + x, 0), tv = visits ? taps / visits : 0;
+        const pv = prev && tot('opens', prev) ? Object.values(usedOf(prev.sums)).reduce((a, x) => a + x, 0) / tot('opens', prev) : null, ch = pv != null ? change(Math.round(tv * 10), Math.round(pv * 10)) : '';
+        return tile('Taps a visit', visits ? tv.toFixed(1) : '–', `${fmtN(taps)} taps${ch && ch !== '–' ? ` · ${ch} on the days before` : ''}`); })();
   // a day on its own is no line: Today shows the last 7 days
-  if (n < 3) { const w = shape(7); chart(w.list, w.per); } else chart(list, per);
-  $('chartSub').textContent = n < 3 ? 'the last 7 days' : '';
+  const VIS = [['visitors', 'People', 'var(--series-1)'], ['opens', 'Visits', 'var(--series-2)'], ['views', 'Page views', 'var(--series-3)']];
+  const w7 = n < 3 ? shape(7) : null;
+  if (w7) chart('chart', w7.list, w7.per, VIS, 'People, visits and page views'); else chart('chart', list, per, VIS, 'People, visits and page views');
+  $('chartSub').textContent = $('actSub').textContent = n < 3 ? 'the last 7 days' : '';
+  // taps, games opened and links out each day
+  { const L = w7 || { list, ds }, tot = o => Object.values(o || {}).reduce((a, x) => a + x, 0), ap = {};
+    for (const d of L.list) { const x = L.ds[d]; ap[d] = { games: tot(x.gameopen), watch: tot(x.watch), out: tot(x.outlink) }; }
+    chart('act', L.list, ap, [['games', 'Games opened', 'var(--series-1)'], ['watch', 'Ways to watch', 'var(--series-2)'], ['out', 'Links out', 'var(--series-3)']], 'Games opened, ways to watch and links out'); }
+  heat(list, ds);
   $('table').innerHTML = `<table><thead><tr><th>Day</th><th>People</th><th>Visits</th><th>Page views</th></tr></thead><tbody>${list.slice().reverse().map(d => `<tr><td>${dayLabel(d)}</td><td>${per[d].visitors}</td><td>${per[d].opens}</td><td>${per[d].views}</td></tr>`).join('')}</tbody></table>`;
   bars('country', sums.country, countryName);
   // "US · Comcast Cable Communications, LLC" → "Comcast Cable Communications (US)"; the full name on a hold
@@ -892,15 +959,15 @@ function draw() {
   const netLabel = k => { const [c, o = ''] = k.split(' · '); let n = o; while (LEGAL.test(n)) n = n.replace(LEGAL, ''); return `${n || 'Unknown'} (${c && c !== '?' ? c : '?'})`; };
   bars('network', sums.network, netLabel);
   bars('datacentre', sums.datacentre, netLabel);
-  bars('device', sums.device, k => DEVICE_LABEL[k] || k);
-  bars('mode', sums.mode, k => MODE_LABEL[k] || k);
+  share('device', 'device', [['phone', 'Phone'], ['computer', 'Computer'], ['tablet', 'Tablet']], sums, list, ds);
+  share('mode', 'mode', [['browser', 'Browser'], ['app', 'App']], sums, list, ds);
   bars('ref', sums.ref, k => k);
   bars('event', sums.event, k => EVENT_LABEL[k] || k);
-  drawPopular(sums, prev?.sums);
+  drawPopular(sums, prev?.sums, list, ds);
   // every sport turned off, most first (not cut to the top seven)
   bars('sportsoff', sums.sportsoff, k => SPORT_LABEL[k] || k, Object.entries(sums.sportsoff || {}).sort((a, b) => b[1] - a[1]).map(([k]) => k));
-  bars('myteams', sums.myteams, k => ({ changed: 'Changed', default: 'As it came' })[k] || k, ['changed', 'default']);
-  bars('newvis', sums.newvis, k => k[0].toUpperCase() + k.slice(1));
+  share('myteams', 'myteams', [['default', 'As it came'], ['changed', 'Changed']], sums, list, ds);
+  share('newvis', 'newvis', [['been before', 'Been before'], ['first visit', 'First visit']], sums, list, ds);
   // gaps people landed on: each opening of a game not yet over, with what it lacked then
   { const by = {}, comps = {}, KINDS = ['No start time', 'No way to watch', 'No squads'], SHORT_W = { 'No start time': 'no time', 'No way to watch': 'no way to watch', 'No squads': 'no squads' };
     for (const [k, n] of Object.entries(sums.gapseen || {})) {
@@ -931,8 +998,8 @@ function draw() {
   bars('setuse', setUse, k => SETTINGS_LABEL[k] || k, Object.entries(setUse).sort((a, b) => b[1] - a[1]).map(([k]) => k));
   const siteUse = Object.fromEntries(Object.entries(sums.use || {}).filter(([k]) => !SETTINGS_USE.has(k)));
   bars('use', siteUse, k => k, Object.entries(siteUse).sort((a, b) => b[1] - a[1]).map(([k]) => k));
-  bars('spoil', sums.spoil, k => ({ hidden: 'Results hidden', shown: 'Results shown' })[k] || k);
-  bars('view', sums.view, k => ({ mixed: 'Large', compact: 'Compact', list: 'List' })[k] || k);
+  share('spoil', 'spoil', [['hidden', 'Results hidden'], ['shown', 'Results shown']], sums, list, ds);
+  share('view', 'view', [['list', 'List'], ['compact', 'Compact'], ['mixed', 'Large']], sums, list, ds);
   bars('theme', sums.theme, k => ({ green: 'Kiwi green', ocean: 'Ocean blue', red: 'Pōhutukawa red', black: 'All Black', kowhai: 'Kōwhai gold', paua: 'Pāua teal', purple: 'Twilight purple', orange: 'Sunset orange', lime: 'Kawakawa lime', pink: 'Rātā pink', kauri: 'Kauri brown', silver: 'Silver fern', tui: 'Tūī indigo', navy: 'Moana navy', olive: 'Harakeke olive' })[k] || k);
   bars('speed', sums.speed, k => k, SPEED_ORDER);
   // each slow load is one line ("8s or more · slowest getting the feed · 4g connection · in sight · 4 GB memory · Android
@@ -1044,7 +1111,14 @@ function showAll(el, id, rows) {
 }
 // the most popular: a leaderboard each, most first, with the change on the same number of days before (when there are
 // numbers for all of them)
-function rank(id, obj, prevObj, label = k => [k]) {
+// a row's line over the days: its counts a day, scaled to its own highest (none for one or two days)
+function spark(vals) {
+  const sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); sv.setAttribute('class', 'spk'); sv.setAttribute('viewBox', '0 0 44 16'); sv.setAttribute('aria-hidden', 'true');
+  if (vals && vals.length > 2) { const mx = Math.max(1, ...vals), pl = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+    pl.setAttribute('points', vals.map((v, i) => `${(1 + i * 42 / (vals.length - 1)).toFixed(1)},${(14.5 - v / mx * 13).toFixed(1)}`).join(' ')); sv.append(pl); }
+  return sv;
+}
+function rank(id, obj, prevObj, label = k => [k], daily = null) {
   const el = $(id), rows = Object.entries(obj || {}).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   el.replaceChildren();
   if (!rows.length) { const p = document.createElement('li'); p.className = 'empty'; p.textContent = 'Nothing yet in this range.'; el.append(p); showAll(el, id, 0); return; }
@@ -1055,10 +1129,11 @@ function rank(id, obj, prevObj, label = k => [k]) {
     const nm = document.createElement('span'); nm.className = 'k'; nm.textContent = name; nm.title = sub ? `${name} (${sub})` : name;
     if (sub) { const sm = document.createElement('small'); sm.textContent = sub; nm.append(sm); }
     const nb = document.createElement('span'); nb.className = 'n'; nb.textContent = fmtN(n);
+    const sp = spark(daily && daily.map(o => (o && o[k]) || 0));
     const dl = document.createElement('span'); dl.className = 'dl'; dl.textContent = prevObj ? change(n, prevObj[k] || 0) : '';
     if (prevObj) dl.title = `${fmtN(prevObj[k] || 0)} on the days before`;
     const t = document.createElement('span'); t.className = 't'; const f = document.createElement('i'); f.style.width = (100 * n / max).toFixed(1) + '%'; t.append(f);
-    li.append(rk, nm, nb, dl, t); el.append(li);
+    li.append(rk, nm, sp, nb, dl, t); el.append(li);
   });
   showAll(el, id, rows.length);
 }
@@ -1075,20 +1150,54 @@ function usedOf(sums) {
 }
 // games opened in each competition (a game is counted as "Competition: Home v Away")
 function compsOf(sums) { const o = {}; for (const [k, n] of Object.entries(sums.gameopen || {})) { const c = k.includes(': ') ? k.slice(0, k.indexOf(': ')) : 'Other'; o[c] = (o[c] || 0) + n; } return o; }
-function drawPopular(sums, ps) {
+function drawPopular(sums, ps, list, ds) {
   $('popSub').textContent = ps ? 'with the change on the same number of days before' : '';
-  rank('p-used', usedOf(sums), ps && usedOf(ps));
-  rank('p-game', sums.gameopen, ps?.gameopen || (ps && {}), k => { const i = k.indexOf(': '); return i < 0 ? [k] : [k.slice(i + 2), k.slice(0, i)]; });
-  rank('p-comp', compsOf(sums), ps && compsOf(ps), k => [SPORT_LABEL[k] || k]);
-  rank('p-hub', sums.hubs, ps && ps.hubs);
-  rank('p-sport', sums.sport, ps && (ps.sport || {}), k => [SPORT_LABEL[k] || k]);
-  rank('p-team', sums.teampage, ps && (ps.teampage || {}));
-  rank('p-watch', sums.watch, ps && (ps.watch || {}));
-  rank('p-out', sums.outlink, ps && (ps.outlink || {}), k => [k.replace(/^www\./, '')]);
-  rank('p-search', sums.search, ps && (ps.search || {}));
+  const day = f => list.map(d => f(ds[d]) || {});
+  rank('p-used', usedOf(sums), ps && usedOf(ps), undefined, day(usedOf));
+  rank('p-game', sums.gameopen, ps?.gameopen || (ps && {}), k => { const i = k.indexOf(': '); return i < 0 ? [k] : [k.slice(i + 2), k.slice(0, i)]; }, day(x => x.gameopen));
+  rank('p-comp', compsOf(sums), ps && compsOf(ps), k => [SPORT_LABEL[k] || k], day(compsOf));
+  rank('p-hub', sums.hubs, ps && ps.hubs, undefined, day(x => x.hubs));
+  rank('p-sport', sums.sport, ps && (ps.sport || {}), k => [SPORT_LABEL[k] || k], day(x => x.sport));
+  rank('p-team', sums.teampage, ps && (ps.teampage || {}), undefined, day(x => x.teampage));
+  rank('p-watch', sums.watch, ps && (ps.watch || {}), undefined, day(x => x.watch));
+  rank('p-out', sums.outlink, ps && (ps.outlink || {}), k => [k.replace(/^www\./, '')], day(x => x.outlink));
+  rank('p-search', sums.search, ps && (ps.search || {}), undefined, day(x => x.search));
   document.querySelector('.grid.pop').classList.toggle('nodl', !ps);
 }
-
+// a split in shares: one bar, a line a part (its count and share), then each day's split as a thin column; the parts
+// keep their colours whatever their size (the first part always the first colour), anything else is Other in grey
+function share(id, metric, parts, sums, list, ds) {
+  const el = $(id), o = sums[metric] || {}, keys = parts.map(([k]) => k), other = Object.entries(o).filter(([k]) => !keys.includes(k)).reduce((a, [, n]) => a + n, 0);
+  const rows = parts.map(([k, l], i) => [l, o[k] || 0, `var(--series-${i + 1})`]).concat(other ? [['Other', other, 'var(--other)']] : []);
+  const all = rows.reduce((a, r) => a + r[1], 0);
+  el.className = 'share'; el.replaceChildren();
+  if (!all) { el.innerHTML = '<div class="empty">Nothing yet in this range.</div>'; return; }
+  const pc = n => n && n / all < .005 ? '<1%' : Math.round(100 * n / all) + '%';
+  let h = `<div class="sb">${rows.filter(r => r[1]).map(([l, n, c]) => `<i style="flex:${n} 1 0;background:${c}" title="${esc(l)}: ${fmtN(n)} (${pc(n)})"></i>`).join('')}</div>`;
+  h += rows.map(([l, n, c]) => `<div class="sl"><i style="background:${c}"></i><span class="k">${esc(l)}</span><span class="n">${fmtN(n)}</span><span class="pc">${pc(n)}</span></div>`).join('');
+  if (list.length > 2) {
+    const col = d => { const x = (ds[d] || {})[metric] || {}, v = parts.map(([k]) => x[k] || 0), ot = Object.entries(x).filter(([k]) => !keys.includes(k)).reduce((a, [, n]) => a + n, 0), t = v.reduce((a, b) => a + b, 0) + ot;
+      if (!t) return '<span></span>';
+      return `<span title="${esc(dayLabel(d))}: ${parts.map(([, l], i) => `${l} ${Math.round(100 * v[i] / t)}%`).join(', ')}${ot ? `, Other ${Math.round(100 * ot / t)}%` : ''}">${v.map((n, i) => n ? `<i style="flex:${n} 1 0;background:var(--series-${i + 1})"></i>` : '').join('')}${ot ? `<i style="flex:${ot} 1 0;background:var(--other)"></i>` : ''}</span>`; };
+    h += `<div class="sd"><div class="lbl">Each day</div><div class="cols">${list.map(col).join('')}</div><div class="dl2"><span>${esc(dayLabel(list[0], { day: 'numeric', month: 'short' }))}</span><span>${esc(dayLabel(list[list.length - 1], { day: 'numeric', month: 'short' }))}</span></div></div>`;
+  }
+  el.innerHTML = h;
+}
+// when people visit: page views by day of the week and hour, the average a day of that weekday in the range; one
+// colour, from the card's own background (none) to full (the busiest hour)
+function heat(list, ds) {
+  const box = $('heat'), sum = WEEKDAYS.map(() => Array(24).fill(0)), cnt = Array(7).fill(0);
+  for (const d of list) { const w = (new Date(d + 'T12:00:00Z').getUTCDay() + 6) % 7; cnt[w]++; const h = (ds[d] || {}).hour || {}; for (let i = 0; i < 24; i++) sum[w][i] += h[String(i).padStart(2, '0')] || 0; }
+  const avg = sum.map((r, w) => r.map(v => cnt[w] ? v / cnt[w] : null)), mx = Math.max(1, ...avg.flat().filter(v => v != null));
+  const hl = h => h === 0 ? '12am' : h < 12 ? h + 'am' : h === 12 ? '12pm' : (h - 12) + 'pm';
+  let g = '<span></span>' + [...Array(24)].map((_, h) => `<span class="hh">${h % 3 === 0 ? hl(h) : ''}</span>`).join('');
+  WEEKDAYS.forEach((wd, w) => {
+    g += `<span class="hd">${wd.slice(0, 3)}</span>`;
+    for (let h = 0; h < 24; h++) { const v = avg[w][h], f = v == null ? 0 : v / mx;
+      g += `<i style="--v:${v == null ? 0 : Math.round(6 + 94 * f)}%"${f > .75 ? ' class="hot"' : ''} title="${wd} ${hl(h)} to ${hl((h + 1) % 24)}: ${v == null ? 'no days in the range' : `${v < 10 ? v.toFixed(1) : Math.round(v)} page views a day`}"></i>`; }
+  });
+  box.innerHTML = g;
+}
 function hours(byHour) {
   const box = $('hours'), W = Math.max(280, box.clientWidth), H = 170, m = { l: 34, r: 8, t: 8, b: 22 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b, slot = iw / 24, bw = Math.min(24, slot - 2);
@@ -1099,7 +1208,7 @@ function hours(byHour) {
   for (let v = 0; v <= top; v += step) g += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${fmtN(v)}</text>`;
   vals.forEach((v, h) => {
     const x = m.l + h * slot + (slot - bw) / 2, yt = y(v), r = Math.min(4, (m.t + ih - yt) / 2);
-    if (v) g += `<path d="M${x},${m.t + ih} V${yt + r} Q${x},${yt} ${x + r},${yt} H${x + bw - r} Q${x + bw},${yt} ${x + bw},${yt + r} V${m.t + ih} Z" fill="var(--series-1)"/>`;
+    if (v) g += `<path class="hb" d="M${x},${m.t + ih} V${yt + r} Q${x},${yt} ${x + r},${yt} H${x + bw - r} Q${x + bw},${yt} ${x + bw},${yt + r} V${m.t + ih} Z" fill="var(--series-1)"/>`;
     if (h % 3 === 0) g += `<text x="${x + bw / 2}" y="${H - 6}" text-anchor="middle">${h === 0 ? '12am' : h < 12 ? h + 'am' : h === 12 ? '12pm' : (h - 12) + 'pm'}</text>`;
   });
   g += `<rect x="${m.l}" y="0" width="${iw}" height="${H}" fill="transparent" class="hit"/>`;
@@ -1120,12 +1229,13 @@ function hours(byHour) {
   hit.addEventListener('pointermove', show); hit.addEventListener('pointerdown', show); hit.addEventListener('pointerleave', () => { tip.hidden = true; });
 }
 
-// visitors and page views a day: two 2px lines on one count axis from zero, hairline grid, end labels, and a
-// crosshair that snaps to a day with both values in the tooltip
-function chart(list, per) {
-  const box = $('chart'), W = Math.max(280, box.clientWidth), H = 240, m = { l: 34, r: 92, t: 22, b: 24 };
+// a line a series each day (people, visits and page views; taps, games and links out): 2px lines on one count axis
+// from zero, hairline grid, end labels, and a crosshair that snaps to a day with every value in the tooltip. The
+// shading under each line shows only in a soft chart look
+function chart(boxId, list, per, S, what) {
+  // room on the right for the end labels ("Games opened 1,234")
+  const box = $(boxId), W = Math.max(280, box.clientWidth), H = 240, m = { l: 34, r: Math.max(92, Math.round(22 + 6.4 * Math.max(...S.map(([k, n]) => `${n} ${fmtN(per[list[list.length - 1]][k])}`.length)))), t: 22, b: 24 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
-  const S = [['visitors', 'People', 'var(--series-1)'], ['opens', 'Visits', 'var(--series-2)'], ['views', 'Page views', 'var(--series-3)']];
   const maxV = Math.max(4, ...list.flatMap(d => S.map(([k]) => per[d][k])));
   const step = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000, 10000].find(s => maxV / s <= 4) || Math.ceil(maxV / 4);
   const top = Math.ceil(maxV / step) * step;
@@ -1135,10 +1245,11 @@ function chart(list, per) {
   // date labels: first, last and a few between, never crowded
   const every = Math.max(1, Math.ceil(list.length / Math.max(2, Math.floor(iw / 70))));
   list.forEach((d, i) => { if (i % every === 0 || i === list.length - 1) { if (i !== list.length - 1 && list.length - 1 - i < every * 0.6) return; g += `<text x="${x(i)}" y="${H - 6}" text-anchor="middle">${dayLabel(d, { day: 'numeric', month: 'short' })}</text>`; } });
-  const ends = [];
+  const ends = []; let defs = '';
   for (const [k, name, c] of S) {
     const pts = list.map((d, i) => `${x(i).toFixed(1)},${y(per[d][k]).toFixed(1)}`).join(' ');
-    g += `<polyline points="${pts}" fill="none" stroke="${c}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    g += `<polygon class="area" points="${x(0).toFixed(1)},${m.t + ih} ${pts} ${x(list.length - 1).toFixed(1)},${m.t + ih}" fill="url(#ga-${boxId}-${k})"/><polyline class="ln" points="${pts}" fill="none" stroke="currentColor" style="color:${c}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    defs += `<linearGradient id="ga-${boxId}-${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c}" stop-opacity=".26"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></linearGradient>`;
     const last = per[list[list.length - 1]][k];
     ends.push({ y: y(last), name, last, c });
   }
@@ -1165,11 +1276,11 @@ function chart(list, per) {
     const box = [p.py - 9, p.py + 18].map(ly => ({ ly, x1: lx - w / 2, x2: lx + w / 2, y1: ly - 9, y2: ly + 2 })).find(b => b.y2 < m.t + ih && free(b));
     if (box) { taken.push(box); g += `<text class="peak" x="${lx}" y="${box.ly}" text-anchor="middle">${t}</text>`; }
   }
-  g += `<line id="xh" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="var(--muted)" stroke-width="1" visibility="hidden"/>`;
+  g += `<line class="xh" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="var(--muted)" stroke-width="1" visibility="hidden"/>`;
   for (const [k, , c] of S) g += `<circle class="hd" data-k="${k}" r="4" fill="${c}" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>`;
-  g += `<rect x="${m.l}" y="0" width="${iw}" height="${H}" fill="transparent" id="hit"/>`;
-  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="People, visits and page views each day for the last ${list.length} days">${g}</svg><div class="tip" hidden></div>`;
-  const svg = box.querySelector('svg'), tip = box.querySelector('.tip'), xh = svg.querySelector('#xh');
+  g += `<rect x="${m.l}" y="0" width="${iw}" height="${H}" fill="transparent" class="hit"/>`;
+  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${what} each day for the last ${list.length} days"><defs>${defs}</defs>${g}</svg><div class="tip" hidden></div>`;
+  const svg = box.querySelector('svg'), tip = box.querySelector('.tip'), xh = svg.querySelector('.xh');
   const show = ev => {
     const r = svg.getBoundingClientRect(), px = (ev.clientX - r.left) * W / r.width;
     const i = Math.max(0, Math.min(list.length - 1, Math.round((px - m.l) / (iw / Math.max(1, list.length - 1)))));
@@ -1191,7 +1302,7 @@ function chart(list, per) {
     tip.style.top = '-8px'; tip.style.transform = `translate(-50%, -100%)`;
   };
   const hide = () => { tip.hidden = true; xh.setAttribute('visibility', 'hidden'); svg.querySelectorAll('.hd').forEach(c => c.setAttribute('visibility', 'hidden')); };
-  const hit = svg.querySelector('#hit');
+  const hit = svg.querySelector('.hit');
   hit.addEventListener('pointermove', show); hit.addEventListener('pointerdown', show); hit.addEventListener('pointerleave', hide);
 }
 
@@ -1224,6 +1335,15 @@ const drawThemes = () => { const cur = store.get('statsAccent', store.get('accen
 $('themes').addEventListener('click', ev => { const b = ev.target.closest('[data-theme-k]'); if (!b) return; const k = b.dataset.themeK; store.set('statsAccent', k);
   if (k === 'green') delete document.documentElement.dataset.accent; else document.documentElement.dataset.accent = k; drawThemes(); if (typeof draw === 'function') try { draw(); } catch {} });
 drawThemes();
+// the charts' looks: three colours (or greys) and a style each; picking one only swaps the colours and the style
+const LOOKS = [['kiwi', 'Kiwi', 'kiwi', 'flat', ['#3987e5', '#d95926', '#199e70']], ['neon', 'Neon', 'kiwi', 'glow', ['#3987e5', '#d95926', '#199e70']],
+  ['twilight', 'Twilight', 'twilight', 'soft', ['#9085e9', '#c98500', '#d55181']], ['rata', 'Rātā', 'rata', 'glow', ['#d55181', '#3987e5', '#c98500']],
+  ['bush', 'Bush', 'bush', 'soft', ['#199e70', '#9085e9', '#c98500']], ['mono', 'Mono', 'mono', 'flat', ['var(--ink)', 'color-mix(in srgb, var(--ink) 58%, var(--surface))', 'color-mix(in srgb, var(--ink) 34%, var(--surface))']]];
+const drawLooks = () => { const cur = store.get('statsChart', 'kiwi');
+  $('looks').innerHTML = LOOKS.map(([k, l, , , c]) => `<button type="button" class="lk" data-look="${k}" aria-pressed="${k === cur}"><span class="d">${c.map(x => `<i style="background:${x};color:${x}"></i>`).join('')}</span>${l}</button>`).join(''); };
+$('looks').addEventListener('click', ev => { const b = ev.target.closest('[data-look]'); if (!b) return; const L = LOOKS.find(([k]) => k === b.dataset.look); store.set('statsChart', L[0]);
+  document.documentElement.dataset.chart = L[2]; document.documentElement.dataset.cstyle = L[3]; drawLooks(); });
+drawLooks();
 $('forget').addEventListener('click', () => { store.del('statspw'); pw = ''; $('pw').value = ''; $('main').hidden = true; $('gate').hidden = false; $('gateMsg').textContent = 'Forgotten on this device.'; $('gateMsg').className = 'note'; });
 const syncMe = () => { const on = store.get('nocount', false); $('noCount').setAttribute('aria-pressed', String(on)); $('noCount').textContent = on ? 'Not counting my visits' : 'Don\'t count my visits'; $('noCountNote').textContent = on ? 'Your visits on this browser aren\'t counted.' : 'Your visits on this browser are counted like everyone\'s.'; };
 $('noCount').addEventListener('click', () => { store.set('nocount', !store.get('nocount', false)); syncMe(); });
