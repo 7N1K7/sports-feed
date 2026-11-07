@@ -1,0 +1,5 @@
+stt 2026-11-07T08:19:30.397Z
+1280: menu bottom 510 clipped=[] errors=none
+800: menu bottom 510 clipped=[] errors=none
+412: menu bottom 574 clipped=[] errors=none
+360: menu bottom 621 clipped=[] errors=none
