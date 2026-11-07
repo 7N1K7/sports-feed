@@ -2165,6 +2165,8 @@ let newsKind = 'all', newsPage = 0;
 let sportSel = (v => new Set(Array.isArray(v) ? v : v && v !== 'all' ? [v] : []))(store.get('sport', []));
 const sportOn = k => !sportSel.size || sportSel.has(k);
 let compSel = store.get('comp', '');
+// the competition page last counted as opened (the one kept from the last visit isn't counted again)
+let hubSeen = compSel;
 let genderSel = store.get('gender', 'all');
 let nzOnly = store.get('nzOnly', false);
 let freeOnly = store.get('freeOnly', false);
@@ -4173,6 +4175,8 @@ addEventListener('resize', fitOffNote); document.fonts?.ready.then(fitOffNote);
 const GEAR = '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>';
 function render() {
   const now = Date.now();
+  // a competition page opened, whichever button opened it, by name, so the stats show the popular ones
+  if (compSel !== hubSeen) { if (compSel) count({ e: 'hub', k: compSel }); hubSeen = compSel; }
   renderNowBar(now);
   const nowD = new Date(now);
   const evs = (FEED.events || []).filter(visible).sort((a, b) => a.startUTC.localeCompare(b.startUTC));

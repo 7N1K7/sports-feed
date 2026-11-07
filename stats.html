@@ -43,8 +43,36 @@ button, input { font: inherit; color: inherit }
 #gate input { flex: 1 1 200px; min-width: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px }
 #gateMsg { margin-top: 8px; min-height: 1.4em }
 .err { color: #ff8787 }
-.range { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 14px }
-.range .sp { flex: 1 }
+/* the top bar: the date range, the days it covers, the sections menu and Refresh. It stays at the top as the page
+   scrolls; the menu opens over the page, so nothing under it moves. The range's buttons are a set width each, so picking
+   one moves nothing */
+.tbar { position: sticky; top: 0; z-index: 30; margin: 12px calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 0; padding: 8px max(16px, env(safe-area-inset-left, 0px)); background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line) }
+.tbrow { display: flex; align-items: center; gap: 8px 10px }
+.seg { display: grid; grid-template-columns: repeat(7, auto); padding: 2px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); flex: none }
+.seg button { border: 0; background: none; border-radius: 999px; padding: 4px 12px; font: 600 13px/18px var(--f-body); color: var(--muted); cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent }
+.seg button:hover { color: var(--ink) } .seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper) }
+.seg .sm, .tbrow .ico svg + .lg { display: none } .tbrow .ico .lg { display: inline }
+.rspan { flex: 1; min-width: 0; color: var(--muted); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.btn.sm { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; font-size: 13px; line-height: 18px; flex: none }
+.btn.sm svg { width: 15px; height: 15px; flex: none } #jumpBtn svg { transition: transform .15s } #jumpBtn[aria-expanded="true"] svg { transform: rotate(180deg) }
+#jumpBtn[aria-expanded="true"] { border-color: var(--muted) }
+.jump { position: absolute; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); top: calc(100% + 6px); max-height: min(72vh, 560px); overflow: auto; overscroll-behavior: contain; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px 22px; padding: 14px 18px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 14px 34px rgba(0, 0, 0, .5) }
+.jump[hidden] { display: none }
+.jump div { display: grid; gap: 1px; align-content: start }
+.jump a { color: var(--ink); text-decoration: none; font-size: 14px; padding: 3px 6px; margin: 0 -6px; border-radius: 6px }
+.jump a:hover, .jump a:focus-visible { background: color-mix(in srgb, var(--ink) 9%, transparent) }
+.jump a.jg { font: 700 17px/1.2 var(--f-display); letter-spacing: .03em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px }
+@media (max-width: 640px) {
+  .tbrow { flex-wrap: wrap } .seg { width: 100%; grid-template-columns: repeat(7, minmax(0, 1fr)) } .seg button { padding: 4px 0 }
+  .seg .lg { display: none } .seg .sm { display: inline } .tbrow .ico .lg { display: none } .btn.sm.ico { padding: 4px 8px }
+  .jump { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 14px; padding: 12px 14px 14px } .jump a { font-size: 13.5px }
+}
+/* a group of cards: its name, with a line to the end of the row */
+.grp { display: flex; align-items: baseline; gap: 10px; margin: 30px 0 0; font: 700 22px/1 var(--f-display); letter-spacing: .03em; text-transform: uppercase; color: var(--ink) }
+.grp::after { content: ""; flex: 1; align-self: center; height: 1px; background: var(--line) }
+.grp .gsub { font: 500 13px var(--f-body); letter-spacing: 0; text-transform: none; color: var(--muted) }
+.grp, .card { scroll-margin-top: calc(var(--tbh, 56px) + 12px) }
+#g-overview { margin-top: 20px }
 /* the headline: visits in the range, then the tiles */
 .hero { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px }
 .hero .big { font-size: 56px; font-weight: 700; line-height: 1 }
@@ -69,7 +97,7 @@ button, input { font: inherit; color: inherit }
 /* errors read as full sentences: no bar, the text wraps */
 /* a network's name is long ("Comcast Cable (United States)"): more room for it, less for the bar */
 .nets .bar { grid-template-columns: minmax(0, 1fr) minmax(0, 3.5em) auto }
-#error .bar { grid-template-columns: minmax(0, 1fr) auto } #error .bar .t { display: none } #error .bar .k { white-space: normal; overflow-wrap: anywhere; font-size: 13px }
+#error { grid-auto-rows: auto } #error .bar { grid-template-columns: minmax(0, 1fr) auto } #error .bar .t { display: none } #error .bar .k { white-space: normal; overflow-wrap: anywhere; font-size: 13px }
 .chartbox text { fill: var(--muted); font-size: 11px; font-family: var(--f-body) }
 .chartbox .end { font-size: 12px; font-weight: 600; fill: var(--ink) }
 .chartbox .peak { font-size: 11px; font-weight: 700; fill: var(--ink) }
@@ -79,12 +107,35 @@ button, input { font: inherit; color: inherit }
 .tip .row i { width: 12px; height: 2px; border-radius: 1px; display: inline-block }
 .tip b { font-weight: 700 }
 /* bar lists */
-.lists { columns: 260px; column-gap: 12px } /* the boxes packed in columns, as many as fit, so a wide screen shows more at once */
-.lists > .card { break-inside: avoid; margin: 0 0 12px }
+/* a group's cards in even rows (three across a wide screen, two on a small computer, one on a phone), each card as tall
+   as its row with its note at the foot; a card with several lists takes two rows. A long list shows its first ten and
+   Show all scrolls the rest in the same space, so no card changes size */
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-flow: row dense; gap: 12px; margin-top: 12px; align-items: stretch }
+.grid > .card { margin: 0; display: flex; flex-direction: column; min-width: 0 } .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+.card > h2 + .thh { margin-top: 0 }
+.grid > .card > .note:last-child { margin-top: auto; padding-top: 10px; margin-bottom: 0 }
+.pop.nodl .rank li { grid-template-columns: 1.6em minmax(0, 1fr) auto 0 } .pop.nodl .rank .dl { display: none }
+@media (max-width: 1099px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .grid:not(.pop):not(.two) > .card:last-child:nth-child(odd), .grid.pop > .card:first-child { grid-column: 1 / -1 } }
+@media (max-width: 640px) { .grid, .grid.two { grid-template-columns: minmax(0, 1fr) }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)) } .tiles > .tile:last-child:nth-child(odd) { grid-column: 1 / -1 } /* five tiles: two, two, one across */
+  .grp { flex-wrap: wrap; row-gap: 6px } .grp .gsub { order: 3; flex-basis: 100% } }
+/* the popular lists: a row each (rank, name, how many, the change on the days before), a thin bar under the name */
+.rank { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-rows: 34px; max-height: calc(10 * 34px); overflow: hidden }
+.rank.all { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin }
+.rank li { display: grid; grid-template-columns: 1.6em minmax(0, 1fr) auto 4.4em; grid-template-rows: auto 3px; column-gap: 6px; row-gap: 3px; align-content: center; font-size: 14px }
+.rank .rk { grid-row: 1 / 3; align-self: center; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; text-align: right }
+.rank .k { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap } .rank .k small { color: var(--muted); font-size: 12px; margin-left: 5px }
+.rank .n { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right }
+.rank .dl { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap }
+.rank .t { grid-column: 2 / 4; height: 3px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 7%, transparent) } .rank .t i { display: block; height: 100%; border-radius: 2px; background: var(--series-1); min-width: 2px }
+.rank .empty { display: block; padding-top: 6px }
+.more { align-self: flex-start; margin-top: 8px; border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 2px 11px; font: 600 12.5px/18px var(--f-body); color: var(--muted); cursor: pointer }
+.more:hover { color: var(--ink); border-color: var(--muted) } .more[hidden] { display: none }
 /* the two charts side by side on a wide screen */
-@media (min-width: 1100px) { .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start } .duo > .card { margin-top: 12px } }
-.lists .card { margin-top: 0 }
-.bars { display: grid; gap: 7px }
+@media (min-width: 1100px) { .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: stretch } .duo > .card { margin-top: 12px } }
+.bars { display: grid; gap: 7px; grid-auto-rows: 21px }
+.bars.cap { height: calc(10 * 21px + 9 * 7px); overflow: hidden } .bars.cap.all { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; padding-right: 4px }
 /* data coverage: a row a sport, each figure coloured by how complete it is */
 .cov { width: 100%; border-collapse: collapse; font-size: 14px }
 .cov th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; text-align: center; padding: 4px 6px }
@@ -154,7 +205,7 @@ button, input { font: inherit; color: inherit }
   .cvt .cov th { text-transform: none; letter-spacing: 0 } .cvt .cov td { font-size: 13px }
   .cvt .cov th, .cvt .cov td { padding-left: 2px; padding-right: 2px }
 }
-.bar { display: grid; grid-template-columns: minmax(0, 8em) minmax(0, 1fr) auto; align-items: center; gap: 8px; font-size: 14px }
+.bar { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto; align-items: center; gap: 8px; font-size: 14px }
 .bar .k { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 .bar .t { height: 10px; position: relative }
 .bar .t i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--series-1); border-radius: 0 4px 4px 0; min-width: 2px }
@@ -209,63 +260,98 @@ th { color: var(--muted); font-weight: 600 }
   </section>
 
   <div id="main" hidden>
-    <div id="errAlert" class="erralert" role="status"></div>
-    <div class="range" role="group" aria-label="Date range">
-      <button class="btn" type="button" data-days="7">7 days</button>
-      <button class="btn" type="button" data-days="30">30 days</button>
-      <button class="btn" type="button" data-days="90">90 days</button>
-      <span class="sp"></span>
-      <button class="btn" type="button" id="refresh">Refresh</button>
+    <!-- the range and the sections menu stay at the top while the page scrolls -->
+    <div class="tbar" id="tbar">
+      <div class="tbrow">
+        <div class="seg" role="group" aria-label="Date range"><button type="button" data-days="1">Today</button><button type="button" data-days="3"><span class="lg">3 days</span><span class="sm">3d</span></button><button type="button" data-days="7"><span class="lg">7 days</span><span class="sm">7d</span></button><button type="button" data-days="14"><span class="lg">14 days</span><span class="sm">14d</span></button><button type="button" data-days="30"><span class="lg">30 days</span><span class="sm">30d</span></button><button type="button" data-days="90"><span class="lg">90 days</span><span class="sm">90d</span></button><button type="button" data-days="0">All</button></div>
+        <span class="rspan" id="rangeSpan"></span>
+        <button class="btn sm" type="button" id="jumpBtn" aria-expanded="false" aria-controls="jump">Sections<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <button class="btn sm ico" type="button" id="refresh" aria-label="Refresh" title="Refresh"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg><span class="lg">Refresh</span></button>
+      </div>
+      <nav class="jump" id="jump" aria-label="Sections" hidden></nav>
     </div>
+    <div id="errAlert" class="erralert" role="status"></div>
 
-    <section class="card" aria-live="polite">
+    <h2 class="grp" id="g-overview">Overview</h2>
+      <section class="card" aria-live="polite" data-name="Visits">
       <div class="hero"><span class="big" id="heroN">0</span><span class="lbl" id="heroL">visits</span></div>
       <div class="tiles" id="tiles"></div>
     </section>
-
-
-    <section class="card">
-      <h2>Reports and ideas</h2>
-      <div class="reps" id="reports"></div>
-      <p class="note">Sent with Report a problem (a game's pop-up, or the foot of the page) and Suggest it (the foot of the page). Nothing about who sent them is kept.</p>
-    </section>
-
     <div class="duo">
-    <section class="card">
-      <h2>Each day</h2>
+      <section class="card">
+      <h2>Each day <span class="note" id="chartSub" style="text-transform:none;letter-spacing:0;font-weight:500"></span></h2>
       <div class="legend"><span><i style="background:var(--series-1)"></i>People</span><span><i style="background:var(--series-2)"></i>Visits</span><span><i style="background:var(--series-3)"></i>Page views</span></div>
       <div class="chartbox" id="chart"></div>
       <details class="tbl"><summary>As a table</summary><div id="table"></div></details>
     </section>
-
-    <section class="card">
+      <section class="card">
       <h2>Busiest times</h2>
       <p class="note" style="margin-top:-4px">Page views by hour of the day, NZ time, over the chosen days.</p>
       <div class="chartbox" id="hours"></div>
     </section>
     </div>
+      <section class="card">
+      <h2>Reports and ideas</h2>
+      <div class="reps" id="reports"></div>
+      <p class="note">Sent with Report a problem (a game's pop-up, or the foot of the page) and Suggest it (the foot of the page). Nothing about who sent them is kept.</p>
+    </section>
 
-    <div class="lists" style="margin-top:12px">
+    <h2 class="grp" id="g-popular">Most popular <span class="gsub" id="popSub"></span></h2>
+    <div class="grid pop">
+      <section class="card pc"><h2>Most used</h2><ol class="rank" id="p-used"></ol><p class="note">Every button and feature on the site, Settings included, all visitors together.</p></section>
+      <section class="card pc"><h2>Games opened</h2><ol class="rank" id="p-game"></ol><p class="note">The games whose pop-up was opened most.</p></section>
+      <section class="card pc"><h2>Competitions</h2><ol class="rank" id="p-comp"></ol><p class="note">Games opened in each competition.</p></section>
+      <section class="card pc"><h2>Competition pages</h2><ol class="rank" id="p-hub"></ol><p class="note">Competition pages opened, from any button (from 7 Nov 2026; before that, picks from the competitions menu).</p></section>
+      <section class="card pc"><h2>Sports picked</h2><ol class="rank" id="p-sport"></ol><p class="note">Taps on a sport button.</p></section>
+      <section class="card pc"><h2>Team pages opened</h2><ol class="rank" id="p-team"></ol><p class="note">The team pages opened most.</p></section>
+      <section class="card pc"><h2>Where people watch</h2><ol class="rank" id="p-watch"></ol><p class="note">Taps on a way to watch, in a game's pop-up or on a card, and on the live scores link.</p></section>
+      <section class="card pc"><h2>Sites linked to</h2><ol class="rank" id="p-out"></ol><p class="note">Taps on links to other sites (where to watch, live scores, news, highlights, Wikipedia), by site, from 24 Oct 2026.</p></section>
+      <section class="card pc"><h2>Searches</h2><ol class="rank" id="p-search"></ol><p class="note">Words typed into the Search box.</p></section>
+    </div>
+
+    <h2 class="grp" id="g-people">Visitors</h2>
+    <div class="grid">
+      <section class="card"><h2>New or returning</h2><div class="bars" id="newvis"></div><p class="note">Visitors whose browser was on the site for the first time, or had been before (from 23 Oct 2026).</p></section>
       <section class="card"><h2>How often people come back</h2><div class="bars" id="repeat"></div><p class="note">People by how many visits they made in a day, over the chosen days (from the day this was added).</p></section>
       <section class="card"><h2>By day of the week</h2><div class="bars" id="weekday"></div><p class="note">Visitors a day, on average.</p></section>
-      <section class="card"><h2>Countries</h2><div class="bars" id="country"></div><p class="note">Visitors, by the country their connection comes from.</p>
-        <h3 class="thh">Outside NZ, by network</h3><div class="bars nets" id="network"></div>
-        <h3 class="thh">Not counted: cloud servers</h3><div class="bars nets" id="datacentre"></div>
-        <p class="note">From 25 Oct 2026. A network is the internet provider a visitor outside NZ connects through: a phone or home provider is a person. A page run from a cloud company's servers (Amazon, Google, Microsoft and the like) is a script, a link checker or a search engine, so those are left out of every other number here, and so is a VPN on those networks.</p></section>
       <section class="card"><h2>Devices</h2><div class="bars" id="device"></div></section>
       <section class="card"><h2>App or browser</h2><div class="bars" id="mode"></div><p class="note">Visitors using the home-screen app, or a web browser.</p></section>
       <section class="card"><h2>Came from</h2><div class="bars" id="ref"></div><p class="note">Page views that arrived from a link on another site. Links opened from most chat apps arrive without one.</p></section>
+      <section class="card"><h2>System and browser</h2><h3 class="thh">Phone or computer system</h3><div class="bars" id="os"></div>
+        <h3 class="thh">Browser</h3><div class="bars" id="browser"></div></section>
+      <section class="card"><h2>Countries</h2><div class="bars" id="country"></div><p class="note">Visitors, by the country their connection comes from.</p></section>
+      <section class="card"><h2>Networks</h2><h3 class="thh">Outside NZ, by network</h3><div class="bars nets" id="network"></div>
+        <h3 class="thh">Not counted: cloud servers</h3><div class="bars nets" id="datacentre"></div>
+        <p class="note">From 25 Oct 2026. A network is the internet provider a visitor outside NZ connects through: a phone or home provider is a person. A page run from a cloud company's servers (Amazon, Google, Microsoft and the like) is a script, a link checker or a search engine, so those are left out of every other number here, and so is a VPN on those networks.</p></section>
+    </div>
+
+    <h2 class="grp" id="g-use">Using the site</h2>
+    <div class="grid">
+      <section class="card"><h2>Parts of the site used</h2><div class="bars" id="use"></div><p class="note">Taps on each part, all visitors together, every one listed. Most buttons are counted from 24 Oct 2026.</p></section>
+      <section class="card"><h2>Features used</h2><div class="bars" id="event"></div><p class="note">Taps on each feature, all visitors together. Calendars and alert topics count taps on their links and copy buttons; from an alert counts games opened by tapping a phone alert.</p></section>
+      <section class="card"><h2>How far people scroll</h2><p class="note">Each visit's furthest point down the page, sent when the page is left (counted from 25 Oct 2026).</p>
+        <h3 class="thh">Furthest section seen</h3><div class="bars" id="scrollsec"></div>
+        <h3 class="thh">How much of the page</h3><div class="bars" id="scrollpct"></div></section>
+    </div>
+
+    <h2 class="grp" id="g-set">Settings and teams</h2>
+    <div class="grid">
+      <section class="card"><h2>Settings used</h2><div class="bars" id="setuse"></div><p class="note">Taps in the Settings box, all visitors together: opening it, a team turned on or off (which ones are in Teams followed and Teams dropped), a sport hidden or shown and the rest. Select all, Defaults, Clear, theme, time zone, Hide results for and the settings code are counted from 23 Oct 2026.</p></section>
       <section class="card"><h2>My teams</h2><div class="bars" id="myteams"></div><p class="note">Visitors, by whether they've changed My teams from what a new visitor starts with (counted once a day each, from 24 Oct 2026).</p></section>
       <section class="card"><h2>Sports turned off</h2><div class="bars" id="sportsoff"></div><p class="note">Visitors, by the sports they have off (nothing in that sport picked in My teams; everything starts on), counted once a day each, from 24 Oct 2026.</p></section>
-      <section class="card"><h2>New or returning</h2><div class="bars" id="newvis"></div><p class="note">Visitors whose browser was on the site for the first time, or had been before (from 23 Oct 2026).</p></section>
-      <section class="card"><h2>Games opened</h2><div class="bars" id="gameopen"></div><p class="note">The games whose pop-up was opened most.</p></section>
-      <section class="card"><h2>Sports picked</h2><div class="bars" id="sport"></div><p class="note">Taps on a sport button.</p></section>
-      <section class="card"><h2>Competitions picked</h2><div class="bars" id="comp"></div><p class="note">Picked from the competitions menu.</p></section>
-      <section class="card"><h2>Team pages opened</h2><div class="bars" id="teampage"></div></section>
-      <section class="card"><h2>Searches</h2><div class="bars" id="search"></div><p class="note">Words typed into the Search box.</p></section>
-      <section class="card"><h2>Searches that found nothing</h2><div class="bars" id="search0"></div><p class="note">Teams or games people looked for that the site doesn't have.</p></section>
-      <section class="card"><h2>Phone or computer system</h2><div class="bars" id="os"></div></section>
-      <section class="card"><h2>Browser</h2><div class="bars" id="browser"></div></section>
+      <section class="card"><h2>Teams turned on and off</h2><h3 class="thh">Turned on (followed)</h3><div class="bars" id="follow"></div>
+        <h3 class="thh">Turned off (dropped)</h3><div class="bars" id="unfollow"></div><p class="note">Teams turned on and off in My teams.</p></section>
+      <section class="card"><h2>Spoilers</h2><div class="bars" id="spoil"></div><p class="note">Visitors, by whether they keep results hidden (counted once a day each).</p></section>
+      <section class="card"><h2>Sports hidden</h2><div class="bars" id="hidesport"></div><p class="note">Taps on Hide sport in My teams, by sport (Fighting counts as MMA), from 24 Oct 2026. Sports followed shows how many visitors have each sport on.</p></section>
+      <section class="card"><h2>Sports shown again</h2><div class="bars" id="showsport"></div><p class="note">Taps on Show sport, bringing a hidden sport back, from 24 Oct 2026.</p></section>
+      <section class="card"><h2>Card size</h2><div class="bars" id="view"></div><p class="note">Visitors, by the card size they use.</p></section>
+      <section class="card"><h2>Theme colour</h2><div class="bars" id="theme"></div><p class="note">Visitors, by the colour theme they picked.</p></section>
+    </div>
+
+    <h2 class="grp" id="g-health">Speed and errors</h2>
+    <div class="grid two">
+      <section class="card" id="errCard"><h2>Errors on visitors' devices</h2><div class="bars" id="error"></div><p class="note">Problems in the site's own code; each is worth a look. <b>✓ Fixed</b> marks one already dealt with (counts from before the fix stay in the range); <b>⚠ Back</b> means a page with the fix sent it again. From v404 each error ends with the version of the page that sent it, [v404].</p></section>
+      <section class="card"><h2>Site checks</h2><div id="sitechk"></div><p class="note">The live site, checked from outside every 10 minutes (from 3 Nov 2026): the page and its feed answer, and the feed is whole and less than 90 minutes old. A problem's times are the checks either side of it, so it's known to 10 minutes. A problem only one visitor's connection had doesn't show here: a page that had to ask for its feed again shows in Errors as "Feed asked again". Kept 30 days.</p></section>
       <section class="card"><h2>Load speed</h2><div class="bars" id="speed"></div><p class="note">How long until the first games were on screen.</p></section>
       <section class="card"><h2>Slow loads</h2><p class="note">Loads that took 4s or more (counted from 25 Oct 2026). The connection and memory are only reported by Chrome-based browsers. "Out of sight" means the page was behind another tab or app, or the phone was locked, while it loaded.</p>
         <h3 class="thh">Took longest</h3><div class="bars" id="slowpart"></div>
@@ -273,34 +359,21 @@ th { color: var(--muted); font-weight: 600 }
         <h3 class="thh">Connection</h3><div class="bars" id="slownet"></div>
         <h3 class="thh">Memory</h3><div class="bars" id="slowmem"></div>
         <h3 class="thh">System and browser</h3><div class="bars" id="slowdev"></div></section>
-      <section class="card"><h2>How far people scroll</h2><p class="note">Each visit's furthest point down the page, sent when the page is left (counted from 25 Oct 2026).</p>
-        <h3 class="thh">Furthest section seen</h3><div class="bars" id="scrollsec"></div>
-        <h3 class="thh">How much of the page</h3><div class="bars" id="scrollpct"></div></section>
-      <section class="card"><h2>Gaps people hit</h2><div id="gapseen"></div><div id="gapcomp"></div><p class="note">Games opened before they're over, by sport, and how many of those openings were missing a start time, a way to watch or squads (squads only for a game between two named sides), then the competitions where it happens most. From 1 Nov 2026.</p></section>
-      <section class="card"><h2>Where people watch</h2><div class="bars" id="watch"></div><p class="note">Taps on a way to watch, in a game's pop-up or on a card, and on the live scores link.</p></section>
-      <section class="card"><h2>Settings used</h2><div class="bars" id="setuse"></div><p class="note">Taps in the Settings box, all visitors together: opening it, a team turned on or off (which ones are in Teams followed and Teams dropped), a sport hidden or shown and the rest. Select all, Defaults, Clear, theme, time zone, Hide results for and the settings code are counted from 23 Oct 2026.</p></section>
-      <section class="card"><h2>Teams followed</h2><div class="bars" id="follow"></div><p class="note">Teams turned on in My teams.</p></section>
-      <section class="card"><h2>Teams dropped</h2><div class="bars" id="unfollow"></div><p class="note">Teams turned off in My teams.</p></section>
-      <section class="card"><h2>Sports hidden</h2><div class="bars" id="hidesport"></div><p class="note">Taps on Hide sport in My teams, by sport (Fighting counts as MMA), from 24 Oct 2026. Sports followed shows how many visitors have each sport on.</p></section>
-      <section class="card"><h2>Sports shown again</h2><div class="bars" id="showsport"></div><p class="note">Taps on Show sport, bringing a hidden sport back, from 24 Oct 2026.</p></section>
-      <section class="card"><h2>Parts of the site used</h2><div class="bars" id="use"></div><p class="note">Taps on each part, all visitors together, every one listed. Most buttons are counted from 24 Oct 2026.</p></section>
-      <section class="card"><h2>Links out</h2><div class="bars" id="outlink"></div><p class="note">Taps on links to other sites (where to watch, live scores, news, highlights, Wikipedia), by site, from 24 Oct 2026.</p></section>
-      <section class="card"><h2>Spoilers</h2><div class="bars" id="spoil"></div><p class="note">Visitors, by whether they keep results hidden (counted once a day each).</p></section>
-      <section class="card"><h2>Card size</h2><div class="bars" id="view"></div><p class="note">Visitors, by the card size they use.</p></section>
-      <section class="card"><h2>Theme colour</h2><div class="bars" id="theme"></div><p class="note">Visitors, by the colour theme they picked.</p></section>
-      <section class="card" id="errCard"><h2>Errors on visitors' devices</h2><div class="bars" id="error"></div><p class="note">Problems in the site's own code; each is worth a look. <b>✓ Fixed</b> marks one already dealt with (counts from before the fix stay in the range); <b>⚠ Back</b> means a page with the fix sent it again. From v404 each error ends with the version of the page that sent it, [v404].</p></section>
-      <section class="card"><h2>Site checks</h2><div id="sitechk"></div><p class="note">The live site, checked from outside every 10 minutes (from 3 Nov 2026): the page and its feed answer, and the feed is whole and less than 90 minutes old. A problem's times are the checks either side of it, so it's known to 10 minutes. A problem only one visitor's connection had doesn't show here: a page that had to ask for its feed again shows in Errors as "Feed asked again". Kept 30 days.</p></section>
-      <section class="card"><h2>Features used</h2><div class="bars" id="event"></div><p class="note">Taps on each feature, all visitors together. Calendars and alert topics count taps on their links and copy buttons; from an alert counts games opened by tapping a phone alert.</p></section>
     </div>
 
-    <section class="card cvt">
+    <h2 class="grp" id="g-data">Data coverage</h2>
+    <div class="grid two">
+      <section class="card"><h2>Gaps people hit</h2><div id="gapseen"></div><div id="gapcomp"></div><p class="note">Games opened before they're over, by sport, and how many of those openings were missing a start time, a way to watch or squads (squads only for a game between two named sides), then the competitions where it happens most. From 1 Nov 2026.</p></section>
+      <section class="card"><h2>Searches that found nothing</h2><div class="bars" id="search0"></div><p class="note">Teams or games people looked for that the site doesn't have.</p></section>
+    </div>
+      <section class="card cvt">
       <h2>Coverage over time <span class="note" id="cvtRange" style="text-transform:none;letter-spacing:0;font-weight:500"></span></h2>
       <div class="cvt-tiles" id="cvTiles"></div>
       <div class="covwrap"><table class="cov" id="cvSports"></table></div>
       <p class="note">Shares of the next three weeks' games, so they move when the fixtures do as well as when data is added. A point for each site version the server has seen. Click a tile or a figure for the games or sides it counts: what's missing and what we have.</p>
       <details class="tbl"><summary>Each version as a table</summary><div class="covwrap"><table class="cov" id="cvVersions"></table></div></details>
     </section>
-    <section class="card">
+      <section class="card">
       <h2>Data coverage <span class="note" style="text-transform:none;letter-spacing:0;font-weight:500">the next three weeks, from the latest feed</span></h2>
       <p class="note" id="covAt"></p>
       <div id="cov"></div>
@@ -309,7 +382,14 @@ th { color: var(--muted); font-weight: 600 }
       <details class="added"><summary id="missedSum">Missed games found</summary><ul id="missed"></ul></details>
       <details class="added"><summary>Data added lately</summary><ul id="added"></ul></details>
     </section>
-    <section class="card">
+      <section class="card" id="research">
+      <h2>Research</h2>
+      <p class="note">Sweeps for what the site is missing: each sport searched by hand for the coming week, and new places for where to watch, data and pictures, with each one's terms checked. Newest first. Never a score or result here.</p>
+      <div id="researchList"></div>
+    </section>
+
+    <h2 class="grp" id="g-device">This device</h2>
+      <section class="card">
       <h2>This device</h2>
       <div class="me"><button class="btn" type="button" id="noCount" aria-pressed="false">Don't count my visits</button><span class="note" id="noCountNote"></span></div>
       <p class="note">So your own checking doesn't add to the numbers. It's set for this browser only: turn it on on each phone, computer and the home-screen app.</p>
@@ -317,11 +397,6 @@ th { color: var(--muted); font-weight: 600 }
       <h3 class="thh">Theme</h3>
       <div class="swatches" id="themes" role="group" aria-label="Theme"></div>
       <p class="note">For this page on this device; it starts from the main page's theme.</p>
-    </section>
-    <section class="card" id="research">
-      <h2>Research</h2>
-      <p class="note">Sweeps for what the site is missing: each sport searched by hand for the coming week, and new places for where to watch, data and pictures, with each one's terms checked. Newest first. Never a score or result here.</p>
-      <div id="researchList"></div>
     </section>
   </div>
 </div>
@@ -362,14 +437,16 @@ const FIXED = [
 ];
 const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
+// the range: 1 (today), 3, 7, 14, 30 or 90 days, or 0 for every day there is
 let days = store.get('statsDays', 30), data = null, pw = store.get('statspw', '');
+if (![1, 3, 7, 14, 30, 90, 0].includes(days)) days = 30;
 
 async function fetchStats() {
   $('gateMsg').textContent = 'Loading…'; $('gateMsg').className = 'note';
   // the live coverage file comes in alongside (a few seconds at most), so Coverage over time is drawn once, complete
   const live = Promise.race([fetch('data/coverage.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null), new Promise(res => setTimeout(res, 4000, null))]).catch(() => null);
   try {
-    const r = await fetch(`${API}/stats?days=90`, { headers: { authorization: 'Bearer ' + pw }, cache: 'no-store' });
+    const r = await fetch(`${API}/stats?days=400`, { headers: { authorization: 'Bearer ' + pw }, cache: 'no-store' });
     const j = await r.json().catch(() => ({}));
     if (r.status === 401) { store.del('statspw'); throw new Error('That password isn\'t right.'); }
     if (r.status === 503) throw new Error('The stats password isn\'t set up yet: add STATS_PASSWORD in the GitHub repo\'s secrets, then wait for the stats server to redeploy.');
@@ -384,10 +461,14 @@ async function fetchStats() {
   }
 }
 
-// totals for the chosen range: per day, and per metric/key
-function shape() {
-  const list = [], from = new Date(data.today + 'T12:00:00Z');
-  for (let i = days - 1; i >= 0; i--) list.push(new Date(from - i * 864e5).toISOString().slice(0, 10));
+// the days counted: the range picked, or every day since the first one with numbers (All)
+const DAY = 864e5, dayAdd = (d, n) => new Date(Date.parse(d + 'T12:00:00Z') + n * DAY).toISOString().slice(0, 10);
+const firstDay = () => data.rows.reduce((a, r) => r.day < a ? r.day : a, data.today);
+const spanDays = () => days || Math.round((Date.parse(data.today) - Date.parse(firstDay())) / DAY) + 1;
+// totals for n days ending `back` days before today: per day, and per metric/key
+function shape(n = spanDays(), back = 0) {
+  const list = [];
+  for (let i = n - 1; i >= 0; i--) list.push(dayAdd(data.today, -i - back));
   const inRange = new Set(list), per = Object.fromEntries(list.map(d => [d, { visitors: 0, opens: 0, views: 0, appviews: 0, appvisitors: 0 }])), sums = {};
   for (const r of data.rows) {
     if (!inRange.has(r.day)) continue;
@@ -395,8 +476,17 @@ function shape() {
     else { sums[r.metric] = sums[r.metric] || {}; sums[r.metric][r.key] = (sums[r.metric][r.key] || 0) + r.n; }
   }
   for (const d of list) if (!per[d].opens) per[d].opens = per[d].views; // days before visits were counted: page views stand in
+  // competition pages opened by name are counted from 7 Nov 2026; on the days before, the competitions menu's picks
+  const hubDays = new Set(data.rows.filter(r => r.metric === 'comppage').map(r => r.day));
+  sums.hubs = {};
+  for (const r of data.rows) if (inRange.has(r.day) && (r.metric === 'comppage' || (r.metric === 'comp' && !hubDays.has(r.day)))) sums.hubs[r.key] = (sums.hubs[r.key] || 0) + r.n;
   return { list, per, sums };
 }
+// the same number of days just before, to compare with: only when every one of them has numbers (not for Today, part
+// of a day, or All)
+const prevShape = () => days > 1 && dayAdd(data.today, -2 * days + 1) >= firstDay() ? shape(days, days) : null;
+// the change on the days before, as a short label: ▲ 24%, ▼ 8%, new
+const change = (now, was) => was == null ? '' : !was ? (now ? 'new' : '') : now === was ? '–' : (p => `${now > was ? '▲' : '▼'} ${p >= 1000 ? Math.round(now / was) + '×' : p + '%'}`)(Math.round(Math.abs(100 * (now - was) / was)));
 
 const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 // what the site has and hasn't filled in, from the public feed (worked out when the feed was built)
@@ -774,19 +864,25 @@ function draw() {
   const RTAG = { done: 'Done', todo: 'To do', idea: 'Idea', no: "Can't use", ok: 'Checked' };
   $('researchList').innerHTML = RESEARCH.map((r, i) => `<details class="rsw"${i ? '' : ' open'}><summary>${esc(r.d)} · ${esc(r.t)}</summary><p class="note">${esc(r.sum)}</p>${r.g.map(([h, items]) => `<h3>${esc(h)}</h3><ul>${items.map(([st, txt, src]) => `<li><span class="rst ${esc(st)}">${RTAG[st] || esc(st)}</span><span>${esc(txt)}.${src.length ? ` <span class="rsrc">${src.map(([n, u, v]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)}</a> <span class="rv">(${esc(v)})</span>`).join(' · ')}</span>` : ''}</span></li>`).join('')}</ul>`).join('')}</details>`).join('');
   document.querySelectorAll('[data-days]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.days === days)));
-  const { list, per, sums } = shape();
-  const tot = k => list.reduce((a, d) => a + per[d][k], 0);
+  const n = spanDays(), { list, per, sums } = shape(), prev = prevShape();
+  const tot = (k, sh = { list, per }) => sh.list.reduce((a, d) => a + sh.per[d][k], 0);
   const people = tot('visitors'), visits = tot('opens'), views = tot('views'), app = sums.mode?.app || 0, br = sums.mode?.browser || 0;
+  const short = d => dayLabel(d, { weekday: 'short', day: 'numeric', month: 'short' });
+  $('rangeSpan').textContent = n === 1 ? `Today, ${short(data.today)}` : `${short(list[0])} to ${short(data.today)} · ${n} days`;
   $('heroN').textContent = fmtN(visits);
-  $('heroL').textContent = `visits in the last ${days} days · ${fmtN(Math.round(people / days))} people a day · ${fmtN(views)} page views`;
-  const today = per[data.today] || { visitors: 0, opens: 0 }, yday = per[list[list.length - 2]] || { visitors: 0, opens: 0 };
+  const was = prev && change(visits, tot('opens', prev));
+  $('heroL').textContent = `visits ${n === 1 ? 'today' : days ? `in the last ${n} days` : `since ${short(list[0])}`}${was && was !== '–' ? ` (${was} on the ${n} days before)` : ''} · ${fmtN(Math.round(people / n))} people a day · ${fmtN(views)} page views`;
+  // today and yesterday whatever the range
+  const { per: p2 } = shape(2), today = p2[data.today], yday = p2[dayAdd(data.today, -1)];
   const tile = (l, v, s) => `<div class="tile"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
   $('tiles').innerHTML = tile('Today', fmtN(today.visitors), `people · ${fmtN(today.opens)} visits`)
     + tile('Yesterday', fmtN(yday.visitors), `people · ${fmtN(yday.opens)} visits`)
-    + tile('Average a day', fmtN(Math.round(people / days)), `people · ${fmtN(Math.round(visits / days))} visits`)
+    + tile('Average a day', fmtN(Math.round(people / n)), `people · ${fmtN(Math.round(visits / n))} visits`)
     + tile('Visits per person', people ? (visits / people).toFixed(1) : '–', 'a day, on average')
     + tile('Using the app', people ? Math.round(100 * tot('appvisitors') / people) + '%' : '–', `of people · ${fmtN(tot('appvisitors'))} app users, ${fmtN(tot('appviews'))} app page views`);
-  chart(list, per);
+  // a day on its own is no line: Today shows the last 7 days
+  if (n < 3) { const w = shape(7); chart(w.list, w.per); } else chart(list, per);
+  $('chartSub').textContent = n < 3 ? 'the last 7 days' : '';
   $('table').innerHTML = `<table><thead><tr><th>Day</th><th>People</th><th>Visits</th><th>Page views</th></tr></thead><tbody>${list.slice().reverse().map(d => `<tr><td>${dayLabel(d)}</td><td>${per[d].visitors}</td><td>${per[d].opens}</td><td>${per[d].views}</td></tr>`).join('')}</tbody></table>`;
   bars('country', sums.country, countryName);
   // "US · Comcast Cable Communications, LLC" → "Comcast Cable Communications (US)"; the full name on a hold
@@ -798,12 +894,11 @@ function draw() {
   bars('mode', sums.mode, k => MODE_LABEL[k] || k);
   bars('ref', sums.ref, k => k);
   bars('event', sums.event, k => EVENT_LABEL[k] || k);
-  bars('sport', sums.sport, k => SPORT_LABEL[k] || k);
+  drawPopular(sums, prev?.sums);
   // every sport turned off, most first (not cut to the top seven)
   bars('sportsoff', sums.sportsoff, k => SPORT_LABEL[k] || k, Object.entries(sums.sportsoff || {}).sort((a, b) => b[1] - a[1]).map(([k]) => k));
   bars('myteams', sums.myteams, k => ({ changed: 'Changed', default: 'As it came' })[k] || k, ['changed', 'default']);
   bars('newvis', sums.newvis, k => k[0].toUpperCase() + k.slice(1));
-  bars('gameopen', sums.gameopen, k => k);
   // gaps people landed on: each opening of a game not yet over, with what it lacked then
   { const by = {}, comps = {}, KINDS = ['No start time', 'No way to watch', 'No squads'], SHORT_W = { 'No start time': 'no time', 'No way to watch': 'no way to watch', 'No squads': 'no squads' };
     for (const [k, n] of Object.entries(sums.gapseen || {})) {
@@ -820,7 +915,7 @@ function draw() {
     const top = Object.entries(comps).sort((a, b) => b[1].all - a[1].all).slice(0, 10);
     $('gapcomp').innerHTML = top.length ? `<ul class="gaplist">${top.map(([c, m]) => `<li><b>${esc(c)}</b> ${KINDS.filter(w => m[w]).map(w => `${SHORT_W[w]} ${m[w]}`).join(' · ')}</li>`).join('')}</ul>` : ''; }
   bars('repeat', sums.repeat, k => REPEAT_LABEL[k] || k, REPEAT_ORDER);
-  for (const id of ['comp', 'teampage', 'search', 'search0', 'os', 'browser', 'watch', 'follow', 'unfollow']) bars(id, sums[id], k => k);
+  for (const id of ['search0', 'os', 'browser', 'follow', 'unfollow']) bars(id, sums[id], k => k);
   for (const id of ['hidesport', 'showsport']) bars(id, sums[id], k => SPORT_LABEL[k] || k);
   // the Settings box's taps in their own list, every one shown, with the teams turned on and off added up; the rest of
   // the site's parts in theirs
@@ -834,8 +929,6 @@ function draw() {
   bars('setuse', setUse, k => SETTINGS_LABEL[k] || k, Object.entries(setUse).sort((a, b) => b[1] - a[1]).map(([k]) => k));
   const siteUse = Object.fromEntries(Object.entries(sums.use || {}).filter(([k]) => !SETTINGS_USE.has(k)));
   bars('use', siteUse, k => k, Object.entries(siteUse).sort((a, b) => b[1] - a[1]).map(([k]) => k));
-  const outTop = Object.entries(sums.outlink || {}).sort((a, b) => b[1] - a[1]).slice(0, 25); // the 25 most followed sites
-  bars('outlink', Object.fromEntries(outTop), k => k, outTop.map(([k]) => k));
   bars('spoil', sums.spoil, k => ({ hidden: 'Results hidden', shown: 'Results shown' })[k] || k);
   bars('view', sums.view, k => ({ big: 'Large', mixed: 'Standard', compact: 'Compact', list: 'List' })[k] || k);
   bars('theme', sums.theme, k => ({ green: 'Kiwi green', ocean: 'Ocean blue', red: 'Pōhutukawa red', black: 'All Black', kowhai: 'Kōwhai gold', paua: 'Pāua teal', purple: 'Twilight purple', orange: 'Sunset orange', lime: 'Kawakawa lime', pink: 'Rātā pink', kauri: 'Kauri brown', silver: 'Silver fern', tui: 'Tūī indigo', navy: 'Moana navy', olive: 'Harakeke olive' })[k] || k);
@@ -922,6 +1015,8 @@ function bars(id, obj, label, order) {
   if (!rows.length) { const p = document.createElement('div'); p.className = 'empty'; p.textContent = 'Nothing yet in this range.'; el.append(p); return; }
   const top = order ? rows : rows.slice(0, 7), rest = order ? 0 : rows.slice(7).reduce((a, r) => a + r[1], 0);
   if (rest) top.push(['', rest]);
+  // every one listed: the first ten, and Show all scrolls the rest in the same space
+  showAll(el, id, top.length);
   const max = Math.max(...top.map(r => r[1]));
   for (const [k, n] of top) {
     const row = document.createElement('div'); row.className = 'bar';
@@ -931,6 +1026,65 @@ function bars(id, obj, label, order) {
     const num = document.createElement('span'); num.className = 'n'; num.textContent = Number.isInteger(n) ? fmtN(n) : n.toFixed(1);
     row.append(name, track, num); el.append(row);
   }
+}
+
+// a long list's Show all button (after the list): the first ten rows show, and the button lets the rest scroll in the
+// same space, so the card keeps its size; the choice stays while the range changes
+const allOpen = new Set();
+function showAll(el, id, rows) {
+  const long = rows > 10; let b = el.nextElementSibling?.classList.contains('more') ? el.nextElementSibling : null;
+  el.classList.toggle('cap', long && el.classList.contains('bars')); el.classList.toggle('all', long && allOpen.has(id));
+  if (!long) { if (b) b.hidden = true; return; }
+  if (!b) { b = document.createElement('button'); b.type = 'button'; b.className = 'more'; el.after(b);
+    b.addEventListener('click', () => { allOpen.has(id) ? allOpen.delete(id) : allOpen.add(id); el.classList.toggle('all', allOpen.has(id)); el.scrollTop = 0; label(); }); }
+  const label = () => { b.textContent = allOpen.has(id) ? 'Top 10 only' : `Show all ${rows}`; b.setAttribute('aria-expanded', String(allOpen.has(id))); };
+  b.hidden = false; label();
+}
+// the most popular: a leaderboard each, most first, with the change on the same number of days before (when there are
+// numbers for all of them)
+function rank(id, obj, prevObj, label = k => [k]) {
+  const el = $(id), rows = Object.entries(obj || {}).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  el.replaceChildren();
+  if (!rows.length) { const p = document.createElement('li'); p.className = 'empty'; p.textContent = 'Nothing yet in this range.'; el.append(p); showAll(el, id, 0); return; }
+  const max = rows[0][1];
+  rows.forEach(([k, n], i) => {
+    const li = document.createElement('li'), [name, sub] = label(k);
+    const rk = document.createElement('span'); rk.className = 'rk'; rk.textContent = i + 1;
+    const nm = document.createElement('span'); nm.className = 'k'; nm.textContent = name; nm.title = sub ? `${name} (${sub})` : name;
+    if (sub) { const sm = document.createElement('small'); sm.textContent = sub; nm.append(sm); }
+    const nb = document.createElement('span'); nb.className = 'n'; nb.textContent = fmtN(n);
+    const dl = document.createElement('span'); dl.className = 'dl'; dl.textContent = prevObj ? change(n, prevObj[k] || 0) : '';
+    if (prevObj) dl.title = `${fmtN(prevObj[k] || 0)} on the days before`;
+    const t = document.createElement('span'); t.className = 't'; const f = document.createElement('i'); f.style.width = (100 * n / max).toFixed(1) + '%'; t.append(f);
+    li.append(rk, nm, nb, dl, t); el.append(li);
+  });
+  showAll(el, id, rows.length);
+}
+// everything used, all in one list: the parts of the site and the features, and the taps counted by what was tapped
+// (a sport button, a way to watch, a link out, a team on or off, a sport hidden or shown) added up
+function usedOf(sums) {
+  const o = {}, add = (k, n) => { if (n) o[k] = (o[k] || 0) + n; }, total = x => Object.values(x || {}).reduce((a, n) => a + n, 0);
+  for (const [k, n] of Object.entries(sums.use || {})) add(SETTINGS_LABEL[k] || k, n);
+  for (const [k, n] of Object.entries(sums.event || {})) if (k !== 'appfirst' && k !== 'install') add(EVENT_LABEL[k] || k, n);
+  add('A sport button', total(sums.sport)); add('A way to watch', total(sums.watch)); add('A link to another site', total(sums.outlink));
+  add('A team turned on', total(sums.follow)); add('A team turned off', total(sums.unfollow));
+  add(SETTINGS_LABEL['Hide sport'] || 'Hide sport', total(sums.hidesport)); add(SETTINGS_LABEL['Show sport'] || 'Show sport', total(sums.showsport));
+  return o;
+}
+// games opened in each competition (a game is counted as "Competition: Home v Away")
+function compsOf(sums) { const o = {}; for (const [k, n] of Object.entries(sums.gameopen || {})) { const c = k.includes(': ') ? k.slice(0, k.indexOf(': ')) : 'Other'; o[c] = (o[c] || 0) + n; } return o; }
+function drawPopular(sums, ps) {
+  $('popSub').textContent = ps ? 'with the change on the same number of days before' : '';
+  rank('p-used', usedOf(sums), ps && usedOf(ps));
+  rank('p-game', sums.gameopen, ps?.gameopen || (ps && {}), k => { const i = k.indexOf(': '); return i < 0 ? [k] : [k.slice(i + 2), k.slice(0, i)]; });
+  rank('p-comp', compsOf(sums), ps && compsOf(ps), k => [SPORT_LABEL[k] || k]);
+  rank('p-hub', sums.hubs, ps && ps.hubs);
+  rank('p-sport', sums.sport, ps && (ps.sport || {}), k => [SPORT_LABEL[k] || k]);
+  rank('p-team', sums.teampage, ps && (ps.teampage || {}));
+  rank('p-watch', sums.watch, ps && (ps.watch || {}));
+  rank('p-out', sums.outlink, ps && (ps.outlink || {}), k => [k.replace(/^www\./, '')]);
+  rank('p-search', sums.search, ps && (ps.search || {}));
+  document.querySelector('.grid.pop').classList.toggle('nodl', !ps);
 }
 
 function hours(byHour) {
@@ -1042,6 +1196,22 @@ function chart(list, per) {
 $('pwForm').addEventListener('submit', ev => { ev.preventDefault(); pw = $('pw').value.trim(); if (pw) fetchStats(); });
 document.querySelectorAll('[data-days]').forEach(b => b.addEventListener('click', () => { days = +b.dataset.days; store.set('statsDays', days); draw(); }));
 $('refresh').addEventListener('click', fetchStats);
+// the sections menu: each group and its cards, from the page itself; a tap goes there (under the top bar) and closes it
+{ const menu = $('jump'), btn = $('jumpBtn');
+  document.querySelectorAll('#main .card').forEach((c, i) => { if (!c.id) c.id = 's-' + i; });
+  const name = c => c.dataset.name || c.querySelector('h2')?.firstChild?.textContent.trim() || '';
+  menu.innerHTML = [...document.querySelectorAll('#main .grp')].map(g => {
+    const cards = []; for (let el = g.nextElementSibling; el && !el.classList.contains('grp'); el = el.nextElementSibling) cards.push(...(el.matches('.card') ? [el] : el.querySelectorAll('.card')));
+    return `<div><a class="jg" href="#${g.id}">${esc(g.firstChild.textContent.trim())}</a>${cards.map(c => `<a href="#${c.id}">${esc(name(c))}</a>`).join('')}</div>`;
+  }).join('');
+  const open = on => { menu.hidden = !on; btn.setAttribute('aria-expanded', String(on)); };
+  btn.addEventListener('click', ev => { ev.stopPropagation(); open(menu.hidden); });
+  menu.addEventListener('click', ev => { const a = ev.target.closest('a'); if (!a) return; ev.preventDefault(); open(false);
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); });
+  document.addEventListener('click', ev => { if (!menu.hidden && !menu.contains(ev.target)) open(false); });
+  document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && !menu.hidden) { open(false); btn.focus(); } });
+  // the top bar's height, so a section scrolled to sits just under it
+  new ResizeObserver(([e]) => document.documentElement.style.setProperty('--tbh', Math.round(e.target.offsetHeight) + 'px')).observe($('tbar')); }
 // colour themes, as on the main page
 const THEMES = [['green', 'Kiwi green', '#0d6b4d'], ['ocean', 'Ocean blue', '#1864ab'], ['red', 'Pōhutukawa red', '#c92a2a'], ['black', 'All Black', '#111111'],
   ['kowhai', 'Kōwhai gold', '#d9a400'], ['paua', 'Pāua teal', '#0b7a7e'], ['purple', 'Twilight purple', '#6741d9'], ['orange', 'Sunset orange', '#d9480f'],
