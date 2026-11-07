@@ -1,0 +1,516 @@
+{{Short description|Upcoming international rugby union competition}}
+{{for|the concurrent first tier competition organised by the Six Nations and SANZAAR|2026 Nations Championship}}
+{{Use dmy dates|date=November 2025}}
+{{Infobox rugby union season
+| name       = 2026 World Rugby Nations Cup
+| image      = File:2026 World Rugby Nations Cup logo.png
+| countries  =
+| date       = 4 July – 21 November 2026
+| champions  =
+| count      =
+| runnersup  =
+| relegated  =
+| matches    = 18
+| highest attendance = 
+| lowest attendance = 
+| attendance = {{#expr:
+<!-- round 1 --> + 1000 + 15972 + 10500 + 3476
+<!-- round 2 --> + 1000 + 12872 + 5500 + 3000
+<!-- round 3 --> + 1000 + 0 + 6700 + 7900
+<!-- round 4 -->
+<!-- round 5 -->
+<!-- round 6 -->
+}} 
+| tries = {{#expr:
+<!-- Round 1 --> + 5 + 4 + 10 + 3 + 6 + 4 + 5 + 4 + 3 + 4 + 6 + 6
+<!-- Round 2 --> + 6 + 5 + 2 + 3 + 3 + 4 + 6 + 2 + 4 + 2 + 2 + 6
+<!-- Round 3 --> + 4 + 6 + 6 + 5 + 3 + 7 + 4 + 5 + 4 + 3 + 2 + 3
+<!-- round 4 -->
+<!-- round 5 -->
+<!-- round 6 -->
+}}
+| top point scorer =
+| top try scorer  =
+| website    = https://www.world.rugby/nations-cup/en
+| prevseason =
+| nextseason = 2028
+| teams      = 12
+}}
+[[File:2026 World Rugby Nations Cup - Uruguay vs Hong Kong - 108.jpg|thumb|Uruguay vs Hong Kong]]
+
+The '''2026 World Rugby Nations Cup''' is the inaugural edition of the [[World Rugby Nations Cup (2026–)|World Rugby Nations Cup]], a second tier [[rugby union]] competition for international men's teams, run by [[World Rugby]], that will take place concurrently with the [[2026 Nations Championship]]. It is due to consist of twelve teams.
+
+Although [[promotion and relegation]] are intended for a future date, there will be no promotion or relegation in the 2026 edition between the Nations Championship and the Nations Cup.
+
+==Background==
+In December 2024 it was reported that the second division would initially consist of the 12 teams that successfully [[2027 Men's Rugby World Cup qualifying|qualify]] for the [[2027 Men's Rugby World Cup]] through the qualification process, meaning all the qualified teams for the 2027 tournament will take part in the inaugural edition of either the Nations Championship itself or the second division.<ref>{{Cite web |first=Will |last=Kelleher |date=12 December 2024 |title=England risk treacherous World Cup draw if results don't improve next year |url=https://www.thetimes.com/sport/rugby-union/article/england-risk-treacherous-world-cup-draw-if-results-do-not-improve-next-year-7t9ggc3hb |access-date=19 November 2025 |work=The Times |url-access=limited}}</ref>
+
+On 17 November 2025, World Rugby confirmed that the second division competition would be called the World Rugby Nations Cup.<ref name="WR-1">{{Cite web |title=World Rugby Nations Cup to launch in July 2026 to transform international calendar |url=https://www.world.rugby/news/1018591/world-rugby-nations-cup-to-launch-in-july-2026-to-transform-international-calendar |access-date=17 November 2025 |website=World Rugby}}</ref>
+
+At the same time, it was announced that in [[Rugby World Cup]] and [[British & Irish Lions]] years, when the Nations Championship and Nations Cup are not played, 'cross competition matches' between the Nations Championship teams and the Nations Cup teams will be prioritised.
+
+==Participants==
+Teams that will compete in the 2026 Nations Cup are:<ref name="WR-1"/><ref name="Pools">{{cite web |title=Pools & Standings {{!}} World Rugby Nations Cup 2026 |url=https://www.world.rugby/nations-cup/en/pools |website=World Rugby Nations Cup |access-date=31 March 2026}}</ref>
+
+{| class="wikitable sortable"
+|-
+!rowspan="2"| Team
+!colspan="3"| Stadium
+!rowspan="2"| Head coach
+!rowspan="2"| Captain
+|-
+! Home stadium
+! Capacity
+! Location
+|-
+|rowspan="2"| {{ru|CAN}}
+| [[Clarke Stadium]]
+|align=center| 6,000<ref>{{cite web |title=Canada’s Men’s Rugby Team Returns to Edmonton to Kick Off World Rugby Nations Cup 2026 |url=https://rugby.ca/en/news/2026/04/canada-s-men-s-rugby-team-returns-to-edmonton-to-kick-off-world-rugby-nations-cup-2026 |website=[[Rugby Canada]] |access-date=5 June 2026 |date=2 April 2026}}</ref>
+| [[Edmonton]]
+|rowspan="2"| {{flagdeco|AUS}} [[Steve Meehan]]
+|rowspan="2"| [[Andrew Quattrin]]
+|-
+| [[Princess Auto Stadium]]
+|align=center| 32,343
+| [[Winnipeg]]
+|-
+|rowspan="3"| {{ru|CHI}}
+| [[Estadio Nacional Julio Martínez Prádanos]]
+|align=center| 48,745
+| [[Santiago]]
+|rowspan="3"| {{flagdeco|URU}} [[Pablo Lemoine]]
+|rowspan="3"| [[Martín Sigren]]
+|-
+| [[Estadio Sausalito]]
+|align=center| 23,423
+| [[Viña del Mar]]
+|-
+| CARR Mahuida {{refn|group=N|The match was originally set to take place at [[Estadio La Portada]], [[La Serena, Chile|La Serena]], but was relocated to CARR Mahuida due to concerns over adverse weather.<ref>[https://www.world.rugby/nations-cup/en/news/1045662/statement-on-the-nations-cup-match-between-chile-and-georgia Statement on the Nations Cup match between Chile and Georgia]</ref>}}
+|align=center| 2,900
+| [[La Reina, Chile|La Reina]]
+|-
+|rowspan="2"| {{ru|GEO}}
+| [[Avchala Stadium]]
+|align=center| 3,500
+|rowspan="2"|  [[Tbilisi]]
+|rowspan="2"|  {{flagdeco|FRA}} [[Pierre-Henry Broncan]]
+|rowspan="2"|  [[Davit Niniashvili]]
+|-
+| [[Mikheil Meskhi Stadium]]
+|align=center| 27,223
+|-
+|-
+|rowspan="3"| {{ru|HKG}}
+| [[Kai Tak Stadium|Kai Tak Youth Sports Ground]]
+|align=center| 5,000
+| [[Hong Kong]]
+|rowspan="3"| {{flagdeco|NZ}} [[Andrew Douglas (rugby union)|Andrew Douglas]]<br /><small>(for {{flagdeco|NZ}} [[Logan Asplin]])</small>{{refn|group=N|Asplin was head coach during the Americas-Pacific series, but he was let go after the series and Andrew Douglas replaced him.}}
+|rowspan="3"| Pierce MacKinlay-West {{refn|group=N|For Samoa v Hong Kong}}<br />Joshua Hrstich {{refn|group=N|For Chile v Hong Kong}}
+|-
+| [[Stade Marcel-Verchère]]
+|align=center| 11,400
+| [[Bourg-en-Bresse]]
+|-
+| [[Chambéry Savoie Stadium]]
+|align=center| 5,285
+| [[Chambery]]
+|-
+| {{ru|POR}}
+| [[Estádio Nacional]]
+|align=center| 37,593
+| [[Lisbon]]
+| {{flagdeco|NZ}} [[Simon Mannix]]
+| José Madeira
+|-
+| {{ru|ROM}}
+| [[Arcul de Triumf Stadium (2021)|Stadionul National Arcul de Triumf]]
+|align=center| 8,207
+| [[Bucharest]]
+| {{flagdeco|FRA}} [[David Gérard]]
+| [[Cristi Boboc]]
+|-
+| {{ru|SAM}}
+|align=center colspan="3"| No home games
+|{{flagdeco|SAM}} [[Tusi Pisi]]
+| [[Miracle Faiʻilagi]]
+|-
+|rowspan="3"| {{ru|ESP}}
+| [[Estadio Nacional Complutense]]
+|align=center| 6,000
+| [[Madrid]]
+|rowspan="3"| {{flagdeco|ARG}} [[Pablo Bouza]]
+|rowspan="3"| [[Jon Zabala]] {{refn|group=N|For Canada v Spain}}<br />Álvaro García Albó {{refn|group=N|For Tonga v Spain}}
+|-
+| [[Butarque Stadium]]
+|align=center| 14,500
+| [[Leganés]]
+|-
+| [[Estadio Ciudad de Málaga]]
+|align=center| 10,816
+| [[Málaga]]
+|-
+|-
+| {{ru|TON}}
+|align=center colspan="3"| No home games
+|{{flagdeco|TON}} [[Tevita Tuʻifua]]
+| [[Sonatane Takulua]]
+|-
+|rowspan="3"| {{ru|USA}}
+| [[Dick's Sporting Goods Park]]
+|align=center| 18,061
+| [[Commerce City, Colorado|Commerce City]]
+|rowspan="3"| {{flagdeco|USA}} [[Scott Lawrence (rugby union)|Scott Lawrence]]
+|rowspan="3"| [[Jason Damm]]
+|-
+| [[American Legion Memorial Stadium]]
+|align=center| 10,500
+| [[Charlotte, NC|Charlotte]]
+|-
+| [[WakeMed Soccer Park]]
+|align=center| 10,000
+| [[Cary, NC|Cary]]
+|-
+| {{ru|URU}}
+| [[Estadio Charrua]]
+|align=center| 14,000
+| [[Montevideo]]
+| {{flagdeco|URU}} [[Guzmán Barreiro]]<br /><small>(for {{flagdeco|ARG}} [[Rodolfo Ambrosio]])</small>{{refn|group=N|Rodolfo Ambrosio was head coach during the Americas-Pacific series, but he was let go after the series and Guzmán Barreiro replaced him.}}
+| [[Felipe Aliaga]]
+|-
+|rowspan="3"| {{ru|ZIM}}
+| [[Belle Vue (Wakefield)|DIY Kitchens Stadium]]
+|align=center| 9,252
+| [[Wakefield]]
+|rowspan="3"|{{flagdeco|ZIM}} [[Pieter Benade]]
+|rowspan="3"| [[Hilton Mudariki]] {{refn|group=N|For Tonga v Zimbabwe}}<br />[[Tinotenda Mavesere]] {{refn|group=N|For USA v Zimbabwe}}
+|-
+| [[Trailfinders Sports Ground]]
+|align=center| 5,388
+| [[Ealing]]
+|-
+| {{ill|Stade Chanzy|lt=Stade Chanzy|fr|Stade Chanzy}}
+|align=center| 8,000
+| [[Angouleme]]
+|}
+
+'''Notes'''
+{{reflist|group=N}}
+
+==Format==
+As with the [[2026 Nations Championship]] the initial competition will consist of two broadly geographic pools: 
+* an America-Pacific pool, consisting of the four American teams plus Tonga and Samoa; and 
+* a European-African-Asian pool, consisting of the four European sides, Zimbabwe and Hong Kong.
+
+Each team will play all the teams in the opposite pool across the summer and autumn international windows.
+
+For the first two editions in 2026 and 2028, there will not be a finals day, and two champions will be crowned, one in each pool.
+
+In addition, Samoa, Tonga, Zimbabwe and Hong Kong will play their home matches in neutral venues; in the case of Samoa and Tonga, in South and North America respectively and in the case of Hong Kong and Zimbabwe, in Continental Europe and England respectively. However Hong Kong's final match, against Tonga, will be played in Hong Kong as it is a convenient venue for Tonga in their journey back to the islands. The Americas series will take place in the northern hemisphere summer, and the European series in the northern hemisphere autumn.<ref>{{Cite web |date=17 November 2025 |title=Canada, Chile, Uruguay and USA all in 2026 World Rugby Nations Cup |url=https://www.americasrugbynews.com/2025/11/17/canada-chile-uruguay-and-usa-all-in-2026-world-rugby-nations-cup/ |access-date=20 November 2025 |website=Americas Rugby News}}</ref><ref name="WR-2"/>
+
+==Standings==
+
+===Americas-Pacific pool===
+<section begin=ap standings />{{#invoke:Sports table|main|style=Rugby
+|source=[https://www.world.rugby/nations-cup/en/pools Nations Cup]
+|update=06 November 2026
+
+<!-- Update team positions here -->
+| team_order = USA, TON, CHI, SAM, CAN, URU
+
+|team1=CAN |name_CAN={{ru|CAN}}
+|team2=CHI |name_CHI={{ru|CHI}}
+|team3=SAM |name_SAM={{ru|SAM}}
+|team4=TON |name_TON={{ru|TON}}
+|team5=USA |name_USA={{ru|USA}}
+|team6=URU |name_URU={{ru|URU}}
+
+| win_CAN = 1| draw_CAN = 1| loss_CAN = 1| pf_CAN = 79| pa_CAN = 99| tf_CAN = 10| ta_CAN = 15| tb_CAN = 1| lb_CAN = 0
+| win_CHI = 2| draw_CHI = 0| loss_CHI = 1| pf_CHI =108| pa_CHI = 97| tf_CHI = 15| ta_CHI = 13| tb_CHI = 2| lb_CHI = 0
+| win_SAM = 1| draw_SAM = 0| loss_SAM = 2| pf_SAM = 115| pa_SAM = 90| tf_SAM = 16| ta_SAM = 12| tb_SAM = 2| lb_SAM = 1
+| win_TON = 2| draw_TON = 0| loss_TON = 2| pf_TON = 126| pa_TON = 128| tf_TON = 18| ta_TON = 19| tb_TON = 3| lb_TON = 1
+| win_USA = 3| draw_USA = 0| loss_USA = 0| pf_USA = 90| pa_USA = 66| tf_USA = 11| ta_USA = 9| tb_USA = 2| lb_USA = 0
+| win_URU = 0| draw_URU = 1| loss_URU = 2| pf_URU = 110| pa_URU = 119| tf_URU = 17| ta_URU =15| tb_URU = 3| lb_URU = 2
+
+<!--Qualification column definitions-->
+|res_col_header=Q
+|result1 = Q1
+| col_Q1 = green1 | text_Q1 =
+}}<section end=ap standings />
+
+===European-African-Asian pool===
+<section begin=eaa standings />{{#invoke:Sports table|main|style=Rugby
+|source=[https://www.world.rugby/nations-cup/en/pools Nations Cup]
+|update=06 November 2026
+
+<!-- Update team positions here -->
+| team_order = GEO, POR, ROM, ESP, HKG, ZIM
+
+|team1=GEO |name_GEO={{ru|GEO}}
+|team2=HKG |name_HKG={{ru|HKG|name=Hong Kong }}
+|team3=POR |name_POR={{ru|POR}}
+|team4=ROM |name_ROM={{ru|ROM}}
+|team5=ESP |name_ESP={{ru|ESP}}
+|team6=ZIM |name_ZIM={{ru|ZIM}}
+
+| win_GEO = 3| draw_GEO = 0| loss_GEO = 0| pf_GEO = 123| pa_GEO = 68| tf_GEO = 15| ta_GEO = 10| tb_GEO = 2| lb_GEO = 0
+| win_HKG = 1| draw_HKG = 0| loss_HKG = 2| pf_HKG =78| pa_HKG = 144| tf_HKG = 10| ta_HKG = 22| tb_HKG = 1| lb_HKG = 0
+| win_POR = 2| draw_POR = 0| loss_POR = 1| pf_POR = 99| pa_POR = 72| tf_POR = 15| ta_POR = 9| tb_POR = 3| lb_POR = 1
+| win_ROM = 1| draw_ROM = 1| loss_ROM = 2| pf_ROM = 143| pa_ROM = 164| tf_ROM = 21| ta_ROM = 22| tb_ROM = 4| lb_ROM = 1
+| win_ESP = 1| draw_ESP = 1| loss_ESP = 1| pf_ESP = 96| pa_ESP = 90| tf_ESP = 13| ta_ESP = 13| tb_ESP = 2| lb_ESP = 1
+| win_ZIM = 0| draw_ZIM = 0| loss_ZIM = 3| pf_ZIM = 60| pa_ZIM = 90| tf_ZIM = 9| ta_ZIM = 11| tb_ZIM = 1| lb_ZIM = 1
+
+<!--Qualification column definitions-->
+|res_col_header=Q
+|result1 = Q1
+| col_Q1 = green1 | text_Q1 =
+}}<section end=eaa standings />
+
+==Fixtures==
+===Americas-Pacific Series===
+{{Main|2026 World Rugby Nations Cup Americas-Pacific Series}}
+Matches will be held in the Americas region, with [[Samoa national rugby union team|Samoa]] playing their matches in South America and [[Tonga national rugby union team|Tonga]] playing their matches in North America. Each of the European visiting teams will play all their matches in either North America or all in South America to reduce travel.<ref>{{Cite web|url=https://www.world.rugby/news/1018591?lang=en|title=World Rugby Nations Cup to launch in July 2026 to transform international calendar &#124; World Rugby|website=World Rugby}}</ref> Fixtures and venues were announced by World Rugby on 31 March 2026.<ref name="WR-2">{{cite web|url=https://www.world.rugby/news/1043084/world-rugby-nations-cup-heads-to-the-americas-in-july-for-inaugural-2026-edition|title=World Rugby Nations Cup heads to the Americas in July for inaugural 2026 edition|website=World Rugby|date=31 March 2026|access-date=31 March 2026}}</ref>
+
+====Round 1====
+{| style="width:100%" cellspacing="1"
+|-
+!width=15%|
+!width=25%|
+!width=10%|
+!width=25%|
+|- style=font-size:90%
+|align=right|4 July 2026||align=right|{{ru-rt|URU}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Uruguay v Georgia|34–41]]||{{ru|GEO}}||[[Estadio Charrua]], [[Montevideo]]
+|- style=font-size:90%
+|align=right|4 July 2026||align=right|{{ru-rt|SAM}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Samoa v Hong Kong|66–19]]||{{ru|HKG}}||[[Estadio Nacional Julio Martinez Pradanos]], [[Santiago]] ([[Chile]])
+|- style=font-size:90%
+|align=right|4 July 2026||align=right|{{ru-rt|CHI}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Chile v Romania|48–31]]||{{ru|ROM}}||[[Estadio Nacional Julio Martinez Pradanos]], [[Santiago]]
+|- style=font-size:90%
+|align=right|4 July 2026||align=right|{{ru-rt|TON}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Tonga v Zimbabwe|36–26]]||{{ru|ZIM}}||[[Dick's Sporting Goods Park]], [[Commerce City, Colorado|Commerce City]] ([[United States]])
+|- style=font-size:90%
+|align=right|4 July 2026||align=right|{{ru-rt|USA}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#USA v Portugal|30–29]]||{{ru|POR}}||[[Dick's Sporting Goods Park]], [[Commerce City, Colorado|Commerce City]]
+|- style=font-size:90%
+|align=right|4 July 2026||align=right|{{ru-rt|CAN}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Canada v Spain|42–42]]||{{ru|ESP}}||[[Clarke Stadium]], [[Edmonton]]
+|}
+
+====Round 2====
+{| style="width:100%" cellspacing="1"
+|-
+!width=15%|
+!width=25%|
+!width=10%|
+!width=25%|
+|- style=font-size:90%
+|align=right|11 July 2026||align=right|{{ru-rt|URU}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Uruguay v Romania|36–36]]||{{ru|ROM}}||[[Estadio Charrua]], [[Montevideo]]
+|- style=font-size:90%
+|align=right|11 July 2026||align=right|{{ru-rt|SAM}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Samoa v Georgia|12–33]]||{{ru|GEO}}||[[Estadio Sausalito]], [[Vina del Mar]] (Chile)
+|- style=font-size:90%
+|align=right|11 July 2026||align=right|{{ru-rt|TON}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Tonga v Spain|19–32]]||{{ru|ESP}}||[[Clarke Stadium]], [[Edmonton]] ([[Canada]])
+|- style=font-size:90%
+|align=right|11 July 2026||align=right|{{ru-rt|CHI}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Chile v Hong Kong|38–17]]||{{ru|HKG}}||[[Estadio Sausalito]], [[Vina del Mar]]
+|- style=font-size:90%
+|align=right|11 July 2026||align=right|{{ru-rt|USA}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#USA v Zimbabwe|31–15]]||{{ru|ZIM}}||[[American Legion Memorial Stadium]], [[Charlotte, North Carolina|Charlotte]]
+|- style=font-size:90%
+|align=right|11 July 2026||align=right|{{ru-rt|CAN}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Canada v Portugal|14–38]]||{{ru|POR}}||[[Clarke Stadium]], [[Edmonton]]
+|}
+
+====Round 3====
+{| style="width:100%" cellspacing="1"
+|-
+!width=15%|
+!width=25%|
+!width=10%|
+!width=25%|
+|- style=font-size:90%
+|align=right|18 July 2026||align=right|{{ru-rt|SAM}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Samoa v Romania|37–38]]||{{ru|ROM}}||[[Estadio Charrua]], [[Montevideo]] ([[Uruguay]])
+|- style=font-size:90%
+|align=right|18 July 2026||align=right|{{ru-rt|URU}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Uruguay v Hong Kong|40–42]]||{{ru|HKG}}||[[Estadio Charrua]], [[Montevideo]]
+|- style=font-size:90%
+|align=right|18 July 2026||align=right|{{ru-rt|TON}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Tonga v Portugal|28–32]]||{{ru|POR}}||[[Princess Auto Stadium]], [[Winnipeg]] (Canada)
+|- style=font-size:90%
+|align=right|18 July 2026||align=right|{{ru-rt|CHI}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Chile v Georgia|22–49]]||{{ru|GEO}}||CARR Mahuida, [[La Reina, Chile|La Reina]]
+|- style=font-size:90%
+|align=right|18 July 2026||align=right|{{ru-rt|USA}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#USA v Spain|29–22]]||{{ru|ESP}}||[[WakeMed Soccer Park]], [[Cary, North Carolina|Cary]]
+|- style=font-size:90%
+|align=right|18 July 2026||align=right|{{ru-rt|CAN}}||align=center|[[2026 World Rugby Nations Cup Americas-Pacific Series#Canada v Zimbabwe|23–19]]||{{ru|ZIM}}||[[Princess Auto Stadium]], [[Winnipeg]]
+|}
+
+===European-African-Asian Series===
+{{Main|2026 World Rugby Nations Cup European-African-Asian Series}}
+European teams will host all of their matches at home. [[Zimbabwe national rugby union team|Zimbabwe]] will host two of their games in England and one in France. [[Hong Kong national rugby union team|Hong Kong]] will play their first two matches in France, with the third, against Tonga, being held in Hong Kong.<ref>[https://www.scmp.com/sport/rugby/hong-kong-rugby-union/article/3350611/world-rugby-boss-robinson-hails-hong-kongs-global-influence-wxv-announcement?module=perpetual_scroll_0&pgtype=article World Rugby boss Robinson hails Hong Kong’s ‘global influence’ at WXV announcement]</ref> Confirmation of venues for the second half of fixtures came on the 31st August.<ref>[https://www.world.rugby/news/1046139/november-schedule-confirmed-for-climax-of-world-rugby-nations-cup-2026]</ref>
+
+====Round 4====
+{| style="width:100%" cellspacing="1"
+|-
+!width=15%|
+!width=25%|
+!width=10%|
+!width=25%|
+|- style=font-size:90%
+|align=right|6 November 2026||align=right|{{ru-rt|ROM}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Romania v Tonga|38–43]]||{{ru|TON}}||[[Arcul de Triumf Stadium (2021)|Stadionul National Arcul de Triumf]], [[Bucharest]]
+|- style=font-size:90%
+|align=right|7 November 2026||align=right|{{ru-rt|GEO}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Georgia v Canada|v]]||{{ru|CAN}}||[[Avchala Stadium]], [[Tbilisi]]
+|- style=font-size:90%
+|align=right|7 November 2026||align=right|{{ru-rt|POR}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Portugal v Chile|v]]||{{ru|CHI}}||[[Estádio Nacional]], [[Lisbon]]
+|- style=font-size:90%
+|align=right|7 November 2026||align=right|{{ru-rt|ESP}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Spain v Uruguay|v]]||{{ru|URU}}||[[Estadio Nacional Complutense]], [[Madrid]]
+|- style=font-size:90%
+|align=right|7 November 2026||align=right|{{ru-rt|ZIM}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Zimbabwe v Samoa|v]]||{{ru|SAM}}||[[Belle Vue (Wakefield)|Belle Vue]], [[Wakefield]] ([[England]])
+|- style=font-size:90%
+|align=right|8 November 2026||align=right|{{ru-rt|HKG}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Hong Kong v USA|v]]||{{ru|USA}}||[[Stade Marcel-Verchère]], [[Bourg-en-Bresse]] ([[France]])
+|}
+
+====Round 5====
+{| style="width:100%" cellspacing="1"
+|-
+!width=15%|
+!width=25%|
+!width=10%|
+!width=25%|
+|- style=font-size:90%
+|align=right|14 November 2026||align=right|{{ru-rt|GEO}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Georgia v Tonga|v]]||{{ru|TON}}||[[Avchala Stadium]], [[Tbilisi]]
+|- style=font-size:90%
+|align=right|14 November 2026||align=right|{{ru-rt|HKG}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Hong Kong v Canada|v]]||{{ru|CAN}}||[[Chambéry Savoie Stadium]], [[Chambery]] ([[France]])
+|- style=font-size:90%
+|align=right|14 November 2026||align=right|{{ru-rt|POR}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Portugal v Samoa|v]]||{{ru|SAM}}||[[Estádio Nacional]], [[Lisbon]]
+|- style=font-size:90%
+|align=right|14 November 2026||align=right|{{ru-rt|ZIM}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Zimbabwe v Uruguay|v]]||{{ru|URU}}||[[Trailfinders Sports Ground]], [[London]] ([[England]])
+|- style=font-size:90%
+|align=right|14 November 2026||align=right|{{ru-rt|ESP}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Spain v Chile|v]]||{{ru|CHI}}||[[Butarque Stadium]], [[Leganés]]
+|- style=font-size:90%
+|align=right|14 November 2026||align=right|{{ru-rt|ROM}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Romania v USA|v]]||{{ru|USA}}||[[Arcul de Triumf Stadium (2021)|Stadionul National Arcul de Triumf]], [[Bucharest]]
+|}
+
+====Round 6====
+{| style="width:100%" cellspacing="1"
+|-
+!width=15%|
+!width=25%|
+!width=10%|
+!width=25%|
+|- style=font-size:90%
+|align=right|20 November 2026||align=right|{{ru-rt|ROM}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Romania v Canada|v]]||{{ru|CAN}}||[[Arcul de Triumf Stadium (2021)|Stadionul National Arcul de Triumf]], [[Bucharest]]
+|- style=font-size:90%
+|align=right|21 November 2026||align=right|{{ru-rt|HKG}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Hong Kong v Tonga|v]]||{{ru|TON}}||[[Kai Tak Stadium|Kai Tak Youth Sports Ground]], [[Hong Kong]]
+|- style=font-size:90%
+|align=right|21 November 2026||align=right|{{ru-rt|GEO}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Georgia v USA|v]]||{{ru|USA}}||[[Mikheil Meskhi Stadium]], [[Tbilisi]]
+|- style=font-size:90%
+|align=right|21 November 2026||align=right|{{ru-rt|POR}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Portugal v Uruguay|v]]||{{ru|URU}}|| [[Estádio Nacional]], [[Lisbon]]
+|- style=font-size:90%
+|align=right|21 November 2026||align=right|{{ru-rt|ESP}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Spain v Samoa|v]]||{{ru|SAM}}||[[Estadio Ciudad de Málaga]], [[Malaga]]
+|- style=font-size:90%
+|align=right|21 November 2026||align=right|{{ru-rt|ZIM}}||align=center|[[2026 World Rugby Nations Cup European-African-Asian Series#Zimbabwe v Chile|v]]||{{ru|CHI}}||{{ill|Stade Chanzy|lt=Stade Chanzy|fr|Stade Chanzy}}, [[Angouleme]] ([[France]])
+|}
+
+==Player statistics==
+{{col-begin}}
+{{col-2}}
+
+===Most points===
+{| class="wikitable" style="text-align:center"
+|-
+! Rank
+! Name
+! Team
+! Points
+|-
+| 1
+|align="left"| [[Luka Matkava]]
+|align="left"| {{ru|GEO}}
+| '''49'''
+|-
+| 2
+|align="left"| Joaquín Myszka
+|align="left"| {{ru|URU}}
+| '''35'''
+|-
+| 3
+|align="left"| [[AJ Alatimu]]
+|align="left"| {{ru|SAM}}
+| '''29'''
+|-
+| 4
+|align="left"| [[Samuel Marques]]
+|align="left"| {{ru|POR}}
+| '''27'''
+|-
+| 5
+|align="left"| Gonzalo López-Bontempo
+|align="left"| {{ru|ESP}}
+| '''26'''
+|-
+| rowspan=4|6
+|align="left"| Jean Cotarmanac'h
+|align="left"| {{ru|URU}}
+| rowspan=4|'''25'''
+|-
+|align="left"| [[Christopher Hilsenbeck]]
+|align="left"| {{ru|USA}}
+|-
+|align="left"| [[Peter Nelson (rugby union)|Peter Nelson]]
+|align="left"| {{ru|CAN}}
+|-
+|align="left"| Manuel Cardoso Pinto
+|align="left"| {{ru|POR}}
+|-
+| 10
+|align="left"| [[Paul Altier]]
+|align="left"| {{ru|HKG}}
+|'''24'''
+|-
+|}
+{{col-break}}
+
+===Most tries===
+{| class="wikitable" style="text-align:center"
+|-
+! Rank
+! Name
+! Team
+! Tries
+|-
+|1
+|align="left"| Joaquín Myszka
+|align="left"| {{ru|URU}}
+|'''7''' 
+|-
+|2
+|align="left"| Manuel Cardoso Pinto
+|align="left"| {{ru|POR}}
+|'''5'''
+|-
+|rowspan=3|3
+|align="left"| Estanislao Bay
+|align="left"| {{ru|ESP}}
+| rowspan=3|'''4'''
+|-
+|align="left"| [[Raimundo Martínez]]
+|align="left"| {{ru|CHI}}
+|-
+|align="left"| [[Raffaele Storti]]
+|align="left"| {{ru|POR}}
+|-
+|6
+|align="left"| [[Mason Flesch]]
+|align="left"| {{ru|CAN}}
+|'''3'''
+|-
+|7
+|colspan=2|''24 players''
+|'''2'''
+|}
+{{col-end}}
+
+==See also==
+* [[2026 Nations Championship]]
+* [[2026 Men's Rugby Union Internationals]]
+
+==References==
+{{reflist}}
+
+==External links==
+{{commonscat}}
+* {{official website}}
+
+{{World Rugby Nations Cup}}
+
+[[Category:World Rugby Nations Cup (2026–)]]
+[[Category:2026 rugby union tournaments for national teams]]

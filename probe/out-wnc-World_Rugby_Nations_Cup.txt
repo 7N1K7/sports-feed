@@ -1,0 +1,98 @@
+{{Short description|International rugby union competition}}
+{{More citations needed|date=March 2026}}
+{{For-multi|the invitational competition with the same name that that ran from 2006 to 2019|World Rugby Nations Cup (2006–2019)|the concurrent first tier competition organised by the [[Six Nations Championship|Six Nations]] and [[SANZAAR]]|Nations Championship}}
+{{Use dmy dates|date=November 2025}}
+{{Infobox sports league
+| title           = World Rugby Nations Cup
+| upcoming_season = 2026 World Rugby Nations Cup
+| logo            = 
+| logo_size       = 
+| sport           = Rugby union
+| founded         = 
+| first           = {{start date and age|2026}}
+| administrator   = 
+| divisions       = 
+| teams           = 12
+| titles          = 
+| qualification   = 
+| broadcaster     = 
+| website         = 
+}}
+[[File:2026 World Rugby Nations Cup - Uruguay vs Hong Kong - 108.jpg|thumb|Uruguay vs Hong Kong]]
+
+The '''World Rugby Nations Cup''' is a second tier [[rugby union]] competition for international men's teams, run by [[World Rugby]], that is taking place concurrently with the [[Nations Championship]]. It consists of twelve teams, with [[promotion and relegation]] between the Nations Cup and the Nations Championship commencing from 2030.
+
+In December 2024 when the Nations Championship was initially being planned, it was reported that the second division would initially consist of the 12 teams that successfully [[2027 Men's Rugby World Cup qualifying|qualify]] for the [[2027 Men's Rugby World Cup]] through the qualification process, meaning all the qualified teams for the 2027 tournament would take part in the inaugural edition of either the Nations Championship itself or the second division competition.<ref>{{Cite web |first=Will |last=Kelleher |date=12 December 2024 |title=England risk treacherous World Cup draw if results don't improve next year |url=https://www.thetimes.com/sport/rugby-union/article/england-risk-treacherous-world-cup-draw-if-results-do-not-improve-next-year-7t9ggc3hb |access-date=19 November 2025 |work=The Times |url-access=limited}}</ref> On 17 November 2025, World Rugby confirmed that the second division competition would be called the World Rugby Nations Cup.<ref name="WR-1">{{Cite web |title=World Rugby Nations Cup to launch in July 2026 to transform international calendar |url=https://www.world.rugby/news/1018591?lang=en |access-date=17 November 2025 |website=World Rugby}}</ref>
+
+At the same time, it was announced that in [[Rugby World Cup]] and [[British & Irish Lions]] years, when the Nations Championship and Nations Cup are not played, 'cross competition matches' between the Nations Championship teams and the Nations Cup teams will be prioritised.
+
+==Teams==
+
+With no promotion or relegation in the first two editions, the following teams will contest both the inaugural tournament and the second edition:
+
+{{sticky header}}{{table alignment}}
+{|class="wikitable plainrowheaders sticky-header col3left"
+|+ Nations Championship
+! scope="col" |Team
+! scope="col" data-sort-type="text"|Competition
+! scope="col" data-sort-type="date"|Region
+|-
+! colspan="3" |Europe, Africa, and Asia Pool
+|-
+! scope="row" |{{ru|GEO}}
+|[[Rugby Europe Championship]] || [[Rugby Europe|Europe]]
+|-
+! scope="row" |{{ru|HK}}
+|[[Asia Rugby Championship]] || [[Asia Rugby|Asia]]
+|-
+! scope="row" |{{ru|POR}}
+|Rugby Europe Championship || Europe
+|-
+! scope="row" |{{ru|ESP}}
+|Rugby Europe Championship || Europe
+|-
+! scope="row" |{{ru|ROM}}
+|Rugby Europe Championship || Europe
+|-
+! scope="row" |{{ru|ZIM}}
+|[[Rugby Africa Cup]] || [[Rugby Africa|Africa]]
+|-
+! colspan="3" |Americas and Pacific Pool
+|-
+! scope="row" |{{ru|CAN}}
+|[[Pacific Nations Cup]] || [[Rugby Americas North|North America]]
+|-
+! scope="row" |{{ru|CHI}}
+|[[South American Rugby Championship]] || [[Sudamerica Rugby|South America]]
+|-
+! scope="row" |{{ru|SAM}}
+|Pacific Nations Cup || [[Oceania Rugby|Oceania]]
+|-
+! scope="row" |{{ru|TON}}
+|Pacific Nations Cup || Oceania
+|-
+! scope="row" |{{ru|USA}}
+|Pacific Nations Cup || North America
+|-
+! scope="row" |{{ru|URU}}
+|South American Championship || South America
+|-
+|}
+
+As with the Nations Championship the initial competition will consist of two broadly geographic pools, an America-Pacific pool consisting of the four Americas teams plus Tonga and Samoa and a European-African-Asian pool, consisting of the four European sides, Zimbabwe and Hong Kong. For the first two editions in 2026 and 2028, there will not be a finals day, and two champions will be crowned, one in each pool. In addition, Samoa, Tonga, Zimbabwe and Hong Kong will play their home matches in neutral venues; in the case of Samoa and Tonga, in the Americas and in the case of Hong Kong and Zimbabwe, in Europe.<ref>{{Cite web|date=17 November 2025 |title=Canada, Chile, Uruguay and USA all in 2026 World Rugby Nations Cup |url=https://www.americasrugbynews.com/2025/11/17/canada-chile-uruguay-and-usa-all-in-2026-world-rugby-nations-cup/ |access-date=20 November 2025 |website=Americas Rugby News}}</ref>
+
+==See also==
+*[[WXV Global Series Challenger]]
+==References==
+{{reflist}}
+
+==External links==
+{{commonscat}}
+* {{official website}}
+
+{{World Rugby Nations Cup}}
+{{International rugby union}}
+
+[[Category:World Rugby Nations Cup (2026–)| ]]
+[[Category:Multi-national rugby union leagues]]
+[[Category:Recurring sporting events established in 2026]]
