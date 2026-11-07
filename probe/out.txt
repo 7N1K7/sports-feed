@@ -1,8 +1,4 @@
-rainc 2026-11-07T05:18:16.380Z
-feed: status upcoming progress no liveState  weather yes wxNews no
-default 1280: [{"sec":"liveSec","cls":"is-live","stamp":"🌧 Rain affected","wx":"wx:other"}]
-default 412: [{"sec":"liveSec","cls":"is-live","stamp":"🌧 Rain affected","wx":"wx:other"}]
-"compact" 1280: [{"sec":"liveSec","cls":"is-live","stamp":"🌧 Rain affected","wx":"wx:other"}]
-"compact" 412: [{"sec":"liveSec","cls":"is-live","stamp":"🌧 Rain affected","wx":"wx:other"}]
-"list" 1280: [{"sec":"liveSec","cls":"lrow is-live","stamp":"","wx":""}]
-"list" 412: [{"sec":"liveSec","cls":"lrow is-live","stamp":"","wx":""}]
+stm 2026-11-07T07:13:04.118Z
+1280: height 10844, groups at 1117/2454/5018/5750, fonts loaded 
+820: height 14120, groups at 1507/3608/7618/8444, fonts loaded 
+412: height 21477, groups at 1729/5387/11472/12724, fonts loaded 
