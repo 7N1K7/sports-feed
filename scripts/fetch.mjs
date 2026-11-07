@@ -450,6 +450,11 @@ const YT_CHANNELS = [
   ['boxing', 'Fox Sports Australia', 'UCaoTOpfjVfdm_XlYvwbVicQ'],
   // the Nations Championship's own (its highlights, open to NZ, for every game's Highlights link)
   ['rugby', 'Nations Championship', 'UCMDN3VEKhM1LIJTDtGd7_Hw'],
+  // SANZAAR TV (from 7 Nov 2026), the southern unions' own: highlights of the All Blacks', Wallabies', Springboks' and
+  // Pumas' tests ("AUSTRALIA v NEW ZEALAND | 2nd Test Highlights | Bledisloe Cup 2026"), open to NZ. Highlights only:
+  // its live streams are shut to NZ (Europe only), and its full replays of old tests ("INTERNATIONAL CLASSIC | ...")
+  // never count (YT_NOT_GAME)
+  ['rugby', 'SANZAAR TV', 'UCvMgypvk0d5P0K3F3bB19Eg', 'hl'],
 ];
 // a fight night's stream of its prelims or undercard only ("... | Prelims | Main Event | Fox Sports Australia")
 const YT_PRE = /\bprelims?\b|\bundercard\b|preliminary card/i, FIGHT_SPORT = /^(boxing|mma)$/;
@@ -2163,16 +2168,21 @@ for (const [k, ts] of handComp) {
 checks.noResult.sort((a, b) => a.at.localeCompare(b.at)); checks.noResult.splice(40);
 diag.checks = `${checks.noResult.length} games with no result after their time, ${checks.thinWeeks.length} thin weeks`;
 
-// series and tours (30 games or fewer) with a game in the last three weeks or to come
+// series and tours (30 games or fewer) with a game in the last three weeks or to come. A competition marked wholeSeason
+// in data/wiki-pages.json is played in windows months apart (the Nations Championship: its Southern Hemisphere games in
+// July, the Northern in November, over 40 games in all), so while it's on it keeps every game from its first window
+// too, up to 200 days back, and its Results show the games behind its tables
 const compSize = events.reduce((m, e) => m.set(e.comp, (m.get(e.comp) || 0) + 1), new Map());
-const ongoing = new Set(events.filter(e => e.comp && !e.formOnly && compSize.get(e.comp) <= 30 && now - new Date(e.startUTC) < 21 * DAY).map(e => e.comp));
+const wholeSeason = new Set(wikiCfg.pages.filter(p => p.wholeSeason).map(p => p.comp));
+const ongoing = new Set(events.filter(e => e.comp && !e.formOnly && (compSize.get(e.comp) <= 30 || wholeSeason.has(e.comp)) && now - new Date(e.startUTC) < 21 * DAY).map(e => e.comp));
+const keepDays = e => ongoing.has(e.comp) ? (wholeSeason.has(e.comp) ? 200 : 120) : 0;
 const feed = {
   generatedAt: new Date(now).toISOString(),
   ...(site ? { site } : {}),
   diag: { ...diag, liveSourceEvents: live.length, eventsByTeam: events.reduce((m, e) => (m[e.team] = (m[e.team] || 0) + 1, m), {}) },
   // results go after three weeks (finals after five months), but a series or tour still going keeps its earlier games
   // (up to four months back), so its Results and its series score are whole
-  events: events.filter(e => !e.formOnly && (now - new Date(e.startUTC) < (isFinal(e) ? 150 : 21) * DAY || (ongoing.has(e.comp) && now - new Date(e.startUTC) < 120 * DAY))),
+  events: events.filter(e => !e.formOnly && (now - new Date(e.startUTC) < Math.max(isFinal(e) ? 150 : 21, keepDays(e)) * DAY)),
   form,
   news,
   tables,

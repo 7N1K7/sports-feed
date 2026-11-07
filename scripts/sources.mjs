@@ -2096,8 +2096,9 @@ export async function tsdbBackfill(all, cache, diag, max = 2) {
     }
     diag[`tsdb backfill ${l.comp}`] = `${bf.todo.length} rounds still to ask`;
   }
-  // a league marked formSeason (the Nations Championship, whose July tests are on no page the feed reads): this year's
-  // first 15 games, all the free key gives, once a week
+  // a league marked formSeason (the Nations Championship, whose July tests were on no page the feed read until its
+  // Southern Hemisphere Series page was added; now a second source for them): this year's first 15 games, all the free
+  // key gives, once a week
   for (const l of all.filter(l => l.formSeason)) {
     const k = `season ${l.id}`, s = String(new Date().getUTCFullYear()), c = cache[k];
     if (calls >= max + 1 || (c?.s === s && Date.now() - c.t < 7 * DAY)) continue;
