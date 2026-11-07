@@ -529,7 +529,8 @@
       "tz": "Australia/Sydney",
       "status": "upcoming",
       "broadcast": "Sky Sport / Sky Sport Now",
-      "source": "https://www.nrl.com/draw/?competition=131&season=2026&round=4"
+      "source": "https://www.nrl.com/draw/?competition=131&season=2026&round=4",
+      "watchAlt": "Free on ThreeNow (Three has election night coverage)"
     },
     {
       "id": "rlwc-w-semi-final-2",
@@ -714,7 +715,8 @@
       "tz": "Australia/Brisbane",
       "status": "upcoming",
       "broadcast": "Sky Sport / Sky Sport Now",
-      "source": "https://www.nrl.com/draw/?competition=157&season=2026&round=5"
+      "source": "https://www.nrl.com/draw/?competition=157&season=2026&round=5",
+      "watchAlt": "Free on Three / ThreeNow"
     },
     {
       "id": "rlwc-m-final",

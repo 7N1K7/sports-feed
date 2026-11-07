@@ -1,4 +1,5 @@
 [
+  { "team": "kiwis", "comp": "^Rugby League World Cup, Semi-final", "home": "New Zealand", "away": "Tonga", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Free on ThreeNow (Three has election night coverage)", "au": "Seven and 7plus (free, every game)" },
   { "team": "kiwis", "comp": "Rugby League World Cup", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Free on Three / ThreeNow", "au": "Seven and 7plus (free, every game)" },
   { "comp": "Rugby League World Cup", "broadcast": "Sky Sport / Sky Sport Now", "au": "Seven and 7plus (free, every game)" },
   { "comp": "NPC|Farah Palmer", "broadcast": "Sky Sport / TVNZ+ (free stream)" },
