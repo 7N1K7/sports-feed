@@ -525,6 +525,12 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 #hubBody:has(> .stable.points) { display: flex; flex-wrap: wrap; align-items: flex-start; column-gap: 18px }
 #hubBody > .stable.points { flex: 1 1 320px; min-width: 0 }
 #hubBody:has(> .stable.points) > p { flex-basis: 100% }
+/* two or more standings beside leaders tables (the Nations Championship's two hemispheres, then its top scorers): every
+   table in the same halves, so their edges line up with no empty space beside them (the team column takes the room);
+   where two won't fit side by side at their own width, each takes the whole width */
+#hubBody:has(> .stable.points):has(> .stable:not(.points) ~ .stable:not(.points)) > .stable { flex: 1 1 max(320px, calc(50% - 9px)); min-width: fit-content }
+@media (max-width: 560px) { #hubBody:has(> .stable.points) > .stable { min-width: 0 } }
+#hubBody:has(> .stable.points):has(> .stable:not(.points) ~ .stable:not(.points)) > .stable:not(.points) table { width: 100% }
 .ev .stripe { width: 6px }
 /* the same 6px sport edge on the right, inside the border like the left stripe */
 .ev { position: relative }
