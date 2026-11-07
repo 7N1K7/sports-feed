@@ -1,0 +1,42 @@
+daily2 2026-11-07T18:51:08.820Z
+WBBL page: 65803 chars, rev 1384178765
+  block: team1=Melbourne Renegades WBBL team2=Adelaide Strikers WBBL fields=round,date,time,team1,team2,score1,runs1,wickets1,score2,runs2,wickets2,result,report,venue,umpires,motm,toss,rain,notes
+    score1 filled: false, score2 filled: false, result filled: false, rain/abandoned word anywhere: yes
+  block: team1=Brisbane Heat WBBL team2=Hobart Hurricanes WBBL fields=round,date,time,night,team1,team2,score1,runs1,wickets1,score2,runs2,wickets2,result,report,venue,umpires,motm,toss,rain,notes
+    score1 filled: false, score2 filled: false, result filled: false, rain/abandoned word anywhere: yes
+  block: team1=Adelaide Strikers WBBL team2=Sydney Sixers WBBL fields=round,date,time,night,team1,team2,score1,runs1,wickets1,score2,runs2,wickets2,result,report,venue,umpires,motm,toss,rain,notes
+    score1 filled: false, score2 filled: false, result filled: false, rain/abandoned word anywhere: yes
+  block: team1=Perth Scorchers WBBL team2=Hobart Hurricanes WBBL fields=round,date,time,daynight,team1,team2,score1,runs1,wickets1,score2,runs2,wickets2,result,report,venue,umpires,motm,toss,rain,notes
+    score1 filled: false, score2 filled: false, result filled: false, rain/abandoned word anywhere: yes
+  parsed 2026-11-06T08:10:00.000Z Sydney Sixers v Melbourne Stars: status=final hasScore=true
+  parsed 2026-11-07T04:40:00.000Z Melbourne Renegades v Adelaide Strikers: status=upcoming hasScore=false
+  parsed 2026-11-07T08:10:00.000Z Brisbane Heat v Hobart Hurricanes: status=upcoming hasScore=false
+  parsed 2026-11-08T02:40:00.000Z Sydney Sixers v Sydney Thunder: status=upcoming hasScore=false
+  parsed 2026-11-08T06:10:00.000Z Perth Scorchers v Melbourne Stars: status=upcoming hasScore=false
+  parsed 2026-11-07T04:00:00.000Z New Zealand v India: status=final hasScore=true
+  parsed 2026-11-07T03:00:00.000Z New Zealand A v India A: status=upcoming hasScore=false
+  parsed 2026-11-08T04:00:00.000Z São Paulo Grand Prix v : status=upcoming hasScore=false
+  parsed 2026-11-08T03:00:00.000Z Sandown 500 v : status=upcoming hasScore=false
+  parsed 2026-11-08T20:00:00.000Z World Wide Technology Championship v : status=upcoming hasScore=false
+  parsed 2026-11-08T05:00:00.000Z Toto Japan Classic v : status=upcoming hasScore=false
+  diag {"wikipedia":{"2026–27 Women's Big Bash League season":43,"Sri Lankan cricket team in New Zealand in 2026–27":8,"Indian cricket team in New Zealand in 2026–27":15,"New Zealand cricket team in Australia in 2026–27":4,"New Zealand women's cricket team in Australia in 2026–27":6,"Australian cricket tea
+ALM 2026-2027 round 5: 5 games
+   2026-11-20T08:40:00 Western Sydney Wanderers v Adelaide United (NS)
+   2026-11-21T04:00:00 Auckland FC v Melbourne Victory (NS)
+   2026-11-21T06:00:00 Central Coast Mariners v Perth Glory (NS)
+   2026-11-21T08:40:00 Brisbane Roar v Sydney FC (NS)
+   2026-11-22T02:00:00 Wellington Phoenix v Macarthur FC (NS)
+ALM 2026-2027 round 6: 3 games
+   2026-11-27T08:40:00 Macarthur FC v Melbourne City (NS)
+   2026-11-28T08:40:00 Central Coast Mariners v Auckland FC (NS)
+   2026-12-06T02:00:00 Wellington Phoenix v Adelaide United (NS)
+ALM 2026-2027 round 7: 2 games
+   2026-12-05T08:40:00 Western Sydney Wanderers v Perth Glory (NS)
+   2026-12-06T06:00:00 Sydney FC v Melbourne Victory (NS)
+ALM 2026-2027 round 8: 6 games
+   2026-12-11T08:40:00 Adelaide United v Macarthur FC (NS)
+   2026-12-11T10:45:00 Perth Glory v Melbourne City (NS)
+   2026-12-12T04:00:00 Auckland FC v Sydney FC (NS)
+   2026-12-12T06:00:00 Central Coast Mariners v Brisbane Roar (NS)
+   2026-12-12T08:40:00 Melbourne Victory v Newcastle Jets (NS)
+   2026-12-13T06:00:00 Western Sydney Wanderers v Wellington Phoenix (NS)
