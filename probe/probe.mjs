@@ -1,12 +1,13 @@
-// rainwatch2: every 2 minutes for 45 minutes, which sources show the 2nd ODI's weather delay (BBC Sport and Herald
+// rainwatch3: every 2 minutes for 45 minutes, which sources show the 2nd ODI's weather delay (BBC Sport and Herald
 // cricket headlines, Wikipedia's rain field) and whether the live feed has it. Only yes/no and times: no headline text,
 // no scores. Pushes probe/out-rain.txt as it goes
 import { writeFileSync } from 'fs'; import { execSync } from 'child_process';
 const WET = /\b(rain\w*|showers?|wet outfield|washed out|wash-?out|delay(ed|s)?|bad light|abandon\w*|no play|covers|weather)\b/i;
 const items = x => [...x.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(m => (m[1].match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/) || [])[1] || '');
 const hdr = () => ({ headers: { 'user-agent': 'Mozilla/5.0 kickoff.kiwi probe' }, signal: AbortSignal.timeout(20000) });
-const out = ['rainwatch2 start ' + new Date().toISOString()], first = {};
-const push = () => { writeFileSync('probe/out-rain.txt', out.join('\n') + '\n'); for (let i = 0; i < 3; i++) try { execSync('git -c user.name=bot -c user.email=bot@x add -f probe/out-rain.txt && (git diff --cached --quiet || git -c user.name=bot -c user.email=bot@x commit -q -m out) && git pull -q --rebase origin probe && git push -q origin HEAD:probe', { stdio: 'pipe' }); break; } catch (e) { console.log('push failed', String(e.stderr || e.message).slice(0, 300)); } };
+const out = ['rainwatch3 start ' + new Date().toISOString()], first = {};
+const push = () => { writeFileSync('probe/out-rain.txt', out.join('\n') + '\n'); try { execSync('git -c user.name=bot -c user.email=bot@x add -f probe/out-rain.txt && (git diff --cached --quiet || git -c user.name=bot -c user.email=bot@x commit -q -m out)', { stdio: 'pipe' }); } catch (e) { out.push('commit failed ' + String(e.stderr || e.message).slice(0, 200)); }
+  for (let i = 0; i < 3; i++) try { execSync('git push -q origin HEAD:probe', { stdio: 'pipe' }); break; } catch (e) { try { execSync('git fetch -q origin probe && git -c user.name=bot -c user.email=bot@x rebase -q --autostash origin/probe', { stdio: 'pipe' }); } catch (e2) { out.push('rebase failed ' + String(e2.stderr || e2.message).slice(0, 200)); } } };
 const end = Date.now() + 40 * 60e3; out.push('started'); push();
 while (Date.now() < end) {
   const r = {}; const t = new Date().toISOString().slice(11, 16) + 'Z';
@@ -22,4 +23,4 @@ while (Date.now() < end) {
   push();
   await new Promise(res => setTimeout(res, 120e3));
 }
-out.push('rainwatch2 end'); push();
+out.push('rainwatch3 end'); push();
