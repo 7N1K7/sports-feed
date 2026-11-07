@@ -127,6 +127,15 @@ button, input { font: inherit; color: inherit }
 .totop { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 40; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: var(--ink); color: var(--paper); font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.2) }
 .totop[hidden] { display: none }
 .gaps details { border-top: 1px solid var(--line); padding: 6px 0 } .gaps summary { cursor: pointer; font-weight: 700; font-size: 14px }
+/* research: a sweep each, its findings grouped, each with what was done and where it came from (and whether its terms allow use) */
+.rsw { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 8px } .rsw > summary { cursor: pointer; font-weight: 700; font-size: 14px } .rsw > p { margin: 6px 0 0 }
+.rsw h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 12px 0 4px }
+.rsw ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13px; line-height: 1.45 }
+.rsw li { display: grid; grid-template-columns: 6.2em 1fr; gap: 8px; align-items: baseline }
+.rst { font: 700 10.5px/1 var(--f-body, inherit); letter-spacing: .05em; text-transform: uppercase; padding: 3px 6px; border-radius: 999px; text-align: center; white-space: nowrap }
+.rst.done { background: color-mix(in srgb, #51cf66 22%, transparent); color: #8ce99a } .rst.todo { background: color-mix(in srgb, #fcc419 22%, transparent); color: #ffe066 }
+.rst.idea { background: color-mix(in srgb, #4dabf7 22%, transparent); color: #a5d8ff } .rst.no { background: color-mix(in srgb, #ff6b6b 20%, transparent); color: #ffa8a8 } .rst.ok { background: color-mix(in srgb, var(--muted) 22%, transparent); color: var(--ink) }
+.rsrc { color: var(--muted); font-size: 12px } .rsrc a { color: inherit } .rsrc .rv { font-style: italic }
 .added { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 6px } .added summary { cursor: pointer; font-weight: 700; font-size: 14px } .added ul { margin: 6px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.5 } .added b { margin-right: 6px } .added .by { color: var(--muted); white-space: nowrap }
 .gaps p { margin: 6px 0 0 14px; font-size: 13px } .gaps b { color: var(--muted); font-weight: 700 }
 /* coverage over time: a tile a measure, three a row (two on a phone) so the six sit in even rows, each with a sparkline
@@ -309,6 +318,11 @@ th { color: var(--muted); font-weight: 600 }
       <div class="swatches" id="themes" role="group" aria-label="Theme"></div>
       <p class="note">For this page on this device; it starts from the main page's theme.</p>
     </section>
+    <section class="card" id="research">
+      <h2>Research</h2>
+      <p class="note">Sweeps for what the site is missing: each sport searched by hand for the coming week, and new places for where to watch, data and pictures, with each one's terms checked. Newest first. Never a score or result here.</p>
+      <div id="researchList"></div>
+    </section>
   </div>
 </div>
 <button type="button" id="toTop" class="totop" aria-label="Back to top" hidden>↑</button>
@@ -334,10 +348,10 @@ const REPEAT_ORDER = ['1', '2-3', '4-9', '10+'], REPEAT_LABEL = { 1: 'Once', '2-
 const SPEED_ORDER = ['under 1s', '1-2s', '2-4s', '4-8s', '8s or more'];
 // the parts of the site used that are in the Settings box, listed on their own
 const SETTINGS_USE = new Set(['Settings', 'Hide sport', 'Show sport', "Men's teams off", "Men's teams on", "Women's teams off", "Women's teams on", 'Coffee in Settings', 'Sport order A–Z',
-  'Select all teams', 'Default teams', 'Clear all teams', 'Theme changed', 'Time zone changed', 'Hide results for changed', 'Settings code copied', 'Settings code used', 'Hidden sports list name', 'Off in settings note', 'Show hidden league here', 'Hide hidden league here', 'Sports info button', 'Settings from sports info',
+  'Select all teams', 'Default teams', 'Clear all teams', 'Theme changed', 'Time zone changed', 'Hide results for changed', 'Settings code copied', 'Settings code used', 'Hidden sports list name', 'Turned-off name in sports info', 'Off in settings note', 'Show hidden league here', 'Hide hidden league here', 'Sports info button', 'Settings from sports info',
   'Settings closed', 'Theme menu opened', 'Time zone menu opened', 'Hide results for menu opened']);
 const SETTINGS_LABEL = { Settings: 'Settings opened', 'Hide sport': 'A sport hidden', 'Show sport': 'A sport shown', 'Select all teams': 'Select all', 'Default teams': 'Defaults', 'Clear all teams': 'Clear',
-  'Hide results for changed': 'Hide results for: changed', 'Hidden sports list name': 'A name in the hidden list tapped', 'Off in settings note': 'The "off in settings" note by a sport or competition tapped', 'Show hidden league here': 'Show here by that note: what is off shown on that sport page', 'Hide hidden league here': 'Hide here by that note', 'Sports info button': 'The "i" by the sport buttons tapped', 'Settings from sports info': 'Open Settings from that "i"', 'Coffee in Settings': 'Coffee link', 'Settings closed': 'Settings closed with ×' };
+  'Hide results for changed': 'Hide results for: changed', 'Hidden sports list name': 'A name in the hidden list tapped', 'Turned-off name in sports info': 'A turned-off name in the i pop-up tapped', 'Off in settings note': 'The "off in settings" note by a sport or competition tapped', 'Show hidden league here': 'Show here by that note: what is off shown on that sport page', 'Hide hidden league here': 'Hide here by that note', 'Sports info button': 'The "i" by the sport buttons tapped', 'Settings from sports info': 'Open Settings from that "i"', 'Coffee in Settings': 'Coffee link', 'Settings closed': 'Settings closed with ×' };
 // errors already fixed: what the error says, the day of the fix, its version and what it was. One seen on a later day
 // shows as back
 const FIXED = [
@@ -421,6 +435,7 @@ async function drawCoverage() {
 // games the site missed or had wrong, newest first, kept by hand (the daily check adds a line for each one it finds, filled
 // or not): [date found, competition, game, what was wrong, what was done, found by]. Never a score or result here
 const MISSED = [
+  ['7 Nov 2026', 'NBL', '8 of the 13 games from 7 to 15 Nov (the Breakers v Bullets and Sydney v Breakers among them), and the rest of the season', "Shown an hour early for games in the daylight-saving states and NZ, as Wikipedia gives standard time all season, and two Saturday games moved for TV were three hours out", "TheSportsDB's times, which match the clubs' own, now win over Wikipedia's for the whole season", 'the sweep'],
   ['4 Nov 2026', 'Ford Trophy', 'Rounds 3 to 10 and both finals (26 games), from Wed 4 Nov', "Not on the site: only the first two rounds were added by hand, and no free source the feed reads has the competition", 'Added the rest of the season from the published fixture list; the feed now flags a competition whose listed games run out before a final', 'you'],
   ['2 Nov 2026', 'Rugby League World Cup', 'Semi-finals and finals (men\'s and women\'s), and the WBBL and BBL finals', "Each listed two or three times, from the draw and from Wikipedia, and the women's semi-finals showed a stray code where the teams go", "Now one card each, which takes the teams once they're known", 'the weekend check'],
   ['2 Nov 2026', "Rugby League World Cup (women's and wheelchair)", "Wheelchair England v Wales, women's England v Samoa, wheelchair France v Scotland", "The wheelchair game showed the women's game's score and time, and the other two had no result: the feed took wheelchair and women's games for the same thing", "Fixed: they're kept apart now", 'the weekend check'],
@@ -435,8 +450,74 @@ const MISSED = [
   ['1 Nov 2026', 'UFC', 'the night\'s fight card', 'Shown a day early and finished while still on: its source gave no start time', 'The time now comes from the event\'s own listing, and it stays on until well after', 'you'],
   ['1 Nov 2026', 'New Zealand Heartland XV v Samoa', 'both games', 'In none of the feed\'s sources', 'Added by hand, with the free NZ Provincial Rugby stream', 'you'],
 ];
+// research sweeps, newest first, kept by hand: what a search found, what was done (done, todo, idea, no for a source
+// whose terms don't allow it, ok for checked and right), and the sources, each with what its terms allow. Never a score
+const RESEARCH = [
+  { d: '7 Nov 2026', t: 'Every sport, 7 to 15 Nov, searched by hand', sum: 'Four searches at once: team sports, other sports, where to watch, and data and pictures for the known gaps. Each ran out of searches part-way, so some sports are still to check (listed last).', g: [
+    ['Wrong times', [
+      ['done', 'NBL: 8 of the 13 games this week were early (an hour in daylight-saving states and NZ, three for two Saturday games moved for TV), the Breakers v Bullets and Sydney v Breakers among them. Wikipedia gives standard time all season. TheSportsDB has them right, and its times now win, for the whole season (v599)', [['TheSportsDB rounds', 'https://www.thesportsdb.com/league/4434', 'free key, read automatically'], ['Breakers schedule', 'https://nzbreakers.basketball/schedule', 'check by eye']]],
+      ['todo', 'UFC Fight Night (Sun 8 Nov): the main card is 2pm NZ; the site had about 3pm', [['UFCalendar', 'https://www.ufcalendar.com/blog/ufc-fight-night-cortes-acosta-walker-card-start-times-how-to-watch', 'check by eye']]],
+      ['todo', 'UFC 334 (Sun 15 Nov): the main card is 3pm NZ; the site had 12pm', [['UFC: how to watch in NZ', 'https://www.ufc.com/news/how-to-watch-ufc-in-new-zealand-2026', 'link only']]],
+      ['todo', 'Buatsi v Hutchinson: shown at 1am Sunday, but it is a UK evening card, so Sunday morning NZ; the exact time is not published yet', [['Queensberry', 'https://queensberry.co.uk/pages/joshua-buatsi-vs-willy-hutchinson-2-point-to-prove', 'link only']]],
+      ['todo', 'Wheelchair Rugby League World Cup: its 4 knockout games (9 and 10 Nov) show as 8, as both TBC slots and named games', [['Wikipedia', 'https://en.wikipedia.org/wiki/2026_Wheelchair_Rugby_League_World_Cup', 'read automatically']]],
+      ['todo', 'NZ A v India A: the site has 10:30am each day; Wisden says 11am. Not settled', [['Wisden', 'https://wisden.com/cricket-news/nz-a-vs-ind-a-unofficial-tests-live-streaming-and-tv-channels-where-to-watch-live-and-match-timings-for-india-a-tour-of-new-zealand', 'check by eye']]],
+      ['todo', 'Scotland v Australia: one guide says 3:40am, the site 4:10am. Not settled', [['Flicks', 'https://www.flicks.co.nz/sport/', 'check by eye']]],
+      ['ok', 'Checked and right: both All Blacks tests (3:10am Sundays), the Rugby League World Cup semis and finals, all five Black Caps ODIs (3pm), Ford Trophy rounds 4 and 5, All Whites v India (12 Nov, 7pm), Auckland FC v Phoenix (5pm) and the F1 times', []],
+    ]],
+    ['Missing games', [
+      ['todo', 'Wellington Phoenix women v Sydney FC, Sun 15 Nov at Porirua Park: the site has no A-League Women at all (Auckland FC has no women\'s side this season). On Sky Sport, some games free on Sky Open or ThreeNow', [['Phoenix', 'https://wellingtonphoenix.com/?p=328993', 'check by eye']]],
+      ['todo', 'Hallyburton Johnstone Shield: 5 of its 6 games on 14 and 15 Nov are missing; free on NZC\'s YouTube. NZC\'s schedule can only be checked by eye, so they need another source or to be kept by hand', [['NZC schedule (PDF)', 'https://www.nzc.nz/media/1cxbi35u/print_2026_hbj-schedule.pdf', 'check by eye only']]],
+      ['idea', 'NASCAR Cup Championship with Shane van Gisbergen, Mon 9 Nov 9am NZ, free on ThreeNow', [['VelocityNews', 'https://www.velocitynews.co.nz/no-paywall-for-kiwi-nascar-fans-2026-coverage-confirmed-on-threenow', 'check by eye']]],
+      ['idea', 'Men\'s National League (football) Championship: 10 games on 7, 8, 14 and 15 Nov, free on FIFA+. Wikipedia has the days and grounds, not the times', [['Wikipedia', 'https://en.wikipedia.org/wiki/2026_New_Zealand_National_League', 'read automatically'], ['NZ Football', 'https://www.nzfootball.co.nz/newsarticle/166233', 'check by eye']]],
+      ['idea', 'Golf: Ryan Fox at the DP World Tour Championship, 12 to 15 Nov (Sky Sport; the DP World Tour isn\'t on the site). Lydia Ko at The ANNIKA, 12 to 15 Nov, is an LPGA event outside the majors, which the site leaves out', [['Gulf Today', 'https://www.gulftoday.ae/sport/2026/10/21/major-champions-rai-and-fox-join-dp-world-tour-championship-field', 'check by eye']]],
+      ['idea', 'Repco NextGen NZ Championship, round 1 at Taupō, 13 to 15 Nov (last season Sky Sport and a free YouTube stream)', [['talkmotorsport', 'https://talkmotorsport.co.nz/nzcircuit/full-calendar-revealed-for-season-3-of-repco-nextgen-nz-championship/', 'unclear']]],
+      ['idea', 'Futsal Ferns v Vietnam, 12 and 14 Nov in Ho Chi Minh City; times and viewing not found', [['VOV', 'https://english.vov.vn/en/sports/vietnam-womens-futsal-team-to-play-new-zealand-friendlies-in-november-post1345418.vov', 'check by eye']]],
+      ['todo', 'Just after this week, to check they show: UFC Qatar with Navajo Stirling and Dan Hooker (Sun 22 Nov, free on TVNZ+), the Plunket Shield from 19 Nov, the Tall Blacks\' qualifiers 26 to 29 Nov, NZ at the U-17 World Cup (20, 23, 26 Nov), the Blackjacks v India bowls 16 to 18 Nov, SailGP Dubai and Abu Dhabi, the Australian PGA and Open', []],
+    ]],
+    ['Sports the site doesn\'t cover', [
+      ['idea', 'Horse and harness racing, NZ Cup Week: the Trotting Cup at Addington (Tue 10 Nov) and the NZ Cup at Riccarton (Sat 14 Nov), free on Trackside. Riccarton\'s terms need its consent even to link', [['Riccarton Park', 'https://racing.riccartonpark.nz/nz-cup-show-week', 'not allowed without consent'], ['HRNZ', 'https://www.hrnz.co.nz/news/nominations-open-for-nz-trotting-cup-and-renwick-farms-dominion-trot/', 'check by eye']]],
+      ['idea', 'Triathlon: Hayden Wilde at the Dubai T100, Sat 14 Nov about 7pm NZ, free on YouTube and TriathlonLive', [['PTO start list', 'https://stats.protriathletes.org/race/dubai-t100/2026/participants', 'check by eye']]],
+      ['idea', 'Squash: Paul Coll at the US Open, final about midday Sun 8 Nov NZ (paid, SquashTV)', []],
+      ['idea', 'Lower NZ interest this week: MotoGP Qatar, WRC Saudi Arabia, darts\' Grand Slam, the Tour of Southland', []],
+    ]],
+    ['Where to watch', [
+      ['done', 'A-League: Sky shows every game, not "selected games" as the site said for games without a NZ side', [['A-Leagues', 'https://aleagues.com.au/news/aleague-men-2026-2027-fixture-list-revealed-key-dates-fixture-information/', 'link only']]],
+      ['done', 'NBA and NBL: also on Disney+ (ESPN), since Nov 2025', [['Disney+', 'https://www.disneyplus.com/en-nz/explore/articles/espn-on-disney-plus-launches-in-australia-new-zealand', 'link only']]],
+      ['done', 'UFC numbered events: also on a TVNZ+ Event Pass (pay-per-view)', [['UFC', 'https://www.ufc.com/news/how-to-watch-ufc-in-new-zealand-2026', 'link only']]],
+      ['done', 'In Australia lists added: F1 (Kayo and Foxtel, every session) and the Black Caps (Fox Cricket and Kayo)', [['Foxtel', 'https://foxtelgroup.com.au/newsroom/kayo-sports-races-ahead-with-extended-formula-1-broadcast-deal-2', 'link only']]],
+      ['todo', 'Kiwis v Tonga tonight: the site says free on Three, but Three has election night coverage from 7 to 11pm, so it may be ThreeNow only', [['TechRadar', 'https://techradar.com/how-to-watch/rugby-league-world-cup-2026-free-streams-tv-channels-schedule', 'check by eye']]],
+      ['todo', 'Rugby League World Cup semis and finals: said to stream free on ThreeNow; the site shows no free option for games without the Kiwis', [['Rugby World', 'https://rugbyworld.com/how-to-watch/new-zealand-cook-islands-rugby-league-world-cup-2026-186167', 'check by eye']]],
+      ['todo', 'Black Ferns: NZ Rugby says all their 2026 games are on Three (live or delayed not yet clear); the site lists Sky only', [['All Blacks site', 'https://www.allblacks.com/news/chucking-nz-the-login-watch-all-blacks-v-stormers-for-free', 'link only']]],
+      ['todo', 'SailGP: now said to be live on Three; the site says delayed', []],
+      ['todo', 'Auckland FC v Phoenix today: the Freeview guide shows it live on a free channel (probably Sky Open)', [['Freeview guide', 'https://www.freeviewnz.tv/tvguide/', 'check by eye']]],
+      ['ok', 'Checked and right: All Blacks tests (Sky live, Three delayed), the Black Caps ODIs (Sky, with free radio), NZ A v India A (free on NZC\'s YouTube). No NZ broadcaster found for Pakistan v Sri Lanka or South Africa v Bangladesh', []],
+      ['ok', 'Rights to know about: Black Caps and White Ferns home games are on Sky to 2031-32; Sky\'s A-League deal ends after this season; Sky\'s NRL deal runs to the end of 2027', [['Sport Nation', 'https://sportnation.nz/article/sky-sport-secure-six-year-home-internationals-deal-with-nz-cricket', 'link only']]],
+    ]],
+    ['Data and pictures', [
+      ['todo', 'White Ferns v Bangladesh (10 to 23 Dec): the times have been out since June (T20Is 4pm, 1pm, 4pm; ODIs 11am) but the site has them as TBC. To keep by hand, checked against CD Cricket', [['CD Cricket', 'https://www.cdcricket.co.nz/newsarticle/166331', 'check by eye']]],
+      ['todo', 'WBBL: Wikipedia now has times for the Knockout (1 Dec) and the Final (5 Dec), which the site has as TBC', [['Wikipedia', 'https://en.wikipedia.org/wiki/2026%E2%80%9327_Women%27s_Big_Bash_League_season', 'read automatically']]],
+      ['todo', 'Sheffield Shield times: no automatic source; the grounds\' own pages have them', [['MCG', 'https://www.mcc.org.au/news/2026/july/pink-ball-match-headlines-mcg-sheffield-shield-schedule', 'check by eye']]],
+      ['ok', 'A-League rounds 6 and 7 are short (3 and 2 games) in every source, so nothing is missing', [['TheSportsDB', 'https://www.thesportsdb.com/league/4356', 'read automatically']]],
+      ['no', 'Ford Trophy and Heartland XV results: still no source that allows use. Wikipedia\'s Ford Trophy table is empty so far; possible11 forbids copying; NZC and NZ Rugby are check by eye only', [['Wikipedia', 'https://en.wikipedia.org/wiki/2026%E2%80%9327_Ford_Trophy', 'read automatically, when filled']]],
+      ['no', 'Boxing results: BoxRec\'s terms forbid using software to read it. Boxers\' Wikipedia pages have them (read automatically, behind the spoiler guard)', []],
+      ['todo', 'Logos still grey: Heartland XV, NZ A, India A, Central Hinds, South Australia, Western Australia, ACT. TheSportsDB has none of them; Commons files are candidates but their licences couldn\'t be read from here yet. NZ A and India A could take their flags', []],
+    ]],
+    ['New sources', [
+      ['idea', 'UFCalendar API: UFC and other MMA cards with start times; its terms welcome automated access, with a free key (needs you to sign up). Fixtures only, as it has results too', [['UFCalendar developers', 'https://www.ufcalendar.com/developers/ufc-api', 'allowed, free key']]],
+      ['ok', 'Flicks: a where-to-watch page for each NZ game, but it blocks bots, so check by eye only', [['Flicks', 'https://www.flicks.co.nz/sport/', 'check by eye']]],
+      ['ok', 'Sport Nation\'s weekly Live Sport Bible lists its free radio; its terms forbid copying, so link only', [['Sport Nation', 'https://sportnation.nz/', 'link only']]],
+      ['no', 'Not usable: BoxRec, Legz, possible11 (copying), the NBL and Breakers sites (no reproduction), Riccarton Park (even links need consent), PSA Squash, Golf News Net', []],
+      ['idea', 'Unclear, to read their terms: API-Football\'s free plan (all competitions, 100 calls a day), whensport, CricAPI, PlayHQ, Kayo (its pages block this kind of reader)', []],
+      ['todo', 'Still to search: Silver Ferns, the sevens, Māori All Blacks and Moana Pasifika, Black Sticks women, Tall Ferns, softball, volleyball, touch, speedway, rowing, surfing, athletics, RugbyPass TV, Watch NRL, Prime Video, Trackside, the 2027 Super Rugby, NRL and netball deals', []],
+    ]],
+  ] },
+];
 // the big additions of data, newest first: kept by hand, a line each time a gap is filled or a new kind of data comes in
 const ADDED = [
+  ['7 Nov 2026', 'The i pop-up in the sport row names what this browser has turned off (whole sports and single competitions), each tapping through to it in Settings; taps counted as Turned-off name in sports info'],
+  ['7 Nov 2026', 'NBL: the whole season\'s start times from TheSportsDB, round by round, as Wikipedia\'s are an hour out in daylight saving'],
+  ['7 Nov 2026', 'Where to watch: every A-League game on Sky, Disney+ (ESPN) for the NBA and NBL, a TVNZ+ Event Pass for UFC numbered events, and In Australia lists for F1 and the Black Caps'],
+  ['7 Nov 2026', 'Research, at the bottom of this page: the first sweep of every sport for the coming week, with what each source allows'],
   ['7 Nov 2026', 'An eye joined to an off competition\'s faded button on This week\'s line, putting its games in that sport\'s list (it replaces Show here there); taps counted as This week eye: shown here and This week eye: hidden again'],
   ['6 Nov 2026', 'A button on This week\'s line for a competition that\'s off in Settings (the NBA), marked Off, opening its page; taps counted as This week off competition button'],
   ['6 Nov 2026', 'Competition buttons on This week\'s line when one sport is picked (F1 and Supercars under Motorsport, each cricket series under Cricket): a tap opens that competition\'s page; taps counted as This week competition button, and its +N as This week more competitions'],
@@ -683,6 +764,8 @@ function draw() {
   $('missedSum').textContent = `Missed games found · ${MISSED.length}`;
   $('missed').innerHTML = MISSED.map(([d, c, g, what, did, by]) => `<li><b>${esc(d)}</b> ${esc(c)}: ${esc(g)}. ${esc(what)}. ${esc(did)}. <span class="by">Found by ${esc(by)}</span></li>`).join('');
   $('added').innerHTML = ADDED.map(([d, t]) => `<li><b>${esc(d)}</b> ${esc(t)}</li>`).join('');
+  const RTAG = { done: 'Done', todo: 'To do', idea: 'Idea', no: "Can't use", ok: 'Checked' };
+  $('researchList').innerHTML = RESEARCH.map((r, i) => `<details class="rsw"${i ? '' : ' open'}><summary>${esc(r.d)} · ${esc(r.t)}</summary><p class="note">${esc(r.sum)}</p>${r.g.map(([h, items]) => `<h3>${esc(h)}</h3><ul>${items.map(([st, txt, src]) => `<li><span class="rst ${esc(st)}">${RTAG[st] || esc(st)}</span><span>${esc(txt)}.${src.length ? ` <span class="rsrc">${src.map(([n, u, v]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)}</a> <span class="rv">(${esc(v)})</span>`).join(' · ')}</span>` : ''}</span></li>`).join('')}</ul>`).join('')}</details>`).join('');
   document.querySelectorAll('[data-days]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.days === days)));
   const { list, per, sums } = shape();
   const tot = k => list.reduce((a, d) => a + per[d][k], 0);
