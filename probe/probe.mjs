@@ -1,27 +1,41 @@
-// bn: the game pop-up's top on the live site now, and with the competition look behind it, centred (bn-index.html served
-// for the page itself; feed, fonts and images live). sf.nocount set; form, scores and results blurred
-import { chromium } from 'playwright'; import { execSync } from 'child_process'; import { writeFileSync, mkdirSync, readFileSync } from 'fs';
-const out = ['bn ' + new Date().toISOString()]; mkdirSync('probe/bn', { recursive: true });
-const NEW = readFileSync('probe/bn-index.html', 'utf8');
-const ALL = ['bc-ind-odi2-2026', 'rlwc-m-semi-final-1', 'ab-sco-nz-2026-11-07', 'tsdb-2540125', 'wbbl-12-m13-melbourne-renegades-v-adelaide-strikers', 'wf-ban-odi2-2026', 'tsdb-2601527', 'f1-2026-20', 'wiki-nbl-2026-11-07-adelaideersillawarrahawks'];
-const b = await chromium.launch({ channel: 'chrome' });
-for (const [tag, ids] of [['now', ALL.slice(0, 2)], ['new', ALL]]) for (const vw of [1280, 412]) for (const id of ids) {
-  const ctx = await b.newContext({ viewport: { width: vw, height: 900 }, deviceScaleFactor: 2 }); const p = await ctx.newPage();
-  await p.addInitScript(() => { try { localStorage.setItem('sf.nocount', 'true'); } catch (e) {} });
-  if (tag === 'new') await p.route(/^https:\/\/kickoff\.kiwi\/(\?[^#]*)?$/, r => r.fulfill({ body: NEW, contentType: 'text/html; charset=utf-8' }));
-  try {
-    await p.goto(`https://kickoff.kiwi/?x=${Date.now()}#g=${id}`, { waitUntil: 'load', timeout: 30000 });
-    await p.waitForFunction(() => document.getElementById('sheet')?.open, null, { timeout: 15000 });
-    await p.addStyleTag({ content: '#sheet .form, #sheet .fd, #sheet .ts, #sheet .dres, #sheet .cover { filter: blur(6px) } #sheet .close:focus-visible { outline: none }' });
-    await p.evaluate(() => document.fonts.ready); await p.waitForTimeout(1500);
-    const r = await p.evaluate(() => { const d = document.getElementById('sheet').getBoundingClientRect(), h = document.querySelector('#sheetBody .sheet-head').getBoundingClientRect(); return { d: [d.x, d.y, d.width, d.height], hb: h.bottom }; });
-    const hgt = Math.min(r.d[3], r.hb - r.d[1] + 110);
-    await p.screenshot({ path: `probe/bn/${tag}-${vw}-${id.slice(0, 14)}.png`, clip: { x: r.d[0], y: r.d[1], width: r.d[2], height: hgt } });
-    out.push(`${tag} ${vw} ${id.slice(0, 14)} ok`);
-  } catch (e) { out.push(`${tag} ${vw} ${id.slice(0, 14)} fail ${String(e.message).slice(0, 60)}`); }
-  await ctx.close();
-}
-await b.close(); writeFileSync('probe/out-bn.txt', out.join('\n') + '\n');
-try { execSync('git -c user.name=bot -c user.email=bot@x add -f probe/out-bn.txt probe/bn && git -c user.name=bot -c user.email=bot@x commit -q -m out', { stdio: 'pipe' }); } catch {}
+// one3: ONE Championship cards whose year-page section only points to their own article ({{Main|ONE 173}}): read from
+// that article. Prints names, dates, bout counts and yes/no only (no fighters, no results)
+import { execSync } from 'child_process'; import { writeFileSync } from 'fs';
+import { _oneFromYear, oneArticles } from './one-src.mjs';
+const out = ['one3 ' + new Date().toISOString()];
+const UA = { 'User-Agent': 'kickoff.kiwi probe (https://kickoff.kiwi)' };
+const CITY = { Bangkok: 'Asia/Bangkok', Tokyo: 'Asia/Tokyo', Yokohama: 'Asia/Tokyo', Japan: 'Asia/Tokyo', Thailand: 'Asia/Bangkok', Doha: 'Asia/Qatar', Lusail: 'Asia/Qatar', Qatar: 'Asia/Qatar', Singapore: 'Asia/Singapore', Denver: 'America/Denver', Kallang: 'Asia/Singapore' };
+const get = async titles => {
+  const res = {};
+  for (let cont = {}, n = 0; cont && n < 6; n++) {
+    const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(titles.join('|')) + Object.entries(cont).map(([k, v]) => `&${k}=${encodeURIComponent(v)}`).join(''), { headers: UA, signal: AbortSignal.timeout(30000) });
+    const j = await r.json();
+    const back = Object.fromEntries([...(j.query?.redirects || []), ...(j.query?.normalized || [])].map(x => [x.to, x.from]));
+    for (const pg of j.query?.pages || []) { const text = pg.revisions?.[0]?.slots?.main?.content; if (!pg.missing && text) res[back[back[pg.title]] || back[pg.title] || pg.title] = { title: pg.title, text }; }
+    cont = j.continue?.rvcontinue ? j.continue : null;
+  }
+  return res;
+};
+try {
+  const years = await get(['2025 in ONE Championship', '2026 in ONE Championship']);
+  for (const [y, at] of [['2025', '2025-11-20T00:00:00Z'], ['2025', '2025-10-01T00:00:00Z'], ['2026', '2026-01-20T00:00:00Z'], ['2026', null]]) {
+    const pg = years[`${y} in ONE Championship`];
+    if (!pg) { out.push(`${y}: no page`); continue; }
+    const real = Date.now; if (at) Date.now = () => Date.parse(at);
+    const want = oneArticles(pg.text);
+    Date.now = real;
+    const arts = want.length ? await get(want) : {};
+    if (at) Date.now = () => Date.parse(at);
+    const evs = _oneFromYear(pg.text, n => CITY[n] || null, pg.title, arts);
+    Date.now = real;
+    out.push(`-- ${y} as at ${at || 'now'}: articles wanted ${want.length}, read ${Object.keys(arts).length}: ${want.map(t => `${t}${arts[t] ? (arts[t].title !== t ? ' (as ' + arts[t].title + ')' : '') + (/Infobox MMA event/i.test(arts[t].text) ? ' +infobox' : ' no infobox') : ' missing'}`).join('; ')}`);
+    for (const e of evs) {
+      const secs = [...new Set((e.card || []).map(b => b.section))].join('/');
+      out.push(`  ${e.comp} | ${e.startUTC}${e.usual ? ' usual' : ''} | ${e.city} | bouts ${(e.card || []).length}${secs ? ' (' + secs + ')' : ''} | weights ${(e.card || []).filter(b => b.weight).length} | kiwi ${e.nzEvent ? 'yes' : 'no'} | own article ${/#/.test(e.source) ? 'no' : 'yes'}`);
+    }
+  }
+} catch (e) { out.push('error ' + String(e.message).slice(0, 120)); }
+writeFileSync('probe/out-one.txt', out.join('\n') + '\n');
+try { execSync('git -c user.name=bot -c user.email=bot@x add -f probe/out-one.txt && git -c user.name=bot -c user.email=bot@x commit -q -m out', { stdio: 'pipe' }); } catch {}
 for (let i = 0; i < 4; i++) try { execSync('git push -q origin HEAD:probe', { stdio: 'pipe' }); break; } catch { try { execSync('git fetch -q origin probe && git -c user.name=bot -c user.email=bot@x rebase -q --autostash origin/probe', { stdio: 'pipe' }); } catch {} }
 console.log(out.join('\n'));
