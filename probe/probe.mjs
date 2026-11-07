@@ -1,30 +1,31 @@
-// stt: mock-ups of the stats page's Theme menu in the top bar (unpushed copy), made-up numbers only, the site's fonts
-import { chromium } from 'playwright'; import { execSync } from 'child_process'; import { writeFileSync, readFileSync, mkdirSync } from 'fs';
-const out = ['stt ' + new Date().toISOString()]; mkdirSync('probe/stt', { recursive: true });
-const NEW = readFileSync('probe/stm/stats-new3.html', 'utf8'), FAKE = readFileSync('probe/stm/fake.json', 'utf8');
+// stl2: checks the live stats page's Theme menu (v624) with made-up numbers only
+import { chromium } from 'playwright'; import { execSync } from 'child_process'; import { writeFileSync, readFileSync } from 'fs';
+const out = ['stl2 ' + new Date().toISOString()];
+const FAKE = readFileSync('probe/stm/fake.json', 'utf8');
 const b = await chromium.launch({ channel: 'chrome' });
 try {
   for (const vw of [1280, 800, 412, 360]) {
-    const ctx = await b.newContext({ viewport: { width: vw, height: 900 }, deviceScaleFactor: 2 }); const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
-    await p.clock.install({ time: new Date('2026-11-07T07:00:00Z') });
-    await p.route(/^https:\/\/kickoff\.kiwi\/stats\.html/, r => r.fulfill({ body: NEW, contentType: 'text/html; charset=utf-8' }));
+    const ctx = await b.newContext({ viewport: { width: vw, height: 900 } }); const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
     await p.route(/kickoff-api\.kickoffkiwi\.workers\.dev/, r => r.fulfill({ body: FAKE, contentType: 'application/json' }));
-    await p.addInitScript(() => { try { localStorage.setItem('sf.nocount', 'true'); localStorage.setItem('sf.statspw', '"mock"'); localStorage.setItem('sf.statsDays', '14'); localStorage.setItem('sf.statsChart', '"kiwi"'); localStorage.setItem('sf.statsAccent', '"green"'); } catch (e) {} });
+    await p.addInitScript(() => { try { localStorage.setItem('sf.nocount', 'true'); localStorage.setItem('sf.statspw', '"mock"'); localStorage.setItem('sf.statsDays', '14'); } catch (e) {} });
     await p.goto('https://kickoff.kiwi/stats.html?x=' + Date.now(), { waitUntil: 'load' }); await p.waitForTimeout(3500);
-    const h = vw > 500 ? 760 : 900;
-    await p.screenshot({ path: `probe/stt/bar-${vw}.png`, clip: { x: 0, y: 0, width: vw, height: vw > 500 ? 300 : 340 } });
-    await p.click('#lookBtn'); await p.waitForTimeout(400);
-    const mh = await p.evaluate(() => Math.round(document.getElementById('lookMenu').getBoundingClientRect().bottom));
-    const clipped = await p.evaluate(() => [...document.querySelectorAll('#lookMenu .sw, #lookMenu .lk')].filter(x => x.scrollWidth > x.clientWidth + 1).map(x => x.textContent).join('|'));
-    await p.screenshot({ path: `probe/stt/open-${vw}.png`, clip: { x: 0, y: 0, width: vw, height: Math.min(900, mh + 24) } });
-    if (vw === 1280 || vw === 412) {
-      await p.click('#lookMenu [data-theme-k="ocean"]'); await p.waitForTimeout(400); await p.click('#lookMenu [data-look="twilight"]'); await p.waitForTimeout(600);
-      await p.screenshot({ path: `probe/stt/picked-${vw}.png`, clip: { x: 0, y: 0, width: vw, height: 900 } });
+    const ver = await p.evaluate(() => (document.body.innerText.match(/\bv\d{3,}\b/) || [''])[0]);
+    const has = await p.$('#lookBtn');
+    let r = 'no Theme button';
+    if (has) {
+      const pos = () => p.evaluate(() => [...document.querySelectorAll('#tbar .tbrow > *')].map(x => Math.round(x.getBoundingClientRect().left)).join(','));
+      const p0 = await pos(); await p.click('#lookBtn'); await p.waitForTimeout(300); const p1 = await pos();
+      const m = await p.evaluate(() => { const m = document.getElementById('lookMenu'); const rows = sel => { const ys = [...m.querySelectorAll(sel)].map(x => Math.round(x.getBoundingClientRect().top)); return [...new Set(ys)].map(y => ys.filter(v => v === y).length).join('/'); };
+        return { open: !m.hidden, themes: rows('.sw'), looks: rows('.lk'), clipped: [...m.querySelectorAll('.sw, .lk')].filter(x => x.scrollWidth > x.clientWidth + 1).length, wide: document.documentElement.scrollWidth > innerWidth }; });
+      await p.click('#lookMenu [data-theme-k="ocean"]'); await p.waitForTimeout(300); await p.click('#lookMenu [data-look="bush"]'); await p.waitForTimeout(300);
+      const st = await p.evaluate(() => [!document.getElementById('lookMenu').hidden, document.documentElement.dataset.accent, document.documentElement.dataset.chart, document.querySelector('#themes [aria-pressed="true"]')?.dataset.themeK, document.querySelector('#looks [aria-pressed="true"]')?.dataset.look].join(','));
+      await p.keyboard.press('Escape'); await p.waitForTimeout(200); const closed = await p.evaluate(() => document.getElementById('lookMenu').hidden);
+      r = `open=${m.open} rows themes ${m.themes} looks ${m.looks} clipped=${m.clipped} sideScroll=${m.wide} barStill=${p0 === p1} picked(open,theme,chart,card theme,card look)=${st} escCloses=${closed}`;
     }
-    out.push(`${vw}: menu bottom ${mh} clipped=[${clipped}] errors=${errs.join('; ') || 'none'}`); await ctx.close();
+    out.push(`${vw} ${ver}: ${r} errors=${errs.length ? errs.join('; ').slice(0, 200) : 'none'}`); await ctx.close();
   }
 } catch (er) { out.push('err ' + String(er.message).slice(0, 160)); }
-await b.close(); writeFileSync('probe/out-stt.txt', out.join('\n') + '\n');
-try { execSync('git -c user.name=bot -c user.email=bot@x add -A probe/stt probe/out-stt.txt && git -c user.name=bot -c user.email=bot@x commit -q -m out', { stdio: 'pipe' }); } catch {}
+await b.close(); writeFileSync('probe/out-stl2.txt', out.join('\n') + '\n');
+try { execSync('git -c user.name=bot -c user.email=bot@x add -A probe/out-stl2.txt && git -c user.name=bot -c user.email=bot@x commit -q -m out', { stdio: 'pipe' }); } catch {}
 for (let i = 0; i < 4; i++) try { execSync('git push -q origin HEAD:probe', { stdio: 'pipe' }); break; } catch { try { execSync('git fetch -q origin probe && git -c user.name=bot -c user.email=bot@x rebase -q --autostash origin/probe', { stdio: 'pipe' }); } catch {} }
 console.log(out.join('\n'));
