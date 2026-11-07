@@ -1,51 +1,12 @@
-one6 2026-11-07T04:08:16.121Z
-# ONE 173 (title ONE 173): infoboxes 1; keys name,image,caption,image_size,promotion,date,venue,city,previousevent,followingevent; name raw starts "ONE 173: S"; clean starts "ONE 173: S"; date "{{start date|2025|11|16}}"; tables 0; card 16; headings Background/Results/Bonus awards/See also/References
-# ONE Fight Night 37 (title ONE Fight Night 37): infoboxes 1; keys name,image,image_size,promotion,date,venue,city,previousevent,followingevent; name raw starts "ONE Fight Night 37: K"; clean starts "ONE Fight Night 37: K"; date "{{start date|2025|11|08}}"; tables 0; card 8; headings Background/Results/See also/References
-# ONE Fight Night 39 (title ONE Fight Night 39): infoboxes 1; keys name,image,image_size,promotion,date,venue,city,attendance,previousevent,followingevent; name raw starts "ONE Fight Night 39: R"; clean starts "ONE Fight Night 39: R"; date "{{start date|2026|01|24}}"; tables 0; card 9; headings Background/Results/Bonus awards/See also/References
--- 2025 as at 2025-11-20T00:00:00Z: articles wanted 4, read 4: ONE 173 +infobox; ONE Fight Night 37 +infobox; ONE Fight Night 38 +infobox; ONE Fight Night 36 +infobox
-  ONE Fight Night 36 | 2025-10-04T01:00:00.000Z usual | Bangkok, Thailand | bouts 9 (Fight card) | weights 9 | kiwi no | own article yes
-  ONE Friday Fights 130 | 2025-10-24T13:30:00.000Z usual | Bangkok, Thailand | bouts 12 (ONE Friday Fights 130) | weights 12 | kiwi yes | own article no
-  ONE Fight Night 37 | 2025-11-08T02:00:00.000Z usual | Bangkok, Thailand | bouts 8 (Fight card) | weights 8 | kiwi no | own article yes
-  ONE 173 | 2025-11-16T09:00:00.000Z | Tokyo, Japan | bouts 16 (Fight card/Preliminary card) | weights 16 | kiwi no | own article yes
-  ONE Fight Night 38 | 2025-12-06T02:00:00.000Z usual | Bangkok, Thailand | bouts 7 (Fight card) | weights 7 | kiwi no | own article yes
--- 2025 as at 2025-10-01T00:00:00Z: articles wanted 5, read 5: ONE Fight Night 36 +infobox; ONE Fight Night 35 +infobox; ONE Fight Night 37 +infobox; ONE 173 +infobox; ONE Fight Night 38 +infobox
-  ONE Fight Night 34 | 2025-08-02T01:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
-  ONE Fight Night 35 | 2025-09-06T01:00:00.000Z usual | Bangkok, Thailand | bouts 8 (Fight card) | weights 8 | kiwi no | own article yes
-  ONE Fight Night 36 | 2025-10-04T01:00:00.000Z usual | Bangkok, Thailand | bouts 9 (Fight card) | weights 9 | kiwi no | own article yes
-  ONE Friday Fights 130 | 2025-10-24T13:30:00.000Z usual | Bangkok, Thailand | bouts 12 (ONE Friday Fights 130) | weights 12 | kiwi yes | own article no
-  ONE Fight Night 37 | 2025-11-08T02:00:00.000Z usual | Bangkok, Thailand | bouts 8 (Fight card) | weights 8 | kiwi no | own article yes
-  ONE 173 | 2025-11-16T09:00:00.000Z | Tokyo, Japan | bouts 16 (Fight card/Preliminary card) | weights 16 | kiwi no | own article yes
-  ONE Fight Night 38 | 2025-12-06T02:00:00.000Z usual | Bangkok, Thailand | bouts 7 (Fight card) | weights 7 | kiwi no | own article yes
--- 2026 as at 2026-01-20T00:00:00Z: articles wanted 1, read 1: ONE Fight Night 39 +infobox
-  ONE Fight Night 39 | 2026-01-24T02:00:00.000Z usual | Bangkok, Thailand | bouts 9 (Fight card) | weights 9 | kiwi no | own article yes
-  ONE Fight Night 40 | 2026-02-14T02:00:00.000Z usual | Bangkok, Thailand | bouts 8 (ONE Fight Night 40) | weights 8 | kiwi no | own article no
-  ONE Friday Fights 145 | 2026-03-06T13:30:00.000Z usual | Bangkok, Thailand | bouts 14 (ONE Friday Fights 145/The Inner Circle 5) | weights 14 | kiwi yes | own article no
-  ONE Fight Night 41 | 2026-03-14T01:00:00.000Z usual | Bangkok, Thailand | bouts 9 (ONE Fight Night 41) | weights 9 | kiwi no | own article no
-  ONE Fight Night 42 | 2026-04-11T01:00:00.000Z usual | Bangkok, Thailand | bouts 8 (ONE Fight Night 42) | weights 8 | kiwi no | own article no
-  ONE Samurai 1 | 2026-04-29T08:30:00.000Z usual | Tokyo, Japan | bouts 15 (ONE Samurai 1) | weights 15 | kiwi no | own article no
-  ONE Fight Night 43 | 2026-05-16T01:00:00.000Z usual | Bangkok, Thailand | bouts 9 (ONE Fight Night 43) | weights 9 | kiwi no | own article no
-  ONE Friday Fights 158 | 2026-06-12T13:30:00.000Z usual | Bangkok, Thailand | bouts 14 (ONE Friday Fights 158/The Inner Circle 18) | weights 14 | kiwi yes | own article no
-  ONE Fight Night 44 | 2026-06-27T01:00:00.000Z usual | Bangkok, Thailand | bouts 9 (ONE Fight Night 44) | weights 9 | kiwi yes | own article no
-  ONE Fight Night 45 | 2026-07-18T01:00:00.000Z usual | Bangkok, Thailand | bouts 9 (ONE Fight Night 45) | weights 9 | kiwi no | own article no
-  ONE Samurai 2 | 2026-08-08T08:30:00.000Z usual | Tokyo, Japan | bouts 8 (ONE Samurai 2) | weights 8 | kiwi no | own article no
-  ONE Fight Night 46 | 2026-08-15T01:00:00.000Z usual | Bangkok, Thailand | bouts 8 (ONE Fight Night 46) | weights 8 | kiwi no | own article no
-  ONE Fight Night 47 | 2026-09-05T01:00:00.000Z usual | Bangkok, Thailand | bouts 8 (ONE Fight Night 47) | weights 8 | kiwi no | own article no
-  ONE Samurai 3 | 2026-09-12T08:30:00.000Z usual | Yokohama, Japan | bouts 10 (ONE Samurai 3) | weights 10 | kiwi no | own article no
-  ONE Fight Night 48 | 2026-10-03T01:00:00.000Z usual | Bangkok, Thailand | bouts 8 (ONE Fight Night 48) | weights 8 | kiwi yes | own article no
-  ONE Samurai 4 | 2026-10-17T08:30:00.000Z usual | Tokyo, Japan | bouts 10 (ONE Samurai 4) | weights 10 | kiwi no | own article no
-  ONE Friday Fights 176 | 2026-10-30T13:30:00.000Z usual | Bangkok, Thailand | bouts 12 (ONE Friday Fights 176/The Inner Circle 36) | weights 12 | kiwi yes | own article no
-  ONE Friday Fights 177 | 2026-11-06T13:30:00.000Z usual | Bangkok, Thailand | bouts 14 (ONE Friday Fights 177/The Inner Circle 37) | weights 14 | kiwi yes | own article no
-  ONE Fight Night 49 | 2026-11-07T02:00:00.000Z usual | Bangkok, Thailand | bouts 9 (ONE Fight Night 49) | weights 9 | kiwi no | own article no
-  ONE Samurai 5 | 2026-11-18T08:30:00.000Z usual | Tokyo, Japan | bouts 10 (ONE Samurai 5) | weights 10 | kiwi no | own article no
-  ONE Samurai 6 | 2026-12-02T08:30:00.000Z usual | Yokohama, Japan | bouts 1 (ONE Samurai 6) | weights 1 | kiwi no | own article no
-  ONE Fight Night 50 | 2026-12-19T02:00:00.000Z usual | Bangkok, Thailand | bouts 6 (ONE Fight Night 50) | weights 6 | kiwi no | own article no
--- 2026 as at now: articles wanted 0, read 0: 
-  ONE Samurai 3 | 2026-09-12T08:30:00.000Z usual | Yokohama, Japan | bouts 10 (ONE Samurai 3) | weights 10 | kiwi no | own article no
-  ONE Fight Night 48 | 2026-10-03T01:00:00.000Z usual | Bangkok, Thailand | bouts 8 (ONE Fight Night 48) | weights 8 | kiwi yes | own article no
-  ONE Samurai 4 | 2026-10-17T08:30:00.000Z usual | Tokyo, Japan | bouts 10 (ONE Samurai 4) | weights 10 | kiwi no | own article no
-  ONE Friday Fights 176 | 2026-10-30T13:30:00.000Z usual | Bangkok, Thailand | bouts 12 (ONE Friday Fights 176/The Inner Circle 36) | weights 12 | kiwi yes | own article no
-  ONE Friday Fights 177 | 2026-11-06T13:30:00.000Z usual | Bangkok, Thailand | bouts 14 (ONE Friday Fights 177/The Inner Circle 37) | weights 14 | kiwi yes | own article no
-  ONE Fight Night 49 | 2026-11-07T02:00:00.000Z usual | Bangkok, Thailand | bouts 9 (ONE Fight Night 49) | weights 9 | kiwi no | own article no
-  ONE Samurai 5 | 2026-11-18T08:30:00.000Z usual | Tokyo, Japan | bouts 10 (ONE Samurai 5) | weights 10 | kiwi no | own article no
-  ONE Samurai 6 | 2026-12-02T08:30:00.000Z usual | Yokohama, Japan | bouts 1 (ONE Samurai 6) | weights 1 | kiwi no | own article no
-  ONE Fight Night 50 | 2026-12-19T02:00:00.000Z usual | Bangkok, Thailand | bouts 6 (ONE Fight Night 50) | weights 6 | kiwi no | own article no
+one614 2026-11-07T04:25:10.153Z
+generated ; ONE cards 7
+ONE Samurai 4 | 2026-10-17T08:30:00.000Z | TBC | done |  |  | live.onefc.com (pay-per-view) | Prelims free on ONE YouTube (the first two fights) | 10 bouts
+ONE Friday Fights 176 | 2026-10-30T13:30:00.000Z | TBC | done | NZ | nzboxing | ESPN on Sky / Sky Sport Now / Disney+ (ESPN) | Highlights and full fights free on ONE YouTube | 12 bouts
+ONE Friday Fights 177 | 2026-11-06T13:30:00.000Z | TBC | done | NZ | nzboxing | ESPN on Sky / Sky Sport Now / Disney+ (ESPN) | Highlights and full fights free on ONE YouTube | 14 bouts
+ONE Fight Night 49 | 2026-11-07T02:00:00.000Z | time | upcoming |  |  | ESPN on Sky / Sky Sport Now / Disney+ (ESPN) | Highlights and full fights free on ONE YouTube | 9 bouts
+ONE Samurai 5 | 2026-11-18T08:30:00.000Z | time | upcoming |  |  | live.onefc.com (pay-per-view) | Prelims free on ONE YouTube (the first two fights) | 10 bouts
+ONE Samurai 6 | 2026-12-02T08:30:00.000Z | TBC | upcoming |  |  | live.onefc.com (pay-per-view) | Prelims free on ONE YouTube (the first two fights) | 1 bouts
+ONE Fight Night 50 | 2026-12-19T02:00:00.000Z | TBC | upcoming |  |  | ESPN on Sky / Sky Sport Now / Disney+ (ESPN) | Highlights and full fights free on ONE YouTube | 6 bouts
+diag oneTimes: ONE Fight Night 49: 2026-11-07T02:00:00.000Z; ONE Samurai 5: 2026-11-18T08:30:00.000Z; 2 of 9 ONE cards with TheSportsDB's start time
+1280 buttons: UFC, ONE Championship
+412 buttons: UFC, ONE Championship
