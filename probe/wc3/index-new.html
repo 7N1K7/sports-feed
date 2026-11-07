@@ -760,7 +760,7 @@ dialog#sheet { width: min(720px, 100%) }
 #sheetBody:has(> .sheet-head.bn) > :is(.dh, .wnote, .dh + p.muted) { text-align: center } /* .dh + p: "No recent news yet" */
 /* the block is as wide as its widest channel, not its notes: the notes under it (live scores, the start time) wrap to
    that width, so the channels line up with little room left on the right */
-#sheetBody:has(> .sheet-head.bn) > .watchlist > li:not(.wopt) { contain: inline-size }
+#sheetBody:has(> .sheet-head.bn) > .watchlist:has(> li.wopt) > li:not(.wopt) { contain: inline-size }
 /* the links as centred rows of near even length (balanceChips: 2 and 2, not 3 and 1) */
 #sheetBody:has(> .sheet-head.bn) > .dlinks { display: block; text-align: center; font-size: 0 }
 #sheetBody:has(> .sheet-head.bn) > .dlinks > * { display: inline-block; margin: 3px; vertical-align: top }
