@@ -1,2 +1,30 @@
-flagnz
-https://flagcdn.com/h240/nz.png 200 2284
+nbltimes
+wiki chars 119296
+boxes 165 templates basketballbox collapsible
+  7 November 2026 | 15:30 | [[2026–27 Adelaide 36ers seaso v [[2026–27 Illawarra Hawks seas | [[Adelaide]]
+  7 November 2026 | 16:30 | [[2026–27 Melbourne United sea v [[2026–27 Brisbane Bullets sea | [[Melbourne]]
+  8 November 2026 | 14:00 | [[2026–27 Sydney Kings season| v [[2026–27 S.E. Melbourne Phoen | [[Sydney]]
+  8 November 2026 | 14:00 | [[2026–27 Perth Wildcats seaso v [[2026–27 Cairns Taipans seaso | [[Perth]]
+  11 November 2026 | 18:30 | [[2026–27 S.E. Melbourne Phoen v [[2026–27 Illawarra Hawks seas | [[Melbourne]]
+  12 November 2026 | 18:00 | [[2026–27 Adelaide 36ers seaso v [[2026–27 Melbourne United sea | [[Adelaide]]
+  12 November 2026 | 18:30 | [[2026–27 Perth Wildcats seaso v [[2026–27 Tasmania JackJumpers | [[Perth]]
+  13 November 2026 | 18:30 | [[2026–27 New Zealand Breakers v [[2026–27 Brisbane Bullets sea | [[Auckland]]
+  13 November 2026 | 18:30 | [[2026–27 Cairns Taipans seaso v [[2026–27 Sydney Kings season| | [[Cairns]]
+  14 November 2026 | 18:30 | [[2026–27 Melbourne United sea v [[2026–27 S.E. Melbourne Phoen | [[Melbourne]]
+  14 November 2026 | 18:30 | [[2026–27 Perth Wildcats seaso v [[2026–27 Illawarra Hawks seas | [[Perth]]
+  15 November 2026 | 14:00 | [[2026–27 Sydney Kings season| v [[2026–27 New Zealand Breakers | [[Sydney]]
+  15 November 2026 | 16:00 | [[2026–27 Brisbane Bullets sea v [[2026–27 Tasmania JackJumpers | [[Brisbane]]
+  tsdb r8 Tasmania JackJumpers vs New Zealand Breakers | ts 2026-11-06T08:30:00 | date 2026-11-06 time 08:30:00 | local 2026-11-06 
+  tsdb r8 Adelaide 36ers vs Illawarra Hawks | ts 2026-11-07T06:30:00 | date 2026-11-07 time 06:30:00 | local null null
+  tsdb r8 Melbourne United vs Brisbane Bullets | ts 2026-11-07T08:30:00 | date 2026-11-07 time 08:30:00 | local null null
+  tsdb r8 Sydney Kings vs South East Melbourne Phoenix | ts 2026-11-08T04:00:00 | date 2026-11-08 time 04:00:00 | local null null
+  tsdb r8 Perth Wildcats vs Cairns Taipans | ts 2026-11-08T06:00:00 | date 2026-11-08 time 06:00:00 | local null null
+  tsdb r9 South East Melbourne Phoenix vs Illawarra Hawks | ts 2026-11-11T08:30:00 | date 2026-11-11 time 08:30:00 | local null null
+  tsdb r9 Adelaide 36ers vs Melbourne United | ts 2026-11-12T08:30:00 | date 2026-11-12 time 08:30:00 | local null null
+  tsdb r9 Perth Wildcats vs Tasmania JackJumpers | ts 2026-11-12T10:30:00 | date 2026-11-12 time 10:30:00 | local null null
+  tsdb r9 New Zealand Breakers vs Brisbane Bullets | ts 2026-11-13T06:30:00 | date 2026-11-13 time 06:30:00 | local null null
+  tsdb r9 Cairns Taipans vs Sydney Kings | ts 2026-11-13T08:30:00 | date 2026-11-13 time 08:30:00 | local null null
+  tsdb r9 Melbourne United vs South East Melbourne Phoenix | ts 2026-11-14T08:30:00 | date 2026-11-14 time 08:30:00 | local null null
+  tsdb r9 Perth Wildcats vs Illawarra Hawks | ts 2026-11-14T10:30:00 | date 2026-11-14 time 10:30:00 | local null null
+  tsdb r9 Sydney Kings vs New Zealand Breakers | ts 2026-11-15T04:00:00 | date 2026-11-15 time 04:00:00 | local null null
+  tsdb r9 Brisbane Bullets vs Tasmania JackJumpers | ts 2026-11-15T06:00:00 | date 2026-11-15 time 06:00:00 | local null null
