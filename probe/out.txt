@@ -1,4 +1,2 @@
-infoicons
-info3d 200 29009
-infoflat 200 655
-bulb3d 200 22450
+flagnz
+https://flagcdn.com/h240/nz.png 200 2284
