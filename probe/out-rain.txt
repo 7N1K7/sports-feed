@@ -15,3 +15,4 @@ started
 02:43Z bbc=false herald=false wiki=false | feed 02:37Z upcoming progress=none wxNews=no | first: {}
 02:45Z bbc=false herald=false wiki=false | feed 02:41Z upcoming progress=none wxNews=no | first: {}
 02:47Z bbc=false herald=false wiki=false | feed 02:41Z upcoming progress=none wxNews=no | first: {}
+02:49Z bbc=false herald=false wiki=true | feed 02:45Z upcoming progress=none wxNews=no | first: {"wiki":"02:49Z"}
