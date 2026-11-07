@@ -1,7 +1,2 @@
-hub2 2026-11-07T15:56:13.625Z
-old 360x640: y=0 chip=Black Caps v IndiaBlack CapsIndiaIND errors=0
-old 412x700: y=0 chip=Black Caps v IndiaBlack CapsIndiaIND errors=0
-old 412x900: y=0 chip=Black Caps v IndiaBlack CapsIndiaIND errors=0
-new 360x640: y=255 chip=Black Caps v IndiaBlack CapsIndiaIND errors=0
-new 412x700: y=256 chip=Black Caps v IndiaBlack CapsIndiaIND errors=0
-new 412x900: y=0 chip=Black Caps v IndiaBlack CapsIndiaIND errors=0
+daily 2026-11-07T18:45:05.580Z
+feed built 2026-11-07T18:40:48.845Z (4 min ago), site v630, checks keys: noResult,thinWeeks
