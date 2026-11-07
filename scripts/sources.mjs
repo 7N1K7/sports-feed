@@ -271,6 +271,8 @@ function eventsFromPage(title, text, cfg, cityTz) {
   if (cfg.classify === 'nations') for (const e of out) for (const s of ['home', 'away']) {
     const m = String(e[s]).match(/^(North|South)(?:ern)?(?: Hemisphere)? (\d)$/i);
     if (m) e[s] = `${m[1][0].toUpperCase() + m[1].slice(1).toLowerCase()} ${m[2]}${['st', 'nd', 'rd'][+m[2] - 1] || 'th'}`;
+    // (the id keeps only the names' letters, so two of these finals on one day would share one: the place tells them apart)
+    if (m && s === 'home') e.id += `-${m[2]}`;
     if (s === 'away' && e.stage) e.stage = e.stage.replace(/^Nations Championship\s+/i, '').replace(/^final$/, 'Final');
   }
   return out;
