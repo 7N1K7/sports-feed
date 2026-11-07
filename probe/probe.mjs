@@ -1,4 +1,4 @@
-// rn: the 2nd ODI in Wellington during a rain hold-up: what the live site shows. Labels and yes/no only, never scores
+// rn: the 2nd ODI in Wellington during a rain hold-up: what the live site shows (v627 check). Labels and yes/no only, never scores
 import { chromium } from 'playwright'; import { execSync } from 'child_process'; import { writeFileSync } from 'fs';
 const out = ['rn ' + new Date().toISOString()], ID = 'bc-ind-odi2-2026', now = Date.now();
 const RAIN = /\b(rain|wet|drizzle|bad light|covers|delay|weather)/i, mins = t => t ? Math.round((now - Date.parse(t)) / 6e4) + ' min ago' : 'none';
