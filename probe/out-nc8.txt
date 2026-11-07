@@ -1,0 +1,7 @@
+nc8 2026-11-07T15:29:17.451Z
+old mixed 1280: Lelos v Canada | Os Lobos v Los Cóndores | Spain v Los Teros | Zimbabwe v Manu Samoa | Hong Kong v USA | Lelos v 'Ikale Tahi; errors=0
+old mixed 412: Lelos v Canada | Os Lobos v Los Cóndores | Spain v Los Teros | Zimbabwe v Manu Samoa | Hong Kong v USA | Lelos v 'Ikale Tahi; errors=0
+old list 412: Lelos v Canada | Os Lobos v Los Cóndores | Spain v Los Teros | Zimbabwe v Manu Samoa | Hong Kong v USA | Lelos v 'Ikale Tahi; errors=0
+new mixed 1280: Georgia v Canada | Portugal v Chile | Spain v Uruguay | Zimbabwe v Samoa | Hong Kong v USA | Georgia v Tonga; errors=0
+new mixed 412: Georgia v Canada | Portugal v Chile | Spain v Uruguay | Zimbabwe v Samoa | Hong Kong v USA | Georgia v Tonga; errors=0
+new list 412: Georgia v Canada | Portugal v Chile | Spain v Uruguay | Zimbabwe v Samoa | Hong Kong v USA | Georgia v Tonga; errors=0
