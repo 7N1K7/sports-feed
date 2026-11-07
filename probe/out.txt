@@ -1,5 +1,5 @@
-nc-july-2
-feed 2026-11-07T01:51:05.966Z v603
+nc-july-3
+feed 2026-11-07T01:58:08.942Z v605
 wikipedia: {"2026 Nations Championship":6,"2026 Nations Championship Northern Hemisphere Series":18,"2026 Nations Championship Southern Hemisphere Series":18}
 youtube: SANZAAR TV 0 | highlights videos on 81 games
 NC events 43 {"2026-07 final":18,"2026-11 final":1,"2026-11 upcoming":24}
@@ -21,5 +21,5 @@ NC events 43 {"2026-07 final":18,"2026-11 final":1,"2026-11 upcoming":24}
   2026-07-18T13:10:00.000Z | Fiji v Scotland | Murrayfield Stadium, Edinburgh (Scotland) | final | has result true | nations | wiki-nations-2026-07-18-fijiscotland
   2026-07-18T15:40:00.000Z | South Africa v Wales | Kings Park Stadium, Durban | final | has result true | nations | wiki-nations-2026-07-18-southafricawales
   2026-07-18T19:10:00.000Z | Argentina v England | Estadio Único Madre de Ciudades, Santiago del Estero | final | has result true | nations | wiki-nations-2026-07-18-argentinaengland
-duplicate ids 3
+duplicate ids 0; finals ids 2026-07-04-southafricaengland, 2026-07-11-southafricascotland, 2026-07-18-southafricawales, 2026-11-27-northernsouthern-6, 2026-11-27-northernsouthern-3, 2026-11-28-northernsouthern-5, 2026-11-28-northernsouthern-2, 2026-11-29-northernsouthern-4, 2026-11-29-northernsouthern-1
 SANZAAR highlights on: 2026-09-12 South Africa v New Zealand; 2026-09-27 Australia v South Africa
