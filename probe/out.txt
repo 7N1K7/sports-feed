@@ -1,18 +1,34 @@
-wnc 2026-11-07T14:50:22.731Z
-search: Rugby Europe International Championships | World Rugby Pacific Nations Cup | Rugby union in Belgium | Italy A national rugby union team | Australia A national rugby union team | Spain national rugby union team | Bulgaria national rugby union team | Malta national rugby union team | Georgia national rugby union team | Russia national rugby union team | World Rugby Nations Cup (2006–2019) | Austria national rugby union team | World Rugby Tbilisi Cup | Hungary national rugby union team | Israel national rugby union team | Sweden national rugby union team | Montenegro national rugby union team | Denmark national rugby union team | Ukraine national rugby union team | Finland national rugby union team
-2026 World Rugby Nations Cup -> 2026 World Rugby Nations Cup: 25158 chars, 0 rugby boxes; sections: Background / Participants / Format / Standings / Americas-Pacific pool / European-African-Asian pool / Fixtures / Americas-Pacific Series / Round 1 / Round 2 / Round 3 / European-African-Asian Series / Round 4 / Round 5 / Round 6 / Player statistics / Most points / Most tries / See also / References / External links
-  teams: 
-  dates: November 2025}} ; 4 July – 21 November 2026 ; 12 December 2024 ; 2 April 2026}}</ref> ; 17 November 2025 ; 31 March 2026
-World Rugby Nations Cup -> World Rugby Nations Cup: 5390 chars, 0 rugby boxes; sections: Teams / See also / References / External links
-  teams: 
-  dates: March 2026}} ; November 2025}} ; 12 December 2024 ; 17 November 2025
-2026 World Rugby Nations Cup Americas-Pacific Series -> 2026 World Rugby Nations Cup Americas-Pacific Series: 93778 chars, 18 rugby boxes; sections: Championship division: Tables / Americas-Pacific pool / European-African-Asian pool / Fixtures / Round 1 / Uruguay v Georgia / Samoa v Hong Kong / Chile v Romania / Tonga v Zimbabwe / United States v Portugal / Canada v Spain / Round 2 / Uruguay v Romania / Samoa v Georgia / Tonga v Spain / Chile v Hong Kong / United States v Zimbabwe / Canada v Portugal / Round 3 / Samoa v Romania / Uruguay v Hong Kong / Chile v Georgia / Tonga v Portugal / United States v Spain / Canada v Zimbabwe / See also /
-  teams: 
-  dates: 17 November 2025 ; 31 March 2026 ; 4 July 2026 ; 3 July 2026 ; 5 July 2026 ; 6 July 2020 ; 16 March 2019 ; 11 July 2026 ;  ; 12 July 2026 ; 18 July 2026
-2026 World Rugby Nations Cup European Series: missingtitle
-2026 World Rugby Nations Cup Northern Hemisphere Series: missingtitle
-2026 World Rugby Nations Cup Southern Hemisphere Series: missingtitle
-tsdb rugby leagues with Nations: 
-tsdb search Nations: 4416 Australian National Rugby League badge=yes logo=yes | 4417 Australian National Rugby Championship badge=yes logo=yes
-SkySportNow: Nations Cup titles: Rugby: Nations Cup; rugby titles with those sides: none
-SkyGo: Nations Cup titles: Rugby: Nations Cup; rugby titles with those sides: none
+wnc2 2026-11-07T14:52:22.579Z
+2026 World Rugby Nations Cup European-African-Asian Series -> 2026 World Rugby Nations Cup European-African-Asian Series: 32809 chars, 18 rugby boxes; sections: Championship division: Tables / Americas-Pacific / European-African-Asian / Fixtures / Round 4 / Romania v Tonga / Georgia v Canada / Portugal v Chile / Spain v Uruguay / Zimbabwe v Samoa / Hong Kong v United States / Round 5 / Georgia v Tonga / Hong Kong v Canada / Portugal v Samoa / Zimbabwe v Uruguay / Spain v Chile / Romania v United States / Round 6 / Romania v Canada / Hong Kong v Tonga / Georgia v United States / Portugal v Uruguay / Zimbabwe v Chile / Spain v Samoa / See also / Notes / References
+SkySportNow: 0 Nations Cup listings
+SkyGo: 212 Nations Cup listings
+  20261108171000 +0000 | Sky Sport Select | sub=NC: Georgia v Canada Highlights | live=n | Highlights from Round 4 of the Nations Cup between Georgia and Canada at Avchala Stadium, 
+  20261108172500 +0000 | Sky Sport Select | sub=NC: Romania v Tonga Highlights | live=n | Highlights from Round 4 of the Nations Cup between Romania and Tonga at Stadionul National
+  20261108174000 +0000 | Sky Sport Select | sub=NC: Portugal v Chile Highlights | live=n | Highlights from Round 4 of the Nations Cup between Portugal and Chile at Estadio Nacional,
+  20261109174500 +0000 | Sky Sport Select | sub=NC: Romania v Tonga Highlights | live=n | Highlights from Round 4 of the Nations Cup between Romania and Tonga at Stadionul National
+  20261109180000 +0000 | Sky Sport Select | sub=NC: Portugal v Chile Highlights | live=n | Highlights from Round 4 of the Nations Cup between Portugal and Chile at Estadio Nacional,
+  20261109181500 +0000 | Sky Sport Select | sub=NC: Spain v Uruguay Highlights | live=n | Highlights from Round 4 of the Nations Cup between Spain and Uruguay at Estadio Nacional U
+  20261111180000 +0000 | Sky Sport Select | sub=NC: Georgia v Canada | live=n | Coverage from Round 4 of the Nations Cup between Georgia and Canada at Avchala Stadium, Tb
+  20261111200000 +0000 | Sky Sport Select | sub=NC: Romania v Tonga | live=n | Coverage from Round 4 of the Nations Cup between Romania and Tonga at Stadionul National A
+  20261111220000 +0000 | Sky Sport Select | sub=NC: Portugal v Chile | live=n | Coverage from Round 4 of the Nations Cup between Portugal and Chile at Estadio Nacional, L
+  20261112000000 +0000 | Sky Sport Select | sub=NC: Spain v Uruguay | live=n | Coverage from Round 4 of the Nations Cup between Spain and Uruguay at Estadio Nacional Uni
+  20261112020000 +0000 | Sky Sport Select | sub=NC: Zimbabwe v Samoa | live=n | Coverage from Round 4 of the Nations Cup between Zimbabwe and Samoa at DIY Kitchens Stadiu
+  20261112040000 +0000 | Sky Sport Select | sub=NC: Hong Kong v USA | live=n | Coverage from Round 4 of the Nations Cup between Hong Kong and the USA at Stade Macel-Verc
+  20261112233000 +0000 | Sky Sport Select | sub=NC: Romania v Tonga Highlights | live=n | Highlights from Round 4 of the Nations Cup between Romania and Tonga at Stadionul National
+  20261112234500 +0000 | Sky Sport Select | sub=NC: Portugal v Chile Highlights | live=n | Highlights from Round 4 of the Nations Cup between Portugal and Chile at Estadio Nacional,
+  20261113000000 +0000 | Sky Sport Select | sub=NC: Spain v Uruguay Highlights | live=n | Highlights from Round 4 of the Nations Cup between Spain and Uruguay at Estadio Nacional U
+  20261113001500 +0000 | Sky Sport Select | sub=NC: Zimbabwe v Samoa Highlights | live=n | Highlights from Round 4 of the Nations Cup between Zimbabwe and Samoa at DIY Kitchens Stad
+  20261114135000 +0000 | Sky Sport Select | sub=NC: Hong Kong v Canada | live=y | LIVE coverage from Round 5 of the Nations Cup between Hong Kong and Canada at Stade Chambe
+  20261114162000 +0000 | Sky Sport Select | sub=NC: Romania v USA | live=y | LIVE coverage from Round 5 of the Nations Cup between Romania and the USA at Stadional Nat
+  20261118010000 +0000 | Sky Sport Select | sub=NC: Georgia v Tonga Highlights | live=n | Highlights from Round 5 of the Nations Cup between Georgia and Tonga at Avchala Stadium, T
+  20261118011500 +0000 | Sky Sport Select | sub=NC: Romania v USA Highlights | live=n | Highlights from Round 5 of the Nations Cup between Romania and the USA at Stadional Nation
+  20261118013000 +0000 | Sky Sport Select | sub=NC: Hong Kong v Canada Highlights | live=n | Highlights from Round 5 of the Nations Cup between Hong Kong and Canada at Stade Chambery 
+  20261118014500 +0000 | Sky Sport Select | sub=NC: Portugal v Samoa Highlights | live=n | Highlights from Round 5 of the Nations Cup between Portugal and Samoa at Estadio Nacional,
+  20261118020000 +0000 | Sky Sport Select | sub=NC: Spain v Chile Highlights | live=n | Highlights from Round 5 of the Nations Cup between Spain and Chile at Estadio Ontime Butar
+  20261118021500 +0000 | Sky Sport Select | sub=NC: Zimbabwe v Uruguay Highlights | live=n | Highlights from Round 5 of the Nations Cup between Zimbabwe and Uruguay at the Trailfinder
+  20261121171000 +0000 | Sky Sport Select | sub=NC: Zimbabwe v Chile | live=y | LIVE coverage from Round 6 of the Nations Cup between Zimbabwe and Chile at Stade Chanzy, 
+  20261122120000 +0000 | Sky Sport Select | sub=NC: Hong Kong v Tonga Highlights | live=n | Highlights from Round 6 of the Nations Cup between Hong Kong and Tonga at Kai Tak Youth Sp
+  20261122121500 +0000 | Sky Sport Select | sub=NC: Georgia v USA Highlights | live=n | Highlights from Round 6 of the Nations Cup between Georgia and the USA at Mikheil Meshki S
+  20261122123000 +0000 | Sky Sport Select | sub=NC: Romania v Canada Highlights | live=n | Highlights from Round 6 of the Nations Cup between Romania and Canada at Stadional Nationa
+  20261122124500 +0000 | Sky Sport Select | sub=NC: Zimbabwe v Chile Highlights | live=n | Highlights from Round 6 of the Nations Cup between Zimbabwe and Chile at Stade Chanzy, Ang
+  20261122130000 +0000 | Sky Sport Select | sub=NC: Portugal v Uruguay Highlights | live=n | Highlights from Round 6 of the Nations Cup between Portugal and Uruguay at Estadio Naciona
