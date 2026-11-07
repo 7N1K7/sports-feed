@@ -1,0 +1,5 @@
+nc3 2026-11-07T10:14:25.455Z
+360: ?; NZIND | WBBL | RLWC | Nations Championship; rows=1; swipes=true; errors=0
+412: ?; NZIND | WBBL | RLWC | Nations Championship; rows=1; swipes=true; errors=0
+800: ?; NZIND | WBBL | RLWC | Nations Championship; rows=1; swipes=false; errors=0
+1280: ?; NZIND | WBBL | RLWC | Nations Championship; rows=1; swipes=false; errors=0
