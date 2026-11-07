@@ -1,5 +1,5 @@
-rn 2026-11-07T09:23:21.766Z
-feed built 6 min ago
+rn 2026-11-07T09:45:42.483Z
+feed built 4 min ago
 event: status=upcoming liveState=- liveAt=none progress=yes progressSaysRain=no weather=yes weatherSaysRain=yes wxNews=no wxNewsSaysRain=no format=ODI
-card in liveSec; labels: On now
+card in liveSec; labels: RAIN AFFECTED, On now, Rain affected
 pop-up head labels: On now; errors=none
