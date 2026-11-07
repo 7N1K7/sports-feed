@@ -1,26 +1,15 @@
-live605
-feed 2026-11-07T02:03:07.495Z v605
-tsdb NBL: "fill: 83 cards lacking a score or time, 83 still open; 0 calls; 23 games known" | tsdbFilled: Adelaide 36ers v Illawarra Hawks (wiki-nbl-2026-11-07-adelaideersillawarrahawks): start time 2026-11-07T05:00:00.000Z to 2026-11-07T06:30:00.000Z,Melbourne United v Brisbane Bullets (wiki-nbl-2026-11-07-melbourneunitedbrisbanebullets): start time 2026-11-07T05:30:00.000Z to 2026-11-07T08:30:00.000Z,Sydney Kings v S.E. Melbourne Phoenix (wiki-nbl-2026-11-08-sydneykingssemelbournephoenix): start tim
-  NBL 2026-11-07T06:30:00.000Z | Sat 7:30 pm NZ | Adelaide 36ers v Illawarra Hawks | upcoming | tv ["ESPN"]
-  NBL 2026-11-07T08:30:00.000Z | Sat 9:30 pm NZ | Melbourne United v Brisbane Bullets | upcoming | tv ["ESPN"]
-  NBL 2026-11-08T04:00:00.000Z | Sun 5:00 pm NZ | Sydney Kings v S.E. Melbourne Phoenix | upcoming | tv []
-  NBL 2026-11-08T06:00:00.000Z | Sun 7:00 pm NZ | Perth Wildcats v Cairns Taipans | upcoming | tv ["ESPN"]
-  NBL 2026-11-11T08:30:00.000Z | Wed 9:30 pm NZ | S.E. Melbourne Phoenix v Illawarra Hawks | upcoming | tv []
-  NBL 2026-11-12T08:30:00.000Z | Thu 9:30 pm NZ | Adelaide 36ers v Melbourne United | upcoming | tv ["ESPN"]
-  NBL 2026-11-12T10:30:00.000Z | Thu 11:30 pm NZ | Perth Wildcats v Tasmania JackJumpers | upcoming | tv ["ESPN"]
-  NBL 2026-11-13T06:30:00.000Z | Fri 7:30 pm NZ | New Zealand Breakers v Brisbane Bullets | upcoming | tv ["ESPN"]
-  NBL 2026-11-13T08:30:00.000Z | Fri 9:30 pm NZ | Cairns Taipans v Sydney Kings | upcoming | tv ["ESPN"]
-  NBL 2026-11-14T08:30:00.000Z | Sat 9:30 pm NZ | Melbourne United v S.E. Melbourne Phoenix | upcoming | tv []
-  NBL 2026-11-14T10:30:00.000Z | Sat 11:30 pm NZ | Perth Wildcats v Illawarra Hawks | upcoming | tv ["ESPN"]
-  NBL 2026-11-15T04:00:00.000Z | Sun 5:00 pm NZ | Sydney Kings v New Zealand Breakers | upcoming | tv ["ESPN"]
-  NBL 2026-11-15T06:00:00.000Z | Sun 7:00 pm NZ | Brisbane Bullets v Tasmania JackJumpers | upcoming | tv ["ESPN"]
-ODI 2026-11-07T02:00:00Z status=upcoming progress=null rainInProgress=false wxNews=none keys=sport,timeTBC,status,id,team,comp,format,home,away,startUTC,venue,city,tz,broadcast,watchAlt,watchNote,source,tags,link,squads,cricinfo,watchAU,tv
-rainHeadlines: 0 rain headlines this week | on our matches: none
-Kiwis v Tonga: 2026-11-07T09:05:00Z New Zealand v Tonga | broadcast=Sky Sport / Sky Sport Now | watchAlt=Free on Three / ThreeNow | tv=[{"ch":"Sky Sport 2","at":"2026-11-07T08:35:00.000Z","delayed":false}]
-Auckland FC v Phoenix: 2026-11-07T04:00:00.000Z Auckland FC v Wellington Phoenix | broadcast=Sky Sport / Sky Sport Now | watchAlt=Some games free on Sky Open | tv=[{"ch":"Sky Sport 2","at":"2026-11-07T03:00:00.000Z","delayed":false}]
-Auckland FC v Phoenix: 2026-11-08T04:00:00.000Z Sydney Kings v S.E. Melbourne Phoenix | broadcast=ESPN on Sky / Sky Sport Now / Disney+ (ESPN) | watchAlt= | tv=[]
-Auckland FC v Phoenix: 2026-11-08T02:00:00.000Z Phoenix Suns v Houston Rockets | broadcast=ESPN on Sky / Sky Sport Now / Disney+ (ESPN) / NBA League Pass | watchAlt= | tv=[]
-NBL watch: ESPN on Sky / Sky Sport Now / Disney+ (ESPN)
-Nations Championship events 43, July 18
-browser 1280: version vundefined | i {"border":"0px","shadow":"color(srgb 0.673529 0.888824 0.809412) 0px 0px 0px 1.5px ins","x":279.25,"y":204.375,"w":28} | pop {"shown":true,"w":276,"def":"Off by default: NBA – too many games","defTag":true,"defH":18,"off":"","r":[155,240,276,129.828125]} | NBA tag tap {"popHidden":true,"panel":true,"flash":"Basketball"} | NBA on Basketball {"rows":68,"faded":false} | errors none
-browser 412: version vundefined | i {"border":"0px","shadow":"color(srgb 0.673529 0.888824 0.809412) 0px 0px 0px 1.5px ins","x":329.578125,"y":356.65625,"w":24} | pop {"shown":true,"w":276,"def":"Off by default: NBA – too many games","defTag":true,"defH":18,"off":"","r":[128,389,276,129.828125]} | NBA tag tap {"popHidden":true,"panel":true,"flash":"Basketball"} | NBA on Basketball {"rows":68,"faded":false} | errors none
+rain1 2026-11-07T02:08:42.914Z
+BBC cricket: 30 items; naming India: 1; wet ones naming India: 0
+   Sat, 07 Nov 2026 00:00:00 GMT | New Zealand v India - second ODI scorecard
+Herald cricket: 10 items; naming India: 7; wet ones naming India: 0
+   Sat, 07 Nov 2026 01:37:48 +0000 | Black Caps v India live updates: Second One-Day International from Wellington’s Hnry Stadium
+   Wed, 04 Nov 2026 16:45:44 +0000 | Black Caps v India result: New Zealand batting implodes as visitors claim ODI series opener at Eden Park
+   Tue, 03 Nov 2026 23:51:06 +0000 | Black Caps v India ODI series – All you need to know as Virat Kohli returns for visitors
+   Tue, 03 Nov 2026 05:21:31 +0000 | Black Caps v India: Freak training accident gifts Tim Seifert chance to make ODI World Cup claim
+   Mon, 02 Nov 2026 01:01:00 +0000 | Black Caps v India: Rachin Ravindra, Mark Chapman ruled out of ODI series with injury
+   Sun, 01 Nov 2026 10:36:11 +0000 | Black Caps v India result: Tim Seifert, Glenn Phillips blast New Zealand to victory in T20 series finale
+Herald sport: 10 items; naming India: 1; wet ones naming India: 0
+   Sat, 07 Nov 2026 01:37:48 +0000 | Black Caps v India live updates: Second One-Day International from Wellington’s Hnry Stadium
+Wikipedia tour page: 32357 chars; 
+  2nd ODI section mentions rain/delay: true | | rain =  ; | notes =  ; | rain =  ; | notes =  ; | rain =  ; | notes =  ; | rain =  ; | notes =  ; | rain = ; | notes =
+feed 2026-11-07T02:03:07.495Z: status=upcoming progress=null wxNews=none | 0 rain headlines this week | sportmonks no token (add the SPORTMONKS_TOKEN secret to switch it on)
