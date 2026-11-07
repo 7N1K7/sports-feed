@@ -1,5 +1,5 @@
 import { writeFileSync } from 'fs';
-// nc-july-2: the live feed's Nations Championship games by month and status, and the July games (no scores)
+// nc-july-3: the live feed's Nations Championship games by month and status, and the July games (no scores)
 const out = [];
 try {
   const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
@@ -10,7 +10,7 @@ try {
   const by = {}; for (const e of nc) { const k = e.startUTC.slice(0, 7) + ' ' + e.status; by[k] = (by[k] || 0) + 1; }
   out.push('NC events ' + nc.length + ' ' + JSON.stringify(by));
   for (const e of nc.filter(e => /^2026-07/.test(e.startUTC))) out.push(`  ${e.startUTC}${e.timeTBC ? ' TBC' : ''} | ${e.home} v ${e.away} | ${e.venue}, ${e.city} | ${e.status} | has result ${!!e.score} | ${e.team} | ${e.id}`);
-  const ids = nc.map(e => e.id); out.push('duplicate ids ' + (ids.length - new Set(ids).size));
+  const ids = nc.map(e => e.id); out.push('duplicate ids ' + (ids.length - new Set(ids).size) + '; finals ids ' + nc.filter(e => /^(North|South) /.test(e.home)).map(e => e.id.replace(/^wiki-nations-/, '')).join(', '));
   const hl = (f.events || []).filter(e => e.hl?.ch === 'SANZAAR TV').map(e => `${e.startUTC.slice(0, 10)} ${e.home} v ${e.away}`); out.push('SANZAAR highlights on: ' + (hl.join('; ') || 'none'));
 } catch (e) { out.push('feed error ' + e.message); }
-writeFileSync('probe/out.txt', 'nc-july-2\n' + out.join('\n').replace(/key=[^&"\s]*/g, 'key=X') + '\n');
+writeFileSync('probe/out.txt', 'nc-july-3\n' + out.join('\n').replace(/key=[^&"\s]*/g, 'key=X') + '\n');
