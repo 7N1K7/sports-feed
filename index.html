@@ -721,6 +721,37 @@ dialog#sheet { width: min(720px, 100%) }
    instead of down the side; the list's name and date centred too */
 .sheet-head.rhead { border-left: 0; padding: 0; justify-items: center; text-align: center }
 .sheet-head.rhead .dteams::after { content: ""; display: block; width: 44px; height: 4px; border-radius: 2px; background: var(--sport); margin: 8px auto 0 }
+/* a game's pop-up: its competition's look behind the top lines, as on the competition's page (two countries' flags
+   faded at each end, or the competition's colours with its logo faded at the right), on a panel round them that takes
+   in the close button; the lines centred on it, "On now" and the live link a centred row under the names. The panel is
+   behind the words and takes no room, so nothing moves; the competition's line keeps the close button's width free on
+   both sides, so it stays centred */
+.sheet-head.bn { position: relative; isolation: isolate; border-left: 0; justify-items: center; text-align: center }
+#sheetBody .sheet-head.bn { padding: 0 }
+#sheetBody > .sheet-head.bn + * { margin-top: 30px }
+#sheetBody > .sback + .sheet-head.bn { margin-top: 0 }
+#sheetBody > .back + .sheet-head.bn { margin-top: 24px }
+.sheet-head.bn > .bnl { inset: -16px calc(6px - max(18px, env(safe-area-inset-left, 0px))) -14px; border-radius: 12px; border: 1px solid var(--line); border-top: 4px solid var(--sport); background: color-mix(in srgb, var(--sport) 6%, var(--surface)) }
+.sheet-head.bn > .bnl .wmt { height: 130px; min-width: 130px } .sheet-head.bn > .bnl .wmt .troph { width: 130px; height: 130px }
+.sheet-head.bn-tb > .bnl { border-color: color-mix(in srgb, var(--tb-glow) 50%, transparent); border-top-color: var(--tb-glow); background: linear-gradient(rgb(5 8 7 / .45), rgb(5 8 7 / .45)), var(--tb-bg);
+  box-shadow: 0 0 16px -3px color-mix(in srgb, var(--tb-glow) 55%, transparent), inset 0 0 24px color-mix(in srgb, var(--tb-glow) 14%, transparent) }
+.sheet-head.bn-tb.stripe > .bnl { border-top-color: transparent; background: linear-gradient(90deg, #c8102e 0 14%, #f06030 14% 28%, #f2c230 28% 42%, #2e8b57 42% 56%, #1f6fb8 56% 70%, #6a2c91 70% 84%, #e9ecef 84% 100%) top / 100% 4px no-repeat border-box, linear-gradient(rgb(5 8 7 / .45), rgb(5 8 7 / .45)) padding-box, var(--tb-bg) padding-box }
+.sheet-head.bn.wom > .bnl::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: #d6336c }
+/* on a competition's colours the words are white, as on its page */
+.sheet-head.bn-tb { --ink: #fff; --muted: rgb(255 255 255 / .72); --line: rgb(255 255 255 / .2); color: #fff }
+.sheet-head.bn-tb .dteams { text-shadow: 0 1px 3px rgb(0 0 0 / .55) }
+.sheet-head.bn-tb .comp { color: var(--tb-ink) }
+.sheet-head.bn-tb .comp .tocomp { background: rgb(5 8 7 / .5); border-color: color-mix(in srgb, var(--tb-glow) 60%, transparent); color: var(--tb-ink) }
+.sheet-head.bn-tb .comp .tocomp:hover { background: rgb(5 8 7 / .66); border-color: var(--tb-glow) }
+#sheetBody .sheet-head.bn > .comp { justify-content: center; row-gap: 6px; padding-inline: 30px }
+#sheetBody:has(> .sback) .sheet-head.bn > .comp { padding-inline: 74px }
+/* the sport's icon and the tags stay together, so a line that doesn't fit wraps into two centred lines, the name and them */
+.sheet-head .comp .ctags { display: inline-flex; align-items: center; gap: 6px; flex: none }
+.sheet-head.bn .comp .tocomp > span:first-child { text-wrap: balance }
+.sheet-head.bn .tag { justify-self: center }
+#sheetBody .sheet-head.bn:has(> .hlive) { grid-template-columns: minmax(0, 1fr) }
+#sheetBody .sheet-head.bn > .hlive { grid-column: 1; grid-row: auto; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 12px; margin: 0; text-align: center; translate: none }
+#sheetBody > .sheet-head.bn + .dtabs { justify-content: center }
 .stable.rank > .dh, .rsrc { text-align: center }
 /* a UFC list's name on one line, its weight range (pound for pound: all divisions) and date on the next, so every list's
    heading is the same two lines and the table never moves when you switch; phones leave out the pounds so it fits */
@@ -3237,16 +3268,12 @@ function renderHub(now) {
     : held.length ? ` <button type="button" class="hubres held" data-revealall="${esc(held.join(' '))}" data-revk="Series result shown" title="Finished: show the result">${tick}Show result</button>` : '');
   // the header's look: a series between two countries, their flags; any other competition, its series button's
   // colours (its own look, or its sport's) with its logo, or its sport's icon when it has none
-  const sides = seriesSides(compSel), look = sides ? null : LOOKS.find(([re, o]) => re.test(compSel) && (!o.s || o.s === sample?.sport))?.[1];
-  const box = $('hubBox'), w = !!sample && genderOf(sample) === 'w', [, tbg, glow0, tink, tmk, logo0] = look ? look.l : TB_PLAIN, logo = look?.page || logo0;
-  const sp = sample?.team === 'f1' ? 'f1' : sample?.sport;
+  const lk = compLook(compSel, sample), { sides, look, w, sp, logo, crop } = lk, box = $('hubBox');
   box.classList.toggle('wm-two', !!sides); box.classList.toggle('wm-tb', !sides); box.classList.toggle('stripe', !!look?.stripe); box.classList.toggle('wom', !!sides && w);
-  for (const [k, v] of [['--tb-bg', tbg], ['--tb-glow', w && !look?.w ? '#f06595' : glow0], ['--tb-ink', tink], ['--tb-mark', tmk]]) sides ? box.style.removeProperty(k) : box.style.setProperty(k, v);
-  const crop = h => logo ? `<i style="width:${Math.round(h * logo[4] / (logo[5] || 22))}px;height:${h}px;background-image:url('${logo[0]}');background-size:${logo[1]}%;background-position:${logo[2]}% ${logo[3]}%${logo[6] ? `;filter:${MONO}` : ''}"></i>`
-    : SPORT_ICON[sp] ? `<i style="width:${h}px;height:${h}px;background-image:url('icons/3d/${sp}.webp?v=2')"></i>` : TROPHY;
+  for (const [k, v] of lk.vars) sides ? box.style.removeProperty(k) : box.style.setProperty(k, v);
   const wmKey = sides ? sides.join('|') : compSel + '|' + sp;
   if ($('hubWm').dataset.k !== wmKey) { $('hubWm').dataset.k = wmKey;
-    $('hubWm').innerHTML = sides ? sides.map((n, i) => `<i class="wm ${i ? 'r' : 'l'}" style="background-image:url('${esc(flagOf(n))}')"></i>`).join('') : `<span class="wmt">${crop(150)}</span>`; }
+    $('hubWm').innerHTML = lk.wm(150); }
   // a two-sided title, each name on its own flag's side; fitHubName shows the longest that fits its half
   const split = sides && !resHTML ? compSel.split(' v ').map((n, i) => { const wn = /\s+Women('s)?$/i.test(n), base = n.replace(/\s+Women('s)?$/i, ''), code = SIDE_CODE[sides[i]];
     // a nickname (White Ferns, All Blacks) stays whole; a country shortens to its code when needed: SA Women, then SA
@@ -3428,8 +3455,10 @@ function detail(e) {
   // the countdown is to the next round of a golf tournament (or day of a Test), named for a tournament: "Round 3 in 20h"
   const nd = nextAt(e, now), cd = countdown({ startUTC: nd.toISOString() }, now), stg = stagesOf(e) > 1 && stageNow(e, now);
   const live = e.status === 'live' || (e.status !== 'final' && onNow(e, now)) ? `<div class="hlive"><span class="tag live">On now</span>${liveLink(e)}</div>` : '';
-  return `<div class="sheet-head sport-${e.sport}">
-      <div class="comp">${toComp(e)}${sIcon(e.team === 'f1' ? 'f1' : e.sport)}${compBadge(e)}${intlTag(e)}</div>
+  // the top in its competition's look (as on the competition's page), the words centred on it
+  const lk = compLook(compOf(e), e), bnCls = `bn ${lk.sides ? 'bn-two' : 'bn-tb'}${lk.look?.stripe ? ' stripe' : ''}${lk.sides && lk.w ? ' wom' : ''}`;
+  return `<div class="sheet-head ${bnCls} sport-${e.sport}"${lk.sides ? '' : ` style="${esc(lk.vars.map(([k, v]) => `${k}:${v}`).join(';'))}"`}><div class="hubwm bnl" aria-hidden="true">${lk.wm(130)}</div>
+      <div class="comp">${toComp(e)}<span class="ctags">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? `<h2 class="dteams solo">${esc(e.home)}${placeOf(e) ? `<small>${esc(placeOf(e))}</small>` : ''}</h2>` : `<h2 class="dteams${split ? ' scored' : ''}">${['home', 'away'].map((s, i) => `<span class="dside"><span class="dname">${ciWrap(e[s], e, teamName(e[s], e[s + 'Logo'], e))}${i ? '' : ' <span class="v">v</span>'}</span>${sideScore(s, i)}</span>`).join(' ')}</h2>`}
       ${!isPast && !live && cd ? `<span class="tag num ${nd - now < 864e5 ? 'soon' : nd - now < 3 * 864e5 ? 'near' : 'later'}">${stg ? `${esc(stageName(e, stg))} ` : ''}<span data-cd="${esc(nd.toISOString())}">${cd}</span></span>` : ''}
       ${live}
@@ -3656,7 +3685,7 @@ function alignLive() {
   const h = document.querySelector('#sheetBody .sheet-head > .hlive'), nm = [...document.querySelectorAll('#sheetBody .sheet-head .dteams .nm')].pop();
   if (!h) return;
   h.style.translate = '';
-  if (PHONE.matches || !nm) return;
+  if (PHONE.matches || !nm || h.parentElement.classList.contains('bn')) return;
   const base = el => { const z = document.createElement('span'); z.style.cssText = 'display:inline-block;width:0;height:0'; el.append(z); const y = z.getBoundingClientRect().top; z.remove(); return y; };
   h.style.translate = `0 ${Math.round(base(nm) - base(h.lastElementChild))}px`;
   // again once the flags and logos have loaded and the title row has its final height
@@ -3802,6 +3831,19 @@ const LOOKS = [
 // a competition with no look of its own: its sport's colour, deepened (its button and its page)
 const TB_PLAIN = ['', 'linear-gradient(105deg, color-mix(in srgb, var(--sport) 22%, #0b0f0e) 0%, color-mix(in srgb, var(--sport) 55%, #0b0f0e) 100%)', 'var(--sport)', '#fff', 'var(--sport)'];
 const MONO = 'brightness(0) invert(1) drop-shadow(0 0 4px rgb(255 255 255 / .35))';
+// a competition's look, shared by its page's header and its games' pop-ups: a series between two countries, their flags;
+// any other competition, its series button's colours (its own look, or its sport's) with its logo, or its sport's icon
+// when it has none. wm(h) is the faded layer behind the words (the flags at each end, or the logo h px tall at the right)
+function compLook(c, sample) {
+  const sides = seriesSides(c), look = sides ? null : LOOKS.find(([re, o]) => re.test(c) && (!o.s || o.s === sample?.sport))?.[1];
+  const w = !!sample && genderOf(sample) === 'w', [, tbg, glow0, tink, tmk, logo0] = look ? look.l : TB_PLAIN, logo = look?.page || logo0;
+  const sp = sample?.team === 'f1' ? 'f1' : sample?.sport;
+  const vars = [['--tb-bg', tbg], ['--tb-glow', w && !look?.w ? '#f06595' : glow0], ['--tb-ink', tink], ['--tb-mark', tmk]];
+  const crop = h => logo ? `<i style="width:${Math.round(h * logo[4] / (logo[5] || 22))}px;height:${h}px;background-image:url('${logo[0]}');background-size:${logo[1]}%;background-position:${logo[2]}% ${logo[3]}%${logo[6] ? `;filter:${MONO}` : ''}"></i>`
+    : SPORT_ICON[sp] ? `<i style="width:${h}px;height:${h}px;background-image:url('icons/3d/${sp}.webp?v=2')"></i>` : TROPHY;
+  const wm = h => sides ? sides.map((n, i) => `<i class="wm ${i ? 'r' : 'l'}" style="background-image:url('${esc(flagOf(n))}')"></i>`).join('') : `<span class="wmt">${crop(h)}</span>`;
+  return { sides, look, w, sp, logo, vars, crop, wm };
+}
 const nowChip = (c, v, st) => {
   const tip = `${esc(plural(c))}${v.rain ? ' (live, rain affected)' : v.live ? ' (live now)' : st.ended ? ' (finished)' : ''}`;
   const mark = v.live ? '<span class="livedot" role="img" aria-label="live"></span>' : st.ended ? '<span class="enddot" role="img" aria-label="finished">✓</span>' : '';
