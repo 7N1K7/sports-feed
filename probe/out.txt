@@ -1,6 +1,8 @@
-v615 2026-11-07T04:44:35.324Z
-1280 bc-ind-odi2- facts gaps [144,144] link breaks 0 
-1280 wiki-onefc-o facts gaps [168,168] link breaks 0 
-412 bc-ind-odi2- facts gaps [28,28] link breaks 2 
-412 wiki-onefc-o facts gaps [28,28] link breaks 1 
-MMA line: ONE Championship, UFC | ONE cards listed: 8
+rainc 2026-11-07T05:18:16.380Z
+feed: status upcoming progress no liveState  weather yes wxNews no
+default 1280: [{"sec":"liveSec","cls":"is-live","stamp":"🌧 Rain affected","wx":"wx:other"}]
+default 412: [{"sec":"liveSec","cls":"is-live","stamp":"🌧 Rain affected","wx":"wx:other"}]
+"compact" 1280: [{"sec":"liveSec","cls":"is-live","stamp":"🌧 Rain affected","wx":"wx:other"}]
+"compact" 412: [{"sec":"liveSec","cls":"is-live","stamp":"🌧 Rain affected","wx":"wx:other"}]
+"list" 1280: [{"sec":"liveSec","cls":"lrow is-live","stamp":"","wx":""}]
+"list" 412: [{"sec":"liveSec","cls":"lrow is-live","stamp":"","wx":""}]
