@@ -2140,9 +2140,16 @@ const INTL_BREAKS = [
 ].map(([s, g, a, b]) => [s, g, `${a}T00:00:00+13:00`, `${b}T00:00:00+13:00`]);
 const wk = t => Math.floor((t + 13 * 36e5 - 4 * DAY) / (7 * DAY)); // NZ weeks, Monday to Sunday (1 Jan 1970 was a Thursday)
 const byComp = new Map();
+// a league's round numbers (TheSportsDB's "Round 6") and the weeks each is played in: a round spread over two weeks is a
+// split round, planned (the A-League Men's rounds 6 and 7 are spread from 27 Nov to 6 Dec 2026, with three and two games)
+const roundWeeks = new Map(), roundOf = e => (`${e.comp || ''} ${e.stage || ''}`.match(/\bRound\s+(\d+)\b/i) || [])[1];
 // knockout games are left out: the rounds shrink by design (a World Cup's semi-finals week has two games, not five)
 const KO = /semi-final|quarter-final|\bfinals?\b|play-?offs?|knockout|eliminator|challenger|qualifier/i;
-for (const e of events) { if (e.session || e.formOnly || e.ytOnly || ['motor', 'golf', 'sailing', 'tennis'].includes(e.sport) || fmtDays(e) > 1 || KO.test(`${e.comp || ''} ${e.stage || ''}`)) continue; const k = `${e.sport}|${baseComp(e)}|${genderKey(e)}`; (byComp.get(k) || byComp.set(k, []).get(k)).push(Date.parse(e.startUTC)); }
+for (const e of events) {
+  if (e.session || e.formOnly || e.ytOnly || ['motor', 'golf', 'sailing', 'tennis'].includes(e.sport) || fmtDays(e) > 1 || KO.test(`${e.comp || ''} ${e.stage || ''}`)) continue;
+  const k = `${e.sport}|${baseComp(e)}|${genderKey(e)}`, t = Date.parse(e.startUTC), r = roundOf(e); (byComp.get(k) || byComp.set(k, []).get(k)).push(t);
+  if (r) { const m = roundWeeks.get(k) || roundWeeks.set(k, new Map()).get(k); (m.get(r) || m.set(r, new Set()).get(r)).add(wk(t)); }
+}
 for (const [k, ts] of byComp) {
   if (ts.length < 8) continue;
   const counts = new Map(); for (const t of ts) counts.set(wk(t), (counts.get(wk(t)) || 0) + 1);
@@ -2152,17 +2159,20 @@ for (const [k, ts] of byComp) {
   const near = (w, d) => [1, 2].some(i => counts.has(w + d * i)), [sp0, , g0] = k.split('|');
   // most of the week inside an international window for its sport: leagues stop for national teams
   const inBreak = from => INTL_BREAKS.some(([s, g, a, b]) => s === sp0 && g === g0 && Math.min(Date.parse(b) + DAY, from + 7 * DAY) - Math.max(Date.parse(a), from) >= 3 * DAY);
+  // a week whose games all come from split rounds (each also played in another week)
+  const split = w => { const here = [...(roundWeeks.get(k) || new Map()).values()].filter(ws => ws.has(w)); return here.length > 0 && here.every(ws => ws.size > 1); };
   for (let w = ws[0] + 1; w < ws[ws.length - 1]; w++) {
     const n = counts.get(w) || 0, from = (w * 7 + 4) * DAY - 13 * 36e5;
     // a week with games on both sides within a fortnight: an off-season between two seasons' fixtures isn't a gap
-    if (n <= usual / 2 && near(w, -1) && near(w, 1) && from > now - 14 * DAY && from < now + 21 * DAY && !inBreak(from)) { const [sp, c] = k.split('|'); checks.thinWeeks.push({ s: sp, c, week: new Date(from + 13 * 36e5).toISOString().slice(0, 10), n, usual }); }
+    if (n <= usual / 2 && near(w, -1) && near(w, 1) && from > now - 14 * DAY && from < now + 21 * DAY && !inBreak(from) && !split(w)) { const [sp, c] = k.split('|'); checks.thinWeeks.push({ s: sp, c, week: new Date(from + 13 * 36e5).toISOString().slice(0, 10), n, usual }); }
   }
 }
 // a hand-kept domestic league whose listed games stop dead: its last game was in the past ten days, nothing is listed
 // after it and no final is. The next rounds haven't been added (the Ford Trophy ran out after two rounds in Nov 2026);
 // the daily check reads these with the thin weeks (stopped: true) and fills them. Leagues only, since a tour or a
 // national side's series just ends
-const handLeague = new Set(curated.events.filter(e => /^(nzdomestic|audomestic|npc|fpc|bbl|wbbl)$/.test(e.team || '')).map(e => `${e.sport}|${baseComp(e)}`));
+// (a tour kept under a domestic pick, NZ A v India A in Nov 2026, is named for its two sides and is left out: it just ends)
+const handLeague = new Set(curated.events.filter(e => /^(nzdomestic|audomestic|npc|fpc|bbl|wbbl)$/.test(e.team || '') && !/\s+v\s+/.test(baseComp(e))).map(e => `${e.sport}|${baseComp(e)}`));
 // (multi-day games too, so the Plunket Shield counts: the thin-weeks map leaves those out)
 const handComp = new Map();
 for (const e of events) { const k = `${e.sport}|${baseComp(e)}`; if (!e.session && handLeague.has(k) && !KO.test(`${e.comp || ''} ${e.stage || ''}`)) (handComp.get(k) || handComp.set(k, []).get(k)).push(Date.parse(e.startUTC)); }
