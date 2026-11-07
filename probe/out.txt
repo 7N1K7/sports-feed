@@ -1,15 +1,10 @@
-rain1 2026-11-07T02:08:42.914Z
-BBC cricket: 30 items; naming India: 1; wet ones naming India: 0
-   Sat, 07 Nov 2026 00:00:00 GMT | New Zealand v India - second ODI scorecard
-Herald cricket: 10 items; naming India: 7; wet ones naming India: 0
-   Sat, 07 Nov 2026 01:37:48 +0000 | Black Caps v India live updates: Second One-Day International from Wellington’s Hnry Stadium
-   Wed, 04 Nov 2026 16:45:44 +0000 | Black Caps v India result: New Zealand batting implodes as visitors claim ODI series opener at Eden Park
-   Tue, 03 Nov 2026 23:51:06 +0000 | Black Caps v India ODI series – All you need to know as Virat Kohli returns for visitors
-   Tue, 03 Nov 2026 05:21:31 +0000 | Black Caps v India: Freak training accident gifts Tim Seifert chance to make ODI World Cup claim
-   Mon, 02 Nov 2026 01:01:00 +0000 | Black Caps v India: Rachin Ravindra, Mark Chapman ruled out of ODI series with injury
-   Sun, 01 Nov 2026 10:36:11 +0000 | Black Caps v India result: Tim Seifert, Glenn Phillips blast New Zealand to victory in T20 series finale
-Herald sport: 10 items; naming India: 1; wet ones naming India: 0
-   Sat, 07 Nov 2026 01:37:48 +0000 | Black Caps v India live updates: Second One-Day International from Wellington’s Hnry Stadium
-Wikipedia tour page: 32357 chars; 
-  2nd ODI section mentions rain/delay: true | | rain =  ; | notes =  ; | rain =  ; | notes =  ; | rain =  ; | notes =  ; | rain =  ; | notes =  ; | rain = ; | notes =
-feed 2026-11-07T02:03:07.495Z: status=upcoming progress=null wxNews=none | 0 rain headlines this week | sportmonks no token (add the SPORTMONKS_TOKEN secret to switch it on)
+three1 2026-11-07T02:10:12.441Z
+channels named Three: ThreeNow Sport 1, ThreeNow Sport 2, Three, ThreePlus1
+  Three 7:00 pm-11:00 pm Election Night Live
+  Three 11:00 pm-11:30 pm Millionaire Hot Seat AU
+  Three 11:30 pm-12:00 am House Hunters Australia
+anything naming Tonga, Kiwis or rugby league, 6 to 8 Nov:
+  Three 2026-11-08T08:30:00.000Z (9:30 pm NZ) RLWC: Semi Final 2 | Coverage from the Men's Rugby League World Cup Semi-Final 2 at Allianz Stadium, Sydney.
+  Three 2026-11-08T09:00:00.000Z (10:00 pm NZ) RLWC: Semi Final 2 | Coverage from the Men's Rugby League World Cup Semi-Final 2 match between Australia and Samoa at Allianz Stadium, Sydney
+  ThreePlus1 2026-11-08T09:30:00.000Z (10:30 pm NZ) RLWC: Semi Final 2 | Coverage from the Men's Rugby League World Cup Semi-Final 2 at Allianz Stadium, Sydney.
+  ThreePlus1 2026-11-08T10:00:00.000Z (11:00 pm NZ) RLWC: Semi Final 2 | Coverage from the Men's Rugby League World Cup Semi-Final 2 match between Australia and Samoa at Allianz Stadium, Sydney
