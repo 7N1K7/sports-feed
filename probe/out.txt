@@ -1,25 +1,5 @@
-three2 2026-11-07T02:10:52.433Z
-channels named Three: ThreeNow Sport 1, ThreeNow Sport 2, Three, ThreePlus1
-  Three 7:00 pm-11:00 pm Election Night Live
-  Three 11:00 pm-11:30 pm Millionaire Hot Seat AU
-  Three 11:30 pm-12:00 am House Hunters Australia
-anything naming the RLWC, Tonga, Kiwis or rugby league, 7 to 30 Nov, on any channel:
-  Three 2026-11-08T08:30:00.000Z (9:30 pm NZ) RLWC: Semi Final 2 | Coverage from the Men's Rugby League World Cup Semi-Final 2 at Allianz Stadium, Sydney.
-  Three 2026-11-08T09:00:00.000Z (10:00 pm NZ) RLWC: Semi Final 2 | Coverage from the Men's Rugby League World Cup Semi-Final 2 match between Australia and Samoa at Allianz Stadi
-  ThreePlus1 2026-11-08T09:30:00.000Z (10:30 pm NZ) RLWC: Semi Final 2 | Coverage from the Men's Rugby League World Cup Semi-Final 2 at Allianz Stadium, Sydney.
-  ThreePlus1 2026-11-08T10:00:00.000Z (11:00 pm NZ) RLWC: Semi Final 2 | Coverage from the Men's Rugby League World Cup Semi-Final 2 match between Australia and Samoa at Allianz Stadi
-  Sky Open 2026-11-09T23:15:00.000Z (12:15 pm NZ) Brutal Lives - Mo'ui Faingata'a | Soane must work hard to repair the broken relationships with his children. As he tries to get closer, so does 
-  Shine TV 2026-11-11T08:30:00.000Z (9:30 pm NZ) Soul Sessions | Indira Stewart was born in Tonga and raised in New Zealand and became the first Pacific Islander to present a 
-  Bravo 2026-11-11T22:50:00.000Z (11:50 am NZ) The Real Housewives Of Salt Lake City | Salt Lake City is more than just mountains and religion.Â WhenÂ Jen throws a Tongan themed birthday party forÂ
-  Bravo PLUS 1 2026-11-11T23:50:00.000Z (12:50 pm NZ) The Real Housewives Of Salt Lake City | Salt Lake City is more than just mountains and religion.Â WhenÂ Jen throws a Tongan themed birthday party forÂ
-  Three 2026-11-15T05:30:00.000Z (6:30 pm NZ) Rugby League World Cup | Coverage from the Women's Rugby League World Cup Final at Suncorp Stadium, Brisbane.
-  ThreePlus1 2026-11-15T06:30:00.000Z (7:30 pm NZ) Rugby League World Cup | Coverage from the Women's Rugby League World Cup Final at Suncorp Stadium, Brisbane.
-  TVNZ 1 2026-11-15T07:30:00.000Z (8:30 pm NZ) Lomu | An intimate and heartfelt documentary about the legendary All Black, Jonah Lomu, tracing his Tongan upbringing
-  Three 2026-11-15T08:00:00.000Z (9:00 pm NZ) Rugby League World Cup | Coverage from the Men's Rugby League World Cup Final at Suncorp Stadium, Brisbane.
-  TVNZ 1 plus 1 2026-11-15T08:30:00.000Z (9:30 pm NZ) Lomu | An intimate and heartfelt documentary about the legendary All Black, Jonah Lomu, tracing his Tongan upbringing
-  ThreePlus1 2026-11-15T09:00:00.000Z (10:00 pm NZ) Rugby League World Cup | Coverage from the Men's Rugby League World Cup Final at Suncorp Stadium, Brisbane.
-  Shine TV 2026-11-16T07:30:00.000Z (8:30 pm NZ) The Village Athlete | We have an insightful chat with Willie Poching about his love and passion for Rugby League since a school boy.
-  Shine TV 2026-11-17T01:00:00.000Z (2:00 pm NZ) The Village Athlete | We have an insightful chat with Willie Poching about his love and passion for Rugby League since a school boy.
-  Shine TV 2026-11-23T07:30:00.000Z (8:30 pm NZ) The Village Athlete | We have an insightful chat with Willie Poching about his love and passion for Rugby League since a school boy.
-  Shine TV 2026-11-24T00:45:00.000Z (1:45 pm NZ) The Village Athlete | We have an insightful chat with Willie Poching about his love and passion for Rugby League since a school boy.
-  Whakaata Māori 2026-11-25T21:30:00.000Z (10:30 am NZ) Up 2 | Hosts Piri Weepu and Matua Parkinson travel around Aotearoa to see what some of our sporting heroes have been 
+wfinal1 2026-11-07T02:12:55.137Z
+2026_Women's_Rugby_League_World_Cup: 55976 chars 
+  section Semi-finals: |date=7 November 2026 ; |time=17:55 [[AEDT]] ([[UTC+11:00]]) ; |date=8 November 2026 ; |time=17:55 [[AEDT]] ([[UTC+11:00]]) ; |date=15 November 2026|time=15:15 [[AEST]] ([[UTC+10:00]])
+2026_Men's_Rugby_League_World_Cup: 32607 chars 
+  section Semi-finals: |date=7 November 2026|time=20:05 [[AEDT]] ([[UTC+11:00]])|team1={{rl-rt|NZL}}|points1=|try1=|goal1=|drop1=|field1=|sinbi ; |date=8 November 2026|time=20:05 [[AEDT]] ([[UTC+11:00]])|team1={{rl-rt|AUS}}|points1=|try1=|goal1=|drop1=|field1=|sinbi ; |date=15 November 2026|time=18:35 [[AEST]] ([[UTC+10:00]])|team1=First semi-final winner|points1=|try1=|goal1=|drop1=|fi
