@@ -1,13 +1,25 @@
-// wfinal1: the women's and men's RLWC final kick-off times on Wikipedia (time fields only). Pushes probe/out-wf.txt
+// rainwatch2: every 2 minutes for 45 minutes, which sources show the 2nd ODI's weather delay (BBC Sport and Herald
+// cricket headlines, Wikipedia's rain field) and whether the live feed has it. Only yes/no and times: no headline text,
+// no scores. Pushes probe/out-rain.txt as it goes
 import { writeFileSync } from 'fs'; import { execSync } from 'child_process';
-const out = ['wfinal1 ' + new Date().toISOString()];
-for (const page of ["2026_Women's_Rugby_League_World_Cup", "2026_Men's_Rugby_League_World_Cup"]) {
-  const w = await (await fetch(`https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=wikitext&page=${encodeURIComponent(page)}`, { headers: { 'user-agent': 'kickoff.kiwi probe' } })).json();
-  const t = w.parse?.wikitext?.['*'] || ''; out.push(`${page}: ${t.length} chars ${w.error?.info || ''}`);
-  for (const m of t.matchAll(/==+\s*(Final|Semi-finals?)\s*==+([\s\S]*?)(?=\n==[^=]|$)/gi)) {
-    const sec = m[2]; out.push(`  section ${m[1]}: ` + (sec.match(/\|\s*(date|time)\s*=[^\n]*/gi) || []).map(s => s.replace(/\s+/g, ' ').slice(0, 120)).join(' ; '));
-  }
+const WET = /\b(rain\w*|showers?|wet outfield|washed out|wash-?out|delay(ed|s)?|bad light|abandon\w*|no play|covers|weather)\b/i;
+const items = x => [...x.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(m => (m[1].match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/) || [])[1] || '');
+const hdr = () => ({ headers: { 'user-agent': 'Mozilla/5.0 kickoff.kiwi probe' }, signal: AbortSignal.timeout(20000) });
+const out = ['rainwatch2 start ' + new Date().toISOString()], first = {};
+const push = () => { writeFileSync('probe/out-rain.txt', out.join('\n') + '\n'); for (let i = 0; i < 3; i++) try { execSync('git -c user.name=bot -c user.email=bot@x add -f probe/out-rain.txt && (git diff --cached --quiet || git -c user.name=bot -c user.email=bot@x commit -q -m out) && git pull -q --rebase origin probe && git push -q origin HEAD:probe', { stdio: 'pipe' }); break; } catch (e) { console.log('push failed', String(e.stderr || e.message).slice(0, 300)); } };
+const end = Date.now() + 40 * 60e3; out.push('started'); push();
+while (Date.now() < end) {
+  const r = {}; const t = new Date().toISOString().slice(11, 16) + 'Z';
+  try { r.bbc = items(await (await fetch('https://feeds.bbci.co.uk/sport/cricket/rss.xml?x=' + Date.now(), hdr())).text()).some(s => /india/i.test(s) && /new zealand/i.test(s) && WET.test(s)); } catch (e) { r.bbc = 'err ' + e.name; }
+  try { r.herald = items(await (await fetch('https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/sport/cricket/?outputType=xml&_website=nzh&x=' + Date.now(), hdr())).text()).some(s => /india/i.test(s) && WET.test(s)); } catch (e) { r.herald = 'err ' + e.name; }
+  try { const w = await (await fetch('https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=wikitext&page=Indian_cricket_team_in_New_Zealand_in_2026%E2%80%9327', { headers: { 'user-agent': 'kickoff.kiwi probe' }, signal: AbortSignal.timeout(20000) })).json();
+    const s = w.parse?.wikitext?.['*'] || '', i = s.search(/2nd ODI/i), sec = s.slice(i, i + 2500); r.wiki = /\|\s*rain\s*=\s*[^\s|}]/i.test(sec); } catch (e) { r.wiki = 'err ' + e.name; }
+  try { const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now(), { signal: AbortSignal.timeout(30000) })).json(); const o = (f.events || []).find(e => e.id === 'bc-ind-odi2-2026');
+    r.feed = `${f.generatedAt.slice(11, 16)}Z ${o?.status} progress=${o?.progress ? (/\b(rain|wet|bad light|delayed|no play)\b/i.test(o.progress) ? 'wet' : 'set') : 'none'} wxNews=${o?.wxNews ? 'yes' : 'no'}`;
+    r.feedHas = !!(o?.wxNews || /\b(rain|wet|bad light|delayed|no play)\b/i.test(o?.progress || '')); } catch (e) { r.feed = 'err ' + e.name; }
+  for (const k of ['bbc', 'herald', 'wiki', 'feedHas']) if (r[k] === true && !first[k]) first[k] = t;
+  out.push(`${t} bbc=${r.bbc} herald=${r.herald} wiki=${r.wiki} | feed ${r.feed} | first: ${JSON.stringify(first)}`);
+  push();
+  await new Promise(res => setTimeout(res, 120e3));
 }
-writeFileSync('probe/out-wf.txt', out.join('\n') + '\n');
-for (let i = 0; i < 4; i++) try { execSync('git -c user.name=bot -c user.email=bot@x add -f probe/out-wf.txt && (git diff --cached --quiet || git -c user.name=bot -c user.email=bot@x commit -q -m out) && git pull -q --rebase && git push -q', { stdio: 'ignore' }); break; } catch { await new Promise(r => setTimeout(r, 3000)); }
-console.log(out.join('\n'));
+out.push('rainwatch2 end'); push();
