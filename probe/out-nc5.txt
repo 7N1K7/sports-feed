@@ -1,0 +1,7 @@
+nc5 2026-11-07T14:58:11.786Z
+1280: chips NZIND | WBBL | RLWC | Nations Championship | Nations Cup; errors=0 
+800: chips NZIND | WBBL | RLWC | Nations Championship | Nations Cup; errors=0 
+412: chips NZIND | WBBL | RLWC | Nations Championship | Nations Cup; errors=0 
+360: chips NZIND | WBBL | RLWC | Nations Championship | Nations Cup; errors=0 
+pop-up 1280: watch: TV Sky Sport Select (on the card) Sky TV with the Sport package STREAMING Sky Sport Now (some games live, others delayed) Sky's sport app: a weekly or monthly pass, no Sky box needed; errors=0
+pop-up 412: watch: TV Sky Sport Select (on the card) Sky TV with the Sport package STREAMING Sky Sport Now (some games live, others delayed) Sky's sport app: a weekly or monthly pass, no Sky box needed; errors=0
