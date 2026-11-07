@@ -1131,6 +1131,14 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
 #compBar .seg button { color: color-mix(in srgb, var(--nc) 80%, #fff); text-shadow: 0 0 6px color-mix(in srgb, var(--nc) 55%, transparent); border-left-color: transparent } /* no lines between the choices */
 /* the end buttons' glow follows the round ends */
 #compBar .seg button:first-child { border-radius: 999px 0 0 999px } #compBar .seg button:last-child { border-radius: 0 999px 999px 0 }
+/* a picked choice fills right to the switch's edge, with no dark line between its fill and the outline: each choice's fill
+   reaches under the outline (a transparent border, with a matching negative margin so nothing moves), and the outline is
+   drawn over the choices */
+#compBar .seg { --bw: 1px; --bwx: 1px; position: relative; overflow: visible; border-color: transparent }
+#compBar .seg::after { content: ""; position: absolute; inset: calc(-1 * var(--bw)) calc(-1 * var(--bwx)); border: solid var(--nc); border-width: var(--bw) var(--bwx); border-radius: inherit; pointer-events: none; z-index: 1 }
+#compBar .seg button { border-block: var(--bw) solid transparent; margin-block: calc(-1 * var(--bw)) }
+#compBar .seg button:first-child { border-left: var(--bwx) solid transparent; margin-left: calc(-1 * var(--bwx)) }
+#compBar .seg button:last-child { border-right: var(--bwx) solid transparent; margin-right: calc(-1 * var(--bwx)) }
 #compBar .seg button[aria-pressed="true"] { background: color-mix(in srgb, var(--nc) 30%, #050807); color: #fff; text-shadow: 0 0 8px var(--nc); box-shadow: inset 0 0 10px color-mix(in srgb, var(--nc) 70%, transparent) }
 #compBar #nzOnly { --nc: #dee2e6; color: #fff; text-shadow: 0 0 6px rgb(255 255 255 / .45) }
 #compBar #freeOnly { --nc: #51cf66; color: #8ce99a; text-shadow: 0 0 6px rgb(81 207 102 / .7) }
@@ -1594,6 +1602,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
   /* (with the id, to outweigh the :is() list above, which counts as an id) */
   :is(#nowChips, #weekComps) .nowchip.two { border-image: none; border-width: 2px 3px } :is(#nowChips, #weekComps) .nowchip.two::after { content: none }
   .seg { border-width: 2px 3px; margin: -1px -2px }
+  #compBar .seg { --bw: 2px; --bwx: 3px }
   .dsel .dbtn { border-width: 2px; padding-block: 3px } #compSel { border-width: 2px 3px; padding: 1px 25px 1px 11px; background-position: right 13px center, right 8px center }
   @media (max-width: 560px) { #compSel { padding-left: 9px; padding-right: 23px } }
 }
