@@ -4067,25 +4067,27 @@ const textRight = el => { let x = el.getBoundingClientRect().left; const tw = do
 // a picked sport's competitions with a game this week (whatever competition is open): live first, New Zealand's next, then
 // the soonest, with the small ones (a Second XI, a series too small for the series row) last, then the ones off in Settings
 // (the NBA, marked off; its page shows its games whatever Settings say). Not the catch-alls (one-off Tests, warm-ups, friendlies, the domestic list), and not a sport that is just one
-// competition (F1's page opens with the sport)
+// competition (F1's page opens with the sport). A fight sport's cards are a week or more apart, so each of its promotions
+// keeps its button with its next card within five weeks (ONE beside the UFC), after this week's
 const WEEK_SKIP = /^(Test match|Women's test|Second XI|NZ domestic cricket|International friendly|Boxing|Black Caps|White Ferns|Australia)$/;
 let wcList = [], wcLast = null, wcOffKey = '';
 function drawWeekComps(now) {
-  const box = $('weekComps'), sp = sportSel.size === 1 ? [...sportSel][0] : '', by = new Map();
+  const box = $('weekComps'), sp = sportSel.size === 1 ? [...sportSel][0] : '', by = new Map(), later = new Map();
   if (sp) {
     const c0 = compSel, offTeams = new Set((SPORT[sp] || []).filter(k => !picked.has(k))); compSel = '';
     try {
       for (const e of FEED.events || []) {
         if ((e.sport || sportOf(e.team)) !== sp || !e.startUTC) continue;
         const t = Date.parse(e.startUTC) - now, live = e.status === 'live' || (e.status !== 'final' && running(e, now));
-        if (!live && (t < -3 * 36e5 || t > 7 * 864e5)) continue;
+        const far = !live && t > 7 * 864e5;
+        if (!live && (t < -3 * 36e5 || (far && !(FIGHT.test(sp) && t < 35 * 864e5)))) continue;
         // a game left out only because its league is off in Settings counts too, for that league's button
         let vis = visible(e), off = false;
         if (!vis && offTeams.has(e.team)) { picked.add(e.team); try { vis = off = visible(e); } finally { picked.delete(e.team); } }
         if (!vis) continue;
         const c = compOf(e); if (!c || WEEK_SKIP.test(c)) continue;
-        const x = by.get(c) || { c, sport: sp, live: false, nz: false, next: Infinity, w: genderOf(e) === 'w', sides: new Set(), fmts: new Set(), intl: true, on: false, keys: new Set() };
-        x.live ||= live; x.nz ||= isNZ(e); x.next = Math.min(x.next, t); by.set(c, x);
+        const m = far ? later : by, x = m.get(c) || { c, sport: sp, live: false, nz: false, next: Infinity, w: genderOf(e) === 'w', sides: new Set(), fmts: new Set(), intl: true, on: false, keys: new Set(), later: far };
+        x.live ||= live; x.nz ||= isNZ(e); x.next = Math.min(x.next, t); m.set(c, x);
         // on: one of its games is here for a team or league that's on (not just shown here by Show here)
         if (!off && visibleTeam(e)) x.on = true; else x.keys.add(e.team);
         for (const n of [e.home, e.away]) if (n) x.sides.add(n);
@@ -4093,9 +4095,10 @@ function drawWeekComps(now) {
         if (!isIntl(e)) x.intl = false;
       }
     } finally { compSel = c0; }
+    for (const [c, x] of later) if (!by.has(c)) by.set(c, x);
   }
   for (const x of by.values()) { x.small = NOT_BAR.test(x.c) || minorSeries(x.c, x); x.off = !x.on; }
-  let list = [...by.values()].sort((a, b) => a.off - b.off || a.small - b.small || b.live - a.live || b.nz - a.nz || a.next - b.next);
+  let list = [...by.values()].sort((a, b) => a.off - b.off || a.small - b.small || a.later - b.later || b.live - a.live || b.nz - a.nz || a.next - b.next);
   // (none on another sport's competition page, opened from the series row)
   if ((list.length === 1 && compsOfSport(sp).length < 2) || (compSel && !compsOfSport(sp).includes(compSel))) list = [];
   wcList = list; box.hidden = !list.length;
