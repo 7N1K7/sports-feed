@@ -1,0 +1,10 @@
+three1 2026-11-07T02:10:12.441Z
+channels named Three: ThreeNow Sport 1, ThreeNow Sport 2, Three, ThreePlus1
+  Three 7:00 pm-11:00 pm Election Night Live
+  Three 11:00 pm-11:30 pm Millionaire Hot Seat AU
+  Three 11:30 pm-12:00 am House Hunters Australia
+anything naming Tonga, Kiwis or rugby league, 6 to 8 Nov:
+  Three 2026-11-08T08:30:00.000Z (9:30 pm NZ) RLWC: Semi Final 2 | Coverage from the Men's Rugby League World Cup Semi-Final 2 at Allianz Stadium, Sydney.
+  Three 2026-11-08T09:00:00.000Z (10:00 pm NZ) RLWC: Semi Final 2 | Coverage from the Men's Rugby League World Cup Semi-Final 2 match between Australia and Samoa at Allianz Stadium, Sydney
+  ThreePlus1 2026-11-08T09:30:00.000Z (10:30 pm NZ) RLWC: Semi Final 2 | Coverage from the Men's Rugby League World Cup Semi-Final 2 at Allianz Stadium, Sydney.
+  ThreePlus1 2026-11-08T10:00:00.000Z (11:00 pm NZ) RLWC: Semi Final 2 | Coverage from the Men's Rugby League World Cup Semi-Final 2 match between Australia and Samoa at Allianz Stadium, Sydney
