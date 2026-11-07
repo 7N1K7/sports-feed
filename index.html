@@ -1089,12 +1089,19 @@ main.folded .nowbar, main.folded #sportFilter, main.folded .compbar { display: n
 #sportFilter .sinfo { width: 28px; height: 28px; margin: 0 3px 6px; vertical-align: top }
 .compbar .sinfo { display: none }
 /* the i, in the sport row and the filter row (black in every theme): a solid circle in the theme's colour with a glow
-   in the same colour, so it stands out among the glowing buttons. Only colours and glows change on a hover or tap */
-:is(#sportFilter, .compbar) .sinfo { border: 1.5px solid color-mix(in srgb, var(--accent) 45%, white); background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--accent) 40%, white), var(--accent) 55%, color-mix(in srgb, var(--accent) 72%, black)); color: var(--accent-ink); font-weight: 800; box-shadow: 0 0 10px 1px color-mix(in srgb, var(--accent) 70%, transparent) }
-:is(#sportFilter, .compbar) .sinfo[aria-expanded="true"] { color: var(--accent-ink); border-color: #fff; box-shadow: 0 0 14px 3px color-mix(in srgb, var(--accent) 85%, transparent) }
-@media (hover: hover) { :is(#sportFilter, .compbar) .sinfo:hover { color: var(--accent-ink); border-color: #fff; box-shadow: 0 0 14px 3px color-mix(in srgb, var(--accent) 85%, transparent) } }
+   in the same colour, so it stands out among the glowing buttons. Only colours and glows change on a hover or tap
+   (its ring is an inset shadow, not a border: on a 1x screen a 1.5px border snaps to a broken 1px ring that looks jagged) */
+:is(#sportFilter, .compbar) .sinfo { --ir: color-mix(in srgb, var(--accent) 45%, white); border: 0; background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--accent) 40%, white), var(--accent) 55%, color-mix(in srgb, var(--accent) 72%, black)); color: var(--accent-ink); font-weight: 800; box-shadow: inset 0 0 0 1.5px var(--ir), 0 0 10px 1px color-mix(in srgb, var(--accent) 70%, transparent) }
+:is(#sportFilter, .compbar) .sinfo[aria-expanded="true"] { color: var(--accent-ink); box-shadow: inset 0 0 0 1.5px #fff, 0 0 14px 3px color-mix(in srgb, var(--accent) 85%, transparent) }
+@media (hover: hover) { :is(#sportFilter, .compbar) .sinfo:hover { color: var(--accent-ink); box-shadow: inset 0 0 0 1.5px #fff, 0 0 14px 3px color-mix(in srgb, var(--accent) 85%, transparent) } }
 .sinfopop { position: fixed; z-index: 60; width: min(260px, calc(100vw - 16px)); padding: 12px 14px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 28px rgb(0 0 0 / .45); font: 400 14px/1.4 var(--f-body); color: var(--ink); text-align: center }
 .sinfopop p { margin: 0 0 10px } .sinfopop .sinfohead { white-space: nowrap } .sinfopop p b { font-weight: 700 } .sinfopop p .on { color: #69db7c } .sinfopop p .off { color: #ff8787 } .sinfopop .sinfodef { margin: -6px 0 10px; font-size: 12px; color: var(--muted) } .sinfodef:empty { display: none } .sinfopop .sinfomore { margin: 6px 0 0; font-size: 11px; color: var(--muted) } .sinfopop .btn { font-size: 13px; padding: 5px 12px; font-weight: 600; background: var(--accent); color: var(--accent-ink); border-color: var(--accent) } @media (hover: hover) { .sinfopop .btn:hover { filter: brightness(1.12) } } .sinfopop .btn { display: inline-flex; align-items: center } .sinfopop .btn .bico { margin-left: 6px; width: 1.45em; height: 1.45em; vertical-align: 0 }
+/* what's been turned off, in the pop-up: the same sport-coloured tags as Settings' hidden list, in centred rows */
+.sinfopop .sinfooff { margin: -4px 0 10px; font-size: 12px; line-height: 22px; color: var(--muted) } .sinfooff:empty { display: none } .sinfooffh { display: block; line-height: 18px; margin-bottom: 2px } .sinfooffl { display: block; text-wrap: balance } .sinfoffmore { white-space: nowrap }
+.sinfopop .hidgo { font: inherit; font-size: 12px; font-weight: 600; line-height: 16px; color: var(--ink); cursor: pointer; padding: 0 7px; border-radius: 999px; white-space: nowrap;
+  border: 1px solid color-mix(in srgb, var(--hc) 55%, transparent); background: color-mix(in srgb, var(--hc) 14%, transparent) }
+.sinfopop .hidgo.whole { border-color: var(--hc); background: color-mix(in srgb, var(--hc) 45%, var(--surface)) }
+@media (hover: hover) { .sinfopop .hidgo:hover { border-color: var(--ink) } }
 /* the filters sit a little closer to the first section under them (Live now, Starting soon, This week) than the
    sections do to each other */
 #compBar { margin-bottom: -7px }
@@ -1757,7 +1764,7 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
   <div class="nowbar" id="nowBar" hidden></div>
   <div class="chips" id="sportFilter" role="group" aria-label="Show sport"></div>
   <div class="compbar" id="compBar"><div class="crow"><div class="cmenu"><button id="compSel" type="button" aria-haspopup="listbox" aria-expanded="false">All competitions</button><div id="compMenu" class="cmenu-list" role="listbox" aria-label="Competition" hidden></div></div><div class="seg" id="genderSel" role="group" aria-label="Men's or women's"></div><button type="button" class="sinfo" data-sinfo="" aria-haspopup="dialog" aria-expanded="false" aria-label="Turning sports on or off" title="Turn sports on or off in Settings">i</button></div><div class="seg" id="viewSel" role="group" aria-label="Card size"></div><button type="button" id="nzOnly" class="nzonly" aria-pressed="false" title="NZ only: just New Zealand's teams" aria-label="NZ only"><img src="https://flagcdn.com/h240/nz.png" alt="" width="18" height="9"><span>NZ</span></button><button type="button" id="freeOnly" class="nzonly freeonly" aria-pressed="false" aria-label="Free to watch" title="Free to watch: only games you can watch for free (TVNZ, Three, Sky Open, DUKE, Whakaata Māori, or a free stream like TVNZ+ or YouTube)"><span class="fta" aria-hidden="true">FREE TV</span></button><button type="button" class="chip rankbtn" id="rankBtn">Rankings</button></div>
-  <div class="sinfopop" id="sinfoPop" role="dialog" aria-label="Turning sports on or off" hidden><p class="sinfohead"><b class="off">Remove</b> sports from the list</p><p class="sinfodef" id="sinfoDef"></p><div class="sinfogo"><button type="button" class="btn" id="sinfoGo">Open Settings</button></div><p class="sinfomore">Also: theme, time zone</p></div>
+  <div class="sinfopop" id="sinfoPop" role="dialog" aria-label="Turning sports on or off" hidden><p class="sinfohead"><b class="off">Remove</b> sports from the list</p><p class="sinfodef" id="sinfoDef"></p><p class="sinfooff" id="sinfoOff"></p><div class="sinfogo"><button type="button" class="btn" id="sinfoGo">Open Settings</button></div><p class="sinfomore">Also: theme, time zone</p></div>
   <section id="hubSec" hidden>
     <div class="hub" id="hubBox"><div class="hubwm" id="hubWm" aria-hidden="true"></div>
       <div class="hubtop"><span class="hubicon" id="hubIcon" aria-hidden="true"></span><h2 id="hubName"></h2><span class="offwrap" id="offHubW" hidden><button type="button" class="offnote" id="offHub"></button><button type="button" class="herebtn" id="hereHub" aria-pressed="false"></button></span><button type="button" id="hubClose" class="hubclose" aria-label="Back to all competitions">×</button></div>
@@ -3548,6 +3555,19 @@ const SPORT_CHIPS = [['cricket','Cricket'],['rugby','Rugby'],['league','League']
 const RANK_SPORTS = SPORT_CHIPS.map(([k]) => k);
 // a sport counts as followed when at least one of its teams or competitions is picked in My teams
 const followedSport = sp => (SPORT[sp] || []).some(k => picked.has(k));
+// what's off the feed: [name, its sport, the whole sport, the competition's key]: a men's or women's switch, then whole
+// sports A–Z, then single teams and competitions turned off in a sport that's still on (not those a switch covers).
+// Named under My teams in Settings and in the sport row's i pop-up, so nobody wonders where a sport went
+function offList() {
+  const sidesOff = [['m', "Men's teams"], ['w', "Women's teams"]].filter(([g]) => !sideKeys(g).some(k => picked.has(k)) && picked.size),
+    bySide = new Set(sidesOff.flatMap(([g]) => sideKeys(g)));
+  return [...sidesOff.map(([, l]) => [l, 'accent', true]), ...TEAMS_AZ.filter(g => !groupItems(g).some(([k]) => followedSport(sportOf(k)))).map(g => [g.g, sportOf(groupItems(g)[0][0]), true]),
+    ...TEAMS_AZ.flatMap(groupItems).filter(([k], i, a) => a.findIndex(([j]) => j === k) === i && !picked.has(k) && !bySide.has(k) && followedSport(sportOf(k))).map(([k, l]) => [l === 'Every game' ? TEAMS.find(y => y.sub?.items.some(([j]) => j === k))?.sub.g || l : l, sportOf(k), false, k]),
+    // a series' practice and other race-weekend sessions, while they're off (they're only under the Motorsport button)
+    ...(followedSport('motor') ? SESS.filter(([k]) => picked.has(k) && !sessOn.has(k)).map(([, l]) => [`${l} sessions`, 'motor', false]) : [])];
+}
+// one name in that list, a small tag in its sport's colour that goes to it in Settings
+const hgo = ([n, sp, all, k], where = 'settings') => `<button type="button" class="hidgo${all ? ' whole' : ''}" data-hidgo="${esc(n)}"${k ? ` data-hidk="${esc(k)}"` : ''}${where === 'pop' ? ' data-hidpop=""' : ''} style="--hc:var(--${sp === 'rugby' ? 'rugbyt' : sp})" title="${sp === 'accent' ? `Turned off with the ${where === 'pop' ? "men's and women's switch" : 'switch above'}` : all ? 'The whole sport is off' : 'Just this one is off'}: tap to go to it">${esc(n)}</button>`;
 // My teams changed from what a new visitor starts with (everything on but the opt-ins)
 const myTeamsChanged = () => { const def = ALL_KEYS.filter(k => !OPT_IN.has(k)); return picked.size !== def.length || def.some(k => !picked.has(k)); };
 const shownSports = () => { const all = SPORT_CHIPS, f = all.filter(([k]) => followedSport(k)); return f.length ? f : all; };
@@ -4354,15 +4374,7 @@ function render() {
   // down), and the busy competitions that start off; a name jumps to its group
   $('genSw').innerHTML = [['m', "Men's"], ['w', "Women's"]].map(([g, l]) => { const on = sideKeys(g).some(k => picked.has(k));
     return `<button type="button" class="btn${on ? '' : ' off'}" data-gsw="${g}" aria-pressed="${on}" title="${on ? `Turn every ${l.toLowerCase()} team and league off` : `Turn the ${l.toLowerCase()} teams and leagues back on`}">${l}</button>`; }).join('');
-  // [name, its sport, the whole sport]: a switch above, then whole sports A–Z, then single teams and competitions turned
-  // off in a sport that's still on (not those a switch above covers)
-  const sidesOff = [['m', "Men's teams"], ['w', "Women's teams"]].filter(([g]) => !sideKeys(g).some(k => picked.has(k)) && picked.size),
-    bySide = new Set(sidesOff.flatMap(([g]) => sideKeys(g)));
-  const offs = [...sidesOff.map(([, l]) => [l, 'accent', true]), ...TEAMS_AZ.filter(g => !groupItems(g).some(([k]) => followedSport(sportOf(k)))).map(g => [g.g, sportOf(groupItems(g)[0][0]), true]),
-    ...TEAMS_AZ.flatMap(groupItems).filter(([k], i, a) => a.findIndex(([j]) => j === k) === i && !picked.has(k) && !bySide.has(k) && followedSport(sportOf(k))).map(([k, l]) => [l, sportOf(k), false]),
-    // a series' practice and other race-weekend sessions, while they're off (they're only under the Motorsport button)
-    ...(followedSport('motor') ? SESS.filter(([k]) => picked.has(k) && !sessOn.has(k)).map(([, l]) => [`${l} sessions`, 'motor', false]) : [])];
-  const hgo = ([n, sp, all]) => `<button type="button" class="hidgo${all ? ' whole' : ''}" data-hidgo="${esc(n)}" style="--hc:var(--${sp === 'rugby' ? 'rugbyt' : sp})" title="${sp === 'accent' ? 'Turned off with the switch above' : all ? 'The whole sport is off' : 'Just this one is off'}: tap to go to it">${esc(n)}</button>`;
+  const offs = offList();
   $('hidNote').innerHTML = offs.length ? `<b>Hidden<span class="hfull"> from your feed</span>:</b> ${offs.map(hgo).join(' ')}` : 'Everything is on your feed.';
   $('hidNote').title = offs.length ? `Hidden: ${offs.map(o => o[0]).join(', ')}` : '';
   { const ns = [...OPT_IN].map(k => TEAM_NAME[k]).filter(Boolean);
@@ -4644,7 +4656,12 @@ document.addEventListener('click', ev => {
   if (t.id === 'copySettings') { count({ e: 'use', k: 'Settings code copied' }); const c = settingsCode(); (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { $('moveNote').textContent = 'Copied. Paste it into the box on the other browser, then tap "Use these settings".'; }, () => prompt('Copy this code', c)); return; }
   // the sport row's "i": a note under it, and from there Settings at My teams
   if (t.dataset.sinfo != null) { const pop = $('sinfoPop'), open = pop.hidden; closeSinfo(); if (!open) return;
-    use('Sports info button'); $('sinfoDef').textContent = OPT_IN.size ? `Off by default: ${[...OPT_IN].map(k => TEAM_NAME[k] || k).join(', ')} – too many games` : ''; pop.hidden = false; t.setAttribute('aria-expanded', 'true'); const r = t.getBoundingClientRect();
+    use('Sports info button'); $('sinfoDef').textContent = OPT_IN.size ? `Off by default: ${[...OPT_IN].map(k => TEAM_NAME[k] || k).join(', ')} – too many games` : '';
+    // and what this browser has turned off (not the busy ones still off by default, named just above, nor race-weekend
+    // practice sessions): up to 8, then a count
+    { const os = offList().filter(o => !(o[3] && OPT_IN.has(o[3])) && !/ sessions$/.test(o[0])), max = os.length > 8 ? 7 : 8;
+      $('sinfoOff').innerHTML = os.length ? `<span class="sinfooffh">You've turned off</span><span class="sinfooffl">${os.slice(0, max).map(o => hgo(o, 'pop')).join(' ')}${os.length > max ? ` <span class="sinfoffmore">+${os.length - max} more</span>` : ''}</span>` : ''; }
+    pop.hidden = false; t.setAttribute('aria-expanded', 'true'); const r = t.getBoundingClientRect();
     pop.style.top = `${Math.round(r.bottom + 8)}px`; pop.style.left = `${Math.round(Math.min(Math.max(8, r.left + r.width / 2 - pop.offsetWidth / 2), innerWidth - pop.offsetWidth - 8))}px`; return; }
   // Settings opens at its top, as from the cog: the theme and time zone the pop-up mentions are there. On a short screen
   // it starts just far enough down to show My teams, its note and buttons and the first sport, never past My teams' title
@@ -4671,9 +4688,10 @@ document.addEventListener('click', ev => {
     // the finger, for the moment the cards above take to settle (or until the person scrolls)
     const y0 = t.getBoundingClientRect().top; render(); keepAt($('hereWeek'), y0); return; }
   // a name in the hidden-sports line: its group (a sport's own, or the one holding that competition), scrolled to and lit
-  if (t.dataset.hidgo || t.dataset.offgo) { count({ e: 'use', k: t.dataset.offgo ? 'Off in settings note' : 'Hidden sports list name' }); const n = t.dataset.hidgo || t.dataset.offgo;
+  if (t.dataset.hidgo || t.dataset.offgo) { count({ e: 'use', k: t.dataset.offgo ? 'Off in settings note' : t.dataset.hidpop != null ? 'Turned-off name in sports info' : 'Hidden sports list name' }); const n = t.dataset.hidgo || t.dataset.offgo;
+    if (t.dataset.hidpop != null) closeSinfo();
     if ($('panel').hidden) { $('panel').hidden = false; $('teamsBtn').setAttribute('aria-expanded', 'true'); }
-    const gn = / sessions$/.test(n) ? 'Motorsport' : (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([, l]) => l === n)))?.g;
+    const gn = / sessions$/.test(n) ? 'Motorsport' : (TEAMS.find(y => y.g === n) || TEAMS.find(y => groupItems(y).some(([j, l]) => t.dataset.hidk ? j === t.dataset.hidk : l === n)))?.g;
     const g = [...document.querySelectorAll('#teamGroups .group')].find(x => x.dataset.g === gn);
     // scroll the Settings box only (scrollIntoView would move the page behind it too)
     const box = document.querySelector('.panel .pbox'), to = el => box.scrollTo({ top: box.scrollTop + el.getBoundingClientRect().top - box.getBoundingClientRect().top - (box.clientHeight - el.offsetHeight) / 2, behavior: 'smooth' });
