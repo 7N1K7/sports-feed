@@ -1,0 +1,1389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Kickoff Kiwi stats</title>
+<meta name="theme-color" content="#0d6b4d">
+<link rel="icon" href="icons/stats.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<script>
+// the colour theme before anything paints: this page's own pick, else the main page's
+try { const a = JSON.parse(localStorage.getItem('sf.statsAccent') || localStorage.getItem('sf.accent') || '"green"'); if (a !== 'green') document.documentElement.dataset.accent = a; } catch {}
+// and the charts' look (colours and style), this page's own pick
+try { const c = JSON.parse(localStorage.getItem('sf.statsChart') || '"kiwi"'), L = { neon: ['kiwi', 'glow'], twilight: ['twilight', 'soft'], rata: ['rata', 'glow'], bush: ['bush', 'soft'], mono: ['mono', 'flat'] }[c] || ['kiwi', 'flat'];
+  document.documentElement.dataset.chart = L[0]; document.documentElement.dataset.cstyle = L[1]; } catch {}
+</script>
+<style>
+/* the site's own dark colours; chart series validated against the card surface (dataviz palette, dark steps) */
+:root {
+  color-scheme: dark;
+  --paper: #0e1412; --surface: #161f1c; --ink: #e6eeea; --muted: #93a49d; --line: #25322d; --accent: #2b8a3e;
+  --series-1: #3987e5; /* people */
+  --series-2: #d95926; /* visits */
+  --series-3: #199e70; /* page views */
+  --other: #5f6e68; /* the rest, in a share bar */
+  --f-display: 'Barlow Condensed', system-ui, sans-serif; --f-body: 'Source Sans 3', system-ui, sans-serif;
+}
+/* the charts' looks: each a set of three colours from the dataviz palette's dark steps, checked as a set for colour
+   blindness and contrast on this surface (blue, orange, aqua; violet, yellow, magenta; magenta, blue, yellow; aqua,
+   violet, yellow), or greys (Mono); and a style: flat, glow (a soft light round lines and bars) or soft (shading under
+   the lines, bars that fade in). Switching looks only changes these, so nothing is redrawn or moves */
+:root[data-chart="twilight"] { --series-1: #9085e9; --series-2: #c98500; --series-3: #d55181 }
+:root[data-chart="rata"] { --series-1: #d55181; --series-2: #3987e5; --series-3: #c98500 }
+:root[data-chart="bush"] { --series-1: #199e70; --series-2: #9085e9; --series-3: #c98500 }
+:root[data-chart="mono"] { --series-1: var(--ink); --series-2: color-mix(in srgb, var(--ink) 58%, var(--surface)); --series-3: color-mix(in srgb, var(--ink) 34%, var(--surface)); --other: color-mix(in srgb, var(--ink) 18%, var(--surface)) }
+.chartbox .area { display: none } :root[data-cstyle="soft"] .chartbox .area { display: inline }
+:root[data-cstyle="glow"] .chartbox .ln, :root[data-cstyle="glow"] .spk polyline { filter: drop-shadow(0 0 4px currentColor) }
+:root[data-cstyle="glow"] .chartbox .hb { filter: drop-shadow(0 0 5px var(--series-1)) }
+:root[data-cstyle="glow"] :is(.bar .t i, .rank .t i) { box-shadow: 0 0 9px -1px var(--series-1) }
+:root[data-cstyle="glow"] .heat i.hot { box-shadow: 0 0 10px -2px var(--series-1) }
+:root[data-cstyle="soft"] :is(.bar .t i, .rank .t i) { background: linear-gradient(90deg, color-mix(in srgb, var(--series-1) 30%, transparent), var(--series-1)) }
+:root[data-cstyle="soft"] .chartbox .hb { opacity: .85 }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.45; padding-top: env(safe-area-inset-top, 0px) }
+.wrap { max-width: 1440px; margin: 0 auto; padding: 16px max(16px, env(safe-area-inset-right, 0px)) 40px max(16px, env(safe-area-inset-left, 0px)) }
+header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px }
+header img { width: 44px; height: 44px }
+header h1 { font-family: var(--f-display); font-size: 30px; line-height: 1; margin: 0; letter-spacing: .01em }
+header h1 span { color: var(--accent) }
+header a { margin-left: auto; color: var(--muted); font-size: 14px }
+.note { color: var(--muted); font-size: 13px }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; margin-top: 12px }
+.card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 10px; font-weight: 700 }
+button, input { font: inherit; color: inherit }
+.btn { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 6px 14px; cursor: pointer; font-weight: 600; -webkit-tap-highlight-color: transparent }
+.btn:active { filter: brightness(1.25); transform: scale(.97) }
+.btn[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+#gate form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center }
+#gate input { flex: 1 1 200px; min-width: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px }
+#gateMsg { margin-top: 8px; min-height: 1.4em }
+.err { color: #ff8787 }
+/* the top bar: the date range, the days it covers, the sections menu and Refresh. It stays at the top as the page
+   scrolls; the menu opens over the page, so nothing under it moves. The range's buttons are a set width each, so picking
+   one moves nothing */
+.tbar { position: sticky; top: 0; z-index: 30; margin: 12px calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 0; padding: 8px max(16px, env(safe-area-inset-left, 0px)); background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line) }
+.tbrow { display: flex; align-items: center; gap: 8px 10px }
+.seg { display: grid; grid-template-columns: repeat(7, auto); padding: 2px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); flex: none }
+.seg button { border: 0; background: none; border-radius: 999px; padding: 4px 12px; font: 600 13px/18px var(--f-body); color: var(--muted); cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent }
+.seg button:hover { color: var(--ink) } .seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper) }
+.seg .sm, .tbrow .ico svg + .lg { display: none } .tbrow .ico .lg { display: inline }
+.rspan { flex: 1; min-width: 0; color: var(--muted); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.btn.sm { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; font-size: 13px; line-height: 18px; flex: none }
+.btn.sm svg { width: 15px; height: 15px; flex: none } #jumpBtn svg { transition: transform .15s } #jumpBtn[aria-expanded="true"] svg { transform: rotate(180deg) }
+#jumpBtn[aria-expanded="true"] { border-color: var(--muted) }
+/* the theme menu: the page's theme and the charts' look, the same pickers as under This device, opening over the page
+   at the bar's right end. Three a row, so the fifteen themes and six looks sit in even rows */
+#lookBtn .chev { transition: transform .15s } #lookBtn[aria-expanded="true"] .chev { transform: rotate(180deg) } #lookBtn[aria-expanded="true"] { border-color: var(--muted) }
+.lookmenu { position: absolute; right: max(16px, env(safe-area-inset-right, 0px)); top: calc(100% + 6px); width: min(540px, calc(100% - 32px)); max-height: min(78vh, 600px); overflow: auto; overscroll-behavior: contain; padding: 0 16px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 14px 34px rgba(0, 0, 0, .5) }
+.lookmenu[hidden] { display: none } .lookmenu .thh:first-child { margin-top: 14px }
+.lookmenu .swatches, .lookmenu .looks { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+.lookmenu .sw, .lookmenu .lk { min-width: 0; white-space: nowrap }
+@media (max-width: 960px) { #lookBtn .lg { display: none } #lookBtn { padding: 4px 8px } } /* just its icon, so the days the range covers still show */
+.jump { position: absolute; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); top: calc(100% + 6px); max-height: min(72vh, 560px); overflow: auto; overscroll-behavior: contain; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px 22px; padding: 14px 18px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 14px 34px rgba(0, 0, 0, .5) }
+.jump[hidden] { display: none }
+.jump div { display: grid; gap: 1px; align-content: start }
+.jump a { color: var(--ink); text-decoration: none; font-size: 14px; padding: 3px 6px; margin: 0 -6px; border-radius: 6px }
+.jump a:hover, .jump a:focus-visible { background: color-mix(in srgb, var(--ink) 9%, transparent) }
+.jump a.jg { font: 700 17px/1.2 var(--f-display); letter-spacing: .03em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px }
+@media (max-width: 640px) {
+  .tbrow { flex-wrap: wrap } .seg { width: 100%; grid-template-columns: repeat(7, minmax(0, 1fr)) } .seg button { padding: 4px 0 }
+  .seg .lg { display: none } .seg .sm { display: inline } .tbrow .ico .lg { display: none } .btn.sm.ico { padding: 4px 8px }
+  .jump { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 14px; padding: 12px 14px 14px } .jump a { font-size: 13.5px }
+  #lookBtn .lg { display: none } #lookBtn { padding: 4px 8px } .lookmenu { padding: 0 12px 14px }
+  .lookmenu .sw, .lookmenu .lk { font-size: 12px; padding-right: 8px }
+}
+/* the narrowest phones: the menu a little wider, and each theme by its first name (Pōhutukawa, Kōwhai, Moana) */
+.sw .ts { display: none }
+@media (max-width: 400px) {
+  .lookmenu { right: 10px; width: calc(100% - 20px); padding: 0 10px 12px } .lookmenu .sw { padding: 4px 7px 4px 5px; gap: 5px }
+  .lookmenu .sw .tl { display: none } .lookmenu .sw .ts { display: inline }
+}
+/* a group of cards: its name, with a line to the end of the row */
+.grp { display: flex; align-items: baseline; gap: 10px; margin: 30px 0 0; font: 700 22px/1 var(--f-display); letter-spacing: .03em; text-transform: uppercase; color: var(--ink) }
+.grp::after { content: ""; flex: 1; align-self: center; height: 1px; background: var(--line) }
+.grp .gsub { font: 500 13px var(--f-body); letter-spacing: 0; text-transform: none; color: var(--muted) }
+.grp, .card { scroll-margin-top: calc(var(--tbh, 56px) + 12px) }
+#g-overview { margin-top: 20px }
+/* the headline: visits in the range, then the tiles */
+.hero { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px }
+.hero .big { font-size: 56px; font-weight: 700; line-height: 1 }
+.hero .lbl { color: var(--muted) }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 14px }
+.tile { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; background: var(--paper) }
+.tile .l { color: var(--muted); font-size: 13px }
+.tile .v { font-size: 24px; font-weight: 700; line-height: 1.2 }
+.tile .s { color: var(--muted); font-size: 13px }
+/* the daily chart */
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-bottom: 6px }
+.legend i { display: inline-block; width: 16px; height: 2px; border-radius: 1px; vertical-align: middle; margin-right: 6px }
+.chartbox { position: relative }
+.chartbox svg { display: block; width: 100%; height: 240px; overflow: visible; touch-action: pan-y }
+#hours svg { height: 170px }
+/* the top line: new errors to look at, or that there are none; one line either way, so nothing below moves */
+.erralert { display: flex; align-items: center; gap: 8px 12px; min-height: 44px; margin-top: 12px; padding: 6px 8px 6px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); font-size: 14px }
+.erralert .m { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.erralert.on { border-color: #e8590c; background: color-mix(in srgb, #e8590c 14%, var(--surface)) } .erralert.on .m b { color: #ff922b }
+.erralert .btn { padding: 4px 12px; font-size: 13px; white-space: nowrap; color: inherit; text-decoration: none }
+.erralert:not(.on) { color: var(--muted) } @media (max-width: 560px) { .erralert .ex { display: none } }
+/* errors read as full sentences: no bar, the text wraps */
+/* a network's name is long ("Comcast Cable (United States)"): more room for it, less for the bar */
+.nets .bar { grid-template-columns: minmax(0, 1fr) minmax(0, 3.5em) auto }
+#error { grid-auto-rows: auto } #error .bar { grid-template-columns: minmax(0, 1fr) auto } #error .bar .t { display: none } #error .bar .k { white-space: normal; overflow-wrap: anywhere; font-size: 13px }
+.chartbox text { fill: var(--muted); font-size: 11px; font-family: var(--f-body) }
+.chartbox .end { font-size: 12px; font-weight: 600; fill: var(--ink) }
+.chartbox .peak { font-size: 11px; font-weight: 700; fill: var(--ink) }
+.tip { position: absolute; top: 0; pointer-events: none; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; font-size: 13px; white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,.35); transform: translateX(-50%) }
+.tip .d { color: var(--muted); font-size: 12px }
+.tip .row { display: flex; align-items: center; gap: 6px }
+.tip .row i { width: 12px; height: 2px; border-radius: 1px; display: inline-block }
+.tip b { font-weight: 700 }
+/* when people visit: a row a day of the week, a square an hour, darker for more page views (one colour, light to dark) */
+.heat { display: grid; grid-template-columns: 2.6em repeat(24, minmax(0, 1fr)); gap: 3px; align-items: center; font-size: 11px; color: var(--muted); position: relative; touch-action: pan-y }
+.heat i { display: block; aspect-ratio: 1.5; border-radius: 3px; background: color-mix(in srgb, var(--series-1) var(--v), var(--paper)); cursor: default }
+.heat i:hover { outline: 1.5px solid var(--ink); outline-offset: 1px }
+.heat .hh { text-align: left; white-space: nowrap; overflow: visible } .heat .hd { text-align: left }
+.hkey { display: flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 12px; color: var(--muted) }
+.hkey b { display: block; width: 120px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, color-mix(in srgb, var(--series-1) 6%, var(--paper)), var(--series-1)) }
+@media (max-width: 640px) { .heat { gap: 2px; grid-template-columns: 2.2em repeat(24, minmax(0, 1fr)) } .heat i { aspect-ratio: .8; border-radius: 2px } }
+/* a split (phone, computer, tablet): one bar in shares, a line a part with its count and share, then each day's split */
+.share .sb { display: flex; gap: 2px; height: 14px; border-radius: 4px; overflow: hidden }
+.share .sb i { display: block; height: 100%; min-width: 3px } .share .sb i:first-child { border-radius: 4px 0 0 4px } .share .sb i:last-child { border-radius: 0 4px 4px 0 }
+.share .sl { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto 3.2em; gap: 4px 8px; align-items: center; margin-top: 10px; font-size: 14px }
+.share .sl i { width: 10px; height: 10px; border-radius: 3px } .share .sl .n { font-weight: 700; text-align: right; font-variant-numeric: tabular-nums } .share .sl .pc { color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; font-size: 13px }
+.share .sl .k { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.share .sd { margin-top: 12px } .share .sd .dl2 { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 3px }
+.share .cols { display: flex; gap: 2px; height: 40px; align-items: stretch; position: relative }
+.share .cols > span { flex: 1 1 0; min-width: 1px; display: flex; flex-direction: column-reverse; border-radius: 2px; overflow: hidden; gap: 1px }
+.share .cols > span > i { display: block; min-height: 0 } .share .cols > span:hover { outline: 1px solid var(--ink) }
+.share .sd .lbl { font-size: 11px; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .06em }
+/* a popular row's own line over the days */
+.rank .spk { width: 44px; height: 16px; display: block; overflow: visible } .rank .spk polyline { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; color: var(--series-1) }
+/* the chart looks, as swatches: three colours and a name */
+.looks { display: grid; grid-template-columns: repeat(6, max-content); gap: 6px }
+.lk { display: inline-flex; align-items: center; gap: 7px; font: 600 13px var(--f-body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px 4px 8px; cursor: pointer }
+.lk .d { display: inline-flex; gap: 2px } .lk .d i { width: 9px; height: 14px; border-radius: 3px }
+.lk[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
+.lk[data-look="neon"] .d i, .lk[data-look="rata"] .d i { box-shadow: 0 0 6px -1px currentColor }
+@media (max-width: 760px) { .looks { grid-template-columns: repeat(3, minmax(0, 1fr)) } }
+/* bar lists */
+/* a group's cards in even rows (three across a wide screen, two on a small computer, one on a phone), each card as tall
+   as its row with its note at the foot; a card with several lists takes two rows. A long list shows its first ten and
+   Show all scrolls the rest in the same space, so no card changes size */
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-flow: row dense; gap: 12px; margin-top: 12px; align-items: stretch }
+.grid > .card { margin: 0; display: flex; flex-direction: column; min-width: 0 } .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+.card > h2 + .thh { margin-top: 0 }
+.grid > .card > .note:last-child { margin-top: auto; padding-top: 10px; margin-bottom: 0 }
+.pop.nodl .rank li { grid-template-columns: 1.6em minmax(0, 1fr) 44px auto 0 } .pop.nodl .rank .dl { display: none }
+@media (max-width: 1099px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .grid:not(.pop):not(.two) > .card:last-child:nth-child(odd), .grid.pop > .card:first-child { grid-column: 1 / -1 } }
+@media (max-width: 640px) { .grid, .grid.two { grid-template-columns: minmax(0, 1fr) }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)) } .tiles > .tile:last-child:nth-child(odd) { grid-column: 1 / -1 } /* five tiles: two, two, one across */
+  .grp { flex-wrap: wrap; row-gap: 6px } .grp .gsub { order: 3; flex-basis: 100% } }
+/* the popular lists: a row each (rank, name, how many, the change on the days before), a thin bar under the name */
+.rank { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-rows: 34px; max-height: calc(10 * 34px); overflow: hidden }
+.rank.all { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin }
+.rank li { display: grid; grid-template-columns: 1.6em minmax(0, 1fr) 44px auto 4.4em; grid-template-rows: auto 3px; column-gap: 6px; row-gap: 3px; align-content: center; font-size: 14px }
+.rank .rk { grid-row: 1 / 3; align-self: center; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; text-align: right }
+.rank .k { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap } .rank .k small { color: var(--muted); font-size: 12px; margin-left: 5px }
+.rank .n { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right }
+.rank .dl { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap }
+.rank .t { grid-column: 2 / 5; height: 3px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 7%, transparent) } .rank .t i { display: block; height: 100%; border-radius: 2px; background: var(--series-1); min-width: 2px }
+.rank .empty { display: block; padding-top: 6px }
+.more { align-self: flex-start; margin-top: 8px; border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 2px 11px; font: 600 12.5px/18px var(--f-body); color: var(--muted); cursor: pointer }
+.more:hover { color: var(--ink); border-color: var(--muted) } .more[hidden] { display: none }
+/* the two charts side by side on a wide screen */
+@media (min-width: 1100px) { .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: stretch } .duo > .card { margin-top: 12px } }
+.bars { display: grid; gap: 7px; grid-auto-rows: 21px }
+.bars.cap { height: calc(10 * 21px + 9 * 7px); overflow: hidden } .bars.cap.all { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; padding-right: 4px }
+/* data coverage: a row a sport, each figure coloured by how complete it is */
+.cov { width: 100%; border-collapse: collapse; font-size: 14px }
+.cov th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; text-align: center; padding: 4px 6px }
+.cov th:first-child, .cov td:first-child { text-align: left }
+.cov td { padding: 6px; border-top: 1px solid var(--line); text-align: center; white-space: nowrap }
+.gaplist { margin: 12px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.5 } .gaplist b { margin-right: 6px } .cov td.c { font-weight: 700 } .cov td .muted { color: var(--muted); font-weight: 500 } .cov td.c small { display: block; font-size: 11px; font-weight: 500; color: var(--muted) }
+.cov td.ok { color: #2f9e44 } .cov td.mid { color: #e8890c } .cov td.low { color: #e03131 } .cov td.na { color: var(--muted) }
+.cov tr.tot td { font-weight: 800; border-top: 2px solid var(--line) }
+.covwrap { overflow-x: auto }
+/* what's behind a coverage figure: a tile or a figure in either table opens a pop-up of the games or sides missing it
+   and those that have it, from the latest feed. The pop-up is a set size, so switching between the two moves nothing */
+.cvt-tiles .tile, .cov td[data-det] { cursor: pointer }
+.cvt-tiles .tile:hover { border-color: var(--muted) }
+.cov td[data-det]:hover { background: color-mix(in srgb, var(--ink) 7%, transparent) }
+#det { width: min(640px, calc(100vw - 24px)); height: min(82vh, 700px); max-width: none; max-height: none; padding: 0; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--ink) }
+#det::backdrop { background: rgba(0, 0, 0, .6) }
+#det[open] { display: flex; flex-direction: column }
+#det .dh { display: flex; align-items: center; gap: 10px; padding: 14px 14px 4px 18px }
+#det h3 { margin: 0; font: 700 24px/1.1 var(--f-display); min-width: 0 }
+#det .x { margin-left: auto; flex: none; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); cursor: pointer; font-size: 18px; line-height: 1 }
+#det .dsum { padding: 0 18px; color: var(--muted); font-size: 13px; min-height: 1.45em }
+#det .dtabs { display: flex; gap: 6px; padding: 8px 18px 10px; border-bottom: 1px solid var(--line) }
+#det .dtabs button { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 3px 12px; font-size: 14px; font-weight: 600; cursor: pointer }
+#det .dtabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+#det .dtabs button[hidden] { display: none }
+#det .dbody { flex: 1; overflow: auto; padding: 4px 18px 18px; overscroll-behavior: contain; outline: none } /* focused on opening, so the keys scroll it */
+#det h4 { margin: 14px 0 2px; font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted) }
+#det details { border-top: 1px solid var(--line) } #det h4 + details, #det .dbody > details:first-child { border-top: 0 }
+#det summary { cursor: pointer; padding: 6px 0; font-weight: 600; font-size: 14px }
+#det summary .n { color: var(--muted); font-weight: 500 }
+#det ul { list-style: none; margin: 0 0 8px; padding: 0 0 0 14px }
+#det li { display: flex; gap: 10px; font-size: 13px; padding: 2px 0; border-top: 1px dashed var(--line) } #det li:first-child { border-top: 0 }
+#det li .w { margin-left: auto; color: var(--muted); text-align: right; flex: none; max-width: 50% }
+#det .none { color: var(--muted); font-size: 14px; padding: 12px 0 }
+@media (max-width: 560px) { /* the summary takes two lines; a way to watch goes under its game */
+  #det .dsum { min-height: 2.9em }
+  #det li { flex-wrap: wrap; row-gap: 0 } #det li .w { flex-basis: 100%; margin-left: 0; max-width: none; text-align: left; font-size: 12px }
+}
+/* back to the top, as on the main page: shown once the page is scrolled well down */
+.totop { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 40; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: var(--ink); color: var(--paper); font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.2) }
+.totop[hidden] { display: none }
+.gaps details { border-top: 1px solid var(--line); padding: 6px 0 } .gaps summary { cursor: pointer; font-weight: 700; font-size: 14px }
+/* research: a sweep each, its findings grouped, each with what was done and where it came from (and whether its terms allow use) */
+.rsw { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 8px } .rsw > summary { cursor: pointer; font-weight: 700; font-size: 14px } .rsw > p { margin: 6px 0 0 }
+.rsw h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 12px 0 4px }
+.rsw ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13px; line-height: 1.45 }
+.rsw li { display: grid; grid-template-columns: 6.2em 1fr; gap: 8px; align-items: baseline }
+.rst { font: 700 10.5px/1 var(--f-body, inherit); letter-spacing: .05em; text-transform: uppercase; padding: 3px 6px; border-radius: 999px; text-align: center; white-space: nowrap }
+.rst.done { background: color-mix(in srgb, #51cf66 22%, transparent); color: #8ce99a } .rst.todo { background: color-mix(in srgb, #fcc419 22%, transparent); color: #ffe066 }
+.rst.idea { background: color-mix(in srgb, #4dabf7 22%, transparent); color: #a5d8ff } .rst.no { background: color-mix(in srgb, #ff6b6b 20%, transparent); color: #ffa8a8 } .rst.ok { background: color-mix(in srgb, var(--muted) 22%, transparent); color: var(--ink) }
+.rsrc { color: var(--muted); font-size: 12px } .rsrc a { color: inherit } .rsrc .rv { font-style: italic }
+.added { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 6px } .added summary { cursor: pointer; font-weight: 700; font-size: 14px } .added ul { margin: 6px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.5 } .added b { margin-right: 6px } .added .by { color: var(--muted); white-space: nowrap }
+.gaps p { margin: 6px 0 0 14px; font-size: 13px } .gaps b { color: var(--muted); font-weight: 700 }
+/* coverage over time: a tile a measure, three a row (two on a phone) so the six sit in even rows, each with a sparkline
+   of every version; then a row a sport. The sparkline's box is a set height, so nothing moves when it's drawn */
+.cvt-tiles { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px }
+.cvt-tiles .s { white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.spark { height: 40px; margin-top: 8px; touch-action: pan-y }
+.spark svg { display: block; width: 100%; height: 40px; overflow: visible }
+.cvt .cov { margin-top: 12px }
+.cvt th .sm { display: none }
+@media (min-width: 561px) { .cvt .cov { table-layout: fixed } .cvt .cov th:first-child { width: 20% } } /* even columns */
+@media (max-width: 560px) {
+  .cvt-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .cvt-tiles .s span { display: block; overflow: hidden; text-overflow: ellipsis } /* the change, then "since v376" */
+  .cvt th .lg { display: none } .cvt th .sm { display: inline } /* short column names, so the table fits a phone */
+  .cvt .cov th { text-transform: none; letter-spacing: 0 } .cvt .cov td { font-size: 13px }
+  .cvt .cov th, .cvt .cov td { padding-left: 2px; padding-right: 2px }
+}
+.bar { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto; align-items: center; gap: 8px; font-size: 14px }
+.bar .k { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.bar .t { height: 10px; position: relative }
+.bar .t i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--series-1); border-radius: 0 4px 4px 0; min-width: 2px }
+.bar .n { font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; text-align: right }
+.empty { color: var(--muted); font-size: 14px }
+/* reports sent from the site: newest first, each with when, what it's about and the note */
+.reps { display: grid; gap: 10px; max-height: 420px; overflow: auto }
+.rep { border-top: 1px solid var(--line); padding-top: 8px } .rep:first-child { border-top: 0; padding-top: 0 }
+.rep .rh { font-size: 13px; color: var(--muted) } .rep .rh b { color: var(--ink) }
+.rep .idea { color: var(--accent); font-weight: 700 }
+.rep p { margin: 3px 0 0; font-size: 15px; white-space: pre-wrap; overflow-wrap: anywhere }
+details.tbl summary { cursor: pointer; font-weight: 600 }
+table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 14px; font-variant-numeric: tabular-nums }
+th, td { text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--line) }
+th:first-child, td:first-child { text-align: left }
+th { color: var(--muted); font-weight: 600 }
+.me { display: flex; gap: 10px; align-items: center; flex-wrap: wrap }
+/* the site's colour themes (dark), the same ten as the main page's Settings > Theme; this page keeps its own choice */
+:root[data-accent="ocean"] { --paper: #0c1218; --surface: #141c24; --ink: #e4edf5; --muted: #8fa2b5; --line: #233142; --accent: #5cb3ff; }
+:root[data-accent="red"] { --paper: #130e0e; --surface: #1d1615; --ink: #f1e7e5; --muted: #ad9a97; --line: #352927; --accent: #ff7b72; }
+:root[data-accent="black"] { --paper: #0a0a0a; --surface: #151515; --ink: #eeeeee; --muted: #9a9a9a; --line: #2a2a2a; --accent: #f1f1f1; }
+:root[data-accent="kowhai"] { --paper: #12100a; --surface: #1c1910; --ink: #f2ecdc; --muted: #aba189; --line: #332e1f; --accent: #f5c542; }
+:root[data-accent="paua"] { --paper: #0a1314; --surface: #111e1f; --ink: #e0f0f0; --muted: #8ba9aa; --line: #1f3536; --accent: #3ccfcf; }
+:root[data-accent="purple"] { --paper: #100d17; --surface: #181422; --ink: #ebe6f6; --muted: #a39bb6; --line: #2d2640; --accent: #a98bff; }
+:root[data-accent="orange"] { --paper: #140f0b; --surface: #1e1712; --ink: #f3e8de; --muted: #b09d8c; --line: #382a20; --accent: #ff8a4c; }
+:root[data-accent="lime"] { --paper: #0e120a; --surface: #161c10; --ink: #e8f0dc; --muted: #9cab89; --line: #2a3420; --accent: #a9e34b; }
+:root[data-accent="pink"] { --paper: #140c10; --surface: #1e1419; --ink: #f4e4eb; --muted: #b398a5; --line: #38242e; --accent: #f783ac; }
+:root[data-accent="kauri"] { --paper: #12100c; --surface: #1c1813; --ink: #f1e9df; --muted: #ab9d8d; --line: #342b21; --accent: #d9a26a; }
+:root[data-accent="silver"] { --paper: #0e1113; --surface: #171b1e; --ink: #e8edf0; --muted: #9aa6ae; --line: #2a3136; --accent: #c5d0d8; }
+:root[data-accent="tui"] { --paper: #0d0d18; --surface: #151524; --ink: #e7e7f8; --muted: #9d9dc0; --line: #27273f; --accent: #8f95ff; }
+:root[data-accent="navy"] { --paper: #0a0e16; --surface: #121826; --ink: #e3e9f4; --muted: #8e9bb3; --line: #222c40; --accent: #7d9fd6; }
+:root[data-accent="olive"] { --paper: #10110a; --surface: #191a10; --ink: #eef0dd; --muted: #a5a88a; --line: #2f3120; --accent: #bcc75e; }
+.thh { margin: 16px 0 8px; font: 700 13px var(--f-body); text-transform: uppercase; letter-spacing: .06em; color: var(--muted) }
+/* five a row (three on a phone), so the fifteen themes sit in even rows */
+.swatches { display: grid; grid-template-columns: repeat(5, max-content); gap: 6px }
+@media (max-width: 760px) { .swatches { grid-template-columns: repeat(3, minmax(0, 1fr)) } .swatches .swatch { font-size: 12px } } /* fifteen themes: five rows of three */
+.sw { display: inline-flex; align-items: center; gap: 6px; font: 600 13px var(--f-body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px 4px 6px; cursor: pointer }
+.sw i { width: 14px; height: 14px; border-radius: 50%; background: var(--c) }
+.sw[data-theme-k="black"] i { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 35%, transparent) } /* All Black's dot shows on the dark page */
+.sw[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><img src="icons/stats.svg" alt=""><div><h1>Kickoff <span>Kiwi</span> stats</h1><div class="note" id="ver"></div></div><a href="./">Back to the site</a></header>
+  <p class="note">Private: the numbers need the stats password. Counted with no cookies and nothing personal. <b>People</b>: each person once a day. <b>Visits</b>: every time someone opens the site, or comes back to a tab left open after 3+ minutes away. <b>Page views</b>: every page load.</p>
+
+  <section class="card" id="gate">
+    <h2>Password</h2>
+    <form id="pwForm"><input id="pw" type="password" autocomplete="current-password" placeholder="Stats password" aria-label="Stats password"><button class="btn" type="submit">Show stats</button></form>
+    <div id="gateMsg" class="note"></div>
+  </section>
+
+  <div id="main" hidden>
+    <!-- the range and the sections menu stay at the top while the page scrolls -->
+    <div class="tbar" id="tbar">
+      <div class="tbrow">
+        <div class="seg" role="group" aria-label="Date range"><button type="button" data-days="1">Today</button><button type="button" data-days="3"><span class="lg">3 days</span><span class="sm">3d</span></button><button type="button" data-days="7"><span class="lg">7 days</span><span class="sm">7d</span></button><button type="button" data-days="14"><span class="lg">14 days</span><span class="sm">14d</span></button><button type="button" data-days="30"><span class="lg">30 days</span><span class="sm">30d</span></button><button type="button" data-days="90"><span class="lg">90 days</span><span class="sm">90d</span></button><button type="button" data-days="0">All</button></div>
+        <span class="rspan" id="rangeSpan"></span>
+        <button class="btn sm" type="button" id="jumpBtn" aria-expanded="false" aria-controls="jump">Sections<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <button class="btn sm" type="button" id="lookBtn" aria-expanded="false" aria-controls="lookMenu" aria-label="Theme"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></svg><span class="lg">Theme</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <button class="btn sm ico" type="button" id="refresh" aria-label="Refresh" title="Refresh"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg><span class="lg">Refresh</span></button>
+      </div>
+      <nav class="jump" id="jump" aria-label="Sections" hidden></nav>
+      <div class="lookmenu" id="lookMenu" role="group" aria-label="Theme and chart look" hidden>
+        <h3 class="thh">Theme</h3><div class="swatches" data-themes role="group" aria-label="Theme"></div>
+        <h3 class="thh">Chart look</h3><div class="looks" data-looks role="group" aria-label="Chart look"></div>
+      </div>
+    </div>
+    <div id="errAlert" class="erralert" role="status"></div>
+
+    <h2 class="grp" id="g-overview">Overview</h2>
+      <section class="card" aria-live="polite" data-name="Visits">
+      <div class="hero"><span class="big" id="heroN">0</span><span class="lbl" id="heroL">visits</span></div>
+      <div class="tiles" id="tiles"></div>
+    </section>
+    <div class="duo">
+      <section class="card">
+      <h2>Each day <span class="note" id="chartSub" style="text-transform:none;letter-spacing:0;font-weight:500"></span></h2>
+      <div class="legend"><span><i style="background:var(--series-1)"></i>People</span><span><i style="background:var(--series-2)"></i>Visits</span><span><i style="background:var(--series-3)"></i>Page views</span></div>
+      <div class="chartbox" id="chart"></div>
+      <details class="tbl"><summary>As a table</summary><div id="table"></div></details>
+    </section>
+      <section class="card">
+      <h2>Busiest times</h2>
+      <p class="note" style="margin-top:-4px">Page views by hour of the day, NZ time, over the chosen days.</p>
+      <div class="chartbox" id="hours"></div>
+    </section>
+    </div>
+      <section class="card"><h2>When people visit</h2><div class="heat" id="heat" role="img" aria-label="Page views by day of the week and hour"></div><div class="hkey">Fewer<b></b>More page views</div><p class="note">Page views by day of the week and hour of the day, NZ time: the average a day over the chosen days. Hold or hover on a square for its number.</p></section>
+      <section class="card">
+      <h2>Reports and ideas</h2>
+      <div class="reps" id="reports"></div>
+      <p class="note">Sent with Report a problem (a game's pop-up, or the foot of the page) and Suggest it (the foot of the page). Nothing about who sent them is kept.</p>
+    </section>
+
+    <h2 class="grp" id="g-popular">Most popular <span class="gsub" id="popSub"></span></h2>
+    <div class="grid pop">
+      <section class="card pc"><h2>Most used</h2><ol class="rank" id="p-used"></ol><p class="note">Every button and feature on the site, Settings included, all visitors together.</p></section>
+      <section class="card pc"><h2>Games opened</h2><ol class="rank" id="p-game"></ol><p class="note">The games whose pop-up was opened most.</p></section>
+      <section class="card pc"><h2>Competitions</h2><ol class="rank" id="p-comp"></ol><p class="note">Games opened in each competition.</p></section>
+      <section class="card pc"><h2>Competition pages</h2><ol class="rank" id="p-hub"></ol><p class="note">Competition pages opened, from any button (from 7 Nov 2026; before that, picks from the competitions menu).</p></section>
+      <section class="card pc"><h2>Sports picked</h2><ol class="rank" id="p-sport"></ol><p class="note">Taps on a sport button.</p></section>
+      <section class="card pc"><h2>Team pages opened</h2><ol class="rank" id="p-team"></ol><p class="note">The team pages opened most.</p></section>
+      <section class="card pc"><h2>Where people watch</h2><ol class="rank" id="p-watch"></ol><p class="note">Taps on a way to watch, in a game's pop-up or on a card, and on the live scores link.</p></section>
+      <section class="card pc"><h2>Sites linked to</h2><ol class="rank" id="p-out"></ol><p class="note">Taps on links to other sites (where to watch, live scores, news, highlights, Wikipedia), by site, from 24 Oct 2026.</p></section>
+      <section class="card pc"><h2>Searches</h2><ol class="rank" id="p-search"></ol><p class="note">Words typed into the Search box.</p></section>
+    </div>
+
+    <h2 class="grp" id="g-people">Visitors</h2>
+    <div class="grid">
+      <section class="card"><h2>New or returning</h2><div class="bars" id="newvis"></div><p class="note">Visitors whose browser was on the site for the first time, or had been before (from 23 Oct 2026).</p></section>
+      <section class="card"><h2>How often people come back</h2><div class="bars" id="repeat"></div><p class="note">People by how many visits they made in a day, over the chosen days (from the day this was added).</p></section>
+      <section class="card"><h2>By day of the week</h2><div class="bars" id="weekday"></div><p class="note">Visitors a day, on average.</p></section>
+      <section class="card"><h2>Devices</h2><div class="bars" id="device"></div></section>
+      <section class="card"><h2>App or browser</h2><div class="bars" id="mode"></div><p class="note">Visitors using the home-screen app, or a web browser.</p></section>
+      <section class="card"><h2>Came from</h2><div class="bars" id="ref"></div><p class="note">Page views that arrived from a link on another site. Links opened from most chat apps arrive without one.</p></section>
+      <section class="card"><h2>System and browser</h2><h3 class="thh">Phone or computer system</h3><div class="bars" id="os"></div>
+        <h3 class="thh">Browser</h3><div class="bars" id="browser"></div></section>
+      <section class="card"><h2>Countries</h2><div class="bars" id="country"></div><p class="note">Visitors, by the country their connection comes from.</p></section>
+      <section class="card"><h2>Networks</h2><h3 class="thh">Outside NZ, by network</h3><div class="bars nets" id="network"></div>
+        <h3 class="thh">Not counted: cloud servers</h3><div class="bars nets" id="datacentre"></div>
+        <p class="note">From 25 Oct 2026. A network is the internet provider a visitor outside NZ connects through: a phone or home provider is a person. A page run from a cloud company's servers (Amazon, Google, Microsoft and the like) is a script, a link checker or a search engine, so those are left out of every other number here, and so is a VPN on those networks.</p></section>
+    </div>
+
+    <h2 class="grp" id="g-use">Using the site</h2>
+      <section class="card">
+      <h2>Activity each day <span class="note" id="actSub" style="text-transform:none;letter-spacing:0;font-weight:500"></span></h2>
+      <div class="legend"><span><i style="background:var(--series-1)"></i>Games opened</span><span><i style="background:var(--series-2)"></i>Ways to watch</span><span><i style="background:var(--series-3)"></i>Links out</span></div>
+      <div class="chartbox" id="act"></div>
+      <p class="note">Games whose pop-up was opened, taps on a way to watch, and taps on links to other sites, each day. Taps on every button together are in the Taps a visit tile at the top.</p>
+    </section>
+    <div class="grid">
+      <section class="card"><h2>Parts of the site used</h2><div class="bars" id="use"></div><p class="note">Taps on each part, all visitors together, every one listed. Most buttons are counted from 24 Oct 2026.</p></section>
+      <section class="card"><h2>Features used</h2><div class="bars" id="event"></div><p class="note">Taps on each feature, all visitors together. Calendars and alert topics count taps on their links and copy buttons; from an alert counts games opened by tapping a phone alert.</p></section>
+      <section class="card"><h2>How far people scroll</h2><p class="note">Each visit's furthest point down the page, sent when the page is left (counted from 25 Oct 2026).</p>
+        <h3 class="thh">Furthest section seen</h3><div class="bars" id="scrollsec"></div>
+        <h3 class="thh">How much of the page</h3><div class="bars" id="scrollpct"></div></section>
+    </div>
+
+    <h2 class="grp" id="g-set">Settings and teams</h2>
+    <div class="grid">
+      <section class="card"><h2>Settings used</h2><div class="bars" id="setuse"></div><p class="note">Taps in the Settings box, all visitors together: opening it, a team turned on or off (which ones are in Teams followed and Teams dropped), a sport hidden or shown and the rest. Select all, Defaults, Clear, theme, time zone, Hide results for and the settings code are counted from 23 Oct 2026.</p></section>
+      <section class="card"><h2>My teams</h2><div class="bars" id="myteams"></div><p class="note">Visitors, by whether they've changed My teams from what a new visitor starts with (counted once a day each, from 24 Oct 2026).</p></section>
+      <section class="card"><h2>Sports turned off</h2><div class="bars" id="sportsoff"></div><p class="note">Visitors, by the sports they have off (nothing in that sport picked in My teams; everything starts on), counted once a day each, from 24 Oct 2026.</p></section>
+      <section class="card"><h2>Teams turned on and off</h2><h3 class="thh">Turned on (followed)</h3><div class="bars" id="follow"></div>
+        <h3 class="thh">Turned off (dropped)</h3><div class="bars" id="unfollow"></div><p class="note">Teams turned on and off in My teams.</p></section>
+      <section class="card"><h2>Spoilers</h2><div class="bars" id="spoil"></div><p class="note">Visitors, by whether they keep results hidden (counted once a day each).</p></section>
+      <section class="card"><h2>Sports hidden</h2><div class="bars" id="hidesport"></div><p class="note">Taps on Hide sport in My teams, by sport (Fighting counts as MMA), from 24 Oct 2026. Sports followed shows how many visitors have each sport on.</p></section>
+      <section class="card"><h2>Sports shown again</h2><div class="bars" id="showsport"></div><p class="note">Taps on Show sport, bringing a hidden sport back, from 24 Oct 2026.</p></section>
+      <section class="card"><h2>Card size</h2><div class="bars" id="view"></div><p class="note">Visitors, by the card size they see. Until 7 Nov, phones counted as Large, though phones only show List or Compact.</p></section>
+      <section class="card"><h2>Theme colour</h2><div class="bars" id="theme"></div><p class="note">Visitors, by the colour theme they picked.</p></section>
+    </div>
+
+    <h2 class="grp" id="g-health">Speed and errors</h2>
+    <div class="grid two">
+      <section class="card" id="errCard"><h2>Errors on visitors' devices</h2><div class="bars" id="error"></div><p class="note">Problems in the site's own code; each is worth a look. <b>✓ Fixed</b> marks one already dealt with (counts from before the fix stay in the range); <b>⚠ Back</b> means a page with the fix sent it again. From v404 each error ends with the version of the page that sent it, [v404].</p></section>
+      <section class="card"><h2>Site checks</h2><div id="sitechk"></div><p class="note">The live site, checked from outside every 10 minutes (from 3 Nov 2026): the page and its feed answer, and the feed is whole and less than 90 minutes old. A problem's times are the checks either side of it, so it's known to 10 minutes. A problem only one visitor's connection had doesn't show here: a page that had to ask for its feed again shows in Errors as "Feed asked again". Kept 30 days.</p></section>
+      <section class="card"><h2>Load speed</h2><div class="bars" id="speed"></div><p class="note">How long until the first games were on screen.</p></section>
+      <section class="card"><h2>Slow loads</h2><p class="note">Loads that took 4s or more (counted from 25 Oct 2026). The connection and memory are only reported by Chrome-based browsers. "Out of sight" means the page was behind another tab or app, or the phone was locked, while it loaded.</p>
+        <h3 class="thh">Took longest</h3><div class="bars" id="slowpart"></div>
+        <h3 class="thh">Page in sight</h3><div class="bars" id="slowseen"></div>
+        <h3 class="thh">Connection</h3><div class="bars" id="slownet"></div>
+        <h3 class="thh">Memory</h3><div class="bars" id="slowmem"></div>
+        <h3 class="thh">System and browser</h3><div class="bars" id="slowdev"></div></section>
+    </div>
+
+    <h2 class="grp" id="g-data">Data coverage</h2>
+    <div class="grid two">
+      <section class="card"><h2>Gaps people hit</h2><div id="gapseen"></div><div id="gapcomp"></div><p class="note">Games opened before they're over, by sport, and how many of those openings were missing a start time, a way to watch or squads (squads only for a game between two named sides), then the competitions where it happens most. From 1 Nov 2026.</p></section>
+      <section class="card"><h2>Searches that found nothing</h2><div class="bars" id="search0"></div><p class="note">Teams or games people looked for that the site doesn't have.</p></section>
+    </div>
+      <section class="card cvt">
+      <h2>Coverage over time <span class="note" id="cvtRange" style="text-transform:none;letter-spacing:0;font-weight:500"></span></h2>
+      <div class="cvt-tiles" id="cvTiles"></div>
+      <div class="covwrap"><table class="cov" id="cvSports"></table></div>
+      <p class="note">Shares of the next three weeks' games, so they move when the fixtures do as well as when data is added. A point for each site version the server has seen. Click a tile or a figure for the games or sides it counts: what's missing and what we have.</p>
+      <details class="tbl"><summary>Each version as a table</summary><div class="covwrap"><table class="cov" id="cvVersions"></table></div></details>
+    </section>
+      <section class="card">
+      <h2>Data coverage <span class="note" style="text-transform:none;letter-spacing:0;font-weight:500">the next three weeks, from the latest feed</span></h2>
+      <p class="note" id="covAt"></p>
+      <div id="cov"></div>
+      <p class="note">How much the site has filled in, by sport: games with a set start time, a way to watch (free YouTube streams count, and have their own column) and squads; sides with a picture (logo, flag or photo) and team links. Green 90% and up, amber 60% and up. Click a figure for what's missing and what we have, or open a sport below for all its gaps.</p>
+      <div class="gaps" id="checks"></div>
+      <details class="added"><summary id="missedSum">Missed games found</summary><ul id="missed"></ul></details>
+      <details class="added"><summary>Data added lately</summary><ul id="added"></ul></details>
+    </section>
+      <section class="card" id="research">
+      <h2>Research</h2>
+      <p class="note">Sweeps for what the site is missing: each sport searched by hand for the coming week, and new places for where to watch, data and pictures, with each one's terms checked. Newest first. Never a score or result here.</p>
+      <div id="researchList"></div>
+    </section>
+
+    <h2 class="grp" id="g-device">This device</h2>
+      <section class="card">
+      <h2>This device</h2>
+      <div class="me"><button class="btn" type="button" id="noCount" aria-pressed="false">Don't count my visits</button><span class="note" id="noCountNote"></span></div>
+      <p class="note">So your own checking doesn't add to the numbers. It's set for this browser only: turn it on on each phone, computer and the home-screen app.</p>
+      <div class="me"><button class="btn" type="button" id="forget">Forget the password here</button></div>
+      <h3 class="thh">Theme</h3>
+      <div class="swatches" id="themes" data-themes role="group" aria-label="Theme"></div>
+      <p class="note">For this page on this device; it starts from the main page's theme.</p>
+      <h3 class="thh">Chart look</h3>
+      <div class="looks" id="looks" data-looks role="group" aria-label="Chart look"></div>
+      <p class="note">The charts' colours and style, for this page on this device. Each set of colours is checked to stay easy to tell apart with colour blindness; Mono is shades of grey.</p>
+    </section>
+  </div>
+</div>
+<button type="button" id="toTop" class="totop" aria-label="Back to top" hidden>↑</button>
+<dialog id="det" aria-labelledby="detT"><div class="dh"><h3 id="detT"></h3><button type="button" class="x" id="detX" aria-label="Close">×</button></div>
+  <div class="dsum" id="detSum"></div>
+  <div class="dtabs" role="tablist"><button type="button" role="tab" data-dt="miss" id="detMiss"></button><button type="button" role="tab" data-dt="have" id="detHave"></button></div>
+  <div class="dbody" id="detBody" tabindex="-1" autofocus></div></dialog>
+<script>
+(() => {
+// the stats server (api/worker.js); the same address as in index.html
+const API = 'https://kickoff-api.kickoffkiwi.workers.dev';
+const $ = id => document.getElementById(id);
+const store = { get(k, d) { try { const v = localStorage.getItem('sf.' + k); return v == null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { localStorage.setItem('sf.' + k, JSON.stringify(v)); } catch {} }, del(k) { try { localStorage.removeItem('sf.' + k); } catch {} } };
+const fmtN = n => n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e4 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : n.toLocaleString('en-NZ');
+const dayLabel = (d, o = { weekday: 'short', day: 'numeric', month: 'short' }) => new Date(d + 'T12:00:00Z').toLocaleDateString('en-NZ', { timeZone: 'UTC', ...o });
+const COUNTRY = new Intl.DisplayNames(['en'], { type: 'region' });
+const countryName = k => { if (!k || k === '?') return 'Unknown'; try { return COUNTRY.of(k); } catch { return k; } };
+const EVENT_LABEL = { cal: 'Calendars', alerts: 'Alert topics', install: 'App installs (Android and computers)', appfirst: 'App opened for the first time (every phone, iPhone too)', reveal: 'Results uncovered (Show result)', rankings: 'Rankings', 'alert-open': 'From an alert', team: 'Team pages', game: 'Games opened' };
+const MODE_LABEL = { app: 'App', browser: 'Browser' };
+const DEVICE_LABEL = { phone: 'Phone', tablet: 'Tablet', computer: 'Computer' };
+const SPORT_LABEL = { cricket: 'Cricket', rugby: 'Rugby', league: 'League', football: 'Football', hockey: 'Hockey', basketball: 'Basketball', netball: 'Netball', motor: 'Motorsport', tennis: 'Tennis', mma: 'MMA', boxing: 'Boxing', sailing: 'Sailing', golf: 'Golf', baseball: 'Baseball' };
+const REPEAT_ORDER = ['1', '2-3', '4-9', '10+'], REPEAT_LABEL = { 1: 'Once', '2-3': '2–3 times', '4-9': '4–9 times', '10+': '10 or more' };
+const SPEED_ORDER = ['under 1s', '1-2s', '2-4s', '4-8s', '8s or more'];
+// the parts of the site used that are in the Settings box, listed on their own
+const SETTINGS_USE = new Set(['Settings', 'Hide sport', 'Show sport', "Men's teams off", "Men's teams on", "Women's teams off", "Women's teams on", 'Coffee in Settings', 'Sport order A–Z',
+  'Select all teams', 'Default teams', 'Clear all teams', 'Theme changed', 'Time zone changed', 'Hide results for changed', 'Settings code copied', 'Settings code used', 'Hidden sports list name', 'Turned-off name in sports info', 'Off-by-default name in sports info', 'Off in settings note', 'Show hidden league here', 'Hide hidden league here', 'Sports info button', 'Settings from sports info',
+  'Settings closed', 'Theme menu opened', 'Time zone menu opened', 'Hide results for menu opened']);
+const SETTINGS_LABEL = { Settings: 'Settings opened', 'Hide sport': 'A sport hidden', 'Show sport': 'A sport shown', 'Select all teams': 'Select all', 'Default teams': 'Defaults', 'Clear all teams': 'Clear',
+  'Hide results for changed': 'Hide results for: changed', 'Hidden sports list name': 'A name in the hidden list tapped', 'Turned-off name in sports info': 'A turned-off name in the i pop-up tapped', 'Off-by-default name in sports info': 'The NBA in the i pop-up\'s off-by-default line tapped', 'Off in settings note': 'The "off in settings" note by a sport or competition tapped', 'Show hidden league here': 'Show here by that note: what is off shown on that sport page', 'Hide hidden league here': 'Hide here by that note', 'Sports info button': 'The "i" by the sport buttons tapped', 'Settings from sports info': 'Open Settings from that "i"', 'Coffee in Settings': 'Coffee link', 'Settings closed': 'Settings closed with ×' };
+// errors already fixed: what the error says, the day of the fix, its version and what it was. One seen on a later day
+// shows as back
+const FIXED = [
+  [/is not a valid selector/, '2026-10-20', 'v361', "older browsers that can't read :has()"],
+  [/\.at is not a function/, '2026-10-23', 'v403', 'older browsers without Array.at'],
+  [/^Script error/, '2026-10-23', 'v403', "another site's script (a browser add-on or an app's built-in browser) that the browser won't name; no longer counted"],
+  [/^ResizeObserver loop/, '2026-10-24', 'v452', "Chrome's harmless note when a row of buttons rebalances as the page resizes; no longer counted"],
+];
+const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+// the range: 1 (today), 3, 7, 14, 30 or 90 days, or 0 for every day there is
+let days = store.get('statsDays', 30), data = null, pw = store.get('statspw', '');
+if (![1, 3, 7, 14, 30, 90, 0].includes(days)) days = 30;
+
+async function fetchStats() {
+  $('gateMsg').textContent = 'Loading…'; $('gateMsg').className = 'note';
+  // the live coverage file comes in alongside (a few seconds at most), so Coverage over time is drawn once, complete
+  const live = Promise.race([fetch('data/coverage.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null), new Promise(res => setTimeout(res, 4000, null))]).catch(() => null);
+  try {
+    const r = await fetch(`${API}/stats?days=400`, { headers: { authorization: 'Bearer ' + pw }, cache: 'no-store' });
+    const j = await r.json().catch(() => ({}));
+    if (r.status === 401) { store.del('statspw'); throw new Error('That password isn\'t right.'); }
+    if (r.status === 503) throw new Error('The stats password isn\'t set up yet: add STATS_PASSWORD in the GitHub repo\'s secrets, then wait for the stats server to redeploy.');
+    if (!r.ok) throw new Error('The stats server answered with an error (' + r.status + ').');
+    data = j; covLive = await live; store.set('statspw', pw);
+    $('gate').hidden = true; $('main').hidden = false; $('gateMsg').textContent = '';
+    draw();
+  } catch (e) {
+    $('gate').hidden = false;
+    $('gateMsg').textContent = e instanceof TypeError ? 'Couldn\'t reach the stats server. Check your connection.' : e.message;
+    $('gateMsg').className = 'err';
+  }
+}
+
+// the days counted: the range picked, or every day since the first one with numbers (All)
+const DAY = 864e5, dayAdd = (d, n) => new Date(Date.parse(d + 'T12:00:00Z') + n * DAY).toISOString().slice(0, 10);
+const firstDay = () => data.rows.reduce((a, r) => r.day < a ? r.day : a, data.today);
+const spanDays = () => days || Math.round((Date.parse(data.today) - Date.parse(firstDay())) / DAY) + 1;
+// totals for n days ending `back` days before today: per day, and per metric/key
+function shape(n = spanDays(), back = 0) {
+  const list = [];
+  for (let i = n - 1; i >= 0; i--) list.push(dayAdd(data.today, -i - back));
+  const inRange = new Set(list), per = Object.fromEntries(list.map(d => [d, { visitors: 0, opens: 0, views: 0, appviews: 0, appvisitors: 0 }])), sums = {}, ds = Object.fromEntries(list.map(d => [d, { hubs: {} }]));
+  for (const r of data.rows) {
+    if (!inRange.has(r.day)) continue;
+    // the card size called Standard until v621 is Large now (and the older every-card Large became it)
+    const key = r.metric === 'view' && r.key === 'big' ? 'mixed' : r.metric === 'use' && r.key === 'Card size Standard' ? 'Card size Large' : r.key;
+    if (r.metric in per[r.day]) per[r.day][r.metric] += r.n;
+    else { sums[r.metric] = sums[r.metric] || {}; sums[r.metric][key] = (sums[r.metric][key] || 0) + r.n; const o = ds[r.day][r.metric] ||= {}; o[key] = (o[key] || 0) + r.n; }
+  }
+  for (const d of list) if (!per[d].opens) per[d].opens = per[d].views; // days before visits were counted: page views stand in
+  // competition pages opened by name are counted from 7 Nov 2026; on the days before, the competitions menu's picks
+  const hubDays = new Set(data.rows.filter(r => r.metric === 'comppage').map(r => r.day));
+  sums.hubs = {};
+  for (const r of data.rows) if (inRange.has(r.day) && (r.metric === 'comppage' || (r.metric === 'comp' && !hubDays.has(r.day)))) { sums.hubs[r.key] = (sums.hubs[r.key] || 0) + r.n; ds[r.day].hubs[r.key] = (ds[r.day].hubs[r.key] || 0) + r.n; }
+  return { list, per, sums, ds };
+}
+// the same number of days just before, to compare with: only when every one of them has numbers (not for Today, part
+// of a day, or All)
+const prevShape = () => days > 1 && dayAdd(data.today, -2 * days + 1) >= firstDay() ? shape(days, days) : null;
+// the change on the days before, as a short label: ▲ 24%, ▼ 8%, new
+const change = (now, was) => was == null ? '' : !was ? (now ? 'new' : '') : now === was ? '–' : (p => `${now > was ? '▲' : '▼'} ${p >= 1000 ? Math.round(now / was) + '×' : p + '%'}`)(Math.round(Math.abs(100 * (now - was) / was)));
+
+const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+// what the site has and hasn't filled in, from the public feed (worked out when the feed was built)
+async function drawCoverage() {
+  let f; try { f = await (await fetch('data/feed.json', { cache: 'no-store' })).json(); } catch { $('cov').innerHTML = '<p class="note">Couldn\'t load the feed.</p>'; return; }
+  const cov = f.coverage;
+  // when this was worked out: the feed's build time, in NZ time
+  if (f.generatedAt) $('covAt').textContent = 'Worked out ' + new Date(f.generatedAt).toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }) + ' NZ time (every feed update)';
+  if (!cov) { $('cov').innerHTML = '<p class="note">Not in the feed yet: it comes with the next feed update.</p>'; return; }
+  // each figure opens what's behind it (data-det: the measure, data-sport: the sport, or none for all sports)
+  const at = (m, k) => ` data-det="${m}" data-sport="${k}"`;
+  const cell = (n, d, m, k) => { if (!d) return '<td class="c na">–</td>'; const p = Math.round(100 * n / d); return `<td class="c ${p >= 90 ? 'ok' : p >= 60 ? 'mid' : 'low'}" title="${n} of ${d}"${at(m, k)}>${p}%<small>${n}/${d}</small></td>`; };
+  // sports A to Z, so one is easy to find
+  const name = k => SPORT_LABEL[k] || k[0].toUpperCase() + k.slice(1);
+  const rows = Object.entries(cov).sort((a, b) => name(a[0]).localeCompare(name(b[0]))), sum = k => rows.reduce((a, [, c]) => a + c[k], 0);
+  const line = (l, c, k = '') => `<tr${l === 'All sports' ? ' class="tot"' : ''}><td>${esc(l)}</td><td${at('games', k)}>${c.games}</td>${cell(c.time, c.games, 'time', k)}${cell(c.watch, c.games, 'watch', k)}<td class="c"${at('guide', k)}>${c.guide || 0}</td><td class="c"${at('streams', k)}>${c.streams || 0}</td>${cell(c.squads, c.sqGames, 'squads', k)}${cell(c.pic, c.sides, 'pic', k)}${cell(c.links, c.sidesL ?? c.sides, 'links', k)}</tr>`;
+  const all = { guide: rows.reduce((a, [, c]) => a + (c.guide || 0), 0), streams: rows.reduce((a, [, c]) => a + (c.streams || 0), 0), games: sum('games'), time: sum('time'), watch: sum('watch'), squads: sum('squads'), sqGames: sum('sqGames'), pic: sum('pic'), sides: sum('sides'), links: rows.filter(([k]) => !['mma', 'boxing'].includes(k)).reduce((a, [, c]) => a + c.links, 0),
+    sidesL: rows.filter(([k]) => !['mma', 'boxing'].includes(k)).reduce((a, [, c]) => a + c.sides, 0) };
+  for (const [k, c] of rows) if (['mma', 'boxing'].includes(k)) c.sidesL = 0;
+  const list = xs => xs.map(x => Array.isArray(x) ? `${esc(x[0])}${x[1] > 1 ? ` (${x[1]})` : ''}` : esc(x)).join(', ');
+  const gaps = rows.map(([k, c]) => { const g = c.gaps, parts = [['No start time yet', g.time], ['No way to watch', g.watch], ['No squads', g.squads], ['No picture', g.pic], ['No team links', ['mma', 'boxing'].includes(k) ? [] : g.links]].filter(([, x]) => x.length);
+    const n = parts.reduce((a, [, x]) => a + x.length, 0);
+    return n ? `<details><summary>${esc(name(k))} · ${n} gap${n === 1 ? '' : 's'}</summary>${parts.map(([l, x]) => `<p><b>${l}:</b> ${list(x)}</p>`).join('')}</details>` : ''; }).join('');
+  $('cov').innerHTML = `<div class="covwrap"><table class="cov"><thead><tr><th>Sport</th><th>Games</th><th>Start times</th><th>Where to watch</th><th title="Games listed in the NZ TV guide (i.mjh.nz)">In TV guide</th><th title="Games with a free stream on a sports body's YouTube channel">Free streams</th><th>Squads</th><th>Pictures</th><th>Team links</th></tr></thead><tbody>`
+    + rows.map(([k, c]) => line(name(k), c, k)).join('') + line('All sports', all) + `</tbody></table></div><div class="gaps">${gaps}</div>`;
+  // games that may be missing or moved: no result well after their time, or a week with far fewer games than usual
+  const ck = f.checks || {}, day = t => new Date(t).toLocaleDateString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short' });
+  const nr = ck.noResult || [], tw = ck.thinWeeks || [];
+  $('checks').innerHTML = nr.length + tw.length ? `<details><summary>Possibly missing or moved · ${nr.length + tw.length}</summary>`
+    + [[nr.filter(x => !x.noSource), 'No result after its time, while others in its competition have one (moved, called off, or its result missed)'], [nr.filter(x => x.noSource), 'No result, in a competition with no result source (check it was played when listed)']]
+      .map(([x, l]) => x.length ? `<p><b>${l}:</b> ${x.map(x => `${esc(x.c)}: ${esc(x.n)} (${day(x.at)})`).join('; ')}</p>` : '').join('')
+    + (tw.some(x => x.stopped) ? `<p><b>No games listed after its last one, and no final yet (next rounds not added, or the season's end):</b> ${tw.filter(x => x.stopped).map(x => `${esc(x.c)}: last game ${day(x.week + 'T00:00:00+13:00')}`).join('; ')}</p>` : '')
+    + (tw.some(x => !x.stopped) ? `<p><b>Fewer games than usual in a week (a game left out, a fixture change, or a planned break):</b> ${tw.filter(x => !x.stopped).map(x => `${esc(x.c)}: week of ${day(x.week + 'T00:00:00+13:00')}, ${x.n} game${x.n === 1 ? '' : 's'} (usually ${x.usual})`).join('; ')}</p>` : '')
+    + '</details>' : '';
+}
+// games the site missed or had wrong, newest first, kept by hand (the daily check adds a line for each one it finds, filled
+// or not): [date found, competition, game, what was wrong, what was done, found by]. Never a score or result here
+const MISSED = [
+  ['7 Nov 2026', 'NBL', '8 of the 13 games from 7 to 15 Nov (the Breakers v Bullets and Sydney v Breakers among them), and the rest of the season', "Shown an hour early for games in the daylight-saving states and NZ, as Wikipedia gives standard time all season, and two Saturday games moved for TV were three hours out", "TheSportsDB's times, which match the clubs' own, now win over Wikipedia's for the whole season", 'the sweep'],
+  ['4 Nov 2026', 'Ford Trophy', 'Rounds 3 to 10 and both finals (26 games), from Wed 4 Nov', "Not on the site: only the first two rounds were added by hand, and no free source the feed reads has the competition", 'Added the rest of the season from the published fixture list; the feed now flags a competition whose listed games run out before a final', 'you'],
+  ['2 Nov 2026', 'Rugby League World Cup', 'Semi-finals and finals (men\'s and women\'s), and the WBBL and BBL finals', "Each listed two or three times, from the draw and from Wikipedia, and the women's semi-finals showed a stray code where the teams go", "Now one card each, which takes the teams once they're known", 'the weekend check'],
+  ['2 Nov 2026', "Rugby League World Cup (women's and wheelchair)", "Wheelchair England v Wales, women's England v Samoa, wheelchair France v Scotland", "The wheelchair game showed the women's game's score and time, and the other two had no result: the feed took wheelchair and women's games for the same thing", "Fixed: they're kept apart now", 'the weekend check'],
+  ['2 Nov 2026', 'Rugby League World Cup', 'Fiji v Cook Islands, Tonga v Lebanon, Papua New Guinea v Samoa, England v France, Tonga v Samoa', "No result: Wikipedia's scores for these sit inside a link the feed didn't read, and TheSportsDB didn't have them", 'The feed reads them now', 'the weekend check'],
+  ['2 Nov 2026', 'Boxing', "Christian Mbilli v Saul 'Canelo' Alvarez", 'Shown at 1pm NZ time: the main card started about 6am and the main event was about 9am (the time was hand-kept from an early report)', "Time corrected. Result not filled: no source the feed reads has boxing results", 'the daily check'],
+  ['1 Nov 2026', "Women's Big Bash League", 'Adelaide Strikers v Melbourne Stars, Perth Scorchers v Melbourne Renegades', 'Shown 30 minutes and 3 hours late: Wikipedia gives every WBBL time in Sydney time, and the feed read them as the ground\'s own', 'The WBBL page\'s times are now read as Sydney time (the men\'s page gives local times, as before)', 'the feed\'s check'],
+  ['1 Nov 2026', 'Rugby League World Cup', 'New Zealand v Cook Islands, Australia v Fiji', 'No result: TheSportsDB posted them late, after the feed had stopped asking', 'The feed now asks again every 6 hours for a week', 'the feed\'s check'],
+  ['1 Nov 2026', 'Boxing', 'Dalton Smith v Alberto Puello, Emanuel Navarrete v O\'Shaquie Foster', 'No result: the fights are hand-kept and no source the feed reads has them', 'Not filled yet: one boxer\'s Wikipedia record has each, which the feed doesn\'t read', 'the feed\'s check'],
+  ['1 Nov 2026', 'Ford Trophy', 'Wellington Firebirds v Otago Volts', 'Moved a day later, to Thursday 29 Oct, after flights were cancelled; the site still had Wednesday', 'Moved to the new day from NZC\'s announcement (after the game, so it showed on the wrong day)', 'the feed\'s check'],
+  ['1 Nov 2026', 'Ford Trophy', 'Otago Volts v Central Stags', 'Moved to Sunday after the previous week\'s travel disruptions; the site still had the old day', 'Moved to the new day from NZC\'s announcement', 'you'],
+  ['1 Nov 2026', 'South Africa v Australia', 'the 1st Test and the other games already played', 'Dropped once played, so the series showed only its latest game', 'A series still going now keeps its earlier games', 'you'],
+  ['1 Nov 2026', 'UFC', 'the night\'s fight card', 'Shown a day early and finished while still on: its source gave no start time', 'The time now comes from the event\'s own listing, and it stays on until well after', 'you'],
+  ['1 Nov 2026', 'New Zealand Heartland XV v Samoa', 'both games', 'In none of the feed\'s sources', 'Added by hand, with the free NZ Provincial Rugby stream', 'you'],
+];
+// research sweeps, newest first, kept by hand: what a search found, what was done (done, todo, idea, no for a source
+// whose terms don't allow it, ok for checked and right), and the sources, each with what its terms allow. Never a score
+const RESEARCH = [
+  { d: '7 Nov 2026', t: 'Every sport, 7 to 15 Nov, searched by hand', sum: 'Four searches at once: team sports, other sports, where to watch, and data and pictures for the known gaps. Each ran out of searches part-way, so some sports are still to check (listed last).', g: [
+    ['Wrong times', [
+      ['done', 'NBL: 8 of the 13 games this week were early (an hour in daylight-saving states and NZ, three for two Saturday games moved for TV), the Breakers v Bullets and Sydney v Breakers among them. Wikipedia gives standard time all season. TheSportsDB has them right, and its times now win, for the whole season (v599)', [['TheSportsDB rounds', 'https://www.thesportsdb.com/league/4434', 'free key, read automatically'], ['Breakers schedule', 'https://nzbreakers.basketball/schedule', 'check by eye']]],
+      ['todo', 'UFC Fight Night (Sun 8 Nov): the main card is 2pm NZ; the site had about 3pm', [['UFCalendar', 'https://www.ufcalendar.com/blog/ufc-fight-night-cortes-acosta-walker-card-start-times-how-to-watch', 'check by eye']]],
+      ['todo', 'UFC 334 (Sun 15 Nov): the main card is 3pm NZ; the site had 12pm', [['UFC: how to watch in NZ', 'https://www.ufc.com/news/how-to-watch-ufc-in-new-zealand-2026', 'link only']]],
+      ['todo', 'Buatsi v Hutchinson: shown at 1am Sunday, but it is a UK evening card, so Sunday morning NZ; the exact time is not published yet', [['Queensberry', 'https://queensberry.co.uk/pages/joshua-buatsi-vs-willy-hutchinson-2-point-to-prove', 'link only']]],
+      ['todo', 'Wheelchair Rugby League World Cup: its 4 knockout games (9 and 10 Nov) show as 8, as both TBC slots and named games', [['Wikipedia', 'https://en.wikipedia.org/wiki/2026_Wheelchair_Rugby_League_World_Cup', 'read automatically']]],
+      ['todo', 'NZ A v India A: the site has 10:30am each day; Wisden says 11am. Not settled', [['Wisden', 'https://wisden.com/cricket-news/nz-a-vs-ind-a-unofficial-tests-live-streaming-and-tv-channels-where-to-watch-live-and-match-timings-for-india-a-tour-of-new-zealand', 'check by eye']]],
+      ['todo', 'Women\'s Rugby League World Cup: Wikipedia has both semis at 7:55pm NZ (the site 7:45pm) and the final at 6:15pm NZ (the site 6:10pm). The site\'s times were kept by hand from the draw. Not settled', [['Wikipedia', 'https://en.wikipedia.org/wiki/2026_Women%27s_Rugby_League_World_Cup', 'read automatically']]],
+      ['todo', 'Scotland v Australia: one guide says 3:40am, the site 4:10am. Not settled', [['Flicks', 'https://www.flicks.co.nz/sport/', 'check by eye']]],
+      ['ok', 'Checked and right: both All Blacks tests (3:10am Sundays), the Rugby League World Cup semis and finals, all five Black Caps ODIs (3pm), Ford Trophy rounds 4 and 5, All Whites v India (12 Nov, 7pm), Auckland FC v Phoenix (5pm) and the F1 times', []],
+    ]],
+    ['Missing games', [
+      ['todo', 'Wellington Phoenix women v Sydney FC, Sun 15 Nov at Porirua Park: the site has no A-League Women at all (Auckland FC has no women\'s side this season). On Sky Sport, some games free on Sky Open or ThreeNow', [['Phoenix', 'https://wellingtonphoenix.com/?p=328993', 'check by eye']]],
+      ['todo', 'Hallyburton Johnstone Shield: 5 of its 6 games on 14 and 15 Nov are missing; free on NZC\'s YouTube. NZC\'s schedule can only be checked by eye, so they need another source or to be kept by hand', [['NZC schedule (PDF)', 'https://www.nzc.nz/media/1cxbi35u/print_2026_hbj-schedule.pdf', 'check by eye only']]],
+      ['idea', 'NASCAR Cup Championship with Shane van Gisbergen, Mon 9 Nov 9am NZ, free on ThreeNow', [['VelocityNews', 'https://www.velocitynews.co.nz/no-paywall-for-kiwi-nascar-fans-2026-coverage-confirmed-on-threenow', 'check by eye']]],
+      ['idea', 'Men\'s National League (football) Championship: 10 games on 7, 8, 14 and 15 Nov, free on FIFA+. Wikipedia has the days and grounds, not the times', [['Wikipedia', 'https://en.wikipedia.org/wiki/2026_New_Zealand_National_League', 'read automatically'], ['NZ Football', 'https://www.nzfootball.co.nz/newsarticle/166233', 'check by eye']]],
+      ['idea', 'Golf: Ryan Fox at the DP World Tour Championship, 12 to 15 Nov (Sky Sport; the DP World Tour isn\'t on the site). Lydia Ko at The ANNIKA, 12 to 15 Nov, is an LPGA event outside the majors, which the site leaves out', [['Gulf Today', 'https://www.gulftoday.ae/sport/2026/10/21/major-champions-rai-and-fox-join-dp-world-tour-championship-field', 'check by eye']]],
+      ['idea', 'Repco NextGen NZ Championship, round 1 at Taupō, 13 to 15 Nov (last season Sky Sport and a free YouTube stream)', [['talkmotorsport', 'https://talkmotorsport.co.nz/nzcircuit/full-calendar-revealed-for-season-3-of-repco-nextgen-nz-championship/', 'unclear']]],
+      ['idea', 'Futsal Ferns v Vietnam, 12 and 14 Nov in Ho Chi Minh City; times and viewing not found', [['VOV', 'https://english.vov.vn/en/sports/vietnam-womens-futsal-team-to-play-new-zealand-friendlies-in-november-post1345418.vov', 'check by eye']]],
+      ['todo', 'Just after this week, to check they show: UFC Qatar with Navajo Stirling and Dan Hooker (Sun 22 Nov, free on TVNZ+), the Plunket Shield from 19 Nov, the Tall Blacks\' qualifiers 26 to 29 Nov, NZ at the U-17 World Cup (20, 23, 26 Nov), the Blackjacks v India bowls 16 to 18 Nov, SailGP Dubai and Abu Dhabi, the Australian PGA and Open', []],
+    ]],
+    ['Sports the site doesn\'t cover', [
+      ['idea', 'Horse and harness racing, NZ Cup Week: the Trotting Cup at Addington (Tue 10 Nov) and the NZ Cup at Riccarton (Sat 14 Nov), free on Trackside. Riccarton\'s terms need its consent even to link', [['Riccarton Park', 'https://racing.riccartonpark.nz/nz-cup-show-week', 'not allowed without consent'], ['HRNZ', 'https://www.hrnz.co.nz/news/nominations-open-for-nz-trotting-cup-and-renwick-farms-dominion-trot/', 'check by eye']]],
+      ['idea', 'Triathlon: Hayden Wilde at the Dubai T100, Sat 14 Nov about 7pm NZ, free on YouTube and TriathlonLive', [['PTO start list', 'https://stats.protriathletes.org/race/dubai-t100/2026/participants', 'check by eye']]],
+      ['idea', 'Squash: Paul Coll at the US Open, final about midday Sun 8 Nov NZ (paid, SquashTV)', []],
+      ['idea', 'Lower NZ interest this week: MotoGP Qatar, WRC Saudi Arabia, darts\' Grand Slam, the Tour of Southland', []],
+    ]],
+    ['Where to watch', [
+      ['done', 'A-League: Sky shows every game, not "selected games" as the site said for games without a NZ side', [['A-Leagues', 'https://aleagues.com.au/news/aleague-men-2026-2027-fixture-list-revealed-key-dates-fixture-information/', 'link only']]],
+      ['done', 'NBA and NBL: also on Disney+ (ESPN), since Nov 2025', [['Disney+', 'https://www.disneyplus.com/en-nz/explore/articles/espn-on-disney-plus-launches-in-australia-new-zealand', 'link only']]],
+      ['done', 'UFC numbered events: also on a TVNZ+ Event Pass (pay-per-view)', [['UFC', 'https://www.ufc.com/news/how-to-watch-ufc-in-new-zealand-2026', 'link only']]],
+      ['done', 'In Australia lists added: F1 (Kayo and Foxtel, every session) and the Black Caps (Fox Cricket and Kayo)', [['Foxtel', 'https://foxtelgroup.com.au/newsroom/kayo-sports-races-ahead-with-extended-formula-1-broadcast-deal-2', 'link only']]],
+      ['done', 'Kiwis v Tonga tonight: the site said free on Three, but the Freeview guide has Election Night Live on Three from 7 to 11pm, so it now says free on ThreeNow (v607). Whether ThreeNow streams it live is still unconfirmed', [['Freeview guide (i.mjh.nz)', 'https://i.mjh.nz/', 'read automatically']]],
+      ['done', 'The women\'s Rugby League World Cup final (15 Nov) is on Three, per the Freeview guide; the site now says so (v607). Australia v Samoa\'s semi is on Three too, which the site already showed from the guide', [['Freeview guide (i.mjh.nz)', 'https://i.mjh.nz/', 'read automatically']]],
+      ['todo', 'Rugby League World Cup semis and finals: said to stream free on ThreeNow; the site shows no free option for games without the Kiwis', [['Rugby World', 'https://rugbyworld.com/how-to-watch/new-zealand-cook-islands-rugby-league-world-cup-2026-186167', 'check by eye']]],
+      ['todo', 'Black Ferns: NZ Rugby says all their 2026 games are on Three (live or delayed not yet clear); the site lists Sky only', [['All Blacks site', 'https://www.allblacks.com/news/chucking-nz-the-login-watch-all-blacks-v-stormers-for-free', 'link only']]],
+      ['todo', 'SailGP: now said to be live on Three; the site says delayed', []],
+      ['todo', 'Auckland FC v Phoenix today: the Freeview guide shows it live on a free channel (probably Sky Open)', [['Freeview guide', 'https://www.freeviewnz.tv/tvguide/', 'check by eye']]],
+      ['ok', 'Checked and right: All Blacks tests (Sky live, Three delayed), the Black Caps ODIs (Sky, with free radio), NZ A v India A (free on NZC\'s YouTube). No NZ broadcaster found for Pakistan v Sri Lanka or South Africa v Bangladesh', []],
+      ['ok', 'Rights to know about: Black Caps and White Ferns home games are on Sky to 2031-32; Sky\'s A-League deal ends after this season; Sky\'s NRL deal runs to the end of 2027', [['Sport Nation', 'https://sportnation.nz/article/sky-sport-secure-six-year-home-internationals-deal-with-nz-cricket', 'link only']]],
+    ]],
+    ['Data and pictures', [
+      ['todo', 'White Ferns v Bangladesh (10 to 23 Dec): the times have been out since June (T20Is 4pm, 1pm, 4pm; ODIs 11am) but the site has them as TBC. To keep by hand, checked against CD Cricket', [['CD Cricket', 'https://www.cdcricket.co.nz/newsarticle/166331', 'check by eye']]],
+      ['todo', 'WBBL: Wikipedia now has times for the Knockout (1 Dec) and the Final (5 Dec), which the site has as TBC', [['Wikipedia', 'https://en.wikipedia.org/wiki/2026%E2%80%9327_Women%27s_Big_Bash_League_season', 'read automatically']]],
+      ['todo', 'Sheffield Shield times: no automatic source; the grounds\' own pages have them', [['MCG', 'https://www.mcc.org.au/news/2026/july/pink-ball-match-headlines-mcg-sheffield-shield-schedule', 'check by eye']]],
+      ['ok', 'A-League rounds 6 and 7 are short (3 and 2 games) in every source, so nothing is missing', [['TheSportsDB', 'https://www.thesportsdb.com/league/4356', 'read automatically']]],
+      ['no', 'Ford Trophy and Heartland XV results: still no source that allows use. Wikipedia\'s Ford Trophy table is empty so far; possible11 forbids copying; NZC and NZ Rugby are check by eye only', [['Wikipedia', 'https://en.wikipedia.org/wiki/2026%E2%80%9327_Ford_Trophy', 'read automatically, when filled']]],
+      ['todo', 'Cricket rain delays: a test on the 2nd ODI v India (a weather delay from the 3pm start, 7 Nov). BBC Sport\'s scorecard title and the Herald\'s headlines never mentioned it. Wikipedia added its rain note at 3:49pm and the site showed it from the 3:55pm update, about 55 minutes in. With ESPN off, that is as fast as it gets without a live-score source', [['Wikipedia', 'https://en.wikipedia.org/wiki/Indian_cricket_team_in_New_Zealand_in_2026%E2%80%9327', 'read automatically']]],
+      ['no', 'Boxing results: BoxRec\'s terms forbid using software to read it. Boxers\' Wikipedia pages have them (read automatically, behind the spoiler guard)', []],
+      ['todo', 'Logos still grey: Heartland XV, NZ A, India A, Central Hinds, South Australia, Western Australia, ACT. TheSportsDB has none of them; Commons files are candidates but their licences couldn\'t be read from here yet. NZ A and India A could take their flags', []],
+    ]],
+    ['New sources', [
+      ['idea', 'UFCalendar API: UFC and other MMA cards with start times; its terms welcome automated access, with a free key (needs you to sign up). Fixtures only, as it has results too', [['UFCalendar developers', 'https://www.ufcalendar.com/developers/ufc-api', 'allowed, free key']]],
+      ['ok', 'Flicks: a where-to-watch page for each NZ game, but it blocks bots, so check by eye only', [['Flicks', 'https://www.flicks.co.nz/sport/', 'check by eye']]],
+      ['ok', 'Sport Nation\'s weekly Live Sport Bible lists its free radio; its terms forbid copying, so link only', [['Sport Nation', 'https://sportnation.nz/', 'link only']]],
+      ['no', 'Not usable: BoxRec, Legz, possible11 (copying), the NBL and Breakers sites (no reproduction), Riccarton Park (even links need consent), PSA Squash, Golf News Net', []],
+      ['idea', 'CricketData.org (CricAPI), for cricket\'s state of play and rain delays: its free plan is 100 calls a day (about one match day at a call every 5 minutes) and says it\'s for websites, but its terms page blocks automated readers, so it needs reading by hand or an email to them', [['CricketData.org pricing', 'https://cricketdata.org/pricing/', 'unclear: terms unread']]],
+      ['idea', 'Unclear, to read their terms: API-Football\'s free plan (all competitions, 100 calls a day), whensport, PlayHQ, Kayo (its pages block this kind of reader)', []],
+      ['todo', 'Still to search: Silver Ferns, the sevens, Māori All Blacks and Moana Pasifika, Black Sticks women, Tall Ferns, softball, volleyball, touch, speedway, rowing, surfing, athletics, RugbyPass TV, Watch NRL, Prime Video, Trackside, the 2027 Super Rugby, NRL and netball deals', []],
+    ]],
+  ] },
+];
+// the big additions of data, newest first: kept by hand, a line each time a gap is filled or a new kind of data comes in
+const ADDED = [
+  ['7 Nov 2026', 'ONE Championship: its big cards (ONE Fight Night, ONE Samurai, numbered events) with their fight cards from Wikipedia (the year page, or a card\'s own article once it has one) and start times from TheSportsDB; its weekly Friday Fights only with a New Zealander on the card. On for everyone; a card with a Kiwi on it is also under NZ fighters (was NZ boxers). On ESPN (Sky, Sky Sport Now, Disney+); ONE Samurai on ONE\'s own pay-per-view, its first two fights free on ONE\'s YouTube'],
+  ['7 Nov 2026', 'Nations Championship: its 18 July games (the Southern Hemisphere Series) stay in its Results while it\'s on; SANZAAR TV followed for highlights'],
+  ['7 Nov 2026', 'The NBA in the i pop-up\'s off-by-default line is a tag too, opening Settings at Basketball; taps counted as Off-by-default name in sports info'],
+  ['7 Nov 2026', 'The i pop-up in the sport row names what this browser has turned off (whole sports and single competitions), each tapping through to it in Settings; taps counted as Turned-off name in sports info'],
+  ['7 Nov 2026', 'NBL: the whole season\'s start times from TheSportsDB, round by round, as Wikipedia\'s are an hour out in daylight saving'],
+  ['7 Nov 2026', 'Where to watch: every A-League game on Sky, Disney+ (ESPN) for the NBA and NBL, a TVNZ+ Event Pass for UFC numbered events, and In Australia lists for F1 and the Black Caps'],
+  ['7 Nov 2026', 'Research, at the bottom of this page: the first sweep of every sport for the coming week, with what each source allows'],
+  ['7 Nov 2026', 'An eye joined to an off competition\'s faded button on This week\'s line, putting its games in that sport\'s list (it replaces Show here there); taps counted as This week eye: shown here and This week eye: hidden again'],
+  ['6 Nov 2026', 'A button on This week\'s line for a competition that\'s off in Settings (the NBA), marked Off, opening its page; taps counted as This week off competition button'],
+  ['6 Nov 2026', 'Competition buttons on This week\'s line when one sport is picked (F1 and Supercars under Motorsport, each cricket series under Cricket): a tap opens that competition\'s page; taps counted as This week competition button, and its +N as This week more competitions'],
+  ['6 Nov 2026', 'Every Nations Championship game, not just the All Blacks\' (all 12 nations\' games from Wikipedia\'s series pages, the Wallabies\' too, and the six finals at Twickenham), under a new Nations Championship pick; Sky Sport as its broadcaster; its own YouTube channel for highlights and in the Shows tab; its news (BBC Sport, nzherald.co.nz); its leading points and try scorers in the Table tab (Wikipedia). Fight nights\' free prelims streams on YouTube (Fox Sports Australia\'s, for Gallen v Asofa-Solomona) in the fight\'s where-to-watch list'],
+  ['6 Nov 2026', 'Australian Second XI games (the men\'s four-day Toyota Second XI and the Women\'s Second XI), listed from Cricket Australia\'s free YouTube streams, which no other free source lists; its streams of these lower grades no longer count for a Shield game between the same states. A game\'s Highlights button now opens the highlights video itself, from the YouTube channels followed (now with Sky Sport NZ\'s, the Big Bash\'s, the Rugby League World Cup\'s and DAZN\'s boxing and football channels too), instead of a search'],
+  ['6 Nov 2026', 'The All Whites and Football Ferns as teams to follow, with the All Whites v India games in Auckland and Christchurch; start times for the Sheffield Shield, Pakistan v Sri Lanka and South Africa v Bangladesh games this month'],
+  ['5 Nov 2026', 'The rest of the Ford Trophy season (rounds 3 to 10 and both finals), and free streams from Bangladesh\'s rights holders on YouTube (Rabbitholebd Sports, T Sports) where they stream a game'],
+  ['1 Nov 2026', 'Free streams from the NZ Provincial Rugby YouTube channel (some NPC and Farah Palmer Cup games, the Heartland XV), and the Heartland XV v Samoa series; Tests now show both innings, and a series still going keeps its earlier games'],
+  ['31 Oct 2026', 'TV listings from the Sky Sport Now guide (Sky Sport 1–9, ESPN and Select), since the Sky Go guide stopped updating at the end of October; each guide\'s reach now shows in the feed\'s notes'],
+  ['31 Oct 2026', 'New sources for gaps: Sheffield Shield start times from the grounds (MCC for the MCG, the Gabba\'s members\' calendar), the Black Sticks squad for the Indian Centenary Series from the Black Sticks site, the Hallyburton Johnstone Shield opener\'s home side and usual 10:30am start from NZC\'s draw and Central Districts, and the Bangladesh v West Indies 2nd Test\'s 9:30am start'],
+  ['31 Oct 2026', 'Gap sweep: the Black Sticks v India Tests free on TVNZ+; the WTA Finals moved to Indian Wells; a UFC night\'s headliners kept to its Wikipedia article when TheSportsDB still has the old main event; boxers on the hand-kept fights linked to their Wikipedia (or BoxRec) page; the Fox Cricket channel watched for free streams; and the TV guide\'s Sky listings checked for going stale'],
+  ['26 Oct 2026', 'Supercars race results: every race of a round in full (team, time or gap, points), the top 10 first and the rest on a tap, from Wikipedia\'s race tables once filled in and TheSportsDB until then; and the F1 classification for earlier races still on the site (Singapore and before)'],
+  ['26 Oct 2026', 'F1 race results: the whole classification (team, time or gap, points), the top 10 points finishers first and the rest on a tap, from Wikipedia\'s race classification, kept with each race after its weekend'],
+  ['25 Oct 2026', 'Free YouTube streams from more official channels, when they\'re open in NZ: Sports Central and Sports TV (the PCB\'s streaming partner outside Pakistan, for Pakistan\'s home series), Pakistan Cricket, World Rugby, FIFA, FIH and FIBA'],
+  ['25 Oct 2026', 'Squads for a side tour written up inside a bigger tour\'s page (NZ A and India A\'s touring squads, from the India tour\'s Wikipedia page), in place of India A\'s whole year-long pool'],
+  ['24 Oct 2026', 'F1 session times: every practice, qualifying, sprint and race of the latest weekend in NZ time with its order (Wikipedia classification tables, practice from TheSportsDB), on a Sessions tab of the Formula 1 page'],
+  ['24 Oct 2026', 'Gaps filled: NBL start times a week ahead (TheSportsDB), NBA arenas and golf courses (Wikipedia), flags for Oman, UAE, Nepal and other smaller cricket nations, and where to watch in NZ for 49 games that had none (Australia and India home cricket, the Big Bash, Dean Jones Trophy, SailGP, ATP Finals)'],
+  ['23 Oct 2026', 'Form guide: every result kept a year (it was this season only), last season\'s pages read for it (NPC, Super Rugby, Rugby Championship, the 2025 tests, Big Bash and WBBL, Sheffield Shield, NBL, NRL finals, Constellation Cup and more), earlier Premier League and A-League rounds and the Nations Championship\'s July tests from TheSportsDB. Form for netball, basketball and hockey too; a national side\'s names count as one (All Blacks and New Zealand); ten results on a team\'s page'],
+  ['23 Oct 2026', 'Every WXV Global Series game, not just the Black Ferns\' (a WXV pick under Rugby); cricket tri-series between other nations, with their tables (Wikipedia)'],
+  ['23 Oct 2026', 'Form for NZ domestic cricket: last season\'s Plunket Shield, Ford Trophy, Hallyburton Johnstone Shield and both Super Smashes (Wikipedia), 24 to 32 results each'],
+  ['23 Oct 2026', 'UFC fight week: Embedded, Countdown, the press conference and the weigh-ins, free on UFC\'s YouTube channel, in the event\'s pop-up and a Build-up tab on the UFC page'],
+  ['23 Oct 2026', 'Squads for all 14 NPC sides, Australia, Japan, Fiji, Samoa, Tonga, Georgia and the United States in rugby, India A, and the six NZ women\'s domestic cricket sides (each side\'s own page on Wikipedia)'],
+  ['23 Oct 2026', 'Squads for every side at the Wheelchair Rugby League World Cup (the tournament\'s page), Lebanon\'s league squad, and the MLB sides between seasons (their 40-man rosters): 186 of 188 sides\' squads now read'],
+  ['23 Oct 2026', 'Golf: the men\'s and women\'s world top tens, the last FedEx Cup and Australasian Order of Merit in Rankings (Wikipedia); each finished tournament\'s top 10 (TheSportsDB); BBC and Herald golf headlines. Coverage over time on this page'],
+  ['23 Oct 2026', 'Squads for every NBA side and for MLB and Japanese baseball sides with games coming up (each club\'s roster on Wikipedia)'],
+  ['23 Oct 2026', 'NBA and MLB headlines (SB Nation, BBC Sport); a Playoffs tab for the MLB playoffs and Japan Series, every series of this year\'s playoffs kept; WBSC men\'s baseball world rankings (Wikipedia)'],
+  ['23 Oct 2026', 'NBA: every game from a week back to ten days ahead with results, and the conference standings worked out from this season\'s results (balldontlie, free key). Off until turned on in My teams'],
+  ['23 Oct 2026', 'Baseball: the World Series and the rest of this year\'s MLB playoffs, the Japan Series, and the final MLB and Japanese standings (Wikipedia)'],
+  ['23 Oct 2026', 'Buy me a coffee link (Ko-fi) at the foot of the page; clicks counted as Coffee link'],
+  ['23 Oct 2026', 'F1 qualifying as its own card; practice, sprints and Supercars\' other races, qualifying and shootouts on the F1 and Supercars pages (TheSportsDB)'],
+  ['23 Oct 2026', 'Report a problem and Suggest an idea: notes from visitors, listed on this page'],
+  ['23 Oct 2026', 'NBL: every game and the season ladder (Breakers games still have their own pick)'],
+  ['23 Oct 2026', 'Sailing (SailGP) and Golf (PGA Tour, LPGA Tour, PGA Tour of Australasia), with winners'],
+  ['23 Oct 2026', 'Silver Ferns v Diamonds and other netball tests from TheSportsDB'],
+  ['23 Oct 2026', 'F1 and Supercars championship standings in Rankings (last season\'s final table until the new season starts)'],
+  ['23 Oct 2026', 'Results and Squads tabs on competition pages; last season\'s NZ and Australian tours feed the form guides'],
+  ['21 Oct 2026', 'Free to watch filter; phone alerts name the channel and start time; Supercars start times'],
+  ['21 Oct 2026', "More squads: wheelchair and smaller national league sides whose tables list plain names"],
+  ['21 Oct 2026', "TV guide listings for each game (TVNZ, Three, Sky Open, DUKE and the Sky Sport channels), from the NZ XMLTV guide at i.mjh.nz"],
+  ['21 Oct 2026', 'Supercars: every round, with race winners'],
+  ['21 Oct 2026', 'Premier League squads from the clubs\' pages'],
+  ['20 Oct 2026', "Free live streams from the sports bodies' YouTube channels (NZ Cricket, Cricket Australia, Netball NZ, Hockey NZ, Basketball NZ, NZ Football, NZ Rugby League)"],
+  ['20 Oct 2026', "League World Cup squads: 16 sides (men's and women's)"],
+  ['20 Oct 2026', "Tennis doubles rankings, men's and women's"],
+  ['Oct 2026', 'Current squads for NZ domestic cricket, the Big Bash and WBBL, the NBL, the A-League, and national and Super Rugby sides'],
+  ['Oct 2026', 'Where to watch: free NZ options (TVNZ+, Three/ThreeNow, Sky Open), Australian options, and the usual broadcaster for most competitions'],
+  ['Oct 2026', 'Placeholder sport icons for sides with no logo yet'],
+];
+// coverage over time. Two snapshots from before the stats server kept them (early 23 Oct 2026), in data/coverage.json's
+// shape: per sport [games, start times, where to watch, games needing squads, with squads, sides, with pictures, with
+// team links, in the TV guide, free streams]
+const COV_SEED = [{"v":376,"at":"2026-10-22T15:08:14.464Z","cov":{"cricket":[48,38,43,48,45,30,28,30,2,0],"boxing":[5,4,5,0,0,10,7,0,0,0],"league":[53,48,53,30,26,14,14,14,13,0],"rugby":[6,6,4,6,3,8,8,8,3,0],"mma":[3,1,3,0,0,6,6,0,1,0],"football":[32,32,32,32,32,31,31,31,15,0],"basketball":[4,4,4,4,4,5,5,5,0,0],"motor":[5,5,5,0,0,0,0,0,0,0]}},{"v":385,"at":"2026-10-22T17:17:55.804Z","cov":{"cricket":[48,38,43,48,45,30,28,30,2,0],"boxing":[5,4,5,0,0,10,7,0,0,0],"league":[53,48,53,30,26,14,14,14,13,0],"netball":[2,2,2,2,0,2,2,2,2,0],"rugby":[6,6,4,6,3,8,8,8,3,0],"mma":[3,1,3,0,0,6,6,0,1,0],"football":[32,32,32,32,32,31,31,31,15,0],"basketball":[24,21,24,24,24,11,10,11,0,0],"motor":[5,5,5,0,0,0,0,0,0,0],"golf":[7,0,7,7,0,7,0,0,1,0]}}];
+// the measures: name, short name (for a phone's table), what's counted and out of what (Games is the count itself).
+// Team links leave out fighters, who have none, as Data coverage does
+const COV_M = [{ l: 'Games', s: 'Games', n: 0 }, { l: 'Start times', s: 'Times', n: 1, d: 0 }, { l: 'Where to watch', s: 'Watch', n: 2, d: 0 },
+  { l: 'Squads', s: 'Squads', n: 4, d: 3 }, { l: 'Pictures', s: 'Pics', n: 6, d: 5 }, { l: 'Team links', s: 'Links', n: 7, d: 5, skip: ['mma', 'boxing'] }];
+let covLive = null, cvt = null;
+// the pop-up's name for each measure, in COV_M's order
+const COV_DET = ['games', 'time', 'watch', 'squads', 'pic', 'links'];
+const sportName = k => SPORT_LABEL[k] || k[0].toUpperCase() + k.slice(1);
+// one measure's count and total, for all sports together or for one
+const covFig = (M, cov, only) => { let n = 0, d = 0;
+  for (const k of Object.keys(cov)) { if ((only && k !== only) || (M.skip && M.skip.includes(k))) continue; const a = cov[k] || []; n += +a[M.n] || 0; if (M.d != null) d += +a[M.d] || 0; }
+  return { n, d }; };
+// a share in whole per cent (null with nothing to count), or the games count
+const covVal = (M, f) => M.d == null ? f.n : f.d ? Math.round(100 * f.n / f.d) : null;
+// "23 Oct 6:25pm", NZ time
+const nzWhen = at => { const t = new Date(at); if (isNaN(t)) return ''; const p = {};
+  new Intl.DateTimeFormat('en-NZ', { timeZone: 'Pacific/Auckland', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hourCycle: 'h23' }).formatToParts(t).forEach(x => { p[x.type] = x.value; });
+  const h = +p.hour % 24; return `${+p.day} ${p.month} ${h % 12 || 12}:${p.minute}${h < 12 ? 'am' : 'pm'}`; };
+// a change, its arrow and the words for it: "▲ 3 pts" and "since v376" on a tile, "▲3" in a table
+const covChange = (M, d, v) => {
+  const a = Math.abs(d), u = M.d == null ? (a === 1 ? 'game' : 'games') : (a === 1 ? 'point' : 'points');
+  return { title: d ? `${d > 0 ? 'Up' : 'Down'} ${a} ${u} since v${v}` : `No change since v${v}`, short: d ? `${d > 0 ? '▲' : '▼'}${a}` : '–',
+    tile: d ? `${d > 0 ? '▲' : '▼'} ${a}${M.d == null ? '' : a === 1 ? ' pt' : ' pts'}` : '– no change', since: `since v${v}` }; };
+// the points, oldest first: the seed, then the server's (one a version it saw), then the live file when it's a newer
+// version; a version given twice keeps the later copy
+function covPoints() {
+  const byV = {};
+  for (const p of COV_SEED.concat(data.coverage || [])) if (p && p.v > 0 && p.cov) byV[p.v] = p;
+  const pts = Object.keys(byV).map(Number).sort((a, b) => a - b).map(v => byV[v]);
+  if (covLive && covLive.v > 0 && covLive.cov && !(pts.length && covLive.v <= pts[pts.length - 1].v)) pts.push(covLive);
+  return pts;
+}
+// a tile a measure (now, the change since the first point, a sparkline of every version), then each sport now with
+// its change since it first appeared, then every version as a table
+function drawTrend() {
+  const pts = covPoints(), L = pts.length - 1, v0 = pts[0].v, box = $('cvTiles');
+  $('cvtRange').textContent = `all sports, v${v0} to v${pts[L].v}`;
+  const ser = COV_M.map(M => pts.map(p => covFig(M, p.cov)));
+  box.innerHTML = COV_M.map((M, m) => {
+    const vals = ser[m].map(f => covVal(M, f)), now = vals[L], b = vals.findIndex(x => x != null);
+    const ch = now == null ? null : covChange(M, now - vals[b], pts[b].v);
+    return `<div class="tile" data-det="${COV_DET[m]}" data-sport=""><div class="l">${M.l}</div><div class="v">${now == null ? '–' : M.d == null ? fmtN(now) : now + '%'}</div>`
+      + `<div class="s"${ch ? ` title="${ch.title}"` : ''}>${ch ? `<span>${ch.tile}</span> <span>${ch.since}</span>` : '&nbsp;'}</div><div class="spark" data-m="${m}"></div></div>`;
+  }).join('') + '<div class="tip" hidden></div>';
+  // the sparklines: exact shares (or counts), the scale at least 10 points tall for a share and a tenth of the top for
+  // the count, so a small wobble looks small; no axes, a dot on the latest
+  cvt = { pts, ser, geo: [] };
+  box.querySelectorAll('.spark').forEach(el => {
+    const m = +el.dataset.m, M = COV_M[m], W = Math.max(60, el.clientWidth), H = 40, px = 5, py = 6;
+    const raw = ser[m].map(f => M.d == null ? f.n : f.d ? 100 * f.n / f.d : null), got = raw.filter(x => x != null);
+    if (!got.length) return;
+    let lo = Math.min(...got), hi = Math.max(...got);
+    const span = M.d == null ? Math.max(10, hi / 10) : 10;
+    if (hi - lo < span) { const c = (hi + lo) / 2; lo = c - span / 2; hi = c + span / 2; }
+    if (lo < 0) { hi -= lo; lo = 0; }
+    if (M.d != null && hi > 100) { lo -= hi - 100; hi = 100; }
+    const xs = raw.map((_, i) => L ? px + i * (W - 2 * px) / L : W / 2), ys = raw.map(x => x == null ? null : py + (hi - x) / (hi - lo) * (H - 2 * py));
+    const line = raw.map((x, i) => x == null ? '' : `${xs[i].toFixed(1)},${ys[i].toFixed(1)}`).filter(Boolean).join(' ');
+    const e = ys.length - 1 - ys.slice().reverse().findIndex(y => y != null);
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true"><line class="xh" y1="0" y2="${H}" stroke="var(--muted)" stroke-width="1" visibility="hidden"/>`
+      + `<polyline points="${line}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`
+      + `<circle cx="${xs[e].toFixed(1)}" cy="${ys[e].toFixed(1)}" r="4" fill="var(--accent)" stroke="var(--paper)" stroke-width="2"/>`
+      + `<circle class="hd" r="4" fill="var(--accent)" stroke="var(--paper)" stroke-width="2" visibility="hidden"/></svg>`;
+    cvt.geo[m] = { xs, ys, W, H };
+  });
+  // a row a sport, A to Z, with its change since it first appeared; a sport that wasn't in the first point is "new"
+  const head = first => `<thead><tr><th>${first}</th>${COV_M.map(M => `<th title="${M.l}"><span class="lg">${M.l}</span><span class="sm">${M.s}</span></th>`).join('')}</tr></thead>`;
+  const sports = [...new Set(pts.flatMap(p => Object.keys(p.cov)))].sort((a, b) => sportName(a).localeCompare(sportName(b)));
+  $('cvSports').innerHTML = head('Sport') + '<tbody>' + sports.map(k => {
+    const fi = pts.findIndex(p => p.cov[k]);
+    return `<tr><td>${esc(sportName(k))}</td>` + COV_M.map((M, m) => {
+      const now = covVal(M, covFig(M, pts[L].cov, k));
+      if (now == null) return '<td class="c na">–</td>';
+      let b = -1;
+      for (let i = fi; i <= L && b < 0; i++) if (pts[i].cov[k] && covVal(M, covFig(M, pts[i].cov, k)) != null) b = i;
+      const was = b >= 0 && b < L ? covChange(M, now - covVal(M, covFig(M, pts[b].cov, k)), pts[b].v) : null;
+      const small = fi > 0 ? `<small title="Not in v${v0}: first seen in v${pts[fi].v}.${was ? ' ' + was.title : ''}">new</small>`
+        : !was ? `<small title="First counted in v${pts[L].v}">${L ? 'new' : '–'}</small>` : `<small title="${was.title}">${was.short}</small>`;
+      return `<td class="c" data-det="${COV_DET[m]}" data-sport="${esc(k)}">${now}${M.d == null ? '' : '%'}${small}</td>`;
+    }).join('') + '</tr>';
+  }).join('') + '</tbody>';
+  // every version, newest first: what a sparkline's tooltip shows, without hovering
+  $('cvVersions').innerHTML = head('Version') + '<tbody>' + pts.map((p, i) => `<tr><td class="c">v${esc(p.v)}<small>${esc(nzWhen(p.at))}</small></td>`
+    + COV_M.map((M, m) => { const x = covVal(M, ser[m][i]); return `<td title="${ser[m][i].n}${M.d == null ? ' games' : ` of ${ser[m][i].d}`}">${x == null ? '–' : M.d == null ? x : x + '%'}</td>`; }).join('') + '</tr>').reverse().join('') + '</tbody>';
+}
+// a sparkline's tooltip: the version nearest the pointer, on hover or a tap (a tap's stays until a tap elsewhere)
+function cvtHide() {
+  const box = $('cvTiles'), tip = box.querySelector('.tip');
+  if (tip) tip.hidden = true;
+  box.querySelectorAll('.xh, .hd').forEach(e => e.setAttribute('visibility', 'hidden'));
+}
+function cvtShow(ev) {
+  const box = $('cvTiles'), sp = ev.target.closest ? ev.target.closest('.spark') : null, g = sp && cvt && cvt.geo[+sp.dataset.m];
+  if (!g) return cvtHide();
+  const m = +sp.dataset.m, M = COV_M[m], r = sp.getBoundingClientRect(), b = box.getBoundingClientRect(), px = (ev.clientX - r.left) * g.W / r.width;
+  let i = -1;
+  g.xs.forEach((x, j) => { if (g.ys[j] != null && (i < 0 || Math.abs(x - px) < Math.abs(g.xs[i] - px))) i = j; });
+  if (i < 0) return cvtHide();
+  cvtHide();
+  const xh = sp.querySelector('.xh'), hd = sp.querySelector('.hd');
+  xh.setAttribute('x1', g.xs[i]); xh.setAttribute('x2', g.xs[i]); xh.setAttribute('visibility', 'visible');
+  hd.setAttribute('cx', g.xs[i]); hd.setAttribute('cy', g.ys[i]); hd.setAttribute('visibility', 'visible');
+  // "v409 · 23 Oct 6:25pm NZ · 91% (288 of 317)": the value in bold, all in text colours
+  const p = cvt.pts[i], f = cvt.ser[m][i], tip = box.querySelector('.tip'), when = nzWhen(p.at);
+  const d = document.createElement('span'); d.className = 'd'; d.textContent = `v${p.v}${when ? ` · ${when} NZ` : ''} · `;
+  const v = document.createElement('b'); v.textContent = M.d == null ? fmtN(f.n) : covVal(M, f) + '%';
+  tip.replaceChildren(d, v, document.createTextNode(M.d == null ? (f.n === 1 ? ' game' : ' games') : ` (${f.n} of ${f.d})`));
+  tip.hidden = false;
+  const half = tip.offsetWidth / 2, left = r.left - b.left + g.xs[i] * r.width / g.W;
+  tip.style.left = Math.max(half, Math.min(b.width - half, left)) + 'px';
+  tip.style.top = (r.top - b.top + g.ys[i] * r.height / g.H - 10) + 'px';
+  tip.style.transform = 'translate(-50%, -100%)';
+}
+$('cvTiles').addEventListener('pointermove', cvtShow);
+$('cvTiles').addEventListener('pointerdown', cvtShow);
+$('cvTiles').addEventListener('pointerleave', ev => { if (ev.pointerType === 'mouse') cvtHide(); });
+document.addEventListener('pointerdown', ev => { if (!$('cvTiles').contains(ev.target)) cvtHide(); });
+// what's behind a figure, from data/coverage-detail.json (written with the feed): each game in the next three weeks with
+// flags for what it has (1 start time, 2 a way to watch, 4 needs squads, 8 has them, 16 in the TV guide, 32 a free
+// stream) and each side playing them (1 picture, 2 needs team links, 4 has them). Fetched on the first click
+let detP = null, detTab = 'miss';
+const DET = { games: { l: 'Games', g: 1 }, time: { l: 'Start times', g: 1, has: 1 }, watch: { l: 'Where to watch', g: 1, has: 2 },
+  guide: { l: 'In the TV guide', g: 1, has: 16 }, streams: { l: 'Free streams', g: 1, has: 32 }, squads: { l: 'Squads', g: 1, need: 4, has: 8 },
+  pic: { l: 'Pictures', has: 1 }, links: { l: 'Team links', need: 2, has: 4, skip: ['mma', 'boxing'] } };
+// "Sat 25 Oct 7:30pm" in NZ time (the day alone while the time isn't set)
+const nzDay = (at, timed) => { const t = new Date(at); if (isNaN(t)) return ''; const p = {};
+  new Intl.DateTimeFormat('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hourCycle: 'h23' }).formatToParts(t).forEach(x => { p[x.type] = x.value; });
+  const h = +p.hour % 24; return `${p.weekday} ${+p.day} ${p.month}` + (timed ? ` ${h % 12 || 12}:${p.minute}${h < 12 ? 'am' : 'pm'}` : ''); };
+async function openDet(m, sport) {
+  const D = DET[m]; if (!D) return;
+  const dlg = $('det');
+  $('detT').textContent = `${D.l} · ${sport ? sportName(sport) : 'all sports'}`;
+  $('detSum').textContent = 'Loading…'; $('detBody').replaceChildren(); $('detMiss').hidden = $('detHave').hidden = true;
+  if (!dlg.open) dlg.showModal();
+  const det = await (detP ||= fetch('data/coverage-detail.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null));
+  if (!det) { detP = null; $('detSum').textContent = "Not in the feed yet: it comes with the next feed update."; return; }
+  const all = (D.g ? det.games : det.sides).filter(x => (!sport || x.s === sport) && !(D.skip || []).includes(x.s) && (!D.need || x.f & D.need));
+  const have = D.has ? all.filter(x => x.f & D.has) : all, miss = D.has ? all.filter(x => !(x.f & D.has)) : [];
+  const what = D.g ? 'games' : 'sides';
+  $('detSum').textContent = (D.has ? `${have.length} of ${all.length} ${what}${all.length ? ` (${Math.round(100 * have.length / all.length)}%)` : ''}` : `${all.length} ${what}`)
+    + ` in the next three weeks, from the feed built ${nzWhen(det.at)} NZ time (v${det.v}).`;
+  $('detMiss').textContent = `Missing ${miss.length}`; $('detHave').textContent = `${D.has ? 'Have' : 'All'} ${have.length}`;
+  $('detMiss').hidden = !D.has; $('detHave').hidden = false;
+  if (!D.has || !miss.length) detTab = 'have'; else detTab = 'miss';
+  const lists = { miss, have };
+  const show = () => {
+    for (const b of [$('detMiss'), $('detHave')]) b.setAttribute('aria-selected', String(b.dataset.dt === detTab));
+    const xs = lists[detTab], body = $('detBody');
+    body.replaceChildren(); body.scrollTop = 0;
+    if (!xs.length) { const p = document.createElement('p'); p.className = 'none'; p.textContent = detTab === 'miss' ? 'Nothing missing.' : 'None yet.'; body.append(p); return; }
+    // by sport (when it's all of them), then competition, the biggest first; all open, except what every sport has
+    // when that's a long list (a competition a line, to open)
+    const bySport = new Map();
+    for (const x of xs) { const s = bySport.get(x.s) || bySport.set(x.s, new Map()).get(x.s); (s.get(x.c) || s.set(x.c, []).get(x.c)).push(x); }
+    const open = sport || detTab === 'miss' || xs.length <= 60;
+    for (const s of [...bySport.keys()].sort((a, b) => sportName(a).localeCompare(sportName(b)))) {
+      if (!sport) { const h = document.createElement('h4'); h.textContent = sportName(s); body.append(h); }
+      for (const [c, items] of [...bySport.get(s)].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]))) {
+        const d = document.createElement('details'); d.open = open;
+        const sm = document.createElement('summary'), n = document.createElement('span'); n.className = 'n'; n.textContent = ` · ${items.length}`;
+        sm.append(c || 'Other', n);
+        const ul = document.createElement('ul');
+        for (const x of items.slice().sort(D.g ? (a, b) => Date.parse(a.at) - Date.parse(b.at) : (a, b) => a.n.localeCompare(b.n))) {
+          const li = document.createElement('li'), a = document.createElement('span');
+          a.textContent = x.n + (D.g ? ` · ${nzDay(x.at, x.f & 1)}` : '');
+          li.append(a);
+          if (D.g && m === 'watch' && x.w && detTab === 'have') { const w = document.createElement('span'); w.className = 'w'; w.textContent = x.w; li.append(w); }
+          ul.append(li);
+        }
+        d.append(sm, ul); body.append(d);
+      }
+    }
+  };
+  $('detMiss').onclick = () => { detTab = 'miss'; show(); };
+  $('detHave').onclick = () => { detTab = 'have'; show(); };
+  show();
+}
+// a tile or a figure opens it; a touch on a sparkline shows that version instead
+let lastPointer = 'mouse';
+document.addEventListener('pointerdown', ev => { lastPointer = ev.pointerType; }, true);
+document.addEventListener('click', ev => {
+  const el = ev.target.closest && ev.target.closest('[data-det]');
+  if (!el || (lastPointer !== 'mouse' && ev.target.closest('.spark'))) return;
+  openDet(el.dataset.det, el.dataset.sport);
+});
+$('detX').addEventListener('click', () => $('det').close());
+$('toTop').addEventListener('click', () => scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }));
+addEventListener('scroll', () => { $('toTop').hidden = scrollY < 700; }, { passive: true });
+$('det').addEventListener('click', ev => { if (ev.target === $('det')) $('det').close(); }); // a click on the backdrop
+function draw() {
+  drawCoverage();
+  $('missedSum').textContent = `Missed games found · ${MISSED.length}`;
+  $('missed').innerHTML = MISSED.map(([d, c, g, what, did, by]) => `<li><b>${esc(d)}</b> ${esc(c)}: ${esc(g)}. ${esc(what)}. ${esc(did)}. <span class="by">Found by ${esc(by)}</span></li>`).join('');
+  $('added').innerHTML = ADDED.map(([d, t]) => `<li><b>${esc(d)}</b> ${esc(t)}</li>`).join('');
+  const RTAG = { done: 'Done', todo: 'To do', idea: 'Idea', no: "Can't use", ok: 'Checked' };
+  $('researchList').innerHTML = RESEARCH.map((r, i) => `<details class="rsw"${i ? '' : ' open'}><summary>${esc(r.d)} · ${esc(r.t)}</summary><p class="note">${esc(r.sum)}</p>${r.g.map(([h, items]) => `<h3>${esc(h)}</h3><ul>${items.map(([st, txt, src]) => `<li><span class="rst ${esc(st)}">${RTAG[st] || esc(st)}</span><span>${esc(txt)}.${src.length ? ` <span class="rsrc">${src.map(([n, u, v]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)}</a> <span class="rv">(${esc(v)})</span>`).join(' · ')}</span>` : ''}</span></li>`).join('')}</ul>`).join('')}</details>`).join('');
+  document.querySelectorAll('[data-days]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.days === days)));
+  const n = spanDays(), { list, per, sums, ds } = shape(), prev = prevShape();
+  const tot = (k, sh = { list, per }) => sh.list.reduce((a, d) => a + sh.per[d][k], 0);
+  const people = tot('visitors'), visits = tot('opens'), views = tot('views'), app = sums.mode?.app || 0, br = sums.mode?.browser || 0;
+  const short = d => dayLabel(d, { weekday: 'short', day: 'numeric', month: 'short' });
+  $('rangeSpan').textContent = n === 1 ? `Today, ${short(data.today)}` : `${short(list[0])} to ${short(data.today)} · ${n} days`;
+  $('heroN').textContent = fmtN(visits);
+  const was = prev && change(visits, tot('opens', prev));
+  $('heroL').textContent = `visits ${n === 1 ? 'today' : days ? `in the last ${n} days` : `since ${short(list[0])}`}${was && was !== '–' ? ` (${was} on the ${n} days before)` : ''} · ${fmtN(Math.round(people / n))} people a day · ${fmtN(views)} page views`;
+  // today and yesterday whatever the range
+  const { per: p2 } = shape(2), today = p2[data.today], yday = p2[dayAdd(data.today, -1)];
+  const tile = (l, v, s) => `<div class="tile"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
+  $('tiles').innerHTML = tile('Today', fmtN(today.visitors), `people · ${fmtN(today.opens)} visits`)
+    + tile('Yesterday', fmtN(yday.visitors), `people · ${fmtN(yday.opens)} visits`)
+    + tile('Average a day', fmtN(Math.round(people / n)), `people · ${fmtN(Math.round(visits / n))} visits`)
+    + tile('Visits per person', people ? (visits / people).toFixed(1) : '–', 'a day, on average')
+    + tile('Using the app', people ? Math.round(100 * tot('appvisitors') / people) + '%' : '–', `of people · ${fmtN(tot('appvisitors'))} app users, ${fmtN(tot('appviews'))} app page views`)
+    + (() => { const taps = Object.values(usedOf(sums)).reduce((a, x) => a + x, 0), tv = visits ? taps / visits : 0;
+        const pv = prev && tot('opens', prev) ? Object.values(usedOf(prev.sums)).reduce((a, x) => a + x, 0) / tot('opens', prev) : null, ch = pv != null ? change(Math.round(tv * 10), Math.round(pv * 10)) : '';
+        return tile('Taps a visit', visits ? tv.toFixed(1) : '–', `${fmtN(taps)} taps${ch && ch !== '–' ? ` · ${ch} on the days before` : ''}`); })();
+  // a day on its own is no line: Today shows the last 7 days
+  const VIS = [['visitors', 'People', 'var(--series-1)'], ['opens', 'Visits', 'var(--series-2)'], ['views', 'Page views', 'var(--series-3)']];
+  const w7 = n < 3 ? shape(7) : null;
+  if (w7) chart('chart', w7.list, w7.per, VIS, 'People, visits and page views'); else chart('chart', list, per, VIS, 'People, visits and page views');
+  $('chartSub').textContent = $('actSub').textContent = n < 3 ? 'the last 7 days' : '';
+  // taps, games opened and links out each day
+  { const L = w7 || { list, ds }, tot = o => Object.values(o || {}).reduce((a, x) => a + x, 0), ap = {};
+    for (const d of L.list) { const x = L.ds[d]; ap[d] = { games: tot(x.gameopen), watch: tot(x.watch), out: tot(x.outlink) }; }
+    chart('act', L.list, ap, [['games', 'Games opened', 'var(--series-1)'], ['watch', 'Ways to watch', 'var(--series-2)'], ['out', 'Links out', 'var(--series-3)']], 'Games opened, ways to watch and links out'); }
+  heat(list, ds);
+  $('table').innerHTML = `<table><thead><tr><th>Day</th><th>People</th><th>Visits</th><th>Page views</th></tr></thead><tbody>${list.slice().reverse().map(d => `<tr><td>${dayLabel(d)}</td><td>${per[d].visitors}</td><td>${per[d].opens}</td><td>${per[d].views}</td></tr>`).join('')}</tbody></table>`;
+  bars('country', sums.country, countryName);
+  // "US · Comcast Cable Communications, LLC" → "Comcast Cable Communications (US)"; the full name on a hold
+  const LEGAL = /,?\s+(Inc|LLC|L\.L\.C|Ltd|Limited|Corporation|Corp|Co|GmbH|AG|AB|SAS|SRL|S\.?A|B\.?V|PLC|Pty|Spolka Akcyjna|Sp\. z o\.o)\.?$/i;
+  const netLabel = k => { const [c, o = ''] = k.split(' · '); let n = o; while (LEGAL.test(n)) n = n.replace(LEGAL, ''); return `${n || 'Unknown'} (${c && c !== '?' ? c : '?'})`; };
+  bars('network', sums.network, netLabel);
+  bars('datacentre', sums.datacentre, netLabel);
+  share('device', 'device', [['phone', 'Phone'], ['computer', 'Computer'], ['tablet', 'Tablet']], sums, list, ds);
+  share('mode', 'mode', [['browser', 'Browser'], ['app', 'App']], sums, list, ds);
+  bars('ref', sums.ref, k => k);
+  bars('event', sums.event, k => EVENT_LABEL[k] || k);
+  drawPopular(sums, prev?.sums, list, ds);
+  // every sport turned off, most first (not cut to the top seven)
+  bars('sportsoff', sums.sportsoff, k => SPORT_LABEL[k] || k, Object.entries(sums.sportsoff || {}).sort((a, b) => b[1] - a[1]).map(([k]) => k));
+  share('myteams', 'myteams', [['default', 'As it came'], ['changed', 'Changed']], sums, list, ds);
+  share('newvis', 'newvis', [['been before', 'Been before'], ['first visit', 'First visit']], sums, list, ds);
+  // gaps people landed on: each opening of a game not yet over, with what it lacked then
+  { const by = {}, comps = {}, KINDS = ['No start time', 'No way to watch', 'No squads'], SHORT_W = { 'No start time': 'no time', 'No way to watch': 'no way to watch', 'No squads': 'no squads' };
+    for (const [k, n] of Object.entries(sums.gapseen || {})) {
+      const [what, sport, comp] = k.split(' · '), b = by[sport] ||= { opened: 0 }, t = by[''] ||= { opened: 0 };
+      b.opened += n; t.opened += n;
+      if (what !== 'Nothing missing') for (const w of what.split(' + ')) { b[w] = (b[w] || 0) + n; t[w] = (t[w] || 0) + n; const m = comps[comp] ||= { all: 0 }; m[w] = (m[w] || 0) + n; m.all += n; }
+    }
+    const pc = (n, of) => n ? `${n}<small>${Math.round(100 * n / of)}%</small>` : '<span class="muted">0</span>', SHORT = { 'No start time': 'No time', 'No way to watch': 'No watch', 'No squads': 'No squads' };
+    const rows = Object.entries(by).filter(([k]) => k).sort((a, b) => b[1].opened - a[1].opened);
+    $('gapseen').innerHTML = rows.length ? `<div class="covwrap"><table class="cov"><thead><tr><th>Sport</th><th>Opened</th>${KINDS.map(k => `<th title="${k}">${SHORT[k]}</th>`).join('')}</tr></thead><tbody>`
+      + [...rows, ['', by['']]].map(([k, c]) => `<tr${k ? '' : ' class="tot"'}><td>${esc(k ? SPORT_LABEL[k] || k : 'All sports')}</td><td class="c">${c.opened}</td>${KINDS.map(w => `<td class="c">${pc(c[w] || 0, c.opened)}</td>`).join('')}</tr>`).join('')
+      + '</tbody></table></div>' : '';
+    // the competitions where people hit most gaps, each with what was missing
+    const top = Object.entries(comps).sort((a, b) => b[1].all - a[1].all).slice(0, 10);
+    $('gapcomp').innerHTML = top.length ? `<ul class="gaplist">${top.map(([c, m]) => `<li><b>${esc(c)}</b> ${KINDS.filter(w => m[w]).map(w => `${SHORT_W[w]} ${m[w]}`).join(' · ')}</li>`).join('')}</ul>` : ''; }
+  bars('repeat', sums.repeat, k => REPEAT_LABEL[k] || k, REPEAT_ORDER);
+  for (const id of ['search0', 'os', 'browser', 'follow', 'unfollow']) bars(id, sums[id], k => k);
+  for (const id of ['hidesport', 'showsport']) bars(id, sums[id], k => SPORT_LABEL[k] || k);
+  // the Settings box's taps in their own list, every one shown, with the teams turned on and off added up; the rest of
+  // the site's parts in theirs
+  const total = o => Object.values(o || {}).reduce((a, n) => a + n, 0), setUse = {};
+  for (const [k, n] of Object.entries(sums.use || {})) if (SETTINGS_USE.has(k)) setUse[k] = n;
+  if (total(sums.follow)) setUse['A team turned on'] = total(sums.follow);
+  if (total(sums.unfollow)) setUse['A team turned off'] = total(sums.unfollow);
+  // Hide sport and Show sport, counted by sport from 24 Oct 2026 (as plain taps before)
+  if (total(sums.hidesport)) setUse['Hide sport'] = (setUse['Hide sport'] || 0) + total(sums.hidesport);
+  if (total(sums.showsport)) setUse['Show sport'] = (setUse['Show sport'] || 0) + total(sums.showsport);
+  bars('setuse', setUse, k => SETTINGS_LABEL[k] || k, Object.entries(setUse).sort((a, b) => b[1] - a[1]).map(([k]) => k));
+  const siteUse = Object.fromEntries(Object.entries(sums.use || {}).filter(([k]) => !SETTINGS_USE.has(k)));
+  bars('use', siteUse, k => k, Object.entries(siteUse).sort((a, b) => b[1] - a[1]).map(([k]) => k));
+  share('spoil', 'spoil', [['hidden', 'Results hidden'], ['shown', 'Results shown']], sums, list, ds);
+  share('view', 'view', [['list', 'List'], ['compact', 'Compact'], ['mixed', 'Large']], sums, list, ds);
+  bars('theme', sums.theme, k => ({ green: 'Kiwi green', ocean: 'Ocean blue', red: 'Pōhutukawa red', black: 'All Black', kowhai: 'Kōwhai gold', paua: 'Pāua teal', purple: 'Twilight purple', orange: 'Sunset orange', lime: 'Kawakawa lime', pink: 'Rātā pink', kauri: 'Kauri brown', silver: 'Silver fern', tui: 'Tūī indigo', navy: 'Moana navy', olive: 'Harakeke olive' })[k] || k);
+  bars('speed', sums.speed, k => k, SPEED_ORDER);
+  // each slow load is one line ("8s or more · slowest getting the feed · 4g connection · in sight · 4 GB memory · Android
+  // Chrome 120"), split here into its parts
+  { const part = {}; for (const id of ['slowpart', 'slowseen', 'slownet', 'slowmem', 'slowdev']) part[id] = {};
+    for (const [k, n] of Object.entries(sums.slowload || {})) { const [, why, net, seen, mem, dev] = k.split(' · ');
+      for (const [id, v] of [['slowpart', why], ['slowseen', seen], ['slownet', net], ['slowmem', mem], ['slowdev', dev]]) if (v) part[id][v] = (part[id][v] || 0) + n; }
+    bars('slowpart', part.slowpart, k => k.replace(/^slowest /, '').replace(/^./, c => c.toUpperCase()));
+    bars('slowseen', part.slowseen, k => k[0].toUpperCase() + k.slice(1));
+    bars('slownet', part.slownet, k => k === 'connection unknown' ? 'Not reported' : k.replace(/ connection$/, '').replace(/^(\w)g$/, '$1G').replace(/^slow-2g$/, 'Slow 2G'));
+    bars('slowmem', part.slowmem, k => k === 'memory unknown' ? 'Not reported' : k.replace(/ memory$/, ''));
+    bars('slowdev', part.slowdev, k => k); }
+  // how far down visits get ("50-75% · Results"), split into the section and how much of the page, in page order
+  { const sec = {}, pct = {};
+    for (const [k, n] of Object.entries(sums.scrolldepth || {})) { const [p, s] = k.split(' · '); if (p) pct[p] = (pct[p] || 0) + n; if (s) sec[s] = (sec[s] || 0) + n; }
+    const SEC_ORDER = ['Top', 'A competition', 'Live now', 'Starting soon', 'This week', 'On today', 'Tomorrow', 'Coming up', 'Running now', 'Events ahead', 'Further ahead', 'Results', 'News', 'Shows', 'Foot of the page'];
+    bars('scrollsec', sec, k => k, SEC_ORDER.filter(k => sec[k]).concat(Object.keys(sec).filter(k => !SEC_ORDER.includes(k))));
+    bars('scrollpct', pct, k => k[0].toUpperCase() + k.slice(1), ['under 25%', '25-50%', '50-75%', '75-100%', 'all of it'].filter(k => pct[k])); }
+  // each error matched against the fixed list: back when the page that sent it ([vN], sent from v404 on) is the fixed
+  // version or later, or, untagged, when it was seen more than a day after the fix (a phone can run a saved older page
+  // for a while)
+  const lastSeen = {}, lastN = {};
+  for (const r of data.rows) if (r.metric === 'error') {
+    if (!(lastSeen[r.key] >= r.day)) { lastSeen[r.key] = r.day; lastN[r.key] = r.n; } else if (lastSeen[r.key] === r.day) lastN[r.key] += r.n;
+  }
+  const fixOf = k => { const f = FIXED.find(([re]) => re.test(k)); if (!f) return null;
+    const [, day, v] = f, sent = +(k.match(/\[v(\d+)\]$/) || [])[1];
+    return { f, back: sent ? sent >= +v.slice(1) : lastSeen[k] > new Date(Date.parse(day + 'T12:00:00Z') + 864e5).toISOString().slice(0, 10) }; };
+  bars('error', sums.error, k => { const x = fixOf(k); if (!x) return k;
+    const [, day, v, what] = x.f;
+    return `${x.back ? `⚠ Back after the ${v} fix (seen ${dayLabel(lastSeen[k], { day: 'numeric', month: 'short' })})` : `✓ Fixed in ${v} (${dayLabel(day, { day: 'numeric', month: 'short' })})`}: ${k} · ${what}`; });
+  errAlert(Object.keys(lastSeen).filter(k => { const x = fixOf(k); return !x || x.back; }), lastSeen, lastN);
+  // weekdays: each one's average visitors over the days of that weekday in the range
+  const wd = {}, wn = {};
+  for (const d of list) { const k = dayLabel(d, { weekday: 'long' }); wd[k] = (wd[k] || 0) + per[d].visitors; wn[k] = (wn[k] || 0) + 1; }
+  bars('weekday', Object.fromEntries(Object.keys(wd).map(k => [k, Math.round(wd[k] / wn[k] * 10) / 10])), k => k, WEEKDAYS);
+  hours(sums.hour || {});
+  drawReports(list[0]);
+  drawChecks(data.checks);
+  try { drawTrend(); } catch (e) { console.error(e); $('cvTiles').innerHTML = '<p class="note">Couldn\'t draw this.</p>'; }
+}
+// the reports in the range, newest first: a game's links to its pop-up on the site
+function drawReports(from) {
+  const reps = (data.reports || []).filter(r => new Date(r.at).toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }) >= from);
+  const when = at => new Date(at).toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
+  const about = r => { const [id, ...t] = String(r.ref || '').split('|'); return r.kind === 'game' && id ? `<a href="./#g=${encodeURIComponent(id)}" target="_blank" rel="noopener">${esc(t.join('|') || id)}</a>` : r.kind === 'idea' ? '<span class="idea">Idea</span>' : 'The site'; };
+  $('reports').innerHTML = reps.length ? reps.map(r => `<div class="rep"><div class="rh"><b>${esc(when(r.at))}</b> · ${about(r)}</div><p>${esc(r.note)}</p></div>`).join('')
+    : '<div class="empty">No reports or ideas in this range.</div>';
+}
+
+// the outside checks of the live site: the newest, then each time they found a problem (newest first), how long it
+// lasted (from the first failed check to the next good one) and what was wrong
+function drawChecks(c) {
+  const box = $('sitechk');
+  if (!c || !c.last) { box.innerHTML = '<div class="empty">No checks yet: the first comes within 10 minutes of the stats server going up.</div>'; return; }
+  // "Tue 3 Nov 1:10pm", or just "1:10pm" for the end of a problem on the day it began
+  const when = (at, day = true) => day ? nzDay(at, true) : nzDay(at, true).replace(/^.* /, '');
+  const sameDay = (a, b) => nzDay(a) === nzDay(b);
+  const mins = (a, b) => { const m = Math.round((Date.parse(b) - Date.parse(a)) / 6e4); return m < 60 ? `${m} min` : `${Math.floor(m / 60)} hr${m % 60 ? ` ${m % 60} min` : ''}`; };
+  const l = c.last, head = l.ok ? `<b>✓ Fine</b> at the last check, ${esc(when(l.at))} (page and feed in ${(l.ms / 1000).toFixed(1)}s)` : `<b>⚠ ${esc(l.note)}</b> at the last check, ${esc(when(l.at))}`;
+  const rows = (c.down || []).slice().reverse().map(d => `<div class="rep"><div class="rh"><b>${esc(when(d.from))} to ${d.to ? esc(when(d.to, !sameDay(d.from, d.to))) : 'now'}</b> · ${d.to ? 'about ' + mins(d.from, d.to) : 'still going'}</div><p>${esc(d.notes.join('; '))}</p></div>`).join('');
+  box.innerHTML = `<p class="note" style="margin:0 0 8px">${head}</p>` + (rows || `<div class="empty">No problems in ${c.n} checks since ${esc(when(c.first))}.</div>`);
+}
+// a ranked list of horizontal bars, the top 7 and the rest as "Other"; names go in as text, never as markup
+// the top line: errors not yet fixed (or back after a fix) that turned up since they were last marked checked on this
+// device (a later day, or more of them the same day); "Mark checked" keeps each one's last day and count
+function errAlert(open, lastSeen, lastN) {
+  const done = store.get('errChecked', {}), el = $('errAlert');
+  const fresh = open.filter(k => { const [d, n] = String(done[k] || '').split('|'); return !d || lastSeen[k] > d || (lastSeen[k] === d && lastN[k] > +n); })
+    .sort((a, b) => lastSeen[b].localeCompare(lastSeen[a]));
+  el.classList.toggle('on', fresh.length > 0);
+  el.innerHTML = fresh.length
+    ? `<span class="m"><b>⚠ ${fresh.length} new error${fresh.length > 1 ? 's' : ''}</b><span class="ex"> · ${esc(fresh[0].replace(/ \[v\d+\]$/, ''))}</span></span><a class="btn" href="#errCard">See</a><button type="button" class="btn" id="errDone">Mark checked</button>`
+    : `<span class="m">✓ No new errors${Object.keys(done).length ? ' since you last checked' : ''}</span>`;
+  const b = $('errDone');
+  if (b) b.onclick = () => { for (const k of open) done[k] = `${lastSeen[k]}|${lastN[k]}`; store.set('errChecked', done); errAlert(open, lastSeen, lastN); };
+}
+function bars(id, obj, label, order) {
+  const el = $(id);
+  const rows = Object.entries(obj || {}).sort((a, b) => order ? order.indexOf(a[0]) - order.indexOf(b[0]) : b[1] - a[1]);
+  el.replaceChildren();
+  if (!rows.length) { const p = document.createElement('div'); p.className = 'empty'; p.textContent = 'Nothing yet in this range.'; el.append(p); return; }
+  const top = order ? rows : rows.slice(0, 7), rest = order ? 0 : rows.slice(7).reduce((a, r) => a + r[1], 0);
+  if (rest) top.push(['', rest]);
+  // every one listed: the first ten, and Show all scrolls the rest in the same space
+  showAll(el, id, top.length);
+  const max = Math.max(...top.map(r => r[1]));
+  for (const [k, n] of top) {
+    const row = document.createElement('div'); row.className = 'bar';
+    const name = document.createElement('span'); name.className = 'k'; name.textContent = k === '' ? 'Other' : label(k); name.title = name.textContent;
+    const track = document.createElement('span'); track.className = 't';
+    const fill = document.createElement('i'); fill.style.width = (100 * n / max).toFixed(1) + '%'; track.append(fill);
+    const num = document.createElement('span'); num.className = 'n'; num.textContent = Number.isInteger(n) ? fmtN(n) : n.toFixed(1);
+    row.append(name, track, num); el.append(row);
+  }
+}
+
+// a long list's Show all button (after the list): the first ten rows show, and the button lets the rest scroll in the
+// same space, so the card keeps its size; the choice stays while the range changes
+const allOpen = new Set();
+function showAll(el, id, rows) {
+  const long = rows > 10; let b = el.nextElementSibling?.classList.contains('more') ? el.nextElementSibling : null;
+  el.classList.toggle('cap', long && el.classList.contains('bars')); el.classList.toggle('all', long && allOpen.has(id));
+  if (!long) { if (b) b.hidden = true; return; }
+  if (!b) { b = document.createElement('button'); b.type = 'button'; b.className = 'more'; el.after(b);
+    b.addEventListener('click', () => { allOpen.has(id) ? allOpen.delete(id) : allOpen.add(id); el.classList.toggle('all', allOpen.has(id)); el.scrollTop = 0; label(); }); }
+  const label = () => { b.textContent = allOpen.has(id) ? 'Top 10 only' : `Show all ${rows}`; b.setAttribute('aria-expanded', String(allOpen.has(id))); };
+  b.hidden = false; label();
+}
+// the most popular: a leaderboard each, most first, with the change on the same number of days before (when there are
+// numbers for all of them)
+// a row's line over the days: its counts a day, scaled to its own highest (none for one or two days)
+function spark(vals) {
+  const sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); sv.setAttribute('class', 'spk'); sv.setAttribute('viewBox', '0 0 44 16'); sv.setAttribute('aria-hidden', 'true');
+  if (vals && vals.length > 2) { const mx = Math.max(1, ...vals), pl = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+    pl.setAttribute('points', vals.map((v, i) => `${(1 + i * 42 / (vals.length - 1)).toFixed(1)},${(14.5 - v / mx * 13).toFixed(1)}`).join(' ')); sv.append(pl); }
+  return sv;
+}
+function rank(id, obj, prevObj, label = k => [k], daily = null) {
+  const el = $(id), rows = Object.entries(obj || {}).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  el.replaceChildren();
+  if (!rows.length) { const p = document.createElement('li'); p.className = 'empty'; p.textContent = 'Nothing yet in this range.'; el.append(p); showAll(el, id, 0); return; }
+  const max = rows[0][1];
+  rows.forEach(([k, n], i) => {
+    const li = document.createElement('li'), [name, sub] = label(k);
+    const rk = document.createElement('span'); rk.className = 'rk'; rk.textContent = i + 1;
+    const nm = document.createElement('span'); nm.className = 'k'; nm.textContent = name; nm.title = sub ? `${name} (${sub})` : name;
+    if (sub) { const sm = document.createElement('small'); sm.textContent = sub; nm.append(sm); }
+    const nb = document.createElement('span'); nb.className = 'n'; nb.textContent = fmtN(n);
+    const sp = spark(daily && daily.map(o => (o && o[k]) || 0));
+    const dl = document.createElement('span'); dl.className = 'dl'; dl.textContent = prevObj ? change(n, prevObj[k] || 0) : '';
+    if (prevObj) dl.title = `${fmtN(prevObj[k] || 0)} on the days before`;
+    const t = document.createElement('span'); t.className = 't'; const f = document.createElement('i'); f.style.width = (100 * n / max).toFixed(1) + '%'; t.append(f);
+    li.append(rk, nm, sp, nb, dl, t); el.append(li);
+  });
+  showAll(el, id, rows.length);
+}
+// everything used, all in one list: the parts of the site and the features, and the taps counted by what was tapped
+// (a sport button, a way to watch, a link out, a team on or off, a sport hidden or shown) added up
+function usedOf(sums) {
+  const o = {}, add = (k, n) => { if (n) o[k] = (o[k] || 0) + n; }, total = x => Object.values(x || {}).reduce((a, n) => a + n, 0);
+  for (const [k, n] of Object.entries(sums.use || {})) add(SETTINGS_LABEL[k] || k, n);
+  for (const [k, n] of Object.entries(sums.event || {})) if (k !== 'appfirst' && k !== 'install') add(EVENT_LABEL[k] || k, n);
+  add('A sport button', total(sums.sport)); add('A way to watch', total(sums.watch)); add('A link to another site', total(sums.outlink));
+  add('A team turned on', total(sums.follow)); add('A team turned off', total(sums.unfollow));
+  add(SETTINGS_LABEL['Hide sport'] || 'Hide sport', total(sums.hidesport)); add(SETTINGS_LABEL['Show sport'] || 'Show sport', total(sums.showsport));
+  return o;
+}
+// games opened in each competition (a game is counted as "Competition: Home v Away")
+function compsOf(sums) { const o = {}; for (const [k, n] of Object.entries(sums.gameopen || {})) { const c = k.includes(': ') ? k.slice(0, k.indexOf(': ')) : 'Other'; o[c] = (o[c] || 0) + n; } return o; }
+function drawPopular(sums, ps, list, ds) {
+  $('popSub').textContent = ps ? 'with the change on the same number of days before' : '';
+  const day = f => list.map(d => f(ds[d]) || {});
+  rank('p-used', usedOf(sums), ps && usedOf(ps), undefined, day(usedOf));
+  rank('p-game', sums.gameopen, ps?.gameopen || (ps && {}), k => { const i = k.indexOf(': '); return i < 0 ? [k] : [k.slice(i + 2), k.slice(0, i)]; }, day(x => x.gameopen));
+  rank('p-comp', compsOf(sums), ps && compsOf(ps), k => [SPORT_LABEL[k] || k], day(compsOf));
+  rank('p-hub', sums.hubs, ps && ps.hubs, undefined, day(x => x.hubs));
+  rank('p-sport', sums.sport, ps && (ps.sport || {}), k => [SPORT_LABEL[k] || k], day(x => x.sport));
+  rank('p-team', sums.teampage, ps && (ps.teampage || {}), undefined, day(x => x.teampage));
+  rank('p-watch', sums.watch, ps && (ps.watch || {}), undefined, day(x => x.watch));
+  rank('p-out', sums.outlink, ps && (ps.outlink || {}), k => [k.replace(/^www\./, '')], day(x => x.outlink));
+  rank('p-search', sums.search, ps && (ps.search || {}), undefined, day(x => x.search));
+  document.querySelector('.grid.pop').classList.toggle('nodl', !ps);
+}
+// a split in shares: one bar, a line a part (its count and share), then each day's split as a thin column; the parts
+// keep their colours whatever their size (the first part always the first colour), anything else is Other in grey
+function share(id, metric, parts, sums, list, ds) {
+  const el = $(id), o = sums[metric] || {}, keys = parts.map(([k]) => k), other = Object.entries(o).filter(([k]) => !keys.includes(k)).reduce((a, [, n]) => a + n, 0);
+  const rows = parts.map(([k, l], i) => [l, o[k] || 0, `var(--series-${i + 1})`]).concat(other ? [['Other', other, 'var(--other)']] : []);
+  const all = rows.reduce((a, r) => a + r[1], 0);
+  el.className = 'share'; el.replaceChildren();
+  if (!all) { el.innerHTML = '<div class="empty">Nothing yet in this range.</div>'; return; }
+  const pc = n => n && n / all < .005 ? '<1%' : Math.round(100 * n / all) + '%';
+  let h = `<div class="sb">${rows.filter(r => r[1]).map(([l, n, c]) => `<i style="flex:${n} 1 0;background:${c}" title="${esc(l)}: ${fmtN(n)} (${pc(n)})"></i>`).join('')}</div>`;
+  h += rows.map(([l, n, c]) => `<div class="sl"><i style="background:${c}"></i><span class="k">${esc(l)}</span><span class="n">${fmtN(n)}</span><span class="pc">${pc(n)}</span></div>`).join('');
+  if (list.length > 2) {
+    const col = d => { const x = (ds[d] || {})[metric] || {}, v = parts.map(([k]) => x[k] || 0), ot = Object.entries(x).filter(([k]) => !keys.includes(k)).reduce((a, [, n]) => a + n, 0), t = v.reduce((a, b) => a + b, 0) + ot;
+      if (!t) return '<span></span>';
+      return `<span title="${esc(dayLabel(d))}: ${parts.map(([, l], i) => `${l} ${Math.round(100 * v[i] / t)}%`).join(', ')}${ot ? `, Other ${Math.round(100 * ot / t)}%` : ''}">${v.map((n, i) => n ? `<i style="flex:${n} 1 0;background:var(--series-${i + 1})"></i>` : '').join('')}${ot ? `<i style="flex:${ot} 1 0;background:var(--other)"></i>` : ''}</span>`; };
+    h += `<div class="sd"><div class="lbl">Each day</div><div class="cols">${list.map(col).join('')}</div><div class="dl2"><span>${esc(dayLabel(list[0], { day: 'numeric', month: 'short' }))}</span><span>${esc(dayLabel(list[list.length - 1], { day: 'numeric', month: 'short' }))}</span></div></div>`;
+  }
+  el.innerHTML = h;
+}
+// when people visit: page views by day of the week and hour, the average a day of that weekday in the range; one
+// colour, from the card's own background (none) to full (the busiest hour)
+function heat(list, ds) {
+  const box = $('heat'), sum = WEEKDAYS.map(() => Array(24).fill(0)), cnt = Array(7).fill(0);
+  for (const d of list) { const w = (new Date(d + 'T12:00:00Z').getUTCDay() + 6) % 7; cnt[w]++; const h = (ds[d] || {}).hour || {}; for (let i = 0; i < 24; i++) sum[w][i] += h[String(i).padStart(2, '0')] || 0; }
+  const avg = sum.map((r, w) => r.map(v => cnt[w] ? v / cnt[w] : null)), mx = Math.max(1, ...avg.flat().filter(v => v != null));
+  const hl = h => h === 0 ? '12am' : h < 12 ? h + 'am' : h === 12 ? '12pm' : (h - 12) + 'pm';
+  let g = '<span></span>' + [...Array(24)].map((_, h) => `<span class="hh">${h % 3 === 0 ? hl(h) : ''}</span>`).join('');
+  WEEKDAYS.forEach((wd, w) => {
+    g += `<span class="hd">${wd.slice(0, 3)}</span>`;
+    for (let h = 0; h < 24; h++) { const v = avg[w][h], f = v == null ? 0 : v / mx;
+      g += `<i style="--v:${v == null ? 0 : Math.round(6 + 94 * f)}%"${f > .75 ? ' class="hot"' : ''} title="${wd} ${hl(h)} to ${hl((h + 1) % 24)}: ${v == null ? 'no days in the range' : `${v < 10 ? v.toFixed(1) : Math.round(v)} page views a day`}"></i>`; }
+  });
+  box.innerHTML = g;
+}
+function hours(byHour) {
+  const box = $('hours'), W = Math.max(280, box.clientWidth), H = 170, m = { l: 34, r: 8, t: 8, b: 22 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b, slot = iw / 24, bw = Math.min(24, slot - 2);
+  const vals = [...Array(24)].map((_, h) => byHour[String(h).padStart(2, '0')] || 0), max = Math.max(4, ...vals);
+  const step = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000].find(s => max / s <= 3) || Math.ceil(max / 3), top = Math.ceil(max / step) * step;
+  const y = v => m.t + ih - v / top * ih;
+  let g = '';
+  for (let v = 0; v <= top; v += step) g += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${fmtN(v)}</text>`;
+  vals.forEach((v, h) => {
+    const x = m.l + h * slot + (slot - bw) / 2, yt = y(v), r = Math.min(4, (m.t + ih - yt) / 2);
+    if (v) g += `<path class="hb" d="M${x},${m.t + ih} V${yt + r} Q${x},${yt} ${x + r},${yt} H${x + bw - r} Q${x + bw},${yt} ${x + bw},${yt + r} V${m.t + ih} Z" fill="var(--series-1)"/>`;
+    if (h % 3 === 0) g += `<text x="${x + bw / 2}" y="${H - 6}" text-anchor="middle">${h === 0 ? '12am' : h < 12 ? h + 'am' : h === 12 ? '12pm' : (h - 12) + 'pm'}</text>`;
+  });
+  g += `<rect x="${m.l}" y="0" width="${iw}" height="${H}" fill="transparent" class="hit"/>`;
+  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Page views by hour of the day, NZ time">${g}</svg><div class="tip" hidden></div>`;
+  const svg = box.querySelector('svg'), tip = box.querySelector('.tip');
+  const show = ev => {
+    const r = svg.getBoundingClientRect(), px = (ev.clientX - r.left) * W / r.width, h = Math.max(0, Math.min(23, Math.floor((px - m.l) / slot)));
+    const lab = h === 0 ? '12am' : h < 12 ? h + 'am' : h === 12 ? '12pm' : (h - 12) + 'pm', nxt = (h + 1) % 24, lab2 = nxt === 0 ? '12am' : nxt < 12 ? nxt + 'am' : nxt === 12 ? '12pm' : (nxt - 12) + 'pm';
+    tip.replaceChildren();
+    const dl = document.createElement('div'); dl.className = 'd'; dl.textContent = `${lab} to ${lab2}`;
+    const row = document.createElement('div'); row.className = 'row';
+    const b = document.createElement('b'); b.textContent = fmtN(vals[h]); const t = document.createElement('span'); t.textContent = 'page views';
+    row.append(b, t); tip.append(dl, row); tip.hidden = false;
+    const left = (m.l + (h + 0.5) * slot) / W * r.width, half = tip.offsetWidth / 2;
+    tip.style.left = Math.max(half, Math.min(r.width - half, left)) + 'px'; tip.style.top = '-8px'; tip.style.transform = 'translate(-50%, -100%)';
+  };
+  const hit = svg.querySelector('.hit');
+  hit.addEventListener('pointermove', show); hit.addEventListener('pointerdown', show); hit.addEventListener('pointerleave', () => { tip.hidden = true; });
+}
+
+// a line a series each day (people, visits and page views; taps, games and links out): 2px lines on one count axis
+// from zero, hairline grid, end labels, and a crosshair that snaps to a day with every value in the tooltip. The
+// shading under each line shows only in a soft chart look
+function chart(boxId, list, per, S, what) {
+  // room on the right for the end labels ("Games opened 1,234")
+  const box = $(boxId), W = Math.max(280, box.clientWidth), H = 240, m = { l: 34, r: Math.max(92, Math.round(22 + 6.4 * Math.max(...S.map(([k, n]) => `${n} ${fmtN(per[list[list.length - 1]][k])}`.length)))), t: 22, b: 24 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const maxV = Math.max(4, ...list.flatMap(d => S.map(([k]) => per[d][k])));
+  const step = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000, 10000].find(s => maxV / s <= 4) || Math.ceil(maxV / 4);
+  const top = Math.ceil(maxV / step) * step;
+  const x = i => m.l + (list.length < 2 ? iw / 2 : i * iw / (list.length - 1)), y = v => m.t + ih - v / top * ih;
+  let g = '';
+  for (let v = 0; v <= top; v += step) g += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${fmtN(v)}</text>`;
+  // date labels: first, last and a few between, never crowded
+  const every = Math.max(1, Math.ceil(list.length / Math.max(2, Math.floor(iw / 70))));
+  list.forEach((d, i) => { if (i % every === 0 || i === list.length - 1) { if (i !== list.length - 1 && list.length - 1 - i < every * 0.6) return; g += `<text x="${x(i)}" y="${H - 6}" text-anchor="middle">${dayLabel(d, { day: 'numeric', month: 'short' })}</text>`; } });
+  const ends = []; let defs = '';
+  for (const [k, name, c] of S) {
+    const pts = list.map((d, i) => `${x(i).toFixed(1)},${y(per[d][k]).toFixed(1)}`).join(' ');
+    g += `<polygon class="area" points="${x(0).toFixed(1)},${m.t + ih} ${pts} ${x(list.length - 1).toFixed(1)},${m.t + ih}" fill="url(#ga-${boxId}-${k})"/><polyline class="ln" points="${pts}" fill="none" stroke="currentColor" style="color:${c}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    defs += `<linearGradient id="ga-${boxId}-${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c}" stop-opacity=".26"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></linearGradient>`;
+    const last = per[list[list.length - 1]][k];
+    ends.push({ y: y(last), name, last, c });
+  }
+  // end labels: series name and today's value, nudged apart when they'd overlap
+  ends.sort((a, b) => a.y - b.y);
+  for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 15) ends[i].y = ends[i - 1].y + 15;
+  const over = ends.length ? ends[ends.length - 1].y - (m.t + ih + 4) : 0;
+  if (over > 0) ends.forEach(x => { x.y -= over; });
+  for (const e of ends) g += `<circle cx="${x(list.length - 1)}" cy="${y(e.last)}" r="4" fill="${e.c}" stroke="var(--surface)" stroke-width="2"/><text class="end" x="${m.l + iw + 10}" y="${e.y + 4}">${e.name} ${fmtN(e.last)}</text>`;
+  // each line's peak in the range: a ring on its highest day (the latest, on a tie) with the number above it, or below
+  // when another peak's number is already there; none when the peak is today (the end label says it) or nothing yet
+  const peaks = [];
+  for (const [k, , c] of S) {
+    let pi = -1;
+    list.forEach((d, i) => { if (per[d][k] > 0 && (pi < 0 || per[d][k] >= per[list[pi]][k])) pi = i; });
+    if (pi >= 0 && pi < list.length - 1) peaks.push({ px: x(pi), py: y(per[list[pi]][k]), v: per[list[pi]][k], c });
+  }
+  // boxes already taken: every peak's ring, then each number as it's placed
+  const taken = peaks.map(p => ({ x1: p.px - 6, x2: p.px + 6, y1: p.py - 6, y2: p.py + 6 }));
+  const free = b => !taken.some(o => b.x1 < o.x2 + 2 && o.x1 < b.x2 + 2 && b.y1 < o.y2 + 1 && o.y1 < b.y2 + 1);
+  for (const p of peaks) g += `<circle cx="${p.px}" cy="${p.py}" r="4.5" fill="var(--surface)" stroke="${p.c}" stroke-width="2"/>`;
+  for (const p of peaks.sort((a, b) => a.py - b.py)) {
+    const t = fmtN(p.v), w = t.length * 7 + 2, lx = Math.max(m.l + w / 2, Math.min(m.l + iw - w / 2, p.px));
+    const box = [p.py - 9, p.py + 18].map(ly => ({ ly, x1: lx - w / 2, x2: lx + w / 2, y1: ly - 9, y2: ly + 2 })).find(b => b.y2 < m.t + ih && free(b));
+    if (box) { taken.push(box); g += `<text class="peak" x="${lx}" y="${box.ly}" text-anchor="middle">${t}</text>`; }
+  }
+  g += `<line class="xh" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="var(--muted)" stroke-width="1" visibility="hidden"/>`;
+  for (const [k, , c] of S) g += `<circle class="hd" data-k="${k}" r="4" fill="${c}" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>`;
+  g += `<rect x="${m.l}" y="0" width="${iw}" height="${H}" fill="transparent" class="hit"/>`;
+  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${what} each day for the last ${list.length} days"><defs>${defs}</defs>${g}</svg><div class="tip" hidden></div>`;
+  const svg = box.querySelector('svg'), tip = box.querySelector('.tip'), xh = svg.querySelector('.xh');
+  const show = ev => {
+    const r = svg.getBoundingClientRect(), px = (ev.clientX - r.left) * W / r.width;
+    const i = Math.max(0, Math.min(list.length - 1, Math.round((px - m.l) / (iw / Math.max(1, list.length - 1)))));
+    const d = list[i];
+    xh.setAttribute('x1', x(i)); xh.setAttribute('x2', x(i)); xh.setAttribute('visibility', 'visible');
+    svg.querySelectorAll('.hd').forEach(c => { c.setAttribute('cx', x(i)); c.setAttribute('cy', y(per[d][c.dataset.k])); c.setAttribute('visibility', 'visible'); });
+    tip.replaceChildren();
+    const dl = document.createElement('div'); dl.className = 'd'; dl.textContent = dayLabel(d, { weekday: 'long', day: 'numeric', month: 'short' }); tip.append(dl);
+    for (const [k, name, c] of S) {
+      const row = document.createElement('div'); row.className = 'row';
+      const key = document.createElement('i'); key.style.background = c;
+      const b = document.createElement('b'); b.textContent = fmtN(per[d][k]);
+      const t = document.createElement('span'); t.textContent = name.toLowerCase();
+      row.append(key, b, t); tip.append(row);
+    }
+    tip.hidden = false;
+    const left = x(i) / W * r.width, half = tip.offsetWidth / 2;
+    tip.style.left = Math.max(half, Math.min(r.width - half, left)) + 'px';
+    tip.style.top = '-8px'; tip.style.transform = `translate(-50%, -100%)`;
+  };
+  const hide = () => { tip.hidden = true; xh.setAttribute('visibility', 'hidden'); svg.querySelectorAll('.hd').forEach(c => c.setAttribute('visibility', 'hidden')); };
+  const hit = svg.querySelector('.hit');
+  hit.addEventListener('pointermove', show); hit.addEventListener('pointerdown', show); hit.addEventListener('pointerleave', hide);
+}
+
+$('pwForm').addEventListener('submit', ev => { ev.preventDefault(); pw = $('pw').value.trim(); if (pw) fetchStats(); });
+document.querySelectorAll('[data-days]').forEach(b => b.addEventListener('click', () => { days = +b.dataset.days; store.set('statsDays', days); draw(); }));
+$('refresh').addEventListener('click', fetchStats);
+// the sections menu: each group and its cards, from the page itself; a tap goes there (under the top bar) and closes it
+{ const menu = $('jump'), btn = $('jumpBtn');
+  document.querySelectorAll('#main .card').forEach((c, i) => { if (!c.id) c.id = 's-' + i; });
+  const name = c => c.dataset.name || c.querySelector('h2')?.firstChild?.textContent.trim() || '';
+  menu.innerHTML = [...document.querySelectorAll('#main .grp')].map(g => {
+    const cards = []; for (let el = g.nextElementSibling; el && !el.classList.contains('grp'); el = el.nextElementSibling) cards.push(...(el.matches('.card') ? [el] : el.querySelectorAll('.card')));
+    return `<div><a class="jg" href="#${g.id}">${esc(g.firstChild.textContent.trim())}</a>${cards.map(c => `<a href="#${c.id}">${esc(name(c))}</a>`).join('')}</div>`;
+  }).join('');
+  const open = on => { menu.hidden = !on; btn.setAttribute('aria-expanded', String(on)); };
+  btn.addEventListener('click', ev => { ev.stopPropagation(); open(menu.hidden); });
+  menu.addEventListener('click', ev => { const a = ev.target.closest('a'); if (!a) return; ev.preventDefault(); open(false);
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); });
+  document.addEventListener('click', ev => { if (!menu.hidden && !menu.contains(ev.target)) open(false); });
+  document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && !menu.hidden) { open(false); btn.focus(); } });
+  // the top bar's height, so a section scrolled to sits just under it
+  new ResizeObserver(([e]) => document.documentElement.style.setProperty('--tbh', Math.round(e.target.offsetHeight) + 'px')).observe($('tbar')); }
+// colour themes, as on the main page
+const THEMES = [['green', 'Kiwi green', '#0d6b4d'], ['ocean', 'Ocean blue', '#1864ab'], ['red', 'Pōhutukawa red', '#c92a2a'], ['black', 'All Black', '#111111'],
+  ['kowhai', 'Kōwhai gold', '#d9a400'], ['paua', 'Pāua teal', '#0b7a7e'], ['purple', 'Twilight purple', '#6741d9'], ['orange', 'Sunset orange', '#d9480f'],
+  ['lime', 'Kawakawa lime', '#5c940d'], ['pink', 'Rātā pink', '#c2255c'],
+  ['kauri', 'Kauri brown', '#8a5a2b'], ['silver', 'Silver fern', '#7d8b96'], ['tui', 'Tūī indigo', '#3b3fb6'], ['navy', 'Moana navy', '#1c3a6e'], ['olive', 'Harakeke olive', '#6b7a1f']];
+const THEME_SHORT = { green: 'Kiwi', ocean: 'Ocean', red: 'Pōhutukawa', black: 'All Black', kowhai: 'Kōwhai', paua: 'Pāua', purple: 'Twilight', orange: 'Sunset', lime: 'Kawakawa', pink: 'Rātā', kauri: 'Kauri', silver: 'Silver fern', tui: 'Tūī', navy: 'Moana', olive: 'Harakeke' };
+const themeBoxes = document.querySelectorAll('[data-themes]'), lookBoxes = document.querySelectorAll('[data-looks]');
+const drawThemes = () => { const cur = store.get('statsAccent', store.get('accent', 'green'));
+  const h = THEMES.map(([k, l, c]) => `<button type="button" class="sw" data-theme-k="${k}" aria-pressed="${k === cur}" style="--c:${c}" aria-label="${l}"><i></i><span class="tl">${l}</span><span class="ts" aria-hidden="true">${THEME_SHORT[k] || l}</span></button>`).join(''); themeBoxes.forEach(b => { b.innerHTML = h; }); };
+themeBoxes.forEach(box => box.addEventListener('click', ev => { const b = ev.target.closest('[data-theme-k]'); if (!b) return; const k = b.dataset.themeK; store.set('statsAccent', k);
+  if (k === 'green') delete document.documentElement.dataset.accent; else document.documentElement.dataset.accent = k; drawThemes(); if (typeof draw === 'function') try { draw(); } catch {} }));
+drawThemes();
+// the charts' looks: three colours (or greys) and a style each; picking one only swaps the colours and the style
+const LOOKS = [['kiwi', 'Kiwi', 'kiwi', 'flat', ['#3987e5', '#d95926', '#199e70']], ['neon', 'Neon', 'kiwi', 'glow', ['#3987e5', '#d95926', '#199e70']],
+  ['twilight', 'Twilight', 'twilight', 'soft', ['#9085e9', '#c98500', '#d55181']], ['rata', 'Rātā', 'rata', 'glow', ['#d55181', '#3987e5', '#c98500']],
+  ['bush', 'Bush', 'bush', 'soft', ['#199e70', '#9085e9', '#c98500']], ['mono', 'Mono', 'mono', 'flat', ['var(--ink)', 'color-mix(in srgb, var(--ink) 58%, var(--surface))', 'color-mix(in srgb, var(--ink) 34%, var(--surface))']]];
+const drawLooks = () => { const cur = store.get('statsChart', 'kiwi');
+  const h = LOOKS.map(([k, l, , , c]) => `<button type="button" class="lk" data-look="${k}" aria-pressed="${k === cur}"><span class="d">${c.map(x => `<i style="background:${x};color:${x}"></i>`).join('')}</span>${l}</button>`).join(''); lookBoxes.forEach(b => { b.innerHTML = h; }); };
+lookBoxes.forEach(box => box.addEventListener('click', ev => { const b = ev.target.closest('[data-look]'); if (!b) return; const L = LOOKS.find(([k]) => k === b.dataset.look); store.set('statsChart', L[0]);
+  document.documentElement.dataset.chart = L[2]; document.documentElement.dataset.cstyle = L[3]; drawLooks(); }));
+drawLooks();
+// the theme menu in the top bar: stays open while trying themes and looks; a tap outside, Escape or Sections closes it
+{ const menu = $('lookMenu'), btn = $('lookBtn');
+  const open = on => { menu.hidden = !on; btn.setAttribute('aria-expanded', String(on)); if (on) { $('jump').hidden = true; $('jumpBtn').setAttribute('aria-expanded', 'false'); } };
+  btn.addEventListener('click', ev => { ev.stopPropagation(); open(menu.hidden); });
+  $('jumpBtn').addEventListener('click', () => open(false));
+  document.addEventListener('click', ev => { if (!menu.hidden && !ev.composedPath().includes(menu)) open(false); });
+  document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && !menu.hidden) { open(false); btn.focus(); } }); }
+$('forget').addEventListener('click', () => { store.del('statspw'); pw = ''; $('pw').value = ''; $('main').hidden = true; $('gate').hidden = false; $('gateMsg').textContent = 'Forgotten on this device.'; $('gateMsg').className = 'note'; });
+const syncMe = () => { const on = store.get('nocount', false); $('noCount').setAttribute('aria-pressed', String(on)); $('noCount').textContent = on ? 'Not counting my visits' : 'Don\'t count my visits'; $('noCountNote').textContent = on ? 'Your visits on this browser aren\'t counted.' : 'Your visits on this browser are counted like everyone\'s.'; };
+$('noCount').addEventListener('click', () => { store.set('nocount', !store.get('nocount', false)); syncMe(); });
+syncMe();
+let rz = 0; addEventListener('resize', () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(() => data && draw()); });
+if (pw) fetchStats(); else $('pw').focus();
+// the site's version (written by the feed builder), as shown under the main page's title
+fetch('data/version.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(v => { if (v?.version) $('ver').textContent = `v${v.version}`; }).catch(() => {});
+})();
+</script>
+</body>
+</html>
