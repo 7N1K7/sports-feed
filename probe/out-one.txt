@@ -1,26 +1,23 @@
-one5 2026-11-07T04:07:23.474Z
-# ONE 173 (title ONE 173): infoboxes 1; keys name,image,caption,image_size,promotion,date,venue,city,previousevent,followingevent; name raw starts "ONE 173: S"; clean starts "ONE 173: S"; date "{{start date|2025|11|16}}"; tables 0; card 0; headings Background/Results/Bonus awards/See also/References
-# ONE Fight Night 37 (title ONE Fight Night 37): infoboxes 1; keys name,image,image_size,promotion,date,venue,city,previousevent,followingevent; name raw starts "ONE Fight Night 37: K"; clean starts "ONE Fight Night 37: K"; date "{{start date|2025|11|08}}"; tables 0; card 0; headings Background/Results/See also/References
-# ONE Fight Night 39 (title ONE Fight Night 39): infoboxes 1; keys name,image,image_size,promotion,date,venue,city,attendance,previousevent,followingevent; name raw starts "ONE Fight Night 39: R"; clean starts "ONE Fight Night 39: R"; date "{{start date|2026|01|24}}"; tables 0; card 0; headings Background/Results/Bonus awards/See also/References
-## ONE 173 Results: 2590 chars; templates {"MMAevent":1,"MMAevent card":2,"MMAevent bout":16,"MMAevent end":1,"Cite web":1}; shapes {"MMAevent":"named  | unnamed 0","MMAevent card":"named  | unnamed 1","MMAevent bout":"named  | unnamed 8","MMAevent end":"named notes | unnamed 0"}; lines starting ["","{{","|F","|[","|d","|D","|5","|3","}}","|T","|2","|0"]
-## ONE Fight Night 37 Results: 1371 chars; templates {"MMAevent":1,"MMAevent card":1,"MMAevent bout":8,"MMAevent end":1,"Cite web":1}; shapes {"MMAevent":"named  | unnamed 0","MMAevent card":"named  | unnamed 1","MMAevent bout":"named  | unnamed 8","MMAevent end":"named notes | unnamed 0"}; lines starting ["","{{","|H","|[","|d","|D","|5","|3","|F","}}","|L","|T"]
-## ONE Fight Night 39 Results: 1471 chars; templates {"MMAevent":1,"MMAevent card":1,"MMAevent bout":9,"MMAevent end":1,"Cite web":1}; shapes {"MMAevent":"named  | unnamed 0","MMAevent card":"named  | unnamed 1","MMAevent bout":"named  | unnamed 8","MMAevent end":"named notes | unnamed 0"}; lines starting ["","{{","|B","|[","|d","|A","|K","|2","|","}}","|F","|1"]
+one6 2026-11-07T04:08:16.121Z
+# ONE 173 (title ONE 173): infoboxes 1; keys name,image,caption,image_size,promotion,date,venue,city,previousevent,followingevent; name raw starts "ONE 173: S"; clean starts "ONE 173: S"; date "{{start date|2025|11|16}}"; tables 0; card 16; headings Background/Results/Bonus awards/See also/References
+# ONE Fight Night 37 (title ONE Fight Night 37): infoboxes 1; keys name,image,image_size,promotion,date,venue,city,previousevent,followingevent; name raw starts "ONE Fight Night 37: K"; clean starts "ONE Fight Night 37: K"; date "{{start date|2025|11|08}}"; tables 0; card 8; headings Background/Results/See also/References
+# ONE Fight Night 39 (title ONE Fight Night 39): infoboxes 1; keys name,image,image_size,promotion,date,venue,city,attendance,previousevent,followingevent; name raw starts "ONE Fight Night 39: R"; clean starts "ONE Fight Night 39: R"; date "{{start date|2026|01|24}}"; tables 0; card 9; headings Background/Results/Bonus awards/See also/References
 -- 2025 as at 2025-11-20T00:00:00Z: articles wanted 4, read 4: ONE 173 +infobox; ONE Fight Night 37 +infobox; ONE Fight Night 38 +infobox; ONE Fight Night 36 +infobox
-  ONE Fight Night 36 | 2025-10-04T01:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
+  ONE Fight Night 36 | 2025-10-04T01:00:00.000Z usual | Bangkok, Thailand | bouts 9 (Fight card) | weights 9 | kiwi no | own article yes
   ONE Friday Fights 130 | 2025-10-24T13:30:00.000Z usual | Bangkok, Thailand | bouts 12 (ONE Friday Fights 130) | weights 12 | kiwi yes | own article no
-  ONE Fight Night 37 | 2025-11-08T02:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
-  ONE 173 | 2025-11-16T09:00:00.000Z | Tokyo, Japan | bouts 0 | weights 0 | kiwi no | own article yes
-  ONE Fight Night 38 | 2025-12-06T02:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
+  ONE Fight Night 37 | 2025-11-08T02:00:00.000Z usual | Bangkok, Thailand | bouts 8 (Fight card) | weights 8 | kiwi no | own article yes
+  ONE 173 | 2025-11-16T09:00:00.000Z | Tokyo, Japan | bouts 16 (Fight card/Preliminary card) | weights 16 | kiwi no | own article yes
+  ONE Fight Night 38 | 2025-12-06T02:00:00.000Z usual | Bangkok, Thailand | bouts 7 (Fight card) | weights 7 | kiwi no | own article yes
 -- 2025 as at 2025-10-01T00:00:00Z: articles wanted 5, read 5: ONE Fight Night 36 +infobox; ONE Fight Night 35 +infobox; ONE Fight Night 37 +infobox; ONE 173 +infobox; ONE Fight Night 38 +infobox
   ONE Fight Night 34 | 2025-08-02T01:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
-  ONE Fight Night 35 | 2025-09-06T01:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
-  ONE Fight Night 36 | 2025-10-04T01:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
+  ONE Fight Night 35 | 2025-09-06T01:00:00.000Z usual | Bangkok, Thailand | bouts 8 (Fight card) | weights 8 | kiwi no | own article yes
+  ONE Fight Night 36 | 2025-10-04T01:00:00.000Z usual | Bangkok, Thailand | bouts 9 (Fight card) | weights 9 | kiwi no | own article yes
   ONE Friday Fights 130 | 2025-10-24T13:30:00.000Z usual | Bangkok, Thailand | bouts 12 (ONE Friday Fights 130) | weights 12 | kiwi yes | own article no
-  ONE Fight Night 37 | 2025-11-08T02:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
-  ONE 173 | 2025-11-16T09:00:00.000Z | Tokyo, Japan | bouts 0 | weights 0 | kiwi no | own article yes
-  ONE Fight Night 38 | 2025-12-06T02:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
+  ONE Fight Night 37 | 2025-11-08T02:00:00.000Z usual | Bangkok, Thailand | bouts 8 (Fight card) | weights 8 | kiwi no | own article yes
+  ONE 173 | 2025-11-16T09:00:00.000Z | Tokyo, Japan | bouts 16 (Fight card/Preliminary card) | weights 16 | kiwi no | own article yes
+  ONE Fight Night 38 | 2025-12-06T02:00:00.000Z usual | Bangkok, Thailand | bouts 7 (Fight card) | weights 7 | kiwi no | own article yes
 -- 2026 as at 2026-01-20T00:00:00Z: articles wanted 1, read 1: ONE Fight Night 39 +infobox
-  ONE Fight Night 39 | 2026-01-24T02:00:00.000Z usual | Bangkok, Thailand | bouts 0 | weights 0 | kiwi no | own article yes
+  ONE Fight Night 39 | 2026-01-24T02:00:00.000Z usual | Bangkok, Thailand | bouts 9 (Fight card) | weights 9 | kiwi no | own article yes
   ONE Fight Night 40 | 2026-02-14T02:00:00.000Z usual | Bangkok, Thailand | bouts 8 (ONE Fight Night 40) | weights 8 | kiwi no | own article no
   ONE Friday Fights 145 | 2026-03-06T13:30:00.000Z usual | Bangkok, Thailand | bouts 14 (ONE Friday Fights 145/The Inner Circle 5) | weights 14 | kiwi yes | own article no
   ONE Fight Night 41 | 2026-03-14T01:00:00.000Z usual | Bangkok, Thailand | bouts 9 (ONE Fight Night 41) | weights 9 | kiwi no | own article no
