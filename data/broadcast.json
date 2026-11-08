@@ -39,6 +39,7 @@
   { "sport": "cricket", "home": "^India$", "broadcast": "Sky Sport / Sky Sport Now" },
   { "team": "blacksticks", "home": "^New Zealand$", "away": "^India$", "broadcast": "TVNZ+ (free, every game)" },
   { "team": "sailgp", "broadcast": "ThreeNow (free stream)", "watchAlt": "Three (delayed, the next afternoon)" },
+  { "comp": "Tour Down Under", "broadcast": "Sky Sport / Sky Sport Now", "au": "Seven and 7plus (free, every stage)" },
   { "comp": "^ATP Finals", "broadcast": "Disney+ (ESPN)" },
   { "comp": "Pakistan ODI Tri-Series", "broadcast": "", "watchNote": "Not on TV in NZ", "au": "Fox Cricket and Kayo" }
 ]
