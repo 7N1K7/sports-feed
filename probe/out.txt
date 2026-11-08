@@ -1,8 +1,4 @@
-live2 2026-11-08T01:09:42.178Z
-page has v633 code: true, v634 code: true, v632 code: true
-version shown: 
-NZ A 3rd match YouTube links: ["video …pt2E","video …pt2E"]
-UFC 334 card: ["FREE PRELIMS","📺 Sky Arena (pay-per-view)"]
-Nations Cup cards: ["v","v","v","v","v","v","v","v"]
-nicknames shown: false
-errors: 
+daily5 2026-11-08T18:44:56.140Z
+feed built 2026-11-08T18:38:33.581Z (6 min ago), site v634
+noResult 8: Ford Trophy {s,c,n,at,src,noSource} | Ford Trophy {s,c,n,at,src,noSource} | Ford Trophy {s,c,n,at,src,noSource} | New Zealand Heartland XV v Samoa {s,c,n,at,src,noSource} | Heavyweight {s,c,n,at,src,noSource} | Ford Trophy {s,c,n,at,src,noSource} | Ford Trophy {s,c,n,at,src,noSource} | Ford Trophy {s,c,n,at,src,noSource}
+thinWeeks 0: 
