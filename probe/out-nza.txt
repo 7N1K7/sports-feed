@@ -1,0 +1,19 @@
+nza 2026-11-08T00:44:36.234Z
+feed 2026-11-08T00:36:49.056Z v631
+game 2026-11-06T21:30:00Z status=upcoming yt=[{"url":"https://www.youtube.com/watch?v=IXnEL9O8S-0","ch":"NZ Cricket","at":"2026-11-06T21:50:25Z","state":"none"},{"url":"https://www.youtube.com/watch?v=3OPWMTapt2E","ch":"NZ Cricket","at":"2026-11-07T21:21:54Z","state":"live"}] tv=[] broadcast= watchAlt=NZC live stream (nzc.nz / YouTube)
+stream 3OPWMTapt2E state=live sched=2026-11-07T21:30:00Z start=2026-11-07T21:21:54Z end= day=2 indiaA=true nzA=true hl=false
+stream 8kY1zAb9Zgw state=live sched=2026-11-07T21:30:00Z start=2026-11-07T21:21:30Z end= day=- indiaA=false nzA=false hl=false
+stream AxrOz45N6RQ state=live sched=2026-11-07T21:30:00Z start=2026-11-07T21:21:13Z end= day=- indiaA=false nzA=false hl=false
+stream gG3fO_AAiqo state=live sched=2026-11-07T21:30:00Z start=2026-11-07T21:20:21Z end= day=- indiaA=false nzA=false hl=false
+stream IXnEL9O8S-0 state=none sched=2026-11-06T21:30:00Z start=2026-11-06T21:50:25Z end=2026-11-07T05:13:22Z day=1 indiaA=true nzA=true hl=false
+stream KxHT4uwJAXE state=none sched=2026-11-06T00:00:00Z start=2026-11-06T00:00:10Z end=2026-11-06T00:23:48Z day=- indiaA=false nzA=false hl=false
+stream YqZ_QVf8oyY state=none sched=2026-11-03T21:30:00Z start=2026-11-03T21:14:31Z end=2026-11-04T06:09:06Z day=- indiaA=false nzA=false hl=false
+stream EwtZUPpabPE state=none sched=2026-11-03T21:30:00Z start=2026-11-03T21:14:43Z end=2026-11-04T06:09:00Z day=- indiaA=false nzA=false hl=false
+stream zUwx5DupjSs state=none sched=2026-11-03T21:30:00Z start=2026-11-03T21:15:30Z end=2026-11-04T06:08:54Z day=- indiaA=false nzA=false hl=false
+stream q7J7NAT47v4 state=none sched=2026-11-02T21:50:00Z start=2026-11-02T21:51:12Z end=2026-11-03T03:15:47Z day=4 indiaA=true nzA=true hl=false
+stream P9X5vMAmP7M state=none sched=2026-11-01T21:30:00Z start=2026-11-01T21:49:58Z end=2026-11-02T05:44:13Z day=3 indiaA=true nzA=true hl=false
+stream _Q42qyLgcBU state=none sched=2026-10-31T21:50:00Z start=2026-10-31T21:52:02Z end=2026-11-01T05:28:29Z day=2 indiaA=true nzA=true hl=false
+stream 3Zmy4Mujf_U state=none sched=2026-10-31T21:30:00Z start=2026-10-31T21:02:10Z end=2026-11-01T05:25:23Z day=- indiaA=false nzA=false hl=false
+stream smRvJb441d4 state=none sched=2026-10-30T21:50:00Z start=2026-10-30T21:50:01Z end=2026-10-31T05:56:13Z day=1 indiaA=true nzA=true hl=false
+stream A0yuqwq1DNE state=none sched=2026-10-30T21:30:00Z start=2026-10-30T21:06:04Z end=2026-10-31T04:40:18Z day=- indiaA=false nzA=false hl=false
+stream pD_zCw4fOf4 state=none sched=2026-10-30T21:30:00Z start=2026-10-30T21:05:31Z end=2026-10-31T04:40:02Z day=- indiaA=false nzA=false hl=false
