@@ -1074,6 +1074,9 @@ button.hubres { font-family: inherit; background: transparent; cursor: pointer }
 .hubtop h2 { flex: 0 1 auto; margin-right: auto; text-align: center }
 .hubtabs { text-align: center }
 .hubtabs button { margin: 0 4px 8px }
+/* on a phone, smaller tabs: six (Games to Shows) in two rows of three from 360px wide, eight from 375px (were three rows
+   up to 412px, which pushed the games out of sight; from v632) */
+@media (max-width: 560px) { .hubtabs { margin-top: 10px } .hubtabs button { font-size: 13.5px; padding: 6px 10px; margin: 0 3px 6px } }
 .hub.hsplit-on .hubtop .hubicon { display: none }
 .hub.hsplit-on .hubtop h2 { flex: 1 1 auto; margin-right: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 10px }
 .hub.hsplit-on .hubtop h2 .hfull { display: none }
@@ -2073,7 +2076,8 @@ function displayName(n, e) {
   if (!n) return '';
   const base = n.replace(/\s+Women('s)?$/, '');
   const g = e ? (/\s+Women('s)?$/.test(n) ? 'w' : genderOf(e)) : '';
-  const nick = e && NICK[`${e.sport} ${g}`]?.[base];
+  // the Nations Cup's sides go by their countries: few know the Lelos or Los Teros by name (from v632)
+  const nick = e && e.team !== 'nationscup' && NICK[`${e.sport} ${g}`]?.[base];
   return nick || plural(shortName(n));
 }
 // Name colours: national and club colours. New Zealand / black teams stay the default ink.
@@ -4601,6 +4605,18 @@ function markLone() {
   });
 }
 if (window.ResizeObserver) new ResizeObserver(markLone).observe($('teamGroups'));
+// a series box's tab (Games, Results, Table...) opens what's under the box: on a phone with the filters open that's out
+// of sight, so the tap looked to do nothing. Then the page moves down to it, just under the bar at the top (from v632).
+// Only when none of it shows (for Games and Results, their first game): where some of it shows below, the page stays
+// put, so the buttons stay in reach and the change below says to scroll
+function hubReveal() {
+  const body = $('hubBody'), secs = [...document.querySelectorAll('main > section')], i = secs.indexOf($('hubSec'));
+  const to = body.childElementCount ? body : secs.slice(i + 1).find(x => !x.hidden && x.offsetHeight);
+  if (!to) return;
+  const top = to.getBoundingClientRect().top, ev = [...document.querySelectorAll('main .ev')].map(x => x.getBoundingClientRect()).find(r => r.height && r.top >= top);
+  if ((body.childElementCount || !ev ? top : ev.top) + 60 <= innerHeight) return;
+  scrollTo({ top: top + scrollY - Math.max(document.querySelector('header.top').getBoundingClientRect().bottom, $('foldBtn').getBoundingClientRect().bottom) - 10, behavior: 'smooth' });
+}
 function balanceChips(box) {
   box.querySelectorAll('br').forEach(b => b.remove());
   const info = box.querySelector(':scope > .sinfo'), cs = [...box.children].filter(c => c !== info);
@@ -4829,12 +4845,17 @@ document.addEventListener('click', ev => {
     // a series that has just finished opens on its results
     compSel = again ? '' : t.dataset.bigcomp; hubTab = endedComps.has(compSel) ? 'results' : 'games'; store.set('comp', compSel); render();
     if (wk || !t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // a series row button opens its series below the filters: on a short phone screen with the filters open that's out of
+    // sight, so the tap looked to do nothing. Then the page moves down to the series' box, just under the bar at the top
+    // (from v632); where the box and the top of its first game already show, nothing moves
+    else if (compSel) requestAnimationFrame(() => { const box = $('hubBox').getBoundingClientRect(), first = [...document.querySelectorAll('main .ev')].map(x => x.getBoundingClientRect()).find(r => r.height && r.top >= box.bottom);
+      if (box.bottom > innerHeight || !first || first.top + 60 > innerHeight) scrollTo({ top: $('hubSec').getBoundingClientRect().top + scrollY - Math.max(document.querySelector('header.top').getBoundingClientRect().bottom, $('foldBtn').getBoundingClientRect().bottom) - 10, behavior: 'smooth' }); });
   }
   // the +N: the competitions list, opened
   else if (t.dataset.weekmore) { ev.stopPropagation(); use('This week more competitions'); if (folded) { folded = false; store.set('folded', false); syncFold(); } $('sportFilter').scrollIntoView({ block: 'start' }); $('compMenu').hidden = false; $('compSel').setAttribute('aria-expanded', 'true'); fitComp(); }
   else if (t.dataset.sesall) { use('All session times'); sesAll.add(t.dataset.sesall); render(); }
   else if (t.dataset.raceall) { use(t.dataset.raceall.startsWith('supercars') ? 'All Supercars race results' : 'All F1 race results'); raceAll.add(t.dataset.raceall); t.closest('.rboard').classList.add('all'); }
-  else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; if (hubTab !== 'games') count({ e: 'use', k: `Competition ${t.textContent.trim()} tab` }); render(); }
+  else if (t.dataset.hubtab) { hubTab = t.dataset.hubtab; count({ e: 'use', k: `Competition ${t.textContent.trim()} tab` }); render(); requestAnimationFrame(hubReveal); }
   else if (t.dataset.dtab) { if (t.dataset.dtab !== dTab) use(t.dataset.dtab === 'results' ? 'Results tab in a game' : 'Game tab in a game'); dTab = t.dataset.dtab; $('sheetBody').classList.toggle('on-results', dTab === 'results'); t.parentNode.querySelectorAll('[data-dtab]').forEach(b => b.setAttribute('aria-selected', b === t)); }
   else if (t.dataset.rank) { use('Rankings list button'); rankSel = t.dataset.rank; if ($('sheet').open && $('sheet').dataset.rankings) openRankings($('sheet').dataset.rankings); else render(); }
   else if (t.dataset.rankings) { use('Rankings sport button'); rankSel = ''; openRankings(t.dataset.rankings); }
