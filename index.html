@@ -2660,8 +2660,18 @@ const linkWatch = t => esc(t).replace(SVC_RE, m => `<a class="svc" href="${SERVI
 // the option, "NZC YouTube")
 const FREE_SITE = { 'TVNZ 1': 'https://www.tvnz.co.nz/livetv/tvnz-1', 'TVNZ 2': 'https://www.tvnz.co.nz/livetv/tvnz-2', 'TVNZ DUKE': 'https://www.tvnz.co.nz/livetv/tvnz-duke', Three: 'https://www.threenow.co.nz/live-tv-guide/three',
   Rush: 'https://www.threenow.co.nz/live-tv-guide/rush', Bravo: 'https://www.threenow.co.nz/live-tv-guide/bravo', eden: 'https://www.threenow.co.nz/live-tv-guide/eden', 'Sky Open': 'https://www.threenow.co.nz/live-tv-guide/sky-open', 'Whakaata Māori': 'https://www.maoriplus.co.nz/live' };
+// the stream to show for a game: the live one, else the next to come, else the last one's replay. A game of several days
+// that's still going (from 3 hours before a day's play) whose newest stream is an earlier day's replay gets its
+// channel's live streams instead: a day's stream goes up just before play, and until the feed finds it the card linked
+// the day before's (NZ A v India A's day 2 opened day 1's; from v633)
+function ytNow(e, yts, now) {
+  const x = yts.find(x => x.state === 'live') || yts.find(x => x.state === 'upcoming' && new Date(x.at) > now - 6 * 36e5) || yts[yts.length - 1];
+  if (!x || x.state === 'live' || x.state === 'upcoming' || !x.cid || isDone(e, now)) return x;
+  const s = Date.parse(e.startUTC), k = Math.floor((+now - s + 3 * 36e5) / 864e5), day = s + k * 864e5;
+  return k >= 1 && Date.parse(x.at) < day - 3 * 36e5 ? { ...x, url: `https://www.youtube.com/channel/${x.cid}/streams`, state: 'channel' } : x;
+}
 function freeHref(e, f) {
-  if (f === 'YouTube') { const ys = (e.yt || []).filter(x => !x.prelims); return (ys.find(x => x.state === 'live') || ys.find(x => x.state === 'upcoming') || ys[ys.length - 1])?.url || ''; }
+  if (f === 'YouTube') return ytNow(e, (e.yt || []).filter(x => !x.prelims), new Date())?.url || '';
   const m = String(f).match(SVC_RE);
   return FREE_SITE[f] || SERVICES[f] || (m ? SERVICES[m[0]] : '');
 }
@@ -3456,8 +3466,8 @@ function detail(e) {
   const opts = watchOptions(e);
   // a free stream on the sport body's own YouTube channel: the live one, else the next to start, else the last (a replay)
   // (a fight night's prelims stream on its own line, saying it's only the prelims)
-  const ytPick = yts => yts.find(x => x.state === 'live') || yts.find(x => x.state === 'upcoming' && new Date(x.at) > now - 6 * 36e5) || yts[yts.length - 1];
-  const ytLine = (yt, pre) => yt ? `<li class="wopt"><span class="wkind k-free">${pre ? 'Prelims' : 'Free'}</span><div><b><a class="svc" data-watch="${pre ? 'YouTube prelims' : 'YouTube'}" href="${esc(yt.url)}" target="_blank" rel="noopener">YouTube</a></b> <span class="muted small">(${esc(yt.ch)})</span><div class="muted small">${pre ? 'The prelims only, free. ' : ''}${yt.state === 'live' ? 'Streaming live now' : yt.state === 'upcoming' ? `Live stream from ${time(new Date(yt.at), NZ)} ${fmt(new Date(yt.at), NZ, { weekday: 'short' })}` : 'Stream replay'}</div></div></li>` : '';
+  const ytPick = yts => ytNow(e, yts, now);
+  const ytLine = (yt, pre) => yt ? `<li class="wopt"><span class="wkind k-free">${pre ? 'Prelims' : 'Free'}</span><div><b><a class="svc" data-watch="${pre ? 'YouTube prelims' : 'YouTube'}" href="${esc(yt.url)}" target="_blank" rel="noopener">YouTube</a></b> <span class="muted small">(${esc(yt.ch)})</span><div class="muted small">${pre ? 'The prelims only, free. ' : ''}${yt.state === 'live' ? 'Streaming live now' : yt.state === 'channel' ? "Today's play goes up on the channel's live streams" : yt.state === 'upcoming' ? `Live stream from ${time(new Date(yt.at), NZ)} ${fmt(new Date(yt.at), NZ, { weekday: 'short' })}` : 'Stream replay'}</div></div></li>` : '';
   const ytLi = ytLine(ytPick((e.yt || []).filter(x => !x.prelims))) + ytLine(ytPick((e.yt || []).filter(x => x.prelims)), true);
   // what the TV guide lists for this game (free channels first), each with when its coverage starts
   // the card shows the first live listing when there is one, so that's the one marked

@@ -555,7 +555,8 @@ async function youtubeStreams(events) {
           if (at < start - 3 * 36e5 || at > start + (days - 1) * DAY + 12 * 36e5) continue;
           if (!ytFor(e, sport, st)) continue;
           // a fight night's prelims stream is only the prelims: the card says so, and it isn't a free way to watch the fight
-          (e.yt ||= []).push({ url: `https://www.youtube.com/watch?v=${st.id}`, ch, at: st.at, state: st.state, ...(st.pre && FIGHT_SPORT.test(e.sport) ? { prelims: true } : {}) });
+          // (cid: the channel, whose live streams the site links while a game's next day's stream isn't found yet)
+          (e.yt ||= []).push({ url: `https://www.youtube.com/watch?v=${st.id}`, ch, cid: id, at: st.at, state: st.state, ...(st.pre && FIGHT_SPORT.test(e.sport) ? { prelims: true } : {}) });
           hit.add(st.id);
           found.push(`${e.home} v ${e.away} (${st.state})`);
         }
