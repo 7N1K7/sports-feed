@@ -1,10 +1,9 @@
-ufc 2026-11-08T00:55:58.014Z
-nz DUKE 20261107220000 +0000 -> 20261108040000 | UFC | Live coverage of the UFC Fight Night from the Meta APEX in Las Vegas, Nevada which will feature Waldo Cortes Acosta from the Dominican Republic taking on Johnny
-nz TVNZ DUKE+1 20261107230000 +0000 -> 20261108050000 | UFC | Live coverage of the UFC Fight Night from the Meta APEX in Las Vegas, Nevada which will feature Waldo Cortes Acosta from the Dominican Republic taking on Johnny
-SkyGo TVNZ DUKE 20261107220000 +0000 -> 20261108040000 | UFC | Live coverage of the UFC Fight Night from the Meta APEX in Las Vegas, Nevada which will feature Waldo Cortes Acosta from the Dominican Republic taking on Johnny
-SkyGo ESPN 20261107123000 +0000 -> 20261107163000 | MMA One Fight Night | Action from the MMA One Fight Night.
-SkyGo Sky Arena 20261107050000 +0000 -> 20261107170000 | UFC PPV | Don't miss a moment of UFC 334: Gane vs Hokit from Madison Square Garden, New York, United States. LIVE Sunday, 15 November, 3PM, CH 065, $44.95. To book: text 
-SkyGo Sky Arena 20261107170000 +0000 -> 20261108050000 | UFC PPV | Don't miss a moment of UFC 334: Gane vs Hokit from Madison Square Garden, New York, United States. LIVE Sunday, 15 November, 3PM, CH 065, $44.95. To book: text 
-SkyGo Sky Arena 20261108050000 +0000 -> 20261108170000 | UFC PPV | Don't miss a moment of UFC 334: Gane vs Hokit from Madison Square Garden, New York, United States. LIVE Sunday, 15 November, 3PM, CH 065, $44.95. To book: text 
-SkyGo Sky Arena 20261108170000 +0000 -> 20261109050000 | UFC PPV | Don't miss a moment of UFC 334: Gane vs Hokit from Madison Square Garden, New York, United States. LIVE Sunday, 15 November, 3PM, CH 065, $44.95. To book: text 
-SkyGo TVNZ DUKE +1 20261107230000 +0000 -> 20261108050000 | UFC | Live coverage of the UFC Fight Night from the Meta APEX in Las Vegas, Nevada which will feature Waldo Cortes Acosta from the Dominican Republic taking on Johnny
+live 2026-11-08T00:58:21.003Z
+site v632
+360x640 Black Caps v India: hub 127..271, 6 tabs in 2 rows, first game top 474 of 640, y=255 
+412x732 Black Caps v India: hub 127..271, 6 tabs in 2 rows, first game top 474 of 732, y=256 
+Nations Cup sides on cards: []
+nicknames on Nations Cup cards: false
+UFC 334 card tags: "not in list"
+NZ A 3rd match YouTube links: "not in list"
+1280x800 Black Caps v India: hub 284..400, 6 tabs in 1 rows, first game top 641 of 800, y=0 
