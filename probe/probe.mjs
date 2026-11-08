@@ -1,19 +1,36 @@
-// 8 Nov: what the NZ guide lists for today's UFC Fight Night (channels, times, programme titles and descriptions'
-// first words, which say prelims or main card: no results)
+// 8 Nov: v632 to v634 on kickoff.kiwi: series box tab rows on phones, Nations Cup names, UFC 334's tag, NZ A's stream
+// link (labels and counts only; no results)
 import { execSync } from 'child_process'; import { writeFileSync } from 'fs';
-const out = ['ufc ' + new Date().toISOString()];
-for (const url of ['https://i.mjh.nz/nz/epg.xml', 'https://i.mjh.nz/SkyGo/epg.xml']) {
-  try { const x = await (await fetch(url)).text();
-    const ch = {}; for (const m of x.matchAll(/<channel id="([^"]+)">[\s\S]*?<display-name>([^<]+)<\/display-name>/g)) ch[m[1]] = m[2];
-    for (const m of x.matchAll(/<programme start="(\d{14}) ([+-]\d{4})" stop="(\d{14}) ([+-]\d{4})" channel="([^"]+)">([\s\S]*?)<\/programme>/g)) {
-      const body = m[6], title = (body.match(/<title[^>]*>([^<]*)/) || [])[1] || '', desc = (body.match(/<desc[^>]*>([^<]*)/) || [])[1] || '';
-      if (!/UFC|Fight Night/i.test(title + ' ' + desc)) continue;
-      if (!/^2026110[78]/.test(m[1])) continue;
-      out.push(`${url.split('/')[3]} ${ch[m[5]] || m[5]} ${m[1]} ${m[2]} -> ${m[3]} | ${title} | ${desc.slice(0, 160)}`);
-    }
-  } catch (er) { out.push(url + ' err ' + String(er.message).slice(0, 100)); }
+import { chromium } from 'playwright';
+const out = ['live ' + new Date().toISOString()];
+let v = 0; for (let i = 0; i < 40; i++) { try { v = +(await (await fetch('https://kickoff.kiwi/?x=' + Date.now())).text()).match(/\bv(\d{3,})\b/)?.[1] || 0; } catch {} if (v >= 634) break; await new Promise(r => setTimeout(r, 15000)); }
+out.push('site v' + v);
+const b = await chromium.launch({ channel: 'chrome' });
+for (const [w, h] of [[360, 640], [412, 732], [1280, 800]]) {
+  const phone = w < 500, ctx = await b.newContext({ viewport: { width: w, height: h }, isMobile: phone, hasTouch: phone });
+  const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
+  await p.addInitScript(() => { localStorage.setItem('sf.nocount', 'true'); });
+  await p.goto('https://kickoff.kiwi/', { waitUntil: 'load' }); await p.waitForTimeout(3000);
+  const c = await p.$('[data-bigcomp^="Black Caps v India"]') || await p.$('#nowChips [data-bigcomp]');
+  const name = await c.getAttribute('data-bigcomp'); if (phone) await c.tap(); else await c.click(); await p.waitForTimeout(1500);
+  const r = await p.evaluate(() => { const hb = document.getElementById('hubBox').getBoundingClientRect(), bt = [...document.querySelectorAll('#hubTabs button')].map(x => x.getBoundingClientRect());
+    const first = [...document.querySelectorAll('main .ev')].map(x => x.getBoundingClientRect()).find(r => r.height && r.top >= hb.bottom);
+    return `hub ${Math.round(hb.top)}..${Math.round(hb.bottom)}, ${bt.length} tabs in ${new Set(bt.map(x => Math.round(x.top))).size} rows, first game top ${first ? Math.round(first.top) : '-'} of ${innerHeight}, y=${Math.round(scrollY)}`; });
+  out.push(`${w}x${h} ${name}: ${r} ${errs.join(';')}`);
+  if (w === 412) {
+    const nc = await p.evaluate(() => [...document.querySelectorAll('main .ev')].filter(x => /Nations Cup/i.test(x.textContent)).slice(0, 6).map(x => [...x.querySelectorAll('.team, .side, .tn, b')].map(t => t.textContent.trim()).filter(Boolean).slice(0, 2).join(' v ')));
+    out.push('Nations Cup sides on cards: ' + JSON.stringify(nc));
+    const nick = await p.evaluate(() => /Lelos|Los Teros|Ikale Tahi|Manu Samoa|Oaks|Leones|Lobos|Cóndores|Sables/.test([...document.querySelectorAll('main .ev')].filter(x => /Nations Cup/i.test(x.textContent)).map(x => x.textContent).join(' ')));
+    out.push('nicknames on Nations Cup cards: ' + nick);
+    const u = await p.evaluate(() => { const x = [...document.querySelectorAll('main .ev')].find(x => /UFC 334/.test(x.textContent)); return x ? [...x.querySelectorAll('span, a, b')].map(t => t.textContent.trim()).filter(t => /FREE|pay-per-view/i.test(t) && t.length < 40) : 'not in list'; });
+    out.push('UFC 334 card tags: ' + JSON.stringify(u));
+    const nz = await p.evaluate(() => { const x = [...document.querySelectorAll('main .ev')].find(x => /3rd four-day/.test(x.textContent)); return x ? [...x.querySelectorAll('a')].filter(a => /youtube/.test(a.href)).map(a => a.href.replace(/v=.*/, 'v=…' + a.href.slice(-4))) : 'not in list'; });
+    out.push('NZ A 3rd match YouTube links: ' + JSON.stringify(nz));
+  }
+  await ctx.close();
 }
-writeFileSync('probe/out-ufc.txt', out.join('\n') + '\n');
-try { execSync('git -c user.name=bot -c user.email=bot@x add -A probe/out-ufc.txt && git -c user.name=bot -c user.email=bot@x commit -q -m out', { stdio: 'pipe' }); } catch {}
+await b.close();
+writeFileSync('probe/out-live.txt', out.join('\n') + '\n');
+try { execSync('git -c user.name=bot -c user.email=bot@x add -A probe/out-live.txt && git -c user.name=bot -c user.email=bot@x commit -q -m out', { stdio: 'pipe' }); } catch {}
 for (let i = 0; i < 4; i++) try { execSync('git push -q origin HEAD:probe', { stdio: 'pipe' }); break; } catch { try { execSync('git fetch -q origin probe && git -c user.name=bot -c user.email=bot@x rebase -q --autostash origin/probe', { stdio: 'pipe' }); } catch {} }
 console.log(out.join('\n'));
