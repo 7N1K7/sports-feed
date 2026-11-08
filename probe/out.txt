@@ -1,9 +1,8 @@
-live 2026-11-08T00:58:21.003Z
-site v632
-360x640 Black Caps v India: hub 127..271, 6 tabs in 2 rows, first game top 474 of 640, y=255 
-412x732 Black Caps v India: hub 127..271, 6 tabs in 2 rows, first game top 474 of 732, y=256 
-Nations Cup sides on cards: []
-nicknames on Nations Cup cards: false
-UFC 334 card tags: "not in list"
-NZ A 3rd match YouTube links: "not in list"
-1280x800 Black Caps v India: hub 284..400, 6 tabs in 1 rows, first game top 641 of 800, y=0 
+live2 2026-11-08T01:09:42.178Z
+page has v633 code: true, v634 code: true, v632 code: true
+version shown: 
+NZ A 3rd match YouTube links: ["video …pt2E","video …pt2E"]
+UFC 334 card: ["FREE PRELIMS","📺 Sky Arena (pay-per-view)"]
+Nations Cup cards: ["v","v","v","v","v","v","v","v"]
+nicknames shown: false
+errors: 
