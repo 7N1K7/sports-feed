@@ -1,0 +1,4 @@
+daily5 2026-11-08T18:44:56.140Z
+feed built 2026-11-08T18:38:33.581Z (6 min ago), site v634
+noResult 8: Ford Trophy {s,c,n,at,src,noSource} | Ford Trophy {s,c,n,at,src,noSource} | Ford Trophy {s,c,n,at,src,noSource} | New Zealand Heartland XV v Samoa {s,c,n,at,src,noSource} | Heavyweight {s,c,n,at,src,noSource} | Ford Trophy {s,c,n,at,src,noSource} | Ford Trophy {s,c,n,at,src,noSource} | Ford Trophy {s,c,n,at,src,noSource}
+thinWeeks 0: 
