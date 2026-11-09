@@ -4648,7 +4648,7 @@ function hubReveal() {
 function balanceChips(box) {
   box.querySelectorAll('br').forEach(b => b.remove());
   const info = box.querySelector(':scope > .sinfo'), cs = [...box.children].filter(c => c !== info);
-  cs.forEach(c => c.style.marginRight = ''); if (info) info.style.marginLeft = info.style.marginRight = '';
+  cs.forEach(c => c.style.marginRight = c.style.marginLeft = ''); if (info) info.style.marginLeft = info.style.marginRight = '';
   // the sport row's "i" starts its second line under All, right edges in line: its slot there is All's width
   let extra = 0;
   if (info?.offsetWidth && cs.length) { const st = getComputedStyle(info), pad = Math.max(0, cs[0].getBoundingClientRect().width - info.getBoundingClientRect().width);
@@ -4687,6 +4687,21 @@ function evenRows(box, cs, info, ws, W, n) {
   if (n === 2) for (let i = 1; i < ws.length; i++) tryCuts([i]);
   else for (let i = 1; i < ws.length; i++) for (let j = i + 1; j < ws.length; j++) tryCuts([i, j]);
   if (!best) return false;
+  // with the "i" hidden (a compact window): no gaps opened; All hangs out to the left of the first line, and the
+  // lines below start under the first sport after it, their lengths evened by the split (from v641)
+  if (!iw) {
+    const aw = ws[0]; best = null;
+    const tryOv = cuts => { const b = [1, ...cuts, ws.length], sp = []; for (let k = 0; k < n; k++) sp.push(pre[b[k + 1]] - pre[b[k]]);
+      if (Math.max(...sp) + aw > W) return; const d = Math.max(...sp) - Math.min(...sp); if (!best || d < best.d - 0.5) best = { d, cuts, sp }; };
+    if (n === 2) for (let i = 2; i < ws.length; i++) tryOv([i]);
+    else for (let i = 2; i < ws.length; i++) for (let j = i + 1; j < ws.length; j++) tryOv([i, j]);
+    if (!best) return false;
+    best.cuts.forEach(i => { cs[i].before(document.createElement('br')); cs[i].style.marginLeft = `${parseFloat(getComputedStyle(cs[i]).marginLeft) + aw}px`; });
+    box.querySelector(':scope > br').after(info);
+    const max = Math.max(...best.sp), b = [1, ...best.cuts, ws.length];
+    for (let k = 0; k < n; k++) { const last = cs[b[k + 1] - 1], add = max - best.sp[k]; if (add > 0.25) last.style.marginRight = `${parseFloat(getComputedStyle(last).marginRight) + add}px`; }
+    return true;
+  }
   best.cuts.forEach(i => cs[i].before(document.createElement('br')));
   box.querySelector(':scope > br').after(info);
   const max = Math.max(...best.sp), b = [0, ...best.cuts, ws.length];
