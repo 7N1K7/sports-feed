@@ -1343,7 +1343,7 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
 .bigev .bn { min-height: 2.2em; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden }
 .bigev .bd { font-size: 14px; font-weight: 600 }
 .bigev .bc { font-size: 13px; color: var(--muted) }
-.totop { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 40; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: var(--ink); color: var(--paper); font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.2) }
+.totop { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 40; width: 46px; height: 46px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--accent-ink) 25%, var(--accent)); background: var(--accent); color: var(--accent-ink); font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.2) }
 
 @media (max-width: 560px) {
   .ev { grid-template-columns: 6px minmax(0, 1fr) }
@@ -1891,6 +1891,7 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
     <div id="mainShows"></div>
   </section>
 </main>
+<!-- the back-to-top arrow wears the picked colour theme (from v638) -->
 <button type="button" id="toTop" class="totop" aria-label="Back to top" hidden>↑</button>
 <footer class="wrap" id="foot"></footer>
 <dialog id="sheet" aria-label="Details">
