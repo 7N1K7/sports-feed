@@ -2174,7 +2174,8 @@ const wkOn = k => WEEKDAY_IN.has(k) && !optSet.has(k) && !picked.has(k);
 // and only until 2 hours after it ends (about 4.5 hours after tip-off), so its results don't pile up (from v642),
 // and only today's (NZ day): the rest of the week's show on their day (from v643)
 const nzDay = t => new Date(t).toLocaleDateString('en-CA', { timeZone: NZ });
-const weekdayIn = x => wkOn(x.team) && !!x.startUTC && !/^(Sat|Sun)/.test(new Date(x.startUTC).toLocaleDateString('en-NZ', { weekday: 'short', timeZone: NZ }))
+// (from v647 every day, weekends too: it's one card, so a busy Saturday no longer takes over the feed)
+const weekdayIn = x => wkOn(x.team) && !!x.startUTC
   && nzDay(x.startUTC) === nzDay(Date.now()) && !(x.status === 'final' && Date.now() - Date.parse(x.startUTC) > 4.5 * 36e5);
 let picked = new Set(store.get('teams', ALL_KEYS.filter(k => !OPT_IN.has(k))));
 // ONE Championship started off in v614 and is on since: switch it on once for those who saw it then
@@ -3685,7 +3686,7 @@ function offList() {
   const sidesOff = [['m', "Men's teams"], ['w', "Women's teams"]].filter(([g]) => !sideKeys(g).some(k => picked.has(k)) && picked.size),
     bySide = new Set(sidesOff.flatMap(([g]) => sideKeys(g)));
   return [...sidesOff.map(([, l]) => [l, 'accent', true]), ...TEAMS_AZ.filter(g => !groupItems(g).some(([k]) => followedSport(sportOf(k)))).map(g => [g.g, sportOf(groupItems(g)[0][0]), true]),
-    ...TEAMS_AZ.flatMap(groupItems).filter(([k], i, a) => a.findIndex(([j]) => j === k) === i && !picked.has(k) && !bySide.has(k) && followedSport(sportOf(k))).map(([k, l]) => [l === 'Every game' ? TEAMS.find(y => y.sub?.items.some(([j]) => j === k))?.sub.g || l : wkOn(k) ? `${l} at weekends` : l, sportOf(k), false, k]),
+    ...TEAMS_AZ.flatMap(groupItems).filter(([k], i, a) => a.findIndex(([j]) => j === k) === i && !picked.has(k) && !bySide.has(k) && followedSport(sportOf(k))).map(([k, l]) => [l === 'Every game' ? TEAMS.find(y => y.sub?.items.some(([j]) => j === k))?.sub.g || l : wkOn(k) ? `${l} in full` : l, sportOf(k), false, k]),
     // a series' practice and other race-weekend sessions, while they're off (they're only under the Motorsport button)
     ...(followedSport('motor') ? SESS.filter(([k]) => picked.has(k) && !sessOn.has(k)).map(([, l]) => [`${l} sessions`, 'motor', false]) : [])];
 }
@@ -4568,7 +4569,7 @@ function render() {
   $('hidNote').innerHTML = offs.length ? `<b>Hidden<span class="hfull"> from your feed</span>:</b> ${offs.map(hgo).join(' ')}` : 'Everything is on your feed.';
   $('hidNote').title = offs.length ? `Hidden: ${offs.map(o => o[0]).join(', ')}` : '';
   { const ns = [...OPT_IN].map(k => TEAM_NAME[k]).filter(Boolean);
-    $('optNote').textContent = ns.length ? `Weekdays only by default (a lot of games): ${ns.join(', ')}` : ''; }
+    $('optNote').textContent = ns.length ? `As one card by default (a lot of games): ${ns.join(', ')}` : ''; }
   // calendar subscriptions (built with the feed, in data/cal/): every game an NZ side plays, then each team picked above.
   // webcal: opens Apple's Calendar to subscribe; Google and Outlook take the address on their own add-by-URL pages
   const calRow = (k, label) => {
@@ -4900,7 +4901,7 @@ document.addEventListener('click', ev => {
   if (t.id === 'copySettings') { count({ e: 'use', k: 'Settings code copied' }); const c = settingsCode(); (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { $('moveNote').textContent = 'Copied. Paste it into the box on the other browser, then tap "Use these settings".'; }, () => prompt('Copy this code', c)); return; }
   // the sport row's "i": a note under it, and from there Settings at My teams
   if (t.dataset.sinfo != null) { const pop = $('sinfoPop'), open = pop.hidden; closeSinfo(); if (!open) return;
-    use('Sports info button'); $('sinfoDef').innerHTML = OPT_IN.size ? `Weekdays only by default: ${[...OPT_IN].map(k => hgo([TEAM_NAME[k] || k, sportOf(k), false, k], 'def')).join(' ')} – too many games at the weekend` : '';
+    use('Sports info button'); $('sinfoDef').innerHTML = OPT_IN.size ? `As one card a day by default: ${[...OPT_IN].map(k => hgo([TEAM_NAME[k] || k, sportOf(k), false, k], 'def')).join(' ')} – too many games to list` : '';
     // and what this browser has turned off (not the busy ones still off by default, named just above, nor race-weekend
     // practice sessions): up to 8, then a count
     { const os = offList().filter(o => !(o[3] && OPT_IN.has(o[3])) && !/ sessions$/.test(o[0])), max = os.length > 8 ? 7 : 8;
