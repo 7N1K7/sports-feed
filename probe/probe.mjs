@@ -1,12 +1,7 @@
-// daily 9 Nov: the live feed at v634, its checks as counts and labels only
+// 9 Nov: a copy of the live feed (public anyway), to render the series row locally
 import { execSync } from 'child_process'; import { writeFileSync } from 'fs';
-const out = ['daily5 ' + new Date().toISOString()], now = Date.now();
-try { const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + now)).json();
-  out.push(`feed built ${f.generatedAt} (${Math.round((now - Date.parse(f.generatedAt)) / 6e4)} min ago), site v${f.site?.version}`);
-  out.push(`noResult ${f.checks?.noResult?.length}: ${(f.checks?.noResult || []).map(x => [x.c, x.g, x.h, x.a, x.d, x.when].filter(Boolean).join(" ~ ") + " {" + Object.keys(x).join(",") + "}").join(' | ')}`);
-  out.push(`thinWeeks ${f.checks?.thinWeeks?.length}: ${(f.checks?.thinWeeks || []).map(x => `${x.c} ${x.week}`).join(' | ')}`);
-} catch (er) { out.push('feed err ' + String(er.message).slice(0, 100)); }
-writeFileSync('probe/out-daily5.txt', out.join('\n') + '\n');
-try { execSync('git -c user.name=bot -c user.email=bot@x add -A probe/out-daily5.txt && git -c user.name=bot -c user.email=bot@x commit -q -m out', { stdio: 'pipe' }); } catch {}
+const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).text();
+writeFileSync('probe/feed-9nov.json', f);
+try { execSync('git -c user.name=bot -c user.email=bot@x add -A probe/feed-9nov.json && git -c user.name=bot -c user.email=bot@x commit -q -m out', { stdio: 'pipe' }); } catch {}
 for (let i = 0; i < 4; i++) try { execSync('git push -q origin HEAD:probe', { stdio: 'pipe' }); break; } catch { try { execSync('git fetch -q origin probe && git -c user.name=bot -c user.email=bot@x rebase -q --autostash origin/probe', { stdio: 'pipe' }); } catch {} }
-console.log(out.join('\n'));
+console.log('feed bytes', f.length);
