@@ -1343,15 +1343,11 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
 .bigev .bn { min-height: 2.2em; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden }
 .bigev .bd { font-size: 14px; font-weight: 600 }
 .bigev .bc { font-size: 13px; color: var(--muted) }
-/* the NBA's games by default, as one card (v644): a game card's height and stripe, on one line, centred */
-.nbagroup { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 40px; box-sizing: border-box; margin: 0; padding: 0 12px; font: inherit; color: var(--ink); cursor: pointer; white-space: nowrap;
-  border: 1px solid var(--line); border-left: 6px solid var(--sport); border-radius: var(--r); background: color-mix(in srgb, var(--sport) 7%, var(--surface)) }
-#today .nbagroup { margin-bottom: 10px }
-.nbagroup:hover { border-color: color-mix(in srgb, var(--sport) 60%, var(--line)); border-left-color: var(--sport) }
-.nbagroup .cicon { width: 20px; height: 20px; flex: none }
-.nbagroup b { font-size: 15px; flex: none }
-.nbagroup .nbgs { font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; min-width: 0 }
-.nbagroup .nbgo { font-size: 20px; font-weight: 800; color: var(--sport); line-height: 1; flex: none }
+/* the NBA's games by default as one row (v645): a game row with the count in place of the teams */
+.ev.lrow.nbarow { cursor: pointer }
+.ev.lrow.nbarow .nbgs { font: 500 13px/1.4 var(--f-body); color: var(--muted); margin-left: 6px }
+@media (max-width: 440px) { .ev.lrow.nbarow .nbgn { display: none } }
+.ev.lrow.nbarow .nbgo { font-size: 20px; font-weight: 800; color: var(--sport); line-height: 1; padding: 0 4px }
 .totop { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 40; width: 46px; height: 46px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--accent-ink) 25%, var(--accent)); background: var(--accent); color: var(--accent-ink); font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.2) }
 
 @media (max-width: 560px) {
@@ -1696,7 +1692,7 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
    shrink, for the names' room */
 .ev.lrow .ltime.lcd::before { content: 'in'; font-size: .7em; opacity: .8; margin-right: 2px }
 @media (max-width: 520px) { .ev.lrow .ltime.lcd { font-size: .9em; letter-spacing: -.02em } }
-@media (max-width: 520px) { .ev.lrow { grid-template-columns: 4px 48px 13px minmax(0, 1fr) 34px; column-gap: 4px } .ev.lrow .licon { width: 13px; height: 13px }
+@media (max-width: 520px) { .ev.lrow { grid-template-columns: 4px 60px 13px minmax(0, 1fr) 34px; column-gap: 4px } .ev.lrow .licon { width: 13px; height: 13px }
   .ev.lrow .ltime .lappx { font-size: .7em; margin-left: -3px }
   .ev.lrow .ltime { font-size: 15px } .ev.lrow .lteams { column-gap: 4px } .ev.lrow .lside { gap: 3px } }
 /* the time, icon and competition sit together at the left (one grid cell each below 700px; on wider screens a box
@@ -1729,6 +1725,8 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
   .ev.lrow.lres { grid-template-columns: 4px auto minmax(0, 1fr) 86px; --lw: max(150px, min(var(--cw, 0px) + 101px, 100cqw - var(--nw, 0px) - 111px)); --li: calc(99px + var(--lcw, 0px)); --cl: calc(var(--lw) + 18px); --cr: 93px } }
 .ev.lrow .ltime { font: 700 17px/1 var(--f-display); color: var(--sport); text-align: right; white-space: nowrap }
 .ev.lrow .licon { width: 16px; height: 16px; opacity: .85 }
+@media (max-width: 520px) { .ev.lrow .ltime .lap { font-size: .62em; letter-spacing: -.01em; margin-left: 1px } }
+@media (max-width: 400px) { .ev.lrow { grid-template-columns: 4px 49px 13px minmax(0, 1fr) 34px } .ev.lrow .ltime { font-size: 14px; letter-spacing: -.02em } }
 /* line-height with room for g's and y's: the names clip at their box (for the ellipsis), descenders and all */
 .ev.lrow .lteams, .ev.lrow .lsolo { font: 600 16px/1.4 var(--f-display); min-width: 0 }
 /* the pair is centred as a whole (as a race or golf name is), so a long name on one side doesn't pull it off centre */
@@ -2486,7 +2484,7 @@ const rehideBtn = id => `<button class="rehide" type="button" data-rehide="${esc
 const EYE_P = '<path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/>';
 const eyeIco = off => `<svg class="reye" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${EYE_P}${off ? '<path d="M3 3l18 18"/>' : ''}</svg>`;
 const revealAll = (list, now) => {
-  const ids = list.filter(e => isHidden(e, now)).map(e => e.id);
+  const ids = list.filter(e => !e._nbaG && isHidden(e, now)).map(e => e.id);
   if (ids.length > 1) return `<button type="button" class="revall" data-revealall="${esc(ids.join(' '))}">${eyeIco(false)}Show all ${ids.length} results</button>`;
   const back = list.filter(e => canRehide(e.id, spoilAt(e), now)).map(e => e.id);
   return !ids.length && back.length > 1 ? `<button type="button" class="revall" data-hideall="${esc(back.join(' '))}">${eyeIco(true)}Hide all results</button>` : '';
@@ -2588,7 +2586,11 @@ function seriesHead(e, now) {
 
 // List: a game a line (time, sport, competition on wider screens, the teams, then FREE, a TV, ON while live, or for a
 // result "Show" while spoilers are hidden, else the score); a tap opens the same pop-up as a card
+// a row's am/pm in small letters, so the longest time ("12:30pm") fits its column on a phone and the sport icon after it
+// never covers it (from v645)
+const lampm = h => h.replace(/(am|pm)$/, '<span class="lap">$1</span>');
 function listRow(e, now, isRes) {
+  if (e._nbaG) return nbaRow(e, now);
   const d = isRes ? new Date(e.startUTC) : nextAt(e, now), hidden = isRes && isHidden(e, now);
   const live = !isRes && (e.status === 'live' || onNow(e, now));
   // rain about: a small cloud in the ON, which turns blue while rain stops play (a rain delay, as the series button's
@@ -2612,7 +2614,7 @@ function listRow(e, now, isRes) {
     : `<span class="lscore num" title="${esc(e.score || '')}">${lscoreHtml(e)}</span>`)
     : (live ? (rain ? `<span class="lnow lrain${rain === 'Rain delay' ? ' ldelay' : ''}" title="${rain === 'Rain delay' ? 'Rain delay' : 'Live, rain affected'}"><i aria-hidden="true">🌧</i>ON</span>` : '<span class="lnow">ON</span>') : '') + mark;
   return `<article class="ev lrow${isRes ? ' lres' : ''} sport-${e.sport} ${gcls(e)}${live ? ' is-live' : ''}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
-    <div class="stripe"></div><span class="lleft">${soonCd ? `<span class="ltime num lcd" data-cd="${esc(e.startUTC)}" title="Starts ${esc(t)}">${esc(soonCd)}</span>` : `<span class="ltime num">${esc(t).replace(/^≈/, '<span class="lappx">≈</span>')}</span>`}${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span></span>${who}<${go ? 'a' : 'span'} class="lend${live && mark ? ' lstack' : ''}"${go}>${end}</${go ? 'a' : 'span'}></article>`;
+    <div class="stripe"></div><span class="lleft">${soonCd ? `<span class="ltime num lcd" data-cd="${esc(e.startUTC)}" title="Starts ${esc(t)}">${esc(soonCd)}</span>` : `<span class="ltime num">${lampm(esc(t).replace(/^≈/, '<span class="lappx">≈</span>'))}</span>`}${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span></span>${who}<${go ? 'a' : 'span'} class="lend${live && mark ? ' lstack' : ''}"${go}>${end}</${go ? 'a' : 'span'}></article>`;
 }
 // the one way to watch a card shows: a free one ahead of a paid one (Three over Sky Sport 1 when both show it). The
 // free channel goes up top with the competition's tags ("FREE on Three"): short, what's in brackets dropped, and a
@@ -2624,7 +2626,7 @@ function watchPick(e) {
   return { free, tv: tv.trim(), freeTag, freeAt };
 }
 function evCard(e, now) {
-  if (view === 'list') return listRow(e, now, false);
+  if (view === 'list' || e._nbaG) return listRow(e, now, false);
   // a golf round or a day's racing names itself where the start time's label goes ("Round 2"), so the tag needn't
   const stg = stagesOf(e) > 1 && stageNow(e, now), slbl = stg ? stageName(e, stg) : startLabel(e);
   const on = onNow(e, now), live = e.status === 'live' || (stg && on) ? 'On now' : on, paused = !live && !stg && between(e, now);
@@ -2856,7 +2858,7 @@ const lscoreHtml = e => {
 const scoreTag = (v, res) => { const m = String(v).match(/^(.+?)\s+&\s+(.+)$/);
   return m ? `<span class="ts num ${res}">${esc(m[1])}<small class="inn2">&amp; ${esc(m[2])}</small></span>` : `<span class="ts num ${res}">${esc(trimOvers(v)).replace(/\s*(\([^)]*\))$/, ' <small class="ov">$1</small>')}</span>`; };
 function resCard(e, now) {
-  if (view === 'list') return listRow(e, now, true);
+  if (view === 'list' || e._nbaG) return listRow(e, now, true);
   const d = new Date(e.startUTC);
   const hidden = isHidden(e, now);
   const left = Math.ceil((spoilDays * 864e5 - (now - spoilAt(e))) / 864e5);
@@ -4231,13 +4233,18 @@ function fitOffNote() {
 addEventListener('resize', fitOffNote); document.fonts?.ready.then(fitOffNote);
 // the Settings button's cog
 const GEAR = '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>';
-// the one NBA card: how many games today, how many live or when the next starts; it opens the NBA page. No scores
-function nbaCard(list, now) {
-  const all = (FEED.events || []).filter(e => e.team === 'nba' && nzDay(e.startUTC) === nzDay(now));
-  const live = list.filter(e => e.status === 'live' || (e.status !== 'final' && running(e, now))).length;
-  const next = list.filter(e => e.status !== 'final' && Date.parse(e.startUTC) > now).sort((a, b) => a.startUTC.localeCompare(b.startUTC))[0];
-  const bits = [live && `${live} live`, next && `next ${time(new Date(next.startUTC), NZ)}`, !live && !next && 'all finished'].filter(Boolean);
-  return `<button type="button" class="nbagroup sport-basketball" data-nbagroup="NBA" title="Open the NBA page: every game and its result">${sIcon('basketball', 'cicon')}<b>NBA · ${all.length} game${all.length === 1 ? '' : 's'}</b><span class="nbgs">${esc(bits.join(' · '))}</span><span class="nbgo" aria-hidden="true">›</span></button>`;
+// the one NBA card (today's weekday games while the NBA isn't turned on): a game row at its stand-in game's time, saying
+// how many games, how many are on and when the next or last starts; it opens the NBA page. Never a score
+const nbaOn = e => e.status === 'live' || (e.status !== 'final' && running(e, Date.now()));
+function nbaRow(e, now) {
+  const list = e._nbaG, all = (FEED.events || []).filter(x => x.team === 'nba' && nzDay(x.startUTC) === nzDay(now)).length;
+  const on = list.filter(nbaOn).length, t = x => time(new Date(x.startUTC), NZ);
+  const left = list.filter(x => x.status !== 'final' && Date.parse(x.startUTC) > now).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
+  const last = left[left.length - 1];
+  // the next start drops out on a narrow phone, so the count and how many are on fit
+  const bits = on ? [`${on} live`, left[0] && `<span class="nbgn">· next ${t(left[0])}</span>`] : left.length ? [last && last.startUTC > e.startUTC && `last ${t(last)}`] : ['all finished'];
+  return `<article class="ev lrow nbarow sport-basketball${on ? ' is-live' : ''}" data-nbagroup="NBA" tabindex="0" role="button" aria-label="NBA today: ${all} games. Opens the NBA page">
+    <div class="stripe"></div><span class="lleft"><span class="ltime num">${lampm(esc(t(e)))}</span>${sIcon('basketball', 'licon')}<span class="lcomp">NBA today</span></span><span class="lsolo">NBA · ${all} game${all === 1 ? '' : 's'}${bits.filter(Boolean).length ? ` <span class="nbgs">${bits.filter(Boolean).join(' ')}</span>` : ''}</span><span class="lend">${on ? '<span class="lnow">ON</span>' : '<span class="nbgo" aria-hidden="true">›</span>'}</span></article>`;
 }
 function render() {
   const now = Date.now();
@@ -4247,8 +4254,10 @@ function render() {
   const nowD = new Date(now);
   const evsAll = (FEED.events || []).filter(visible).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
   // the NBA by default (not turned on): today's games as one card that opens its page, not a card each (from v644)
-  const nbaG = compSel ? [] : evsAll.filter(weekdayIn), evs = nbaG.length ? evsAll.filter(e => !nbaG.includes(e)) : evsAll;
-  const nbaHtml = nbaG.length ? nbaCard(nbaG, now) : '', nbaLive = nbaG.some(e => e.status === 'live' || (e.status !== 'final' && running(e, now)));
+  // it stands in the list where one of its games would: the first that's on, else the next to start, else the first
+  // of the day (from v645; v644 put it at the top)
+  const nbaG = compSel ? [] : evsAll.filter(weekdayIn), nbaRep = nbaG.find(nbaOn) || nbaG.find(e => e.status !== 'final' && Date.parse(e.startUTC) > now) || nbaG[0];
+  const evs = nbaG.length ? [...evsAll.filter(e => !nbaG.includes(e)), { ...nbaRep, _nbaG: nbaG }].sort((a, b) => a.startUTC.localeCompare(b.startUTC)) : evsAll;
   const todayK = dayKey(nowD);
   const upcoming = evs.filter(e => e.status === 'live' || (e.status !== 'final' && (new Date(e.startUTC) > now || running(e, now))));
   // a race weekend's sessions have no results of their own: once over, they're gone
@@ -4297,10 +4306,10 @@ function render() {
   const soons = upcoming.filter(e => !lives.includes(e) && !(e.timeTBC && !e.usual) && (ms => ms > 0 && ms <= SOON_SEC)(nextAt(e, now) - now)).sort(byRank);
   // a Test between days of play (overnight, or after rain ended the day) waits with the upcoming games until the next day starts
   const resting = upcoming.filter(e => !lives.includes(e) && !soons.includes(e) && between(e, now));
-  $('liveSec').hidden = !lives.length && !nbaLive;
+  $('liveSec').hidden = !lives.length;
   $('soonSec').hidden = !soons.length;
   // only rewrite the live cards when they change, so their glow doesn't restart on every click
-  const liveHtml = lives.map(e => evCard(e, now)).join('') + (nbaLive ? nbaHtml : '');
+  const liveHtml = lives.map(e => evCard(e, now)).join('');
   if ($('live').dataset.h !== liveHtml) { $('live').innerHTML = liveHtml; $('live').dataset.h = liveHtml; }
   into($('soon')).html = soons.map(e => evCard(e, now)).join('');
   // a picked day's games, shown right under the week strip (redrawn on its own when a day is clicked)
@@ -4323,10 +4332,9 @@ function render() {
   // here into the morning. They're in Results below as well, and only there once the 16 hours are up.
   const doneToday = finals.filter(e => now - endOf(e, now) < 16 * 36e5);
   const doneDay = e => dayKey((DAYS[formatOf(e)] || 1) > 1 ? endOf(e, now) : new Date(e.startUTC));
-  const nbaToday = nbaHtml && !nbaLive ? nbaHtml : '';
-  $('todaySec').hidden = !todays.length && !doneToday.length && !resting.length && !nbaToday && lives.length + soons.length > 0;
-  into($('today')).html = todays.length || doneToday.length || resting.length || nbaToday
-    ? `<div class="daygroup">${nbaToday}${(() => {
+  $('todaySec').hidden = !todays.length && !doneToday.length && !resting.length && lives.length + soons.length > 0;
+  into($('today')).html = todays.length || doneToday.length || resting.length
+    ? `<div class="daygroup">${(() => {
         // a Test between days waits with the upcoming games, at the time its next day starts
         const later = [...resting, ...todays].sort((a, b) => nextAt(a, now) - nextAt(b, now));
         const hourNZ = e => +fmt(nextAt(e, now), NZ, { hour: 'numeric', hour12: false });
@@ -4847,6 +4855,8 @@ document.addEventListener('click', ev => {
   // so a tap opens the day
   const dot = ev.target.closest('.dot[data-dot]');
   if (dot && matchMedia('(pointer: fine)').matches) { count({ e: 'use', k: 'Dot in the week strip' }); openDetail(dot.dataset.dot); return; }
+  const ng = !ev.target.closest('button') && ev.target.closest('[data-nbagroup]');
+  if (ng) { count({ e: 'use', k: 'NBA today card' }); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = ng.dataset.nbagroup; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   const t = ev.target.closest('button');
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) { if (card.closest('#soon')) count({ e: 'use', k: 'Starting soon card' }); openDetail(card.dataset.open); } else if (ev.target === $('sheet')) $('sheet').close(); return; }
   if (t.id === 'sheetClose') { use('Game pop-up closed'); $('sheet').close(); return; }
@@ -4888,7 +4898,6 @@ document.addEventListener('click', ev => {
     const keys = t.dataset.gsports.split(' ').flatMap(sp => SPORT[sp] || []), on = keys.some(k => picked.has(k));
     optChose(keys); keys.forEach(k => on ? picked.delete(k) : picked.add(k)); count({ e: on ? 'hidesport' : 'showsport', k: t.dataset.gsports.split(' ')[0] }); store.set('teams', [...picked]); render(); return;
   }
-  if (t.dataset.nbagroup) { count({ e: 'use', k: 'NBA today card' }); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = t.dataset.nbagroup; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   if (t.dataset.tocomp) { count({ e: 'use', k: t.dataset.totab ? 'Sessions tab from race' : 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = t.dataset.totab || 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   if (t.dataset.hereteams != null) { const ks = t.dataset.hereteams.split(' ').filter(Boolean), sp = t.dataset.heresp, on = t.getAttribute('aria-pressed') === 'true';
     if (on && showHere.has(sp)) { showHere.delete(sp); (SPORT[sp] || []).filter(k => !picked.has(k)).forEach(k => showHere.add(k)); }
@@ -4978,6 +4987,7 @@ document.addEventListener('click', ev => {
   else if (t.id === 'allOff') { count({ e: 'use', k: 'Clear all teams' }); picked = new Set(); store.set('teams', []); render(); }
 });
 // Enter or Space on a card opens it (a button or link inside the card answers its own key)
+document.addEventListener('keydown', ev => { const c = ev.target.closest?.('[data-nbagroup]'); if (c && ev.target === c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); c.click(); } });
 document.addEventListener('keydown', ev => { const c = ev.target.closest?.('[data-open]'); if (c && (ev.target === c || !ev.target.matches('button, a')) && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openDetail(c.dataset.open); } });
 // the drawn dropdowns over the time and spoiler <select>s: the list is made from the select's options each time it
 // opens, and a choice sets the select and fires its "change", so everything else works as it did
