@@ -103,7 +103,9 @@ jobs:
   # fallback cron, a manual run): that run carries the chain on, so there is only ever one chain.
   chain:
     needs: [build, deploy]
-    if: github.ref == 'refs/heads/main'
+    # also after a failed build or deploy (on 9 Nov 2026 GitHub never started the 18:05 run's deploy, and with the chain
+    # skipped the feed stood still until a push), but not after a cancel: the run that cancelled it carries the chain on
+    if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 40
     permissions:
