@@ -1343,6 +1343,15 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
 .bigev .bn { min-height: 2.2em; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden }
 .bigev .bd { font-size: 14px; font-weight: 600 }
 .bigev .bc { font-size: 13px; color: var(--muted) }
+/* the NBA's games by default, as one card (v644): a game card's height and stripe, on one line, centred */
+.nbagroup { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 40px; box-sizing: border-box; margin: 0; padding: 0 12px; font: inherit; color: var(--ink); cursor: pointer; white-space: nowrap;
+  border: 1px solid var(--line); border-left: 6px solid var(--sport); border-radius: var(--r); background: color-mix(in srgb, var(--sport) 7%, var(--surface)) }
+#today .nbagroup { margin-bottom: 10px }
+.nbagroup:hover { border-color: color-mix(in srgb, var(--sport) 60%, var(--line)); border-left-color: var(--sport) }
+.nbagroup .cicon { width: 20px; height: 20px; flex: none }
+.nbagroup b { font-size: 15px; flex: none }
+.nbagroup .nbgs { font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; min-width: 0 }
+.nbagroup .nbgo { font-size: 20px; font-weight: 800; color: var(--sport); line-height: 1; flex: none }
 .totop { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 40; width: 46px; height: 46px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--accent-ink) 25%, var(--accent)); background: var(--accent); color: var(--accent-ink); font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.2) }
 
 @media (max-width: 560px) {
@@ -4222,13 +4231,24 @@ function fitOffNote() {
 addEventListener('resize', fitOffNote); document.fonts?.ready.then(fitOffNote);
 // the Settings button's cog
 const GEAR = '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>';
+// the one NBA card: how many games today, how many live or when the next starts; it opens the NBA page. No scores
+function nbaCard(list, now) {
+  const all = (FEED.events || []).filter(e => e.team === 'nba' && nzDay(e.startUTC) === nzDay(now));
+  const live = list.filter(e => e.status === 'live' || (e.status !== 'final' && running(e, now))).length;
+  const next = list.filter(e => e.status !== 'final' && Date.parse(e.startUTC) > now).sort((a, b) => a.startUTC.localeCompare(b.startUTC))[0];
+  const bits = [live && `${live} live`, next && `next ${time(new Date(next.startUTC), NZ)}`, !live && !next && 'all finished'].filter(Boolean);
+  return `<button type="button" class="nbagroup sport-basketball" data-nbagroup="NBA" title="Open the NBA page: every game and its result">${sIcon('basketball', 'cicon')}<b>NBA · ${all.length} game${all.length === 1 ? '' : 's'}</b><span class="nbgs">${esc(bits.join(' · '))}</span><span class="nbgo" aria-hidden="true">›</span></button>`;
+}
 function render() {
   const now = Date.now();
   // a competition page opened, whichever button opened it, by name, so the stats show the popular ones
   if (compSel !== hubSeen) { if (compSel) count({ e: 'hub', k: compSel }); hubSeen = compSel; }
   renderNowBar(now);
   const nowD = new Date(now);
-  const evs = (FEED.events || []).filter(visible).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
+  const evsAll = (FEED.events || []).filter(visible).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
+  // the NBA by default (not turned on): today's games as one card that opens its page, not a card each (from v644)
+  const nbaG = compSel ? [] : evsAll.filter(weekdayIn), evs = nbaG.length ? evsAll.filter(e => !nbaG.includes(e)) : evsAll;
+  const nbaHtml = nbaG.length ? nbaCard(nbaG, now) : '', nbaLive = nbaG.some(e => e.status === 'live' || (e.status !== 'final' && running(e, now)));
   const todayK = dayKey(nowD);
   const upcoming = evs.filter(e => e.status === 'live' || (e.status !== 'final' && (new Date(e.startUTC) > now || running(e, now))));
   // a race weekend's sessions have no results of their own: once over, they're gone
@@ -4277,10 +4297,10 @@ function render() {
   const soons = upcoming.filter(e => !lives.includes(e) && !(e.timeTBC && !e.usual) && (ms => ms > 0 && ms <= SOON_SEC)(nextAt(e, now) - now)).sort(byRank);
   // a Test between days of play (overnight, or after rain ended the day) waits with the upcoming games until the next day starts
   const resting = upcoming.filter(e => !lives.includes(e) && !soons.includes(e) && between(e, now));
-  $('liveSec').hidden = !lives.length;
+  $('liveSec').hidden = !lives.length && !nbaLive;
   $('soonSec').hidden = !soons.length;
   // only rewrite the live cards when they change, so their glow doesn't restart on every click
-  const liveHtml = lives.map(e => evCard(e, now)).join('');
+  const liveHtml = lives.map(e => evCard(e, now)).join('') + (nbaLive ? nbaHtml : '');
   if ($('live').dataset.h !== liveHtml) { $('live').innerHTML = liveHtml; $('live').dataset.h = liveHtml; }
   into($('soon')).html = soons.map(e => evCard(e, now)).join('');
   // a picked day's games, shown right under the week strip (redrawn on its own when a day is clicked)
@@ -4303,9 +4323,10 @@ function render() {
   // here into the morning. They're in Results below as well, and only there once the 16 hours are up.
   const doneToday = finals.filter(e => now - endOf(e, now) < 16 * 36e5);
   const doneDay = e => dayKey((DAYS[formatOf(e)] || 1) > 1 ? endOf(e, now) : new Date(e.startUTC));
-  $('todaySec').hidden = !todays.length && !doneToday.length && !resting.length && lives.length + soons.length > 0;
-  into($('today')).html = todays.length || doneToday.length || resting.length
-    ? `<div class="daygroup">${(() => {
+  const nbaToday = nbaHtml && !nbaLive ? nbaHtml : '';
+  $('todaySec').hidden = !todays.length && !doneToday.length && !resting.length && !nbaToday && lives.length + soons.length > 0;
+  into($('today')).html = todays.length || doneToday.length || resting.length || nbaToday
+    ? `<div class="daygroup">${nbaToday}${(() => {
         // a Test between days waits with the upcoming games, at the time its next day starts
         const later = [...resting, ...todays].sort((a, b) => nextAt(a, now) - nextAt(b, now));
         const hourNZ = e => +fmt(nextAt(e, now), NZ, { hour: 'numeric', hour12: false });
@@ -4867,6 +4888,7 @@ document.addEventListener('click', ev => {
     const keys = t.dataset.gsports.split(' ').flatMap(sp => SPORT[sp] || []), on = keys.some(k => picked.has(k));
     optChose(keys); keys.forEach(k => on ? picked.delete(k) : picked.add(k)); count({ e: on ? 'hidesport' : 'showsport', k: t.dataset.gsports.split(' ')[0] }); store.set('teams', [...picked]); render(); return;
   }
+  if (t.dataset.nbagroup) { count({ e: 'use', k: 'NBA today card' }); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = t.dataset.nbagroup; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   if (t.dataset.tocomp) { count({ e: 'use', k: t.dataset.totab ? 'Sessions tab from race' : 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = t.dataset.totab || 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   if (t.dataset.hereteams != null) { const ks = t.dataset.hereteams.split(' ').filter(Boolean), sp = t.dataset.heresp, on = t.getAttribute('aria-pressed') === 'true';
     if (on && showHere.has(sp)) { showHere.delete(sp); (SPORT[sp] || []).filter(k => !picked.has(k)).forEach(k => showHere.add(k)); }
