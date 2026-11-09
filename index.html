@@ -2158,6 +2158,13 @@ tzPick = store.get('tz', 'Pacific/Auckland'); NZ = tzPick === 'device' ? deviceT
 // competitions with games most days start switched off, so they can't fill the feed: for new visitors, and for people
 // whose picks were saved before they were added. My teams says they're off, and turns them on
 const OPT_IN = new Set(['nba']);
+// the NBA still shows its weekday games (NZ days) until someone turns it on or off themselves: weekdays are quiet here,
+// and at the weekend its games would fill the feed (from v640)
+const WEEKDAY_IN = new Set(['nba']);
+let optSet = new Set(store.get('optSet', []));
+const optChose = ks => { const n = optSet.size; ks.filter(k => WEEKDAY_IN.has(k)).forEach(k => optSet.add(k)); if (optSet.size !== n) store.set('optSet', [...optSet]); };
+const wkOn = k => WEEKDAY_IN.has(k) && !optSet.has(k) && !picked.has(k);
+const weekdayIn = x => wkOn(x.team) && !!x.startUTC && !/^(Sat|Sun)/.test(new Date(x.startUTC).toLocaleDateString('en-NZ', { weekday: 'short', timeZone: NZ }));
 let picked = new Set(store.get('teams', ALL_KEYS.filter(k => !OPT_IN.has(k))));
 // ONE Championship started off in v614 and is on since: switch it on once for those who saw it then
 if (!store.get('oneOn', false)) { if (store.get('known', []).includes('onefc')) { picked.add('onefc'); store.set('teams', [...picked]); } store.set('oneOn', true); }
@@ -2479,7 +2486,7 @@ function isHidden(e, now) {
 const CLUBS = ['blues','chiefs','hurricanes','crusaders','highlanders','warriors'];
 // a followed club shows in other competitions too (the Warriors in a pre-season cup), but only in its own sport:
 // the NBA's Golden State Warriors aren't the Warriors
-const visibleTeam = x => picked.has(x.team) || (x.tags || []).some(t => picked.has(t)) || CLUBS.some(k => picked.has(k) && sportOf(k) === (x.sport || sportOf(x.team)) && [x.home, x.away].some(t => (t || '').includes(TEAM_NAME[k])));
+const visibleTeam = x => picked.has(x.team) || weekdayIn(x) || (x.tags || []).some(t => picked.has(t)) || CLUBS.some(k => picked.has(k) && sportOf(k) === (x.sport || sportOf(x.team)) && [x.home, x.away].some(t => (t || '').includes(TEAM_NAME[k])));
 // a way to watch a game for nothing: a free channel the TV guide lists live, a free YouTube stream, or a competition's
 // free option (highlights, delayed showings, radio and "some games" don't count)
 const TV_FREE_CH = /^(TVNZ 1|TVNZ 2|Three|Sky Open|TVNZ DUKE|Whakaata Māori|Rush|Bravo|eden)$/;
@@ -3661,7 +3668,7 @@ function offList() {
   const sidesOff = [['m', "Men's teams"], ['w', "Women's teams"]].filter(([g]) => !sideKeys(g).some(k => picked.has(k)) && picked.size),
     bySide = new Set(sidesOff.flatMap(([g]) => sideKeys(g)));
   return [...sidesOff.map(([, l]) => [l, 'accent', true]), ...TEAMS_AZ.filter(g => !groupItems(g).some(([k]) => followedSport(sportOf(k)))).map(g => [g.g, sportOf(groupItems(g)[0][0]), true]),
-    ...TEAMS_AZ.flatMap(groupItems).filter(([k], i, a) => a.findIndex(([j]) => j === k) === i && !picked.has(k) && !bySide.has(k) && followedSport(sportOf(k))).map(([k, l]) => [l === 'Every game' ? TEAMS.find(y => y.sub?.items.some(([j]) => j === k))?.sub.g || l : l, sportOf(k), false, k]),
+    ...TEAMS_AZ.flatMap(groupItems).filter(([k], i, a) => a.findIndex(([j]) => j === k) === i && !picked.has(k) && !bySide.has(k) && followedSport(sportOf(k))).map(([k, l]) => [l === 'Every game' ? TEAMS.find(y => y.sub?.items.some(([j]) => j === k))?.sub.g || l : wkOn(k) ? `${l} at weekends` : l, sportOf(k), false, k]),
     // a series' practice and other race-weekend sessions, while they're off (they're only under the Motorsport button)
     ...(followedSport('motor') ? SESS.filter(([k]) => picked.has(k) && !sessOn.has(k)).map(([, l]) => [`${l} sessions`, 'motor', false]) : [])];
 }
@@ -4506,7 +4513,7 @@ function render() {
   $('hidNote').innerHTML = offs.length ? `<b>Hidden<span class="hfull"> from your feed</span>:</b> ${offs.map(hgo).join(' ')}` : 'Everything is on your feed.';
   $('hidNote').title = offs.length ? `Hidden: ${offs.map(o => o[0]).join(', ')}` : '';
   { const ns = [...OPT_IN].map(k => TEAM_NAME[k]).filter(Boolean);
-    $('optNote').textContent = ns.length ? `Off by default, as they have a lot of games: ${ns.join(', ')}` : ''; }
+    $('optNote').textContent = ns.length ? `Weekdays only by default (a lot of games): ${ns.join(', ')}` : ''; }
   // calendar subscriptions (built with the feed, in data/cal/): every game an NZ side plays, then each team picked above.
   // webcal: opens Apple's Calendar to subscribe; Google and Outlook take the address on their own add-by-URL pages
   const calRow = (k, label) => {
@@ -4821,7 +4828,7 @@ document.addEventListener('click', ev => {
   if (t.id === 'copySettings') { count({ e: 'use', k: 'Settings code copied' }); const c = settingsCode(); (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { $('moveNote').textContent = 'Copied. Paste it into the box on the other browser, then tap "Use these settings".'; }, () => prompt('Copy this code', c)); return; }
   // the sport row's "i": a note under it, and from there Settings at My teams
   if (t.dataset.sinfo != null) { const pop = $('sinfoPop'), open = pop.hidden; closeSinfo(); if (!open) return;
-    use('Sports info button'); $('sinfoDef').innerHTML = OPT_IN.size ? `Off by default: ${[...OPT_IN].map(k => hgo([TEAM_NAME[k] || k, sportOf(k), false, k], 'def')).join(' ')} – too many games` : '';
+    use('Sports info button'); $('sinfoDef').innerHTML = OPT_IN.size ? `Weekdays only by default: ${[...OPT_IN].map(k => hgo([TEAM_NAME[k] || k, sportOf(k), false, k], 'def')).join(' ')} – too many games at the weekend` : '';
     // and what this browser has turned off (not the busy ones still off by default, named just above, nor race-weekend
     // practice sessions): up to 8, then a count
     { const os = offList().filter(o => !(o[3] && OPT_IN.has(o[3])) && !/ sessions$/.test(o[0])), max = os.length > 8 ? 7 : 8;
@@ -4839,7 +4846,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.calcopy) { count({ e: t.closest('#alertList') ? 'alerts' : 'cal' }); const u = t.dataset.calcopy; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { const was = t.textContent; t.textContent = 'Copied'; setTimeout(() => { t.textContent = was; }, 1600); }, () => prompt('Copy this', u)); return; }
   if (t.classList.contains('ghide')) {
     const keys = t.dataset.gsports.split(' ').flatMap(sp => SPORT[sp] || []), on = keys.some(k => picked.has(k));
-    keys.forEach(k => on ? picked.delete(k) : picked.add(k)); count({ e: on ? 'hidesport' : 'showsport', k: t.dataset.gsports.split(' ')[0] }); store.set('teams', [...picked]); render(); return;
+    optChose(keys); keys.forEach(k => on ? picked.delete(k) : picked.add(k)); count({ e: on ? 'hidesport' : 'showsport', k: t.dataset.gsports.split(' ')[0] }); store.set('teams', [...picked]); render(); return;
   }
   if (t.dataset.tocomp) { count({ e: 'use', k: t.dataset.totab ? 'Sessions tab from race' : 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = t.dataset.totab || 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   if (t.dataset.hereteams != null) { const ks = t.dataset.hereteams.split(' ').filter(Boolean), sp = t.dataset.heresp, on = t.getAttribute('aria-pressed') === 'true';
@@ -4864,10 +4871,10 @@ document.addEventListener('click', ev => {
     else if (/teams$/.test(n)) to($('genSw')); return; }
   if (t.dataset.gsw) { const ks = sideKeys(t.dataset.gsw), on = ks.some(k => picked.has(k));
     // off: all of them; back on: all but the busy ones that start off (the NBA)
-    if (on) ks.forEach(k => picked.delete(k)); else ks.filter(k => !OPT_IN.has(k)).forEach(k => picked.add(k));
+    if (on) { optChose(ks); ks.forEach(k => picked.delete(k)); } else ks.filter(k => !OPT_IN.has(k)).forEach(k => picked.add(k));
     count({ e: 'use', k: `${t.dataset.gsw === 'w' ? "Women's" : "Men's"} teams ${on ? 'off' : 'on'}` }); store.set('teams', [...picked]); render(); return; }
   if (t.dataset.sess) { const k = t.dataset.sess, l = SESS.find(([j]) => j === k)[1]; sessOn.has(k) ? sessOn.delete(k) : sessOn.add(k); store.set('sessTeams', [...sessOn]); use(`${l} sessions ${sessOn.has(k) ? 'on' : 'off'}`); render(); return; }
-  if (t.dataset.team) { const k = t.dataset.team; picked.has(k) ? picked.delete(k) : picked.add(k); count({ e: picked.has(k) ? 'follow' : 'unfollow', k: TEAM_NAME[k] || k }); store.set('teams', [...picked]); render(); }
+  if (t.dataset.team) { const k = t.dataset.team; optChose([k]); picked.has(k) ? picked.delete(k) : picked.add(k); count({ e: picked.has(k) ? 'follow' : 'unfollow', k: TEAM_NAME[k] || k }); store.set('teams', [...picked]); render(); }
   else if (t.dataset.hideall) { ev.stopPropagation(); use(t.dataset.revk || 'Hide all results again'); t.dataset.hideall.split(' ').forEach(id => revealed.delete(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.revealall) { ev.stopPropagation(); count({ e: 'use', k: t.dataset.revk || 'Show all results' }); t.dataset.revealall.split(' ').forEach(id => revealed.add(id)); store.set('revealed', [...revealed]); render(); if ($('sheet').open && $('sheet').dataset.id) openDetail($('sheet').dataset.id); }
   else if (t.dataset.reveal) { ev.stopPropagation(); count({ e: 'reveal' }); revealed.add(t.dataset.reveal); store.set('revealed', [...revealed]); render(); if ($('sheet').open) openDetail($('sheet').dataset.id); }
@@ -4926,7 +4933,7 @@ document.addEventListener('click', ev => {
   else if (t.id === 'panelClose') { use('Settings closed'); closeSettings(); }
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); if (!p.hidden) count({ e: 'use', k: 'Settings' }); }
   else if (t.id === 'allOn') { count({ e: 'use', k: 'Select all teams' }); picked = new Set(ALL_KEYS); store.set('teams', [...picked]); render(); }
-  else if (t.id === 'allDef') { count({ e: 'use', k: 'Default teams' }); picked = new Set(ALL_KEYS.filter(k => !OPT_IN.has(k))); store.set('teams', [...picked]); render(); }
+  else if (t.id === 'allDef') { count({ e: 'use', k: 'Default teams' }); picked = new Set(ALL_KEYS.filter(k => !OPT_IN.has(k))); store.set('teams', [...picked]); optSet.clear(); store.set('optSet', []); render(); }
   else if (t.id === 'allOff') { count({ e: 'use', k: 'Clear all teams' }); picked = new Set(); store.set('teams', []); render(); }
 });
 // Enter or Space on a card opens it (a button or link inside the card answers its own key)
