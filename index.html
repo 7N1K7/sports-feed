@@ -2164,7 +2164,9 @@ const WEEKDAY_IN = new Set(['nba']);
 let optSet = new Set(store.get('optSet', []));
 const optChose = ks => { const n = optSet.size; ks.filter(k => WEEKDAY_IN.has(k)).forEach(k => optSet.add(k)); if (optSet.size !== n) store.set('optSet', [...optSet]); };
 const wkOn = k => WEEKDAY_IN.has(k) && !optSet.has(k) && !picked.has(k);
-const weekdayIn = x => wkOn(x.team) && !!x.startUTC && !/^(Sat|Sun)/.test(new Date(x.startUTC).toLocaleDateString('en-NZ', { weekday: 'short', timeZone: NZ }));
+// and only until 2 hours after it ends (about 4.5 hours after tip-off), so its results don't pile up (from v642)
+const weekdayIn = x => wkOn(x.team) && !!x.startUTC && !/^(Sat|Sun)/.test(new Date(x.startUTC).toLocaleDateString('en-NZ', { weekday: 'short', timeZone: NZ }))
+  && !(x.status === 'final' && Date.now() - Date.parse(x.startUTC) > 4.5 * 36e5);
 let picked = new Set(store.get('teams', ALL_KEYS.filter(k => !OPT_IN.has(k))));
 // ONE Championship started off in v614 and is on since: switch it on once for those who saw it then
 if (!store.get('oneOn', false)) { if (store.get('known', []).includes('onefc')) { picked.add('onefc'); store.set('teams', [...picked]); } store.set('oneOn', true); }
