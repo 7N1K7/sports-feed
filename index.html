@@ -3952,8 +3952,9 @@ function renderNowBar(now) {
     if (!visibleTeam(e) || e.minor) continue;
     const c = compOf(e);
     // season-long championships (F1, Supercars, SailGP, the golf tours) aren't a series: they're under Running now
+    // cycling's stage races stay off this row for now (the user's call, 9 Nov 2026): their buttons are under This week
     // nor are short tours too small for the row (the Heartland XV's), nor the Second XI, which stay with the games
-    if (GENERIC.test(c) || NOT_BAR.test(c) || ['motor', 'sailing', 'golf'].includes(e.sport)) continue;
+    if (GENERIC.test(c) || NOT_BAR.test(c) || ['motor', 'sailing', 'golf', 'cycling'].includes(e.sport)) continue;
     const t = new Date(e.startUTC) - now;
     const v = by.get(c) || { started: false, next: Infinity, nz: false, sport: e.sport, first: Infinity, last: -Infinity, n: 0, sides: new Set(), fmts: new Set(), intl: true, w: genderOf(e) === 'w' };
     v.first = Math.min(v.first, t); v.last = Math.max(v.last, t); v.n++;
@@ -3980,7 +3981,8 @@ function renderNowBar(now) {
   // a series or tournament that has just finished stays up a while so its results are a click away: 3 days after its last
   // game, a week after a World Cup or other big event
   const ended = (c, v) => v.next === Infinity && v.n >= 2 && v.lastEnd > -(BIG_EVENT.test(c) ? 7 : 3) * 864e5;
-  const on = [...by].filter(([c, v]) => !minorSeries(c, v) && (((v.started || WINDOWED.test(c)) && v.next < 21 * 864e5 && (v.next < 18 * 36e5 || v.lastPlayed === undefined || v.next < 10 * 864e5 || WINDOWED.test(c))) || ended(c, v)))
+  // one game on its own (a tour final with only the final in the feed, such as the WTA Finals) isn't a series (v635)
+  const on = [...by].filter(([c, v]) => !minorSeries(c, v) && v.n >= 2 && (((v.started || WINDOWED.test(c)) && v.next < 21 * 864e5 && (v.next < 18 * 36e5 || v.lastPlayed === undefined || v.next < 10 * 864e5 || WINDOWED.test(c))) || ended(c, v)))
     // the ones still running before the finished ones, if there are more than nine
     .sort((a, b) => (a[1].next === Infinity) - (b[1].next === Infinity) || b[1].nz - a[1].nz || a[1].next - b[1].next).slice(0, 9)
     // the nine at most shown (one row on a wide screen, a swipeable row on phones) sit in the sport buttons' order (A to Z by sport), New Zealand's first within a sport
@@ -4638,7 +4640,7 @@ function hubReveal() {
 function balanceChips(box) {
   box.querySelectorAll('br').forEach(b => b.remove());
   const info = box.querySelector(':scope > .sinfo'), cs = [...box.children].filter(c => c !== info);
-  cs.forEach(c => c.style.marginRight = ''); if (info) info.style.marginLeft = '';
+  cs.forEach(c => c.style.marginRight = ''); if (info) info.style.marginLeft = info.style.marginRight = '';
   // the sport row's "i" starts its second line under All, right edges in line: its slot there is All's width
   let extra = 0;
   if (info?.offsetWidth && cs.length) { const st = getComputedStyle(info), pad = Math.max(0, cs[0].getBoundingClientRect().width - info.getBoundingClientRect().width);
@@ -4650,6 +4652,8 @@ function balanceChips(box) {
   if (sports) box.classList.remove('bare');
   let ws = widths(), n = lay(ws, W).length;
   if (sports && n > 1) { box.classList.add('bare'); const bws = widths(), bn = lay(bws, W).length; if (bn < n) { ws = bws; n = bn; } else box.classList.remove('bare'); }
+  // on a computer the sport row's lines are made even (from v635): see evenRows
+  if (info && !PHONE.matches && n > 1 && n <= 3 && evenRows(box, cs, info, ws, W, n)) return;
   let lo = 0, hi = W; while (hi - lo > 0.5) { const m = (lo + hi) / 2; lay(ws, m).length > n ? lo = m : hi = m; }
   lay(ws, hi).slice(1).forEach(r => cs[r[0]].before(document.createElement('br')));
   if (info) (box.querySelector(':scope > br') || cs[cs.length - 1]).after(info);
@@ -4660,6 +4664,29 @@ function balanceChips(box) {
   const rows = [[]]; for (const c of box.children) c.tagName === 'BR' ? rows.push([]) : rows[rows.length - 1].push(c);
   const span = r => r[r.length - 1].getBoundingClientRect().right + parseFloat(getComputedStyle(r[r.length - 1]).marginRight) - r[0].getBoundingClientRect().left + parseFloat(getComputedStyle(r[0]).marginLeft), ss = rows.map(span), max = Math.max(...ss);
   rows.forEach((r, i) => { if (max - ss[i] > 0.5) { const z = r[r.length - 1]; z.style.marginRight = `${parseFloat(getComputedStyle(z).marginRight) + max - ss[i]}px`; } });
+}
+// the sport row on a computer: of every way to split it into the same number of lines, the one whose lines come
+// closest in length; the "i" starts the second line flush with All above it, and each shorter line's gaps open a little
+// (up to 14px) so the lines start and end together
+function evenRows(box, cs, info, ws, W, n) {
+  info.style.marginLeft = '';
+  const st = getComputedStyle(info), iw = info.offsetWidth ? info.getBoundingClientRect().width + parseFloat(st.marginLeft) + parseFloat(st.marginRight) : 0;
+  const pre = [0]; ws.forEach(w => pre.push(pre[pre.length - 1] + w));
+  let best = null;
+  const tryCuts = cuts => { const b = [0, ...cuts, ws.length], sp = [];
+    for (let k = 0; k < n; k++) sp.push(pre[b[k + 1]] - pre[b[k]] + (k === 1 ? iw : 0));
+    if (Math.max(...sp) > W) return; const d = Math.max(...sp) - Math.min(...sp); if (!best || d < best.d - 0.5) best = { d, cuts, sp }; };
+  if (n === 2) for (let i = 1; i < ws.length; i++) tryCuts([i]);
+  else for (let i = 1; i < ws.length; i++) for (let j = i + 1; j < ws.length; j++) tryCuts([i, j]);
+  if (!best) return false;
+  best.cuts.forEach(i => cs[i].before(document.createElement('br')));
+  box.querySelector(':scope > br').after(info);
+  const max = Math.max(...best.sp), b = [0, ...best.cuts, ws.length];
+  for (let k = 0; k < n; k++) {
+    const row = [...(k === 1 && iw ? [info] : []), ...cs.slice(b[k], b[k + 1])], add = Math.min(14, (max - best.sp[k]) / Math.max(1, row.length - 1));
+    if (add > 0.25) row.slice(0, -1).forEach(c => { c.style.marginRight = `${parseFloat(getComputedStyle(c).marginRight) + add}px`; });
+  }
+  return true;
 }
 // again whenever a row's width changes (a turned phone, a resized window) and once the fonts are in
 const chipRO = new ResizeObserver(es => es.forEach(e => { const w = Math.round(e.contentRect.width); if (e.target.dataset.bw != w) { e.target.dataset.bw = w; balanceChips(e.target); } }));
