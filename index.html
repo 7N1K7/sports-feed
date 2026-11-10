@@ -1345,6 +1345,9 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
 .bigev .bc { font-size: 13px; color: var(--muted) }
 /* the NBA's games by default as one row (v645): a game row with the count in place of the teams */
 .ev.lrow.nbarow { cursor: pointer }
+/* a tour's A-team game on the tour's page: always the thin row, its colours toned down (v649) */
+.ev.lrow.tourside { filter: saturate(.5); opacity: .8 }
+.ev.lrow.tourside .lteams, .ev.lrow.tourside .lsolo { font-size: 14px }
 .ev.lrow.nbarow .nbgs { font: 500 13px/1.4 var(--f-body); color: var(--muted); margin-left: 6px }
 @media (max-width: 440px) { .ev.lrow.nbarow .nbgn { display: none } }
 .ev.lrow.nbarow .nbgo { font-size: 20px; font-weight: 800; color: var(--sport); line-height: 1; padding: 0 4px }
@@ -2530,7 +2533,16 @@ const sportPageOnly = x => /Second XI/.test(x.comp || '');
 // list, but its games show with Basketball picked) until its eye is tapped
 let showHere = new Set(store.get('showHere', [...OPT_IN]));
 const shownHere = x => { const sp = x.sport || sportOf(x.team); return !compSel && sportSel.has(sp) && (showHere.has(sp) || showHere.has(x.team)); };
-const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now() ? false : x.startUTC ? (compSel ? compOf(x) === compSel : (!minorOf(x) || (x.session && (sessOn.has(x.team) || sportSel.has(x.sport)))) && (!sportPageOnly(x) || sportSel.has(x.sport)) && (visibleTeam(x) || shownHere(x)) && sportOn(x.sport || sportOf(x.team)))
+// a tour's A-team games on the tour's page: NZ A v India A under Black Caps v India (games and results), as the same
+// touring party, but quieter than the tour's own games and never counted in its series (from v649)
+function tourSide(e, c) {
+  if (!c || e.sport !== 'cricket' || compOf(e) === c) return false;
+  const s = [e.home, e.away], o = s.includes('New Zealand A') && s.find(t => t !== 'New Zealand A');
+  if (!o || !/ A$/.test(o)) return false;
+  const opp = o.replace(/ A$/, '');
+  return c === `Black Caps v ${opp}` || c === `${opp} v Black Caps`;
+}
+const visible0 = x => x.session && Date.parse(x.startUTC) + 2 * 36e5 < Date.now() ? false : x.startUTC ? (compSel ? compOf(x) === compSel || tourSide(x, compSel) : (!minorOf(x) || (x.session && (sessOn.has(x.team) || sportSel.has(x.sport)))) && (!sportPageOnly(x) || sportSel.has(x.sport)) && (visibleTeam(x) || shownHere(x)) && sportOn(x.sport || sportOf(x.team)))
   : visibleTeam(x) && sportOn(sportOf(x.team));
 
 // cricket tours: "Game 4 of 5 · India lead the T20I series 2–1", counting only results the spoiler setting shows
@@ -2592,6 +2604,7 @@ function seriesHead(e, now) {
 const lampm = h => h.replace(/(am|pm)$/, '<span class="lap">$1</span>');
 function listRow(e, now, isRes) {
   if (e._nbaG) return nbaRow(e, now);
+  const side = tourSide(e, compSel);
   const d = isRes ? new Date(e.startUTC) : nextAt(e, now), hidden = isRes && isHidden(e, now);
   const live = !isRes && (e.status === 'live' || onNow(e, now));
   // rain about: a small cloud in the ON, which turns blue while rain stops play (a rain delay, as the series button's
@@ -2614,7 +2627,7 @@ function listRow(e, now, isRes) {
     : canRehide(e.id, spoilAt(e), now) ? `<button class="lscore num" type="button" data-rehide="${esc(e.id)}" title="${esc(e.score || '')} · tap to hide again" aria-label="Hide this result again">${lscoreHtml(e)}</button>`
     : `<span class="lscore num" title="${esc(e.score || '')}">${lscoreHtml(e)}</span>`)
     : (live ? (rain ? `<span class="lnow lrain${rain === 'Rain delay' ? ' ldelay' : ''}" title="${rain === 'Rain delay' ? 'Rain delay' : 'Live, rain affected'}"><i aria-hidden="true">🌧</i>ON</span>` : '<span class="lnow">ON</span>') : '') + mark;
-  return `<article class="ev lrow${isRes ? ' lres' : ''} sport-${e.sport} ${gcls(e)}${live ? ' is-live' : ''}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
+  return `<article class="ev lrow${isRes ? ' lres' : ''}${side ? ' tourside' : ''} sport-${e.sport} ${gcls(e)}${live ? ' is-live' : ''}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div><span class="lleft">${soonCd ? `<span class="ltime num lcd" data-cd="${esc(e.startUTC)}" title="Starts ${esc(t)}">${esc(soonCd)}</span>` : `<span class="ltime num">${lampm(esc(t).replace(/^≈/, '<span class="lappx">≈</span>'))}</span>`}${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span></span>${who}<${go ? 'a' : 'span'} class="lend${live && mark ? ' lstack' : ''}"${go}>${end}</${go ? 'a' : 'span'}></article>`;
 }
 // the one way to watch a card shows: a free one ahead of a paid one (Three over Sky Sport 1 when both show it). The
@@ -2628,7 +2641,7 @@ function watchPick(e) {
 }
 function evCard(e, now) {
   if (e._nbaG) return view === 'list' ? nbaRow(e, now) : nbaBig(e, now);
-  if (view === 'list') return listRow(e, now, false);
+  if (view === 'list' || tourSide(e, compSel)) return listRow(e, now, false);
   // a golf round or a day's racing names itself where the start time's label goes ("Round 2"), so the tag needn't
   const stg = stagesOf(e) > 1 && stageNow(e, now), slbl = stg ? stageName(e, stg) : startLabel(e);
   const on = onNow(e, now), live = e.status === 'live' || (stg && on) ? 'On now' : on, paused = !live && !stg && between(e, now);
@@ -2861,7 +2874,7 @@ const scoreTag = (v, res) => { const m = String(v).match(/^(.+?)\s+&\s+(.+)$/);
   return m ? `<span class="ts num ${res}">${esc(m[1])}<small class="inn2">&amp; ${esc(m[2])}</small></span>` : `<span class="ts num ${res}">${esc(trimOvers(v)).replace(/\s*(\([^)]*\))$/, ' <small class="ov">$1</small>')}</span>`; };
 function resCard(e, now) {
   if (e._nbaG) return view === 'list' ? nbaRow(e, now) : nbaBig(e, now);
-  if (view === 'list') return listRow(e, now, true);
+  if (view === 'list' || tourSide(e, compSel)) return listRow(e, now, true);
   const d = new Date(e.startUTC);
   const hidden = isHidden(e, now);
   const left = Math.ceil((spoilDays * 864e5 - (now - spoilAt(e))) / 864e5);
@@ -4324,11 +4337,13 @@ function render() {
   // internationals, then New Zealand's other games (A sides, clubs, domestic), then the rest
   const rank = e => { const full = isFull(e), nz = isNZ(e); return nz && full ? 0 : full ? 1 : nz ? 2 : 3; };
   const byRank = (a, b) => rank(a) - rank(b) || nextAt(a, now) - nextAt(b, now);
-  const lives = upcoming.filter(e => e.status === 'live' || onNow(e, now) || startsSoon(e, now)).sort(byRank);
+  // on a tour's page its A-team game on now or soon isn't the page's lead: it goes at the foot of On today instead
+  const sideNow = compSel ? upcoming.filter(e => tourSide(e, compSel) && (e.status === 'live' || onNow(e, now) || startsSoon(e, now) || between(e, now) || (ms => ms > 0 && ms <= SOON_SEC)(nextAt(e, now) - now))) : [];
+  const lives = upcoming.filter(e => !sideNow.includes(e) && (e.status === 'live' || onNow(e, now) || startsSoon(e, now))).sort(byRank);
   // starting soon: games (or a Test's next day) getting under way within the hour, a time known or the usual one
-  const soons = upcoming.filter(e => !lives.includes(e) && !(e.timeTBC && !e.usual) && (ms => ms > 0 && ms <= SOON_SEC)(nextAt(e, now) - now)).sort(byRank);
+  const soons = upcoming.filter(e => !lives.includes(e) && !sideNow.includes(e) && !(e.timeTBC && !e.usual) && (ms => ms > 0 && ms <= SOON_SEC)(nextAt(e, now) - now)).sort(byRank);
   // a Test between days of play (overnight, or after rain ended the day) waits with the upcoming games until the next day starts
-  const resting = upcoming.filter(e => !lives.includes(e) && !soons.includes(e) && between(e, now));
+  const resting = upcoming.filter(e => !lives.includes(e) && !soons.includes(e) && !sideNow.includes(e) && between(e, now));
   $('liveSec').hidden = !lives.length;
   $('soonSec').hidden = !soons.length;
   // only rewrite the live cards when they change, so their glow doesn't restart on every click
@@ -4348,15 +4363,15 @@ function render() {
 
   // today
   // today, plus anything starting in the next 12 hours (an overnight game shows tonight, under "Early tomorrow")
-  const todays = upcoming.filter(e => !lives.includes(e) && !soons.includes(e) && !resting.includes(e) && (dayKey(new Date(e.startUTC)) === todayK || new Date(e.startUTC) - now < 12 * 36e5));
+  const todays = upcoming.filter(e => !lives.includes(e) && !soons.includes(e) && !resting.includes(e) && !sideNow.includes(e) && (dayKey(new Date(e.startUTC)) === todayK || new Date(e.startUTC) - now < 12 * 36e5));
   $('todayLabel').textContent = dayLabel(nowD, NZ);
   // today's finished games stay in "On today" (spoiler rules still apply), latest first after the upcoming ones
   // "Earlier": games that ended in the last 16 hours, whatever the day, so one that finished late last night stays up
   // here into the morning. They're in Results below as well, and only there once the 16 hours are up.
   const doneToday = finals.filter(e => now - endOf(e, now) < 16 * 36e5);
   const doneDay = e => dayKey((DAYS[formatOf(e)] || 1) > 1 ? endOf(e, now) : new Date(e.startUTC));
-  $('todaySec').hidden = !todays.length && !doneToday.length && !resting.length && lives.length + soons.length > 0;
-  into($('today')).html = todays.length || doneToday.length || resting.length
+  $('todaySec').hidden = !todays.length && !doneToday.length && !resting.length && !sideNow.length && lives.length + soons.length > 0;
+  into($('today')).html = todays.length || doneToday.length || resting.length || sideNow.length
     ? `<div class="daygroup">${(() => {
         // a Test between days waits with the upcoming games, at the time its next day starts
         const later = [...resting, ...todays].sort((a, b) => nextAt(a, now) - nextAt(b, now));
@@ -4365,7 +4380,8 @@ function render() {
         const tonight = +fmt(nowD, NZ, { hour: 'numeric', hour12: false }) >= 17 || (tod.length && tod.every(e => !e.timeTBC && hourNZ(e) >= 17));
         // "Early tomorrow" for the small hours; a Test's next day starting at lunchtime tomorrow is just "Tomorrow"
         return (lives.length + soons.length && tod.length ? `<div class="dayhead">${tonight ? 'Later tonight' : 'Later today'}</div>` : '') + tod.map(e => evCard(e, now)).join('')
-          + (early.length ? `<div class="dayhead">${early.every(e => hourNZ(e) < 11) ? 'Early tomorrow' : 'Tomorrow'}</div><div class="early">${early.map(e => evCard(e, now)).join('')}</div>` : '');
+          + (early.length ? `<div class="dayhead">${early.every(e => hourNZ(e) < 11) ? 'Early tomorrow' : 'Tomorrow'}</div><div class="early">${early.map(e => evCard(e, now)).join('')}</div>` : '')
+          + (sideNow.length ? `<div class="dayhead">Also on tour</div>${sideNow.map(e => evCard(e, now)).join('')}` : '');
       })()}${[['Earlier today', doneToday.filter(e => doneDay(e) === todayK)], ['Yesterday', doneToday.filter(e => doneDay(e) !== todayK)]]
         // the games just finished, today's first, then last night's: a game belongs to the day it started (one that ran
         // past midnight is still last night's game), a Test or first-class game to the day it ended
@@ -4373,7 +4389,7 @@ function render() {
     : `<div class="empty-note">Nothing on for your teams today. ${upcoming[0] ? `Next up: <b>${esc(titleOf(upcoming[0]))}</b>, ${dayLabel(new Date(upcoming[0].startUTC), NZ)}.` : ''}</div>`;
 
   // coming up this week, then further ahead, grouped by NZ day
-  const rest = upcoming.filter(e => !todays.includes(e) && !lives.includes(e) && !soons.includes(e) && !resting.includes(e));
+  const rest = upcoming.filter(e => !todays.includes(e) && !lives.includes(e) && !soons.includes(e) && !resting.includes(e) && !sideNow.includes(e));
   const groups = new Map();
   // tomorrow gets its own section, right after today
   const tomK = dayKey(new Date(now + 864e5));
@@ -4613,7 +4629,8 @@ function render() {
 // time); the names' full width is their width now plus whatever each name has cut off (logos have fixed boxes)
 const textW = el => { const r = document.createRange(); r.selectNodeContents(el); return r.getBoundingClientRect().width; };
 function fitList() {
-  if (view !== 'list') return;
+  // (a tour's A-team rows are list rows in every view, so they're measured too)
+  if (view !== 'list' && !document.querySelector('.ev.lrow.tourside')) return;
   const rows = [...document.querySelectorAll('.ev.lrow')].filter(r => r.offsetWidth);
   const w = rows.map(r => { const c = r.querySelector('.lcomp'), t = r.querySelector('.lteams, .lsolo'), cw = c ? textW(c) : 0;
     if (!t || t.classList.contains('lsolo')) return [cw, t ? textW(t) : 0];
