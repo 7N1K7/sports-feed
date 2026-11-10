@@ -4174,11 +4174,20 @@ function drawWeekComps(now) {
       }
     } finally { compSel = c0; }
     for (const [c, x] of later) if (!by.has(c)) by.set(c, x);
+    // and the sport's other competitions (the All competitions menu's), whether or not they've a game soon, so each
+    // one's page is always a tap away from its sport: F1 and Supercars in an off week (from v650). Last, soonest first
+    for (const c of compsOfSport(sp)) {
+      if (!c || by.has(c) || WEEK_SKIP.test(c)) continue;
+      const es = (FEED.events || []).filter(e => compOf(e) === c), nx = es.map(e => Date.parse(e.startUTC) - now).filter(t => t > 0);
+      const on = es.some(visibleTeam);
+      by.set(c, { c, sport: sp, live: false, nz: false, next: nx.length ? Math.min(...nx) : Infinity, w: es.length > 0 && es.every(e => genderOf(e) === 'w'), sides: new Set(), fmts: new Set(), intl: false, on, keys: new Set(on ? [] : es.map(e => e.team)), later: true, idle: true });
+    }
   }
-  for (const x of by.values()) { x.small = NOT_BAR.test(x.c) || minorSeries(x.c, x); x.off = !x.on; }
-  let list = [...by.values()].sort((a, b) => a.off - b.off || a.small - b.small || a.later - b.later || b.live - a.live || b.nz - a.nz || a.next - b.next);
+  for (const x of by.values()) { x.small = !x.idle && (NOT_BAR.test(x.c) || minorSeries(x.c, x)); x.off = !x.on; }
+  let list = [...by.values()].sort((a, b) => !!a.idle - !!b.idle || a.off - b.off || a.small - b.small || a.later - b.later || b.live - a.live || b.nz - a.nz || a.next - b.next);
   // (none on another sport's competition page, opened from the series row)
-  if ((list.length === 1 && compsOfSport(sp).length < 2) || (compSel && !compsOfSport(sp).includes(compSel))) list = [];
+  // (a sport that's one competition keeps its button too, so its page is a tap away: the NBA under Basketball; v650)
+  if (compSel && !compsOfSport(sp).includes(compSel)) list = [];
   wcList = list; box.hidden = !list.length;
   if (sp) box.style.setProperty('--sport', `var(--${sp})`);
 }
