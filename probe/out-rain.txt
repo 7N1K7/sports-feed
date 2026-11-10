@@ -1,23 +1,2 @@
-rainwatch3 start 2026-11-07T02:18:24.468Z
-started
-02:18Z bbc=false herald=false wiki=false | feed 02:12Z upcoming progress=none wxNews=no | first: {}
-02:20Z bbc=false herald=false wiki=false | feed 02:12Z upcoming progress=none wxNews=no | first: {}
-02:22Z bbc=false herald=false wiki=false | feed 02:17Z upcoming progress=none wxNews=no | first: {}
-02:24Z bbc=false herald=false wiki=false | feed 02:17Z upcoming progress=none wxNews=no | first: {}
-02:26Z bbc=false herald=false wiki=false | feed 02:22Z upcoming progress=none wxNews=no | first: {}
-02:28Z bbc=false herald=false wiki=false | feed 02:22Z upcoming progress=none wxNews=no | first: {}
-02:30Z bbc=false herald=false wiki=false | feed 02:22Z upcoming progress=none wxNews=no | first: {}
-02:32Z bbc=false herald=false wiki=false | feed 02:22Z upcoming progress=none wxNews=no | first: {}
-02:34Z bbc=false herald=false wiki=false | feed 02:27Z upcoming progress=none wxNews=no | first: {}
-02:36Z bbc=false herald=false wiki=false | feed 02:32Z upcoming progress=none wxNews=no | first: {}
-02:38Z bbc=false herald=false wiki=false | feed 02:32Z upcoming progress=none wxNews=no | first: {}
-02:41Z bbc=false herald=false wiki=false | feed 02:32Z upcoming progress=none wxNews=no | first: {}
-02:43Z bbc=false herald=false wiki=false | feed 02:37Z upcoming progress=none wxNews=no | first: {}
-02:45Z bbc=false herald=false wiki=false | feed 02:41Z upcoming progress=none wxNews=no | first: {}
-02:47Z bbc=false herald=false wiki=false | feed 02:41Z upcoming progress=none wxNews=no | first: {}
-02:49Z bbc=false herald=false wiki=true | feed 02:45Z upcoming progress=none wxNews=no | first: {"wiki":"02:49Z"}
-02:51Z bbc=false herald=false wiki=true | feed 02:45Z upcoming progress=none wxNews=no | first: {"wiki":"02:49Z"}
-02:53Z bbc=false herald=false wiki=true | feed 02:45Z upcoming progress=none wxNews=no | first: {"wiki":"02:49Z"}
-02:55Z bbc=false herald=false wiki=true | feed 02:50Z upcoming progress=none wxNews=no | first: {"wiki":"02:49Z"}
-02:57Z bbc=false herald=false wiki=true | feed 02:50Z upcoming progress=none wxNews=no | first: {"wiki":"02:49Z"}
-rainwatch3 end
+rain watch from 2026-11-10T02:07:18.573Z
+02:07Z feed 02:01 status upcoming progress no progressRain false wxNews no wxRain false liveScore no
