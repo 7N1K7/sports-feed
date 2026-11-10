@@ -1412,7 +1412,7 @@ body.v-mixed #today .daygroup > .ev .teams { font-size: 27px }
 .lscore .G, .score.gold { color: var(--gold) } .ts.W, :is(.lscore, .dseries) .W { color: #2b8a3e } .ts.L, :is(.lscore, .dseries) .L { color: #c92a2a } .ts.D, :is(.lscore, .dseries) .D { color: var(--muted) }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) :is(.ts, .lscore *, .dseries *).W { color: #69db7c } :root:not([data-theme="light"]) :is(.ts, .lscore *, .dseries *).L { color: #ff8787 } }
 :root[data-theme="dark"] :is(.ts, .lscore *, .dseries *).W { color: #69db7c } :root[data-theme="dark"] :is(.ts, .lscore *, .dseries *).L { color: #ff8787 }
-:is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev .when .score.sm { font-size: 14px; font-family: var(--f-body); font-weight: 700; line-height: 1.3; color: var(--muted) }
+body :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main, .dpane) .ev .when .score.sm { font-size: 14px; font-family: var(--f-body); font-weight: 700; line-height: 1.3; color: var(--muted) }
 :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev .teams.matchup.scored:has(.ts) .side, :is(#today, #results, #live, #upcoming, #hubBody, #dayPick, #tomorrow, #later, main) .ev.res .teams.matchup .side { flex-wrap: wrap; row-gap: 2px }
 .ts .ov { font-size: .7em; font-weight: 600 }
 .ts .inn2 { display: block; font-size: .72em; font-weight: 700; line-height: 1.2; opacity: .9 }
