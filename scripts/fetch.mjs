@@ -1103,20 +1103,28 @@ const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 {
   const WET = /\b(rain\w*|showers?|wet outfield|washed out|wash-?out|delay(ed|s)?|bad light|abandon\w*|no play|covers)\b/i;
   const flat = t => norm(String(t || '').replace(/proteas/gi, 'south africa').replace(/windies/gi, 'west indies'));
-  const wet = [...CRICKET_HEADLINES, ...newsAll.filter(n => /^nzherald\.co\.nz$/.test(n.source))].filter(n => n.at && now - Date.parse(n.at) < 7 * DAY && WET.test(n.title));
-  const hits = [];
+  // a forecast ("Rain threat hangs over Hamilton ODI") isn't a delay
+  const MAYBE = /\b(forecast|could|may|might|threat|outlook|likely|expected)\b/i;
+  const wet = [...CRICKET_HEADLINES, ...newsAll.filter(n => /^nzherald\.co\.nz$/.test(n.source))].filter(n => n.at && now - Date.parse(n.at) < 7 * DAY && WET.test(n.title) && !MAYBE.test(n.title));
+  const hits = [], quiet = [];
   for (const e of events) {
     const start = Date.parse(e.startUTC);
     if (e.sport !== 'cricket' || e.status === 'final' || start > now || now - start > 5.5 * DAY) continue;
     const sides = [e.home, e.away].map(x => norm(String(x || '').replace(/\s+Women('s)?$/i, '')));
+    // the ground or its town also places a headline that names only one side ("Rain holds up Black Caps in Hamilton")
+    const place = [e.venue, String(e.city || '').split(',')[0]].map(x => norm(x)).filter(x => x.length > 3);
     const w = isW(e);
-    const n = wet.filter(n => Date.parse(n.at) > start - (/scorecard/i.test(n.title) ? 2 * DAY : 2 * 36e5) && w === /\bwomen\b|white ferns/i.test(n.title) && sides.every(x => x && flat(n.title).includes(x)))
+    const n = wet.filter(n => Date.parse(n.at) > start - (/scorecard/i.test(n.title) ? 2 * DAY : 2 * 36e5) && w === /\bwomen\b|white ferns/i.test(n.title)
+      && (sides.every(x => x && flat(n.title).includes(x)) || (sides.some(x => x && flat(n.title).includes(x)) && place.some(x => flat(n.title).includes(x)))))
       .sort((a, b) => b.at.localeCompare(a.at))[0];
+    // a game 20 minutes past its start that no source has a state of play for yet: listed, so a missed delay shows in the run's notes
+    if (!n && !e.progress && !e.weather && !e.score && now - start > 20 * 6e4 && now - start < 12 * 36e5) quiet.push(`${e.home} v ${e.away} (${Math.round((now - start) / 6e4)} min in)`);
     if (!n) continue;
     e.wxNews = { title: n.title, url: n.url, credit: n.credit, ...(n.creditUrl ? { creditUrl: n.creditUrl } : {}), at: n.at };
     hits.push(`${e.home} v ${e.away}: ${n.title}`);
   }
   diag.rainHeadlines = `${wet.length} rain headlines this week; ${hits.length ? hits.join('; ') : 'none on our matches'}`;
+  diag.cricketNoState = quiet.length ? `no state of play or rain news yet: ${quiet.join('; ')}` : 'none';
 }
 
 // Club logos from TheSportsDB's free API (badges used as-is, credited in the footer).
