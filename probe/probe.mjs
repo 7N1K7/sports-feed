@@ -1,8 +1,4 @@
-// 13 Nov: Wikipedia's full FIFA ranking data modules (for depth past the top 20)
+// 13 Nov: TheSportsDB's NBA logo, for a local mock-up
 import { writeFileSync } from 'fs';
-const out = [], UA = { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' };
-for (const t of ['Module:SportsRankings/data/FIFA World Rankings', "Module:SportsRankings/data/FIFA Women's World Rankings"]) {
-  try { const r = await fetch(`https://en.wikipedia.org/w/index.php?title=${encodeURIComponent(t.replace(/ /g, '_'))}&action=raw`, { headers: UA }); const s = await r.text();
-    out.push('== ' + t, s); } catch (e) { out.push(t + ' err ' + e.message); }
-}
-writeFileSync('probe/out-fifamod.txt', out.join('\n') + '\n');
+const r = await fetch('https://r2.thesportsdb.com/images/media/league/badge/frdjqy1536585083.png/small');
+writeFileSync('probe/out-nbalogo.png', Buffer.from(await r.arrayBuffer()));
