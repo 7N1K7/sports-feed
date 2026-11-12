@@ -1,0 +1,154 @@
+== Module:SportsRankings/data/FIFA World Rankings 200 20741 chars, 527 lines
+local data = {}
+
+-- information about other templates used by module
+data.templates = { flagged_team_link = "fb" ,
+	               flagvar = { AFG= "2004" , DOM= "civil" }
+}
+
+-- general information about ranking and website being cited
+data.source = {
+    url = "https://inside.fifa.com/fifa-world-ranking/men?dateId=FRS_Male_Football_20260611", 
+	title = "The FIFA/Coca-Cola Men's World Ranking",
+	publisher = "FIFA"
+}
+
+-- date of latest update, previous and next one for movement
+data.updated  = { 	day = 7, 	month = 'October',  year =2026 }
+data.previous = { 	day = 20, 	month = 'July',  year =2026 }
+data.next     = { 	day = 18, 	month = 'November',  year =2026 }
+
+-- see "Generating code" section on doc page for how to update the rankings
+
+data.rankings = {
+          {  "Spain", 1, 0, 2011.57 },
+	      {  "Argentina", 2, 0, 1972.80 },
+          {  "France", 3, 0, 1958.86 },
+          {  "England", 4, 0, 1925.59 },
+          {  "Portugal", 5, 2, 1807.69 },
+          {  "Brazil", 6, -1, 1806.51 },
+	      {  "Morocco", 7, -1, 1805.34 },
+          {  "Belgium", 8, 0, 1779.17 },
+	      {  "Netherlands", 9, 0, 1778.61 },
+	      {  "Mexico", 10, 0, 1738.48 },
+	      {  "Colombia", 11, 0, 1735.80 },
+          {  "Switzerland", 12, 2, 1725.39 },
+          {  "Germany", 13, -1, 1717.52 },
+	      {  "Croatia", 14, -1, 1714.74 },
+          {  "Italy", 15, 0, 1713.04 },
+	      {  "USA", 16, 0, 
+...
+	      {  "New Zealand", 88, -2, 1277.02 },          
+          {  "India", 138, 0, 1086.43 },
+          {  "Solomon Islands", 152, 1, 1035.95 },
+          {  "Fiji", 154, 1, 1033.44 },
+        { "FIJ",  "Fiji" },
+        { "IND",  "India" },
+        { "NZL",  "Aotearoa New Zealand" },
+        { "SOL",  "Solomon Islands" },
+        { "NZL",  "New Zealand" },
+== Module:SportsRankings/data/FIFA Women's World Rankings 200 17853 chars, 510 lines
+local data = {}
+
+-- information about other templates used by module
+data.templates = { flagged_team_link = "fbw" ,
+                   flagvar = { AFG = "2004" }
+}
+
+-- general information about ranking and website being cited
+data.source = {
+    url = "https://www.fifa.com/fifa-world-ranking/women", 
+	title = "The FIFA/Coca-Cola Women's World Ranking",
+	publisher = "FIFA"
+}
+
+-- date of latest update and previous one for movement
+data.updated  = { 	day = 16, 	month = 'June',   year =2026 }
+data.previous = { 	day = 21, 	month = 'April',   year =2026 }
+
+-- see "Generating code" section on doc page for how to update the rankings
+
+data.rankings = {
+{  "Spain", 1, 0, 2105.36 },
+{  "USA", 2, 0, 2057.92 },
+{  "Germany", 3, 1, 2028.99 },
+{  "England", 4, -1, 2027.13 },
+{  "Japan", 5, 0, 1998.83 },
+{  "France", 6, 1, 1983.84 },
+{  "Brazil", 7, -1, 1976.73 },
+{  "Sweden", 8, 0, 1937.94 },
+{  "Canada", 9, 0, 1936.9 },
+{  "Netherlands", 10, 0, 1911.75 },
+{  "Korea DPR", 11, 0, 1910.63 },
+{  "Denmark", 12, 0, 1910.2 },
+{  "Italy", 13, 1, 1891.83 },
+{  "Norway", 14, -1, 1878.52 },
+{  "Australia", 15, 0, 1830.66 },
+{  "China PR", 16, 0, 1799.13 },
+{  "Iceland", 17, 0, 1792.32 },
+{  "Belgium", 18, 0, 1786.01 },
+{  "Korea Republic", 19, 0, 1780.68 },
+{  "Colombia", 20, 0, 1775.96 },
+{  "Republic of Ireland", 21, 2, 1769.74 },
+{  "Portugal", 22, -1, 1751.11 },
+{  "Austria", 23, -1, 1749.66 },
+{  
+...
+{  "New Zealand", 32, 1, 1645.41 },
+{  "India", 69, 0, 1368.7 },
+{  "Fiji", 80, -1, 1282.2 },
+{  "Solomon Islands", 89, 0, 1234.03 },
+        { "FIJ",  "Fiji" },
+        { "IND",  "India" },
+        { "NZL",  "New Zealand" },
+        { "SOL",  "Solomon Islands" },
+== Module:SportsRankings/data/World Rugby Rankings 200 14152 chars, 403 lines
+local data = {}
+
+-- information about other templates used by module
+data.templates = { flagged_team_link = "ru" }
+
+-- general information about ranking and website being cited
+data.source = {
+    url = "https://www.world.rugby/tournaments/rankings/mru", 
+	title = "The World Rugby Men's Ranking",
+	website = "World Rugby"
+}
+
+-- date of latest update and previous one for movement
+data.updated  = { 	day = 2, 	month = 'January',  year =2023 }
+data.previous = { 	day = 26, 	month = 'December',  year =2022 }
+
+-- see "Generating code" section on doc page for how to update the rankings
+
+data.rankings = {
+          { "Ireland", 1, 0, 90.63 },
+          { "France", 2, 0, 90.01 },
+          { "New Zealand", 3, 0, 88.98 },
+          { "South Africa", 4, 0, 88.97 },
+          { "England", 5, 0, 83.66 },
+          { "Australia", 6, 0, 81.80 },
+          { "Scotland", 7, 0, 81.55 },
+          { "Argentina", 8, 0, 80.72 },
+          { "Wales", 9, 0, 78.09 },
+          { "Japan", 10, 0, 77.39 },
+          { "Samoa", 11, 0, 76.03 },
+          { "Italy", 12, 0, 75.95 },
+          { "Georgia", 13, 0, 75.19 },
+          { "Fiji", 14, 0, 74.84 },
+          { "Tonga", 15, 0, 71.21 },
+          { "Spain", 16, 0, 67.17 },
+          { "Uruguay", 17, 0, 66.24 },
+          { "Portugal", 18, 0, 65.97 },
+          { "United States", 19, 0, 65.92 },
+          { "Romania", 20, 0, 64.79 },
+          { "Namibia"
+...
+          { "New Zealand", 3, 0, 88.98 },
+          { "Fiji", 14, 0, 74.84 },
+          { "India", 85, 0, 33.40 },
+          { "Solomon Islands", 103, 0, 23.97 },
+        { "FIJ",  "Fiji" },
+        { "IND",  "India" },
+        { "NZL",  "New Zealand" },
+        { "SOL",  "Solomon Islands" },
