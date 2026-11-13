@@ -36,7 +36,8 @@ const VIEWS = new Set(['big', 'mixed', 'compact', 'list']), THEMES = new Set(['g
 const keyOf = (e, k) => {
   let v = String(k ?? '').trim();
   if (e === 'search' || e === 'search0') v = v.toLowerCase().replace(/[^a-z0-9 '&.-]/g, '').replace(/\s+/g, ' ').trim().slice(0, 40);
-  if (e === 'error') v = v.replace(/https?:\/\/\S+/g, '(link)').replace(/\s+/g, ' ').slice(0, 120);
+  // a long error is cut before its version tag (" [v655]"), which stays on the end so the stats page can tell a fixed error from one that's back
+  if (e === 'error') { v = v.replace(/https?:\/\/\S+/g, '(link)').replace(/\s+/g, ' '); const tag = v.match(/ \[v\d+\]$/)?.[0] || ''; v = v.slice(0, v.length - tag.length).slice(0, 120 - tag.length) + tag; }
   if (e === 'use' && !USE.has(v)) return '';
   if ((e === 'hidesport' || e === 'showsport') && !/^[a-z]{2,20}$/.test(v)) return '';
   if (e === 'out' && !/^[a-z0-9.-]{3,60}$/.test(v = v.toLowerCase())) return '';
