@@ -580,6 +580,11 @@ async function fetchStats() {
 const DAY = 864e5, dayAdd = (d, n) => new Date(Date.parse(d + 'T12:00:00Z') + n * DAY).toISOString().slice(0, 10);
 const firstDay = () => data.rows.reduce((a, r) => r.day < a ? r.day : a, data.today);
 const spanDays = () => days || Math.round((Date.parse(data.today) - Date.parse(firstDay())) / DAY) + 1;
+// the first day each metric has numbers, worked out once for each answer from the stats server
+let firsts = null;
+const firstOf = m => { if (firsts?.data !== data) { firsts = { data, d: Object.create(null) }; for (const r of data.rows) if (!(firsts.d[r.metric] <= r.day)) firsts.d[r.metric] = r.day; } return firsts.d[m] || data.today; };
+// an average a day: one decimal under 10, so a small site doesn't show 0
+const avgN = v => v < 10 ? v.toFixed(1).replace(/\.0$/, '') : fmtN(Math.round(v));
 // totals for n days ending `back` days before today: per day, and per metric/key
 function shape(n = spanDays(), back = 0) {
   const list = [];
@@ -1025,6 +1030,9 @@ function sizeRoom() {
 function draw() {
   document.querySelectorAll('[data-days]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.days === days)));
   const n = spanDays(), { list, per, sums, ds } = shape(), prev = prevShape();
+  // the days from the first one with any numbers: averages are over these and the charts start there, as a range longer
+  // than the data has no numbers before it, not zeros
+  const d0 = firstDay(), live = list.filter(d => d >= d0), nd = live.length;
   const tot = (k, sh = { list, per }) => sh.list.reduce((a, d) => a + sh.per[d][k], 0);
   const people = tot('visitors'), visits = tot('opens'), views = tot('views'), app = sums.mode?.app || 0, br = sums.mode?.browser || 0;
   const short = d => dayLabel(d, { weekday: 'short', day: 'numeric', month: 'short' });
@@ -1032,29 +1040,31 @@ function draw() {
   $('rangeSpan').textContent = n === 1 ? `Today, ${short(data.today)}` : `${short(list[0])} to ${short(data.today)} · ${n} days`;
   $('heroN').textContent = fmtN(visits);
   const was = prev && change(visits, tot('opens', prev));
-  $('heroL').textContent = `visits ${n === 1 ? 'today' : days ? `in the last ${n} days` : `since ${short(list[0])}`}${was && was !== '–' ? ` (${was} on the ${n} days before)` : ''} · ${fmtN(Math.round(people / n))} people a day · ${fmtN(views)} page views`;
+  $('heroL').textContent = `visits ${n === 1 ? 'today' : days ? `in the last ${n} days` : `since ${short(list[0])}`}${was && was !== '–' ? ` (${was} on the ${n} days before)` : ''} · ${avgN(people / nd)} people a day · ${fmtN(views)} page views`;
   // today and yesterday whatever the range
   const { per: p2 } = shape(2), today = p2[data.today], yday = p2[dayAdd(data.today, -1)];
+  // the app's share is of the people on the days app users were counted
+  const appP = list.filter(d => d >= firstOf('appvisitors')).reduce((a, d) => a + per[d].visitors, 0);
   const tile = (l, v, s) => `<div class="tile"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
   $('tiles').innerHTML = tile('Today', fmtN(today.visitors), `people · ${fmtN(today.opens)} visits`)
     + tile('Yesterday', fmtN(yday.visitors), `people · ${fmtN(yday.opens)} visits`)
-    + tile('Average a day', fmtN(Math.round(people / n)), `people · ${fmtN(Math.round(visits / n))} visits`)
+    + tile('Average a day', avgN(people / nd), `people · ${avgN(visits / nd)} visits`)
     + tile('Visits per person', people ? (visits / people).toFixed(1) : '–', 'a day, on average')
-    + tile('Using the app', people ? Math.round(100 * tot('appvisitors') / people) + '%' : '–', `of people · ${fmtN(tot('appvisitors'))} app users, ${fmtN(tot('appviews'))} app page views`)
+    + tile('Using the app', appP ? Math.round(100 * tot('appvisitors') / appP) + '%' : '–', `of people · ${fmtN(tot('appvisitors'))} app users, ${fmtN(tot('appviews'))} app page views`)
     + (() => { const taps = Object.values(usedOf(sums)).reduce((a, x) => a + x, 0), tv = visits ? taps / visits : 0;
         const pv = prev && tot('opens', prev) ? Object.values(usedOf(prev.sums)).reduce((a, x) => a + x, 0) / tot('opens', prev) : null, ch = pv != null ? change(Math.round(tv * 10), Math.round(pv * 10)) : '';
         return tile('Taps a visit', visits ? tv.toFixed(1) : '–', `${fmtN(taps)} taps${ch && ch !== '–' ? ` · ${ch} on the days before` : ''}`); })();
   // a day on its own is no line: Today shows the last 7 days
   const VIS = [['visitors', 'People', 'var(--series-1)'], ['opens', 'Visits', 'var(--series-2)'], ['views', 'Page views', 'var(--series-3)']];
-  const w7 = n < 3 ? shape(7) : null;
-  if (w7) chart('chart', w7.list, w7.per, VIS, 'People, visits and page views'); else chart('chart', list, per, VIS, 'People, visits and page views');
-  $('chartSub').textContent = $('actSub').textContent = n < 3 ? 'the last 7 days' : '';
+  const w7 = n < 3 ? shape(7) : null, cl = (w7 || { list }).list.filter(d => d >= d0);
+  chart('chart', cl, (w7 || { per }).per, VIS, 'People, visits and page views');
+  $('chartSub').textContent = $('actSub').textContent = cl.length < (w7 || { list }).list.length ? `since ${short(d0)}` : n < 3 ? 'the last 7 days' : '';
   // taps, games opened and links out each day
-  { const L = w7 || { list, ds }, tot = o => Object.values(o || {}).reduce((a, x) => a + x, 0), ap = {};
+  { const L = { list: cl, ds: (w7 || { ds }).ds }, tot = o => Object.values(o || {}).reduce((a, x) => a + x, 0), ap = {};
     for (const d of L.list) { const x = L.ds[d]; ap[d] = { games: tot(x.gameopen), watch: tot(x.watch), out: tot(x.outlink) }; }
     chart('act', L.list, ap, [['games', 'Games opened', 'var(--series-1)'], ['watch', 'Ways to watch', 'var(--series-2)'], ['out', 'Links out', 'var(--series-3)']], 'Games opened, ways to watch and links out'); }
-  heat(list, ds);
-  $('table').innerHTML = `<table><thead><tr><th>Day</th><th>People</th><th>Visits</th><th>Page views</th></tr></thead><tbody>${list.slice().reverse().map(d => `<tr><td>${dayLabel(d)}</td><td>${per[d].visitors}</td><td>${per[d].opens}</td><td>${per[d].views}</td></tr>`).join('')}</tbody></table>`;
+  heat(live, ds);
+  $('table').innerHTML = `<table><thead><tr><th>Day</th><th>People</th><th>Visits</th><th>Page views</th></tr></thead><tbody>${live.slice().reverse().map(d => `<tr><td>${dayLabel(d)}</td><td>${per[d].visitors}</td><td>${per[d].opens}</td><td>${per[d].views}</td></tr>`).join('')}</tbody></table>`;
   bars('country', sums.country, countryName);
   // "US · Comcast Cable Communications, LLC" → "Comcast Cable Communications (US)"; the full name on a hold
   const LEGAL = /,?\s+(Inc|LLC|L\.L\.C|Ltd|Limited|Corporation|Corp|Co|GmbH|AG|AB|SAS|SRL|S\.?A|B\.?V|PLC|Pty|Spolka Akcyjna|Sp\. z o\.o)\.?$/i;
@@ -1066,7 +1076,7 @@ function draw() {
   share('mode', 'mode', [['browser', 'Browser'], ['app', 'App']], sums, list, ds);
   bars('ref', sums.ref, k => k);
   bars('event', sums.event, k => EVENT_LABEL[k] || k);
-  drawPopular(sums, prev?.sums, list, ds);
+  drawPopular(sums, prev?.sums, live, ds);
   // every sport turned off, most first (not cut to the top seven)
   bars('sportsoff', sums.sportsoff, k => SPORT_LABEL[k] || k, Object.entries(sums.sportsoff || {}).sort((a, b) => b[1] - a[1]).map(([k]) => k));
   share('myteams', 'myteams', [['default', 'As it came'], ['changed', 'Changed']], sums, list, ds);
@@ -1148,7 +1158,7 @@ function draw() {
   errAlert(Object.keys(lastSeen).filter(k => { const x = fixOf(k); return !x || x.back; }), lastSeen, lastN);
   // weekdays: each one's average visitors over the days of that weekday in the range
   const wd = {}, wn = {};
-  for (const d of list) { const k = dayLabel(d, { weekday: 'long' }); wd[k] = (wd[k] || 0) + per[d].visitors; wn[k] = (wn[k] || 0) + 1; }
+  for (const d of live) { const k = dayLabel(d, { weekday: 'long' }); wd[k] = (wd[k] || 0) + per[d].visitors; wn[k] = (wn[k] || 0) + 1; }
   bars('weekday', Object.fromEntries(Object.keys(wd).map(k => [k, Math.round(wd[k] / wn[k] * 10) / 10])), k => k, WEEKDAYS);
   hours(sums.hour || {});
   drawReports(list[0]);
