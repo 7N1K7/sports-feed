@@ -1,25 +1,40 @@
-GAPS (next 60 days and last 14), sides with no image
-cricket | intlcricket: 56 missing; have {}; e.g. Bangladesh, West Indies, Pakistan, Sri Lanka, South Africa, India, Zimbabwe, England, Netherlands, United Arab Emirates, Oman
-league | rlwc: 40 missing; have {}; e.g. Fiji, France, Scotland, Australia, Cook Islands, Wales, Lebanon, Tonga, Samoa, Ireland, England, USA
-rugby | nations: 36 missing; have {}; e.g. North 6th, South 6th, North 5th, South 5th, North 4th, South 4th, North 3rd, South 3rd, North 2nd, South 2nd, North 1st, South 1st
-rugby | nationscup: 36 missing; have {}; e.g. Romania, Tonga, Georgia, Canada, Portugal, Chile, Spain, Uruguay, Zimbabwe, Samoa, Hong Kong, USA
-cricket | blackcaps: 24 missing; have {}; e.g. New Zealand, India, Australia
-cricket | aucricket: 18 missing; have {}; e.g. Western Australia, England, Australia
-league | kiwis: 16 missing; have {}; e.g. New Zealand, Fiji, Tonga, Wales, USA, Australia, France, Scotland
-cricket | nzdomestic: 14 missing; have {"tsdb":32}; e.g. New Zealand A, India A, Central Hinds, Auckland Hearts, Wellington Blaze, Canterbury Magicians, Otago Sparks
-cricket | whiteferns: 12 missing; have {}; e.g. New Zealand Women, Bangladesh Women
-mma | onefc: 11 missing; have {"commons":1}; e.g. Khunsuk, YodUdon, Isannuea, Jack, Gabriel, Joshua Pacio, Keito Yamakita, Chihiro Sawada, Anastasia Nikolakakos, Kade Ruotolo, Ok Rae-yoon
-cricket | audomestic: 8 missing; have {"commons":5,"tsdb":15}; e.g. Western Australia, South Australia
-rugby | wallabies: 8 missing; have {}; e.g. England, Australia, Scotland, Wales, United States XV, Australia A
-boxing | boxing: 7 missing; have {"commons":9}; e.g. Joshua Buatsi, Willy Hutchinson, Masamichi Yabuki, Nelson Hysa, Callum Smith, Anthony Cacace, Nick Ball
-rugby | allblacks: 7 missing; have {}; e.g. Scotland, All Blacks, Wales, England
-hockey | blacksticks: 6 missing; have {}; e.g. New Zealand, India
-league | kiwiferns: 6 missing; have {}; e.g. New Zealand, Papua New Guinea, New Zealand Women, Samoa Women, Australia Women
-rugby | wxv: 6 missing; have {}; e.g. USA Women, England Women, South Africa Women, Ireland Women, Japan Women, Wales Women
-football | allwhites: 4 missing; have {}; e.g. New Zealand, India
-rugby | npc: 4 missing; have {}; e.g. New Zealand Heartland XV, Samoa
-basketball | tallblacks: 4 missing; have {}; e.g. Jordan, New Zealand, Syria
-mma | ufc: 3 missing; have {"commons":9}; e.g. Cortes Acosta, Stirling, Nolan
-rugby | blackferns: 2 missing; have {}; e.g. Black Ferns, France
+TERMS CHECK
 
-fully covered: cricket | wbbl; cricket | bbl; football | phoenix; football | aleague; football | aucklandfc; football | epl; basketball | nbl; basketball | breakers; basketball | nba
+==== https://www.flickr.com/services/api/tos/ | 200 | 16041
+ - The Flickr APIs are owned by SmugMug, Inc. and/or its subsidiaries, including Flickr, Inc. ("SmugMug"), which collectively operate the Flickr business division of SmugMug ("Flickr"), and are licensed to you on a worldwide (except as limited below), non-exclusive, non-sublicenseable basis on the terms and conditions set forth herein. These terms define legal use of the Flickr APIs, all updates, revisions, substitutions, and any copies of the Flickr APIs made by or for you. Flickr user photos are owned by the users (the photographers) and not by SmugMug. All rights not expressly granted to you are reserved by SmugMug.
+ - Comply with the Flickr Community Guidelines, and the Flickr Terms & Conditions of Use, all of which are incorporated by reference.
+ - Comply with any other terms and conditions a user has attached to his or her photo. For example, if a user marks a photo as "private" after using your service, your application must reflect those changes as soon as reasonably possible. If your application has any cached copies of photos that have become "private," you must remove as soon as reasonably possible. Remove from your application within 24 hours any Flickr user's photos or other information that the owner of the photo asks you to remove. If you use the Authentication APIs, insert a standard header that we will provide into pages you build that access the Flickr API. It's important to us that users have an easy way to return to Flickr if they wish, and have some reference point (the logo) to show them that they're still connected to Flickrland. https://www.flickr.com/services/partners/.
+ - Disclose in your application through a privacy policy or otherwise displayed in the footer of each page, how you collect, use, store, and disclose data collected from visitors, including, where applicable, that third parties (including advertisers) may serve content and/or advertisements and collect information directly from visitors and may place or recognize cookies on visitors' browsers.
+ - Attempt to cloak or conceal your identity or your application's identity when requesting authorization to use Flickr APIs.
+ - Display more than 30 Flickr user photos per page in your application or use an unreasonable amount of bandwidth.
+ - Cache or store any Flickr user photos other than for reasonable periods in order to provide the service you are providing to Flickr users.
+ - Use Flickr APIs in any manner or for any purpose that violates any law or regulation, any right of any person, including but not limited to intellectual property rights, rights of privacy, rights of personality, or human rights as described in the Universal Declaration of Human Rights, the International Covenant on Civil and Political Rights, and the International Covenant on Economic, Social, and Cultural Rights.
+ - Sell, lease, or sublicense Flickr APIs or access thereto or derive revenues from the use or provision of Flickr APIs, whether for direct commercial or monetary gain or otherwise, except as set forth below.
+ - If the primary purpose of your application is to derive revenue, it is considered a commercial application. SmugMug reserves the right to make these evaluations at the time that you apply for the license. SmugMug may also monitor your site or application over time to ensure continued compliance with the appropriate type of API key. If you're in doubt about whether your application is commercial, here are a few common examples of commercial use that may provide you some guidance:
+ - Your site is a "destination" site that uses Flickr photos to drive traffic and generate ad revenue.
+ - Application for a Commercial API Key
+ - If you want to apply for a commercial API key, go to the following form to see what information you need to provide: https://flickr.com/services/api/keys/apply/. You can't be too specific about your intended use of the Flickr Commercial API! Lack of specificity or supporting information could delay your application indefinitely (or even cause us to think too much and forget to answer!) When in doubt, it's always better to include more detail about your application. Please note that in some cases we may grant your request for a commercial API key subject to your payment of fees, such as to help cover infrastructure costs.
+ - The Flickr APIs may be protected by copyrights, trademarks, service marks, international treaties, and/or other proprietary rights and laws of the U.S. and other countries. SmugMug's rights apply to the Flickr APIs and all output and executables of the Flickr APIs, excluding any software components developed by you which do not themselves incorporate the Flickr APIs or any output or executables of the Flickr APIs. You agree to abide by all applicable proprietary rights laws and other laws, as well as any additional copyright notices or restrictions contained in these terms. SmugMug owns all rights, title, and interest in and to the Flickr APIs. These terms grant you no right, title, or interest in any intellectual property owned or licensed by SmugMug, including (but not limited to) the Flickr APIs and Flickr-related trademarks.
+ - SmugMug may elect to provide you with support or modifications for the Flickr APIs (collectively, "Support"), in its sole discretion, and may terminate such Support at any time without notice to you. SmugMug may change, suspend, or discontinue any aspect of the Flickr APIs at any time, including the availability of any Flickr APIs. SmugMug may also impose limits on certain features and services or restrict your access to parts or all of the Flickr APIs or the Flickr Web site without notice or liability.
+ - SmugMug is committed to free and open access to our APIs for commercial and non-commercial purposes. However, providing the APIs does have real costs for SmugMug. For uses of Flickr APIs over a certain rate or for certain types of commercial applications, SmugMug reserves the right to charge fees for future use of or access to the Flickr APIs.
+ - SOME OF THE FLICKR APIS MAY BE EXPERIMENTAL AND NOT TESTED IN ANY MANNER. SMUGMUG DOES NOT REPRESENT OR WARRANT THAT ANY FLICKR APIS ARE FREE OF INACCURACIES, ERRORS, BUGS, OR INTERRUPTIONS, OR ARE RELIABLE, ACCURATE, COMPLETE, OR OTHERWISE VALID. THE FLICKR APIS ARE PROVIDED "AS IS" WITH NO WARRANTY, EXPRESS OR IMPLIED, OF ANY KIND AND SMUGMUG EXPRESSLY DISCLAIMS ANY AND ALL WARRANTIES AND CONDITIONS, INCLUDING, BUT NOT LIMITED TO, ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AVAILABILITY, SECURITY, TITLE AND/OR NON-INFRINGEMENT. YOUR USE OF FLICKR APIS IS AT YOUR OWN DISCRETION AND RISK, AND YOU WILL BE SOLELY RESPONSIBLE FOR ANY DAMAGE THAT RESULTS FROM THE USE OF ANY FLICKR APIS INCLUDING, BUT NOT LIMITED TO, ANY DAMAGE TO YOUR COMPUTER SYSTEM OR LOSS OF DATA.
+ - SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF CERTAIN WARRANTIES OR THE LIMITATION OR EXCLUSION OF LIABILITY FOR INCIDENTAL OR CONSEQUENTIAL DAMAGES. ACCORDINGLY, SOME OF THE ABOVE LIMITATIONS OF SECTIONS 7 AND 8 MAY NOT APPLY TO YOU.
+ - To the maximum extent permitted by applicable law, you agree to hold harmless and indemnify SmugMug and its subsidiaries, affiliates, officers, agents, licensors, co-branders or other partners, and employees from and against any third party claim arising from or in any way related to your use of Flickr APIs, including any liability or expense arising from all claims, losses, damages (actual and/or consequential), suits, judgments, litigation costs and attorneys' fees, of every kind and nature. SmugMug shall use good faith efforts to provide you with written notice of such claim, suit or action.
+ - Miscellaneous. The section headings and subheadings contained in this agreement are included for convenience only, and shall not limit or otherwise affect the terms of the Terms of Use. Any construction or interpretation to be made of the Terms of Use shall not be construed against the drafter. The Terms of Use constitute the entire agreement between SmugMug and you with respect to the subject matter hereof.
+ - Connecting people through photography.
+
+==== https://www.flickrhelp.com/hc/en-us/articles/4404070036884-Flickr-API | 403 | 60
+
+==== https://www.flickr.com/services/apps/create/apply/ | 200 | 117
+
+==== https://docs.openverse.org/api/reference/terms_of_service.html | 404 | 19265
+ - Run Book: API Production Request Count anomalously high
+ - Run Book: Nuxt Request Count anomalously high
+ - 2024-03-20 Project Proposal: Incorporate Rekognition data into the Catalog
+ - 2024-04-23 Implementation Plan: Machine-generated tags in the API
+ - 2024-05-08 Implementation Plan: Machine-generated tags in the frontend
+ - Relicensing Toggle navigation of Relicensing
+ - 2024-10-28 Implementation Plan: Relicensing
+ - 2024-10-28 Project Proposal: Relicensing
+
+==== https://api.openverse.org/v1/ | 200 | 18
