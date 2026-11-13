@@ -1,41 +1,4 @@
-feed version 723 built 2026-11-13T03:20:09.417Z events 1090 news 142 duplicate ids 0
- diag.duplicateIds: "none"
- diag.wikiFailed: "not set"
- diag.newsFailed: "not set"
- diag.movedGames: "not set"
- diag.pairTrial: "not set"
- diag.wikipedia is object | youtube: streams per channel: NZ Cricket 28, Cricket Australia 28, Fox Cricket 0, Netball NZ 11, Hockey NZ 49, Basketball NZ 9, N
- form entries 1778 with a start time 1027
- series kept: concup-2026-g1 yes, concup-2026-g2 yes, bc-ind-t20i1-2026 yes
- source cards with the same two sides as another card within 3 days: 28
-ss-qld-wa-2027-02-08 Queensland v Western Australia 27-02-08T04:00 [Sheffield Shield ] <> wiki-audomestic-2027-02-05-queenslandwesternaustralia 27-02-05T04:00 [Dean Jones Trophy ]
-wiki-nations-2026-11-27-northernsouthern-6 North 6th v South 6th 26-11-27T16:40 [Nations Championship Eleventh place final] <> wiki-nations-2026-11-28-northernsouthern-5 26-11-28T13:10 [Nations Championship Ninth place final]
-wiki-nations-2026-11-27-northernsouthern-6 North 6th v South 6th 26-11-27T16:40 [Nations Championship Eleventh place final] <> wiki-nations-2026-11-29-northernsouthern-4 26-11-29T13:10 [Nations Championship Seventh place final]
-wiki-nations-2026-11-28-northernsouthern-5 North 5th v South 5th 26-11-28T13:10 [Nations Championship Ninth place final] <> wiki-nations-2026-11-29-northernsouthern-4 26-11-29T13:10 [Nations Championship Seventh place final]
-wiki-audomestic-2026-10-19-southaustraliaqueensland South Australia v Queensland 26-10-19T03:30? [Sheffield Shield ] <> wiki-audomestic-2026-10-17-southaustraliaqueensland 26-10-17T00:00 [Dean Jones Trophy ]
-wiki-whiteferns-2027-03-06-australiawomennewzealandwomen Australia Women v New Zealand Women 27-03-06T03:50 [White Ferns v Australia 1st ODI] <> wiki-whiteferns-2027-03-08-australiawomennewzealandwomen 27-03-08T03:50 [White Ferns v Australia 2nd ODI]
-wiki-whiteferns-2027-03-08-australiawomennewzealandwomen Australia Women v New Zealand Women 27-03-08T03:50 [White Ferns v Australia 2nd ODI] <> wiki-whiteferns-2027-03-09-australiawomennewzealandwomen 27-03-09T23:05 [White Ferns v Australia 3rd ODI]
-wiki-aucricket-2026-11-13-englandaustralia Australia v England 26-11-13T03:30 [Australia v England 1st ODI] <> wiki-aucricket-2026-11-15-australiaengland 26-11-15T03:30 [Australia v England 2nd ODI]
-wiki-aucricket-2026-11-15-australiaengland Australia v England 26-11-15T03:30 [Australia v England 2nd ODI] <> wiki-aucricket-2026-11-18-australiaengland 26-11-18T03:30 [Australia v England 3rd ODI]
-wiki-aucricket-2026-11-21-australiaengland Australia v England 26-11-21T08:15 [Australia v England 1st T20I] <> wiki-aucricket-2026-11-24-australiaengland 26-11-24T08:15 [Australia v England 2nd T20I]
-wiki-aucricket-2026-11-24-australiaengland Australia v England 26-11-24T08:15 [Australia v England 2nd T20I] <> wiki-aucricket-2026-11-27-australiaengland 26-11-27T08:15 [Australia v England 3rd T20I]
-wiki-aucricket-2026-11-27-australiaengland Australia v England 26-11-27T08:15 [Australia v England 3rd T20I] <> wiki-aucricket-2026-11-29-australiaengland 26-11-29T08:15 [Australia v England 4th T20I]
-wiki-aucricket-2026-11-29-australiaengland Australia v England 26-11-29T08:15 [Australia v England 4th T20I] <> wiki-aucricket-2026-12-02-australiaengland 26-12-02T08:15 [Australia v England 5th T20I]
-wiki-aucricket-2026-09-24-southafricaaustralia South Africa v Australia 26-09-24T08:00 [Australia v South Africa 1st ODI] <> wiki-aucricket-2026-09-27-southafricaaustralia 26-09-27T08:00 [Australia v South Africa 2nd ODI]
-wiki-intlcricket-2026-12-13-indiasrilanka India v Sri Lanka 26-12-13T08:30 [India v Sri Lanka 1st ODI] <> wiki-intlcricket-2026-12-16-indiasrilanka 26-12-16T08:30 [India v Sri Lanka 2nd ODI]
-wiki-intlcricket-2026-12-16-indiasrilanka India v Sri Lanka 26-12-16T08:30 [India v Sri Lanka 2nd ODI] <> wiki-intlcricket-2026-12-19-indiasrilanka 26-12-19T08:30 [India v Sri Lanka 3rd ODI]
-wiki-intlcricket-2026-12-22-indiasrilanka India v Sri Lanka 26-12-22T13:30 [India v Sri Lanka 1st T20I] <> wiki-intlcricket-2026-12-24-indiasrilanka 26-12-24T13:30 [India v Sri Lanka 2nd T20I]
-wiki-intlcricket-2026-12-24-indiasrilanka India v Sri Lanka 26-12-24T13:30 [India v Sri Lanka 2nd T20I] <> wiki-intlcricket-2026-12-27-indiasrilanka 26-12-27T13:30 [India v Sri Lanka 3rd T20I]
-wiki-intlcricket-2027-01-03-indiazimbabwe India v Zimbabwe 27-01-03T08:30 [India v Zimbabwe 1st ODI] <> wiki-intlcricket-2027-01-06-indiazimbabwe 27-01-06T08:30 [India v Zimbabwe 2nd ODI]
-wiki-intlcricket-2027-01-06-indiazimbabwe India v Zimbabwe 27-01-06T08:30 [India v Zimbabwe 2nd ODI] <> wiki-intlcricket-2027-01-09-indiazimbabwe 27-01-09T08:30 [India v Zimbabwe 3rd ODI]
-wiki-intlcricket-2026-10-09-srilankapakistan Pakistan v Sri Lanka 26-10-09T13:00 [Pakistan v Sri Lanka 1st T20I] <> wiki-intlcricket-2026-10-11-pakistansrilanka 26-10-11T13:00 [Pakistan v Sri Lanka 2nd T20I]
-wiki-intlcricket-2026-10-11-pakistansrilanka Pakistan v Sri Lanka 26-10-11T13:00 [Pakistan v Sri Lanka 2nd T20I] <> wiki-intlcricket-2026-10-13-pakistansrilanka 26-10-13T13:00 [Pakistan v Sri Lanka 3rd T20I]
-wiki-intlcricket-2027-01-13-southafricaengland South Africa v England 27-01-13T11:30 [South Africa v England 2nd ODI] <> wiki-intlcricket-2027-01-15-southafricaengland 27-01-15T11:30 [South Africa v England 3rd ODI]
-wiki-intlcricket-2026-12-01-bangladeshsouthafrica South Africa v Bangladesh 26-12-01T11:30 [South Africa v Bangladesh 1st ODI] <> wiki-intlcricket-2026-12-04-bangladeshsouthafrica 26-12-04T11:30 [South Africa v Bangladesh 2nd ODI]
-wiki-intlcricket-2026-12-04-bangladeshsouthafrica South Africa v Bangladesh 26-12-04T11:30 [South Africa v Bangladesh 2nd ODI] <> wiki-intlcricket-2026-12-07-bangladeshsouthafrica 26-12-07T11:30 [South Africa v Bangladesh 3rd ODI]
-wiki-intlcricket-2026-12-10-bangladeshsouthafrica South Africa v Bangladesh 26-12-10T16:00 [South Africa v Bangladesh 1st T20I] <> wiki-intlcricket-2026-12-12-bangladeshsouthafrica 26-12-12T12:30 [South Africa v Bangladesh 2nd T20I]
-wiki-intlcricket-2026-12-10-bangladeshsouthafrica South Africa v Bangladesh 26-12-10T16:00 [South Africa v Bangladesh 1st T20I] <> wiki-intlcricket-2026-12-13-bangladeshsouthafrica 26-12-13T12:30 [South Africa v Bangladesh 3rd T20I]
-wiki-intlcricket-2026-12-12-bangladeshsouthafrica South Africa v Bangladesh 26-12-12T12:30 [South Africa v Bangladesh 2nd T20I] <> wiki-intlcricket-2026-12-13-bangladeshsouthafrica 26-12-13T12:30 [South Africa v Bangladesh 3rd T20I]
-page 412 mixed | version shown  | cards 84 | pop-up opens true | settings groups 13 | sideways scroll false | page errors none
-page 412 list | version shown  | cards 84 | pop-up opens true | settings groups 13 | sideways scroll false | page errors none
-page 1280 mixed | version shown  | cards 84 | pop-up opens true | settings groups 13 | sideways scroll false | page errors none
+no password | 401 | {"error":"wrong-password"}
+wrong password | 401 | {"error":"wrong-password"}
+unknown path | 404 | Kickoff Kiwi stats
+report from no site | 403 | 
