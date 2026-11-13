@@ -4394,6 +4394,8 @@ function nbaRow(e, now) {
 }
 function render() {
   const now = Date.now();
+  // a sport filtered to that has no chip left (its sport turned off in Settings) is let go before anything is drawn, and saved
+  { const ch = shownSports(), n = sportSel.size; for (const k of [...sportSel]) if (!ch.some(([c]) => c === k)) sportSel.delete(k); if (sportSel.size !== n) store.set('sport', [...sportSel]); }
   // a competition page opened, whichever button opened it, by name, so the stats show the popular ones
   if (compSel !== hubSeen) { if (compSel) count({ e: 'hub', k: compSel }); hubSeen = compSel; }
   renderNowBar(now);
@@ -4665,7 +4667,6 @@ function render() {
   // one Rankings button that's always there (so nothing shifts); it opens on the picked sport
   $('rankBtn').hidden = !(FEED.rankings || []).length;
   const chips = shownSports();
-  for (const k of [...sportSel]) if (!chips.some(([c]) => c === k)) sportSel.delete(k);
   into($('sportFilter')).html = [['all','All'], ...chips].map(([k, l]) => `<button type="button" data-sport="${k}" aria-pressed="${k === 'all' ? !sportSel.size : sportSel.has(k)}" class="chip sportchip sport-${k}">${sIcon(k, 'cicon')}${l}</button>`).join(' ') + ' <button type="button" class="sinfo" data-sinfo="" aria-haspopup="dialog" aria-expanded="false" aria-label="Turning sports on or off" title="Turn sports on or off in Settings">i</button>';
   document.body.classList.remove('v-mixed', 'v-compact', 'v-list');
   // phones offer List and Compact; Large (the default) shows as Compact there, and stays Large on a bigger screen
