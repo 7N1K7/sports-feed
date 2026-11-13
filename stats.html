@@ -534,7 +534,7 @@ async function fetchStats() {
     if (!r.ok) throw new Error('The stats server answered with an error (' + r.status + ').');
     data = j; covLive = await live; store.set('statspw', pw);
     $('gate').hidden = true; $('main').hidden = false; $('gateMsg').textContent = '';
-    draw();
+    draw(); drawOnce();
   } catch (e) {
     $('gate').hidden = false;
     $('gateMsg').textContent = e instanceof TypeError ? 'Couldn\'t reach the stats server. Check your connection.' : e.message;
@@ -959,13 +959,17 @@ $('detX').addEventListener('click', () => $('det').close());
 $('toTop').addEventListener('click', () => scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }));
 addEventListener('scroll', () => { $('toTop').hidden = scrollY < 700; }, { passive: true });
 $('det').addEventListener('click', ev => { if (ev.target === $('det')) $('det').close(); }); // a click on the backdrop
-function draw() {
+// the feed's coverage and the lists kept by hand: once for each stats fetch (and Refresh), not on every redraw, so the
+// big feed isn't fetched again and whatever was opened in them stays open when the range changes
+function drawOnce() {
   drawCoverage();
   $('missedSum').textContent = `Missed games found · ${MISSED.length}`;
   $('missed').innerHTML = MISSED.map(([d, c, g, what, did, by]) => `<li><b>${esc(d)}</b> ${esc(c)}: ${esc(g)}. ${esc(what)}. ${esc(did)}. <span class="by">Found by ${esc(by)}</span></li>`).join('');
   $('added').innerHTML = ADDED.map(([d, t]) => `<li><b>${esc(d)}</b> ${esc(t)}</li>`).join('');
   const RTAG = { done: 'Done', todo: 'To do', idea: 'Idea', no: "Can't use", ok: 'Checked' };
   $('researchList').innerHTML = RESEARCH.map((r, i) => `<details class="rsw"${i ? '' : ' open'}><summary>${esc(r.d)} · ${esc(r.t)}</summary><p class="note">${esc(r.sum)}</p>${r.g.map(([h, items]) => `<h3>${esc(h)}</h3><ul>${items.map(([st, txt, src]) => `<li><span class="rst ${esc(st)}">${RTAG[st] || esc(st)}</span><span>${esc(txt)}.${src.length ? ` <span class="rsrc">${src.map(([n, u, v]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)}</a> <span class="rv">(${esc(v)})</span>`).join(' · ')}</span>` : ''}</span></li>`).join('')}</ul>`).join('')}</details>`).join('');
+}
+function draw() {
   document.querySelectorAll('[data-days]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.days === days)));
   const n = spanDays(), { list, per, sums, ds } = shape(), prev = prevShape();
   const tot = (k, sh = { list, per }) => sh.list.reduce((a, d) => a + sh.per[d][k], 0);
@@ -1402,7 +1406,8 @@ $('forget').addEventListener('click', () => { store.del('statspw'); pw = ''; $('
 const syncMe = () => { const on = store.get('nocount', false); $('noCount').setAttribute('aria-pressed', String(on)); $('noCount').textContent = on ? 'Not counting my visits' : 'Don\'t count my visits'; $('noCountNote').textContent = on ? 'Your visits on this browser aren\'t counted.' : 'Your visits on this browser are counted like everyone\'s.'; };
 $('noCount').addEventListener('click', () => { store.set('nocount', !store.get('nocount', false)); syncMe(); });
 syncMe();
-let rz = 0; addEventListener('resize', () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(() => data && draw()); });
+// drawn again only when the width changes: a phone's toolbar hiding as the page scrolls changes only the height
+let rz = 0, rw = innerWidth; addEventListener('resize', () => { if (innerWidth === rw) return; rw = innerWidth; cancelAnimationFrame(rz); rz = requestAnimationFrame(() => data && draw()); });
 if (pw) fetchStats(); else $('pw').focus();
 // the site's version (written by the feed builder), as shown under the main page's title
 fetch('data/version.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(v => { if (v?.version) $('ver').textContent = `v${v.version}`; }).catch(() => {});
