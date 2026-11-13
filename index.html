@@ -4941,13 +4941,14 @@ function syncFold() {
 $('sheet').addEventListener('close', () => { sheetTrail = []; dTabId = ''; }); // a closed pop-up starts afresh next time, on the game's own tab
 $('foldBtn').addEventListener('click', ev => { ev.stopPropagation(); folded = !folded; store.set('folded', folded); syncFold(); count({ e: 'use', k: folded ? 'Filters folded away' : 'Filters opened' }); });
 // Settings to another browser: a code holding this browser's choices (not revealed results, nor the stats page's own)
-const MOVE_KEYS = ['teams', 'view', 'spoilers', 'spoilDays', 'spoilDaysSet', 'sport', 'comp', 'gender', 'nzOnly', 'freeOnly', 'sessTeams', 'tz', 'accent', 'theme'];
+const MOVE_KEYS = ['teams', 'optSet', 'view', 'spoilers', 'spoilDays', 'spoilDaysSet', 'sport', 'comp', 'gender', 'nzOnly', 'freeOnly', 'sessTeams', 'tz', 'accent', 'theme'];
 const settingsCode = () => 'KK1-' + btoa(unescape(encodeURIComponent(JSON.stringify(Object.fromEntries(MOVE_KEYS.map(k => [k, store.get(k, null)]).filter(([, v]) => v !== null)))))).replace(/=+$/, '');
 function useSettingsCode(code) {
   const m = String(code).replace(/\s+/g, '').match(/^KK1-([A-Za-z0-9+/]+)$/);
   if (!m) throw new Error('bad');
   const b = m[1] + '='.repeat((4 - m[1].length % 4) % 4), o = JSON.parse(decodeURIComponent(escape(atob(b))));
-  for (const k of MOVE_KEYS) if (k in o) store.set(k, o[k]);
+  // this browser then matches the other: a setting the code leaves out was at its default there, so it goes back to it here
+  for (const k of MOVE_KEYS) if (k in o) store.set(k, o[k]); else try { localStorage.removeItem('sf.' + k); } catch {}
 }
 // Phone app (manifest.webmanifest, sw.js): what to tap depends on the device. Chrome and Edge offer their own install
 // prompt, which is kept for the button here; Safari only adds to the home screen from its Share menu.
@@ -5053,7 +5054,8 @@ document.addEventListener('click', ev => {
   if (t.dataset.calcopy) { count({ e: t.closest('#alertList') ? 'alerts' : 'cal' }); const u = t.dataset.calcopy; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { const was = t.textContent; t.textContent = 'Copied'; setTimeout(() => { t.textContent = was; }, 1600); }, () => prompt('Copy this', u)); return; }
   if (t.classList.contains('ghide')) {
     const keys = t.dataset.gsports.split(' ').flatMap(sp => SPORT[sp] || []), on = keys.some(k => picked.has(k));
-    optChose(keys); keys.forEach(k => on ? picked.delete(k) : picked.add(k)); count({ e: on ? 'hidesport' : 'showsport', k: t.dataset.gsports.split(' ')[0] }); store.set('teams', [...picked]); render(); return;
+    // off: all of them; back on: all but the busy ones that start off (the NBA), as the Men's and Women's switches do
+    if (on) { optChose(keys); keys.forEach(k => picked.delete(k)); } else keys.filter(k => !OPT_IN.has(k)).forEach(k => picked.add(k)); count({ e: on ? 'hidesport' : 'showsport', k: t.dataset.gsports.split(' ')[0] }); store.set('teams', [...picked]); render(); return;
   }
   if (t.dataset.tocomp) { count({ e: 'use', k: t.dataset.totab ? 'Sessions tab from race' : 'Competition page from game' }); $('sheet').close(); $('q').value = ''; closeSearch(); hubTab = t.dataset.totab || 'games'; compSel = t.dataset.tocomp; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   if (t.dataset.hereteams != null) { const ks = t.dataset.hereteams.split(' ').filter(Boolean), sp = t.dataset.heresp, on = t.getAttribute('aria-pressed') === 'true';
@@ -5142,7 +5144,7 @@ document.addEventListener('click', ev => {
   else if (t.id === 'teamsBtn') { const p = $('panel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); if (!p.hidden) count({ e: 'use', k: 'Settings' }); }
   else if (t.id === 'allOn') { count({ e: 'use', k: 'Select all teams' }); picked = new Set(ALL_KEYS); store.set('teams', [...picked]); render(); }
   else if (t.id === 'allDef') { count({ e: 'use', k: 'Default teams' }); picked = new Set(ALL_KEYS.filter(k => !OPT_IN.has(k))); store.set('teams', [...picked]); optSet.clear(); store.set('optSet', []); render(); }
-  else if (t.id === 'allOff') { count({ e: 'use', k: 'Clear all teams' }); picked = new Set(); store.set('teams', []); render(); }
+  else if (t.id === 'allOff') { count({ e: 'use', k: 'Clear all teams' }); optChose(ALL_KEYS); picked = new Set(); store.set('teams', []); render(); } // the NBA's one card goes too
 });
 // Enter or Space on a card opens it (a button or link inside the card answers its own key)
 document.addEventListener('keydown', ev => { const c = ev.target.closest?.('[data-nbagroup]'); if (c && ev.target === c && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); c.click(); } });
