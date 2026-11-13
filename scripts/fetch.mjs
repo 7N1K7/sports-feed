@@ -2153,6 +2153,19 @@ try {
 // a season's finals stay up through the off-season (about five months), so a finished competition still shows how it ended
 // finals (and baseball's playoff series) stay in the feed all season, for the Playoffs tab
 const isFinal = e => /\bfinals?\b|semi.?final|grand final|qualifying final|elimination final|preliminary final/i.test(`${e.comp || ''} ${e.stage || ''} ${e.round || ''}`) || /^(MLB playoffs|Japan Series)$/.test(e.comp || '');
+// two events with one id (two rounds a source numbers alike) would share a calendar entry, an alert and a result's
+// reveal: the later ones get a letter (-b, -c) and are listed in the notes, so the source can be put right
+{
+  const ids = new Set(events.map(e => e.id)), seen = new Set(), dup = [];
+  for (const e of events) {
+    if (e.formOnly) continue;
+    if (!seen.has(e.id)) { seen.add(e.id); continue; }
+    let c = 98, id; while (ids.has(id = `${e.id}-${String.fromCharCode(c)}`)) c++;
+    dup.push(`${e.id} to ${id} (${[e.home, e.away].filter(Boolean).join(' v ') || e.comp})`);
+    ids.add(id); seen.add(id); e.id = id;
+  }
+  diag.duplicateIds = dup.length ? dup.join('; ') : 'none';
+}
 try { await writeCalendars(events); } catch (e) { diag.calendars = 'error: ' + e.message; }
 try { await phoneAlerts(events); } catch (e) { diag.alerts = 'error: ' + e.message; }
 // Coverage, for the stats page: of the games in the next three weeks, how many have a set start time, a way to watch
