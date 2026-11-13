@@ -3168,7 +3168,10 @@ const wrange = lim => { const lo = Object.values(UFC_LIMIT).filter(v => v < lim)
 // a team's points or rating, big, with a bar running from the lowest side in the list to the top one
 const rankNum = v => parseFloat(String(v).replace(/,/g, ''));
 const rankVal = (v, top, low) => { const n = rankNum(v); return isNaN(n) || !top ? esc(v || '') : `<span class="rv"><span class="rbar" aria-hidden="true"><i style="width:${(top > low ? 12 + 88 * (n - low) / (top - low) : 100).toFixed(1)}%"></i></span><b>${esc(v)}</b></span>`; };
+// the competition the picked list was picked on: another competition starts again from its own default
+let rankFor = '';
 function rankingsHtml(lists) {
+  if (rankFor !== compSel) { rankSel = ''; rankFor = compSel; }
   if (!lists.some(l => l.title === rankSel)) rankSel = rankDefault(lists);
   const l = lists.find(x => x.title === rankSel);
   const chip = (x, label = x.title) => `<button type="button" class="chip" data-rank="${esc(x.title)}" aria-pressed="${x.title === rankSel}">${esc(label)}</button>`;
