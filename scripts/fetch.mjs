@@ -96,9 +96,10 @@ const MLB_NICK = /\b(World Series|ALCS|NLCS|ALDS|NLDS|Yankees|Red Sox|Dodgers|Br
 let EVENT_NAMES = [];
 const teamFor = text => NEWS_TEAMS.find(([, re]) => re.test(text))?.[0] || EVENT_NAMES.find(([re]) => re.test(text))?.[1];
 function kindOf(text) {
+  // result words first: a match report that mentions an injury or a debut is still a result, and must stay hidden
+  if (/\bbeat|\bwin\b|\bwins\b|\bwon\b|thrash|defeat|\bresult\b|dominat|\bcrush|\bthump|\bhammer|\brout(s|ed)?\b|victory|triumph|\bstun|\bupset\b|demolish|\bedge[sd]? (past|out)|\bloss\b|\blose\b|\blost\b|\bloses\b|\bdraw(s|n)?\b|\d+-\d+|\bknock(s|ed)?\b.{0,40}\bout\b|\bTKO\b|stoppage win|too strong|\bfinish(es|ed)\b|surviv(e|es|ed) (a |an |the )?(\w+ )?(scare|fightback|comeback)|clinch|\bseal(s|ed)? (the |a |their )?(win|victory|series|title)|\bpip(s|ped)?\b|retain(s|ed)? (the |their |his |her )?(title|trophy|crown|belt|cup|shield|series)|recap|sweep|whitewash|eliminat|through to (the )?(final|semi|quarter|knockout|playoff|next round)|go(es)? down (to|in|fighting)|\bf[ae]ll(s)? to\b|\d+-try|\bleads?\b.{1,40}\bto (first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|victory)\b/i.test(text)) return 'result';
   if (/injur|ruled out|surgery|hamstring|concussion|sidelined|fracture|broken/i.test(text)) return 'injury';
   if (/squad|named|selected|recalled|debut|line-?up|team to (play|face)|contract|signs?\b|re-sign/i.test(text)) return 'squad';
-  if (/\bbeat|\bwin\b|\bwins\b|\bwon\b|thrash|defeat|\bresult\b|dominat|\bcrush|\bthump|\bhammer|\brout(s|ed)?\b|victory|triumph|\bstun|\bupset\b|demolish|\bedge[sd]? (past|out)|\bloss\b|\blose\b|draw|\d+-\d+/i.test(text)) return 'result';
   return 'news';
 }
 const unxml = s => (s || '').replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1').replace(/<[^>]+>/g, '')
