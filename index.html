@@ -3881,29 +3881,80 @@ function alignLive() {
 const liveRO = new ResizeObserver(() => requestAnimationFrame(alignLive));
 addEventListener('resize', alignLive);
 
-// Search: teams and games in the feed, matched on every word typed (accents and case ignored)
-const fold = x => String(x || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+// Search: teams, series and games in the feed, matched on every word typed (accents, case and apostrophes ignored)
+const fold = x => String(x || '').normalize('NFD').replace(/[̀-ͯ'’‘]/g, '').toLowerCase();
+// "kiwi girls", "nz mens", "aussie womens": a word for men's or women's keeps the search to those sides, and a word for a
+// country finds its sides by their nicknames too (the Black Ferns for New Zealand). Either word on its own lists New
+// Zealand's sides of that kind, then the series they're playing and their next games
+const Q_SIDE = { w: /^(women|womens|girls|ladies|female|females|wahine)$/, m: /^(men|mens|boys|guys|male|males|tane)$/ };
+const Q_PLACE = { nz: 'new zealand', kiwi: 'new zealand', kiwis: 'new zealand', aotearoa: 'new zealand', aussie: 'australia', aussies: 'australia', aus: 'australia', oz: 'australia', australian: 'australia',
+  english: 'england', indian: 'india', fijian: 'fiji', samoan: 'samoa', tongan: 'tonga', japanese: 'japan', french: 'france', irish: 'ireland', scottish: 'scotland', welsh: 'wales', pakistani: 'pakistan',
+  argentinian: 'argentina', italian: 'italy', lankan: 'sri lanka', bangladeshi: 'bangladesh', png: 'papua new guinea' };
+const NICK_BACK = Object.fromEntries(Object.entries(NICK).map(([k, o]) => [k, Object.fromEntries(Object.entries(o).map(([c, n]) => [n, c]))]));
+// the country a side plays for, when its name or nickname says so: "New Zealand" for New Zealand Women and for the Black Ferns
+function nationOf(n, e) {
+  const base = String(n || '').replace(/\s+Women('s)?$/, ''), k = `${e.sport} ${sideG(e)}`;
+  return NICK[k]?.[base] ? base : NICK_BACK[k]?.[n] || NICK_BACK[k]?.[base] || base;
+}
 function search(q) {
-  const words = fold(q).split(/\s+/).filter(Boolean), now = Date.now();
-  if (!words.length) return [];
-  const hit = x => { const t = fold(x); return words.every(w => t.includes(w)); };
-  const teams = new Map();
-  for (const e of FEED.events || []) if (!solo(e)) for (const n of [e.home, e.away])
-    if (n && !/TBC|winner|\bor\b/i.test(n) && hit(`${n} ${displayName(n, e)}`) && !teams.has(`${e.sport}|${sideG(e)}|${displayName(n, e)}`)) teams.set(`${e.sport}|${sideG(e)}|${displayName(n, e)}`, { n, e });
+  const typed = fold(q).split(/\s+/).filter(Boolean), now = Date.now();
+  if (!typed.length) return [];
+  const find = (words, g) => {
+    // with no country typed, a side word alone means New Zealand's
+    const places = words.length ? words.map(w => Q_PLACE[w]).filter(Boolean) : g ? ['new zealand'] : [];
+    const cat = !!g || places.length > 0, okG = e => !g || sideG(e) === g;
+    const hit = (x, alias = true) => { const t = fold(x); return words.every(w => t.includes(w) || alias && Q_PLACE[w] && t.includes(Q_PLACE[w])) && (words.length || t.includes('new zealand')); };
+    // what a side answers to: its name, its nickname, its country and (with a side word typed) the country's other side's
+    // nickname, so "black caps women" finds the White Ferns
+    const tags = (n, e) => { const c = nationOf(n, e); return `${n || ""} ${displayName(n, e)} ${c} ${g ? NICK[`${e.sport} ${g === 'w' ? 'm' : 'w'}`]?.[c] || '' : ''}`; };
+    const teams = new Map();
+    for (const e of FEED.events || []) if (!solo(e) && okG(e)) for (const n of [e.home, e.away]) {
+      const k = `${e.sport}|${sideG(e)}|${displayName(n, e)}`;
+      if (!n || /TBC|winner|\bor\b/i.test(n) || teams.has(k) || !hit(tags(n, e))) continue;
+      // sides that match as typed come first, then the country's own sides, then clubs with the country in their name
+      teams.set(k, { n, e, k, rank: words.length && hit(`${n} ${displayName(n, e)}`, false) ? 0 : places.includes(fold(nationOf(n, e))) ? 1 : 2 });
+    }
+    // a country's own sides are all listed; clubs fill the list up to ten
+    const all = [...teams.values()].sort((a, b) => a.rank - b.rank);
+    const list = cat ? all.filter((x, i) => x.rank < 2 ? i < 16 : i < 10) : all.slice(0, 5);
+    const soon = e => { const t = Date.parse(e.startUTC) - now; return t > -6 * 36e5 ? t : 1e13 - t; };
+    // a ground or a city is found as typed, never by a country's other names: every game in Hobart isn't Australia's
+    const games = (FEED.events || []).filter(e => { const t = `${solo(e) ? `${e.home} ${e.away}` : `${tags(e.home, e)} ${tags(e.away, e)}`} ${cardComp(e)} ${compOf(e)}`;
+      return okG(e) && (hit(t) || words.length && hit(`${t} ${e.venue || ''} ${e.city || ''}`, false)); }).sort((a, b) => soon(a) - soon(b));
+    // series and competitions still to play: the ones named by the words, and for a country's sides the ones they're in
+    // (a named one that has finished is listed too, after the ones still going)
+    const mine = new Map(list.map(x => [x.k, x.rank])), comps = new Map();
+    for (const e of FEED.events || []) {
+      if (!okG(e)) continue;
+      const c = compOf(e), t = Date.parse(e.startUTC), ahead = t > now || onNow(e, now), named = words.length && hit(`${c} ${plural(c)}`, false);
+      const r = named ? -1 : cat && ahead && !solo(e) ? Math.min(...[e.home, e.away].map(n => mine.get(`${e.sport}|${sideG(e)}|${displayName(n, e)}`) ?? 9)) : 9;
+      if (!c || r > 1) continue;
+      const x = comps.get(c) || comps.set(c, { c, e, r, t: 0, live: false, next: 0 }).get(c);
+      x.r = Math.min(x.r, r); x.t = Math.max(x.t, t); x.live ||= onNow(e, now); if (t > now && (!x.next || t < x.next)) x.next = t;
+    }
+    const at = x => x.live ? 0 : x.next || 1e14 - x.t;
+    const series = [...comps.values()].sort((a, b) => a.r - b.r || at(a) - at(b)).slice(0, cat ? 4 : 3);
+    return { list, series, games: games.slice(0, cat ? 6 : 8) };
+  };
+  const sideOf = w => Q_SIDE.w.test(w) ? 'w' : Q_SIDE.m.test(w) ? 'm' : '';
+  const g = sideOf(typed.find(sideOf) || '');
+  let r = find(g ? typed.filter(w => !sideOf(w)) : typed, g);
+  // a side word that finds nothing is searched for as a plain word, as before ("Sunshine Girls", "Bula Boys")
+  if (g && !r.list.length && !r.series.length && !r.games.length) r = find(typed, '');
+  const { list, series, games } = r;
   // the same name for two sides (the Sydney Sixers' men and women) says which one each is
-  const twin = (n, e) => [...teams.values()].some(x => x.e !== e && x.e.sport === e.sport && displayName(x.n, x.e) === displayName(n, e));
-  const soon = e => { const t = Date.parse(e.startUTC) - now; return t > -6 * 36e5 ? t : 1e13 - t; };
-  const games = (FEED.events || []).filter(e => hit(`${e.home} ${e.away} ${displayName(e.home, e)} ${displayName(e.away, e)} ${cardComp(e)} ${compOf(e)} ${e.venue || ''} ${e.city || ''}`))
-    .sort((a, b) => soon(a) - soon(b));
-  return [...[...teams.values()].slice(0, 5).map(({ n, e }) => `<button type="button" class="qi" role="option" data-teampage="${esc(n)}" data-tsport="${e.sport}" data-tg="${sideG(e)}">${sIcon(e.sport)}${teamName(n, e.home === n ? e.homeLogo : e.awayLogo, e)}<small class="muted">${twin(n, e) ? ({ m: "Men's team", w: "Women's team", wc: 'Wheelchair team' }[sideG(e)] || 'Team') + ' page' : 'Team page'}</small></button>`),
-    ...games.slice(0, 8).map(e => `<button type="button" class="qi" role="option" data-goto="${esc(e.id)}">${sIcon(e.sport)}<span class="qg">${solo(e) ? esc(e.home) : `${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}`}<small class="muted">${esc(fmt(new Date(e.startUTC), NZ, { weekday: 'short', day: 'numeric', month: 'short' }))} · ${esc(cardComp(e))}</small></span></button>`)];
+  const twin = (n, e) => list.some(x => x.e !== e && x.e.sport === e.sport && displayName(x.n, x.e) === displayName(n, e));
+  const day = t => fmt(new Date(t), NZ, { weekday: 'short', day: 'numeric', month: 'short' });
+  return [...list.map(({ n, e }) => `<button type="button" class="qi" role="option" data-teampage="${esc(n)}" data-tsport="${e.sport}" data-tg="${sideG(e)}">${sIcon(e.sport)}${teamName(n, e.home === n ? e.homeLogo : e.awayLogo, e)}<small class="muted">${twin(n, e) || sideG(e) === 'wc' ? ({ m: "Men's team", w: "Women's team", wc: 'Wheelchair team' }[sideG(e)] || 'Team') + ' page' : 'Team page'}</small></button>`),
+    ...series.map(({ c, e, live, next, t }) => `<button type="button" class="qi" role="option" data-bigcomp="${esc(c)}">${sIcon(e.sport)}<span class="qg">${esc(plural(c))}<small class="muted">${live ? 'On now' : next ? `Next ${esc(day(next))}` : `Last played ${esc(day(t))}`}</small></span><small class="muted">${/ v /.test(c) ? 'Series' : 'Competition'}</small></button>`),
+    ...games.map(e => `<button type="button" class="qi" role="option" data-goto="${esc(e.id)}">${sIcon(e.sport)}<span class="qg">${solo(e) ? esc(e.home) : `${esc(displayName(e.home, e))} v ${esc(displayName(e.away, e))}`}<small class="muted">${esc(day(e.startUTC))} · ${esc(cardComp(e))}</small></span></button>`)];
 }
 let searchTimer = 0; const searched = new Set();
 function drawSearch() {
   const q = $('q').value.trim(), items = q.length >= 2 ? search(q) : [];
   clearTimeout(searchTimer);
   if (q.length >= 3) searchTimer = setTimeout(() => { const k = q.toLowerCase(); if (!searched.has(k)) { searched.add(k); count({ e: items.length ? 'search' : 'search0', k }); } }, 2000);
-  $('qList').innerHTML = items.length ? items.join('') : q.length >= 2 ? '<div class="qnone muted">No teams or games match</div>' : '';
+  $('qList').innerHTML = items.length ? items.join('') : q.length >= 2 ? '<div class="qnone muted">No teams, series or games match</div>' : '';
   $('qList').hidden = q.length < 2;
   $('q').setAttribute('aria-expanded', String(q.length >= 2));
 }
@@ -5110,7 +5161,8 @@ document.addEventListener('click', ev => {
   else if (t.dataset.jump) { if (!t.classList.contains('dayclose')) count({ e: 'use', k: 'Day in the week strip' }); selDay = selDay === t.dataset.jump || t.dataset.jump === dayKey(new Date()) ? '' : t.dataset.jump; drawDayPick(); }
   else if (t.dataset.bigcomp) {
     const wk = !!t.closest('#weekComps'), again = compSel === t.dataset.bigcomp && (wk || t.classList.contains('nowchip'));
-    count({ e: 'use', k: wk ? (t.dataset.off ? 'This week off competition button' : 'This week competition button') : t.classList.contains('nowchip') ? 'Series row chip' : t.classList.contains('runev') ? 'Running now tile' : 'Events ahead tile' });
+    if (t.classList.contains('qi')) closeSearch();
+    count({ e: 'use', k: wk ? (t.dataset.off ? 'This week off competition button' : 'This week competition button') : t.classList.contains('qi') ? 'Search result series' : t.classList.contains('nowchip') ? 'Series row chip' : t.classList.contains('runev') ? 'Running now tile' : 'Events ahead tile' });
     // a series that has just finished opens on its results
     compSel = again ? '' : t.dataset.bigcomp; hubTab = endedComps.has(compSel) ? 'results' : 'games'; store.set('comp', compSel); render();
     if (wk || !t.classList.contains('nowchip')) $('sportFilter').scrollIntoView({ behavior: 'smooth', block: 'start' });
