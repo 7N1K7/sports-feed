@@ -1,14 +1,31 @@
-TEAMS
-| date = 28 October 2026
-| team1 = {{cr-NZ|akl}}
-| team2 = {{cr-NZ|can}}
-| date = 28 October 2026
-| team1 = {{cr-NZ|nd}}
-| team2 = {{cr-NZ|cd}}
-| date = 29 October 2026
-| team1 = {{cr-NZ|wel}}
-| team2 = {{cr-NZ|otg}}
-| date = 31 October 2026
-| team1 = {{cr-NZ|nd}}
-| team2 = {{cr-NZ|akl}}
-results lines: 30
+FT2
+2026-10-27 | Ford Trophy | Auckland v Canterbury | final
+2026-10-27 | Ford Trophy | Northern Districts v Central Districts | final
+2026-10-28 | Ford Trophy | Wellington v Otago | final
+2026-10-30 | Ford Trophy | Northern Districts v Auckland | upcoming
+2026-10-30 | Ford Trophy | Canterbury v Wellington | upcoming
+2026-10-30 | Ford Trophy | Otago v Central Districts | upcoming
+2026-11-03 | Ford Trophy | Central Districts v Auckland | upcoming
+2026-11-03 | Ford Trophy | Wellington v Northern Districts | upcoming
+2026-11-03 | Ford Trophy | Otago v Canterbury | upcoming
+2026-11-07 | Ford Trophy | Northern Districts v Otago | upcoming
+2026-11-07 | Ford Trophy | Wellington v Auckland | upcoming
+2026-11-07 | Ford Trophy | Central Districts v Canterbury | upcoming
+2026-11-11 | Ford Trophy | Auckland v Otago | upcoming
+2026-11-11 | Ford Trophy | Central Districts v Wellington | upcoming
+2026-11-11 | Ford Trophy | Canterbury v Northern Districts | upcoming
+2027-02-02 | Ford Trophy | Auckland v Wellington | upcoming
+2027-02-02 | Ford Trophy | Central Districts v Canterbury | upcoming
+2027-02-02 | Ford Trophy | Otago v Northern Districts | upcoming
+2027-02-04 | Ford Trophy | Canterbury v Auckland | upcoming
+2027-02-04 | Ford Trophy | Northern Districts v Wellington | upcoming
+2027-02-06 | Ford Trophy | Central Districts v Otago | upcoming
+2027-02-09 | Ford Trophy | Auckland v Central Districts | upcoming
+2027-02-09 | Ford Trophy | Northern Districts v Canterbury | upcoming
+2027-02-09 | Ford Trophy | Otago v Wellington | upcoming
+2027-02-12 | Ford Trophy | Northern Districts v Central Districts | upcoming
+2027-02-12 | Ford Trophy | Canterbury v Wellington | upcoming
+2027-02-12 | Ford Trophy | Otago v Auckland | upcoming
+2027-02-15 | Ford Trophy | Auckland v Northern Districts | upcoming
+2027-02-15 | Ford Trophy | Wellington v Central Districts | upcoming
+2027-02-15 | Ford Trophy | Canterbury v Otago | upcoming
