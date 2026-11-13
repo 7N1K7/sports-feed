@@ -65,7 +65,7 @@ async function getJSON(url) {
 const NEWS_TEAMS = [
   ['allblacks', /All Blacks|Razor|Scott Robertson/i], ['blackferns', /Black Ferns/i], ['wxv', /\bWXV\b/],
   ['npc', /\bNPC\b|Ranfurly|provincial/i], ['fpc', /Farah Palmer/i],
-  ['blues', /\bBlues\b/], ['chiefs', /\bChiefs\b/], ['hurricanes', /Hurricanes/], ['crusaders', /Crusaders/],
+  ['blues', /\bBlues\b/], ['chiefs', /\bChiefs\b/], ['hurricanes', /(?<!Hobart )Hurricanes/], ['crusaders', /Crusaders/],
   ['highlanders', /Highlanders/], ['moana', /Moana Pasifika/i],
   ['blackcaps', /Black ?Caps/i], ['whiteferns', /White Ferns/i], ['nzdomestic', /Plunket Shield|Ford Trophy|Super Smash|Hallyburton/i], ['audomestic', /Sheffield Shield|Dean Jones Trophy|One-Day Cup/i],
   ['kiwis', /\bKiwis\b/], ['kiwiferns', /Kiwi Ferns/i], ['warriors', /(?<!Golden State )\bWarriors\b/],
@@ -1701,8 +1701,9 @@ async function siteTeams() {
   return {
     LABEL,
     isNZ: e => NZ_KEYS.has(e.team) || !!e.nzEvent || [e.home, e.away].some(n => NZ_NAMES.test(n || '')),
-    // the team and competition keys a game is listed under (a club's games include its NZ derbies in other comps)
-    keysOf: e => Object.keys(LABEL).filter(k => e.team === k || (e.tags || []).includes(k) || (CLUBS[k] && [e.home, e.away].some(n => (n || '').includes(CLUBS[k])))),
+    // the team and competition keys a game is listed under (a club's games include its NZ derbies in other comps), a club
+    // only in its own sport, as on the page: the Hobart Hurricanes and Golden State Warriors aren't ours
+    keysOf: e => Object.keys(LABEL).filter(k => e.team === k || (e.tags || []).includes(k) || (CLUBS[k] && e.sport === (k === 'warriors' ? 'league' : 'rugby') && [e.home, e.away].some(n => (n || '').includes(CLUBS[k])))),
   };
 }
 const GAME_ICON = { rugby: '🏉', league: '🏉', cricket: '🏏', football: '⚽', hockey: '🏑', basketball: '🏀', netball: '🏐', motor: '🏎️', tennis: '🎾', mma: '🥊', boxing: '🥊', sailing: '⛵', golf: '⛳', baseball: '⚾', cycling: '🚴' };
