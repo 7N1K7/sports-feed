@@ -1106,11 +1106,14 @@ const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 // time is older than the match; their title is always current, so any from two days before the start on count. The
 // live card shows the headline as it was sent, linked and credited, never reworded
 {
-  const WET = /\b(rain\w*|showers?|wet outfield|washed out|wash-?out|delay(ed|s)?|bad light|abandon\w*|no play|covers)\b/i;
+  // a weather word, not a surname ("Raina"); a delay or the covers count only with the weather named ("visa delays" don't)
+  const WET = /\b(rain(s|ed|ing|-\w+)?|showers?|wet outfield|washed out|wash-?out|bad light|abandon\w*|no play)\b/i, DELAY = /\b(delay(ed|s)?|covers)\b/i, SKY = /\b(wet|weather)\b/i;
   const flat = t => norm(String(t || '').replace(/proteas/gi, 'south africa').replace(/windies/gi, 'west indies'));
   // a forecast ("Rain threat hangs over Hamilton ODI") isn't a delay
   const MAYBE = /\b(forecast|could|may|might|threat|outlook|likely|expected)\b/i;
-  const wet = [...CRICKET_HEADLINES, ...newsAll.filter(n => /^nzherald\.co\.nz$/.test(n.source))].filter(n => n.at && now - Date.parse(n.at) < 7 * DAY && WET.test(n.title) && !MAYBE.test(n.title));
+  // a match report ("win rain-hit decider") is a result, kept behind the spoiler guard, so it is never the rain news
+  const wet = [...CRICKET_HEADLINES, ...newsAll.filter(n => /^nzherald\.co\.nz$/.test(n.source))].filter(n => n.at && now - Date.parse(n.at) < 7 * DAY
+    && (WET.test(n.title) || (DELAY.test(n.title) && SKY.test(n.title))) && !MAYBE.test(n.title) && kindOf(n.title) !== 'result');
   const hits = [], quiet = [];
   for (const e of events) {
     const start = Date.parse(e.startUTC);
@@ -1796,11 +1799,12 @@ async function phoneAlerts(events) {
     // runs are 5 to 10 minutes apart, so the first one inside 40 minutes sends it
     if (!e.timeTBC && e.status !== 'final' && mins > 0 && mins <= 40)
       due.push({ e, kind: 'start', title: `${what} starts in ${Math.max(5, Math.round(mins / 5) * 5)} min`, message: where || 'Starting soon', priority: 4 });
-    // the same signs as the card's rain stamp: the state of play, or a fresh rain headline about the game; once a day
+    // the same signs as the card's rain stamp: the state of play, or a fresh rain headline about the game; once a day.
+    // A headline is never sent in the alert itself, as it can carry how the game is going
     const wetPlay = /\b(rain|wet|bad light|delayed|no play)\b/i.test(e.progress || '');
     const wetNews = e.wxNews && (!e.wxNews.at || now - Date.parse(e.wxNews.at) < 6 * 36e5);
     if (e.sport === 'cricket' && e.status !== 'final' && start < now && now - start < 6 * DAY && (wetPlay || wetNews))
-      due.push({ e, kind: `rain-${nzDay}`, title: `🌧 Rain delay: ${gameTitle(e)}`, message: wetPlay ? e.progress : `${e.wxNews.title} (${e.wxNews.credit || 'news'})`, priority: 3 });
+      due.push({ e, kind: `rain-${nzDay}`, title: `🌧 Rain delay: ${gameTitle(e)}`, message: wetPlay ? e.progress : 'Rain in the news for this game: the headline is on its card', priority: 3 });
     // a Test or first-class game ends days after it starts
     const long = e.sport === 'cricket' && /\bTests?\b|first.class|Plunket/i.test(`${e.format || ''} ${e.stage || ''} ${e.comp || ''}`);
     if (e.status === 'final' && start < now && now - start < (long ? 6 * DAY : 12 * 36e5) && !/postponed|cancel/i.test(`${e.score || ''} ${e.summary || ''}`))
