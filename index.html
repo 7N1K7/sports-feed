@@ -4176,8 +4176,9 @@ function renderNowBar(now) {
     // the ones still running before the finished ones, if there are more than nine
     .sort((a, b) => (a[1].next === Infinity) - (b[1].next === Infinity) || b[1].nz - a[1].nz || a[1].next - b[1].next).slice(0, 9)
     // the nine at most shown (one row on a wide screen, a swipeable row on phones) sit in the sport buttons' order (A to Z by sport), New Zealand's first within a sport
-    // finished ones after the rest, so what's still on comes first
-    .sort((a, b) => ended(...a) - ended(...b) || sportRank(a[1].sport) - sportRank(b[1].sport) || b[1].nz - a[1].nz || a[1].next - b[1].next);
+    // finished ones after the rest, so what's still on comes first; within a sport a league (the WBBL) follows the
+    // international series and tournaments (the user's call, 13 Nov 2026)
+    .sort((a, b) => ended(...a) - ended(...b) || sportRank(a[1].sport) - sportRank(b[1].sport) || b[1].nz - a[1].nz || DOMESTIC.test(a[0]) - DOMESTIC.test(b[0]) || a[1].next - b[1].next);
   onNowComps = new Set(on.map(([c]) => c));
   endedComps = new Set(on.filter(([c, v]) => ended(c, v)).map(([c]) => c));
   liveComps = new Set([...by].filter(([, v]) => v.live).map(([c]) => c));
