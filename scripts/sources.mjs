@@ -205,7 +205,11 @@ function eventsFromPage(title, text, cfg, cityTz) {
     const loc = (p.stadium || p.venue || p.arena) && (p.location || p.place) ? clean(p.location || p.place).split(',').map(s => s.trim()).filter(Boolean) : [];
     const city = parts.length > 1 ? parts[parts.length - 1] : loc[0] || '';
     const tm = timeOf(p.time || '');
-    const vz = cityTz(city) || cityTz(parts[0]), az = tm && tm.tz && !(tm.many && vz) ? tm.tz : null;
+    // the venue's zone: the town, tried without a trailing "(Chile)" and then as that country; an earlier part wins over a
+    // country's usual zone in the same part of the world ("Lang Park, Brisbane, Australia"), not over a namesake ("Hamilton, Canada")
+    const zoneOf = n => cityTz(n) || cityTz(n.replace(/\s*\([^)]*\)$/, '')) || cityTz((n.match(/\(([^)]*)\)$/) || [])[1] || '');
+    const cz = zoneOf(city), ez = parts.slice(0, Math.max(1, parts.length - 1)).reverse().map(zoneOf).find(Boolean);
+    const vz = ez && (!cz || (parts.length > 2 && ez.split('/')[0] === cz.split('/')[0])) ? ez : cz, az = tm && tm.tz && !(tm.many && vz) ? tm.tz : null;
     let tz = az || vz || (cfg.homeTz && cityTz(home)) || cfg.tz || null;
     let t, tbc = false;
     if (tm && tm.offsetMin != null) t = Date.UTC(d.y, d.m, d.d, tm.h, tm.mi) - tm.offsetMin * 6e4;
