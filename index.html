@@ -2510,6 +2510,11 @@ function isHidden(e, now) {
   if (!spoilers || revealed.has(e.id)) return false;
   return now - spoilAt(e) < spoilDays * 864e5;
 }
+// a result story stays covered to the end of its NZ day plus the hide days, and while any game of its team played by
+// that day is still covered, so a report never shows before the result it gives away (an evening game's or a Test's)
+const nzDayEnd = d => { const t = Date.parse(d + 'T00:00:00Z') + 864e5; return [t - 12 * 36e5, t - 13 * 36e5].find(x => dayKey(new Date(x - 1), 'Pacific/Auckland') === d) ?? t - 13 * 36e5; };
+const storyHidden = (n, now) => spoilers && n.kind === 'result' && !revealed.has('n:' + n.id) && (now - nzDayEnd(n.date) < spoilDays * 864e5
+  || (FEED.events || []).some(e => (e.team === n.team || (e.tags || []).includes(n.team)) && e.startUTC && dayKey(new Date(e.startUTC), 'Pacific/Auckland') <= n.date && isHidden(e, now)));
 // an event also shows for the other side when both are followed (e.g. Blues v Hurricanes)
 const CLUBS = ['blues','chiefs','hurricanes','crusaders','highlanders','warriors'];
 // a followed club shows in other competitions too (the Warriors in a pre-season cup), but only in its own sport:
@@ -3570,7 +3575,7 @@ function detail(e) {
   const related = (FEED.news || []).filter(n => n.team === e.team || (e.tags || []).includes(n.team) || (sportOf(n.team) === e.sport && aboutGame(n)))
     .filter(n => Math.abs(new Date(n.date) - d) < 21 * 864e5)
     // a result headline stays out while spoilers are on, as on the News page (an upcoming game's pop-up showed the last one's)
-    .filter(n => !(n.kind === 'result' && (hidden || (spoilers && !revealed.has('n:' + n.id) && (now - new Date(n.date + 'T12:00:00+13:00')) < spoilDays * 864e5))))
+    .filter(n => !(n.kind === 'result' && (hidden || storyHidden(n, now))))
     .sort((a, c) => (a.kind === 'injury' ? -1 : 0) - (c.kind === 'injury' ? -1 : 0) || c.date.localeCompare(a.date)).slice(0, 6);
   // revealed scores sit under each side's name (green winner, red loser); the box below says who won
   const split = isPast && !hidden && !solo(e) ? sideScores(e) : null, win = split && winnerOf(e);
@@ -4563,7 +4568,7 @@ function render() {
   const NPER = 15, npages = Math.max(1, Math.ceil(items.length / NPER));
   newsPage = Math.min(newsPage, npages - 1);
   into($('news')).html = (items.length ? items.slice(newsPage * NPER, newsPage * NPER + NPER).map(n => {
-    const hide = spoilers && n.kind === 'result' && !revealed.has('n:' + n.id) && (now - new Date(n.date + 'T12:00:00+13:00')) < spoilDays * 864e5;
+    const hide = storyHidden(n, now);
     const sport = sportOf(n.team);
     const img = n.image && !hide ? `<img class="thumb" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
     return `<article class="ni sport-${sport} ${img ? 'has-img' : ''}">${img}<div class="ni-body">
