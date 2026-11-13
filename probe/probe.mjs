@@ -1,7 +1,13 @@
-// 13 Nov: did the fighter photos from TheSportsDB drop (live feed only; nothing counted)
+// 14 Nov: which sides in the live feed have no image, by sport and competition (live feed only; nothing counted)
 const f = await fetch(`https://kickoff.kiwi/data/feed.json?t=${Date.now()}`).then(r => r.json());
-const d = f.diag || f.diagnostics || {};
-console.log('FACES generated', f.generated || f.updated || '', '| sportsdb:', d.facesSportsDB);
-const by = {}; for (const e of f.events || []) for (const s of ['home', 'away']) if (/^(mma|boxing)$/.test(e.sport) && e[s + 'Credit']) { const k = /TheSportsDB/.test(e[s + 'Credit']) ? e[s + 'Credit'] : 'other source'; by[k] = (by[k] || 0) + 1; }
-console.log('fighter photo credits:', JSON.stringify(by));
-const v = await fetch(`https://kickoff.kiwi/data/version.json?t=${Date.now()}`).then(r => r.json()).catch(() => ({})); console.log('version', JSON.stringify(v));
+const now = Date.now(), solo = e => ['motor', 'tennis', 'sailing', 'golf', 'cycling'].includes(e.sport);
+const miss = {}, have = {}, names = {};
+for (const e of f.events || []) {
+  const t = Date.parse(e.startUTC); if (t < now - 14 * 864e5 || t > now + 60 * 864e5 || solo(e)) continue;
+  for (const s of ['home', 'away']) { const n = e[s]; if (!n || /TBC|winner|\bor\b/i.test(n)) continue;
+    const k = `${e.sport} | ${e.team || ''}`; const src = e[s + 'Logo'] ? (/thesportsdb/.test(e[s + 'Logo']) ? 'tsdb' : /wikimedia|wikipedia/.test(e[s + 'Logo']) ? 'commons' : /flagcdn|flag/.test(e[s + 'Logo']) ? 'flag' : 'other') : null;
+    if (src) { (have[k] ||= {})[src] = ((have[k] ||= {})[src] || 0) + 1; } else { miss[k] = (miss[k] || 0) + 1; (names[k] ||= new Set()).add(n); } }
+}
+console.log('GAPS (next 60 days and last 14), sides with no image');
+for (const [k, n] of Object.entries(miss).sort((a, b) => b[1] - a[1])) console.log(`${k}: ${n} missing; have ${JSON.stringify(have[k] || {})}; e.g. ${[...names[k]].slice(0, 12).join(', ')}`);
+console.log('\nfully covered:', Object.keys(have).filter(k => !miss[k]).join('; '));
