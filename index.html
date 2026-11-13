@@ -5437,6 +5437,8 @@ async function load(woke) {
         if (sq.length) { e.squads = sq; e.seasonSquads = true; }
       }
     }
+    // a competition left open on an earlier visit that has since left the feed (finished, or renamed) is let go
+    if (compSel && !(FEED.events || []).some(e => compOf(e) === compSel || tourSide(e, compSel))) { compSel = ''; store.set('comp', ''); }
     $('foot').innerHTML = `<div class="fbtns"><button type="button" class="fbtn" data-suggest="">Suggest an idea</button><a class="fbtn coffee" href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="">☕ Buy me a coffee</a><button type="button" class="fbtn" data-report="">Report a problem</button></div><p class="fsrc">Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/microsoft/fluentui-emoji" target="_blank" rel="noopener">Fluent Emoji</a> (Microsoft, MIT) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)</p>`;
     render(); redrawSheet(); stamp(); openFromLink();
     // how long until the first games were on screen, in bands; a slow one (4s or more) says why it might have been
