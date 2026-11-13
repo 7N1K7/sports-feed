@@ -4175,7 +4175,7 @@ function morphKids(a, b) {
     if (x.nodeType !== y.nodeType || x.nodeName !== y.nodeName || (x.nodeName === 'IMG' && x.getAttribute('src') !== y.getAttribute('src'))) { a.replaceChild(y, x); return; }
     if (x.nodeType !== 1) { if (x.nodeValue !== y.nodeValue) x.nodeValue = y.nodeValue; return; }
     if (x.isEqualNode(y)) return;
-    for (const at of [...x.attributes]) if (!y.hasAttribute(at.name)) x.removeAttribute(at.name);
+    for (const at of [...x.attributes]) if (!y.hasAttribute(at.name) && !(at.name === 'open' && x.nodeName === 'DETAILS')) x.removeAttribute(at.name); // an expander opened stays open
     for (const at of [...y.attributes]) if (x.getAttribute(at.name) !== at.value) x.setAttribute(at.name, at.value);
     morphKids(x, y);
   });
@@ -4611,7 +4611,7 @@ function render() {
 
   // news
   const kinds = [['all', 'All'], ['injury', 'Injuries'], ['squad', 'Squads'], ['result', 'Results'], ['news', 'Other']];
-  $('newsFilters').innerHTML = kinds.map(([k, l]) => `<button class="chip" type="button" data-kind="${k}" aria-pressed="${newsKind === k}">${l}</button>`).join('');
+  into($('newsFilters')).html = kinds.map(([k, l]) => `<button class="chip" type="button" data-kind="${k}" aria-pressed="${newsKind === k}">${l}</button>`).join('');
   const items = (FEED.news || []).filter(n => compSel ? hubNews(n) : visible(n)).filter(n => newsKind === 'all' || n.kind === newsKind).sort((a, b) => b.date.localeCompare(a.date));
   // fifteen stories a page, newest first; older ones a page at a time (everything the sources still carry, up to a month)
   const NPER = 15, npages = Math.max(1, Math.ceil(items.length / NPER));
@@ -4658,7 +4658,7 @@ function render() {
     $('freeOnly').setAttribute('aria-pressed', String(freeOnly)); document.body.classList.toggle('freeon', freeOnly);
     renderHub(now); drawWeekComps(now); drawOffNote();
     $('compSel').classList.toggle('on', !!compSel);
-    $('genderSel').innerHTML = [['all', 'All'], ['m', "Men's"], ['w', "Women's"]].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
+    into($('genderSel')).html = [['all', 'All'], ['m', "Men's"], ['w', "Women's"]].map(([k, l]) => `<button type="button" data-gender="${k}" aria-pressed="${genderSel === k}">${l}</button>`).join('');
     // the sport row dims while a competition is picked, unless it's the lone sport button that opened it
     $('sportFilter').classList.toggle('dim', !!compSel && !(sportSel.size === 1 && compsOfSport([...sportSel][0]).includes(compSel)));
   }
@@ -4671,7 +4671,7 @@ function render() {
   // phones offer List and Compact; Large (the default) shows as Compact there, and stays Large on a bigger screen
   const shownView = PHONE.matches && view === 'mixed' ? 'compact' : view;
   document.body.classList.add('v-' + shownView);
-  $('viewSel').innerHTML = [['list', 'List'], ['compact', 'Compact'], ...(PHONE.matches ? [] : [['mixed', 'Large']])].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${shownView === k}">${l}</button>`).join('');
+  into($('viewSel')).html = [['list', 'List'], ['compact', 'Compact'], ...(PHONE.matches ? [] : [['mixed', 'Large']])].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${shownView === k}">${l}</button>`).join('');
   $('spoilBtn').setAttribute('aria-pressed', String(!spoilers));
   // an eye on each state (crossed out while results are hidden), and a gear on settings
   const eye = EYE_P;
@@ -4688,7 +4688,10 @@ function render() {
   syncDsel($('spoilDays')); syncDsel($('tzSel'));
   const tchip = ([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}" ${WEEKDAY_IN.has(k) ? `title="${picked.has(k) ? 'Every game is on: tap to turn it off' : `Tap for every ${esc(l)} game`}"` : ''}>${badge(k)}${l}${WEEKDAY_IN.has(k) ? ' <small>all games</small>' : ''}</button>`
     + (WEEKDAY_IN.has(k) ? `<button class="chip onecard" type="button" data-wkcard="${k}" aria-pressed="${wkOn(k)}" title="${wkOn(k) ? `On as one card a day: tap to turn ${esc(l)} off` : `Show ${esc(l)} as one card a day (the default)`}">1 card a day</button>` : '');
-  $('teamGroups').innerHTML = TEAMS_AZ.map(g => { const ss = [...new Set(groupItems(g).map(([k]) => sportOf(k)))], on = ss.some(followedSport);
+  // the chip rows' even breaks come off first and are measured again (markLone puts them back, as on fresh markup), so the
+  // chips stay the same buttons and keep focus
+  $('teamGroups').querySelectorAll('.gbr').forEach(b => b.remove()); $('teamGroups').querySelectorAll('.chips').forEach(b => { delete b.dataset.bw; b.querySelectorAll('.lone').forEach(c => c.classList.remove('lone')); });
+  into($('teamGroups')).html = TEAMS_AZ.map(g => { const ss = [...new Set(groupItems(g).map(([k]) => sportOf(k)))], on = ss.some(followedSport);
     return `<div class="group${on ? '' : ' off'}" data-g="${esc(g.g)}"><h3 style="--gc:var(--${ss[0] === 'rugby' ? 'rugbyt' : ss[0]})"><span class="gt">${sIcon(ss[0], 'gico')}${g.g}</span><button type="button" class="ghide${on ? '' : ' off'}" aria-pressed="${!on}" data-gsports="${ss.join(' ')}" title="${on ? 'Turn off every team and competition in this sport, and hide it from the sport buttons' : 'Turn this sport back on'}">${on ? 'Hide sport' : 'Show sport'}</button><span class="ghint">${on ? 'takes it off your feed and out of the sport buttons' : 'puts it back on your feed and in the sport buttons'}</span></h3><div class="chips">${g.items.map(tchip).join('')}${g.sub ? `<span class="gsub">${esc(g.sub.g)}</span>${g.sub.items.map(tchip).join('')}` : ''}${g.g === 'Motorsport' ? `<span class="gsub">Race weekends</span>${SESS.map(([k, l]) => `<button class="chip" type="button" data-sess="${k}" aria-pressed="${sessOn.has(k)}" title="Practice, sprint qualifying and every other ${l} session get a card in your feed (the Motorsport button always shows them)">${l} sessions</button>`).join('')}` : ''}</div></div>`; }).join('');
   markLone();
   // the sports off the feed, named under My teams so nobody wonders where they went (one line, so it never pushes the list
@@ -4707,7 +4710,7 @@ function render() {
     return `<div class="calrow"><span class="calname">${k === 'nz' ? '<span aria-hidden="true">🇳🇿</span>' : badge(k)}${esc(label)}</span><span class="calgo"><a href="${esc(w)}">iPhone / Mac</a><a href="https://calendar.google.com/calendar/r?cid=${encodeURIComponent(w)}" target="_blank" rel="noopener">Google</a><a href="https://outlook.live.com/calendar/0/addfromweb?url=${encodeURIComponent(u)}&name=${encodeURIComponent(`${label} · Kickoff Kiwi`)}" target="_blank" rel="noopener">Outlook</a><button type="button" class="calcopy" data-calcopy="${esc(u)}">Copy link</button></span></div>`;
   };
   const one = ALL_KEYS.filter(k => picked.has(k));
-  $('calList').innerHTML = calRow('nz', 'All NZ teams')
+  into($('calList')).html = calRow('nz', 'All NZ teams')
     + (one.length ? `<details class="calmore"><summary>Or just one team or competition you follow (${one.length})</summary><div class="cals">${one.map(k => calRow(k, TEAM_NAME[k])).join('')}</div></details>` : '')
     + `<div class="calhow"><b>How it works</b><ul>
       <li>Your calendar app subscribes to a public list of games on this site, then checks it for changes by itself (iPhone and Mac about hourly, Google up to once a day). Moved start times and new fixtures follow.</li>
@@ -4719,7 +4722,7 @@ function render() {
   $('appInstall').innerHTML = appHtml();
   // phone alerts (sent by the feed builder through ntfy.sh): a topic for all NZ teams, and one per team picked above
   const alertRow = (k, label) => `<div class="calrow"><span class="calname">${k === 'nz' ? '<span aria-hidden="true">🇳🇿</span>' : badge(k)}${esc(label)}</span><span class="calgo"><code>kickoffkiwi-${k}</code><button type="button" data-calcopy="kickoffkiwi-${k}">Copy name</button><a href="https://ntfy.sh/kickoffkiwi-${k}" target="_blank" rel="noopener">Open</a></span></div>`;
-  $('alertList').innerHTML = `<div class="calhow"><b>Set up once (about a minute)</b><ol>
+  into($('alertList')).html = `<div class="calhow"><b>Set up once (about a minute)</b><ol>
       <li>Get the free <b>ntfy</b> app: <a href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank" rel="noopener">iPhone</a> · <a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Android</a>.</li>
       <li>In ntfy, tap <b>+</b> and type a topic name from below, such as <b>kickoffkiwi-nz</b>. Leave the server as ntfy.sh.</li>
       <li>Allow notifications when it asks. On a computer, <b>Open</b> shows the alerts in your browser instead.</li>
