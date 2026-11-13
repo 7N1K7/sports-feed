@@ -1,7 +1,6 @@
-// 13 Nov: the stats server after its hardening: does the password step still answer (never a crash), with no password and a wrong one
-const A = 'https://kickoff-api.kickoffkiwi.workers.dev';
-const t = async (name, path, init) => { try { const r = await fetch(A + path, init); const b = await r.text(); console.log(name, '|', r.status, '|', b.slice(0, 80).replace(/\s+/g, ' ')); } catch (e) { console.log(name, '| failed:', e.message); } };
-await t('no password', '/stats?days=1');
-await t('wrong password', '/stats?days=1', { headers: { authorization: 'Bearer not-the-password-probe' } });
-await t('unknown path', '/nothing');
-await t('report from no site', '/report', { method: 'POST', body: JSON.stringify({ note: 'probe' }) });
+// 13 Nov: is the new stats page live (its file only; nothing is counted and no stats are read)
+const t = Date.now();
+const v = await fetch(`https://kickoff.kiwi/data/version.json?t=${t}`).then(r => r.json()).catch(e => ({ err: e.message }));
+const s = await fetch(`https://kickoff.kiwi/stats.html?t=${t}`).then(r => r.text()).catch(e => 'failed: ' + e.message);
+console.log('stats page check | version', JSON.stringify(v), '| size', s.length);
+for (const w of ['id="feedbuild"', 'id="capped"', 'today left out', 'Too many wrong passwords', 'ran out of time before']) console.log(' has', w, ':', s.includes(w));
