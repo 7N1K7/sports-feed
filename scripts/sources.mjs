@@ -543,7 +543,8 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
       const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&' + q, { headers: UA }).catch(e => ({ ok: false, status: e.message }));
       const j = r.ok ? await r.json().catch(() => null) : null;
       if (j && !/maxlag|ratelimit|readonly/i.test(j.error?.code || '')) return j;
-      if (i >= 3) { if (j) return j; throw new Error(`wikipedia ${r.status}`); }
+      // still lagged after four tries is a failure, not an empty answer
+      if (i >= 3) throw new Error(`wikipedia ${j?.error?.code || r.status}`);
       diag.wikiRetries = (diag.wikiRetries || 0) + 1;
       await new Promise(res => setTimeout(res, 2000 * 2 ** i));
     }
@@ -613,8 +614,9 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
   const texts = {};
   for (let i = 0; i < titles.length; i += 20) {
     const batch = titles.slice(i, i + 20);
-    // a batch of big pages comes back in parts (the rest after "continue"), so ask until it's all in
-    for (let cont = {}, n = 0; cont && n < 10; n++) {
+    // a batch of big pages comes back in parts (the rest after "continue"), so ask until it's all in; a batch that fails
+    // is noted and the others are still read
+    try { for (let cont = {}, n = 0; cont && n < 10; n++) {
       const r = await api('action=query&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=' + encodeURIComponent(batch.join('|')) + Object.entries(cont).map(([k, v]) => `&${k}=${encodeURIComponent(v)}`).join(''));
       const redir = Object.fromEntries((r.query?.redirects || []).map(x => [x.to, x.from]));
       const normd = Object.fromEntries((r.query?.normalized || []).map(x => [x.to, x.from]));
@@ -625,7 +627,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
       }
       cont = r.continue?.rvcontinue ? r.continue : null;
       await sleep(300);
-    }
+    } } catch (e) { (diag.wikiFailed ||= []).push(`${batch.length} pages from ${batch[0]}: ${e.message}`); }
   }
   // labelled-section transclusions, as the NRL finals page shows its Grand Final: {{#section:2026 NRL Grand Final|scoreboard}}
   // reads <section begin=scoreboard /> ... <section end=scoreboard /> from that page, so fetch those pages and put the section in
