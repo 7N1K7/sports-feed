@@ -3128,9 +3128,10 @@ function tableHtml(t) {
   // the table's names come from Wikipedia, the logos from fixtures: match loosely ("Brighton & Hove Albion" = "Brighton and Hove Albion")
   const lk = n => String(n || '').toLowerCase().replace(/&/g, 'and').replace(/\b(a?fc|cf)\b/g, '').replace(/[^a-z]/g, '');
   for (const e of FEED.events || []) if (compOf(e) === compSel) { if (e.homeLogo) logos[lk(e.home)] = e.homeLogo; if (e.awayLogo) logos[lk(e.away)] = e.awayLogo; }
-  // a side with games in the feed opens its team page; the same loose match finds its name there
+  // a side with games in this competition opens its team page; the same loose match finds its name there (only this
+  // competition's own sides of the table's side, so "India" is never the Indiana Pacers, nor "Auckland" the women's side)
   const names = new Map();
-  for (const e of FEED.events || []) if (e.sport === t.sport) for (const x of [e.home, e.away]) if (x && !names.has(lk(x))) names.set(lk(x), x);
+  for (const e of FEED.events || []) if (compOf(e) === compSel && [tg, ''].includes(sideG(e))) for (const x of [e.home, e.away]) if (x && !names.has(lk(x))) names.set(lk(x), x);
   const pageOf = n => names.get(lk(n)) || [...names].find(([k]) => k.length > 4 && lk(n).length > 4 && (k.startsWith(lk(n)) || lk(n).startsWith(k)))?.[1] || '';
   const logoOf = n => logos[lk(n)] || Object.entries(logos).find(([k]) => k.length > 4 && lk(n).length > 4 && (k.startsWith(lk(n)) || lk(n).startsWith(k)))?.[1] || '';
   const rows = t.rows.map((r, i) => {
