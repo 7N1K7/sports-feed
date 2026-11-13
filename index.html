@@ -2310,6 +2310,8 @@ const DAYKEY = new Map();
 const dayKey = (d, tz = NZ) => { let f = DAYKEY.get(tz); if (!f) DAYKEY.set(tz, f = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' })); return f.format(d); };
 const time = (d, tz) => fmt(d, tz, { hour: 'numeric', minute: '2-digit', hour12: true }).replace(' ', '').toLowerCase();
 const dayLabel = (d, tz) => fmt(d, tz, { weekday: 'short', day: 'numeric', month: 'short' });
+// a calendar day i days from day k, as about midday there: now plus 24 hours skips or repeats a day when the clocks change
+const keyAt = (k, i = 0, tz = NZ) => { const u = Date.parse(k + 'T12:00:00Z') + i * 864e5; return new Date(u - (Date.parse(new Date(u).toLocaleString('sv', { timeZone: tz }).replace(' ', 'T') + 'Z') - u)); };
 // two slips in Wikipedia's town names put right
 const CITY_FIX = { Carins: 'Cairns', Launcerston: 'Launceston' };
 const cityOf = e => { const c = (e.city || '').split(',')[0]; return CITY_FIX[c] || c; };
@@ -4408,7 +4410,7 @@ function render() {
   const finals = evs.filter(e => !e.session && (e.status === 'final' || (e.status !== 'live' && new Date(e.startUTC) < now && !running(e, now) && (!e.timeTBC || now - new Date(e.startUTC) > 12 * 36e5)))).reverse();
 
   // week strip
-  const days = [...Array(7)].map((_, i) => new Date(now + i * 864e5));
+  const days = [...Array(7)].map((_, i) => keyAt(todayK, i));
   $('weekRange').textContent = `${dayLabel(days[0], NZ)} to ${dayLabel(days[6], NZ)}`;
   // as many spots as two full rows hold; past that, the last spot becomes a "+"
   // a Test (or other multi-day game, a golf tournament's rounds) still being played has a dot on each of its days, not just the first
@@ -4500,13 +4502,13 @@ function render() {
   const rest = upcoming.filter(e => !todays.includes(e) && !lives.includes(e) && !soons.includes(e) && !resting.includes(e) && !sideNow.includes(e));
   const groups = new Map();
   // tomorrow gets its own section, right after today
-  const tomK = dayKey(new Date(now + 864e5));
+  const tomK = dayKey(keyAt(todayK, 1));
   const toms = rest.filter(e => dayKey(new Date(e.startUTC)) === tomK);
   $('tomSec').hidden = !toms.length;
-  $('tomLabel').textContent = dayLabel(new Date(now + 864e5), NZ);
+  $('tomLabel').textContent = dayLabel(keyAt(todayK, 1), NZ);
   into($('tomorrow')).html = toms.map(e => evCard(e, now)).join('');
   rest.filter(e => !toms.includes(e)).forEach(e => { const k = dayKey(new Date(e.startUTC)); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(e) });
-  const weekEnd = dayKey(new Date(now + 6 * 864e5));
+  const weekEnd = dayKey(keyAt(todayK, 6));
   const dayGroup = (k, list) => `<div class="daygroup"><div class="dayhead" id="d-${k}">${fmt(new Date(list[0].startUTC), NZ, { weekday: 'long', day: 'numeric', month: 'long' })}</div>${list.map(e => evCard(e, now)).join('')}</div>`;
   let html = '', later = '';
   const ahead = [];
@@ -4581,7 +4583,7 @@ function render() {
   // results
   const pastFinals = finals;
   // group past results by the day they finished: Today, Yesterday, then each day by name and date
-  const yK = dayKey(new Date(now - 864e5));
+  const yK = dayKey(keyAt(todayK, -1));
   const groupOf = e => {
     const k = dayKey(endOf(e, now));
     if (k === todayK) return 'Today';
