@@ -402,7 +402,9 @@ const side = (x, y) => { const a = norm(x), b = norm(y); return !!a && !!b && (a
 // a side with no team in it yet ("TBC", "1st", "Winner SF2", "Group A winner") only matches the very same words, so
 // "1st v 6th" is never "2nd v 5th"
 const bare = n => norm(String(n || '').replace(/\b(TBC|TBA|TBD|QF|SF|GF|PF|EF)\d*\b|winners?|losers?|runners?[- ]up|\bgroup\b|\bpool\b|(semi|quarter)-?finals?|qualifiers?|\bplaced?\b|\b\d+(st|nd|rd|th)\b|\bof\b/gi, '')).length < 2;
-const sideHit = (x, y) => bare(x) || bare(y) ? bare(x) && bare(y) && !!x && String(x).trim().toLowerCase() === String(y || '').trim().toLowerCase() : side(x, y);
+// a second-string side is never the first: "India A" is not "India", nor an under-20s or an XI the full side
+const grade = n => (String(n || '').replace(/\s+(Women|Men)$/i, '').match(/\s(A|B|XI|U-?\d\d|Under[- ]?\d\d)$/i) || [])[1]?.toLowerCase().replace(/under[- ]?|u-/, 'u') || '';
+const sideHit = (x, y) => bare(x) || bare(y) ? bare(x) && bare(y) && !!x && String(x).trim().toLowerCase() === String(y || '').trim().toLowerCase() : side(x, y) && grade(x) === grade(y);
 const bothSides = (a, b) => [[b.home, b.away], [b.away, b.home]].some(([h, w]) => sideHit(a.home, h) && sideHit(a.away, w));
 // "2nd T20I", "Game 3": two numbered games of a series are never one game
 const gameNo = x => { const m = String(x.stage || '').match(/\b(\d+)(?:st|nd|rd|th) (?:test|odi|t20i?|twenty20|one-day|four-day|match|game|leg)\b|\b(?:game|match|test|leg) (\d+)\b/i); return m ? +(m[1] || m[2]) : 0; };
@@ -871,9 +873,8 @@ const isW = e => WOMEN_KEYS.has(e.team) || /women|wheelchair/i.test([e.comp, e.h
 // women's, wheelchair or men's: a wheelchair game is never a women's one (England v Wales took England v Samoa's score)
 const gKind = e => /wheelchair/i.test([e.comp, e.home, e.away].join(' ')) ? 'wc' : isW(e) ? 'w' : 'm';
 const sameBy = match => (a, b) => a.team === b.team && gKind(a) === gKind(b) && (a.session || '') === (b.session || '') && (a.team === 'ufc' ? Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) < 1.5 * DAY : match(a, b));
-// On trial: the new pairing is worked out beside the old one and every difference is listed in diag.pairTrial; the old
-// one still decides until PAIR_NEW is turned on
-const PAIR_NEW = false, sameOld = sameBy(sameMatchOld), sameNew = sameBy(sameMatch), same = PAIR_NEW ? sameNew : sameOld;
+// The old pairing is still worked out beside the new one for now, and every difference is listed in diag.pairTrial
+const PAIR_NEW = true, sameOld = sameBy(sameMatchOld), sameNew = sameBy(sameMatch), same = PAIR_NEW ? sameNew : sameOld;
 // One source page never lists a game twice. So a page's games are paired with the cards there so far nearest first,
 // each game with one card at most and each card with one game a page at most: a series' games a day apart with no
 // times yet stay apart, and so do a weekend's three quarter-finals
