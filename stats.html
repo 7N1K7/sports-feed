@@ -140,8 +140,8 @@ button, input { font: inherit; color: inherit }
 .erralert:not(.on) { color: var(--muted) } @media (max-width: 560px) { .erralert .ex { display: none } }
 /* errors read as full sentences: no bar, the text wraps */
 /* a network's name is long ("Comcast Cable (United States)"): more room for it, less for the bar */
-.nets .bar { grid-template-columns: minmax(0, 1fr) minmax(0, 3.5em) auto }
-#error { grid-auto-rows: auto; max-height: calc(10 * 21px + 9 * 7px); overflow: hidden } #error.all { overflow-y: auto } #error .bar { grid-template-columns: minmax(0, 1fr) auto } #error .bar .t { display: none } #error .bar .k { white-space: normal; overflow-wrap: anywhere; font-size: 13px }
+.nets .bar { grid-template-columns: minmax(0, 1fr) minmax(0, 3.5em) var(--nw, auto) }
+#error { grid-auto-rows: auto; max-height: calc(10 * 21px + 9 * 7px); overflow: hidden } #error.all { overflow-y: auto } #error .bar { grid-template-columns: minmax(0, 1fr) var(--nw, auto) } #error .bar .t { display: none } #error .bar .k { white-space: normal; overflow-wrap: anywhere; font-size: 13px }
 .chartbox text { fill: var(--muted); font-size: 11px; font-family: var(--f-body) }
 .chartbox .end { font-size: 12px; font-weight: 600; fill: var(--ink) }
 .chartbox .peak { font-size: 11px; font-weight: 700; fill: var(--ink) }
@@ -186,7 +186,7 @@ button, input { font: inherit; color: inherit }
 .grid > .card { margin: 0; display: flex; flex-direction: column; min-width: 0 } .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)) }
 .card > h2 + .thh { margin-top: 0 }
 .grid > .card > .note:last-child { margin-top: auto; padding-top: 10px; margin-bottom: 0 }
-.pop.nodl .rank li { grid-template-columns: 1.6em minmax(0, 1fr) 44px auto 0 } .pop.nodl .rank .dl { display: none }
+.pop.nodl .rank li { grid-template-columns: 1.6em minmax(0, 1fr) 44px var(--nw, auto) 0 } .pop.nodl .rank .dl { display: none }
 @media (max-width: 1099px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)) }
   .grid:not(.pop):not(.two) > .card:last-child:nth-child(odd), .grid.pop > .card:first-child { grid-column: 1 / -1 } }
 @media (max-width: 640px) { .grid, .grid.two { grid-template-columns: minmax(0, 1fr) }
@@ -195,7 +195,7 @@ button, input { font: inherit; color: inherit }
 /* the popular lists: a row each (rank, name, how many, the change on the days before), a thin bar under the name */
 .rank { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-rows: 34px; max-height: calc(10 * 34px); overflow: hidden }
 .rank.all { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin }
-.rank li { display: grid; grid-template-columns: 1.6em minmax(0, 1fr) 44px auto 4.4em; grid-template-rows: auto 3px; column-gap: 6px; row-gap: 3px; align-content: center; font-size: 14px }
+.rank li { display: grid; grid-template-columns: 1.6em minmax(0, 1fr) 44px var(--nw, auto) 4.4em; grid-template-rows: auto 3px; column-gap: 6px; row-gap: 3px; align-content: center; font-size: 14px }
 .rank .rk { grid-row: 1 / 3; align-self: center; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; text-align: right }
 .rank .k { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap } .rank .k small { color: var(--muted); font-size: 12px; margin-left: 5px }
 .rank .n { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right }
@@ -281,7 +281,8 @@ button, input { font: inherit; color: inherit }
   .cvt .cov th { text-transform: none; letter-spacing: 0 } .cvt .cov td { font-size: 13px }
   .cvt .cov th, .cvt .cov td { padding-left: 2px; padding-right: 2px }
 }
-.bar { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto; align-items: center; gap: 8px; font-size: 14px }
+/* the number column is a set width for each list (see fitNums), so every row's bar starts and ends in the same place */
+.bar { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) var(--nw, auto); align-items: center; gap: 8px; font-size: 14px }
 .bar .k { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 .bar .t { height: 10px; position: relative }
 .bar .t i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--series-1); border-radius: 0 4px 4px 0; min-width: 2px }
@@ -1161,6 +1162,14 @@ function errAlert(open, lastSeen, lastN) {
   const b = $('errDone');
   if (b) b.onclick = () => { for (const k of open) done[k] = `${lastSeen[k]}|${lastN[k]}`; store.set('errChecked', done); errAlert(open, lastSeen, lastN); };
 }
+// a list's number column: as wide as its widest number over the longest range (or now, if wider), so the rows' bars
+// line up and nothing shifts sideways when the range changes
+const numW = {};
+function fitNums(el, id) {
+  const w = Math.max(0, ...[...el.querySelectorAll(':scope > * > .n')].map(x => x.textContent.length));
+  if (!room) numW[id] = w;
+  el.style.setProperty('--nw', `calc(${Math.max(w, numW[id] || 0)} * 1.1ch + 2px)`);
+}
 function bars(id, obj, label, order) {
   const el = $(id);
   // a list in a set order (the days of the week, speeds) keeps every row of it, a dash for one with none in the range
@@ -1179,6 +1188,7 @@ function bars(id, obj, label, order) {
     const num = document.createElement('span'); num.className = 'n'; num.textContent = n == null ? '–' : Number.isInteger(n) ? fmtN(n) : n.toFixed(1);
     row.append(name, track, num); el.append(row);
   }
+  fitNums(el, id);
   // every one listed: the first ten, and Show all scrolls the rest in the same space
   showAll(el, id, top.length);
 }
@@ -1224,6 +1234,7 @@ function rank(id, obj, prevObj, label = k => [k], daily = null) {
     const t = document.createElement('span'); t.className = 't'; const f = document.createElement('i'); f.style.width = (100 * n / max).toFixed(1) + '%'; t.append(f);
     li.append(rk, nm, sp, nb, dl, t); el.append(li);
   });
+  fitNums(el, id);
   showAll(el, id, rows.length);
 }
 // everything used, all in one list: the parts of the site and the features, and the taps counted by what was tapped
