@@ -3696,7 +3696,7 @@ function formOf(name, sport, before, format = '', e = null, n = 5) {
 const RES_WORD = { W: 'Won', L: 'Lost', D: 'Drew' };
 const formHtml = (name, sport, before, format = '', e = null, n = 5) => {
   const l = formOf(name, sport, before, format, e, n);
-  return l.length ? `<span class="form" aria-label="Last ${l.length}: ${l.map(f => RES_WORD[f.r]).join(', ')}">${l.map(f => `<span class="fd ${f.r}" title="${esc(`${RES_WORD[f.r]} v ${e ? displayName(f.o, e) : f.o}${f.s ? `, ${f.s}` : ''} (${fmt(new Date(f.d), NZ, { day: 'numeric', month: 'short', ...(f.d.slice(0, 4) !== String(new Date().getFullYear()) ? { year: 'numeric' } : {}) })})`)}">${f.r}</span>`).join('')}</span>` : '';
+  return l.length ? `<span class="form" aria-label="Last ${l.length}: ${l.map(f => RES_WORD[f.r]).join(', ')}">${l.map(f => `<span class="fd ${f.r}" title="${esc(`${RES_WORD[f.r]} v ${e ? displayName(f.o, e) : f.o}${f.s ? `, ${f.s}` : ''} (${fmt(new Date(f.t || f.d), NZ, { day: 'numeric', month: 'short', ...(f.d.slice(0, 4) !== String(new Date().getFullYear()) ? { year: 'numeric' } : {}) })})`)}">${f.r}</span>`).join('')}</span>` : '';
 };
 // a side's own page: crest, form, next games and recent results, each opening its game
 const SPORT_WORD = { rugby: 'rugby union', league: 'rugby league', football: 'football club', cricket: 'cricket team', mma: 'fighter', boxing: 'boxer', hockey: 'field hockey team', basketball: 'basketball team', netball: 'netball team' };
