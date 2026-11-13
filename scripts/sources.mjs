@@ -93,7 +93,8 @@ function teamOf(v) {
   // a team template inside a wrapper ({{nowrap|{{rlw-r|NZL}}}}) is read as if bare
   let raw = stripRefs(v);
   for (let k = 0, w; k < 3 && (w = templates(raw, /^(nowrap|nobr|small)$/i)[0]); k++) { const bar = w.body.indexOf('|'); raw = raw.slice(0, w.at) + (bar < 0 ? '' : w.body.slice(bar + 1)) + raw.slice(w.at + w.body.length + 4); }
-  const tpl = templates(raw, /^[A-Za-z][\w\- ]{0,14}$/).find(t => !/^(colou?r ?box|flag ?deco(ration)?|flagicon|nowrap|small|abbr|sort)$/i.test(t.name));
+  // a footnote after the team ({{efn|Moved from Eden Park}}) is never the team
+  const tpl = templates(raw, /^[A-Za-z][\w\- ]{0,14}$/).find(t => !/^(colou?r ?box|flag ?deco(ration)?|flagicon|nowrap|small|abbr|sort|efn(-\w+)?|refn|notetag|note|ref)$/i.test(t.name));
   if (tpl) {
     const p = params('x|' + tpl.body.slice(tpl.name.length + 1));
     const nm = tpl.name.toLowerCase();
