@@ -425,7 +425,7 @@ async function readCurated() {
   for (const f of (await readdir(dir)).filter(f => f.endsWith('.json'))) {
     const d = JSON.parse(await readFile(new URL(f, dir), 'utf8'));
     // a file made ready ahead of time ("from": "2027-01-04", NZ date) stays off the feed until that day
-    if (d.from && Date.now() < Date.parse(`${d.from}T00:00:00+13:00`)) continue;
+    if (d.from && new Date(Date.now()).toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }) < d.from) continue;
     events.push(...(d.events || [])); news.push(...(d.news || [])); kiwisIn.push(...(d.kiwisIn || []));
   }
   return { events, news, kiwisIn };
@@ -957,7 +957,8 @@ const events = curated.events.map(e => ({ ...e }));
 const STANDIN = /^(TBC|TBA|TBD)\b|winner|loser|\bplaced?\b|\bgroup\b|\bpool\b|semi-final|runners?[- ]up|qualifier|^\d(st|nd|rd|th)\b|\{\{/i;
 const standIns = e => [e.home, e.away].every(n => !n || STANDIN.test(n));
 const drawKind = e => `${e.sport}|${/wheelchair/i.test(e.comp || '') ? 'wc' : /women/i.test(`${e.comp} ${e.home} ${e.away}`) ? 'w' : 'm'}|${String(e.comp || '').replace(/\s*[,·(].*$/, '').trim()}`;
-const nzDay = t => new Date(Date.parse(t) + 13 * 36e5).toISOString().slice(0, 10);
+// the NZ date, daylight time or not (a fixed +13 hours put 11pm in NZ winter on the next day)
+const nzDay = t => new Date(t).toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' });
 const drawIds = new Set(curated.events.filter(e => !e.session && standIns(e)).map(e => e.id));
 function drawCard(le) {
   if (le.session) return null;
@@ -1789,6 +1790,11 @@ async function writeCalendars(events) {
   };
   const stamp = d => d.toISOString().replace(/[-:]/g, '').replace(/\.\d+Z$/, 'Z');
   const nzDate = d => d.toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' }).replace(/-/g, '');
+  // a date n calendar days on ("20270404" -> "20270405"), and a zone's offset from UTC at a moment, so each day of a
+  // match starts at the first day's local time and an all-day entry ends the next day, whatever the clocks do
+  const addDays = (ymd, n) => new Date(Date.UTC(+ymd.slice(0, 4), +ymd.slice(4, 6) - 1, +ymd.slice(6) + n)).toISOString().slice(0, 10).replace(/-/g, '');
+  const offset = (tz, t) => { const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }).formatToParts(t).map(x => [x.type, x.value])); return Date.UTC(+p.year, p.month - 1, +p.day, +p.hour, +p.minute, +p.second) - Math.floor(t / 1000) * 1000; };
+  const dayOn = (e, t, d) => { const s = t + d * DAY; try { const tz = e.tz || 'Pacific/Auckland'; return new Date(s + offset(tz, t) - offset(tz, s)); } catch { return new Date(s); } };
   const vevents = e => {
     const start = new Date(e.startUTC);
     if (isNaN(start) || e.status === 'final' && now - start > 2 * DAY) return [];
@@ -1801,8 +1807,8 @@ async function writeCalendars(events) {
     const hrs = e.sport !== 'cricket' ? HOURS[e.sport] || 2 : days > 1 ? 7.5 : /\bT20|Super Smash|Big Bash|\bBBL|WBBL/i.test(ctx) ? 3.5 : 8;
     const out = [];
     for (let d = 0; d < days; d++) {
-      const s = new Date(start.getTime() + d * DAY), lines = ['BEGIN:VEVENT', `UID:${e.id}${days > 1 ? '-d' + (d + 1) : ''}@kickoff-kiwi`, `DTSTAMP:${stamp(new Date(now))}`];
-      if (e.timeTBC) lines.push(`DTSTART;VALUE=DATE:${nzDate(s)}`, `DTEND;VALUE=DATE:${nzDate(new Date(s.getTime() + DAY))}`);
+      const s = dayOn(e, start.getTime(), d), lines = ['BEGIN:VEVENT', `UID:${e.id}${days > 1 ? '-d' + (d + 1) : ''}@kickoff-kiwi`, `DTSTAMP:${stamp(new Date(now))}`];
+      if (e.timeTBC) lines.push(`DTSTART;VALUE=DATE:${addDays(nzDate(start), d)}`, `DTEND;VALUE=DATE:${addDays(nzDate(start), d + 1)}`);
       else lines.push(`DTSTART:${stamp(s)}`, `DTEND:${stamp(new Date(s.getTime() + hrs * 36e5))}`);
       lines.push(`SUMMARY:${esc(`${ICON[e.sport] || ''} ${what}${days > 1 ? ` (day ${d + 1})` : ''}${e.timeTBC ? ' (time TBC)' : ''}`.trim())}`, `DESCRIPTION:${esc(desc)}`);
       if (where) lines.push(`LOCATION:${esc(where)}`);
@@ -2235,7 +2241,7 @@ const INTL_BREAKS = [
   ['football', 'w', '2026-11-24', '2026-12-05'], ['football', 'w', '2027-02-23', '2027-03-06'], ['football', 'w', '2027-04-13', '2027-04-24'],
   ['basketball', 'm', '2026-11-23', '2026-12-01'], ['basketball', 'm', '2027-02-22', '2027-03-02'],
 ].map(([s, g, a, b]) => [s, g, `${a}T00:00:00+13:00`, `${b}T00:00:00+13:00`]);
-const wk = t => Math.floor((t + 13 * 36e5 - 4 * DAY) / (7 * DAY)); // NZ weeks, Monday to Sunday (1 Jan 1970 was a Thursday)
+const wk = t => Math.floor((Date.parse(nzDay(t)) - 4 * DAY) / (7 * DAY)); // NZ weeks, Monday to Sunday (1 Jan 1970 was a Thursday)
 const byComp = new Map();
 // a league's round numbers (TheSportsDB's "Round 6") and the weeks each is played in: a round spread over two weeks is a
 // split round, planned (the A-League Men's rounds 6 and 7 are spread from 27 Nov to 6 Dec 2026, with three and two games)
@@ -2278,7 +2284,7 @@ for (const [k, ts] of handComp) {
   const last = Math.max(...ts); if (last > now || now - last > 10 * DAY) continue;
   const [sp, c] = k.split('|');
   if (events.some(e => e.sport === sp && baseComp(e) === c && (Date.parse(e.startUTC) > now || KO.test(`${e.comp || ''} ${e.stage || ''}`)))) continue;
-  checks.thinWeeks.push({ s: sp, c, week: new Date(last + 13 * 36e5).toISOString().slice(0, 10), n: 0, usual: ts.length, stopped: true });
+  checks.thinWeeks.push({ s: sp, c, week: nzDay(last), n: 0, usual: ts.length, stopped: true });
 }
 checks.noResult.sort((a, b) => a.at.localeCompare(b.at)); checks.noResult.splice(40);
 diag.checks = `${checks.noResult.length} games with no result after their time, ${checks.thinWeeks.length} thin weeks`;
