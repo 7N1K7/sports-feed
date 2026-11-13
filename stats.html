@@ -71,7 +71,7 @@ button, input { font: inherit; color: inherit }
 .seg button { border: 0; background: none; border-radius: 999px; padding: 4px 12px; font: 600 13px/18px var(--f-body); color: var(--muted); cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent }
 .seg button:hover { color: var(--ink) } .seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper) }
 .seg .sm, .tbrow .ico svg + .lg { display: none } .tbrow .ico .lg { display: inline }
-.rspan { flex: 1; min-width: 0; color: var(--muted); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.rspan { flex: 1; min-width: 0; color: var(--muted); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis } .rspan.err { color: #ff8787 }
 .btn.sm { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; font-size: 13px; line-height: 18px; flex: none }
 .btn.sm svg { width: 15px; height: 15px; flex: none } #jumpBtn svg { transition: transform .15s } #jumpBtn[aria-expanded="true"] svg { transform: rotate(180deg) }
 #jumpBtn[aria-expanded="true"] { border-color: var(--muted) }
@@ -539,21 +539,31 @@ const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satur
 let days = store.get('statsDays', 30), data = null, pw = store.get('statspw', '');
 if (![1, 3, 7, 14, 30, 90, 0].includes(days)) days = 30;
 
+// a refresh that fails keeps the stats on screen and says why in the dates' place by the Refresh button (one line, so
+// nothing moves), until the next redraw; only a wrong password brings the password box back
+const fail = (msg, short) => Object.assign(new Error(msg), { short });
 async function fetchStats() {
-  $('gateMsg').textContent = 'Loading…'; $('gateMsg').className = 'note';
+  const showing = !$('main').hidden && data;
+  if (!showing) { $('gateMsg').textContent = 'Loading…'; $('gateMsg').className = 'note'; }
   // the live coverage file comes in alongside (a few seconds at most), so Coverage over time is drawn once, complete
   const live = Promise.race([fetch('data/coverage.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null), new Promise(res => setTimeout(res, 4000, null))]).catch(() => null);
   try {
-    const r = await fetch(`${API}/stats?days=400`, { headers: { authorization: 'Bearer ' + pw }, cache: 'no-store' });
+    const r = await fetch(`${API}/stats?days=400`, { headers: { authorization: 'Bearer ' + pw }, cache: 'no-store' }).catch(() => { throw fail('Couldn\'t reach the stats server. Check your connection.', 'No connection'); });
     const j = await r.json().catch(() => ({}));
-    if (r.status === 401) { store.del('statspw'); throw new Error('That password isn\'t right.'); }
-    if (r.status === 429) throw new Error('Too many wrong passwords from this connection today. It opens again after midnight, NZ time.');
-    if (r.status === 503) throw new Error('The stats password isn\'t set up yet: add STATS_PASSWORD in the GitHub repo\'s secrets, then wait for the stats server to redeploy.');
-    if (!r.ok) throw new Error('The stats server answered with an error (' + r.status + ').');
-    data = j; covLive = await live; store.set('statspw', pw);
-    $('gate').hidden = true; $('main').hidden = false; $('gateMsg').textContent = '';
-    sizeRoom(); draw(); drawOnce();
+    if (r.status === 401) { store.del('statspw'); $('main').hidden = true; throw new Error('That password isn\'t right.'); }
+    if (r.status === 429) throw fail('Too many wrong passwords from this connection today. It opens again after midnight, NZ time.', 'Too many wrong passwords');
+    if (r.status === 503) throw fail('The stats password isn\'t set up yet: add STATS_PASSWORD in the GitHub repo\'s secrets, then wait for the stats server to redeploy.', 'No stats password set up');
+    if (!r.ok) throw fail('The stats server answered with an error (' + r.status + ').', `Server error (${r.status})`);
+    // an answer of the wrong shape (or one the page can't draw) leaves the page as it was
+    const odd = fail('The stats server sent an answer this page can\'t read. Try again in a minute.', 'Unreadable answer');
+    if (!j || !Array.isArray(j.rows) || !/^\d{4}-\d{2}-\d{2}$/.test(j.today)) throw odd;
+    const was = [data, covLive]; [data, covLive] = [j, await live];
+    $('gate').hidden = true; $('main').hidden = false;
+    try { sizeRoom(); draw(); } catch (e) { console.error(e); [data, covLive] = was; if (data) { sizeRoom(); draw(); } else $('main').hidden = true; throw odd; }
+    store.set('statspw', pw); $('gateMsg').textContent = '';
+    drawOnce();
   } catch (e) {
+    if (showing && e.short) { const s = $('rangeSpan'); s.textContent = `${e.short}: not refreshed`; s.title = e.message; s.classList.add('err'); return; }
     $('gate').hidden = false;
     $('gateMsg').textContent = e instanceof TypeError ? 'Couldn\'t reach the stats server. Check your connection.' : e.message;
     $('gateMsg').className = 'err';
@@ -1003,6 +1013,7 @@ function draw() {
   const tot = (k, sh = { list, per }) => sh.list.reduce((a, d) => a + sh.per[d][k], 0);
   const people = tot('visitors'), visits = tot('opens'), views = tot('views'), app = sums.mode?.app || 0, br = sums.mode?.browser || 0;
   const short = d => dayLabel(d, { weekday: 'short', day: 'numeric', month: 'short' });
+  $('rangeSpan').classList.remove('err'); $('rangeSpan').removeAttribute('title');
   $('rangeSpan').textContent = n === 1 ? `Today, ${short(data.today)}` : `${short(list[0])} to ${short(data.today)} · ${n} days`;
   $('heroN').textContent = fmtN(visits);
   const was = prev && change(visits, tot('opens', prev));
