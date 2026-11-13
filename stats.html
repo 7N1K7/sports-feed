@@ -531,6 +531,8 @@ const SETTINGS_USE = new Set(['Settings', 'Hide sport', 'Show sport', "Men's tea
   'Settings closed', 'Theme menu opened', 'Time zone menu opened', 'Hide results for menu opened']);
 const SETTINGS_LABEL = { Settings: 'Settings opened', 'Hide sport': 'A sport hidden', 'Show sport': 'A sport shown', 'Select all teams': 'Select all', 'Default teams': 'Defaults', 'NBA one card on': 'NBA set to one card a day', 'NBA one card off': 'NBA one card turned off', 'Clear all teams': 'Clear',
   'Hide results for changed': 'Hide results for: changed', 'Hidden sports list name': 'A name in the hidden list tapped', 'Turned-off name in sports info': 'A turned-off name in the i pop-up tapped', 'Off-by-default name in sports info': 'The NBA in the i pop-up\'s off-by-default line tapped', 'Off in settings note': 'The "off in settings" note by a sport or competition tapped', 'Show hidden league here': 'Show here by that note: what is off shown on that sport page', 'Hide hidden league here': 'Hide here by that note', 'Sports info button': 'The "i" by the sport buttons tapped', 'Settings from sports info': 'Open Settings from that "i"', 'Coffee in Settings': 'Coffee link', 'Settings closed': 'Settings closed with ×' };
+// these names are looked up by keys from the data, so they inherit nothing (a key like "constructor" is only itself)
+for (const o of [EVENT_LABEL, MODE_LABEL, DEVICE_LABEL, SPORT_LABEL, REPEAT_LABEL, SETTINGS_LABEL]) Object.setPrototypeOf(o, null);
 // errors already fixed: what the error says, the day of the fix, its version and what it was. One seen on a later day
 // shows as back
 const FIXED = [
@@ -583,24 +585,26 @@ const spanDays = () => days || Math.round((Date.parse(data.today) - Date.parse(f
 // the first day each metric has numbers, worked out once for each answer from the stats server
 let firsts = null;
 const firstOf = m => { if (firsts?.data !== data) { firsts = { data, d: Object.create(null) }; for (const r of data.rows) if (!(firsts.d[r.metric] <= r.day)) firsts.d[r.metric] = r.day; } return firsts.d[m] || data.today; };
+// a tally keyed by names from the data, with no inherited keys, so "constructor" or "__proto__" counts like any name
+const bag = () => Object.create(null);
 // an average a day: one decimal under 10, so a small site doesn't show 0
 const avgN = v => v < 10 ? v.toFixed(1).replace(/\.0$/, '') : fmtN(Math.round(v));
 // totals for n days ending `back` days before today: per day, and per metric/key
 function shape(n = spanDays(), back = 0) {
   const list = [];
   for (let i = n - 1; i >= 0; i--) list.push(dayAdd(data.today, -i - back));
-  const inRange = new Set(list), per = Object.fromEntries(list.map(d => [d, { visitors: 0, opens: 0, views: 0, appviews: 0, appvisitors: 0 }])), sums = {}, ds = Object.fromEntries(list.map(d => [d, { hubs: {} }]));
+  const inRange = new Set(list), per = Object.fromEntries(list.map(d => [d, { visitors: 0, opens: 0, views: 0, appviews: 0, appvisitors: 0 }])), sums = bag(), ds = Object.fromEntries(list.map(d => [d, { hubs: bag() }]));
   for (const r of data.rows) {
     if (!inRange.has(r.day)) continue;
     // the card size called Standard until v621 is Large now (and the older every-card Large became it)
     const key = r.metric === 'view' && r.key === 'big' ? 'mixed' : r.metric === 'use' && r.key === 'Card size Standard' ? 'Card size Large' : r.key;
-    if (r.metric in per[r.day]) per[r.day][r.metric] += r.n;
-    else { sums[r.metric] = sums[r.metric] || {}; sums[r.metric][key] = (sums[r.metric][key] || 0) + r.n; const o = ds[r.day][r.metric] ||= {}; o[key] = (o[key] || 0) + r.n; }
+    if (Object.hasOwn(per[r.day], r.metric)) per[r.day][r.metric] += r.n;
+    else { sums[r.metric] = sums[r.metric] || bag(); sums[r.metric][key] = (sums[r.metric][key] || 0) + r.n; const o = ds[r.day][r.metric] ||= bag(); o[key] = (o[key] || 0) + r.n; }
   }
   for (const d of list) if (!per[d].opens) per[d].opens = per[d].views; // days before visits were counted: page views stand in
   // competition pages opened by name are counted from 7 Nov 2026; on the days before, the competitions menu's picks
   const hubDays = new Set(data.rows.filter(r => r.metric === 'comppage').map(r => r.day));
-  sums.hubs = {};
+  sums.hubs = bag();
   for (const r of data.rows) if (inRange.has(r.day) && (r.metric === 'comppage' || (r.metric === 'comp' && !hubDays.has(r.day)))) { sums.hubs[r.key] = (sums.hubs[r.key] || 0) + r.n; ds[r.day].hubs[r.key] = (ds[r.day].hubs[r.key] || 0) + r.n; }
   return { list, per, sums, ds };
 }
@@ -1086,7 +1090,7 @@ function draw() {
   share('myteams', 'myteams', [['default', 'As it came'], ['changed', 'Changed']], sums, list, ds);
   share('newvis', 'newvis', [['been before', 'Been before'], ['first visit', 'First visit']], sums, list, ds);
   // gaps people landed on: each opening of a game not yet over, with what it lacked then
-  { const by = {}, comps = {}, KINDS = ['No start time', 'No way to watch', 'No squads'], SHORT_W = { 'No start time': 'no time', 'No way to watch': 'no way to watch', 'No squads': 'no squads' };
+  { const by = bag(), comps = bag(), KINDS = ['No start time', 'No way to watch', 'No squads'], SHORT_W = { 'No start time': 'no time', 'No way to watch': 'no way to watch', 'No squads': 'no squads' };
     for (const [k, n] of Object.entries(sums.gapseen || {})) {
       const [what, sport, comp] = k.split(' · '), b = by[sport] ||= { opened: 0 }, t = by[''] ||= { opened: 0 };
       b.opened += n; t.opened += n;
@@ -1117,11 +1121,11 @@ function draw() {
   bars('use', siteUse, k => k, Object.entries(siteUse).sort((a, b) => b[1] - a[1]).map(([k]) => k));
   share('spoil', 'spoil', [['hidden', 'Results hidden'], ['shown', 'Results shown']], sums, list, ds);
   share('view', 'view', [['list', 'List'], ['compact', 'Compact'], ['mixed', 'Large']], sums, list, ds);
-  bars('theme', sums.theme, k => ({ green: 'Kiwi green', ocean: 'Ocean blue', red: 'Pōhutukawa red', black: 'All Black', kowhai: 'Kōwhai gold', paua: 'Pāua teal', purple: 'Twilight purple', orange: 'Sunset orange', lime: 'Kawakawa lime', pink: 'Rātā pink', kauri: 'Kauri brown', silver: 'Silver fern', tui: 'Tūī indigo', navy: 'Moana navy', olive: 'Harakeke olive' })[k] || k);
+  bars('theme', sums.theme, k => Object.assign(bag(), { green: 'Kiwi green', ocean: 'Ocean blue', red: 'Pōhutukawa red', black: 'All Black', kowhai: 'Kōwhai gold', paua: 'Pāua teal', purple: 'Twilight purple', orange: 'Sunset orange', lime: 'Kawakawa lime', pink: 'Rātā pink', kauri: 'Kauri brown', silver: 'Silver fern', tui: 'Tūī indigo', navy: 'Moana navy', olive: 'Harakeke olive' })[k] || k);
   bars('speed', sums.speed, k => k, SPEED_ORDER);
   // each slow load is one line ("8s or more · slowest getting the feed · 4g connection · in sight · 4 GB memory · Android
   // Chrome 120"), split here into its parts
-  { const part = {}; for (const id of ['slowpart', 'slowseen', 'slownet', 'slowmem', 'slowdev']) part[id] = {};
+  { const part = {}; for (const id of ['slowpart', 'slowseen', 'slownet', 'slowmem', 'slowdev']) part[id] = bag();
     for (const [k, n] of Object.entries(sums.slowload || {})) { const [, why, net, seen, mem, dev] = k.split(' · ');
       for (const [id, v] of [['slowpart', why], ['slowseen', seen], ['slownet', net], ['slowmem', mem], ['slowdev', dev]]) if (v) part[id][v] = (part[id][v] || 0) + n; }
     bars('slowpart', part.slowpart, k => k.replace(/^slowest /, '').replace(/^./, c => c.toUpperCase()));
@@ -1130,7 +1134,7 @@ function draw() {
     bars('slowmem', part.slowmem, k => k === 'memory unknown' ? 'Not reported' : k.replace(/ memory$/, ''));
     bars('slowdev', part.slowdev, k => k); }
   // how far down visits get ("50-75% · Results"), split into the section and how much of the page, in page order
-  { const sec = {}, pct = {};
+  { const sec = bag(), pct = bag();
     for (const [k, n] of Object.entries(sums.scrolldepth || {})) { const [p, s] = k.split(' · '); if (p) pct[p] = (pct[p] || 0) + n; if (s) sec[s] = (sec[s] || 0) + n; }
     const SEC_ORDER = ['Top', 'A competition', 'Live now', 'Starting soon', 'This week', 'On today', 'Tomorrow', 'Coming up', 'Running now', 'Events ahead', 'Further ahead', 'Results', 'News', 'Shows', 'Foot of the page'];
     bars('scrollsec', sec, k => k, SEC_ORDER.filter(k => sec[k]).concat(Object.keys(sec).filter(k => !SEC_ORDER.includes(k))));
@@ -1138,7 +1142,7 @@ function draw() {
   // each error matched against the fixed list: back when the page that sent it ([vN], sent from v404 on) is the fixed
   // version or later, or, untagged, when it was seen more than a day after the fix (a phone can run a saved older page
   // for a while)
-  const lastSeen = {}, lastN = {};
+  const lastSeen = bag(), lastN = bag();
   for (const r of data.rows) if (r.metric === 'error') {
     if (!(lastSeen[r.key] >= r.day)) { lastSeen[r.key] = r.day; lastN[r.key] = r.n; } else if (lastSeen[r.key] === r.day) lastN[r.key] += r.n;
   }
@@ -1196,7 +1200,7 @@ function drawChecks(c) {
 // the top line: errors not yet fixed (or back after a fix) that turned up since they were last marked checked on this
 // device (a later day, or more of them the same day); "Mark checked" keeps each one's last day and count
 function errAlert(open, lastSeen, lastN) {
-  const done = store.get('errChecked', {}), el = $('errAlert');
+  const done = Object.assign(bag(), store.get('errChecked', {})), el = $('errAlert');
   const fresh = open.filter(k => { const [d, n] = String(done[k] || '').split('|'); return !d || lastSeen[k] > d || (lastSeen[k] === d && lastN[k] > +n); })
     .sort((a, b) => lastSeen[b].localeCompare(lastSeen[a]));
   el.classList.toggle('on', fresh.length > 0);
@@ -1285,7 +1289,7 @@ function rank(id, obj, cmp, label = k => [k], daily = null) {
 // everything used, all in one list: the parts of the site and the features, and the taps counted by what was tapped
 // (a sport button, a way to watch, a link out, a team on or off, a sport hidden or shown) added up
 function usedOf(sums) {
-  const o = {}, add = (k, n) => { if (n) o[k] = (o[k] || 0) + n; }, total = x => Object.values(x || {}).reduce((a, n) => a + n, 0);
+  const o = bag(), add = (k, n) => { if (n) o[k] = (o[k] || 0) + n; }, total = x => Object.values(x || {}).reduce((a, n) => a + n, 0);
   for (const [k, n] of Object.entries(sums.use || {})) add(SETTINGS_LABEL[k] || k, n);
   for (const [k, n] of Object.entries(sums.event || {})) if (k !== 'appfirst' && k !== 'install') add(EVENT_LABEL[k] || k, n);
   add('A sport button', total(sums.sport)); add('A way to watch', total(sums.watch)); add('A link to another site', total(sums.outlink));
@@ -1304,11 +1308,11 @@ function tapsOn(list, ds) {
     return a + t(usedOf(x)) - Math.min(t(x.watch), t(x.outlink)) - Math.min(games, ev.game || 0) - Math.min(teams, ev.team || 0); }, 0);
 }
 // games opened in each competition (a game is counted as "Competition: Home v Away")
-function compsOf(sums) { const o = {}; for (const [k, n] of Object.entries(sums.gameopen || {})) { const c = k.includes(': ') ? k.slice(0, k.indexOf(': ')) : 'Other'; o[c] = (o[c] || 0) + n; } return o; }
+function compsOf(sums) { const o = bag(); for (const [k, n] of Object.entries(sums.gameopen || {})) { const c = k.includes(': ') ? k.slice(0, k.indexOf(': ')) : 'Other'; o[c] = (o[c] || 0) + n; } return o; }
 function drawPopular(sums, ps, list, ds) {
   $('popSub').textContent = ps ? 'with the change on the days before, today left out' : '';
   // each list's figures on the whole days and on the days before them
-  const day = f => list.map(d => f(ds[d]) || {}), cmp = f => ps && [f(ps.now.sums) || {}, f(ps.was.sums) || {}];
+  const day = f => list.map(d => f(ds[d]) || bag()), cmp = f => ps && [f(ps.now.sums) || bag(), f(ps.was.sums) || bag()];
   rank('p-used', usedOf(sums), cmp(usedOf), undefined, day(usedOf));
   rank('p-game', sums.gameopen, cmp(x => x.gameopen), k => { const i = k.indexOf(': '); return i < 0 ? [k] : [k.slice(i + 2), k.slice(0, i)]; }, day(x => x.gameopen));
   rank('p-comp', compsOf(sums), cmp(compsOf), k => [SPORT_LABEL[k] || k], day(compsOf));
