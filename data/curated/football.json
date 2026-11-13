@@ -4,7 +4,7 @@
   {
    "sport": "football",
    "timeTBC": false,
-   "status": "upcoming",
+   "status": "final",
    "id": "aw-ind-1-2026",
    "team": "allwhites",
    "comp": "International friendly",
@@ -17,7 +17,9 @@
    "broadcast": "TVNZ 1 / TVNZ+ (free)",
    "watchNote": "TVNZ holds the All Whites' home rights; confirm closer to the day",
    "note": "First of two games against India",
-   "source": "https://www.aucklandstadiums.co.nz/event/all-whites-vs-india"
+   "source": "https://www.aucklandstadiums.co.nz/event/all-whites-vs-india",
+   "score": "5-0",
+   "summary": "Jesse Randall scored twice as the All Whites beat India at Mt Smart, with Chris Wood and Lachlan Bayliss also on the scoresheet."
   },
   {
    "sport": "football",

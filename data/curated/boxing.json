@@ -190,11 +190,13 @@
    "venue": "TikTok Entertainment Centre",
    "city": "Sydney, Australia",
    "tz": "Australia/Sydney",
-   "status": "upcoming",
+   "status": "final",
    "note": "Former NRL rivals; Asofa-Solomona is a Wellington-born Kiwis international. Main card listed from 7pm Sydney time (9pm NZ time Fri 6 Nov); main event ring walk later in the night, time not announced",
    "broadcast": "NZ TBC",
    "watchAU": "Main Event pay-per-view on Kayo and Foxtel",
-   "source": "https://www.fightnewsaustralia.com/watch-gallen-vs-nas-face-off-turns-ugly/"
+   "source": "https://www.fightnewsaustralia.com/watch-gallen-vs-nas-face-off-turns-ugly/",
+   "score": "Asofa-Solomona won by KO (R1)",
+   "summary": "Nelson Asofa-Solomona knocked Paul Gallen out in the first round, and Gallen announced his retirement afterwards."
   },
   {
    "id": "buatsi-hutchinson-2-2026-11-07",
@@ -209,10 +211,12 @@
    "venue": "AO Arena",
    "city": "Manchester, England",
    "tz": "Europe/London",
-   "status": "upcoming",
+   "status": "final",
    "note": "Rematch; start time TBC",
    "broadcast": "DAZN",
-   "source": "https://queensberry.co.uk/pages/joshua-buatsi-vs-willy-hutchinson-2-point-to-prove"
+   "source": "https://queensberry.co.uk/pages/joshua-buatsi-vs-willy-hutchinson-2-point-to-prove",
+   "score": "Hutchinson won by UD",
+   "summary": "Willy Hutchinson beat Joshua Buatsi on a unanimous decision in their rematch for the WBC light-heavyweight title."
   },
   {
    "id": "turhan-baumgardner-2026-11-08",

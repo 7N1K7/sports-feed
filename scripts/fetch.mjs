@@ -2259,6 +2259,22 @@ for (const c of Object.values(coverage)) for (const k of ['time', 'watch', 'squa
 const checks = { noResult: [], thinWeeks: [] };
 const fmtDays = e => /^(Test|First-class|Four-day)$/i.test(e.format || '') || /Sheffield Shield|Plunket Shield|first.class|\bTests?\b/i.test(`${e.comp || ''} ${e.stage || ''}`) ? (/Test/i.test(`${e.format || ''} ${e.comp || ''} ${e.stage || ''}`) ? 5 : 4) : 1;
 const baseComp = e => String(e.comp || e.team || '').replace(/\s*[,·(].*$/, '').replace(/\s+(Round|Week|Match|Game)\s+\d+.*$/i, '').trim();
+// a hand-kept NZ domestic game takes its result from Wikipedia's page for the competition, read for the form guide only
+// (the Ford Trophy's games are hand-kept and its page fills in after each round; from 14 Nov 2026). Same two sides
+// within a day and a half; the scores are swapped when the page lists the sides the other way round
+const domName = n => NZ_DOMESTIC[n] || n;
+let fromWiki = 0;
+for (const e of events) {
+  if (e.score || e.status === 'final' || e.sport !== 'cricket' || e.team !== 'nzdomestic' || !e.home || !e.away) continue;
+  const t = Date.parse(e.startUTC), pair = [domName(e.home), domName(e.away)].sort().join('|');
+  const w = formPast.find(x => x.status === 'final' && x.score && x.sport === 'cricket' && x.team === 'nzdomestic' && Math.abs(Date.parse(x.startUTC) - t) < 1.5 * DAY
+    && [domName(x.home), domName(x.away)].sort().join('|') === pair);
+  if (!w) continue;
+  const flip = domName(w.home) !== domName(e.home);
+  Object.assign(e, { status: 'final', score: flip && w.score.includes(' v ') ? w.score.split(' v ').reverse().join(' v ') : w.score, ...(w.summary ? { summary: w.summary } : {}), ...(w.source ? { source: w.source } : {}) });
+  fromWiki++;
+}
+diag.domesticFromWiki = `${fromWiki} hand-kept NZ domestic games took their result from Wikipedia`;
 // competitions with a result for any game: in one with none (the Ford Trophy: its only results are NZC's, which can't
 // be reused), a game's missing result says nothing, but the game is still listed, to check it was played when shown
 const hasRes = new Set(events.filter(e => e.score || e.status === 'final').map(e => `${e.sport}|${baseComp(e)}`));
