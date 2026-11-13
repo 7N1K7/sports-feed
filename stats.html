@@ -83,6 +83,9 @@ button, input { font: inherit; color: inherit }
 .lookmenu .swatches, .lookmenu .looks { grid-template-columns: repeat(3, minmax(0, 1fr)) }
 .lookmenu .sw, .lookmenu .lk { min-width: 0; white-space: nowrap }
 @media (max-width: 960px) { #lookBtn .lg { display: none } #lookBtn { padding: 4px 8px } } /* just its icon, so the days the range covers still show */
+/* a small computer: the days the range covers on their own line under the buttons, as they don't fit beside them */
+@media (min-width: 641px) and (max-width: 1099px) { .tbrow { flex-wrap: wrap } .rspan { order: 1; flex-basis: 100% } #jumpBtn { margin-left: auto } }
+@media (min-width: 641px) and (max-width: 759px) { .seg .lg { display: none } .seg .sm { display: inline } } /* 3d, 7d, so the buttons fit one line */
 .jump { position: absolute; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); top: calc(100% + 6px); max-height: min(72vh, 560px); overflow: auto; overscroll-behavior: contain; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px 22px; padding: 14px 18px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 14px 34px rgba(0, 0, 0, .5) }
 .jump[hidden] { display: none }
 .jump div { display: grid; gap: 1px; align-content: start }
@@ -122,6 +125,7 @@ button, input { font: inherit; color: inherit }
 .tile .s { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; min-height: calc(2 * 1.45em) }
 .tile:nth-child(n+5) .s { -webkit-line-clamp: 3; min-height: calc(3 * 1.45em) }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 14px }
+@media (min-width: 641px) and (max-width: 1099px) { .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)) } } /* six tiles: three and three */
 .tile { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; background: var(--paper) }
 .tile .l { color: var(--muted); font-size: 13px }
 .tile .v { font-size: 24px; font-weight: 700; line-height: 1.2 }
@@ -190,7 +194,7 @@ button, input { font: inherit; color: inherit }
 @media (max-width: 1099px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)) }
   .grid:not(.pop):not(.two) > .card:last-child:nth-child(odd), .grid.pop > .card:first-child { grid-column: 1 / -1 } }
 @media (max-width: 640px) { .grid, .grid.two { grid-template-columns: minmax(0, 1fr) }
-  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)) } .tiles > .tile:last-child:nth-child(odd) { grid-column: 1 / -1 } /* five tiles: two, two, one across */
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)) } .tiles > .tile:last-child:nth-child(odd) { grid-column: 1 / -1 } /* six tiles: three rows of two (an odd one out goes across) */
   .grp { flex-wrap: wrap; row-gap: 6px } .grp .gsub { order: 3; flex-basis: 100% } }
 /* the popular lists: a row each (rank, name, how many, the change on the days before), a thin bar under the name */
 .rank { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-rows: 34px; max-height: calc(10 * 34px); overflow: hidden }
