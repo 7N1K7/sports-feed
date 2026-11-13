@@ -2267,7 +2267,7 @@ let fromWiki = 0;
 for (const e of events) {
   if (e.score || e.status === 'final' || e.sport !== 'cricket' || e.team !== 'nzdomestic' || !e.home || !e.away) continue;
   const t = Date.parse(e.startUTC), pair = [domName(e.home), domName(e.away)].sort().join('|');
-  const w = formPast.find(x => x.status === 'final' && x.score && x.sport === 'cricket' && x.team === 'nzdomestic' && Math.abs(Date.parse(x.startUTC) - t) < 1.5 * DAY
+  const w = formPast.find(x => x.status === 'final' && x.score && x.sport === 'cricket' && x.team === 'nzdomestic' && String(e.comp || '').startsWith(String(x.comp || '-').split(/[,·]/)[0].trim()) && Math.abs(Date.parse(x.startUTC) - t) < 1.5 * DAY
     && [domName(x.home), domName(x.away)].sort().join('|') === pair);
   if (!w) continue;
   const flip = domName(w.home) !== domName(e.home);
