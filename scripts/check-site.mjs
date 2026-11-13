@@ -10,6 +10,8 @@ const ROOT = resolve('.'), OUT = process.env.CHECK_OUT || '', HOST = 'http://loc
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json', '.css': 'text/css',
   '.png': 'image/png', '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.webmanifest': 'application/manifest+json', '.ics': 'text/calendar' };
 const warn = m => console.log(`::warning::${m}`);
+// a page stuck in its own script never answers: stop waiting on it after 5 seconds
+const within = (p, v) => Promise.race([p, new Promise(r => setTimeout(r, 5000, v).unref())]);
 
 let chromium;
 { const req = createRequire(join(process.env.CHECK_DEPS || ROOT, 'x.js'));
@@ -43,9 +45,9 @@ async function look(width, height, view, ahead) {
     drawn = await page.evaluate(s => eval(s)(), `(${shown})`);
     if (!drawn) throw new Error('not drawn');
   } catch (e) {
-    note = await page.evaluate(() => document.querySelector('#mockBar')?.hidden ? 'no games on the page' : `the page says "${document.querySelector('#mockNote')?.textContent || ''}"`).catch(() => String(e.message).split('\n')[0]);
+    note = await within(page.evaluate(() => document.querySelector('#mockBar')?.hidden ? 'no games on the page' : `the page says "${document.querySelector('#mockNote')?.textContent || ''}"`).catch(() => String(e.message).split('\n')[0]), 'the page stopped answering');
   }
-  const rows = await page.evaluate(() => document.querySelectorAll('.ev').length).catch(() => 0);
+  const rows = await within(page.evaluate(() => document.querySelectorAll('.ev').length).catch(() => 0), 0);
   await ctx.close();
   return { drawn, note, rows, errors: [...new Set(errors)] };
 }
@@ -61,6 +63,6 @@ for (const [name, w, h, view, ahead] of [['desktop', 1280, 900], ['phone', 412, 
   if (r.drawn) console.log(`Site check (${name}, ${w}px): ${r.rows} games drawn`);
   else failed.push(`On a ${name} screen (${w}px) the games weren't drawn: ${r.note}${r.errors.length ? `. Page errors: ${r.errors.join('; ')}` : ''}`);
 }
-await browser.close();
+await browser.close().catch(() => {});
 if (OUT) writeFileSync(OUT, failed.join('\n'));
 if (failed.length) { for (const f of failed) console.log(`::error::${f}`); process.exit(1); }
