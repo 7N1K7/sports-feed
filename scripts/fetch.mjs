@@ -884,22 +884,26 @@ for (const e of [...tsdbAll, ...tsdbBack, ...wiki, ...formPast, ...curated.event
 for (const t of tables) if (t.sport === 'league' && /^NRL\b/.test(t.comp || '') && !/women|NRLW/i.test(t.page || '')) for (const r of t.rows) r.name = nrlName(r.name);
 
 // TheSportsDB has exact times; Wikipedia has scores for more competitions. Merge both, then onto curated.
+const side = (x, y) => { const a = norm(x), b = norm(y); return !!a && !!b && (a.includes(b) || b.includes(a)); };
+// a score turned to face the other order of sides: "31-10", or cricket's two innings either side of " v "
+const turnScore = s => /^\d+\s*-\s*\d+$/.test(s || '') ? s.split('-').map(x => x.trim()).reverse().join('-') : String(s || '').split(' v ').length === 2 ? s.split(' v ').reverse().join(' v ') : s;
 const live = [];
 for (const e of [...tsdbLive, ...wiki]) {
   const hit = live.find(x => same(x, e));
   if (!hit) { live.push(e); continue; }
+  // the two sources can list the sides the other way round: the first one's order stands and the second's scores are turned
+  const flip = side(e.home, hit.away) && side(e.away, hit.home) && !side(e.home, hit.home), face = s => flip ? turnScore(s) : s;
   if (hit.timeTBC && !e.timeTBC) Object.assign(hit, { startUTC: e.startUTC, timeTBC: false });
   // a UFC card with no time yet on either: Wikipedia's usual evening start in the venue's time zone, not TheSportsDB's midnight UTC
   else if (hit.team === 'ufc' && hit.timeTBC && e.timeTBC && e.tz) hit.startUTC = e.startUTC;
-  if (!hit.score && e.score) Object.assign(hit, { score: e.score, status: e.status, summary: e.summary });
+  if (!hit.score && e.score) Object.assign(hit, { score: face(e.score), status: e.status, summary: e.summary });
   if (/^TBC$/.test(hit.away) && e.away !== 'TBC') Object.assign(hit, { home: e.home, away: e.away });
   for (const k of ['venue', 'city', 'tz', 'link', 'card', 'squads', 'cricinfo', 'about']) if (!hit[k] && e[k]) hit[k] = e[k];
   if (e.weather) hit.weather = e.weather;
-  for (const k of ['progress', 'liveScore']) if (e[k]) hit[k] = e[k];
-  if (e.card && /wikipedia/.test(e.source)) { hit.source = e.source; if (e.score) Object.assign(hit, { score: e.score, summary: e.summary, status: e.status }); }
+  for (const k of ['progress', 'liveScore']) if (e[k]) hit[k] = k === 'liveScore' ? face(e[k]) : e[k];
+  if (e.card && /wikipedia/.test(e.source)) { hit.source = e.source; if (e.score) Object.assign(hit, { score: face(e.score), summary: e.summary, status: e.status }); }
 }
 
-const side = (x, y) => { const a = norm(x), b = norm(y); return !!a && !!b && (a.includes(b) || b.includes(a)); };
 const SIDE_KEYS = ['', 'Logo', 'Credit', 'LogoCredit', 'Badge'];
 const events = curated.events.map(e => ({ ...e }));
 // knockout cards kept from the draw before the sides are known ("TBC v TBC", Semi-final 1): a source's card for the same
@@ -945,7 +949,7 @@ for (const le of live) {
     const turned = side(le.home, hit.away) && side(le.away, hit.home) && !side(le.home, hit.home);
     const reorder = turned && /^TBC\b/.test(hit.venue || '') && !/^TBC\b/.test(le.venue || 'TBC');
     if (reorder) for (const k of SIDE_KEYS) { [hit['home' + k], hit['away' + k]] = [hit['away' + k], hit['home' + k]]; if (hit['home' + k] === undefined) delete hit['home' + k]; if (hit['away' + k] === undefined) delete hit['away' + k]; }
-    const faced = turned && !reorder && /^\d+\s*-\s*\d+$/.test(le.score || '') ? le.score.split('-').map(x => x.trim()).reverse().join('-') : le.score;
+    const face = s => turned && !reorder ? turnScore(s) : s, faced = face(le.score);
     // live sources win on time, status and score; curated keeps names, notes and broadcast. A kick-off kept by hand
     // from the official draw stands against one a few minutes off, though (Wikipedia had Samoa v Wales at 7:50 for the
     // draw's 7:45): only a real move, 20 minutes or more, replaces it
@@ -961,7 +965,7 @@ for (const le of live) {
     if (!hit.link && le.link) hit.link = le.link;
     for (const k of ['card', 'squads', 'cricinfo']) if (!hit[k] && le[k]) hit[k] = le[k];
     if (le.weather) hit.weather = le.weather;
-    for (const k of ['progress', 'liveScore']) if (le[k]) hit[k] = le[k];
+    for (const k of ['progress', 'liveScore']) if (le[k]) hit[k] = k === 'liveScore' ? face(le[k]) : le[k];
     if (!hit.source && le.source) hit.source = le.source;
   } else events.push(le);
 }
