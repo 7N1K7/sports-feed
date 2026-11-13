@@ -209,6 +209,16 @@ button, input { font: inherit; color: inherit }
 .more { align-self: flex-start; margin-top: 8px; border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 2px 11px; font: 600 12.5px/18px var(--f-body); color: var(--muted); cursor: pointer }
 .more:hover { color: var(--ink); border-color: var(--muted) } .more[hidden] { display: none }
 /* the two charts side by side on a wide screen */
+.ovw > .card { min-width: 0 } .ov-g { grid-area: g } .ov-v { grid-area: v } .ov-e { grid-area: e } .ov-b { grid-area: b }
+@media (min-width: 1100px) { .ovw { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; grid-template-areas: "g g" "v v" "e b"; align-items: stretch } }
+/* wide enough for three: the summary and the two charts side by side, the summary's lines spread to the charts' height
+   with each label over its line, and the hours chart as tall as the days one */
+@media (min-width: 1360px) {
+  .ovw { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "g e b" "v v v" }
+  .ov-g { display: flex; flex-direction: column } .ov-g .glance { flex: 1; display: grid; grid-auto-rows: 1fr }
+  .ov-g .glance li { grid-template-columns: minmax(0, 1fr); align-content: center; padding: 4px 0 }
+  .ov-b { display: flex; flex-direction: column } #hours { margin-top: auto } #hours svg { height: 250px }
+}
 @media (min-width: 1100px) { .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: stretch } .duo > .card { margin-top: 12px } }
 .bars { display: grid; gap: 7px; grid-auto-rows: 21px }
 .bars.cap { height: calc(10 * 21px + 9 * 7px); overflow: hidden } .bars.cap.all { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; padding-right: 4px }
@@ -387,19 +397,20 @@ th { color: var(--muted); font-weight: 600 }
     <div id="errAlert" class="erralert" role="status"></div>
 
     <h2 class="grp" id="g-overview">Overview</h2>
-      <section class="card" data-name="At a glance"><h2>At a glance</h2><ul class="glance" id="glance"></ul></section>
-      <section class="card" aria-live="polite" data-name="Visits">
+    <!-- on a wide screen At a glance, Each day and Busiest times share the first row, with the numbers under them -->
+    <div class="ovw">
+      <section class="card ov-g" data-name="At a glance"><h2>At a glance</h2><ul class="glance" id="glance"></ul></section>
+      <section class="card ov-v" aria-live="polite" data-name="Visits">
       <div class="hero"><span class="big" id="heroN">0</span><span class="lbl" id="heroL">visits</span></div>
       <div class="tiles" id="tiles"></div>
     </section>
-    <div class="duo">
-      <section class="card">
+      <section class="card ov-e">
       <h2>Each day <span class="note" id="chartSub" style="text-transform:none;letter-spacing:0;font-weight:500"></span></h2>
       <div class="legend"><span><i style="background:var(--series-1)"></i>People</span><span><i style="background:var(--series-2)"></i>Visits</span><span><i style="background:var(--series-3)"></i>Page views</span></div>
       <div class="chartbox" id="chart"></div>
       <details class="tbl"><summary>As a table</summary><div id="table"></div></details>
     </section>
-      <section class="card">
+      <section class="card ov-b">
       <h2>Busiest times</h2>
       <p class="note" style="margin-top:-4px">Page views by hour of the day, NZ time, over the chosen days.</p>
       <div class="chartbox" id="hours"></div>
@@ -1366,7 +1377,7 @@ function wanted(sums, list, ds) {
 // At a glance: the few things worth knowing first, one line each, and the Wanted and not found card
 function drawGlance(sums, list, ds, v) {
   const top = (o, f = k => k, n = 3) => Object.entries(o || {}).sort((a, b) => b[1] - a[1]).slice(0, n).map(([k, c]) => [f(k), c]);
-  const names = (rows, noun) => rows.length ? `<b>${esc(rows[0][0])}</b> ${noun} (${fmtN(rows[0][1])})${rows.length > 1 ? `<span class="mu">, then ${rows.slice(1).map(r => esc(r[0])).join(' and ')}</span>` : ''}` : '<span class="mu">Nothing yet in this range.</span>';
+  const names = rows => rows.length ? `<b>${esc(rows[0][0])}</b> (${fmtN(rows[0][1])})${rows.length > 1 ? `<span class="mu">, then ${rows.slice(1).map(r => esc(r[0])).join(' and ')}</span>` : ''}` : '<span class="mu">Nothing yet in this range.</span>';
   const w = wanted(sums, list, ds), W = ['no start time', 'no way to watch', 'no squads'];
   const g = w.gaps[0], gi = g ? g.by.indexOf(Math.max(...g.by)) : -1;
   const ch = v.was && v.was !== '–' && v.was !== 'new' ? ` <span class="${v.was[0] === '▲' ? 'up' : 'dn'}">${esc(v.was)}</span> <span class="mu">on the days before</span>` : '';
@@ -1374,8 +1385,8 @@ function drawGlance(sums, list, ds, v) {
   const site = !c?.last ? '' : c.last.ok ? `site fine at the last check${down ? `, ${down} problem${down > 1 ? 's' : ''} in 30 days` : ''}` : 'the site had a problem at the last check';
   const rows = [
     ['Visitors', '#g-overview', `<b>${avgN(v.avg)}</b> ${+avgN(v.avg) === 1 ? 'person' : 'people'} ${v.n === 1 ? 'so far today' : 'a day'}${ch}`],
-    ['Most opened', '#g-popular', names(top(sums.hubs), 'is the most opened competition')],
-    ['Watching on', '#g-popular', names(top(sums.watch), 'is the most tapped way to watch')],
+    ['Most opened', '#g-popular', names(top(sums.hubs))],
+    ['Watching on', '#g-popular', names(top(sums.watch))],
     ['Wanted', '#wantCard', w.words[0] ? `<b>${esc(w.words[0].k)}</b> searched ${w.words[0].n} time${w.words[0].n > 1 ? 's' : ''} on ${w.words[0].days} day${w.words[0].days > 1 ? 's' : ''}<span class="mu">, nothing found</span>` : '<span class="mu">No search came up empty in this range.</span>'],
     ['Biggest gap', '#wantCard', g ? `<b>${esc(g.k)}</b> opened ${g.by[gi]} time${g.by[gi] > 1 ? 's' : ''} <span class="mu">with ${W[gi]}</span>` : '<span class="mu">No game was opened with something missing.</span>'],
     ['Health', '#g-health', `${errs ? `<span class="al">${esc(errs)}</span>` : 'No new errors'}${site ? `<span class="mu"> · ${site}</span>` : ''}`],
@@ -1441,7 +1452,7 @@ function heat(list, ds) {
   box.innerHTML = g;
 }
 function hours(byHour) {
-  const box = $('hours'), W = Math.max(280, box.clientWidth), H = 170, m = { l: 34, r: 8, t: 8, b: 22 };
+  const box = $('hours'), W = Math.max(280, box.clientWidth), H = matchMedia('(min-width: 1360px)').matches ? 250 : 170, m = { l: 34, r: 8, t: 8, b: 22 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b, slot = iw / 24, bw = Math.min(24, slot - 2);
   const vals = [...Array(24)].map((_, h) => byHour[String(h).padStart(2, '0')] || 0), max = Math.max(4, ...vals);
   const step = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000].find(s => max / s <= 3) || Math.ceil(max / 3), top = Math.ceil(max / step) * step;
