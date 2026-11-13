@@ -98,7 +98,7 @@ const teamFor = text => NEWS_TEAMS.find(([, re]) => re.test(text))?.[0] || EVENT
 function kindOf(text) {
   if (/injur|ruled out|surgery|hamstring|concussion|sidelined|fracture|broken/i.test(text)) return 'injury';
   if (/squad|named|selected|recalled|debut|line-?up|team to (play|face)|contract|signs?\b|re-sign/i.test(text)) return 'squad';
-  if (/\bbeat|\bwin\b|\bwins\b|\bwon\b|thrash|defeat|\bloss\b|\blose\b|draw|\d+-\d+/i.test(text)) return 'result';
+  if (/\bbeat|\bwin\b|\bwins\b|\bwon\b|thrash|defeat|\bresult\b|dominat|\bcrush|\bthump|\bhammer|\brout(s|ed)?\b|victory|triumph|\bstun|\bupset\b|demolish|\bedge[sd]? (past|out)|\bloss\b|\blose\b|draw|\d+-\d+/i.test(text)) return 'result';
   return 'news';
 }
 const unxml = s => (s || '').replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1').replace(/<[^>]+>/g, '')
@@ -763,7 +763,7 @@ async function tvGuide(events) {
     if (!found.length) continue;
     // one entry a channel (its first listing: a pre-game show and the game are two), free channels first
     const byCh = new Map();
-    for (const f of found.sort((a, b) => a.at < b.at ? -1 : 1)) if (!byCh.has(f.ch)) byCh.set(f.ch, f);
+    for (const f of found.sort((a, b) => a.at < b.at ? -1 : 1)) { const k = f.ch.replace(/\s+/g, "").toLowerCase(); if (!byCh.has(k)) byCh.set(k, f); } // the two guides spell some apart ("TVNZ DUKE +1", "TVNZ DUKE+1")
     // the live listings; a delayed one only when there's nothing live (repeats later in the week aren't worth listing)
     const all = [...byCh.values()].sort((a, b) => (TV_FREE.test(b.ch) - TV_FREE.test(a.ch)) || (a.delayed - b.delayed) || (a.at < b.at ? -1 : 1));
     e.tv = (all.some(x => !x.delayed) ? all.filter(x => !x.delayed) : all.slice(0, 1)).slice(0, 4);

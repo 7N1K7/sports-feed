@@ -15,8 +15,10 @@ export const RANK_PAGES = [
   { sport: 'league', page: "IRL Men's World Rankings", kind: 'teams', titles: ["Men's"] },
   { sport: 'league', page: "IRL Women's World Rankings", kind: 'teams', titles: ["Women's"] },
   { sport: 'league', page: 'IRL Wheelchair World Rankings', kind: 'teams', titles: ['Wheelchair'] },
-  { sport: 'football', page: "FIFA Men's World Ranking", kind: 'teams', titles: ["Men's"] },
-  { sport: 'football', page: "FIFA Women's World Ranking", kind: 'teams', titles: ["Women's"] },
+  // football: the whole ranking (every FIFA side, not the article's top 20) from the data module Wikipedia's ranking
+  // templates read, so a game between two sides outside the top 20 can still show where each stands
+  { sport: 'football', page: "FIFA Men's World Ranking", data: 'Module:SportsRankings/data/FIFA World Rankings', kind: 'fifa', titles: ["Men's"] },
+  { sport: 'football', page: "FIFA Women's World Ranking", data: "Module:SportsRankings/data/FIFA Women's World Rankings", kind: 'fifa', titles: ["Women's"] },
   { sport: 'hockey', page: "FIH Men's World Ranking", kind: 'teams', titles: ["Men's"] },
   { sport: 'hockey', page: "FIH Women's World Ranking", kind: 'teams', titles: ["Women's"] },
   { sport: 'basketball', page: "FIBA Men's World Ranking", kind: 'teams', titles: ["Men's"] },
@@ -229,13 +231,41 @@ function fighterTables(tables, cfg) {
   return [...lists.values()].sort((a, b) => order(a.title) - order(b.title));
 }
 
+// FIFA's names for a few sides, as the rest of the site knows them
+const FIFA_NAME = {"China PR": "China", "Korea Republic": "South Korea", "Korea DPR": "North Korea", "IR Iran": "Iran", "Congo DR": "DR Congo", "Brunei Darussalam": "Brunei", "Kyrgyz Republic": "Kyrgyzstan", "Hong Kong, China": "Hong Kong", "Cabo Verde": "Cape Verde", "The Gambia": "Gambia", "Türkiye": "Turkey", "St Kitts and Nevis": "Saint Kitts and Nevis", "St Vincent and the Grenadines": "Saint Vincent and the Grenadines", "Czechia": "Czech Republic"};
+const FIFA_MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+// the module's rows: { "Spain", 1, 0, 2011.57 } (name, rank, movement, points); the top 50 listed, NZ added below them
+// if lower, and every side's rank kept in all for the match pop-ups
+function fifaList(src, cfg) {
+  const rows = [...src.matchAll(/\{\s*"([^"]+)",\s*(\d+),\s*(-?\d+),\s*([\d.]+)\s*\}/g)].map(m => ({ rank: m[2], name: FIFA_NAME[m[1]] || m[1], val: (+m[4]).toFixed(2), mv: +m[3] }))
+    .sort((a, b) => a.rank - b.rank);
+  if (rows.length < 50) return [];
+  const u = src.match(/data\.updated\s*=\s*\{\s*day\s*=\s*(\d+),\s*month\s*=\s*'(\w+)',\s*year\s*=\s*(\d{4})/), mo = u ? FIFA_MONTHS.indexOf(u[2].toLowerCase()) + 1 : 0;
+  const top = rows.slice(0, 50), nz = rows.find(r => NZ.test(r.name));
+  if (nz && !top.includes(nz)) top.push(nz);
+  for (const r of top) { if (NZ.test(r.name)) r.nz = true; delete r.mv; }
+  return [{ sport: cfg.sport, title: cfg.titles[0], page: cfg.page, asOf: mo ? `${u[3]}-${String(mo).padStart(2, '0')}-${u[1].padStart(2, '0')}` : '', valLabel: 'Points', rows: top, all: Object.fromEntries(rows.map(r => [r.name, +r.rank])) }];
+}
+
 // bumped when the parser changes, so lists cached by the old one are read again
-const CACHE_V = 6;
+const CACHE_V = 7;
 export async function rankings(cache, diag) {
   const now = Date.now(), out = [], notes = [];
   for (const cfg of RANK_PAGES) {
     const c = cache[cfg.page];
     if (c && c.v === CACHE_V && now - c.t < 12 * 36e5) { out.push(...c.lists); continue; }
+    if (cfg.kind === 'fifa') {
+      try {
+        await new Promise(r => setTimeout(r, 1000));
+        const r = await fetch(`https://en.wikipedia.org/w/index.php?action=raw&title=${encodeURIComponent(cfg.data.replace(/ /g, '_'))}`, { headers: UA });
+        if (!r.ok) throw new Error(r.status);
+        const lists = fifaList(await r.text(), cfg);
+        notes.push(`${cfg.data}: ${lists.map(l => `${Object.keys(l.all).length} sides @${l.asOf}`).join('') || 'nothing usable'}`);
+        if (lists.length) cache[cfg.page] = { t: now, v: CACHE_V, lists };
+        out.push(...(lists.length ? lists : c?.lists || []));
+      } catch (e) { notes.push(`${cfg.data}: error ${e.message}`); out.push(...(c?.lists || [])); }
+      continue;
+    }
     try {
       await new Promise(r => setTimeout(r, 1000));
       const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=parse&prop=text&redirects=1&disableeditsection=1&disablelimitreport=1&page=' + encodeURIComponent(cfg.page), { headers: UA });
@@ -256,4 +286,4 @@ export async function rankings(cache, diag) {
   diag.rankings = notes.join('; ') || 'all from cache';
   return out;
 }
-export { tablesOf as _tablesOf, teamTables as _teamTables, fighterTables as _fighterTables, playerTables as _playerTables, golfTables as _golfTables };
+export { fifaList as _fifaList, tablesOf as _tablesOf, teamTables as _teamTables, fighterTables as _fighterTables, playerTables as _playerTables, golfTables as _golfTables };
