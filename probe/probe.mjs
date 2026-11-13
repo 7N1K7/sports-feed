@@ -1,7 +1,6 @@
-// 14 Nov daily check: what the feed's Wikipedia reader makes of the Ford Trophy page (no scores printed)
-import { wikiEvents } from './sources.mjs';
-const diag = {};
-const cfg = [{ title: '{S} Ford Trophy', sport: 'cricket', comp: 'Ford Trophy', team: 'nzdomestic', tz: 'Pacific/Auckland', format: 'List A', formOnly: true }];
-const ev = await wikiEvents(cfg, () => 'Pacific/Auckland', diag, { prevDue: () => false });
-console.log('FT', ev.length, 'events', JSON.stringify(diag).slice(0, 400));
-for (const e of ev.filter(e => e.startUTC < '2026-11-14')) console.log(e.startUTC, '|', e.team, '|', e.home, 'v', e.away, '|', e.status, '| score?', !!e.score, '| formOnly', !!e.formOnly, '| src', (e.source || '').slice(0, 50));
+// 14 Nov: how the Ford Trophy page writes its teams (Wikipedia, read only; no scores printed)
+const UA = { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } };
+const r = await fetch('https://en.wikipedia.org/w/api.php?action=parse&prop=wikitext&format=json&formatversion=2&page=' + encodeURIComponent('2026–27 Ford Trophy'), UA);
+const t = (await r.json()).parse.wikitext;
+console.log('TEAMS'); console.log(t.split('\n').filter(l => /^\s*\|\s*(team1|team2|date)\s*=/.test(l)).slice(0, 12).join('\n'));
+console.log('results lines:', t.split('\n').filter(l => /^\s*\|\s*result\s*=/.test(l)).length);
