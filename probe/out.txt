@@ -1,8 +1,8 @@
-OPENVERSE
-Joshua Buatsi &source=flickr&license_type=modification&mature=false&page_size=20 | 200 5573ms | results 0 | {"result_count":0,"page_count":0,"page_size":20,"page":1,"results":[]}
-Joshua Buatsi &license_type=modification&page_size=20 | 200 5651ms | results 0 | {"result_count":0,"page_count":0,"page_size":20,"page":1,"results":[]}
-Callum Smith boxer &page_size=20 | 200 6189ms | results 0 | {"result_count":0,"page_count":0,"page_size":20,"page":1,"results":[]}
-Erin Blanchfield &license_type=modification&page_size=20 | 200 7696ms | results 0 | {"result_count":0,"page_count":0,"page_size":20,"page":1,"results":[]}
-Kade Ruotolo &page_size=20 | 504 14912ms | results - | <!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endi
+CHECKS generatedAt 2026-11-13T18:13:35.486Z age min 31
+keys noResult thinWeeks
+
+## noResult
+[{"s":"boxing","c":"Heavyweight","n":"Paul Gallen v Nelson Asofa-Solomona","at":"2026-11-06T08:00:00Z","src":"https://www.fightnewsaustralia.com/watch-gallen-vs-nas-face-off-turns-ugly/","noSource":true},{"s":"boxing","c":"Interim WBC light heavyweight title","n":"Joshua Buatsi v Willy Hutchinson","at":"2026-11-07T12:00:00Z","src":"https://queensberry.co.uk/pages/joshua-buatsi-vs-willy-hutchinson-2-point-to-prove","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Northern Districts v Otago Volts","at":"2026-11-07T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Wellington Firebirds v Auckland Aces","at":"2026-11-07T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Central Stags v Canterbury","at":"2026-11-07T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Auckland Aces v Otago Volts","at":"2026-11-11T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Central Stags v Wellington Firebirds","at":"2026-11-11T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Canterbury v Northern Districts","at":"2026-11-11T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"football","c":"International friendly","n":"New Zealand v India","at":"2026-11-12T06:00:00Z","src":"https://www.aucklandstadiums.co.nz/event/all-whites-vs-india","noSource":true}]
+
+## thinWeeks
+[]
