@@ -1,70 +1,28 @@
-== tsdb c=Australia&s=Cricket 2 
-  4461 | Australian Big Bash League | KFC Big Bash League | badge: https://r2.thesportsdb.com/images/media/league/badge/yko7ny1546635346.png
-  5530 | Sheffield Shield |  | badge: https://r2.thesportsdb.com/images/media/league/badge/cd4akv1742154549.png
-== tsdb c=World&s=Rugby 5 
-  5854 | Asia Rugby Championship |  | badge: https://r2.thesportsdb.com/images/media/league/badge/ojcb2d1773685766.png
-  5855 | Asia Rugby Division 1 |  | badge: https://r2.thesportsdb.com/images/media/league/badge/euwjvg1773686571.png
-  5852 | Nations Championship | Championnat des nations, ネーションズチャンピオンシップ | badge: https://r2.thesportsdb.com/images/media/league/badge/jifczi1773608397.png
-  5853 | Rugby Africa Cup | Coupe d'Afrique de rugby à XV | badge: https://r2.thesportsdb.com/images/media/league/badge/qddzm81773660193.png
-  5682 | Womens Rugby World Cup |  | badge: https://r2.thesportsdb.com/images/media/league/badge/vphokh1755422562.png
-== tsdb c=Worldwide&s=Rugby 5 
-  5562 | _Defunct Rugby Teams |  | badge: https://r2.thesportsdb.com/images/media/league/badge/x6liv41738949510.png
-  5447 | _No League Rugby |  | badge: https://r2.thesportsdb.com/images/media/league/badge/ra0fks1738949662.png
-  4984 | Autumn Nations Cup | Autumn Nations Series  | badge: https://r2.thesportsdb.com/images/media/league/badge/wvlly21623937678.png
-  5512 | British and Irish Lions Tours |  | badge: https://r2.thesportsdb.com/images/media/league/badge/iob1un1737973257.png
-  5370 | Commonwealth Games 7s Rugby |  | badge: https://r2.thesportsdb.com/images/media/league/badge/sjo2k31679328973.png
-== tsdb c=International&s=Rugby 5 
-  5808 | Rugby League Pacific Bowl |  | badge: https://r2.thesportsdb.com/images/media/league/badge/4lsvee1768827318.png
-  5807 | Rugby League Pacific Cup | Oceania Cup | badge: https://r2.thesportsdb.com/images/media/league/badge/v0bndr1768827347.png
-  5806 | Rugby League World Cup | Men's Rugby League World Cup | badge: https://r2.thesportsdb.com/images/media/league/badge/sxoc6h1768739073.png
-  5979 | Rugby League World Cup Women | Women's Rugby League World Cup | badge: https://r2.thesportsdb.com/images/media/league/badge/0xaynu1794235677.png
-  4551 | Super Rugby | Super Rugby Trans-Tasman | badge: https://r2.thesportsdb.com/images/media/league/badge/alpxhe1675871443.png
-== tsdb c=Australia&s=Rugby 5 
-  4417 | Australian National Rugby Championship |  | badge: https://r2.thesportsdb.com/images/media/league/badge/kb89dn1535795440.png
-  4416 | Australian National Rugby League | NRL | badge: https://r2.thesportsdb.com/images/media/league/badge/g5ocbs1777721333.png
-  5978 | Australian National Rugby League Women | NRLW, NRL Women | badge: https://r2.thesportsdb.com/images/media/league/badge/nneu9b1794132799.png
-  5171 | Australian Shute Shield |  | badge: https://r2.thesportsdb.com/images/media/league/badge/39u4ad1716376979.png
-  5835 | State of Origin |  | badge: https://r2.thesportsdb.com/images/media/league/badge/255k0e1771589044.png
-5838 Soccer | Polish Cup | Puchar Polski w piłce nożnej | badge: https://r2.thesportsdb.com/images/media/league/badge/t5x8f41772206659.png | logo: -
-5839 Soccer | Georgian Liga 3 | ლიგა 3 | badge: https://r2.thesportsdb.com/images/media/league/badge/ofw1r21772205826.png | logo: https://r2.thesportsdb.com/images/media/league/logo/i0p8sb1772205825.png
-5840 Soccer | Womens World Cup Qualifying UEFA | Fußball-Weltmeisterschaft der Frauen, Clasificación de UEFA para la Copa Mundial Femenina, Éliminatoires de la zone Europe de la Coupe du monde féminine | badge: https://r2.thesportsdb.com/images/media/league/badge/x9pn211772526501.png | logo: -
-5841 Soccer | Womens World Cup Qualifying CONCACAF | Campeonato Femenino de la Concacaf | badge: https://r2.thesportsdb.com/images/media/league/badge/9v7vdo1772526483.png | logo: -
-5842 Soccer | Greek Gamma Ethniki Group 1 | Gamma Ethniki Katigoria, Γ΄ Εθνική Κατηγορία | badge: https://r2.thesportsdb.com/images/media/league/badge/lr8ov61773069831.png | logo: -
-5843 429
-5844 429
-5845 429
-5846 429
-5847 429
-5848 429
-5849 429
-5850 429
-5851 429
-5852 429
-5853 429
-5854 429
-5855 429
-5856 429
-5857 429
-5858 429
-5859 429
-5860 429
-5861 429
-5862 429
-5863 429
-5864 429
-5865 429
-5866 429
-5867 429
-5868 429
-5869 429
-5870 429
-5871 429
-5872 429
-5873 429
-5874 429
-5875 429
-5876 429
-5877 429
-5878 429
-5879 429
-5880 429
+== event Uruguay_vs_Georgia 
+== event Samoa_vs_Hong_Kong 
+== event Tonga_vs_Zimbabwe 
+== event Canada_vs_Spain 
+5856 Rugby | Rugby Europe Trophy | Rugby Europe International Championships | badge: https://r2.thesportsdb.com/images/media/league/badge/02ydth1773781538.png | logo: -
+5857 Rugby | Rugby Europe Conference |  | badge: https://r2.thesportsdb.com/images/media/league/badge/g49wl01773782229.png | logo: -
+5858 Soccer | Chilean Copa de la Liga |  | badge: https://r2.thesportsdb.com/images/media/league/badge/pvva0s1774278525.png | logo: -
+5859 Soccer | Cambodian Hun Sen Cup | ពានរង្វាន់សម្តេចហ៊ុន សែន | badge: https://r2.thesportsdb.com/images/media/league/badge/4motr51774278480.png | logo: -
+5860 Soccer | Barbados Premier League | Digicel Premier League | badge: https://r2.thesportsdb.com/images/media/league/badge/u3tjd81774278518.png | logo: -
+5861 Soccer | Copa Libertadores U20 | CONMEBOL Under-20 Libertadores, CONMEBOL Libertadores Sub 20 | badge: https://r2.thesportsdb.com/images/media/league/badge/a7aylp1774278504.png | logo: https://r2.thesportsdb.com/images/media/league/logo/4ktxzz1774278503.png
+5862 Fighting | Cage Fury Fighting Championships | CFFC, Cage Fury FC | badge: https://r2.thesportsdb.com/images/media/league/badge/6jxt4d1774697161.png | logo: -
+5863 Baseball | MLB Spring Training |  | badge: https://r2.thesportsdb.com/images/media/league/badge/e683w01774775802.png | logo: https://r2.thesportsdb.com/images/media/league/logo/uw27wu1774731680.png
+5864 Soccer | Hungarian NB III Northwest | Nemzeti Bajnokság III Észak-nyugati csoport | badge: https://r2.thesportsdb.com/images/media/league/badge/ueod0n1775664813.png | logo: https://r2.thesportsdb.com/images/media/league/logo/0afb5w1775664813.png
+5865 Soccer | Hungarian NB III Northeast | Nemzeti Bajnokság III Észak-keleti csoport | badge: https://r2.thesportsdb.com/images/media/league/badge/sozdne1775664795.png | logo: https://r2.thesportsdb.com/images/media/league/logo/lvldqc1775664794.png
+5866 Soccer | Hungarian NB III Southwest | Nemzeti Bajnokság III Dél-nyugati csoport | badge: https://r2.thesportsdb.com/images/media/league/badge/hxsm4x1775664845.png | logo: https://r2.thesportsdb.com/images/media/league/logo/6zeg9i1775664844.png
+5867 Soccer | Hungarian NB III Southeast | Nemzeti Bajnokság III Dél-keleti csoport | badge: https://r2.thesportsdb.com/images/media/league/badge/4sdc4p1775664832.png | logo: https://r2.thesportsdb.com/images/media/league/logo/e2ioll1775664832.png
+5868 Soccer | Turkish 3 Lig Group 1 | TFF 3. Lig 1. Grup | badge: https://r2.thesportsdb.com/images/media/league/badge/ngeycp1775665665.png | logo: https://r2.thesportsdb.com/images/media/league/logo/5hzp631775665665.png
+5869 Soccer | Turkish 3 Lig Group 2 | TFF 3. Lig 2. Grup | badge: https://r2.thesportsdb.com/images/media/league/badge/n1mp3r1775665687.png | logo: https://r2.thesportsdb.com/images/media/league/logo/eeiz801775665686.png
+5870 Soccer | Turkish 3 Lig Group 3 | TFF 3. Lig 3. Grup | badge: https://r2.thesportsdb.com/images/media/league/badge/5d4b9w1775665700.png | logo: https://r2.thesportsdb.com/images/media/league/logo/gv5h6t1775665700.png
+5843 Soccer | Greek Gamma Ethniki Group 2 | Gamma Ethniki Katigoria, Γ΄ Εθνική Κατηγορία | badge: https://r2.thesportsdb.com/images/media/league/badge/qo14g71773069905.png | logo: -
+5844 Soccer | Greek Gamma Ethniki Group 3 | Gamma Ethniki Katigoria, Γ΄ Εθνική Κατηγορία | badge: https://r2.thesportsdb.com/images/media/league/badge/l2h1pg1773069907.png | logo: -
+5845 Soccer | Greek Gamma Ethniki Group 4 | Gamma Ethniki Katigoria, Γ΄ Εθνική Κατηγορία | badge: https://r2.thesportsdb.com/images/media/league/badge/mp3gsq1773069908.png | logo: -
+5846 Soccer | Greek Gamma Ethniki Group 5 | Gamma Ethniki Katigoria, Γ΄ Εθνική Κατηγορία | badge: https://r2.thesportsdb.com/images/media/league/badge/cw05gh1773069909.png | logo: -
+5847 Soccer | Greek Gamma Ethniki Group 6 | Gamma Ethniki Katigoria, Γ΄ Εθνική Κατηγορία | badge: https://r2.thesportsdb.com/images/media/league/badge/qtcf321773069910.png | logo: -
+5848 Volleyball | Mens European Volleyball League | Volleyball-Europaliga, Liga Europea de Voleibol, Ligue européenne masculine de volley-ball,  | badge: https://r2.thesportsdb.com/images/media/league/badge/f6jqu81773062328.png | logo: https://r2.thesportsdb.com/images/media/league/logo/2jr58p1773062328.png
+5849 Volleyball | Womens European Volleyball League | Ligue européenne féminine de volley-ball | badge: https://r2.thesportsdb.com/images/media/league/badge/2dta9j1773062294.png | logo: https://r2.thesportsdb.com/images/media/league/logo/jtxjoh1773062302.png
+5850 Soccer | World Cup Qualifying Inter-Confederation Play-offs |  | badge: https://r2.thesportsdb.com/images/media/league/badge/61n4f61773231973.png | logo: -
+5851 Golf | LPGA Futures Tour | Epson Tour, Duramed Futures Tour, Symetra Tour | badge: https://r2.thesportsdb.com/images/media/league/badge/qutj821773491635.png | logo: https://r2.thesportsdb.com/images/media/league/logo/c6983z1773498085.png
