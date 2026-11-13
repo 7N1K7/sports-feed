@@ -1052,8 +1052,8 @@ function draw() {
     + tile('Average a day', avgN(people / nd), `people · ${avgN(visits / nd)} visits`)
     + tile('Visits per person', people ? (visits / people).toFixed(1) : '–', 'a day, on average')
     + tile('Using the app', appP ? Math.round(100 * tot('appvisitors') / appP) + '%' : '–', `of people · ${fmtN(tot('appvisitors'))} app users, ${fmtN(tot('appviews'))} app page views`)
-    + (() => { const taps = Object.values(usedOf(sums)).reduce((a, x) => a + x, 0), tv = visits ? taps / visits : 0;
-        const rate = sh => tot('opens', sh) ? Object.values(usedOf(sh.sums)).reduce((a, x) => a + x, 0) / tot('opens', sh) : null;
+    + (() => { const taps = tapsOn(list, ds), tv = visits ? taps / visits : 0;
+        const rate = sh => tot('opens', sh) ? tapsOn(sh.list, sh.ds) / tot('opens', sh) : null;
         const pn = prev && rate(prev.now), pv = prev && rate(prev.was), ch = pn != null && pv != null ? change(Math.round(pn * 10), Math.round(pv * 10)) : '';
         return tile('Taps a visit', visits ? tv.toFixed(1) : '–', `${fmtN(taps)} taps${ch && ch !== '–' ? ` · ${ch} on the days before` : ''}`); })();
   // a day on its own is no line: Today shows the last 7 days
@@ -1292,6 +1292,16 @@ function usedOf(sums) {
   add('A team turned on', total(sums.follow)); add('A team turned off', total(sums.unfollow));
   add(SETTINGS_LABEL['Hide sport'] || 'Hide sport', total(sums.hidesport)); add(SETTINGS_LABEL['Show sport'] || 'Show sport', total(sums.showsport));
   return o;
+}
+// the taps on these days, each counted once: a way to watch that goes to another site is a link out too, and a game or
+// team opened from a search result, a team page, the playoff bracket or a "Team from…" button is also a game or team
+// opened. Both halves are counted from 24 Oct 2026, so a day takes off only what both counted
+function tapsOn(list, ds) {
+  const t = o => Object.values(o || {}).reduce((a, n) => a + n, 0);
+  return list.reduce((a, d) => { const x = ds[d] || {}, u = x.use || {}, ev = x.event || {};
+    const games = (u['Search result game'] || 0) + (u['Game from a team page'] || 0) + (u['Playoff bracket game'] || 0);
+    const teams = Object.entries(u).filter(([k]) => k === 'Search result team' || k.startsWith('Team from ')).reduce((s, [, n]) => s + n, 0);
+    return a + t(usedOf(x)) - Math.min(t(x.watch), t(x.outlink)) - Math.min(games, ev.game || 0) - Math.min(teams, ev.team || 0); }, 0);
 }
 // games opened in each competition (a game is counted as "Competition: Home v Away")
 function compsOf(sums) { const o = {}; for (const [k, n] of Object.entries(sums.gameopen || {})) { const c = k.includes(': ') ? k.slice(0, k.indexOf(': ')) : 'Other'; o[c] = (o[c] || 0) + n; } return o; }
