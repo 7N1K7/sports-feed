@@ -281,9 +281,11 @@ export async function rankings(cache, diag) {
       const all = tablesOf(j.parse?.text || ''), inFrag = frag ? all.filter(t => t.heading.toLowerCase() === frag) : [];
       const tables = frag ? inFrag : all;
       const lists = cfg.kind === 'fighters' ? fighterTables(tables, cfg) : cfg.kind === 'players' ? playerTables(tables, cfg) : /^(golfers|fedex|oom)$/.test(cfg.kind) ? golfTables(tables, cfg) : teamTables(tables, cfg);
-      notes.push(`${cfg.page}: ${tables.length} tables, ${lists.map(l => `${l.title} ${l.rows.length}${l.asOf ? ' @' + l.asOf : ''}`).join(', ') || 'nothing usable'}`);
-      if (lists.length) cache[cfg.page] = { t: now, v: CACHE_V, lists };
-      out.push(...(lists.length ? lists : c?.lists || []));
+      // the lists this read didn't get (a table that changed shape) are kept from the last read by this parser
+      const kept = lists.length && c?.v === CACHE_V ? c.lists.filter(o => !lists.some(l => l.title === o.title)) : [];
+      notes.push(`${cfg.page}: ${tables.length} tables, ${lists.map(l => `${l.title} ${l.rows.length}${l.asOf ? ' @' + l.asOf : ''}`).join(', ') || 'nothing usable'}${kept.length ? `, kept ${kept.map(l => l.title).join(', ')}` : ''}`);
+      if (lists.length) cache[cfg.page] = { t: now, v: CACHE_V, lists: [...lists, ...kept] };
+      out.push(...(lists.length ? [...lists, ...kept] : c?.lists || []));
     } catch (e) { notes.push(`${cfg.page}: error ${e.message}`); out.push(...(c?.lists || [])); }
   }
   diag.rankings = notes.join('; ') || 'all from cache';
