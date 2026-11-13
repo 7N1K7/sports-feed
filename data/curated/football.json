@@ -36,6 +36,21 @@
    "watchNote": "TVNZ holds the All Whites' home rights; confirm closer to the day",
    "note": "The first football game at Christchurch's new stadium",
    "source": "https://www.christchurchnz.com/visit/whats-on/all-whites-v-india"
+  },
+  {
+   "sport": "football",
+   "timeTBC": false,
+   "status": "upcoming",
+   "id": "wnpw-sydw-2026-11-15",
+   "team": "phoenix",
+   "comp": "A-League Women",
+   "home": "Wellington Phoenix",
+   "away": "Sydney FC",
+   "startUTC": "2026-11-15T02:00:00Z",
+   "venue": "Porirua Park",
+   "city": "Porirua",
+   "tz": "Pacific/Auckland",
+   "source": "https://wellingtonphoenix.com/?p=328993"
   }
  ]
 }

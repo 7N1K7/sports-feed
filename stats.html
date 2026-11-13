@@ -606,6 +606,8 @@ async function drawCoverage() {
 // games the site missed or had wrong, newest first, kept by hand (the daily check adds a line for each one it finds, filled
 // or not): [date found, competition, game, what was wrong, what was done, found by]. Never a score or result here
 const MISSED = [
+  ['13 Nov 2026', 'Hallyburton Johnstone Shield', 'Five of the six round 1 and 2 games (14 and 15 Nov): Hearts v Blaze twice, Magicians v Sparks twice, Hinds v Northern Districts on Sunday', 'Not on the site: only the opener had been added by hand', 'Added by hand at the usual 10:30am, from NZC\'s schedule announcement; venues for the Auckland and Christchurch games not yet confirmed', 'the weekend check'],
+  ['13 Nov 2026', 'A-League Women', 'Wellington Phoenix v Sydney FC (Sun 15 Nov, 3pm, Porirua Park)', 'Not on the site: no source the feed reads has A-League Women', 'Added by hand from the Phoenix\'s match page', 'the weekend check'],
   ['9 Nov 2026', 'Boxing', 'Joshua Buatsi v Willy Hutchinson (Sun 8 Nov, Manchester)', 'No result: the fight is hand-kept and no source the feed reads has boxing results', "Not filled: neither fighter's Wikipedia record lists it yet", 'the weekend check'],
   ['8 Nov 2026', 'Boxing', 'Paul Gallen v Nelson Asofa-Solomona', 'No result: the fight is hand-kept and no source the feed reads has boxing results', "Not filled: neither fighter's Wikipedia record lists it yet", 'the daily check'],
   ['8 Nov 2026', 'New Zealand Heartland XV v Samoa', 'both games (Sun 1 and Fri 6 Nov)', "No result: the games are hand-kept and none of the feed's sources has them", "Not filled: Wikipedia doesn't list either game yet, and no other free source we can use has them", 'the daily check'],
@@ -627,6 +629,18 @@ const MISSED = [
 // research sweeps, newest first, kept by hand: what a search found, what was done (done, todo, idea, no for a source
 // whose terms don't allow it, ok for checked and right), and the sources, each with what its terms allow. Never a score
 const RESEARCH = [
+  { d: '13 Nov 2026', t: 'The weekend, 13 to 16 Nov: times checked and gaps searched', sum: 'Two searches at once: the weekend\'s main games checked against their own sites, and a search for games with NZ teams or Kiwis the site was missing.', g: [
+    ['Times', [
+      ['ok', 'Checked and right: Black Caps ODIs 4 and 5 (3pm), Breakers v Bullets and Kings v Breakers, Wales v All Blacks (3:10am), both Rugby League World Cup finals (6:10pm and 9:35pm), Scotland v Australia (4:10am, not 3:40am), the Ashes ODIs (4:30pm), and the Hinds v Northern Districts opener', [['Scottish Rugby', 'https://scottishrugby.org/matches/internationals/2026-27/nations-championship/scotland-v-australia-3/', 'check by eye'], ['NZC schedule (PDF)', 'https://www.nzc.nz/media/4jnfcekm/print_2026_27-schedule-release.pdf', 'check by eye']]],
+      ['ok', 'UFC 334: the 11am start is the first prelim; prelims from 1pm, main card 3pm', [['MMA Sucka', 'https://mmasucka.com/previews/ufc-334-full-fight-card-main-event-and-start-times/', 'check by eye']]],
+      ['todo', 'All Whites v India (Sun 15 Nov): kick-off time still not published', [['Austadiums', 'https://www.austadiums.com/sport/event/34950', 'link only']]],
+    ]],
+    ['Missing games', [
+      ['done', 'Hallyburton Johnstone Shield rounds 1 and 2 and Phoenix women v Sydney FC: added by hand (see Missed games)', [['NZC announcement', 'https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/', 'check by eye'], ['Phoenix', 'https://wellingtonphoenix.com/?p=328993', 'check by eye']]],
+      ['idea', 'DP World Tour Championship in Dubai (12 to 15 Nov) with Ryan Fox: the site follows no DP World Tour events', [['Gulf Today', 'https://www.gulftoday.ae/sport/2026/10/21/major-champions-rai-and-fox-join-dp-world-tour-championship-field', 'link only']]],
+      ['ok', 'Nothing else this weekend: the A-League Men is on an international break to 17 Nov, no F1, Supercars, NASCAR or IndyCar race, and no Kiwi boxing or MMA card found', []],
+    ]],
+  ] },
   { d: '7 Nov 2026', t: 'Every sport, 7 to 15 Nov, searched by hand', sum: 'Four searches at once: team sports, other sports, where to watch, and data and pictures for the known gaps. Each ran out of searches part-way, so some sports are still to check (listed last).', g: [
     ['Wrong times', [
       ['done', 'NBL: 8 of the 13 games this week were early (an hour in daylight-saving states and NZ, three for two Saturday games moved for TV), the Breakers v Bullets and Sydney v Breakers among them. Wikipedia gives standard time all season. TheSportsDB has them right, and its times now win, for the whole season (v599)', [['TheSportsDB rounds', 'https://www.thesportsdb.com/league/4434', 'free key, read automatically'], ['Breakers schedule', 'https://nzbreakers.basketball/schedule', 'check by eye']]],
