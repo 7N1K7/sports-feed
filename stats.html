@@ -106,12 +106,21 @@ button, input { font: inherit; color: inherit }
 .grp { display: flex; align-items: baseline; gap: 10px; margin: 30px 0 0; font: 700 22px/1 var(--f-display); letter-spacing: .03em; text-transform: uppercase; color: var(--ink) }
 .grp::after { content: ""; flex: 1; align-self: center; height: 1px; background: var(--line) }
 .grp .gsub { font: 500 13px var(--f-body); letter-spacing: 0; text-transform: none; color: var(--muted) }
+.grp .gsub:empty::after { content: "\a0" } /* its line kept when it has nothing to say, so the cards under it stay put */
 .grp, .card { scroll-margin-top: calc(var(--tbh, 56px) + 12px) }
 #g-overview { margin-top: 20px }
 /* the headline: visits in the range, then the tiles */
 .hero { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px }
 .hero .big { font-size: 56px; font-weight: 700; line-height: 1 }
 .hero .lbl { color: var(--muted) }
+/* the line by the number keeps a set number of lines at each width (one beside it on a wide screen, two under it on a
+   small computer, three on a phone), and each tile's foot two (three for the app and taps), so nothing under them moves
+   when the range changes */
+.hero .lbl { flex: 1 1 0; min-width: 0; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; overflow: hidden }
+@media (max-width: 1099px) { .hero .lbl { flex-basis: 100%; -webkit-line-clamp: 2; min-height: calc(2 * 1.45em) } }
+@media (max-width: 640px) { .hero .lbl { -webkit-line-clamp: 3; min-height: calc(3 * 1.45em) } }
+.tile .s { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; min-height: calc(2 * 1.45em) }
+.tile:nth-child(n+5) .s { -webkit-line-clamp: 3; min-height: calc(3 * 1.45em) }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 14px }
 .tile { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; background: var(--paper) }
 .tile .l { color: var(--muted); font-size: 13px }
@@ -132,7 +141,7 @@ button, input { font: inherit; color: inherit }
 /* errors read as full sentences: no bar, the text wraps */
 /* a network's name is long ("Comcast Cable (United States)"): more room for it, less for the bar */
 .nets .bar { grid-template-columns: minmax(0, 1fr) minmax(0, 3.5em) auto }
-#error { grid-auto-rows: auto } #error .bar { grid-template-columns: minmax(0, 1fr) auto } #error .bar .t { display: none } #error .bar .k { white-space: normal; overflow-wrap: anywhere; font-size: 13px }
+#error { grid-auto-rows: auto; max-height: calc(10 * 21px + 9 * 7px); overflow: hidden } #error.all { overflow-y: auto } #error .bar { grid-template-columns: minmax(0, 1fr) auto } #error .bar .t { display: none } #error .bar .k { white-space: normal; overflow-wrap: anywhere; font-size: 13px }
 .chartbox text { fill: var(--muted); font-size: 11px; font-family: var(--f-body) }
 .chartbox .end { font-size: 12px; font-weight: 600; fill: var(--ink) }
 .chartbox .peak { font-size: 11px; font-weight: 700; fill: var(--ink) }
@@ -204,7 +213,11 @@ button, input { font: inherit; color: inherit }
 .cov th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; text-align: center; padding: 4px 6px }
 .cov th:first-child, .cov td:first-child { text-align: left }
 .cov td { padding: 6px; border-top: 1px solid var(--line); text-align: center; white-space: nowrap }
-.gaplist { margin: 12px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.5 } .gaplist b { margin-right: 6px } .cov td.c { font-weight: 700 } .cov td .muted { color: var(--muted); font-weight: 500 } .cov td.c small { display: block; font-size: 11px; font-weight: 500; color: var(--muted) }
+.gaplist { margin: 12px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.5 } .gaplist b { margin-right: 6px }
+/* a competition takes a set number of lines (its name, then what was missing, on a phone or a small computer; one line
+   on a wide screen), so the list keeps its size whatever the range */
+.gaplist li { white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+@media (max-width: 1099px) { .gaplist li b { display: block; overflow: hidden; text-overflow: ellipsis } } .cov td.c { font-weight: 700 } .cov td .muted { color: var(--muted); font-weight: 500 } .cov td.c small { display: block; font-size: 11px; font-weight: 500; color: var(--muted) }
 .cov td.ok { color: #2f9e44 } .cov td.mid { color: #e8890c } .cov td.low { color: #e03131 } .cov td.na { color: var(--muted) }
 .cov tr.tot td { font-weight: 800; border-top: 2px solid var(--line) }
 .covwrap { overflow-x: auto }
@@ -534,7 +547,7 @@ async function fetchStats() {
     if (!r.ok) throw new Error('The stats server answered with an error (' + r.status + ').');
     data = j; covLive = await live; store.set('statspw', pw);
     $('gate').hidden = true; $('main').hidden = false; $('gateMsg').textContent = '';
-    draw(); drawOnce();
+    sizeRoom(); draw(); drawOnce();
   } catch (e) {
     $('gate').hidden = false;
     $('gateMsg').textContent = e instanceof TypeError ? 'Couldn\'t reach the stats server. Check your connection.' : e.message;
@@ -969,6 +982,16 @@ function drawOnce() {
   const RTAG = { done: 'Done', todo: 'To do', idea: 'Idea', no: "Can't use", ok: 'Checked' };
   $('researchList').innerHTML = RESEARCH.map((r, i) => `<details class="rsw"${i ? '' : ' open'}><summary>${esc(r.d)} · ${esc(r.t)}</summary><p class="note">${esc(r.sum)}</p>${r.g.map(([h, items]) => `<h3>${esc(h)}</h3><ul>${items.map(([st, txt, src]) => `<li><span class="rst ${esc(st)}">${RTAG[st] || esc(st)}</span><span>${esc(txt)}.${src.length ? ` <span class="rsrc">${src.map(([n, u, v]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)}</a> <span class="rv">(${esc(v)})</span>`).join(' · ')}</span>` : ''}</span></li>`).join('')}</ul>`).join('')}</details>`).join('');
 }
+// each list's height over the longest range (All, or 90 days while the numbers are younger than that), kept as its
+// least height in a shorter range, which only has fewer rows: so nothing below a list moves when the range changes.
+// Worked out again when the width changes
+const ROOM = '#main .card :is(.bars, .rank, .share, .reps), #gapseen, #gapcomp', roomMore = new Set();
+let room = null;
+function sizeRoom() {
+  room = null; roomMore.clear(); document.querySelectorAll(ROOM).forEach(el => { el.style.minHeight = ''; });
+  const d = days; days = Date.parse(data.today) - Date.parse(firstDay()) >= 90 * DAY ? 0 : 90; draw(); days = d;
+  room = {}; document.querySelectorAll(ROOM).forEach(el => { room[el.id] = el.getBoundingClientRect().height; });
+}
 function draw() {
   document.querySelectorAll('[data-days]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.days === days)));
   const n = spanDays(), { list, per, sums, ds } = shape(), prev = prevShape();
@@ -1100,6 +1123,7 @@ function draw() {
   drawReports(list[0]);
   drawChecks(data.checks);
   try { drawTrend(); } catch (e) { console.error(e); $('cvTiles').innerHTML = '<p class="note">Couldn\'t draw this.</p>'; }
+  if (room) document.querySelectorAll(ROOM).forEach(el => { el.style.minHeight = (room[el.id] || 0) + 'px'; });
 }
 // the reports in the range, newest first: a game's links to its pop-up on the site
 function drawReports(from) {
@@ -1139,35 +1163,40 @@ function errAlert(open, lastSeen, lastN) {
 }
 function bars(id, obj, label, order) {
   const el = $(id);
+  // a list in a set order (the days of the week, speeds) keeps every row of it, a dash for one with none in the range
+  if (order && obj) obj = { ...Object.fromEntries(order.map(k => [k, null])), ...obj };
   const rows = Object.entries(obj || {}).sort((a, b) => order ? order.indexOf(a[0]) - order.indexOf(b[0]) : b[1] - a[1]);
   el.replaceChildren();
-  if (!rows.length) { const p = document.createElement('div'); p.className = 'empty'; p.textContent = 'Nothing yet in this range.'; el.append(p); return; }
+  if (!rows.some(([, n]) => n != null)) { const p = document.createElement('div'); p.className = 'empty'; p.textContent = 'Nothing yet in this range.'; el.append(p); showAll(el, id, 0); return; }
   const top = order ? rows : rows.slice(0, 7), rest = order ? 0 : rows.slice(7).reduce((a, r) => a + r[1], 0);
   if (rest) top.push(['', rest]);
-  // every one listed: the first ten, and Show all scrolls the rest in the same space
-  showAll(el, id, top.length);
   const max = Math.max(...top.map(r => r[1]));
   for (const [k, n] of top) {
     const row = document.createElement('div'); row.className = 'bar';
     const name = document.createElement('span'); name.className = 'k'; name.textContent = k === '' ? 'Other' : label(k); name.title = name.textContent;
     const track = document.createElement('span'); track.className = 't';
-    const fill = document.createElement('i'); fill.style.width = (100 * n / max).toFixed(1) + '%'; track.append(fill);
-    const num = document.createElement('span'); num.className = 'n'; num.textContent = Number.isInteger(n) ? fmtN(n) : n.toFixed(1);
+    const fill = document.createElement('i'); fill.style.width = (100 * n / max).toFixed(1) + '%'; if (n != null) track.append(fill);
+    const num = document.createElement('span'); num.className = 'n'; num.textContent = n == null ? '–' : Number.isInteger(n) ? fmtN(n) : n.toFixed(1);
     row.append(name, track, num); el.append(row);
   }
+  // every one listed: the first ten, and Show all scrolls the rest in the same space
+  showAll(el, id, top.length);
 }
 
 // a long list's Show all button (after the list): the first ten rows show, and the button lets the rest scroll in the
 // same space, so the card keeps its size; the choice stays while the range changes
 const allOpen = new Set();
 function showAll(el, id, rows) {
-  const long = rows > 10; let b = el.nextElementSibling?.classList.contains('more') ? el.nextElementSibling : null;
+  // errors wrap onto more lines, so they can fill the space before ten rows
+  const long = rows > 10 || id === 'error' && el.scrollHeight > el.clientHeight + 1; let b = el.nextElementSibling?.classList.contains('more') ? el.nextElementSibling : null;
   el.classList.toggle('cap', long && el.classList.contains('bars')); el.classList.toggle('all', long && allOpen.has(id));
-  if (!long) { if (b) b.hidden = true; return; }
+  if (!room && long) roomMore.add(id);
+  // a shorter range keeps the line's space (unseen) when the whole range has the button, so the card keeps its size
+  if (!long) { if (b) { b.hidden = !roomMore.has(id); b.style.visibility = 'hidden'; } return; }
   if (!b) { b = document.createElement('button'); b.type = 'button'; b.className = 'more'; el.after(b);
     b.addEventListener('click', () => { allOpen.has(id) ? allOpen.delete(id) : allOpen.add(id); el.classList.toggle('all', allOpen.has(id)); el.scrollTop = 0; label(); }); }
   const label = () => { b.textContent = allOpen.has(id) ? 'Top 10 only' : `Show all ${rows}`; b.setAttribute('aria-expanded', String(allOpen.has(id))); };
-  b.hidden = false; label();
+  b.hidden = false; b.style.visibility = ''; label();
 }
 // the most popular: a leaderboard each, most first, with the change on the same number of days before (when there are
 // numbers for all of them)
@@ -1418,7 +1447,7 @@ const syncMe = () => { const on = store.get('nocount', false); $('noCount').setA
 $('noCount').addEventListener('click', () => { store.set('nocount', !store.get('nocount', false)); syncMe(); });
 syncMe();
 // drawn again only when the width changes: a phone's toolbar hiding as the page scrolls changes only the height
-let rz = 0, rw = innerWidth; addEventListener('resize', () => { if (innerWidth === rw) return; rw = innerWidth; cancelAnimationFrame(rz); rz = requestAnimationFrame(() => data && draw()); });
+let rz = 0, rw = innerWidth; addEventListener('resize', () => { if (innerWidth === rw) return; rw = innerWidth; cancelAnimationFrame(rz); rz = requestAnimationFrame(() => { if (data) { sizeRoom(); draw(); } }); });
 if (pw) fetchStats(); else $('pw').focus();
 // the site's version (written by the feed builder), as shown under the main page's title
 fetch('data/version.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(v => { if (v?.version) $('ver').textContent = `v${v.version}`; }).catch(() => {});
