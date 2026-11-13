@@ -293,9 +293,9 @@ button, input { font: inherit; color: inherit }
 .bar .n { font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; text-align: right }
 .empty { color: var(--muted); font-size: 14px }
 /* reports sent from the site: newest first, each with when, what it's about and the note */
-.reps { display: grid; gap: 10px; max-height: 420px; overflow: auto }
+.reps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; max-height: 420px; overflow: auto } /* one long word breaks, never widens the list */
 .rep { border-top: 1px solid var(--line); padding-top: 8px } .rep:first-child { border-top: 0; padding-top: 0 }
-.rep .rh { font-size: 13px; color: var(--muted) } .rep .rh b { color: var(--ink) }
+.rep .rh { font-size: 13px; color: var(--muted); overflow-wrap: anywhere } .rep .rh b { color: var(--ink) }
 .rep .idea { color: var(--accent); font-weight: 700 }
 .rep p { margin: 3px 0 0; font-size: 15px; white-space: pre-wrap; overflow-wrap: anywhere }
 details.tbl summary { cursor: pointer; font-weight: 600 }
