@@ -545,8 +545,8 @@ async function youtubeStreams(events) {
   for (const [sport, ch, id, only] of YT_CHANNELS) {
     try {
       const hot = !only && events.some(e => e.sport === sport && e.status !== 'final' && Date.parse(e.startUTC) < now + 90 * 60e3 && Date.parse(e.startUTC) > now - 30 * 60e3);
-      let streams = cache[id] && !hot && now - cache[id].t < 30 * 60e3 ? cache[id].streams : null, hls = streams ? cache[id].hl || [] : null;
-      if (!streams) {
+      let streams = cache[id] && !hot && now - cache[id].t < 30 * 60e3 ? cache[id].streams : null, hls = streams ? cache[id].hl || [] : null, stale = '';
+      if (!streams) try {
         const pl = await yt('playlistItems', `part=contentDetails&maxResults=50&playlistId=UU${id.slice(2)}`);
         const ids = (pl.items || []).map(x => x.contentDetails.videoId);
         const v = ids.length ? await yt('videos', `part=snippet,contentDetails,liveStreamingDetails&id=${ids.join(',')}`) : { items: [] };
@@ -568,8 +568,13 @@ async function youtubeStreams(events) {
           .map(x => ({ id: x.id, title: x.snippet.title, at: x.snippet.publishedAt || '', d: line1(x.snippet.description), main: /^\W*highlights?\b/i.test(x.snippet.title), ...(wc(x) ? { wc: true } : {}) })).filter(x => x.at);
         if (only === 'hl') streams = [];
         cache[id] = { t: now, streams, hl: hls };
+      } catch (err) {
+        // the API failing (its daily quota spent, or down): the channel's last streams and highlights stand, so the free
+        // stream and Highlights links stay up until it answers again
+        if (!cache[id]) throw err;
+        streams = cache[id].streams || []; hls = cache[id].hl || []; stale = ` (error ${err.message}, last read kept)`;
       }
-      notes.push(`${ch} ${streams.length}`);
+      notes.push(`${ch} ${streams.length}${stale}`);
       if (id === CA_YT) caStreams = streams;
       for (const st of streams) {
         // (a stream cached before 6 Nov 2026 has no description line: d is '')
@@ -820,7 +825,20 @@ const resUrl = new URL('.cache/results.json', ROOT);
 let resCache = {};
 try { resCache = JSON.parse(await readFile(resUrl, 'utf8')); } catch {}
 const prevRead = resCache.prevRead ||= {};
-try { wiki = await wikiEvents(wikiCfg.pages, n => tzFor(n, n), diag, { prevDue: t => !(Date.now() - (prevRead[t] || 0) < 7 * DAY) }); tables = wiki.tables || []; for (const t of wiki.prevRead || []) prevRead[t] = Date.now(); } catch (e) { console.warn('Wikipedia failed:', e.message); diag.wikipedia = 'error: ' + e.message; }
+// the last good read is kept, so one failed run (Wikipedia busy or down) doesn't publish a feed without its games,
+// results and tables: it stands in for up to six hours
+const wikiLastUrl = new URL('.cache/wiki-last.json', ROOT);
+try {
+  wiki = await wikiEvents(wikiCfg.pages, n => tzFor(n, n), diag, { prevDue: t => !(Date.now() - (prevRead[t] || 0) < 7 * DAY) }); tables = wiki.tables || []; for (const t of wiki.prevRead || []) prevRead[t] = Date.now();
+  try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(wikiLastUrl, JSON.stringify({ t: Date.now(), events: wiki, tables })); } catch {}
+} catch (e) {
+  console.warn('Wikipedia failed:', e.message); diag.wikipedia = 'error: ' + e.message;
+  try {
+    const last = JSON.parse(await readFile(wikiLastUrl, 'utf8')), age = Date.now() - last.t;
+    if (age < 6 * 36e5 && Array.isArray(last.events)) { wiki = last.events; tables = last.tables || []; diag.wikipedia += `; using the last good read, ${Math.round(age / 6e4)} min old (${wiki.length} games, ${tables.length} tables)`; }
+    else diag.wikipedia += '; the last good read is too old to use';
+  } catch { diag.wikipedia += '; no last good read kept'; }
+}
 // last season's games (and last summer's tours) count only toward the form guide, so they skip everything else
 const formPast = wiki.filter(e => e.formOnly);
 wiki = wiki.filter(e => !e.formOnly);
