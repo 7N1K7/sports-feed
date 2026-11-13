@@ -1997,7 +1997,7 @@ const BADGE = {
   mlb: ['MLB', '#041e42', '#ffffff'], npb: ['NPB', '#bc002d', '#ffffff'], nba: ['NBA', '#1d428a', '#ffffff'],
 };
 // the card's badge names the competition (or the cricket format), not the team: NPC, RLWC, TEST, ODI
-const COMP_BADGE = { NPC: 'npc', 'Farah Palmer Cup': 'fpc', 'Super Rugby Pacific': 'superrugby', 'Rugby League World Cup': 'rlwc', NRL: 'nrl', 'A-League Men': 'aleague', 'Premier League': 'epl', 'Big Bash': 'bbl', "Women's Big Bash": 'wbbl', UFC: 'ufc', 'ONE Championship': 'onefc', Boxing: 'boxing', 'NZ domestic cricket': 'nzdomestic',
+const COMP_BADGE = { NPC: 'npc', 'Farah Palmer Cup': 'fpc', 'Super Rugby Pacific': 'superrugby', 'Rugby League World Cup': 'rlwc', NRL: 'nrl', 'A-League Men': 'aleague', 'A-League Women': ['ALW', '#e4002b', '#ffffff'], 'Premier League': 'epl', 'Big Bash': 'bbl', "Women's Big Bash": 'wbbl', UFC: 'ufc', 'ONE Championship': 'onefc', Boxing: 'boxing', 'NZ domestic cricket': 'nzdomestic',
   'Rugby Championship': ['RC', '#1d3557', '#ffffff'], 'Nations Championship': ['NC', '#1d3557', '#ffffff'], 'World Rugby Nations Cup': ['NCUP', '#0e5e57', '#ffffff'], 'Test match': ['TEST', '#1b1f1d', '#ffffff'], "Women's test": ['TEST', '#1b1f1d', '#ffffff'], 'WXV Global Series': ['WXV', '#5f3dc4', '#ffffff'], 'Pacific Championships': ['PAC', '#0b6e4f', '#ffffff'], 'Formula 1': ['F1', '#e10600', '#ffffff'], Supercars: ['SC', '#1b1f1d', '#ffffff'],
   'Sheffield Shield': ['SHIELD', '#7a1f3d', '#ffffff'], 'Dean Jones Trophy': ['DJT', '#1d3c87', '#ffffff'],
   'FIH Pro League': ['PRO', '#0b7285', '#ffffff'],
@@ -2241,7 +2241,7 @@ function genderOf(x) {
 }
 const gcls = e => /wheelchair/i.test([e.comp, e.home, e.away].join(' ')) ? 'g-wc' : genderOf(e) === 'w' ? 'g-w' : '';
 // club and domestic competitions, listed under "Leagues" in the menu; everything else is international
-const DOMESTIC = /^(NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|Big Bash|Women's Big Bash|NZ domestic cricket|Sheffield Shield|Dean Jones Trophy|A-League Men|Premier League)$/;
+const DOMESTIC = /^(NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|Big Bash|Women's Big Bash|NZ domestic cricket|Sheffield Shield|Dean Jones Trophy|A-League Men|A-League Women|Premier League)$/;
 // how a competition reads in the menu
 const COMP_LABEL = {};
 // one name per competition, so a whole tournament can be shown on its own
@@ -2266,6 +2266,8 @@ function compOf(e) {
   if (/NRL/.test(c) || e.team === 'nrl') return 'NRL';
   if (/NPC/.test(c)) return 'NPC';
   if (/Farah Palmer/i.test(c)) return 'Farah Palmer Cup';
+  // the women's league is a competition of its own, with its own page and badge
+  if (/A-League Women/i.test(c)) return 'A-League Women';
   if (/A-League/i.test(c)) return 'A-League Men';
   if (/Premier League/i.test(c) || e.team === 'epl') return 'Premier League';
   if (/Super Rugby/i.test(c)) return 'Super Rugby Pacific';
@@ -3875,7 +3877,7 @@ document.addEventListener('click', ev => { if (!ev.target.closest('.search')) cl
 // Season-long leagues and catch-all groups stay in the competition menu.
 // long seasons and catch-alls stay out of the running-series row, which is for international series and short tournaments
 // (World Cups, the Big Bash)
-const GENERIC = /^(Test match|Women's test|Boxing|UFC|ONE Championship|NZ domestic cricket|Black Caps|White Ferns|NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|A-League Men|Premier League|Formula 1|Supercars|SailGP|PGA Tour|LPGA Tour|PGA Tour of Australasia|Sheffield Shield|Dean Jones Trophy|NBL|NBA|ANZ Premiership)$/;
+const GENERIC = /^(Test match|Women's test|Boxing|UFC|ONE Championship|NZ domestic cricket|Black Caps|White Ferns|NPC|Farah Palmer Cup|Super Rugby Pacific|NRL|A-League Men|A-League Women|Premier League|Formula 1|Supercars|SailGP|PGA Tour|LPGA Tour|PGA Tour of Australasia|Sheffield Shield|Dean Jones Trophy|NBL|NBA|ANZ Premiership)$/;
 // short names for the Current bar, so its chips stay small: "SA v AUS", "RLWC", "Const. Cup", "NZ v BAN (W)" (the chip's
 // hover label keeps the full name). The Nations Championship keeps its whole name (cut to "Nations Champ." until v628)
 const SHORT = [[/Women's Rugby League World Cup/, "Women's RLWC"], [/Wheelchair Rugby League World Cup/, 'Wheelchair RLWC'], [/Rugby League World Cup/, 'RLWC'], [/World Rugby Nations Cup/, 'Nations Cup'], [/Nations Championship/, 'Nations Champ.'], [/Rugby Championship/, 'Rugby Champ.'], [/WXV Global Series/, 'WXV'],
