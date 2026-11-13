@@ -275,10 +275,11 @@ export async function rankings(cache, diag) {
       const j = await r.json();
       if (j.error) throw new Error(j.error.code);
       // a page merged into another arrives through a redirect to its section ("ICC Women's T20I Team Rankings" is now
-      // the T20I section of the ODI and T20I page): keep to that section's tables
+      // the T20I section of the ODI and T20I page): keep to that section's tables. With none under its heading, nothing is
+      // usable and the cached list stays, as the page's other tables are other formats
       const frag = (j.parse?.redirects || []).map(x => x.tofragment).filter(Boolean).pop()?.replace(/_/g, ' ').toLowerCase();
       const all = tablesOf(j.parse?.text || ''), inFrag = frag ? all.filter(t => t.heading.toLowerCase() === frag) : [];
-      const tables = inFrag.length ? inFrag : all;
+      const tables = frag ? inFrag : all;
       const lists = cfg.kind === 'fighters' ? fighterTables(tables, cfg) : cfg.kind === 'players' ? playerTables(tables, cfg) : /^(golfers|fedex|oom)$/.test(cfg.kind) ? golfTables(tables, cfg) : teamTables(tables, cfg);
       notes.push(`${cfg.page}: ${tables.length} tables, ${lists.map(l => `${l.title} ${l.rows.length}${l.asOf ? ' @' + l.asOf : ''}`).join(', ') || 'nothing usable'}`);
       if (lists.length) cache[cfg.page] = { t: now, v: CACHE_V, lists };
