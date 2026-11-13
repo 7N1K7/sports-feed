@@ -604,9 +604,9 @@ function shape(n = spanDays(), back = 0) {
   for (const r of data.rows) if (inRange.has(r.day) && (r.metric === 'comppage' || (r.metric === 'comp' && !hubDays.has(r.day)))) { sums.hubs[r.key] = (sums.hubs[r.key] || 0) + r.n; ds[r.day].hubs[r.key] = (ds[r.day].hubs[r.key] || 0) + r.n; }
   return { list, per, sums, ds };
 }
-// the same number of days just before, to compare with: only when every one of them has numbers (not for Today, part
-// of a day, or All)
-const prevShape = () => days > 1 && dayAdd(data.today, -2 * days + 1) >= firstDay() ? shape(days, days) : null;
+// what a change compares: the range's whole days (today is only part of a day, so it's left out) against the same
+// number of days just before them, only when every one of those has numbers (not for Today or All)
+const prevShape = () => days > 1 && dayAdd(data.today, -2 * days + 2) >= firstDay() ? { now: shape(days - 1, 1), was: shape(days - 1, days) } : null;
 // the change on the days before, as a short label: ▲ 24%, ▼ 8%, new
 const change = (now, was) => was == null ? '' : !was ? (now ? 'new' : '') : now === was ? '–' : (p => `${now > was ? '▲' : '▼'} ${p >= 1000 ? Math.round(now / was) + '×' : p + '%'}`)(Math.round(Math.abs(100 * (now - was) / was)));
 
@@ -1039,8 +1039,9 @@ function draw() {
   $('rangeSpan').classList.remove('err'); $('rangeSpan').removeAttribute('title');
   $('rangeSpan').textContent = n === 1 ? `Today, ${short(data.today)}` : `${short(list[0])} to ${short(data.today)} · ${n} days`;
   $('heroN').textContent = fmtN(visits);
-  const was = prev && change(visits, tot('opens', prev));
-  $('heroL').textContent = `visits ${n === 1 ? 'today' : days ? `in the last ${n} days` : `since ${short(list[0])}`}${was && was !== '–' ? ` (${was} on the ${n} days before)` : ''} · ${avgN(people / nd)} people a day · ${fmtN(views)} page views`;
+  const was = prev && change(tot('opens', prev.now), tot('opens', prev.was));
+  // the change leaves today out, and Today has none (it's only part of a day so far); the words fit the lines the old ones did
+  $('heroL').textContent = `visits ${n === 1 ? 'so far today' : days ? `in the last ${n} days` : `since ${short(list[0])}`}${was && was !== '–' ? ` (${was}, today left out)` : ''} · ${n === 1 ? `${fmtN(people)} people` : `${avgN(people / nd)} people a day`} · ${fmtN(views)} page views`;
   // today and yesterday whatever the range
   const { per: p2 } = shape(2), today = p2[data.today], yday = p2[dayAdd(data.today, -1)];
   // the app's share is of the people on the days app users were counted
@@ -1052,7 +1053,8 @@ function draw() {
     + tile('Visits per person', people ? (visits / people).toFixed(1) : '–', 'a day, on average')
     + tile('Using the app', appP ? Math.round(100 * tot('appvisitors') / appP) + '%' : '–', `of people · ${fmtN(tot('appvisitors'))} app users, ${fmtN(tot('appviews'))} app page views`)
     + (() => { const taps = Object.values(usedOf(sums)).reduce((a, x) => a + x, 0), tv = visits ? taps / visits : 0;
-        const pv = prev && tot('opens', prev) ? Object.values(usedOf(prev.sums)).reduce((a, x) => a + x, 0) / tot('opens', prev) : null, ch = pv != null ? change(Math.round(tv * 10), Math.round(pv * 10)) : '';
+        const rate = sh => tot('opens', sh) ? Object.values(usedOf(sh.sums)).reduce((a, x) => a + x, 0) / tot('opens', sh) : null;
+        const pn = prev && rate(prev.now), pv = prev && rate(prev.was), ch = pn != null && pv != null ? change(Math.round(pn * 10), Math.round(pv * 10)) : '';
         return tile('Taps a visit', visits ? tv.toFixed(1) : '–', `${fmtN(taps)} taps${ch && ch !== '–' ? ` · ${ch} on the days before` : ''}`); })();
   // a day on its own is no line: Today shows the last 7 days
   const VIS = [['visitors', 'People', 'var(--series-1)'], ['opens', 'Visits', 'var(--series-2)'], ['views', 'Page views', 'var(--series-3)']];
@@ -1063,7 +1065,9 @@ function draw() {
   { const L = { list: cl, ds: (w7 || { ds }).ds }, tot = o => Object.values(o || {}).reduce((a, x) => a + x, 0), ap = {};
     for (const d of L.list) { const x = L.ds[d]; ap[d] = { games: tot(x.gameopen), watch: tot(x.watch), out: tot(x.outlink) }; }
     chart('act', L.list, ap, [['games', 'Games opened', 'var(--series-1)'], ['watch', 'Ways to watch', 'var(--series-2)'], ['out', 'Links out', 'var(--series-3)']], 'Games opened, ways to watch and links out'); }
-  heat(live, ds);
+  // the weekdays and the heat map leave today out (only part of a day) when the range has other days
+  const whole = nd > 1 ? live.filter(d => d !== data.today) : live;
+  heat(whole, ds);
   $('table').innerHTML = `<table><thead><tr><th>Day</th><th>People</th><th>Visits</th><th>Page views</th></tr></thead><tbody>${live.slice().reverse().map(d => `<tr><td>${dayLabel(d)}</td><td>${per[d].visitors}</td><td>${per[d].opens}</td><td>${per[d].views}</td></tr>`).join('')}</tbody></table>`;
   bars('country', sums.country, countryName);
   // "US · Comcast Cable Communications, LLC" → "Comcast Cable Communications (US)"; the full name on a hold
@@ -1076,7 +1080,7 @@ function draw() {
   share('mode', 'mode', [['browser', 'Browser'], ['app', 'App']], sums, list, ds);
   bars('ref', sums.ref, k => k);
   bars('event', sums.event, k => EVENT_LABEL[k] || k);
-  drawPopular(sums, prev?.sums, live, ds);
+  drawPopular(sums, prev, live, ds);
   // every sport turned off, most first (not cut to the top seven)
   bars('sportsoff', sums.sportsoff, k => SPORT_LABEL[k] || k, Object.entries(sums.sportsoff || {}).sort((a, b) => b[1] - a[1]).map(([k]) => k));
   share('myteams', 'myteams', [['default', 'As it came'], ['changed', 'Changed']], sums, list, ds);
@@ -1158,7 +1162,7 @@ function draw() {
   errAlert(Object.keys(lastSeen).filter(k => { const x = fixOf(k); return !x || x.back; }), lastSeen, lastN);
   // weekdays: each one's average visitors over the days of that weekday in the range
   const wd = {}, wn = {};
-  for (const d of live) { const k = dayLabel(d, { weekday: 'long' }); wd[k] = (wd[k] || 0) + per[d].visitors; wn[k] = (wn[k] || 0) + 1; }
+  for (const d of whole) { const k = dayLabel(d, { weekday: 'long' }); wd[k] = (wd[k] || 0) + per[d].visitors; wn[k] = (wn[k] || 0) + 1; }
   bars('weekday', Object.fromEntries(Object.keys(wd).map(k => [k, Math.round(wd[k] / wn[k] * 10) / 10])), k => k, WEEKDAYS);
   hours(sums.hour || {});
   drawReports(list[0]);
@@ -1248,8 +1252,8 @@ function showAll(el, id, rows) {
   const label = () => { b.textContent = allOpen.has(id) ? 'Top 10 only' : `Show all ${rows}`; b.setAttribute('aria-expanded', String(allOpen.has(id))); };
   b.hidden = false; b.style.visibility = ''; label();
 }
-// the most popular: a leaderboard each, most first, with the change on the same number of days before (when there are
-// numbers for all of them)
+// the most popular: a leaderboard each, most first, with the change on the range's whole days against the same number
+// of days before (when there are numbers for all of them)
 // a row's line over the days: its counts a day, scaled to its own highest (none for one or two days)
 function spark(vals) {
   const sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); sv.setAttribute('class', 'spk'); sv.setAttribute('viewBox', '0 0 44 16'); sv.setAttribute('aria-hidden', 'true');
@@ -1257,7 +1261,8 @@ function spark(vals) {
     pl.setAttribute('points', vals.map((v, i) => `${(1 + i * 42 / (vals.length - 1)).toFixed(1)},${(14.5 - v / mx * 13).toFixed(1)}`).join(' ')); sv.append(pl); }
   return sv;
 }
-function rank(id, obj, prevObj, label = k => [k], daily = null) {
+// cmp: the row's figures on the range's whole days and on the days before them, for the change column
+function rank(id, obj, cmp, label = k => [k], daily = null) {
   const el = $(id), rows = Object.entries(obj || {}).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   el.replaceChildren();
   if (!rows.length) { const p = document.createElement('li'); p.className = 'empty'; p.textContent = 'Nothing yet in this range.'; el.append(p); showAll(el, id, 0); return; }
@@ -1269,8 +1274,8 @@ function rank(id, obj, prevObj, label = k => [k], daily = null) {
     if (sub) { const sm = document.createElement('small'); sm.textContent = sub; nm.append(sm); }
     const nb = document.createElement('span'); nb.className = 'n'; nb.textContent = fmtN(n);
     const sp = spark(daily && daily.map(o => (o && o[k]) || 0));
-    const dl = document.createElement('span'); dl.className = 'dl'; dl.textContent = prevObj ? change(n, prevObj[k] || 0) : '';
-    if (prevObj) dl.title = `${fmtN(prevObj[k] || 0)} on the days before`;
+    const [cn, cw] = cmp ? [cmp[0][k] || 0, cmp[1][k] || 0] : [], dl = document.createElement('span'); dl.className = 'dl'; dl.textContent = cmp ? change(cn, cw) : '';
+    if (cmp) dl.title = `${fmtN(cn)} on the whole days, ${fmtN(cw)} on the days before`;
     const t = document.createElement('span'); t.className = 't'; const f = document.createElement('i'); f.style.width = (100 * n / max).toFixed(1) + '%'; t.append(f);
     li.append(rk, nm, sp, nb, dl, t); el.append(li);
   });
@@ -1291,17 +1296,18 @@ function usedOf(sums) {
 // games opened in each competition (a game is counted as "Competition: Home v Away")
 function compsOf(sums) { const o = {}; for (const [k, n] of Object.entries(sums.gameopen || {})) { const c = k.includes(': ') ? k.slice(0, k.indexOf(': ')) : 'Other'; o[c] = (o[c] || 0) + n; } return o; }
 function drawPopular(sums, ps, list, ds) {
-  $('popSub').textContent = ps ? 'with the change on the same number of days before' : '';
-  const day = f => list.map(d => f(ds[d]) || {});
-  rank('p-used', usedOf(sums), ps && usedOf(ps), undefined, day(usedOf));
-  rank('p-game', sums.gameopen, ps?.gameopen || (ps && {}), k => { const i = k.indexOf(': '); return i < 0 ? [k] : [k.slice(i + 2), k.slice(0, i)]; }, day(x => x.gameopen));
-  rank('p-comp', compsOf(sums), ps && compsOf(ps), k => [SPORT_LABEL[k] || k], day(compsOf));
-  rank('p-hub', sums.hubs, ps && ps.hubs, undefined, day(x => x.hubs));
-  rank('p-sport', sums.sport, ps && (ps.sport || {}), k => [SPORT_LABEL[k] || k], day(x => x.sport));
-  rank('p-team', sums.teampage, ps && (ps.teampage || {}), undefined, day(x => x.teampage));
-  rank('p-watch', sums.watch, ps && (ps.watch || {}), undefined, day(x => x.watch));
-  rank('p-out', sums.outlink, ps && (ps.outlink || {}), k => [k.replace(/^www\./, '')], day(x => x.outlink));
-  rank('p-search', sums.search, ps && (ps.search || {}), undefined, day(x => x.search));
+  $('popSub').textContent = ps ? 'with the change on the days before, today left out' : '';
+  // each list's figures on the whole days and on the days before them
+  const day = f => list.map(d => f(ds[d]) || {}), cmp = f => ps && [f(ps.now.sums) || {}, f(ps.was.sums) || {}];
+  rank('p-used', usedOf(sums), cmp(usedOf), undefined, day(usedOf));
+  rank('p-game', sums.gameopen, cmp(x => x.gameopen), k => { const i = k.indexOf(': '); return i < 0 ? [k] : [k.slice(i + 2), k.slice(0, i)]; }, day(x => x.gameopen));
+  rank('p-comp', compsOf(sums), cmp(compsOf), k => [SPORT_LABEL[k] || k], day(compsOf));
+  rank('p-hub', sums.hubs, cmp(x => x.hubs), undefined, day(x => x.hubs));
+  rank('p-sport', sums.sport, cmp(x => x.sport), k => [SPORT_LABEL[k] || k], day(x => x.sport));
+  rank('p-team', sums.teampage, cmp(x => x.teampage), undefined, day(x => x.teampage));
+  rank('p-watch', sums.watch, cmp(x => x.watch), undefined, day(x => x.watch));
+  rank('p-out', sums.outlink, cmp(x => x.outlink), k => [k.replace(/^www\./, '')], day(x => x.outlink));
+  rank('p-search', sums.search, cmp(x => x.search), undefined, day(x => x.search));
   document.querySelector('.grid.pop').classList.toggle('nodl', !ps);
 }
 // a split in shares: one bar, a line a part (its count and share), then each day's split as a thin column; the parts
