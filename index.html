@@ -3854,6 +3854,15 @@ function openDetail(id, fromTeam, goingBack) {
   if (dLinks) chipRO.unobserve(dLinks);
   dLinks = $('sheetBody').querySelector(':scope > .dlinks:not(:empty)'); if (dLinks) { balanceChips(dLinks); chipRO.observe(dLinks); }
 }
+// an open game pop-up is drawn again with the page (its countdown turns to On now, a new feed's news and times show),
+// on the same tab, scrolled to the same place and with the same button focused
+function redrawSheet() {
+  const d = $('sheet'), box = d.querySelector('.sheet-in'), all = () => [...$('sheetBody').querySelectorAll('a, button')];
+  if (!d.open || !d.dataset.id) return;
+  const y = box.scrollTop, f = all().indexOf(document.activeElement);
+  openDetail(d.dataset.id, !!teamBack);
+  box.scrollTop = y; if (f >= 0) all()[f]?.focus({ preventScroll: true });
+}
 // "On now" and the live scores link sit at the title's right, the link's text on the same line as the teams' names
 function alignLive() {
   const h = document.querySelector('#sheetBody .sheet-head > .hlive'), nm = [...document.querySelectorAll('#sheetBody .sheet-head .dteams .nm')].pop();
@@ -5427,7 +5436,7 @@ async function load(woke) {
       }
     }
     $('foot').innerHTML = `<div class="fbtns"><button type="button" class="fbtn" data-suggest="">Suggest an idea</button><a class="fbtn coffee" href="https://ko-fi.com/kickoffkiwi" target="_blank" rel="noopener" data-coffee="">☕ Buy me a coffee</a><button type="button" class="fbtn" data-report="">Report a problem</button></div><p class="fsrc">Sources: ${(FEED.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join(' · ')} · Icons: <a href="https://github.com/microsoft/fluentui-emoji" target="_blank" rel="noopener">Fluent Emoji</a> (Microsoft, MIT) · Fighter photos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> and Flickr via <a href="https://openverse.org/" target="_blank" rel="noopener">Openverse</a> (credits in each fight's details)</p>`;
-    render(); stamp(); openFromLink();
+    render(); redrawSheet(); stamp(); openFromLink();
     // how long until the first games were on screen, in bands; a slow one (4s or more) says why it might have been
     if (!load.timed) { load.timed = true; const t = performance.now() / 1000; count({ e: 'speed', k: t < 1 ? 'under 1s' : t < 2 ? '1-2s' : t < 4 ? '2-4s' : t < 8 ? '4-8s' : '8s or more' }); if (t >= 4) count({ e: 'slow', k: slowWhy(t) }); }
   } catch (e) {
@@ -5477,7 +5486,7 @@ tick(); render(); load();
 // the home-screen app's first open on this device, counted once: iPhones never say when the app is added (Android and
 // computers do, as "install"), so this is how iPhone installs show up in the stats
 if (standalone() && !store.get('appSeen', false)) { store.set('appSeen', true); count({ e: 'appfirst' }); }
-setInterval(() => { tick(); render(); stamp(); }, 60000);
+setInterval(() => { tick(); render(); redrawSheet(); stamp(); }, 60000);
 setInterval(load, 5 * 60000);
 document.addEventListener('touchstart', () => {}, { passive: true }); // lets iPhone show the :active press
 let hiddenAt = 0;
