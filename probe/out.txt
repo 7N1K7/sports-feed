@@ -1,4 +1,6 @@
-no password | 401 | {"error":"wrong-password"}
-wrong password | 401 | {"error":"wrong-password"}
-unknown path | 404 | Kickoff Kiwi stats
-report from no site | 403 | 
+stats page check | version {"version":739,"changedAt":"2026-11-13T04:25:51Z"} | size 176732
+ has id="feedbuild" : true
+ has id="capped" : true
+ has today left out : true
+ has Too many wrong passwords : true
+ has ran out of time before : true
