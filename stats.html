@@ -297,6 +297,11 @@ button, input { font: inherit; color: inherit }
 .rep { border-top: 1px solid var(--line); padding-top: 8px } .rep:first-child { border-top: 0; padding-top: 0 }
 .rep .rh { font-size: 13px; color: var(--muted); overflow-wrap: anywhere } .rep .rh b { color: var(--ink) }
 .rep .idea { color: var(--accent); font-weight: 700 }
+/* the feed's last build: a set height (a long list scrolls), so the card is the same size whatever it says */
+.fbuild { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 8px; height: 200px; overflow-y: auto; overscroll-behavior: contain }
+.fbuild .rep p { font-size: 13px }
+/* an odd card out at the end of a two-across group goes across the row */
+.grid.two > .card:last-child:nth-child(odd) { grid-column: 1 / -1 }
 .rep p { margin: 3px 0 0; font-size: 15px; white-space: pre-wrap; overflow-wrap: anywhere }
 details.tbl summary { cursor: pointer; font-weight: 600 }
 table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 14px; font-variant-numeric: tabular-nums }
@@ -447,6 +452,7 @@ th { color: var(--muted); font-weight: 600 }
     <div class="grid two">
       <section class="card" id="errCard"><h2>Errors on visitors' devices</h2><div class="bars" id="error"></div><p class="note">Problems in the site's own code; each is worth a look. <b>✓ Fixed</b> marks one already dealt with (counts from before the fix stay in the range); <b>⚠ Back</b> means a page with the fix sent it again. From v404 each error ends with the version of the page that sent it, [v404].</p></section>
       <section class="card"><h2>Site checks</h2><div id="sitechk"></div><p class="note">The live site, checked from outside every 10 minutes (from 3 Nov 2026): the page and its feed answer, and the feed is whole and less than 90 minutes old. A problem's times are the checks either side of it, so it's known to 10 minutes. A problem only one visitor's connection had doesn't show here: a page that had to ask for its feed again shows in Errors as "Feed asked again". Kept 30 days.</p></section>
+      <section class="card"><h2>Feed build</h2><div class="fbuild" id="feedbuild"></div><p class="note">What went wrong in the feed's last build, from the public feed's own notes: a game id used twice, news or Wikipedia pages that couldn't be read, TheSportsDB errors, and hand-kept games their source moved.</p></section>
       <section class="card"><h2>Load speed</h2><div class="bars" id="speed"></div><p class="note">How long until the first games were on screen.</p></section>
       <section class="card"><h2>Slow loads</h2><p class="note">Loads that took 4s or more (counted from 25 Oct 2026). The connection and memory are only reported by Chrome-based browsers. "Out of sight" means the page was behind another tab or app, or the phone was locked, while it loaded.</p>
         <h3 class="thh">Took longest</h3><div class="bars" id="slowpart"></div>
@@ -602,7 +608,8 @@ const change = (now, was) => was == null ? '' : !was ? (now ? 'new' : '') : now 
 const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 // what the site has and hasn't filled in, from the public feed (worked out when the feed was built)
 async function drawCoverage() {
-  let f; try { f = await (await fetch('data/feed.json', { cache: 'no-store' })).json(); } catch { $('cov').innerHTML = '<p class="note">Couldn\'t load the feed.</p>'; return; }
+  let f; try { f = await (await fetch('data/feed.json', { cache: 'no-store' })).json(); } catch { $('cov').innerHTML = $('feedbuild').innerHTML = '<p class="note">Couldn\'t load the feed.</p>'; return; }
+  drawBuild(f);
   const cov = f.coverage;
   // when this was worked out: the feed's build time, in NZ time
   if (f.generatedAt) $('covAt').textContent = 'Worked out ' + new Date(f.generatedAt).toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }) + ' NZ time (every feed update)';
@@ -632,6 +639,14 @@ async function drawCoverage() {
     + (tw.some(x => x.stopped) ? `<p><b>No games listed after its last one, and no final yet (next rounds not added, or the season's end):</b> ${tw.filter(x => x.stopped).map(x => `${esc(x.c)}: last game ${day(x.week + 'T00:00:00+13:00')}`).join('; ')}</p>` : '')
     + (tw.some(x => !x.stopped) ? `<p><b>Fewer games than usual in a week (a game left out, a fixture change, or a planned break):</b> ${tw.filter(x => !x.stopped).map(x => `${esc(x.c)}: week of ${day(x.week + 'T00:00:00+13:00')}, ${x.n} game${x.n === 1 ? '' : 's'} (usually ${x.usual})`).join('; ')}</p>` : '')
     + '</details>' : '';
+}
+// the feed's last build: only these of its notes (the rest can name winners), as plain text
+function drawBuild(f) {
+  const d = f.diag || {}, at = f.generatedAt ? new Date(f.generatedAt).toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }) : '';
+  const rows = [['A game id used twice', d.duplicateIds && d.duplicateIds !== 'none' ? d.duplicateIds : ''], ['News not read', d.newsFailed], ['Wikipedia not read', [].concat(d.wikiFailed || []).join('; ')], ['Hand-kept games moved', d.movedGames]]
+    .concat(Object.keys(d).filter(k => k.startsWith('tsdb ') && /^error:/.test(d[k])).map(k => [k, d[k]])).filter(([, t]) => t);
+  $('feedbuild').innerHTML = rows.length ? `<p class="note" style="margin:0">The last build, ${esc(at)} NZ time:</p>` + rows.map(([k, t]) => `<div class="rep"><div class="rh"><b>${esc(k)}</b></div><p>${esc(t)}</p></div>`).join('')
+    : `<p class="note" style="margin:0">Nothing went wrong in the last build${at ? `, ${esc(at)} NZ time` : ''}.</p>`;
 }
 // games the site missed or had wrong, newest first, kept by hand (the daily check adds a line for each one it finds, filled
 // or not): [date found, competition, game, what was wrong, what was done, found by]. Never a score or result here
