@@ -2082,8 +2082,8 @@ function hostFirst(e, title) {
   const base = n => String(n || '').replace(/\s+(Women|A|XI)$/i, '').trim();
   if (!host || base(e.home) === host || base(e.away) !== host) return;
   [e.home, e.away] = [e.away, e.home];
-  const sides = (e.score || '').split(' v ');
-  if (sides.length === 2) e.score = `${sides[1]} v ${sides[0]}`;
+  // the final score and the state of play while it's on both follow the sides
+  for (const k of ['score', 'liveScore']) { const sides = (e[k] || '').split(' v '); if (sides.length === 2) e[k] = `${sides[1]} v ${sides[0]}`; }
   if (e.homeLogo || e.awayLogo) [e.homeLogo, e.awayLogo] = [e.awayLogo, e.homeLogo];
 }
 function seriesComp(title, c) {
