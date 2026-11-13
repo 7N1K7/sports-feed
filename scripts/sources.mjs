@@ -1190,24 +1190,28 @@ function supercarsSeason(text, year) {
   // a cell's own text (after any rowspan="3" |), links read as their labels so a {{nowrap|...}} round them comes apart cleanly
   const cellOf = l => l.replace(/^[|!]\s*/, '').replace(/^[^[{|]*?\|(?!\|)/, '').replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1').trim();
   const num = l => /^!/.test(l) && /^\d+$/.test(clean(cellOf(l))) ? +clean(cellOf(l)) : 0;
+  // the page sometimes gives two rounds one number and skips one (2027: Taupō and Darwin both 6, no 5): a number that
+  // isn't above the round before and below the next one's becomes the round before plus one
+  const fixRounds = ns => { let prev = 0; return ns.map((n, i) => prev = n > prev && n < (ns[i + 1] ?? Infinity) ? n : prev + 1); };
   // winners: round -> [{ race, winner }], plus the round's report page
   const wins = {}, reports = {};
-  let cur = 0;
-  for (const r of rowsIn(tableAfter(/===\s*Season summary\s*===/i))) {
+  let cur = 0, k = 0;
+  const sum = rowsIn(tableAfter(/===\s*Season summary\s*===/i)), starts = fixRounds(sum.map(r => r.filter(l => num(l)).map(num)).filter(n => n.length >= 2).map(n => n[0]));
+  for (const r of sum) {
     const nums = r.filter(l => num(l)).map(num), cells = r.filter(l => l.startsWith('|')).map(cellOf);
     if (!nums.length) continue;
     let race = nums[nums.length - 1], who;
-    if (nums.length >= 2) { cur = nums[0]; who = cells[3]; const rep = (r.filter(l => l.startsWith('|'))[5] || '').match(/\[\[([^\]|]+)\|/); if (rep) reports[cur] = 'https://en.wikipedia.org/wiki/' + encodeURIComponent(rep[1].replace(/ /g, '_')); }
+    if (nums.length >= 2) { cur = starts[k++]; who = cells[3]; const rep = (r.filter(l => l.startsWith('|'))[5] || '').match(/\[\[([^\]|]+)\|/); if (rep) reports[cur] = 'https://en.wikipedia.org/wiki/' + encodeURIComponent(rep[1].replace(/ /g, '_')); }
     else who = cells[2];
     // (Bathurst and the other enduros: two drivers a car, a line each)
     const w = clean(String(who || '').replace(/<br\s*\/?>/gi, ' / ')).trim();
     if (cur && w) (wins[cur] ||= []).push({ race, w });
   }
   const out = [];
-  for (const r of rowsIn(tableAfter(/^==\s*Calendar\s*==/im))) {
-    const nums = r.filter(l => num(l)).map(num), raw = r.filter(l => l.startsWith('|')).map(cellOf);
-    if (nums.length < 2 || raw.length < 4) continue;
-    const round = nums[0];
+  const cal = rowsIn(tableAfter(/^==\s*Calendar\s*==/im)).map(r => [r, r.filter(l => num(l)).map(num), r.filter(l => l.startsWith('|')).map(cellOf)]).filter(([, nums, raw]) => nums.length >= 2 && raw.length >= 4);
+  const rounds = fixRounds(cal.map(([, nums]) => nums[0]));
+  for (const [i, [r, nums, raw]] of cal.entries()) {
+    const round = rounds[i];
     const span = +((r[0].match(/rowspan="?(\d+)/) || [])[1] || 1);
     const ev = clean(raw[0]).replace(/\s+/g, ' '), circuit = clean(raw[1]), place = clean(raw[2]).split(',')[0].trim();
     const dr = dateRange(raw[3], year);
