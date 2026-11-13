@@ -182,6 +182,8 @@ const BOX = /^(rugby ?box|rugby ?league ?box|rlbox|single-innings cricket match|
 // page writes Adelaide's and Perth's games in Sydney time. Not read from the page's own "All times in AEDT" note, which
 // the men's Big Bash page carries too while giving each ground's local time
 function eventsFromPage(title, text, cfg, cityTz) {
+  // a box an editor has hidden in a comment (an unconfirmed final, a cancelled game) is not a fixture
+  text = text.replace(/<!--[\s\S]*?-->/g, '');
   const year = +(title.match(/\b(20\d\d)/) || [])[1] || new Date().getUTCFullYear();
   const out = [], pageTz = cfg.timesTz ? { tz: cfg.timesTz } : null;
   for (const tpl of templates(text, BOX)) {
