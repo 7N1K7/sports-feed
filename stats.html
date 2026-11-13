@@ -657,8 +657,11 @@ async function drawCoverage() {
 // the feed's last build: only these of its notes (the rest can name winners), as plain text
 function drawBuild(f) {
   const d = f.diag || {}, at = f.generatedAt ? new Date(f.generatedAt).toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }) : '';
+  const SKIP = /skipped this run/, tsdb = Object.keys(d).filter(k => k.startsWith('tsdb ') && /^error:/.test(d[k])).map(k => [k.slice(5), String(d[k]).replace(/^error:\s*/, '')]);
   const rows = [['A game id used twice', d.duplicateIds && d.duplicateIds !== 'none' ? d.duplicateIds : ''], ['News not read', d.newsFailed], ['Wikipedia not read', [].concat(d.wikiFailed || []).join('; ')], ['Hand-kept games moved', d.movedGames]]
-    .concat(Object.keys(d).filter(k => k.startsWith('tsdb ') && /^error:/.test(d[k])).map(k => [k, d[k]])).filter(([, t]) => t);
+    .concat(tsdb.filter(([, t]) => !SKIP.test(t)).map(([k, t]) => [`TheSportsDB: ${k}`, t]))
+    // out of its time for the run (it's asked slowly, a few calls a minute): the competitions it didn't get to, on one line
+    .concat([['TheSportsDB ran out of time before', tsdb.filter(([, t]) => SKIP.test(t)).map(([k]) => k).join(', ')]]).filter(([, t]) => t);
   $('feedbuild').innerHTML = rows.length ? `<p class="note" style="margin:0">The last build, ${esc(at)} NZ time:</p>` + rows.map(([k, t]) => `<div class="rep"><div class="rh"><b>${esc(k)}</b></div><p>${esc(t)}</p></div>`).join('')
     : `<p class="note" style="margin:0">Nothing went wrong in the last build${at ? `, ${esc(at)} NZ time` : ''}.</p>`;
 }
@@ -1044,13 +1047,15 @@ function draw() {
   const d0 = firstDay(), live = list.filter(d => d >= d0), nd = live.length;
   const tot = (k, sh = { list, per }) => sh.list.reduce((a, d) => a + sh.per[d][k], 0);
   const people = tot('visitors'), visits = tot('opens'), views = tot('views'), app = sums.mode?.app || 0, br = sums.mode?.browser || 0;
+  // an average a day is over whole days, so today (only part of a day so far) is left out of it when there are others
+  const part = nd > 1 && per[data.today] ? per[data.today] : null, ndW = nd - (part ? 1 : 0), peopleW = people - (part ? part.visitors : 0), visitsW = visits - (part ? part.opens : 0);
   const short = d => dayLabel(d, { weekday: 'short', day: 'numeric', month: 'short' });
   $('rangeSpan').classList.remove('err'); $('rangeSpan').removeAttribute('title');
   $('rangeSpan').textContent = n === 1 ? `Today, ${short(data.today)}` : `${short(list[0])} to ${short(data.today)} · ${n} days`;
   $('heroN').textContent = fmtN(visits);
   const was = prev && countedFrom(prev, 'opens') && change(tot('opens', prev.now), tot('opens', prev.was));
   // the change leaves today out, and Today has none (it's only part of a day so far); the words fit the lines the old ones did
-  $('heroL').textContent = `${visits === 1 ? 'visit' : 'visits'} ${n === 1 ? 'so far today' : days ? `in the last ${n} days` : `since ${short(list[0])}`}${was && was !== '–' ? ` (${was}, today left out)` : ''} · ${n === 1 ? pl(people, 'person', 'people') : pl(+avgN(people / nd), 'person a day', 'people a day', avgN(people / nd))} · ${pl(views, 'page view', 'page views')}`;
+  $('heroL').textContent = `${visits === 1 ? 'visit' : 'visits'} ${n === 1 ? 'so far today' : days ? `in the last ${n} days` : `since ${short(list[0])}`}${was && was !== '–' ? ` (${was}, today left out)` : ''} · ${n === 1 ? pl(people, 'person', 'people') : pl(+avgN(peopleW / ndW), 'person a day', 'people a day', avgN(peopleW / ndW))} · ${pl(views, 'page view', 'page views')}`;
   // today and yesterday whatever the range
   const { per: p2 } = shape(2), today = p2[data.today], yday = p2[dayAdd(data.today, -1)];
   // the app's share is of the people on the days app users were counted
@@ -1058,7 +1063,7 @@ function draw() {
   const tile = (l, v, s) => `<div class="tile"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
   $('tiles').innerHTML = tile('Today', fmtN(today.visitors), `${today.visitors === 1 ? 'person' : 'people'} · ${pl(today.opens, 'visit', 'visits')}`)
     + tile('Yesterday', fmtN(yday.visitors), `${yday.visitors === 1 ? 'person' : 'people'} · ${pl(yday.opens, 'visit', 'visits')}`)
-    + tile('Average a day', avgN(people / nd), `${+avgN(people / nd) === 1 ? 'person' : 'people'} · ${pl(+avgN(visits / nd), 'visit', 'visits', avgN(visits / nd))}`)
+    + tile('Average a day', avgN(peopleW / ndW), `${+avgN(peopleW / ndW) === 1 ? 'person' : 'people'} · ${pl(+avgN(visitsW / ndW), 'visit', 'visits', avgN(visitsW / ndW))}`)
     + tile('Visits per person', people ? (visits / people).toFixed(1) : '–', 'a day, on average')
     + tile('Using the app', appP ? Math.round(100 * tot('appvisitors') / appP) + '%' : '–', `of people · ${pl(tot('appvisitors'), 'app user', 'app users')}, ${pl(tot('appviews'), 'app page view', 'app page views')}`)
     + (() => { const taps = tapsOn(list, ds), tv = visits ? taps / visits : 0;
