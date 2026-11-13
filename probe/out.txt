@@ -1,13 +1,3 @@
-LICENCE CHECK player id 34171673
-
-lookupplayer.php?id=34171673: 71 keys
- all keys: idPlayer idTeam idTeam2 idTeamNational idAPIfootball idPlayerManager idWikidata idTransferMkt idESPN idGoogle strNationality strPlayer strPlayerAlternate strTeam strTeam2 strSport intSoccerXMLTeamID dateBorn dateDied strNumber dateSigned strSigning strWage strOutfitter strKit strAgent strBirthLocation strDeathLocation strEthnicity strStatus strDescriptionEN strDescriptionDE strDescriptionFR strDescriptionCN strDescriptionIT strDescriptionJP strDescriptionRU strDescriptionES strDescriptionPT strDescriptionSE strDescriptionNL strDescriptionHU strDescriptionNO strDescriptionIL strDescriptionPL strGender strSide strPosition strCollege strFacebook strWebsite strTwitter strInstagram strYoutube strHeight strWeight intLoved strThumb strPoster strCutout strCartoon strRender strBanner strFanart1 strFanart2 strFanart3 strFanart4 strCreativeCommons strCreativeCommonsAttribution strLocked strLastName
- licence-ish: {"intSoccerXMLTeamID":null,"strCreativeCommons":"No","strCreativeCommonsAttribution":null,"strLocked":"unlocked"}
-
-lookupteam.php?id=133604: 63 keys
- all keys: idTeam idESPN idAPIfootball intLoved strTeam strTeamAlternate strTeamShort intFormedYear strSport strLeague idLeague strLeague2 idLeague2 strLeague3 idLeague3 strLeague4 idLeague4 strLeague5 idLeague5 strLeague6 idLeague6 strLeague7 idLeague7 strDivision idVenue strStadium strKeywords strRSS strLocation strWebsite strFacebook strTwitter strInstagram strDescriptionEN strDescriptionDE strDescriptionFR strDescriptionCN strDescriptionIT strDescriptionJP strDescriptionRU strDescriptionES strDescriptionPT strDescriptionSE strDescriptionNL strDescriptionHU strDescriptionNO strDescriptionIL strDescriptionPL strColour1 strColour2 strColour3 strGender strCountry strBadge strLogo strFanart1 strFanart2 strFanart3 strFanart4 strBanner strEquipment strYoutube strLocked
- licence-ish: {"strLocked":"unlocked"}
-
-eventsnextleague.php?id=4328: 50 keys
- all keys: idEvent idAPIfootball strTimestamp strEvent strEventAlternate strFilename strSport idLeague strLeague strLeagueBadge strSeason strDescriptionEN strHomeTeam strAwayTeam intHomeScore intHomeScoreExtra intAwayScoreExtra intRound intAwayScore intSpectators strOfficial strWeather dateEvent dateEventLocal strTime strTimeLocal strGroup idHomeTeam strHomeTeamBadge idAwayTeam strAwayTeamBadge intScore intScoreVotes strResult idVenue strVenue strCountry strCity strPoster strSquare strFanart strThumb strThumbAlternate strBanner strMap strTweet1 strVideo strStatus strPostponed strLocked
- licence-ish: {"strLocked":"unlocked"}
+FACES generated  | sportsdb: 6 asked, 0 found, 4 found but not marked free to reuse; error 429
+fighter photo credits: {"other source":24}
+version {"version":744,"changedAt":"2026-11-13T10:58:45Z"}
