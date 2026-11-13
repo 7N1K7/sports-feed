@@ -1519,7 +1519,12 @@ async function addFaces(events) {
       if (r.status === 429) { ov.note = 'rate-limited, stopped'; break; }
       if (!r.ok) throw new Error(r.status);
       res = (await r.json()).results || [];
-    } catch (e) { ov.note = 'error ' + e.message; break; }
+    } catch (e) {
+      // Openverse often times out (504) on one name and answers the next: skip that name this run, and stop after three
+      ov.fails = (ov.fails || 0) + 1; ov.note = `${ov.fails} timed out or failed (last: ${e.message})`;
+      if (ov.fails >= 3) { ov.note += ', stopped'; break; }
+      continue;
+    }
     ov.asked++; ov.results = (ov.results || 0) + res.length;
     cache[n].ov = now;
     const want = ovFold(n), squash = want.replace(/ /g, '');
