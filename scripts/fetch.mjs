@@ -43,6 +43,8 @@ Object.assign(CITY_TZ, { Amstelveen: 'Europe/Amsterdam', Wavre: 'Europe/Brussels
 Object.assign(CITY_TZ, { 'Al Rayyan': 'Asia/Qatar', Doha: 'Asia/Qatar', 'New York City': 'America/New_York', 'Salt Lake City': 'America/Denver', Nashville: 'America/Chicago', Atlanta: 'America/New_York', Boston: 'America/New_York', Philadelphia: 'America/New_York', Baku: 'Asia/Baku', Christchurch: 'Pacific/Auckland', Wellington: 'Pacific/Auckland', Hamilton: 'Pacific/Auckland', Dunedin: 'Pacific/Auckland', 'Mount Maunganui': 'Pacific/Auckland', Napier: 'Pacific/Auckland', Nelson: 'Pacific/Auckland', Whangārei: 'Pacific/Auckland', Whangarei: 'Pacific/Auckland', Invercargill: 'Pacific/Auckland', 'New Plymouth': 'Pacific/Auckland', 'Palmerston North': 'Pacific/Auckland', Queenstown: 'Pacific/Auckland', Rotorua: 'Pacific/Auckland', Geelong: 'Australia/Melbourne', Launceston: 'Australia/Hobart', Cairns: 'Australia/Brisbane', Chennai: 'Asia/Kolkata', Mumbai: 'Asia/Kolkata', 'Cape Town': 'Africa/Johannesburg', Johannesburg: 'Africa/Johannesburg', Pretoria: 'Africa/Johannesburg', Durban: 'Africa/Johannesburg', Dublin: 'Europe/Dublin', Cardiff: 'Europe/London', Edinburgh: 'Europe/London', Rome: 'Europe/Rome', Marseille: 'Europe/Paris', 'Buenos Aires': 'America/Argentina/Buenos_Aires', Rarotonga: 'Pacific/Rarotonga', "Nuku'alofa": 'Pacific/Tongatapu' });
 // Formula 1 circuit towns, as the season page's calendar names them
 Object.assign(CITY_TZ, { Suzuka: 'Asia/Tokyo', Sakhir: 'Asia/Bahrain', Jeddah: 'Asia/Riyadh', 'Miami Gardens': 'America/New_York', Monaco: 'Europe/Monaco', 'Monte Carlo': 'Europe/Monaco', Montmeló: 'Europe/Madrid', Barcelona: 'Europe/Madrid', Madrid: 'Europe/Madrid', Spielberg: 'Europe/Vienna', Silverstone: 'Europe/London', Stavelot: 'Europe/Brussels', 'Spa-Francorchamps': 'Europe/Brussels', Mogyoród: 'Europe/Budapest', Budapest: 'Europe/Budapest', Zandvoort: 'Europe/Amsterdam', Monza: 'Europe/Rome', Imola: 'Europe/Rome', Austin: 'America/Chicago', Paradise: 'America/Los_Angeles', Lusail: 'Asia/Qatar', 'Yas Island': 'Asia/Dubai', 'Yas Marina': 'Asia/Dubai', Portimão: 'Europe/Lisbon', Istanbul: 'Europe/Istanbul', 'Le Castellet': 'Europe/Paris', Hockenheim: 'Europe/Berlin', Bahrain: 'Asia/Bahrain', Sepang: 'Asia/Kuala_Lumpur', 'Kuala Lumpur': 'Asia/Kuala_Lumpur' });
+// towns the review found falling back to another country's zone, and a ground some pages give with no town
+Object.assign(CITY_TZ, { Galway: 'Europe/Dublin', Bridgetown: 'America/Barbados', Montevideo: 'America/Montevideo', 'Viña del Mar': 'America/Santiago', Seremban: 'Asia/Kuala_Lumpur', 'Cebu City': 'Asia/Manila', 'Suncorp Stadium': 'Australia/Brisbane', 'Lang Park': 'Australia/Brisbane' });
 // cricket grounds' towns (tour pages often give the town alone, with no country)
 for (const [tz, towns] of Object.entries({
   'Africa/Johannesburg': 'Gqeberha|Port Elizabeth|Centurion|Paarl|Bloemfontein|East London|Potchefstroom|Kimberley|Benoni|Stellenbosch',
@@ -832,7 +834,17 @@ const prevRead = resCache.prevRead ||= {};
 const wikiLastUrl = new URL('.cache/wiki-last.json', ROOT);
 try {
   wiki = await wikiEvents(wikiCfg.pages, n => tzFor(n, n), diag, { prevDue: t => !(Date.now() - (prevRead[t] || 0) < 7 * DAY) }); tables = wiki.tables || []; for (const t of wiki.prevRead || []) prevRead[t] = Date.now();
-  try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(wikiLastUrl, JSON.stringify({ t: Date.now(), events: wiki, tables })); } catch {}
+  const failed = new Set(wiki.failed || []);
+  if (!failed.size) try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(wikiLastUrl, JSON.stringify({ t: Date.now(), events: wiki, tables })); } catch {}
+  // pages that couldn't be read this run keep their games and tables from the last good read, so their cards don't
+  // drop off the site and come back
+  else try {
+    const last = JSON.parse(await readFile(wikiLastUrl, 'utf8')), age = Date.now() - last.t, from = e => decodeURIComponent(String(e.source || '').replace(/^.*\/wiki\//, '')).replace(/_/g, ' ');
+    if (age < 6 * 36e5 && Array.isArray(last.events)) {
+      const ev = last.events.filter(e => failed.has(from(e))), tb = (last.tables || []).filter(t => failed.has(t.page));
+      wiki.push(...ev); tables.push(...tb); diag.wikiFailed.push(`kept ${ev.length} games and ${tb.length} tables of those pages from the last good read, ${Math.round(age / 6e4)} min old`);
+    }
+  } catch {}
 } catch (e) {
   console.warn('Wikipedia failed:', e.message); diag.wikipedia = 'error: ' + e.message;
   try {

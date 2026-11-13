@@ -16,6 +16,7 @@ const ABBR_TZ = {
   MST: 'America/Phoenix', MDT: 'America/Edmonton', PST: 'America/Los_Angeles', PDT: 'America/Los_Angeles', AST: 'Asia/Riyadh', GST: 'Asia/Dubai', SLST: 'Asia/Colombo', BDT: 'Asia/Dhaka',
 };
 // abbreviations that name more than one zone (IST: Ireland or India, BST: Britain or Bangladesh): the venue's own zone wins
+// when it's in another part of the world (a US ground's "EST" stays Eastern time, as US pages often give TV time)
 const ABBR_MANY = /^(IST|BST|CST|AST|PST|WST|EST|GST)$/;
 // offset of `tz` at instant `t`, in ms
 function tzOffset(tz, t) {
@@ -209,7 +210,7 @@ function eventsFromPage(title, text, cfg, cityTz) {
     // country's usual zone in the same part of the world ("Lang Park, Brisbane, Australia"), not over a namesake ("Hamilton, Canada")
     const zoneOf = n => cityTz(n) || cityTz(n.replace(/\s*\([^)]*\)$/, '')) || cityTz((n.match(/\(([^)]*)\)$/) || [])[1] || '');
     const cz = zoneOf(city), ez = parts.slice(0, Math.max(1, parts.length - 1)).reverse().map(zoneOf).find(Boolean);
-    const vz = ez && (!cz || (parts.length > 2 && ez.split('/')[0] === cz.split('/')[0])) ? ez : cz, az = tm && tm.tz && !(tm.many && vz) ? tm.tz : null;
+    const vz = ez && (!cz || (parts.length > 2 && ez.split('/')[0] === cz.split('/')[0])) ? ez : cz, az = tm && tm.tz && !(tm.many && vz && vz.split('/')[0] !== tm.tz.split('/')[0]) ? tm.tz : null;
     let tz = az || vz || (cfg.homeTz && cityTz(home)) || cfg.tz || null;
     let t, tbc = false;
     if (tm && tm.offsetMin != null) t = Date.UTC(d.y, d.m, d.d, tm.h, tm.mi) - tm.offsetMin * 6e4;
@@ -611,7 +612,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
   }
   for (const [t, c] of formPrev) if (!want.has(t)) want.set(t, { ...c, formOnly: true });
   const titles = [...want.keys()];
-  const texts = {};
+  const texts = {}, failedPages = [];
   for (let i = 0; i < titles.length; i += 20) {
     const batch = titles.slice(i, i + 20);
     // a batch of big pages comes back in parts (the rest after "continue"), so ask until it's all in; a batch that fails
@@ -627,7 +628,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
       }
       cont = r.continue?.rvcontinue ? r.continue : null;
       await sleep(300);
-    } } catch (e) { (diag.wikiFailed ||= []).push(`${batch.length} pages from ${batch[0]}: ${e.message}`); }
+    } } catch (e) { (diag.wikiFailed ||= []).push(`${batch.length} pages from ${batch[0]}: ${e.message}`); failedPages.push(...batch); }
   }
   // labelled-section transclusions, as the NRL finals page shows its Grand Final: {{#section:2026 NRL Grand Final|scoreboard}}
   // reads <section begin=scoreboard /> ... <section end=scoreboard /> from that page, so fetch those pages and put the section in
@@ -809,6 +810,7 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
   } catch (e) { diag.tennis = 'error: ' + e.message; }
   out.tables = tables;
   out.prevRead = formPrev.map(([t]) => t);
+  out.failed = failedPages;
   // UFC: read each event's own article (two months out) for the fight card, and the main event's full names for photos
   const ufcSoon = out.filter(e => e.team === 'ufc' && /\/wiki\/UFC/.test(e.source) && Math.abs(new Date(e.startUTC) - Date.now()) < 60 * DAY);
   try {
