@@ -1360,6 +1360,9 @@ async function addFaces(events) {
   const cacheUrl = new URL('.cache/faces.json', ROOT);
   let cache = {};
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
+  // TheSportsDB's terms (read 13 Nov 2026): a player photo may be shown publicly only when its record is marked Creative
+  // Commons "Yes" ("No", blank or missing means not cleared). Photos kept before that check are dropped and asked again below
+  for (const c of Object.values(cache)) if (c && c.from === 'thesportsdb' && c.cc !== 'Yes') { Object.assign(c, { src: null, file: null, from: null, credit: null }); delete c.sdb; }
   // Wikimedia asks for a descriptive user agent and gentle pacing (it answered 429 to quick bursts), so a second between calls
   const UA = { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } };
   const get = async (host, q) => { await new Promise(r => setTimeout(r, 1000)); const r = await fetch(`https://${host}/w/api.php?format=json&formatversion=2&maxlag=5&` + q, UA); if (!r.ok) throw new Error(`${host} ${r.status}`); return r.json(); };
@@ -1543,8 +1546,8 @@ async function addFaces(events) {
   const mainNames = [...new Set([...near.flatMap(e => [full(e, 'home'), full(e, 'away')]), ...near.flatMap(e => (e.card || []).slice(0, 3).flatMap(b => [strip(b.a), strip(b.b)])),
     // then anyone lower down with their own Wikipedia article (a known name, like a veteran near the end of his career)
     ...names.filter(n => cache[n]?.why === 'no free photo')].filter(ok))];
-  const sdb = { asked: 0, found: 0 };
-  for (const n of mainNames.filter(n => !cache[n]?.src && (!cache[n]?.sdb || now - cache[n].sdb > 7 * DAY)).slice(0, 16)) {
+  const sdb = { asked: 0, found: 0, notFree: 0 };
+  for (const n of mainNames.filter(n => !cache[n]?.src && (!cache[n]?.sdb || now - cache[n].sdb > 7 * DAY)).slice(0, 10)) {
     try {
       // the free key allows about 30 calls a minute, shared with the fixtures read earlier in the run: a pause, and on a
       // "too many requests" a longer one and a second try
@@ -1558,11 +1561,18 @@ async function addFaces(events) {
       (cache[n] ||= { t: now, v: 5, src: null, why: 'not looked up' }).sdb = now;
       const p = list.find(x => /fight|box/i.test(x.strSport || '') && (ovFold(x.strPlayer) === want || ovFold(x.strPlayer).split(' ').sort().join(' ') === want.split(' ').sort().join(' ')) && (x.strCutout || x.strThumb || x.strRender));
       if (!p) continue;
-      Object.assign(cache[n], { src: (p.strCutout || p.strThumb || p.strRender) + '/small', file: `https://www.thesportsdb.com/player/${p.idPlayer}`, from: 'thesportsdb', credit: 'TheSportsDB', t: now });
+      // the search doesn't say whether the photo is free to reuse; the player's own record does
+      await new Promise(r => setTimeout(r, 2500));
+      const lr = await fetch('https://www.thesportsdb.com/api/v1/json/123/lookupplayer.php?id=' + encodeURIComponent(p.idPlayer), UA);
+      if (!lr.ok) throw new Error(lr.status);
+      const pl = ((await lr.json()).players || [])[0] || {};
+      if (pl.strCreativeCommons !== 'Yes') { cache[n].sdbCC = pl.strCreativeCommons || 'not given'; sdb.notFree++; continue; }
+      const by = String(pl.strCreativeCommonsAttribution || '').replace(/<[^>]+>/g, '').trim().slice(0, 120);
+      Object.assign(cache[n], { src: (p.strCutout || p.strThumb || p.strRender) + '/small', file: `https://www.thesportsdb.com/player/${p.idPlayer}`, from: 'thesportsdb', cc: 'Yes', credit: by ? `${by} / TheSportsDB` : 'TheSportsDB (Creative Commons)', t: now });
       sdb.found++;
     } catch (e) { sdb.note = 'error ' + e.message; break; }
   }
-  diag.facesSportsDB = `${sdb.asked} asked, ${sdb.found} found${sdb.note ? '; ' + sdb.note : ''}`;
+  diag.facesSportsDB = `${sdb.asked} asked, ${sdb.found} found, ${sdb.notFree} found but not marked free to reuse${sdb.note ? '; ' + sdb.note : ''}`;
   diag.facesOpenverse = `${ov.asked} asked (${ov.results || 0} photos back, ${ov.named || 0} naming the fighter), ${ov.found} found${ov.note ? '; ' + ov.note : ''}; ${names.filter(n => !cache[n]?.src && cache[n]?.v === 5 && !cache[n].ov).length} not asked yet`;
   for (const e of near) {
     for (const side of ['home', 'away']) {
