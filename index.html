@@ -3912,6 +3912,9 @@ const sideCountry = n => { const b = String(n || '').replace(/\s+(Women('s)?|Men
   return KIT[b] && (ISO[b] || OWN_FLAG[b]) ? b : ''; };
 // a two-sided series' two countries, in the name's order, or null
 const seriesSides = c => { const m = String(c || '').match(/^(.+?) v (.+)$/); if (!m) return null; const a = sideCountry(m[1]), b = sideCountry(m[2]); return a && b && a !== b ? [a, b] : null; };
+// friendlies now on that are all between the same two countries, as those two (the next game's home side first), or null
+const friendlySides = (c, v) => { if (!/^International friendly$/i.test(c) || v.pairs?.size !== 1 || v.pairs.has('?')) return null;
+  const s = [...v.pairs][0].split('|'), h = v.nextHome || v.lastHome; return s[1] === h ? [s[1], s[0]] : s; };
 // a tournament's own look: [label, background, glow, text, mark colour, logo [url, size %, x %, y %, width, height]]. A women's
 // event sharing the men's look takes a pink glow; one with a look of its own says so (w)
 const TSDB = 'https://r2.thesportsdb.com/images/media/league/badge/';
@@ -3981,14 +3984,14 @@ function compLook(c, sample) {
   return { sides, look, w, sp, logo, vars, crop, wm };
 }
 const nowChip = (c, v, st) => {
-  const tip = `${esc(plural(c))}${v.rain ? ' (rain delay)' : v.live ? ' (live now)' : st.ended ? ' (finished)' : ''}`;
+  const fr = friendlySides(c, v), sides = seriesSides(c) || fr, full = fr ? `${fr.join(' v ')} friendlies` : plural(c);
+  const tip = `${esc(full)}${v.rain ? ' (rain delay)' : v.live ? ' (live now)' : st.ended ? ' (finished)' : ''}`;
   const mark = v.live ? '<span class="livedot" role="img" aria-label="live"></span>' : st.ended ? '<span class="enddot" role="img" aria-label="finished">✓</span>' : '';
   const cls = `chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''} ${v.rain ? 'is-rain' : ''} ${st.ended ? 'is-ended' : ''}`;
-  const sides = seriesSides(c);
   if (sides) {
     const seg = (n, k) => { const [bg, ink] = KIT_SPORT[v.sport]?.[n] || KIT[n], f = flagOf(n).replace('flagcdn.com/h240/', 'flagcdn.com/h40/'), img = f ? `<img src="${esc(f)}" alt="" referrerpolicy="no-referrer">` : '';
       return `<span class="nside ns${k}" style="background:${bg};color:${ink}">${k === 'a' ? img : ''}${SIDE_CODE[n] || n.slice(0, 3).toUpperCase()}${k === 'b' ? img : ''}</span>`; };
-    return `<button type="button" class="${cls} two" data-bigcomp="${esc(c)}" aria-pressed="${st.sel}" title="${tip}" aria-label="${esc(plural(c))}">${seg(sides[0], 'a')}<span class="nico"><span>${sIcon(v.sport, '')}</span></span>${seg(sides[1], 'b')}${v.w ? '<span class="wline" aria-hidden="true"></span>' : ''}${mark}</button>`;
+    return `<button type="button" class="${cls} two" data-bigcomp="${esc(c)}" aria-pressed="${st.sel}" title="${tip}" aria-label="${esc(full)}">${seg(sides[0], 'a')}<span class="nico"><span>${sIcon(v.sport, '')}</span></span>${seg(sides[1], 'b')}${v.w ? '<span class="wline" aria-hidden="true"></span>' : ''}${mark}</button>`;
   }
   const look = LOOKS.find(([re, o]) => re.test(c) && (!o.s || o.s === v.sport))?.[1];
   // a tournament with no look of its own: its sport's colour, deepened, and a trophy
@@ -4037,12 +4040,16 @@ function renderNowBar(now) {
     if (!isIntl(e)) v.intl = false;
     // under way: a game in the last 10 days (with the next one close behind, checked below), its next game today, or open now
     if ((t <= 0 && t > -10 * 864e5) || (t > 0 && t <= 18 * 36e5) || (e.openUTC && new Date(e.openUTC) <= now)) v.started = true;
+    // a friendly's two countries, from its games of the last 10 days and next three weeks ('?' for a side with no flag or kit)
+    if (/^International friendly$/i.test(c) && t > -10 * 864e5 && t < 21 * 864e5) { const a = sideCountry(e.home), b = sideCountry(e.away);
+      (v.pairs ||= new Set()).add(a && b && a !== b ? [a, b].sort().join('|') : '?'); }
     if (t <= 0) {
+      if (t >= (v.lastPlayed ?? -Infinity)) v.lastHome = sideCountry(e.home);
       v.lastPlayed = Math.max(v.lastPlayed ?? -Infinity, t);
       // roughly when its last game ended: a Test or first-class game's last day
       v.lastEnd = Math.max(v.lastEnd ?? -Infinity, t + ((DAYS[formatOf(e)] || 1) - 1) * 864e5);
     }
-    if (t > -4 * 36e5 && t < v.next) v.next = t;
+    if (t > -4 * 36e5 && t < v.next) { v.next = t; v.nextHome = sideCountry(e.home); }
     if (isNZ(e)) v.nz = true;
     if (e.status === 'live' || (e.status !== 'final' && onNow(e, now))) {
       v.live = true;
