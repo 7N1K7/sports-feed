@@ -1,11 +1,123 @@
-built 2026-11-13T03:08:31.793Z events 1090 liveSourceEvents 1520 duplicate ids 0 | duplicateIds note: none | newsFailed: none
-80 differences from the old rule
-moved: none
-drawCards: sides named on the draw's cards: rlwc-m-semi-final-1: New Zealand v Tonga; rlwc-m-semi-final-2: Australia v Samoa; rlwc-m-final: Australia v New Zealand; rlwc-w-semi-final-1: New Zealand Women v Samoa Women; rlwc-w-semi-final-2: Australia Women v Fiji Women; rlwc-w-final: New Zealand Women v Austral
-same-day cards sharing a side: 5
-ss-sa-vic-2026-11 South Australia v Victoria 11-24T00:00 <> wiki-aucricket-2026-11-24-australiaengland Australia v England 11-24T08:15
-rlwc-w-final New Zealand Women v Australia Women 11-15T05:10 <> rlwc-m-final Australia v New Zealand 11-15T08:35
-wiki-allblacks-2027-08-20-newzealandaustralia New Zealand v Australia 08-20T02:00? <> wiki-wallabies-2027-08-20-southafricaaustralia South Africa v Australia 08-20T02:00?
-wiki-allblacks-2027-08-20-newzealandaustralia New Zealand v Australia 08-20T02:00? <> wiki-allblacks-2027-08-20-argentinanewzealand Argentina v New Zealand 08-20T02:00?
-wiki-audomestic-2026-11-14-newsouthwalessouthaustralia New South Wales v South Australia 11-14T23:00 <> wiki-aucricket-2026-11-15-australiaengland Australia v England 11-15T03:30
-Tall Blacks/Group E: Iran v New Zealand 2026-08-28T06:00 | New Zealand v Syria 2026-08-30T06:00 | Jordan v New Zealand 2026-11-27T01:00 | Syria v New Zealand 2026-11-29T01:00 | New Zealand v Iran 2027-02-26T01:00 | New Zealand v Jordan 2027-03-01T01:00
+built 2026-11-13T03:08:31.793Z events 1090 | wikiFailed: "none" | duplicateIds: none
+80 differences listed
+new pairing on: 99 games it pairs differently: Argentina v New Zealand 27-08-20 02:00? (argentinanewzealand): with New Zealand v Australia 27-08-20 02:00? (newzealandaustralia), would be with a card of its own
+Argentina v New Zealand 27-08-20 02:00? (argentinanewzealand): with New Zealand v Australia 27-08-20 02:00? (newzealandaustralia), would be with Argentina v New Zealand 27-08-20 02:00? (argentinanewzealand)
+Australia Women v New Zealand Women 25-09-06 04:30? [Match 2] (australiawomennewzealandwomen): with Australia Women v New Zealand Women 25-09-04 04:30? [Match 1] (australiawomennewzealandwomen), would be with a card of its own
+Australia Women v New Zealand Women 25-09-07 04:30? [Match 3] (australiawomennewzealandwomen): with Australia Women v New Zealand Women 25-09-06 04:30? [Match 2] (australiawomennewzealandwomen), would be with a card of its own
+Argentina Women v New Zealand Women 26-05-03 06:00? (argentinawomennewzealandwomen): with Argentina Women v New Zealand Women 26-05-01 06:00? (argentinawomennewzealandwomen), would be with a card of its own
+Syria v New Zealand 26-11-29 01:00? [Group E] (syrianewzealand): with Jordan v New Zealand 26-11-27 01:00? [Group E] (jordannewzealand), would be with a card of its own
+Ireland v India 26-06-28 02:00? [2nd T20I] (irelandindia): with Ireland v India 26-06-26 02:00? [1st T20I] (irelandindia), would be with a card of its own
+Ireland v Afghanistan 26-08-07 02:00? [2nd ODI] (afghanistanireland): with Ireland v Afghanistan 26-08-05 02:00? [1st ODI] (irelandafghanistan), would be with a card of its own
+Ireland v Afghanistan 26-08-12 02:00? [4th ODI] (afghanistanireland): with Ireland v Afghanistan 26-08-10 02:00? [3rd ODI] (irelandafghanistan), would be with a card of its own
+Nepal v Canada 26-10-11 01:00? (nepalcanada): with Oman v Canada 26-10-09 01:00? (omancanada), would be with a card of its own
+Nepal v Oman 26-10-13 01:00? (nepaloman): with Nepal v Canada 26-10-11 01:00? (nepalcanada), would be with a card of its own
+Canada v Oman 26-10-15 01:00? (canadaoman): with Nepal v Oman 26-10-13 01:00? (nepaloman), would be with a card of its own
+Canada v Nepal 26-10-17 01:00? (canadanepal): with Canada v Oman 26-10-15 01:00? (canadaoman), would be with a card of its own
+Nepal v Oman 26-10-19 01:00? (nepaloman): with Canada v Nepal 26-10-17 01:00? (canadanepal), would be with a card of its own
+Netherlands v USA 26-06-08 02:00? (netherlandsusa): with Canada v USA 26-06-06 02:00? (canadausa), would be with a card of its own
+Netherlands v Canada 26-06-10 02:00? (netherlandscanada): with Netherlands v USA 26-06-08 02:00? (netherlandsusa), would be with a card of its own
+Canada v USA 26-06-12 02:00? (canadausa): with Netherlands v Canada 26-06-10 02:00? (netherlandscanada), would be with a card of its own
+Netherlands v USA 26-06-14 02:00? (netherlandsusa): with Canada v USA 26-06-12 02:00? (canadausa), would be with a card of its own
+Netherlands v Canada 26-06-16 02:00? (netherlandscanada): with Netherlands v USA 26-06-14 02:00? (netherlandsusa), would be with a card of its own
+United Arab Emirates v USA 26-10-05 01:00? (unitedarabemiratesusa): with Namibia v United Arab Emirates 26-10-03 01:00? (namibiaunitedarabemirates), would be with a card of its own
+Namibia v USA 26-10-07 01:00? (namibiausa): with United Arab Emirates v USA 26-10-05 01:00? (unitedarabemiratesusa), would be with a card of its own
+United Arab Emirates v Namibia 26-10-09 01:00? (unitedarabemiratesnamibia): with Namibia v USA 26-10-07 01:00? (namibiausa), would be with a card of its own
+United Arab Emirates v USA 26-10-11 01:00? (unitedarabemiratesusa): with United Arab Emirates v Namibia 26-10-09 01:00? (unitedarabemiratesnamibia), would be with a card of its own
+USA v Namibia 26-10-13 01:00? (usanamibia): with United Arab Emirates v USA 26-10-11 01:00? (unitedarabemiratesusa), would be with a card of its own
+Namibia v Oman 26-04-04 01:00? (namibiaoman): with Oman v Scotland 26-04-02 01:00? (omanscotland), would be with a card of its own
+Oman v Scotland 26-04-08 02:00? (omanscotland): with Namibia v Scotland 26-04-06 02:00? (namibiascotland), would be with a card of its own
+Oman v Namibia 26-04-10 02:00? (omannamibia): with Oman v Scotland 26-04-08 02:00? (omanscotland), would be with a card of its own
+Namibia v Scotland 26-04-12 02:00? (namibiascotland): with Oman v Namibia 26-04-10 02:00? (omannamibia), would be with a card of its own
+Scotland v Namibia 26-04-17 02:00? (scotlandnamibia): with Namibia v Scotland 26-04-15 02:00? (namibiascotland), would be with a card of its own
+Scotland v Namibia 26-04-18 02:00? (scotlandnamibia): with Scotland v Namibia 26-04-17 02:00? (scotlandnamibia), would be with a card of its own
+United Arab Emirates v Nepal 26-04-21 02:00? (unitedarabemiratesnepal): with Nepal v United Arab Emirates 26-04-20 02:00? (nepalunitedarabemirates), would be with a card of its own
+United Arab Emirates v Oman 26-04-27 02:00? (unitedarabemiratesoman): with Nepal v United Arab Emirates 26-04-25 02:00? (nepalunitedarabemirates), would be with a card of its own
+Oman v Nepal 26-04-29 02:00? (omannepal): with United Arab Emirates v Oman 26-04-27 02:00? (unitedarabemiratesoman), would be with a card of its own
+Nepal v United Arab Emirates 26-05-01 02:00? (nepalunitedarabemirates): with Oman v Nepal 26-04-29 02:00? (omannepal), would be with a card of its own
+United Arab Emirates v Oman 26-05-03 02:00? (unitedarabemiratesoman): with Nepal v United Arab Emirates 26-05-01 02:00? (nepalunitedarabemirates), would be with a card of its own
+Nepal v Oman 26-05-05 02:00? (nepaloman): with United Arab Emirates v Oman 26-05-03 02:00? (unitedarabemiratesoman), would be with a card of its own
+Canada v United Arab Emirates 26-08-05 02:00? (canadaunitedarabemirates): with Scotland v United Arab Emirates 26-08-03 02:00? (scotlandunitedarabemirates), would be with a card of its own
+Scotland v Canada 26-08-07 02:00? (scotlandcanada): with Canada v United Arab Emirates 26-08-05 02:00? (canadaunitedarabemirates), would be with a card of its own
+United Arab Emirates v Scotland 26-08-09 02:00? (unitedarabemiratesscotland): with Scotland v Canada 26-08-07 02:00? (scotlandcanada), would be with a card of its own
+United Arab Emirates v Canada 26-08-11 02:00? (unitedarabemiratescanada): with United Arab Emirates v Scotland 26-08-09 02:00? (unitedarabemiratesscotland), would be with a card of its own
+Scotland v Canada 26-08-13 02:00? (scotlandcanada): with United Arab Emirates v Canada 26-08-11 02:00? (unitedarabemiratescanada), would be with a card of its own
+India A v Afghanistan A 26-06-11 04:30 (indiaaafghanistana): with India v Afghanistan 26-06-13 02:00? [1st ODI] (afghanistanindia), would be with a card of its own
+Afghanistan A v Sri Lanka A 26-06-13 04:30 (afghanistanasrilankaa): with India v Afghanistan 26-06-13 02:00? [1st ODI] (afghanistanindia), would be with a card of its own
+India A v Afghanistan A 26-06-17 04:30 (indiaaafghanistana): with India v Afghanistan 26-06-17 08:00 [2nd ODI] (indiaafghanistan), would be with a card of its own
+India A v Sri Lanka A 26-06-25 08:30? (indiaasrilankaa): with Ireland v India 26-06-26 02:00? [1st T20I] (irelandindia), would be with a card of its own
+Scotland v USA 26-05-14 02:00? (scotlandusa): with Scotland v Nepal 26-05-12 02:00? (scotlandnepal), would be with a card of its own
+USA v Nepal 26-05-16 02:00? (usanepal): with Scotland v USA 26-05-14 02:00? (scotlandusa), would be with a card of its own
+Scotland v Nepal 26-05-18 02:00? (scotlandnepal): with USA v Nepal 26-05-16 02:00? (usanepal), would be with a card of its own
+Scotland v USA 26-05-20 02:00? (scotlandusa): with Scotland v Nepal 26-05-18 02:00? (scotlandnepal), would be with a card of its own
+Nepal v USA 26-05-22 02:00? (nepalusa): with Scotland v USA 26-05-20 02:00? (scotlandusa), would be with a card of its own
+Argentina v New Zealand 27-08-20 02:00? (argentinanewzealand): with New Zealand v Australia 27-08-20 02:00? (newzealandaustralia), would be with a card of its own
+Australia Women v New Zealand Women 25-09-06 04:30? [Match 2] (australiawomennewzealandwomen): with Australia Women v New Zealand Women 25-09-04 04:30? [Match 1] (australiawomennewzealandwomen), would be with a card of its own
+Australia Women v New Zealand Women 25-09-07 04:30? [Match 3] (australiawomennewzealandwomen): with Australia Women v New Zealand Women 25-09-06 04:30? [Match 2] (australiawomennewzealandwomen), would be with a card of its own
+Argentina Women v New Zealand Women 26-05-03 06:00? (argentinawomennewzealandwomen): with Argentina Women v New Zealand Women 26-05-01 06:00? (argentinawomennewzealandwomen), would be with a card of its own
+Syria v New Zealand 26-11-29 01:00? [Group E] (syrianewzealand): with Jordan v New Zealand 26-11-27 01:00? [Group E] (jordannewzealand), would be with a card of its own
+Ireland v India 26-06-28 02:00? [2nd T20I] (irelandindia): with Ireland v India 26-06-26 02:00? [1st T20I] (irelandindia), would be with a card of its own
+Ireland v Afghanistan 26-08-07 02:00? [2nd ODI] (afghanistanireland): with Ireland v Afghanistan 26-08-05 02:00? [1st ODI] (irelandafghanistan), would be with a card of its own
+Ireland v Afghanistan 26-08-12 02:00? [4th ODI] (afghanistanireland): with Ireland v Afghanistan 26-08-10 02:00? [3rd ODI] (irelandafghanistan), would be with a card of its own
+Nepal v Canada 26-10-11 01:00? (nepalcanada): with Oman v Canada 26-10-09 01:00? (omancanada), would be with a card of its own
+Nepal v Oman 26-10-13 01:00? (nepaloman): with Nepal v Canada 26-10-11 01:00? (nepalcanada), would be with a card of its own
+Canada v Oman 26-10-15 01:00? (canadaoman): with Nepal v Oman 26-10-13 01:00? (nepaloman), would be with a card of its own
+Canada v Nepal 26-10-17 01:00? (canadanepal): with Canada v Oman 26-10-15 01:00? (canadaoman), would be with a card of its own
+Nepal v Oman 26-10-19 01:00? (nepaloman): with Canada v Nepal 26-10-17 01:00? (canadanepal), would be with a card of its own
+Netherlands v USA 26-06-08 02:00? (netherlandsusa): with Canada v USA 26-06-06 02:00? (canadausa), would be with a card of its own
+Netherlands v Canada 26-06-10 02:00? (netherlandscanada): with Netherlands v USA 26-06-08 02:00? (netherlandsusa), would be with a card of its own
+Canada v USA 26-06-12 02:00? (canadausa): with Netherlands v Canada 26-06-10 02:00? (netherlandscanada), would be with a card of its own
+Netherlands v USA 26-06-14 02:00? (netherlandsusa): with Canada v USA 26-06-12 02:00? (canadausa), would be with a card of its own
+Netherlands v Canada 26-06-16 02:00? (netherlandscanada): with Netherlands v USA 26-06-14 02:00? (netherlandsusa), would be with a card of its own
+United Arab Emirates v USA 26-10-05 01:00? (unitedarabemiratesusa): with Namibia v United Arab Emirates 26-10-03 01:00? (namibiaunitedarabemirates), would be with a card of its own
+Namibia v USA 26-10-07 01:00? (namibiausa): with United Arab Emirates v USA 26-10-05 01:00? (unitedarabemiratesusa), would be with a card of its own
+United Arab Emirates v Namibia 26-10-09 01:00? (unitedarabemiratesnamibia): with Namibia v USA 26-10-07 01:00? (namibiausa), would be with a card of its own
+United Arab Emirates v USA 26-10-11 01:00? (unitedarabemiratesusa): with United Arab Emirates v Namibia 26-10-09 01:00? (unitedarabemiratesnamibia), would be with a card of its own
+USA v Namibia 26-10-13 01:00? (usanamibia): with United Arab Emirates v USA 26-10-11 01:00? (unitedarabemiratesusa), would be with a card of its own
+Namibia v Oman 26-04-04 01:00? (namibiaoman): with Oman v Scotland 26-04-02 01:00? (omanscotland), would be with a card of its own
+Oman v Scotland 26-04-08 02:00? (omanscotland): with Namibia v Scotland 26-04-06 02:00? (namibiascotland), would be with a card of its own
+Oman v Namibia 26-04-10 02:00? (omannamibia): with Oman v Scotland 26-04-08 02:00? (omanscotland), would be with a card of its own
+Namibia v Scotland 26-04-12 02:00? (namibiascotland): with Oman v Namibia 26-04-10 02:00? (omannamibia), would be with a card of its own
+Scotland v Namibia 26-04-17 02:00? (scotlandnamibia): with Namibia v Scotland 26-04-15 02:00? (namibiascotland), would be with a card of its own
+Scotland v Namibia 26-04-18 02:00? (scotlandnamibia): with Scotland v Namibia 26-04-17 02:00? (scotlandnamibia), would be with a card of its own
+United Arab Emirates v Nepal 26-04-21 02:00? (unitedarabemiratesnepal): with Nepal v United Arab Emirates 26-04-20 02:00? (nepalunitedarabemirates), would be with a card of its own
+pairs of cards with the same two sides within 3 days: 109
+wbbl-12-m20-melbourne-renegades-v-sydney-sixers Melbourne Renegades v Sydney Sixers 26-11-12T08:10 [] <> wbbl-12-m23-sydney-sixers-v-melbourne-renegades 26-11-15T00:00 []
+wbbl-12-knockout TBC v TBC 26-12-01T08:10 [] <> wbbl-12-challenger 26-12-02T13:00? []
+wbbl-12-challenger TBC v TBC 26-12-02T13:00? [] <> wbbl-12-final 26-12-05T04:30 []
+bbl-16-m17-perth-scorchers-v-sydney-thunder Perth Scorchers v Sydney Thunder 26-12-30T08:15 [] <> bbl-16-m21-sydney-thunder-v-perth-scorchers 27-01-02T08:15 []
+bbl-16-m29-hobart-hurricanes-v-adelaide-strikers Hobart Hurricanes v Adelaide Strikers 27-01-09T08:15 [] <> bbl-16-m33-adelaide-strikers-v-hobart-hurricanes 27-01-12T08:15 []
+bbl-16-qualifier TBC v TBC 27-01-18T13:00? [] <> bbl-16-knockout 27-01-19T13:00? []
+bbl-16-knockout TBC v TBC 27-01-19T13:00? [] <> bbl-16-challenger 27-01-22T13:00? []
+bbl-16-challenger TBC v TBC 27-01-22T13:00? [] <> bbl-16-final 27-01-25T13:00? []
+bc-ind-t20i1-2026 New Zealand v India 26-10-22T07:00 [] <> bc-ind-t20i2-2026 26-10-24T07:00 []
+bc-ind-t20i2-2026 New Zealand v India 26-10-24T07:00 [] <> bc-ind-t20i3-2026 26-10-27T07:00 []
+bc-ind-t20i3-2026 New Zealand v India 26-10-27T07:00 [] <> bc-ind-t20i4-2026 26-10-30T07:00 []
+bc-ind-t20i4-2026 New Zealand v India 26-10-30T07:00 [] <> bc-ind-t20i5-2026 26-11-01T07:00 []
+ft-31-2026 TBC v TBC 27-02-18T21:30 [] <> ft-32-2026 27-02-20T21:30 []
+bc-ind-t20i5-2026 New Zealand v India 26-11-01T07:00 [] <> bc-ind-odi1-2026 26-11-04T02:00 []
+bc-ind-odi1-2026 New Zealand v India 26-11-04T02:00 [] <> bc-ind-odi2-2026 26-11-07T02:00 []
+bc-ind-odi2-2026 New Zealand v India 26-11-07T02:00 [] <> bc-ind-odi3-2026 26-11-10T02:00 []
+bc-ind-odi3-2026 New Zealand v India 26-11-10T02:00 [] <> bc-ind-odi4-2026 26-11-13T02:00 []
+bc-ind-odi4-2026 New Zealand v India 26-11-13T02:00 [] <> bc-ind-odi5-2026 26-11-15T02:00 []
+hjs-nd-cd-2026 Central Hinds v Northern Districts 26-11-13T21:30 [] <> hjs-nd-cd-15-2026 26-11-14T21:30 []
+wf-ban-t20i1-2026 New Zealand Women v Bangladesh Women 26-12-09T11:00? [] <> wf-ban-t20i2-2026 26-12-11T11:00? []
+wf-ban-t20i2-2026 New Zealand Women v Bangladesh Women 26-12-11T11:00? [] <> wf-ban-t20i3-2026 26-12-14T11:00? []
+wf-ban-t20i3-2026 New Zealand Women v Bangladesh Women 26-12-14T11:00? [] <> wf-ban-odi1-2026 26-12-17T11:00? []
+wf-ban-odi1-2026 New Zealand Women v Bangladesh Women 26-12-17T11:00? [] <> wf-ban-odi2-2026 26-12-20T11:00? []
+wf-ban-odi2-2026 New Zealand Women v Bangladesh Women 26-12-20T11:00? [] <> wf-ban-odi3-2026 26-12-22T11:00? []
+bc-sl-odi1-2027 New Zealand v Sri Lanka 27-01-15T22:00 [] <> bc-sl-odi2-2027 27-01-18T22:00 []
+bc-sl-odi2-2027 New Zealand v Sri Lanka 27-01-18T22:00 [] <> bc-sl-odi3-2027 27-01-21T22:00 []
+bc-sl-t20i1-2027 New Zealand v Sri Lanka 27-01-26T05:00 [] <> bc-sl-t20i2-2027 27-01-29T03:00 []
+bc-sl-t20i2-2027 New Zealand v Sri Lanka 27-01-29T03:00 [] <> bc-sl-t20i3-2027 27-01-31T00:00 []
+ss-qld-wa-2027-02-08 Queensland v Western Australia 27-02-08T04:00 [] <> wiki-audomestic-2027-02-05-queenslandwesternaustralia 27-02-05T04:00 []
+hjs-akl-wel-14-2026 Auckland Hearts v Wellington Blaze 26-11-13T21:30 [] <> hjs-akl-wel-15-2026 26-11-14T21:30 []
+hjs-can-ota-14-2026 Canterbury Magicians v Otago Sparks 26-11-13T21:30 [] <> hjs-can-ota-15-2026 26-11-14T21:30 []
+aw-ind-1-2026 New Zealand v India 26-11-12T06:00 [] <> aw-ind-2-2026 26-11-15T06:00? []
+bs-ind-centenary-1-2026 New Zealand v India 26-11-19T05:30 [] <> bs-ind-centenary-2-2026 26-11-21T03:00 []
+bs-ind-centenary-1-2026 New Zealand v India 26-11-19T05:30 [] <> bs-ind-centenary-3-2026 26-11-22T01:00 []
+bs-ind-centenary-2-2026 New Zealand v India 26-11-21T03:00 [] <> bs-ind-centenary-3-2026 26-11-22T01:00 []
+concup-2026-g1 New Zealand v Australia 26-10-18T06:40 [] <> concup-2026-g2 26-10-21T06:40 []
+wiki-nations-2026-11-27-northernsouthern-6 North 6th v South 6th 26-11-27T16:40 [Eleventh place final] <> wiki-nations-2026-11-28-northernsouthern-5 26-11-28T13:10 [Ninth place final]
+wiki-nations-2026-11-27-northernsouthern-6 North 6th v South 6th 26-11-27T16:40 [Eleventh place final] <> wiki-nations-2026-11-29-northernsouthern-4 26-11-29T13:10 [Seventh place final]
+wiki-nations-2026-11-28-northernsouthern-5 North 5th v South 5th 26-11-28T13:10 [Ninth place final] <> wiki-nations-2026-11-29-northernsouthern-4 26-11-29T13:10 [Seventh place final]
+wiki-audomestic-2026-10-19-southaustraliaqueensland South Australia v Queensland 26-10-19T03:30? [] <> wiki-audomestic-2026-10-17-southaustraliaqueensland 26-10-17T00:00 []
