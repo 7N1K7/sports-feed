@@ -3749,6 +3749,8 @@ function openTeam(name, sport, fromRank = '', g) {
   // opened from a game's pop-up: a way back to that game, at the top
   if (dlg.open && dlg.dataset.id) sheetTrail.push({ id: dlg.dataset.id, tab: dTab });
   const prev = !fromRank && sheetTrail.length && (FEED.events || []).find(x => x.id === sheetTrail[sheetTrail.length - 1].id);
+  // (not from the rankings: no way back to rankings seen earlier)
+  if (!fromRank) dlg.dataset.rankings = '';
   $('sheetBody').innerHTML = (fromRank ? `<button type="button" class="back rback" data-rankback="${esc(fromRank)}">‹ Rankings</button>` : prev ? `<button type="button" class="back" data-sback="1">‹ ${esc(titleOf(prev))}</button>` : '') + teamPage(name, sport, g);
   dlg.dataset.id = '';
   if (!dlg.open) dlg.showModal();
@@ -4995,7 +4997,7 @@ document.addEventListener('click', ev => {
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) { if (card.closest('#soon')) count({ e: 'use', k: 'Starting soon card' }); openDetail(card.dataset.open); } else if (ev.target === $('sheet')) $('sheet').close(); return; }
   if (t.id === 'sheetClose') { use('Game pop-up closed'); $('sheet').close(); return; }
   if (t.dataset.sback) { use('Back in a pop-up'); const prev = sheetTrail.pop(); if (prev) { dTab = prev.tab; dTabId = prev.id; openDetail(prev.id, false, true); } return; }
-  if (t.dataset.teampage) { if (!t.classList.contains('back')) use(t.classList.contains('qi') ? 'Search result team' : t.classList.contains('rteam') ? 'Team from rankings' : t.closest('.formrows') ? 'Team from form' : t.closest('.stable') ? 'Team from a table' : 'Team from a game'); closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport, t.classList.contains('rteam') ? $('sheet').dataset.rankings : '', t.dataset.tg); return; }
+  if (t.dataset.teampage) { if (!t.classList.contains('back')) use(t.classList.contains('qi') ? 'Search result team' : t.closest('.stable.rank') ? 'Team from rankings' : t.closest('.formrows') ? 'Team from form' : t.closest('.stable') ? 'Team from a table' : 'Team from a game'); closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport, t.closest('#sheet .stable.rank') ? $('sheet').dataset.rankings : '', t.dataset.tg); return; }
   if (t.dataset.goto) { use(t.classList.contains('qi') ? 'Search result game' : t.classList.contains('pbox2') ? 'Playoff bracket game' : 'Game from a team page'); const fromTeam = !!t.closest('#sheet') && !!teamBack; closeSearch(); openDetail(t.dataset.goto, fromTeam); return; }
   if (t.id === 'toResults' || t.id === 'toNews' || t.id === 'toEvents') {
     count({ e: 'use', k: { toEvents: 'Events button', toResults: 'Results button', toNews: 'News button' }[t.id] });
