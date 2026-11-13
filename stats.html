@@ -584,7 +584,10 @@ const firstDay = () => data.rows.reduce((a, r) => r.day < a ? r.day : a, data.to
 const spanDays = () => days || Math.round((Date.parse(data.today) - Date.parse(firstDay())) / DAY) + 1;
 // the first day each metric has numbers, worked out once for each answer from the stats server
 let firsts = null;
-const firstOf = m => { if (firsts?.data !== data) { firsts = { data, d: Object.create(null) }; for (const r of data.rows) if (!(firsts.d[r.metric] <= r.day)) firsts.d[r.metric] = r.day; } return firsts.d[m] || data.today; };
+const firstOf = (m, none = data.today) => { if (firsts?.data !== data) { firsts = { data, d: Object.create(null) }; for (const r of data.rows) if (!(firsts.d[r.metric] <= r.day)) firsts.d[r.metric] = r.day; } return firsts.d[m] || none; };
+// a change means something only when every metric behind it was counted on all the days before: none across the day
+// one began (no arrow, and no "new" for what simply wasn't counted then)
+const countedFrom = (prev, ...ms) => ms.every(m => prev.from >= firstOf(m, ''));
 // a tally keyed by names from the data, with no inherited keys, so "constructor" or "__proto__" counts like any name
 const bag = () => Object.create(null);
 // an average a day: one decimal under 10, so a small site doesn't show 0
@@ -610,7 +613,7 @@ function shape(n = spanDays(), back = 0) {
 }
 // what a change compares: the range's whole days (today is only part of a day, so it's left out) against the same
 // number of days just before them, only when every one of those has numbers (not for Today or All)
-const prevShape = () => days > 1 && dayAdd(data.today, -2 * days + 2) >= firstDay() ? { now: shape(days - 1, 1), was: shape(days - 1, days) } : null;
+const prevShape = () => days > 1 && dayAdd(data.today, -2 * days + 2) >= firstDay() ? { from: dayAdd(data.today, -2 * days + 2), now: shape(days - 1, 1), was: shape(days - 1, days) } : null;
 // the change on the days before, as a short label: ▲ 24%, ▼ 8%, new
 const change = (now, was) => was == null ? '' : !was ? (now ? 'new' : '') : now === was ? '–' : (p => `${now > was ? '▲' : '▼'} ${p >= 1000 ? Math.round(now / was) + '×' : p + '%'}`)(Math.round(Math.abs(100 * (now - was) / was)));
 
@@ -1043,7 +1046,7 @@ function draw() {
   $('rangeSpan').classList.remove('err'); $('rangeSpan').removeAttribute('title');
   $('rangeSpan').textContent = n === 1 ? `Today, ${short(data.today)}` : `${short(list[0])} to ${short(data.today)} · ${n} days`;
   $('heroN').textContent = fmtN(visits);
-  const was = prev && change(tot('opens', prev.now), tot('opens', prev.was));
+  const was = prev && countedFrom(prev, 'opens') && change(tot('opens', prev.now), tot('opens', prev.was));
   // the change leaves today out, and Today has none (it's only part of a day so far); the words fit the lines the old ones did
   $('heroL').textContent = `visits ${n === 1 ? 'so far today' : days ? `in the last ${n} days` : `since ${short(list[0])}`}${was && was !== '–' ? ` (${was}, today left out)` : ''} · ${n === 1 ? `${fmtN(people)} people` : `${avgN(people / nd)} people a day`} · ${fmtN(views)} page views`;
   // today and yesterday whatever the range
@@ -1058,7 +1061,8 @@ function draw() {
     + tile('Using the app', appP ? Math.round(100 * tot('appvisitors') / appP) + '%' : '–', `of people · ${fmtN(tot('appvisitors'))} app users, ${fmtN(tot('appviews'))} app page views`)
     + (() => { const taps = tapsOn(list, ds), tv = visits ? taps / visits : 0;
         const rate = sh => tot('opens', sh) ? tapsOn(sh.list, sh.ds) / tot('opens', sh) : null;
-        const pn = prev && rate(prev.now), pv = prev && rate(prev.was), ch = pn != null && pv != null ? change(Math.round(pn * 10), Math.round(pv * 10)) : '';
+        const ok = prev && countedFrom(prev, 'opens', 'use', 'event', 'sport', 'watch', 'outlink', 'follow', 'unfollow', 'hidesport', 'showsport');
+        const pn = ok && rate(prev.now), pv = ok && rate(prev.was), ch = pn != null && pv != null ? change(Math.round(pn * 10), Math.round(pv * 10)) : '';
         return tile('Taps a visit', visits ? tv.toFixed(1) : '–', `${fmtN(taps)} taps${ch && ch !== '–' ? ` · ${ch} on the days before` : ''}`); })();
   // a day on its own is no line: Today shows the last 7 days
   const VIS = [['visitors', 'People', 'var(--series-1)'], ['opens', 'Visits', 'var(--series-2)'], ['views', 'Page views', 'var(--series-3)']];
@@ -1265,7 +1269,8 @@ function spark(vals) {
     pl.setAttribute('points', vals.map((v, i) => `${(1 + i * 42 / (vals.length - 1)).toFixed(1)},${(14.5 - v / mx * 13).toFixed(1)}`).join(' ')); sv.append(pl); }
   return sv;
 }
-// cmp: the row's figures on the range's whole days and on the days before them, for the change column
+// cmp: the row's figures on the range's whole days and on the days before them, for the change column, and whether its
+// metric was counted on all of those days (the space stays when it wasn't)
 function rank(id, obj, cmp, label = k => [k], daily = null) {
   const el = $(id), rows = Object.entries(obj || {}).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   el.replaceChildren();
@@ -1278,8 +1283,8 @@ function rank(id, obj, cmp, label = k => [k], daily = null) {
     if (sub) { const sm = document.createElement('small'); sm.textContent = sub; nm.append(sm); }
     const nb = document.createElement('span'); nb.className = 'n'; nb.textContent = fmtN(n);
     const sp = spark(daily && daily.map(o => (o && o[k]) || 0));
-    const [cn, cw] = cmp ? [cmp[0][k] || 0, cmp[1][k] || 0] : [], dl = document.createElement('span'); dl.className = 'dl'; dl.textContent = cmp ? change(cn, cw) : '';
-    if (cmp) dl.title = `${fmtN(cn)} on the whole days, ${fmtN(cw)} on the days before`;
+    const [cn, cw] = cmp ? [cmp[0][k] || 0, cmp[1][k] || 0] : [], on = cmp && cmp[2](k), dl = document.createElement('span'); dl.className = 'dl'; dl.textContent = on ? change(cn, cw) : '';
+    if (on) dl.title = `${fmtN(cn)} on the whole days, ${fmtN(cw)} on the days before`;
     const t = document.createElement('span'); t.className = 't'; const f = document.createElement('i'); f.style.width = (100 * n / max).toFixed(1) + '%'; t.append(f);
     li.append(rk, nm, sp, nb, dl, t); el.append(li);
   });
@@ -1312,16 +1317,19 @@ function compsOf(sums) { const o = bag(); for (const [k, n] of Object.entries(su
 function drawPopular(sums, ps, list, ds) {
   $('popSub').textContent = ps ? 'with the change on the days before, today left out' : '';
   // each list's figures on the whole days and on the days before them
-  const day = f => list.map(d => f(ds[d]) || bag()), cmp = f => ps && [f(ps.now.sums) || bag(), f(ps.was.sums) || bag()];
-  rank('p-used', usedOf(sums), cmp(usedOf), undefined, day(usedOf));
-  rank('p-game', sums.gameopen, cmp(x => x.gameopen), k => { const i = k.indexOf(': '); return i < 0 ? [k] : [k.slice(i + 2), k.slice(0, i)]; }, day(x => x.gameopen));
-  rank('p-comp', compsOf(sums), cmp(compsOf), k => [SPORT_LABEL[k] || k], day(compsOf));
-  rank('p-hub', sums.hubs, cmp(x => x.hubs), undefined, day(x => x.hubs));
-  rank('p-sport', sums.sport, cmp(x => x.sport), k => [SPORT_LABEL[k] || k], day(x => x.sport));
-  rank('p-team', sums.teampage, cmp(x => x.teampage), undefined, day(x => x.teampage));
-  rank('p-watch', sums.watch, cmp(x => x.watch), undefined, day(x => x.watch));
-  rank('p-out', sums.outlink, cmp(x => x.outlink), k => [k.replace(/^www\./, '')], day(x => x.outlink));
-  rank('p-search', sums.search, cmp(x => x.search), undefined, day(x => x.search));
+  // and the metric each counts (for Everything used, each row's own); competition pages compare from 7 Nov 2026, when
+  // every button's were first counted, as the menu's picks before are fewer
+  const day = f => list.map(d => f(ds[d]) || bag()), cmp = (f, m) => ps && [f(ps.now.sums) || bag(), f(ps.was.sums) || bag(), k => countedFrom(ps, typeof m === 'function' ? m(k) : m)];
+  const USED_M = { 'A sport button': 'sport', 'A way to watch': 'watch', 'A link to another site': 'outlink', 'A team turned on': 'follow', 'A team turned off': 'unfollow' }, evLabels = new Set(Object.values(EVENT_LABEL));
+  rank('p-used', usedOf(sums), cmp(usedOf, k => Object.hasOwn(USED_M, k) ? USED_M[k] : evLabels.has(k) ? 'event' : 'use'), undefined, day(usedOf));
+  rank('p-game', sums.gameopen, cmp(x => x.gameopen, 'gameopen'), k => { const i = k.indexOf(': '); return i < 0 ? [k] : [k.slice(i + 2), k.slice(0, i)]; }, day(x => x.gameopen));
+  rank('p-comp', compsOf(sums), cmp(compsOf, 'gameopen'), k => [SPORT_LABEL[k] || k], day(compsOf));
+  rank('p-hub', sums.hubs, cmp(x => x.hubs, 'comppage'), undefined, day(x => x.hubs));
+  rank('p-sport', sums.sport, cmp(x => x.sport, 'sport'), k => [SPORT_LABEL[k] || k], day(x => x.sport));
+  rank('p-team', sums.teampage, cmp(x => x.teampage, 'teampage'), undefined, day(x => x.teampage));
+  rank('p-watch', sums.watch, cmp(x => x.watch, 'watch'), undefined, day(x => x.watch));
+  rank('p-out', sums.outlink, cmp(x => x.outlink, 'outlink'), k => [k.replace(/^www\./, '')], day(x => x.outlink));
+  rank('p-search', sums.search, cmp(x => x.search, 'search'), undefined, day(x => x.search));
   document.querySelector('.grid.pop').classList.toggle('nodl', !ps);
 }
 // a split in shares: one bar, a line a part (its count and share), then each day's split as a thin column; the parts
