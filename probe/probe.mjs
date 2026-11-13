@@ -1,13 +1,10 @@
-// 14 Nov: which sides in the live feed have no image, by sport and competition (live feed only; nothing counted)
-const f = await fetch(`https://kickoff.kiwi/data/feed.json?t=${Date.now()}`).then(r => r.json());
-const now = Date.now(), solo = e => ['motor', 'tennis', 'sailing', 'golf', 'cycling'].includes(e.sport);
-const miss = {}, have = {}, names = {};
-for (const e of f.events || []) {
-  const t = Date.parse(e.startUTC); if (t < now - 14 * 864e5 || t > now + 60 * 864e5 || solo(e)) continue;
-  for (const s of ['home', 'away']) { const n = e[s]; if (!n || /TBC|winner|\bor\b/i.test(n)) continue;
-    const k = `${e.sport} | ${e.team || ''}`; const src = e[s + 'Logo'] ? (/thesportsdb/.test(e[s + 'Logo']) ? 'tsdb' : /wikimedia|wikipedia/.test(e[s + 'Logo']) ? 'commons' : /flagcdn|flag/.test(e[s + 'Logo']) ? 'flag' : 'other') : null;
-    if (src) { (have[k] ||= {})[src] = ((have[k] ||= {})[src] || 0) + 1; } else { miss[k] = (miss[k] || 0) + 1; (names[k] ||= new Set()).add(n); } }
+// 14 Nov: Flickr's API terms and key rules, Openverse's terms (public pages only)
+const UA = { 'user-agent': 'Mozilla/5.0 (compatible; kickoff-probe)' };
+const text = h => h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, ' ').replace(/<br\s*\/?>|<\/p>|<\/li>|<\/h\d>/gi, '\n').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&#0?39;|&apos;|&rsquo;/g, "'").replace(/&quot;|&ldquo;|&rdquo;/g, '"').replace(/[ \t]+/g, ' ').replace(/\n\s*\n+/g, '\n');
+console.log('TERMS CHECK');
+for (const u of ['https://www.flickr.com/services/api/tos/', 'https://www.flickrhelp.com/hc/en-us/articles/4404070036884-Flickr-API', 'https://www.flickr.com/services/apps/create/apply/', 'https://docs.openverse.org/api/reference/terms_of_service.html', 'https://api.openverse.org/v1/']) {
+  try { const r = await fetch(u, { headers: UA }); const t = text(await r.text());
+    const lines = t.split('\n').map(x => x.trim()).filter(x => x.length > 30 && x.length < 900 && /commercial|key|pro\b|free|rate|limit|attribut|display|store|cache|licen|photo|request|thumbnail|link/i.test(x));
+    console.log(`\n==== ${u} | ${r.status} | ${t.length}`); for (const l of [...new Set(lines)].slice(0, 30)) console.log(' - ' + l);
+  } catch (e) { console.log(`\n==== ${u} | ERR ${e.message}`); }
 }
-console.log('GAPS (next 60 days and last 14), sides with no image');
-for (const [k, n] of Object.entries(miss).sort((a, b) => b[1] - a[1])) console.log(`${k}: ${n} missing; have ${JSON.stringify(have[k] || {})}; e.g. ${[...names[k]].slice(0, 12).join(', ')}`);
-console.log('\nfully covered:', Object.keys(have).filter(k => !miss[k]).join('; '));
