@@ -1,98 +1,70 @@
-== tsdb all_leagues 10 
-
-== tsdb team Adelaide Strikers Women 0 
-
-== tsdb team Sydney Sixers Women 0 
-
-== tsdb team Perth Scorchers Women 0 
-
-== tsdb team Hong Kong 1 
-
-== tsdb team Samoa 1 
-
-== tsdb team Tonga 1 
-
-== tsdb team Uruguay 1 
-
-== tsdb team Georgia 1 
-
-== commons cat 2026 World Rugby Nations Cup 1 
-  Category:2026 World Rugby Nations Cup - Uruguay vs Hong Kong | - |  | 
-
-== commons cat Women's Big Bash League 2025–26 1 
-  Category:WBBL Melbourne Stars v Perth Scorchers, 14 November 2025 | - |  | 
-
-== commons cat Women's Big Bash League matches 25 
-  Category:WBBL Perth Scorchers v Sydney Sixers, 30 December 2017 | - |  | 
-  Category:WBBL Sydney Thunder v Perth Scorchers, 7 January 2018 | - |  | 
-  Category:WBBL Perth Scorchers v Sydney Thunder, 28 December 2015 | - |  | 
-  Category:WBBL Sydney Thunder v Adelaide Strikers, 22 January 2018 | - |  | 
-  Category:WBBL Hobart Hurricanes v Perth Scorchers, 21 January 2018 | - |  | 
-  Category:WBBL Perth Scorchers v Sydney Thunder, 29 December 2018 | - |  | 
-  Category:WBBL Perth Scorchers v Sydney Thunder, 30 December 2018 | - |  | 
-  Category:WBBL Perth Scorchers v Sydney Sixers, 6 January 2019 | - |  | 
-  Category:WBBL Perth Scorchers v Sydney Sixers, 23 November 2019 | - |  | 
-  Category:WBBL Perth Scorchers v Hobart Hurricanes, 30 November 2019 | - |  | 
-  Category:WBBL Perth Scorchers v Hobart Hurricanes, 1 December 2019 | - |  | 
-  Category:WBBL Perth Scorchers v Sydney Sixers, 24 November 2019 | - |  | 
-  Category:WBBL Perth Scorchers v Hobart Hurricanes, 7 November 2021 | - |  | 
-  Category:WBBL Melbourne Renegades v Sydney Sixers, 30 October 2021 | - |  | 
-  Category:WBBL Perth Scorchers v Adelaide Strikers, 30 October 2021 | - |  | 
-  Category:WBBL Adelaide Strikers v Melbourne Renegades, 31 October 2021 | - |  | 
-  Category:WBBL Perth Scorchers v Sydney Sixers, 31 October 2021 | - |  | 
-  Category:WBBL 07 Final | - |  | 
-  Category:WBBL Perth Scorchers v Melbourne Stars, 20 October 2022 | - |  | 
-  Category:WBBL Sydney Thunder v Melbourne Stars, 23 October 2022 | - |  | 
-  Category:WBBL Perth Scorchers v Melbourne Stars, 15 January 2017 | - |  | 
-  Category:WBBL Sydney Thunder v Perth Scorchers, 21 January 2017 | - |  | 
-  Category:WBBL Melbourne Stars v Adelaide Strikers, 5 November 2022 | - |  | 
-  Category:WBBL Perth Scorchers v Sydney Sixers, 5 November 2022 | - |  | 
-  Category:WBBL Melbourne Stars v Perth Scorchers, 14 November 2025 | - |  | 
-
-== commons cat Big Bash League logos 0 
-
-== commons cat World Rugby logos 0 
-
-== commons cat Cricket Australia logos 0 
-
-== commons search WBBL 15 
-  File:2016–17 WBBL PS v MS 17-01-15 Graham (01).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/3/3e/2016%E2%80%9317_WBBL_PS_v_MS_17-01-15_Graham_%2801%29.jpg
-  File:2016–17 WBBL ST v PS 17-01-21 Bates (02).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/d/d5/2016%E2%80%9317_WBBL_ST_v_PS_17-01-21_Bates_%2802%29.jpg
-  File:2018–19 WBBL PS v SS 19-01-06 Perry (02).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/b/bc/2018%E2%80%9319_WBBL_PS_v_SS_19-01-06_Perry_%2802%29.jpg
-  File:2019–20 WBBL PS v SS 19-11-23 Silver-Holmes (03).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/5/5a/2019%E2%80%9320_WBBL_PS_v_SS_19-11-23_Silver-Holmes_%2803%29.jpg
-  File:2019–20 WBBL PS v SS 19-11-24 Graham (02).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/3/3e/2019%E2%80%9320_WBBL_PS_v_SS_19-11-24_Graham_%2802%29.jpg
-  File:2019–20 WBBL PS v HH 19-11-30 Carey (01).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/3/3e/2019%E2%80%9320_WBBL_PS_v_HH_19-11-30_Carey_%2801%29.jpg
-  File:WBBL Perth Scorchers v Hobart Hurricanes, 7 November 2021 78.jpg | CC BY-SA 4.0 | Calistemon | https://upload.wikimedia.org/wikipedia/commons/0/0e/WBBL_Perth_Scorchers_v_Hobart_Hurricanes%2C_7_November_2021_78.jpg
-  File:2021–22 WBBL MR v SS 21-10-30 Yadav (03).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/5/5e/2021%E2%80%9322_WBBL_MR_v_SS_21-10-30_Yadav_%2803%29.jpg
-  File:2021–22 WBBL PS v AS 21-10-30 Wellington (01).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/5/52/2021%E2%80%9322_WBBL_PS_v_AS_21-10-30_Wellington_%2801%29.jpg
-  File:2021–22 WBBL PS v AS 21-10-30 Coyte (02).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/7/7f/2021%E2%80%9322_WBBL_PS_v_AS_21-10-30_Coyte_%2802%29.jpg
-  File:2021–22 WBBL PS v SS 21-10-31 Gardner (01).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/3/36/2021%E2%80%9322_WBBL_PS_v_SS_21-10-31_Gardner_%2801%29.jpg
-  File:2021–22 WBBL PS v SS 21-10-31 Healy (02).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/0/04/2021%E2%80%9322_WBBL_PS_v_SS_21-10-31_Healy_%2802%29.jpg
-  File:2021–22 WBBL PS v SS 21-10-31 Healy (05).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/0/04/2021%E2%80%9322_WBBL_PS_v_SS_21-10-31_Healy_%2805%29.jpg
-  File:2022–23 WBBL ST v MS 22-10-23 Day (06).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/c/c0/2022%E2%80%9323_WBBL_ST_v_MS_22-10-23_Day_%2806%29.jpg
-  File:2022–23 WBBL PS v SS 22-11-05 Perry (06).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/b/b6/2022%E2%80%9323_WBBL_PS_v_SS_22-11-05_Perry_%2806%29.jpg
-
-== commons search Weber WBBL 9 
-
-== commons search Women Big Bash logo 13 
-
-== commons search intitle:WBBL 15 
-  File:2018–19 WBBL PS v ST 18-12-30 Bates (02).jpg | CC BY 3.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/e/e6/2018%E2%80%9319_WBBL_PS_v_ST_18-12-30_Bates_%2802%29.jpg
-  File:2019–20 WBBL PS v SS 19-11-23 Bolton (01).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/1/10/2019%E2%80%9320_WBBL_PS_v_SS_19-11-23_Bolton_%2801%29.jpg
-  File:WBBL Perth Scorchers v Hobart Hurricanes, 7 November 2021 101.jpg | CC BY-SA 4.0 | Calistemon | https://upload.wikimedia.org/wikipedia/commons/d/d1/WBBL_Perth_Scorchers_v_Hobart_Hurricanes%2C_7_November_2021_101.jpg
-  File:2021–22 WBBL AS v MR 21-10-31 Dooley (02).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/f/f2/2021%E2%80%9322_WBBL_AS_v_MR_21-10-31_Dooley_%2802%29.jpg
-  File:Performance Chart WBBL STR.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/b/b9/Performance_Chart_WBBL_STR.svg
-  File:Performance Chart WBBL HEA.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/9/9b/Performance_Chart_WBBL_HEA.svg
-  File:Performance Chart WBBL REN.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/5/51/Performance_Chart_WBBL_REN.svg
-  File:Performance Chart WBBL STA.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/1/10/Performance_Chart_WBBL_STA.svg
-  File:Performance Chart WBBL SCO.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/e/e2/Performance_Chart_WBBL_SCO.svg
-  File:Performance Chart WBBL HUR.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/3/35/Performance_Chart_WBBL_HUR.svg
-  File:Performance Chart WBBL SIX.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/8/8c/Performance_Chart_WBBL_SIX.svg
-  File:Performance Chart WBBL THU.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/c/c2/Performance_Chart_WBBL_THU.svg
-  File:2025–26 WBBL Melbourne Stars v Perth Scorchers 2025-11-14 Karen Rolton Oval (Marizanne Kapp).jpg | CC BY-SA 4.0 | Yu Chu Chin | https://upload.wikimedia.org/wikipedia/commons/a/a3/2025%E2%80%9326_WBBL_Melbourne_Stars_v_Perth_Scorchers_2025-11-14_Karen_Rolton_Oval_%28Marizanne_Kapp%29.jpg
-  File:Meg Lanning playing at the 2025–26 WBBL Melbourne Stars v Perth Scorchers.jpg | CC BY-SA 4.0 | Yu Chu Chin | https://upload.wikimedia.org/wikipedia/commons/e/e7/Meg_Lanning_playing_at_the_2025%E2%80%9326_WBBL_Melbourne_Stars_v_Perth_Scorchers.jpg
-  File:Sophie Reid playing at the 2025–26 WBBL Melbourne Stars v Perth Scorchers.jpg | CC BY-SA 4.0 | Yu Chu Chin | https://upload.wikimedia.org/wikipedia/commons/a/a3/Sophie_Reid_playing_at_the_2025%E2%80%9326_WBBL_Melbourne_Stars_v_Perth_Scorchers.jpg
-
-== commons search intitle:"Nations Cup" logo 0 429
-
-== commons search World Rugby Nations Cup logo svg 0 429
+== tsdb c=Australia&s=Cricket 2 
+  4461 | Australian Big Bash League | KFC Big Bash League | badge: https://r2.thesportsdb.com/images/media/league/badge/yko7ny1546635346.png
+  5530 | Sheffield Shield |  | badge: https://r2.thesportsdb.com/images/media/league/badge/cd4akv1742154549.png
+== tsdb c=World&s=Rugby 5 
+  5854 | Asia Rugby Championship |  | badge: https://r2.thesportsdb.com/images/media/league/badge/ojcb2d1773685766.png
+  5855 | Asia Rugby Division 1 |  | badge: https://r2.thesportsdb.com/images/media/league/badge/euwjvg1773686571.png
+  5852 | Nations Championship | Championnat des nations, ネーションズチャンピオンシップ | badge: https://r2.thesportsdb.com/images/media/league/badge/jifczi1773608397.png
+  5853 | Rugby Africa Cup | Coupe d'Afrique de rugby à XV | badge: https://r2.thesportsdb.com/images/media/league/badge/qddzm81773660193.png
+  5682 | Womens Rugby World Cup |  | badge: https://r2.thesportsdb.com/images/media/league/badge/vphokh1755422562.png
+== tsdb c=Worldwide&s=Rugby 5 
+  5562 | _Defunct Rugby Teams |  | badge: https://r2.thesportsdb.com/images/media/league/badge/x6liv41738949510.png
+  5447 | _No League Rugby |  | badge: https://r2.thesportsdb.com/images/media/league/badge/ra0fks1738949662.png
+  4984 | Autumn Nations Cup | Autumn Nations Series  | badge: https://r2.thesportsdb.com/images/media/league/badge/wvlly21623937678.png
+  5512 | British and Irish Lions Tours |  | badge: https://r2.thesportsdb.com/images/media/league/badge/iob1un1737973257.png
+  5370 | Commonwealth Games 7s Rugby |  | badge: https://r2.thesportsdb.com/images/media/league/badge/sjo2k31679328973.png
+== tsdb c=International&s=Rugby 5 
+  5808 | Rugby League Pacific Bowl |  | badge: https://r2.thesportsdb.com/images/media/league/badge/4lsvee1768827318.png
+  5807 | Rugby League Pacific Cup | Oceania Cup | badge: https://r2.thesportsdb.com/images/media/league/badge/v0bndr1768827347.png
+  5806 | Rugby League World Cup | Men's Rugby League World Cup | badge: https://r2.thesportsdb.com/images/media/league/badge/sxoc6h1768739073.png
+  5979 | Rugby League World Cup Women | Women's Rugby League World Cup | badge: https://r2.thesportsdb.com/images/media/league/badge/0xaynu1794235677.png
+  4551 | Super Rugby | Super Rugby Trans-Tasman | badge: https://r2.thesportsdb.com/images/media/league/badge/alpxhe1675871443.png
+== tsdb c=Australia&s=Rugby 5 
+  4417 | Australian National Rugby Championship |  | badge: https://r2.thesportsdb.com/images/media/league/badge/kb89dn1535795440.png
+  4416 | Australian National Rugby League | NRL | badge: https://r2.thesportsdb.com/images/media/league/badge/g5ocbs1777721333.png
+  5978 | Australian National Rugby League Women | NRLW, NRL Women | badge: https://r2.thesportsdb.com/images/media/league/badge/nneu9b1794132799.png
+  5171 | Australian Shute Shield |  | badge: https://r2.thesportsdb.com/images/media/league/badge/39u4ad1716376979.png
+  5835 | State of Origin |  | badge: https://r2.thesportsdb.com/images/media/league/badge/255k0e1771589044.png
+5838 Soccer | Polish Cup | Puchar Polski w piłce nożnej | badge: https://r2.thesportsdb.com/images/media/league/badge/t5x8f41772206659.png | logo: -
+5839 Soccer | Georgian Liga 3 | ლიგა 3 | badge: https://r2.thesportsdb.com/images/media/league/badge/ofw1r21772205826.png | logo: https://r2.thesportsdb.com/images/media/league/logo/i0p8sb1772205825.png
+5840 Soccer | Womens World Cup Qualifying UEFA | Fußball-Weltmeisterschaft der Frauen, Clasificación de UEFA para la Copa Mundial Femenina, Éliminatoires de la zone Europe de la Coupe du monde féminine | badge: https://r2.thesportsdb.com/images/media/league/badge/x9pn211772526501.png | logo: -
+5841 Soccer | Womens World Cup Qualifying CONCACAF | Campeonato Femenino de la Concacaf | badge: https://r2.thesportsdb.com/images/media/league/badge/9v7vdo1772526483.png | logo: -
+5842 Soccer | Greek Gamma Ethniki Group 1 | Gamma Ethniki Katigoria, Γ΄ Εθνική Κατηγορία | badge: https://r2.thesportsdb.com/images/media/league/badge/lr8ov61773069831.png | logo: -
+5843 429
+5844 429
+5845 429
+5846 429
+5847 429
+5848 429
+5849 429
+5850 429
+5851 429
+5852 429
+5853 429
+5854 429
+5855 429
+5856 429
+5857 429
+5858 429
+5859 429
+5860 429
+5861 429
+5862 429
+5863 429
+5864 429
+5865 429
+5866 429
+5867 429
+5868 429
+5869 429
+5870 429
+5871 429
+5872 429
+5873 429
+5874 429
+5875 429
+5876 429
+5877 429
+5878 429
+5879 429
+5880 429
