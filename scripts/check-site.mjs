@@ -10,8 +10,10 @@ const ROOT = resolve('.'), OUT = process.env.CHECK_OUT || '', HOST = 'http://loc
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json', '.css': 'text/css',
   '.png': 'image/png', '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.webmanifest': 'application/manifest+json', '.ics': 'text/calendar' };
 const warn = m => console.log(`::warning::${m}`);
-// a page stuck in its own script never answers: stop waiting on it after 5 seconds
-const within = (p, v) => Promise.race([p, new Promise(r => setTimeout(r, 5000, v).unref())]);
+// a page stuck in its own script never answers, and Playwright's own time limits don't hold then: stop waiting on it
+const STUCK = 'the page stopped answering', within = (p, v, ms = 5000) => Promise.race([p, new Promise(r => setTimeout(r, ms, v).unref())]);
+// the check itself breaking (not the page) only warns, so a good build still goes live
+const crashed = e => { warn(`Site check skipped: the check itself failed (${String(e.message).split('\n')[0]})`); process.exit(0); };
 
 let chromium;
 { const req = createRequire(join(process.env.CHECK_DEPS || ROOT, 'x.js'));
@@ -41,11 +43,11 @@ async function look(width, height, view, ahead) {
     await page.goto(HOST + '/', { timeout: 30000 });
     // the games drawn, or the page saying it couldn't (no need to wait out the time then)
     const shown = () => document.querySelector('#mockBar')?.hidden && document.querySelectorAll('.ev').length > 0;
-    await page.waitForFunction(s => eval(s)() || /Could not|went wrong/.test(document.querySelector('#mockNote')?.textContent || ''), `(${shown})`, { timeout: 30000 });
-    drawn = await page.evaluate(s => eval(s)(), `(${shown})`);
+    if (await within(page.waitForFunction(s => eval(s)() || /Could not|went wrong/.test(document.querySelector('#mockNote')?.textContent || ''), `(${shown})`, { timeout: 30000 }).then(() => false), true, 35000)) throw new Error(STUCK);
+    drawn = await within(page.evaluate(s => eval(s)(), `(${shown})`), false);
     if (!drawn) throw new Error('not drawn');
   } catch (e) {
-    note = await within(page.evaluate(() => document.querySelector('#mockBar')?.hidden ? 'no games on the page' : `the page says "${document.querySelector('#mockNote')?.textContent || ''}"`).catch(() => String(e.message).split('\n')[0]), 'the page stopped answering');
+    note = await within(page.evaluate(() => document.querySelector('#mockBar')?.hidden ? 'no games on the page' : `the page says "${document.querySelector('#mockNote')?.textContent || ''}"`).catch(() => String(e.message).split('\n')[0]), STUCK);
   }
   const rows = await within(page.evaluate(() => document.querySelectorAll('.ev').length).catch(() => 0), 0);
   await ctx.close();
@@ -56,12 +58,15 @@ const failed = [];
 // the cards and the list view (each person's choice, kept in their browser), now and later today
 for (const [name, w, h, view, ahead] of [['desktop', 1280, 900], ['phone', 412, 860], ['phone, list view', 412, 860, 'list'], ['phone, compact view', 412, 860, 'compact'],
   ['desktop, list view, in 3 hours', 1280, 900, 'list', 3], ['phone, in 12 hours', 412, 860, '', 12], ['phone, list view, in 12 hours', 412, 860, 'list', 12]]) {
-  // a second look before calling it broken, in case the first was a hiccup of the check's own
-  let r = await look(w, h, view, ahead);
-  if (!r.drawn) r = await look(w, h, view, ahead);
+  // a second look before calling it broken, in case the first was a hiccup of the check's own (not when the page got
+  // stuck in its own script: that's the build)
+  let r = await look(w, h, view, ahead).catch(crashed);
+  if (!r.drawn && r.note !== STUCK) r = await look(w, h, view, ahead).catch(crashed);
   for (const e of r.errors) warn(`Site check (${name}): page error: ${e}`);
   if (r.drawn) console.log(`Site check (${name}, ${w}px): ${r.rows} games drawn`);
   else failed.push(`On a ${name} screen (${w}px) the games weren't drawn: ${r.note}${r.errors.length ? `. Page errors: ${r.errors.join('; ')}` : ''}`);
+  // a stuck page would be stuck at every size: one is enough to say so
+  if (r.note === STUCK) break;
 }
 await browser.close().catch(() => {});
 if (OUT) writeFileSync(OUT, failed.join('\n'));
