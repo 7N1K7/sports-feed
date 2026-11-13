@@ -5004,6 +5004,9 @@ document.addEventListener('click', ev => {
   }
   const sub = ev.target.closest('#calList a, #alertList a');
   if (sub) count({ e: sub.closest('#calList') ? 'cal' : 'alerts' });
+  // the calendar's and the alerts' "just one team" lists, opened or closed (asked before the list itself opens or closes)
+  const sm = ev.target.closest('#calList summary, #alertList summary');
+  if (sm) use(`${sm.closest('#calList') ? 'Calendar' : 'Alerts'} one team list ${sm.parentElement.open ? 'closed' : 'opened'}`);
   // which ways to watch people tap (the services, and the live scores link): just the service's name
   const svc = ev.target.closest('a.svc, a.livelink, a.fta[data-watch], a.tvw[data-watch], a.tvt[data-watch], a.lend[data-watch]');
   // (a Sky Sport channel's link counts as Sky Sport's)
@@ -5019,7 +5022,7 @@ document.addEventListener('click', ev => {
   const ng = !ev.target.closest('button') && ev.target.closest('[data-nbagroup]');
   if (ng) { count({ e: 'use', k: 'NBA today card' }); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = ng.dataset.nbagroup; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   const t = ev.target.closest('button');
-  if (!t) { const card = ev.target.closest('[data-open]'); if (card) { if (card.closest('#soon')) count({ e: 'use', k: 'Starting soon card' }); openDetail(card.dataset.open); } else if (ev.target === $('sheet')) $('sheet').close(); return; }
+  if (!t) { const card = ev.target.closest('[data-open]'); if (card) { if (card.closest('#soon')) count({ e: 'use', k: 'Starting soon card' }); openDetail(card.dataset.open); } else if (ev.target === $('sheet')) { use('Game pop-up closed by tapping outside'); $('sheet').close(); } return; }
   if (t.id === 'sheetClose') { use('Game pop-up closed'); $('sheet').close(); return; }
   if (t.dataset.sback) { use('Back in a pop-up'); const prev = sheetTrail.pop(); if (prev) { dTab = prev.tab; dTabId = prev.id; openDetail(prev.id, false, true); } return; }
   if (t.dataset.teampage) { if (!t.classList.contains('back')) use(t.classList.contains('qi') ? 'Search result team' : t.closest('.stable.rank') ? 'Team from rankings' : t.closest('.formrows') ? 'Team from form' : t.closest('.stable') ? 'Team from a table' : 'Team from a game'); closeSearch(); openTeam(t.dataset.teampage, t.dataset.tsport, t.closest('#sheet .stable.rank') ? $('sheet').dataset.rankings : '', t.dataset.tg); return; }
@@ -5376,7 +5379,7 @@ document.addEventListener('click', ev => {
 });
 document.addEventListener('click', ev => { const c = ev.target.closest('[data-coffee]'); if (c) count({ e: 'use', k: c.dataset.coffee === 'settings' ? 'Coffee in Settings' : 'Coffee link' }); });
 $('reportCancel').addEventListener('click', () => { use('Report cancelled'); $('reportDlg').close(); });
-$('reportDlg').addEventListener('click', ev => { if (ev.target === $('reportDlg')) $('reportDlg').close(); });
+$('reportDlg').addEventListener('click', ev => { if (ev.target === $('reportDlg')) { use('Report closed by tapping outside'); $('reportDlg').close(); } });
 $('reportForm').addEventListener('submit', async ev => {
   ev.preventDefault();
   const note = $('reportNote').value.trim(), e = (FEED.events || []).find(x => x.id === reportFor);
