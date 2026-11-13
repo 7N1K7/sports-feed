@@ -391,11 +391,31 @@ const norm = s => ALIAS.reduce((t, [re, to]) => t.replace(re, to), s || '').toLo
 // a final's date often moves once the semis are done (NPC: "weekend of 24/25 Oct", then Labour Day), so finals get a wider window
 const stageOf = x => `${x.comp || ''} ${x.stage || ''}`, early = x => /semi|quarter|qualif|preliminary|elimination/i.test(stageOf(x));
 const finalPair = (a, b) => (/\bfinal\b/i.test(stageOf(a)) || /\bfinal\b/i.test(stageOf(b))) && !early(a) && !early(b);
-function sameMatch(a, b) {
+function sameMatchOld(a, b) {
   const tbc = a.timeTBC || b.timeTBC ? (finalPair(a, b) ? 3.5 : 2) * DAY : 8 * 36e5;
   if (Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) > tbc) return false;
   const A = [norm(a.home), norm(a.away)], B = [norm(b.home), norm(b.away)];
   return A.some(x => x && B.some(y => y && (x.includes(y) || y.includes(x))));
+}
+const side = (x, y) => { const a = norm(x), b = norm(y); return !!a && !!b && (a.includes(b) || b.includes(a)); };
+// a side with no team in it yet ("TBC", "1st", "Winner SF2", "Group A winner") only matches the very same words, so
+// "1st v 6th" is never "2nd v 5th"
+const bare = n => norm(String(n || '').replace(/\b(TBC|TBA|TBD|QF|SF|GF|PF|EF)\d*\b|winners?|losers?|runners?[- ]up|\bgroup\b|\bpool\b|(semi|quarter)-?finals?|qualifiers?|\bplaced?\b|\b\d+(st|nd|rd|th)\b|\bof\b/gi, '')).length < 2;
+const sideHit = (x, y) => bare(x) || bare(y) ? bare(x) && bare(y) && !!x && String(x).trim().toLowerCase() === String(y || '').trim().toLowerCase() : side(x, y);
+const bothSides = (a, b) => [[b.home, b.away], [b.away, b.home]].some(([h, w]) => sideHit(a.home, h) && sideHit(a.away, w));
+// "2nd T20I", "Game 3": two numbered games of a series are never one game
+const gameNo = x => { const m = String(x.stage || '').match(/\b(\d+)(?:st|nd|rd|th) (?:test|odi|t20i?|twenty20|one-day|four-day|match|game|leg)\b|\b(?:game|match|test|leg) (\d+)\b/i); return m ? +(m[1] || m[2]) : 0; };
+const otherNo = (a, b) => !!gameNo(a) && !!gameNo(b) && gameNo(a) !== gameNo(b);
+function sameMatch(a, b) {
+  const gap = Math.abs(new Date(a.startUTC) - new Date(b.startUTC));
+  if (gap > (a.timeTBC || b.timeTBC ? (finalPair(a, b) ? 3.5 : 2) * DAY : 8 * 36e5) || otherNo(a, b)) return false;
+  if (bothSides(a, b)) return true;
+  // only one side in common (sources spell clubs differently): the names left over. One not known yet on either card
+  // can still be that side; two different names are one game only within 20 hours (a finalist's two games days apart
+  // are two games)
+  const left = (h, w) => !bare(a.home) && sideHit(a.home, h) ? [a.away, w] : !bare(a.away) && sideHit(a.away, w) ? [a.home, h] : null;
+  const rest = left(b.home, b.away) || left(b.away, b.home);
+  return !!rest && (bare(rest[0]) || bare(rest[1]) || gap <= 20 * 36e5);
 }
 
 async function readCurated() {
@@ -831,7 +851,25 @@ const isW = e => WOMEN_KEYS.has(e.team) || /women|wheelchair/i.test([e.comp, e.h
 // a race weekend's sessions (qualifying, practice, Supercars' Saturday race) are never the race itself
 // women's, wheelchair or men's: a wheelchair game is never a women's one (England v Wales took England v Samoa's score)
 const gKind = e => /wheelchair/i.test([e.comp, e.home, e.away].join(' ')) ? 'wc' : isW(e) ? 'w' : 'm';
-const same = (a, b) => a.team === b.team && gKind(a) === gKind(b) && (a.session || '') === (b.session || '') && (a.team === 'ufc' ? Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) < 1.5 * DAY : sameMatch(a, b));
+const sameBy = match => (a, b) => a.team === b.team && gKind(a) === gKind(b) && (a.session || '') === (b.session || '') && (a.team === 'ufc' ? Math.abs(new Date(a.startUTC) - new Date(b.startUTC)) < 1.5 * DAY : match(a, b));
+// On trial: the new pairing is worked out beside the old one and every difference is listed in diag.pairTrial; the old
+// one still decides until PAIR_NEW is turned on
+const PAIR_NEW = false, sameOld = sameBy(sameMatchOld), sameNew = sameBy(sameMatch), same = PAIR_NEW ? sameNew : sameOld;
+// One source page never lists a game twice. So a page's games are paired with the cards there so far nearest first,
+// each game with one card at most and each card with one game a page at most: a series' games a day apart with no
+// times yet stay apart, and so do a weekend's three quarter-finals
+const pageOf = e => /thesportsdb\.com/.test(e.source || '') ? 'TheSportsDB' : e.source || '';
+function pairUp(list, cards, pagesOf) {
+  const pairs = [], got = new Map(), taken = new Map();
+  for (const e of list) for (const c of cards) if (sameNew(c, e)) pairs.push([Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)), e, c]);
+  for (const [, e, c] of pairs.sort((x, y) => x[0] - y[0])) {
+    const t = taken.get(c) || new Set(), p = pagesOf(e);
+    if (got.has(e) || p.some(x => t.has(x))) continue;
+    got.set(e, c); taken.set(c, new Set([...t, ...p]));
+  }
+  return got;
+}
+const trial = [], tagOf = e => e ? `${e.home} v ${e.away} ${String(e.startUTC).slice(0, 16)}${e.timeTBC ? '?' : ''}${e.stage ? ` [${e.stage}]` : ''} (${e.id || decodeURIComponent(pageOf(e).replace(/^.*\/wiki\//, ''))})` : 'a card of its own';
 const near = t => (a, b) => Math.abs(Date.parse(a.startUTC) - t) - Math.abs(Date.parse(b.startUTC) - t);
 
 // Fill-only TheSportsDB leagues: which Wikipedia or curated cards could one complete? Men's games of its teams and
@@ -884,13 +922,18 @@ for (const e of [...tsdbAll, ...tsdbBack, ...wiki, ...formPast, ...curated.event
 for (const t of tables) if (t.sport === 'league' && /^NRL\b/.test(t.comp || '') && !/women|NRLW/i.test(t.page || '')) for (const r of t.rows) r.name = nrlName(r.name);
 
 // TheSportsDB has exact times; Wikipedia has scores for more competitions. Merge both, then onto curated.
-const side = (x, y) => { const a = norm(x), b = norm(y); return !!a && !!b && (a.includes(b) || b.includes(a)); };
 // a score turned to face the other order of sides: "31-10", or cricket's two innings either side of " v "
 const turnScore = s => /^\d+\s*-\s*\d+$/.test(s || '') ? s.split('-').map(x => x.trim()).reverse().join('-') : String(s || '').split(' v ').length === 2 ? s.split(' v ').reverse().join(' v ') : s;
-const live = [];
-for (const e of [...tsdbLive, ...wiki]) {
-  const hit = live.find(x => same(x, e));
-  if (!hit) { live.push(e); continue; }
+const live = [], pages = new Map(), batches = new Map();   // pages: the source pages each card has taken a game from
+for (const e of [...tsdbLive, ...wiki]) batches.set(pageOf(e), [...(batches.get(pageOf(e)) || []), e]);
+for (const [page, list] of batches) { const got = pairUp(list, [...live], () => [page]), mine = [];
+for (const e of list) {
+  // the same game twice on one page (a fixture list and a finals bracket): the same start, and both sides
+  const twice = x => !x.timeTBC === !e.timeTBC && Math.abs(Date.parse(x.startUTC) - Date.parse(e.startUTC)) < 30 * 6e4 && bothSides(x, e) && sameNew(x, e);
+  const was = live.find(x => sameOld(x, e)), will = got.get(e) || mine.find(twice), hit = PAIR_NEW ? will : was;
+  if (was !== will) trial.push(`${tagOf(e)}: with ${tagOf(was)}, would be with ${tagOf(will)}`);
+  if (!hit) { live.push(e); mine.push(e); pages.set(e, new Set([page])); continue; }
+  pages.get(hit).add(page);
   // the two sources can list the sides the other way round: the first one's order stands and the second's scores are turned
   const flip = side(e.home, hit.away) && side(e.away, hit.home) && !side(e.home, hit.home), face = s => flip ? turnScore(s) : s;
   if (hit.timeTBC && !e.timeTBC) Object.assign(hit, { startUTC: e.startUTC, timeTBC: false });
@@ -902,7 +945,7 @@ for (const e of [...tsdbLive, ...wiki]) {
   if (e.weather) hit.weather = e.weather;
   for (const k of ['progress', 'liveScore']) if (e[k]) hit[k] = k === 'liveScore' ? face(e[k]) : e[k];
   if (e.card && /wikipedia/.test(e.source)) { hit.source = e.source; if (e.score) Object.assign(hit, { score: face(e.score), summary: e.summary, status: e.status }); }
-}
+} }
 
 const SIDE_KEYS = ['', 'Logo', 'Credit', 'LogoCredit', 'Badge'];
 const events = curated.events.map(e => ({ ...e }));
@@ -932,9 +975,22 @@ function drawCard(le) {
   const near = cards.filter(e => le.timeTBC ? nzDay(e.startUTC) === nzDay(le.startUTC) : Math.abs(Date.parse(e.startUTC) - Date.parse(le.startUTC)) <= 30 * 6e4);
   return near.length === 1 ? near[0] : null;
 }
-const drawn = [];
+// the hand-kept cards and the sources' games, nearest pairs first. A card takes one game a page at most
+const kept = [...events], twins = pairUp(live, kept, le => [...pages.get(le)]), claimed = new Set(twins.values()), movedTo = new Map(), wanted = new Map();
+// a hand-kept game its source has moved further than that (a reserve day, a postponement): the one card of the same
+// two sides within three days that no game has taken and has no result is that game, so it moves and no second card is made
 for (const le of live) {
-  const twin = events.find(e => same(e, le)), drew = twin ? null : drawCard(le), hit = twin || drew;
+  if (twins.has(le) || le.session || le.team === 'ufc' || bare(le.home) || bare(le.away)) continue;
+  const c = kept.filter(c => !claimed.has(c) && !c.score && c.status !== 'final' && c.team === le.team && gKind(c) === gKind(le) && !c.session && (!c.format || !le.format || c.format === le.format)
+    && Math.abs(Date.parse(c.startUTC) - Date.parse(le.startUTC)) <= 3 * DAY && bothSides(c, le) && !otherNo(c, le));
+  if (c.length === 1) wanted.set(c[0], [...(wanted.get(c[0]) || []), le]);
+}
+for (const [c, les] of wanted) if (les.length === 1) movedTo.set(les[0], c);
+const drawn = [], movedGames = [];
+for (const le of live) {
+  const was = events.find(e => sameOld(e, le)), will = twins.get(le) || movedTo.get(le), twin = PAIR_NEW ? will : was, drew = twin ? null : drawCard(le), hit = twin || drew;
+  if (was !== will) trial.push(`${tagOf(le)}: with ${tagOf(was)}, would be with ${tagOf(will)}${movedTo.get(le) === will && will ? ' (moved)' : ''}`);
+  if (PAIR_NEW && twin && movedTo.get(le) === twin) movedGames.push(`${twin.id}: ${String(twin.startUTC).slice(0, 16)} to ${String(le.startUTC).slice(0, 16)}`);
   if (hit === 'drop') continue;
   if (drew) {
     Object.assign(drew, { team: le.team, tags: [...(le.tags || [])] });
@@ -970,6 +1026,8 @@ for (const le of live) {
   } else events.push(le);
 }
 if (drawn.length) diag.drawCards = `sides named on the draw's cards: ${drawn.join('; ')}`;
+if (movedGames.length) diag.movedGames = `hand-kept games moved by their source: ${movedGames.join('; ')}`;
+diag.pairTrial = `${PAIR_NEW ? 'new pairing on' : 'new pairing on trial'}: ${trial.length} games it pairs differently${trial.length ? ': ' + trial.slice(0, 80).join(' || ') : ''}`;
 // Fill-only TheSportsDB games: a final score or exact start time for the closest matching card that lacks one, never a
 // card of their own. TheSportsDB may list the sides the other way round, so the score is turned to face the card.
 const filled = [];
