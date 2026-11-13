@@ -1,3 +1,25 @@
-FACES generated  | sportsdb: 6 asked, 0 found, 4 found but not marked free to reuse; error 429
-fighter photo credits: {"other source":24}
-version {"version":744,"changedAt":"2026-11-13T10:58:45Z"}
+GAPS (next 60 days and last 14), sides with no image
+cricket | intlcricket: 56 missing; have {}; e.g. Bangladesh, West Indies, Pakistan, Sri Lanka, South Africa, India, Zimbabwe, England, Netherlands, United Arab Emirates, Oman
+league | rlwc: 40 missing; have {}; e.g. Fiji, France, Scotland, Australia, Cook Islands, Wales, Lebanon, Tonga, Samoa, Ireland, England, USA
+rugby | nations: 36 missing; have {}; e.g. North 6th, South 6th, North 5th, South 5th, North 4th, South 4th, North 3rd, South 3rd, North 2nd, South 2nd, North 1st, South 1st
+rugby | nationscup: 36 missing; have {}; e.g. Romania, Tonga, Georgia, Canada, Portugal, Chile, Spain, Uruguay, Zimbabwe, Samoa, Hong Kong, USA
+cricket | blackcaps: 24 missing; have {}; e.g. New Zealand, India, Australia
+cricket | aucricket: 18 missing; have {}; e.g. Western Australia, England, Australia
+league | kiwis: 16 missing; have {}; e.g. New Zealand, Fiji, Tonga, Wales, USA, Australia, France, Scotland
+cricket | nzdomestic: 14 missing; have {"tsdb":32}; e.g. New Zealand A, India A, Central Hinds, Auckland Hearts, Wellington Blaze, Canterbury Magicians, Otago Sparks
+cricket | whiteferns: 12 missing; have {}; e.g. New Zealand Women, Bangladesh Women
+mma | onefc: 11 missing; have {"commons":1}; e.g. Khunsuk, YodUdon, Isannuea, Jack, Gabriel, Joshua Pacio, Keito Yamakita, Chihiro Sawada, Anastasia Nikolakakos, Kade Ruotolo, Ok Rae-yoon
+cricket | audomestic: 8 missing; have {"commons":5,"tsdb":15}; e.g. Western Australia, South Australia
+rugby | wallabies: 8 missing; have {}; e.g. England, Australia, Scotland, Wales, United States XV, Australia A
+boxing | boxing: 7 missing; have {"commons":9}; e.g. Joshua Buatsi, Willy Hutchinson, Masamichi Yabuki, Nelson Hysa, Callum Smith, Anthony Cacace, Nick Ball
+rugby | allblacks: 7 missing; have {}; e.g. Scotland, All Blacks, Wales, England
+hockey | blacksticks: 6 missing; have {}; e.g. New Zealand, India
+league | kiwiferns: 6 missing; have {}; e.g. New Zealand, Papua New Guinea, New Zealand Women, Samoa Women, Australia Women
+rugby | wxv: 6 missing; have {}; e.g. USA Women, England Women, South Africa Women, Ireland Women, Japan Women, Wales Women
+football | allwhites: 4 missing; have {}; e.g. New Zealand, India
+rugby | npc: 4 missing; have {}; e.g. New Zealand Heartland XV, Samoa
+basketball | tallblacks: 4 missing; have {}; e.g. Jordan, New Zealand, Syria
+mma | ufc: 3 missing; have {"commons":9}; e.g. Cortes Acosta, Stirling, Nolan
+rugby | blackferns: 2 missing; have {}; e.g. Black Ferns, France
+
+fully covered: cricket | wbbl; cricket | bbl; football | phoenix; football | aleague; football | aucklandfc; football | epl; basketball | nbl; basketball | breakers; basketball | nba
