@@ -93,6 +93,8 @@ const CODES = {
 // Team cell: {{Rut|Crusaders}}, {{rl-rt|AUS}}, {{crw|NZ}}, {{RuA-rt|ITA|name=Italy XV}}, [[Melbourne Renegades]] (H)
 // Australian domestic cricket's sides, as {{cr-Aus|QLD}} writes them
 const AU_STATES = { QLD: 'Queensland', NSW: 'New South Wales', VIC: 'Victoria', SA: 'South Australia', WA: 'Western Australia', TAS: 'Tasmania' };
+// NZ's domestic cricket pages write their sides as {{cr-NZ|akl}}; "can" is Canterbury, not Canada (from 14 Nov 2026)
+const NZ_ASSOC = { akl: 'Auckland', can: 'Canterbury', cd: 'Central Districts', nd: 'Northern Districts', otg: 'Otago', wel: 'Wellington' };
 function teamOf(v) {
   // a team template inside a wrapper ({{nowrap|{{rlw-r|NZL}}}}) is read as if bare
   let raw = stripRefs(v);
@@ -104,7 +106,7 @@ function teamOf(v) {
     const nm = tpl.name.toLowerCase();
     // "QLD-h": a code with the page's home-side marker
     let name = (p.named.name || p.pos[0] || '').replace(/-h$/i, '');
-    name = (nm.startsWith('cr-aus') && AU_STATES[name.toUpperCase()]) || CODES[name.toUpperCase()] || name.replace(/_/g, ' ');
+    name = (nm.startsWith('cr-aus') && AU_STATES[name.toUpperCase()]) || (nm === 'cr-nz' && NZ_ASSOC[name.toLowerCase()]) || CODES[name.toUpperCase()] || name.replace(/_/g, ' ');
     const women = /^(ruw|rlw|crw|fbw|fhw|wrl?w|bkw)/.test(nm) || /women/i.test(nm);
     // {{ruA|AUS}} is the country's A side (Australia A), not its test team; with its own name= it says which
     if (/^rua(-rt|-lt)?$/.test(nm) && !p.named.name && name && !/\d{4}/.test(name)) name += ' A';
