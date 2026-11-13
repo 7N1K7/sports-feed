@@ -1,139 +1,98 @@
+== tsdb all_leagues 10 
 
-== tsdb search_all_leagues.php?c=Australia&s=Cricket 2 
-  4461 | Australian Big Bash League | KFC Big Bash League | Cricket | Australia | badge: https://r2.thesportsdb.com/images/media/league/badge/yko7ny1546635346.png | logo: https://r2.thesportsdb.com/images/media/league/logo/qsy7vw1546510965.png
+== tsdb team Adelaide Strikers Women 0 
 
-== tsdb search_all_leagues.php?s=Cricket 5 
-  4461 | Australian Big Bash League | KFC Big Bash League | Cricket | Australia | badge: https://r2.thesportsdb.com/images/media/league/badge/yko7ny1546635346.png | logo: https://r2.thesportsdb.com/images/media/league/logo/qsy7vw1546510965.png
+== tsdb team Sydney Sixers Women 0 
 
-== tsdb search_all_leagues.php?c=Worldwide&s=Rugby 5 
-  4984 | Autumn Nations Cup | Autumn Nations Series  | Rugby | Worldwide | badge: https://r2.thesportsdb.com/images/media/league/badge/wvlly21623937678.png | logo: https://r2.thesportsdb.com/images/media/league/logo/qhkomj1623937597.png
+== tsdb team Perth Scorchers Women 0 
 
-== tsdb search_all_leagues.php?c=International&s=Rugby 5 
-  5979 | Rugby League World Cup Women | Women's Rugby League World Cup | Rugby | International | badge: https://r2.thesportsdb.com/images/media/league/badge/0xaynu1794235677.png | logo: https://r2.thesportsdb.com/images/media/league/logo/mqkw191794235762.png
+== tsdb team Hong Kong 1 
 
-== tsdb search_all_leagues.php?s=Rugby 5 
+== tsdb team Samoa 1 
 
-== tsdb l= Australian Womens Big Bash League {"countries":"Invalid name passed"}
+== tsdb team Tonga 1 
 
-== tsdb l= Women's Big Bash League {"countries":"Invalid name passed"}
+== tsdb team Uruguay 1 
 
-== tsdb l= WBBL {"countries":"Invalid name passed"}
+== tsdb team Georgia 1 
 
-== tsdb l= World Rugby Nations Cup {"countries":"Invalid name passed"}
+== commons cat 2026 World Rugby Nations Cup 1 
+  Category:2026 World Rugby Nations Cup - Uruguay vs Hong Kong | - |  | 
 
-== tsdb l= Nations Cup {"countries":"Invalid name passed"}
+== commons cat Women's Big Bash League 2025–26 1 
+  Category:WBBL Melbourne Stars v Perth Scorchers, 14 November 2025 | - |  | 
 
-== tsdb l= Rugby Nations Cup {"_status":429,"_text":"<!doctype html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 8]>    <html class=\"no-"}
+== commons cat Women's Big Bash League matches 25 
+  Category:WBBL Perth Scorchers v Sydney Sixers, 30 December 2017 | - |  | 
+  Category:WBBL Sydney Thunder v Perth Scorchers, 7 January 2018 | - |  | 
+  Category:WBBL Perth Scorchers v Sydney Thunder, 28 December 2015 | - |  | 
+  Category:WBBL Sydney Thunder v Adelaide Strikers, 22 January 2018 | - |  | 
+  Category:WBBL Hobart Hurricanes v Perth Scorchers, 21 January 2018 | - |  | 
+  Category:WBBL Perth Scorchers v Sydney Thunder, 29 December 2018 | - |  | 
+  Category:WBBL Perth Scorchers v Sydney Thunder, 30 December 2018 | - |  | 
+  Category:WBBL Perth Scorchers v Sydney Sixers, 6 January 2019 | - |  | 
+  Category:WBBL Perth Scorchers v Sydney Sixers, 23 November 2019 | - |  | 
+  Category:WBBL Perth Scorchers v Hobart Hurricanes, 30 November 2019 | - |  | 
+  Category:WBBL Perth Scorchers v Hobart Hurricanes, 1 December 2019 | - |  | 
+  Category:WBBL Perth Scorchers v Sydney Sixers, 24 November 2019 | - |  | 
+  Category:WBBL Perth Scorchers v Hobart Hurricanes, 7 November 2021 | - |  | 
+  Category:WBBL Melbourne Renegades v Sydney Sixers, 30 October 2021 | - |  | 
+  Category:WBBL Perth Scorchers v Adelaide Strikers, 30 October 2021 | - |  | 
+  Category:WBBL Adelaide Strikers v Melbourne Renegades, 31 October 2021 | - |  | 
+  Category:WBBL Perth Scorchers v Sydney Sixers, 31 October 2021 | - |  | 
+  Category:WBBL 07 Final | - |  | 
+  Category:WBBL Perth Scorchers v Melbourne Stars, 20 October 2022 | - |  | 
+  Category:WBBL Sydney Thunder v Melbourne Stars, 23 October 2022 | - |  | 
+  Category:WBBL Perth Scorchers v Melbourne Stars, 15 January 2017 | - |  | 
+  Category:WBBL Sydney Thunder v Perth Scorchers, 21 January 2017 | - |  | 
+  Category:WBBL Melbourne Stars v Adelaide Strikers, 5 November 2022 | - |  | 
+  Category:WBBL Perth Scorchers v Sydney Sixers, 5 November 2022 | - |  | 
+  Category:WBBL Melbourne Stars v Perth Scorchers, 14 November 2025 | - |  | 
 
-== commons WBBL logo 3 
-  File:WBBL-FM logo.png | 600x321 | Public domain | Cumulus Media | https://upload.wikimedia.org/wikipedia/commons/5/58/WBBL-FM_logo.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:WBBL04CapLogoStrikers.svg | 375x375 | Public domain | Cricket Australia | https://upload.wikimedia.org/wikipedia/commons/a/af/WBBL04CapLogoStrikers.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:A Estação, Jornal Illustrado para a Familia (N02) 30-01-1884.pdf | 2256x3529 | Public domain | Various | https://upload.wikimedia.org/wikipedia/commons/f/f8/A_Esta%C3%A7%C3%A3o%2C_Jornal_Illustrado_para_a_Familia_%28N02%29_30-01-1884.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+== commons cat Big Bash League logos 0 
 
-== commons Women's Big Bash League logo 4 
-  File:RL31889 (IA RL31889-crs).pdf | 1239x1752 | Public domain | 
-Congressional Research Service | https://upload.wikimedia.org/wikipedia/commons/d/d5/RL31889_%28IA_RL31889-crs%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Computer Entertainer 7-9.pdf | 1275x1650 | CC BY 4.0 | Computer Entertainer (Marylou Badeaux and Celeste  | https://upload.wikimedia.org/wikipedia/commons/1/10/Computer_Entertainer_7-9.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:24November2006.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/c/cb/24November2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:The rebellion- a tragedie. 1652 (IA bim early-english-books-1641-1700 the-rebellion-a-tragedi rawlins-thomas 1652).pdf | 1158x1754 | Public domain | 
-Rawlins, Thomas. | https://upload.wikimedia.org/wikipedia/commons/3/3c/The_rebellion-_a_tragedie._1652_%28IA_bim_early-english-books-1641-1700_the-rebellion-a-tragedi_rawlins-thomas_1652%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+== commons cat World Rugby logos 0 
 
-== commons Big Bash League logo 12 
-  File:BBL.svg | 230x162 | Public domain | SocietyBox | https://upload.wikimedia.org/wikipedia/commons/2/2b/BBL.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:RL31889 (IA RL31889-crs).pdf | 1239x1752 | Public domain | 
-Congressional Research Service | https://upload.wikimedia.org/wikipedia/commons/d/d5/RL31889_%28IA_RL31889-crs%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Crosscurrents - USACE-p16021coll8-3172.pdf | 1650x1275 | Public domain | United States. Army. Corps of Engineers. St. Paul  | https://upload.wikimedia.org/wikipedia/commons/d/d0/Crosscurrents_-_USACE-p16021coll8-3172.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Computer Entertainer 2-11.pdf | 1275x1650 | CC BY 4.0 | Computer Entertainer (Marylou Badeaux and Celeste  | https://upload.wikimedia.org/wikipedia/commons/b/be/Computer_Entertainer_2-11.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Computer Entertainer 7-9.pdf | 1275x1650 | CC BY 4.0 | Computer Entertainer (Marylou Badeaux and Celeste  | https://upload.wikimedia.org/wikipedia/commons/1/10/Computer_Entertainer_7-9.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Computer Entertainer 7-6.pdf | 1275x1650 | CC BY 4.0 | Computer Entertainer (Marylou Badeaux and Celeste  | https://upload.wikimedia.org/wikipedia/commons/b/bd/Computer_Entertainer_7-6.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Computer Entertainer 8-5.pdf | 1275x1650 | CC BY 4.0 | Computer Entertainer (Marylou Badeaux and Celeste  | https://upload.wikimedia.org/wikipedia/commons/1/1a/Computer_Entertainer_8-5.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Computer Entertainer 8-4.pdf | 1275x1650 | CC BY 4.0 | Computer Entertainer (Marylou Badeaux and Celeste  | https://upload.wikimedia.org/wikipedia/commons/1/1c/Computer_Entertainer_8-4.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:10March2007.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/8/85/10March2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:24November2006.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/c/cb/24November2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:3September2007.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/d/d3/3September2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:The rebellion- a tragedie. 1652 (IA bim early-english-books-1641-1700 the-rebellion-a-tragedi rawlins-thomas 1652).pdf | 1158x1754 | Public domain | 
-Rawlins, Thomas. | https://upload.wikimedia.org/wikipedia/commons/3/3c/The_rebellion-_a_tragedie._1652_%28IA_bim_early-english-books-1641-1700_the-rebellion-a-tragedi_rawlins-thomas_1652%29.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+== commons cat Cricket Australia logos 0 
 
-== commons World Rugby Nations Cup 12 
-  File:2026 World Rugby Nations Cup - Uruguay vs Hong Kong - 008.jpg | 4000x2248 | CC BY-SA 4.0 | NaBUru38 | https://upload.wikimedia.org/wikipedia/commons/d/dc/2026_World_Rugby_Nations_Cup_-_Uruguay_vs_Hong_Kong_-_008.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:2026 World Rugby Nations Cup - Uruguay vs Hong Kong - 011.jpg | 4000x2248 | CC BY-SA 4.0 | NaBUru38 | https://upload.wikimedia.org/wikipedia/commons/6/68/2026_World_Rugby_Nations_Cup_-_Uruguay_vs_Hong_Kong_-_011.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:2026 World Rugby Nations Cup - Uruguay vs Hong Kong - 013.jpg | 4000x2248 | CC BY-SA 4.0 | NaBUru38 | https://upload.wikimedia.org/wikipedia/commons/0/03/2026_World_Rugby_Nations_Cup_-_Uruguay_vs_Hong_Kong_-_013.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:2026 World Rugby Nations Cup - Uruguay vs Hong Kong - 010.jpg | 4000x2248 | CC BY-SA 4.0 | NaBUru38 | https://upload.wikimedia.org/wikipedia/commons/1/13/2026_World_Rugby_Nations_Cup_-_Uruguay_vs_Hong_Kong_-_010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:2026 World Rugby Nations Cup - Uruguay vs Hong Kong - 019.jpg | 4000x2248 | CC BY-SA 4.0 | NaBUru38 | https://upload.wikimedia.org/wikipedia/commons/c/cb/2026_World_Rugby_Nations_Cup_-_Uruguay_vs_Hong_Kong_-_019.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:2026 World Rugby Nations Cup - Uruguay vs Hong Kong - 028.jpg | 4000x2248 | CC BY-SA 4.0 | NaBUru38 | https://upload.wikimedia.org/wikipedia/commons/f/f8/2026_World_Rugby_Nations_Cup_-_Uruguay_vs_Hong_Kong_-_028.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:2026 World Rugby Nations Cup - Uruguay vs Hong Kong - 029.jpg | 4000x2248 | CC BY-SA 4.0 | NaBUru38 | https://upload.wikimedia.org/wikipedia/commons/a/af/2026_World_Rugby_Nations_Cup_-_Uruguay_vs_Hong_Kong_-_029.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:2026 World Rugby Nations Cup - Uruguay vs Hong Kong - 037.jpg | 4000x2248 | CC BY-SA 4.0 | NaBUru38 | https://upload.wikimedia.org/wikipedia/commons/6/66/2026_World_Rugby_Nations_Cup_-_Uruguay_vs_Hong_Kong_-_037.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:2026 World Rugby Nations Cup - Uruguay vs Hong Kong - 041.jpg | 4000x2248 | CC BY-SA 4.0 | NaBUru38 | https://upload.wikimedia.org/wikipedia/commons/d/d7/2026_World_Rugby_Nations_Cup_-_Uruguay_vs_Hong_Kong_-_041.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:2026 World Rugby Nations Cup - Uruguay vs Hong Kong - 080.jpg | 4000x2248 | CC BY-SA 4.0 | NaBUru38 | https://upload.wikimedia.org/wikipedia/commons/b/bd/2026_World_Rugby_Nations_Cup_-_Uruguay_vs_Hong_Kong_-_080.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:2026 World Rugby Nations Cup - Uruguay vs Hong Kong - 102.jpg | 4000x2248 | CC BY-SA 4.0 | NaBUru38 | https://upload.wikimedia.org/wikipedia/commons/b/b8/2026_World_Rugby_Nations_Cup_-_Uruguay_vs_Hong_Kong_-_102.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:2026 World Rugby Nations Cup - Uruguay vs Hong Kong - 162.jpg | 4000x2248 | CC BY-SA 4.0 | NaBUru38 | https://upload.wikimedia.org/wikipedia/commons/3/39/2026_World_Rugby_Nations_Cup_-_Uruguay_vs_Hong_Kong_-_162.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+== commons search WBBL 15 
+  File:2016–17 WBBL PS v MS 17-01-15 Graham (01).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/3/3e/2016%E2%80%9317_WBBL_PS_v_MS_17-01-15_Graham_%2801%29.jpg
+  File:2016–17 WBBL ST v PS 17-01-21 Bates (02).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/d/d5/2016%E2%80%9317_WBBL_ST_v_PS_17-01-21_Bates_%2802%29.jpg
+  File:2018–19 WBBL PS v SS 19-01-06 Perry (02).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/b/bc/2018%E2%80%9319_WBBL_PS_v_SS_19-01-06_Perry_%2802%29.jpg
+  File:2019–20 WBBL PS v SS 19-11-23 Silver-Holmes (03).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/5/5a/2019%E2%80%9320_WBBL_PS_v_SS_19-11-23_Silver-Holmes_%2803%29.jpg
+  File:2019–20 WBBL PS v SS 19-11-24 Graham (02).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/3/3e/2019%E2%80%9320_WBBL_PS_v_SS_19-11-24_Graham_%2802%29.jpg
+  File:2019–20 WBBL PS v HH 19-11-30 Carey (01).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/3/3e/2019%E2%80%9320_WBBL_PS_v_HH_19-11-30_Carey_%2801%29.jpg
+  File:WBBL Perth Scorchers v Hobart Hurricanes, 7 November 2021 78.jpg | CC BY-SA 4.0 | Calistemon | https://upload.wikimedia.org/wikipedia/commons/0/0e/WBBL_Perth_Scorchers_v_Hobart_Hurricanes%2C_7_November_2021_78.jpg
+  File:2021–22 WBBL MR v SS 21-10-30 Yadav (03).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/5/5e/2021%E2%80%9322_WBBL_MR_v_SS_21-10-30_Yadav_%2803%29.jpg
+  File:2021–22 WBBL PS v AS 21-10-30 Wellington (01).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/5/52/2021%E2%80%9322_WBBL_PS_v_AS_21-10-30_Wellington_%2801%29.jpg
+  File:2021–22 WBBL PS v AS 21-10-30 Coyte (02).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/7/7f/2021%E2%80%9322_WBBL_PS_v_AS_21-10-30_Coyte_%2802%29.jpg
+  File:2021–22 WBBL PS v SS 21-10-31 Gardner (01).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/3/36/2021%E2%80%9322_WBBL_PS_v_SS_21-10-31_Gardner_%2801%29.jpg
+  File:2021–22 WBBL PS v SS 21-10-31 Healy (02).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/0/04/2021%E2%80%9322_WBBL_PS_v_SS_21-10-31_Healy_%2802%29.jpg
+  File:2021–22 WBBL PS v SS 21-10-31 Healy (05).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/0/04/2021%E2%80%9322_WBBL_PS_v_SS_21-10-31_Healy_%2805%29.jpg
+  File:2022–23 WBBL ST v MS 22-10-23 Day (06).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/c/c0/2022%E2%80%9323_WBBL_ST_v_MS_22-10-23_Day_%2806%29.jpg
+  File:2022–23 WBBL PS v SS 22-11-05 Perry (06).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/b/b6/2022%E2%80%9323_WBBL_PS_v_SS_22-11-05_Perry_%2806%29.jpg
 
-== commons World Rugby Nations Cup logo 12 
-  File:Pacific5nations.gif | 316x149 | Public domain | Unknown authorUnknown author | https://upload.wikimedia.org/wikipedia/commons/b/b9/Pacific5nations.gif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Pacific Nations Cup.jpg | 299x512 | CC0 | World Rugby | https://upload.wikimedia.org/wikipedia/commons/b/b9/Pacific_Nations_Cup.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:13June2006.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/2/2a/13June2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:15October2006.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/d/d1/15October2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:15October2007.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/8/8f/15October2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:20August2006.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/1/1d/20August2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:22August2006.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/b/b3/22August2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:26June2006 2.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/a/ae/26June2006_2.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:28November2006.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/1/13/28November2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:29December2007.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/9/91/29December2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:29September2007.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/9/9e/29September2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:9June2008.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/8/84/9June2008.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+== commons search Weber WBBL 9 
 
-== commons Nations Cup rugby logo 12 
-  File:Pacific5nations.gif | 316x149 | Public domain | Unknown authorUnknown author | https://upload.wikimedia.org/wikipedia/commons/b/b9/Pacific5nations.gif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Pacific Nations Cup.jpg | 299x512 | CC0 | World Rugby | https://upload.wikimedia.org/wikipedia/commons/b/b9/Pacific_Nations_Cup.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:WR Pacific Nations Cup logo.png | 209x350 | Public domain | Blackcat | https://upload.wikimedia.org/wikipedia/commons/2/27/WR_Pacific_Nations_Cup_logo.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:13June2006.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/2/2a/13June2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:15October2007.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/8/8f/15October2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:20August2006.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/1/1d/20August2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:22August2006.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/b/b3/22August2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:26June2006 2.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/a/ae/26June2006_2.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:27November2006.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/4/44/27November2006.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:29December2007.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/9/91/29December2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:29September2007.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/9/9e/29September2007.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:9June2008.pdf | 1275x1650 | CC BY 2.5 | Wikinews contributors | https://upload.wikimedia.org/wikipedia/commons/8/84/9June2008.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+== commons search Women Big Bash logo 13 
 
-== tsdb all_leagues 0 429
+== commons search intitle:WBBL 15 
+  File:2018–19 WBBL PS v ST 18-12-30 Bates (02).jpg | CC BY 3.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/e/e6/2018%E2%80%9319_WBBL_PS_v_ST_18-12-30_Bates_%2802%29.jpg
+  File:2019–20 WBBL PS v SS 19-11-23 Bolton (01).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/1/10/2019%E2%80%9320_WBBL_PS_v_SS_19-11-23_Bolton_%2801%29.jpg
+  File:WBBL Perth Scorchers v Hobart Hurricanes, 7 November 2021 101.jpg | CC BY-SA 4.0 | Calistemon | https://upload.wikimedia.org/wikipedia/commons/d/d1/WBBL_Perth_Scorchers_v_Hobart_Hurricanes%2C_7_November_2021_101.jpg
+  File:2021–22 WBBL AS v MR 21-10-31 Dooley (02).jpg | CC BY-SA 4.0 | Bahnfrend | https://upload.wikimedia.org/wikipedia/commons/f/f2/2021%E2%80%9322_WBBL_AS_v_MR_21-10-31_Dooley_%2802%29.jpg
+  File:Performance Chart WBBL STR.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/b/b9/Performance_Chart_WBBL_STR.svg
+  File:Performance Chart WBBL HEA.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/9/9b/Performance_Chart_WBBL_HEA.svg
+  File:Performance Chart WBBL REN.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/5/51/Performance_Chart_WBBL_REN.svg
+  File:Performance Chart WBBL STA.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/1/10/Performance_Chart_WBBL_STA.svg
+  File:Performance Chart WBBL SCO.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/e/e2/Performance_Chart_WBBL_SCO.svg
+  File:Performance Chart WBBL HUR.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/3/35/Performance_Chart_WBBL_HUR.svg
+  File:Performance Chart WBBL SIX.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/8/8c/Performance_Chart_WBBL_SIX.svg
+  File:Performance Chart WBBL THU.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/c/c2/Performance_Chart_WBBL_THU.svg
+  File:2025–26 WBBL Melbourne Stars v Perth Scorchers 2025-11-14 Karen Rolton Oval (Marizanne Kapp).jpg | CC BY-SA 4.0 | Yu Chu Chin | https://upload.wikimedia.org/wikipedia/commons/a/a3/2025%E2%80%9326_WBBL_Melbourne_Stars_v_Perth_Scorchers_2025-11-14_Karen_Rolton_Oval_%28Marizanne_Kapp%29.jpg
+  File:Meg Lanning playing at the 2025–26 WBBL Melbourne Stars v Perth Scorchers.jpg | CC BY-SA 4.0 | Yu Chu Chin | https://upload.wikimedia.org/wikipedia/commons/e/e7/Meg_Lanning_playing_at_the_2025%E2%80%9326_WBBL_Melbourne_Stars_v_Perth_Scorchers.jpg
+  File:Sophie Reid playing at the 2025–26 WBBL Melbourne Stars v Perth Scorchers.jpg | CC BY-SA 4.0 | Yu Chu Chin | https://upload.wikimedia.org/wikipedia/commons/a/a3/Sophie_Reid_playing_at_the_2025%E2%80%9326_WBBL_Melbourne_Stars_v_Perth_Scorchers.jpg
 
-== commons cat Women's Big Bash League 11 
-  Category:Women's Big Bash League matches | - |  | 
-  Category:Women's Big Bash League 2017–18 | - |  | 
-  Category:Women's Big Bash League 2018–19 | - |  | 
-  Category:Women's Big Bash League 2019–20 | - |  | 
-  Category:Women's Big Bash League 2015–16 | - |  | 
-  Category:Women's Big Bash League 2021–22 | - |  | 
-  Category:Women's Big Bash League 2022–23 | - |  | 
-  Category:Women's Big Bash League 2016–17 | - |  | 
-  Category:Women's Big Bash League 2025–26 | - |  | 
-  Category:Big Bash League teams | - |  | 
-  Category:Table rank diagrams of WBBL | - |  | 
+== commons search intitle:"Nations Cup" logo 0 429
 
-== commons cat Big Bash League 20 
-  File:Aaron Finch 2010.jpg | CC BY-SA 3.0 | Helenabella | https://upload.wikimedia.org/wikipedia/commons/a/a2/Aaron_Finch_2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:BBL.svg | Public domain | SocietyBox | https://upload.wikimedia.org/wikipedia/commons/2/2b/BBL.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  Category:BBL Brisbane Heat v Melbourne Stars, 28 December 2014 | - |  | 
-  File:Melbourne Stars vs Hobart Hurricanes, BBL 05.jpg | CC BY-SA 2.0 | werdan | https://upload.wikimedia.org/wikipedia/commons/4/45/Melbourne_Stars_vs_Hobart_Hurricanes%2C_BBL_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Sydney Sixers v Hobart Hurricanes at the SCG.jpg | CC BY 2.0 | Liani | https://upload.wikimedia.org/wikipedia/commons/2/2a/Sydney_Sixers_v_Hobart_Hurricanes_at_the_SCG.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Shane Warne MelbourneStars.jpg | CC BY 2.0 | Mathew F | https://upload.wikimedia.org/wikipedia/commons/0/05/Shane_Warne_MelbourneStars.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Panoramic SCG BBL.jpg | CC BY 2.0 | Mathew F | https://upload.wikimedia.org/wikipedia/commons/c/c7/Panoramic_SCG_BBL.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  Category:Women's Big Bash League | - |  | 
-  File:BBL06 GF - WACA from NW.jpg | CC BY-SA 4.0 | Orderinchaos | https://upload.wikimedia.org/wikipedia/commons/2/29/BBL06_GF_-_WACA_from_NW.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:BBL06 GF - win 0.jpg | CC BY-SA 4.0 | Orderinchaos | https://upload.wikimedia.org/wikipedia/commons/1/16/BBL06_GF_-_win_0.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:BBL06 GF - Transperth cricket special.jpg | CC BY-SA 4.0 | Orderinchaos | https://upload.wikimedia.org/wikipedia/commons/5/50/BBL06_GF_-_Transperth_cricket_special.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:BBL06 GF - win 1.jpg | CC BY-SA 4.0 | Orderinchaos | https://upload.wikimedia.org/wikipedia/commons/e/ec/BBL06_GF_-_win_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:BBL06 GF - win 2.jpg | CC BY-SA 4.0 | Orderinchaos | https://upload.wikimedia.org/wikipedia/commons/7/7f/BBL06_GF_-_win_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Heat v Scorchers - Gabba 2017.jpg | CC BY-SA 4.0 | Orderinchaos | https://upload.wikimedia.org/wikipedia/commons/c/c2/Heat_v_Scorchers_-_Gabba_2017.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Pikotaro PPAP at Gabba 2017-01-11.jpg | CC BY-SA 4.0 | Orderinchaos | https://upload.wikimedia.org/wikipedia/commons/9/93/Pikotaro_PPAP_at_Gabba_2017-01-11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Working of BBL Play-offs.png | CC BY-SA 4.0 | Vishwa Sundar | https://upload.wikimedia.org/wikipedia/commons/f/f9/Working_of_BBL_Play-offs.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  File:Performance Chart BBL SCO.svg | CC BY-SA 4.0 | Pdf70 | https://upload.wikimedia.org/wikipedia/commons/d/dc/Performance_Chart_BBL_SCO.svg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-  Category:Big Bash League teams | - |  | 
-  Category:2025–26 Big Bash League season | - |  | 
-  Category:Table rank diagrams of BBL | - |  | 
-
-== commons cat World Rugby Nations Cup 1 
-  Category:2026 World Rugby Nations Cup | - |  | 
-
-== commons cat WBBL 0 
+== commons search World Rugby Nations Cup logo svg 0 429
