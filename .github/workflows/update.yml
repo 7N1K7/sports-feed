@@ -24,6 +24,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20   # a build takes about five; a stuck one mustn't hold the queue for hours
     outputs:
       started: ${{ steps.t0.outputs.started }}
       hot: ${{ steps.fetch.outputs.hot }}
@@ -71,7 +72,7 @@ jobs:
           n=$(gh api "repos/$GITHUB_REPOSITORY/issues?state=open&per_page=100" --jq '.[] | select(.pull_request == null and .title == env.TITLE) | .number' | head -1)
           [ -n "$n" ] && { echo "Already raised in #$n"; exit 0; }
           { echo "The build in $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID was opened in Chrome before going live, and its games weren't drawn, so it wasn't deployed. The site keeps showing the last good build: its games and times are there, but scores and changes stop updating until this is fixed."
-            echo; echo "What the check saw:"; echo; sed 's/^/- /' "$RUNNER_TEMP/check.txt"
+            echo; echo "What the check saw:"; echo; if [ -s "$RUNNER_TEMP/check.txt" ]; then sed 's/^/- /' "$RUNNER_TEMP/check.txt"; else echo "- the check stopped before it could say (see the run's log)"; fi
             echo; echo "This closes by itself when a later build shows its games again. cc @$GITHUB_REPOSITORY_OWNER"; } > "$RUNNER_TEMP/issue.md"
           gh api "repos/$GITHUB_REPOSITORY/issues" -f title="$TITLE" -F body=@"$RUNNER_TEMP/issue.md" --jq '.html_url'
       - name: All clear (closes the alarm, if one is open)
@@ -90,6 +91,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
