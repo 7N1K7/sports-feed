@@ -64,15 +64,17 @@ jobs:
           npm i --prefix "$RUNNER_TEMP/chk" --no-audit --no-fund --silent playwright-core@1.56.1 || echo "::warning::Couldn't install the site check"
           CHECK_DEPS="$RUNNER_TEMP/chk" CHECK_OUT="$RUNNER_TEMP/check.txt" node scripts/check-site.mjs
       - name: Raise the alarm (the new build wasn't put live)
-        if: failure() && steps.check.outcome == 'failure'
+        # also when the feed build itself failed (then there was nothing to check)
+        if: failure() && (steps.fetch.outcome == 'failure' || steps.check.outcome == 'failure')
         env:
           GH_TOKEN: ${{ github.token }}
           TITLE: "The site's new build didn't show its games, so it wasn't put live"
+          FETCH: ${{ steps.fetch.outcome }}
         run: |
           n=$(gh api "repos/$GITHUB_REPOSITORY/issues?state=open&per_page=100" --jq '.[] | select(.pull_request == null and .title == env.TITLE) | .number' | head -1)
           [ -n "$n" ] && { echo "Already raised in #$n"; exit 0; }
           { echo "The build in $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID was opened in Chrome before going live, and its games weren't drawn, so it wasn't deployed. The site keeps showing the last good build: its games and times are there, but scores and changes stop updating until this is fixed."
-            echo; echo "What the check saw:"; echo; if [ -s "$RUNNER_TEMP/check.txt" ]; then sed 's/^/- /' "$RUNNER_TEMP/check.txt"; else echo "- the check stopped before it could say (see the run's log)"; fi
+            echo; echo "What the check saw:"; echo; if [ "$FETCH" = failure ]; then echo "- nothing: building the feed (scripts/fetch.mjs) failed first (see the run's log)"; elif [ -s "$RUNNER_TEMP/check.txt" ]; then sed 's/^/- /' "$RUNNER_TEMP/check.txt"; else echo "- the check stopped before it could say (see the run's log)"; fi
             echo; echo "This closes by itself when a later build shows its games again. cc @$GITHUB_REPOSITORY_OWNER"; } > "$RUNNER_TEMP/issue.md"
           gh api "repos/$GITHUB_REPOSITORY/issues" -f title="$TITLE" -F body=@"$RUNNER_TEMP/issue.md" --jq '.html_url'
       - name: All clear (closes the alarm, if one is open)
