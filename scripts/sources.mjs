@@ -7,13 +7,16 @@ const UA = { 'user-agent': 'nz-sports-feed/1.0 (https://kickoff.kiwi/; personal 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // ---------- time zones -------------------------------------------------------
+// a standard-time abbreviation is a zone that never shifts (AEST is Brisbane's, so a Brisbane summer game isn't read as Sydney's daylight time)
 const ABBR_TZ = {
-  NZST: 'Pacific/Auckland', NZDT: 'Pacific/Auckland', AEST: 'Australia/Sydney', AEDT: 'Australia/Sydney', ACST: 'Australia/Adelaide', ACDT: 'Australia/Adelaide',
+  NZST: 'Pacific/Auckland', NZDT: 'Pacific/Auckland', AEST: 'Australia/Brisbane', AEDT: 'Australia/Sydney', ACST: 'Australia/Darwin', ACDT: 'Australia/Adelaide',
   AWST: 'Australia/Perth', FJT: 'Pacific/Fiji', FJST: 'Pacific/Fiji', SAST: 'Africa/Johannesburg', GMT: 'Europe/London', BST: 'Europe/London', WET: 'Europe/Lisbon',
   CET: 'Europe/Paris', CEST: 'Europe/Paris', JST: 'Asia/Tokyo', IST: 'Asia/Kolkata', PKT: 'Asia/Karachi', ART: 'America/Argentina/Buenos_Aires', TOT: 'Pacific/Tongatapu',
   WSST: 'Pacific/Apia', WST: 'Pacific/Apia', PGT: 'Pacific/Port_Moresby', EST: 'America/New_York', EDT: 'America/New_York', CST: 'America/Chicago', CDT: 'America/Chicago',
-  MST: 'America/Denver', MDT: 'America/Edmonton', PST: 'America/Los_Angeles', PDT: 'America/Los_Angeles', AST: 'Asia/Riyadh', GST: 'Asia/Dubai', SLST: 'Asia/Colombo', BDT: 'Asia/Dhaka',
+  MST: 'America/Phoenix', MDT: 'America/Edmonton', PST: 'America/Los_Angeles', PDT: 'America/Los_Angeles', AST: 'Asia/Riyadh', GST: 'Asia/Dubai', SLST: 'Asia/Colombo', BDT: 'Asia/Dhaka',
 };
+// abbreviations that name more than one zone (IST: Ireland or India, BST: Britain or Bangladesh): the venue's own zone wins
+const ABBR_MANY = /^(IST|BST|CST|AST|PST|WST|EST|GST)$/;
 // offset of `tz` at instant `t`, in ms
 function tzOffset(tz, t) {
   const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
@@ -130,7 +133,7 @@ function timeOf(v) {
   if (m[3] && /a/i.test(m[3]) && h === 12) h = 0;
   const off = raw.match(/UTC\s*([+−-])\s*(\d{1,2})(?::?(\d{2}))?/);
   const abbr = (t.match(/\b([A-Z]{2,5})\b/g) || []).find(a => ABBR_TZ[a]);
-  return { h, mi: +m[2], offsetMin: off ? (off[1] === '+' ? 1 : -1) * (+off[2] * 60 + +(off[3] || 0)) : null, tz: abbr ? ABBR_TZ[abbr] : null };
+  return { h, mi: +m[2], offsetMin: off ? (off[1] === '+' ? 1 : -1) * (+off[2] * 60 + +(off[3] || 0)) : null, tz: abbr ? ABBR_TZ[abbr] : null, many: ABBR_MANY.test(abbr || '') };
 }
 
 // ---------- classification -------------------------------------------------
@@ -202,12 +205,15 @@ function eventsFromPage(title, text, cfg, cityTz) {
     const loc = (p.stadium || p.venue || p.arena) && (p.location || p.place) ? clean(p.location || p.place).split(',').map(s => s.trim()).filter(Boolean) : [];
     const city = parts.length > 1 ? parts[parts.length - 1] : loc[0] || '';
     const tm = timeOf(p.time || '');
-    const tz = (tm && tm.tz) || cityTz(city) || cityTz(parts[0]) || (cfg.homeTz && cityTz(home)) || cfg.tz || null;
+    const vz = cityTz(city) || cityTz(parts[0]), az = tm && tm.tz && !(tm.many && vz) ? tm.tz : null;
+    let tz = az || vz || (cfg.homeTz && cityTz(home)) || cfg.tz || null;
     let t, tbc = false;
     if (tm && tm.offsetMin != null) t = Date.UTC(d.y, d.m, d.d, tm.h, tm.mi) - tm.offsetMin * 6e4;
     else if (tm && !tm.tz && pageTz) t = localToUTC(d.y, d.m, d.d, tm.h, tm.mi, pageTz.tz);
     else if (tm && tz) t = localToUTC(d.y, d.m, d.d, tm.h, tm.mi, tz);
     else { tbc = true; t = localToUTC(d.y, d.m, d.d, 14, 0, tz || 'Pacific/Auckland'); }
+    // the venue's own zone for its local line when its clock agrees with the abbreviation's that day (a Sydney game in AEST)
+    if (az && vz && az !== vz && tzOffset(az, t) === tzOffset(vz, t)) tz = vz;
     // score
     let score, summary, status = 'upcoming', progress, liveScore;
     if (isCricket) {
