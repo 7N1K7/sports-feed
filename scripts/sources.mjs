@@ -2243,8 +2243,10 @@ export async function tsdbEvents(all, diag, cache = {}, gapsFor = null) {
       const next = (await tsdb(`eventsnextleague.php?id=${l.id}`)).events?.[0];
       const ref = next || last;
       if (!ref || (!next && Date.now() - new Date(last.strTimestamp + 'Z') > 30 * DAY)) { diag[`tsdb ${l.comp}`] = 'off season'; continue; }
-      const season = ref.strSeason, r0 = +(last?.intRound || next?.intRound || 1);
-      const rounds = [...new Set([r0 - 1, r0, r0 + 1, r0 + 2])].filter(r => r >= 1 && r < 40);
+      // the last game's round only if it's this season's (before round 1 it's last season's final); the next game's round
+      // is always asked, finals too (TheSportsDB numbers them 160, 150 and 200)
+      const season = ref.strSeason, r0 = +((last && (!next || last.strSeason === next.strSeason) ? last.intRound : next?.intRound) || 1);
+      const rounds = [...new Set([...[r0 - 1, r0, r0 + 1, r0 + 2].filter(r => r < 40), ...(next ? [+next.intRound] : [])])].filter(r => r >= 1);
       if (!rounds.length) { diag[`tsdb ${l.comp}`] = 'off season'; continue; }
       let n = 0;
       for (const r of rounds) {
@@ -2254,7 +2256,8 @@ export async function tsdbEvents(all, diag, cache = {}, gapsFor = null) {
         }
       }
       diag[`tsdb ${l.comp}`] = `${n} games, season ${season}, rounds ${rounds.join(',')}`;
-      cache[l.comp] = { t: Date.now(), events: out.slice(start), season, r0 };
+      // (a finals round isn't a count of rounds for the backfill to work back from)
+      cache[l.comp] = { t: Date.now(), events: out.slice(start), season, ...(r0 < 40 ? { r0 } : {}) };
     } catch (e) {
       out.length = start;
       const c = cache[l.comp];
