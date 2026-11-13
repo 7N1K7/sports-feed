@@ -259,7 +259,7 @@ export async function rankings(cache, diag) {
     if (cfg.kind === 'fifa') {
       try {
         await new Promise(r => setTimeout(r, 1000));
-        const r = await fetch(`https://en.wikipedia.org/w/index.php?action=raw&title=${encodeURIComponent(cfg.data.replace(/ /g, '_'))}`, { headers: UA });
+        const r = await fetch(`https://en.wikipedia.org/w/index.php?action=raw&title=${encodeURIComponent(cfg.data.replace(/ /g, '_'))}`, { headers: UA, signal: AbortSignal.timeout(15000) });
         if (!r.ok) throw new Error(r.status);
         const lists = fifaList(await r.text(), cfg);
         notes.push(`${cfg.data}: ${lists.map(l => `${Object.keys(l.all).length} sides @${l.asOf}`).join('') || 'nothing usable'}`);
@@ -270,7 +270,7 @@ export async function rankings(cache, diag) {
     }
     try {
       await new Promise(r => setTimeout(r, 1000));
-      const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=parse&prop=text&redirects=1&disableeditsection=1&disablelimitreport=1&page=' + encodeURIComponent(cfg.page), { headers: UA });
+      const r = await fetch('https://en.wikipedia.org/w/api.php?format=json&formatversion=2&maxlag=5&action=parse&prop=text&redirects=1&disableeditsection=1&disablelimitreport=1&page=' + encodeURIComponent(cfg.page), { headers: UA, signal: AbortSignal.timeout(15000) });
       if (!r.ok) throw new Error(r.status);
       const j = await r.json();
       if (j.error) throw new Error(j.error.code);
