@@ -2469,6 +2469,9 @@ function endOf(e, now) {
   const f = formatOf(e), days = DAYS[f] || 1;
   return new Date(Math.min(now, s + (days - 1) * 864e5 + (HOURS[f] || 8) * 36e5));
 }
+// a game with no time yet sits at a made-up 2pm, so its card counts down in whole days only, and in its last day shows
+// an empty tag that keeps the space
+const tbcTag = (ms, urg) => { const d = Math.floor(ms / 864e5); return d >= 1 ? `<span class="tag num ${urg}">in ${d} day${d > 1 ? 's' : ''}</span>` : '<span class="tag num later" style="visibility:hidden" aria-hidden="true">in 1 day</span>'; };
 function countdown(e, now) {
   const ms = new Date(e.startUTC) - now;
   if (ms <= 0) return null;
@@ -2675,7 +2678,7 @@ function evCard(e, now) {
   const cd = countdown({ startUTC: d.toISOString() }, now);
   const ms = d - now;
   const urg = ms < 864e5 ? 'soon' : ms < 3 * 864e5 ? 'near' : 'later';
-  const tag = live ? `<span class="tag live">${live}</span>` : paused ? `<span class="tag paused">${paused.replace(' next', '')}${cd ? ` · <span class="num" data-cd="${esc(d.toISOString())}">${cd}</span>` : ''}</span>` : cd ? `<span class="tag num ${urg}" data-cd="${esc(d.toISOString())}">${cd}</span>` : '';
+  const tag = live ? `<span class="tag live">${live}</span>` : paused ? `<span class="tag paused">${paused.replace(' next', '')}${cd ? ` · <span class="num" data-cd="${esc(d.toISOString())}">${cd}</span>` : ''}</span>` : cd && e.timeTBC && !e.usual ? tbcTag(ms, urg) : cd ? `<span class="tag num ${urg}" data-cd="${esc(d.toISOString())}">${cd}</span>` : '';
   // the state of play Wikipedia's editors give while a match is on ("Lunch, day 1"); the score only when spoilers are shown
   // a state of play from an earlier day ("Tea, day 1" once day 2 is on) is stale, so drop it
   const today = +((live || paused || '').match(/Day (\d)/) || [])[1] || 0, pd = progDay(e);
