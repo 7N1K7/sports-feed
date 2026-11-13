@@ -2250,7 +2250,7 @@ const COMP_LABEL = {};
 // a session's kind, for its colour: practice, qualifying (a shootout too), or a race (a sprint, Supercars' Race 31)
 const sesKind = n => /practice/i.test(n) ? 'prac' : /qualif|shootout/i.test(n) ? 'qual' : 'race';
 const titleParts = (t, ses) => String(t || '').split(' · ').map(p => `<span class="tp${ses && p === ses ? ` ses-${sesKind(ses)}` : ''}">${esc(p)}</span>`).join('<span class="tsep"> · </span>');
-// a friendly is just a Friendly on its card and pop-up (International friendly ran long on a phone)
+// a friendly is just a Friendly on its card (International friendly ran long on a phone); its pop-up and menu keep the full name
 const cardComp = e => /^International friendly$/i.test(e.comp || '') ? 'Friendly' : e.team === 'aucricket' || e.team === 'intlcricket' ? compOf(e) + (e.stage ? ' · ' + e.stage : '') : /^(hockey|basketball|netball|baseball|cycling)$/.test(e.sport) ? plural(e.comp) + (e.stage ? ' · ' + e.stage : '') : plural(e.comp);
 function compOf(e) {
   const c = e.comp || '';
@@ -3494,7 +3494,7 @@ function wrankRow(e) {
   return `${esc(displayName(e.home, e))} ${ordn(a)} <span class="muted">·</span> ${esc(displayName(e.away, e))} ${ordn(b)} <span class="muted small">(${esc(l.page.replace(/ World Rankings?$/, '').replace(/^(FIFA|FIH|FIBA|IRL|ICC|WBSC|World) .*$/, '$1'))})</span>`;
 }
 function toComp(e) {
-  const c = compOf(e), label = esc(cardComp(e));
+  const c = compOf(e), label = esc(/^International friendly$/i.test(e.comp || '') ? e.comp : cardComp(e)); // the pop-up has room for a friendly's full name
   const table = (FEED.tables || []).some(t => compOf({ comp: t.comp, sport: t.sport, team: t.team }) === c);
   if (!c || (!table && (FEED.events || []).filter(x => compOf(x) === c).length < 2)) return `<span>${label}</span>`;
   return `<button type="button" class="tocomp" data-tocomp="${esc(c)}" title="Open the ${esc(plural(c))} page: every ${evWord(e.sport)}, results${table ? ', the table' : ''} and news"><span>${label}</span><span class="tcgo" aria-hidden="true">›</span></button>`;
@@ -3876,7 +3876,7 @@ const GENERIC = /^(Test match|Women's test|Boxing|UFC|ONE Championship|NZ domest
 // short names for the Current bar, so its chips stay small: "SA v AUS", "RLWC", "Const. Cup", "NZ v BAN (W)" (the chip's
 // hover label keeps the full name). The Nations Championship keeps its whole name (cut to "Nations Champ." until v628)
 const SHORT = [[/Women's Rugby League World Cup/, "Women's RLWC"], [/Wheelchair Rugby League World Cup/, 'Wheelchair RLWC'], [/Rugby League World Cup/, 'RLWC'], [/World Rugby Nations Cup/, 'Nations Cup'], [/Rugby Championship/, 'Rugby Champ.'], [/WXV Global Series/, 'WXV'],
-  [/Rugby World Cup/, 'RWC'], [/Constellation Cup/, 'Const. Cup'], [/Taini Jamison Trophy/, 'Taini Jamison'], [/FIBA (Basketball )?World Cup qualifiers/i, 'FIBA qualifiers'], [/\bFIH (Hockey )?/, ''],
+  [/^International friendly$/i, 'Friendlies'], [/Rugby World Cup/, 'RWC'], [/Constellation Cup/, 'Const. Cup'], [/Taini Jamison Trophy/, 'Taini Jamison'], [/FIBA (Basketball )?World Cup qualifiers/i, 'FIBA qualifiers'], [/\bFIH (Hockey )?/, ''],
   [/Chappell[–-]Hadlee Trophy/, 'Chappell–Hadlee'], [/Pacific Nations Cup/, 'Pacific Nations'], [/Pacific Four Series/, 'Pacific Four'], [/\bICC /, ''], [/\bT20 World Cup\b/, 'T20 WC'], [/\bCricket World Cup\b/, 'CWC'],
   // New Zealand's sides by their nicknames are "NZ" here; a women's side marks the chip (W) at the end
   [/\b(White Ferns|Black Ferns|Tall Ferns|Kiwi Ferns|Football Ferns|Black Sticks Women's|Black Sticks Women)\b/g, 'NZ\u2009W'], [/\b(Black Caps|All Blacks|Black Sticks|Tall Blacks|Silver Ferns|All Whites|Kiwis)\b/g, 'NZ'],
