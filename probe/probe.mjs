@@ -1,10 +1,7 @@
-// 14 Nov: Flickr's API terms and key rules, Openverse's terms (public pages only)
-const UA = { 'user-agent': 'Mozilla/5.0 (compatible; kickoff-probe)' };
-const text = h => h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, ' ').replace(/<br\s*\/?>|<\/p>|<\/li>|<\/h\d>/gi, '\n').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&#0?39;|&apos;|&rsquo;/g, "'").replace(/&quot;|&ldquo;|&rdquo;/g, '"').replace(/[ \t]+/g, ' ').replace(/\n\s*\n+/g, '\n');
-console.log('TERMS CHECK');
-for (const u of ['https://www.flickr.com/services/api/tos/', 'https://www.flickrhelp.com/hc/en-us/articles/4404070036884-Flickr-API', 'https://www.flickr.com/services/apps/create/apply/', 'https://docs.openverse.org/api/reference/terms_of_service.html', 'https://api.openverse.org/v1/']) {
-  try { const r = await fetch(u, { headers: UA }); const t = text(await r.text());
-    const lines = t.split('\n').map(x => x.trim()).filter(x => x.length > 30 && x.length < 900 && /commercial|key|pro\b|free|rate|limit|attribut|display|store|cache|licen|photo|request|thumbnail|link/i.test(x));
-    console.log(`\n==== ${u} | ${r.status} | ${t.length}`); for (const l of [...new Set(lines)].slice(0, 30)) console.log(' - ' + l);
-  } catch (e) { console.log(`\n==== ${u} | ERR ${e.message}`); }
-}
+// 14 Nov: why fighters have no photo (the live feed's own notes; nothing counted)
+const f = await fetch(`https://kickoff.kiwi/data/feed.json?t=${Date.now()}`).then(r => r.json());
+const d = f.diag || {};
+console.log('WHY', Object.keys(d).filter(k => /face/i.test(k)).join(' '));
+for (const k of Object.keys(d).filter(k => /face/i.test(k))) { const v = d[k]; console.log(`\n## ${k}`); console.log(Array.isArray(v) ? v.slice(0, 60).join('\n') : String(v).slice(0, 4000)); }
+const now = Date.now();
+for (const e of (f.events || []).filter(e => /^(mma|boxing)$/.test(e.sport) && Math.abs(Date.parse(e.startUTC) - now) < 20 * 864e5)) console.log('EV', e.startUTC.slice(0, 10), e.team, '|', e.home, e.homeLogo ? 'Y' : '-', '|', e.away, e.awayLogo ? 'Y' : '-', '| card', (e.card || []).length, JSON.stringify((e.card || []).slice(0, 2)).slice(0, 200));
