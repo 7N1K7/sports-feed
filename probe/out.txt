@@ -1,40 +1,96 @@
-TERMS CHECK
+WHY facesSearch facesCommons facesSportsDB facesOpenverse faces facesMain facesMissing
 
-==== https://www.flickr.com/services/api/tos/ | 200 | 16041
- - The Flickr APIs are owned by SmugMug, Inc. and/or its subsidiaries, including Flickr, Inc. ("SmugMug"), which collectively operate the Flickr business division of SmugMug ("Flickr"), and are licensed to you on a worldwide (except as limited below), non-exclusive, non-sublicenseable basis on the terms and conditions set forth herein. These terms define legal use of the Flickr APIs, all updates, revisions, substitutions, and any copies of the Flickr APIs made by or for you. Flickr user photos are owned by the users (the photographers) and not by SmugMug. All rights not expressly granted to you are reserved by SmugMug.
- - Comply with the Flickr Community Guidelines, and the Flickr Terms & Conditions of Use, all of which are incorporated by reference.
- - Comply with any other terms and conditions a user has attached to his or her photo. For example, if a user marks a photo as "private" after using your service, your application must reflect those changes as soon as reasonably possible. If your application has any cached copies of photos that have become "private," you must remove as soon as reasonably possible. Remove from your application within 24 hours any Flickr user's photos or other information that the owner of the photo asks you to remove. If you use the Authentication APIs, insert a standard header that we will provide into pages you build that access the Flickr API. It's important to us that users have an easy way to return to Flickr if they wish, and have some reference point (the logo) to show them that they're still connected to Flickrland. https://www.flickr.com/services/partners/.
- - Disclose in your application through a privacy policy or otherwise displayed in the footer of each page, how you collect, use, store, and disclose data collected from visitors, including, where applicable, that third parties (including advertisers) may serve content and/or advertisements and collect information directly from visitors and may place or recognize cookies on visitors' browsers.
- - Attempt to cloak or conceal your identity or your application's identity when requesting authorization to use Flickr APIs.
- - Display more than 30 Flickr user photos per page in your application or use an unreasonable amount of bandwidth.
- - Cache or store any Flickr user photos other than for reasonable periods in order to provide the service you are providing to Flickr users.
- - Use Flickr APIs in any manner or for any purpose that violates any law or regulation, any right of any person, including but not limited to intellectual property rights, rights of privacy, rights of personality, or human rights as described in the Universal Declaration of Human Rights, the International Covenant on Civil and Political Rights, and the International Covenant on Economic, Social, and Cultural Rights.
- - Sell, lease, or sublicense Flickr APIs or access thereto or derive revenues from the use or provision of Flickr APIs, whether for direct commercial or monetary gain or otherwise, except as set forth below.
- - If the primary purpose of your application is to derive revenue, it is considered a commercial application. SmugMug reserves the right to make these evaluations at the time that you apply for the license. SmugMug may also monitor your site or application over time to ensure continued compliance with the appropriate type of API key. If you're in doubt about whether your application is commercial, here are a few common examples of commercial use that may provide you some guidance:
- - Your site is a "destination" site that uses Flickr photos to drive traffic and generate ad revenue.
- - Application for a Commercial API Key
- - If you want to apply for a commercial API key, go to the following form to see what information you need to provide: https://flickr.com/services/api/keys/apply/. You can't be too specific about your intended use of the Flickr Commercial API! Lack of specificity or supporting information could delay your application indefinitely (or even cause us to think too much and forget to answer!) When in doubt, it's always better to include more detail about your application. Please note that in some cases we may grant your request for a commercial API key subject to your payment of fees, such as to help cover infrastructure costs.
- - The Flickr APIs may be protected by copyrights, trademarks, service marks, international treaties, and/or other proprietary rights and laws of the U.S. and other countries. SmugMug's rights apply to the Flickr APIs and all output and executables of the Flickr APIs, excluding any software components developed by you which do not themselves incorporate the Flickr APIs or any output or executables of the Flickr APIs. You agree to abide by all applicable proprietary rights laws and other laws, as well as any additional copyright notices or restrictions contained in these terms. SmugMug owns all rights, title, and interest in and to the Flickr APIs. These terms grant you no right, title, or interest in any intellectual property owned or licensed by SmugMug, including (but not limited to) the Flickr APIs and Flickr-related trademarks.
- - SmugMug may elect to provide you with support or modifications for the Flickr APIs (collectively, "Support"), in its sole discretion, and may terminate such Support at any time without notice to you. SmugMug may change, suspend, or discontinue any aspect of the Flickr APIs at any time, including the availability of any Flickr APIs. SmugMug may also impose limits on certain features and services or restrict your access to parts or all of the Flickr APIs or the Flickr Web site without notice or liability.
- - SmugMug is committed to free and open access to our APIs for commercial and non-commercial purposes. However, providing the APIs does have real costs for SmugMug. For uses of Flickr APIs over a certain rate or for certain types of commercial applications, SmugMug reserves the right to charge fees for future use of or access to the Flickr APIs.
- - SOME OF THE FLICKR APIS MAY BE EXPERIMENTAL AND NOT TESTED IN ANY MANNER. SMUGMUG DOES NOT REPRESENT OR WARRANT THAT ANY FLICKR APIS ARE FREE OF INACCURACIES, ERRORS, BUGS, OR INTERRUPTIONS, OR ARE RELIABLE, ACCURATE, COMPLETE, OR OTHERWISE VALID. THE FLICKR APIS ARE PROVIDED "AS IS" WITH NO WARRANTY, EXPRESS OR IMPLIED, OF ANY KIND AND SMUGMUG EXPRESSLY DISCLAIMS ANY AND ALL WARRANTIES AND CONDITIONS, INCLUDING, BUT NOT LIMITED TO, ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AVAILABILITY, SECURITY, TITLE AND/OR NON-INFRINGEMENT. YOUR USE OF FLICKR APIS IS AT YOUR OWN DISCRETION AND RISK, AND YOU WILL BE SOLELY RESPONSIBLE FOR ANY DAMAGE THAT RESULTS FROM THE USE OF ANY FLICKR APIS INCLUDING, BUT NOT LIMITED TO, ANY DAMAGE TO YOUR COMPUTER SYSTEM OR LOSS OF DATA.
- - SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF CERTAIN WARRANTIES OR THE LIMITATION OR EXCLUSION OF LIABILITY FOR INCIDENTAL OR CONSEQUENTIAL DAMAGES. ACCORDINGLY, SOME OF THE ABOVE LIMITATIONS OF SECTIONS 7 AND 8 MAY NOT APPLY TO YOU.
- - To the maximum extent permitted by applicable law, you agree to hold harmless and indemnify SmugMug and its subsidiaries, affiliates, officers, agents, licensors, co-branders or other partners, and employees from and against any third party claim arising from or in any way related to your use of Flickr APIs, including any liability or expense arising from all claims, losses, damages (actual and/or consequential), suits, judgments, litigation costs and attorneys' fees, of every kind and nature. SmugMug shall use good faith efforts to provide you with written notice of such claim, suit or action.
- - Miscellaneous. The section headings and subheadings contained in this agreement are included for convenience only, and shall not limit or otherwise affect the terms of the Terms of Use. Any construction or interpretation to be made of the Terms of Use shall not be construed against the drafter. The Terms of Use constitute the entire agreement between SmugMug and you with respect to the subject matter hereof.
- - Connecting people through photography.
+## facesSearch
+0 searched on Commons, 0 with a matching photo
 
-==== https://www.flickrhelp.com/hc/en-us/articles/4404070036884-Flickr-API | 403 | 60
+## facesCommons
+0 categories tried, 0 had files
 
-==== https://www.flickr.com/services/apps/create/apply/ | 200 | 117
+## facesSportsDB
+4 asked, 0 found, 3 found but not marked free to reuse; error 429
 
-==== https://docs.openverse.org/api/reference/terms_of_service.html | 404 | 19265
- - Run Book: API Production Request Count anomalously high
- - Run Book: Nuxt Request Count anomalously high
- - 2024-03-20 Project Proposal: Incorporate Rekognition data into the Catalog
- - 2024-04-23 Implementation Plan: Machine-generated tags in the API
- - 2024-05-08 Implementation Plan: Machine-generated tags in the frontend
- - Relicensing Toggle navigation of Relicensing
- - 2024-10-28 Implementation Plan: Relicensing
- - 2024-10-28 Project Proposal: Relicensing
+## facesOpenverse
+0 asked (0 photos back, 0 naming the fighter), 0 found; error 504; 51 not asked yet
 
-==== https://api.openverse.org/v1/ | 200 | 18
+## faces
+80/338 fighters with a free photo (19 from Commons search or categories, 0 from Openverse); 0 looked up
+
+## facesMain
+TheSportsDB: 4 asked, 0 found, 3 found but not marked free to reuse; error 429 ; 2026-11-14 UFC 334: Gane=>Ciryl Gane OK / Hokit=>Josh Hokit OK ; 2026-11-18 ONE Samurai 5: Joshua Pacio=>Joshua Pacio no free photo / Keito Yamakita=>Keito Yamakita no free photo ; 2026-11-07 UFC Fight Night 293: Cortes Acosta=>Cortes Acosta no article / Walker=>Johnny Walker OK ; 2026-11-07 Interim WBC light heavyweight title: Joshua Buatsi=>Joshua Buatsi no free photo / Willy Hutchinson=>Willy Hutchinson no free photo ; 2026-11-07 ONE Fight Night 49: Gabriel=>Lucas Gabriel no article / Magomedov=>Magomed Magomedov OK ; 2026-11-06 ONE Friday Fights 177: Isannuea=>Isannuea Chotbangsaen not looked up / Jack=>Jack Siatarnyokkrok P.K no article ; 2026-11-06 Heavyweight (No Limit Boxing): Paul Gallen=>Paul Gallen OK / Nelson Asofa-Solomona=>Nelson Asofa-Solomona OK ; 2026-11-21 UFC Fight Night: Procházka=>Jiří Procházka OK / Stirling=>Navajo Stirling no free photo ; 2026-11-26 IBF flyweight title: Masamichi Yabuki=>Masamichi Yabuki no free photo / Miel Fajardo=>Miel Fajardo OK ; 2026-11-01 UFC Fight Night: Moicano=>Renato Moicano OK / Nolan=>Tom Nolan no free photo ; 2026-10-31 WBC super middleweight title: Christian Mbilli=>Christian Mbilli OK / Saul 'Canelo' Alvarez=>Saul Alvarez OK ; 2026-10-30 ONE Friday Fights 176: Khunsuk=>Khunsuk T1.FightAcademy not looked up / YodUdon=>YodUdon K.Tongtalingchan no article ; 2026-11-28 WBC heavyweight title: Agit Kabayel=>Agit Kabayel OK / Nelson Hysa=>Nelson Hysa no free photo ; 2026-12-02 ONE Samurai 6: Chihiro Sawada=>Chihiro Sawada no free photo / Anastasia Nikolakakos=>Anastasia Nikolakakos no article ; 2026-10-25 WBO, IBF & WBC super featherweight unification: Emanuel Navarrete=>Emanuel Navarrete no free photo / O'Shaquie Foster=>O'Shaquie Foster OK ; 2026-10-24 WBC super lightweight title: Dalton Smith=>Dalton Smith no free photo / Alberto Puello=>Alberto Puello no free photo ; 2026-10-24 UFC 333: Volkanovski=>Alexander Volkanovski OK / Evloev=>Movsar Evloev OK ; 2026-12-05 UFC Fight Night: Adesanya=>Israel Adesanya OK / Magomedov=>Sharabutdin Magomedov OK ; 2026-10-18 WBC super welterweight title: Sebastian Fundora=>Sebastian Fundora no free photo / Ermal Hadribeaj=>Ermal Hadribeaj OK ; 2026-10-18 UFC Fight Night: Buckley=>Joaquin Buckley no free photo / Malott=>Mike Malott OK ; 2026-10-17 WBO heavyweight title: Daniel Dubois=>Daniel Dubois OK / Fabio Wardley=>Fabio Wardley no free photo ; 2026-10-17 ONE Samurai 4: Jonathan Haggerty=>Jonathan Haggerty OK / Hiroki Akimoto=>Hiroki Akimoto no free photo ; 2026-12-11 Heavyweight (reported for vacant WBA 'super' title): Tyson Fury=>Tyson Fury OK / Anthony Joshua=>Anthony Joshua OK ; 2026-12-12 WBA, IBF & WBO light heavyweight titles: Dmitry Bivol=>Dmitry Bivol OK / Callum Smith=>Callum Smith no free photo ; 2026-12-13 UFC 335: Oliveira=>Charles Oliveira OK / Lopes=>Diego Lopes OK ; 2026-10-11 UFC Fight Night: Allen=>Brendan Allen OK / Duncan=>Christian Leroy Duncan no free photo ; 2026-10-10 Vacant WBA lightweight title: Floyd Schofield=>Floyd Schofield no free photo / Lucas Bahdi=>Lucas Bahdi no free photo ; 2026-10-10 WBA & WBC flyweight titles: Ricardo Sandoval=>Ricardo Sandoval no free photo / Sergio Mendoza=>Sergio Mendoza OK ; 2026-12-19 ONE Fight Night 50: Kade Ruotolo=>Kade Ruotolo no free photo / Ok Rae-yoon=>Ok Rae-yoon no free photo ; 2026-12-19 WBA super featherweight title: Anthony Cacace=>Anthony Cacace no free photo / Nick Ball=>Nick Ball no free photo ; 2026-10-08 IBF super middleweight title: Osleys Iglesias=>Osleys Iglesias no free photo / Oliver Zaren=>Oliver Zaren no free photo ; 2026-10-03 ONE Fight Night 48: Erdogan=>Shamil Erdogan no article / Elliott=>Paul Elliott not a fighter page (Topics referred to by the same term) ; 2026-09-27 WBC bantamweight title: Takuma Inoue=>Takuma Inoue no free photo / Tenshin Nasukawa=>Tenshin Nasukawa OK
+
+## facesMissing
+Joshua Pacio: no free photo
+Keito Yamakita: no free photo
+Cortes Acosta: no article
+Joshua Buatsi: no free photo
+Willy Hutchinson: no free photo
+Lucas Gabriel: no article
+Jack Siatarnyokkrok P.K: no article
+Navajo Stirling: no free photo
+Masamichi Yabuki: no free photo
+Tom Nolan: no free photo
+YodUdon K.Tongtalingchan: no article
+Nelson Hysa: no free photo
+Chihiro Sawada: no free photo
+Anastasia Nikolakakos: no article
+Emanuel Navarrete: no free photo
+Dalton Smith: no free photo
+Alberto Puello: no free photo
+Sebastian Fundora: no free photo
+Joaquin Buckley: no free photo
+Fabio Wardley: no free photo
+Hiroki Akimoto: no free photo
+Callum Smith: no free photo
+Christian Leroy Duncan: no free photo
+Floyd Schofield: no free photo
+Lucas Bahdi: no free photo
+Ricardo Sandoval: no free photo
+Kade Ruotolo: no free photo
+Ok Rae-yoon: no free photo
+Anthony Cacace: no free photo
+Nick Ball: no free photo
+Osleys Iglesias: no free photo
+Oliver Zaren: no free photo
+Shamil Erdogan: no article
+Paul Elliott: not a fighter page (Topics referred to by the same term)
+Takuma Inoue: no free photo
+Waldo Cortes-Acosta: no free photo
+Ryujin Nasukawa: no free photo
+Raichi Nagai: no article
+Virna Jandiroba: no free photo
+Taiki Naito: no free photo
+Kongthoranee Sor.Sommai: no free photo
+Superball Sit Chor.: no article
+Saksri SuperlekMuaythai: no article
+Kevin Vallejos: no free photo
+Jacobe Smith: no article
+Sitthichai Sor.Dechapan: no article
+Arthur Evan: no article
+Hiromi Wajima: no free photo
+Mohammad Siasarani: no free photo
+Yaroslav Amosov: no free photo
+Erin Blanchfield: no free photo
+Nadaka Yoshinari: no free photo
+Rifdean Masdor: no article
+Masashi Kumura: no free photo
+Ellis Badr Barboza: no article
+Elijah Smith: not a fighter page (Topics referred to by the same term)
+Davey Grant: no free photo
+Chatpet Suablackmuaythai: no article
+Saipetlek CoachnatSamartmuaythai: no article
+Cody Durden: no free photo
+EV 2026-10-25 boxing | Emanuel Navarrete - | O'Shaquie Foster Y | card 1 [{"section":"Main event","weight":"WBO, IBF & WBC super featherweight unification","a":"Emanuel Navarrete","b":"O'Shaquie Foster","res":"vs.","method":"","round":"","time":"","aLinks":{"wp":"Emanuel N
+EV 2026-10-31 boxing | Christian Mbilli Y | Saul 'Canelo' Alvarez Y | card 1 [{"section":"Main event","weight":"WBC super middleweight title","a":"Christian Mbilli","b":"Saul 'Canelo' Alvarez","res":"vs.","method":"","round":"","time":"","aLinks":{"wp":"Christian M'billi"},"bL
+EV 2026-11-06 boxing | Paul Gallen Y | Nelson Asofa-Solomona Y | card 1 [{"section":"Main event","weight":"Heavyweight (No Limit Boxing)","a":"Paul Gallen","b":"Nelson Asofa-Solomona","res":"vs.","method":"","round":"","time":"","aLinks":{"wp":"Paul Gallen"},"bLinks":{"wp
+EV 2026-11-07 boxing | Joshua Buatsi - | Willy Hutchinson - | card 1 [{"section":"Main event","weight":"Interim WBC light heavyweight title","a":"Joshua Buatsi","b":"Willy Hutchinson","res":"vs.","method":"","round":"","time":"","aLinks":{"wp":"Joshua Buatsi"},"bLinks"
+EV 2026-11-26 boxing | Masamichi Yabuki - | Miel Fajardo Y | card 1 [{"section":"Main event","weight":"IBF flyweight title","a":"Masamichi Yabuki","b":"Miel Fajardo","res":"vs.","method":"","round":"","time":"","aLinks":{"wp":"Masamichi Yabuki"},"bLinks":{"wp":"Miel F
+EV 2026-11-28 boxing | Agit Kabayel Y | Nelson Hysa - | card 1 [{"section":"Main event","weight":"WBC heavyweight title","a":"Agit Kabayel","b":"Nelson Hysa","res":"vs.","method":"","round":"","time":"","aLinks":{"wp":"Agit Kabayel"},"bLinks":{"wp":"Nelson Hysa"}
+EV 2026-11-14 ufc | Gane Y | Hokit Y | card 13 [{"section":"Main card (Paramount+)","weight":"Heavyweight","a":"Ciryl Gane (c)","b":"Josh Hokit","res":"vs.","method":"","round":"","time":"","aImg":"https://thumb.wikimedia.org/wikipedia/commons/thu
+EV 2026-11-07 ufc | Cortes Acosta - | Walker Y | card 14 [{"section":"Fight card (Paramount+)","weight":"Heavyweight","a":"Johnny Walker","b":"Waldo Cortes-Acosta","res":"def.","method":"TKO (punches)","round":"3","time":"2:27","aImg":"https://thumb.wikimed
+EV 2026-11-21 ufc | Procházka Y | Stirling - | card 9 [{"section":"Main card (Paramount+)","weight":"Light Heavyweight","a":"Jiří Procházka","b":"Navajo Stirling","res":"vs.","method":"","round":"","time":"","aImg":"https://thumb.wikimedia.org/wikipedia/
+EV 2026-11-01 ufc | Moicano Y | Nolan - | card 12 [{"section":"Fight card (Paramount+)","weight":"Lightweight","a":"Tom Nolan","b":"Renato Moicano","res":"def.","method":"TKO (punches and elbows)","round":"3","time":"1:28","bImg":"https://thumb.wikim
+EV 2026-10-30 onefc | Khunsuk - | YodUdon - | card 12 [{"section":"ONE Friday Fights 176","weight":"Atomweight Muay Thai","a":"Khunsuk T1.FightAcademy","b":"YodUdon K.Tongtalingchan","res":"def.","method":"KO (punch to the body)","round":"2","time":"2:59
+EV 2026-11-06 onefc | Isannuea - | Jack - | card 14 [{"section":"ONE Friday Fights 177","weight":"Bantamweight Muay Thai","a":"Jack Siatarnyokkrok P.K","b":"Isannuea Chotbangsaen","res":"def.","method":"Decision (unanimous)","round":"3","time":"3:00"},
+EV 2026-11-07 onefc | Gabriel - | Magomedov Y | card 9 [{"section":"ONE Fight Night 49","weight":"Lightweight MMA","a":"Magomed Magomedov","b":"Lucas Gabriel","res":"def.","method":"Decision (split)","round":"3","time":"5:00","aImg":"https://thumb.wikimed
+EV 2026-11-18 onefc | Joshua Pacio - | Keito Yamakita - | card 10 [{"section":"ONE Samurai 5","weight":"Strawweight MMA","a":"Joshua Pacio (c)","b":"Keito Yamakita","res":"vs.","method":"","round":"","time":"","aLinks":{"wp":"Joshua Pacio","sd":"154651"},"bLinks":{"
+EV 2026-12-02 onefc | Chihiro Sawada - | Anastasia Nikolakakos - | card 7 [{"section":"ONE Samurai 6","weight":"Women's Atomweight MMA","a":"Chihiro Sawada","b":"Anastasia Nikolakakos","res":"vs.","method":"","round":"","time":"","aLinks":{"wp":"Chihiro Sawada"}},{"section"
