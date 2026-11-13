@@ -2093,7 +2093,7 @@ for (const e of [...formPast, ...tsdbBack, ...events].filter(e => e.status === '
   // cricket form is kept per format, so a Test shows Test results and a T20I shows T20I ones
   const f = e.sport !== 'cricket' ? '' : (c => /\bT20/i.test(c) ? 'T20I' : /\bODI\b|one.day/i.test(c) ? 'ODI' : /\bTest\b/.test(c) ? 'Test' : '')(`${e.comp || ''} ${e.stage || ''}`);
   for (const [me, them, res] of [[e.home, e.away, r[0]], [e.away, e.home, r[1]]]) {
-    const l = formAll[`${e.sport}|${me}${formG(e)}`] ||= [], x = { id: e.id, d: e.startUTC.slice(0, 10), o: them, r: res, s: e.score || '', ...(f ? { f } : {}) };
+    const l = formAll[`${e.sport}|${me}${formG(e)}`] ||= [], x = { id: e.id, d: e.startUTC.slice(0, 10), t: e.startUTC.slice(0, 16) + 'Z', o: them, r: res, s: e.score || '', ...(f ? { f } : {}) };
     // the same game again takes the newer word: the same id, the same opponent that day, or (from another source, whose
     // date can be a day out) the next or day before
     const i = l.findIndex(o => o.id === x.id || (sameOpp(o.o, x.o) && (o.d === x.d || (e.sport !== 'cricket' && String(o.id).split('-')[0] !== String(x.id).split('-')[0] && Math.abs(Date.parse(o.d) - Date.parse(x.d)) <= DAY))));
@@ -2271,10 +2271,13 @@ diag.checks = `${checks.noResult.length} games with no result after their time, 
 // in data/wiki-pages.json is played in windows months apart (the Nations Championship: its Southern Hemisphere games in
 // July, the Northern in November, over 40 games in all), so while it's on it keeps every game from its first window
 // too, up to 200 days back, and its Results show the games behind its tables
-const compSize = events.reduce((m, e) => m.set(e.comp, (m.get(e.comp) || 0) + 1), new Map());
+// A series' games each carry their own number ("Constellation Cup, Game 1", "1st T20I v India"), so they are counted
+// as one series without it: the first game stays while the last is still to come, and the series score stays whole
+const seriesOf = e => String(e.comp || '').replace(/^\d+(st|nd|rd|th)\s+/i, '').replace(/,\s*(?:(?:game|match|test|leg)\s+\d+|\d+(?:st|nd|rd|th)\s).*$/i, '');
+const compSize = events.reduce((m, e) => m.set(seriesOf(e), (m.get(seriesOf(e)) || 0) + 1), new Map());
 const wholeSeason = new Set(wikiCfg.pages.filter(p => p.wholeSeason).map(p => p.comp));
-const ongoing = new Set(events.filter(e => e.comp && !e.formOnly && (compSize.get(e.comp) <= 30 || wholeSeason.has(e.comp)) && now - new Date(e.startUTC) < 21 * DAY).map(e => e.comp));
-const keepDays = e => ongoing.has(e.comp) ? (wholeSeason.has(e.comp) ? 200 : 120) : 0;
+const ongoing = new Set(events.filter(e => e.comp && !e.formOnly && (compSize.get(seriesOf(e)) <= 30 || wholeSeason.has(e.comp)) && now - new Date(e.startUTC) < 21 * DAY).map(seriesOf));
+const keepDays = e => ongoing.has(seriesOf(e)) ? (wholeSeason.has(e.comp) ? 200 : 120) : 0;
 const feed = {
   generatedAt: new Date(now).toISOString(),
   ...(site ? { site } : {}),
