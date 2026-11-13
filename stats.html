@@ -392,7 +392,8 @@ th { color: var(--muted); font-weight: 600 }
       <section class="card"><h2>Countries</h2><div class="bars" id="country"></div><p class="note">Visitors, by the country their connection comes from.</p></section>
       <section class="card"><h2>Networks</h2><h3 class="thh">Outside NZ, by network</h3><div class="bars nets" id="network"></div>
         <h3 class="thh">Not counted: cloud servers</h3><div class="bars nets" id="datacentre"></div>
-        <p class="note">From 25 Oct 2026. A network is the internet provider a visitor outside NZ connects through: a phone or home provider is a person. A page run from a cloud company's servers (Amazon, Google, Microsoft and the like) is a script, a link checker or a search engine, so those are left out of every other number here, and so is a VPN on those networks.</p></section>
+        <h3 class="thh">Stopped at the daily limit</h3><div class="bars nets" id="capped"></div>
+        <p class="note">From 25 Oct 2026. A network is the internet provider a visitor outside NZ connects through: a phone or home provider is a person. A page run from a cloud company's servers (Amazon, Google, Microsoft and the like) is a script, a link checker or a search engine, so those are left out of every other number here, and so is a VPN on those networks. From 13 Nov 2026, one address that sends more than 2,000 messages in a day is a script posing as many visitors: it's stopped there for the rest of the day and listed once under the daily limit (an NZ address just as NZ).</p></section>
     </div>
 
     <h2 class="grp" id="g-use">Using the site</h2>
@@ -528,6 +529,7 @@ async function fetchStats() {
     const r = await fetch(`${API}/stats?days=400`, { headers: { authorization: 'Bearer ' + pw }, cache: 'no-store' });
     const j = await r.json().catch(() => ({}));
     if (r.status === 401) { store.del('statspw'); throw new Error('That password isn\'t right.'); }
+    if (r.status === 429) throw new Error('Too many wrong passwords from this connection today. It opens again after midnight, NZ time.');
     if (r.status === 503) throw new Error('The stats password isn\'t set up yet: add STATS_PASSWORD in the GitHub repo\'s secrets, then wait for the stats server to redeploy.');
     if (!r.ok) throw new Error('The stats server answered with an error (' + r.status + ').');
     data = j; covLive = await live; store.set('statspw', pw);
@@ -1001,6 +1003,7 @@ function draw() {
   const netLabel = k => { const [c, o = ''] = k.split(' · '); let n = o; while (LEGAL.test(n)) n = n.replace(LEGAL, ''); return `${n || 'Unknown'} (${c && c !== '?' ? c : '?'})`; };
   bars('network', sums.network, netLabel);
   bars('datacentre', sums.datacentre, netLabel);
+  bars('capped', sums.capped, k => k === 'NZ' ? 'An NZ address' : netLabel(k));
   share('device', 'device', [['phone', 'Phone'], ['computer', 'Computer'], ['tablet', 'Tablet']], sums, list, ds);
   share('mode', 'mode', [['browser', 'Browser'], ['app', 'App']], sums, list, ds);
   bars('ref', sums.ref, k => k);

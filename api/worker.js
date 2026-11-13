@@ -35,13 +35,18 @@ const USE = new Set(['Free to watch', 'Events button', 'Results button', 'News b
 // a visitor's settings, counted once a day each: results hidden or shown, card size, colour theme
 const OG_THEMES = ['green', 'black', 'ocean', 'paua', 'purple', 'pink', 'red', 'orange', 'kowhai', 'lime'];
 const VIEWS = new Set(['big', 'mixed', 'compact', 'list']), THEMES = new Set(['green', 'ocean', 'red', 'black', 'kowhai', 'paua', 'purple', 'orange', 'lime', 'pink', 'kauri', 'silver', 'tui', 'navy', 'olive']);
+const SPEEDS = new Set(['under 1s', '1-2s', '2-4s', '4-8s', '8s or more']); // the page's five load time bands
 const keyOf = (e, k) => {
   let v = String(k ?? '').trim();
   if (e === 'search' || e === 'search0') v = v.toLowerCase().replace(/[^a-z0-9 '&.-]/g, '').replace(/\s+/g, ' ').trim().slice(0, 40);
   // a long error is cut before its version tag (" [v655]"), which stays on the end so the stats page can tell a fixed error from one that's back
-  if (e === 'error') { v = v.replace(/https?:\/\/\S+/g, '(link)').replace(/\s+/g, ' '); const tag = v.match(/ \[v\d+\]$/)?.[0] || ''; v = v.slice(0, v.length - tag.length).slice(0, 120 - tag.length) + tag; }
+  if (e === 'error') { v = v.replace(/https?:\/\/\S+/g, '(link)').replace(/[\u0000-\u001f\u007f]/g, ' ').replace(/\s+/g, ' '); const tag = v.match(/ \[v\d+\]$/)?.[0] || ''; v = v.slice(0, v.length - tag.length).slice(0, 120 - tag.length) + tag; }
   if (e === 'use' && !USE.has(v)) return '';
-  if ((e === 'hidesport' || e === 'showsport') && !/^[a-z]{2,20}$/.test(v)) return '';
+  if ((e === 'hidesport' || e === 'showsport' || e === 'sport') && !/^[a-z]{2,20}$/.test(v)) return '';
+  if (e === 'speed' && !SPEEDS.has(v)) return '';
+  // a team's or a competition's name: letters, numbers and the few marks names have, and no longer than a name is
+  if (e === 'team') v = v.replace(/[^\p{L}\p{N} '&.+()/,-]/gu, '').replace(/\s+/g, ' ').trim().slice(0, 60);
+  if (e === 'comp') v = v.replace(/[^\p{L}\p{N} '&.+()/:,|-]/gu, '').replace(/\s+/g, ' ').trim().slice(0, 80);
   if (e === 'out' && !/^[a-z0-9.-]{3,60}$/.test(v = v.toLowerCase())) return '';
   if (e === 'watch' || e === 'follow' || e === 'unfollow') v = v.replace(/[^\p{L}\p{N} '&.+()/-]/gu, '').slice(0, 40);
   if (e === 'game') v = v.replace(/[^\p{L}\p{N} '&.+()/:,-]/gu, '').replace(/\s+/g, ' ').slice(0, 100);
@@ -58,6 +63,14 @@ const browserOf = ua => /SamsungBrowser/.test(ua) ? 'Samsung' : /Edg(A|iOS)?\//.
 const versionOf = ua => (ua.match(/(?:iPhone|iPad|iPod).*? OS (\d+)/) || ua.match({ Samsung: /SamsungBrowser\/(\d+)/, Edge: /Edg(?:A|iOS)?\/(\d+)/, Opera: /OPR\/(\d+)/, Firefox: /(?:Firefox|FxiOS)\/(\d+)/,
   Chrome: /(?:CriOS|Chrome)\/(\d+)/, Safari: /Version\/(\d+)/ }[browserOf(ua)] || /$^/) || [])[1] || '';
 const MAX_PER_VISITOR = 300; // a day's hits from one visitor; past that it's a script, not a person
+// a day's hits from one address, whatever browser each says it is: a home or an office stays far under this, so past it
+// it's a script changing its name to look like many visitors. Checked before anything is written, and what is over is
+// dropped and costs no writes. The address's tally is near enough, not exact: each visitor's first hit and every tenth
+// after are added to it, so most hits cost no extra write. The stats page is told once (metric 'capped': the country,
+// and outside NZ the network) so the owner can see it happened
+const MAX_PER_ADDRESS = 2000;
+// a day's reports from one address (five from one visitor), and a day's wrong stats passwords from one address
+const MAX_REPORTS_ADDRESS = 15, MAX_WRONG_PASSWORDS = 30;
 // cloud companies' networks: a page run from one of their servers is a script, a link checker or a search engine posing as
 // a browser, not a person (from 25 Oct 2026 these are counted apart, under their country and network, and nowhere else).
 // Microsoft (GitHub's servers too), Amazon, Google, DigitalOcean, Hetzner, OVH, Linode, Vultr, Oracle, Alibaba,
@@ -75,30 +88,47 @@ const cors = origin => ({
   'access-control-allow-methods': 'GET, POST, OPTIONS', 'access-control-allow-headers': 'content-type, authorization', vary: 'origin',
 });
 const json = (data, status, origin) => new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store', ...cors(origin) } });
+// today's salt, made by whichever message comes first, and remembered while this copy of the server stays awake
+let saltNow = { day: '', v: '' };
+async function saltOf(env, day) {
+  if (saltNow.day === day) return saltNow.v;
+  const fresh = hex(crypto.getRandomValues(new Uint8Array(16)));
+  await env.DB.prepare('INSERT OR IGNORE INTO salt (day, v) VALUES (?1, ?2)').bind(day, fresh).run();
+  const v = await env.DB.prepare('SELECT v FROM salt WHERE day = ?1').bind(day).first('v');
+  if (v) saltNow = { day, v };
+  return v || fresh;
+}
+// one more for a code on today's list, and how many that makes. Past its limit nothing more is written (a flood costs
+// no writes) and the answer is 0; the one message that goes over the limit answers limit + 1
+const tick = async (env, day, h, max) => (await env.DB.prepare('INSERT INTO seen (day, h, n) VALUES (?1, ?2, 1) ON CONFLICT (day, h) DO UPDATE SET n = n + 1 WHERE n <= ?3 RETURNING n').bind(day, h, max).first('n')) || 0;
+const codeOf = async (...parts) => (await sha(parts.join('|'))).slice(0, 20);
 const bump = (env, day, metric, key = '') => env.DB.prepare('INSERT INTO daily (day, metric, key, n) VALUES (?1, ?2, ?3, 1) ON CONFLICT (day, metric, key) DO UPDATE SET n = n + 1').bind(day, metric, String(key).slice(0, 120));
 
 async function hit(req, env, body) {
   const ua = req.headers.get('user-agent') || '';
   const origin = req.headers.get('origin') || '';
   if (BOT.test(ua) || (origin && !SITE.test(origin))) return;
-  let b = {};
+  let b = null;
   try { b = JSON.parse(body); } catch { return; }
-  const day = nzDay();
-  // today's salt, made by whichever visit comes first
-  const fresh = hex(crypto.getRandomValues(new Uint8Array(16)));
-  await env.DB.prepare('INSERT OR IGNORE INTO salt (day, v) VALUES (?1, ?2)').bind(day, fresh).run();
-  const salt = (await env.DB.prepare('SELECT v FROM salt WHERE day = ?1').bind(day).first('v')) || fresh;
-  const h = (await sha(`${salt}|${req.headers.get('cf-connecting-ip') || ''}|${ua}`)).slice(0, 20);
-  const n = await env.DB.prepare('INSERT INTO seen (day, h, n) VALUES (?1, ?2, 1) ON CONFLICT (day, h) DO UPDATE SET n = n + 1 RETURNING n').bind(day, h).first('n');
-  if (n > MAX_PER_VISITOR) return;
+  if (!b || typeof b !== 'object' || Array.isArray(b)) return;
+  const day = nzDay(), ip = req.headers.get('cf-connecting-ip') || '', salt = await saltOf(env, day);
+  // the address first, then the visitor (the address and the browser)
+  const addr = await codeOf(salt, ip, 'address');
+  if ((await env.DB.prepare('SELECT n FROM seen WHERE day = ?1 AND h = ?2').bind(day, addr).first('n')) >= MAX_PER_ADDRESS) return;
+  const h = await codeOf(salt, ip, ua);
+  const n = await tick(env, day, h, MAX_PER_VISITOR);
+  if (!n || n > MAX_PER_VISITOR) return;
+  if (n === 1 || n % 10 === 0) {
+    const step = n === 1 ? 1 : 10;
+    const sum = await env.DB.prepare('INSERT INTO seen (day, h, n) VALUES (?1, ?2, ?3) ON CONFLICT (day, h) DO UPDATE SET n = n + ?3 RETURNING n').bind(day, addr, step).first('n');
+    if (sum >= MAX_PER_ADDRESS && sum - step < MAX_PER_ADDRESS) await bump(env, day, 'capped', req.cf?.country === 'NZ' ? 'NZ' : network(req)).run();
+  }
   if (DATACENTRE.has(req.cf?.asn)) { if (n === 1) await bump(env, day, 'datacentre', network(req)).run(); return; }
   const writes = [];
   // the home-screen app and the browser on the same phone look like one visitor (same address and browser), and that
   // visitor's mode is set by whichever came first that day; so the app keeps its own tally of people who used it today
   if (b.app) {
-    const ha = (await sha(`${salt}|${req.headers.get('cf-connecting-ip') || ''}|${ua}|app`)).slice(0, 20);
-    const na = await env.DB.prepare('INSERT INTO seen (day, h, n) VALUES (?1, ?2, 1) ON CONFLICT (day, h) DO UPDATE SET n = n + 1 RETURNING n').bind(day, ha).first('n');
-    if (na === 1) writes.push(bump(env, day, 'appvisitors'));
+    if (await tick(env, day, await codeOf(salt, ip, ua, 'app'), MAX_PER_VISITOR) === 1) writes.push(bump(env, day, 'appvisitors'));
   }
   // a visit: the page loaded, or someone came back to it after 3+ minutes away ('open'); counted per visitor too
   const visit = !b.e || b.e === 'open';
@@ -113,7 +143,7 @@ async function hit(req, env, body) {
     writes.push(bump(env, day, 'views'), bump(env, day, 'hour', nzHour()));
     if (b.app) writes.push(bump(env, day, 'appviews'));
     const ref = String(b.r || '').toLowerCase().replace(/^www\./, '');
-    if (ref && !/(^|\.)kickoff\.kiwi$/.test(ref) && /^[a-z0-9.-]+$/.test(ref)) writes.push(bump(env, day, 'ref', ref));
+    if (ref && !/(^|\.)kickoff\.kiwi$/.test(ref) && /^[a-z0-9.-]{3,60}$/.test(ref)) writes.push(bump(env, day, 'ref', ref));
   }
   // the visitor's first message today, whatever it is (an app left open since yesterday may start with a tap)
   if (n === 1) {
@@ -137,7 +167,8 @@ async function hit(req, env, body) {
 
 // a visitor's report or idea (k: 'idea'): the note (3 to 500 characters), and the game's id and name when sent from a
 // game's pop-up.
-// Five a day from one visitor at most (counted with the same scrambled code as visits, deleted with it)
+// Five a day from one visitor at most, and fifteen from one address (counted with the same kind of scrambled code as
+// visits, deleted with it)
 const MAX_REPORTS = 5;
 async function report(req, env, body) {
   const ua = req.headers.get('user-agent') || '', origin = req.headers.get('origin') || '';
@@ -147,13 +178,11 @@ async function report(req, env, body) {
   const clean = (v, n) => String(v ?? '').replace(/[\u0000-\u001f\u007f]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, n);
   const note = clean(b.note, 500), id = clean(b.g, 120), title = clean(b.t, 160);
   if (note.length < 3) return 400;
-  const day = nzDay();
-  const fresh = hex(crypto.getRandomValues(new Uint8Array(16)));
-  await env.DB.prepare('INSERT OR IGNORE INTO salt (day, v) VALUES (?1, ?2)').bind(day, fresh).run();
-  const salt = (await env.DB.prepare('SELECT v FROM salt WHERE day = ?1').bind(day).first('v')) || fresh;
-  const h = (await sha(`${salt}|${req.headers.get('cf-connecting-ip') || ''}|${ua}|report`)).slice(0, 20);
-  const n = await env.DB.prepare('INSERT INTO seen (day, h, n) VALUES (?1, ?2, 1) ON CONFLICT (day, h) DO UPDATE SET n = n + 1 RETURNING n').bind(day, h).first('n');
-  if (n > MAX_REPORTS) return 429;
+  const day = nzDay(), ip = req.headers.get('cf-connecting-ip') || '', salt = await saltOf(env, day);
+  const na = await tick(env, day, await codeOf(salt, ip, 'reports'), MAX_REPORTS_ADDRESS);
+  if (!na || na > MAX_REPORTS_ADDRESS) return 429;
+  const n = await tick(env, day, await codeOf(salt, ip, ua, 'report'), MAX_REPORTS);
+  if (!n || n > MAX_REPORTS) return 429;
   await env.DB.batch([
     env.DB.prepare('INSERT INTO reports (at, kind, ref, note) VALUES (?1, ?2, ?3, ?4)').bind(new Date().toISOString(), b.k === 'idea' ? 'idea' : id ? 'game' : 'site', id ? `${id}|${title}` : '', note),
     bump(env, day, 'use', b.k === 'idea' ? 'Idea sent' : 'Report sent'),
@@ -254,12 +283,13 @@ export default {
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
     if (url.pathname === '/hit' && req.method === 'POST') {
       // the message is read before replying (it's gone after), then counted after the reply so the page never waits
-      const body = await req.text().catch(() => '');
-      ctx.waitUntil(hit(req, env, body).catch(e => console.error('hit failed:', e.message)));
+      // (a real message is a few hundred characters; anything much bigger isn't one, and isn't read)
+      const body = +req.headers.get('content-length') > 4000 ? '' : (await req.text().catch(() => '')).slice(0, 4001);
+      if (body && body.length <= 4000) ctx.waitUntil(hit(req, env, body).catch(e => console.error('hit failed:', e.message)));
       return new Response(null, { status: 204, headers: cors(origin) });
     }
     if (url.pathname === '/report' && req.method === 'POST') {
-      const body = (await req.text().catch(() => '')).slice(0, 4000);
+      const body = +req.headers.get('content-length') > 8000 ? '' : (await req.text().catch(() => '')).slice(0, 4000);
       const status = await report(req, env, body).catch(e => (console.error('report failed:', e.message), 500));
       return new Response(null, { status, headers: cors(origin) });
     }
@@ -273,7 +303,15 @@ export default {
     if (url.pathname === '/stats' && req.method === 'GET') {
       if (!env.STATS_PASSWORD) return json({ error: 'not-set-up' }, 503, origin);
       const given = (req.headers.get('authorization') || '').replace(/^Bearer\s+/i, '');
-      if (!given || (await sha(given)) !== (await sha(env.STATS_PASSWORD))) return json({ error: 'wrong-password' }, 401, origin);
+      // thirty wrong passwords from one address in a day and it waits until tomorrow (NZ time), right password or not, so
+      // nobody can sit guessing. If the tally can't be read or kept, the password alone decides
+      const day = nzDay(), code = await saltOf(env, day).then(salt => codeOf(salt, req.headers.get('cf-connecting-ip') || '', 'password')).catch(() => '');
+      const wrong = code ? await env.DB.prepare('SELECT n FROM seen WHERE day = ?1 AND h = ?2').bind(day, code).first('n').catch(() => 0) : 0;
+      if (wrong >= MAX_WRONG_PASSWORDS) return json({ error: 'too-many-tries' }, 429, origin);
+      if (!given || (await sha(given)) !== (await sha(env.STATS_PASSWORD))) {
+        if (given && code) await tick(env, day, code, MAX_WRONG_PASSWORDS).catch(() => 0);
+        return json({ error: 'wrong-password' }, 401, origin);
+      }
       // the coverage now live first, so the page shows the current version (only for the owner, so no one else can
       // make the server fetch and write)
       await snapCoverage(env);
