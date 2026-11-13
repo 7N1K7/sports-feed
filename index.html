@@ -2570,7 +2570,9 @@ function seriesTally(e, now, whole) {
   const n = all.findIndex(x => x.id === e.id) + 1, games = whole ? all : all.slice(0, n - 1);
   const base = s => (s || '').replace(/\s+Women('s)?$/, '').toLowerCase();
   const wins = { [e.home]: 0, [e.away]: 0 };
-  const key = `${compOf(e)}|${f}`, open = seriesShown.has(key);
+  // the key names every result of the series hidden right now, so a tap opens the score on all its cards and a newly
+  // hidden result (or next year's tour) needs a new tap
+  const key = `${compOf(e)}|${f}|${all.filter(x => x.status === 'final' && isHidden(x, now)).map(x => x.id).join(',')}`, open = seriesShown.has(key);
   let counted = 0, hid = 0, due = 0;
   for (const x of games) {
     if (x.status === 'final' && isHidden(x, now)) { hid++; if (!open) continue; }
