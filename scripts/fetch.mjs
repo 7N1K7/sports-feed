@@ -1887,11 +1887,11 @@ async function phoneAlerts(events) {
     if (!e.timeTBC && e.status !== 'final' && mins > 0 && mins <= 40)
       due.push({ e, kind: 'start', title: `${what} starts in ${Math.max(5, Math.round(mins / 5) * 5)} min`, message: where || 'Starting soon', priority: 4 });
     // the same signs as the card's rain stamp: the state of play, or a fresh rain headline about the game; once a day.
-    // A headline is never sent in the alert itself, as it can carry how the game is going
+    // Neither a headline nor the state of play is sent in the alert itself, as they can carry how the game is going
     const wetPlay = /\b(rain|wet|bad light|delayed|no play)\b/i.test(e.progress || '');
     const wetNews = e.wxNews && (!e.wxNews.at || now - Date.parse(e.wxNews.at) < 6 * 36e5);
     if (e.sport === 'cricket' && e.status !== 'final' && start < now && now - start < 6 * DAY && (wetPlay || wetNews))
-      due.push({ e, kind: `rain-${nzDay}`, title: `🌧 Rain delay: ${gameTitle(e)}`, message: wetPlay ? e.progress : 'Rain in the news for this game: the headline is on its card', priority: 3 });
+      due.push({ e, kind: `rain-${nzDay}`, title: `🌧 Rain delay: ${gameTitle(e)}`, message: wetPlay ? 'Play is held up: the state of play is on its card' : 'Rain in the news for this game: the headline is on its card', priority: 3 });
     // a Test or first-class game ends days after it starts
     const long = e.sport === 'cricket' && /\bTests?\b|first.class|Plunket/i.test(`${e.format || ''} ${e.stage || ''} ${e.comp || ''}`);
     if (e.status === 'final' && start < now && now - start < (long ? 6 * DAY : 12 * 36e5) && !/postponed|cancel/i.test(`${e.score || ''} ${e.summary || ''}`))
