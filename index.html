@@ -2251,7 +2251,7 @@ const COMP_LABEL = {};
 const sesKind = n => /practice/i.test(n) ? 'prac' : /qualif|shootout/i.test(n) ? 'qual' : 'race';
 const titleParts = (t, ses) => String(t || '').split(' · ').map(p => `<span class="tp${ses && p === ses ? ` ses-${sesKind(ses)}` : ''}">${esc(p)}</span>`).join('<span class="tsep"> · </span>');
 // a friendly is just a Friendly on its card (International friendly ran long on a phone); its pop-up and menu keep the full name
-const cardComp = e => /^International friendly$/i.test(e.comp || '') ? 'Friendly' : e.team === 'aucricket' || e.team === 'intlcricket' ? compOf(e) + (e.stage ? ' · ' + e.stage : '') : /^(hockey|basketball|netball|baseball|cycling)$/.test(e.sport) ? plural(e.comp) + (e.stage ? ' · ' + e.stage : '') : plural(e.comp);
+const cardComp = e => /^International friendly$/i.test(e.comp || '') ? 'Friendly' : e.team === 'aucricket' || e.team === 'intlcricket' ? compOf(e) + (e.stage ? ' · ' + e.stage : '') : /^(blackcaps|whiteferns)$/.test(e.team) && e.stage ? plural(e.comp) + ' · ' + e.stage : /^(hockey|basketball|netball|baseball|cycling)$/.test(e.sport) ? plural(e.comp) + (e.stage ? ' · ' + e.stage : '') : plural(e.comp);
 function compOf(e) {
   const c = e.comp || '';
   if (e.sport === 'mma') return e.team === 'onefc' ? 'ONE Championship' : 'UFC';
@@ -2573,9 +2573,10 @@ const fmtOf = c => (/\bT20I?\b/i.test(c) ? 'T20I' : /\bODI\b/.test(c) ? 'ODI' : 
 // hidden" is a button that shows it (counting the hidden results, which stay hidden on their own cards), and the score
 // shown that way hides it again. A card counts the games before its own; the pop-up's Series results every game so far
 function seriesTally(e, now, whole) {
-  const f = fmtOf(e.comp || '');
+  // the match number is in the stage for some tours ("1st Test"), not the competition's name
+  const f = fmtOf(`${e.comp || ''} ${e.stage || ''}`);
   if (e.sport !== 'cricket' || !f || !/(^|v )(Black Caps|White Ferns|Australia)( v |$)/.test(compOf(e))) return null;
-  const all = (FEED.events || []).filter(x => compOf(x) === compOf(e) && fmtOf(x.comp || '') === f).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
+  const all = (FEED.events || []).filter(x => compOf(x) === compOf(e) && fmtOf(`${x.comp || ''} ${x.stage || ''}`) === f).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
   if (all.length < 2) return null;
   const n = all.findIndex(x => x.id === e.id) + 1, games = whole ? all : all.slice(0, n - 1);
   const base = s => (s || '').replace(/\s+Women('s)?$/, '').toLowerCase();
