@@ -1,8 +1,39 @@
-CHECKS generatedAt 2026-11-13T18:13:35.486Z age min 31
-keys noResult thinWeeks
+WIKI
+search NZ football results: New Zealand men's national football team | India national football team results (2020–present) | India national football team | 2026 in New Zealand | India national football team results
+search Ford Trophy: 2026–27 Ford Trophy | Ford Trophy | 2026–27 FA Vase | 2025–26 Ford Trophy | Harrison Ford
 
-## noResult
-[{"s":"boxing","c":"Heavyweight","n":"Paul Gallen v Nelson Asofa-Solomona","at":"2026-11-06T08:00:00Z","src":"https://www.fightnewsaustralia.com/watch-gallen-vs-nas-face-off-turns-ugly/","noSource":true},{"s":"boxing","c":"Interim WBC light heavyweight title","n":"Joshua Buatsi v Willy Hutchinson","at":"2026-11-07T12:00:00Z","src":"https://queensberry.co.uk/pages/joshua-buatsi-vs-willy-hutchinson-2-point-to-prove","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Northern Districts v Otago Volts","at":"2026-11-07T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Wellington Firebirds v Auckland Aces","at":"2026-11-07T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Central Stags v Canterbury","at":"2026-11-07T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Auckland Aces v Otago Volts","at":"2026-11-11T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Central Stags v Wellington Firebirds","at":"2026-11-11T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"cricket","c":"Ford Trophy","n":"Canterbury v Northern Districts","at":"2026-11-11T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/","noSource":true},{"s":"football","c":"International friendly","n":"New Zealand v India","at":"2026-11-12T06:00:00Z","src":"https://www.aucklandstadiums.co.nz/event/all-whites-vs-india","noSource":true}]
+## 2026–27 Ford Trophy (18802 chars)
+  |name_ND=[[Northern Districts men's cricket team|Northern Districts]]
+  |name_OTG=[[Otago cricket team|Otago]]
+  <!-- Otago -->|w3+1|
+  |teams=[[Auckland cricket team|Auckland]], [[Canterbury cricket team|Canterbury]], [[Central Districts cricket team|Central Districts]], {{nobr|[[Northern Districts men's cricket team|Northern Districts]]}}, [[Otago cric
+  | result = Northern Districts won by 62 runs
+  | toss = Northern Districts won the toss and elected to bat.
+  | notes = Sam Cassidy, Taylor Bettelheim (Central Districts) and James Naylor (Northern Districts) all made their List A debuts.
+  * Points: Northern Districts 4, Central Districts 0
+  | result = Otago won by 6 wickets 
+  | toss = Otago won the toss and elected to field.
+  | notes = Sam Morgan (Wellington) and Tom Jones (Otago) both made their List A debuts.
+  * Points: Otago 5, Wellington 0
 
-## thinWeeks
-[]
+## Joshua Buatsi (22168 chars)
+  |height=6 ft 2 in<ref name=stats2024>[[DAZN]] tale of the tale before the [[Willy Hutchinson]] fight.</ref>
+  In his next fight, he became the [[World Boxing Organization|WBO]] [[Interim championship|interim]] light-heavyweight champion thanks to a split decision win over [[Willy Hutchinson]] at [[Wembley Stadium]] on 21 Septemb
+  On 7 November 2026 at the AO Arena in Manchester, Buatsi faced [[Willy Hutchinson]] for the vacant [[World Boxing Council|WBC]]  light-heavyweight title. He lost by unanimous decision.<ref>{{Cite web |last=Coates |first=
+  |align=left|[[Willy Hutchinson]]
+  |align=left|[[Willy Hutchinson]]
+
+## Willy Hutchinson (13964 chars)
+  | height         = 6 ft 1 in<ref name=stats2024>[[DAZN]] tale of the tale before the [[Joshua Buatsi]] fight.</ref>
+  Hutchinson fought [[Joshua Buatsi]] for the [[World Boxing Organization|WBO]] [[Interim championship|interim]] light-heavyweight title at [[Wembley Stadium]] on the undercard of [[Anthony Joshua vs Daniel Dubois]] on 21 
+  ==== Hutchinson vs. Buatsi II ====
+  On 7 November 2026 at the [[AO Arena]] in Manchester, Hutchinson faced [[Joshua Buatsi]] for the vacant WBC light-heavyweight title. Hutchinson defeated Buatsi by unanimous decision, with scorecards of 117–112, 115–113, 
+  |style="text-align:left;"|[[Joshua Buatsi]]
+  |align=left|[[Joshua Buatsi]]
+
+## Paul Gallen (77488 chars)
+  On 7 November 2026, Gallen was defeated in a first round knockout after a series of brutal uppercuts by [[Nelson Asofa-Solomona]], after the match Gallen announced his retirement from boxing.<ref>{{Cite web |date=2026-11
+  |style="text-align:left;"|[[Nelson Asofa-Solomona]]
+
+## Nelson Asofa-Solomona (24946 chars)
+  On 7 November 2026, Asofa-Solomona defeated [[Paul Gallen]] via knockout in the first round, he later apologised for running into the crowd after a member of the audience called him a racial slur.<ref>{{Cite web |date=20
