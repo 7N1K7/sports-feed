@@ -2171,10 +2171,13 @@ const BOTH_KEYS = new Set(['tennis', 'rlwc', 'nzboxing']);
 const sideKeys = g => ALL_KEYS.filter(k => !BOTH_KEYS.has(k) && (g === 'w') === W_KEYS.has(k));
 
 const store = {
-  get(k, d) { try { const v = localStorage.getItem('sf.' + k); return v == null ? d : JSON.parse(v) } catch { return d } },
+  // a saved value of the wrong type (a number where a list of names belongs) falls back to the default, so a damaged
+  // setting can't stop the page loading
+  get(k, d) { try { const v = localStorage.getItem('sf.' + k); if (v == null) return d; const p = JSON.parse(v);
+    return d == null || (Array.isArray(d) ? Array.isArray(p) && p.every(x => typeof x === 'string') : typeof p === typeof d && !Array.isArray(p) && p !== null) ? p : d } catch { return d } },
   set(k, v) { try { localStorage.setItem('sf.' + k, JSON.stringify(v)) } catch {} },
 };
-tzPick = store.get('tz', 'Pacific/Auckland'); NZ = tzPick === 'device' ? deviceTZ : tzPick;
+tzPick = store.get('tz', 'Pacific/Auckland'); if (tzPick !== 'device' && !TZ_LIST.some(([z]) => z === tzPick)) tzPick = 'Pacific/Auckland'; NZ = tzPick === 'device' ? deviceTZ : tzPick;
 // competitions with games most days start switched off, so they can't fill the feed: for new visitors, and for people
 // whose picks were saved before they were added. My teams says they're off, and turns them on
 const OPT_IN = new Set(['nba']);
@@ -2210,7 +2213,7 @@ let revealed = new Set(store.get('revealed', []));
 let seriesShown = new Set(store.get('seriesShown', []));
 let newsKind = 'all', newsPage = 0;
 // sports picked in the All / Rugby / Cricket… row; several can be on at once, none means All
-let sportSel = (v => new Set(Array.isArray(v) ? v : v && v !== 'all' ? [v] : []))(store.get('sport', []));
+let sportSel = (v => new Set(Array.isArray(v) ? v.filter(x => typeof x === 'string') : typeof v === 'string' && v !== 'all' ? [v] : []))(store.get('sport', null));
 const sportOn = k => !sportSel.size || sportSel.has(k);
 let compSel = store.get('comp', '');
 // the competition page last counted as opened (the one kept from the last visit isn't counted again)
