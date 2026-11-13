@@ -2362,7 +2362,11 @@ function wetOn(text, day, days) {
 // for golf's leaders, 3pm for the racing) for its window, and between days the card waits under On today like a Test
 const STAGE = { golf: { hrs: 4, name: (i, n) => i < n - 1 ? `Round ${i + 1}` : '' }, sailing: { hrs: 2, name: (i, n) => i < n - 1 ? `Day ${i + 1}` : '' } };
 const stagesOf = e => STAGE[e.sport] && e.openUTC && e.status !== 'final' ? Math.round((Date.parse(e.startUTC) - Date.parse(e.openUTC)) / 864e5) + 1 : 0;
-const stageAt = (e, i, n) => Date.parse(e.startUTC) - (n - 1 - i) * 864e5;
+// day i of a game played over several days (a Test, a golf round) starts at the first day's local clock time, also
+// across a clock change in the venue's zone, where adding 24 hours a day would put it an hour out
+const tzOff = (z, t) => { try { const p = Object.fromEntries(dtf('en-US', { timeZone: z, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }).formatToParts(new Date(t)).map(x => [x.type, +x.value])); return Date.UTC(p.year, p.month - 1, p.day, p.hour % 24, p.minute) - Math.floor(t / 6e4) * 6e4; } catch { return 0; } };
+const dayAt = (e, i) => { const s = Date.parse(e.startUTC), t = s + i * 864e5; return e.tz && i ? t + tzOff(e.tz, s) - tzOff(e.tz, t) : t; };
+const stageAt = (e, i, n) => dayAt(e, i - (n - 1));
 const stageName = (e, st) => STAGE[e.sport].name(st.i, st.n) || START_LABEL[e.sport];
 // a race weekend's session (its name is on the card's competition line): a race or sprint has lights out, the rest start
 const startLabel = e => e.session ? (/^(race \d+|sprint)$/i.test(e.session) ? 'Lights out' : 'Starts') : START_LABEL[e.sport] || 'Start';
@@ -2394,7 +2398,6 @@ function nextHere(e) {
 const FIGHT_HRS = { mma: 6.5, boxing: 5 };
 function onNow(e, now) {
   if (stagesOf(e) > 1) { const st = stageNow(e, now); return st?.on ? stageName(e, st) : null; }
-  const s = new Date(e.startUTC);
   const f = e.sport === 'cricket' ? formatOf(e) : '';
   const days = DAYS[f] || 1;
   // a live state of play checked in the last 90 minutes ("Match delayed by rain, day 2") keeps the match on whatever
@@ -2411,7 +2414,7 @@ function onNow(e, now) {
   const early = e.usual ? 0 : e.timeTBC ? 5 * 36e5 : 0, late = e.usual ? 0 : e.timeTBC ? 4 * 36e5 : 0;
   const over = dayOver(e), cut = days > 1 ? Infinity : nextHere(e);
   for (let i = over; i < days; i++) {
-    const a = s.getTime() + i * 864e5 - early, b = Math.min(cut, a + early + hrs(i) * 36e5 + late);
+    const a = dayAt(e, i) - early, b = Math.min(cut, a + early + hrs(i) * 36e5 + late);
     if (now >= a && now <= b) return days > 1 ? `Day ${i + 1}` : 'On now';
   }
   return null;
@@ -2443,9 +2446,9 @@ function between(e, now) {
   if (stagesOf(e) > 1) { const st = stageNow(e, now); return st && !st.on ? `${stageName(e, st)} next` : null; }
   if (e.status === 'final' || e.sport !== 'cricket') return null;
   const days = DAYS[formatOf(e)] || 1, s = new Date(e.startUTC).getTime();
-  if (days < 2 || now < s || now > s + (days - 1) * 864e5 + 14 * 36e5 || onNow(e, now)) return null;
+  if (days < 2 || now < s || now > dayAt(e, days - 1) + 14 * 36e5 || onNow(e, now)) return null;
   // the evening after the last day's play has no next day: the match is over, its result just not in yet
-  const next = Math.floor((now - s) / 864e5) + 2;
+  let next = 1; while (next <= days && dayAt(e, next - 1) <= now) next++;
   return next > days ? null : `Day ${next} next`;
 }
 const running = (e, now) => onNow(e, now) || between(e, now);
@@ -2456,7 +2459,7 @@ const startsSoon = (e, now) => e.status !== 'final' && e.status !== 'live' && !e
 // when a game next gets under way: its start, or for a Test between days the start of the next day's play
 // (or, while a later day is being played, when that day began: day 4 of a Test shows day 4's date, not the first day's)
 const nextAt = (e, now) => { const st = stagesOf(e) > 1 && stageNow(e, now); if (st) return new Date(stageAt(e, st.i, st.n));
-  const b = between(e, now) || (e.sport === 'cricket' && /^Day [2-9]/.test(onNow(e, now) || '') ? onNow(e, now) : ''); return new Date(+new Date(e.startUTC) + (b ? (+b.match(/\d+/)[0] - 1) * 864e5 : 0)); };
+  const b = between(e, now) || (e.sport === 'cricket' && /^Day [2-9]/.test(onNow(e, now) || '') ? onNow(e, now) : ''); return new Date(b ? dayAt(e, +b.match(/\d+/)[0] - 1) : Date.parse(e.startUTC)); };
 // roughly when a finished game ended, so one that ran past midnight counts as that day's result;
 // a Test's last day isn't known, so take its scheduled last day, but never later than now
 const LEN_H = { rugby: 2, league: 2, football: 2, mma: 5, boxing: 4, motor: 2, tennis: 3, hockey: 2, basketball: 2.5, netball: 1.5, sailing: 2.5, golf: 5, baseball: 3, cycling: 4 };
