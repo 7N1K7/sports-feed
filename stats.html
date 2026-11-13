@@ -217,6 +217,28 @@ button, input { font: inherit; color: inherit }
 .cov th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; text-align: center; padding: 4px 6px }
 .cov th:first-child, .cov td:first-child { text-align: left }
 .cov td { padding: 6px; border-top: 1px solid var(--line); text-align: center; white-space: nowrap }
+/* At a glance: five set lines, each a label and one sentence that goes to its section; the same height in every range */
+.glance { list-style: none; margin: 0; padding: 0 }
+.glance li { display: grid; grid-template-columns: 8.2em minmax(0, 1fr); column-gap: 12px; align-items: baseline; padding: 7px 0; border-top: 1px solid var(--line); font-size: 15px; line-height: 1.45 }
+.glance li:first-child { border-top: 0; padding-top: 0 } .glance li:last-child { padding-bottom: 0 }
+.glance .gl { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 700 }
+.glance a { color: inherit; text-decoration: none; min-width: 0; height: 1.45em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical }
+.glance a:hover b, .glance a:focus-visible b { text-decoration: underline } .glance .mu { color: var(--muted) }
+.glance .up { color: #51cf66; font-weight: 700 } .glance .dn { color: #ff8787; font-weight: 700 } .glance .al { color: #ff922b; font-weight: 700 }
+@media (max-width: 640px) { .glance li { grid-template-columns: minmax(0, 1fr) } .glance li:not(.one) a { height: 2.9em; -webkit-line-clamp: 2 } }
+/* Wanted and not found: two lists of eight set rows, side by side (one under the other on a phone) */
+.wtop { margin: 0 0 12px; font-size: 15px; line-height: 1.45; height: 2.9em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical }
+.wcols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 28px } .wcols > div { min-width: 0 }
+.want { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-rows: 40px }
+.want li { display: grid; grid-template-columns: 1.4em minmax(0, 1fr) auto 3.2em; grid-template-rows: auto 4px; column-gap: 8px; row-gap: 4px; align-content: center; font-size: 14px }
+.want .rk { grid-row: 1 / 3; align-self: center; color: var(--muted); font-size: 12px; text-align: right; font-variant-numeric: tabular-nums }
+.want .k { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600 }
+.want .d { color: var(--muted); font-size: 12px; white-space: nowrap } .want .n { font-weight: 700; text-align: right; font-variant-numeric: tabular-nums }
+.want .t { grid-column: 2 / 5; display: flex; gap: 2px; height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 7%, transparent); overflow: hidden }
+.want .t i { display: block; height: 100%; background: var(--series-1); border-radius: 2px } .want .t i.w2 { background: var(--series-2) } .want .t i.w3 { background: var(--series-3) }
+.want li.none .k { color: var(--muted); font-weight: 400 }
+.wkey { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; font-size: 12px; color: var(--muted) } .wkey i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; background: var(--series-1); margin-right: 5px } .wkey i.w2 { background: var(--series-2) } .wkey i.w3 { background: var(--series-3) }
+@media (max-width: 640px) { .wcols { grid-template-columns: minmax(0, 1fr); gap: 18px } .wtop { height: 5.8em; -webkit-line-clamp: 4 } }
 .gaplist { margin: 12px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.5 } .gaplist b { margin-right: 6px }
 /* a competition takes a set number of lines (its name, then what was missing, on a phone or a small computer; one line
    on a wide screen), so the list keeps its size whatever the range */
@@ -365,6 +387,7 @@ th { color: var(--muted); font-weight: 600 }
     <div id="errAlert" class="erralert" role="status"></div>
 
     <h2 class="grp" id="g-overview">Overview</h2>
+      <section class="card" data-name="At a glance"><h2>At a glance</h2><ul class="glance" id="glance"></ul></section>
       <section class="card" aria-live="polite" data-name="Visits">
       <div class="hero"><span class="big" id="heroN">0</span><span class="lbl" id="heroL">visits</span></div>
       <div class="tiles" id="tiles"></div>
@@ -463,6 +486,15 @@ th { color: var(--muted); font-weight: 600 }
     </div>
 
     <h2 class="grp" id="g-data">Data coverage</h2>
+      <section class="card" id="wantCard" data-name="Wanted and not found"><h2>Wanted and not found</h2>
+        <p class="wtop" id="wantTop"></p>
+        <div class="wcols">
+          <div><h3 class="thh">Searched for, nothing found</h3><ol class="want" id="wantS"></ol></div>
+          <div><h3 class="thh">Games opened with something missing</h3><ol class="want" id="wantG"></ol>
+            <div class="wkey"><span><i></i>No start time</span><span><i class="w2"></i>No way to watch</span><span><i class="w3"></i>No squads</span></div></div>
+        </div>
+        <p class="note">What to add next, over the chosen days. A search counts when it found no team or game; the days are how many different days it was searched on, so one person trying many times doesn't top the list. A game counts each time it was opened before it was over with a start time, a way to watch or squads missing.</p>
+      </section>
     <div class="grid two">
       <section class="card"><h2>Gaps people hit</h2><div id="gapseen"></div><div id="gapcomp"></div><p class="note">Games opened before they're over, by sport, and how many of those openings were missing a start time, a way to watch or squads (squads only for a game between two named sides), then the competitions where it happens most. From 1 Nov 2026.</p></section>
       <section class="card"><h2>Searches that found nothing</h2><div class="bars" id="search0"></div><p class="note">Teams or games people looked for that the site doesn't have.</p></section>
@@ -1175,6 +1207,7 @@ function draw() {
     return `${x.back ? `⚠ Back after the ${v} fix (seen ${dayLabel(x.seen, { day: 'numeric', month: 'short' })})` : `✓ Fixed in ${v} (${dayLabel(day, { day: 'numeric', month: 'short' })})`}: ${k} · ${what}`; },
     Object.keys(errs).sort((a, b) => errRank(a) - errRank(b) || errs[b].n - errs[a].n || a.localeCompare(b)));
   errAlert(Object.keys(lastSeen).filter(k => { const x = fixOf(k); return !x || x.back; }), lastSeen, lastN);
+  drawGlance(sums, live, ds, { n, avg: n === 1 ? people : peopleW / ndW, was });
   // weekdays: each one's average visitors over the days of that weekday in the range
   const wd = {}, wn = {};
   for (const d of whole) { const k = dayLabel(d, { weekday: 'long' }); wd[k] = (wd[k] || 0) + per[d].visitors; wn[k] = (wn[k] || 0) + 1; }
@@ -1321,6 +1354,39 @@ function tapsOn(list, ds) {
     return a + t(usedOf(x)) - Math.min(t(x.watch), t(x.outlink)) - Math.min(games, ev.game || 0) - Math.min(teams, ev.team || 0); }, 0);
 }
 // games opened in each competition (a game is counted as "Competition: Home v Away")
+// what people wanted and didn't find: searches with no result (and on how many days), and the competitions whose games
+// were opened most with something missing
+function wanted(sums, list, ds) {
+  const KINDS = ['No start time', 'No way to watch', 'No squads'], comps = bag();
+  const words = Object.entries(sums.search0 || {}).map(([k, n]) => ({ k, n, days: list.filter(d => ds[d]?.search0?.[k]).length })).sort((a, b) => b.days - a.days || b.n - a.n);
+  for (const [k, n] of Object.entries(sums.gapseen || {})) { const [what, , comp] = k.split(' · '); if (what === 'Nothing missing' || !comp) continue;
+    const m = comps[comp] ||= { k: comp, all: 0, by: [0, 0, 0] }; for (const w of what.split(' + ')) { const i = KINDS.indexOf(w); if (i >= 0) { m.by[i] += n; m.all += n; } } }
+  return { words, gaps: Object.values(comps).sort((a, b) => b.all - a.all), KINDS };
+}
+// At a glance: the few things worth knowing first, one line each, and the Wanted and not found card
+function drawGlance(sums, list, ds, v) {
+  const top = (o, f = k => k, n = 3) => Object.entries(o || {}).sort((a, b) => b[1] - a[1]).slice(0, n).map(([k, c]) => [f(k), c]);
+  const names = (rows, noun) => rows.length ? `<b>${esc(rows[0][0])}</b> ${noun} (${fmtN(rows[0][1])})${rows.length > 1 ? `<span class="mu">, then ${rows.slice(1).map(r => esc(r[0])).join(' and ')}</span>` : ''}` : '<span class="mu">Nothing yet in this range.</span>';
+  const w = wanted(sums, list, ds), W = ['no start time', 'no way to watch', 'no squads'];
+  const g = w.gaps[0], gi = g ? g.by.indexOf(Math.max(...g.by)) : -1;
+  const ch = v.was && v.was !== '–' && v.was !== 'new' ? ` <span class="${v.was[0] === '▲' ? 'up' : 'dn'}">${esc(v.was)}</span> <span class="mu">on the days before</span>` : '';
+  const errs = document.querySelector('#errAlert.on b')?.textContent.replace(/^\W+/, '') || '', c = data.checks, down = c?.down?.length || 0;
+  const site = !c?.last ? '' : c.last.ok ? `site fine at the last check${down ? `, ${down} problem${down > 1 ? 's' : ''} in 30 days` : ''}` : 'the site had a problem at the last check';
+  const rows = [
+    ['Visitors', '#g-overview', `<b>${avgN(v.avg)}</b> ${+avgN(v.avg) === 1 ? 'person' : 'people'} ${v.n === 1 ? 'so far today' : 'a day'}${ch}`],
+    ['Most opened', '#g-popular', names(top(sums.hubs), 'is the most opened competition')],
+    ['Watching on', '#g-popular', names(top(sums.watch), 'is the most tapped way to watch')],
+    ['Wanted', '#wantCard', w.words[0] ? `<b>${esc(w.words[0].k)}</b> searched ${w.words[0].n} time${w.words[0].n > 1 ? 's' : ''} on ${w.words[0].days} day${w.words[0].days > 1 ? 's' : ''}<span class="mu">, nothing found</span>` : '<span class="mu">No search came up empty in this range.</span>'],
+    ['Biggest gap', '#wantCard', g ? `<b>${esc(g.k)}</b> opened ${g.by[gi]} time${g.by[gi] > 1 ? 's' : ''} <span class="mu">with ${W[gi]}</span>` : '<span class="mu">No game was opened with something missing.</span>'],
+    ['Health', '#g-health', `${errs ? `<span class="al">${esc(errs)}</span>` : 'No new errors'}${site ? `<span class="mu"> · ${site}</span>` : ''}`],
+  ];
+  $('glance').innerHTML = rows.map(([l, to, t], i) => `<li${i ? '' : ' class="one"'}><span class="gl">${l}</span><a href="${to}">${t}</a></li>`).join('');
+  $('wantTop').innerHTML = w.words[0] || g ? [w.words[0] ? `Most wanted: <b>${esc(w.words[0].k)}</b>, searched ${w.words[0].n} time${w.words[0].n > 1 ? 's' : ''} on ${w.words[0].days} day${w.words[0].days > 1 ? 's' : ''} with nothing found.` : '', g ? `Biggest gap: <b>${esc(g.k)}</b>, opened ${g.by[gi]} time${g.by[gi] > 1 ? 's' : ''} with ${W[gi]}.` : ''].join(' ') : 'Nothing was searched for and not found, and no game was opened with something missing, in this range.';
+  const eight = (rows, f) => Array.from({ length: 8 }, (_, i) => rows[i] ? f(rows[i], i) : `<li class="none"><span class="rk">${i + 1}</span><span class="k">–</span><span class="d"></span><span class="n"></span><span class="t"></span></li>`).join('');
+  const maxS = Math.max(1, ...w.words.slice(0, 8).map(x => x.n)), maxG = Math.max(1, ...w.gaps.slice(0, 8).map(x => x.all));
+  $('wantS').innerHTML = eight(w.words, (x, i) => `<li><span class="rk">${i + 1}</span><span class="k" title="${esc(x.k)}">${esc(x.k)}</span><span class="d">on ${x.days} day${x.days > 1 ? 's' : ''}</span><span class="n">${fmtN(x.n)}</span><span class="t"><i style="width:${(100 * x.n / maxS).toFixed(1)}%"></i></span></li>`);
+  $('wantG').innerHTML = eight(w.gaps, (x, i) => `<li><span class="rk">${i + 1}</span><span class="k" title="${esc(x.k)}">${esc(x.k)}</span><span class="d">${esc(W[x.by.indexOf(Math.max(...x.by))])}</span><span class="n">${fmtN(x.all)}</span><span class="t">${x.by.map((n, j) => n ? `<i class="${['', 'w2', 'w3'][j]}" style="width:${(100 * n / maxG).toFixed(1)}%"></i>` : '').join('')}</span></li>`);
+}
 function compsOf(sums) { const o = bag(); for (const [k, n] of Object.entries(sums.gameopen || {})) { const c = k.includes(': ') ? k.slice(0, k.indexOf(': ')) : 'Other'; o[c] = (o[c] || 0) + n; } return o; }
 function drawPopular(sums, ps, list, ds) {
   $('popSub').textContent = ps ? 'with the change on the days before, today left out' : '';
