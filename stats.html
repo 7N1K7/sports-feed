@@ -442,7 +442,7 @@ th { color: var(--muted); font-weight: 600 }
       <section class="card"><h2>Teams turned on and off</h2><h3 class="thh">Turned on (followed)</h3><div class="bars" id="follow"></div>
         <h3 class="thh">Turned off (dropped)</h3><div class="bars" id="unfollow"></div><p class="note">Teams turned on and off in My teams.</p></section>
       <section class="card"><h2>Spoilers</h2><div class="bars" id="spoil"></div><p class="note">Visitors, by whether they keep results hidden (counted once a day each).</p></section>
-      <section class="card"><h2>Sports hidden</h2><div class="bars" id="hidesport"></div><p class="note">Taps on Hide sport in My teams, by sport (Fighting counts as MMA), from 24 Oct 2026. Sports followed shows how many visitors have each sport on.</p></section>
+      <section class="card"><h2>Sports hidden</h2><div class="bars" id="hidesport"></div><p class="note">Taps on Hide sport in My teams, by sport (Fighting counts as MMA), from 24 Oct 2026. Sports turned off shows how many visitors have each sport off.</p></section>
       <section class="card"><h2>Sports shown again</h2><div class="bars" id="showsport"></div><p class="note">Taps on Show sport, bringing a hidden sport back, from 24 Oct 2026.</p></section>
       <section class="card"><h2>Card size</h2><div class="bars" id="view"></div><p class="note">Visitors, by the card size they see. Until 7 Nov, phones counted as Large, though phones only show List or Compact.</p></section>
       <section class="card"><h2>Theme colour</h2><div class="bars" id="theme"></div><p class="note">Visitors, by the colour theme they picked.</p></section>
@@ -592,6 +592,8 @@ const countedFrom = (prev, ...ms) => ms.every(m => prev.from >= firstOf(m, ''));
 const bag = () => Object.create(null);
 // an average a day: one decimal under 10, so a small site doesn't show 0
 const avgN = v => v < 10 ? v.toFixed(1).replace(/\.0$/, '') : fmtN(Math.round(v));
+// a count and its word, one or many ("1 visit", "2 visits"); s is the count as shown
+const pl = (n, one, many, s = fmtN(n)) => `${s} ${n === 1 ? one : many}`;
 // totals for n days ending `back` days before today: per day, and per metric/key
 function shape(n = spanDays(), back = 0) {
   const list = [];
@@ -648,8 +650,8 @@ async function drawCoverage() {
   $('checks').innerHTML = nr.length + tw.length ? `<details><summary>Possibly missing or moved · ${nr.length + tw.length}</summary>`
     + [[nr.filter(x => !x.noSource), 'No result after its time, while others in its competition have one (moved, called off, or its result missed)'], [nr.filter(x => x.noSource), 'No result, in a competition with no result source (check it was played when listed)']]
       .map(([x, l]) => x.length ? `<p><b>${l}:</b> ${x.map(x => `${esc(x.c)}: ${esc(x.n)} (${day(x.at)})`).join('; ')}</p>` : '').join('')
-    + (tw.some(x => x.stopped) ? `<p><b>No games listed after its last one, and no final yet (next rounds not added, or the season's end):</b> ${tw.filter(x => x.stopped).map(x => `${esc(x.c)}: last game ${day(x.week + 'T00:00:00+13:00')}`).join('; ')}</p>` : '')
-    + (tw.some(x => !x.stopped) ? `<p><b>Fewer games than usual in a week (a game left out, a fixture change, or a planned break):</b> ${tw.filter(x => !x.stopped).map(x => `${esc(x.c)}: week of ${day(x.week + 'T00:00:00+13:00')}, ${x.n} game${x.n === 1 ? '' : 's'} (usually ${x.usual})`).join('; ')}</p>` : '')
+    + (tw.some(x => x.stopped) ? `<p><b>No games listed after its last one, and no final yet (next rounds not added, or the season's end):</b> ${tw.filter(x => x.stopped).map(x => `${esc(x.c)}: last game ${dayLabel(x.week)}`).join('; ')}</p>` : '')
+    + (tw.some(x => !x.stopped) ? `<p><b>Fewer games than usual in a week (a game left out, a fixture change, or a planned break):</b> ${tw.filter(x => !x.stopped).map(x => `${esc(x.c)}: week of ${dayLabel(x.week)}, ${x.n} game${x.n === 1 ? '' : 's'} (usually ${x.usual})`).join('; ')}</p>` : '')
     + '</details>' : '';
 }
 // the feed's last build: only these of its notes (the rest can name winners), as plain text
@@ -897,7 +899,7 @@ function drawTrend() {
     const fi = pts.findIndex(p => p.cov[k]);
     return `<tr><td>${esc(sportName(k))}</td>` + COV_M.map((M, m) => {
       const now = covVal(M, covFig(M, pts[L].cov, k));
-      if (now == null) return '<td class="c na">–</td>';
+      if (now == null || !pts[L].cov[k]) return '<td class="c na">–</td>'; // nothing, or a sport no longer covered
       let b = -1;
       for (let i = fi; i <= L && b < 0; i++) if (pts[i].cov[k] && covVal(M, covFig(M, pts[i].cov, k)) != null) b = i;
       const was = b >= 0 && b < L ? covChange(M, now - covVal(M, covFig(M, pts[b].cov, k)), pts[b].v) : null;
@@ -1048,22 +1050,22 @@ function draw() {
   $('heroN').textContent = fmtN(visits);
   const was = prev && countedFrom(prev, 'opens') && change(tot('opens', prev.now), tot('opens', prev.was));
   // the change leaves today out, and Today has none (it's only part of a day so far); the words fit the lines the old ones did
-  $('heroL').textContent = `visits ${n === 1 ? 'so far today' : days ? `in the last ${n} days` : `since ${short(list[0])}`}${was && was !== '–' ? ` (${was}, today left out)` : ''} · ${n === 1 ? `${fmtN(people)} people` : `${avgN(people / nd)} people a day`} · ${fmtN(views)} page views`;
+  $('heroL').textContent = `${visits === 1 ? 'visit' : 'visits'} ${n === 1 ? 'so far today' : days ? `in the last ${n} days` : `since ${short(list[0])}`}${was && was !== '–' ? ` (${was}, today left out)` : ''} · ${n === 1 ? pl(people, 'person', 'people') : pl(+avgN(people / nd), 'person a day', 'people a day', avgN(people / nd))} · ${pl(views, 'page view', 'page views')}`;
   // today and yesterday whatever the range
   const { per: p2 } = shape(2), today = p2[data.today], yday = p2[dayAdd(data.today, -1)];
   // the app's share is of the people on the days app users were counted
   const appP = list.filter(d => d >= firstOf('appvisitors')).reduce((a, d) => a + per[d].visitors, 0);
   const tile = (l, v, s) => `<div class="tile"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
-  $('tiles').innerHTML = tile('Today', fmtN(today.visitors), `people · ${fmtN(today.opens)} visits`)
-    + tile('Yesterday', fmtN(yday.visitors), `people · ${fmtN(yday.opens)} visits`)
-    + tile('Average a day', avgN(people / nd), `people · ${avgN(visits / nd)} visits`)
+  $('tiles').innerHTML = tile('Today', fmtN(today.visitors), `${today.visitors === 1 ? 'person' : 'people'} · ${pl(today.opens, 'visit', 'visits')}`)
+    + tile('Yesterday', fmtN(yday.visitors), `${yday.visitors === 1 ? 'person' : 'people'} · ${pl(yday.opens, 'visit', 'visits')}`)
+    + tile('Average a day', avgN(people / nd), `${+avgN(people / nd) === 1 ? 'person' : 'people'} · ${pl(+avgN(visits / nd), 'visit', 'visits', avgN(visits / nd))}`)
     + tile('Visits per person', people ? (visits / people).toFixed(1) : '–', 'a day, on average')
-    + tile('Using the app', appP ? Math.round(100 * tot('appvisitors') / appP) + '%' : '–', `of people · ${fmtN(tot('appvisitors'))} app users, ${fmtN(tot('appviews'))} app page views`)
+    + tile('Using the app', appP ? Math.round(100 * tot('appvisitors') / appP) + '%' : '–', `of people · ${pl(tot('appvisitors'), 'app user', 'app users')}, ${pl(tot('appviews'), 'app page view', 'app page views')}`)
     + (() => { const taps = tapsOn(list, ds), tv = visits ? taps / visits : 0;
         const rate = sh => tot('opens', sh) ? tapsOn(sh.list, sh.ds) / tot('opens', sh) : null;
         const ok = prev && countedFrom(prev, 'opens', 'use', 'event', 'sport', 'watch', 'outlink', 'follow', 'unfollow', 'hidesport', 'showsport');
         const pn = ok && rate(prev.now), pv = ok && rate(prev.was), ch = pn != null && pv != null ? change(Math.round(pn * 10), Math.round(pv * 10)) : '';
-        return tile('Taps a visit', visits ? tv.toFixed(1) : '–', `${fmtN(taps)} taps${ch && ch !== '–' ? ` · ${ch} on the days before` : ''}`); })();
+        return tile('Taps a visit', visits ? tv.toFixed(1) : '–', `${pl(taps, 'tap', 'taps')}${ch && ch !== '–' ? ` · ${ch} on the days before` : ''}`); })();
   // a day on its own is no line: Today shows the last 7 days
   const VIS = [['visitors', 'People', 'var(--series-1)'], ['opens', 'Visits', 'var(--series-2)'], ['views', 'Page views', 'var(--series-3)']];
   const w7 = n < 3 ? shape(7) : null, cl = (w7 || { list }).list.filter(d => d >= d0);
@@ -1104,7 +1106,7 @@ function draw() {
     const rows = Object.entries(by).filter(([k]) => k).sort((a, b) => b[1].opened - a[1].opened);
     $('gapseen').innerHTML = rows.length ? `<div class="covwrap"><table class="cov"><thead><tr><th>Sport</th><th>Opened</th>${KINDS.map(k => `<th title="${k}">${SHORT[k]}</th>`).join('')}</tr></thead><tbody>`
       + [...rows, ['', by['']]].map(([k, c]) => `<tr${k ? '' : ' class="tot"'}><td>${esc(k ? SPORT_LABEL[k] || k : 'All sports')}</td><td class="c">${c.opened}</td>${KINDS.map(w => `<td class="c">${pc(c[w] || 0, c.opened)}</td>`).join('')}</tr>`).join('')
-      + '</tbody></table></div>' : '';
+      + '</tbody></table></div>' : '<div class="empty">Nothing yet in this range.</div>';
     // the competitions where people hit most gaps, each with what was missing
     const top = Object.entries(comps).sort((a, b) => b[1].all - a[1].all).slice(0, 10);
     $('gapcomp').innerHTML = top.length ? `<ul class="gaplist">${top.map(([c, m]) => `<li><b>${esc(c)}</b> ${KINDS.filter(w => m[w]).map(w => `${SHORT_W[w]} ${m[w]}`).join(' · ')}</li>`).join('')}</ul>` : ''; }
@@ -1226,7 +1228,8 @@ function bars(id, obj, label, order) {
   const el = $(id);
   // a list in a set order (the days of the week, speeds) keeps every row of it, a dash for one with none in the range
   if (order && obj) obj = { ...Object.fromEntries(order.map(k => [k, null])), ...obj };
-  const rows = Object.entries(obj || {}).sort((a, b) => order ? order.indexOf(a[0]) - order.indexOf(b[0]) : b[1] - a[1]);
+  const at = k => { const i = order.indexOf(k); return i < 0 ? order.length : i; }; // a name not in the order goes last
+  const rows = Object.entries(obj || {}).sort((a, b) => order ? at(a[0]) - at(b[0]) : b[1] - a[1]);
   el.replaceChildren();
   if (!rows.some(([, n]) => n != null)) { const p = document.createElement('div'); p.className = 'empty'; p.textContent = 'Nothing yet in this range.'; el.append(p); showAll(el, id, 0); return; }
   const top = order ? rows : rows.slice(0, 7), rest = order ? 0 : rows.slice(7).reduce((a, r) => a + r[1], 0);
@@ -1388,7 +1391,7 @@ function hours(byHour) {
     tip.replaceChildren();
     const dl = document.createElement('div'); dl.className = 'd'; dl.textContent = `${lab} to ${lab2}`;
     const row = document.createElement('div'); row.className = 'row';
-    const b = document.createElement('b'); b.textContent = fmtN(vals[h]); const t = document.createElement('span'); t.textContent = 'page views';
+    const b = document.createElement('b'); b.textContent = fmtN(vals[h]); const t = document.createElement('span'); t.textContent = vals[h] === 1 ? 'page view' : 'page views';
     row.append(b, t); tip.append(dl, row); tip.hidden = false;
     const left = (m.l + (h + 0.5) * slot) / W * r.width, half = tip.offsetWidth / 2;
     tip.style.left = Math.max(half, Math.min(r.width - half, left)) + 'px'; tip.style.top = '-8px'; tip.style.transform = 'translate(-50%, -100%)';
@@ -1400,6 +1403,8 @@ function hours(byHour) {
 // a line a series each day (people, visits and page views; taps, games and links out): 2px lines on one count axis
 // from zero, hairline grid, end labels, and a crosshair that snaps to a day with every value in the tooltip. The
 // shading under each line shows only in a soft chart look
+// each series' name for a count of one, in a tooltip
+const ONE = { People: 'person', Visits: 'visit', 'Page views': 'page view', 'Games opened': 'game opened', 'Ways to watch': 'way to watch', 'Links out': 'link out' };
 function chart(boxId, list, per, S, what) {
   // room on the right for the end labels ("Games opened 1,234")
   const box = $(boxId), W = Math.max(280, box.clientWidth), H = 240, m = { l: 34, r: Math.max(92, Math.round(22 + 6.4 * Math.max(...S.map(([k, n]) => `${n} ${fmtN(per[list[list.length - 1]][k])}`.length)))), t: 22, b: 24 };
@@ -1461,7 +1466,7 @@ function chart(boxId, list, per, S, what) {
       const row = document.createElement('div'); row.className = 'row';
       const key = document.createElement('i'); key.style.background = c;
       const b = document.createElement('b'); b.textContent = fmtN(per[d][k]);
-      const t = document.createElement('span'); t.textContent = name.toLowerCase();
+      const t = document.createElement('span'); t.textContent = per[d][k] === 1 ? ONE[name] || name.toLowerCase() : name.toLowerCase();
       row.append(key, b, t); tip.append(row);
     }
     tip.hidden = false;
