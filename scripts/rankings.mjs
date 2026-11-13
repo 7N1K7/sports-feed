@@ -110,7 +110,8 @@ function teamTables(tables, cfg) {
     const iRank = col(heads, /^(rank|pos|#)/i), iTeam = col(heads, /^(team|nation|country)\b/i);
     const iVal = col(heads, /^rating/i) >= 0 ? col(heads, /^rating/i) : col(heads, /^(points|pts)/i);
     if (iTeam < 0 || iVal < 0) continue;
-    const rows = body.map(r => ({ rank: iRank >= 0 ? (r[iRank] || '').match(/^\d+/)?.[0] || '' : 'n', name: (r[iTeam] || '').replace(/\s*\(.*?\)\s*$/, '').trim(), val: (r[iVal] || '').replace(/^0+(?=\d)/, '') }))
+    // a tie is written "=5" or "T5": it keeps its row and its number
+    const rows = body.map(r => ({ rank: iRank >= 0 ? (r[iRank] || '').trim().replace(/^[=T]\s*/i, '').match(/^\d+/)?.[0] || '' : 'n', name: (r[iTeam] || '').replace(/\s*\(.*?\)\s*$/, '').trim(), val: (r[iVal] || '').replace(/^0+(?=\d)/, '') }))
       // a footer row spanning the table ("Source: ICC Men's Test Team Rankings, 13 October 2026") is not a team
       .filter(r => r.rank && r.name && /\d/.test(r.val) && r.name !== r.val && !/^(team|total)$|^source\b/i.test(r.name));
     rows.forEach((r, i) => { if (r.rank === 'n') r.rank = String(i + 1); });
@@ -221,8 +222,9 @@ function fighterTables(tables, cfg) {
       if (!div) continue;
       title = women ? `Women's ${div.toLowerCase()}` : div;
     }
-    const rows = t.rows.map(r => ({ rank: (r[iRank] || '').trim(), name: (r[iName] || '').replace(/\s*\(.*?\)\s*$/, '').trim(), iso: iIso >= 0 ? r[iIso] : '', rec: iRec >= 0 ? r[iRec] : '', note: iStatus >= 0 ? r[iStatus] : '' }))
-      .filter(r => /^(C|IC|\d+)$/.test(r.rank) && r.name).slice(0, 17);
+    // a tie ("12 (T)", "T12", "=12") keeps its row and its number
+    const rows = t.rows.map(r => ({ rank: (r[iRank] || '').trim().replace(/^[=T]\s*/i, '').match(/^(IC|C(?![a-z])|\d+)/)?.[1] || '', name: (r[iName] || '').replace(/\s*\(.*?\)\s*$/, '').trim(), iso: iIso >= 0 ? r[iIso] : '', rec: iRec >= 0 ? r[iRec] : '', note: iStatus >= 0 ? r[iStatus] : '' }))
+      .filter(r => r.rank && r.name).slice(0, 17);
     if (rows.length < 5) continue;
     const old = lists.get(title);
     if (!old || (asOf || '') >= (old.asOf || '')) lists.set(title, { sport: cfg.sport, title, page: cfg.page, asOf, rows });
@@ -248,7 +250,7 @@ function fifaList(src, cfg) {
 }
 
 // bumped when the parser changes, so lists cached by the old one are read again
-const CACHE_V = 7;
+const CACHE_V = 8;
 export async function rankings(cache, diag) {
   const now = Date.now(), out = [], notes = [];
   for (const cfg of RANK_PAGES) {
