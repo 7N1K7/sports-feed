@@ -1,6 +1,111 @@
-stats page check | version {"version":739,"changedAt":"2026-11-13T04:25:51Z"} | size 176732
- has id="feedbuild" : true
- has id="capped" : true
- has today left out : true
- has Too many wrong passwords : true
- has ran out of time before : true
+home 200 219866
+links https://www.thesportsdb.com/contribute_guide https://www.thesportsdb.com/free_sports_api https://www.thesportsdb.com/documentation https://www.thesportsdb.com/docs_api_examples https://www.thesportsdb.com/docs_api_testing https://www.thesportsdb.com/docs_api_data https://www.thesportsdb.com/docs_artwork https://www.thesportsdb.com/docs_libraries https://www.thesportsdb.com/docs_kodi_scraper https://www.thesportsdb.com/docs_about.php https://www.thesportsdb.com/docs_terms_of_use.php https://www.thesportsdb.com/docs_privacy_policy.php https://www.thesportsdb.com/docs_refunds.php https://www.thesportsdb.com/docs_contact.php https://www.thesportsdb.com/docs_faq https://www.thesportsdb.com/docs_artwork_guide https://www.thesportsdb.com/terms https://www.thesportsdb.com/docs_upload_rules https://www.thesportsdb.com/docs_rules
+
+==== https://www.thesportsdb.com/contribute_guide | 200 | 2735 chars | 7 matching lines
+ - The site is built and maintained by its users, all data and artwork you see was contributed by someone.
+ - That can be from individual users, or someone who wrote a script, or commercial imports.
+ - Once logged in you can click on any missing artwork thumb to upload some artwork.
+ - The artwork upload page will tell you about what size and format you should submit.
+ - You can also replace artwork using the pencil icon to the right of the image
+ - You can add team members by clicking the 'Add Player' button to any team.
+ - Any user can add a player, edit and upload artwork from the team page
+
+==== https://www.thesportsdb.com/free_sports_api | 200 | 1517 chars | 3 matching lines
+ - TheSportsDB offers a free JSON sports API that allows you to access data and artwork.
+ - You may wish to upgrade to premium for more features and larger limits.
+ - Please state if you are a Premium member
+
+==== https://www.thesportsdb.com/documentation | 200 | 31444 chars | 23 matching lines
+ - The Premium API includes all methods in V1 with larger limits as well as some extra stuff like livescores and video highlight links.
+ - Premium also allows you to use the more modern V2 API. You can find your Premium API key on your user profile if you are a supporter.
+ - Your premium API key is:
+ - V2 is only for premium subscribers and will be the only version developed going forward.
+ - Simply use the base URL above and append the number /123/ to the URL for the free key or replace with your premium API key.
+ - Using your premium API key:
+ - When sending a request to the API base URL, you must include API key in the header using this attribute 'X-API-KEY'.
+ - There are 2 types of images available. JPEG fanart and transparent PNG mostly used for badges and logos.
+ - You can see the different types of artwork and sizes on this page.
+ - Original 720px- /league/fanart/xpwsrw1421853005.jpg
+ - Medium 500px - /league/fanart/xpwsrw1421853005.jpg/medium
+ - Small 250px - /league/fanart/xpwsrw1421853005.jpg/small
+ - Tiny 50px - /league/fanart/xpwsrw1421853005.jpg/tiny
+ - Premium 100 per minute
+ - https://www.thesportsdb.com/api/v1/json/123/search_all_seasons.php?id=4328&badge=1
+ - https://www.thesportsdb.com/api/v1/json/123/eventstv.php?c=Peacock_Premium
+ - Please be aware that we have no control of YouTube and some videos may be geolocked to specific countries.
+ - You can use various filters including date on its own or with a League ID or Sport.
+ - Lookup for any team equipment artwork using its unique ID {idTeam}.
+ - Send your premium API key in the X_API_KEY header.
+ - Unknown sport IDs return {"list":[]}; invalid IDs return HTTP 400.
+ - Authentication docs: v1 API keys and v2 premium API keys
+ - Tool calls require your premium API key in the X_API_KEY header.
+
+==== https://www.thesportsdb.com/docs_api_examples | 200 | 4290 chars | 3 matching lines
+ - Simple example here to show the teams badge after a name search for "Arsenal".
+ - echo 'Team Badge = ' . ($json_decoded->teams[0]->strBadge);
+ - Go Premium (€9 per month)
+
+==== https://www.thesportsdb.com/docs_api_testing | 200 | 2220 chars | 1 matching lines
+ - If you have a premium key then just replace this number with your private API key.
+
+==== https://www.thesportsdb.com/docs_api_data | 200 | 5264 chars | 2 matching lines
+ - [strHomeTeamBadge] => // .PNG image file of the NFL Team's logo
+ - [strAwayTeamBadge] => // .PNG image file of the NFL Team's logo
+
+==== https://www.thesportsdb.com/docs_artwork | 200 | 2050 chars | 1 matching lines
+ - TheSportsDB Artwork - TheSportsDB.com
+
+==== https://www.thesportsdb.com/docs_libraries | 200 | 1344 chars | 0 matching lines
+
+==== https://www.thesportsdb.com/docs_kodi_scraper | 200 | 1488 chars | 0 matching lines
+
+==== https://www.thesportsdb.com/docs_about.php | 200 | 2024 chars | 6 matching lines
+ - We aim to provide a free service to the community, funded by our premium users and donations of time from our editors.
+ - TheSportsDB website is a collection of metadata, artwork, results and tables that with a free sports JSON API.
+ - Since then it has grown into probably the biggest sports databases on the internet.
+ - Our site is free to use for all, via the frontend or the simple JSON interface.
+ - We offer a premium API tier which keeps the lights on...
+ - - 1,000+ Premium users
+
+==== https://www.thesportsdb.com/docs_terms_of_use.php | 200 | 6617 chars | 19 matching lines
+ - You can scrape, copy and modify content returned from the API using the official end points, subject to the image licensing and third-party rights requirements below. Please do not scrape our website. You also cannot remove or alter any copyright or trademark notices.
+ - You may use our API to lookup data and artwork for your development projects. You cannot publish apps to an appstore unless you are a paid subscriber.
+ - You may use our API to develop apps and services as long as you stay within the rate limit. You can use our custom artwork in accordance with its applicable licence and the image licensing section below, and must mention us as the source of the data. A paid API subscription does not grant rights to third-party artwork.
+ - Premium memmber upgrades are eligible for a refund within 14 days from the date of purchase. Additionally, refunds may be issued in the event of server faults that affect the usability of the service.
+ - If you are a premium member and wish to cancel, simply login to patreon or paypal and cancel there. Its instant.
+ - or if you signed up under Patreon then its >> 'My Memberships'
+ - Most of our artwork is custom and is created by our users, you must not pass it off as your own and should link back to our website where appropriate. We comply with any DMCA requests within 24hrs for any copywrite claims.
+ - Any trademarked sports logos must be used 'As is' and should not be modified in any way. This does not grant permission to use a third-party trademark.
+ - All original artwork created by TheSportsDB is licensed under Creative Commons. This applies to rights held by TheSportsDB; it does not relicense third-party photographs, logos or other material included in or hosted alongside that artwork. Check the specific licence and version attached to each image or its original source. If these details are missing, contact us before publishing it.
+ - Where provided, this API field records the Creative Commons status of artwork associated with a record, including player artwork. It is a status flag, not the licence text or proof that every image on that record has the same licence:
+ - Yes : artwork is recorded as Creative Commons. Verify the exact image, creator, source and applicable licence before use.
+ - No : Creative Commons licensing has not been confirmed. Do not treat the image as cleared for reuse.
+ - Unknown , an empty or missing value, or an unrecognised value: licensing is unverified. Artwork marked unknown must not be used in app store submissions or publicly , including published apps, websites, store listings, screenshots, previews, icons and promotional material. Exclude it or use a cleared replacement until its licence or written permission has been confirmed.
+ - Licence conditions and attribution
+ - Follow the actual image licence: credit the creator and TheSportsDB as appropriate, link to the source and licence, and identify changes. Check any NonCommercial, NoDerivatives or ShareAlike conditions against your intended use. Do not impose licence-prohibited restrictions or DRM on the artwork. A Creative Commons flag does not clear third-party trademark, privacy or publicity rights, or imply endorsement by a team, league or athlete. See the Creative Commons guidance .
+ - Check the images both inside your app, including those loaded through the API, and in your store listing. Use only images for which you can demonstrate the necessary rights. Keep an image-by-image record of the source URL, creator, licence and version, attribution, and any written permissions. Make credits accessible in your app and supply rights documentation to reviewers when requested.
+ - Apple App Review Guidelines 5.2, including 5.2.1 and 5.2.2 require appropriate content rights and permission to use third-party services. Google Play intellectual property policy prohibits infringement in apps and store listings and explains how to provide written permission before submission. Follow each store's current policies and ensure its distribution terms are compatible with each image licence. Our paid-subscription requirement for API use in published app store apps still applies; it does not replace image permissions or change existing Creative Commons licence rights. TheSportsDB cannot guarantee app store approval.
+ - You cannot use third-party content in the API unless you have the owner's permission or are legally permitted to do so.
+ - You cannot resell our API in any way without specific permission.
+
+==== https://www.thesportsdb.com/docs_privacy_policy.php | 200 | 6396 chars | 2 matching lines
+ - Legitimate Interest: For technical functionality monitoring including app monitoring, error tracking, analytics, and session replays via cloudflare. These tools are primarily used to identify and fix bugs, improve application performance, and ensure smooth user experience, not for commercial profiling or marketing purposes.
+ - We may include links to third-party websites or services that we do not control. We are not accountable for the practices or content of these linked websites or services. Your use of any third-party website or service is governed by their respective terms and policies, not ours. Using such websites or services is at your own risk, and we advise you to review their privacy policies before sharing any personal information.
+
+==== https://www.thesportsdb.com/docs_refunds.php | 200 | 1489 chars | 3 matching lines
+ - Premium member upgrades are eligible for a refund within 14 days from the date of purchase. Additionally, refunds may be issued in the event of server faults that affect the usability of the service.
+ - If you are a premium member and wish to cancel, simply login to patreon or paypal and cancel there. Its instant.
+ - or if you signed up under Patreon then its >> 'My Memberships'
+
+==== https://www.thesportsdb.com/docs_contact.php | 200 | 1252 chars | 1 matching lines
+ - Contact us anytime via email. Please mention if you are a premium subscriber
+
+==== https://www.thesportsdb.com/docs_faq | 404 | 203 chars | 0 matching lines
+
+==== https://www.thesportsdb.com/docs_artwork_guide | 404 | 203 chars | 0 matching lines
+
+==== https://www.thesportsdb.com/terms | 404 | 203 chars | 0 matching lines
+
+==== https://www.thesportsdb.com/docs_upload_rules | 404 | 203 chars | 0 matching lines
+
+==== https://www.thesportsdb.com/docs_rules | 404 | 203 chars | 0 matching lines
