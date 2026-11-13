@@ -3517,13 +3517,15 @@ const ordn = n => n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd'
 // "New Zealand 88th · India 138th", from the rankings list for the game's sport, men's or women's (and format, in cricket)
 function wrankRow(e) {
   if (solo(e) || FIGHT.test(e.sport) || !e.home || !e.away || !(FEED.rankings || []).length) return '';
-  const w = genderOf(e) === 'w', fw = { Test: 'Tests', ODI: 'ODIs', T20I: 'T20Is' }[e.format] || '';
-  const l = FEED.rankings.filter(x => x.sport === e.sport && !x.kind && !/pound|singles|doubles|wheelchair|top 10|fedex|merit/i.test(x.title) && /women/i.test(x.title) === w)
+  // a wheelchair game takes the wheelchair list, or none (never the men's)
+  const w = genderOf(e) === 'w', wc = sideG(e) === 'wc', fw = { Test: 'Tests', ODI: 'ODIs', T20I: 'T20Is' }[e.format] || '';
+  const l = FEED.rankings.filter(x => x.sport === e.sport && !x.kind && !/pound|singles|doubles|top 10|fedex|merit/i.test(x.title) && /wheelchair/i.test(x.title) === wc && /women/i.test(x.title) === w)
     .find(x => e.sport !== 'cricket' || (fw && x.title.endsWith(fw)));
   if (!l) return '';
   const bare = n => String(n || '').replace(/\s+(Women('s)?|A|XV|XI)$/, '');
   if (/\s(A|XV|XI)$|Invitation/.test(`${e.home} ${e.away}`)) return '';
-  const at = n => l.all?.[bare(n)] || +(l.rows.find(r => r.name === bare(n))?.rank) || 0, a = at(e.home), b = at(e.away);
+  // a side named by its nickname (All Blacks, Black Ferns) is looked up by its country
+  const at = n => (k => l.all?.[k] || +(l.rows.find(r => r.name === k)?.rank) || 0)(sideCountry(n) || bare(n)), a = at(e.home), b = at(e.away);
   if (!a || !b) return '';
   return `${esc(displayName(e.home, e))} ${ordn(a)} <span class="muted">·</span> ${esc(displayName(e.away, e))} ${ordn(b)} <span class="muted small">(${esc(l.page.replace(/ World Rankings?$/, '').replace(/^(FIFA|FIH|FIBA|IRL|ICC|WBSC|World) .*$/, '$1'))})</span>`;
 }
