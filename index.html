@@ -2549,7 +2549,9 @@ const prelimsOnly = e => /\bprelims\b/i.test(`${e.broadcast || ''} ${e.watchAlt 
 // (a fight's prelims stream on YouTube stays in its pop-up's where-to-watch list, off the card)
 const freePrelims = e => prelimsOnly(e) ? (watchOptions(e).find(o => o.prelims)?.label || 'free') : '';
 // Free to watch narrows the games still to come; results and news are left as they are
-const visible = x => (genderSel === 'all' || !genderOf(x) || genderOf(x) === genderSel) && (!nzOnly || isNZ(x)) && (!freeOnly || !x.startUTC || x.status === 'final' || !!freeTo(x) || !!freePrelims(x)) && visible0(x);
+// (Free to watch only hides games from the lists: a series isn't over because its paid games are out of sight)
+const visibleSides = x => (genderSel === 'all' || !genderOf(x) || genderOf(x) === genderSel) && (!nzOnly || isNZ(x)) && visible0(x);
+const visible = x => visibleSides(x) && (!freeOnly || !x.startUTC || x.status === 'final' || !!freeTo(x) || !!freePrelims(x));
 // practice and Supercars' other races (minor) show on their competition's own page, with the Motorsport button picked,
 // or everywhere while that series' sessions are on in Settings; a race weekend's session has no result, so it goes once its two
 // hours on Live now are up. Wheelchair games are kept the same way: on their competition's own page (the RLWC), not the main list
@@ -3341,7 +3343,7 @@ function sessionsHtml(now) {
 // win" (a tournament's final, or the top of a league's only table). Once every game is over; while any of its results
 // is hidden by the spoiler guard, the tick shows with "Show result" in place of the outcome
 // a tour's warm-ups against a local XI ("Tour match") don't count
-const seriesGames = c => (FEED.events || []).filter(e => compOf(e) === c && visible(e) && e.away && !solo(e) && !/tour match|warm-?up|practice/i.test(e.stage || '') && ![e.home, e.away].some(n => /\bXI$/.test(n || '')));
+const seriesGames = c => (FEED.events || []).filter(e => compOf(e) === c && visibleSides(e) && e.away && !solo(e) && !/tour match|warm-?up|practice/i.test(e.stage || '') && ![e.home, e.away].some(n => /\bXI$/.test(n || '')));
 function seriesHidden(c, now) {
   const evs = seriesGames(c);
   return evs.length >= 2 && evs.every(e => isDone(e, now)) ? evs.filter(e => isHidden(e, now)).map(e => e.id) : [];
