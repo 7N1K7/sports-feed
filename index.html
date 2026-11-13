@@ -2525,6 +2525,8 @@ function isHidden(e, now) {
 }
 // a result story stays covered to the end of its NZ day plus the hide days, and while any game of its team played by
 // that day is still covered, so a report never shows before the result it gives away (an evening game's or a Test's)
+// a news story's address is a link only when it's a web page's (never a javascript: or other kind of address)
+const webUrl = u => /^https?:\/\//i.test(u || '');
 const nzDayEnd = d => { const t = Date.parse(d + 'T00:00:00Z') + 864e5; return [t - 12 * 36e5, t - 13 * 36e5].find(x => dayKey(new Date(x - 1), 'Pacific/Auckland') === d) ?? t - 13 * 36e5; };
 const storyHidden = (n, now) => spoilers && n.kind === 'result' && !revealed.has('n:' + n.id) && (now - nzDayEnd(n.date) < spoilDays * 864e5
   || (FEED.events || []).some(e => (e.team === n.team || (e.tags || []).includes(n.team)) && e.startUTC && dayKey(new Date(e.startUTC), 'Pacific/Auckland') <= n.date && isHidden(e, now)));
@@ -3650,7 +3652,7 @@ function detail(e) {
     ${e.card?.length ? `<h3 class="dh">Fight card</h3>${fightCard(e, isHidden(e, now))}` : ''}
     ${e.squads?.length ? `<h3 class="dh">${e.seasonSquads ? (e.sport === 'cricket' ? 'Season squads' : 'Current squads') : 'Squads'}${e.seasonSquads ? ` <span class="muted small dhnote">${e.sport === 'cricket' ? 'each XI is picked from these' : "each game's team is picked from these"}</span>` : e.squads.some(q => q.players.some(p => p.ci || p.wp)) ? ' <span class="muted small dhnote">tap a name for their profile</span>' : ''}</h3>${squadsHtml(e)}${cricinfo(e) ? `<p class="small"><a class="srclink" href="${esc(cricinfo(e))}" target="_blank" rel="noopener">Playing XIs on Cricinfo once announced ↗</a></p>` : ''}` : ''}
     <h3 class="dh">${solo(e) ? 'News' : 'Team news'}</h3>
-    ${related.length ? `<div class="news">${related.map(n => `<a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener">${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '<span></span>'}<span class="dn-text"><span class="dn-meta"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span class="muted">${esc(n.source || '')}</span></span><b>${esc(n.title)}</b></span></a>`).join('')}</div>` : `<p class="muted">No recent news for this ${evWord(e.sport)} yet.</p>`}
+    ${related.length ? `<div class="news">${related.map(n => `<${webUrl(n.url) ? `a class="dn-item" href="${esc(n.url)}" target="_blank" rel="noopener"` : 'div class="dn-item"'}>${n.image ? `<img class="thumb sm" src="${esc(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '<span></span>'}<span class="dn-text"><span class="dn-meta"><span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span class="muted">${esc(n.source || '')}</span></span><b>${esc(n.title)}</b></span></${webUrl(n.url) ? 'a' : 'div'}>`).join('')}</div>` : `<p class="muted">No recent news for this ${evWord(e.sport)} yet.</p>`}
     ${photos}
 `;
 }
@@ -4625,7 +4627,7 @@ function render() {
     return `<article class="ni sport-${sport} ${img ? 'has-img' : ''}">${img}<div class="ni-body">
       <div class="top">${badge(n.team)}<span class="kind ${n.kind}">${esc(n.kind === 'news' ? 'News' : n.kind)}</span><span>${esc(TEAM_NAME[n.team] || '')}</span><span class="num">${fmt(new Date(n.date + 'T12:00:00+13:00'), NZ, { day: 'numeric', month: 'short' })}</span><span>${esc(n.source || '')}</span></div>
       ${hide ? `<button class="cover" type="button" data-reveal="n:${esc(n.id)}"><b>Result story hidden</b>tap to show</button>`
-        : `<h3>${n.headlineOnly && n.url ? `<a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a>` : esc(n.title)}</h3>${n.summary ? `<p>${esc(n.summary)}</p>` : ''}${n.headlineOnly ? `<p class="muted">${n.creditUrl ? `<a href="${esc(n.creditUrl)}" target="_blank" rel="noopener">${esc(n.credit || '')}</a>` : esc(n.credit || '')}</p>` : n.url ? `<a href="${esc(n.url)}" target="_blank" rel="noopener">Read at ${esc(n.source || 'source')}</a>` : ''}`}
+        : `<h3>${n.headlineOnly && webUrl(n.url) ? `<a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a>` : esc(n.title)}</h3>${n.summary ? `<p>${esc(n.summary)}</p>` : ''}${n.headlineOnly ? `<p class="muted">${webUrl(n.creditUrl) ? `<a href="${esc(n.creditUrl)}" target="_blank" rel="noopener">${esc(n.credit || '')}</a>` : esc(n.credit || '')}</p>` : webUrl(n.url) ? `<a href="${esc(n.url)}" target="_blank" rel="noopener">Read at ${esc(n.source || 'source')}</a>` : ''}`}
     </div></article>`;
   }).join('') : `<div class="empty-note">No news in this category for your teams.</div>`)
     + (npages > 1 ? `<div class="pager"><button type="button" class="btn" data-newspage="${newsPage - 1}"${newsPage ? '' : ' disabled'}>‹ Newer</button><span class="num">Page ${newsPage + 1} of ${npages}</span><button type="button" class="btn" data-newspage="${newsPage + 1}"${newsPage < npages - 1 ? '' : ' disabled'}>Older ›</button></div>` : '');
