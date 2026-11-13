@@ -1077,9 +1077,20 @@ function draw() {
   const fixOf = k => { const f = FIXED.find(([re]) => re.test(k)); if (!f) return null;
     const [, day, v] = f, sent = +(k.match(/\[v(\d+)\]$/) || [])[1];
     return { f, back: sent ? sent >= +v.slice(1) : lastSeen[k] > new Date(Date.parse(day + 'T12:00:00Z') + 864e5).toISOString().slice(0, 10) }; };
-  bars('error', sums.error, k => { const x = fixOf(k); if (!x) return k;
+  // every error listed: the same message from several versions of the page is one row with its versions (back when any
+  // of them is), back ones first, then the ones not fixed, then the fixed, each most first
+  const errs = Object.create(null);
+  for (const [k, n] of Object.entries(sums.error || {})) { const m = k.replace(/ \[v\d+\]$/, ''), e = errs[m] ||= { n: 0, keys: [] }; e.n += n; e.keys.push(k); }
+  const errOf = m => { const e = errs[m], xs = e.keys.map(fixOf), back = e.keys.filter((k, i) => xs[i]?.back);
+    return { f: xs[0]?.f, back: back.length > 0, seen: back.reduce((a, k) => lastSeen[k] > a ? lastSeen[k] : a, ''),
+      vs: [...new Set(e.keys.map(k => +(k.match(/\[v(\d+)\]$/) || [])[1] || 0))].sort((a, b) => a - b) }; };
+  const errRank = m => { const x = errOf(m); return x.back ? 0 : x.f ? 2 : 1; };
+  const vsText = vs => { const t = vs.filter(Boolean).map(v => 'v' + v), old = vs[0] === 0 ? ['before v404'] : [];
+    return t.length > 3 ? [...old, `${t[0]} to ${t[t.length - 1]} (${t.length} versions)`].join(', ') : [...old, ...t].join(', '); };
+  bars('error', Object.fromEntries(Object.keys(errs).map(m => [m, errs[m].n])), m => { const x = errOf(m), k = `${m}${x.vs.some(Boolean) ? ` [${vsText(x.vs)}]` : ''}`; if (!x.f) return k;
     const [, day, v, what] = x.f;
-    return `${x.back ? `⚠ Back after the ${v} fix (seen ${dayLabel(lastSeen[k], { day: 'numeric', month: 'short' })})` : `✓ Fixed in ${v} (${dayLabel(day, { day: 'numeric', month: 'short' })})`}: ${k} · ${what}`; });
+    return `${x.back ? `⚠ Back after the ${v} fix (seen ${dayLabel(x.seen, { day: 'numeric', month: 'short' })})` : `✓ Fixed in ${v} (${dayLabel(day, { day: 'numeric', month: 'short' })})`}: ${k} · ${what}`; },
+    Object.keys(errs).sort((a, b) => errRank(a) - errRank(b) || errs[b].n - errs[a].n || a.localeCompare(b)));
   errAlert(Object.keys(lastSeen).filter(k => { const x = fixOf(k); return !x || x.back; }), lastSeen, lastN);
   // weekdays: each one's average visitors over the days of that weekday in the range
   const wd = {}, wn = {};
