@@ -1159,7 +1159,7 @@ function golfSeason(text, t) {
     const y = rolled ? t.y2 : t.y;
     prev = mon;
     const name = clean(r[1] || '').replace(/\s*\(.*?\)\s*$/, '').trim(), where = clean(r[2] || '').trim();
-    if (!name || /^tba$/i.test(name)) continue;
+    if (!name || /^(tba|tbd|tbc)$/i.test(name)) continue;
     const tz = GOLF_TZ.find(([re]) => re.test(where))?.[1] || t.tz;
     // the first day from a range ("Jan 8–11", "29 Jan – 1 Feb", "8–11 Jan"): most events are four rounds, some three
     const f = dv.match(/^(?:([A-Za-z]{3,})\.? (\d{1,2})|(\d{1,2})(?: ([A-Za-z]{3,}))?)\s*[–-]/);
