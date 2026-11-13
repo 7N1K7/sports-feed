@@ -2629,6 +2629,8 @@ function seriesHead(e, now) {
 // a row's am/pm in small letters, so the longest time ("12:30pm") fits its column on a phone and the sport icon after it
 // never covers it (from v645)
 const lampm = h => h.replace(/(am|pm)$/, '<span class="lap">$1</span>');
+// a where-to-watch value still to be confirmed ("TBC", "NZ TBC") names no broadcaster
+const bcast = e => e.broadcast && !/\bTBC\b/i.test(e.broadcast) ? e.broadcast : '';
 function listRow(e, now, isRes) {
   if (e._nbaG) return nbaRow(e, now);
   const side = tourSide(e, compSel);
@@ -2637,7 +2639,7 @@ function listRow(e, now, isRes) {
   // rain about: a small cloud in the ON, which turns blue while rain stops play (a rain delay, as the series button's
   // blue dot) and stays red while it's played, shortened by rain
   const rain = !isRes && e.sport === 'cricket' && (live || between(e, now)) ? rainNow(e, now) : '';
-  const free = isRes ? '' : freeTo(e), paid = !isRes && !free && (e.broadcast && e.broadcast !== 'TBC' || (e.tv || []).length);
+  const free = isRes ? '' : freeTo(e), paid = !isRes && !free && (bcast(e) || (e.tv || []).length);
   // the FREE or 📺 at the row's end opens where it plays, as a card's channel does: the whole end of the row (ON too, on
   // a live one) is that link, so a tap near it never opens the game instead
   const w = isRes ? {} : watchPick(e), tvAt = paid && w.tv ? freeHref(e, w.tv) : '';
@@ -2662,7 +2664,7 @@ function listRow(e, now, isRes) {
 // link to where it plays
 function watchPick(e) {
   const free = freeTo(e).replace(/^free\s*(?:on|to watch on|:)?\s*/i, '').replace(/\s*\(free\)$/i, '').replace(/\s*\([^)]*$/, '');
-  const tv = free || (e.tv || []).find(x => !x.delayed && !(prelimsOnly(e) && freeCh(x.ch)))?.ch || (e.broadcast && e.broadcast !== 'TBC' ? e.broadcast.split(' / ')[0] : '') || (e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt?.some(x => !x.prelims) ? 'YouTube (free)' : '');
+  const tv = free || (e.tv || []).find(x => !x.delayed && !(prelimsOnly(e) && freeCh(x.ch)))?.ch || (bcast(e) ? bcast(e).split(' / ')[0] : '') || (e.watchAlt ? e.watchAlt.split(/[;(]/)[0] : e.yt?.some(x => !x.prelims) ? 'YouTube (free)' : '');
   const freeTag = free.replace(/\s*\(.*$/, '').replace(/ live stream$/, ' stream').trim(), freeAt = free && freeHref(e, free);
   return { free, tv: tv.trim(), freeTag, freeAt };
 }
@@ -2774,7 +2776,7 @@ const splitWatch = (text, at = /[\/;]/) => { const out = ['']; let depth = 0;
   return out.map(p => p.trim()).filter(Boolean); };
 function watchOptions(e) {
   const out = [];
-  for (const text of [e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '', e.watchAlt || '']) {
+  for (const text of [bcast(e), e.watchAlt || '']) {
     let radio = false, pre = false;
     for (let part of splitWatch(text)) {
       part = part.trim(); if (!part) continue;
@@ -2841,7 +2843,7 @@ function liveLink(e) {
   return a(`Live ${FIGHT.test(e.sport) ? 'on the fight page' : e.sport === 'motor' ? 'timing on the race page' : `scores on ${e.sport === 'cricket' ? esc(name) : `the ${pageWord(e.sport)} page`}`}`);
 }
 function watchLine(e) {
-  const b = e.broadcast && e.broadcast !== 'TBC' ? e.broadcast : '';
+  const b = bcast(e);
   if (!b && !e.watchAlt) return `<div class="watch"><span class="wl">Watch</span><span class="muted">Broadcaster to be confirmed</span></div>`;
   const alt = e.watchAlt ? `<span class="alt">${b ? 'Also: ' : ''}${linkWatch(e.watchAlt)}</span>` : '';
   const note = e.watchNote && /not on|no tv|not televised/i.test(e.watchNote) ? `<span class="muted">${esc(e.watchNote)}</span>` : '';
