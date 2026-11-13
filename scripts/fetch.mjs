@@ -104,8 +104,9 @@ function kindOf(text) {
 }
 const unxml = s => (s || '').replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1').replace(/<[^>]+>/g, '')
   .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#0?39;|&apos;/g, "'")
-  // numbered characters too ("Pistons&#8217;" in a feed that escapes its apostrophes twice)
-  .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(+n)).replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16))).trim();
+  // numbered characters too ("Pistons&#8217;" in a feed that escapes its apostrophes twice); a number past the last
+  // character is dropped, as it would throw
+  .replace(/&#(\d+);/g, (_, n) => +n <= 0x10FFFF ? String.fromCodePoint(+n) : '').replace(/&#x([0-9a-f]+);/gi, (_, n) => parseInt(n, 16) <= 0x10FFFF ? String.fromCodePoint(parseInt(n, 16)) : '').trim();
 
 async function rnzNews() {
   let xml;
@@ -1132,7 +1133,9 @@ const newsAll = [...curated.news];
 // permission of Radio New Zealand", so the feed stays off; the page links to RNZ Sport instead. Only switch this back on
 // with RNZ's written permission
 const RNZ_ON = false;
-for (const n of [...(RNZ_ON ? await rnzNews() : []), ...await heraldNews(), ...await scoopNews(), ...await fightNews(), ...await fightNews(US_FEEDS, 'usNews'), ...await bbcNews()]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
+// a news reader that trips over a bad feed costs only its own stories, never the build
+const readNews = async (name, read) => { try { return await read(); } catch (e) { console.warn(name, 'failed:', e.message); diag.newsFailed = `${diag.newsFailed ? diag.newsFailed + '; ' : ''}${name}: ${e.message}`; return []; } };
+for (const n of [...(RNZ_ON ? await readNews('rnz', rnzNews) : []), ...await readNews('herald', heraldNews), ...await readNews('scoop', scoopNews), ...await readNews('fightNews', () => fightNews()), ...await readNews('usNews', () => fightNews(US_FEEDS, 'usNews')), ...await readNews('bbc', bbcNews)]) if (!newsAll.some(x => x.url === n.url || x.title === n.title)) newsAll.push(n);
 const news = newsAll.filter(n => now - new Date(n.date) < 30 * DAY);
 // A left-out event comes back when a Kiwi is in it: named in data/curated's kiwisIn ({ event, year, who }), or in a
 // headline from two days before it starts to a day after it ends that also names the event, its place or its tour
