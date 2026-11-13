@@ -4583,7 +4583,8 @@ function render() {
   into($('upcoming')).html = html || `<div class="empty-note">${later ? 'Nothing else this week for your picks.' : 'No fixtures for your teams yet. Pick more teams under My teams.'}</div>`;
 
   // results
-  const pastFinals = finals;
+  // newest first by when each ended, as their day headings go (a Test, or a night that runs past midnight, sits by its last day)
+  const pastFinals = [...finals].sort((a, b) => endOf(b, now) - endOf(a, now));
   // group past results by the day they finished: Today, Yesterday, then each day by name and date
   const yK = dayKey(keyAt(todayK, -1));
   const groupOf = e => {
