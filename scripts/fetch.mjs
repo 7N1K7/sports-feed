@@ -976,7 +976,7 @@ const STANDIN = /^(TBC|TBA|TBD)\b|winner|loser|\bplaced?\b|\bgroup\b|\bpool\b|se
 const standIns = e => [e.home, e.away].every(n => !n || STANDIN.test(n));
 const drawKind = e => `${e.sport}|${/wheelchair/i.test(e.comp || '') ? 'wc' : /women/i.test(`${e.comp} ${e.home} ${e.away}`) ? 'w' : 'm'}|${String(e.comp || '').replace(/\s*[,·(].*$/, '').trim()}`;
 // the NZ date, daylight time or not (a fixed +13 hours put 11pm in NZ winter on the next day)
-const nzDay = t => new Date(t).toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' });
+const NZ_DAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'Pacific/Auckland' }), nzDay = t => NZ_DAY.format(new Date(t));
 const drawIds = new Set(curated.events.filter(e => !e.session && standIns(e)).map(e => e.id));
 function drawCard(le) {
   if (le.session) return null;
