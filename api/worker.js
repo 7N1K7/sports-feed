@@ -283,7 +283,9 @@ export default {
   async fetch(req, env, ctx) {
     const url = new URL(req.url), origin = req.headers.get('origin') || '';
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
-    if (url.pathname === '/hit' && req.method === 'POST') {
+    // /in from 14 Nov 2026: the page sends its count with fetch there, as ad and tracker blockers (Brave, Vivaldi, uBlock
+    // Origin) stop a beacon to /hit; /hit stays for pages loaded before
+    if ((url.pathname === '/in' || url.pathname === '/hit') && req.method === 'POST') {
       // the message is read before replying (it's gone after), then counted after the reply so the page never waits
       // (a real message is a few hundred characters; anything much bigger isn't one, and isn't read)
       const body = +req.headers.get('content-length') > 4000 ? '' : (await req.text().catch(() => '')).slice(0, 4001);

@@ -1945,14 +1945,15 @@ const deviceTZ = (() => { try { return Intl.DateTimeFormat().resolvedOptions().t
 let tzPick = 'Pacific/Auckland', NZ = tzPick;   // tzPick: a zone from TZ_LIST, or 'device'; read from storage below
 const tzLabel = () => (TZ_LIST.find(([z]) => z === NZ) || [, tzPick === 'device' ? 'local' : NZ.split('/').pop().replace(/_/g, ' ')])[1];
 // Visitor counts (api/worker.js, on Cloudflare): one small message per page load, and one when a feature is used. No
-// cookies and nothing personal. Off on test copies of the site and on a browser whose owner turned it off on the stats
+// cookies and nothing personal. Sent with fetch (kept alive past the page closing), not a beacon: tracker blockers in
+// Brave, Vivaldi and uBlock Origin drop beacons, and the owner's own visits went uncounted (14 Nov 2026). Off on test copies of the site and on a browser whose owner turned it off on the stats
 // page.
 const STATS_API = 'https://kickoff-api.kickoffkiwi.workers.dev';
 const use = k => count({ e: 'use', k }); // a tap on a part of the site, by the name the stats page lists it under
 const count = (msg = {}) => {
   if (!STATS_API || !/^(www\.)?kickoff\.kiwi$/.test(location.hostname)) return;
   // a browser driven by a script (a test, a scraper, a page checker) says so in navigator.webdriver: not a person
-  try { if (localStorage.getItem('sf.nocount') === 'true' || navigator.webdriver) return; navigator.sendBeacon(STATS_API + '/hit', JSON.stringify({ app: matchMedia('(display-mode: standalone)').matches || navigator.standalone === true ? 1 : 0, ...msg })); } catch {}
+  try { if (localStorage.getItem('sf.nocount') === 'true' || navigator.webdriver) return; fetch(STATS_API + '/in', { method: 'POST', body: JSON.stringify({ app: matchMedia('(display-mode: standalone)').matches || navigator.standalone === true ? 1 : 0, ...msg }), keepalive: true, credentials: 'omit' }).catch(() => {}); } catch {}
 };
 // errors in this page's own code (not browser add-ons), so a breakage on someone's phone shows up: three a visit at most,
 // each tagged with this page's version (filled in when the site is built), so the stats page can tell a fixed error from
