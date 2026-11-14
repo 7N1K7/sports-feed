@@ -1358,6 +1358,10 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
 .ev.lrow.nbarow .nbgo { font-size: 20px; font-weight: 800; color: var(--sport); line-height: 1; padding: 0 4px }
 .nbalogo { height: 1.5em; width: .72em; object-fit: cover; vertical-align: -0.38em; margin-right: 7px }
 .ev.lrow.nbarow .nbalogo { height: 1.3em; width: .62em; vertical-align: -0.3em; margin-right: 5px }
+.grplogo { height: 1.5em; width: 1.5em; object-fit: contain; vertical-align: -0.38em; margin-right: 7px }
+.grplogo.ph { opacity: .4; filter: grayscale(1) }
+.ev.lrow.nbarow .grplogo { height: 1.3em; width: 1.3em; vertical-align: -0.3em; margin-right: 5px }
+@media (max-width: 440px) { .ev.lrow.nbarow .grplogo { display: none } } /* the row's name and count need the room on a phone */
 #teamGroups .chip small { font-size: 11px; opacity: .75; margin-left: 2px }
 #teamGroups .chip.onecard { font-size: 12px; padding: 2px 9px; border-style: dashed }
 #teamGroups .chip.onecard[aria-pressed="true"] { border-style: solid }
@@ -4445,7 +4449,16 @@ function dayGroups(list, now) {
 }
 // what a group card is called and what it opens: the NBA's, or a day of domestic cricket's
 const grpTitle = e => e._grp ? e._grp.title : 'NBA today', grpOpen = e => e._grp ? e._grp.open : 'NBA';
-const grpLogo = (e, w, h) => e._grp ? '' : `<img class="nbalogo" src="${TSDB}frdjqy1536585083.png/small" alt="" width="${w}" height="${h}" loading="lazy">`;
+// a cricket day's card leads with its competition's logo where TheSportsDB has one (the Sheffield Shield's), else the
+// grey cricket icon that stands in for a missing logo
+const GRP_LOGO = { 'Sheffield Shield': TSDB + 'cd4akv1742154549.png/small' };
+const grpLogo = (e, w, h) => e._grp ? (GRP_LOGO[e._grp.title] ? `<img class="grplogo" src="${GRP_LOGO[e._grp.title]}" alt="" loading="lazy" referrerpolicy="no-referrer">` : `<img class="grplogo ph" src="icons/3d/${e.sport}.webp?v=2" alt="" title="No logo for this competition yet">`) : `<img class="nbalogo" src="${TSDB}frdjqy1536585083.png/small" alt="" width="${w}" height="${h}" loading="lazy">`;
+// a cricket day's card says FREE when every one of its games is free on the same channel (all on NZC's YouTube)
+function grpFree(e) {
+  if (!e._grp) return null;
+  const ws = e._nbaG.map(watchPick);
+  return ws.every(w => w.free && w.freeTag === ws[0].freeTag) ? ws[0] : null;
+}
 const grpCount = (e, all, row) => `${e._grp ? row ? e._grp.short + ' · ' : '' : 'NBA · '}${all} game${all === 1 ? '' : 's'}`;
 // what the row says (no score): how many games today, how many are on and when the next starts, else when the last does
 // a group's games: how many, how many are on, and those still to start (a Shield game by its next day's start)
@@ -4467,7 +4480,7 @@ function nbaBig(e, now) {
   return `<article class="ev nbacard sport-${e.sport}${e._grp ? ' ' + gcls(e) : ''}${on ? ' is-live' : ''}" data-nbagroup="${esc(grpOpen(e))}"${e._grp ? ` data-grp="${e._grp.k}"` : ''} tabindex="0" role="button" aria-label="${esc(grpTitle(e))}: ${all} games. Opens the ${esc(grpOpen(e))} page">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${esc(grpTitle(e))}</span></span></span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${esc(grpTitle(e))}</span></span></span>${(w => w ? `<span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span><${w.freeAt ? `a href="${esc(w.freeAt)}" target="_blank" rel="noopener" class="fta ftac" data-watch="${esc(w.freeTag)}"` : 'span class="fta ftac"'} title="Free to watch on ${esc(w.free)}">FREE<span class="fch"> on ${esc(w.freeTag)}</span></${w.freeAt ? 'a' : 'span'}></span>` : '')(grpFree(e))}</div>
       <div class="teams solo"><span class="nm">${grpLogo(e, 16, 33)}${grpCount(e, all)}</span><span class="where">${esc([more, next].filter(Boolean).join(' · ') || `every game on the ${grpOpen(e)} page`)}</span></div>
     </div>
     <div class="when"><div class="nzl">${esc(startLabel(e))} ${esc(tzLabel())}</div><div class="nz num">${esc(time(d, NZ))}</div><div class="date">${dayLabel(d, NZ)}</div>${on ? '<span class="tag live">On now</span>' : cd ? `<span class="tag num ${d - now < 864e5 ? 'soon' : 'near'}" data-cd="${esc(d.toISOString())}">${cd}</span>` : ''}</div>
@@ -4478,7 +4491,7 @@ function nbaRow(e, now) {
   // the next start drops out on a narrow phone, so the count and how many are on fit
   const bits = on ? [`${on} live`, left[0] && `<span class="nbgn">· next ${t(left[0])}</span>`] : left.length ? [last && at(last) > at(e) && `last ${t(last)}`] : ['all finished'];
   return `<article class="ev lrow nbarow sport-${e.sport}${e._grp ? ' ' + gcls(e) : ''}${on ? ' is-live' : ''}" data-nbagroup="${esc(grpOpen(e))}"${e._grp ? ` data-grp="${e._grp.k}"` : ''} tabindex="0" role="button" aria-label="${esc(grpTitle(e))}: ${all} games. Opens the ${esc(grpOpen(e))} page">
-    <div class="stripe"></div><span class="lleft"><span class="ltime num">${lampm(esc(t(e)))}</span>${sIcon(e.sport, 'licon')}<span class="lcomp">${esc(grpTitle(e))}</span></span><span class="lsolo">${grpLogo(e, 9, 18)}${grpCount(e, all, 1)}${bits.filter(Boolean).length ? ` <span class="nbgs">${bits.filter(Boolean).join(' ')}</span>` : ''}</span><span class="lend">${on ? '<span class="lnow">ON</span>' : '<span class="nbgo" aria-hidden="true">›</span>'}</span></article>`;
+    <div class="stripe"></div><span class="lleft"><span class="ltime num">${lampm(esc(t(e)))}</span>${sIcon(e.sport, 'licon')}<span class="lcomp">${esc(grpTitle(e))}</span></span><span class="lsolo">${grpLogo(e, 9, 18)}${grpCount(e, all, 1)}${bits.filter(Boolean).length ? ` <span class="nbgs">${bits.filter(Boolean).join(' ')}</span>` : ''}</span><span class="lend${on && grpFree(e) ? ' lstack' : ''}">${on ? '<span class="lnow">ON</span>' : ''}${grpFree(e) ? '<span class="fta lfree">FREE</span>' : on ? '' : '<span class="nbgo" aria-hidden="true">›</span>'}</span></article>`;
 }
 function render() {
   const now = Date.now();
@@ -5106,7 +5119,7 @@ document.addEventListener('click', ev => {
   // so a tap opens the day
   const dot = ev.target.closest('.dot[data-dot]');
   if (dot && matchMedia('(pointer: fine)').matches) { count({ e: 'use', k: 'Dot in the week strip' }); openDetail(dot.dataset.dot); return; }
-  const ng = !ev.target.closest('button') && ev.target.closest('[data-nbagroup]');
+  const ng = !ev.target.closest('button, a') && ev.target.closest('[data-nbagroup]');
   if (ng) { count({ e: 'use', k: ng.dataset.grp ? 'Cricket day card' : 'NBA today card' }); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = ng.dataset.nbagroup; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   const t = ev.target.closest('button');
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) { if (card.closest('#soon')) count({ e: 'use', k: 'Starting soon card' }); openDetail(card.dataset.open); } else if (ev.target === $('sheet')) { use('Game pop-up closed by tapping outside'); $('sheet').close(); } return; }
