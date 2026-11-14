@@ -1,1 +1,16 @@
-TAIL2 events seen: 1
+desktop {"v":"","nocount":null,"wd":false,"host":"kickoff.kiwi","beacon":"function"}
+   sent POST /hit (70 bytes)
+   sent POST /hit (32 bytes)
+   answered 204 /hit
+   answered 204 /hit
+phone {"v":"","nocount":null,"wd":false,"host":"kickoff.kiwi","beacon":"function"}
+   sent POST /hit (72 bytes)
+   sent POST /hit (36 bytes)
+   answered 204 /hit
+   answered 204 /hit
+TAIL3 events seen: 5
+01:36:59 /hit POST | outcome ok | origin is site: true  | length 70 | Chrome | NZ: false | cloud list: true | logs [] | errors []
+01:36:59 /hit POST | outcome ok | origin is site: true  | length 32 | Chrome | NZ: false | cloud list: true | logs [] | errors []
+01:37:08 /hit POST | outcome ok | origin is site: true  | length 72 | Chrome | NZ: false | cloud list: true | logs [] | errors []
+01:37:08 /hit POST | outcome ok | origin is site: true  | length 36 | Chrome | NZ: false | cloud list: true | logs [] | errors []
+01:37:16 /hit POST | outcome ok | origin is site: true  | length 50 | Chrome | NZ: false | cloud list: true | logs [] | errors []
