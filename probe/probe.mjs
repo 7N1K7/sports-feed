@@ -1,13 +1,9 @@
-// 15 Nov, the daily check (3): what the feed's own Wikipedia reader makes of the Ford Trophy, Hallyburton Johnstone
-// Shield and WBBL pages (main's sources.mjs and wiki-pages.json, copied here): each game since 26 Oct, its sides, its
-// state and whether a score was read. No scores printed
-import { readFileSync } from 'fs';
-import { wikiEvents } from './sources.mjs';
-const cfg = JSON.parse(readFileSync(new URL('./wiki-pages.json', import.meta.url), 'utf8'));
-const pages = (cfg.pages || cfg).filter(p => /Ford Trophy|Hallyburton|Women's Big Bash/.test(p.title));
-const diag = {};
-console.log('DAILY15C pages', pages.map(p => p.title).join(' ; '));
-const ev = await wikiEvents(pages, () => 'Pacific/Auckland', diag, { prevDue: () => false });
-for (const e of ev.filter(e => /Ford Trophy|Hallyburton|Big Bash/.test(e.comp || '') && e.startUTC > '2026-10-26' && e.startUTC < '2026-11-16').sort((a, b) => a.startUTC.localeCompare(b.startUTC)))
-  console.log(e.startUTC, '|', (e.comp || '').slice(0, 30), '|', e.home, 'v', e.away, '|', e.status, '| score read:', !!e.score, '| formOnly:', !!e.formOnly, '| team', e.team);
-console.log('total', ev.length, JSON.stringify(diag).slice(0, 600));
+// 15 Nov, the daily check (4): the raw Wikipedia blocks the reader takes no score from (Ford Trophy 8 Nov, WBBL 14 Nov)
+const UA = { 'user-agent': 'sports-fixture-check/1.0 (fixture times; contact via site)' };
+const raw = async t => { const r = await fetch('https://en.wikipedia.org/w/index.php?action=raw&title=' + encodeURIComponent(t), { headers: UA }); return r.ok ? await r.text() : ''; };
+console.log('DAILY15D');
+for (const [t, date, n] of [["2026–27 Women's Big Bash League season", /14 November/, 1], ['2026–27 Ford Trophy', /(8|12) November/, 2], ['2026–27 Ford Trophy', /28 October/, 1]]) {
+  const w = await raw(t);
+  const blocks = w.split(/\{\{(?=Single-innings cricket match|Limited overs matches|Two-innings cricket match)/i).slice(1).filter(b => date.test((b.match(/\|\s*date\s*=\s*([^\n]*)/) || [, ''])[1]));
+  for (const b of blocks.slice(0, n)) console.log('== ' + t + '\n' + JSON.stringify(b.slice(0, 700)));
+}
