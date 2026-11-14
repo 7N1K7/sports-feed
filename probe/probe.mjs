@@ -1,24 +1,28 @@
-// 14 Nov (8): the live site in WebKit (the engine iPhones use), as an iPhone and as a Mac: does the page run without
-// errors and draw its games? Not counted as a visit (sf.nocount). Was: the stats server's live log
-import { execSync } from 'node:child_process';
-try { console.log(execSync('npx playwright install --with-deps webkit 2>&1', { encoding: 'utf8', timeout: 600000 }).split('\n').slice(-4).join('\n')); } catch (e) { console.log('install failed:', String(e.stdout || e.message).slice(-800)); }
-const { webkit, devices } = await import('playwright');
-let b;
-try { b = await webkit.launch(); } catch (e) { console.log('WEBKIT launch failed:', e.message.slice(0, 600)); process.exit(0); }
-console.log('WEBKIT', b.version());
-for (const [label, opts] of [['iPhone 13', devices['iPhone 13']], ['iPhone SE', devices['iPhone SE']], ['Desktop Safari', devices['Desktop Safari']]]) {
-  const ctx = await b.newContext(opts), p = await ctx.newPage(), errs = [];
-  await p.addInitScript(() => { try { localStorage.setItem('sf.nocount', 'true'); } catch {} });
-  p.on('pageerror', e => errs.push('page error: ' + e.message.slice(0, 300)));
-  p.on('console', m => { if (m.type() === 'error') errs.push('console error: ' + m.text().slice(0, 200)); });
-  try {
-    await p.goto('https://kickoff.kiwi/', { waitUntil: 'load', timeout: 60000 });
-    await p.waitForTimeout(6000);
-    const st = await p.evaluate(() => ({ cards: document.querySelectorAll('.ev').length, chips: document.querySelectorAll('#sportFilter .chip').length, title: document.title.slice(0, 40), ver: (document.body.innerText.match(/\bv\d{3}\b/) || [''])[0] }));
-    console.log(label, JSON.stringify(st));
-    await p.screenshot({ path: `probe/out-wk-${label.replace(/\s+/g, '-').toLowerCase()}.png` });
-  } catch (e) { console.log(label, 'failed:', e.message.slice(0, 300)); }
-  for (const x of errs.slice(0, 8)) console.log('  ', x);
-  await ctx.close();
+// 14 Nov (5): the stats server's live log for 10 minutes while the owner opens the site, to see why their visits aren't
+// counted. Printed per message: outcome, the server's own log lines and errors, the message's kind, whether the Origin
+// is the site, the browser family, NZ or not, and whether the network is on the cloud list. No addresses, headers,
+// networks or stats are printed
+import { spawn } from 'node:child_process';
+const DC = new Set([8075, 16509, 14618, 15169, 396982, 19527, 14061, 24940, 213230, 16276, 63949, 20473, 31898, 45102, 132203, 9009, 212238, 60068, 51167, 12876, 60781, 28753, 30633, 36352, 8100, 8560, 47583, 40676, 21859]);
+const t = spawn('npx', ['--yes', 'wrangler@4.147.0', 'tail', 'kickoff-api', '--format', 'json'], { cwd: '/tmp', env: process.env, detached: true });
+let out = '';
+t.stdout.on('data', d => { out += d; }); t.stderr.on('data', () => {});
+await new Promise(r => setTimeout(r, 105 * 60000));
+try { process.kill(-t.pid, 'SIGKILL'); } catch {}
+const evs = []; let depth = 0, start = -1, str = false, esc = false;
+for (let i = 0; i < out.length; i++) { const c = out[i];
+  if (str) { if (esc) esc = false; else if (c === '\\') esc = true; else if (c === '"') str = false; continue; }
+  if (c === '"') str = true; else if (c === '{') { if (!depth++) start = i; } else if (c === '}') { if (!--depth && start >= 0) { try { evs.push(JSON.parse(out.slice(start, i + 1))); } catch {} } } }
+console.log('TAIL8 events seen:', evs.length);
+const fam = ua => /SamsungBrowser/.test(ua) ? 'Samsung' : /Edg/.test(ua) ? 'Edge' : /Firefox|FxiOS/.test(ua) ? 'Firefox' : /CriOS|Chrome\//.test(ua) ? 'Chrome' : /iPhone|iPad/.test(ua) ? 'iOS Safari/app' : /Safari\//.test(ua) ? 'Safari' : 'other';
+const tally = {};
+const add = k => { tally[k] = (tally[k] || 0) + 1; };
+for (const e of evs) {
+  const q = e.event?.request || {}, h = q.headers || {}, cf = q.cf || {};
+  let path = '?'; try { path = new URL(q.url).pathname; } catch { add(e.event?.cron ? 'cron' : 'other'); continue; }
+  if (q.method !== 'POST') { add(`other: ${q.method} ${path === '/stats' ? '/stats' : path === '/' ? '/' : 'other path'}`); continue; }
+  const kind = path === '/hit' ? 'old-way beacon /hit' : path === '/in' ? 'new-way /in' : path;
+  add(`${kind} | outcome ${e.outcome} | ${cf.country === 'NZ' ? 'NZ' : 'not NZ'} | ${DC.has(cf.asn) ? 'cloud' : 'not cloud'} | ${fam(h['user-agent'] || '')}${(e.exceptions || []).length || (e.logs || []).length ? ' | HAD ERRORS/LOGS' : ''}`);
 }
-await b.close();
+for (const [k, n] of Object.entries(tally).sort((a, b) => b[1] - a[1])) console.log(n, k);
+process.exit(0);
