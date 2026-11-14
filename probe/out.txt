@@ -1,80 +1,16 @@
-DAILY15 generatedAt 2026-11-14T18:37:45.904Z age min 8 events 1068
-{
- "noResult": [
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Northern Districts v Otago Volts",
-   "at": "2026-11-07T21:30:00Z",
-   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
-  },
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Wellington Firebirds v Auckland Aces",
-   "at": "2026-11-07T21:30:00Z",
-   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
-  },
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Central Stags v Canterbury",
-   "at": "2026-11-07T21:30:00Z",
-   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
-  },
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Auckland Aces v Otago Volts",
-   "at": "2026-11-11T21:30:00Z",
-   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
-  },
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Central Stags v Wellington Firebirds",
-   "at": "2026-11-11T21:30:00Z",
-   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
-  },
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Canterbury v Northern Districts",
-   "at": "2026-11-11T21:30:00Z",
-   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
-  },
-  {
-   "s": "cricket",
-   "c": "Hallyburton Johnstone Shield",
-   "n": "Central Hinds v Northern Districts",
-   "at": "2026-11-13T21:30:00Z",
-   "src": "https://www.nzc.nz/media/1cxbi35u/print_2026_hbj-schedule.pdf",
-   "noSource": true
-  },
-  {
-   "s": "cricket",
-   "c": "Hallyburton Johnstone Shield",
-   "n": "Auckland Hearts v Wellington Blaze",
-   "at": "2026-11-13T21:30:00Z",
-   "src": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/",
-   "noSource": true
-  },
-  {
-   "s": "cricket",
-   "c": "Hallyburton Johnstone Shield",
-   "n": "Canterbury Magicians v Otago Sparks",
-   "at": "2026-11-13T21:30:00Z",
-   "src": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/",
-   "noSource": true
-  },
-  {
-   "s": "cricket",
-   "c": "Women's Big Bash League",
-   "n": "Hobart Hurricanes v Brisbane Heat",
-   "at": "2026-11-14T04:40:00Z",
-   "src": "https://www.austadiums.com/sport/comp/wbbl/fixture?season=202627&round=3"
-  }
- ],
- "thinWeeks": []
-}
-diag "3 hand-kept NZ domestic games took their result from Wikipedia"
+DAILY15B
+== 2026–27 Women's Big Bash League season 73338 chars
+  14 November 2026 | [[Hobart Hurricanes (WBBL)|Hobart Hurricanes]] (H) v [[Brisbane Heat (WBBL)|Brisbane Heat]] | score1 given: true | score2 given: true | result given: true (a result)
+  14 November 2026 | [[Perth Scorchers (WBBL)|Perth Scorchers]] (H) v [[Adelaide Strikers (WBBL)|Adelaide Strikers]] | score1 given: true | score2 given: true | result given: true (a result)
+  15 November 2026 | [[Sydney Sixers (WBBL)|Sydney Sixers]] (H) v [[Melbourne Renegades (WBBL)|Melbourne Renegades]] | score1 given: true | score2 given: true | result given: true (a result)
+  blocks 43 on those dates 3
+== 2026–27 Hallyburton Johnstone Shield 4961 chars
+  blocks 1 on those dates 0
+== 2026–27 Ford Trophy 18802 chars
+  8 November 2026 | {{cr-NZ|nd}} v {{cr-NZ|otg}} | score1 given: true | score2 given: true | result given: true (a result)
+  8 November 2026 | {{cr-NZ|wel}} v {{cr-NZ|akl}} | score1 given: true | score2 given: true | result given: true (a result)
+  8 November 2026 | {{cr-NZ|cd}} v {{cr-NZ|can}} | score1 given: true | score2 given: true | result given: true (a result)
+  12 November 2026 | {{cr-NZ|akl}} v {{cr-NZ|otg}} | score1 given: true | score2 given: true | result given: true (a result)
+  12 November 2026 | {{cr-NZ|cd}} v {{cr-NZ|wel}} | score1 given: true | score2 given: true | result given: true (a result)
+  12 November 2026 | {{cr-NZ|can}} v {{cr-NZ|nd}} | score1 given: true | score2 given: true | result given: true (a result)
+  blocks 30 on those dates 6
