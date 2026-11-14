@@ -1,7 +1,80 @@
-TAIL8 events seen: 19
-7 cron
-4 new-way /in | outcome ok | not NZ | not cloud | Chrome
-3 other: OPTIONS /stats
-3 other: GET /stats
-1 old-way beacon /hit | outcome ok | not NZ | not cloud | Chrome
-1 other: GET other path
+DAILY15 generatedAt 2026-11-14T18:37:45.904Z age min 8 events 1068
+{
+ "noResult": [
+  {
+   "s": "cricket",
+   "c": "Ford Trophy",
+   "n": "Northern Districts v Otago Volts",
+   "at": "2026-11-07T21:30:00Z",
+   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
+  },
+  {
+   "s": "cricket",
+   "c": "Ford Trophy",
+   "n": "Wellington Firebirds v Auckland Aces",
+   "at": "2026-11-07T21:30:00Z",
+   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
+  },
+  {
+   "s": "cricket",
+   "c": "Ford Trophy",
+   "n": "Central Stags v Canterbury",
+   "at": "2026-11-07T21:30:00Z",
+   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
+  },
+  {
+   "s": "cricket",
+   "c": "Ford Trophy",
+   "n": "Auckland Aces v Otago Volts",
+   "at": "2026-11-11T21:30:00Z",
+   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
+  },
+  {
+   "s": "cricket",
+   "c": "Ford Trophy",
+   "n": "Central Stags v Wellington Firebirds",
+   "at": "2026-11-11T21:30:00Z",
+   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
+  },
+  {
+   "s": "cricket",
+   "c": "Ford Trophy",
+   "n": "Canterbury v Northern Districts",
+   "at": "2026-11-11T21:30:00Z",
+   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
+  },
+  {
+   "s": "cricket",
+   "c": "Hallyburton Johnstone Shield",
+   "n": "Central Hinds v Northern Districts",
+   "at": "2026-11-13T21:30:00Z",
+   "src": "https://www.nzc.nz/media/1cxbi35u/print_2026_hbj-schedule.pdf",
+   "noSource": true
+  },
+  {
+   "s": "cricket",
+   "c": "Hallyburton Johnstone Shield",
+   "n": "Auckland Hearts v Wellington Blaze",
+   "at": "2026-11-13T21:30:00Z",
+   "src": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/",
+   "noSource": true
+  },
+  {
+   "s": "cricket",
+   "c": "Hallyburton Johnstone Shield",
+   "n": "Canterbury Magicians v Otago Sparks",
+   "at": "2026-11-13T21:30:00Z",
+   "src": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/",
+   "noSource": true
+  },
+  {
+   "s": "cricket",
+   "c": "Women's Big Bash League",
+   "n": "Hobart Hurricanes v Brisbane Heat",
+   "at": "2026-11-14T04:40:00Z",
+   "src": "https://www.austadiums.com/sport/comp/wbbl/fixture?season=202627&round=3"
+  }
+ ],
+ "thinWeeks": []
+}
+diag "3 hand-kept NZ domestic games took their result from Wikipedia"
