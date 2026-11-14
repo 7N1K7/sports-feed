@@ -1,0 +1,14 @@
+name: probe-mac
+# the live site in WebKit (the engine iPhones use) on a Mac runner, where Playwright has it; run when probe/mac.mjs changes
+on: { push: { branches: [probe], paths: ['probe/mac.mjs'] } }
+permissions: { contents: write }
+jobs:
+  p:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm i --no-save playwright@1.56.1 && npx playwright install webkit
+      - run: node probe/mac.mjs > probe/out-mac.txt 2>&1 || true
+      - run: git pull -q --rebase origin probe; git -c user.name=bot -c user.email=bot@x add -A probe/out-mac* probe/out-wk* && (git diff --cached --quiet || (git -c user.name=bot -c user.email=bot@x commit -m out-mac && git push))
