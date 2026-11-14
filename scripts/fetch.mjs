@@ -2262,7 +2262,9 @@ const baseComp = e => String(e.comp || e.team || '').replace(/\s*[,·(].*$/, '')
 // a hand-kept NZ domestic game takes its result from Wikipedia's page for the competition, read for the form guide only
 // (the Ford Trophy's games are hand-kept and its page fills in after each round; from 14 Nov 2026). Same two sides
 // within a day and a half; the scores are swapped when the page lists the sides the other way round
-const domName = n => NZ_DOMESTIC[n] || n;
+// (the women's sides too, for the Hallyburton Johnstone Shield, whose games are hand-kept by their team names)
+const DOMESTIC_W = { 'Auckland Hearts': 'Auckland', 'Canterbury Magicians': 'Canterbury', 'Central Hinds': 'Central Districts', 'Northern Brave': 'Northern Districts', 'Otago Sparks': 'Otago', 'Wellington Blaze': 'Wellington' };
+const domName = n => NZ_DOMESTIC[n] || DOMESTIC_W[n] || n;
 let fromWiki = 0;
 for (const e of events) {
   if (e.score || e.status === 'final' || e.sport !== 'cricket' || e.team !== 'nzdomestic' || !e.home || !e.away) continue;
