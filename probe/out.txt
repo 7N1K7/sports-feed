@@ -1,1 +1,6 @@
-TAIL4 events seen: 3
+TAIL5 events seen: 6
+01:59:39 / GET | outcome ok | origin is site: false (no origin) | length - | Chrome | NZ: true | cloud list: false | logs [] | errors []
+01:59:54 /stats OPTIONS | outcome ok | origin is site: true  | length - | Chrome | NZ: true | cloud list: false | logs [] | errors []
+01:59:54 /stats GET | outcome ok | origin is site: true  | length - | Chrome | NZ: true | cloud list: false | logs [] | errors []
+02:02:56 /stats OPTIONS | outcome ok | origin is site: true  | length - | Chrome | NZ: true | cloud list: false | logs [] | errors []
+02:02:56 /stats GET | outcome ok | origin is site: true  | length - | Chrome | NZ: true | cloud list: false | logs [] | errors []
