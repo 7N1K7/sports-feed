@@ -1,5 +1,2 @@
-STATSOK size 187517 | first row layout in file: true | glance: true | wanted: true
-site version 747
-1467 password box shown: true | sideways scroll: false
-412 password box shown: true | sideways scroll: false
-page errors: []
+SERVER /stats, no password: 401 {"error":"wrong-password"}
+og.png: 200 image/png
