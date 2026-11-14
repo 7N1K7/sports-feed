@@ -1,5 +1,1 @@
-TAIL start 2026-11-14T01:25:39.299Z | token set: true
-test message answered 204
-events seen: 1
-- /hit POST | outcome ok | logs [] | errors []
-stderr (cut): 
+TAIL2 events seen: 1
