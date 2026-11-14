@@ -403,6 +403,7 @@ th { color: var(--muted); font-weight: 600 }
       <section class="card ov-v" aria-live="polite" data-name="Visits">
       <div class="hero"><span class="big" id="heroN">0</span><span class="lbl" id="heroL">visits</span></div>
       <div class="tiles" id="tiles"></div>
+      <p class="note" id="blockNote" hidden></p>
     </section>
       <section class="card ov-e">
       <h2>Each day <span class="note" id="chartSub" style="text-transform:none;letter-spacing:0;font-weight:500"></span></h2>
@@ -1117,6 +1118,11 @@ function draw() {
         const ok = prev && countedFrom(prev, 'opens', 'use', 'event', 'sport', 'watch', 'outlink', 'follow', 'unfollow', 'hidesport', 'showsport');
         const pn = ok && rate(prev.now), pv = ok && rate(prev.was), ch = pn != null && pv != null ? change(Math.round(pn * 10), Math.round(pv * 10)) : '';
         return tile('Taps a visit', visits ? tv.toFixed(1) : '–', `${pl(taps, 'tap', 'taps')}${ch && ch !== '–' ? ` · ${ch} on the days before` : ''}`); })();
+  // page loads from a browser with a tracker blocker: counted from 14 Nov 2026, when visits stopped being sent as a beacon
+  // (which blockers drop); each load also sends one, and the loads whose beacon never came are the ones the old way missed
+  { const bd = list.filter(d => d >= firstOf('beaconok', '9999')), lv = bd.reduce((a, d) => a + per[d].views, 0), ok = bd.reduce((a, d) => a + (ds[d].beaconok?.[''] || 0), 0), miss = Math.max(0, lv - ok);
+    $('blockNote').hidden = !lv;
+    $('blockNote').textContent = lv ? `${pl(miss, 'page load', 'page loads')} of ${fmtN(lv)} (${Math.round(100 * miss / lv)}%) ${bd[0] > list[0] ? `since ${short(bd[0])} ` : ''}came from a browser that blocks trackers: counted now, missed before 14 Nov` : ''; }
   // a day on its own is no line: Today shows the last 7 days
   const VIS = [['visitors', 'People', 'var(--series-1)'], ['opens', 'Visits', 'var(--series-2)'], ['views', 'Page views', 'var(--series-3)']];
   const w7 = n < 3 ? shape(7) : null, cl = (w7 || { list }).list.filter(d => d >= d0);

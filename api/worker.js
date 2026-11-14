@@ -117,6 +117,10 @@ async function hit(req, env, body) {
   // the address first, then the visitor (the address and the browser)
   const addr = await codeOf(salt, ip, 'address');
   if ((await env.DB.prepare('SELECT n FROM seen WHERE day = ?1 AND h = ?2').bind(day, addr).first('n')) >= MAX_PER_ADDRESS) return;
+  // from 14 Nov 2026 a page load, once counted, also sends a beacon (the old way, which tracker blockers drop): those that
+  // get through, against page views, show how many visits the old way missed. Not a visit or a tap, and kept out of the
+  // visitor's tally so it can't stand in for their first message
+  if (b.e === 'bk') { if (!DATACENTRE.has(req.cf?.asn)) await bump(env, day, 'beaconok').run(); return; }
   const h = await codeOf(salt, ip, ua);
   const n = await tick(env, day, h, MAX_PER_VISITOR);
   if (!n || n > MAX_PER_VISITOR) return;

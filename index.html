@@ -1953,7 +1953,10 @@ const use = k => count({ e: 'use', k }); // a tap on a part of the site, by the 
 const count = (msg = {}) => {
   if (!STATS_API || !/^(www\.)?kickoff\.kiwi$/.test(location.hostname)) return;
   // a browser driven by a script (a test, a scraper, a page checker) says so in navigator.webdriver: not a person
-  try { if (localStorage.getItem('sf.nocount') === 'true' || navigator.webdriver) return; fetch(STATS_API + '/in', { method: 'POST', body: JSON.stringify({ app: matchMedia('(display-mode: standalone)').matches || navigator.standalone === true ? 1 : 0, ...msg }), keepalive: true, credentials: 'omit' }).catch(() => {}); } catch {}
+  try { if (localStorage.getItem('sf.nocount') === 'true' || navigator.webdriver) return; fetch(STATS_API + '/in', { method: 'POST', body: JSON.stringify({ app: matchMedia('(display-mode: standalone)').matches || navigator.standalone === true ? 1 : 0, ...msg }), keepalive: true, credentials: 'omit' })
+      // a page load also tries the old way, a beacon, once it's counted: how many of those arrive shows the share of
+      // visitors whose blockers had hidden them (the stats page's Visits card)
+      .then(() => { if (!msg.e && navigator.sendBeacon) navigator.sendBeacon(STATS_API + '/hit', '{"e":"bk"}'); }, () => {}); } catch {}
 };
 // errors in this page's own code (not browser add-ons), so a breakage on someone's phone shows up: three a visit at most,
 // each tagged with this page's version (filled in when the site is built), so the stats page can tell a fixed error from
