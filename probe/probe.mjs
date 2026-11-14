@@ -1,4 +1,4 @@
-// 14 Nov (4): the stats server's live log for 12 minutes while the owner opens the site, to see why their visits aren't
+// 14 Nov (5): the stats server's live log for 10 minutes while the owner opens the site, to see why their visits aren't
 // counted. Printed per message: outcome, the server's own log lines and errors, the message's kind, whether the Origin
 // is the site, the browser family, NZ or not, and whether the network is on the cloud list. No addresses, headers,
 // networks or stats are printed
@@ -7,13 +7,13 @@ const DC = new Set([8075, 16509, 14618, 15169, 396982, 19527, 14061, 24940, 2132
 const t = spawn('npx', ['--yes', 'wrangler@4.147.0', 'tail', 'kickoff-api', '--format', 'json'], { cwd: '/tmp', env: process.env, detached: true });
 let out = '';
 t.stdout.on('data', d => { out += d; }); t.stderr.on('data', () => {});
-await new Promise(r => setTimeout(r, 12 * 60000));
+await new Promise(r => setTimeout(r, 10 * 60000));
 try { process.kill(-t.pid, 'SIGKILL'); } catch {}
 const evs = []; let depth = 0, start = -1, str = false, esc = false;
 for (let i = 0; i < out.length; i++) { const c = out[i];
   if (str) { if (esc) esc = false; else if (c === '\\') esc = true; else if (c === '"') str = false; continue; }
   if (c === '"') str = true; else if (c === '{') { if (!depth++) start = i; } else if (c === '}') { if (!--depth && start >= 0) { try { evs.push(JSON.parse(out.slice(start, i + 1))); } catch {} } } }
-console.log('TAIL4 events seen:', evs.length);
+console.log('TAIL5 events seen:', evs.length);
 const fam = ua => /SamsungBrowser/.test(ua) ? 'Samsung' : /Edg/.test(ua) ? 'Edge' : /Firefox|FxiOS/.test(ua) ? 'Firefox' : /CriOS|Chrome\//.test(ua) ? 'Chrome' : /iPhone|iPad/.test(ua) ? 'iOS Safari/app' : /Safari\//.test(ua) ? 'Safari' : 'other';
 for (const e of evs) {
   const q = e.event?.request || {}, h = q.headers || {}, cf = q.cf || {};
