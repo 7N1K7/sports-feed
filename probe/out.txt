@@ -1,16 +1,40 @@
-DAILY15B
-== 2026–27 Women's Big Bash League season 73338 chars
-  14 November 2026 | [[Hobart Hurricanes (WBBL)|Hobart Hurricanes]] (H) v [[Brisbane Heat (WBBL)|Brisbane Heat]] | score1 given: true | score2 given: true | result given: true (a result)
-  14 November 2026 | [[Perth Scorchers (WBBL)|Perth Scorchers]] (H) v [[Adelaide Strikers (WBBL)|Adelaide Strikers]] | score1 given: true | score2 given: true | result given: true (a result)
-  15 November 2026 | [[Sydney Sixers (WBBL)|Sydney Sixers]] (H) v [[Melbourne Renegades (WBBL)|Melbourne Renegades]] | score1 given: true | score2 given: true | result given: true (a result)
-  blocks 43 on those dates 3
-== 2026–27 Hallyburton Johnstone Shield 4961 chars
-  blocks 1 on those dates 0
-== 2026–27 Ford Trophy 18802 chars
-  8 November 2026 | {{cr-NZ|nd}} v {{cr-NZ|otg}} | score1 given: true | score2 given: true | result given: true (a result)
-  8 November 2026 | {{cr-NZ|wel}} v {{cr-NZ|akl}} | score1 given: true | score2 given: true | result given: true (a result)
-  8 November 2026 | {{cr-NZ|cd}} v {{cr-NZ|can}} | score1 given: true | score2 given: true | result given: true (a result)
-  12 November 2026 | {{cr-NZ|akl}} v {{cr-NZ|otg}} | score1 given: true | score2 given: true | result given: true (a result)
-  12 November 2026 | {{cr-NZ|cd}} v {{cr-NZ|wel}} | score1 given: true | score2 given: true | result given: true (a result)
-  12 November 2026 | {{cr-NZ|can}} v {{cr-NZ|nd}} | score1 given: true | score2 given: true | result given: true (a result)
-  blocks 30 on those dates 6
+DAILY15C pages {S} Women's Big Bash League season ; {S} Ford Trophy ; {S} Hallyburton Johnstone Shield
+2026-10-27T21:30:00.000Z | Ford Trophy | Auckland v Canterbury | final | score read: true | formOnly: true | team nzdomestic
+2026-10-27T21:30:00.000Z | Ford Trophy | Northern Districts v Central Districts | final | score read: true | formOnly: true | team nzdomestic
+2026-10-28T21:30:00.000Z | Ford Trophy | Wellington v Otago | final | score read: true | formOnly: true | team nzdomestic
+2026-10-29T04:40:00.000Z | Women's Big Bash League · Matc | Melbourne Renegades v Sydney Thunder | final | score read: true | formOnly: false | team wbbl
+2026-10-29T08:10:00.000Z | Women's Big Bash League · Matc | Melbourne Stars v Hobart Hurricanes | final | score read: true | formOnly: false | team wbbl
+2026-10-30T08:10:00.000Z | Women's Big Bash League · Matc | Brisbane Heat v Sydney Sixers | final | score read: true | formOnly: false | team wbbl
+2026-10-30T21:30:00.000Z | Ford Trophy | Northern Districts v Auckland | upcoming | score read: false | formOnly: true | team nzdomestic
+2026-10-30T21:30:00.000Z | Ford Trophy | Canterbury v Wellington | upcoming | score read: false | formOnly: true | team nzdomestic
+2026-10-30T21:30:00.000Z | Ford Trophy | Otago v Central Districts | upcoming | score read: false | formOnly: true | team nzdomestic
+2026-10-31T04:40:00.000Z | Women's Big Bash League · Matc | Adelaide Strikers v Melbourne Stars | final | score read: true | formOnly: false | team wbbl
+2026-10-31T08:10:00.000Z | Women's Big Bash League · Matc | Perth Scorchers v Melbourne Renegades | final | score read: true | formOnly: false | team wbbl
+2026-11-01T04:40:00.000Z | Women's Big Bash League · Matc | Brisbane Heat v Sydney Thunder | final | score read: true | formOnly: false | team wbbl
+2026-11-01T08:10:00.000Z | Women's Big Bash League · Matc | Sydney Sixers v Hobart Hurricanes | final | score read: true | formOnly: false | team wbbl
+2026-11-02T08:10:00.000Z | Women's Big Bash League · Matc | Perth Scorchers v Melbourne Stars | final | score read: true | formOnly: false | team wbbl
+2026-11-03T21:30:00.000Z | Ford Trophy | Central Districts v Auckland | upcoming | score read: false | formOnly: true | team nzdomestic
+2026-11-03T21:30:00.000Z | Ford Trophy | Wellington v Northern Districts | upcoming | score read: false | formOnly: true | team nzdomestic
+2026-11-03T21:30:00.000Z | Ford Trophy | Otago v Canterbury | upcoming | score read: false | formOnly: true | team nzdomestic
+2026-11-04T08:10:00.000Z | Women's Big Bash League · Matc | Hobart Hurricanes v Melbourne Renegades | final | score read: true | formOnly: false | team wbbl
+2026-11-05T04:40:00.000Z | Women's Big Bash League · Matc | Brisbane Heat v Adelaide Strikers | final | score read: true | formOnly: false | team wbbl
+2026-11-05T08:10:00.000Z | Women's Big Bash League · Matc | Perth Scorchers v Sydney Thunder | final | score read: true | formOnly: false | team wbbl
+2026-11-06T08:10:00.000Z | Women's Big Bash League · Matc | Sydney Sixers v Melbourne Stars | final | score read: true | formOnly: false | team wbbl
+2026-11-07T04:40:00.000Z | Women's Big Bash League · Matc | Melbourne Renegades v Adelaide Strikers | final | score read: true | formOnly: false | team wbbl
+2026-11-07T08:10:00.000Z | Women's Big Bash League · Matc | Hobart Hurricanes v Brisbane Heat | final | score read: true | formOnly: false | team wbbl
+2026-11-07T21:30:00.000Z | Ford Trophy | Northern Districts v Otago | upcoming | score read: false | formOnly: true | team nzdomestic
+2026-11-07T21:30:00.000Z | Ford Trophy | Wellington v Auckland | upcoming | score read: false | formOnly: true | team nzdomestic
+2026-11-07T21:30:00.000Z | Ford Trophy | Central Districts v Canterbury | upcoming | score read: false | formOnly: true | team nzdomestic
+2026-11-08T02:40:00.000Z | Women's Big Bash League · Matc | Sydney Sixers v Sydney Thunder | final | score read: true | formOnly: false | team wbbl
+2026-11-08T06:10:00.000Z | Women's Big Bash League · Matc | Melbourne Stars v Perth Scorchers | final | score read: true | formOnly: false | team wbbl
+2026-11-10T08:10:00.000Z | Women's Big Bash League · Matc | Hobart Hurricanes v Adelaide Strikers | final | score read: true | formOnly: false | team wbbl
+2026-11-11T08:10:00.000Z | Women's Big Bash League · Matc | Sydney Thunder v Perth Scorchers | final | score read: true | formOnly: false | team wbbl
+2026-11-11T21:30:00.000Z | Ford Trophy | Auckland v Otago | upcoming | score read: false | formOnly: true | team nzdomestic
+2026-11-11T21:30:00.000Z | Ford Trophy | Central Districts v Wellington | upcoming | score read: false | formOnly: true | team nzdomestic
+2026-11-11T21:30:00.000Z | Ford Trophy | Canterbury v Northern Districts | upcoming | score read: false | formOnly: true | team nzdomestic
+2026-11-12T04:40:00.000Z | Women's Big Bash League · Matc | Melbourne Stars v Brisbane Heat | final | score read: true | formOnly: false | team wbbl
+2026-11-12T08:10:00.000Z | Women's Big Bash League · Matc | Sydney Sixers v Melbourne Renegades | final | score read: true | formOnly: false | team wbbl
+2026-11-14T04:40:00.000Z | Women's Big Bash League · Matc | Hobart Hurricanes v Brisbane Heat | upcoming | score read: false | formOnly: false | team wbbl
+2026-11-14T08:10:00.000Z | Women's Big Bash League · Matc | Perth Scorchers v Adelaide Strikers | upcoming | score read: false | formOnly: false | team wbbl
+2026-11-15T00:00:00.000Z | Women's Big Bash League · Matc | Sydney Sixers v Melbourne Renegades | upcoming | score read: false | formOnly: false | team wbbl
+total 621 {"wikipedia":{"2026–27 Women's Big Bash League season":43,"2026–27 Ford Trophy":30,"2026–27 Hallyburton Johnstone Shield":0,"Sri Lankan cricket team in New Zealand in 2026–27":8,"Indian cricket team in New Zealand in 2026–27":15,"New Zealand cricket team in Australia in 2026–27":4,"New Zealand women's cricket team in Australia in 2026–27":6,"Australian cricket team in New Zealand in 2025–26":3,"Zimbabwe women's cricket team in New Zealand in 2025–26":6,"South African cricket team in New Zealand in 2025–26":5,"English cricket team in New Zealand in 2025–26":6,"South Africa women's cricket team 
