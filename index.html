@@ -4506,8 +4506,11 @@ function render() {
   // the NBA by default (not turned on): today's games as one card that opens its page, not a card each (from v644)
   // it stands in the list where one of its games would: the first that's on, else the next to start, else the first
   // of the day (from v645; v644 put it at the top)
-  const nbaG = compSel ? [] : evsAll.filter(weekdayIn), nbaRep = nbaG.find(nbaOn) || nbaG.find(e => e.status !== 'final' && Date.parse(e.startUTC) > now) || nbaG[0];
-  const dg = compSel ? [] : dayGroups(evsAll, now), inGrp = new Set([...nbaG, ...dg.flatMap(x => x.gs)]);
+  // filtered to one sport, its games are listed one by one: someone who picked cricket wants to see what cricket is on
+  // (the user's call, 14 Nov 2026)
+  const oneSport = sportSel.size === 1 ? [...sportSel][0] : '';
+  const nbaG = compSel || oneSport === 'basketball' ? [] : evsAll.filter(weekdayIn), nbaRep = nbaG.find(nbaOn) || nbaG.find(e => e.status !== 'final' && Date.parse(e.startUTC) > now) || nbaG[0];
+  const dg = compSel || oneSport === 'cricket' ? [] : dayGroups(evsAll, now), inGrp = new Set([...nbaG, ...dg.flatMap(x => x.gs)]);
   const evs = inGrp.size ? [...evsAll.filter(e => !inGrp.has(e)), ...(nbaG.length ? [{ ...nbaRep, _nbaG: nbaG }] : []), ...dg.map(x => x.card)].sort((a, b) => a.startUTC.localeCompare(b.startUTC)) : evsAll;
   const todayK = dayKey(nowD);
   const upcoming = evs.filter(e => e.status === 'live' || (e.status !== 'final' && (new Date(e.startUTC) > now || running(e, now))));
