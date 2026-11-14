@@ -2368,7 +2368,8 @@ const ORD = { one: 1, two: 2, three: 3, four: 4, five: 5, first: 1, opening: 1, 
 const daysNamed = t => [...String(t).matchAll(/\bday (\d|one|two|three|four|five)\b|\b(first|opening|second|third|fourth|fifth|final|last) day\b/gi)]
   .map(m => +(m[1] && /\d/.test(m[1]) ? m[1] : ORD[(m[1] || m[2]).toLowerCase()]) || ((m[2] || '').match(/final|last/i) ? 9 : 0)).filter(Boolean);
 function wetOn(text, day, days) {
-  return String(text || '').split(/\s*\*\s*|(?<=[.;])\s+/).filter(x => WET_RE.test(x)).filter(x => {
+  // (split after a full stop or semicolon without a lookbehind, which stops the whole page on iPhones older than iOS 16.4)
+  return String(text || '').replace(/([.;])\s+/g, '$1\u0001').split(/\s*\*\s*|\u0001/).filter(x => WET_RE.test(x)).filter(x => {
     if (days < 2) return true;
     const n = daysNamed(x).map(d => d === 9 ? days : d);
     return n.length ? n.includes(day) : day === 1;
