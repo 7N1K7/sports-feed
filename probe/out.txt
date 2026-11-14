@@ -1,1 +1,5 @@
-TAIL6 events seen: 16
+TAIL7 events seen: 10
+7 cron
+1 other: GET /
+1 other: OPTIONS /stats
+1 other: GET /stats
