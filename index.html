@@ -1353,6 +1353,8 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
 .ev.lrow.tourside .lteams, .ev.lrow.tourside .lsolo { font-size: 14px }
 .ev.lrow.nbarow .nbgs { font: 500 13px/1.4 var(--f-body); color: var(--muted); margin-left: 6px }
 @media (max-width: 440px) { .ev.lrow.nbarow .nbgn { display: none } }
+/* a cricket day's row keeps its name and count on a narrow phone; the ON tag still says it's on */
+@media (max-width: 440px) { .ev.lrow.nbarow[data-grp] .nbgs { display: none } }
 .ev.lrow.nbarow .nbgo { font-size: 20px; font-weight: 800; color: var(--sport); line-height: 1; padding: 0 4px }
 .nbalogo { height: 1.5em; width: .72em; object-fit: cover; vertical-align: -0.38em; margin-right: 7px }
 .ev.lrow.nbarow .nbalogo { height: 1.3em; width: .62em; vertical-align: -0.3em; margin-right: 5px }
@@ -4416,35 +4418,67 @@ const GEAR = '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .
 // the one NBA card (today's weekday games while the NBA isn't turned on): a game row at its stand-in game's time, saying
 // how many games, how many are on and when the next or last starts; it opens the NBA page. Never a score
 const nbaOn = e => e.status === 'live' || (e.status !== 'final' && running(e, Date.now()));
+// NZ women's domestic cricket and Australia's domestic cricket: games of one starting the same day are a single card like
+// the NBA's, opening the competition, so they don't fill the top of the list, when they're played on a Friday to Sunday
+// (a Shield round's last days too) or start on a day with plenty else on. On a quiet weekday they may be all that's on,
+// so they're listed one by one (the user's call, 14 Nov 2026)
+const DAY_GROUPS = [
+  { k: 'nzw', name: "NZ women's domestic", short: "NZ women's", test: e => e.team === 'nzdomestic' && genderOf(e) === 'w' },
+  { k: 'audom', name: 'Australian domestic', short: 'Aus domestic', test: e => e.team === 'audomestic' },
+];
+const playsWeekend = e => [...Array(DAYS[formatOf(e)] || 1)].some((_, i) => [5, 6, 0].includes(new Date(nzDay(Date.parse(e.startUTC) + i * 864e5) + 'T12:00:00Z').getUTCDay()));
+const BUSY_OTHERS = 8;
+function dayGroups(list, now) {
+  const byDay = new Map(), out = [];
+  for (const e of list) { const d = nzDay(e.startUTC); (byDay.get(d) || byDay.set(d, []).get(d)).push(e); }
+  for (const [d, es] of byDay) {
+    for (const g of DAY_GROUPS) {
+      const gs = es.filter(g.test);
+      if (gs.length < 2 || (!gs.some(playsWeekend) && es.length - gs.length < BUSY_OTHERS)) continue;
+      const rep = gs.find(nbaOn) || gs.find(e => e.status !== 'final' && Date.parse(e.startUTC) > now) || gs[0];
+      // one competition's games are named for it ("Hallyburton Johnstone Shield"); a mix by the group's name
+      const comps = [...new Set(gs.map(e => plural(String(e.comp || '').split(/[,·(]/)[0].trim())))];
+      out.push({ gs, card: { ...rep, _nbaG: gs, _grp: { ...g, title: comps.length === 1 ? comps[0] : g.name, open: compOf(rep) } } });
+    }
+  }
+  return out;
+}
+// what a group card is called and what it opens: the NBA's, or a day of domestic cricket's
+const grpTitle = e => e._grp ? e._grp.title : 'NBA today', grpOpen = e => e._grp ? e._grp.open : 'NBA';
+const grpLogo = (e, w, h) => e._grp ? '' : `<img class="nbalogo" src="${TSDB}frdjqy1536585083.png/small" alt="" width="${w}" height="${h}" loading="lazy">`;
+const grpCount = (e, all, row) => `${e._grp ? row ? e._grp.short + ' · ' : '' : 'NBA · '}${all} game${all === 1 ? '' : 's'}`;
 // what the row says (no score): how many games today, how many are on and when the next starts, else when the last does
+// a group's games: how many, how many are on, and those still to start (a Shield game by its next day's start)
+function grpState(e, now) {
+  const list = e._nbaG, all = e._grp ? list.length : (FEED.events || []).filter(x => x.team === 'nba' && nzDay(x.startUTC) === nzDay(now)).length;
+  const at = x => e._grp ? +nextAt(x, now) : Date.parse(x.startUTC), t = x => time(new Date(at(x)), NZ);
+  const isOn = x => e._grp ? x.status === 'live' || !!onNow(x, now) : nbaOn(x);
+  const left = list.filter(x => x.status !== 'final' && !isOn(x) && at(x) > now).sort((a, b) => at(a) - at(b));
+  return { list, all, on: list.filter(isOn).length, left, last: left[left.length - 1], t, at };
+}
 function nbaBits(e, now) {
-  const list = e._nbaG, all = (FEED.events || []).filter(x => x.team === 'nba' && nzDay(x.startUTC) === nzDay(now)).length;
-  const on = list.filter(nbaOn).length, t = x => time(new Date(x.startUTC), NZ);
-  const left = list.filter(x => x.status !== 'final' && Date.parse(x.startUTC) > now).sort((a, b) => a.startUTC.localeCompare(b.startUTC)), last = left[left.length - 1];
-  return { all, on, next: on && left[0] ? `next ${t(left[0])}` : '', more: on ? `${on} live` : left.length ? (last && last.startUTC > e.startUTC ? `last starts ${t(last)}` : '') : 'all finished' };
+  const { all, on, left, last, t, at } = grpState(e, now);
+  return { all, on, next: on && left[0] ? `next ${t(left[0])}` : '', more: on ? `${on} live` : left.length ? (last && at(last) > at(e) ? `last starts ${t(last)}` : '') : 'all finished' };
 }
 // the same in the Compact and Large views: a game card with the count where the teams go and the stand-in's time on the
 // right, like every other card (from v646; v645 put the list's row there)
 function nbaBig(e, now) {
-  const { all, on, next, more } = nbaBits(e, now), d = new Date(e.startUTC), cd = !on && d > now ? countdown({ startUTC: e.startUTC }, now) : '';
-  return `<article class="ev nbacard sport-basketball${on ? ' is-live' : ''}" data-nbagroup="NBA" tabindex="0" role="button" aria-label="NBA today: ${all} games. Opens the NBA page">
+  const { all, on, next, more } = nbaBits(e, now), d = e._grp ? nextAt(e, now) : new Date(e.startUTC), cd = !on && d > now ? countdown({ startUTC: d.toISOString() }, now) : '';
+  return `<article class="ev nbacard sport-${e.sport}${e._grp ? ' ' + gcls(e) : ''}${on ? ' is-live' : ''}" data-nbagroup="${esc(grpOpen(e))}"${e._grp ? ` data-grp="${e._grp.k}"` : ''} tabindex="0" role="button" aria-label="${esc(grpTitle(e))}: ${all} games. Opens the ${esc(grpOpen(e))} page">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon('basketball')}</span><span class="ctitle"><span>NBA today</span></span></span></div>
-      <div class="teams solo"><span class="nm"><img class="nbalogo" src="${TSDB}frdjqy1536585083.png/small" alt="" width="16" height="33" loading="lazy">NBA · ${all} game${all === 1 ? '' : 's'}</span><span class="where">${esc([more, next].filter(Boolean).join(' · ') || 'every game on the NBA page')}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.sport)}</span><span class="ctitle"><span>${esc(grpTitle(e))}</span></span></span></div>
+      <div class="teams solo"><span class="nm">${grpLogo(e, 16, 33)}${grpCount(e, all)}</span><span class="where">${esc([more, next].filter(Boolean).join(' · ') || `every game on the ${grpOpen(e)} page`)}</span></div>
     </div>
-    <div class="when"><div class="nzl">${esc(startLabel(e))} ${esc(tzLabel())}</div><div class="nz num">${esc(time(d, NZ))}</div><div class="date">${dayLabel(d, NZ)}</div>${on ? '<span class="tag live">On now</span>' : cd ? `<span class="tag num ${d - now < 864e5 ? 'soon' : 'near'}" data-cd="${esc(e.startUTC)}">${cd}</span>` : ''}</div>
+    <div class="when"><div class="nzl">${esc(startLabel(e))} ${esc(tzLabel())}</div><div class="nz num">${esc(time(d, NZ))}</div><div class="date">${dayLabel(d, NZ)}</div>${on ? '<span class="tag live">On now</span>' : cd ? `<span class="tag num ${d - now < 864e5 ? 'soon' : 'near'}" data-cd="${esc(d.toISOString())}">${cd}</span>` : ''}</div>
   </article>`;
 }
 function nbaRow(e, now) {
-  const list = e._nbaG, all = (FEED.events || []).filter(x => x.team === 'nba' && nzDay(x.startUTC) === nzDay(now)).length;
-  const on = list.filter(nbaOn).length, t = x => time(new Date(x.startUTC), NZ);
-  const left = list.filter(x => x.status !== 'final' && Date.parse(x.startUTC) > now).sort((a, b) => a.startUTC.localeCompare(b.startUTC));
-  const last = left[left.length - 1];
+  const { all, on, left, last, t, at } = grpState(e, now);
   // the next start drops out on a narrow phone, so the count and how many are on fit
-  const bits = on ? [`${on} live`, left[0] && `<span class="nbgn">· next ${t(left[0])}</span>`] : left.length ? [last && last.startUTC > e.startUTC && `last ${t(last)}`] : ['all finished'];
-  return `<article class="ev lrow nbarow sport-basketball${on ? ' is-live' : ''}" data-nbagroup="NBA" tabindex="0" role="button" aria-label="NBA today: ${all} games. Opens the NBA page">
-    <div class="stripe"></div><span class="lleft"><span class="ltime num">${lampm(esc(t(e)))}</span>${sIcon('basketball', 'licon')}<span class="lcomp">NBA today</span></span><span class="lsolo"><img class="nbalogo" src="${TSDB}frdjqy1536585083.png/small" alt="" width="9" height="18" loading="lazy">NBA · ${all} game${all === 1 ? '' : 's'}${bits.filter(Boolean).length ? ` <span class="nbgs">${bits.filter(Boolean).join(' ')}</span>` : ''}</span><span class="lend">${on ? '<span class="lnow">ON</span>' : '<span class="nbgo" aria-hidden="true">›</span>'}</span></article>`;
+  const bits = on ? [`${on} live`, left[0] && `<span class="nbgn">· next ${t(left[0])}</span>`] : left.length ? [last && at(last) > at(e) && `last ${t(last)}`] : ['all finished'];
+  return `<article class="ev lrow nbarow sport-${e.sport}${e._grp ? ' ' + gcls(e) : ''}${on ? ' is-live' : ''}" data-nbagroup="${esc(grpOpen(e))}"${e._grp ? ` data-grp="${e._grp.k}"` : ''} tabindex="0" role="button" aria-label="${esc(grpTitle(e))}: ${all} games. Opens the ${esc(grpOpen(e))} page">
+    <div class="stripe"></div><span class="lleft"><span class="ltime num">${lampm(esc(t(e)))}</span>${sIcon(e.sport, 'licon')}<span class="lcomp">${esc(grpTitle(e))}</span></span><span class="lsolo">${grpLogo(e, 9, 18)}${grpCount(e, all, 1)}${bits.filter(Boolean).length ? ` <span class="nbgs">${bits.filter(Boolean).join(' ')}</span>` : ''}</span><span class="lend">${on ? '<span class="lnow">ON</span>' : '<span class="nbgo" aria-hidden="true">›</span>'}</span></article>`;
 }
 function render() {
   const now = Date.now();
@@ -4459,7 +4493,8 @@ function render() {
   // it stands in the list where one of its games would: the first that's on, else the next to start, else the first
   // of the day (from v645; v644 put it at the top)
   const nbaG = compSel ? [] : evsAll.filter(weekdayIn), nbaRep = nbaG.find(nbaOn) || nbaG.find(e => e.status !== 'final' && Date.parse(e.startUTC) > now) || nbaG[0];
-  const evs = nbaG.length ? [...evsAll.filter(e => !nbaG.includes(e)), { ...nbaRep, _nbaG: nbaG }].sort((a, b) => a.startUTC.localeCompare(b.startUTC)) : evsAll;
+  const dg = compSel ? [] : dayGroups(evsAll, now), inGrp = new Set([...nbaG, ...dg.flatMap(x => x.gs)]);
+  const evs = inGrp.size ? [...evsAll.filter(e => !inGrp.has(e)), ...(nbaG.length ? [{ ...nbaRep, _nbaG: nbaG }] : []), ...dg.map(x => x.card)].sort((a, b) => a.startUTC.localeCompare(b.startUTC)) : evsAll;
   const todayK = dayKey(nowD);
   const upcoming = evs.filter(e => e.status === 'live' || (e.status !== 'final' && (new Date(e.startUTC) > now || running(e, now))));
   // a race weekend's sessions have no results of their own: once over, they're gone
@@ -5072,7 +5107,7 @@ document.addEventListener('click', ev => {
   const dot = ev.target.closest('.dot[data-dot]');
   if (dot && matchMedia('(pointer: fine)').matches) { count({ e: 'use', k: 'Dot in the week strip' }); openDetail(dot.dataset.dot); return; }
   const ng = !ev.target.closest('button') && ev.target.closest('[data-nbagroup]');
-  if (ng) { count({ e: 'use', k: 'NBA today card' }); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = ng.dataset.nbagroup; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
+  if (ng) { count({ e: 'use', k: ng.dataset.grp ? 'Cricket day card' : 'NBA today card' }); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = ng.dataset.nbagroup; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
   const t = ev.target.closest('button');
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) { if (card.closest('#soon')) count({ e: 'use', k: 'Starting soon card' }); openDetail(card.dataset.open); } else if (ev.target === $('sheet')) { use('Game pop-up closed by tapping outside'); $('sheet').close(); } return; }
   if (t.id === 'sheetClose') { use('Game pop-up closed'); $('sheet').close(); return; }

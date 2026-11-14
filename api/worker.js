@@ -31,7 +31,9 @@ const USE = new Set(['Free to watch', 'Events button', 'Results button', 'News b
   // from 1 Nov 2026
   'Series result shown', 'Series result hidden again',
   // from 13 Nov 2026
-  'Calendar one team list opened', 'Calendar one team list closed', 'Alerts one team list opened', 'Alerts one team list closed', 'Game pop-up closed by tapping outside', 'Report closed by tapping outside']);
+  'Calendar one team list opened', 'Calendar one team list closed', 'Alerts one team list opened', 'Alerts one team list closed', 'Game pop-up closed by tapping outside', 'Report closed by tapping outside',
+  // from 14 Nov 2026 (the NBA card's taps had been sent but not kept)
+  'NBA today card', 'Cricket day card']);
 // a visitor's settings, counted once a day each: results hidden or shown, card size, colour theme
 const OG_THEMES = ['green', 'black', 'ocean', 'paua', 'purple', 'pink', 'red', 'orange', 'kowhai', 'lime'];
 const VIEWS = new Set(['big', 'mixed', 'compact', 'list']), THEMES = new Set(['green', 'ocean', 'red', 'black', 'kowhai', 'paua', 'purple', 'orange', 'lime', 'pink', 'kauri', 'silver', 'tui', 'navy', 'olive']);
