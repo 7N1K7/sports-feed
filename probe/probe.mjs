@@ -7,18 +7,22 @@ const DC = new Set([8075, 16509, 14618, 15169, 396982, 19527, 14061, 24940, 2132
 const t = spawn('npx', ['--yes', 'wrangler@4.147.0', 'tail', 'kickoff-api', '--format', 'json'], { cwd: '/tmp', env: process.env, detached: true });
 let out = '';
 t.stdout.on('data', d => { out += d; }); t.stderr.on('data', () => {});
-await new Promise(r => setTimeout(r, 10 * 60000));
+await new Promise(r => setTimeout(r, 25 * 60000));
 try { process.kill(-t.pid, 'SIGKILL'); } catch {}
 const evs = []; let depth = 0, start = -1, str = false, esc = false;
 for (let i = 0; i < out.length; i++) { const c = out[i];
   if (str) { if (esc) esc = false; else if (c === '\\') esc = true; else if (c === '"') str = false; continue; }
   if (c === '"') str = true; else if (c === '{') { if (!depth++) start = i; } else if (c === '}') { if (!--depth && start >= 0) { try { evs.push(JSON.parse(out.slice(start, i + 1))); } catch {} } } }
-console.log('TAIL5 events seen:', evs.length);
+console.log('TAIL6 events seen:', evs.length);
 const fam = ua => /SamsungBrowser/.test(ua) ? 'Samsung' : /Edg/.test(ua) ? 'Edge' : /Firefox|FxiOS/.test(ua) ? 'Firefox' : /CriOS|Chrome\//.test(ua) ? 'Chrome' : /iPhone|iPad/.test(ua) ? 'iOS Safari/app' : /Safari\//.test(ua) ? 'Safari' : 'other';
+const tally = {};
+const add = k => { tally[k] = (tally[k] || 0) + 1; };
 for (const e of evs) {
   const q = e.event?.request || {}, h = q.headers || {}, cf = q.cf || {};
-  let path = '?'; try { path = new URL(q.url).pathname; } catch { if (e.event?.cron) path = 'cron'; }
-  if (path === 'cron') continue;
-  console.log(e.eventTimestamp ? new Date(e.eventTimestamp).toISOString().slice(11, 19) : '', path, q.method || '', '| outcome', e.outcome, '| origin is site:', /^https:\/\/(www\.)?kickoff\.kiwi$/.test(h.origin || ''), h.origin ? '' : '(no origin)', '| length', h['content-length'] || '-', '|', fam(h['user-agent'] || ''), '| NZ:', cf.country === 'NZ', '| cloud list:', DC.has(cf.asn), '| logs', JSON.stringify((e.logs || []).map(l => String(l.message).slice(0, 200))), '| errors', JSON.stringify((e.exceptions || []).map(x => `${x.name}: ${x.message}`)).slice(0, 300));
+  let path = '?'; try { path = new URL(q.url).pathname; } catch { continue; }
+  if (q.method !== 'POST') continue;
+  const kind = path === '/hit' ? 'old-way beacon /hit' : path === '/in' ? 'new-way /in' : path;
+  add(`${kind} | outcome ${e.outcome} | ${cf.country === 'NZ' ? 'NZ' : 'not NZ'} | ${DC.has(cf.asn) ? 'cloud' : 'not cloud'} | ${fam(h['user-agent'] || '')}${(e.exceptions || []).length || (e.logs || []).length ? ' | HAD ERRORS/LOGS' : ''}`);
 }
+for (const [k, n] of Object.entries(tally).sort((a, b) => b[1] - a[1])) console.log(n, k);
 process.exit(0);
