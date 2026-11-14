@@ -1,13 +1,7 @@
-install failed: BEWARE: your OS is not officially supported by Playwright; installing dependencies for ubuntu26.04-x64 as a fallback.
-Cannot install dependencies for ubuntu26.04-x64 with Playwright 1.56.1!
-Failed to install browsers
-Error: ERROR: Playwright does not support webkit on ubuntu26.04-x64
-
-WEBKIT launch failed: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2215/pw_run.sh
-╔═════════════════════════════════════════════════════════════════════════╗
-║ Looks like Playwright Test or Playwright was just installed or updated. ║
-║ Please run the following command to download new browsers:              ║
-║                                                                         ║
-║     npx playwright install                                              ║
-║                                                                         ║
-║ <3 Playwright Team                    
+TAIL8 events seen: 19
+7 cron
+4 new-way /in | outcome ok | not NZ | not cloud | Chrome
+3 other: OPTIONS /stats
+3 other: GET /stats
+1 old-way beacon /hit | outcome ok | not NZ | not cloud | Chrome
+1 other: GET other path
