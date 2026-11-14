@@ -1,0 +1,4 @@
+WEBKIT 26.0
+iPhone 13 {"cards":76,"chips":15,"title":"Kickoff Kiwi","ver":""}
+iPhone SE {"cards":76,"chips":15,"title":"Kickoff Kiwi","ver":""}
+Desktop Safari {"cards":76,"chips":15,"title":"Kickoff Kiwi","ver":""}
