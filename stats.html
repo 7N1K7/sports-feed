@@ -130,7 +130,7 @@ button, input { font: inherit; color: inherit }
 .tile .l { color: var(--muted); font-size: 13px }
 .tile .v { font-size: 24px; font-weight: 700; line-height: 1.2 }
 .tile .s { color: var(--muted); font-size: 13px }
-#blkDays table td:not(:first-child), #blkDays table th:not(:first-child) { text-align: right } #blkDays .tbl { margin-top: 10px }
+#waits table td:not(:first-child), #waits table th:not(:first-child), #blkDays table td:not(:first-child), #blkDays table th:not(:first-child) { text-align: right } #blkDays .tbl { margin-top: 10px }
 /* the daily chart */
 .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-bottom: 6px }
 .legend i { display: inline-block; width: 16px; height: 2px; border-radius: 1px; vertical-align: middle; margin-right: 6px }
@@ -488,6 +488,7 @@ th { color: var(--muted); font-weight: 600 }
     <div class="grid two">
       <section class="card" id="errCard"><h2>Errors on visitors' devices</h2><div class="bars" id="error"></div><p class="note">Problems in the site's own code; each is worth a look. <b>✓ Fixed</b> marks one already dealt with (counts from before the fix stay in the range); <b>⚠ Back</b> means a page with the fix sent it again. From v404 each error ends with the version of the page that sent it, [v404].</p></section>
       <section class="card"><h2>Site checks</h2><div id="sitechk"></div><p class="note">The live site, checked from outside every 10 minutes (from 3 Nov 2026): the page and its feed answer, and the feed is whole and less than 90 minutes old. A problem's times are the checks either side of it, so it's known to 10 minutes. A problem only one visitor's connection had doesn't show here: a page that had to ask for its feed again shows in Errors as "Feed asked again". Kept 30 days.</p></section>
+      <section class="card" id="waitCard"><h2>How fast results arrive</h2><div id="waits"></div><p class="note">How long after a game's usual finish its result reached the site, by sport: the middle wait of its results, and the longest. Timed from 16 Nov 2026, from the public feed; a game's finish is its start plus its sport's usual length (a Test's last day), so a game that ends early or runs long shifts it a little.</p></section>
       <section class="card"><h2>Feed build</h2><div class="fbuild" id="feedbuild"></div><p class="note">What went wrong in the feed's last build, from the public feed's own notes: a game id used twice, news or Wikipedia pages that couldn't be read, TheSportsDB errors, and hand-kept games their source moved.</p></section>
       <section class="card"><h2>Load speed</h2><div class="bars" id="speed"></div><p class="note">How long until the first games were on screen.</p></section>
       <section class="card"><h2>Slow loads</h2><p class="note">Loads that took 4s or more (counted from 25 Oct 2026). The connection and memory are only reported by Chrome-based browsers. "Out of sight" means the page was behind another tab or app, or the phone was locked, while it loaded.</p>
@@ -666,9 +667,23 @@ const change = (now, was) => was == null ? '' : !was ? (now ? 'new' : '') : now 
 
 const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 // what the site has and hasn't filled in, from the public feed (worked out when the feed was built)
+// how long each sport's results take: from each result's first sighting (resultAt, from 16 Nov 2026) back to when its game
+// should have finished (its start, plus the sport's usual length; a multi-day cricket match from its last day)
+const GAME_HRS = { rugby: 2, league: 2, football: 2, basketball: 2.5, netball: 1.5, hockey: 1.5, baseball: 3, tennis: 3, mma: 5, boxing: 5, golf: 5.5, motor: 2, cycling: 5, sailing: 3 };
+function drawWaits(f) {
+  const hrs = e => { if (e.sport !== 'cricket') return GAME_HRS[e.sport] || 2.5; const t = `${e.comp || ''} ${e.stage || ''}`;
+    return /\bT20|Twenty20|Big Bash|WBBL|Super Smash/i.test(t) ? 3.5 : /\bTests?\b/.test(t) ? 4 * 24 + 7.5 : /Shield|first.class|Plunket/i.test(t) ? 3 * 24 + 7.5 : 8; };
+  const by = {};
+  for (const e of f.events || []) { if (!e.resultAt || !e.startUTC) continue; const w = Math.max(0, Date.parse(e.resultAt) - Date.parse(e.startUTC) - hrs(e) * 36e5); (by[e.sport] ||= []).push(w); }
+  const fmtW = ms => { const m = Math.round(ms / 6e4); return m < 60 ? `${m} min` : m < 48 * 60 ? `${(m / 60).toFixed(m < 600 ? 1 : 0).replace(/\.0$/, '')} hr` : `${Math.round(m / 1440)} days`; };
+  const name = k => SPORT_LABEL[k] || k[0].toUpperCase() + k.slice(1);
+  const rows = Object.entries(by).map(([k, l]) => { l.sort((a, b) => a - b); return [k, l.length, l[Math.floor((l.length - 1) / 2)], l[l.length - 1]]; }).sort((a, b) => a[2] - b[2]);
+  $('waits').innerHTML = rows.length ? `<table><tr><th>Sport</th><th>Results</th><th>Usual wait</th><th>Longest</th></tr>${rows.map(([k, n, mid, max]) => `<tr><td>${esc(name(k))}</td><td>${n}</td><td>${fmtW(mid)}</td><td>${fmtW(max)}</td></tr>`).join('')}</table>`
+    : '<p class="note">No results timed yet: they start coming in with the first games to finish after 16 Nov.</p>';
+}
 async function drawCoverage() {
   let f; try { f = await (await fetch('data/feed.json', { cache: 'no-store' })).json(); } catch { $('cov').innerHTML = $('feedbuild').innerHTML = '<p class="note">Couldn\'t load the feed.</p>'; return; }
-  drawBuild(f);
+  drawBuild(f); drawWaits(f);
   const cov = f.coverage;
   // when this was worked out: the feed's build time, in NZ time
   if (f.generatedAt) $('covAt').textContent = 'Worked out ' + new Date(f.generatedAt).toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }) + ' NZ time (every feed update)';

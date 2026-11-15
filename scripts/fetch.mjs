@@ -2375,6 +2375,17 @@ const feed = {
     ...[...logoCredits].map(([name, url]) => ({ name, url })),
   ],
 };
+// when each result first came in (resultAt), so the stats page can show how long each sport's results take: remembered in
+// .cache/results.json from the run that started the clock (16 Nov 2026); results already in then aren't timed
+{ const seen = resCache.resultAt ||= {}, timing = !!resCache.resultAtFrom;
+  resCache.resultAtFrom ||= now;
+  for (const e of feed.events) {
+    if (e.status !== 'final' || !(e.score || e.summary)) continue;
+    if (!(e.id in seen)) seen[e.id] = timing ? now : 0;
+    if (seen[e.id]) e.resultAt = new Date(seen[e.id]).toISOString();
+  }
+  for (const [id, t] of Object.entries(seen)) if (t ? now - t > 120 * DAY : !feed.events.some(e => e.id === id)) delete seen[id];
+  try { await writeFile(resUrl, JSON.stringify(resCache)); } catch {} }
 await writeFile(new URL('data/feed.json', ROOT), JSON.stringify(feed));
 // the version alone, for pages that only need that (the stats page)
 await writeFile(new URL('data/version.json', ROOT), JSON.stringify(site));
