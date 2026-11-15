@@ -1,5 +1,2 @@
-timer runs found: no | timer runs inside the request totals: no
-2026-11-12 (UTC hours 0-23) ++++++ ++++++ ++++++ ++++++ 
-2026-11-13 (UTC hours 0-23) ++++++ ++++++ ++++++ ++++++ 
-2026-11-14 (UTC hours 0-23) ++++++ ++++++ ++++++ ++++++ 
-2026-11-15 (UTC hours 0-23) ++
+{"a":{"fields":[{"name":"cacheStatus"},{"name":"coloCode"},{"name":"date"},{"name":"datetime"},{"name":"datetimeFifteenMinutes"},{"name":"datetimeFiveMinutes"},{"name":"datetimeHour"},{"name":"datetimeMinute"},{"name":"datetimeSixHours"},{"name":"dispatchNamespaceName"},{"name":"environmentName"},{"name":"eventType"},{"name":"httpResponseStatus"},{"name":"isDispatcher"},{"name":"isPreview"},{"name":"previewSlug"},{"name":"scriptName"},{"name":"scriptTag"},{"name":"scriptVersion"},{"name":"status"},{"name":"usageModel"}]},"b":{"fields":[{"name":"clientDisconnects"},{"name":"cpuTimeUs"},{"name":"duration"},{"name":"errors"},{"name":"fullGcCount"},{"name":"gcTimeUs"},{"name":"requestDuration"},{"name":"requests"},{"name":"responseBodySize"},{"name":"startupCpuTimeUs"},{"name":"subrequests"},{"name":"wallTime"}]},"c":{"fields":[{"name":"cpuTimeUs"},{"name":"cron"},{"name":"datetime"},{"name":"environmentName"},{"name":"scheduledDatetime"},{"name":"scriptName"},{"name":"status"}]}}
+scheduled: no rows
