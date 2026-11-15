@@ -2716,6 +2716,9 @@ function watchPick(e) {
 const bigRound = e => { const t = `${e.stage || ''} ${e.comp || ''}`.toLowerCase(); if (/final (round|day|race|stage|session|practice|qualifying)|play-?off/.test(t)) return '';
   return /grand final|\bfinal\b/.test(t) && !/(semi|quarter|preliminary|elimination|qualifying)[- ]final/.test(t) ? 'final' : /semi-?final|preliminary final/.test(t) ? 'semi' : ''; };
 const bigCls = e => bigRound(e) ? ' big-' + bigRound(e) : '';
+// the card's title without a plain "Final" or "Semi-final" on its end, when the tag says it ("Rugby League World Cup, Final"
+// is "Rugby League World Cup" by a FINAL tag); a Grand Final or a preliminary final keeps its name
+const bigTitle = e => { const t = cardComp(e); if (!bigRound(e)) return t; const c = t.replace(/(?:,|\s·)?\s*\b(?:final|semi-?final)\s*$/i, '').trim(); return /grand$|preliminary$/i.test(c) || !c ? t : c; };
 const bigTag = e => bigRound(e) ? `<span class="bigtag ${bigRound(e)}">${bigRound(e) === 'final' ? 'FINAL' : 'SEMI'}</span>` : '';
 function evCard(e, now) {
   if (e._nbaG) return view === 'list' ? nbaRow(e, now) : nbaBig(e, now);
@@ -2749,7 +2752,7 @@ function evCard(e, now) {
   return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}${bigCls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e), e.session)}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${bigTag(e)}${compBadge(e)}${intlTag(e)}${free ? `<${freeAt ? `a href="${esc(freeAt)}" target="_blank" rel="noopener" class="fta ftac" data-watch="${esc(freeTag)}"` : 'span class="fta ftac"'} title="Free to watch on ${esc(free)}">FREE<span class="fch"> on ${esc(freeTag)}</span></${freeAt ? 'a' : 'span'}>` : freePrelims(e) ? (h => `<${h ? `a href="${esc(h)}" target="_blank" rel="noopener" data-watch="${esc(freePrelims(e))}"` : 'span'} class="fta ftac fpre" title="The prelims are free to watch; the main card is pay-per-view">FREE PRELIMS</${h ? 'a' : 'span'}>`)(freeHref(e, freePrelims(e))) : ''}${tvTag}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(bigTitle(e), e.session)}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${bigTag(e)}${compBadge(e)}${intlTag(e)}${free ? `<${freeAt ? `a href="${esc(freeAt)}" target="_blank" rel="noopener" class="fta ftac" data-watch="${esc(freeTag)}"` : 'span class="fta ftac"'} title="Free to watch on ${esc(free)}">FREE<span class="fch"> on ${esc(freeTag)}</span></${freeAt ? 'a' : 'span'}>` : freePrelims(e) ? (h => `<${h ? `a href="${esc(h)}" target="_blank" rel="noopener" data-watch="${esc(freePrelims(e))}"` : 'span'} class="fta ftac fpre" title="The prelims are free to watch; the main card is pay-per-view">FREE PRELIMS</${h ? 'a' : 'span'}>`)(freeHref(e, freePrelims(e))) : ''}${tvTag}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${seriesLine(e, now)}
     </div>
@@ -2977,7 +2980,7 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e), e.session)}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${bigTag(e)}${compBadge(e)}${intlTag(e)}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(bigTitle(e), e.session)}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${bigTag(e)}${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup${split ? ' scored' : ''}"><span class="side home ${fres('home')}">${teamName(e.home, e.homeLogo, e)}</span>${split ? `<span class="v vsc">${scoreTag(split[0], res('home'))}<span class="vv">v</span>${scoreTag(split[1], res('away'))}</span>` : fw ? `<span class="v vhow"><span>v</span>${howTxt ? `<small>${esc(howTxt)}</small>` : ''}</span>` : '<span class="v">v</span>'}<span class="side away ${fres('away')}">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${e.summary ? (hidden ? '<div class="summary" aria-hidden="true">&nbsp;</div>' : `<div class="summary" title="${esc(e.summary)}">${esc(e.summary)}</div>`) : ''}
     </div>
