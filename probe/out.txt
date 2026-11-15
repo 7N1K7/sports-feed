@@ -1,5 +1,2 @@
-kinds seen: cron, fetch
-2026-11-12 (UTC hours 0-23) ppV-pp pVp--- pppp-- ------ 
-2026-11-13 (UTC hours 0-23) Vppppp ppppp- pp---- ------ 
-2026-11-14 (UTC hours 0-23) ppVVVp pppppp p--pp- -VVVVV 
-2026-11-15 (UTC hours 0-23) -V
+site answered by: GitHub.com | cf-ray header: no
+kickoff.kiwi zone readable with the token: no 
