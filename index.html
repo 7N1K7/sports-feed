@@ -1786,6 +1786,20 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
   max-width: calc(var(--cr) - 5px - var(--sgap) + max(0px, var(--rspace) - 12px + var(--sgap))) }
 .ev.lrow button.lscore { border: 0; background: none; padding: 0 var(--spad) 0 0; margin: 0; color: inherit; cursor: pointer }
 .ev.lrow .lcover { font: 700 11px/1 var(--f-body); padding: 5px 6px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface2, transparent); color: inherit; cursor: pointer }
+
+/* a final (gold) or a semi-final (silver): a tag by the competition, a frame and a tint on the card; a live or soon
+   one keeps its red or orange glow outside, with the gold just inside it. Nothing changes size */
+:root { --silver: #6b7682 } @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --silver: #c3ccd5 } } :root[data-theme="dark"] { --silver: #c3ccd5 }
+.bigtag { font-size: 11px; font-weight: 800; letter-spacing: .04em; padding: 1px 6px; border-radius: 5px; border: 1.5px solid var(--gold); color: var(--gold); background: color-mix(in srgb, var(--gold) 12%, var(--surface)); white-space: nowrap }
+.bigtag.semi { border-color: var(--silver); color: var(--silver); background: color-mix(in srgb, var(--silver) 12%, var(--surface)) }
+.ev.big-final { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), 0 0 22px 2px color-mix(in srgb, var(--gold) 40%, transparent) }
+.ev.big-semi { border-color: var(--silver); box-shadow: 0 0 0 1.5px var(--silver) }
+.ev.big-final { background-image: linear-gradient(160deg, color-mix(in srgb, var(--gold) 20%, transparent), color-mix(in srgb, var(--gold) 4%, transparent) 70%) }
+.ev.big-semi { background-image: linear-gradient(160deg, color-mix(in srgb, var(--silver) 16%, transparent), transparent 70%) }
+.ev.big-final.is-live { box-shadow: inset 0 0 0 3px var(--gold), 0 0 0 2px var(--live), 0 0 28px 4px color-mix(in srgb, var(--live) 50%, transparent) }
+.ev.big-final.is-soon { box-shadow: inset 0 0 0 3px var(--gold), 0 0 0 2px var(--soon), 0 0 24px 3px color-mix(in srgb, var(--soon) 42%, transparent) }
+.ev.big-semi.is-soon { box-shadow: inset 0 0 0 1.5px var(--silver), 0 0 0 2px var(--soon), 0 0 24px 3px color-mix(in srgb, var(--soon) 42%, transparent) }
+.ev.big-semi.is-live { box-shadow: inset 0 0 0 1.5px var(--silver), 0 0 0 2px var(--live), 0 0 28px 4px color-mix(in srgb, var(--live) 50%, transparent) }
 </style>
 <style>:root{padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
 </head>
@@ -2681,7 +2695,7 @@ function listRow(e, now, isRes) {
     : canRehide(e.id, spoilAt(e), now) ? `<button class="lscore num" type="button" data-rehide="${esc(e.id)}" title="${esc(e.score || '')} · tap to hide again" aria-label="Hide this result again">${lscoreHtml(e)}</button>`
     : `<span class="lscore num" title="${esc(e.score || '')}">${lscoreHtml(e)}</span>`)
     : (live ? (rain ? `<span class="lnow lrain${rain === 'Rain delay' ? ' ldelay' : ''}" title="${rain === 'Rain delay' ? 'Rain delay' : 'Live, rain affected'}"><i aria-hidden="true">🌧</i>ON</span>` : '<span class="lnow">ON</span>') : '') + mark;
-  return `<article class="ev lrow${isRes ? ' lres' : ''}${side ? ' tourside' : ''} sport-${e.sport} ${gcls(e)}${live ? ' is-live' : ''}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
+  return `<article class="ev lrow${isRes ? ' lres' : ''}${isRes ? '' : bigCls(e)}${side ? ' tourside' : ''} sport-${e.sport} ${gcls(e)}${live ? ' is-live' : ''}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>${rain ? `<span class="rainstamp">🌧 ${rain}</span>` : ''}<span class="lleft">${soonCd ? `<span class="ltime num lcd" data-cd="${esc(d.toISOString())}" title="Starts ${esc(t)}">${esc(soonCd)}</span>` : `<span class="ltime num">${lampm(esc(t).replace(/^≈/, '<span class="lappx">≈</span>'))}</span>`}${sIcon(e.team === 'f1' ? 'f1' : e.sport, 'licon')}<span class="lcomp">${esc(cardComp(e))}</span></span>${who}<${go ? 'a' : 'span'} class="lend${live && mark ? ' lstack' : ''}"${go}>${end}</${go ? 'a' : 'span'}></article>`;
 }
 // the one way to watch a card shows: a free one ahead of a paid one (Three over Sky Sport 1 when both show it). The
@@ -2693,6 +2707,12 @@ function watchPick(e) {
   const freeTag = free.replace(/\s*\(.*$/, '').replace(/ live stream$/, ' stream').trim(), freeAt = free && freeHref(e, free);
   return { free, tv: tv.trim(), freeTag, freeAt };
 }
+// a final or a semi-final (a grand final, a preliminary final), from the game's stage and competition; not a golf
+// tournament's final round, a Test's final day or a play-off
+const bigRound = e => { const t = `${e.stage || ''} ${e.comp || ''}`.toLowerCase(); if (/final (round|day|race|stage|session|practice|qualifying)|play-?off/.test(t)) return '';
+  return /grand final|\bfinal\b/.test(t) && !/(semi|quarter|preliminary|elimination|qualifying)[- ]final/.test(t) ? 'final' : /semi-?final|preliminary final/.test(t) ? 'semi' : ''; };
+const bigCls = e => bigRound(e) ? ' big-' + bigRound(e) : '';
+const bigTag = e => bigRound(e) ? `<span class="bigtag ${bigRound(e)}">${bigRound(e) === 'final' ? 'FINAL' : 'SEMI'}</span>` : '';
 function evCard(e, now) {
   if (e._nbaG) return view === 'list' ? nbaRow(e, now) : nbaBig(e, now);
   if (view === 'list' || tourSide(e, compSel)) return listRow(e, now, false);
@@ -2722,10 +2742,10 @@ function evCard(e, now) {
   // the paid channel in the competition line too, for compact cards (no TV line there), so it's still a tap away
   const tvAt = tv && !free ? freeHref(e, tv) : '', tvTag = tv && !free ? `<${tvAt ? `a href="${esc(tvAt)}" target="_blank" rel="noopener" data-watch="${esc(tvName(tv, free, freeTag))}"` : 'span'} class="tvt" title="Watch on ${esc(tv)}"><span aria-hidden="true">📺</span> ${esc(tv.trim())}</${tvAt ? 'a' : 'span'}>` : '';
   const state = live ? 'is-live' : ms > 0 && ms < 3 * 36e5 ? 'is-soon' : '';
-  return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
+  return `<article class="ev sport-${e.sport} ${gcls(e)} ${state}${bigCls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e), e.session)}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}${free ? `<${freeAt ? `a href="${esc(freeAt)}" target="_blank" rel="noopener" class="fta ftac" data-watch="${esc(freeTag)}"` : 'span class="fta ftac"'} title="Free to watch on ${esc(free)}">FREE<span class="fch"> on ${esc(freeTag)}</span></${freeAt ? 'a' : 'span'}>` : freePrelims(e) ? (h => `<${h ? `a href="${esc(h)}" target="_blank" rel="noopener" data-watch="${esc(freePrelims(e))}"` : 'span'} class="fta ftac fpre" title="The prelims are free to watch; the main card is pay-per-view">FREE PRELIMS</${h ? 'a' : 'span'}>`)(freeHref(e, freePrelims(e))) : ''}${tvTag}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e), e.session)}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${bigTag(e)}${compBadge(e)}${intlTag(e)}${free ? `<${freeAt ? `a href="${esc(freeAt)}" target="_blank" rel="noopener" class="fta ftac" data-watch="${esc(freeTag)}"` : 'span class="fta ftac"'} title="Free to watch on ${esc(free)}">FREE<span class="fch"> on ${esc(freeTag)}</span></${freeAt ? 'a' : 'span'}>` : freePrelims(e) ? (h => `<${h ? `a href="${esc(h)}" target="_blank" rel="noopener" data-watch="${esc(freePrelims(e))}"` : 'span'} class="fta ftac fpre" title="The prelims are free to watch; the main card is pay-per-view">FREE PRELIMS</${h ? 'a' : 'span'}>`)(freeHref(e, freePrelims(e))) : ''}${tvTag}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup"><span class="side home">${teamName(e.home, e.homeLogo, e)}</span><span class="v">v</span><span class="side away">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${seriesLine(e, now)}
     </div>
@@ -2953,7 +2973,7 @@ function resCard(e, now) {
   return `<article class="ev res sport-${e.sport} ${gcls(e)}" data-open="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(titleOf(e))}, details">
     <div class="stripe"></div>
     <div class="body">
-      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e), e.session)}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${compBadge(e)}${intlTag(e)}</span></div>
+      <div class="comp"><span class="cmain"><span class="cicon">${sIcon(e.team === 'f1' ? 'f1' : e.sport)}</span><span class="ctitle"><span>${titleParts(cardComp(e), e.session)}</span></span></span><span class="ctags"><span class="cicon cicon2">${sIcon(e.sport)}</span>${bigTag(e)}${compBadge(e)}${intlTag(e)}</span></div>
       ${solo(e) ? soloTitle(e) : `<div class="teams matchup${split ? ' scored' : ''}"><span class="side home ${fres('home')}">${teamName(e.home, e.homeLogo, e)}</span>${split ? `<span class="v vsc">${scoreTag(split[0], res('home'))}<span class="vv">v</span>${scoreTag(split[1], res('away'))}</span>` : fw ? `<span class="v vhow"><span>v</span>${howTxt ? `<small>${esc(howTxt)}</small>` : ''}</span>` : '<span class="v">v</span>'}<span class="side away ${fres('away')}">${teamNameR(e.away, e.awayLogo, e)}</span></div>`}
       ${e.summary ? (hidden ? '<div class="summary" aria-hidden="true">&nbsp;</div>' : `<div class="summary" title="${esc(e.summary)}">${esc(e.summary)}</div>`) : ''}
     </div>
