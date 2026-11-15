@@ -473,7 +473,7 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 .nowchip[aria-pressed="true"] { background: var(--sport); color: var(--paper) }
 /* a series or tournament that has just finished: a dashed outline, quieter text and a green tick where the live dot goes
    (the top-left corner, on the icon's side) */
-.nowchip.is-ended:not([aria-pressed="true"]) { border-style: dashed; background: var(--paper); color: var(--muted) }
+.nowchip.is-ended:not([aria-pressed="true"]) { background: var(--paper); color: var(--muted) }
 .hubres .enddot { display: block; flex: none; width: 14px; height: 14px; border-radius: 50%; background: #2f9e44; color: #fff; font-size: 10px; line-height: 14px; text-align: center; font-weight: 700 }
 .nowchip .enddot { position: absolute; top: -2px; left: -2px; width: 14px; height: 14px; border-radius: 50%; background: #2f9e44; color: #fff; font-size: 10px; line-height: 14px; text-align: center; font-weight: 700; box-shadow: 0 0 0 2px var(--paper) }
 .sportchip[aria-pressed="true"] { background: var(--sport); border-color: var(--sport); color: var(--paper) }
@@ -511,7 +511,7 @@ footer .fsrc { border-top: 1px solid var(--line); padding-top: 12px }
 :is(#nowChips, #weekComps) > .nowchip.two[aria-pressed="true"], :is(#nowChips, #weekComps) > .nowchip.tbrand[aria-pressed="true"] { background: var(--tb-bg, var(--paper)); color: var(--tb-ink, inherit); border-color: #fff; box-shadow: 0 0 0 1px #fff, 0 0 12px 2px rgb(255 255 255 / .4) }
 .nowchip.tbrand.is-live { border-color: var(--tb-glow) }
 .nowchip.tbrand.is-rain { border-color: #1c7ed6; box-shadow: 0 0 9px 1px color-mix(in srgb, #1c7ed6 55%, transparent) }
-.nowchip.two.is-ended:not([aria-pressed="true"]), .nowchip.tbrand.is-ended:not([aria-pressed="true"]) { background: var(--tb-bg, var(--paper)); color: var(--tb-ink, inherit); border-style: dashed }
+.nowchip.two.is-ended:not([aria-pressed="true"]), .nowchip.tbrand.is-ended:not([aria-pressed="true"]) { background: var(--tb-bg, var(--paper)); color: var(--tb-ink, inherit) }
 .nowchip.tbrand.is-ended:not([aria-pressed="true"]) { box-shadow: none; filter: saturate(.45) brightness(.8) }
 .nowchip.two.is-ended:not([aria-pressed="true"]) .nside { filter: saturate(.45) brightness(.8) }
 /* women's games in violet and wheelchair games in teal, whatever the sport, so mixed competitions read apart at a glance */
@@ -1690,7 +1690,7 @@ html.tight #sportFilter .chip { font-size: 13px; padding: 2px 8px; margin: 0 2px
   :is(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide) { border-image: linear-gradient(transparent, transparent) 1 }
   :is(.btn, .chip, .pcoffee, .hidgo, footer .fbtn, .calgo a, .calgo button, .revall, .nzonly, .hubtabs button, .dtabs button, .dlinks a, #teamGroups .ghide)::after {
     content: ""; position: absolute; inset: -1px; border: 2px solid; border-width: 2px 3px; border-color: inherit; border-radius: inherit; pointer-events: none }
-  .nowchip :is(.livedot, .enddot) { z-index: 1 } .nowchip.is-ended:not([aria-pressed="true"])::after { border-style: dashed }
+  .nowchip :is(.livedot, .enddot) { z-index: 1 }
   /* (with the id, to outweigh the :is() list above, which counts as an id) */
   :is(#nowChips, #weekComps) > .nowchip.two { --bw: 2px; --bwx: 3px; border-width: 2px 3px; border-image: linear-gradient(transparent, transparent) 1 } :is(#nowChips, #weekComps) > .nowchip.two::after { content: ""; inset: calc(-1 * var(--bw)) calc(-1 * var(--bwx)); border-width: var(--bw) var(--bwx); border-style: inherit }
   .seg { border-width: 2px 3px; margin: -1px -2px }
