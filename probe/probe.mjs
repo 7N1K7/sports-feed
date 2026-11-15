@@ -1,5 +1,4 @@
-// the live feed's state for tonight's RLWC finals: status and whether a result is in (never the result itself)
+// the live feed's own checks (no scores), and how many results carry a first-seen time
 const j = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
-console.log('feed built', j.generatedAt);
-for (const e of j.events.filter(e => /rlwc-(w|m)-final/.test(e.id))) console.log(e.id, '| status', e.status, '| result in:', !!(e.score || e.summary), '| keys', Object.keys(e).filter(k => !/score|summary|winner|result|leaders/i.test(k)).join(','));
-// rerun 11:31:32
+console.log('feed built', j.generatedAt, '| results timed:', j.events.filter(e => e.resultAt).length);
+console.log(JSON.stringify(j.checks, null, 1).slice(0, 6000));
