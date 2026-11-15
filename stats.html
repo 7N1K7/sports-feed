@@ -130,6 +130,7 @@ button, input { font: inherit; color: inherit }
 .tile .l { color: var(--muted); font-size: 13px }
 .tile .v { font-size: 24px; font-weight: 700; line-height: 1.2 }
 .tile .s { color: var(--muted); font-size: 13px }
+#blkDays table td:not(:first-child), #blkDays table th:not(:first-child) { text-align: right } #blkDays .tbl { margin-top: 10px }
 /* the daily chart */
 .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-bottom: 6px }
 .legend i { display: inline-block; width: 16px; height: 2px; border-radius: 1px; vertical-align: middle; margin-right: 6px }
@@ -403,7 +404,6 @@ th { color: var(--muted); font-weight: 600 }
       <section class="card ov-v" aria-live="polite" data-name="Visits">
       <div class="hero"><span class="big" id="heroN">0</span><span class="lbl" id="heroL">visits</span></div>
       <div class="tiles" id="tiles"></div>
-      <p class="note" id="blockNote" hidden></p>
     </section>
       <section class="card ov-e">
       <h2>Each day <span class="note" id="chartSub" style="text-transform:none;letter-spacing:0;font-weight:500"></span></h2>
@@ -417,6 +417,7 @@ th { color: var(--muted); font-weight: 600 }
       <div class="chartbox" id="hours"></div>
     </section>
     </div>
+      <section class="card" id="blkCard"><h2>Tracker blockers</h2><div class="tiles" id="blkTiles"></div><div id="blkDays"></div><p class="note">Browsers with an ad or tracker blocker (Brave, Vivaldi, uBlock Origin and others) stopped every visit from being counted until 14 Nov 2026; they're counted now. Page loads from 15 Nov, people from 16 Nov. The estimate for earlier days uses these shares, so it's a guess that firms up as more days come in.</p></section>
       <section class="card"><h2>When people visit</h2><div class="heat" id="heat" role="img" aria-label="Page views by day of the week and hour"></div><div class="hkey">Fewer<b></b>More page views</div><p class="note">Page views by day of the week and hour of the day, NZ time: the average a day over the chosen days. Hold or hover on a square for its number.</p></section>
       <section class="card">
       <h2>Reports and ideas</h2>
@@ -1120,11 +1121,25 @@ function draw() {
         const ok = prev && countedFrom(prev, 'opens', 'use', 'event', 'sport', 'watch', 'outlink', 'follow', 'unfollow', 'hidesport', 'showsport');
         const pn = ok && rate(prev.now), pv = ok && rate(prev.was), ch = pn != null && pv != null ? change(Math.round(pn * 10), Math.round(pv * 10)) : '';
         return tile('Taps a visit', visits ? tv.toFixed(1) : '–', `${pl(taps, 'tap', 'taps')}${ch && ch !== '–' ? ` · ${ch} on the days before` : ''}`); })();
-  // page loads from a browser with a tracker blocker: counted from 14 Nov 2026, when visits stopped being sent as a beacon
-  // (which blockers drop); each load also sends one, and the loads whose beacon never came are the ones the old way missed
-  { const bd = list.filter(d => d >= '2026-11-15'), lv = bd.reduce((a, d) => a + per[d].views, 0), ok = bd.reduce((a, d) => a + (ds[d].beaconok?.[''] || 0), 0), miss = Math.max(0, lv - ok);
-    $('blockNote').hidden = !lv;
-    $('blockNote').textContent = lv ? `${pl(miss, 'page load', 'page loads')} of ${fmtN(lv)} (${Math.round(100 * miss / lv)}%) ${bd[0] > list[0] ? `since ${short(bd[0])} ` : ''}came from a browser that blocks trackers: counted now, missed before 14 Nov` : ''; }
+  // browsers with a tracker blocker: from 14 Nov 2026 visits go by fetch, which blockers let through, and each page load
+  // also sends a beacon, which they stop ('beaconok' when it comes, from 15 Nov; 'beaconpeople', once a person a day, from
+  // 16 Nov). A load or a person with no beacon is one the old way missed; the shares estimate what the days before missed
+  { const tileB = (l, v, sub) => `<div class="tile"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`;
+    const dd = d => dayLabel(d, { day: 'numeric', month: 'short' }), dw = d => dayLabel(d, { weekday: 'short', day: 'numeric' });
+    const pct = (a, b) => b ? Math.round(100 * a / b) + '%' : '–';
+    const ld = list.filter(d => d >= '2026-11-15'), pd = list.filter(d => d >= '2026-11-16'), old = list.filter(d => d < '2026-11-14');
+    const lv = ld.reduce((a, d) => a + per[d].views, 0), lok = ld.reduce((a, d) => a + (ds[d]?.beaconok?.[''] || 0), 0), lb = Math.max(0, lv - lok);
+    const pv = pd.reduce((a, d) => a + per[d].visitors, 0), pok = pd.reduce((a, d) => a + (ds[d]?.beaconpeople?.[''] || 0), 0), pb = Math.max(0, pv - pok);
+    const sl = lv ? lb / lv : null, sp = pv ? pb / pv : null;
+    const ov = old.reduce((a, d) => a + per[d].views, 0), op = old.reduce((a, d) => a + per[d].visitors, 0);
+    const est = (n, sh) => sh == null || sh >= 1 ? null : Math.round(n * sh / (1 - sh));
+    const eL = old.length ? est(ov, sl) : null, eP = old.length ? est(op, sp ?? sl) : null;
+    $('blkTiles').innerHTML = tileB('Page loads with a blocker', pct(lb, lv), lv ? `${fmtN(lb)} of ${fmtN(lv)} since ${dd(ld[0])}` : 'none counted yet in these days')
+      + tileB('People with a blocker', pct(pb, pv), pv ? `${fmtN(pb)} of ${fmtN(pv)} since ${dd(pd[0])}` : 'from 16 Nov')
+      + tileB('Missed before 14 Nov', eL == null ? '–' : '≈ ' + fmtN(eL), !old.length ? 'pick a range with days before 14 Nov' : eL == null ? 'once shares are in' : `page loads${eP != null ? `, ≈ ${pl(eP, 'person', 'people')}` : ''}, over ${pl(old.length, 'day', 'days')} (a guess)`);
+    const rows = ld.slice().reverse().map(d => { const v = per[d].views, ok = ds[d]?.beaconok?.[''] || 0, p = per[d].visitors, pk = ds[d]?.beaconpeople?.[''] || 0;
+      return `<tr><td>${dw(d)}</td><td>${fmtN(v)}</td><td>${fmtN(Math.max(0, v - ok))} · ${pct(Math.max(0, v - ok), v)}</td><td>${d >= '2026-11-16' ? `${fmtN(Math.max(0, p - pk))} of ${fmtN(p)} · ${pct(Math.max(0, p - pk), p)}` : '–'}</td></tr>`; }).join('');
+    $('blkDays').innerHTML = rows ? `<details class="tbl"><summary>Each day</summary><table><tr><th>Day</th><th>Loads</th><th>Blocked</th><th>People blocked</th></tr>${rows}</table></details>` : ''; }
   // a day on its own is no line: Today shows the last 7 days
   const VIS = [['visitors', 'People', 'var(--series-1)'], ['opens', 'Visits', 'var(--series-2)'], ['views', 'Page views', 'var(--series-3)']];
   const w7 = n < 3 ? shape(7) : null, cl = (w7 || { list }).list.filter(d => d >= d0);

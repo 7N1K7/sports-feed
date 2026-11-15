@@ -120,7 +120,14 @@ async function hit(req, env, body) {
   // from 14 Nov 2026 a page load, once counted, also sends a beacon (the old way, which tracker blockers drop): those that
   // get through, against page views, show how many visits the old way missed. Not a visit or a tap, and kept out of the
   // visitor's tally so it can't stand in for their first message
-  if (b.e === 'bk') { if (!DATACENTRE.has(req.cf?.asn)) await bump(env, day, 'beaconok').run(); return; }
+  // a page load's beacon got through (no tracker blocker); from 16 Nov 2026 the browser is also counted once a day
+  // ('beaconpeople'), so the stats page can tell how many people have a blocker, not only how many page loads
+  if (b.e === 'bk') {
+    if (DATACENTRE.has(req.cf?.asn)) return;
+    await bump(env, day, 'beaconok').run();
+    if (await tick(env, day, await codeOf(salt, ip, ua, 'bk'), MAX_PER_VISITOR) === 1) await bump(env, day, 'beaconpeople').run();
+    return;
+  }
   const h = await codeOf(salt, ip, ua);
   const n = await tick(env, day, h, MAX_PER_VISITOR);
   if (!n || n > MAX_PER_VISITOR) return;
