@@ -1,9 +1,103 @@
-DAILY15D
-== 2026–27 Women's Big Bash League season
-"Single-innings cricket match\n| round = {{anchor|match21}} '''Match 21'''\n| date = 14 November 2026\n| time = 15:40\n| team1 = [[Hobart Hurricanes (WBBL)|Hobart Hurricanes]] (H)\n| team2 = [[Brisbane Heat (WBBL)|Brisbane Heat]]\n| score1 =\n| runs1 =\n| wickets1 =\n| score2 =\n| runs2 =\n| wickets2 =\n| result =\n| report = [https://www.cricinfo.com/ci/engine/match/1543964.html Scorecard]\n| venue = [[Bellerive Oval]], [[Hobart]]\n| umpires =\n| motm =\n| toss =\n| rain =\n| notes = \n}}\n<section end=match21/>\n----\n<section begin=match22/>\n"
-== 2026–27 Ford Trophy
-"Single-innings cricket match\n| round = {{anchor|match10}} '''Match 10'''\n| date = 8 November 2026\n| time = 10:30\n| daynight = \n| team1 = {{cr-NZ|nd}}\n| team2 = {{cr-NZ|otg}}\n| score1 = \n| runs1 = \n| wickets1 = \n| score2 = \n| runs2 = \n| wickets2 = \n| result = \n| report = [https://www.cricinfo.com/ci/engine/match/1550293.html Scorecard]\n| venue = \n| umpires = \n| motm = \n| toss = \n| rain = \n| notes = \n}}\n----\n"
-== 2026–27 Ford Trophy
-"Single-innings cricket match\n| round = {{anchor|match11}} '''Match 11'''\n| date = 8 November 2026\n| time = 10:30\n| daynight = \n| team1 = {{cr-NZ|wel}}\n| team2 = {{cr-NZ|akl}}\n| score1 = \n| runs1 = \n| wickets1 = \n| score2 = \n| runs2 = \n| wickets2 = \n| result = \n| report = [https://www.cricinfo.com/ci/engine/match/1550294.html Scorecard]\n| venue = \n| umpires = \n| motm = \n| toss = \n| rain = \n| notes = \n}}\n----\n"
-== 2026–27 Ford Trophy
-"Single-innings cricket match\n| round = {{anchor|match1}} '''Match 1'''\n| date = 28 October 2026\n| time = 10:30\n| daynight = \n| team1 = {{cr-NZ|akl}}\n| team2 = {{cr-NZ|can}}\n| score1 = 361/5 (50 overs)\n| runs1 = [[Sean Solia]] 120 (119)\n| wickets1 = [[Angus McKenzie (cricketer)|Angus McKenzie]] 2/61 (10 overs)\n| score2 = 311 (44.1 overs)\n| runs2 = [[Chad Bowes]] 154 (106)\n| wickets2 = [[Adithya Ashok]] 3/64 (9 overs)\n| result = Auckland won by 33 runs ([[Duckworth–Lewis–Stern method|DLS method]])\n| report = [https://www.cricinfo.com/ci/engine/match/1550284.html Scorecard]\n| venue = Eden Park Outer Oval, [[Auckland]]\n| umpires = Vinit Mahna and Greg Pennell\n| motm = \n| toss = Canterbury won th"
+AWIND
+== https://i.mjh.nz/nz/epg.xml 13176991
+Sun 4:00 pm | DUKE | International Football | Live coverage of the New Zealand All Whites second and final match against India from One NZ Stadium in Christchurch
+Sun 5:00 pm | TVNZ DUKE+1 | International Football | Live coverage of the New Zealand All Whites second and final match against India from One NZ Stadium in Christchurch
+Sun 4:30 pm | Al Jazeera | UpFront | Marc Lamont Hill speaks to Aatish Taseer about India's protests, voter suppression allegations and Modi's grip on power.
+== https://i.mjh.nz/SkyGo/epg.xml 69783286
+Sun 9:30 am | Three | Diners, Drive-ins, And Dives | Guy Fieri's going global with killer croquettes in New Jersey, Turkish dumplings in Cambridge, Massachusetts, and soul food in Indianapolis.
+Mon 11:25 am | BBC UKTV | Antiques Roadshow | Helmingham Hall 1: Fiona Bruce and the team head to Helmingham Hall in Suffolk. Items include a medieval sword dredged up from a pond and an
+Sun 5:50 pm | Sky Factual | Schmeichel | A look into the life of Peter Schmeichel - one of the world's most iconic footballers, and possibly the greatest goalkeeper of all time.
+Sun 8:30 pm | Sky Factual | Copa 71 | The pioneering footballers who participated in the 1971 Women's World Cup tell their extraordinary story, giving insight into a tournament t
+Sun 10:00 pm | Sky Factual | Anthony Bourdain: Parts Unknown | Anthony takes a trip to meat-centric Buenos Aires during the hot summer month of February. Whilst there, he takes part in an after-hours foo
+Mon 2:25 am | Sky Factual | Schmeichel | A look into the life of Peter Schmeichel - one of the world's most iconic footballers, and possibly the greatest goalkeeper of all time.
+Mon 5:10 am | Sky Factual | Copa 71 | The pioneering footballers who participated in the 1971 Women's World Cup tell their extraordinary story, giving insight into a tournament t
+Mon 6:50 am | Sky Factual | Anthony Bourdain: Parts Unknown | Anthony takes a trip to meat-centric Buenos Aires during the hot summer month of February. Whilst there, he takes part in an after-hours foo
+Mon 10:00 am | Sky Factual | Schmeichel | A look into the life of Peter Schmeichel - one of the world's most iconic footballers, and possibly the greatest goalkeeper of all time.
+Mon 12:40 pm | Sky Factual | Copa 71 | The pioneering footballers who participated in the 1971 Women's World Cup tell their extraordinary story, giving insight into a tournament t
+Sun 2:50 pm | TLC | Ghost Adventures: House Calls | Insidious In Indiana: Zak's team lands in the ominous-sounding ‘Hangman’s Corner’ neighbourhood of Seymour, Indiana, to answer a call from a
+Mon 3:30 am | TLC | Destination Fear | Randolph County Infirmary: The team reinvestigates an Indiana infirmary where something terrorized Tanner five years ago. S2 E9
+Sun 4:00 pm | TVNZ DUKE | International Football | Live coverage of the New Zealand All Whites second and final match against India from One NZ Stadium in Christchurch
+Sun 8:25 am | Sky Movies Comedy | Bride and Prejudice | Bollywood meets Hollywood in this cross-cultural update of Jane Austen's classic, in which a wealthy American meets an Indian beauty.
+Mon 6:45 am | Sky Sport 1 | BLACKCAPS v India | Highlights of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Sun 2:00 pm | Sky Sport 2 | BLACKCAPS v India | Highlights of the fourth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Sun 2:30 pm | Sky Sport 2 | BLACKCAPS v India | LIVE coverage of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Mon 6:00 am | Sky Sport 2 | BLACKCAPS v India | Highlights of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Mon 12:50 am | Sky Sport 3 | Football: Women's Super League | Highlights from the Women's Super League as Chelsea take on Manchester City at Stamford Bridge, London.
+Mon 1:05 am | Sky Sport 3 | Football: Women's Super League | Highlights from the Women's Super League as Arsenal take on London City Lionesses at the Emirates Stadium, London.
+Mon 5:30 am | Sky Sport 3 | BLACKCAPS v India | Highlights of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Mon 11:25 am | Sky Sport 3 | BLACKCAPS v India | Highlights of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Mon 2:15 am | Sky Sport 4 | BLACKCAPS v India | Highlights of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Mon 2:50 am | Sky Sport 5 | Football: Women's Super League | LIVE coverage from the Women's Super League as Aston Villa take on Birmingham City at Villa Park, Birmingham.
+Mon 5:20 am | Sky Sport 5 | Football: Women's Super League | LIVE coverage from the Women's Super League as Arsenal take on London City Lionesses at the Emirates Stadium, London.
+Sun 11:00 am | Sky Sport 6 | BLACKCAPS v India | Highlights of the fourth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Mon 2:50 am | Sky Sport 6 | Football: Women's Super League | LIVE coverage from the Women's Super League as West Ham United take on Charlton Athletic at Chigwell Construction Stadium, Dagenham.
+Mon 7:00 am | Sky Sport 7 | BLACKCAPS v India | Coverage of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Sun 9:30 am | Sky Sport Premier League | PL STORIES | EP13: PEP - THE LEGACY. As Manchester City embark on a new chapter, we celebrate the extraordinary legacy of Pep Guardiola, the visionary wh
+Sun 10:00 am | Sky Sport Premier League | PL STORIES | EP18: ROBERTO MANCINI. From a celebrated playing career in Italy to becoming the man who transformed Manchester City into Premier League cha
+Sun 11:00 am | Sky Sport Premier League | THE BIG INTERVIEW | EP02: KAI HAVERTZ. As a young boy cheering from the terraces of his hometown club, Alemannia Aachen, Kai Havertz fell in love with a striker
+Sun 11:30 am | Sky Sport Premier League | THE BIG INTERVIEW | EP05: PATRICK VIEIRA. From street football in Senegal to becoming Arsenal captain, Patrick Vieira reflects on the journey that shaped one of
+Sun 3:00 pm | Sky Sport Premier League | GENERATION xG | MON 09 NOV. A deep dive into the tactical trends and statistical insights of modern football, with input from players, managers and data exp
+Sun 9:30 pm | Sky Sport Premier League | PL STORIES | EP09: KEVIN KEEGAN. From fearless forward to one of English football's most inspirational figures, this is the story of Kevin Keegan. We cha
+Sun 11:30 pm | Sky Sport Premier League | PL STORIES | EP13: PEP - THE LEGACY. As Manchester City embark on a new chapter, we celebrate the extraordinary legacy of Pep Guardiola, the visionary wh
+Mon 3:00 am | Sky Sport Premier League | GENERATION xG | MON 09 NOV. A deep dive into the tactical trends and statistical insights of modern football, with input from players, managers and data exp
+Mon 8:00 am | Sky Sport Premier League | PL STORIES | EP24: MIKEL ARTETA. We explore Mikel Arteta s impact at Arsenal and the managerial approach behind his success, reflecting on how his upbrin
+Mon 8:30 am | Sky Sport Premier League | PL STORIES | EP23: ASTON VILLA 92-93 - BEHIND THE FIRST SEASON. Aston Villa s 1992/93 season had all the ingredients of a defining football story. Throug
+Mon 9:30 am | Sky Sport Premier League | PL STORIES | EP09: KEVIN KEEGAN. From fearless forward to one of English football's most inspirational figures, this is the story of Kevin Keegan. We cha
+Mon 11:30 am | Sky Sport Premier League | PL STORIES | EP13: PEP - THE LEGACY. As Manchester City embark on a new chapter, we celebrate the extraordinary legacy of Pep Guardiola, the visionary wh
+Mon 5:45 am | Sky Sport 9 | Football: Women's Super League | Highlights from the Women's Super League as Arsenal take on London City Lionesses at the Emirates Stadium, London.
+Sun 1:30 pm | ESPN2 | College Football | Collegiate gridiron teams compete in marquee matchups and fierce rivalries.
+Sun 9:30 pm | ESPN2 | College Football | Collegiate gridiron teams compete in marquee matchups and fierce rivalries.
+Sun 4:30 pm | Al Jazeera | UpFront | Marc Lamont Hill speaks to Aatish Taseer about India's protests, voter suppression allegations and Modi's grip on power.
+Sun 4:30 pm | Star Plus Hindi | India Ke Top 1% | Tune into India Ke Top 1 Percent and discover the lifestyles, wealth, businesses and influence of the country's most successful individuals 
+Sun 11:00 pm | Star Plus Hindi | India Ke Top 1% | Tune into India Ke Top 1 Percent and discover the lifestyles, wealth, businesses and influence of the country's most successful individuals 
+Mon 3:30 am | Star Plus Hindi | India Ke Top 1% | Tune into India Ke Top 1 Percent and discover the lifestyles, wealth, businesses and influence of the country's most successful individuals 
+Mon 3:30 am | Universal | Law &amp; Order | (S16E15) Choice Of Evils: After a teenaged runaway is found shot in the chest, Det. Fontana and Green begin to suspect his upstate "soccer m
+Sun 2:30 pm | Sky Sport 4K UHD | BLACKCAPS v India | LIVE coverage of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Sun 10:30 am | Three +1 | Diners, Drive-ins, And Dives | Guy Fieri's going global with killer croquettes in New Jersey, Turkish dumplings in Cambridge, Massachusetts, and soul food in Indianapolis.
+Sun 5:00 pm | TVNZ DUKE +1 | International Football | Live coverage of the New Zealand All Whites second and final match against India from One NZ Stadium in Christchurch
+== https://i.mjh.nz/SkySportNow/epg.xml 908647
+Sun 6:05 am | Sky Sport 7 | Football: Women's Super League | LIVE coverage from the Women's Super League as Brighton &amp; Hove Albion take on Liverpool at the AmEx Stadium, East Sussex.
+Mon 7:00 am | Sky Sport 7 | BLACKCAPS v India | Coverage of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Sat 11:35 pm | Sky Sport 9 | BLACKCAPS v India | Highlights of the fourth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Mon 5:45 am | Sky Sport 9 | Football: Women's Super League | Highlights from the Women's Super League as Arsenal take on London City Lionesses at the Emirates Stadium, London.
+Sat 11:00 pm | Sky Sport Premier League | THE BIG INTERVIEW | EP02: KAI HAVERTZ. As a young boy cheering from the terraces of his hometown club, Alemannia Aachen, Kai Havertz fell in love with a striker
+Sat 11:30 pm | Sky Sport Premier League | THE BIG INTERVIEW | EP05: PATRICK VIEIRA. From street football in Senegal to becoming Arsenal captain, Patrick Vieira reflects on the journey that shaped one of
+Sun 6:00 am | Sky Sport Premier League | PL STORIES | EP21: MARCUS STEWART - THE FIGHT OF MY LIFE. Ipswich Town legend and former Sunderland striker Marcus Stewart built a career on taking on so
+Sun 9:30 am | Sky Sport Premier League | PL STORIES | EP13: PEP - THE LEGACY. As Manchester City embark on a new chapter, we celebrate the extraordinary legacy of Pep Guardiola, the visionary wh
+Sun 10:00 am | Sky Sport Premier League | PL STORIES | EP18: ROBERTO MANCINI. From a celebrated playing career in Italy to becoming the man who transformed Manchester City into Premier League cha
+Sun 11:00 am | Sky Sport Premier League | THE BIG INTERVIEW | EP02: KAI HAVERTZ. As a young boy cheering from the terraces of his hometown club, Alemannia Aachen, Kai Havertz fell in love with a striker
+Sun 11:30 am | Sky Sport Premier League | THE BIG INTERVIEW | EP05: PATRICK VIEIRA. From street football in Senegal to becoming Arsenal captain, Patrick Vieira reflects on the journey that shaped one of
+Sun 3:00 pm | Sky Sport Premier League | GENERATION xG | MON 09 NOV. A deep dive into the tactical trends and statistical insights of modern football, with input from players, managers and data exp
+Sun 9:30 pm | Sky Sport Premier League | PL STORIES | EP09: KEVIN KEEGAN. From fearless forward to one of English football's most inspirational figures, this is the story of Kevin Keegan. We cha
+Sun 11:30 pm | Sky Sport Premier League | PL STORIES | EP13: PEP - THE LEGACY. As Manchester City embark on a new chapter, we celebrate the extraordinary legacy of Pep Guardiola, the visionary wh
+Mon 3:00 am | Sky Sport Premier League | GENERATION xG | MON 09 NOV. A deep dive into the tactical trends and statistical insights of modern football, with input from players, managers and data exp
+Mon 8:00 am | Sky Sport Premier League | PL STORIES | EP24: MIKEL ARTETA. We explore Mikel Arteta s impact at Arsenal and the managerial approach behind his success, reflecting on how his upbrin
+Mon 8:30 am | Sky Sport Premier League | PL STORIES | EP23: ASTON VILLA 92-93 - BEHIND THE FIRST SEASON. Aston Villa s 1992/93 season had all the ingredients of a defining football story. Throug
+Mon 9:30 am | Sky Sport Premier League | PL STORIES | EP09: KEVIN KEEGAN. From fearless forward to one of English football's most inspirational figures, this is the story of Kevin Keegan. We cha
+Mon 11:30 am | Sky Sport Premier League | PL STORIES | EP13: PEP - THE LEGACY. As Manchester City embark on a new chapter, we celebrate the extraordinary legacy of Pep Guardiola, the visionary wh
+Sun 1:35 am | Sky Sport 3 | Football: Women's Super League | LIVE coverage from the Women's Super League as Manchester United take on Crystal Palace at Progress with Unity Stadium, Manchester.
+Mon 12:50 am | Sky Sport 3 | Football: Women's Super League | Highlights from the Women's Super League as Chelsea take on Manchester City at Stamford Bridge, London.
+Mon 1:05 am | Sky Sport 3 | Football: Women's Super League | Highlights from the Women's Super League as Arsenal take on London City Lionesses at the Emirates Stadium, London.
+Mon 5:30 am | Sky Sport 3 | BLACKCAPS v India | Highlights of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Mon 11:25 am | Sky Sport 3 | BLACKCAPS v India | Highlights of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Mon 6:45 am | Sky Sport 1 UHD | BLACKCAPS v India | Highlights of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Sun 2:20 am | Sky Sport 6 | Football: Women's Super League | LIVE coverage from the Women's Super League as Chelsea take on Manchester City at Stamford Bridge, London.
+Sun 7:00 am | Sky Sport 6 | BLACKCAPS v India | Highlights of the fourth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Sun 11:00 am | Sky Sport 6 | BLACKCAPS v India | Highlights of the fourth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Mon 2:50 am | Sky Sport 6 | Football: Women's Super League | LIVE coverage from the Women's Super League as West Ham United take on Charlton Athletic at Chigwell Construction Stadium, Dagenham.
+Sun 5:00 am | Sky Sport 2 | BLACKCAPS v India | Highlights of the fourth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Sun 7:50 am | Sky Sport 2 | BLACKCAPS v India | Highlights of the fourth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Sun 2:00 pm | Sky Sport 2 | BLACKCAPS v India | Highlights of the fourth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Sun 2:30 pm | Sky Sport 2 | BLACKCAPS v India | LIVE coverage of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Mon 6:00 am | Sky Sport 2 | BLACKCAPS v India | Highlights of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Sun 9:30 am | ESPN 2 | Live: College Football | Collegiate gridiron teams compete in marquee matchups and fierce rivalries.
+Sun 1:30 pm | ESPN 2 | College Football | Collegiate gridiron teams compete in marquee matchups and fierce rivalries.
+Sun 9:30 pm | ESPN 2 | College Football | Collegiate gridiron teams compete in marquee matchups and fierce rivalries.
+Sun 6:00 am | Sky Sport Select | BLACKCAPS v India | Highlights of the fourth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Mon 6:45 am | Sky Sport 1 | BLACKCAPS v India | Highlights of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Sun 2:30 pm | Sky Sport 4K UHD  | BLACKCAPS v India | LIVE coverage of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Mon 2:15 am | Sky Sport 4 | BLACKCAPS v India | Highlights of the fifth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Sun 9:00 am | Sky Sport 5 | BLACKCAPS v India | Highlights of the fourth One Day International between the BLACKCAPS and India at Bay Oval, Tauranga.
+Mon 2:50 am | Sky Sport 5 | Football: Women's Super League | LIVE coverage from the Women's Super League as Aston Villa take on Birmingham City at Villa Park, Birmingham.
+Mon 5:20 am | Sky Sport 5 | Football: Women's Super League | LIVE coverage from the Women's Super League as Arsenal take on London City Lionesses at the Emirates Stadium, London.
+== wiki 48287 "ref>\n}}\n{{Football result list\n|matchno=444\n|date=15 November 2026\n|stadium=[[Te Kaha (stadium)|Te Kaha]], [[Christchurch]]\n|home=h\n|opponent={{fb|IND}}\n|score1=\n|score2=\n|competition=Friendly\n|goalscorers=\n|attendance=\n|reference=<ref name=\"Elo\"/>\n}}\n{{end}}\n\n;Notes\n{{Cnote2 Begin|liststyle=disc}}\n{{Cnote2|A|'''A:''' Match played behind closed doors due to the [[COVID-19 pandemic in Asia]].}}\n{{Cnote2|B|'''B:''' Match was abandoned at halftime after Qatar winger, [[Yusuf Abdurisag]], was alleged to have racially abused New Zealand centre-back,"
