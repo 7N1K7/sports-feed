@@ -1,3 +1,99 @@
-feed built 2026-11-15T11:26:09.024Z
-rlwc-w-final | status final | result in: true | keys id,team,tags,sport,comp,home,away,startUTC,timeTBC,venue,city,tz,status,broadcast,source,watchAlt,link,watchAU
-rlwc-m-final | status final | result in: true | keys id,team,tags,sport,comp,home,away,startUTC,timeTBC,venue,city,tz,status,broadcast,source,watchAlt,link,watchAU,hl,homeBadge,awayBadge
+feed built 2026-11-15T18:33:07.524Z | results timed: 6
+{
+ "noResult": [
+  {
+   "s": "cricket",
+   "c": "Ford Trophy",
+   "n": "Auckland Aces v Otago Volts",
+   "at": "2026-11-11T21:30:00Z",
+   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
+  },
+  {
+   "s": "cricket",
+   "c": "Ford Trophy",
+   "n": "Central Stags v Wellington Firebirds",
+   "at": "2026-11-11T21:30:00Z",
+   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
+  },
+  {
+   "s": "cricket",
+   "c": "Ford Trophy",
+   "n": "Canterbury v Northern Districts",
+   "at": "2026-11-11T21:30:00Z",
+   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
+  },
+  {
+   "s": "cricket",
+   "c": "Hallyburton Johnstone Shield",
+   "n": "Central Hinds v Northern Districts",
+   "at": "2026-11-13T21:30:00Z",
+   "src": "https://www.nzc.nz/media/1cxbi35u/print_2026_hbj-schedule.pdf",
+   "noSource": true
+  },
+  {
+   "s": "cricket",
+   "c": "Hallyburton Johnstone Shield",
+   "n": "Auckland Hearts v Wellington Blaze",
+   "at": "2026-11-13T21:30:00Z",
+   "src": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/",
+   "noSource": true
+  },
+  {
+   "s": "cricket",
+   "c": "Hallyburton Johnstone Shield",
+   "n": "Canterbury Magicians v Otago Sparks",
+   "at": "2026-11-13T21:30:00Z",
+   "src": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/",
+   "noSource": true
+  },
+  {
+   "s": "cricket",
+   "c": "Hallyburton Johnstone Shield",
+   "n": "Auckland Hearts v Wellington Blaze",
+   "at": "2026-11-14T21:30:00Z",
+   "src": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/",
+   "noSource": true
+  },
+  {
+   "s": "cricket",
+   "c": "Hallyburton Johnstone Shield",
+   "n": "Canterbury Magicians v Otago Sparks",
+   "at": "2026-11-14T21:30:00Z",
+   "src": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/",
+   "noSource": true
+  },
+  {
+   "s": "cricket",
+   "c": "Hallyburton Johnstone Shield",
+   "n": "Central Hinds v Northern Districts",
+   "at": "2026-11-14T21:30:00Z",
+   "src": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/",
+   "noSource": true
+  },
+  {
+   "s": "football",
+   "c": "A-League Women",
+   "n": "Wellington Phoenix v Sydney FC",
+   "at": "2026-11-15T02:00:00Z",
+   "src": "https://wellingtonphoenix.com/?p=328993",
+   "noSource": true
+  },
+  {
+   "s": "football",
+   "c": "International friendly",
+   "n": "New Zealand v India",
+   "at": "2026-11-15T03:00:00Z",
+   "src": "https://www.christchurchnz.com/visit/whats-on/all-whites-v-india"
+  }
+ ],
+ "thinWeeks": [
+  {
+   "s": "cricket",
+   "c": "Hallyburton Johnstone Shield",
+   "week": "2026-11-15",
+   "n": 0,
+   "usual": 6,
+   "stopped": true
+  }
+ ]
+}
