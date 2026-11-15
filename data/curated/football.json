@@ -42,7 +42,7 @@
   {
    "sport": "football",
    "timeTBC": false,
-   "status": "upcoming",
+   "status": "final",
    "id": "wnpw-sydw-2026-11-15",
    "team": "phoenix",
    "comp": "A-League Women",
@@ -52,7 +52,8 @@
    "venue": "Porirua Park",
    "city": "Porirua",
    "tz": "Pacific/Auckland",
-   "source": "https://wellingtonphoenix.com/?p=328993"
+   "source": "https://wellingtonphoenix.com/?p=328993",
+   "score": "3-1"
   }
  ]
 }
