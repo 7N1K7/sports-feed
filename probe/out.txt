@@ -1,6 +1,11 @@
-https://kickoff.kiwi/data/feed.json 200 raw 1580 KB gzipped 221 KB enc gzip cache max-age=600
-https://kickoff.kiwi/ 200 raw 593 KB gzipped 178 KB enc gzip cache max-age=600
-https://kickoff.kiwi/index.html 200 raw 593 KB gzipped 178 KB enc gzip cache max-age=600
-parts events 902KB, teamSquads 201KB, form 198KB, tables 79KB, news 68KB, rankings 58KB, diag 39KB, teamLinks 16KB, stateSquads 12KB, coverage 3KB, checks 2KB, sources 1KB, site 0KB, generatedAt 0KB
-events 1062 past 444
-event fields source 77KB, squads 75KB, awayLogo 56KB, homeLogo 55KB, card 50KB, broadcast 47KB, id 41KB, startUTC 38KB, watchAU 37KB, link 34KB, comp 29KB, venue 28KB, tz 25KB, home 24KB, raceRes 24KB
+feed 2026-11-16T03:28:24.827Z version 777
+tennis events 3
+tennis-atp-finals-2026-m | tfinals | tennis | ATP Finals | 2026-11-22
+tennis-wta-finals-2026-w | tfinals | tennis | WTA Finals | 2026-11-16
+tennis-atp-finals-2027-m | tfinals | tennis | ATP Finals | 2027-11-21
+cal tslams 200 events 0 Grand Slams · Kickoff Kiwi
+cal tfinals 200 events 3 ATP and WTA Finals · Kickoff Kiwi
+cal asbclassic 200 events 0 ASB Classic · Kickoff Kiwi
+cal tausummer 200 events 0 Australian summer · Kickoff Kiwi
+cal tennis 200 events 3 Tennis · Kickoff Kiwi
+page has split true
