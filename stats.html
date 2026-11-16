@@ -1257,7 +1257,7 @@ function draw() {
   const errRank = m => { const x = errOf(m); return x.back ? 0 : x.f ? 2 : 1; };
   const vsText = vs => { const t = vs.filter(Boolean).map(v => 'v' + v), old = vs[0] === 0 ? ['before v404'] : [];
     return t.length > 3 ? [...old, `${t[0]} to ${t[t.length - 1]} (${t.length} versions)`].join(', ') : [...old, ...t].join(', '); };
-  bars('error', Object.fromEntries(Object.keys(errs).map(m => [m, errs[m].n])), m => { const x = errOf(m), k = `${m}${x.vs.some(Boolean) ? ` [${vsText(x.vs)}]` : ''}`; if (!x.f) return k;
+  bars('error', Object.fromEntries(Object.keys(errs).map(m => [m, errs[m].n])), m => { const x = errOf(m), k = `${m}${x.vs.some(Boolean) ? ` [${vsText(x.vs)}]` : ''}`; if (!x.f) return `${k} · last seen ${dayLabel(errs[m].keys.reduce((a, q) => lastSeen[q] > a ? lastSeen[q] : a, ''))}`;
     const [, day, v, what] = x.f;
     return `${x.back ? `⚠ Back after the ${v} fix (seen ${dayLabel(x.seen, { day: 'numeric', month: 'short' })})` : `✓ Fixed in ${v} (${dayLabel(day, { day: 'numeric', month: 'short' })})`}: ${k} · ${what}`; },
     Object.keys(errs).sort((a, b) => errRank(a) - errRank(b) || errs[b].n - errs[a].n || a.localeCompare(b)));
