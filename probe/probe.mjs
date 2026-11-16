@@ -1,8 +1,8 @@
 const f = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).json();
-const now = Date.now(), H = 36e5;
-// finished-by-time games from Fri 13 Nov 11am UTC (Sat NZ) with no result yet; names only, never a result
-const miss = f.events.filter(e => { const t = Date.parse(e.startUTC); return t > Date.parse('2026-11-13T11:00:00Z') && t < now - 10 * H && !(e.status === 'final' && (e.score || e.summary)) && !/golf|motor|cycling|sailing/.test(e.sport) && !e.cancelled; });
-console.log('no result yet:', miss.length);
-for (const e of miss) console.log(' ', e.startUTC.slice(0, 16), e.sport, '|', e.comp, '|', e.home || '', 'v', e.away || '', '|', e.status, e.curated ? 'hand-kept' : '', '| id', e.id);
-const d = f.diag || {};
-for (const [k, v] of Object.entries(d)) if (/miss|quiet|dup|gap|fail|error|stale|warn|unmatched/i.test(k + ' ' + String(v).slice(0, 80))) console.log('diag', k, '=', String(v).slice(0, 260));
+for (const e of f.events.filter(e => e.sport === 'golf' && Math.abs(Date.parse(e.startUTC) - Date.now()) < 9 * 864e5)) console.log(e.id, '|', e.startUTC, e.timeTBC ? 'TBC' : 'timed', '|', e.broadcast || '', '|', e.watchNote || '', '| tvAt', e.tvAt || e.tvStart || '');
+for (const u of ['https://i.mjh.nz/SkySportNow/epg.xml', 'https://i.mjh.nz/SkyGo/epg.xml']) {
+  const x = await (await fetch(u)).text();
+  const ps = [...x.matchAll(/<programme start="(\d{14}) ([+-]\d{4})" stop="(\d{14}) [^"]*" channel="([^"]*)">([\s\S]*?)<\/programme>/g)]
+    .filter(m => /golf|PGA|RSM|Austin|NSW Open|Queensland PGA|DP World|Masters/i.test(m[5]) && m[1] >= '20261116' && m[1] <= '20261124');
+  for (const m of ps.slice(0, 40)) console.log(u.split('/')[3], m[4], m[1].slice(4, 12), m[2], '|', (m[5].match(/<title[^>]*>([^<]*)/) || [])[1], '|', ((m[5].match(/<desc[^>]*>([^<]*)/) || [])[1] || '').slice(0, 110));
+}
