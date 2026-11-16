@@ -135,7 +135,7 @@ button, input { font: inherit; color: inherit }
 .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-bottom: 6px }
 .legend i { display: inline-block; width: 16px; height: 2px; border-radius: 1px; vertical-align: middle; margin-right: 6px }
 .chartbox { position: relative }
-.chartbox svg { display: block; width: 100%; height: 240px; overflow: visible; touch-action: pan-y }
+.chartbox svg { display: block; width: 100%; height: var(--ch, 240px); overflow: visible; touch-action: pan-y }
 #hours svg { height: 170px }
 /* the top line: new errors to look at, or that there are none; one line either way, so nothing below moves */
 .erralert { display: flex; align-items: center; gap: 8px 12px; min-height: 44px; margin-top: 12px; padding: 6px 8px 6px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); font-size: 14px }
@@ -149,7 +149,21 @@ button, input { font: inherit; color: inherit }
 #error { grid-auto-rows: auto; max-height: calc(10 * 21px + 9 * 7px); overflow: hidden } #error.all { overflow-y: auto } #error .bar { grid-template-columns: minmax(0, 1fr) var(--nw, auto) } #error .bar .t { display: none } #error .bar .k { white-space: normal; overflow-wrap: anywhere; font-size: 13px }
 .chartbox text { fill: var(--muted); font-size: 11px; font-family: var(--f-body) }
 .chartbox .end { font-size: 12px; font-weight: 600; fill: var(--ink) }
-.chartbox .peak { font-size: 11px; font-weight: 700; fill: var(--ink) }
+.chartbox .peak { font-size: 11px; font-weight: 700; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round }
+/* a graph's own buttons, on its heading: lines or bars, and the same graph opened big */
+.card h2.ch { display: flex; align-items: center; gap: 8px; min-height: 24px }
+.card h2.ch .note { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.ctools { margin-left: auto; display: inline-flex; gap: 4px; flex: none }
+.ctools button { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 24px; padding: 0; border: 1px solid var(--line); background: var(--paper); color: var(--muted); border-radius: 8px; cursor: pointer; -webkit-tap-highlight-color: transparent }
+.ctools button svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round }
+.ctools button[aria-pressed="true"] { color: var(--ink); border-color: var(--muted); background: var(--surface) }
+.ctools [data-big] { margin-left: 4px }
+#big { width: min(1320px, calc(100vw - 24px)); max-width: none; max-height: none; padding: 0 18px 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--ink) }
+#big::backdrop { background: rgba(0, 0, 0, .6) }
+#big .dh { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 14px 0 12px }
+#big .ctools { margin-left: 0 }
+#big h3 { margin: 0 6px 0 0; font: 700 24px/1.1 var(--f-display); min-width: 0 }
+#big .x { margin-left: auto; flex: none; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); cursor: pointer; font-size: 18px; line-height: 1 }
 .tip { position: absolute; top: 0; pointer-events: none; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; font-size: 13px; white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,.35); transform: translateX(-50%) }
 .tip .d { color: var(--muted); font-size: 12px }
 .tip .row { display: flex; align-items: center; gap: 6px }
@@ -409,7 +423,7 @@ th { color: var(--muted); font-weight: 600 }
       <div class="tiles" id="tiles"></div>
     </section>
       <section class="card ov-e">
-      <h2>Each day <span class="note" id="chartSub" style="text-transform:none;letter-spacing:0;font-weight:500"></span></h2>
+      <h2 class="ch">Each day <span class="note" id="chartSub" style="text-transform:none;letter-spacing:0;font-weight:500"></span><span class="ctools"><button type="button" data-kind="line" aria-label="Lines" title="Lines"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-6 4 3 8-9"/></svg></button><button type="button" data-kind="bar" aria-label="Bars" title="Bars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></button><button type="button" data-big="chart" aria-label="Bigger" title="Bigger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></button></span></h2>
       <div class="legend"><span><i style="background:var(--series-1)"></i>People</span><span><i style="background:var(--series-2)"></i>Visits</span><span><i style="background:var(--series-3)"></i>Page views</span></div>
       <div class="chartbox" id="chart"></div>
       <details class="tbl"><summary>As a table</summary><div id="table"></div></details>
@@ -460,7 +474,7 @@ th { color: var(--muted); font-weight: 600 }
 
     <h2 class="grp" id="g-use">Using the site</h2>
       <section class="card">
-      <h2>Activity each day <span class="note" id="actSub" style="text-transform:none;letter-spacing:0;font-weight:500"></span></h2>
+      <h2 class="ch">Activity each day <span class="note" id="actSub" style="text-transform:none;letter-spacing:0;font-weight:500"></span><span class="ctools"><button type="button" data-kind="line" aria-label="Lines" title="Lines"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-6 4 3 8-9"/></svg></button><button type="button" data-kind="bar" aria-label="Bars" title="Bars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></button><button type="button" data-big="act" aria-label="Bigger" title="Bigger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></button></span></h2>
       <div class="legend"><span><i style="background:var(--series-1)"></i>Games opened</span><span><i style="background:var(--series-2)"></i>Ways to watch</span><span><i style="background:var(--series-3)"></i>Links out</span></div>
       <div class="chartbox" id="act"></div>
       <p class="note">Games whose pop-up was opened, taps on a way to watch, and taps on links to other sites, each day. Taps on every button together are in the Taps a visit tile at the top.</p>
@@ -564,6 +578,7 @@ th { color: var(--muted); font-weight: 600 }
   </div>
 </div>
 <button type="button" id="toTop" class="totop" aria-label="Back to top" hidden>↑</button>
+<dialog id="big" aria-labelledby="bigT"><div class="dh"><h3 id="bigT"></h3><div class="seg" role="group" aria-label="Date range"><button type="button" data-days="1">Today</button><button type="button" data-days="3"><span class="lg">3 days</span><span class="sm">3d</span></button><button type="button" data-days="7"><span class="lg">7 days</span><span class="sm">7d</span></button><button type="button" data-days="14"><span class="lg">14 days</span><span class="sm">14d</span></button><button type="button" data-days="30"><span class="lg">30 days</span><span class="sm">30d</span></button><button type="button" data-days="90"><span class="lg">90 days</span><span class="sm">90d</span></button><button type="button" data-days="0">All</button></div><span class="ctools"><button type="button" data-kind="line" aria-label="Lines" title="Lines"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-6 4 3 8-9"/></svg></button><button type="button" data-kind="bar" aria-label="Bars" title="Bars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></button></span><button type="button" class="x" id="bigX" aria-label="Close">×</button></div><div class="legend" id="bigLegend"></div><div class="chartbox" id="bigchart"></div></dialog>
 <dialog id="det" aria-labelledby="detT"><div class="dh"><h3 id="detT"></h3><button type="button" class="x" id="detX" aria-label="Close">×</button></div>
   <div class="dsum" id="detSum"></div>
   <div class="dtabs" role="tablist"><button type="button" role="tab" data-dt="miss" id="detMiss"></button><button type="button" role="tab" data-dt="have" id="detHave"></button></div>
@@ -1546,23 +1561,32 @@ function hours(byHour) {
 // shading under each line shows only in a soft chart look
 // each series' name for a count of one, in a tooltip
 const ONE = { People: 'person', Visits: 'visit', 'Page views': 'page view', 'Games opened': 'game opened', 'Ways to watch': 'way to watch', 'Links out': 'link out' };
+// lines or bars (the same for every graph, kept), and which graph is open big
+let chartKind = store.get('statsChart', 'line') === 'bar' ? 'bar' : 'line', bigSrc = '';
+const chartArgs = {};
 function chart(boxId, list, per, S, what) {
+  const isBig = boxId === 'bigchart', bar = chartKind === 'bar';
+  if (!isBig) { chartArgs[boxId] = [list, per, S, what]; if (bigSrc === boxId && $('big').open) chart('bigchart', list, per, S, what); }
   // room on the right for the end labels ("Games opened 1,234")
-  const box = $(boxId), W = Math.max(280, box.clientWidth), H = 240, m = { l: 34, r: Math.max(92, Math.round(22 + 6.4 * Math.max(...S.map(([k, n]) => `${n} ${fmtN(per[list[list.length - 1]][k])}`.length)))), t: 22, b: 24 };
+  const box = $(boxId), W = Math.max(280, box.clientWidth), H = isBig ? Math.round(Math.max(260, Math.min(540, innerHeight * .62))) : 240, m = { l: 34, r: Math.max(92, Math.round(22 + 6.4 * Math.max(...S.map(([k, n]) => `${n} ${fmtN(per[list[list.length - 1]][k])}`.length)))), t: 22, b: 24 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
   const maxV = Math.max(4, ...list.flatMap(d => S.map(([k]) => per[d][k])));
   const step = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000, 10000].find(s => maxV / s <= 4) || Math.ceil(maxV / 4);
   const top = Math.ceil(maxV / step) * step;
-  const x = i => m.l + (list.length < 2 ? iw / 2 : i * iw / (list.length - 1)), y = v => m.t + ih - v / top * ih;
+  // bars: a slot a day, each series' bar side by side in it
+  const slot = iw / Math.max(1, list.length), bw = Math.max(.6, Math.min(16, slot * .8 / S.length)), bx = (i, j) => x(i) + (j - (S.length - 1) / 2) * bw;
+  const x = bar ? i => m.l + (i + .5) * slot : i => m.l + (list.length < 2 ? iw / 2 : i * iw / (list.length - 1)), y = v => m.t + ih - v / top * ih;
+  if (isBig) box.style.setProperty('--ch', H + 'px');
   let g = '';
   for (let v = 0; v <= top; v += step) g += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${fmtN(v)}</text>`;
   // date labels: first, last and a few between, never crowded
   const every = Math.max(1, Math.ceil(list.length / Math.max(2, Math.floor(iw / 70))));
   list.forEach((d, i) => { if (i % every === 0 || i === list.length - 1) { if (i !== list.length - 1 && list.length - 1 - i < every * 0.6) return; g += `<text x="${x(i)}" y="${H - 6}" text-anchor="middle">${dayLabel(d, { day: 'numeric', month: 'short' })}</text>`; } });
   const ends = []; let defs = '';
-  for (const [k, name, c] of S) {
+  for (const [j, [k, name, c]] of S.entries()) {
     const pts = list.map((d, i) => `${x(i).toFixed(1)},${y(per[d][k]).toFixed(1)}`).join(' ');
-    g += `<polygon class="area" points="${x(0).toFixed(1)},${m.t + ih} ${pts} ${x(list.length - 1).toFixed(1)},${m.t + ih}" fill="url(#ga-${boxId}-${k})"/><polyline class="ln" points="${pts}" fill="none" stroke="currentColor" style="color:${c}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    if (bar) g += list.map((d, i) => per[d][k] ? `<rect x="${(bx(i, j) - bw / 2).toFixed(1)}" y="${y(per[d][k]).toFixed(1)}" width="${Math.max(.6, bw - (bw >= 4 ? 1 : 0)).toFixed(1)}" height="${(m.t + ih - y(per[d][k])).toFixed(1)}" rx="${Math.min(2, bw / 3).toFixed(1)}" fill="${c}"/>` : '').join('');
+    else g += `<polygon class="area" points="${x(0).toFixed(1)},${m.t + ih} ${pts} ${x(list.length - 1).toFixed(1)},${m.t + ih}" fill="url(#ga-${boxId}-${k})"/><polyline class="ln" points="${pts}" fill="none" stroke="currentColor" style="color:${c}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
     defs += `<linearGradient id="ga-${boxId}-${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c}" stop-opacity=".26"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></linearGradient>`;
     const last = per[list[list.length - 1]][k];
     ends.push({ y: y(last), name, last, c });
@@ -1572,32 +1596,33 @@ function chart(boxId, list, per, S, what) {
   for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 15) ends[i].y = ends[i - 1].y + 15;
   const over = ends.length ? ends[ends.length - 1].y - (m.t + ih + 4) : 0;
   if (over > 0) ends.forEach(x => { x.y -= over; });
-  for (const e of ends) g += `<circle cx="${x(list.length - 1)}" cy="${y(e.last)}" r="4" fill="${e.c}" stroke="var(--surface)" stroke-width="2"/><text class="end" x="${m.l + iw + 10}" y="${e.y + 4}">${e.name} ${fmtN(e.last)}</text>`;
+  // (bars have no line end to sit a dot on: the dot goes beside the label)
+  for (const e of ends) g += `<circle cx="${bar ? m.l + iw + 9 : x(list.length - 1)}" cy="${bar ? e.y : y(e.last)}" r="4" fill="${e.c}" stroke="var(--surface)" stroke-width="2"/><text class="end" x="${m.l + iw + (bar ? 18 : 10)}" y="${e.y + 4}">${e.name} ${fmtN(e.last)}</text>`;
   // each line's peak in the range: a ring on its highest day (the latest, on a tie) with the number above it, or below
   // when another peak's number is already there; none when the peak is today (the end label says it) or nothing yet
   const peaks = [];
-  for (const [k, , c] of S) {
+  for (const [j, [k, , c]] of S.entries()) {
     let pi = -1;
     list.forEach((d, i) => { if (per[d][k] > 0 && (pi < 0 || per[d][k] >= per[list[pi]][k])) pi = i; });
-    if (pi >= 0 && pi < list.length - 1) peaks.push({ px: x(pi), py: y(per[list[pi]][k]), v: per[list[pi]][k], c });
+    if (pi >= 0 && pi < list.length - 1) peaks.push({ px: bar ? bx(pi, j) : x(pi), py: y(per[list[pi]][k]), v: per[list[pi]][k], c });
   }
   // boxes already taken: every peak's ring, then each number as it's placed
   const taken = peaks.map(p => ({ x1: p.px - 6, x2: p.px + 6, y1: p.py - 6, y2: p.py + 6 }));
   const free = b => !taken.some(o => b.x1 < o.x2 + 2 && o.x1 < b.x2 + 2 && b.y1 < o.y2 + 1 && o.y1 < b.y2 + 1);
-  for (const p of peaks) g += `<circle cx="${p.px}" cy="${p.py}" r="4.5" fill="var(--surface)" stroke="${p.c}" stroke-width="2"/>`;
+  if (!bar) for (const p of peaks) g += `<circle cx="${p.px}" cy="${p.py}" r="4.5" fill="var(--surface)" stroke="${p.c}" stroke-width="2"/>`;
   for (const p of peaks.sort((a, b) => a.py - b.py)) {
     const t = fmtN(p.v), w = t.length * 7 + 2, lx = Math.max(m.l + w / 2, Math.min(m.l + iw - w / 2, p.px));
     const box = [p.py - 9, p.py + 18].map(ly => ({ ly, x1: lx - w / 2, x2: lx + w / 2, y1: ly - 9, y2: ly + 2 })).find(b => b.y2 < m.t + ih && free(b));
     if (box) { taken.push(box); g += `<text class="peak" x="${lx}" y="${box.ly}" text-anchor="middle">${t}</text>`; }
   }
-  g += `<line class="xh" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="var(--muted)" stroke-width="1" visibility="hidden"/>`;
-  for (const [k, , c] of S) g += `<circle class="hd" data-k="${k}" r="4" fill="${c}" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>`;
+  g += `<line class="xh" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="var(--muted)" stroke-width="${bar ? slot.toFixed(1) : 1}"${bar ? ' opacity=".16"' : ''} visibility="hidden"/>`;
+  if (!bar) for (const [k, , c] of S) g += `<circle class="hd" data-k="${k}" r="4" fill="${c}" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>`;
   g += `<rect x="${m.l}" y="0" width="${iw}" height="${H}" fill="transparent" class="hit"/>`;
   box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${what} each day for the last ${list.length} days"><defs>${defs}</defs>${g}</svg><div class="tip" hidden></div>`;
   const svg = box.querySelector('svg'), tip = box.querySelector('.tip'), xh = svg.querySelector('.xh');
   const show = ev => {
     const r = svg.getBoundingClientRect(), px = (ev.clientX - r.left) * W / r.width;
-    const i = Math.max(0, Math.min(list.length - 1, Math.round((px - m.l) / (iw / Math.max(1, list.length - 1)))));
+    const i = Math.max(0, Math.min(list.length - 1, bar ? Math.floor((px - m.l) / slot) : Math.round((px - m.l) / (iw / Math.max(1, list.length - 1)))));
     const d = list[i];
     xh.setAttribute('x1', x(i)); xh.setAttribute('x2', x(i)); xh.setAttribute('visibility', 'visible');
     svg.querySelectorAll('.hd').forEach(c => { c.setAttribute('cx', x(i)); c.setAttribute('cy', y(per[d][c.dataset.k])); c.setAttribute('visibility', 'visible'); });
@@ -1619,6 +1644,18 @@ function chart(boxId, list, per, S, what) {
   const hit = svg.querySelector('.hit');
   hit.addEventListener('pointermove', show); hit.addEventListener('pointerdown', show); hit.addEventListener('pointerleave', hide);
 }
+
+// a graph's buttons: lines or bars for every graph, and the graph opened big (where the date range can be changed too)
+const syncKind = () => document.querySelectorAll('[data-kind]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.kind === chartKind)));
+syncKind();
+document.querySelectorAll('[data-kind]').forEach(b => b.addEventListener('click', () => { chartKind = b.dataset.kind; store.set('statsChart', chartKind); syncKind(); for (const id of Object.keys(chartArgs)) chart(id, ...chartArgs[id]); }));
+document.querySelectorAll('[data-big]').forEach(b => b.addEventListener('click', () => { const a = chartArgs[b.dataset.big]; if (!a) return;
+  bigSrc = b.dataset.big; $('bigT').textContent = b.closest('h2').firstChild.textContent.trim();
+  $('bigLegend').innerHTML = a[2].map(([, name, c]) => `<span><i style="background:${c}"></i>${esc(name)}</span>`).join('');
+  $('big').showModal(); chart('bigchart', ...a); }));
+$('bigX').addEventListener('click', () => $('big').close());
+$('big').addEventListener('click', ev => { const r = $('big').getBoundingClientRect(); if (ev.target === $('big') && (ev.clientX < r.left || ev.clientX > r.right || ev.clientY < r.top || ev.clientY > r.bottom)) $('big').close(); }); // a click on the backdrop
+$('big').addEventListener('close', () => { bigSrc = ''; $('bigchart').replaceChildren(); });
 
 $('pwForm').addEventListener('submit', ev => { ev.preventDefault(); pw = $('pw').value.trim(); if (pw) fetchStats(); });
 document.querySelectorAll('[data-days]').forEach(b => b.addEventListener('click', () => { days = +b.dataset.days; store.set('statsDays', days); draw(); }));
