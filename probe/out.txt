@@ -1,105 +1,13 @@
-feed 2026-11-16T18:33:42.136Z age min 11 events 1053
-checks {
- "noResult": [
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Auckland Aces v Otago Volts",
-   "at": "2026-11-11T21:30:00Z",
-   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
-  },
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Central Stags v Wellington Firebirds",
-   "at": "2026-11-11T21:30:00Z",
-   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
-  },
-  {
-   "s": "cricket",
-   "c": "Ford Trophy",
-   "n": "Canterbury v Northern Districts",
-   "at": "2026-11-11T21:30:00Z",
-   "src": "https://possible11.com/series/ford-trophy-2026-27/fixture/"
-  },
-  {
-   "s": "cricket",
-   "c": "Hallyburton Johnstone Shield",
-   "n": "Central Hinds v Northern Districts",
-   "at": "2026-11-13T21:30:00Z",
-   "src": "https://www.nzc.nz/media/1cxbi35u/print_2026_hbj-schedule.pdf",
-   "noSource": true
-  },
-  {
-   "s": "cricket",
-   "c": "Hallyburton Johnstone Shield",
-   "n": "Auckland Hearts v Wellington Blaze",
-   "at": "2026-11-13T21:30:00Z",
-   "src": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/",
-   "noSource": true
-  },
-  {
-   "s": "cricket",
-   "c": "Hallyburton Johnstone Shield",
-   "n": "Canterbury Magicians v Otago Sparks",
-   "at": "2026-11-13T21:30:00Z",
-   "src": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/",
-   "noSource": true
-  },
-  {
-   "s": "cricket",
-   "c": "Hallyburton Johnstone Shield",
-   "n": "Auckland Hearts v Wellington Blaze",
-   "at": "2026-11-14T21:30:00Z",
-   "src": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/",
-   "noSource": true
-  },
-  {
-   "s": "cricket",
-   "c": "Hallyburton Johnstone Shield",
-   "n": "Canterbury Magicians v Otago Sparks",
-   "at": "2026-11-14T21:30:00Z",
-   "src": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/",
-   "noSource": true
-  },
-  {
-   "s": "cricket",
-   "c": "Hallyburton Johnstone Shield",
-   "n": "Central Hinds v Northern Districts",
-   "at": "2026-11-14T21:30:00Z",
-   "src": "https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/",
-   "noSource": true
-  },
-  {
-   "s": "cricket",
-   "c": "Dean Jones Trophy",
-   "n": "New South Wales v South Australia",
-   "at": "2026-11-15T23:00:00.000Z",
-   "src": "https://en.wikipedia.org/wiki/2026%E2%80%9327_Dean_Jones_Trophy"
-  },
-  {
-   "s": "cricket",
-   "c": "Dean Jones Trophy",
-   "n": "Queensland v Tasmania",
-   "at": "2026-11-16T00:00:00.000Z",
-   "src": "https://en.wikipedia.org/wiki/2026%E2%80%9327_Dean_Jones_Trophy"
-  },
-  {
-   "s": "cricket",
-   "c": "Dean Jones Trophy",
-   "n": "Victoria v Western Australia",
-   "at": "2026-11-16T03:00:00.000Z",
-   "src": "https://en.wikipedia.org/wiki/2026%E2%80%9327_Dean_Jones_Trophy"
-  }
- ],
- "thinWeeks": [
-  {
-   "s": "cricket",
-   "c": "Hallyburton Johnstone Shield",
-   "week": "2026-11-15",
-   "n": 0,
-   "usual": 6,
-   "stopped": true
-  }
- ]
-}
+2026–27_Dean_Jones_Trophy 200 31966
+matches 22
+  16 November 2026 | cr-Aus|NSW-h|l v cr-Aus|SA | result filled: true
+  16 November 2026 | cr-Aus|QLD-h|l v cr-Aus|TAS | result filled: true
+  16 November 2026 | cr-Aus|VIC-h|l v cr-Aus|WA | result filled: true
+2026–27_Ford_Trophy 200 18802
+matches 30
+  8 November 2026 | cr-NZ|nd v cr-NZ|otg | result filled: true
+  8 November 2026 | cr-NZ|wel v cr-NZ|akl | result filled: true
+  8 November 2026 | cr-NZ|cd v cr-NZ|can | result filled: true
+  12 November 2026 | cr-NZ|akl v cr-NZ|otg | result filled: true
+  12 November 2026 | cr-NZ|cd v cr-NZ|wel | result filled: true
+  12 November 2026 | cr-NZ|can v cr-NZ|nd | result filled: true
