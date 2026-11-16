@@ -1790,6 +1790,8 @@ async function siteTeams() {
   const page = await readFile(new URL('index.html', ROOT), 'utf8');
   const block = (page.match(/const TEAMS = \[([\s\S]*?)\n\];/) || [])[1] || '';
   const LABEL = Object.fromEntries([...block.matchAll(/\['(\w+)','((?:[^'\\]|\\.)*)'\]/g)].map(m => [m[1], m[2].replace(/\\'/g, "'")]));
+  // tennis was one pick until it was split by kind of event: its calendar and alert topic are kept for those who follow them
+  if (!LABEL.tennis) LABEL.tennis = 'Tennis';
   let NZ_KEYS = new Set(), NZ_NAMES = /\bNew Zealand\b/;
   try { NZ_KEYS = new Set(JSON.parse(page.match(/const NZ_KEYS = new Set\((\[[^\]]*\])\)/)[1].replace(/'/g, '"'))); } catch {}
   try { const m = page.match(/const NZ_NAMES = \/(.*)\/([a-z]*);/); NZ_NAMES = new RegExp(m[1], m[2]); } catch {}

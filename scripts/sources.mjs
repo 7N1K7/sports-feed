@@ -1006,6 +1006,10 @@ function rankAuto(rows, auto, p, { winPts, drawPts, lossPts }) {
 // ---------- tennis ------------------------------------------------------------
 // times are the usual start of each final, local; the women's final is the day before the men's
 // (a week before at the ASB Classic, where the women play the first week)
+// the page's switch a tournament is under (index.html's TEAMS): the Grand Slams, the two season-ending Finals, Auckland's
+// ASB Classic, and the Australian summer's lead-ins. Each keeps the old one-switch name as a tag, so the calendar and
+// phone alerts people follow as "tennis" carry on
+const tennisKey = n => /Australian Open|French Open|Wimbledon|US Open/.test(n) ? 'tslams' : /Finals$/.test(n) ? 'tfinals' : /ASB Classic/.test(n) ? 'asbclassic' : 'tausummer';
 const TENNIS = [
   { title: '{Y} Australian Open', name: 'Australian Open', city: 'Melbourne', venue: 'Melbourne Park', tz: 'Australia/Melbourne', w: [-1, 19, 30], m: [0, 19, 30] },
   { title: '{Y} French Open', name: 'French Open', city: 'Paris', venue: 'Roland Garros', tz: 'Europe/Paris', w: [-1, 15, 0], m: [0, 15, 0] },
@@ -1057,7 +1061,7 @@ function tennisFinals(text, title, t) {
     const at = localToUTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), h, mi, t.tz);
     const who = champs[k], draw = k === 'w' ? "Women's" : "Men's";
     out.push({
-      id: `tennis-${t.name.toLowerCase().replace(/\W+/g, '-')}-${t.y}-${k}`, team: 'tennis', tags: [], sport: 'tennis', comp: t.name, draw,
+      id: `tennis-${t.name.toLowerCase().replace(/\W+/g, '-')}-${t.y}-${k}`, team: tennisKey(t.name), tags: ['tennis'], sport: 'tennis', comp: t.name, draw,
       home: `${draw} final`, away: '', startUTC: new Date(at).toISOString(), openUTC: new Date(openAt).toISOString(), timeTBC: true, usual: true,
       venue: t.venue, city: t.city, tz: t.tz, ...(t.nz ? { nzEvent: true } : {}),
       status: who ? 'final' : 'upcoming', ...(who ? { score: `${who.split(' ').slice(-1)[0]} won`, summary: `${who} won the ${draw.toLowerCase()} singles.` } : {}),
