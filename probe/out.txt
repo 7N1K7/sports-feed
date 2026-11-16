@@ -1,10 +1,13 @@
-built undefined
-wiki-audomestic-2026-11-15-newsouthwalessouthaustralia | Dean Jones Trophy | 2026-11-15T23:00:00.000Z upcoming | progress: - | weather: - | wx: "" | tv: Sky Sport (selected games) | live: false
-wiki-audomestic-2026-11-16-queenslandtasmania | Dean Jones Trophy | 2026-11-16T00:00:00.000Z upcoming | progress: - | weather: - | wx: "" | tv: Sky Sport (selected games) | live: false
-wiki-audomestic-2026-11-16-victoriawesternaustralia | Dean Jones Trophy | 2026-11-16T03:00:00.000Z upcoming | progress: - | weather: - | wx: "" | tv: Sky Sport (selected games) | live: false
-diag {"sportmonks":"no token (add the SPORTMONKS_TOKEN secret to switch it on)","tvGuide":"2973 sport listings (read 2026-11-16T00:48; SkySportNow to 2026-11-21, SkyGo to 2026-12-01, nz to 2026-11-30); 106 games listed: Sydney Thunder v Melbourne Stars: Sky Sport 1 UHD, Sky Sport 1; Adelaide Strikers v Sydney Sixers: Sky Sport 2; Hobart Hurricanes v Perth Scorchers: Sky Sport 2; Brisbane ","herald":"sport: 7 matching; sport/cricket: 5 matching; sport/rugby-league: 8 matching; sport/football: 8 matching; sport/boxing: 10 matching; sport/motorsport: 9 matching; sport/golf: 7 matching; sport/rugby: 6 matching","bbc":"rugby-union: 8 of 44; rugby-league: 8 of 37; cricket: 2 of 32; boxing: 7 of 43; mixed-martial-arts: 6 of 32; formula1: 8 of 71; tennis: 0 of 55; football/premier-league: 8 of 51; basketball: 0 of 17; baseball: 0 of 24; golf: 8 of 29","rainHeadlines":"0 rain headlines this week; none on our matches"}
-SkyGo sky.50 202611152345 202611160300 Women's Big Bash League | Coverage from the Women's Big Bash League match 23  between the Sydney Sixers and Melbourne Renegades at North Sydney Oval, Sydney.
-SkyGo sky.53 202611152255 202611160700 Cricket: Marsh One Day Cup | LIVE coverage of the One Day Cup match between New South Wales and South Australia at the Cricket Central, Sydney.
-SkyGo sky.55 202611152355 202611160800 Cricket: Marsh One Day Cup | LIVE coverage of the One Day Cup match between Queensland and Tasmania at the Allan Border Field, Brisbane.
-SkyGo sky.59 202611152015 202611160350 International Cricket: Australia v England | Coverage of the second One Day International between Australia and England at Adelaide Oval, Adelaide.
-SkyGo sky.74 202611160220 202611160315 24 Hours In A&amp;E | Keep The Faith: Kye is rushed to Queen's Medical Centre after suffering a cardiac arrest during a football training, Tom is in resus following a traffic inciden
+no result yet: 7
+  2026-11-13T21:30 cricket | Hallyburton Johnstone Shield (women) | Central Hinds v Northern Districts | upcoming  | id hjs-nd-cd-2026
+  2026-11-15T08:00 cricket | South Africa v Bangladesh | South Africa v Bangladesh | upcoming  | id sa-ban-t1-2026
+  2026-11-13T21:30 cricket | Hallyburton Johnstone Shield (women) | Auckland Hearts v Wellington Blaze | upcoming  | id hjs-akl-wel-14-2026
+  2026-11-13T21:30 cricket | Hallyburton Johnstone Shield (women) | Canterbury Magicians v Otago Sparks | upcoming  | id hjs-can-ota-14-2026
+  2026-11-14T21:30 cricket | Hallyburton Johnstone Shield (women) | Auckland Hearts v Wellington Blaze | upcoming  | id hjs-akl-wel-15-2026
+  2026-11-14T21:30 cricket | Hallyburton Johnstone Shield (women) | Canterbury Magicians v Otago Sparks | upcoming  | id hjs-can-ota-15-2026
+  2026-11-14T21:30 cricket | Hallyburton Johnstone Shield (women) | Central Hinds v Northern Districts | upcoming  | id hjs-nd-cd-15-2026
+diag tsdb Premier League = error: thesportsdb skipped this run; using saved copy (40 games)
+diag tsdb NRL = error: thesportsdb skipped this run
+diag facesMissing = Joshua Pacio: no free photo,Keito Yamakita: no free photo,Navajo Stirling: no free photo,Waldo Cortes-Acosta: no free photo,Joshua Buatsi: no free photo,Willy Hutchinson: no free photo,Lucas Gabriel: no article,Jack Siatarnyokkrok P.K: no article,Masamichi Yab
+diag teamSquads = 149 of 150: Northern Districts missing
+diag duplicateIds = none
