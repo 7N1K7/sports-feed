@@ -1,13 +1,199 @@
-2026–27_Dean_Jones_Trophy 200 31966
-matches 22
-  16 November 2026 | cr-Aus|NSW-h|l v cr-Aus|SA | result filled: true
-  16 November 2026 | cr-Aus|QLD-h|l v cr-Aus|TAS | result filled: true
-  16 November 2026 | cr-Aus|VIC-h|l v cr-Aus|WA | result filled: true
-2026–27_Ford_Trophy 200 18802
-matches 30
-  8 November 2026 | cr-NZ|nd v cr-NZ|otg | result filled: true
-  8 November 2026 | cr-NZ|wel v cr-NZ|akl | result filled: true
-  8 November 2026 | cr-NZ|cd v cr-NZ|can | result filled: true
-  12 November 2026 | cr-NZ|akl v cr-NZ|otg | result filled: true
-  12 November 2026 | cr-NZ|cd v cr-NZ|wel | result filled: true
-  12 November 2026 | cr-NZ|can v cr-NZ|nd | result filled: true
+-----
+{{Single-innings cricket match
+| round = {{anchor|match10}} '''Match 10'''
+| date = 8 November 2026
+| time = 10:30
+| daynight = 
+| team1 = {{cr-NZ|nd}}
+| team2 = {{cr-NZ|otg}}
+| score1 = 
+| runs1 = 
+| wickets1 = 
+| score2 = 
+| runs2 = 
+| wickets2 = 
+| result = 
+| report = [https://www.cricinfo.com/ci/engine/match/1550293.html Scorecard]
+| venue = 
+| umpires = 
+| motm = 
+| toss = 
+| rain = 
+| notes = 
+}}
+----
+
+-----
+{{Single-innings cricket match
+| round = {{anchor|match11}} '''Match 11'''
+| date = 8 November 2026
+| time = 10:30
+| daynight = 
+| team1 = {{cr-NZ|wel}}
+| team2 = {{cr-NZ|akl}}
+| score1 = 
+| runs1 = 
+| wickets1 = 
+| score2 = 
+| runs2 = 
+| wickets2 = 
+| result = 
+| report = [https://www.cricinfo.com/ci/engine/match/1550294.html Scorecard]
+| venue = 
+| umpires = 
+| motm = 
+| toss = 
+| rain = 
+| notes = 
+}}
+----
+
+-----
+{{Single-innings cricket match
+| round = {{anchor|match12}} '''Match 12'''
+| date = 8 November 2026
+| time = 10:30
+| daynight = 
+| team1 = {{cr-NZ|cd}}
+| team2 = {{cr-NZ|can}}
+| score1 = 
+| runs1 = 
+| wickets1 = 
+| score2 = 
+| runs2 = 
+| wickets2 = 
+| result = 
+| report = [https://www.cricinfo.com/ci/engine/match/1550295.html Scorecard]
+| venue = 
+| umpires = 
+| motm = 
+| toss = 
+| rain = 
+| notes = 
+}}
+===Round 5===
+
+-----
+{{Single-innings cricket match
+| round = {{anchor|match13}} '''Match 13'''
+| date = 12 November 2026
+| time = 10:30
+| daynight = 
+| team1 = {{cr-NZ|akl}}
+| team2 = {{cr-NZ|otg}}
+| score1 = 
+| runs1 = 
+| wickets1 = 
+| score2 = 
+| runs2 = 
+| wickets2 = 
+| result = 
+| report = [https://www.cricinfo.com/ci/engine/match/1550296.html Scorecard]
+| venue = 
+| umpires = 
+| motm = 
+| toss = 
+| rain = 
+| notes = 
+}}
+----
+
+-----
+{{Single-innings cricket match
+| round = {{anchor|match14}} '''Match 14'''
+| date = 12 November 2026
+| time = 10:30
+| daynight = 
+| team1 = {{cr-NZ|cd}}
+| team2 = {{cr-NZ|wel}}
+| score1 = 
+| runs1 = 
+| wickets1 = 
+| score2 = 
+| runs2 = 
+| wickets2 = 
+| result = 
+| report = [https://www.cricinfo.com/ci/engine/match/1550297.html Scorecard]
+| venue = 
+| umpires = 
+| motm = 
+| toss = 
+| rain = 
+| notes = 
+}}
+----
+
+revisions ["2026-11-06T22:12:15Z clarification","2026-11-04T02:19:10Z /* Points summary */","2026-11-04T02:16:36Z /* Round 1 */","2026-11-04T02:03:59Z /* Round 1 */","2026-11-04T01:47:58Z /* Round 1 */","2026-11-04T01:35:59Z /* Fixtures */"]
+-----
+{{Single-innings cricket match
+| date = 16 November 2026
+| time = 10:00
+| daynight =
+| team1 = {{cr-Aus|NSW-h|l}}
+| team2 = {{cr-Aus|SA}}
+| score1 =
+| runs1 =
+| wickets1 =
+| score2 =
+| runs2 =
+| wickets2 =
+| result =
+| report = [https://www.cricinfo.com/ci/engine/match/1544855.html Scorecard]
+| venue = [[Cricket Central]], [[Sydney]]
+| umpires =
+| motm =
+| toss =
+| rain =
+| notes =
+}}
+----
+
+-----
+{{Single-innings cricket match
+| date = 16 November 2026
+| time = 10:00
+| daynight =
+| team1 = {{cr-Aus|QLD-h|l}}
+| team2 = {{cr-Aus|TAS}}
+| score1 =
+| runs1 =
+| wickets1 =
+| score2 =
+| runs2 =
+| wickets2 =
+| result =
+| report = [https://www.cricinfo.com/ci/engine/match/1544854.html Scorecard]
+| venue = [[The Gabba]], [[Brisbane]]
+| umpires =
+| motm =
+| toss =
+| rain =
+| notes =
+}}
+----
+
+-----
+{{Single-innings cricket match
+| date = 16 November 2026
+| time = 14:00
+| daynight = y
+| team1 = {{cr-Aus|VIC-h|l}}
+| team2 = {{cr-Aus|WA}}
+| score1 =
+| runs1 =
+| wickets1 =
+| score2 =
+| runs2 =
+| wickets2 =
+| result =
+| report = [https://www.cricinfo.com/ci/engine/match/1544856.html Scorecard]
+| venue = [[Junction Oval]], [[Melbourne]]
+| umpires =
+| motm =
+| toss =
+| rain =
+| notes =
+}}
+----
+
+revisions ["2026-11-14T23:05:12Z /* Fixtures */","2026-11-14T23:03:48Z /* Fixtures */","2026-11-14T23:02:06Z /* Fixtures */","2026-11-10T03:32:16Z Per [[MOS:TIES]]","2026-10-25T04:12:40Z /* Points table */","2026-10-25T04:06:47Z /* Fixtures */"]
