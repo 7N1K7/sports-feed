@@ -1,79 +1,10 @@
----
-–0
-|team2      = {{fb|IND}}
-|report     = [https://www.the-aiff.com/article/new-zealand-defeat-blue-tigers-in-auckland-friendly AIFF]<br>[https://www.nzfootball.co.nz/newsarticle/172083?newsfeedId=1275608 NZF]
-|goals1     =
-*[[Bijoy Varghese|Varghese]] {{goal|5|o.g.}}
-*[[Jesse Randall|Randall]] {{goal|34||43}}
-*[[Chris Wood (footballer, born 1991)|Wood]] {{goal|57}}
-*[[Lachlan Bayliss|Bayliss]] {{goal|75}}
-|goals2     =
-|location   = [[Auckland]], New Zealand
-|stadium    = [[Mount Smart Stadium|Go Media Stadium]]
-|attendance = 10,379
-|referee    = Adam Kersey ([[Football Australia|Australia]])
-|bg         = #FFBBBC 
-}}
-----
-{{football box
-|date       = 14 November
-|time       = {{UTZ|15:30|+6:00}}
-|round      = [[2026 SAFF Championship]]
-|score      = 2–1
-|report     = [https://www.the-aiff.com/article/india-hold-off-bhutan-fightback-to-reach-saff-championship-final AIFF]
-|team1      = {
----
-ate       = 15 November
-|time       = {{UTZ|16:30|+13:00}}
-|team1      = {{fb-rt|NZL}}
-|score      = 3–0
-|team2      = {{fb|IND}}
-|report     = [https://www.the-aiff.com/article/india-fall-to-new-zealand-in-christchurch-friendly AIFF]<br>[https://www.nzfootball.co.nz/newsarticle/172134?newsfeedId=1275608 NZF]
-|goals1     =
-*[[Finn Surman|Surman]] {{goal|22}}
-*[[James McGarry (footballer)|McGarry]] {{goal|40}}
-*[[Chris Wood (footballer, born 1991)|Wood]] {{goal|44}}
-|goals2     =
-|location   = [[Christchurch]], New Zealand
-|stadium    = [[Te Kaha (stadium)|One New Zealand Stadium]]
-|attendance = 
-|referee    = Tim Danaskos ([[Football Australia|Australia]])
-|bg         = #FFBBBC
-}}
-----
-{{football box
-|date       = 17 November
-|time       = {{UTZ|20:00|+6:00}}
-|round      = [[2026 SAFF Championship final|2026 SAFF Championship]]
-|score      = 
-|report     =
-|team1      = {{fb-rt|IND}}
-|te
----
-16:30|+13:00}}
-|team1      = {{fb-rt|NZL}}
-|score      = 3–0
-|team2      = {{fb|IND}}
-|report     = [https://www.the-aiff.com/article/india-fall-to-new-zealand-in-christchurch-friendly AIFF]<br>[https://www.nzfootball.co.nz/newsarticle/172134?newsfeedId=1275608 NZF]
-|goals1     =
-*[[Finn Surman|Surman]] {{goal|22}}
-*[[James McGarry (footballer)|McGarry]] {{goal|40}}
-*[[Chris Wood (footballer, born 1991)|Wood]] {{goal|44}}
-|goals2     =
-|location   = [[Christchurch]], New Zealand
-|stadium    = [[Te Kaha (stadium)|One New Zealand Stadium]]
-|attendance = 
-|referee    = Tim Danaskos ([[Football Australia|Australia]])
-|bg         = #FFBBBC
-}}
-----
-{{football box
-|date       = 17 November
-|time       = {{UTZ|20:00|+6:00}}
-|round      = [[2026 SAFF Championship final|2026 SAFF Championship]]
-|score      = 
-|report     =
-|team1      = {{fb-rt|IND}}
-|team2      = {{fb|PAK}}
-|goals1     = 
-|goals2
+built undefined
+wiki-audomestic-2026-11-15-newsouthwalessouthaustralia | Dean Jones Trophy | 2026-11-15T23:00:00.000Z upcoming | progress: - | weather: - | wx: "" | tv: Sky Sport (selected games) | live: false
+wiki-audomestic-2026-11-16-queenslandtasmania | Dean Jones Trophy | 2026-11-16T00:00:00.000Z upcoming | progress: - | weather: - | wx: "" | tv: Sky Sport (selected games) | live: false
+wiki-audomestic-2026-11-16-victoriawesternaustralia | Dean Jones Trophy | 2026-11-16T03:00:00.000Z upcoming | progress: - | weather: - | wx: "" | tv: Sky Sport (selected games) | live: false
+diag {"sportmonks":"no token (add the SPORTMONKS_TOKEN secret to switch it on)","tvGuide":"2973 sport listings (read 2026-11-16T00:48; SkySportNow to 2026-11-21, SkyGo to 2026-12-01, nz to 2026-11-30); 106 games listed: Sydney Thunder v Melbourne Stars: Sky Sport 1 UHD, Sky Sport 1; Adelaide Strikers v Sydney Sixers: Sky Sport 2; Hobart Hurricanes v Perth Scorchers: Sky Sport 2; Brisbane ","herald":"sport: 7 matching; sport/cricket: 5 matching; sport/rugby-league: 8 matching; sport/football: 8 matching; sport/boxing: 10 matching; sport/motorsport: 9 matching; sport/golf: 7 matching; sport/rugby: 6 matching","bbc":"rugby-union: 8 of 44; rugby-league: 8 of 37; cricket: 2 of 32; boxing: 7 of 43; mixed-martial-arts: 6 of 32; formula1: 8 of 71; tennis: 0 of 55; football/premier-league: 8 of 51; basketball: 0 of 17; baseball: 0 of 24; golf: 8 of 29","rainHeadlines":"0 rain headlines this week; none on our matches"}
+SkyGo sky.50 202611152345 202611160300 Women's Big Bash League | Coverage from the Women's Big Bash League match 23  between the Sydney Sixers and Melbourne Renegades at North Sydney Oval, Sydney.
+SkyGo sky.53 202611152255 202611160700 Cricket: Marsh One Day Cup | LIVE coverage of the One Day Cup match between New South Wales and South Australia at the Cricket Central, Sydney.
+SkyGo sky.55 202611152355 202611160800 Cricket: Marsh One Day Cup | LIVE coverage of the One Day Cup match between Queensland and Tasmania at the Allan Border Field, Brisbane.
+SkyGo sky.59 202611152015 202611160350 International Cricket: Australia v England | Coverage of the second One Day International between Australia and England at Adelaide Oval, Adelaide.
+SkyGo sky.74 202611160220 202611160315 24 Hours In A&amp;E | Keep The Faith: Kye is rushed to Queen's Medical Centre after suffering a cardiac arrest during a football training, Tom is in resus following a traffic inciden
