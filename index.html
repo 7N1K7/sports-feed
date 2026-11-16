@@ -4839,7 +4839,7 @@ function render() {
   $('tzSel').innerHTML = [...TZ_LIST, ['device', 'My device']].map(([z, l]) => `<option value="${z}" ${z === tzPick ? 'selected' : ''}>${esc(z === 'Pacific/Auckland' ? 'NZ (NZT)' : l)}</option>`).join('');
   syncDsel($('spoilDays')); syncDsel($('tzSel'));
   const tchip = ([k, l]) => `<button class="chip" type="button" data-team="${k}" aria-pressed="${picked.has(k)}" ${WEEKDAY_IN.has(k) ? `title="${picked.has(k) ? 'Every game is on: tap to turn it off' : `Tap for every ${esc(l)} game`}"` : ''}>${badge(k)}${l}${WEEKDAY_IN.has(k) ? ' <small>all games</small>' : ''}</button>`
-    + (WEEKDAY_IN.has(k) ? `<button class="chip onecard" type="button" data-wkcard="${k}" aria-pressed="${wkOn(k)}" title="${wkOn(k) ? `On as one card a day: tap to turn ${esc(l)} off` : `Show ${esc(l)} as one card a day (the default)`}">1 card a day</button>` : '');
+    + (WEEKDAY_IN.has(k) ? `<button class="chip onecard" type="button" data-wkcard="${k}" aria-pressed="${wkOn(k)}" title="${wkOn(k) ? `On as one card a day: tap to turn ${esc(l)} off` : `Show ${esc(l)} as one card a day (the default)`}">${esc(l)} <small>1 card a day</small></button>` : '');
   // the chip rows' even breaks come off first and are measured again (markLone puts them back, as on fresh markup), so the
   // chips stay the same buttons and keep focus
   $('teamGroups').querySelectorAll('.gbr').forEach(b => b.remove()); $('teamGroups').querySelectorAll('.chips').forEach(b => { delete b.dataset.bw; b.querySelectorAll('.lone').forEach(c => c.classList.remove('lone')); });
