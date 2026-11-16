@@ -1363,6 +1363,7 @@ a.tlink:hover .nm, a.tlink:focus-visible .nm { text-decoration: underline; text-
 .ev.lrow.nbarow .grplogo { height: 1.3em; width: 1.3em; vertical-align: -0.3em; margin-right: 5px }
 @media (max-width: 440px) { .ev.lrow.nbarow .grplogo { display: none } } /* the row's name and count need the room on a phone */
 #teamGroups .chip small { font-size: 11px; opacity: .75; margin-left: 2px }
+#teamGroups .chip[aria-pressed="true"] small { opacity: 1 } /* full strength on a picked chip; same weight so the chip keeps its width */
 #teamGroups .chip.onecard { font-size: 12px; padding: 2px 9px; border-style: dashed }
 #teamGroups .chip.onecard[aria-pressed="true"] { border-style: solid }
 .totop { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 40; width: 46px; height: 46px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--accent-ink) 25%, var(--accent)); background: var(--accent); color: var(--accent-ink); font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.2) }
