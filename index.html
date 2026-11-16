@@ -287,7 +287,8 @@ html { -webkit-tap-highlight-color: transparent }
 .panel .pextras { margin-top: 18px; padding: 12px 14px 14px; border-radius: var(--r); border: 1px dashed var(--line); background: color-mix(in srgb, var(--ink) 3%, transparent); display: grid; gap: 8px }
 .panel .pextras .pxhead { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 2px }
 .panel .pextras .pxhead b { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
-.panel .pextras .pxhead span { font-size: 13px; color: var(--muted) }
+.panel .pextras .pxhead span { font-size: 13px; color: var(--muted); text-wrap: balance }
+.panel .pextras .pxhead .pxlist { color: var(--ink); font-weight: 600 } /* what the extras are: after the line above, or under it when there is no room */
 .panel .pextras .ph { margin-top: 0 }
 @media (max-width: 560px) { .panel .pextras { padding: 10px 10px 12px } }
 .panel .ph.ptitle { font-size: 25px; color: color-mix(in srgb, var(--accent) 45%, var(--ink)) }
@@ -1859,7 +1860,7 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
     <div class="phbtns"><span class="gsw" id="genSw" role="group" aria-label="Men's and women's teams"></span><span class="pacts"><button class="btn" id="allDef" type="button" title="Back to how it starts: everything on except the busy ones (the NBA)">Defaults</button><button class="btn" id="allOn" type="button">Select all</button><button class="btn" id="allOff" type="button">Clear</button></span></div>
     <div class="hidrow"><p class="hidnote" id="hidNote"></p></div>
     <div id="teamGroups" style="display:grid;gap:12px"></div>
-    <div class="pextras" role="group" aria-label="Extras"><div class="pxhead"><b>Extras</b><span>Optional. You don't need any of these to use the site</span></div>
+    <div class="pextras" role="group" aria-label="Extras"><div class="pxhead"><b>Extras</b><span>Optional. You don't need any of these to use the site.</span><span class="pxlist">(Phone app, calendar, phone alerts, Move settings)</span></div>
     <h2 class="ph">Phone app <span class="phnote">Put Kickoff Kiwi on your home screen. It opens full-screen like an app. No app store, no account.</span></h2>
     <div class="cals" id="appInstall"></div>
     <h2 class="ph">Calendar <span class="phnote">Put the games in your phone or computer calendar, with a reminder before each one.</span></h2>
