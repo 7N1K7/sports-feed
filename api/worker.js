@@ -29,7 +29,7 @@ const USE = new Set(['Free to watch', 'Events button', 'Results button', 'News b
   'Game pop-up closed', 'Settings closed', 'Search box', 'Theme menu opened', 'Time zone menu opened', 'Hide results for menu opened', 'Report cancelled',
   'Score in List view hidden again',
   // from 1 Nov 2026
-  'Series result shown', 'Series result hidden again',
+  'Series result shown', 'Series result hidden again', 'Result shown on a playoff box',
   // from 13 Nov 2026
   'Calendar one team list opened', 'Calendar one team list closed', 'Alerts one team list opened', 'Alerts one team list closed', 'Game pop-up closed by tapping outside', 'Report closed by tapping outside',
   // from 14 Nov 2026 (the NBA card's taps had been sent but not kept)

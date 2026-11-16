@@ -1804,6 +1804,16 @@ body.v-list .daygroup + .daygroup { margin-top: 10px }
 :is(.ev, #soon .ev).big-final.is-soon { box-shadow: inset 0 0 0 3px var(--soon), 0 0 0 3px var(--gold), 0 0 34px 8px color-mix(in srgb, var(--gold) 65%, transparent), 0 0 90px 24px color-mix(in srgb, var(--gold) 28%, transparent) }
 .ev.big-semi.is-soon { box-shadow: inset 0 0 0 1.5px var(--silver), 0 0 0 2px var(--soon), 0 0 24px 3px color-mix(in srgb, var(--soon) 42%, transparent) }
 .ev.big-semi.is-live { box-shadow: inset 0 0 0 1.5px var(--silver), 0 0 0 2px var(--live), 0 0 28px 4px color-mix(in srgb, var(--live) 50%, transparent) }
+
+/* playoffs: a covered result's own small "Show result" on the date line, no taller than the line's text */
+.pbox2.pcov .pdate { display: flex; align-items: center; gap: 6px; white-space: nowrap } @media (max-width: 600px) { .pbox2 .prev .pw { display: none } }
+.pbox2 .prev { display: inline-flex; align-items: center; gap: 4px; margin: -2px 0; padding: 0 7px 0 2px; border: 1px solid #2f9e44; border-radius: 999px; font-size: 11px; line-height: 15px; font-weight: 700; color: #2b8a3e; white-space: nowrap }
+:root[data-theme="dark"] .pbox2 .prev { color: #69db7c } @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pbox2 .prev { color: #69db7c } }
+.pbox2 .prev .enddot { display: block; flex: none; width: 12px; height: 12px; border-radius: 50%; background: #2f9e44; color: #fff; font-size: 9px; line-height: 12px; text-align: center }
+@media (hover: hover) { .pbox2 .prev:hover { background: color-mix(in srgb, #2f9e44 14%, var(--surface)) } }
+/* the final and the semis in gold and silver, as on their cards */
+.pbox2.big-final { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), 0 0 22px 4px color-mix(in srgb, var(--gold) 35%, transparent); background-image: linear-gradient(160deg, color-mix(in srgb, var(--gold) 22%, transparent), color-mix(in srgb, var(--gold) 6%, transparent) 75%) }
+.pbox2.big-semi { border-color: var(--silver); box-shadow: 0 0 0 1.5px var(--silver); background-image: linear-gradient(160deg, color-mix(in srgb, var(--silver) 16%, transparent), transparent 70%) }
 </style>
 <style>:root{padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
 </head>
@@ -3131,7 +3141,9 @@ function pbox(e, now, hint) {
   const open = isTBC(e.home) && isTBC(e.away);
   const side = k => isTBC(e[k]) ? `<div class="pside tbd"><span>TBD</span><span class="num psc"></span></div>`
     : `<div class="pside ${w === k ? 'win' : w && w !== 'draw' ? 'lose' : ''}">${teamName(e[k], e[k + 'Logo'], e)}<span class="num psc">${sc ? esc(sc[k === 'home' ? 0 : 1]) : ''}</span></div>`;
-  return `<button type="button" class="pbox2" data-goto="${esc(e.id)}"><span class="pdate">${esc(fmt(new Date(e.startUTC), NZ, { weekday: 'short', day: 'numeric', month: 'short' }))}${hid && done ? ' · result hidden' : open && hint ? ` · ${esc(hint)}` : ''}</span>${side('home')}${side('away')}</button>`;
+  // a finished game whose result is covered gets its own small "Show result" on its date line (the rest of the box opens the game)
+  const cov = hid && done && !open;
+  return `<button type="button" class="pbox2${bigCls(e)}${cov ? ' pcov' : ''}" data-goto="${esc(e.id)}"><span class="pdate">${esc(fmt(new Date(e.startUTC), NZ, { weekday: 'short', day: 'numeric', month: 'short' }))}${cov ? `<span class="prev" data-prev="${esc(e.id)}"><span class="enddot" aria-hidden="true">✓</span>Show<span class="pw"> result</span></span>` : open && hint ? ` · ${esc(hint)}` : ''}</span>${side('home')}${side('away')}</button>`;
 }
 // a known format: each round a column with its full number of games, played or scheduled ones in place, the rest "TBD"
 function bracketHtml(fmtB, list, now) {
@@ -5158,6 +5170,8 @@ document.addEventListener('click', ev => {
   if (dot && matchMedia('(pointer: fine)').matches) { count({ e: 'use', k: 'Dot in the week strip' }); openDetail(dot.dataset.dot); return; }
   const ng = !ev.target.closest('button, a') && ev.target.closest('[data-nbagroup]');
   if (ng) { count({ e: 'use', k: ng.dataset.grp ? 'Cricket day card' : 'NBA today card' }); $('q').value = ''; closeSearch(); hubTab = 'games'; compSel = ng.dataset.nbagroup; store.set('comp', compSel); render(); scrollTo({ top: 0 }); return; }
+  const pv = ev.target.closest('[data-prev]');
+  if (pv) { count({ e: 'use', k: 'Result shown on a playoff box' }); revealed.add(pv.dataset.prev); store.set('revealed', [...revealed]); render(); return; }
   const t = ev.target.closest('button');
   if (!t) { const card = ev.target.closest('[data-open]'); if (card) { if (card.closest('#soon')) count({ e: 'use', k: 'Starting soon card' }); openDetail(card.dataset.open); } else if (ev.target === $('sheet')) { use('Game pop-up closed by tapping outside'); $('sheet').close(); } return; }
   if (t.id === 'sheetClose') { use('Game pop-up closed'); $('sheet').close(); return; }
