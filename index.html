@@ -239,12 +239,12 @@ html { -webkit-tap-highlight-color: transparent }
 /* a row break balanceGroup() puts in: a line of its own with no height, its margin taking back the gap it adds */
 #teamGroups .chips .gbr { flex: 0 0 100%; height: 0; margin-top: -5px }
 #teamGroups .chips.measure .chip { flex-grow: 0 !important; margin: 0 !important }
-#teamGroups .chip { padding: 3px 10px 3px 4px; font-size: 13px; gap: 6px }
+#teamGroups .chip { padding: 3px 8px 3px 6px; font-size: 13px; gap: 6px }
 /* phones: a short tip beside each Hide sport button saying what it does */
 #teamGroups .ghint { display: none }
 /* phones: chips a little narrower so more fit on a row, still their full height for the thumb */
 /* and each row's chips share out its width, so every row ends flush instead of leaving a ragged gap */
-@media (max-width: 560px) { #teamGroups .chips { gap: 5px 4px } #teamGroups .chip { font-size: 12.5px; padding: 3px 8px 3px 4px; gap: 5px; flex: 1 1 auto; justify-content: center }
+@media (max-width: 560px) { #teamGroups .chips { gap: 5px 4px } #teamGroups .chip { font-size: 12.5px; padding: 3px 7px 3px 5px; gap: 5px; flex: 1 1 auto; justify-content: center }
   #teamGroups .chip.lone { flex-grow: 0; margin: 0 auto; padding-right: 12px } }
 @media (max-width: 560px) { #teamGroups .group { grid-template-columns: 1fr; row-gap: 5px } #teamGroups .group h3 { padding-top: 0 } #teamGroups .ghide { display: inline-flex; margin: 0 0 0 8px; vertical-align: 1px }
   /* on its own line, the same length whether the sport is on or off, so hiding one moves nothing */
