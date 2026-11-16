@@ -366,6 +366,9 @@ th { color: var(--muted); font-weight: 600 }
 .sw[data-theme-k="black"] i { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 35%, transparent) } /* All Black's dot shows on the dark page */
 .sw[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
 
+.pastebox .card { background: color-mix(in srgb, #9775fa 9%, var(--surface)); border-color: color-mix(in srgb, #9775fa 45%, var(--line)) }
+#g-paste { color: #b197fc } #g-paste .btn { font: 600 13px/1 var(--f-body, inherit); letter-spacing: 0; text-transform: none; color: var(--ink) } .pnote { margin: 6px 0 10px }
+.pastebox.copying .note, .pastebox.copying .more { display: none !important }
 </style>
 </head>
 <body>
@@ -486,12 +489,11 @@ th { color: var(--muted); font-weight: 600 }
       <section class="card"><h2>Hide results for</h2><div class="bars" id="spoildays"></div><p class="note">Visitors, by how long results stay hidden (from 16 Nov 2026).</p></section>
     </div>
 
-    <h2 class="grp" id="g-health">Speed and errors</h2>
-    <div class="grid two">
+    <h2 class="grp" id="g-paste">For Claude <button type="button" class="btn sm" id="pasteCopy">Copy all</button></h2>
+    <p class="note pnote">Claude can't open these (they need the stats password): when something looks wrong, tap Copy all and paste it into the chat.</p>
+    <div class="grid two pastebox" id="pastebox">
       <section class="card" id="errCard"><h2>Errors on visitors' devices</h2><div class="bars" id="error"></div><p class="note">Problems in the site's own code; each is worth a look. <b>✓ Fixed</b> marks one already dealt with (counts from before the fix stay in the range); <b>⚠ Back</b> means a page with the fix sent it again. From v404 each error ends with the version of the page that sent it, [v404].</p></section>
       <section class="card"><h2>Site checks</h2><div id="sitechk"></div><p class="note">The live site, checked from outside every 10 minutes (from 3 Nov 2026): the page and its feed answer, and the feed is whole and less than 90 minutes old. A problem's times are the checks either side of it, so it's known to 10 minutes. A problem only one visitor's connection had doesn't show here: a page that had to ask for its feed again shows in Errors as "Feed asked again". Kept 30 days.</p></section>
-      <section class="card" id="waitCard"><h2>How fast results arrive</h2><div id="waits"></div><p class="note">How long after a game's usual finish its result reached the site, by sport: the middle wait of its results, and the longest. Timed from 16 Nov 2026, from the public feed; a game's finish is its start plus its sport's usual length (a Test's last day), so a game that ends early or runs long shifts it a little.</p></section>
-      <section class="card"><h2>Feed build</h2><div class="fbuild" id="feedbuild"></div><p class="note">What went wrong in the feed's last build, from the public feed's own notes: a game id used twice, news or Wikipedia pages that couldn't be read, TheSportsDB errors, and hand-kept games their source moved.</p></section>
       <section class="card"><h2>Load speed</h2><div class="bars" id="speed"></div><p class="note">How long until the first games were on screen.</p></section>
       <section class="card"><h2>Slow loads</h2><p class="note">Loads that took 4s or more (counted from 25 Oct 2026). The connection and memory are only reported by Chrome-based browsers. "Out of sight" means the page was behind another tab or app, or the phone was locked, while it loaded.</p>
         <h3 class="thh">Took longest</h3><div class="bars" id="slowpart"></div>
@@ -499,6 +501,12 @@ th { color: var(--muted); font-weight: 600 }
         <h3 class="thh">Connection</h3><div class="bars" id="slownet"></div>
         <h3 class="thh">Memory</h3><div class="bars" id="slowmem"></div>
         <h3 class="thh">System and browser</h3><div class="bars" id="slowdev"></div></section>
+    </div>
+
+    <h2 class="grp" id="g-health">Speed and errors</h2>
+    <div class="grid two">
+      <section class="card" id="waitCard"><h2>How fast results arrive</h2><div id="waits"></div><p class="note">How long after a game's usual finish its result reached the site, by sport: the middle wait of its results, and the longest. Timed from 16 Nov 2026, from the public feed; a game's finish is its start plus its sport's usual length (a Test's last day), so a game that ends early or runs long shifts it a little.</p></section>
+      <section class="card"><h2>Feed build</h2><div class="fbuild" id="feedbuild"></div><p class="note">What went wrong in the feed's last build, from the public feed's own notes: a game id used twice, news or Wikipedia pages that couldn't be read, TheSportsDB errors, and hand-kept games their source moved.</p></section>
     </div>
 
     <h2 class="grp" id="g-data">Data coverage</h2>
@@ -1666,6 +1674,14 @@ if (pw) fetchStats(); else $('pw').focus();
 // the site's version (written by the feed builder), as shown under the main page's title
 fetch('data/version.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(v => { if (v?.version) $('ver').textContent = `v${v.version}`; }).catch(() => {});
 })();
+
+// For Claude: the private cards as plain text, to paste into a chat (the range and when it was copied first)
+document.getElementById('pasteCopy').addEventListener('click', ev => { const box = document.getElementById('pastebox'), b = ev.currentTarget;
+  box.classList.add('copying');
+  const txt = [`Kickoff Kiwi stats · ${document.getElementById('rangeSpan').textContent} · copied ${new Date().toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })} NZ`,
+    ...[...box.querySelectorAll('.card')].map(c => c.innerText.replace(/\n{2,}/g, '\n').replace(/\n([\d,.]+%?)(?=\n|$)/g, ' · $1').trim())].join('\n\n');
+  box.classList.remove('copying');
+  (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => { b.textContent = 'Copied'; setTimeout(() => { b.textContent = 'Copy all'; }, 1500); }, () => { b.textContent = 'Copy failed'; setTimeout(() => { b.textContent = 'Copy all'; }, 1500); }); });
 </script>
 </body>
 </html>
