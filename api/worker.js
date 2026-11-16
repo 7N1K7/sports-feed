@@ -174,6 +174,9 @@ async function hit(req, env, body) {
     if (Array.isArray(b.fo)) for (const s of b.fo.slice(0, 30)) if (/^[a-z]{2,20}$/.test(s)) writes.push(bump(env, day, 'sportsoff', s));
     if (b.tc === 0 || b.tc === 1) writes.push(bump(env, day, 'myteams', b.tc ? 'changed' : 'default'));
     if (b.nv === 0 || b.nv === 1) writes.push(bump(env, day, 'newvis', b.nv ? 'first visit' : 'been before'));
+    // from 16 Nov 2026 the time zone times are shown in (its name, or "Device") and how many days results stay hidden (0: never)
+    if (typeof b.tz === 'string' && /^[A-Za-z ]{2,20}$/.test(b.tz)) writes.push(bump(env, day, 'tzset', b.tz));
+    if ([0, 1, 2, 3, 4, 5, 7, 14].includes(b.sd)) writes.push(bump(env, day, 'spoildays', String(b.sd)));
   }
   if (writes.length) await env.DB.batch(writes);
 }
