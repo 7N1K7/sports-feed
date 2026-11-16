@@ -24,7 +24,7 @@
   {
    "sport": "football",
    "timeTBC": false,
-   "status": "upcoming",
+   "status": "final",
    "id": "aw-ind-2-2026",
    "team": "allwhites",
    "comp": "International friendly",
@@ -37,7 +37,9 @@
    "broadcast": "TVNZ DUKE / TVNZ+ (free)",
    "watchNote": "Live on DUKE from 4pm (TVNZ DUKE+1 an hour later), per the TV guide",
    "note": "The first football game at Christchurch's new stadium",
-   "source": "https://www.christchurchnz.com/visit/whats-on/all-whites-v-india"
+   "source": "https://www.christchurchnz.com/visit/whats-on/all-whites-v-india",
+   "score": "3-0",
+   "summary": "Finn Surman, James McGarry and Chris Wood scored as the All Whites beat India in the first football game at Te Kaha."
   },
   {
    "sport": "football",
