@@ -4464,13 +4464,15 @@ const DAY_GROUPS = [
 ];
 const playsWeekend = e => [...Array(DAYS[formatOf(e)] || 1)].some((_, i) => [5, 6, 0].includes(new Date(nzDay(Date.parse(e.startUTC) + i * 864e5) + 'T12:00:00Z').getUTCDay()));
 const BUSY_OTHERS = 8;
-function dayGroups(list, now) {
+function dayGroups(list, now, folded = new Set()) {
   const byDay = new Map(), out = [];
   for (const e of list) { const d = nzDay(e.startUTC); (byDay.get(d) || byDay.set(d, []).get(d)).push(e); }
   for (const [d, es] of byDay) {
     for (const g of DAY_GROUPS) {
       const gs = es.filter(g.test);
-      if (gs.length < 2 || (!gs.some(playsWeekend) && es.length - gs.length < BUSY_OTHERS)) continue;
+      // what else is on counts as the cards it makes: the NBA's games folded into one card count once (from v765)
+      const others = es.filter(e => !g.test(e) && !folded.has(e)).length + (es.some(e => folded.has(e)) ? 1 : 0);
+      if (gs.length < 2 || (!gs.some(playsWeekend) && others < BUSY_OTHERS)) continue;
       const rep = gs.find(nbaOn) || gs.find(e => e.status !== 'final' && Date.parse(e.startUTC) > now) || gs[0];
       // one competition's games are named for it ("Hallyburton Johnstone Shield"); a mix by the group's name
       const comps = [...new Set(gs.map(e => plural(String(e.comp || '').split(/[,·(]/)[0].trim())))];
@@ -4541,7 +4543,7 @@ function render() {
   // (the user's call, 14 Nov 2026)
   const oneSport = sportSel.size === 1 ? [...sportSel][0] : '';
   const nbaG = compSel || oneSport === 'basketball' ? [] : evsAll.filter(weekdayIn), nbaRep = nbaG.find(nbaOn) || nbaG.find(e => e.status !== 'final' && Date.parse(e.startUTC) > now) || nbaG[0];
-  const dg = compSel || oneSport === 'cricket' ? [] : dayGroups(evsAll, now), inGrp = new Set([...nbaG, ...dg.flatMap(x => x.gs)]);
+  const dg = compSel || oneSport === 'cricket' ? [] : dayGroups(evsAll, now, new Set(nbaG)), inGrp = new Set([...nbaG, ...dg.flatMap(x => x.gs)]);
   const evs = inGrp.size ? [...evsAll.filter(e => !inGrp.has(e)), ...(nbaG.length ? [{ ...nbaRep, _nbaG: nbaG }] : []), ...dg.map(x => x.card)].sort((a, b) => a.startUTC.localeCompare(b.startUTC)) : evsAll;
   const todayK = dayKey(nowD);
   const upcoming = evs.filter(e => e.status === 'live' || (e.status !== 'final' && (new Date(e.startUTC) > now || running(e, now))));
