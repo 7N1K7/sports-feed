@@ -1,18 +1,16 @@
-wiki: |date=15 November 2026
-|stadium=[[Te Kaha (stadium)|Te Kaha]], [[Christchurch]]
-|home=h
-|opponent={{fb|IND}}
-|score1=
-|score2=
-|competition=Friendly
-|goalscorers=
-|attendance=
-|reference=<ref/>
-}}
-{{end}}
+== India national football team results (2020–present) 65538 m/country/86/2023/India.html|title=India in 2023|access-date=16 November 2023}}</ref> Updated as of 15 November 2026 (vs {{fb|NZL}}).<ref/><ref/>
 
-;Notes
-{{Cnote2 Begin|liststyle=disc}}
-{{Cnote2|A|'''A:''' Match played behind closed doors due to the [[COVID-19 pandemic in Asia]].}}
-{{Cnote2|B|'''B:''' Match was abandoned at halftime after Qatar win
-tsdb New_Zealand_vs_India 2529320 International Friendlies 2026-11-12 06:10:00 status FT score 5 0
+{| Class = "wikitable" style="text-align:center;white-space:nowrap;"
+!colspan=7|Summary <br/> Matches 487–555
+|-
+! Games
+! Won
+! Draw
+! Lost
+! {{abbr|GF|Goals For}}
+! {{abbr|GA|Goals Against}}
+! Win %
+|-
+|7
+== 2026 in New Zealand association football 65855 no 15 Nov
+== 2026–27 in Indian football 62179 no 15 Nov
