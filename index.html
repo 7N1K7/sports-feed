@@ -5193,7 +5193,7 @@ document.addEventListener('click', ev => {
   if (t.id === 'copySettings') { count({ e: 'use', k: 'Settings code copied' }); const c = settingsCode(); (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { $('moveNote').textContent = 'Copied. Paste it into the box on the other browser, then tap "Use these settings".'; }, () => prompt('Copy this code', c)); return; }
   // the sport row's "i": a note under it, and from there Settings at My teams
   if (t.dataset.sinfo != null) { const pop = $('sinfoPop'), open = pop.hidden; closeSinfo(); if (!open) return;
-    use('Sports info button'); $('sinfoDef').innerHTML = OPT_IN.size ? `As one card a day by default: ${[...OPT_IN].map(k => hgo([TEAM_NAME[k] || k, sportOf(k), false, k], 'def')).join(' ')} – too many games to list` : '';
+    use('Sports info button'); $('sinfoDef').innerHTML = OPT_IN.size ? `As one card a day by default: ${[...OPT_IN].map(k => hgo([TEAM_NAME[k] || k, sportOf(k), false, k], 'def')).join(' ')}<br>Too many games to list` : '';
     // and what this browser has turned off (not the busy ones still off by default, named just above, nor race-weekend
     // practice sessions): up to 8, then a count
     { const os = offList().filter(o => !(o[3] && OPT_IN.has(o[3])) && !/ sessions$/.test(o[0])), max = os.length > 8 ? 7 : 8;
