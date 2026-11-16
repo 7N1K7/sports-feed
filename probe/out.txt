@@ -1,16 +1,79 @@
-== India national football team results (2020–present) 65538 m/country/86/2023/India.html|title=India in 2023|access-date=16 November 2023}}</ref> Updated as of 15 November 2026 (vs {{fb|NZL}}).<ref/><ref/>
-
-{| Class = "wikitable" style="text-align:center;white-space:nowrap;"
-!colspan=7|Summary <br/> Matches 487–555
-|-
-! Games
-! Won
-! Draw
-! Lost
-! {{abbr|GF|Goals For}}
-! {{abbr|GA|Goals Against}}
-! Win %
-|-
-|7
-== 2026 in New Zealand association football 65855 no 15 Nov
-== 2026–27 in Indian football 62179 no 15 Nov
+---
+–0
+|team2      = {{fb|IND}}
+|report     = [https://www.the-aiff.com/article/new-zealand-defeat-blue-tigers-in-auckland-friendly AIFF]<br>[https://www.nzfootball.co.nz/newsarticle/172083?newsfeedId=1275608 NZF]
+|goals1     =
+*[[Bijoy Varghese|Varghese]] {{goal|5|o.g.}}
+*[[Jesse Randall|Randall]] {{goal|34||43}}
+*[[Chris Wood (footballer, born 1991)|Wood]] {{goal|57}}
+*[[Lachlan Bayliss|Bayliss]] {{goal|75}}
+|goals2     =
+|location   = [[Auckland]], New Zealand
+|stadium    = [[Mount Smart Stadium|Go Media Stadium]]
+|attendance = 10,379
+|referee    = Adam Kersey ([[Football Australia|Australia]])
+|bg         = #FFBBBC 
+}}
+----
+{{football box
+|date       = 14 November
+|time       = {{UTZ|15:30|+6:00}}
+|round      = [[2026 SAFF Championship]]
+|score      = 2–1
+|report     = [https://www.the-aiff.com/article/india-hold-off-bhutan-fightback-to-reach-saff-championship-final AIFF]
+|team1      = {
+---
+ate       = 15 November
+|time       = {{UTZ|16:30|+13:00}}
+|team1      = {{fb-rt|NZL}}
+|score      = 3–0
+|team2      = {{fb|IND}}
+|report     = [https://www.the-aiff.com/article/india-fall-to-new-zealand-in-christchurch-friendly AIFF]<br>[https://www.nzfootball.co.nz/newsarticle/172134?newsfeedId=1275608 NZF]
+|goals1     =
+*[[Finn Surman|Surman]] {{goal|22}}
+*[[James McGarry (footballer)|McGarry]] {{goal|40}}
+*[[Chris Wood (footballer, born 1991)|Wood]] {{goal|44}}
+|goals2     =
+|location   = [[Christchurch]], New Zealand
+|stadium    = [[Te Kaha (stadium)|One New Zealand Stadium]]
+|attendance = 
+|referee    = Tim Danaskos ([[Football Australia|Australia]])
+|bg         = #FFBBBC
+}}
+----
+{{football box
+|date       = 17 November
+|time       = {{UTZ|20:00|+6:00}}
+|round      = [[2026 SAFF Championship final|2026 SAFF Championship]]
+|score      = 
+|report     =
+|team1      = {{fb-rt|IND}}
+|te
+---
+16:30|+13:00}}
+|team1      = {{fb-rt|NZL}}
+|score      = 3–0
+|team2      = {{fb|IND}}
+|report     = [https://www.the-aiff.com/article/india-fall-to-new-zealand-in-christchurch-friendly AIFF]<br>[https://www.nzfootball.co.nz/newsarticle/172134?newsfeedId=1275608 NZF]
+|goals1     =
+*[[Finn Surman|Surman]] {{goal|22}}
+*[[James McGarry (footballer)|McGarry]] {{goal|40}}
+*[[Chris Wood (footballer, born 1991)|Wood]] {{goal|44}}
+|goals2     =
+|location   = [[Christchurch]], New Zealand
+|stadium    = [[Te Kaha (stadium)|One New Zealand Stadium]]
+|attendance = 
+|referee    = Tim Danaskos ([[Football Australia|Australia]])
+|bg         = #FFBBBC
+}}
+----
+{{football box
+|date       = 17 November
+|time       = {{UTZ|20:00|+6:00}}
+|round      = [[2026 SAFF Championship final|2026 SAFF Championship]]
+|score      = 
+|report     =
+|team1      = {{fb-rt|IND}}
+|team2      = {{fb|PAK}}
+|goals1     = 
+|goals2
