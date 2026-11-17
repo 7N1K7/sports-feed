@@ -1,4 +1,8 @@
 const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
-const lo = Date.now() - 864e5, hi = Date.now() + 6 * 864e5;
-// names, times and competitions only: no scores
-for (const e of f.events.filter(e => Date.parse(e.startUTC) > lo && Date.parse(e.startUTC) < hi && (/Breakers|Phoenix|Melbourne/.test(`${e.home} ${e.away}`) && /basketball|football/.test(e.sport)))) console.log(e.id, '|', e.startUTC, '|', e.home, 'v', e.away, '|', e.comp, '|', e.team, '| tv', (e.tv || []).map(x => x.ch).join(','));
+const d = await (await fetch('https://kickoff.kiwi/data/coverage-detail.json?' + Date.now())).json();
+const g = d.tvGaps || { nz: [], other: [] };
+// TV listings only (titles, channels, times): nothing private, no scores
+console.log('v', d.v, 'NZ', g.nz.length, 'other', g.other.length, '| diag', String((f.diag || {}).tvGaps).slice(0, 80));
+for (const o of g.nz) console.log('NZ |', o.at.slice(5, 16), '|', o.t.slice(0, 70), '|', o.ch);
+console.log('OT:', g.other.map(o => o.t.slice(0, 30)).join(' ; '));
+const b = f.events.find(e => /breakers-2026-11-18/.test(e.id)); console.log('breakers 18 Nov tv:', b ? (b.tv || []).map(x => x.ch).join(',') || 'none' : 'not found');
