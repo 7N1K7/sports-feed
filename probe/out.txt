@@ -1,18 +1,42 @@
-v 789 NZ 15 other 14 | diag 15 live listings naming NZ, a NZ side, place or athlete with no game on the site
-NZ | 11-17T04:30 | Bowls New Zealand: India Test Series: LIVE Bowls: NZ v India Day Two | Sky Sport 2
-NZ | 11-18T04:30 | Bowls New Zealand: India Test Series: LIVE Bowls: NZ v India Day Three | Sky Sport 2
-NZ | 11-19T19:55 | Rugby League: Fijian Cup: LIVE: Fijian Cup Touch D1 | Sky Sport 4
-NZ | 11-19T21:30 | Bowls New Zealand: Oceania Champs: LIVE Oceania Champs: Day Two | Sky Sport 5
-NZ | 11-20T05:30 | Basketball: Women's Rapid League: LIVE: Rapid League: Kahu v Queens | Sky Sport 4
-NZ | 11-20T05:45 | A-League: Women: LIVE: ALW: Wanderers v Phoenix | Sky Sport 3
-NZ | 11-20T06:30 | Tauihi Basketball Aotearoa: LIVE: Tauihi: Kahu v Queens | Sky Sport 4
-NZ | 11-20T19:55 | Rugby League: Fijian Cup: LIVE: Fijian Cup Touch D2 | Sky Sport 5
-NZ | 11-21T05:30 | Basketball: Women's Rapid League: LIVE: Rapid League: Whai v Pouakai | Sky Sport 5
-NZ | 11-21T06:30 | Tauihi Basketball Aotearoa: LIVE: Tauihi: Whai v Pouakai | Sky Sport 5
-NZ | 11-21T21:30 | Bowls New Zealand: Oceania Champs: LIVE Oceania Champs: Day Four | Sky Sport 5
-NZ | 11-22T02:00 | Tauihi Basketball Aotearoa: LIVE: Tauihi: Queens v Hoiho | Sky Sport 4
-NZ | 11-26T19:55 | Rugby League: Fijian Cup: Fijian Cup Nines D1 | Sky Sport 4
-NZ | 11-27T05:30 | Basketball: Women's Rapid League: Rapid League: Hoiho v Kahu | Sky Sport 4
-NZ | 11-27T06:30 | Tauihi Basketball Aotearoa: Tauihi: Hoiho v Kahu | Sky Sport 4
-OT: NFL ; Grand Slam Of Darts ; Live: NCAA Men's Basketball ; Live: NHL ; Live: UEFA Women's Champions L ; Women's AFL ; Live: WNBL ; Live: Epl ; Basketball ; T20 Cairns Gold Clash ; Football ; Premiership Women's Rugby ; WTGL ; Australian PGA Championship
-breakers 18 Nov tv: ESPN 2
+now 2026-11-17T18:44:44.289Z generatedAt 2026-11-17T18:40:40.392Z age min 4 events 1112
+NR | {"s":"cricket","c":"Ford Trophy","n":"Auckland Aces v Otago Volts","at":"2026-11-11T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/"}
+NR | {"s":"cricket","c":"Ford Trophy","n":"Central Stags v Wellington Firebirds","at":"2026-11-11T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/"}
+NR | {"s":"cricket","c":"Ford Trophy","n":"Canterbury v Northern Districts","at":"2026-11-11T21:30:00Z","src":"https://possible11.com/series/ford-trophy-2026-27/fixture/"}
+NR | {"s":"cricket","c":"Hallyburton Johnstone Shield","n":"Central Hinds v Northern Districts","at":"2026-11-13T21:30:00Z","src":"https://www.nzc.nz/media/1cxbi35u/print_2026_hbj-schedule.pdf","noSource":true}
+NR | {"s":"cricket","c":"Hallyburton Johnstone Shield","n":"Auckland Hearts v Wellington Blaze","at":"2026-11-13T21:30:00Z","src":"https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/","noSource":true}
+NR | {"s":"cricket","c":"Hallyburton Johnstone Shield","n":"Canterbury Magicians v Otago Sparks","at":"2026-11-13T21:30:00Z","src":"https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/","noSource":true}
+NR | {"s":"cricket","c":"Hallyburton Johnstone Shield","n":"Auckland Hearts v Wellington Blaze","at":"2026-11-14T21:30:00Z","src":"https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/","noSource":true}
+NR | {"s":"cricket","c":"Hallyburton Johnstone Shield","n":"Canterbury Magicians v Otago Sparks","at":"2026-11-14T21:30:00Z","src":"https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/","noSource":true}
+NR | {"s":"cricket","c":"Hallyburton Johnstone Shield","n":"Central Hinds v Northern Districts","at":"2026-11-14T21:30:00Z","src":"https://www.nzc.nz/cricket-across-aotearoa-ford-trophy-and-hallyburton-johnstone-shield-schedules-announced/","noSource":true}
+NR | {"s":"cricket","c":"Dean Jones Trophy","n":"New South Wales v South Australia","at":"2026-11-15T23:00:00.000Z","src":"https://en.wikipedia.org/wiki/2026%E2%80%9327_Dean_Jones_Trophy"}
+NR | {"s":"cricket","c":"Dean Jones Trophy","n":"Queensland v Tasmania","at":"2026-11-16T00:00:00.000Z","src":"https://en.wikipedia.org/wiki/2026%E2%80%9327_Dean_Jones_Trophy"}
+NR | {"s":"cricket","c":"Dean Jones Trophy","n":"Victoria v Western Australia","at":"2026-11-16T03:00:00.000Z","src":"https://en.wikipedia.org/wiki/2026%E2%80%9327_Dean_Jones_Trophy"}
+NR | {"s":"netball","c":"WM New Zealand Netball Series","n":"New Zealand v Net Blacks","at":"2026-11-17T06:30:00Z","src":"https://insidegovernment.co.nz/hamilton-scores-silver-ferns-triple-showdown/","noSource":true}
+TW | {"s":"cricket","c":"Hallyburton Johnstone Shield","week":"2026-11-15","n":0,"usual":6,"stopped":true}
+NZ | 11-18T04:30 | Bowls New Zealand: India Test Series: LIVE Bowls: NZ v India Day Three | Sky Sport 2 | LIVE coverage of Bowls New Zealands India Test Series Day Three pitting the Blackjacks aga
+NZ | 11-19T19:55 | Rugby League: Fijian Cup: LIVE: Fijian Cup Touch D1 | Sky Sport 4 | LIVE coverage of Day 1 of the Fijian Cup Touch at Lawaqa Park, Sigatoka. Featuring teams f
+NZ | 11-19T21:30 | Bowls New Zealand: Oceania Champs: LIVE Oceania Champs: Day Two | Sky Sport 5 | LIVE coverage of the Oceania Championships 2026 Day Two. From Bowls Orewa, Auckland.
+NZ | 11-20T05:30 | Basketball: Women's Rapid League: LIVE: Rapid League: Kahu v Queens | Sky Sport 4 | LIVE coverage from Round 9 of the Rapid League between the Northern Kahu and Tokomanawa Qu
+NZ | 11-20T05:45 | A-League: Women: LIVE: ALW: Wanderers v Phoenix | Sky Sport 3 | LIVE coverage from Round 6 of the Women's A-League as the Western Sydney Wanderers take on
+NZ | 11-20T06:30 | Tauihi Basketball Aotearoa: LIVE: Tauihi: Kahu v Queens | Sky Sport 4 | LIVE coverage from Round 9 of Tauihi Basketball Aotearoa between the Northern Kahu and Tok
+NZ | 11-20T19:55 | Rugby League: Fijian Cup: LIVE: Fijian Cup Touch D2 | Sky Sport 5 | LIVE coverage of Day 2 of the Fijian Cup Touch at Lawaqa Park, Sigatoka. Featuring teams f
+NZ | 11-21T05:30 | Basketball: Women's Rapid League: LIVE: Rapid League: Whai v Pouakai | Sky Sport 5 | LIVE coverage from Round 9 of the Rapid League between the Tauranga Whai and Mainland Poua
+NZ | 11-21T06:30 | Tauihi Basketball Aotearoa: LIVE: Tauihi: Whai v Pouakai | Sky Sport 5 | LIVE coverage from Round 9 of Tauihi Basketball Aotearoa between the Tauranga Whai and Mai
+NZ | 11-21T21:30 | Bowls New Zealand: Oceania Champs: LIVE Oceania Champs: Day Four | Sky Sport 5 | LIVE coverage of the Oceania Championships 2026 Day Four. From Bowls Orewa, Auckland.
+NZ | 11-22T02:00 | Tauihi Basketball Aotearoa: LIVE: Tauihi: Queens v Hoiho | Sky Sport 4 | LIVE coverage from Round 9 of Tauihi Basketball Aotearoa between the Tokomanawa Queens and
+NZ | 11-26T19:55 | Rugby League: Fijian Cup: Fijian Cup Nines D1 | Sky Sport 4 | LIVE coverage of Day 1 of the Fijian Cup Nines at Lawaqa Park, Sigatoka. Featuring teams f
+NZ | 11-27T05:30 | Basketball: Women's Rapid League: Rapid League: Hoiho v Kahu | Sky Sport 4 | LIVE coverage from Round 10 of the Rapid League between the Southern Hoiho and Northern Ka
+NZ | 11-27T06:30 | Tauihi Basketball Aotearoa: Tauihi: Hoiho v Kahu | Sky Sport 4 | LIVE coverage from Round 10 of Tauihi Basketball Aotearoa between the Southern Hoiho and N
+OT: Grand Slam Of Darts ; Live: NCAA Men's Basketball ; Live: NHL ; Live: UEFA Women's Champions L ; NFL ; Women's AFL ; Live: WNBL ; Basketball ; T20 Cairns Gold Clash ; Football ; Premiership Women's Rugby ; WTGL ; Australian PGA Championship ; FIA Formula 2 Championship ; Players Championships ; Mosconi Cup
+HK | wbbl-12-m25-adelaide-strikers-v-sydney-sixers | 2026-11-17T08:10:00Z | Adelaide Strikers v Sydney Sixers | Karen Rolton Oval | upcoming | tv Sky Sport 2@11-17T08:05
+HK | wbbl-12-m26-hobart-hurricanes-v-perth-scorchers | 2026-11-19T04:40:00Z | Hobart Hurricanes v Perth Scorchers | Allan Border Field | upcoming | tv Sky Sport 2@11-19T04:30
+HK | wbbl-12-m27-brisbane-heat-v-sydney-thunder | 2026-11-19T08:10:00Z | Brisbane Heat v Sydney Thunder | Allan Border Field | upcoming | tv Sky Sport 2@11-19T08:10
+HK | wbbl-12-m28-adelaide-strikers-v-melbourne-renegades | 2026-11-20T08:10:00Z | Adelaide Strikers v Melbourne Renegades | Adelaide Oval | upcoming | tv Sky Sport 2@11-20T07:45
+HK | ps-r1-1-2026 | 2026-11-18T21:30:00Z | Otago Volts v Canterbury | University of Otago Oval | upcoming | tv none
+HK | ps-r1-2-2026 | 2026-11-18T21:30:00Z | Northern Districts v Auckland Aces | Seddon Park | upcoming | tv none
+HK | ps-r1-3-2026 | 2026-11-18T21:30:00Z | Central Stags v Wellington Firebirds | Fitzherbert Park | upcoming | tv none
+HK | bc-ind-test1-2026 | 2026-11-18T22:00:00Z | New Zealand v India | Basin Reserve | upcoming | tv Sky Sport 1@11-18T19:35, Sky Sport 1 UHD@11-18T19:40
+HK | pak-sl-t2-2026 | 2026-11-17T04:30:00Z | Pakistan v Sri Lanka | Rawalpindi Cricket Stadium | upcoming | tv none
+HK | bs-ind-centenary-1-2026 | 2026-11-19T05:30:00Z | New Zealand v India | Lloyd Elsmore Park | upcoming | tv Sky Sport 4@11-19T07:00d
+HK | wmseries-2026-g1 | 2026-11-17T06:30:00Z | New Zealand v Net Blacks | Claudelands Arena | upcoming | tv Sky Sport 1@11-17T06:30, Sky Sport 1 UHD@11-17T06:30
+HK | wmseries-2026-g2 | 2026-11-19T06:30:00Z | New Zealand v Net Blacks | Claudelands Arena | upcoming | tv Sky Sport 1@11-19T06:30, Sky Sport 1 UHD@11-19T06:30
