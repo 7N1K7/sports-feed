@@ -760,6 +760,20 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
     out.push(...sg);
     diag.sailgp = `${sg.length} events, ${sg.filter(e => e.status === 'final').length} with winners`;
   } catch (e) { diag.sailgp = 'error: ' + e.message; }
+  // rugby sevens: the world series' season page (a season runs from about November to May or June; its page is up by
+  // July), one card a tournament. The America's Cup: the next match's own page, when there is one
+  try {
+    const sy = M >= 6 ? Y : Y - 1, t = `${sy}–${String((sy + 1) % 100).padStart(2, '0')} SVNS`, pg = await seasonPages([t]);
+    const sv = svnsSeason(pg[t] || '', t);
+    out.push(...sv);
+    diag.sevens = `${sv.length} tournaments, ${sv.filter(e => e.status === 'final').length} with winners`;
+  } catch (e) { diag.sevens = 'error: ' + e.message; }
+  try {
+    const ts = [Y, Y + 1].map(y => `${y} America's Cup`), pg = await seasonPages(ts);
+    const ac = ts.flatMap(t => americasCup(pg[t] || '', t));
+    out.push(...ac);
+    diag.americascup = ac.map(e => `${e.id} ${e.openUTC.slice(0, 10)} to ${e.startUTC.slice(0, 10)} ${e.status}`).join(', ') || 'no page with dates';
+  } catch (e) { diag.americascup = 'error: ' + e.message; }
   try {
     const tours = [
       ...[Y, ...(M >= 10 ? [Y + 1] : [])].flatMap(y => [{ title: `${y} PGA Tour`, team: 'pgatour', comp: 'PGA Tour', y, tz: 'America/New_York' }, { title: `${y} LPGA Tour`, team: 'lpga', comp: 'LPGA Tour', y, tz: 'America/New_York' }]),
@@ -1140,6 +1154,55 @@ function sailgpSeason(text, year) {
     });
   }
   return out;
+}
+
+// the sevens world series' "Tour venues" table: leg, stadium, city, dates ("28–29 Nov 2026"), the men's winner, the women's
+// winner. A card a tournament on its last day (finals day), play from about 10am local each day; both the men's and the
+// women's tournaments are in it
+const SEVENS_TZ = { Dubai: 'Asia/Dubai', 'Cape Town': 'Africa/Johannesburg', Singapore: 'Asia/Singapore', Perth: 'Australia/Perth', Sydney: 'Australia/Sydney', Hamilton: 'Pacific/Auckland',
+  Vancouver: 'America/Vancouver', 'New York': 'America/New_York', 'Los Angeles': 'America/Los_Angeles', 'Hong Kong': 'Asia/Hong_Kong', Valladolid: 'Europe/Madrid', Madrid: 'Europe/Madrid',
+  Seville: 'Europe/Madrid', Málaga: 'Europe/Madrid', Bordeaux: 'Europe/Paris', Toulouse: 'Europe/Paris', Paris: 'Europe/Paris', London: 'Europe/London' };
+function svnsSeason(text, title) {
+  const i = text.search(/==\s*Tour venues\s*==/i);
+  if (i < 0) return [];
+  const out = [], endY = +title.slice(0, 4) + 1, src = `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`;
+  for (const r of rowsOf((text.slice(i).match(/\{\|[\s\S]*?\n\|\}/) || [''])[0])) {
+    const city = clean(stripRefs(r[2] || '').replace(/\{\{efn[\s\S]*$/i, '')).trim(), d = dateRange(r[3] || '', endY);
+    if (!city || !d) continue;
+    const tz = SEVENS_TZ[city] || 'UTC', venue = clean(stripRefs(r[1] || '')).trim();
+    const win = v => { const t = teamOf(String(v || '').replace(/'''/g, '')); return t && !/^(TBC|TBD|—|-)?$/i.test(t) ? t.replace(/\s+Women$/, '') : ''; };
+    const men = win(r[4]), women = win(r[5]);
+    const [ey, em, ed] = d.end, [sy, sm, sd] = d.start;
+    out.push({
+      id: `sevens-${endY}-${city.toLowerCase().replace(/[^a-z]+/g, '-')}`, team: 'sevens', tags: [], sport: 'rugby', kind: 'sevens', comp: 'SVNS', round: `Leg ${out.length + 1}`,
+      home: `${city} Sevens`, away: '', startUTC: new Date(localToUTC(ey, em, ed, 10, 0, tz)).toISOString(), openUTC: new Date(localToUTC(sy, sm, sd, 10, 0, tz)).toISOString(),
+      timeTBC: true, usual: true, venue, city, tz, ...(tz === 'Pacific/Auckland' ? { nzEvent: true } : {}),
+      status: men || women ? 'final' : 'upcoming',
+      ...(men || women ? { score: men && women ? (men === women ? `${men} win both` : `${men} (men) · ${women} (women)`) : men ? `${men} (men)` : `${women} (women)`,
+        summary: men && women ? (men === women ? `${men} won both the men's and the women's tournaments.` : `${men} won the men's tournament and ${women} the women's.`) : `${men || women} won the ${men ? "men's" : "women's"} tournament.` } : {}),
+      source: src,
+    });
+  }
+  return out;
+}
+// the America's Cup match, from its page's infobox: dates ("10-18 July 2027"), location, and once it's sailed the
+// winning club (the defender's or the challenger's, which says whose country won). One card on its last scheduled day
+const CUP_TZ = { Naples: 'Europe/Rome', Barcelona: 'Europe/Madrid', Auckland: 'Pacific/Auckland', Jeddah: 'Asia/Riyadh', Cagliari: 'Europe/Rome' };
+function americasCup(text, title) {
+  const box = templates(stripRefs(text), /^Infobox Americas Cup competition/i)[0];
+  if (!box) return [];
+  const p = params(box.body).named, year = +title.slice(0, 4), d = dateRange(p.dates || p.date || '', year);
+  if (!d) return [];
+  const city = clean(p.location || '').split(',')[0].trim(), tz = CUP_TZ[city] || 'UTC', club = v => clean(String(v || '').replace(/\{\{\s*yachtclub\s*\|([^}]*)\}\}/i, '$1')).trim();
+  const won = club(p['winning club']), country = won && (won === club(p['defender club']) ? clean(p['defender country'] || '') : clean(p['challenger country'] || '')).trim();
+  const [ey, em, ed] = d.end, [sy, sm, sd] = d.start;
+  return [{
+    id: `americascup-${year}`, team: 'americascup', tags: [], sport: 'sailing', kind: 'acup', comp: "America's Cup", ...(clean(p.edition || '') ? { round: `${clean(p.edition)} match` } : {}),
+    home: "America's Cup match", away: '', startUTC: new Date(localToUTC(ey, em, ed, 15, 0, tz)).toISOString(), openUTC: new Date(localToUTC(sy, sm, sd, 15, 0, tz)).toISOString(),
+    timeTBC: true, usual: true, venue: '', city, tz, ...(tz === 'Pacific/Auckland' ? { nzEvent: true } : {}),
+    status: won ? 'final' : 'upcoming', ...(won ? { score: `${country || won} wins`, summary: `${country || won}${country ? ` (${won})` : ''} won the America's Cup.` } : {}),
+    source: `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`,
+  }];
 }
 
 // golf season pages' "Schedule" table: date (the last day: "Jan 11", "30 Aug", or a range), tournament, location (a US
@@ -2318,5 +2381,6 @@ export async function tsdbBackfill(all, cache, diag, max = 2) {
   }
   return out;
 }
+export { svnsSeason as _svnsSeason, americasCup as _americasCup };
 export { tennisFinals as _tennisFinals, dateRange as _dateRange, TENNIS as _TENNIS };
 export { f1Past as _f1Past, scTables as _scTables, scTsdb as _scTsdb, f1Tables as _f1Tables, f1Top3 as _f1Top3, supercarsSeason as _supercarsSeason, readSquad as _readSquad, stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, oneFromYear as _oneFromYear, oneTable as _oneTable, fightCard as _fightCard, sportsTables as _sportsTables };

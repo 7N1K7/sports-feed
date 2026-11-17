@@ -1809,13 +1809,13 @@ const NZ_NICK = { 'rugby m': 'All Blacks', 'rugby w': 'Black Ferns', 'league m':
 // "Black Caps v India"; a race or tournament is just its name; a fight card leads with the event
 const gameTitle = e => {
   const name = n => { const w = /\s+Women('s)?$/i.test(n || '') || isW(e); return /^New Zealand( Women('s)?)?$/i.test(n || '') && NZ_NICK[`${e.sport} ${w ? 'w' : 'm'}`] || n; };
-  return e.sport === 'motor' || e.sport === 'tennis' ? e.home : /^(mma|boxing)$/.test(e.sport) ? `${e.comp ? e.comp + ': ' : ''}${e.home} v ${e.away}` : `${name(e.home)} v ${name(e.away)}`;
+  return e.sport === 'motor' || e.sport === 'tennis' || !e.away ? e.home : /^(mma|boxing)$/.test(e.sport) ? `${e.comp ? e.comp + ': ' : ''}${e.home} v ${e.away}` : `${name(e.home)} v ${name(e.away)}`;
 };
 
 async function writeCalendars(events) {
   const { LABEL, isNZ, keysOf } = await siteTeams();
   const ICON = GAME_ICON;
-  const HOURS = { rugby: 2, league: 2, football: 2, hockey: 2, basketball: 2.5, netball: 1.5, motor: 2, tennis: 4, mma: 5, boxing: 4, sailing: 2.5, golf: 5, cycling: 4 };
+  const HOURS = { rugby: 2, league: 2, football: 2, hockey: 2, basketball: 2.5, netball: 1.5, motor: 2, tennis: 4, mma: 5, boxing: 4, sailing: 2.5, golf: 5, cycling: 4, sevens: 9, acup: 3 };
   const site = process.env.SITE_URL || 'https://kickoff.kiwi/';
   const esc = t => String(t || '').replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
   // lines longer than 75 bytes continue on the next line after a space, without splitting a character
@@ -1840,7 +1840,7 @@ async function writeCalendars(events) {
     // a Test or first-class match is one entry a day of play; a one-day game runs eight hours, a T20 three and a half
     const ctx = `${e.format || ''} ${e.stage || ''} ${e.comp || ''}`;
     const days = e.sport !== 'cricket' ? 1 : /Plunket|first.class/i.test(ctx) ? 4 : /\bTests?\b/.test(ctx) ? (isW(e) ? 4 : 5) : 1;
-    const hrs = e.sport !== 'cricket' ? HOURS[e.sport] || 2 : days > 1 ? 7.5 : /\bT20|Super Smash|Big Bash|\bBBL|WBBL/i.test(ctx) ? 3.5 : 8;
+    const hrs = e.sport !== 'cricket' ? HOURS[e.kind || e.sport] || 2 : days > 1 ? 7.5 : /\bT20|Super Smash|Big Bash|\bBBL|WBBL/i.test(ctx) ? 3.5 : 8;
     const out = [];
     for (let d = 0; d < days; d++) {
       const s = dayOn(e, start.getTime(), d), lines = ['BEGIN:VEVENT', `UID:${e.id}${days > 1 ? '-d' + (d + 1) : ''}@kickoff-kiwi`, `DTSTAMP:${stamp(new Date(now))}`];
@@ -1878,7 +1878,7 @@ async function writeCalendars(events) {
 // topic can read it, which is fine for fixtures. What was sent is kept in .cache/alerts.json; if that's lost, a topic's
 // own last 12 hours (ntfy keeps them) are checked before anything is sent to it again.
 const NTFY_ON = true, NTFY = 'https://ntfy.sh/', TOPIC = k => `kickoffkiwi-${k}`;
-const DONE_WORD = { cricket: 'Match over', tennis: 'Finished', motor: 'Race over', mma: 'Card over', boxing: 'Fight night over' };
+const DONE_WORD = { cricket: 'Match over', tennis: 'Finished', motor: 'Race over', mma: 'Card over', boxing: 'Fight night over', sevens: 'Tournament over', acup: 'Racing over' };
 async function phoneAlerts(events) {
   if (!NTFY_ON) return;
   const { isNZ, keysOf } = await siteTeams();
@@ -1912,7 +1912,7 @@ async function phoneAlerts(events) {
     // a Test or first-class game ends days after it starts
     const long = e.sport === 'cricket' && /\bTests?\b|first.class|Plunket/i.test(`${e.format || ''} ${e.stage || ''} ${e.comp || ''}`);
     if (e.status === 'final' && start < now && now - start < (long ? 6 * DAY : 12 * 36e5) && !/postponed|cancel/i.test(`${e.score || ''} ${e.summary || ''}`))
-      due.push({ e, kind: 'end', title: `${DONE_WORD[e.sport] || 'Full time'}: ${gameTitle(e)}`, message: 'Tap to see the result (no score here)', priority: 3 });
+      due.push({ e, kind: 'end', title: `${DONE_WORD[e.kind || e.sport] || 'Full time'}: ${gameTitle(e)}`, message: 'Tap to see the result (no score here)', priority: 3 });
   }
   // the very first run only notes the results already in, rather than announcing them all at once
   if (!sent.__seeded) {
@@ -2237,7 +2237,7 @@ for (const e of events.filter(x => { const t = Date.parse(x.startUTC) - now; ret
   if (e.tv) { c.guide = (c.guide || 0) + 1; dg.f |= 16; }
   if (e.yt) { c.streams = (c.streams || 0) + 1; dg.f |= 32; }
   // a race, a tournament or a regatta has no two sides (golf's "home" is the tournament's name)
-  if (['motor', 'tennis', 'golf', 'sailing', 'cycling'].includes(e.sport)) continue;
+  if (['motor', 'tennis', 'golf', 'sailing', 'cycling'].includes(e.sport) || e.kind) continue;
   const sides = [e.home, e.away].filter(t => t && !NOT_SIDE.test(t)), g = genderKey(e), base = t => String(t).replace(/\s+Women('s)?$/, '');
   if (!NO_SQUADS.has(e.sport) && sides.length) { c.sqGames++; dg.f |= 4; if (e.squads?.length || sides.some(t => haveSquads.has(`${e.sport}|${g}|${base(t)}`))) { c.squads++; dg.f |= 8; } else bump(c.gaps.squads, comp); }
   for (const t of sides) {
@@ -2303,7 +2303,7 @@ const roundWeeks = new Map(), roundOf = e => (`${e.comp || ''} ${e.stage || ''}`
 // knockout games are left out: the rounds shrink by design (a World Cup's semi-finals week has two games, not five)
 const KO = /semi-final|quarter-final|\bfinals?\b|play-?offs?|knockout|eliminator|challenger|qualifier/i;
 for (const e of events) {
-  if (e.session || e.formOnly || e.ytOnly || ['motor', 'golf', 'sailing', 'tennis', 'cycling'].includes(e.sport) || fmtDays(e) > 1 || KO.test(`${e.comp || ''} ${e.stage || ''}`)) continue;
+  if (e.session || e.formOnly || e.ytOnly || ['motor', 'golf', 'sailing', 'tennis', 'cycling'].includes(e.sport) || e.kind || fmtDays(e) > 1 || KO.test(`${e.comp || ''} ${e.stage || ''}`)) continue;
   const k = `${e.sport}|${baseComp(e)}|${genderKey(e)}`, t = Date.parse(e.startUTC), r = roundOf(e); (byComp.get(k) || byComp.set(k, []).get(k)).push(t);
   if (r) { const m = roundWeeks.get(k) || roundWeeks.set(k, new Map()).get(k); (m.get(r) || m.set(r, new Set()).get(r)).add(wk(t)); }
 }
