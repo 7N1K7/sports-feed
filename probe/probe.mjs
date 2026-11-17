@@ -1,9 +1,11 @@
-for (const [t, re] of [['2026–27_Ford_Trophy', /(8|12) November/], ['2026–27_Dean_Jones_Trophy', /16 November/]]) {
-  const r = await fetch('https://en.wikipedia.org/w/index.php?action=raw&title=' + encodeURIComponent(t), { headers: { 'user-agent': 'kickoff-kiwi-probe/1.0' } });
-  const x = await r.text();
-  const parts = x.split(/(?=\{\{\s*(?:Single-innings cricket match|Limited overs matches|Limited-overs matches))/i).slice(1);
-  let n = 0;
-  for (const p of parts) { const d = (p.match(/\|\s*date\s*=\s*([^\n|]*)/) || [])[1] || '?'; if (re.test(d) && n++ < 5) console.log('-----\n' + p.slice(0, 650)); }
-  const h = await (await fetch('https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvlimit=6&rvprop=timestamp|comment&format=json&titles=' + encodeURIComponent(t), { headers: { 'user-agent': 'kickoff-kiwi-probe/1.0' } })).json();
-  console.log('revisions', JSON.stringify(Object.values(h.query.pages)[0].revisions.map(v => v.timestamp + ' ' + (v.comment || '').slice(0, 60))));
+const UA = { headers: { 'user-agent': 'kickoff-kiwi-probe/1.0' } };
+const api = async q => (await fetch('https://en.wikipedia.org/w/api.php?format=json&' + q, UA)).json();
+for (const q of ['2026–27 SVNS', 'SVNS 2027 sevens series', "2027 America's Cup", 'Louis Vuitton Cup 2027', '2026 Dubai Sevens', '2026–27 SVNS 2']) {
+  const r = await api('action=query&list=search&srlimit=6&srsearch=' + encodeURIComponent(q));
+  console.log('SEARCH', q, '=>', (r.query?.search || []).map(s => s.title).join(' | '));
+}
+for (const t of ['2026–27 SVNS', '2025–26 SVNS', "2027 America's Cup", "38th America's Cup", '2026 Dubai Sevens']) {
+  const r = await fetch('https://en.wikipedia.org/w/index.php?action=raw&redirect=yes&title=' + encodeURIComponent(t), UA), x = r.ok ? await r.text() : '';
+  console.log('\n=== PAGE', t, r.status, x.length, x.slice(0, 80).replace(/\n/g, ' '));
+  console.log('headings:', [...x.matchAll(/^(=+)\s*(.*?)\s*=+\s*$/gm)].map(m => m[1].length + ':' + m[2]).join(' | ').slice(0, 900));
 }
