@@ -1,21 +1,869 @@
-SEARCH 2026–27 SVNS => 2026–27 SVNS | 2025–26 SVNS | 2026 SVNS 2 | SVNS 3 | SVNS | SVNS 2
-SEARCH SVNS 2027 sevens series => 2026–27 SVNS | 2025–26 SVNS | SVNS 3 | Rugby sevens at the 2027 European Games | 2026 Hong Kong Sevens | 2026 SVNS 2
-SEARCH 2027 America's Cup => 2027 America's Cup | 2027 Rugby World Cup | 2027 in sports | 2027 FIFA Women's World Cup | 2027 NASCAR Cup Series | America's Cup
-SEARCH Louis Vuitton Cup 2027 => 2024 Louis Vuitton Cup | 2027 America's Cup | Team New Zealand | Colm Dillane | Luna Rossa Prada Pirelli | 2024 America's Cup
-SEARCH 2026 Dubai Sevens => 2025 Dubai Sevens | 2022 Dubai Women's Sevens | The Sevens Stadium | 1999 Dubai Sevens | 2026 SVNS 3 – Men's tour | 2026 SVNS 3 – Women's tour
-SEARCH 2026–27 SVNS 2 => 2026–27 SVNS | 2026 SVNS 2 | SVNS 2 | 2025–26 SVNS | SVNS 3 | 2026 Brazil SVNS 2
+##### SVNS venues
+==Tour venues==
+The schedule for the series was finalised on 29 July 2026.
 
-=== PAGE 2026–27 SVNS 200 18318 {{Short description|Series of national rugby sevens tournaments}} {{Use dmy date
-headings: 2:Teams and format | 3:Men's teams | 3:Women's teams | 2:Tour venues | 2:Standings | 3:Men's | 3:Women's | 3:Men's Grand Finals | 3:Women's Grand Finals | 2:Placings summary | 3:Men | 3:Women | 2:Players | 3:Awards | 2:Tournaments | 3:Dubai | 4:Men's | 4:Women's | 3:Cape Town | 4:Men's | 4:Women's | 3:Singapore | 4:Men's | 4:Women's | 3:Perth | 4:Men's | 4:Women's | 3:Vancouver | 4:Men's | 4:Women's | 3:New York | 4:Men's | 4:Women's | 3:Hong Kong | 4:Men's | 4:Women's | 3:Valladolid | 4:Men's | 4:Women's | 3:Bordeaux | 4:Men's | 4:Women's | 2:References
+{| class="wikitable sortable"  "text-align:left;"
+|+ 2026–27 itinerary
+|- bgcolor="#efefef"
+! style="width: 5.1em;" |Leg
+! Stadium
+! style="width:4.2em;"|City
+! style="width:7.8em;" |Dates
+! style="width:6.9em;" |Men's Winner
+! style="width:7.4em;" |Women's Winner
+|-
+| [[2026 Dubai Sevens|Dubai]]
+| [[The Sevens Stadium]] || [[Dubai]]
+| align=center| 28–29 Nov 2026
+| 
+| 
+|-
+| [[2026 South Africa Sevens|South Africa]]
+| [[DHL Stadium]] || [[Cape Town]]
+| align=center| 5–6 Dec 2026
+| 
+| 
+|-
+| [[2027 Singapore Sevens|Singapore]]
+| [[National Stadium, Singapore|National Stadium]]|| [[Singapore]]
+| align="center" | 30–31 Jan 2027
+|
+|
+|-
+| [[2027 Australia Sevens|Australia]]
+| [[HBF Park]]|| [[Perth]]
+| align=center| 6–7 Feb 2027
+| 
+| 
+|-
+| [[2027 Canada Sevens|Canada]]
+| [[BC Place]] || [[Vancouver]]
+| align=center| 6–7 Mar 2027
+| 
+| 
+|- 
+| [[2027 USA Sevens|United States]]
+| [[Sports Illustrated Stadium|Sports Illustrated]] || [[New York City|New York]]{{efn|group=tv|Physical location is [[Harrison, New Jersey]].}}
+| align="center" | 13–14 Mar 2027
+| 
+| 
+|-
+| [[2027 Hong Kong Sevens|Hong Kong]]
+| [[Kai Tak Sports Park]]|| [[Hong Kong]]
+| align="center" | 9–11 Apr 2027
+| 
+| 
+|-  
+| [[2027 Spain Sevens|Spain]]
+| [[José Zorrilla Stadium]]|| [[Valladolid]]
+| align="center" | 21–23 May 2027
+| 
+|
+|-
+| [[2027 France Sevens|France]]
+| [[Stade Atlantique]]|| [[Bordeaux]]
+| align="center" | 28–30 May 2027
+| 
+| 
+|}
 
-=== PAGE 2025–26 SVNS 200 29328 {{Short description|Series of national rugby sevens tournaments}} {{Use dmy date
-headings: 2:Teams and format | 3:Men's teams | 3:Women's teams | 3:Teams from SVNS 2 qualified for Grand Final | 2:Tour venues | 2:Standings | 3:Men's | 3:Women's | 3:Men's Grand Finals | 3:Women's Grand Finals | 2:Placings summary | 3:Men | 3:Women | 2:Players | 3:Awards | 2:Tournaments | 3:Dubai | 4:Men's | 4:Women's | 3:Cape Town | 4:Men's | 4:Women's | 3:Singapore | 4:Men's | 4:Women's | 3:Perth | 4:Men's | 4:Women's | 3:Vancouver | 4:Men's | 4:Women's | 3:New York | 4:Men's | 4:Women's | 3:Hong Kong | 4:Men's | 4:Women's | 3:Valladolid | 4:Men's | 4:Women's | 3:Bordeaux | 4:Men's | 4:Women's | 2:References
+{{notelist|group=tv}}
 
-=== PAGE 2027 America's Cup 200 29551 {{Short description|Planned Yacht race}} {{Use dmy dates|date=May 2025}} {{Infob
-headings: 2:History | 2:Terms of challenge | 3:Background | 3:Rules for issuing challenge | 3:Terms of RYS Challenge | 4:Planned equipment | 4:Nationality rules | 4:Venue | 4:Dates | 4:Youth and Women's America's Cup | 4:New cup organisation | 2:Teams | 2:Preliminary Regattas | 2:Qualifying event | 2:Cup match | 2:Youth and Women's Americas Cup | 3:Background | 3:Teams | 2:References | 2:External links
+== Standings==
+{{for|the tie-breaker rules|World Rugby Sevens Series#Tiebreakers}}
 
-=== PAGE 38th America's Cup 200 79 #REDIRECT [[2027 America's Cup]]  {{Redirect category shell| {{R from move}} }}
-headings: 
+The points awarded to teams at each event, as well as the overall season totals, are shown in the table below. Gold indicates the event champions. Silver indicates the event runner-ups. Bronze indicates the event third place finishers. An asterisk (*) indicates a tied placing. A dash (—) is recorded where a team did not compete.
 
-=== PAGE 2026 Dubai Sevens 404 0 
-headings: 
+===Men's===
+<section begin="Table"/>
+{| class="wikitable sortable" style="text-align:center;"
+|+ 2026–27 SVNS – Men's Series XXVIII<ref name="Rugby Standings">{{cite web | url=https://www.world.rugby/sevens-series/standings/mens?series=f9c35cdd-6618-4815-9113-c4e2309f28a5 | title=Rugby Standings &#124; HSBC Rugby SVNS Series }}</ref>
+|- bgcolor="#efefef"
+! style="width:2em;" | Pos.
+! {{diagonal split header|Team|Event&nbsp;}}
+! style="width:5.2em;font-size:85%;vertical-align:top;padding-left:4px;padding-right:4px;" | {{flagdeco|UAE}}<br />[[2026 Dubai Sevens|Dubai]]
+! style="width:5.2em;font-size:85%;vertical-align:top;padding-left:4px;padding-right:4px;" | {{flagdeco|RSA}}<br />{{nowrap|[[2026 South Africa Sevens|Cape Town]]}}
+! style="width:5.2em;font-size:85%;vertical-align:top;padding-left:4px;padding-right:4px;" | {{flagdeco|SIN}}<br />[[2027 Singapore Sevens|Singapore]]
+! style="width:5.2em;font-size:85%;vertical-align:top;padding-left:4px;padding-right:4px;" | {{flagdeco|AUS}}<br />[[2027 Australia Sevens|Perth]]
+! style="width:5.2em;font-size:85%;vertical-align:top;padding-left:4px;padding-right:4px;" |
+{{flagdeco|CAN}}<br />[[2027 Canada Sevens|Vancouver]]
+! style="width:5.2em;font-size:85%;vertical-align:top;padding-left:4px;padding-right:4px;" | {{flagdeco|USA}}<br />[[2027 USA Sevens|New York]]
+! Points<br />total
+! Points<br />difference
+|-
+|1
+| align=left|{{ru7|ARG}}
+| || || || || || || ||
+|-
+|2
+| align=left|{{ru7|AUS}}
+| || || || || || || ||
+|-
+|3
+| align=left|{{ru7|FIJ}}
+| || || || || || || ||
+|-
+|4
+| align=left|{{ru7|FRA}}
+| || || || || || || ||
+|-
+|5
+| align=left|{{nowrap|{{ru7|NZL}}}}
+| || || || || || || ||
+|-
+|6
+| align=left|{{nowrap|{{ru7|RSA}}}}
+| || || || || || || ||
+|-
+|7
+| align=left|{{ru7|ESP}}
+| || || || || || || ||
+|-
+|8
+| align=left|{{nowrap|{{ru7|USA}}}}
+| || || || || || || ||
+|-
+|}
+
+:{| class="wikitable" style="font-size:92%;"
+|-
+!colspan=2| Legend
+|-
+|bgcolor=#FFD700|Gold
+|Event Champions
+|-
+|bgcolor=#C0C0C0|Silver
+|Event Runner-ups
+|-
+|bgcolor=#CD7F32|Bronze
+|Event Third place finishers
+|-
+|style="width:4.5em;"|No colour
+|Core team and re-qualified as a core team for the 2027–28 SVNS
+|}
+
+===Women's===
+<section begin="Table"/>
+{| class="wikitable sortable" style="text-align:center;"
+|+ 2025
+##### SVNS Dubai
+===Dubai===
+{{main|2026 Dubai Sevens}}
+
+====Men's====
+{| class="wikitable sortable"
+!Event
+!Winner
+!Score
+!Finalist
+|-
+|Cup
+|
+|
+|
+|-
+|Bronze
+|
+|
+|
+|-
+|Fifth Place
+|
+|
+|
+|-
+|Seventh Place
+|
+|
+|
+|}
+
+====Women's====
+{| class="wikitable sortable"
+!Event
+!Winner
+!Score
+!Finalist
+|-
+|Cup
+|
+|
+|
+|-
+|Bronze
+|
+|
+|
+|-
+|Fifth Place
+|
+|
+|
+|-
+|Seventh Place
+|
+|
+|
+|}
+
+===Cape Town===
+{{main|2026 South Africa Sevens}}
+
+====Men's====
+{| class="wikitable sortable"
+!Event
+!Winner
+!Score
+!Finalist
+|-
+|Cup
+|
+|
+|
+|-
+|Bronze
+|
+|
+|
+|-
+|Fifth Place
+|
+|
+|
+|-
+|Seventh Place
+|
+|
+|
+|}
+
+====Women's====
+{| class="wikitable sortable"
+!Event
+!Winner
+!Score
+!Finalist
+|-
+|Cup
+|
+|
+|
+|-
+|Bronze
+|
+|
+|
+|-
+|Fifth Place
+|
+|
+|
+|-
+|Seventh Place
+|
+|
+|
+|}
+
+===Singapore===
+{{main|2027 Singapore Sevens}}
+
+====Men's====
+{| class="wikitable sortable"
+!Event
+!Winner
+!Score
+!Finalist
+|-
+|Cup
+|
+|
+|
+|-
+|Bronze
+|
+|
+|
+|-
+|Fifth Place
+|
+|
+|
+|-
+|Seventh Place
+|
+|
+|
+|}
+
+====Women's====
+{| class="wikitable sortable"
+!Event
+!Winner
+!Score
+!Finalist
+|-
+|Cup
+|
+|
+|
+|-
+|Bronze
+|
+|
+|
+|-
+|Fifth Place
+|
+|
+|
+|-
+|Seventh Place
+|
+|
+|
+|}
+
+===Perth===
+{{main|2027 Australia Sevens}}
+
+====Men's====
+{| class="wikitable sortable"
+!Event
+!Winner
+!Score
+!Finalist
+|-
+|Cup
+|
+|
+|
+|-
+|Bronze
+|
+|
+|
+|-
+|Fifth Place
+|
+|
+|
+|-
+|Seventh Place
+|
+|
+|
+|}
+
+====Women's====
+{| class="wikitable sortable"
+!Event
+!Winner
+!Score
+!Finalist
+|-
+|Cup
+|
+|
+|
+|-
+|Bronze
+|
+|
+|
+|-
+|Fifth Place
+|
+|
+|
+|-
+|Seventh Place
+|
+|
+|
+|}
+
+===Vancouver===
+{{main|2027 Canada Sevens}}
+
+====Men'
+##### 2025-26 Dubai (finished shape)
+===Dubai===
+{{main|2025 Dubai Sevens}}
+Source:<ref>{{Cite web |date=2025-11-30 |title=HSBC SVNS Series {{!}} Official Website |url=https://www.svns.com/en/events/dubai |access-date=2026-04-09 |website=HSBC SVNS Series {{!}} Official Website |language=en}}</ref>
+
+====Men's====
+{| class="wikitable sortable"
+!Event
+!Winner
+!Score
+!Finalist
+|-
+|Cup
+|'''{{ru7|NZL}}'''
+|align=center|'''26–22'''
+|{{ru7|AUS}}
+|-
+|Bronze
+|'''{{ru7|FIJ}}'''
+|align=center|'''24–7'''
+|{{ru7|FRA}}
+|-
+|Fifth Place
+|'''{{ru7|RSA}}'''
+|align=center|'''21–12'''
+|{{ru7|ESP}}
+|-
+|Seventh Place
+|'''{{ru7|GBR}}'''
+|align=center|'''24–19'''
+|{{ru7|ARG}}
+|}
+
+====Women's====
+{| class="wikitable sortable"
+!Event
+!Winner
+!Score
+!Finalist
+|-
+|Cup
+|'''{{ru7w|NZL}}'''
+|align=center|'''29–14'''
+|{{ru7w|AUS}}
+|-
+|Bronze
+|'''{{ru7w|JPN}}'''
+|align=center|'''22—12'''
+|{{ru7w|FIJ}}
+|-
+|Fifth Place
+|'''{{ru7w|USA}}'''
+|align=center|'''19–14'''
+|{{ru7w|CAN}}
+|-
+|Seventh Place
+|'''{{ru7w|FRA}}'''
+|align=center|'''46–5'''
+|{{ru7w|GBR}}
+|}
+
+===Cape Town===
+{{main|2025 South Africa Sevens}}
+
+====Men's====
+{| class="wikitable sortable"
+!Event
+!Winner
+!Score
+!Finalist
+|-
+|Cup
+|'''{{ru7|RSA}}'''
+| align=center|'''21–19'''
+|{{ru7|ARG}}
+|-
+|Bronze
+|'''{{ru7|FIJ}}'''
+|align=center|'''26–19'''
+|{{ru7|FRA}}
+|-
+|Fifth Place
+|'''{{ru7|NZL}}'''
+|align=center|'''27–12'''
+|{{ru7|GBR}}
+|-
+|Seventh Place
+|'''{{ru7|AUS}}'''
+|align=center|'''24–12'''
+|{{ru7|ESP}}
+|}
+
+====Women's====
+{| class="wikitable sortable"
+!Event
+!Winner
+!Score
+!Finalist
+|-
+|Cup
+|'''{{ru7w|AUS}}'''
+|align=center|'''26–12'''
+|{{ru7w|NZL}}
+|-
+|Bronze
+|'''{{ru7w|FRA}}'''
+|align=center|'''15–12'''
+|{{ru7w|USA}}
+|-
+|Fifth Place
+|'''{{ru7w|JPN}}'''
+|align=center|'''12–10'''
+|{{ru7w|CAN}}
+|-
+|Seventh Place
+|'''{{ru7w|FIJ}}'''
+|align=center|'''43–7'''
+|{{ru7w|GBR}}
+|-
+|}
+
+===Si
+##### AC infobox
+{{Short description|Planned Yacht race}}
+{{Use dmy dates|date=May 2025}}
+{{Infobox Americas Cup competition
+|image=2027 America's Cup logo.png
+|competition=38th America's Cup
+|defender country=New Zealand
+|defender flag variant=
+|defender club={{yachtclub|Royal New Zealand Yacht Squadron}}
+|defender yacht=
+|challenger country= <!-- winning country of the qualifying regatta (tbc) -->
+|challenger flag variant=
+|challenger club= <!-- winning club of the qualifying regatta (tbc) -->
+|challenger yacht= <!-- winning yacht of the qualifying regatta (tbc) -->
+|location= [[Naples]]
+|dates=10-18 July 2027
+|rule=
+|winning club=
+|score=
+|prev=2024
+|edition=38th
+|next=39th}}
+
+The '''2027 America's Cup''' will be the 38th staging of the [[America's Cup]] yacht race. It is the oldest continuous competition in international sport. It will be raced <!-- insert dates here from as a first-to-seven-wins match-race series in location here --> in a match-race series between a yacht sailed by [[Emirates Team New Zealand]] representing the defender [[Royal New Zealand Yacht Squadron]], and <!-- challenger yacht -->a yacht representing the challenging yacht club. The challenging yacht club will either be the one which is first to issue a valid challenge to the defending club under the [[Deed of Gift of the America's Cup]] and becomes a sole challenger, or the one which wins a [[2027 Louis Vuitton Cup|Challenger Series]] organised by the first valid challenger, which is called 'the Challenger of Recor
+##### AC Dates
+====Dates====
+Team New Zealand CEO Grant Dalton planned to make the competition more commercially viable, indicating that he favoured 2026, one year earlier than expected for quick turnaround and use of the hard assets that the six current teams in possession: [[AC40]], AC75, hydrogen chase boats, simulators and gym equipment.<ref>{{Cite magazine|url=https://www.sailingworld.com/racing/americas-cup-38-where-to-next//|title=Where to Next with America's Cup 38|magazine=Yachting World|language=en|date=23 October 2024|access-date=25 October 2024}}</ref> Meanwhile, it will be more beneficial to retain the respective sailing talents.
+
+The Deed of Gift requires the Match to be held in summer or summer-shoulder months. In the southern hemisphere, this is defined as between 1 November and 30 April. In the northern hemisphere, it is defined as between 1 May and 31 October.<ref name=":3">{{Cite web|url=https://en.wikisource.org/wiki/Deed_of_Gift#The_Southern_Hemisphere_Amendment|title = Deed of Gift&#91;1&#93;}}</ref>
+
+Key dates in the draft Protocol released May 2025 include the rule that nobody can sail an AC75 until 15 January 2026. The intention is to run up to three Initial Preliminary Regattas during 2026 and one possibly in early 2027, with a final Preliminary Regatta at the Match Venue. These Preliminary events will be raced in AC40s in 2026 (with each Competitor able to enter two AC40s). In 2027, the Preliminary Regattas will be raced in AC75s, "competing in the same AC75 Yacht hull in which Competitors shall compete during the Challenger Selection Series (CSS) and the Match". The Defender will again be eligible to compete in the early stage of the Challenger Series, but not the Semi-Final or Final.<ref name="final_protocol"/>
+
+====Youth and Women's America's Cup====
+
+The Women's and Youth America's Cups are set to return.<ref name="final_protocol"/> A Notice of Race for the Youth and Women's AC Regattas will be published by the Event Authority not less than 12 months prior to the first race in either regatta. it shall be a condition of eligibility for the AC37 Events that Competitors enter and compete in the Youth and Women's AC Regattas representing the country 
+##### AC Preliminary Regattas
+==Preliminary Regattas==
+It is intended to hold four Preliminary Regattas – three in 2026, and one in 2027. The pre-events will see a mix of AC40 fleet racing during the 2026 regattas, and AC75 racing in the Preliminary Regatta in 2027.<ref name="americascup.com"/> As a change from the previous edition, each team will now be allowed to field a second AC40 during the Preliminary Regattas, as long as the boat is crewed by team members of the respective Women's and Youth teams.
+
+In Jan 2026 it was confirmed that the first preliminary regatta of AC38 will take place in Cagliari, Sardinia, on 21–24 May 2026 in the one-design AC40s.<ref name="YM">{{Cite web |title=38th America's Cup Match dates set – and Dylan Fletcher back on the helm for British team|url=https://www.yachtingworld.com/all-latest-posts/38th-americas-cup-match-dates-set-and-dylan-fletcher-back-on-the-helm-for-british-team-161756|access-date=17 Feb 2026|date=21 Jan 2026|website=Yachting Monthly|language=en}}</ref> Up to 10 races are planned over four days, with the top two teams then racing in a deciding winner-takes-all single match.
+
+==Qualifying event==
+AC38 will be a multi-challenger event and having lodged the first challenge the [[Royal Yacht Squadron]] has been appointed the role of Challenger of Record.<ref name="rule"/>
+
+==Cup match==
+The America's Cup match will be a best of 13 race series to be held between the Emirates Team New Zealand syndicate representing the Royal New Zealand Yacht Squadron, and the winner of the qualifying event.
+
+The 38th cup match will start on 10 July 2027 and will be wrapped up by 17–18 July 2027.<ref name="YM"/>
+
+{| class="wikitable" style="font-size:10pt;line-height:1.5;text-align: center;"
+|+Races won
+!Team
+!1
+!2
+!3
+!4
+!5
+!6
+!7
+!8
+!9
+!10
+!11
+!13
+!Total
+|-
+| align=left| {{flagicon|NZL}} [[Team New Zealand|Emirates Team New Zealand]]
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|-
+|align=left| TBD
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|}
+
+==Youth and Women's Americas Cup==
+According to the Protocol published on 12 August 2025, both RNZYS and RYS are committed to building on the success of the Women's and [[2024 Unicredit Youth America's Cup|Youth America's Cup]] events.<ref name="americascup.com
+##### AC Qualifying event
+==Qualifying event==
+AC38 will be a multi-challenger event and having lodged the first challenge the [[Royal Yacht Squadron]] has been appointed the role of Challenger of Record.<ref name="rule"/>
+
+==Cup match==
+The America's Cup match will be a best of 13 race series to be held between the Emirates Team New Zealand syndicate representing the Royal New Zealand Yacht Squadron, and the winner of the qualifying event.
+
+The 38th cup match will start on 10 July 2027 and will be wrapped up by 17–18 July 2027.<ref name="YM"/>
+
+{| class="wikitable" style="font-size:10pt;line-height:1.5;text-align: center;"
+|+Races won
+!Team
+!1
+!2
+!3
+!4
+!5
+!6
+!7
+!8
+!9
+!10
+!11
+!13
+!Total
+|-
+| align=left| {{flagicon|NZL}} [[Team New Zealand|Emirates Team New Zealand]]
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|-
+|align=left| TBD
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|}
+
+==Youth and Women's Americas Cup==
+According to the Protocol published on 12 August 2025, both RNZYS and RYS are committed to building on the success of the Women's and [[2024 Unicredit Youth America's Cup|Youth America's Cup]] events.<ref name="americascup.com"/>
+
+[[Hannah Mills]] has been confirmed as helm for the second edition of the Women's America's Cup and Team Principal for the British women's and youth Athena Pathway Programme.
+
+On 21 Jan 2026 in Naples, Mills also opened the British application process for the Youth Team.<ref name=YM/>
+
+===Background===
+
+===Teams===
+
+==References==
+{{reflist|2}}
+
+==External links==
+* [https://www.americascup.com/ Americascup.com], the official website of the competition
+
+{{America'sCup}}
+
+[[Category:America's Cup regattas]]
+##### AC Cup match
+==Cup match==
+The America's Cup match will be a best of 13 race series to be held between the Emirates Team New Zealand syndicate representing the Royal New Zealand Yacht Squadron, and the winner of the qualifying event.
+
+The 38th cup match will start on 10 July 2027 and will be wrapped up by 17–18 July 2027.<ref name="YM"/>
+
+{| class="wikitable" style="font-size:10pt;line-height:1.5;text-align: center;"
+|+Races won
+!Team
+!1
+!2
+!3
+!4
+!5
+!6
+!7
+!8
+!9
+!10
+!11
+!13
+!Total
+|-
+| align=left| {{flagicon|NZL}} [[Team New Zealand|Emirates Team New Zealand]]
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|-
+|align=left| TBD
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|}
+
+==Youth and Women's Americas Cup==
+According to the Protocol published on 12 August 2025, both RNZYS and RYS are committed to building on the success of the Women's and [[2024 Unicredit Youth America's Cup|Youth America's Cup]] events.<ref name="americascup.com"/>
+
+[[Hannah Mills]] has been confirmed as helm for the second edition of the Women's America's Cup and Team Principal for the British women's and youth Athena Pathway Programme.
+
+On 21 Jan 2026 in Naples, Mills also opened the British application process for the Youth Team.<ref name=YM/>
+
+===Background===
+
+===Teams===
+
+==References==
+{{reflist|2}}
+
+==External links==
+* [https://www.americascup.com/ Americascup.com], the official website of the competition
+
+{{America'sCup}}
+
+[[Category:America's Cup regattas]]
+##### NASCAR len 48441 headings: 2:Teams and drivers | 3:Full-time chartered teams | 3:Full-time non-chartered teams | 3:Part-time non-chartered teams | 3:Changes | 4:Team changes | 3:Driver changes | 4:Rookies | 2:Schedule | 3:Notes | 3:Schedule changes | 2:Results and standings | 3:Race results | 3:Drivers' championship | 3:Manufacturers' championship | 2:See also | 2:References
+==Schedule==
+The 2027 schedule was fully unveiled on August 26, 2026, and consists of 32 ovals, 3 road courses, and 1 street course, as well as 3 non-championship races to be held on ovals.<ref name="2027schedule" />
+
+'''Notes:''' Race names and title sponsors are subject to change. Not all title sponsors/names of races have been announced for 2027. For the races where a 2027 name and title sponsor has yet to be announced, the title sponsors/names of those races in 2026 are listed.
+
+'''Bolded''' races indicate an event generally known as a [[Crown Jewel (NASCAR)|Crown Jewel race]].
+
+{{Color box|white|O|border=silver}} Oval track<br />
+{{Color box|lightblue|R|border=silver}} Road course<br />
+{{Color box|peachpuff|S|border=silver}} Street course
+
+{|class="wikitable" style="font-size:85%"
+! No
+! Race name<ref>{{Cite web |date=August 4, 2026 |title=2027 NASCAR schedule: Confirmed dates, tracks for all three national series |url=https://www.nascar.com/news-media/2026/08/04/2027-nascar-schedule-confirmed-dates-tracks-for-all-three-national-series/ |access-date=August 4, 2026 |website=[[NASCAR]]}}</ref>
+! [[List of NASCAR tracks|Track]]
+! Location
+! Date
+! TV
+! Radio
+|-
+! colspan=7| Regular Season
+|-
+! rowspan=2|
+| [[Wheatley Vodka Clash]]<ref name="CRTD">{{Cite web |date=August 4, 2026 |title=Clash returns to Daytona in 2027 as Saturday night race |url=https://www.nascar.com/news-media/2026/08/04/clash-returns-to-daytona-in-2027-as-saturday-night-race/ |access-date=August 4, 2026 |website=[[NASCAR]]}}</ref>
+| rowspan=3| {{Color box|white|O|border=silver}} [[Daytona International Speedway]]
+| rowspan=3| [[Daytona Beach, Florida]]
+| February 13
+| rowspan=15| [[NASCAR on Fox|FOX Sports]]
+| rowspan=3| [[Motor Racing Network|MRN]]
+|-
+| [[The Duel at Daytona]]
+| February 18
+|-
+! 1
+| '''[[Daytona 500]]'''
+| February 21
+|-
+! 2
+| [[NASCAR Cup Series at Atlanta Motor Speedway#Spring race|Autotrader 400]]
+| {{Color box|white|O|border=silver}} [[Atlanta Motor Speedway|EchoPark Speedway]]
+| [[Hampton, Georgia]]
+| February 28
+| rowspan=2| [[Performance Racing Network|PRN]]
+|-
+! 3
+| [[NASCAR Cup Series at Circuit of the Americas|DuraMAX Grand Prix]]
+| {{Color box|lightblue|R|border=silver}} [[Circuit of the Americas]]
+| [[Austin, Texas]]
+| March 7
+|-
+! 4
+| [[NASCAR Cup Series at Phoenix Raceway#Spring race|Straight Talk Wireless 500]]
+| {{Color box|white|O|border=silver}} [[Phoenix Raceway]]
+| [[Avondale, Arizona]]
+| March 14
+| MRN
+|-
+! 5
+| [[NASCAR Cup Series at Las Vegas Motor Speedway#Spring race|Pennzoil 400]]
+| {{Color box|white|O|border=silver}} [[Las Vegas Motor Speedway]]
+| [[Las Vegas, Nevada]]
+| March 21
+| PRN
+|-
+! 6
+| [[Goodyear 400]]
+| {{Color box|white|O|border=silver}} [[Darlington Raceway]]
+| [[Darlington, South Carolina]]
+| April 4
+| MRN
+|-
+! 7
+| [[Food City 500]]
+| {{Color box|white|O|border=silver}} [[Bristol Motor Speedway]]
+| [[Bristol, Tennessee]]
+| April 11
+| PRN
+|-
+! 8
+| [[Cook Out 400 (Martinsville)|Cook Out 400]]
+| {{Color box|white|O|border=silver}} [[Martinsville Speedway]]
+| [[Ridgeway, Virginia]]
+| April 18
+| rowspan=2| MRN
+|-
+! 9
+| [[Jack Link's 500]]
+| {{Color box|white|O|border=silver}} [[Talladega Superspeedway]]
+| [[Lincoln, Alabama]]
+| April 25
+|-
+! 10
+| [[NASCAR Cup Series at Texas Motor Speedway#Current race|Würth 400]]
+| {{Color box|white|O|border=silver}} [[Texas Motor Speedway]]
+| [[Fort Worth, Texas]]
+| May 2
+| PRN
+|-
+! 11
+| [[NASCAR Cup Series at Kansas Speedway#Spring race|AdventHealth 400]]
+| {{Color box|white|O|border=silver}} [[Kansas Speedway]]
+| [[Kansas City, Kansas]]
+| May 9
+| MRN
+|-
+! 12
+| [[NASCAR Cup Series at Dover Motor Speedway#Current race|Ecosave 400]]<ref>{{cite web |url=https://www.jayski.com/2026/10/22/ecosave-named-entitlement-partner-of-dover-2027-nascar-cup-series-race/ |title=Ecosave na
