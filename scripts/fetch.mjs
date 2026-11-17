@@ -708,7 +708,7 @@ async function ufcBuildup(events) {
 // counts for a game when it names both sides (or the race or fight night) and starts within two hours before to an hour
 // after the game; one starting later the same day or the next is the game shown delayed
 const TV_FREE = /^(TVNZ 1|TVNZ 2|Three|Sky Open|TVNZ DUKE|Whakaata Māori|Rush|Bravo|eden)$/;
-const TV_SKIP = /highlights|archive|replay|review|classic|documentar|magazine|lounge|preview show|the breakdown|rewind|best of|motw|goal rush|countdown|press conference|weigh-in/i;
+const TV_SKIP = /highlights|\bhls\b|\bl2h\b|\bwrap\b|archive|replay|review|classic|documentar|magazine|lounge|preview show|the breakdown|rewind|best of|motw|goal rush|countdown|press conference|weigh-in/i;
 const TV_NICK = { 'black caps': ['blackcaps', 'black caps', 'new zealand', 'nzl'], 'white ferns': ['white ferns', 'new zealand', 'nzl'], 'all blacks': ['all blacks', 'new zealand'],
   'black ferns': ['black ferns', 'new zealand'], kiwis: ['kiwis', 'new zealand', 'nzl'], 'kiwi ferns': ['kiwi ferns', 'new zealand'], 'silver ferns': ['silver ferns', 'new zealand'],
   'all whites': ['all whites', 'new zealand'], 'football ferns': ['football ferns', 'new zealand'], 'tall blacks': ['tall blacks', 'new zealand'], 'tall ferns': ['tall ferns', 'new zealand'],
@@ -732,11 +732,14 @@ const TV_NZ = new RegExp([
 // not sport to add: horse racing and sales channels, studio and talk shows
 const TV_NOT_GAME = /trackside|karaka|sportscenter|get up\b|first take|pardon the interruption|nfl live|college football live|gameday|big day with|\bwrap\b|around the horn|pat mcafee|nba today|\bsale of\b/i;
 let tvGaps = null;
+// a national side's nickname says the sport: "BLACKCAPS v India" isn't the hockey test between the same two countries
+const TV_NICK_SPORT = [[/black ?caps|white ferns/i, 'cricket'], [/all blacks|black ferns|wallabies|wallaroos|springboks/i, 'rugby'], [/kiwi ferns|kangaroos|jillaroos/i, 'league'], [/silver ferns/i, 'netball'],
+  [/all whites|football ferns/i, 'football'], [/tall blacks|tall ferns/i, 'basketball'], [/black sticks/i, 'hockey']];
 async function tvGuide(events) {
   const cacheUrl = new URL('.cache/tvguide.json', ROOT);
   let cache = {};
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
-  if (!cache.t || cache.v !== 4 || Date.now() - cache.t > 6 * 36e5) {
+  if (!cache.t || cache.v !== 5 || Date.now() - cache.t > 6 * 36e5) {
     try {
       const items = [], seen = new Set(), lo = Date.now() - 2 * DAY, hi = Date.now() + 15 * DAY;
       // the Sky Sport Now guide (Sky Sport 1-9, ESPN, Select: all sport, so every listing counts), the Sky Go guide
@@ -765,7 +768,7 @@ async function tvGuide(events) {
         items.push({ src: url.split('/')[3], ch: ch[m[2]], at, text: `${title} | ${sub} | ${desc.slice(0, 240)}`, live: /\blive\b/i.test(`${title} ${sub} ${desc}`) });
       }
       }
-      cache = { t: Date.now(), v: 4, items }; // v: bumped when what's kept changes, so an old cache is read again
+      cache = { t: Date.now(), v: 5, items }; // v: bumped when what's kept changes, so an old cache is read again
       try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
     } catch (err) { diag.tvGuide = 'error ' + err.message; if (!cache.items) return; }
   }
@@ -790,6 +793,7 @@ async function tvGuide(events) {
       if (e.sport === 'golf') { const ws = String(e.home).toLowerCase().split(/[^a-z]+/).filter(w => w.length > 3 && !/^(open|championship|classic|tour|golf|ladies|women|invitational|presented|tournament|champions|the)$/.test(w)); if (!(ws.length ? ws : [String(e.home).toLowerCase()]).some(w => has(t, w))) return false; }
     } else {
       if (![e.home, e.away].every(s => sideNames(s).some(n => has(t, n)))) return false;
+      if (TV_NICK_SPORT.some(([re, sp]) => sp !== e.sport && re.test(t))) return false;
       const wt = /women|\bw\b|ferns|wahine|wbbl|wncl|nrlw|jillaroos|wallaroos|wxv|aupiki/i.test(t);
       if (!loose && wt !== women) return false;
     }
