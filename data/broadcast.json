@@ -23,6 +23,7 @@
   { "team": "onefc", "broadcast": "ESPN on Sky / Sky Sport Now / Disney+ (ESPN)", "watchAlt": "Highlights and full fights free on ONE YouTube", "au": "ESPN on Kayo, Foxtel or Disney+" },
   { "comp": "Formula 1", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Highlights free on Sky Open", "au": "Kayo and Foxtel (every session)" },
   { "team": "supercars", "broadcast": "Sky Sport / Sky Sport Now", "au": "Kayo / Fox Sports / Seven / 7plus (free, selected rounds)" },
+  { "team": "nascar", "broadcast": "ThreeNow (free)", "au": "Kayo / Fox Sports" },
   { "comp": "^(PGA Tour|LPGA Tour)", "broadcast": "Sky Sport / Sky Sport Now" },
   { "team": "nba", "broadcast": "ESPN on Sky / Sky Sport Now / Disney+ (ESPN) / NBA League Pass", "au": "ESPN on Kayo or Foxtel / NBA League Pass" },
   { "team": "mlb", "broadcast": "ESPN on Sky / Sky Sport Now", "au": "ESPN on Kayo or Foxtel" },

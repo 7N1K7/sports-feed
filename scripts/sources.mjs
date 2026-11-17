@@ -760,6 +760,13 @@ export async function wikiEvents(pageCfgs, cityTz, diag, { prevDue = () => true 
     out.push(...sg);
     diag.sailgp = `${sg.length} events, ${sg.filter(e => e.status === 'final').length} with winners`;
   } catch (e) { diag.sailgp = 'error: ' + e.message; }
+  // NASCAR's Cup Series: this year's page and, from September, next year's; a card a points race
+  try {
+    const ys = [Y, ...(M >= 8 ? [Y + 1] : [])], pg = await seasonPages(ys.map(y => `${y} NASCAR Cup Series`));
+    const nc = ys.flatMap(y => nascarSeason(pg[`${y} NASCAR Cup Series`] || '', y));
+    out.push(...nc);
+    diag.nascar = `${nc.length} races, ${nc.filter(e => e.status === 'final').length} with winners`;
+  } catch (e) { diag.nascar = 'error: ' + e.message; }
   // rugby sevens: the world series' season page (a season runs from about November to May or June; its page is up by
   // July), one card a tournament. The America's Cup: the next match's own page, when there is one
   try {
@@ -1156,6 +1163,73 @@ function sailgpSeason(text, year) {
   return out;
 }
 
+// NASCAR Cup Series season page. "Schedule": ! No | race | track (after a coloured box for its kind) | location | date
+// ("February 21") | TV | radio, where a track and location can run down several rows; the numbered rows are the points
+// races (the Clash, the Duels and the All-Star race have no number). "Race results": ! No | race | pole | most laps |
+// fastest lap | winning driver | manufacturer | report. No start times on the page: a race is placed at about 3pm US
+// Eastern, when most Sunday races go, until TheSportsDB lists its time
+const US_TZ = [[/Bristol/, 'America/New_York'], [/Arizona/, 'America/Phoenix'], [/Nevada|California|Oregon/, 'America/Los_Angeles'], [/Colorado|Utah|New Mexico/, 'America/Denver'],
+  [/Texas|Illinois|Iowa|Kansas|Missouri|Alabama|Wisconsin|Tennessee|Oklahoma|Minnesota|Louisiana/, 'America/Chicago'], [/Mexico/, 'America/Mexico_City']];
+function nascarSeason(text, year) {
+  const tableAfter = re => { const i = text.search(re); return i < 0 ? '' : (text.slice(i).match(/\{\|[\s\S]*?\n\|\}/) || [''])[0]; };
+  const rowsIn = tbl => tbl.split(/\n\|-[^\n]*/).slice(1).map(r => r.split('\n').map(l => l.trim()).filter(l => /^[|!]/.test(l) && !l.startsWith('|}')));
+  const cellOf = l => l.replace(/^[|!]\s*/, '').replace(/^(?:rowspan|colspan|align|style|class)[^|\[{]*\|(?!\|)/i, '').trim();
+  const txt = c => clean(stripRefs(c)).replace(/'{2,}/g, '').replace(/\s+/g, ' ').trim();
+  const src = `https://en.wikipedia.org/wiki/${encodeURIComponent(`${year} NASCAR Cup Series`.replace(/ /g, '_'))}`;
+  // winners: race number -> { who, report }
+  const wins = {};
+  for (const r of rowsIn(tableAfter(/===\s*Race results\s*===/i))) {
+    const h = r.find(l => l.startsWith('!')) || '', no = +((h.match(/\{\{\s*sort\s*\|\s*\d+\s*\|\s*(\d+)\s*\}\}/) || h.match(/^!\s*(\d+)\s*$/) || [])[1] || 0);
+    if (!no) continue;
+    const names = [...r.join('\n').matchAll(/\{\{\s*sortname\s*\|\s*([^|}]+?)\s*\|\s*([^|}]+?)\s*[|}]/g)], rep = r.join('\n').match(/\[\[([^\]|]+)\|Report\]\]/);
+    // the winner is the row's last driver, and only once the manufacturer after it is in too
+    const maker = r.filter(l => l.startsWith('|')).map(cellOf).some(c => /^\[\[[^\]]*\]\]$/.test(c) && !/Report\]\]$/.test(c));
+    if (names.length && maker) wins[no] = { who: `${names[names.length - 1][1]} ${names[names.length - 1][2]}`, ...(rep ? { report: 'https://en.wikipedia.org/wiki/' + encodeURIComponent(rep[1].replace(/ /g, '_')) } : {}) };
+  }
+  const out = [], MON = /^(January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2})$/;
+  let track = '', loc = '';
+  for (const r of rowsIn(tableAfter(/^==\s*Schedule\s*==/im))) {
+    const no = +(((r.find(l => l.startsWith('!')) || '').match(/^!\s*(\d+)\s*$/) || [])[1] || 0);
+    const cells = r.filter(l => l.startsWith('|')).map(cellOf), di = cells.findIndex(c => MON.test(txt(c)));
+    if (di < 1) continue;
+    const mid = cells.slice(1, di), ti = mid.findIndex(c => /Color ?box/i.test(c));
+    if (ti >= 0) { track = txt(mid[ti].replace(/\{\{\s*Color ?box[^}]*\}\}/i, '')); if (mid[ti + 1]) loc = txt(mid[ti + 1]); }
+    else if (mid.length) loc = txt(mid[0]);
+    const name = txt(cells[0]), m = txt(cells[di]).match(MON);
+    if (!no || !name) continue;
+    const mi = MONTHS.indexOf(m[1].slice(0, 3).toLowerCase()), tz = (US_TZ.find(([re]) => re.test(`${track} ${loc}`)) || [, 'America/New_York'])[1];
+    const at = localToUTC(year, mi, +m[2], 15, 0, 'America/New_York'), w = at < Date.now() ? wins[no] : null;
+    out.push({
+      id: `nascar-${year}-${no}`, team: 'nascar', tags: [], sport: 'motor', comp: `NASCAR Cup Series · Race ${no}`, round: `Race ${no}`,
+      home: name, away: '', startUTC: new Date(at).toISOString(), timeTBC: true, usual: true, venue: track, city: loc.split(',')[0].trim(), tz,
+      status: w ? 'final' : 'upcoming', ...(w ? { score: `${w.who.split(' ').pop()} wins`, summary: `${w.who} won the ${name}.` } : {}),
+      source: src, ...(w?.report ? { link: w.report } : {}),
+    });
+  }
+  return out;
+}
+// NASCAR start times: TheSportsDB's, whose round numbers match the page's race numbers (a race with no time yet is
+// listed there at midnight). One race a run, each refreshed every 12 hours, in the same cache as F1's
+export async function nascarStartTimes(events, cache, diag) {
+  const now = Date.now(), races = events.filter(e => e.team === 'nascar');
+  const due = races.filter(e => e.status !== 'final' && Date.parse(e.startUTC) > now - DAY && Date.parse(e.startUTC) < now + 45 * DAY).find(e => !cache[e.id] || now - cache[e.id].t > 12 * 36e5);
+  const notes = [];
+  if (due) {
+    const [, season, round] = due.id.split('-');
+    try {
+      const d = await tsdb(`eventsround.php?id=4393&r=${round}&s=${season}`);
+      const t = (d.events || []).map(ev => ev.strTimestamp || '').filter(v => v && !/T00:00:00/.test(v)).map(v => Date.parse(v.replace(/(\+00:00|Z)$/, '') + 'Z')).filter(t => Math.abs(t - Date.parse(due.startUTC)) < 2 * DAY)[0];
+      cache[due.id] = { t: now, startUTC: t ? new Date(t).toISOString() : null };
+      notes.push(`${due.home}: ${cache[due.id].startUTC || 'no time listed yet'}`);
+    } catch (e) { notes.push(`${due.home}: ${e.message}`); }
+  }
+  let n = 0;
+  for (const e of races) {
+    const c = cache[e.id];
+    if (c?.startUTC && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 2 * DAY) { Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); delete e.usual; n++; }
+  }
+  diag.nascarTimes = [...notes, `${n} of ${races.length} races with start times`].join('; ');
+}
 // the sevens world series' "Tour venues" table: leg, stadium, city, dates ("28–29 Nov 2026"), the men's winner, the women's
 // winner. A card a tournament on its last day (finals day), play from about 10am local each day; both the men's and the
 // women's tournaments are in it
@@ -2381,6 +2455,6 @@ export async function tsdbBackfill(all, cache, diag, max = 2) {
   }
   return out;
 }
-export { svnsSeason as _svnsSeason, americasCup as _americasCup };
+export { svnsSeason as _svnsSeason, americasCup as _americasCup, nascarSeason as _nascarSeason };
 export { tennisFinals as _tennisFinals, dateRange as _dateRange, TENNIS as _TENNIS };
 export { f1Past as _f1Past, scTables as _scTables, scTsdb as _scTsdb, f1Tables as _f1Tables, f1Top3 as _f1Top3, supercarsSeason as _supercarsSeason, readSquad as _readSquad, stateSquad as _stateSquad, fromTsdb as _fromTsdb, hostFirst as _hostFirst, f1Season as _f1Season, f1Standings as _f1Standings, squadsFromPage as _squadsFromPage, eventsFromPage as _eventsFromPage, ufcFromList as _ufcFromList, oneFromYear as _oneFromYear, oneTable as _oneTable, fightCard as _fightCard, sportsTables as _sportsTables };

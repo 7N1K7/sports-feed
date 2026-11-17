@@ -9,7 +9,7 @@
 //   data/curated/*.json        -> fixtures the above lack (boxing, some tests), news, notes
 //   data/broadcast.json        -> where-to-watch rules by competition
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
-import { wikiEvents, tsdbEvents, tsdbBackfill, tsdb, f1StartTimes, f1Sessions, supercarsStartTimes, oneStartTimes, supercarsResults, nbaGames, stateSquads, teamSquads } from './sources.mjs';
+import { wikiEvents, tsdbEvents, tsdbBackfill, tsdb, f1StartTimes, f1Sessions, supercarsStartTimes, nascarStartTimes, oneStartTimes, supercarsResults, nbaGames, stateSquads, teamSquads } from './sources.mjs';
 import { rankings as getRankings, KIWI_GOLF } from './rankings.mjs';
 import { execSync } from 'node:child_process';
 
@@ -73,7 +73,7 @@ const NEWS_TEAMS = [
   ['kiwis', /\bKiwis\b/], ['kiwiferns', /Kiwi Ferns/i], ['warriors', /(?<!Golden State )\bWarriors\b/],
   ['blacksticksw', /Black Sticks Women|Black Sticks women/i], ['blacksticks', /Black Sticks/i],
   ['tallferns', /Tall Ferns/i], ['tallblacks', /Tall Blacks/i], ['breakers', /\bBreakers\b/], ['nbl', /\bNBL\b/], ['silverferns', /Silver Ferns/i], ['anzprem', /ANZ Premiership/i],
-  ['f1', /Formula (One|1)\b|\bF1\b|Liam Lawson/i], ['supercars', /Supercars|Bathurst 1000/i],
+  ['f1', /Formula (One|1)\b|\bF1\b|Liam Lawson/i], ['supercars', /Supercars|Bathurst 1000/i], ['nascar', /\bNASCAR\b|van Gisbergen/i],
   ['wallabies', /Wallabies/], ['nations', /Nations Championship/i], ['superrugby', /Super Rugby/i],
   // the rugby Nations Cup only: netball and hockey have Nations Cups too
   ['nationscup', /World Rugby Nations Cup|\bNations Cup\b.{0,80}\brugby\b|\brugby\b.{0,80}\bNations Cup\b/i],
@@ -771,7 +771,7 @@ async function tvGuide(events) {
       const t = it.text;
       if (solo) {
         // a ONE card is listed as "Live: MMA One Fight Night" or "Live: ONE Championship Mixed" (ESPN, from Feb 2026)
-        const key = e.team === 'onefc' ? '\\bone (championship|fight night|friday fights|samurai|lumpinee)\\b' : e.sport === 'mma' ? 'ufc' : e.team === 'supercars' ? 'supercars' : e.team === 'sailgp' ? 'sailgp' : e.sport === 'golf' ? '(golf|pga|lpga)' : e.sport === 'cycling' ? String(compOf0(e)).replace(/^women's\s+/i, '').toLowerCase() : e.team === 'f1' ? '(formula 1|f1)' : String(compOf0(e)).toLowerCase();
+        const key = e.team === 'onefc' ? '\\bone (championship|fight night|friday fights|samurai|lumpinee)\\b' : e.sport === 'mma' ? 'ufc' : e.team === 'supercars' ? 'supercars' : e.team === 'nascar' ? 'nascar' : e.team === 'sailgp' ? 'sailgp' : e.sport === 'golf' ? '(golf|pga|lpga)' : e.sport === 'cycling' ? String(compOf0(e)).replace(/^women's\s+/i, '').toLowerCase() : e.team === 'f1' ? '(formula 1|f1)' : String(compOf0(e)).toLowerCase();
         if (!new RegExp(key, 'i').test(t) || (e.team === 'f1' && !has(t, String(e.home).replace(/ grand prix$/i, '').toLowerCase()))) continue;
         // a stage race: the men's or the women's race, and the same stage when the listing names one
         if (e.sport === 'cycling') { const st = t.match(/\bstage\s+(\d+)/i)?.[1]; if (/women/i.test(t) !== women || (st && `Stage ${st}` !== e.stage)) continue; }
@@ -856,6 +856,7 @@ let f1Cache = {};
 try { f1Cache = JSON.parse(await readFile(f1Url, 'utf8')); } catch {}
 await f1StartTimes(wiki, f1Cache, diag);
 await supercarsStartTimes(wiki, f1Cache, diag);
+try { await nascarStartTimes(wiki, f1Cache, diag); } catch (e) { diag.nascarTimes = 'error: ' + e.message; }
 // ONE Championship start times from TheSportsDB, two cards a run at most, kept with F1's
 try { await oneStartTimes(wiki, f1Cache, diag); } catch (e) { diag.oneTimes = 'error: ' + e.message; }
 try { await f1Sessions(wiki, f1Cache, diag); } catch (e) { diag.f1Sessions = 'error: ' + e.message; }
@@ -1840,7 +1841,7 @@ async function writeCalendars(events) {
     // a Test or first-class match is one entry a day of play; a one-day game runs eight hours, a T20 three and a half
     const ctx = `${e.format || ''} ${e.stage || ''} ${e.comp || ''}`;
     const days = e.sport !== 'cricket' ? 1 : /Plunket|first.class/i.test(ctx) ? 4 : /\bTests?\b/.test(ctx) ? (isW(e) ? 4 : 5) : 1;
-    const hrs = e.sport !== 'cricket' ? HOURS[e.kind || e.sport] || 2 : days > 1 ? 7.5 : /\bT20|Super Smash|Big Bash|\bBBL|WBBL/i.test(ctx) ? 3.5 : 8;
+    const hrs = e.team === 'nascar' ? 3.5 : e.sport !== 'cricket' ? HOURS[e.kind || e.sport] || 2 : days > 1 ? 7.5 : /\bT20|Super Smash|Big Bash|\bBBL|WBBL/i.test(ctx) ? 3.5 : 8;
     const out = [];
     for (let d = 0; d < days; d++) {
       const s = dayOn(e, start.getTime(), d), lines = ['BEGIN:VEVENT', `UID:${e.id}${days > 1 ? '-d' + (d + 1) : ''}@kickoff-kiwi`, `DTSTAMP:${stamp(new Date(now))}`];

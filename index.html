@@ -2011,7 +2011,7 @@ const TEAMS = [ // in the sport row's order: cricket, rugby, league, football, h
   { g: 'Football', items: [['allwhites','All Whites'],['footballferns','Football Ferns'],['phoenix','Wellington Phoenix'],['aucklandfc','Auckland FC'],['aleague','A-League Men'],['epl','Premier League']] },
   { g: 'Hockey', items: [['blacksticks','Black Sticks'],['blacksticksw','Black Sticks Women']] },
   { g: 'Basketball', items: [['tallblacks','Tall Blacks'],['tallferns','Tall Ferns'],['breakers','NZ Breakers'],['nbl','NBL'],['nba','NBA']] },
-  { g: 'Motorsport', items: [['f1','Formula 1'], ['supercars','Supercars']] },
+  { g: 'Motorsport', items: [['f1','Formula 1'], ['supercars','Supercars'], ['nascar','NASCAR']] },
   // tennis by its kinds of event, each its own switch (one switch for all of them until v777)
   { g: 'Tennis', items: [['tslams','Grand Slams'],['tfinals','ATP and WTA Finals'],['asbclassic','ASB Classic'],['tausummer','Australian summer']] },
   { g: 'Golf', items: [['pgatour','PGA Tour'],['lpga','LPGA Tour'],['golfanz','PGA Tour of Australasia']] },
@@ -2318,6 +2318,7 @@ function compOf(e) {
   if (e.sport === 'boxing') return 'Boxing';
   if (e.team === 'f1') return 'Formula 1';
   if (e.team === 'supercars') return 'Supercars';
+  if (e.team === 'nascar') return 'NASCAR';
   if (e.team === 'sailgp') return 'SailGP';
   if (e.sport === 'golf' || e.sport === 'baseball' || e.sport === 'cycling') return e.comp;
   if (e.team === 'wbbl' || /Women'?s Big Bash|WBBL/i.test(c)) return "Women's Big Bash";
@@ -2433,7 +2434,7 @@ const dayAt = (e, i) => { const s = Date.parse(e.startUTC), t = s + i * 864e5; r
 const stageAt = (e, i, n) => dayAt(e, i - (n - 1));
 const stageName = (e, st) => STAGE[kd(e)].name(st.i, st.n) || START_LABEL[kd(e)];
 // a race weekend's session (its name is on the card's competition line): a race or sprint has lights out, the rest start
-const startLabel = e => e.session ? (/^(race \d+|sprint)$/i.test(e.session) ? 'Lights out' : 'Starts') : START_LABEL[kd(e)] || 'Start';
+const startLabel = e => e.session ? (/^(race \d+|sprint)$/i.test(e.session) ? 'Lights out' : 'Starts') : e.team === 'nascar' ? 'Green flag' : START_LABEL[kd(e)] || 'Start';   // NASCAR starts rolling, under a green flag
 // the day being played now ({ on: true }), or else the next day to come, from 12 hours before the first; null after
 function stageNow(e, now) {
   const n = stagesOf(e), hrs = STAGE[kd(e)]?.hrs;
@@ -2529,7 +2530,7 @@ const nextAt = (e, now) => { const st = stagesOf(e) > 1 && stageNow(e, now); if 
 const LEN_H = { rugby: 2, league: 2, football: 2, mma: 5, boxing: 4, motor: 2, tennis: 3, hockey: 2, basketball: 2.5, netball: 1.5, sailing: 2.5, golf: 5, baseball: 3, cycling: 4, sevens: 9, acup: 3 };
 function endOf(e, now) {
   const s = new Date(e.startUTC).getTime();
-  if (e.sport !== 'cricket') return new Date(s + (LEN_H[kd(e)] || 2) * 36e5);
+  if (e.sport !== 'cricket') return new Date(s + (e.team === 'nascar' ? 3.5 : LEN_H[kd(e)] || 2) * 36e5);   // a NASCAR race runs three hours and more
   const f = formatOf(e), days = DAYS[f] || 1;
   return new Date(Math.min(now, s + (days - 1) * 864e5 + (HOURS[f] || 8) * 36e5));
 }
@@ -3734,7 +3735,7 @@ function buildupHtml(e) {
     return `<li><a class="svc" data-watch="UFC YouTube" href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.k)}</a>${live ? ' <span class="tag live">Live</span>' : ''}<span class="when">${live ? 'streaming now' : soon ? `live ${day}, ${time(at, NZ)}` : day}</span></li>`;
   }).join('');
 }
-const redditSub = e => e.kind ? '' : e.sport === 'league' ? 'nrl' : e.sport === 'rugby' ? 'rugbyunion' : e.sport === 'cricket' ? 'Cricket' : e.sport === 'football' ? (/A-League/i.test(e.comp) || /^(phoenix|aucklandfc|aleague)$/.test(e.team) ? 'Aleague' : 'soccer') : e.sport === 'mma' ? 'MMA' : e.sport === 'boxing' ? 'Boxing' : e.sport === 'motor' ? (e.team === 'supercars' ? 'supercars' : 'formula1') : e.sport === 'tennis' ? 'tennis' : e.sport === 'basketball' ? (e.team === 'breakers' || e.team === 'nbl' ? 'nbl' : e.team === 'nba' ? 'nba' : 'Basketball') : e.sport === 'netball' ? 'netball' : e.sport === 'hockey' ? 'FieldHockey' : e.sport === 'sailing' ? 'sailgp' : e.sport === 'golf' ? 'golf' : e.sport === 'cycling' ? 'peloton' : '';
+const redditSub = e => e.kind ? '' : e.sport === 'league' ? 'nrl' : e.sport === 'rugby' ? 'rugbyunion' : e.sport === 'cricket' ? 'Cricket' : e.sport === 'football' ? (/A-League/i.test(e.comp) || /^(phoenix|aucklandfc|aleague)$/.test(e.team) ? 'Aleague' : 'soccer') : e.sport === 'mma' ? 'MMA' : e.sport === 'boxing' ? 'Boxing' : e.sport === 'motor' ? (e.team === 'supercars' ? 'supercars' : e.team === 'nascar' ? 'NASCAR' : 'formula1') : e.sport === 'tennis' ? 'tennis' : e.sport === 'basketball' ? (e.team === 'breakers' || e.team === 'nbl' ? 'nbl' : e.team === 'nba' ? 'nba' : 'Basketball') : e.sport === 'netball' ? 'netball' : e.sport === 'hockey' ? 'FieldHockey' : e.sport === 'sailing' ? 'sailgp' : e.sport === 'golf' ? 'golf' : e.sport === 'cycling' ? 'peloton' : '';
 // a golf tournament's final top 10 (and ties): place, player, score to par, each round and the total; Kiwis marked
 const golfBoard = e => `<div class="stable gboard"><h3 class="dh">Top 10</h3><div class="tscroll"><table><thead><tr><th>Pos</th><th class="tn">Player</th><th>To par</th><th class="rds">Rounds</th><th>Total</th></tr></thead><tbody>${
   e.leaders.map(r => `<tr class="${r.nz ? 'mine' : ''}"><td class="pos">${esc(r.p)}</td><td class="tn">${esc(r.n)}${r.nz ? ' <span class="muted small">NZ</span>' : ''}</td><td class="num">${esc(String(r.par).replace(/^-/, '−'))}</td><td class="rds num muted">${esc((r.r || []).join(' '))}</td><td class="num">${esc(r.t)}</td></tr>`).join('')
@@ -5148,7 +5149,7 @@ function syncPulse() {
   if (!document.getAnimations) return;
   document.querySelectorAll('.nowchip.is-live .livedot, .ev.is-live').forEach(el => el.getAnimations().forEach(a => { if (a.startTime !== 0) a.startTime = 0; }));
 }
-const SPORT = { rugby: ['allblacks','blackferns','sevens','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby','wxv','nations','nationscup'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','audomestic','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['allwhites','footballferns','phoenix','aucklandfc','aleague','epl'], hockey: ['blacksticks','blacksticksw'], basketball: ['tallblacks','tallferns','breakers','nbl','nba'], netball: ['silverferns','anzprem'], mma: ['ufc', 'onefc'], boxing: ['boxing','nzboxing'], motor: ['f1', 'supercars'], sailing: ['sailgp','americascup'], cycling: ['cycling'], tennis: ['tslams', 'tfinals', 'asbclassic', 'tausummer'], golf: ['pgatour', 'lpga', 'golfanz'], baseball: ['mlb', 'npb'] };
+const SPORT = { rugby: ['allblacks','blackferns','sevens','npc','fpc','blues','chiefs','hurricanes','crusaders','highlanders','moana','wallabies','aurugby','superrugby','wxv','nations','nationscup'], cricket: ['blackcaps','whiteferns','nzdomestic','bbl','wbbl','aucricket','audomestic','intlcricket'], league: ['kiwis','kiwiferns','warriors','nrl','rlwc'], football: ['allwhites','footballferns','phoenix','aucklandfc','aleague','epl'], hockey: ['blacksticks','blacksticksw'], basketball: ['tallblacks','tallferns','breakers','nbl','nba'], netball: ['silverferns','anzprem'], mma: ['ufc', 'onefc'], boxing: ['boxing','nzboxing'], motor: ['f1', 'supercars', 'nascar'], sailing: ['sailgp','americascup'], cycling: ['cycling'], tennis: ['tslams', 'tfinals', 'asbclassic', 'tausummer'], golf: ['pgatour', 'lpga', 'golfanz'], baseball: ['mlb', 'npb'] };
 const sportOf = t => Object.keys(SPORT).find(s => SPORT[s].includes(t)) || 'rugby';
 
 function tick() { $('clock').textContent = `${tzLabel()} ${fmt(new Date(), NZ, { weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}`; syncInfo(); }

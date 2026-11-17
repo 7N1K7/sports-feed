@@ -794,13 +794,13 @@ const MISSED = [
 // research sweeps, newest first, kept by hand: what a search found, what was done (done, todo, idea, no for a source
 // whose terms don't allow it, ok for checked and right), and the sources, each with what its terms allow. Never a score
 const RESEARCH = [
-  { d: '17 Nov 2026', t: "New sports: sevens and the America's Cup added, others kept for later", sum: "The owner asked what obvious sports were missing. Two were added from Wikipedia; the rest wait here until asked for.", g: [
+  { d: '17 Nov 2026', t: "New sports: sevens, the America's Cup and NASCAR added, others kept for later", sum: "The owner asked what obvious sports were missing. Three were added from Wikipedia; the rest wait here until asked for.", g: [
     ['Added', [
       ['ok', "Rugby sevens: the world series' tournaments, one card each on its finals day, with the men's and women's winners once they're in", [['Wikipedia', 'https://en.wikipedia.org/wiki/2026%E2%80%9327_SVNS', 'read automatically']]],
       ['ok', "The America's Cup match (Naples, July 2027): its dates from the page's summary box. No race-by-race schedule or challenger series dates are published there yet", [['Wikipedia', "https://en.wikipedia.org/wiki/2027_America's_Cup", 'read automatically']]],
+      ['ok', "NASCAR Cup Series (Shane van Gisbergen): the points races by date, with each start time added from TheSportsDB as the race nears (a 3pm US Eastern placeholder until then), and the winner behind the spoiler guard. Where to watch is this year's (ThreeNow, free); next year's isn't announced", [['Wikipedia', 'https://en.wikipedia.org/wiki/2027_NASCAR_Cup_Series', 'read automatically'], ['TheSportsDB', 'https://www.thesportsdb.com/league/4393-nascar-cup-series', 'start times'], ['VelocityNews', 'https://www.velocitynews.co.nz/no-paywall-for-kiwi-nascar-fans-2026-coverage-confirmed-on-threenow', 'checked by eye']]],
     ]],
     ['Kept for later', [
-      ['todo', 'NASCAR (Shane van Gisbergen): Wikipedia has the 2027 schedule by date, without start times', [['Wikipedia', 'https://en.wikipedia.org/wiki/2027_NASCAR_Cup_Series', 'not read yet']]],
       ['todo', 'IndyCar and Formula E, for the Kiwi drivers', []],
       ['todo', "Women's club games: Super Rugby Aupiki, the Warriors' NRLW side, A-League Women", []],
       ['todo', "NZ's own basketball leagues (the NBL and Tauihi) and Australia's Super Netball", []],
@@ -884,7 +884,7 @@ const RESEARCH = [
 ];
 // the big additions of data, newest first: kept by hand, a line each time a gap is filled or a new kind of data comes in
 const ADDED = [
-  ['17 Nov 2026', "Rugby sevens (under Rugby): the world series' nine tournaments from Wikipedia, one card each with the men's and women's winners behind the spoiler guard; and the America's Cup match (under Sailing), 10 to 18 July 2027 in Naples"],
+  ['17 Nov 2026', "Rugby sevens (under Rugby): the world series' nine tournaments from Wikipedia, one card each with the men's and women's winners behind the spoiler guard; and the America's Cup match (under Sailing), 10 to 18 July 2027 in Naples; and the NASCAR Cup Series (under Motorsport), every points race"],
   ['14 Nov 2026', "NZ women's domestic cricket and Australia's domestic cricket as one card a day, like the NBA's, when they're played Friday to Sunday or on a busy day, opening the competition's page; taps counted as Cricket day card (and the NBA card's taps are now kept too)"],
   ['13 Nov 2026', "A full review of the site and its feed: games that had been folded into another game are back (two games of one side two days apart with no times yet were being read as one, like the Tall Blacks' World Cup qualifiers against Jordan and Syria); a series keeps its first games while it's on, so its score counts every game; Brisbane, Darwin and Dublin games' times are read in their own zones"],
   ['13 Nov 2026', "Football world rankings in full: every FIFA side (men's and women's) from Wikipedia's ranking data, the top 50 listed with flags, and both sides' ranks in a pop-up for any game between two national teams"],
