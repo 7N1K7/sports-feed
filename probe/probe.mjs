@@ -1,11 +1,14 @@
 const UA = { headers: { 'user-agent': 'kickoff-kiwi-probe/1.0' } };
-const api = async q => (await fetch('https://en.wikipedia.org/w/api.php?format=json&' + q, UA)).json();
-for (const q of ['2026–27 SVNS', 'SVNS 2027 sevens series', "2027 America's Cup", 'Louis Vuitton Cup 2027', '2026 Dubai Sevens', '2026–27 SVNS 2']) {
-  const r = await api('action=query&list=search&srlimit=6&srsearch=' + encodeURIComponent(q));
-  console.log('SEARCH', q, '=>', (r.query?.search || []).map(s => s.title).join(' | '));
-}
-for (const t of ['2026–27 SVNS', '2025–26 SVNS', "2027 America's Cup", "38th America's Cup", '2026 Dubai Sevens']) {
-  const r = await fetch('https://en.wikipedia.org/w/index.php?action=raw&redirect=yes&title=' + encodeURIComponent(t), UA), x = r.ok ? await r.text() : '';
-  console.log('\n=== PAGE', t, r.status, x.length, x.slice(0, 80).replace(/\n/g, ' '));
-  console.log('headings:', [...x.matchAll(/^(=+)\s*(.*?)\s*=+\s*$/gm)].map(m => m[1].length + ':' + m[2]).join(' | ').slice(0, 900));
-}
+const raw = async t => { const r = await fetch('https://en.wikipedia.org/w/index.php?action=raw&redirect=yes&title=' + encodeURIComponent(t), UA); return r.ok ? r.text() : ''; };
+const sec = (x, h, n = 2600) => { const i = x.search(new RegExp('^=+\\s*' + h + '\\s*=+\\s*$', 'm')); return i < 0 ? '(no section ' + h + ')' : x.slice(i, i + n); };
+let x = await raw('2026–27 SVNS');
+console.log('##### SVNS venues\n' + sec(x, 'Tour venues', 4200));
+console.log('##### SVNS Dubai\n' + sec(x, 'Dubai', 1500));
+x = await raw('2025–26 SVNS');
+console.log('##### 2025-26 Dubai (finished shape)\n' + sec(x, 'Dubai', 1800));
+x = await raw("2027 America's Cup");
+console.log('##### AC infobox\n' + x.slice(0, 1500));
+for (const h of ['Dates', 'Preliminary Regattas', 'Qualifying event', 'Cup match']) console.log('##### AC ' + h + '\n' + sec(x, h, 2200));
+x = await raw('2027 NASCAR Cup Series');
+console.log('##### NASCAR len', x.length, 'headings:', [...x.matchAll(/^(=+)\s*(.*?)\s*=+\s*$/gm)].map(m => m[1].length + ':' + m[2]).join(' | ').slice(0, 600));
+console.log(sec(x, 'Schedule', 3800));
