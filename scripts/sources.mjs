@@ -1173,8 +1173,9 @@ const US_TZ = [[/Bristol/, 'America/New_York'], [/Arizona/, 'America/Phoenix'], 
 function nascarSeason(text, year) {
   const tableAfter = re => { const i = text.search(re); return i < 0 ? '' : (text.slice(i).match(/\{\|[\s\S]*?\n\|\}/) || [''])[0]; };
   const rowsIn = tbl => tbl.split(/\n\|-[^\n]*/).slice(1).map(r => r.split('\n').map(l => l.trim()).filter(l => /^[|!]/.test(l) && !l.startsWith('|}')));
-  const cellOf = l => l.replace(/^[|!]\s*/, '').replace(/^(?:rowspan|colspan|align|style|class)[^|\[{]*\|(?!\|)/i, '').trim();
-  const txt = c => clean(stripRefs(c)).replace(/'{2,}/g, '').replace(/\s+/g, ' ').trim();
+  const cellOf = l => l.replace(/^[|!]\s*/, '').replace(/^(?:rowspan|colspan|align|style|class|nowrap)[^|\[{]*\|(?!\|)/i, '').trim();
+  // a cell's text, without its footnotes ({{Efn|…}}: a moved date, a changed layout)
+  const txt = c => clean(stripRefs(c).replace(/\{\{\s*efn\s*\|[^{}]*\}\}/gi, '').replace(/\{\{\s*efn\s*\|.*$/i, '')).replace(/'{2,}/g, '').replace(/\s+/g, ' ').trim();
   const src = `https://en.wikipedia.org/wiki/${encodeURIComponent(`${year} NASCAR Cup Series`.replace(/ /g, '_'))}`;
   // winners: race number -> { who, report }
   const wins = {};
@@ -1187,32 +1188,38 @@ function nascarSeason(text, year) {
     if (names.length && maker) wins[no] = { who: `${names[names.length - 1][1]} ${names[names.length - 1][2]}`, ...(rep ? { report: 'https://en.wikipedia.org/wiki/' + encodeURIComponent(rep[1].replace(/ /g, '_')) } : {}) };
   }
   const out = [], MON = /^(January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2})$/;
-  let track = '', loc = '';
+  let track = '', loc = '', held = null, heldFor = 0;
   for (const r of rowsIn(tableAfter(/^==\s*Schedule\s*==/im))) {
     const no = +(((r.find(l => l.startsWith('!')) || '').match(/^!\s*(\d+)\s*$/) || [])[1] || 0);
-    const cells = r.filter(l => l.startsWith('|')).map(cellOf), di = cells.findIndex(c => MON.test(txt(c)));
+    const lines = r.filter(l => l.startsWith('|')), cells = lines.map(cellOf), di = cells.findIndex(c => MON.test(txt(c)));
     if (di < 1) continue;
+    // the start: the page's own Time (ET) column once it has one ("1:30 pm", after the date; one cell can span the
+    // rows under it), 3pm Eastern until then
+    let tm = txt(cells[di + 1] || '').match(/^(\d{1,2})(?::(\d\d))?\s*([ap])\.?m\b/i);
+    if (tm) { held = tm; heldFor = +((lines[di + 1].match(/rowspan\s*=\s*"?(\d+)/i) || [])[1] || 1) - 1; }
+    else if (heldFor > 0) { tm = held; heldFor--; }
     const mid = cells.slice(1, di), ti = mid.findIndex(c => /Color ?box/i.test(c));
     if (ti >= 0) { track = txt(mid[ti].replace(/\{\{\s*Color ?box[^}]*\}\}/i, '')); if (mid[ti + 1]) loc = txt(mid[ti + 1]); }
     else if (mid.length) loc = txt(mid[0]);
     const name = txt(cells[0]), m = txt(cells[di]).match(MON);
     if (!no || !name) continue;
     const mi = MONTHS.indexOf(m[1].slice(0, 3).toLowerCase()), tz = (US_TZ.find(([re]) => re.test(`${track} ${loc}`)) || [, 'America/New_York'])[1];
-    const at = localToUTC(year, mi, +m[2], 15, 0, 'America/New_York'), w = at < Date.now() ? wins[no] : null;
+    const hr = tm ? +tm[1] % 12 + (/p/i.test(tm[3]) ? 12 : 0) : 15;
+    const at = localToUTC(year, mi, +m[2], hr, tm ? +(tm[2] || 0) : 0, 'America/New_York'), w = at < Date.now() ? wins[no] : null;
     out.push({
       id: `nascar-${year}-${no}`, team: 'nascar', tags: [], sport: 'motor', comp: `NASCAR Cup Series · Race ${no}`, round: `Race ${no}`,
-      home: name, away: '', startUTC: new Date(at).toISOString(), timeTBC: true, usual: true, venue: track, city: loc.split(',')[0].trim(), tz,
+      home: name, away: '', startUTC: new Date(at).toISOString(), ...(tm ? { timeTBC: false } : { timeTBC: true, usual: true }), venue: track, city: loc.split(',')[0].trim(), tz,
       status: w ? 'final' : 'upcoming', ...(w ? { score: `${w.who.split(' ').pop()} wins`, summary: `${w.who} won the ${name}.` } : {}),
       source: src, ...(w?.report ? { link: w.report } : {}),
     });
   }
   return out;
 }
-// NASCAR start times: TheSportsDB's, whose round numbers match the page's race numbers (a race with no time yet is
-// listed there at midnight). One race a run, each refreshed every 12 hours, in the same cache as F1's
+// NASCAR start times for races the page has no time for yet: TheSportsDB's, whose round numbers match the page's race
+// numbers (a race with no time yet is listed there at midnight). One race a run, each refreshed every 12 hours, in the same cache as F1's
 export async function nascarStartTimes(events, cache, diag) {
   const now = Date.now(), races = events.filter(e => e.team === 'nascar');
-  const due = races.filter(e => e.status !== 'final' && Date.parse(e.startUTC) > now - DAY && Date.parse(e.startUTC) < now + 45 * DAY).find(e => !cache[e.id] || now - cache[e.id].t > 12 * 36e5);
+  const due = races.filter(e => e.timeTBC && e.status !== 'final' && Date.parse(e.startUTC) > now - DAY && Date.parse(e.startUTC) < now + 45 * DAY).find(e => !cache[e.id] || now - cache[e.id].t > 12 * 36e5);
   const notes = [];
   if (due) {
     const [, season, round] = due.id.split('-');
@@ -1226,7 +1233,8 @@ export async function nascarStartTimes(events, cache, diag) {
   let n = 0;
   for (const e of races) {
     const c = cache[e.id];
-    if (c?.startUTC && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 2 * DAY) { Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); delete e.usual; n++; }
+    if (e.timeTBC && c?.startUTC && Math.abs(Date.parse(c.startUTC) - Date.parse(e.startUTC)) < 2 * DAY) { Object.assign(e, { startUTC: c.startUTC, timeTBC: false }); delete e.usual; }
+    if (!e.timeTBC) n++;
   }
   diag.nascarTimes = [...notes, `${n} of ${races.length} races with start times`].join('; ');
 }
