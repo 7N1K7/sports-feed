@@ -713,7 +713,7 @@ const TV_NICK = { 'black caps': ['blackcaps', 'black caps', 'new zealand', 'nzl'
   'black ferns': ['black ferns', 'new zealand'], kiwis: ['kiwis', 'new zealand', 'nzl'], 'kiwi ferns': ['kiwi ferns', 'new zealand'], 'silver ferns': ['silver ferns', 'new zealand'],
   'all whites': ['all whites', 'new zealand'], 'football ferns': ['football ferns', 'new zealand'], 'tall blacks': ['tall blacks', 'new zealand'], 'tall ferns': ['tall ferns', 'new zealand'],
   'black sticks': ['black sticks', 'new zealand'], wallabies: ['wallabies', 'australia', 'aus'], wallaroos: ['wallaroos', 'australia'], springboks: ['springboks', 'south africa'],
-  proteas: ['proteas', 'south africa', 'rsa'], jillaroos: ['jillaroos', 'australia'], kangaroos: ['kangaroos', 'australia'],
+  proteas: ['proteas', 'south africa', 'rsa'], 's.e. melbourne phoenix': ['south east melbourne phoenix', 'south east melbourne', 'se melbourne'], jillaroos: ['jillaroos', 'australia'], kangaroos: ['kangaroos', 'australia'],
   // a side named "New Zealand" in the feed goes by its nickname in the guide ("Blackcaps v India: 1st T20")
   'new zealand': ['new zealand', 'nzl', 'nz', 'blackcaps', 'black caps', 'white ferns', 'all blacks', 'black ferns', 'kiwis', 'kiwi ferns', 'silver ferns', 'all whites', 'football ferns', 'tall blacks', 'tall ferns', 'black sticks'] };
 const TV_CODE = { india: 'ind', australia: 'aus', england: 'eng', 'south africa': 'rsa', pakistan: 'pak', 'sri lanka': 'sl', bangladesh: 'ban', 'west indies': 'wi', ireland: 'ire',
@@ -729,6 +729,8 @@ const TV_NZ = new RegExp([
   'israel adesanya', 'kai kara-france', 'dan hooker', 'joseph parker', 'david nyika', 'steven adams', 'chris wood', 'hayden wilde', 'paul coll', 'joelle king', 'ellesse andrews', 'lisa carrington',
   'aimee fisher', 'dylan schmidt', 'zoi sadowski', 'nico porteous', 'alice robinson', 'daniel hillier', 'kazuma kobori', 'steven alker', 'courtney duncan',
 ].join('|'), 'i');
+// not sport to add: horse racing and sales channels, studio and talk shows
+const TV_NOT_GAME = /trackside|karaka|sportscenter|get up\b|first take|pardon the interruption|nfl live|college football live|gameday|big day with|\bwrap\b|around the horn|pat mcafee|nba today|\bsale of\b/i;
 let tvGaps = null;
 async function tvGuide(events) {
   const cacheUrl = new URL('.cache/tvguide.json', ROOT);
@@ -823,7 +825,7 @@ async function tvGuide(events) {
     const parts = t => t.split(' | '), groupOf = t => parts(t)[0].split(/:| - | \(/)[0].replace(/^live\b[:\s-]*/i, '').trim() || parts(t)[0].slice(0, 40);
     const nz = new Map(), other = new Map(), carried = new Set();
     for (const it of items) {
-      if (!it.live || it.at < now - 3 * 36e5 || it.at > now + 10 * DAY) continue;
+      if (!it.live || it.at < now - 3 * 36e5 || it.at > now + 10 * DAY || TV_NOT_GAME.test(`${it.ch} ${parts(it.text)[0]}`)) continue;
       const g = groupOf(it.text);
       if (onSite(it)) { carried.add(g); continue; }
       const mine = TV_NZ.test(it.text), m = mine ? nz : other, k = mine ? `${g}|${Math.round(it.at / 36e5)}` : g, o = m.get(k);
