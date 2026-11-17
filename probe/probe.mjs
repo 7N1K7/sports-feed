@@ -1,13 +1,13 @@
-const UA = { headers: { 'user-agent': 'kickoff-kiwi-probe/1.0' } };
-const raw = async t => { const r = await fetch('https://en.wikipedia.org/w/index.php?action=raw&redirect=yes&title=' + encodeURIComponent(t), UA); return r.ok ? r.text() : ''; };
-const sec = (x, h, n = 2600) => { const i = x.search(new RegExp('^=+\\s*' + h + '\\s*=+\\s*$', 'm')); return i < 0 ? '(no section ' + h + ')' : x.slice(i, i + n); };
-let x = await raw('2027 NASCAR Cup Series');
-console.log('##### 2027 schedule full\n' + sec(x, 'Schedule', 14000));
-console.log('##### 2027 race results\n' + sec(x, 'Race results', 1800));
-x = await raw('2026 NASCAR Cup Series');
-console.log('##### 2026 race results\n' + sec(x, 'Race results', 2600));
-for (const u of ['eventsround.php?id=4393&r=1&s=2026', 'eventsround.php?id=4393&r=30&s=2026', 'eventsround.php?id=4393&r=1&s=2027', 'eventsnextleague.php?id=4393']) {
-  try { const j = await (await fetch('https://www.thesportsdb.com/api/v1/json/123/' + u)).json();
-    console.log('TSDB', u, (j.events || []).length, (j.events || []).slice(0, 5).map(e => `r${e.intRound} ${e.strTimestamp} ${e.strEvent} @ ${e.strVenue} res:${(e.strResult || '').length}`).join(' ; '));
-  } catch (e) { console.log('TSDB', u, 'error', e.message); }
-}
+const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
+const d = f.diag || {};
+console.log('generated', f.generated || f.updated, '| nascar:', d.nascar, '| nascarTimes:', d.nascarTimes);
+const n = (f.events || []).filter(e => e.team === 'nascar');
+const by = {}; for (const e of n) { const y = e.id.split('-')[1]; by[y] = by[y] || { n: 0, fin: 0, tbc: 0, noVenue: 0 }; by[y].n++; if (e.status === 'final') by[y].fin++; if (e.timeTBC) by[y].tbc++; if (!e.venue || !e.city) by[y].noVenue++; }
+console.log('events', n.length, JSON.stringify(by));
+// no winners printed: names, dates and places only
+for (const e of n.filter(e => e.status !== 'final').slice(0, 6)) console.log(e.id, '|', e.home, '|', e.venue, '|', e.city, '|', e.startUTC, e.tz, 'tbc', e.timeTBC, '|', e.broadcast, '|', e.watchAU);
+const l = n.filter(e => e.status === 'final').pop(); if (l) console.log('last final:', l.id, '|', l.home, '|', l.venue, '|', l.startUTC, '| has score', !!l.score, '| link', l.link);
+const names = n.map(e => e.home); console.log('odd names:', names.filter(x => /[\[\]{}|<>]/.test(x) || x.length > 60 || x.length < 4).join(' ; ') || 'none');
+console.log('odd venues:', [...new Set(n.map(e => e.venue + ' / ' + e.city))].filter(x => /[\[\]{}|<>]/.test(x) || x.length > 80).join(' ; ') || 'none');
+const ics = await (await fetch('https://kickoff.kiwi/data/cal/nascar.ics?' + Date.now())).text(); console.log('nascar.ics events', (ics.match(/BEGIN:VEVENT/g) || []).length);
+const h = await (await fetch('https://kickoff.kiwi/?' + Date.now())).text(); console.log('site has switch', h.includes("['nascar','NASCAR']"), 'version', (h.match(/SITE_V\s*=\s*'?(\d+)/) || h.match(/>v(\d{3})</) || [])[1]);
