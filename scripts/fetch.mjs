@@ -718,6 +718,18 @@ const TV_NICK = { 'black caps': ['blackcaps', 'black caps', 'new zealand', 'nzl'
   'new zealand': ['new zealand', 'nzl', 'nz', 'blackcaps', 'black caps', 'white ferns', 'all blacks', 'black ferns', 'kiwis', 'kiwi ferns', 'silver ferns', 'all whites', 'football ferns', 'tall blacks', 'tall ferns', 'black sticks'] };
 const TV_CODE = { india: 'ind', australia: 'aus', england: 'eng', 'south africa': 'rsa', pakistan: 'pak', 'sri lanka': 'sl', bangladesh: 'ban', 'west indies': 'wi', ireland: 'ire',
   zimbabwe: 'zim', afghanistan: 'afg', 'new zealand': 'nzl', scotland: 'sco', france: 'fra', fiji: 'fij', samoa: 'sam', tonga: 'ton' };
+// live sport on TV that the site has no game for (see the end of tvGuide): words that make a listing New Zealand's
+// (the country, a national side, a place, a NZ athlete), so those come first
+const TV_NZ = new RegExp([
+  'new zealand', '\\bnz\\b', '\\bnzl\\b', 'kiwis?\\b', 'aotearoa', 'm[aā]ori', 'all blacks', 'black ferns', 'black ?caps', 'white ferns', 'silver ferns', 'net blacks', 'tall blacks', 'tall ferns',
+  'black sticks', 'all whites', 'football ferns', 'kiwi ferns', 'junior warriors', 'nz warriors', 'breakers', 'wellington phoenix', 'auckland', 'wellington', 'christchurch', 'dunedin', 'canterbury',
+  'otago', 'waikato', 'taranaki', "hawke'?s bay", 'northland', 'southland', 'manawat[uū]', 'bay of plenty', 'counties manukau', 'north harbour', 'tauranga', 'mount maunganui', 'napier', 'queenstown',
+  'invercargill', 'palmerston north', 'taup[oō]', 'rotorua', 'whang[aā]rei', 'new plymouth', 'lydia ko', 'ryan fox', 'liam lawson', 'van gisbergen', 'scott dixon', 'scott mclaughlin', 'marcus armstrong',
+  'mitch evans', 'nick cassidy', 'hayden paddon', 'hamish kerr', 'eliza mccartney', 'zoe hobbs', 'tom walsh', 'maddi wesche', 'george beamish', 'sam ruthe', 'erin routliffe', 'lulu sun', 'michael venus',
+  'israel adesanya', 'kai kara-france', 'dan hooker', 'joseph parker', 'david nyika', 'steven adams', 'chris wood', 'hayden wilde', 'paul coll', 'joelle king', 'ellesse andrews', 'lisa carrington',
+  'aimee fisher', 'dylan schmidt', 'zoi sadowski', 'nico porteous', 'alice robinson', 'daniel hillier', 'kazuma kobori', 'steven alker', 'courtney duncan',
+].join('|'), 'i');
+let tvGaps = null;
 async function tvGuide(events) {
   const cacheUrl = new URL('.cache/tvguide.json', ROOT);
   let cache = {};
@@ -760,28 +772,35 @@ async function tvGuide(events) {
     return [...new Set([n, ...(TV_NICK[n] || []), ...(TV_CODE[n] ? [TV_CODE[n]] : []), ytSide(t)])].filter(x => x.length > 1); };
   // a name as a whole word, or as its adjective ("Australian Diamonds")
   const has = (text, w) => new RegExp(`(^|[^a-z])${w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}n?([^a-z]|$)`, 'i').test(text);
+  const soloOf = e => !e.away || /^(motor|tennis|mma|boxing|sailing|golf|cycling)$/.test(e.sport);
+  const womenOf = e => /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'blackferns', 'kiwiferns', 'silverferns', 'tallferns', 'blacksticksw', 'wbbl', 'fpc', 'anzprem', 'footballferns', 'lpga'].includes(e.team);
+  // does a listing's text name this game: both its sides (or the race, fight night or tournament), and the men's or the
+  // women's (loose: whichever, and any stage, for telling whether the site has the thing at all)
+  const named = (e, t, loose) => {
+    const solo = soloOf(e), women = womenOf(e);
+    if (solo) {
+      // a ONE card is listed as "Live: MMA One Fight Night" or "Live: ONE Championship Mixed" (ESPN, from Feb 2026)
+      const key = e.team === 'onefc' ? '\\bone (championship|fight night|friday fights|samurai|lumpinee)\\b' : e.sport === 'mma' ? 'ufc' : e.team === 'supercars' ? 'supercars' : e.team === 'nascar' ? 'nascar' : e.team === 'sailgp' ? 'sailgp' : e.sport === 'golf' ? '(golf|pga|lpga)' : e.sport === 'cycling' ? String(compOf0(e)).replace(/^women's\s+/i, '').toLowerCase() : e.team === 'f1' ? '(formula 1|f1)' : String(compOf0(e)).toLowerCase();
+      if (!key || !new RegExp(key, 'i').test(t) || (e.team === 'f1' && !has(t, String(e.home).replace(/ grand prix$/i, '').toLowerCase()))) return false;
+      // a stage race: the men's or the women's race, and the same stage when the listing names one
+      if (e.sport === 'cycling') { const st = t.match(/\bstage\s+(\d+)/i)?.[1]; if (!loose && (/women/i.test(t) !== women || (st && `Stage ${st}` !== e.stage))) return false; }
+      // a golf listing names the tournament: one of its own words ("Bermuda", "Annika"), not "Open" or "Championship"
+      if (e.sport === 'golf') { const ws = String(e.home).toLowerCase().split(/[^a-z]+/).filter(w => w.length > 3 && !/^(open|championship|classic|tour|golf|ladies|women|invitational|presented|tournament|champions|the)$/.test(w)); if (!(ws.length ? ws : [String(e.home).toLowerCase()]).some(w => has(t, w))) return false; }
+    } else {
+      if (![e.home, e.away].every(s => sideNames(s).some(n => has(t, n)))) return false;
+      const wt = /women|\bw\b|ferns|wahine|wbbl|wncl|nrlw|jillaroos|wallaroos|wxv|aupiki/i.test(t);
+      if (!loose && wt !== women) return false;
+    }
+    return true;
+  };
   for (const e of events) {
     if (e.status === 'final' || !e.startUTC) continue;
-    const start = Date.parse(e.startUTC), solo = !e.away || /^(motor|tennis|mma|boxing|sailing|golf|cycling)$/.test(e.sport);
-    const women = /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'blackferns', 'kiwiferns', 'silverferns', 'tallferns', 'blacksticksw', 'wbbl', 'fpc', 'anzprem', 'footballferns', 'lpga'].includes(e.team);
+    const start = Date.parse(e.startUTC);
     const found = [];
     for (const it of items) {
       const d = it.at - start;
       if (d < -2.5 * 36e5 || d > 30 * 36e5) continue;
-      const t = it.text;
-      if (solo) {
-        // a ONE card is listed as "Live: MMA One Fight Night" or "Live: ONE Championship Mixed" (ESPN, from Feb 2026)
-        const key = e.team === 'onefc' ? '\\bone (championship|fight night|friday fights|samurai|lumpinee)\\b' : e.sport === 'mma' ? 'ufc' : e.team === 'supercars' ? 'supercars' : e.team === 'nascar' ? 'nascar' : e.team === 'sailgp' ? 'sailgp' : e.sport === 'golf' ? '(golf|pga|lpga)' : e.sport === 'cycling' ? String(compOf0(e)).replace(/^women's\s+/i, '').toLowerCase() : e.team === 'f1' ? '(formula 1|f1)' : String(compOf0(e)).toLowerCase();
-        if (!new RegExp(key, 'i').test(t) || (e.team === 'f1' && !has(t, String(e.home).replace(/ grand prix$/i, '').toLowerCase()))) continue;
-        // a stage race: the men's or the women's race, and the same stage when the listing names one
-        if (e.sport === 'cycling') { const st = t.match(/\bstage\s+(\d+)/i)?.[1]; if (/women/i.test(t) !== women || (st && `Stage ${st}` !== e.stage)) continue; }
-        // a golf listing names the tournament: one of its own words ("Bermuda", "Annika"), not "Open" or "Championship"
-        if (e.sport === 'golf') { const ws = String(e.home).toLowerCase().split(/[^a-z]+/).filter(w => w.length > 3 && !/^(open|championship|classic|tour|golf|ladies|women|invitational|presented|tournament|champions|the)$/.test(w)); if (!(ws.length ? ws : [String(e.home).toLowerCase()]).some(w => has(t, w))) continue; }
-      } else {
-        if (![e.home, e.away].every(s => sideNames(s).some(n => has(t, n)))) continue;
-        const wt = /women|\bw\b|ferns|wahine|wbbl|wncl|nrlw|jillaroos|wallaroos|wxv|aupiki/i.test(t);
-        if (wt !== women) continue;
-      }
+      if (!named(e, it.text)) continue;
       // more than an hour after the start: shown delayed (or the next day's coverage of a Test)
       found.push({ ch: it.ch, at: new Date(it.at).toISOString(), delayed: d > 60 * 6e4 });
     }
@@ -794,6 +813,28 @@ async function tvGuide(events) {
     e.tv = (all.some(x => !x.delayed) ? all.filter(x => !x.delayed) : all.slice(0, 1)).slice(0, 4);
     hits.push(`${e.home}${e.away ? ' v ' + e.away : ''}: ${e.tv.map(x => x.ch + (x.delayed ? ' (delayed)' : '')).join(', ')}`);
   }
+  // live sport on TV in the next ten days that no game on the site answers to, so a one-off the site doesn't have gets
+  // noticed (the Silver Ferns' series against the NZ men, Nov 2026, was found by the owner). New Zealand's first, one
+  // line a showing; then the rest by title, without the competitions the site does carry. For the stats page
+  try {
+    const now = Date.now(), longEv = e => e.kind || /^(golf|cycling|tennis)$/.test(e.sport) || /Test|First-class|Four-day|Shield|Plunket/i.test(`${e.format || ''} ${e.comp || ''}`);
+    const timed = events.filter(e => e.startUTC).map(e => [Date.parse(e.startUTC), e]);
+    const onSite = it => timed.some(([st, e]) => it.at - st > -3 * 36e5 && it.at - st < (longEv(e) ? 6 * DAY : 30 * 36e5) && named(e, it.text, true));
+    const parts = t => t.split(' | '), groupOf = t => parts(t)[0].split(/:| - | \(/)[0].replace(/^live\b[:\s-]*/i, '').trim() || parts(t)[0].slice(0, 40);
+    const nz = new Map(), other = new Map(), carried = new Set();
+    for (const it of items) {
+      if (!it.live || it.at < now - 3 * 36e5 || it.at > now + 10 * DAY) continue;
+      const g = groupOf(it.text);
+      if (onSite(it)) { carried.add(g); continue; }
+      const mine = TV_NZ.test(it.text), m = mine ? nz : other, k = mine ? `${g}|${Math.round(it.at / 36e5)}` : g, o = m.get(k);
+      if (o) { o.n++; if (!o.ch.includes(it.ch)) o.ch.push(it.ch); o.at = Math.min(o.at, it.at); }
+      else m.set(k, { t: mine ? parts(it.text).slice(0, 2).filter(Boolean).join(': ') : g, ...(mine ? { d: (parts(it.text)[2] || '').slice(0, 160) } : {}), at: it.at, ch: [it.ch], n: 1 });
+    }
+    const list = m => [...m.values()].sort((a, b) => a.at - b.at).slice(0, 60).map(o => ({ ...o, at: new Date(o.at).toISOString(), ch: o.ch.slice(0, 3).join(', ') }));
+    for (const g of carried) other.delete(g);
+    tvGaps = { nz: list(nz), other: list(other) };
+    diag.tvGaps = `${nz.size} live listings naming NZ, a NZ side, place or athlete with no game on the site${nz.size ? ': ' + tvGaps.nz.slice(0, 8).map(o => `${o.t} (${o.ch}, ${o.at.slice(5, 10)})`).join('; ') : ''}; ${other.size} other live titles the site doesn't carry`.slice(0, 900);
+  } catch (err) { diag.tvGaps = 'error ' + err.message; }
   // how far ahead each guide's sport listings run: a guide can stop updating (Sky Go's did at the end of October 2026),
   // which leaves its channels' games unlisted however good the matching
   const runs = {}; for (const x of items) runs[x.src] = Math.max(runs[x.src] || 0, x.at);
@@ -2398,7 +2439,7 @@ await writeFile(new URL('data/version.json', ROOT), JSON.stringify(site));
 await writeFile(new URL('data/coverage.json', ROOT), JSON.stringify({ v: site?.version || 0, at: feed.generatedAt,
   cov: Object.fromEntries(Object.entries(coverage).map(([k, c]) => [k, [c.games, c.time, c.watch, c.sqGames, c.squads, c.sides, c.pic, c.links, c.guide || 0, c.streams || 0]])) }));
 // what's behind each coverage figure, game by game and side by side, for the stats page (the site never loads it)
-await writeFile(new URL('data/coverage-detail.json', ROOT), JSON.stringify({ v: site?.version || 0, at: feed.generatedAt, ...detail }));
+await writeFile(new URL('data/coverage-detail.json', ROOT), JSON.stringify({ v: site?.version || 0, at: feed.generatedAt, ...detail, ...(tvGaps ? { tvGaps } : {}) }));
 // a small plain-text view of games around now, for checking the live site without reading the whole feed
 await writeFile(new URL('data/now.txt', ROOT), feed.events.filter(e => Math.abs(Date.parse(e.startUTC) - now) < 2 * DAY)
   .map(e => [e.id, e.team, e.status, e.startUTC, e.timeTBC ? 'TBC' : '', e.format || '', e.stage || '', e.city || '', e.tz || '', e.score || '', e.summary || '', e.weather || '', e.progress || '', e.liveScore || ''].join(' | ')).join('\n') + '\n');

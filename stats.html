@@ -566,6 +566,7 @@ th { color: var(--muted); font-weight: 600 }
       <div id="cov"></div>
       <p class="note">How much the site has filled in, by sport: games with a set start time, a way to watch (free YouTube streams count, and have their own column) and squads; sides with a picture (logo, flag or photo) and team links. Green 90% and up, amber 60% and up. Click a figure for what's missing and what we have, or open a sport below for all its gaps.</p>
       <div class="gaps" id="checks"></div>
+      <details class="added"><summary id="tvgSum">On TV, not on the site</summary><div id="tvgBody"><p class="note">Loading…</p></div></details>
       <details class="added"><summary id="missedSum">Missed games found</summary><ul id="missed"></ul></details>
       <details class="added"><summary>Data added lately</summary><ul id="added"></ul></details>
     </section>
@@ -1146,8 +1147,19 @@ addEventListener('scroll', () => { $('toTop').hidden = scrollY < 700; }, { passi
 $('det').addEventListener('click', ev => { if (ev.target === $('det')) $('det').close(); }); // a click on the backdrop
 // the feed's coverage and the lists kept by hand: once for each stats fetch (and Refresh), not on every redraw, so the
 // big feed isn't fetched again and whatever was opened in them stays open when the range changes
+// live sport in the TV guide that matches no game on the site (worked out with the feed): New Zealand's first
+async function drawTvGaps() {
+  const det = await (detP ||= fetch('data/coverage-detail.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null));
+  const g = det?.tvGaps;
+  if (!g) { if (!det) detP = null; $('tvgBody').innerHTML = '<p class="note">Not in the feed yet: it comes with the next feed update.</p>'; return; }
+  $('tvgSum').textContent = `On TV, not on the site · ${g.nz.length} for NZ · ${g.other.length} other`;
+  $('tvgBody').innerHTML = `<p class="note">Live sport in the NZ TV guide over the next ten days that matches no game on the site, from the feed built ${nzWhen(det.at)} NZ time. First the listings that name New Zealand, a NZ side, place or athlete; then every other live title, without the competitions the site carries. A listing here can also be a game the site has under another name or time.</p>`
+    + (g.nz.length ? `<ul>${g.nz.map(o => `<li><b>${esc(nzWhen(o.at))}</b> ${esc(o.t)} <span class="by">${esc(o.ch)}</span>${o.d ? `<br><span class="note">${esc(o.d)}</span>` : ''}</li>`).join('')}</ul>` : '<p class="note">Nothing for New Zealand right now.</p>')
+    + (g.other.length ? `<p class="note" style="margin-top:10px"><b>Other live sport the site doesn't carry</b></p><ul>${g.other.map(o => `<li>${esc(o.t)} <span class="by">${o.n} showing${o.n === 1 ? '' : 's'}, next ${esc(nzWhen(o.at))} on ${esc(o.ch)}</span></li>`).join('')}</ul>` : '');
+}
 function drawOnce() {
   drawCoverage();
+  drawTvGaps();
   $('missedSum').textContent = `Missed games found · ${MISSED.length}`;
   $('missed').innerHTML = MISSED.map(([d, c, g, what, did, by]) => `<li><b>${esc(d)}</b> ${esc(c)}: ${esc(g)}. ${esc(what)}. ${esc(did)}. <span class="by">Found by ${esc(by)}</span></li>`).join('');
   $('added').innerHTML = ADDED.map(([d, t]) => `<li><b>${esc(d)}</b> ${esc(t)}</li>`).join('');
