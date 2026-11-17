@@ -1,199 +1,21 @@
------
-{{Single-innings cricket match
-| round = {{anchor|match10}} '''Match 10'''
-| date = 8 November 2026
-| time = 10:30
-| daynight = 
-| team1 = {{cr-NZ|nd}}
-| team2 = {{cr-NZ|otg}}
-| score1 = 
-| runs1 = 
-| wickets1 = 
-| score2 = 
-| runs2 = 
-| wickets2 = 
-| result = 
-| report = [https://www.cricinfo.com/ci/engine/match/1550293.html Scorecard]
-| venue = 
-| umpires = 
-| motm = 
-| toss = 
-| rain = 
-| notes = 
-}}
-----
+SEARCH 2026–27 SVNS => 2026–27 SVNS | 2025–26 SVNS | 2026 SVNS 2 | SVNS 3 | SVNS | SVNS 2
+SEARCH SVNS 2027 sevens series => 2026–27 SVNS | 2025–26 SVNS | SVNS 3 | Rugby sevens at the 2027 European Games | 2026 Hong Kong Sevens | 2026 SVNS 2
+SEARCH 2027 America's Cup => 2027 America's Cup | 2027 Rugby World Cup | 2027 in sports | 2027 FIFA Women's World Cup | 2027 NASCAR Cup Series | America's Cup
+SEARCH Louis Vuitton Cup 2027 => 2024 Louis Vuitton Cup | 2027 America's Cup | Team New Zealand | Colm Dillane | Luna Rossa Prada Pirelli | 2024 America's Cup
+SEARCH 2026 Dubai Sevens => 2025 Dubai Sevens | 2022 Dubai Women's Sevens | The Sevens Stadium | 1999 Dubai Sevens | 2026 SVNS 3 – Men's tour | 2026 SVNS 3 – Women's tour
+SEARCH 2026–27 SVNS 2 => 2026–27 SVNS | 2026 SVNS 2 | SVNS 2 | 2025–26 SVNS | SVNS 3 | 2026 Brazil SVNS 2
 
------
-{{Single-innings cricket match
-| round = {{anchor|match11}} '''Match 11'''
-| date = 8 November 2026
-| time = 10:30
-| daynight = 
-| team1 = {{cr-NZ|wel}}
-| team2 = {{cr-NZ|akl}}
-| score1 = 
-| runs1 = 
-| wickets1 = 
-| score2 = 
-| runs2 = 
-| wickets2 = 
-| result = 
-| report = [https://www.cricinfo.com/ci/engine/match/1550294.html Scorecard]
-| venue = 
-| umpires = 
-| motm = 
-| toss = 
-| rain = 
-| notes = 
-}}
-----
+=== PAGE 2026–27 SVNS 200 18318 {{Short description|Series of national rugby sevens tournaments}} {{Use dmy date
+headings: 2:Teams and format | 3:Men's teams | 3:Women's teams | 2:Tour venues | 2:Standings | 3:Men's | 3:Women's | 3:Men's Grand Finals | 3:Women's Grand Finals | 2:Placings summary | 3:Men | 3:Women | 2:Players | 3:Awards | 2:Tournaments | 3:Dubai | 4:Men's | 4:Women's | 3:Cape Town | 4:Men's | 4:Women's | 3:Singapore | 4:Men's | 4:Women's | 3:Perth | 4:Men's | 4:Women's | 3:Vancouver | 4:Men's | 4:Women's | 3:New York | 4:Men's | 4:Women's | 3:Hong Kong | 4:Men's | 4:Women's | 3:Valladolid | 4:Men's | 4:Women's | 3:Bordeaux | 4:Men's | 4:Women's | 2:References
 
------
-{{Single-innings cricket match
-| round = {{anchor|match12}} '''Match 12'''
-| date = 8 November 2026
-| time = 10:30
-| daynight = 
-| team1 = {{cr-NZ|cd}}
-| team2 = {{cr-NZ|can}}
-| score1 = 
-| runs1 = 
-| wickets1 = 
-| score2 = 
-| runs2 = 
-| wickets2 = 
-| result = 
-| report = [https://www.cricinfo.com/ci/engine/match/1550295.html Scorecard]
-| venue = 
-| umpires = 
-| motm = 
-| toss = 
-| rain = 
-| notes = 
-}}
-===Round 5===
+=== PAGE 2025–26 SVNS 200 29328 {{Short description|Series of national rugby sevens tournaments}} {{Use dmy date
+headings: 2:Teams and format | 3:Men's teams | 3:Women's teams | 3:Teams from SVNS 2 qualified for Grand Final | 2:Tour venues | 2:Standings | 3:Men's | 3:Women's | 3:Men's Grand Finals | 3:Women's Grand Finals | 2:Placings summary | 3:Men | 3:Women | 2:Players | 3:Awards | 2:Tournaments | 3:Dubai | 4:Men's | 4:Women's | 3:Cape Town | 4:Men's | 4:Women's | 3:Singapore | 4:Men's | 4:Women's | 3:Perth | 4:Men's | 4:Women's | 3:Vancouver | 4:Men's | 4:Women's | 3:New York | 4:Men's | 4:Women's | 3:Hong Kong | 4:Men's | 4:Women's | 3:Valladolid | 4:Men's | 4:Women's | 3:Bordeaux | 4:Men's | 4:Women's | 2:References
 
------
-{{Single-innings cricket match
-| round = {{anchor|match13}} '''Match 13'''
-| date = 12 November 2026
-| time = 10:30
-| daynight = 
-| team1 = {{cr-NZ|akl}}
-| team2 = {{cr-NZ|otg}}
-| score1 = 
-| runs1 = 
-| wickets1 = 
-| score2 = 
-| runs2 = 
-| wickets2 = 
-| result = 
-| report = [https://www.cricinfo.com/ci/engine/match/1550296.html Scorecard]
-| venue = 
-| umpires = 
-| motm = 
-| toss = 
-| rain = 
-| notes = 
-}}
-----
+=== PAGE 2027 America's Cup 200 29551 {{Short description|Planned Yacht race}} {{Use dmy dates|date=May 2025}} {{Infob
+headings: 2:History | 2:Terms of challenge | 3:Background | 3:Rules for issuing challenge | 3:Terms of RYS Challenge | 4:Planned equipment | 4:Nationality rules | 4:Venue | 4:Dates | 4:Youth and Women's America's Cup | 4:New cup organisation | 2:Teams | 2:Preliminary Regattas | 2:Qualifying event | 2:Cup match | 2:Youth and Women's Americas Cup | 3:Background | 3:Teams | 2:References | 2:External links
 
------
-{{Single-innings cricket match
-| round = {{anchor|match14}} '''Match 14'''
-| date = 12 November 2026
-| time = 10:30
-| daynight = 
-| team1 = {{cr-NZ|cd}}
-| team2 = {{cr-NZ|wel}}
-| score1 = 
-| runs1 = 
-| wickets1 = 
-| score2 = 
-| runs2 = 
-| wickets2 = 
-| result = 
-| report = [https://www.cricinfo.com/ci/engine/match/1550297.html Scorecard]
-| venue = 
-| umpires = 
-| motm = 
-| toss = 
-| rain = 
-| notes = 
-}}
-----
+=== PAGE 38th America's Cup 200 79 #REDIRECT [[2027 America's Cup]]  {{Redirect category shell| {{R from move}} }}
+headings: 
 
-revisions ["2026-11-06T22:12:15Z clarification","2026-11-04T02:19:10Z /* Points summary */","2026-11-04T02:16:36Z /* Round 1 */","2026-11-04T02:03:59Z /* Round 1 */","2026-11-04T01:47:58Z /* Round 1 */","2026-11-04T01:35:59Z /* Fixtures */"]
------
-{{Single-innings cricket match
-| date = 16 November 2026
-| time = 10:00
-| daynight =
-| team1 = {{cr-Aus|NSW-h|l}}
-| team2 = {{cr-Aus|SA}}
-| score1 =
-| runs1 =
-| wickets1 =
-| score2 =
-| runs2 =
-| wickets2 =
-| result =
-| report = [https://www.cricinfo.com/ci/engine/match/1544855.html Scorecard]
-| venue = [[Cricket Central]], [[Sydney]]
-| umpires =
-| motm =
-| toss =
-| rain =
-| notes =
-}}
-----
-
------
-{{Single-innings cricket match
-| date = 16 November 2026
-| time = 10:00
-| daynight =
-| team1 = {{cr-Aus|QLD-h|l}}
-| team2 = {{cr-Aus|TAS}}
-| score1 =
-| runs1 =
-| wickets1 =
-| score2 =
-| runs2 =
-| wickets2 =
-| result =
-| report = [https://www.cricinfo.com/ci/engine/match/1544854.html Scorecard]
-| venue = [[The Gabba]], [[Brisbane]]
-| umpires =
-| motm =
-| toss =
-| rain =
-| notes =
-}}
-----
-
------
-{{Single-innings cricket match
-| date = 16 November 2026
-| time = 14:00
-| daynight = y
-| team1 = {{cr-Aus|VIC-h|l}}
-| team2 = {{cr-Aus|WA}}
-| score1 =
-| runs1 =
-| wickets1 =
-| score2 =
-| runs2 =
-| wickets2 =
-| result =
-| report = [https://www.cricinfo.com/ci/engine/match/1544856.html Scorecard]
-| venue = [[Junction Oval]], [[Melbourne]]
-| umpires =
-| motm =
-| toss =
-| rain =
-| notes =
-}}
-----
-
-revisions ["2026-11-14T23:05:12Z /* Fixtures */","2026-11-14T23:03:48Z /* Fixtures */","2026-11-14T23:02:06Z /* Fixtures */","2026-11-10T03:32:16Z Per [[MOS:TIES]]","2026-10-25T04:12:40Z /* Points table */","2026-10-25T04:06:47Z /* Fixtures */"]
+=== PAGE 2026 Dubai Sevens 404 0 
+headings: 
