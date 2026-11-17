@@ -1,13 +1,423 @@
-generated undefined | nascar: 71 races, 35 with winners | nascarTimes: 0 of 71 races with start times
-events 50 {"2026":{"n":14,"fin":14,"tbc":14,"noVenue":0},"2027":{"n":36,"fin":0,"tbc":36,"noVenue":0}}
-nascar-2027-1 | Daytona 500 | Daytona International Speedway | Daytona Beach | 2027-02-21T20:00:00.000Z America/New_York tbc true | ThreeNow (free) | Kayo / Fox Sports
-nascar-2027-2 | Autotrader 400 | EchoPark Speedway | Hampton | 2027-02-28T20:00:00.000Z America/New_York tbc true | ThreeNow (free) | Kayo / Fox Sports
-nascar-2027-3 | DuraMAX Grand Prix | Circuit of the Americas | Austin | 2027-03-07T20:00:00.000Z America/Chicago tbc true | ThreeNow (free) | Kayo / Fox Sports
-nascar-2027-4 | Straight Talk Wireless 500 | Phoenix Raceway | Avondale | 2027-03-14T19:00:00.000Z America/Phoenix tbc true | ThreeNow (free) | Kayo / Fox Sports
-nascar-2027-5 | Pennzoil 400 | Las Vegas Motor Speedway | Las Vegas | 2027-03-21T19:00:00.000Z America/Los_Angeles tbc true | ThreeNow (free) | Kayo / Fox Sports
-nascar-2027-6 | Goodyear 400 | Darlington Raceway | Darlington | 2027-04-04T19:00:00.000Z America/New_York tbc true | ThreeNow (free) | Kayo / Fox Sports
-last final: nascar-2026-36 | Season Finale 400 | Homestead–Miami Speedway | 2026-11-08T20:00:00.000Z | has score true | link https://en.wikipedia.org/wiki/2026_Season_Finale_400
-odd names: none
-odd venues: nowrap| World Wide Technology Raceway / Madison ; nowrap| Charlotte Motor Speedway{{Efn|The fall Charlotte race was originally announced as on the Roval configuration, but news broke in February that it would move to the oval track. / nowrap| Concord
-nascar.ics events 36
-site has switch true version undefined
+== Schedule ==
+[[File:Chicagoland Speedway 2026.jpg|thumb|The [[2026 eero 400]] at [[Chicagoland Speedway]] in July.]]
+The 2026 schedule consisted of 32 oval races, 3 road course races, 1 street track race, and 3 non-championship races held on ovals.<ref name="2026schedule"/>
+
+'''Bolded''' races indicate an event generally known as a [[Crown Jewel (NASCAR)|Crown Jewel race]].
+
+{{Color box|white|O|border=silver}} Oval track<br />
+{{Color box|lightblue|R|border=silver}} Road course<br />
+{{Color box|peachpuff|S|border=silver}} Street course
+
+{|class="wikitable" style="font-size:85%"
+! No
+! Race name
+! [[List of NASCAR tracks|Track]]
+! Location
+! Date
+!Nowrap|Time (ET)<ref>{{ cite web |url=https://www.nascar.com/news-media/2025/11/12/nascar-announces-start-times-networks-for-2026-national-series-races |title=NASCAR announces start times, networks for 2026 national series races |date=November 12, 2025}}</ref>
+!TV
+!Radio
+|-
+! colspan="8" |Regular Season 
+|-
+! rowspan=2|
+| [[Cook Out Clash]]
+|nowrap| {{Color box|white|O|border=silver}} [[Bowman Gray Stadium]]
+| [[Winston-Salem, North Carolina]]
+| February 4{{Efn|The Clash was originally scheduled to take place on February 1 but was postponed to February 2, before being again postponed to February 4 due to [[January 30–February 1, 2026 United States winter storm|snow in Winston-Salem]].<ref name="clashpostponed">{{Cite web |title=Cook Out Clash postponed to Wednesday |url=https://www.jayski.com/2026/02/01/cook-out-clash-postponed-to-wednesday/ |website=[[Jayski's Silly Season Site]] |date=February 1, 2026 |access-date=February 1, 2026}}</ref>}}
+| 6 pm
+| [[NASCAR on Fox|FOX]]
+| rowspan="3" |[[Motor Racing Network|MRN]]
+|-
+| [[The Duel at Daytona|America 250 Florida Duel at Daytona]]<ref>{{cite web |url=https://www.jayski.com/2026/01/05/america-250-florida-and-nascar-announce-duel-at-daytona-partnership-in-commemoration-of-americas-semiquincentennial/ |title=America 250 Florida and NASCAR announce 'Duel at Daytona' partnership in commemoration of America's Semiquincentennial |website=[[Jayski's Silly Season Site]] |date=January 5, 2026 |access-date=January 16, 2026}}</ref>
+| rowspan=2| {{Color box|white|O|border=silver}} [[Daytona International Speedway]]
+| rowspan=2| [[Daytona Beach, Florida]]
+| February 12
+| 7 pm
+| [[NASCAR on Fox|FS1]]
+|-
+! 1
+| '''[[Daytona 500]]'''
+| February 15
+| 1:30 pm{{Efn|Originally scheduled to start at 2:30 pm, the threat of rain pushed the start of the Daytona 500 to 1:30pm.<ref name="Daytona500movedup">{{cite web |url=https://www.jayski.com/2026/02/14/daytona-500-start-time-moved-up-due-to-forecast/ |title=Daytona 500 start time moved up due to forecast |website=[[Jayski's Silly Season Site]] |date=February 14, 2026}}</ref>}}
+
+| rowspan="3" | FOX 
+|-
+! 2
+| [[NASCAR Cup Series at Atlanta Motor Speedway#Spring race|Autotrader 400]]<ref>{{cite web |url=https://www.echoparkspeedway.com/events/ambetter-health-400 |title=Autotrader 400 |website=[[Atlanta Motor Speedway|EchoPark Speedway]] |date=July 21, 2025}}</ref>
+| {{Color box|white|O|border=silver}} [[Atlanta Motor Speedway|EchoPark Speedway]]
+| [[Hampton, Georgia]]
+| February 22
+| 3 pm
+| rowspan="2" | [[Performance Racing Network|PRN]]
+|-
+! 3
+| [[NASCAR Cup Series at Circuit of the Americas|DuraMAX Texas Grand Prix]]<ref>{{Cite web |date=January 8, 2026 |title=DuraMAX to sponsor Cup Series race at COTA |url=https://www.jayski.com/2026/01/08/duramax-to-sponsor-cup-series-race-at-cota/ |website=[[Jayski's Silly Season Site]] |access-date=January 8, 2026}}</ref>
+| {{color box|lightblue|R|border=silver}} [[Circuit of the Americas]]
+| [[Austin, Texas]]
+| March 1
+| rowspan="2" | 3:30 pm
+|-
+! 4
+| [[NASCAR Cup Series at Phoenix Raceway#Spring race|Straight Talk Wireless 500]]<ref>{{Cite web |date=February 17, 2026 |title=Excitement builds for Straight Talk Wireless 500 at Phoenix Raceway, March 8 |url=https://www.jayski.com/2026/02/17/excitement-builds-for-straight-talk-wireless-500-at-phoenix-raceway-march-8/ |access-date=February 17, 2026 |website=[[Jayski's Silly Season Site]]}}</ref>
+| {{Color box|white|O|border=silver}} [[Phoenix Raceway]]
+| [[Avondale, Arizona]]
+| March 8
+| rowspan="5" | FS1
+| MRN
+|-
+! 5
+| [[NASCAR Cup Series at Las Vegas Motor Speedway#Spring race|Pennzoil 400]]
+| {{Color box|white|O|border=silver}} [[Las Vegas Motor Speedway]]
+| [[Las Vegas, Nevada]]
+| March 15
+| 4 pm
+| PRN
+|-
+! 6
+| [[Goodyear 400]]
+| {{Color box|white|O|border=silver}} [[Darlington Raceway]]
+| [[Darlington, South Carolina]]
+| March 22
+| 3 pm
+| rowspan="2" | MRN
+|-
+! 7
+| [[Cook Out 400 (Martinsville)|Cook Out 400]]
+| {{Color box|white|O|border=silver}} [[Martinsville Speedway]]
+| [[Ridgeway, Virginia]]
+| March 29
+| 3:30 pm
+|-
+! 8
+| [[Food City 500]]
+| {{Color box|white|O|border=silver}} [[Bristol Motor Speedway]]
+| [[Bristol, Tennessee]]
+| April 12
+| 3 pm
+| PRN
+|-
+! 9
+| [[NASCAR Cup Series at Kansas Speedway#Spring race|AdventHealth 400]]
+| {{Color box|white|O|border=silver}} [[Kansas Speedway]]
+| [[Kansas City, Kansas]]
+| April 19
+| 2 pm
+| rowspan="2" | FOX
+| rowspan="2" | MRN
+|-
+! 10
+| [[Jack Link's 500]]
+| {{Color box|white|O|border=silver}} [[Talladega Superspeedway]]
+| [[Lincoln, Alabama]]
+| April 26
+| 3 pm
+|-
+! 11
+| [[NASCAR Cup Series at Texas Motor Speedway#Current race|Würth 400]]
+| {{Color box|white|O|border=silver}} [[Texas Motor Speedway]]
+| [[Fort Worth, Texas]]
+| May 3
+| 3:30 pm
+| rowspan="3" | FS1
+| PRN
+|-
+! 12
+| [[NASCAR Cup Series at Watkins Glen International|Go Bowling at The Glen]]
+| {{color box|lightblue|R|border=silver}} [[Watkins Glen International]]
+| [[Watkins Glen, New York]]
+| May 10
+| 3 pm
+| MRN
+|-
+! 
+| [[NASCAR All-Star Race]]<ref name="DoverAllStarFormat">{{cite web |url=https://www.jayski.com/2026/02/25/nascar-dover-motor-speedway-announce-revamped-2026-nascar-all-star-race-format/ |title=NASCAR, Dover Motor Speedway Announce Revamped 2026 NASCAR All-Star Race Format |website=[[Jayski's Silly Season Site]] |date=February 25, 2026}}</ref>
+| {{Color box|white|O|border=silver}} [[Dover Motor Speedway]]
+| [[Dover, Delaware]]
+| May 17
+| 1 pm{{Efn|Originally scheduled to start at 3 pm, the announcement of the race format moved the race up to 1 pm.<ref name="DoverAllStarFormat" />}}
+| rowspan="3" | PRN
+|-
+! 13
+| '''[[Coca-Cola 600]]'''
+| {{Color box|white|O|border=silver}} [[Charlotte Motor Speedway]]
+| [[Concord, North Carolina]]
+| May 24
+| 6 pm
+| rowspan="5" |[[NASCAR on Prime Video|Prime]]
+|-
+! 14
+| [[NASCAR Cup Series at Nashville Superspeedway|Cracker Barrel 400]]
+| {{Color box|white|O|border=silver}} [[Nashville Superspeedway]]
+| [[Lebanon, Tennessee]]
+| May 31
+| 7 pm
+|-
+! 15
+| [[NASCAR Cup Series at Michigan International Speedway#Current race|FireKeepers Casino 400]]
+| {{Color box|white|O|border=silver}} [[Michigan International Speedway]]
+| [[Brooklyn, Michigan]]
+| June 7
+| 3 pm
+| rowspan="3" | MRN
+|-
+! 16
+| [[NASCAR Cup Series at Pocono Raceway#Current race|The Great American Getaway 400]]
+| {{Color box|white|O|border=silver}} [[Pocono Raceway]]
+| [[Blakeslee, Pennsylvania]]
+| June 14
+| 1 pm{{Efn|Originally scheduled to start at 3 pm, the threat of evening rain moved it up to 1 pm.<ref name="PoconoMovedUp">{{cite web |url=https://www.jayski.com/2026/06/13/pocono-cup-race-start-time-moved-up-due-to-threat-of-rain/ |title=Pocono Cup race start time moved up due to threat of rain |website=[[Jayski's Silly Season Site]] |date=June 13, 2026 |access-date=June 13, 2026}}</ref>}}
+|-
+! 17
+| [[NASCAR Cup Series at the Coronado Street Course|Anduril 250]]<ref>{{cite web |url=https://www.anduril.com/article/anduril-250-race-the-base-nascar-cup-series-street-race-to-headline-nascar-san-diego-weekend |title=Anduril 250 Race the Base NASCAR Cup Series Street Race to Headline NASCAR San Diego Weekend Presented by Anduril |website=[[NASCAR]] |date=August 14, 2025 |access-date=November 1, 2025}}</ref>
+| {{Color box|peachpuff|S|border=silver}} [[Coronado Street Course]]<ref>{{cite web |url=https://www.jayski.com/2026/05/04/qualcomm-becomes-official-circuit-partner-of-nascar-san-diego-weekend-presented-by-anduril/ |title=Qualcomm becomes Official Circuit Partner of NASCAR San Diego Weekend presented by Anduril |website=[[Jayski's Silly Season Site]] |date=May 4, 2026 |access-date=May 4, 2026}}</ref>
+| [[San Diego, California]]
+| June 21
+| 4 pm
+|-
+! colspan="8" |[[2026 NASCAR In-Season Challenge|NASCAR In-Season Challenge]]<ref>{{cite web |url=https://www.nascar.com/news-media/2025/08/20/in-season-challenge-returns-to-cup-series-schedule-in-2026 |title=In-Season Challenge returns to Cup Series schedule in 2026 |website=[[NASCAR]] |date=August 20, 2025 |access-date=August 20, 2025}}</ref>
+|-
+! 18
+| [[Toyota/Save Mart 350]]
+| {{color box|lightblue|R|border=silver}} [[Sonoma Raceway]]
+| [[Sonoma, California]]
+| June 28
+| 3:30 pm
+| rowspan="5" |[[NASCAR on TNT Sports|TNT]]
+| rowspan="2" | MRN
+|-
+! 19
+| [[NASCAR Cup Series at Chicagoland Speedway|eero 400]]<ref>{{cite web |url=https://www.jayski.com/2026/05/21/eero-to-sponsor-cup-series-race-at-chicagoland-speedway/ |title=eero to sponsor Cup Series race at Chicagoland Speedway |website=[[Jayski's Silly Season Site]] |date=May 21, 2026 |access-date=May 21, 2026}}</ref>
+| {{Color box|white|O|border=silver}} [[Chicagoland Speedway]]
+| [[Joliet, Illinois]]
+| July 5
+| 6 pm
+|-
+! 20
+| [[NASCAR Cup Series at Atlanta Motor Speedway#Summer race|Quaker State 400]]
+| {{Color box|white|O|border=silver}} [[Atlanta Motor Speedway|EchoPark Speedway]]
+| [[Hampton, Georgia]]
+| July 12
+| rowspan="2" | 7 pm
+| rowspan="2" | PRN
+|-
+! 21
+| [[NASCAR Cup Series at North Wilkesboro Speedway#Current race|Window World 450]]<ref name="NWSPointsrace">{{Cite web |date=August 20, 2025 |title=Window World 400 Marks North Wilkesboro's First NASCAR Cup Series Points Race Since 1996 |url=https://www.northwilkesborospeedway.com/media/window-world-400-marks-north-wilkesboro-first-nascar-cup-series-points-race-since-1996.html |access-date=July 19, 2026 |publisher=[[North Wilkesboro Speedway]]}}</ref><ref>{{cite news |title=50 laps added to 2026 NASCAR Cup race at North Wilkesboro |url=https://www.jayski.com/2025/12/04/50-laps-added-to-2026-nascar-cup-race-at-north-wilkesboro/ |website=[[Jayski's Silly Season Site]] |publisher=NASCAR Digital Media |date=December 4, 2025 |access-date=December 4, 2025}}</ref>
+|{{Color box|white|O|border=silver}} [[North Wilkesboro Speedway]]
+| [[North Wilkesboro, North Carolina]]
+| July 19
+|-
+! 22
+| '''[[Brickyard 400]]'''
+|{{Color box|white|O|border=silver}} [[Indianapolis Motor Speedway]]
+| [[Speedway, Indiana]]
+| July 26
+| 2 pm
+| [[Indianapolis Motor Speedway Radio Network|IMS]]
+|-
+! colspan="8" |Regular Season
+|-
+! 23
+| [[Iowa Corn 350]]
+| {{Color box|white|O|border=silver}} [[Iowa Speedway]]
+| [[Newton, Iowa]]
+| August 9
+| 3:30 pm
+| rowspan="3" | [[NASCAR on USA Sports|USA]]
+| rowspan="2" | MRN
+|-
+! 24
+| [[NASCAR Cup Series at Richmond Raceway|Cook Out 400]]
+| {{Color box|white|O|border=silver}} [[Richmond Raceway]]
+| [[Richmond, Virginia]]
+| August 15
+| 7 pm
+|-
+! 25
+| [[NASCAR Cup Series at New Hampshire Motor Speedway#Current race|Dollar Tree 301]]<ref>{{cite web |url=https://www.nhms.com/media/news/dollar-tree-named-entitlement-sponsor-for-new-england-only-nascar-cup-series-race.html |title=Dollar Tree Named Entitlement Sponsor for New England's Only NASCAR Cup Series Race |website=[[New Hampshire Motor Speedway]] |date=May 3, 2026 |access-date=May 3, 2026}}</ref>
+| {{Color box|white|O|border=silver}} [[New Hampshire Motor Speedway]]
+| [[Loudon, New Hampshire]]
+| August 23
+| 2 pm{{Efn|Originally scheduled to start at 3 pm, the threat of evening rain moved it up to 2 pm.<ref name="LoudonMovedUp">{{cite web |url=https://www.jayski.com/2026/08/21/new-hampshire-cup-race-start-time-moved-up-to-200pm-et/ |title=New Hampshire Cup race start time moved up to 2:00pm/et |website=[[Jayski's Silly Season Site]] |date=August 21, 2026 |access-date=August 21, 2026}}</ref>}}
+| PRN
+|-
+! 26
+| [[Coke Zero Sugar 400]]
+| {{Color box|white|O|border=silver}} [[Daytona International Speedway]]
+| [[Daytona Beach, Florida]]
+| August 29
+| 7:30 pm
+| [[NASCAR on NBC|NBC]]
+| MRN
+|-
+! colspan="8" | [[The Chase (NASCAR)|The Chase]]<ref name="chase return" />
+|-
+! 27
+| '''[[Southern 500|Cook Out Southern 500]]'''
+| {{Color box|white|O|border=silver}} [[Darlington Raceway]]
+| [[Darlington, South Carolina]]
+| September 6
+| 5 pm
+| rowspan="7" | USA
+| rowspan="2" | MRN
+|-
+! 28
+| [[Enjoy Illinois 300]]
+|nowrap| {{Color box|white|O|border=silver}} [[Gateway Motorsports Park|World Wide Technology Raceway]]
+| [[Madison, Illinois]]
+| September 13
+| 3 pm
+|-
+! 29
+| [[Bass Pro Shops Night Race]]
+| {{Color box|white|O|border=silver}} [[Bristol Motor Speedway]]
+| [[Bristol, Tennessee]]
+| September 19
+| 7:30 pm
+| PRN
+|-
+! 30
+|nowrap| [[NASCAR Cup Series at Kansas Speedway#Fall race|Hollywood Casino 400]]
+| {{Color box|white|O|border=silver}} [[Kansas Speedway]]
+| [[Kansas City, Kansas]]
+|nowrap| September 27
+| 3 pm
+| MRN
+|-
+! 31
+| [[NASCAR Cup Series at Las Vegas Motor Speedway#Fall race|South Point 400]]
+| {{Color box|white|O|border=silver}} [[Las Vegas Motor Speedway]]
+| [[Las Vegas, Nevada]]
+| October 4
+| 5:30 pm
+| rowspan="2" | PRN
+|-
+! 32
+| [[Bank of America 400]]<ref>{{Cite web |date=February 3, 2026 |title=Charlotte Motor Speedway returns to oval racing for Bank of America 400 chase weekend |url=https://www.jayski.com/2026/02/03/charlotte-motor-speedway-returns-to-oval-racing-for-bank-of-america-400-chase-weekend/ |website=[[Jayski's Silly Season Site]] |access-date=February 3, 2026}}</ref>
+|nowrap| {{Color box|white|O|border=silver}} [[Charlotte Motor Speedway]]{{Efn|The fall Charlotte race was originally announced as on the Roval configuration, but news broke in February that it would move to the oval track.<ref name="Gluck">{{cite news |url=https://www.nytimes.com/athletic/6999531/2026/01/27/nascar-roval-playoff-charlotte-oval/ |title=By ditching Roval, NASCAR continues hot streak of favorable moves |website=[[The Athletic]] |publisher=[[The New York Times]] |last=Gluck |first=Jeff |date=January 27, 2026 |access-date=February 3, 2026}}</ref>
+}}
+|nowrap| [[Concord, North Carolina]]
+| October 11
+| rowspan="2" | 3 pm
+|-
+! 33
+| [[NASCAR Cup Series at Phoenix Raceway#Fall race|Freeway Insurance 500]]<ref>{{cite news |url=https://tobychristie.com/nascar/cup-series/freeway-insurance-named-premier-partner-of-nascar/ |title=Freeway Insurance Named Premier Partner of NASCAR |website=TobyChristie.com |last=Srigley |first=Joseph |date=October 31, 2025 |access-date=October 31, 2025}}</ref>
+| {{Color box|white|O|border=silver}} [[Phoenix Raceway]]
+| [[Avondale, Arizona]]
+| October 18
+| rowspan="4" | MRN
+|-
+! 34
+| [[YellaWood 500]]
+| {{Color box|white|O|border=silver}} [[Talladega Superspeedway]]
+| [[Lincoln, Alabama]]
+| October 25
+| rowspan="2" | 2 pm
+| rowspan="3" | NBC
+|-
+! 35
+| [[Xfinity 500]]
+| {{Color box|white|O|border=silver}} [[Martinsville Speedway]]
+| [[Ridgeway, Virginia]]
+|November 1
+|-
+! 36
+| [[NASCAR Cup Series Championship Race|Season Finale 400]]
+| {{Color box|white|O|border=silver}} [[Homestead–Miami Speedway]]
+| [[Homestead, Florida]]
+| November 8
+| 3 pm
+|}
+
+=== Notes ===
+{{Notelist}}
+
+===Schedule changes===
+[[Homestead–Miami Speedway]] returned to its traditional date as the season finale for all three major series.<ref>{{cite web |date=May 7, 2025 |title=NASCAR Championship Weekend to return to Homestead in 2026 |url=https://www.jayski.com/2025/05/07/nascar-championship-weekend-to-return-to-homestead-in-2026 |access-date=July 25, 2025 |website=[[Jayski's Silly Season Site]] |publisher=NASCAR Digital Media}}</ref> To accommodate this change, [[New Hampshire Motor Speedway]] was removed from The Chase.<ref name="2026schedule"/> [[Chicago Street Course]] officials announced that the [[Grant Park 165]] will not return in 2026, with hopes to revive the event in future seasons.<ref>{{cite magazine |last=Crandall |first=Kelly |date=July 18, 2025 |title=Chicago street circuit dropped from NASCAR schedule for 2026 |url=https://racer.com/2025/07/18/chicago-dropped-from-nascar-schedule-for-2026 |access-date=July 18, 2025 |magazine=[[Racer (magazine)|Racer]] |archive-url=https://web.archive.org/web/20250901132733/https://racer.com/2025/07/18/chicago-dropped-from-nascar-schedule-for-2026 |archive-date=September 1, 2025 |url-status=dead}}</ref> The Cup Series returned to Southern California with a [[Coronado Street Course|street race]] at [[Naval Base Coronado]] near [[San Diego]].<ref>{{cite web |date=July 23, 2025 |title=San Diego to host NASCAR's latest cup series innovation with a street race at Naval Base Coronado |url=https://www.jayski.com/2025/07/23/nascar-near-a-deal-to-run-san-diego-street-course-race/ |access-date=July 23, 2025 |website=[[Jayski's Silly Season Site]] |publisher=NASCAR Digital Media}}</ref> To accommodate this change, [[NASCAR Cup Series at Mexico City|Mexico City]] was dropped from the schedule due to a conflict with the [[2026 FIFA World Cup]].<ref>{{cite news |url=https://www.nytimes.com/athletic/6523588/2025/07/30/nascar-2026-schedule-mexico-city-chicagoland/ |title=Mexico City is out for NASCAR's 2026 schedule; Chicagoland likely in: Sources |website=[[The Athletic]] |publisher=[[New York Times]] |last=Bianchi |first=Jordan |date=July 30, 2025 |access-date=July 30, 2025}}</ref> The [[NASCAR All-Star Race]] moved from [[North Wilkesboro Speedway]] to [[Dover Motor Speedway]], giving the former a [[NASCAR Cup Series at North Wilkesboro Speedway|points race]], the first regular-season race held since [[1996 NASCAR Winston Cup Series|1996]].<ref name="2026schedule"/> [[Chicagoland Speedway]] returned to the schedule for the first time since [[2019 Monster Energy NASCAR Cup Series|2019]].<ref name="2026schedule"/> The [[Charlotte Motor Speedway]] [[Bank of America 400|fall race]] moved away from the [[Bank of America Roval 400|roval layout]] to the oval after eight years as a road course race.<ref name="Gluck"/>
+
+==Season summary==
+===Preseason races===
+Due to [[January 30 – February 2, 2026 nor'easter|a historic snowstorm]] over the United States, the [[2026 Cook Out Clash|Cook Out Clash]] was postponed three times from its original Saturday and Sunday dates, before ultimately being condensed to a one-day event on Wednesday, February 4.<ref>{{cite web |date=January 29, 2026 |title=Cook Out Clash Saturday events postponed at Bowman Gray Stadium |url=https://www.nascar.com/news-media/2026/01/29/cook-out-clash-saturday-events-postponed-at-bowman-gray-stadium/ |website=[[NASCAR]]}}</ref><ref>{{cite web |date=January 31, 2025 |title=Clash postponed to Monday |url=https://www.jayski.com/2026/01/31/cook-out-clash-postponed-to-monday/}}</ref><ref name="clashpostponed" /> Reigning champion [[Kyle Larson]] won pole position. Weather plagued the event, causing NASCAR to mandate use of wet weather tires after a scheduled half-race break. After an event record 17 cautions, [[Ryan Preece]] won the Clash, joining [[Jeff Gordon]] and [[Denny Hamlin]] as drivers who won the Clash before winning their first points paying race.<ref>{{cite web |date=February 4, 2026 |title=Ryan Preece wins Cook Out Clash at Bowman Gray amid winter weather |url=https://www.nascar.com/news-media/2026/02/04/cook-out-clash-recap-2026-ryan-preece-wins-bowman-gray/ |website=[[NASCAR]]}}</ref>
+
+The [[2026 America 250 Florida Duel at Daytona|Duel at Daytona]] races set the starting order for the [[2026 Daytona 500|Daytona 500]], with the exception of the front row, which is set by the fastest two times in qualifying. [[Kyle Busch]] and [[Chase Briscoe]] won the pole and second place respectively, and therefore started first in each duel race.<ref>{{Cite web |author=Staff Report |date=February 13, 2025 |title=Busch wins pole for Daytona 500; Briscoe on front row for second straight year |url=https://www.nascar.com/news-media/2026/02/11/kyle-busch-wins-pole-for-daytona-500-briscoe-on-front-row-for-second-straight-year/ |access-date=February 12, 2026 |website=[[NASCAR]]}}</ref> During the first Duel, [[RFK Racing]] (whose cars used the number font of late RFK driver [[Greg Biffle]], as did [[Kaulig Racing]]'s no. 16) dominated the majority of the race, seeking to help [[Corey LaJoie]] clinch among the "Open" cars, as he had not qualified for the race. Unfortunately for LaJoie, a last lap wreck ended his chances of making the 500. [[Casey Mears]], despite a spin earlier in the race, dodged LaJoie during the wreck, clinching his spot into the race, making his first Daytona 500 start since [[2019 Daytona 500|2019]].<ref name="Daytona Duels Recap">{{cite web |title=Logano, Elliott win Duel races; Mears, Alfredo lock into Daytona 500 |url=https://www.nascar.com/news-media/2026/02/12/joey-logano-wins-first-duel-race-mears-locks-into-daytona-500/ |access-date=February 12, 2026 |website=[[NASCAR]]}}</ref>
+
+During the second Duel, which ran caution-free, [[Chase Elliott]] finished 0.065 seconds ahead of [[Carson Hocevar]].<ref name="Daytona Duels Recap" /> [[Anthony Alfredo]] finished in position to make the Daytona 500 as the last open car, but was disqualified after a post-race technical inspection found that his car's cooling hoses were not secured. Due to the disqualification, the next-best finishing open car, driven by [[B. J. McLeod]], qualified for the race.<ref>{{Cite web |date=February 12, 2026 |title=Anthony Alfredo finish disallowed following second duel race |url=https://www.jayski.com/2026/02/12/anthony-alfredo-finish-disallowed-following-second-duel-race/ |access-date=February 13, 2026 |website=[[Jayski's Silly Season Site]] |publisher=NASCAR Digital Media Network}}</ref>
+
+===Regular season===
+NASCAR moved the [[2026 Daytona 500|Daytona 500]] start time forward an hour to 1:30&nbsp;p.m. eastern time due to the threat of rain in the evening.<ref name="Daytona500movedup" /> [[Zane Smith]] won stage one after staying out in the middle of pit cycles, as well as getting his first career stage win. Stage two featured a battle between polesitter [[Kyle Busch]] and [[Kyle Larson]] for the lead for the majority of the stage. [[Bubba Wallace]], however, won the second stage, after narrowly avoiding [[The Big One (motorsport)|"The Big One"]], caused by [[Denny Hamlin]] tapping [[Justin Allgaier]]'s rear bumper, triggering a 20-car pileup on the tri-oval.<ref>{{cite web |date=February 15, 2026 |title='The Big One' At Daytona 500 Involves 20 Cars In Huge Wreck Up Front |url=https://www.foxsports.com/stories/nascar/daytona-500-big-one-wreck-hamlin |website=[[Fox Sports]]}}</ref> After a restart with five laps remaining, [[Tyler Reddick]] escaped two wrecks and passed [[Chase Elliott]] for the win exiting turn four.<ref name="DaytonaRecap">{{cite web |date=February 15, 2026 |title=A slam-dunk win! Tyler Reddick triumphs in 68th running of Daytona 500 |url=https://www.nascar.com/news-media/2026/02/15/nascar-cup-series-daytona-500-2026-race-recap/ |website=[[NASCAR]]}}</ref>
+
+[[Tyler Reddick]] won the pole at [[2026 Autotrader 400|Atlanta]] after qualifying was canceled due to rain.<ref>{{cite web |last=DeGroot |first=Nick |date=February 21, 2026 |title=Atlanta NASCAR Cup qualifying cancelled, Tyler Reddick on pole |url=https://www.motorsport.com/nascar-cup/news/atlanta-nascar-cup-qualifying-cancelled-tyler-reddick-on-pole/10799496/ |access-date=February 21, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Hampton, Georgia]]}}</ref> [[Austin Cindric]] won stage one, and [[William Byron (racing driver)|William Byron]] originally appeared to have won stage two, however [[Bubba Wallace]] was later ruled as the stage winner, finishing inches in front of Byron due to a spin by [[Kyle Larson]] narrowly behind them. During overtime, Reddick, who was involved in a crash on 160, won the race. Reddick became the sixth driver ever, and the first since [[Matt Kenseth]] in [[2009 NASCAR Sprint Cup Series|2009]], to win the first two races of the season.<ref name="AtlantaRecap">{{cite web |date=February 22, 2026 |title=Tyler Reddick rallies from multicar wreck, rolls to second win in a row in overtime at EchoPark |url=https://www.nascar.com/news-media/2026/02/22/cup-series-2026-echopark-speedway-race-results-recap/ |website=[[NASCAR]]}}</ref>
+
+[[Tyler Reddick]] won his second pole of the season at [[2026 DuraMAX Texas Grand Prix|Austin]], his third pole win at the track, with the other pole wins being [[2021 EchoPark Texas Grand Prix|2021]] and [[2025 EchoPark Automotive Grand Prix|2025]].<ref>{{cite web |last=DeGroot |first=Nick |date=February 28, 2026 |title=Tyler Reddick earns NASCAR Cup pole at COTA ahead of Ross Chastain |url=https://www.motorsport.com/nascar-cup/news/tyler-reddick-earns-nascar-cup-pole-cota-ross-chastain/10801173/ |access-date=February 28, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Austin, Texas]]}}</ref> Pit strategies shook up the stage standings, with [[Ross Chastain]] winning stage one and [[Ty Gibbs]] winning stage two. On lap 76, [[Myatt Snider]] replaced [[Alex Bowman]], as Bowman experienced [[vertigo]] symptoms during the race.<ref>{{cite web |date=March 1, 2026 |title=Alex Bowman, AJ Allmendinger treated for medical issues at COTA |url=https://www.jayski.com/2026/03/01/alex-bowman-aj-allmendinger-treated-for-medical-issues-at-cota/ |access-date=March 2, 2026 |website=[[Jayski's Silly Season Site]]}}</ref> Reddick dominated the later half of the race, becoming the first driver in series history to win the first three races to begin a season.<ref name="AustinRecap">{{cite web |date=March 1, 2026 |title=Tyler Reddick wins COTA for historic third straight victory to open 2026 |url=https://www.nascar.com/news-media/2026/03/01/cup-series-circuit-of-the-americas-recap-results-2026-tyler-reddick/ |access-date=March 2, 2026 |website=[[NASCAR]]}}</ref>
+
+[[Joey Logano]] won the pole at [[2026 Straight Talk Wireless 500|Phoenix]].<ref>{{cite web |last=DeGroot |first=Nick |date=March 7, 2026 |title=2026 NASCAR Cup at Phoenix full starting lineup: Joey Logano on pole |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-at-phoenix-full-starting-lineup-joey-logano-on-pole/10803180/ |access-date=March 7, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Avondale, Arizona]]}}</ref> Similar to the [[2025 NASCAR Cup Series Championship Race|previous season's fall race]] at the [[Phoenix Raceway|track]], tires had increased tire wear, playing a key role in the race. [[Ryan Blaney]] won stage one and [[Christopher Bell (racing driver)|Christopher Bell]] won stage two. A late race caution on lap 295 reset the field; Bell had led 176 laps to that point. Blaney passed the leader, [[Ty Gibbs]], on lap 303, holding off a hard charging Bell and ultimately winning the race, getting his second consecutive win at the track.<ref name="PhoenixRecap">{{cite web |date=March 8, 2026 |title=Ryan Blaney rallies for Phoenix victory, completes Penske weekend sweep |url=https://www.nascar.com/news-media/2026/03/08/nascar-cup-series-phoenix-race-results-recap/ |access-date=March 8, 2026 |website=[[NASCAR]]}}</ref>
+
+[[Christopher Bell (racing driver)|Christopher Bell]] won the pole at [[2026 Pennzoil 400|Las Vegas]].<ref>{{cite web |last=DeGroot |first=Nick |date=March 14, 2026 |title=Christopher Bell earns Las Vegas NASCAR Cup pole in JGR 1-2-3 |url=https://www.motorsport.com/nascar-cup/news/christopher-bell-2026-nascar-cup-pole-las-vegas-jgr/10805305/ |access-date=March 14, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Las Vegas]]}}</ref> Bell won stage one and [[William Byron (racing driver)|William Byron]] won stage two. [[Denny Hamlin]], who finished second to Bell in qualifying, dominated the race. Hamlin would overcome a pit road speeding penalty earlier in the race and led a race high 134 laps en route to his 61st Cup Series win, putting him 10th all time on [[List of all-time NASCAR Cup Series winners|NASCAR's all-time winners]], as well as claiming his [[2025 South Point 400|second consecutive win]] at the [[Las Vegas Motor Speedway|track]].<ref name="LasVegasRecap">{{cite web |date=March 15, 2026 |title=Denny shines! Hamlin overcomes speeding penalty en route to Las Vegas win |url=https://www.nascar.com/news-media/2026/03/15/nascar-cup-series-las-vegas-race-recap-results/ |access-date=March 15, 2026 |website=[[NASCAR]]}}</ref>
+
+[[Tyler Reddick]] won the pole at [[2026 Goodyear 400|Darlington]].<ref>{{cite web |last=DeGroot |first=Nick |date=March 21, 2026 |title=NASCAR Cup Darlington starting lineup: Tyler Reddick beats Bubba Wallace to pole |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-darlington-starting-lineup-tyler-reddick-pole-23xi/10807114/ |access-date=March 21, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Darlington, South Carolina]]}}</ref> [[Brad Keselowski]] swept the stages, seeking to get his first win since [[2024 Goodyear 400|2024's running of the race]]. Reddick battled for the lead with Keselowski, eventually overtaking him on lap 265, winning the race and continuing his early season success. Reddick became the third driver ever, along with [[Dale Earnhardt]] and [[Bill Elliott]], to win 4 of the first 6 races of a season.<ref name="DarlingtonRecap">{{cite web |date=March 22, 2026 |title=Tyler Reddick pulls off rare Dale Earnhardt feat with NASCAR Darlington win |url=https://sports.yahoo.com/articles/tyler-reddick-pulls-off-rare-001740000.html |access-date=March 27, 2026 |website=[[Yahoo Sports]]}}</ref><ref>{{cite web |date=March 22, 2026 |title=Tyler Reddick overcomes early issues to win at Darlington for fourth victory of 2026 |url=https://www.nascar.com/news-media/2026/03/22/cup-series-darlington-race-recap-results/ |access-date=March 22, 2026 |website=[[NASCAR]]}}</ref>
+
+[[Denny Hamlin]] won the pole at [[2026 Cook Out 400 (Martinsville)|Martinsville]].<ref>{{cite web |last=DeGroot |first=Nick |date=March 28, 2026 |title=NASCAR Cup Martinsville starting lineup: Denny Hamlin wins pole, SVG impresses |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-martinsville-starting-lineup/10809138/ |access-date=March 28, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Martinsville, Virginia]]}}</ref> A caution came out on lap 77, ending stage one early with Hamlin winning. Hamlin eventually swept the stages. [[Chase Elliott]] would take advantage of a late race caution and would hold off Hamlin for his 22nd career win and first win at [[Martinsville Speedway]] since [[2020 NASCAR Cup Series|2020]].<ref name="MartinsvilleRecap">{{cite web |date=March 29, 2026 |title=Clock strikes 9! Elliott holds off Hamlin to win Martinsville |url=https://www.nascar.com/news-media/2026/03/29/cup-series-martinsville-spring-race-recap-results/ |access-date=March 29, 2026 |website=[[NASCAR]]}}</ref>
+
+[[Ryan Blaney]] won the pole at [[2026 Food City 500|Bristol]].<ref>{{cite web |last=DeGroot |first=Nick |date=April 11, 2026 |title=NASCAR Cup Bristol starting lineup: Ryan Blaney beats Reddick to pole |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-bristol-starting-lineup-ryan-blaney-cup-pole/10812229/ |access-date=April 11, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Bristol, Tennessee]]}}</ref> [[Kyle Larson]] swept the stages for the second straight day, as he also swept [[2026 Suburban Propane 300|Saturday's O'Reilly race]] stages. A late race caution on lap 498 would shake up the race and cause [[Green–white–checkered finish|overtime]], [[Ty Gibbs]] held off a hard charging Blaney and Larson to get his first career Cup Series win, becoming the first Cup driver to get their first win at [[Bristol Motor Speedway]] since [[Kurt Busch]] in [[2002 Food City 500|2002]].<ref name="BristolRecap">{{cite web |date=April 12, 2026 |title=Ty Gibbs holds off Blaney in overtime, scores first Cup Series win at Bristol |url=https://www.nascar.com/news-media/2026/04/12/cup-series-2026-bristol-spring-food-city-500-race-recap/ |access-date=April 12, 2026 |website=[[NASCAR]]}}</ref>
+
+[[Tyler Reddick]] won the pole at [[2026 AdventHealth 400|Kansas]].<ref>{{cite web |last=DeGroot |first=Nick |date=April 18, 2026 |title=NASCAR Cup Kansas starting lineup: Tyler Reddick beats Denny Hamlin to pole |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-kansas-starting-lineup-tyler-reddick-pole/10813735/ |access-date=April 18, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Kansas City, Kansas]]}}</ref> [[Denny Hamlin]] won stage one and [[Kyle Larson]] won stage two. Reddick ran out of fuel on lap 266 before a spin by [[Cody Ware]] triggered a caution, forcing overtime. Reddick, following pit stops, was able to pass three cars in the final two laps of overtime for his fifth win of the season,<ref name="KansasRecap">{{cite web |date=April 19, 2026 |title=Reddick prevails in overtime at Kansas for fifth Cup Series win of 2026 |url=https://www.nascar.com/news-media/2026/04/19/cup-series-2026-kansas-spring-race-recap-results/ |access-date=April 20, 2026 |website=[[NASCAR]]}}</ref> becoming the first driver since [[Dale Earnhardt]] in [[1987 NASCAR Winston Cup Series|1987]] to win five of the first nine races in a season.
+
+Rain at [[2026 Jack Link's 500|Talladega]] canceled qualifying, with [[Tyler Reddick]] winning the pole.<ref>{{cite web |last=DeGroot |first=Nick |date=April 25, 2026 |title=NASCAR Cup Talladega qualifying rained out, Tyler Reddick on pole |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-talladega-qualifying-rained-out-tyler-reddick-on-pole/10815395/ |access-date=April 25, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Lincoln, Alabama]]}}</ref> The stages were changed to prevent fuel saving.<ref>{{cite web |date=April 7, 2026 |title=Hauler Talk: NASCAR makes moves to address fuel saving at superspeedways |url=https://www.nascar.com/news-media/2026/04/07/cup-series-hauler-talk-nascar-addresses-fuel-saving-superspeedways/ |access-date=April 26, 2026 |website=[[NASCAR]]}}</ref> [[Ryan Preece]] won stage one. On lap 115, [[The Big One (motorsport)|"The Big One"]] struck, taking out 26 drivers, such as [[Kyle Larson]], [[Bubba Wallace]], [[Joey Logano]], [[Daniel Suárez]], [[Ty Gibbs]], [[Ryan Blaney]], and others. [[Ross Chastain]] won stage two. The race ended with [[Carson Hocevar]] scoring his first career win by 0.114 seconds over [[Chris Buescher]] and [[Alex Bowman]].<ref name="TalladegaRecap">{{cite web |date=April 26, 2026 |title=Carson Hocevar earns first career Cup win in Talladega thriller |url=https://www.nascar.com/news-media/2026/04/26/cup-series-2026-talladega-spring-race-recap/ |access-date=April 27, 2026 |website=[[NASCAR]]}}</ref>
+
+[[Carson Hocevar]] won the pole at [[2026 Würth 400|Texas]].<ref>{{cite web |last=DeGroot |first=Nick |date=May 2, 2026 |title=NASCAR Cup Texas starting lineup: Spire sweeps front row with Hocevar and Suarez |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-texas-starting-lineup-hocevar-suarez-pole-spire/10817443/ |access-date=May 2, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Fort Worth, Texas]]}}</ref> [[Erik Jones]] won stage one, his first career stage win. [[Chase Elliott]] won stage two. Elliott would dominate the later half of the race, and ultimately would hold off runner-up [[Denny Hamlin]] after a late race caution for his second career win at [[Texas Motor Speedway]].<ref name="TexasRecap">{{cite web |date=May 3, 2026 |title=Chase Elliott scores second win of 2026 with Texas triumph |url=https://www.nascar.com/news-media/2026/05/03/cup-series-2026-texas-motor-speedway-race-recap/ |access-date=May 3, 2026 |website=[[NASCAR]]}}</ref>
+
+[[Shane van Gisbergen]] won the pole at [[2026 Go Bowling at The Glen|Watkins Glen]].<ref>{{cite web |last=DeGroot |first=Nick |date=May 9, 2026 |title=NASCAR Cup Watkins Glen starting lineup: Shane van Gisbergen beats McDowell to pole |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-watkins-glen-starting-lineup-shane-van-gisbergen-pole/10819537/ |access-date=May 9, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Watkins Glen, New York]]}}</ref> [[Ross Chastain]] won stage one and van Gisbergen won stage two. Following pit cycles, stage three featured a battle between [[Ty Gibbs]] and [[Connor Zilisch]]. However, van Gisbergen, after ending up 24th after pit cycles on lap 76, was able to overtake Gibbs with 8 to go and would win the race, claiming his second consecutive win at [[Watkins Glen International]].<ref name="WatkinsGlenRecap">{{cite web |date=May 10, 2026 |title=Shane van Gisbergen storms to Watkins Glen win in thrilling drive |url=https://www.nascar.com/news-media/2026/05/10/cup-series-watkins-glen-2026-recap-results/ |access-date=May 10, 2026 |website=[[NASCAR]]}}</ref>
+
+[[Denny Hamlin]] won the pole for the exhibition race at [[2026 NASCAR All-Star Race|Dover]].<ref>{{cite web |last=DeGroot |first=Nick |date=May 16, 2026 |title=Denny Hamlin spins, still wins pole for All-Star Race in crazy qualifying session |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-qualifying-all-star-race-hamlin-pole/10821390/ |access-date=May 16, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Dover, Delaware]]}}</ref> On lap two, a wreck occurred with [[Ryan Preece]]'s car catching on fire, bringing out the red flag early. Another caution on lap 63 ended segment one early, with [[Bubba Wallace]] winning segment one. Segment two featured an inversion of the field, with [[Tyler Reddick]] winning segment two. The field was shrunk to 26 cars for the final segment. Hamlin eventually dominated the final segment, holding off [[Chase Briscoe]] for his second [[NASCAR All-Star Race]] win, and first since [[2015 NASCAR Sprint All-Star Race|2015]].<ref name="DoverRecap">{{cite web |date=May 17, 2026 |title=Hamlin conquers the concrete, banks second career All-Star Race at Dover |url=https://www.nascar.com/news-media/2026/05/17/2026-cup-series-dover-all-star-race-recap/ |access-date=May 17, 2026 |website=[[NASCAR]]}}</ref>
+
+The next weekend's race at [[2026 Coca-Cola 600|Charlotte]] was marred by the death of [[Kyle Busch]] that Thursday, as he had developed sepsis stemming from pneumonia earlier in the week. Rain at the track canceled qualifying, with [[Tyler Reddick]] winning the pole.<ref>{{cite web |last=DeGroot |first=Nick |date=May 23, 2026 |title=Coca-Cola 600 starting lineup: NASCAR Cup qualifying canceled due to rain |url=https://www.motorsport.com/nascar-cup/news/coca-cola-600-starting-lineup-nascar-cup-qualifying-canceled-due-to-rain/10823468/ |access-date=May 23, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Charlotte, North Carolina]]}}</ref> [[Kyle Larson]] won stage one, [[Denny Hamlin]] won stage two, and [[Christopher Bell (racing driver)|Christopher Bell]] won stage three, with [[Joe Gibbs Racing]] claiming a 1-2-3-4 sweep. After a thrilling final stage, run with rain in the area, [[Daniel Suárez]] was announced as the winner after the race was called 27 laps early due to rainfall at the track. Suárez claimed his first win since the [[2024 Ambetter Health 400]] and third overall in his career. Suárez would dedicate the win to Busch.<ref name="CharlotteRecap">{{Cite web |last=Spencer |first=Reid |date=May 24, 2026 |title=Daniel Suárez surges in Charlotte, lands emotional Coca-Cola 600 victory |url=https://www.nascar.com/news-media/2026/05/24/cup-series-2026-charlotte-coca-cola-600-race-recap/ |access-date=May 25, 2026 |website=[[NASCAR]]}}</ref>
+
+Rain at [[2026 Cracker Barrel 400|Nashville]] canceled qualifying, with [[Denny Hamlin]] winning the pole.<ref>{{cite web |last=DeGroot |first=Nick |date=May 30, 2026 |title=NASCAR Cup Nashville starting lineup: Denny Hamlin on pole as qualifying cancelled |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-nashville-starting-lineup-denny-hamlin-on-pole-as-storms-cancel-qualifying/10825592/ |access-date=May 30, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Lebanon, Tennessee]]}}</ref> Hamlin immediately received a black flag for a jump start penalty, the first of his career.<ref>{{cite web |date=June 1, 2026 |title=Why Denny Hamlin was penalized at start of NASCAR Nashville race |url=https://sports.yahoo.com/articles/why-denny-hamlin-penalized-start-010626321.html |access-date=June 1, 2026 |website=[[Yahoo! Sports]]}}</ref> After a caution on lap 82 set up a one-lap shootout, [[A. J. Allmendinger]] won stage one, his first stage win on an oval. Another caution on lap 183 ended stage two under caution, with [[Daniel Suárez]] winning stage two. After a late race caution, Hamlin passed teammates [[Christopher Bell (racing driver)|Christopher Bell]] and [[Chase Briscoe]] to win the race after a three-wide move, claiming [[Toyota]]'s first win at [[Nashville Superspeedway]], as well as overcoming his penalty from earlier in the race.<ref name="NashvilleRecap">{{cite web |date=May 31, 2026 |title=Hamlin prevails on late restart, wins Cup race at Nashville in JGR 1-2-3 |url=https://www.nascar.com/news-media/2026/05/31/2026-cup-series-nashville-race-recap/ |access-date=May 31, 2026 |website=[[NASCAR]]}}</ref>
+
+[[Denny Hamlin]] won the pole at [[2026 FireKeepers Casino 400|Michigan]].<ref>{{cite web |last=DeGroot |first=Nick |date=June 6, 2026 |title=NASCAR Cup Michigan starting lineup: Denny Hamlin snags pole, but will start from rear |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-michigan-starting-lineup-denny-hamlin-pole-hocevar/10827757/ |access-date=June 6, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Brooklyn, Michigan]]}}</ref> Hamlin later went to the rear following unapproved adjustments for the start of the race.<ref>{{cite web |date=June 7, 2026 |title=Hamlin Charges From Rear to Win FireKeepers Casino 400 at Michigan |url=https://www.mispeedway.com/2026/06/08/hamlin-charges-from-rear-to-win-firekeepers-casino-400-at-michigan/ |access-date=June 11, 2026 |website=[[Michigan International Speedway]]}}</ref> [[Tyler Reddick]] won stage one, and [[Chase Elliott]] won stage two. On lap 149, [[Christopher Bell (racing driver)|Christopher Bell]] and Elliott wrecked, bringing out the red flag, as well as causing damage to the outside [[safer barrier]]. After another caution on lap 154, Hamlin dominated the later half of the race. Hamlin claimed his 63rd career win, and would tie long time teammate [[Kyle Busch]] for [[List of all-time NASCAR Cup Series winners|9th on the all time NASCAR win list]], waving a special flag in memoriam.<ref name="MichiganRecap">{{cite web |date=June 7, 2026 |title=Denny Hamlin snags Michigan win for third victory of 2026 |url=https://www.nascar.com/news-media/2026/06/07/2026-cup-series-michigan-international-speedway-race-recap/ |access-date=June 7, 2026 |website=[[NASCAR]]}}</ref>
+
+NASCAR moved [[2026 The Great American Getaway 400|Pocono]]'s start time up two hours to 1 p.m. eastern time due to the threat of evening rain.<ref name="PoconoMovedUp" /> [[Denny Hamlin]] won the pole.<ref>{{cite web |last=DeGroot |first=Nick |date=June 13, 2026 |title=NASCAR Cup Pocono starting lineup: Denny Hamlin earns pole as Wallace, Hocevar spin |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-pocono-starting-lineup-denny-hamlin-earns-pole-as-wallace-hocevar-spin/10830098/ |access-date=June 13, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Long Pond, Pennsylvania]]}}</ref> Hamlin won stage one, and [[Todd Gilliland]] won stage two, his first career stage win. Hamlin overtook teammate [[Christopher Bell (racing driver)|Christopher Bell]] with 5 laps to go to eventually win the race, claiming his eighth career win at [[Pocono Raceway]], his first career [[three-peat]], as well as being three days removed from the [[2006 Pocono 500]], Hamlin's first career win.<ref name="PoconoRecap">{{cite web |date=June 14, 2026 |title=Three in a row! Denny Hamlin wins Cup Series race at Pocono |url=https://www.nascar.com/news-media/2026/06/14/2026-cup-series-pocono-race-recap/ |access-date=June 14, 2026 |website=[[NASCAR]]}}</ref>
+
+[[Shane van Gisbergen]] won the pole at [[2026 Anduril 250|Coronado]].<ref>{{cite web |last=DeGroot |first=Nick |date=June 20, 2026 |title=NASCAR Cup San Diego starting lineup: Shane van Gisbergen rockets to pole |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-san-diego-starting-lineup-shane-van-gisbergen-pole/10831991/ |access-date=June 20, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[San Diego|San Diego, California]]}}</ref> [[Ryan Blaney]] won stage one while [[Ryan Preece]] won stage two. After teammate [[Tyler Reddick]] spun with 4 laps to go, [[Corey Heim]] scored his first career win in just his 13th start after battling with Reddick.<ref name="CoronadoRecap">{{Cite web |date=June 21, 2026 |title=Corey Heim wins Anduril 250 Race the Base in San Diego |url=https://www.jayski.com/2026/06/21/corey-heim-scores-dramatic-first-nascar-cup-win-on-naval-base-coronado-street-course/ |access-date=June 21, 2026 |website=[[Jayski's Silly Season Site]]}}</ref>
+
+[[Ty Gibbs]] won the pole at [[2026 Toyota/Save Mart 350|Sonoma]].<ref>{{Cite web |last=Christie |first=Toby |date=June 27, 2026 |title=Ty Gibbs Bumps Carson Hocevar From Pole Late In Sonoma Qualifying Session |url=https://tobychristie.com/nascar/cup-series/ty-gibbs-bumps-carson-hocevar-from-pole-late-in-sonoma-qualifying-session/ |access-date=June 27, 2026 |website=TobyChristie.com}}</ref> Gibbs swept both stages, [[Shane van Gisbergen]] won the race after holding off [[Chase Briscoe]].<ref name="SonomaRecap">{{Cite web |date=June 29, 2026 |title=Shane van Gisbergen wins Toyota / Save Mart 350 |url=https://www.jayski.com/2026/06/28/shane-van-gisbergen-holds-off-chase-briscoe-for-sonoma-victory/ |access-date=June 29, 2026 |website=[[Jayski's Silly Season Site]]}}</ref> For the first time all season, the points leader changed as [[Denny Hamlin]] passed [[Tyler Reddick]] to take over the points lead.<ref>{{Cite web |last=Watson |first=Andrew |date=June 29, 2026 |title=Denny Hamlin takes over the NASCAR Cup Series regular season points lead |url=https://newschannel9.com/sports/sports-headlines/denny-hamlin-takes-over-the-nascar-cup-series-regular-season-points-lead |access-date=July 5, 2026 |website=[[WTVC]]}}</ref>
+[[File:Chase Briscoe 2026 eero 400 Victory Lane.jpg|thumb|[[Chase Briscoe]] celebrating his [[2026 eero 400|eero 400]] win at [[Chicagoland Speedway]].]]
+[[Denny Hamlin]] won the pole at the series return to [[2026 eero 400|Chicagoland]] for the first time since [[2019 Monster Energy NASCAR Cup Series|2019]].<ref>{{cite web |last=DeGroot |first=Nick |date=July 4, 2026 |title=NASCAR Cup Chicagoland starting lineup: Denny Hamlin beats Larson to pole by 0.001s |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-chicagoland-starting-lineup-hamlin-pole-over-larson/10836380/ |access-date=July 4, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Joliet, Illinois]]}}</ref> [[William Byron (racing driver)|William Byron]] won stages one and two. After overtaking Byron during the final pit cycles, [[Chase Briscoe]] won the race, also holding off teammates [[Christopher Bell (racing driver)|Christopher Bell]] and Hamlin.<ref name="ChicagolandRecap">{{Cite web |date=July 6, 2026 |title=Chase Briscoe wins eero 400 at Chicagoland |url=https://www.jayski.com/2026/07/05/chase-briscoe-holds-off-christopher-bell-for-chicagoland-triumph/ |access-date=July 6, 2026 |website=[[Jayski's Silly Season Site]]}}</ref><ref>{{Cite web |last=Albino |first=Dustin |date=July 6, 2026 |title=Christopher Bell charges to runner-up finish at Chicagoland |url=https://www.jayski.com/2026/07/05/christopher-bell-charges-to-runner-up-finish-at-chicagoland/ |access-date=July 6, 2026 |website=[[Jayski's Silly Season Site]]}}</ref>
+
+[[Ryan Blaney]] won the pole at [[2026 Quaker State 400|Atlanta]].<ref>{{cite web |last=DeGroot |first=Nick |date=July 11, 2026 |title=NASCAR Cup Atlanta starting lineup: Penske 1-2 with Ryan Blaney on pole |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-atlanta-starting-lineup-penske-ryan-blaney-pole/10838194/ |access-date=July 11, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Hampton, Georgia]]}}</ref> The race was [[Racing flags#Red flag|red-flagged]] on lap 108 due to lightning and resumed after three hours. Blaney swept both stages, and on lap 255, a caution happened, causing [[Green–white–checkered finish|overtime]]. Blaney won the race.<ref>{{Cite web |date=July 13, 2026 |title=Ryan Blaney wins Quaker State 400 at Atlanta |url=https://www.jayski.com/2026/07/13/ryan-blaney-dominates-in-wild-one-at-atlantas-echopark-speedway/ |access-date=July 13, 2026 |website=[[Jayski's Silly Season Site]]}}</ref> Blaney also broke a record for the second-most laps led on a drafting track at 171, the most since [[Richard Petty]] during the [[1964 Daytona 500]]. Both [[Denny Hamlin]] and [[Tyler Reddick]] were locked into [[NASCAR Chase|The Chase]].<ref>{{Cite web |last=MacKenzie |first=Maggie |date=July 13, 2026 |title=First Two Drivers Officially Clinch Spots in NASCAR Playoffs |url=https://sports.yahoo.com/articles/first-two-drivers-officially-clinch-201004816.html |access-date=July 14, 2026 |website=Yahoo Sports}}</ref>
+
+[[North Wilkesboro Speedway]] returned to the schedule as a points paying race for the first time since [[1996 NASCAR Winston Cup Series|1996]].<ref name="NWSPointsrace" /> Rain at [[2026 Window World 450|the track]] canceled qualifying, with [[Ryan Blaney]] winning the pole.<ref>{{cite web |last=DeGroot |first=Nick |date=July 18, 2026 |title=NASCAR Cup North Wilkesboro starting lineup: Blaney on pole with qualifying cancelled |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-north-wilkesboro-starting-lineup-blaney-on-pole-with-qualifying-cancelled/10840016/ |access-date=July 18, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[North Wilkesboro, North Carolina]]}}</ref> [[Ty Gibbs]] won stage one, passing [[Shane van Gisbergen]] on the last lap. [[Joey Logano]] won stage two. Logano dominated stage three, holding off [[Denny Hamlin]] for his first win since the [[2025 Würth 400]].<ref>{{Cite web |date=July 20, 2026 |title=Joey Logano wins Window World 450 at North Wilkesboro |url=https://www.jayski.com/2026/07/20/joey-logano-dominates-return-to-points-racing-at-north-wilkesboro/ |access-date=July 20, 2026 |website=[[Jayski's Silly Season Site]]}}</ref> Blaney was locked into [[NASCAR Chase|The Chase]].<ref>{{Cite web |last=Mackenzie |first=Maggie |date=July 20, 2026 |title=NASCAR Chase Field Grows to Three Drivers After Ryan Blaney Clinches Spot |url=https://sports.yahoo.com/articles/nascar-chase-field-grows-three-030319890.html |access-date=July 25, 2026 |website=Yahoo Sports}}</ref>
+
+[[Carson Hocevar]] won the pole at [[2026 Brickyard 400|Indianapolis]].<ref>{{cite web |last=DeGroot |first=Nick |date=July 25, 2026 |title=NASCAR Cup Brickyard 400 starting lineup: Carson Hocevar earns pole in Spire 1-2 |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-brickyard-400-starting-lineup-carson-hocevar-pole/10841893/ |access-date=July 25, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Indianapolis, Indiana]]}}</ref> [[Ty Gibbs]] won the first stage, and [[Ross Chastain]] won the second stage. [[Corey Heim]] held off [[Christopher Bell (racing driver)|Christopher Bell]] and [[Joey Logano]] to win the race. Heim made history with this win, becoming the first part-time car to win a [[Crown Jewel (NASCAR)|crown jewel]] race since [[Trevor Bayne]] won the [[2011 Daytona 500]].<ref>{{cite web |date=July 26, 2026 |title=Part-Timer Heim Makes History With Brickyard 400 Win |url=https://www.indianapolismotorspeedway.com/news-multimedia/news/2026/07/26/07-26-by400-lead |access-date=July 27, 2026 |website=[[Indianapolis Motor Speedway]]}}</ref> Heim also became the youngest driver to win the [[Brickyard 400]] since [[Jeff Gordon]] in the [[1994 Brickyard 400]], as well as tying [[A. J. Foyt]] with his second win in fifthteen starts.<ref>{{cite web |date=July 26, 2026 |title=Corey Heim wins Brickyard 400; nets second career Cup Series victory |url=https://www.nascar.com/news-media/2026/07/26/cup-series-2026-brickyard-400-indianapolis-race-recap-results/ |access-date=July 27, 2026 |website=[[NASCAR]]}}</ref>
+
+[[Ryan Blaney]] won the pole at [[2026 Iowa Corn 350|Iowa]].<ref>{{cite web |last=DeGroot |first=Nick |date=August 8, 2026 |title=NASCAR Cup Iowa starting lineup: Ryan Blaney earns pole over Kyle Larson |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-iowa-starting-lineup-blaney-pole-over-larson/10845104/ |access-date=August 8, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Hampton, Iowa]]}}</ref> Blaney won stage one, while [[Christopher Bell (racing driver)|Christopher Bell]] won stage two. [[Ty Gibbs]] won the race and his second career win.<ref>{{Cite web |date=August 9, 2026 |title=Ty Gibbs fends off Christopher Bell for Iowa triumph in late-race thriller |url=https://www.nascar.com/news-media/2026/08/09/2026-cup-series-iowa-race-recap-results/ |access-date=August 9, 2026 |website=[[NASCAR]]}}</ref>
+
+[[Ryan Blaney]] won the pole at [[2026 Cook Out 400 (Richmond)|Richmond]].<ref>{{cite web |last=DeGroot |first=Nick |date=August 14, 2026 |title=NASCAR Cup Richmond starting lineup: Ryan Blaney takes pole position |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-richmond-starting-lineup-ryan-blaney-pole/10846418/ |access-date=August 14, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Richmond, Virginia]]}}</ref> Blaney won stage one. Blaney's [[NASCAR operations of Team Penske|Team Penske]] teammate [[Joey Logano]] won stage two. Following the last cycle of pit stops, Logano was able to hold off [[Chase Briscoe]] for his second win of the season, his first win at [[Richmond Raceway]] since the [[2017 Toyota Owners 400]].<ref>{{cite web |date=August 15, 2026 |title=Joey Logano wins Cup Series race at Richmond Raceway |url=https://www.nascar.com/news-media/2026/08/15/2026-cup-series-richmond-raceway-recap-results/ |access-date=August 21, 2026 |website=[[NASCAR]]}}</ref>
+
+NASCAR moved [[2026 Dollar Tree 301|New Hampshire]]'s start time up an hour to 2 p.m. due to the threat of evening rain.<ref name="LoudonMovedUp"/> [[Tyler Reddick]] won the pole.<ref>{{cite web |last=DeGroot |first=Nick |date=August 22, 2026 |title=NASCAR Cup New Hampshire starting lineup: Tyler Reddick on pole after 'unhappy' practice |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-new-hampshire-starting-lineup-tyler-reddick-on-pole-after-unhappy-practice/10848352/ |access-date=August 22, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Loudon, New Hampshire]]}}</ref> The race began on wet-weather tires until a competition caution came out on lap 40 to replace them. [[Kyle Larson]] won stage one, and [[2025 Mobil 1 301|defending race winner]] [[Ryan Blaney]] won stage two. Blaney dominated the final stage following an incident on pit road and held off [[Bubba Wallace]] for his second consecutive win at [[New Hampshire Motor Speedway]]. Following this race, Hamlin clinched the No. 1 seed for the Chase.<ref>{{cite web |date=August 23, 2026 |title=Ryan Blaney goes back-to-back at New Hampshire, secures 20th Cup Series win |url=https://www.nascar.com/news-media/2026/08/23/cup-series-2026-results-new-hampshire-race-recap/ |access-date=August 23, 2026 |website=[[NASCAR]]}}</ref>
+
+[[Ross Chastain]] won the pole at [[2026 Coke Zero Sugar 400|Daytona]].<ref>{{Cite web |last=Page |first=Scott |date=August 28, 2026 |title=Florida Native Ross Chastain Claims Clutch Daytona Pole |url=https://www.jayski.com/2026/08/28/florida-native-ross-chastain-claims-clutch-daytona-pole/ |access-date=August 29, 2026 |website=[[Jayski's Silly Season Site]]}}</ref> [[Shane van Gisbergen]] won stage one, his first stage win on an oval after leader [[Chris Buescher]] wrecked coming to the tri-oval. The defending [[2025 Coke Zero Sugar 400|race winner]] [[Ryan Blaney]] won stage 2. After the yellow came out on the last lap, [[Ryan Preece]] was announced as the winner over runner-up [[Zane Smith]]. With the win, Preece secured his first career win and joined [[Bubba Wallace]] and [[Austin Cindric]] as the final three drivers to race into the Chase.<ref>{{Cite web |last=Page |first=Scott |date=August 30, 2026 |title=Ryan Preece wins Coke Zero Sugar 400 at Daytona |url=https://www.jayski.com/2026/08/29/ryan-preece-storms-into-nascar-cup-chase-with-first-career-win-at-daytona/ |access-date=August 30, 2026 |website=[[Jayski's Silly Season Site]]}}</ref>
+
+===The Chase===
+
+[[Tyler Reddick]] won the pole at [[2026 Cook Out Southern 500|Darlington]] after the rest of qualifying was canceled due to lightning.<ref>{{cite web |last=DeGroot |first=Nick |date=September 5, 2026 |title=NASCAR Cup Darlington Southern 500 starting lineup after lightning cancels qualifying |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-darlington-southern-500-starting-lineup/10852786/ |access-date=September 5, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Darlington, South Carolina]]}}</ref> Reddick won stage one while [[Christopher Bell (racing driver)|Christopher Bell]] won stage two. After battling with [[Kyle Larson]] and holding off his teammate [[Ty Gibbs]], Bell won the race, snapping his 33-race winless streak.<ref>{{Cite web |last=Page |first=Scott |date=September 7, 2026 |title=Christopher Bell wins Cook Out Southern 500 at Darlington |url=https://www.jayski.com/2026/09/06/christopher-bell-snaps-drought-in-crown-jewel-southern-500-wins-chase-opener-at-darlington/ |access-date=September 7, 2026 |website=[[Jayski's Silly Season Site]]}}</ref>
+
+[[Joey Logano]] won the pole at [[2026 Enjoy Illinois 300|St. Louis]]. <ref>{{cite web |last=DeGroot |first=Nick |date=September 12, 2026 |title=NASCAR Cup Gateway starting lineup: Joey Logano stuns with huge pole lap. |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-gateway-starting-lineup-joey-logano-stuns-with-huge-pole-lap/10855205/ |access-date=September 12, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Madison, Illinois]]}}</ref> Logano won stage one while [[Kyle Larson]] won a shortened stage two. After a [[Green–white–checkered finish|double overtime]] finish (and a track record 18 cautions), Larson won the race, snapping his 51-race winless streak.<ref>{{Cite web |last=Page |first=Scott |date=September 14, 2026 |title=Kyle Larson wins Enjoy Illinois 300 at Gateway |url=https://www.jayski.com/2026/09/13/kyle-larson-breaks-drought-in-wild-chase-race-at-world-wide-technology-raceway/ |access-date=September 14, 2026 |website=[[Jayski's Silly Season Site]] |language=en-US}}</ref>
+
+Rain at [[2026 Bass Pro Shops Night Race|Bristol]] canceled qualifying, with [[Kyle Larson]] winning the pole.<ref>{{cite web |last=DeGroot |first=Nick |date=September 18, 2026 |title=NASCAR Cup Bristol Night Race starting lineup: Kyle Larson on pole as rain cancels qualifying |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-bristol-night-race-starting-lineup-kyle-larson-on-pole-as-rain-cancels-qualifying/10856990/ |access-date=September 18, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Bristol, Tennessee]]}}</ref> [[Joey Logano]] won stage one, while [[Ryan Blaney]] won stage two. Logano won the race, and Larson took the points lead from [[Denny Hamlin]] by one point.<ref>{{Cite web |last=Page |first=Scott |date=September 20, 2026 |title=Joey Logano wins Bass Pro Shops Night Race at Bristol |url=https://www.jayski.com/2026/09/20/joey-logano-steals-a-win-in-an-old-school-brawl-at-bristol/ |access-date=September 20, 2026 |website=[[Jayski's Silly Season Site]] |language=en-US}}</ref> After the race, Blaney and [[Carson Hocevar]] got into an altercation due to an on track incident that happened on lap 457.<ref>{{Cite web |last=Page |first=Scott |date=September 20, 2026 |title=Ryan Blaney, Carson Hocevar fight following Bristol race |url=https://www.jayski.com/2026/09/19/ryan-blaney-carson-hocevar-fight-following-bristol-race/ |access-date=September 20, 2026 |website=[[Jayski's Silly Season Site]] |language=en-US}}</ref> No penalties were announced for either driver.<ref>{{Cite web |last=Albino |first=Dustin |date=September 21, 2026 |title=NASCAR won't issue penalties to Ryan Blaney, Carson Hocevar for Bristol fight |url=https://www.jayski.com/2026/09/21/nascar-wont-issue-penalties-to-ryan-blaney-carson-hocevar-for-bristol-fight/ |access-date=September 21, 2026 |website=[[Jayski's Silly Season Site]] |language=en-US}}</ref>
+
+Rain at [[2026 Hollywood Casino 400|Kansas]] canceled qualifying, with [[Joey Logano]] winning the pole.<ref>{{cite web |last=DeGroot |first=Nick |date=September 26, 2026 |title=NASCAR Cup Kansas Chase Race Starting Lineup: Rain Again Washes Out Qualifying |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-kansas-chase-race-starting-lineup-rain-again-washes-out-qualifying/10859289/ |access-date=September 26, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Kansas City, Kansas]]}}</ref> [[Kyle Larson]] won stage one and two. In stage 3, Larson was battling with [[Chase Briscoe]] for the lead, with Larson making a pass late and winning the race.<ref>{{Cite web |last=Page |first=Scott |date=September 27, 2026 |title=Kyle Larson wins Hollywood Casino 400 at Kansas |url=https://www.jayski.com/2026/09/27/kyle-larson-takes-command-of-nascar-cup-chase-with-determined-kansas-win/ |access-date=September 28, 2026 |website=[[Jayski's Silly Season Site]]}}</ref>
+
+[[Denny Hamlin]] won the pole at [[2026 South Point 400|Las Vegas]] in a [[Joe Gibbs Racing|JGR]] 1-2-3-4 start.<ref>{{cite web |last=DeGroot |first=Nick |date=October 3, 2026 |title=NASCAR Cup Las Vegas Chase race starting lineup: Denny Hamlin earns pole in JGR 1-2-3-4 |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-las-vegas-chase-race-starting-lineup-denny-hamlin-pole/10861668/ |access-date=October 4, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Las Vegas, Nevada]]}}</ref> Chase Briscoe won both stages, led 175 laps, and managed to defend against [[Kyle Larson]] late in the race to ultimately secure the win.<ref>{{Cite web |last=Page |first=Scott |date=October 12, 2026 |title=Chase Briscoe wins South Point 400 at Las Vegas |url=https://www.jayski.com/2026/10/04/briscoe-takes-vegas-trophy-as-larson-stretches-championship-lead/ |access-date=October 5, 2026 |website=[[Jayski's Silly Season Site]] |language=en-US}}</ref>
+
+Rain at [[2026 Bank of America 400|Charlotte]] canceled qualifying, with [[Kyle Larson]] winning the pole.<ref>{{cite web |last=DeGroot |first=Nick |date=October 10, 2026 |title=NASCAR Cup Charlotte Starting Lineup: Qualifying Canceled due to Hurricane Isaias Rain |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-charlotte-starting-lineup-qualifying-canceled-due-to-hurricane-isaias-rain/10863672/ |access-date=October 10, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Concord, North Carolina]]}}</ref> Larson won stage one while [[Christopher Bell (racing driver)|Christopher Bell]] won stage two. Towards the end of the race Bell was battling his JGR teammate [[Chase Briscoe]] and Briscoe won the race in a [[photo finish]], his second straight win.<ref>{{Cite web |last=Page |first=Scott |date=October 11, 2026 |title=Chase Briscoe wins Bank of America 400 at Charlotte |url=https://www.jayski.com/2026/10/11/chase-briscoe-edges-jgr-teammate-in-dramatic-chase-win-at-charlotte/ |access-date=October 12, 2026 |website=[[Jayski's Silly Season Site]] |language=en-US}}</ref>
+
+[[Ryan Blaney]] won the pole at [[2026 Freeway Insurance 500|Phoenix]].<ref>{{cite web |last=DeGroot |first=Nick |date=October 17, 2026 |title=NASCAR Cup Phoenix starting lineup: Blaney earns pole as Larson struggles |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-phoenix-starting-lineup-ryan-blaney-on-pole-kyle-larson-struggles/10865967/ |access-date=October 17, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Avondale, Arizona]]}}</ref> [[Joey Logano]] swept both stages and [[Tyler Reddick]] won the race, his Cup-leading sixth on the year and first since the [[2026 AdventHealth 400|spring Kansas race]].<ref>{{Cite web |last=Page |first=Scott |date=October 18, 2026 |title=Tyler Reddick wins Freeway Insurance 500 at Phoenix |url=https://www.jayski.com/2026/10/18/tyler-reddick-returns-to-victory-lane-in-chase-changing-race-at-phoenix/ |access-date=October 19, 2026 |website=[[Jayski's Silly Season Site]] |language=en-US}}</ref>
+
+[[Chase Briscoe]] won the pole at [[2026 YellaWood 500|Talladega]].<ref>{{cite web |last=DeGroot |first=Nick |date=October 24, 2026 |title=NASCAR Cup Talladega starting lineup: Chase Briscoe beats Austin Hill for pole |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-talladega-starting-lineup-chase-briscoe-pole-austin-hill/10867918/ |access-date=October 24, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Lincoln, Alabama]]}}</ref> [[Chris Buescher]] won stage one while [[Joey Logano]] won stage two. In stage three, with five laps to go, the second "[[The Big One (motorsport)|Big One]]" of the race occurred. 15 cars were involved, including Logano, whose car ended up flipped on its roof. The massive accident prompted a red flag.<ref>{{Cite web |last=Albino |first=Dustin |date=October 25, 2026 |title=Team Penske's championship hopes tumble at Talladega |url=https://www.jayski.com/2026/10/25/team-penskes-championship-hopes-tumble-at-talladega/ |access-date=October 26, 2026 |website=[[Jayski's Silly Season Site]]}}</ref> Once the red flag was lifted, the race went into an [[Green–white–checkered finish|overtime finish]]. [[Kyle Larson]] scored his first ever win on a superspeedway.<ref>{{Cite web |last=Page |first=Scott |date=October 25, 2026 |title=Kyle Larson wins YellaWood 500 at Talladega |url=https://www.jayski.com/2026/10/25/kyle-larsons-eventful-last-lap-lands-him-talladega-victory-and-potential-third-championship/ |access-date=October 26, 2026 |website=[[Jayski's Silly Season Site]]}}</ref>
+
+[[Denny Hamlin]] won the pole at [[2026 Xfinity 500|Martinsville]].<ref>{{cite web |last=DeGroot |first=Nick |date=October 31, 2026 |title=NASCAR Cup Martinsville starting lineup: Denny Hamlin rockets to pole |url=https://www.motorsport.com/nascar-cup/news/nascar-cup-martinsville-starting-lineup-denny-hamlin-pole/10870220/ |access-date=October 31, 2026 |website=[[Motorsport.com]] |publisher=[[Motorsport Network]] |location=[[Ridgeway, Virginia]]}}</ref> [[William Byron (racing driver)|William Byron]] would dominate, sweeping the stages as well as going on to win the race.<ref>{{Cite news |last1=Bianchi |first1=Jordan |last2=Gluck |first2=Jeff |date=November 2, 2026 |title=NASCAR Martinsville takeaways: Kyle Larson on brink of Cup title; William Byron wins |url=https://www.nytimes.com/athletic/7745771/2026/11/01/nascar-martinsville-takeaways-kyle-larson-william-byron/ |access-date=November 2, 2026 |work=The New York Times |language=en-US |issn=0362-4331}}</ref> He led 362 of 500 laps and earned maximum points. [[Kyle Larson]] would leave Martinsville with a 67-point advantage over [[Christopher Bell (racing driver)|Christopher Bell]] and a 70-point advantage over Hamlin going into the final race at Homestead.<ref>{{Cite web |last=MacKenzie |first=Maggie |date=November 1, 2026 |title=NASCAR Championship Race Down to Three Drivers After Martinsville |url=https://heavy.com/sports/nascar/championship-three-drivers-martinsville-2026/ |access-date=November 2, 2026 |website=HEAVY |language=en-US}}</ref> Both [[Carson Hocevar]] and [[Josh Berry]] were penalized with 25 driver points, Berry only got fined with {{usd|}}50,000<ref name="Page2026-1">{{Cite web |last=Page |first=Scott |date=November 3, 2026 |title=Martinsville penalties announced; Berry and Hocevar fined, lose points |url=https://www.jayski.com/2026/11/03/martinsville-penalties-announced-berry-and-hocevar-fined/ |access-date=November 4, 2026 |website=[[Jayski's Silly Season Site]] |language=en-US}}</ref> while Hocevar got fined {{usd|}}100,000 and was suspended by Spire Motorsports for one race for actions detrimental to stock car racing.<ref name="Page2026-1" /><ref>{{Cite web |last=Page |first=Scott |date=November 3, 2026 |title=Spire Motorsports suspends Carson Hocevar for Miami |url=https://www.jayski.com/2026/11/03/spire-motorsports-suspends-carson-hocevar-for-nascar-championship-weekend/ |access-date=November 4, 2026 |website=[[Jayski's Silly Season Site]] |language=en-US}}</ref> [[Justin Haley (racing driver)|Justin Haley]] was tabbed to replace Hocevar in the #77.<ref>{{Cite web |last=read |first=Maggie MacKenzie·HEAVY·3 min |date=2026-11-04 |title=Who Is Justin Haley? Meet Carson Hocevar's NASCAR Replacement at Homestead |url=https://sports.yahoo.com/articles/justin-haley-meet-carson-hocevar-002026129.html |access-date=2026-11-08 |website=Yahoo Sports |language=en-US}}</ref>
+
+[[Chase Briscoe]] won pole at [[2026 Season Finale 400|Homestead]], with [[Denny Hamlin]] starting second, [[Kyle Larson]] starting fourth, and [[Christopher Bell (racing driver)|Christopher Bell]] starting sixth.<ref>{{Cite web |last1=Gray |first1=Nick |last2=read |first2=Nashville Tennessean·The Tennessean·5 min |date=2026-11-07 |title=NASCAR Homestead qualifying live results, Cup Series starting lineup |url=https://sports.yahoo.com/articles/nascar-homestead-qualifying-live-results-173021496.html |access-date=2026-11-08 |website=Yahoo Sports |language=en-US}}</ref> [[Tyler Reddick]] won stage one, with Larson able to score enough points in the first stage to mathematically clinch his third career Cup Series championship after finishing fourth in the stage.<ref>{{cite web |date=November 8, 2026 |title=Kyle Larson claims third Cup title after a Chase run for the ages |url=https://www.nascar.com/news-media/2026/11/08/kyle-larson-claims-third-cup-title-after-a-chase-run-for-the-ages/ |website=[[NASCAR]]}}</ref> Hamlin won the second stage. On lap 252, the lone non-stage caution occurred. [[Ryan Blaney]], who restarted 4th at the time, passed 3 cars in 8 laps to win the race.<ref>{{cite web |url=https://www.jayski.com/2026/11/08/ryan-blaney-steals-homestead-win-as-kyle-larson-claims-nascar-cup-title/ |title=Ryan Blaney steals Homestead win as Kyle Larson claims NASCAR Cup title |website=[[Jayski's Silly Season Site]] |date=November 8, 2026 |access-date=November 10, 2026 }}</ref>
+
+
