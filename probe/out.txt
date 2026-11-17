@@ -1,4 +1,12 @@
-WBBL page length 74291
-| round = {{anchor|match13}} '''Match 13''' ; | date = 7 November 2026 ; | time = 15:40 ; | team1 = [[Melbourne Renegades (WBBL)|Melbourne Renegades]] (H) ; | team2 = [[Adelaide Strikers (WBBL)|Adelaide Strikers]] ; | venue = [[Junction Oval]], [[Melbourne]]
-| round = {{anchor|match28}} '''Match 28''' ; | date = 20 November 2026 ; | time = 19:10 ; | team1 = [[Adelaide Strikers (WBBL)|Adelaide Strikers]] (H) ; | team2 = [[Melbourne Renegades (WBBL)|Melbourne Renegades]]  ; | venue = [[Adelaide Oval]], [[Adelaide]]
-NZ men netball page length 19564 | mentions 2026: 0 | headings: Tournament history ; Cadbury Netball Series ; Trans-Tasman Cup ; Men's Fast5 Netball World Series ; Notable players ; Captains ; Head coaches ; References
+| round =  Match 24 ; | date = 16 November 2026 ; | time = 19:10 ; | venue = Drummoyne Oval, Sydney
+| round =  Match 25 ; | date = 17 November 2026 ; | time = 19:10 ; | venue = Karen Rolton Oval, Adelaide
+| round =  Match 26 ; | date = 19 November 2026 ; | time = 15:40 ; | venue = Allan Border Field, Brisbane
+| round =  Match 27 ; | date = 19 November 2026 ; | time = 19:10 ; | venue = Allan Border Field, Brisbane
+| round =  Match 28 ; | date = 20 November 2026 ; | time = 19:10 ; | venue = Adelaide Oval, Adelaide
+| round =  Match 29 ; | date = 21 November 2026 ; | time = 12:00 ; | venue = Bellerive Oval, Hobart
+| round =  Match 30 ; | date = 21 November 2026 ; | time = 15:30 ; | venue = North Sydney Oval, Sydney
+| round =  Match 31 ; | date = 22 November 2026 ; | time = 15:40 ; | venue = Allan Border Field, Brisbane
+| round =  Match 32 ; | date = 22 November 2026 ; | time = 19:10 ; | venue = Junction Oval, Melbourne
+time note: {{hatnote|All times in [[Daylight saving time in Australia|Australian Eastern Daylight Time]] ([[UTC+11:00]])}}
+TSDB searchevents.php?e=Adelaide_Strikers_vs_Melbourne_Renegades no Nov 2026 event
+TSDB searchevents.php?e=Adelaide_Strikers_Women_vs_Melbourne_Renegades_Women no Nov 2026 event
