@@ -1,10 +1,7 @@
-FEED 2026-11-18T01:17:00.818Z events 1141
-DIAG tauihi: 6 games from the TV guide (6 listed now, 6 kept)
-  Tauihi · Round 9 | Northern Kāhu v Tokomanawa Queens | Fri, 20 Nov, 7:30 pm | Eventfinda Stadium, Auckland, New Zealand | tv:Sky Sport 4@Fri, 20 Nov, 7:30 pm
-  Tauihi · Round 9 | Tauranga Whai v Mainland Pouākai | Sat, 21 Nov, 7:30 pm | Queen Elizabeth Youth Centre, Tauranga, New Zealand | tv:Sky Sport 5@Sat, 21 Nov, 7:30 pm
-  Tauihi · Round 9 | Tokomanawa Queens v Southern Hoiho | Sun, 22 Nov, 3:00 pm | Te Rauparaha Arena, Porirua, New Zealand | tv:Sky Sport 4@Sun, 22 Nov, 3:00 pm
-  Tauihi · Round 10 | Southern Hoiho v Northern Kāhu | Fri, 27 Nov, 7:30 pm | Edgar Centre, Dunedin, New Zealand | tv:Sky Sport 4@Fri, 27 Nov, 7:30 pm
-  Tauihi · Round 10 | Mainland Pouākai v Tokomanawa Queens | Sat, 28 Nov, 7:30 pm | Parakiore Recreation and Sports Centre, Christchurch, New Zealand | tv:Sky Sport 5@Sat, 28 Nov, 7:30 pm
-  Tauihi · Round 10 | Tauranga Whai v Northern Kāhu | Sun, 29 Nov, 3:00 pm | Queen Elizabeth Youth Centre, Tauranga, New Zealand | tv:Sky Sport 3@Sun, 29 Nov, 3:00 pm
-PHX next: Western Sydney Wanderers v Wellington Phoenix | Fri, 20 Nov, 6:50 pm | CommBank Stadium
-CHECKS noResult: Ford Trophy: Auckland Aces v Otago Volts (2026-11-11) ; Ford Trophy: Central Stags v Wellington Firebirds (2026-11-11) ; Ford Trophy: Canterbury v Northern Districts (2026-11-11) ; Hallyburton Johnstone Shield: Central Hinds v Northern Districts (2026-11-13) no source ; Hallyburton Johnstone Shield: Auckland Hearts v Wellington Blaze (2026-11-13) no source ; Hallyburton Johnstone Shield: Canterbury Magicians v Otago Sparks (2026-11-13) no source ; Hallyburton Johnstone Shield: Auckland Hearts v Wellington Blaze (2026-11-14) no source ; Hallyburton Johnstone Shield: Canterbury Magicians v Otago Sparks (2026-11-14) no source ; Hallyburton Johnstone Shield: Central Hinds v Northern Districts (2026-11-14) no source ; Dean Jones Trophy: New South Wales v South Australia (2026-11-15) ; Dean Jones Trophy: Queensland v Tasmania (2026-11-16) ; Dean Jones Trophy: Victoria v Western Australia (2026
+first visit: games on screen true, by 1342ms, cards 96, "Results updated 4 min ago", grey bar showing false, service worker in charge true, new code true, copy kept: 1141 games, built 2026-11-18T03:47:19.879Z, site 797
+first visit +3s: games on screen true, by 4374ms, cards 96, "Results updated 4 min ago", grey bar showing false, service worker in charge true, new code true, copy kept: 1141 games, built 2026-11-18T03:47:19.879Z, site 797
+repeat visit: games on screen true, by 442ms, cards 96, "Results updated 4 min ago", grey bar showing false, service worker in charge true, new code true, copy kept: 1141 games, built 2026-11-18T03:47:19.879Z, site 797
+repeat visit +4s: games on screen true, by 4463ms, cards 96, "Results updated 4 min ago", grey bar showing false, service worker in charge true, new code true, copy kept: 1141 games, built 2026-11-18T03:47:19.879Z, site 797
+offline visit: games on screen true, by 407ms, cards 96, "Results updated 4 min ago", grey bar showing false, service worker in charge true, new code true, copy kept: 1141 games, built 2026-11-18T03:47:19.879Z, site 797
+offline visit +3s: games on screen true, by 3432ms, cards 96, "Results updated 4 min ago", grey bar showing false, service worker in charge true, new code true, copy kept: 1141 games, built 2026-11-18T03:47:19.879Z, site 797
+page errors: 0 
