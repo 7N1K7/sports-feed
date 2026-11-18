@@ -1,45 +1,10 @@
-FEED 2026-11-18T01:08:08.578Z v events 1145
-DIAG tauihi: 10 games from the TV guide (10 listed now, 10 kept)
-  phoenixw | A-League Women | Wellington Phoenix v Melbourne City | Sun, 18 Oct, 12:15 pm | Hnry Stadium, Wellington | final (has result) | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Wellington Phoenix v Melbourne Victory | Sun, 25 Oct, 12:15 pm | Hnry Stadium, Wellington | final (has result) | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Perth Glory v Wellington Phoenix | Sun, 1 Nov, 11:45 pm | HBF Park, Perth | final (has result) | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Adelaide United v Wellington Phoenix | Fri, 6 Nov, 9:00 pm | Service FM Stadium, Adelaide | final (has result) | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Wellington Phoenix v Sydney FC | Sun, 15 Nov, 2:00 pm | Jerry Collins Stadium, Porirua | final (has result) | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Western Sydney Wanderers v Wellington Phoenix | Fri, 20 Nov, 6:50 pm | CommBank Stadium Stadium, Sydney | upcoming | Sky Sport / Sky Sport Now | tv:Sky Sport 3@Fri, 20 Nov, 6:45 pm | logos:yy
-  phoenixw | A-League Women | Canberra United v Wellington Phoenix | Sat, 12 Dec, 7:00 pm | McKellar Park, Canberra | upcoming | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Wellington Phoenix v Brisbane Roar | Sun, 20 Dec, 3:00 pm | Jerry Collins Stadium, Porirua | upcoming | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Melbourne Victory v Wellington Phoenix | Tue, 29 Dec, 6:50 pm | AAMI Park, Melbourne | upcoming | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Newcastle Jets v Wellington Phoenix | Fri, 1 Jan, 7:00 pm | Maitland Sports Ground, Maitland | upcoming | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Wellington Phoenix v Central Coast Mariners | Sat, 9 Jan, 5:00 pm | Jerry Collins Stadium, Porirua | upcoming | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Wellington Phoenix v Perth Glory | Sat, 16 Jan, 5:00 pm | Jerry Collins Stadium, Porirua | upcoming | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Melbourne City v Wellington Phoenix | Sun, 24 Jan, 7:00 pm | ctrl:cyber Pitch, Melbourne | upcoming | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Wellington Phoenix v Western Sydney Wanderers | Sat, 6 Feb, 2:15 pm | One New Zealand Stadium, Christchurch | upcoming | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Wellington Phoenix v Adelaide United | Sun, 14 Feb, 3:00 pm | Jerry Collins Stadium, Porirua | upcoming | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Sydney FC v Wellington Phoenix | Sat, 20 Feb, 7:00 pm | WIN Stadium, Wollongong | upcoming | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Wellington Phoenix v Newcastle Jets | Sun, 14 Mar, 3:00 pm | Jerry Collins Stadium, Porirua | upcoming | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Brisbane Roar v Wellington Phoenix | Fri, 19 Mar, 9:00 pm | Spencer Park, Brisbane | upcoming | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Wellington Phoenix v Canberra United | Sun, 28 Mar, 3:00 pm | Jerry Collins Stadium, Porirua | upcoming | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  phoenixw | A-League Women | Central Coast Mariners v Wellington Phoenix | Sat, 3 Apr, 5:00 pm | polytec Stadium, Gosford | upcoming | Sky Sport / Sky Sport Now | tv:- | logos:yy
-  tauihi | Tauihi · Round 8 | Southern Hoiho v Tauranga Whai | Wed, 18 Nov, 12:15 am | Edgar Centre, Dunedin, New Zealand | upcoming | Sky Sport / Sky Sport Now | tv:Sky Sport Select@Wed, 18 Nov, 12:15 am | logos:ny
-  tauihi | Tauihi · Round 7 | Southern Hoiho v Mainland Pouākai | Wed, 18 Nov, 2:00 am | Edgar Centre, Dunedin, New Zealand | upcoming | Sky Sport / Sky Sport Now | tv:Sky Sport Select@Wed, 18 Nov, 2:00 am | logos:nn
-  tauihi | Tauihi · Round 8 | Tokomanawa Queens v Tauranga Whai | Wed, 18 Nov, 4:00 am | Te Rauparaha Arena, Porirua, New Zealand | upcoming | Sky Sport / Sky Sport Now | tv:Sky Sport Select@Wed, 18 Nov, 4:00 am | logos:ny
-  tauihi | Tauihi · Round 8 | Mainland Pouākai v Northern Kāhu | Wed, 18 Nov, 12:00 pm | Parakiore Recreation and Sports Centre, Christchurch, New Zealand | upcoming | Sky Sport / Sky Sport Now | tv:Sky Sport 9@Wed, 18 Nov, 12:00 pm | logos:nn
-  tauihi | Tauihi · Round 9 | Northern Kāhu v Tokomanawa Queens | Fri, 20 Nov, 7:30 pm | Eventfinda Stadium, Auckland, New Zealand | upcoming | Sky Sport / Sky Sport Now | tv:Sky Sport 4@Fri, 20 Nov, 7:30 pm | logos:nn
-  tauihi | Tauihi · Round 9 | Tauranga Whai v Mainland Pouākai | Sat, 21 Nov, 7:30 pm | Queen Elizabeth Youth Centre, Tauranga, New Zealand | upcoming | Sky Sport / Sky Sport Now | tv:Sky Sport 5@Sat, 21 Nov, 7:30 pm | logos:yn
-  tauihi | Tauihi · Round 9 | Tokomanawa Queens v Southern Hoiho | Sun, 22 Nov, 3:00 pm | Te Rauparaha Arena, Porirua, New Zealand | upcoming | Sky Sport / Sky Sport Now | tv:Sky Sport 4@Sun, 22 Nov, 3:00 pm | logos:nn
-  tauihi | Tauihi · Round 10 | Southern Hoiho v Northern Kāhu | Fri, 27 Nov, 7:30 pm | Edgar Centre, Dunedin, New Zealand | upcoming | Sky Sport / Sky Sport Now | tv:Sky Sport 4@Fri, 27 Nov, 7:30 pm | logos:nn
-  tauihi | Tauihi · Round 10 | Mainland Pouākai v Tokomanawa Queens | Sat, 28 Nov, 7:30 pm | Parakiore Recreation and Sports Centre, Christchurch, New Zealand | upcoming | Sky Sport / Sky Sport Now | tv:Sky Sport 5@Sat, 28 Nov, 7:30 pm | logos:nn
-  tauihi | Tauihi · Round 10 | Tauranga Whai v Northern Kāhu | Sun, 29 Nov, 3:00 pm | Queen Elizabeth Youth Centre, Tauranga, New Zealand | upcoming | Sky Sport / Sky Sport Now | tv:Sky Sport 3@Sun, 29 Nov, 3:00 pm | logos:yn
-DIAG tvGaps: 7 live listings naming NZ, a NZ side, place or athlete with no game on the site: Bowls New Zealand: India Test Series: LIVE Bowls: NZ v India Day Three (Sky Sport 2, 11-18); Rugby League: Fijian Cup: LIVE: Fijian Cup Touch D1 (Sky Sport 4, 11-19); Bowls New Zealand: Oceania Champs: LIVE Oceania Champs: Day Two (Sky Sport 5, 11-19); Rugby League: Fijian Cup: LIVE: Fijian Cup Touch D2 (Sky Sport 5, 11-20); Bowls New Zealand: Oceania Champs: LIVE Oceania Champs: Day Four (Sky Sport 5, 11-21); Rugby League: Fijian Cup: Fijian Cup Nines D1 (Sky Sport 4, 11-26); Rugby League: Fijian Cup: Fijian Cup 
-DIAG faces: 76/304 fighters with a free photo (20 from Commons search or categories, 1 from Openverse); 0 looked up
-BOXING one-fight cards: Masamichi Yabuki v Miel Fajardo: night ny fight ny ; Agit Kabayel v Nelson Hysa: night yn fight yn ; Tyson Fury v Anthony Joshua: night yy fight yy ; Dmitry Bivol v Callum Smith: night yn fight yn ; Anthony Cacace v Nick Ball: night nn fight nn
-SIZE feed.json 1625kB raw, 226kB gzipped
-SIZE top-level: events 947kB, form 200kB, teamSquads 199kB, tables 78kB, news 68kB, rankings 58kB, diag 39kB, teamLinks 16kB, stateSquads 12kB, checks 3kB, coverage 3kB, sources 1kB, site 0kB, generatedAt 0kB
-SIZE event fields: source 83kB, squads 67kB, awayLogo 58kB, homeLogo 57kB, card 55kB, broadcast 50kB, id 43kB, startUTC 42kB, watchAU 39kB, link 38kB, comp 32kB, venue 30kB, tz 26kB, home 26kB, raceRes 24kB, city 23kB, away 23kB, status 21kB, sport 20kB, team 18kB, timeTBC 18kB, cricinfo 16kB
-SIZE without events' squads, card, sessions: 1503kB raw, 209kB gzipped
-SIZE events older than 2 days: 457 (453kB); more than 30 days ahead: 403 (258kB)
-SIZE squads: on 38 events; past 22, within 7 days 14, further ahead 7
-SIZE card: on 22 events; past 10, within 7 days 3, further ahead 10
-SIZE sessions: on 0 events; past 0, within 7 days 0, further ahead 0
-HEADERS content-encoding: gzip | cache-control: max-age=600 | content-length: 237710
-SIZE index.html 596kB raw, 179kB gzipped
+FEED 2026-11-18T01:17:00.818Z events 1141
+DIAG tauihi: 6 games from the TV guide (6 listed now, 6 kept)
+  Tauihi · Round 9 | Northern Kāhu v Tokomanawa Queens | Fri, 20 Nov, 7:30 pm | Eventfinda Stadium, Auckland, New Zealand | tv:Sky Sport 4@Fri, 20 Nov, 7:30 pm
+  Tauihi · Round 9 | Tauranga Whai v Mainland Pouākai | Sat, 21 Nov, 7:30 pm | Queen Elizabeth Youth Centre, Tauranga, New Zealand | tv:Sky Sport 5@Sat, 21 Nov, 7:30 pm
+  Tauihi · Round 9 | Tokomanawa Queens v Southern Hoiho | Sun, 22 Nov, 3:00 pm | Te Rauparaha Arena, Porirua, New Zealand | tv:Sky Sport 4@Sun, 22 Nov, 3:00 pm
+  Tauihi · Round 10 | Southern Hoiho v Northern Kāhu | Fri, 27 Nov, 7:30 pm | Edgar Centre, Dunedin, New Zealand | tv:Sky Sport 4@Fri, 27 Nov, 7:30 pm
+  Tauihi · Round 10 | Mainland Pouākai v Tokomanawa Queens | Sat, 28 Nov, 7:30 pm | Parakiore Recreation and Sports Centre, Christchurch, New Zealand | tv:Sky Sport 5@Sat, 28 Nov, 7:30 pm
+  Tauihi · Round 10 | Tauranga Whai v Northern Kāhu | Sun, 29 Nov, 3:00 pm | Queen Elizabeth Youth Centre, Tauranga, New Zealand | tv:Sky Sport 3@Sun, 29 Nov, 3:00 pm
+PHX next: Western Sydney Wanderers v Wellington Phoenix | Fri, 20 Nov, 6:50 pm | CommBank Stadium
+CHECKS noResult: Ford Trophy: Auckland Aces v Otago Volts (2026-11-11) ; Ford Trophy: Central Stags v Wellington Firebirds (2026-11-11) ; Ford Trophy: Canterbury v Northern Districts (2026-11-11) ; Hallyburton Johnstone Shield: Central Hinds v Northern Districts (2026-11-13) no source ; Hallyburton Johnstone Shield: Auckland Hearts v Wellington Blaze (2026-11-13) no source ; Hallyburton Johnstone Shield: Canterbury Magicians v Otago Sparks (2026-11-13) no source ; Hallyburton Johnstone Shield: Auckland Hearts v Wellington Blaze (2026-11-14) no source ; Hallyburton Johnstone Shield: Canterbury Magicians v Otago Sparks (2026-11-14) no source ; Hallyburton Johnstone Shield: Central Hinds v Northern Districts (2026-11-14) no source ; Dean Jones Trophy: New South Wales v South Australia (2026-11-15) ; Dean Jones Trophy: Queensland v Tasmania (2026-11-16) ; Dean Jones Trophy: Victoria v Western Australia (2026
