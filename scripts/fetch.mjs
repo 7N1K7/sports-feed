@@ -1663,7 +1663,9 @@ async function addFighterLinks(events) {
   const PROPS = { ufc: 'P9722', sd: 'P2818', br: 'P1967', tp: 'P9728' };
   const near = events.filter(e => /^(mma|boxing)$/.test(e.sport) && Math.abs(Date.parse(e.startUTC) - now) < 60 * DAY);
   // a boxing night from the curated list has no card of its own: its main event makes one, so the boxers' names link too
-  for (const e of near) if (e.sport === 'boxing' && !e.card?.length && e.home && e.away) e.card = [{ section: 'Main event', weight: e.comp, a: e.home, b: e.away, res: 'vs.', method: '', round: '', time: '' }];
+  // (the two boxers' photos, found earlier for the night itself, go on its one fight too)
+  for (const e of near) if (e.sport === 'boxing' && !e.card?.length && e.home && e.away) e.card = [{ section: 'Main event', weight: e.comp, a: e.home, b: e.away, res: 'vs.', method: '', round: '', time: '',
+    ...(e.homeLogo ? { aImg: e.homeLogo, aCredit: e.homeCredit || 'Wikimedia Commons' } : {}), ...(e.awayLogo ? { bImg: e.awayLogo, bCredit: e.awayCredit || 'Wikimedia Commons' } : {}) }];
   const kind = {};
   for (const e of near) for (const n of [e.home, e.away, ...(e.card || []).flatMap(b => [b.a, b.b])].map(strip)) if (ok(n)) kind[n] ||= e.sport === 'boxing' ? 'boxer' : 'fighter';
   const due = Object.keys(kind).filter(n => !cache[n] || now - cache[n].t > 30 * DAY || (kind[n] === 'boxer' && cache[n].t < Date.parse('2026-11-06T02:00:00Z'))).slice(0, 60);
@@ -2265,7 +2267,15 @@ try { await phoneAlerts(events); } catch (e) { diag.alerts = 'error: ' + e.messa
 // and squads, and of the sides playing them how many have a picture (logo, flag or photo) and team links; with what's
 // missing, by sport, so the gaps are easy to see and hunt down
 const NATIONAL = /^(All Blacks|Black Ferns|Black Caps|White Ferns|Kiwis|Kiwi Ferns|Wallabies|Wallaroos|Kangaroos|Jillaroos|Springboks|Proteas|Windies|Silver Ferns|Tall Blacks|Tall Ferns|Black Sticks|Socceroos|Matildas|All Whites|Football Ferns|Diamonds|Boomers|Opals|Kookaburras|Hockeyroos|PNG .+|Fiji .+|Toa Samoa|Cook Islands .+|Lebanon Cedars)$/;
-const NOT_SIDE = /^(TBC|TBA|TBD)\b|winner|loser|placed|group|pool|semi-final|runners?[- ]up|qualifier|knockout|challenger|^\d(st|nd|rd|th)\b|\bXI$/i;
+// (a side still to be decided is listed as its candidates: "Argentina, Australia or Japan")
+const NOT_SIDE = /^(TBC|TBA|TBD)\b|winner|loser|placed|group|pool|semi-final|runners?[- ]up|qualifier|knockout|challenger|^\d(st|nd|rd|th)\b|\bXI$|\sor\s/i;
+// every side the site itself draws a flag for (its ISO list in index.html), so the picture count matches what a visitor sees
+const FLAG_SIDES = new Set();
+try {
+  const html = await readFile(new URL('index.html', ROOT), 'utf8');
+  for (const m of (html.match(/const ISO = \{([\s\S]*?)\};/)?.[1] || '').matchAll(/(?:'([^']+)'|([A-Za-z]+)):\s*'[a-z-]+'/g)) FLAG_SIDES.add(m[1] || m[2]);
+  for (const n of Object.keys(JSON.parse(html.match(/Object\.entries\((\{"Afghanistan"[^\n]*?\})\)\) if \(!ISO/)?.[1] || '{}'))) FLAG_SIDES.add(n);
+} catch {}
 const NO_SQUADS = new Set(['motor', 'tennis', 'mma', 'boxing']);
 const haveSquads = new Set([...teamList.map(s => `${s.sport}|${s.g}|${s.team}`), ...stateList.map(s => `cricket|m|${s.team}`)]);
 const coverage = {}, seenSide = new Set();
@@ -2291,7 +2301,7 @@ for (const e of events.filter(x => { const t = Date.parse(x.startUTC) - now; ret
   for (const t of sides) {
     const k = `${e.sport}|${t}`; if (seenSide.has(k)) continue; seenSide.add(k); c.sides++;
     const ds = { s: e.sport, c: comp, n: t, f: 0 }; detail.sides.push(ds);
-    const pic = (t === e.home ? e.homeLogo || e.homeBadge : e.awayLogo || e.awayBadge) || COUNTRY.test(base(t).replace(/\s+(A|XV)$/, '')) || NATIONAL.test(base(t));
+    const pic = (t === e.home ? e.homeLogo || e.homeBadge : e.awayLogo || e.awayBadge) || COUNTRY.test(base(t).replace(/\s+(A|XV)$/, '')) || NATIONAL.test(base(t)) || FLAG_SIDES.has(base(t).replace(/\s+(Invitation XI|A|XI|XV|U\d+|Wheelchair)$/i, ''));
     if (pic) { c.pic++; ds.f |= 1; } else c.gaps.pic.push(t);
     // a fighter's links ride on the fight card's entries for them (Wikipedia, BoxRec, Sherdog...)
     const fighterLinked = ['mma', 'boxing'].includes(e.sport) && simple(t) && (e.card || []).some(f => ['a', 'b'].some(x => f[x + 'Links'] && simple(f[x]).includes(simple(t))));
