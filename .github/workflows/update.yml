@@ -17,8 +17,11 @@ permissions:
 
 # One run at a time, and at most one waiting. Nothing cancels a running build, so a burst of pushes
 # can't stall the scores; the chain job below steps aside as soon as another run is waiting.
+# The group's name was "pages" until 19 Nov 2026: GitHub left one run's deploy "waiting" for over eight hours (it never
+# started, so its time limit never counted), and every later run queued behind it, so the site stood still. A run that
+# is stuck like that holds its group until someone cancels it by hand; a new name lets the runs after it go ahead.
 concurrency:
-  group: pages
+  group: pages-b
   cancel-in-progress: false
 
 jobs:
