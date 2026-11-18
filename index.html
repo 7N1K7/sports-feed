@@ -4652,9 +4652,10 @@ function render() {
   const todays = upcoming.filter(e => !lives.includes(e) && !soons.includes(e) && !resting.includes(e) && !sideNow.includes(e) && (dayKey(new Date(e.startUTC)) === todayK || new Date(e.startUTC) - now < 12 * 36e5));
   $('todayLabel').textContent = dayLabel(nowD, NZ);
   // today's finished games stay in "On today" (spoiler rules still apply), latest first after the upcoming ones
-  // "Earlier": games that ended in the last 16 hours, whatever the day, so one that finished late last night stays up
-  // here into the morning. They're in Results below as well, and only there once the 16 hours are up.
-  const doneToday = finals.filter(e => now - endOf(e, now) < 16 * 36e5);
+  // "Earlier": games that ended in the last 24 hours, whatever the day, so yesterday's games stay up here for a full
+  // day (16 hours until v796: yesterday evening's games were gone by early afternoon; the owner's call, 18 Nov 2026).
+  // They're in Results below as well, and only there once the 24 hours are up.
+  const doneToday = finals.filter(e => now - endOf(e, now) < 24 * 36e5);
   const doneDay = e => dayKey((DAYS[formatOf(e)] || 1) > 1 ? endOf(e, now) : new Date(e.startUTC));
   $('todaySec').hidden = !todays.length && !doneToday.length && !resting.length && !sideNow.length && lives.length + soons.length > 0;
   into($('today')).html = todays.length || doneToday.length || resting.length || sideNow.length
@@ -4668,7 +4669,9 @@ function render() {
         return (lives.length + soons.length && tod.length ? `<div class="dayhead">${tonight ? 'Later tonight' : 'Later today'}</div>` : '') + tod.map(e => evCard(e, now)).join('')
           + (early.length ? `<div class="dayhead">${early.every(e => hourNZ(e) < 11) ? 'Early tomorrow' : 'Tomorrow'}</div><div class="early">${early.map(e => evCard(e, now)).join('')}</div>` : '')
           + (sideNow.length ? `<div class="dayhead">Also on tour</div>${sideNow.map(e => evCard(e, now)).join('')}` : '');
-      })()}${[['Earlier today', doneToday.filter(e => doneDay(e) === todayK)], ['Yesterday', doneToday.filter(e => doneDay(e) !== todayK)]]
+      })()}${[['Earlier today', doneToday.filter(e => doneDay(e) === todayK)], ['Yesterday', doneToday.filter(e => doneDay(e) === dayKey(keyAt(todayK, -1)))],
+        // (a game that started late the night before last and ended inside the 24 hours goes by that day's name)
+        ...[...new Set(doneToday.filter(e => ![todayK, dayKey(keyAt(todayK, -1))].includes(doneDay(e))).map(doneDay))].map(k => [fmt(keyAt(k, 0), NZ, { weekday: 'long' }), doneToday.filter(e => doneDay(e) === k)])]
         // the games just finished, today's first, then last night's: a game belongs to the day it started (one that ran
         // past midnight is still last night's game), a Test or first-class game to the day it ended
         .filter(([, list]) => list.length).map(([h, list]) => `<div class="dayhead">${h}${revealAll(list, now)}</div><div class="donetoday">${list.map(e => resCard(e, now)).join('')}</div>`).join('')}</div>`
