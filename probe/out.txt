@@ -1,7 +1,36 @@
-version 790 | tvGuide 2452 sport listings (read 2026-11-17T18:51; SkySportNow to 2026-11-23, SkyGo to 2026-12-02, nz to 2026-11-30); 106 games listed: Adelaide Strikers v S | tvGaps 14 live listings naming NZ, a NZ side, place or athlete with
-wbbl-12-m28-adelaide-strikers-v-melbourn | 2026-11-20T08:10:00Z | tv Sky Sport 2@11-20T07:45
-bc-ind-test1-2026 | 2026-11-18T22:00:00Z | tv Sky Sport 1@11-18T21:00, Sky Sport 1 UHD@11-18T21:00
-bs-ind-centenary-1-2026 | 2026-11-19T05:30:00Z | tv none
-wmseries-2026-g2 | 2026-11-19T06:30:00Z | tv Sky Sport 1@11-19T06:30, Sky Sport 1 UHD@11-19T06:30
-wiki-breakers-2026-11-21-melbourneunited | 2026-11-21T08:30:00.000Z | tv ESPN@11-21T08:30
-games with a TV listing: 105
+DIAG cricketLogos : Melbourne Renegades*, Sydney Thunder*, Melbourne Stars*, Hobart Hurricanes*, Brisbane Heat*, Sydney Sixers*, Adelaide Strikers*, Perth Scorchers*, Governor-General's XI, Auckland Aces*, Canterbury*, Central Stags*, Northern Districts*, Wellington Firebirds*, Otago Volts*, Central Hinds, Queensland, Victoria*, Tasmania*, Western Australia, New South Wales*, South Australia, Auckland Hearts, Wellington Blaze, Canterbury Magicians, Otago Sparks, Zimbabwe, South Africa Invitation XI, Afghanistan, Oman, United Arab Emirates, Afghanistan A, Nepal
+DIAG logos : 150/205 teams; 0 searched this run
+DIAG logoLeagues : [object Object]
+DIAG facesSearch : 0 searched on Commons, 0 with a matching photo
+DIAG facesCommons : 0 categories tried, 0 had files
+DIAG facesSportsDB : 0 asked, 0 found, 0 found but not marked free to reuse
+DIAG facesOpenverse : 0 asked (0 photos back, 0 naming the fighter), 0 found; 0 not asked yet
+DIAG faces : 76/304 fighters with a free photo (20 from Commons search or categories, 1 from Openverse); 0 looked up
+DIAG facesMain : TheSportsDB: 0 asked, 0 found, 0 found but not marked free to reuse ; 2026-11-18 ONE Samurai 5: Joshua Pacio=>Joshua Pacio no free photo / Keito Yamakita=>Keito Yamakita no free photo ; 2026-11-14 UFC 334: Gane=>Ciryl Gane OK / Hokit=>Josh Hokit OK ; 2026-11-21 UFC Fight Night 294: Procházka=>Jiří Procházka OK / Stirling=>Navajo Stirling no free photo ; 2026-11-26 IBF flyweight title: Masamichi Yabuki=>Masamichi Yabuki no free photo / Miel Fajardo=>Miel Fajardo OK ; 2026-11-08 UFC Fight Night: Cortes-Acosta=>Waldo Cortes-Acosta no free photo / Walker=>Johnny Walker OK ; 2026-11-28 WBC heavyweight title: Agit Kabayel=>Agit Kabayel OK / Nelson Hysa=>Nelson Hysa no free photo ; 2026-11-07 Inter
+DIAG facesMissing : Joshua Pacio: no free photo,Keito Yamakita: no free photo,Navajo Stirling: no free photo,Masamichi Yabuki: no free photo,Waldo Cortes-Acosta: no free photo,Nelson Hysa: no free photo,Joshua Buatsi: no free photo,Willy Hutchinson: no free photo,Lucas Gabriel: no article,Jack Siatarnyokkrok P.K: no article,Chihiro Sawada: no free photo,Anastasia Nikolakakos: no article,Tom Nolan: no free photo,YodUdon K.Tongtalingchan: no article,Emanuel Navarrete: no free photo,Callum Smith: no free photo,Dalton Smith: no free photo,Alberto Puello: no free photo,Sebastian Fundora: no free photo,Joaquin Buckley: no free photo,Bampara Kouyate: no article,Ricardo Bravo: not a fighter page (Peruvian footballer (b
+DIAG wikiLogos : 23 free crests known, 0 sides given one; 0 looked up
+EV 2026-10-31 boxing boxing | WBC super middleweight title | +Christian Mbilli v +Saul 'Canelo' Alvarez | card 1 | -Christian Mbilli v -Saul 'Canelo' Alvarez
+EV 2026-11-18 mma onefc | ONE Samurai 5 | -Joshua Pacio v -Keito Yamakita | card 10 | -Joshua Pacio (c) v -Keito Yamakita ; -Ryujin Nasukawa v -Raichi Nagai ; -Tatsumitsu Wada v +Jarred Brooks ; -Masashi Kumura v -Ellis Badr Barboza ; -Yutaro Asahi v -Petchtanong Petchfergus ; -Ryugo Takeuchi v -Brandon Hashimoto ; -Reiji Takaki v -Rui Botelho ; -Yugo Kato v -Jurai Ishii ; -Gump v -Shuto Inui ; -Shosuke Kinoshita v -Takuya Shibamura
+EV 2026-11-21 mma ufc | UFC Fight Night 294 | +Procházka v -Stirling | card 11 | +Jiří Procházka v -Navajo Stirling ; +Aljamain Sterling v -Kevin Vallejos ; +Dan Hooker v +Brian Ortega ; +Kyoji Horiguchi v +Asu Almabayev ; +Jared Cannonier v +Ikram Aliskerov ; +Aleksandre Topuria v -Santiago Luna ; -Shamil Gaziev v +Tallison Teixeira ; -Amir Albazi v +Alessandro Costa ; +Jake Matthews v -Tahir Abdullayev ; -Nikolas Motta v -Dom Mar Fan ; -Diyar Nurgozhay v -Alik Lorenz
+EV 2026-11-26 boxing boxing | IBF flyweight title | -Masamichi Yabuki v +Miel Fajardo | card 1 | -Masamichi Yabuki v -Miel Fajardo
+EV 2026-11-28 boxing boxing | WBC heavyweight title | +Agit Kabayel v -Nelson Hysa | card 1 | -Agit Kabayel v -Nelson Hysa
+EV 2026-12-02 mma onefc | ONE Samurai 6 | -Chihiro Sawada v -Anastasia Nikolakakos | card 7 | -Chihiro Sawada v -Anastasia Nikolakakos ; -Hiromi Wajima v -Mohammad Siasarani ; -Ryuya Okuwaki v -Thongpoon P.K.Saenchai ; -Misaki Morita v -Duangdawnoi Looksaikongdin ; -Taiga Orii v -Ryo Hirayama ; -Hiroba Minowa v +Fabio Henrique ; -Taiju Shiratori v -Shota Tezuka
+EV 2026-12-05 mma ufc | UFC Fight Night | +Adesanya v +Magomedov | card 12 | +Israel Adesanya v +Sharabutdin Magomedov ; +Ian Machado Garry v -Yaroslav Amosov ; -Serghei Spivac v -Mário Pinto ; -Levan Chokheli v +Islam Dulatov ; -Mairon Santos v -Akbar Abdullaev ; -Magomed Tuchalov v -Ion Cuțelaba ; -Bruno Gustavo da Silva v -Jafel Filho ; -Uran Satybaldiev v -Ivan Gnizditskiy ; -Marco Tulio v -Park Jun-yong ; -Pavel Andrusca v +Mehemmedeli Osmanli ; -Modestino Rodrigues v -Matthieu Letho Duclos ; -Abdul Hussein v -Hecher Sosa
+EV 2026-12-11 boxing boxing | Heavyweight (reported for vacant WBA 'super' title) | +Tyson Fury v +Anthony Joshua | card 1 | -Tyson Fury v -Anthony Joshua
+EV 2026-12-12 boxing boxing | WBA, IBF & WBO light heavyweight titles | +Dmitry Bivol v -Callum Smith | card 1 | -Dmitry Bivol v -Callum Smith
+EV 2026-12-13 mma ufc | UFC 335 | +Oliveira v +Lopes | card 6 | +Charles Oliveira (c) v +Diego Lopes ; +Sergei Pavlovich v +Alex Pereira ; +Brandon Moreno v +Charles Johnson ; -Kyler Phillips v -Ethyn Ewing ; -Quentin Pasley v -Junior Tafa ; -Damian Pinas v -Baisangur Susurkaev
+EV 2026-12-19 mma onefc | ONE Fight Night 50 | -Bampara Kouyate v -Ricardo Bravo | card 8 | -Bampara Kouyate v -Ricardo Bravo ; -Diogo Reis (c) v -Carlos Oliveira ; -Suablack Tor.Pran49 v -Jhordan Estupiñan ; -Maurice Abévi v -Dzhabir Dzhabrailov ; -Selina Flores v -Kana Morimoto ; -Ferrari Fairtex v -Denis Souza Jr. ; -Antonio Cesar v -Viet Anh Do ; -João Pedro Dantas v -Adlan Umarov
+EV 2026-12-19 boxing boxing | WBA super featherweight title | -Anthony Cacace v -Nick Ball | card 1 | -Anthony Cacace v -Nick Ball
+EV 2027-01-16 mma ufc | UFC Fight Night | +Rodríguez v +Garcia | card 3 | +Yair Rodríguez v +Steve Garcia ; +Daniel Rodriguez v +Roberto Soldić ; -Chidi Njokuani v -Ignacio Bahamondes
+EV 2027-01-24 mma ufc | UFC Fight Night | -Bonfim v -Brady | card 0 | 
+EV 2027-01-30 mma ufc | UFC 336 | -Van v -Kape | card 0 | 
+EV 2027-02-07 mma ufc | UFC Fight Night | -Salkilld v -Saint Denis | card 0 | 
+EV 2027-02-13 mma ufc | UFC Fight Night | -Pyfer v -Nickal | card 0 | 
+EV 2027-02-20 mma ufc | UFC 337 | -UFC 337 v -TBC | card 0 | 
+NOPIC boxing 2 : Masamichi Yabuki [IBF flyweight title] ; Nelson Hysa [WBC heavyweight title]
+NOPIC cricket 2 : Western Australia [Sheffield Shield] ; South Australia [Sheffield Shield]
+NOPIC netball 1 : Net Blacks [WM New Zealand Netball Series]
+NOPIC mma 5 : Stirling [UFC Fight Night 294] ; Joshua Pacio [ONE Samurai 5] ; Keito Yamakita [ONE Samurai 5] ; Chihiro Sawada [ONE Samurai 6] ; Anastasia Nikolakakos [ONE Samurai 6]
+NOPIC rugby 9 : England, Ireland, Wales or Scotland [Nations Championship] ; Australia or Japan [Nations Championship] ; Argentina, Australia or Japan [Nations Championship] ; England, France, Ireland, Wales or Scotland [Nations Championship] ; Argentina or Australia [Nations Championship] ; New Zealand or South Africa [Nations Championship] ; England, France or Ireland [Nations Championship] ; Hong Kong [World Rugby Nations Cup] ; Zimbabwe [World Rugby Nations Cup]
+NOPIC basketball 2 : Jordan [FIBA World Cup qualifiers] ; Syria [FIBA World Cup qualifiers]
+COV [games,time,watch,sqGames,squads,sides,pic,links,guide,streams] {"cricket":[41,38,37,38,35,28,26,28,26,1],"boxing":[2,0,1,0,0,4,2,4,0,0],"hockey":[3,3,3,3,3,2,2,2,0,0],"netball":[3,3,3,3,0,2,1,2,3,0],"rugby":[21,18,21,19,11,32,23,25,13,0],"mma":[4,1,4,0,0,8,3,7,1,0],"football":[28,28,28,28,28,30,30,30,26,0],"basketball":[95,95,95,95,93,43,41,43,14,0],"motor":[25,25,25,0,0,0,0,0,17,0],"sailing":[2,0,2,0,0,0,0,0,2,0],"golf":[4,0,4,0,0,0,0,0,3,0],"tennis":[1,0,1,0,0,0,0,0,0,0]}
