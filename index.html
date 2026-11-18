@@ -5588,28 +5588,73 @@ let pageV = null;
 // leave the page on "Loading" for good, with nothing said
 async function feedOnce(ms) {
   const ac = new AbortController(), t = setTimeout(() => ac.abort(), ms);
-  try { const r = await fetch('data/feed.json', { cache: 'no-store', signal: ac.signal }); if (!r.ok) throw new Error(r.status); return await r.json(); }
+  // sw.js keeps each good feed for the next visit, but it isn't in charge of the page yet when a first visit asks for
+  // the feed: that one is kept here, in the same place (sw.js's CACHE and its key for the feed)
+  const own = !navigator.serviceWorker?.controller;
+  try {
+    const r = await fetch('data/feed.json', { cache: 'no-store', signal: ac.signal }); if (!r.ok) throw new Error(r.status);
+    try { if (self.caches && own) { const copy = r.clone(); caches.open('kickoff-v1').then(c => c.put(FEED_KEY, copy)).catch(() => {}); } } catch {}
+    return await r.json();
+  }
   finally { clearTimeout(t); }
+}
+// the feed kept on this device from the last visit (sw.js saves each good copy): on a repeat visit it's drawn first when
+// the new feed is slow to come, so the games are up at once on a slow connection, and the new feed takes its place when
+// it arrives (the owner's pick, 18 Nov 2026). Never a copy more than three days old; nothing where the browser keeps none
+const FEED_KEY = new URL('data/feed.json', location.href).href.replace(/[?#].*$/, '');
+async function savedFeed() {
+  try {
+    if (!self.caches) return null;
+    const r = await caches.match(FEED_KEY);
+    const f = r && await r.json();
+    return f && Array.isArray(f.events) && f.events.length && Date.now() - Date.parse(f.generatedAt) < 3 * 864e5 ? f : null;
+  } catch { return null; }
 }
 async function load(woke) {
   let drawing = false;
   try {
     // the first load is asked again once, after saying so, before the page gives up; a later refresh just keeps what's shown
-    let f;
-    try { f = await feedOnce(15000); }
+    let f, saved = false;
+    const net = feedOnce(15000), grace = new Promise(r => setTimeout(r, 300, false));
+    net.catch(() => {});
+    if (!FEED.generatedAt && !load.asked) {
+      load.asked = true;
+      // a new feed that's here within 300ms is drawn on its own: no point drawing twice on a quick connection
+      const s = await savedFeed();
+      if (s && !(await Promise.race([net.then(() => true, () => false), grace]))) {
+        try { showFeed(s, false, true); saved = true; } catch { FEED = {}; }
+      }
+    }
+    try { f = await net; }
     catch (e) {
-      if (FEED.generatedAt) throw e;
+      if (FEED.generatedAt && !saved) throw e;
       count({ e: 'error', k: `Feed asked again: ${e.name === 'AbortError' ? 'no answer in 15s' : String(e.message || e).slice(0, 60)}` });
-      $('mockNote').textContent = 'Taking longer than usual. Trying again…';
+      if (!saved) $('mockNote').textContent = 'Taking longer than usual. Trying again…';
       f = await feedOnce(25000);
     }
+    drawing = true;
+    showFeed(f, woke, false, saved);
+  } catch (e) {
+    // a fault in drawing the games (not in getting the feed) goes to the stats like any other error in the page's code,
+    // and a first load that fails at either step says so, rather than leaving "Loading" up for good
+    if (drawing) self.reportError?.(e);
+    if (!load.timed) { $('mockBar').hidden = false; $('mockNote').textContent = drawing ? 'Something went wrong showing the games. Refresh the page to try again.' : 'Could not load the feed. Check your connection and refresh the page.'; }
+  }
+}
+// a feed onto the page: the new one from the server, or (saved) the copy kept from the last visit; after is true for the
+// new feed that follows a saved copy
+function showFeed(f, woke, saved, after) {
+  {
+    // the saved copy turned out to be the newest feed there is: it's already on the page
+    if (after && f.generatedAt === FEED.generatedAt) { if (f.site?.version && !pageV) pageV = f.site.version; return; }
     for (const e of f.events || []) if (e.team === 'tennis') e.team = tennisKey(e.comp); // a feed built before tennis's switches were split
-    FEED = f; drawing = true;
+    FEED = f;
     // a phone app can sit open in the background for days: when it's opened again on an older version of the site than
-    // the feed's, reload once to get the new one (once per version, so a slow cache can't loop it)
+    // the feed's, reload once to get the new one (once per version, so a slow cache can't loop it). A saved copy says
+    // nothing about the page's own version
     const v = FEED.site?.version;
-    if (v && pageV && v !== pageV && woke && store.get('reloadedFor', 0) !== v) { store.set('reloadedFor', v); location.reload(); return; }
-    if (v && !pageV) pageV = v;
+    if (!saved && v && pageV && v !== pageV && woke && store.get('reloadedFor', 0) !== v) { store.set('reloadedFor', v); location.reload(); return; }
+    if (!saved && v && !pageV) pageV = v;
     for (const e of FEED.events || []) {
       if (e.homeCredit) CREDITS[e.homeLogo] = e.homeCredit;
       if (e.awayCredit) CREDITS[e.awayLogo] = e.awayCredit;
@@ -5636,11 +5681,6 @@ async function load(woke) {
     render(); redrawSheet(); stamp(); openFromLink();
     // how long until the first games were on screen, in bands; a slow one (4s or more) says why it might have been
     if (!load.timed) { load.timed = true; const t = performance.now() / 1000; count({ e: 'speed', k: t < 1 ? 'under 1s' : t < 2 ? '1-2s' : t < 4 ? '2-4s' : t < 8 ? '4-8s' : '8s or more' }); if (t >= 4) count({ e: 'slow', k: slowWhy(t) }); }
-  } catch (e) {
-    // a fault in drawing the games (not in getting the feed) goes to the stats like any other error in the page's code,
-    // and a first load that fails at either step says so, rather than leaving "Loading" up for good
-    if (drawing) self.reportError?.(e);
-    if (!load.timed) { $('mockBar').hidden = false; $('mockNote').textContent = drawing ? 'Something went wrong showing the games. Refresh the page to try again.' : 'Could not load the feed. Check your connection and refresh the page.'; }
   }
 }
 // a slow first load, in words: its band, the part that took longest (getting the page, starting it up, getting the feed,

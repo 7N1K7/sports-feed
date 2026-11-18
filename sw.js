@@ -1,6 +1,7 @@
 // Kickoff Kiwi's service worker, for the home-screen app. The page and the feed always come from the network when
 // there is one, so nothing goes stale; the last good copy of each is kept so the app still opens with no signal.
 // Other sites' files (flags, crests, fonts) and the calendar files are left alone.
+// (index.html reads the saved feed from this cache by name, and saves a first visit's feed into it: keep the two in step)
 const CACHE = 'kickoff-v1';
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil(
