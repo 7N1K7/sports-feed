@@ -1,33 +1,34 @@
-// Phoenix women match boxes; Tauihi: season pages, TheSportsDB, the TV guide's listings
+// after v793: the new teams in the live feed, and what the feed's bytes are made of (sizes only)
 import { writeFileSync } from 'node:fs';
-const UA = { headers: { 'user-agent': 'sports-feed/1.0 (https://github.com/7N1K7/sports-feed; personal non-commercial site)' } };
+import { gzipSync } from 'node:zlib';
 const out = [], log = s => { out.push(s); };
 process.on('exit', () => { try { writeFileSync(new URL('./out.txt', import.meta.url), out.join('\n') + '\n'); } catch {} });
 const sleep = ms => new Promise(r => setTimeout(r, ms));
-const raw = async t => { await sleep(1300); const r = await fetch('https://en.wikipedia.org/w/index.php?action=raw&redirect=yes&title=' + encodeURIComponent(t), UA); return r.ok ? r.text() : `!${r.status}`; };
-const mask = s => s.replace(/\|\s*(score|goals1|goals2|report|result|attendance|referee|penaltyscore|penalties1|penalties2|aet)\s*=[^|]*?(?=\n\s*\||\n\}\})/gis, '|$1=…');
-try {
-  const x = await raw('2026–27 Wellington Phoenix FC (women) season');
-  const i = x.search(/===?\s*Matches\s*===?/), part = x.slice(i);
-  const boxes = part.split(/\{\{\s*football box collapsible/i).slice(1);
-  log(`PHX matches section at ${i}; ${boxes.length} boxes after it; sections before: ` + [...x.slice(0, i).matchAll(/^==+\s*(.+?)\s*==+$/gm)].map(m => m[1]).join(' / '));
-  for (const b of [boxes[0], boxes[3], boxes[4], boxes[10], boxes[boxes.length - 1]].filter(Boolean)) log('  BOX ' + mask(b.split(/\n\}\}/)[0]).replace(/\n/g, ' ⏎ ').slice(0, 520));
-  log('  DATES ' + boxes.map(b => `${(b.match(/\|\s*date\s*=\s*([^\n|]*)/) || [])[1]?.trim()} @${(b.match(/\|\s*time\s*=\s*([^\n|]*)/) || [])[1]?.trim() || '-'} [${(b.match(/\|\s*round\s*=\s*([^\n|]*)/) || [])[1]?.trim()}]`).join(' ; '));
-} catch (err) { log('PHX error ' + err.message); }
-try {
-  const x = await raw('Tauihi Basketball Aotearoa');
-  log('TAUIHI links: ' + [...new Set([...x.matchAll(/\[\[([^\]|]*(?:season|Tauihi)[^\]|]*)/gi)].map(m => m[1]))].join(' ; ').slice(0, 900));
-  log('TAUIHI 2026: ' + (x.match(/[^.\n]*2026[^.\n]*\./g) || []).slice(0, 4).join(' ').slice(0, 700));
-  log('TAUIHI clubs: ' + (x.match(/==\s*Current clubs\s*==[\s\S]{0,1400}/) || [''])[0].replace(/\n/g, ' ⏎ ').slice(0, 1200));
-} catch (err) { log('TAUIHI error ' + err.message); }
-const tsdb = async p => { await sleep(3200); const r = await fetch('https://www.thesportsdb.com/api/v1/json/123/' + p, UA); if (!r.ok) return { err: r.status }; try { return await r.json(); } catch { return { err: 'not json' }; } };
-for (const p of ['search_all_leagues.php?c=New%20Zealand&s=Basketball', 'search_all_leagues.php?c=Australia&s=Netball', 'search_all_leagues.php?c=New%20Zealand&s=Netball', 'searchteams.php?t=Whai', 'searchteams.php?t=Southern%20Hoiho', 'searchteams.php?t=Mainland%20Pouakai', 'eventsnextleague.php?id=4805', 'eventsnext.php?id=144130', 'eventslast.php?id=144130']) {
-  const d = await tsdb(p); const v = Object.values(d)[0];
-  log(`TSDB ${p}: ` + (d.err ? 'error ' + d.err : Array.isArray(v) ? v.slice(0, 12).map(l => l.strLeague && !l.strEvent ? `${l.idLeague} ${l.strLeague}${l.strTeam ? ' / ' + l.strTeam : ''}` : `${l.dateEvent} ${l.strTime} ${l.strEvent} @${l.strVenue || '-'} [${l.strLeague}]${l.intHomeScore != null && l.intHomeScore !== '' ? ' (played)' : ''}`).join(' ;; ') : JSON.stringify(d).slice(0, 200)));
+let txt = '', f = null;
+for (let i = 0; i < 40; i++) {
+  try { txt = await (await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now())).text(); f = JSON.parse(txt); } catch { f = null; }
+  if (f && (f.events || []).some(e => e.team === 'phoenixw') && f.diag?.tauihi) break;
+  await sleep(15000);
 }
-try {
-  const d = await (await fetch('https://kickoff.kiwi/data/coverage-detail.json?x=' + Date.now())).json();
-  const re = /tauihi|k[āa]hu|whai|tokomanawa|pou[āa]kai|hoiho|a-league women|phoenix/i;
-  for (const k of ['nz', 'other']) log(`TVGAPS ${k}: ` + (d.tvGaps?.[k] || []).filter(g => re.test(JSON.stringify(g))).map(g => JSON.stringify(g).slice(0, 260)).join(' ;; '));
-  log('TVGAPS nz all: ' + (d.tvGaps?.nz || []).map(g => `${g.t} | ${g.at} | ${g.ch}`).join(' ;; ').slice(0, 1500));
-} catch (err) { log('TVGAPS error ' + err.message); }
+if (!f) { log('no feed'); process.exit(0); }
+log(`FEED ${f.generatedAt} v${f.version || ''} events ${f.events.length}`);
+log('DIAG tauihi: ' + f.diag?.tauihi);
+const nz = t => new Date(t).toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
+for (const e of f.events.filter(e => e.team === 'phoenixw' || e.team === 'tauihi' || (e.comp === 'A-League Women'))) log(`  ${e.team} | ${e.comp}${e.stage ? ' · ' + e.stage : ''} | ${e.home} v ${e.away} | ${nz(e.startUTC)}${e.timeTBC ? ' TBC' : ''} | ${e.venue}, ${e.city} | ${e.status}${e.score ? ' (has result)' : ''} | ${e.broadcast || '-'} | tv:${(e.tv || []).map(x => x.ch + '@' + nz(x.at) + (x.delayed ? ' delayed' : '')).join(',') || '-'} | logos:${e.homeLogo ? 'y' : 'n'}${e.awayLogo ? 'y' : 'n'}`);
+log('DIAG tvGaps: ' + String(f.diag?.tvGaps || '').slice(0, 600));
+log('DIAG faces: ' + f.diag?.faces);
+const box = f.events.filter(e => e.sport === 'boxing' && e.card?.length === 1 && Date.parse(e.startUTC) > Date.now());
+log('BOXING one-fight cards: ' + box.map(e => `${e.home} v ${e.away}: night ${e.homeLogo ? 'y' : 'n'}${e.awayLogo ? 'y' : 'n'} fight ${e.card[0].aImg ? 'y' : 'n'}${e.card[0].bImg ? 'y' : 'n'}`).join(' ; '));
+// sizes
+const gz = s => gzipSync(Buffer.from(s)).length, kb = n => (n / 1024).toFixed(0) + 'kB';
+log(`SIZE feed.json ${kb(txt.length)} raw, ${kb(gz(txt))} gzipped`);
+log('SIZE top-level: ' + Object.entries(f).map(([k, v]) => [k, JSON.stringify(v).length]).sort((a, b) => b[1] - a[1]).slice(0, 14).map(([k, n]) => `${k} ${kb(n)}`).join(', '));
+const by = {}; for (const e of f.events) for (const [k, v] of Object.entries(e)) by[k] = (by[k] || 0) + JSON.stringify(v).length + k.length + 4;
+log('SIZE event fields: ' + Object.entries(by).sort((a, b) => b[1] - a[1]).slice(0, 22).map(([k, n]) => `${k} ${kb(n)}`).join(', '));
+const noBig = JSON.stringify({ ...f, events: f.events.map(({ squads, card, sessions, ...e }) => e) });
+log(`SIZE without events' squads, card, sessions: ${kb(noBig.length)} raw, ${kb(gz(noBig))} gzipped`);
+const past = f.events.filter(e => Date.parse(e.startUTC) < Date.now() - 2 * 864e5), far = f.events.filter(e => Date.parse(e.startUTC) > Date.now() + 30 * 864e5);
+log(`SIZE events older than 2 days: ${past.length} (${kb(JSON.stringify(past).length)}); more than 30 days ahead: ${far.length} (${kb(JSON.stringify(far).length)})`);
+for (const k of ['squads', 'card', 'sessions']) { const w = f.events.filter(e => e[k]); log(`SIZE ${k}: on ${w.length} events; past ${w.filter(e => Date.parse(e.startUTC) < Date.now() - 2 * 864e5).length}, within 7 days ${w.filter(e => Math.abs(Date.parse(e.startUTC) - Date.now()) < 7 * 864e5).length}, further ahead ${w.filter(e => Date.parse(e.startUTC) > Date.now() + 7 * 864e5).length}`); }
+try { const r = await fetch('https://kickoff.kiwi/data/feed.json?x=' + Date.now(), { headers: { 'accept-encoding': 'gzip, br' } }); log('HEADERS content-encoding: ' + r.headers.get('content-encoding') + ' | cache-control: ' + r.headers.get('cache-control') + ' | content-length: ' + r.headers.get('content-length')); } catch {}
+try { const h = await (await fetch('https://kickoff.kiwi/index.html?x=' + Date.now())).text(); log(`SIZE index.html ${kb(h.length)} raw, ${kb(gz(h))} gzipped`); } catch {}
