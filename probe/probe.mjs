@@ -1,14 +1,29 @@
-const f = await (await fetch('https://kickoff.kiwi/data/feed.json?' + Date.now())).json();
-const d = f.diag || {};
-for (const k of Object.keys(d).filter(k => /face|pic|logo|photo|img/i.test(k))) console.log('DIAG', k, ':', String(d[k]).slice(0, 700));
-// fight cards coming up: who has a picture (names only, no results)
-const up = f.events.filter(e => /^(mma|boxing)$/.test(e.sport) && e.status !== 'final').sort((a, b) => a.startUTC.localeCompare(b.startUTC));
-for (const e of up) {
-  const card = (e.card || []).map(b => `${b.aImg ? '+' : '-'}${b.a} v ${b.bImg ? '+' : '-'}${b.b}`);
-  console.log('EV', e.startUTC.slice(0, 10), e.sport, e.team, '|', e.comp, '|', (e.homeLogo ? '+' : '-') + e.home, 'v', (e.awayLogo ? '+' : '-') + e.away, '| card', (e.card || []).length, '|', card.join(' ; ').slice(0, 900));
+// free photos of fighters the site has none for: Commons search (loose) and other-language Wikipedia lead images
+const UA = { headers: { 'user-agent': 'kickoff-kiwi-probe/1.0 (personal non-commercial site)' } };
+const nap = ms => new Promise(r => setTimeout(r, ms));
+const get = async (host, q) => { await nap(350); const r = await fetch(`https://${host}/w/api.php?format=json&formatversion=2&` + q, UA); if (!r.ok) throw new Error(host + ' ' + r.status); return r.json(); };
+const NAMES = { boxer: ['Masamichi Yabuki', 'Nelson Hysa', 'Callum Smith', 'Anthony Cacace', 'Nick Ball', 'Joshua Buatsi', 'Willy Hutchinson', 'Emanuel Navarrete', 'Dalton Smith', 'Alberto Puello', 'Sebastian Fundora', 'Tom Nolan'],
+  fighter: ['Navajo Stirling', 'Waldo Cortes-Acosta', 'Joaquin Buckley', 'Joshua Pacio', 'Keito Yamakita', 'Chihiro Sawada', 'Kevin Vallejos', 'Shamil Gaziev', 'Amir Albazi', 'Yaroslav Amosov', 'Serghei Spivac', 'Ion Cuțelaba', 'Park Jun-yong', 'Kyler Phillips', 'Junior Tafa', 'Chidi Njokuani', 'Ignacio Bahamondes', 'Mairon Santos', 'Santiago Luna'] };
+const FIGHT = /box|fight|martial|mma|kickbox|wrestl|judo|muay|ボクサー|格闘|boxe|kämpfer|luchador|lutador|bokser/i;
+for (const [kind, names] of Object.entries(NAMES)) for (const n of names) {
+  const out = [];
+  try {
+    const s = await get('commons.wikimedia.org', 'action=query&list=search&srnamespace=6&srlimit=8&srsearch=' + encodeURIComponent(`${n} ${kind === 'boxer' ? 'boxer OR boxing' : 'UFC OR MMA OR fighter'}`));
+    out.push('COMMONS ' + ((s.query?.search || []).map(x => x.title.replace(/^File:/, '').slice(0, 70)).join(' ;; ') || 'nothing'));
+    const w = await get('www.wikidata.org', 'action=wbsearchentities&language=en&type=item&limit=4&search=' + encodeURIComponent(n));
+    const ents = (w.search || []).filter(x => FIGHT.test(x.description || ''));
+    for (const e of ents.slice(0, 1)) {
+      const d = await get('www.wikidata.org', `action=wbgetentities&props=sitelinks|claims&ids=${e.id}`), ent = d.entities?.[e.id] || {};
+      const p18 = ent.claims?.P18?.[0]?.mainsnak?.datavalue?.value, cat = ent.claims?.P373?.[0]?.mainsnak?.datavalue?.value;
+      const links = Object.entries(ent.sitelinks || {}).filter(([k]) => /^(en|ja|de|es|pt|fr|ru|it|pl|th|nl|ko|tl|ar|uk|ro|ka|kk)wiki$/.test(k));
+      out.push(`WIKIDATA ${e.id} (${e.description}) P18:${p18 || '-'} cat:${cat || '-'} wikis:${links.map(([k]) => k.replace('wiki', '')).join(',')}`);
+      for (const [k, v] of links) {
+        if (k === 'enwiki') continue;
+        const r = await get(`${k.replace('wiki', '')}.wikipedia.org`, 'action=query&prop=pageimages&piprop=name&pilicense=free&redirects=1&titles=' + encodeURIComponent(v.title));
+        const img = r.query?.pages?.[0]?.pageimage; if (img) out.push(`  ${k}: ${img}`);
+      }
+    }
+    if (!ents.length) out.push('WIKIDATA no fighter entity: ' + (w.search || []).map(x => `${x.label} (${x.description || ''})`).join(' | ').slice(0, 200));
+  } catch (e) { out.push('error ' + e.message); }
+  console.log(`== ${n} [${kind}]\n   ` + out.join('\n   '));
 }
-const cd = await (await fetch('https://kickoff.kiwi/data/coverage-detail.json?' + Date.now())).json();
-const miss = cd.sides.filter(s => !(s.f & 1)); const by = {}; for (const s of miss) (by[s.s] ||= []).push(`${s.n} [${s.c}]`);
-for (const [k, v] of Object.entries(by)) console.log('NOPIC', k, v.length, ':', v.join(' ; ').slice(0, 1500));
-const cov = await (await fetch('https://kickoff.kiwi/data/coverage.json?' + Date.now())).json();
-console.log('COV [games,time,watch,sqGames,squads,sides,pic,links,guide,streams]', JSON.stringify(cov.cov));
