@@ -1,0 +1,5 @@
+{
+ "_note": "Tauihi Basketball Aotearoa. Fixtures are made from the TV guide by scripts/fetch.mjs (tvGuide). A game listed here by hand (for its result: same two sides, within a day and a half of the guide's time) replaces the guide's card. Fields as in netball.json: id, team \"tauihi\", sport \"basketball\", comp \"Tauihi\", stage \"Round 9\", home, away, startUTC, timeTBC false, venue, city, tz \"Pacific/Auckland\", status \"final\", score \"home-away\", broadcast, source (the report's link).",
+ "events": [],
+ "news": []
+}

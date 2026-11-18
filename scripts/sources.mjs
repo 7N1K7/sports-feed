@@ -251,6 +251,8 @@ function eventsFromPage(title, text, cfg, cityTz) {
     }
     const cls = cfg.team ? { team: cfg.team, tags: cfg.tags || [] } : classify(cfg.classify, home, away);
     if (!cls) continue;
+    // a club's own season page lists its pre-season friendlies too, under their own heading ("skipUnder" in the page's config)
+    if (cfg.skipUnder) { const hs = [...text.slice(0, tpl.at).matchAll(/^={2,5}\s*([^=\n]+?)\s*={2,5}\s*$/gm)]; if (hs.length && new RegExp(cfg.skipUnder, 'i').test(hs[hs.length - 1][1])) continue; }
     const report = (stripRefs(p.report || '').match(/https?:\/\/[^\s\]|]+/) || [])[0];
     const round = clean(p.round || '').replace(/^Match\s*/i, 'Match ');
     // a national team's page links each game's round to its tournament ("[[2026 Men's FIH Hockey World Cup|Pool A]]"): that

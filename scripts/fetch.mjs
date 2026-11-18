@@ -72,14 +72,14 @@ const NEWS_TEAMS = [
   ['blackcaps', /Black ?Caps/i], ['whiteferns', /White Ferns/i], ['nzdomestic', /Plunket Shield|Ford Trophy|Super Smash|Hallyburton/i], ['audomestic', /Sheffield Shield|Dean Jones Trophy|One-Day Cup/i],
   ['kiwis', /\bKiwis\b/], ['kiwiferns', /Kiwi Ferns/i], ['warriors', /(?<!Golden State )\bWarriors\b/],
   ['blacksticksw', /Black Sticks Women|Black Sticks women/i], ['blacksticks', /Black Sticks/i],
-  ['tallferns', /Tall Ferns/i], ['tallblacks', /Tall Blacks/i], ['breakers', /\bBreakers\b/], ['nbl', /\bNBL\b/], ['silverferns', /Silver Ferns/i], ['anzprem', /ANZ Premiership/i],
+  ['tallferns', /Tall Ferns/i], ['tallblacks', /Tall Blacks/i], ['breakers', /\bBreakers\b/], ['tauihi', /\bTauihi\b/i], ['nbl', /\bNBL\b/], ['silverferns', /Silver Ferns/i], ['anzprem', /ANZ Premiership/i],
   ['f1', /Formula (One|1)\b|\bF1\b|Liam Lawson/i], ['supercars', /Supercars|Bathurst 1000/i], ['nascar', /\bNASCAR\b|van Gisbergen/i],
   ['wallabies', /Wallabies/], ['nations', /Nations Championship/i], ['superrugby', /Super Rugby/i],
   // the rugby Nations Cup only: netball and hockey have Nations Cups too
   ['nationscup', /World Rugby Nations Cup|\bNations Cup\b.{0,80}\brugby\b|\brugby\b.{0,80}\bNations Cup\b/i],
   ['rlwc', /Rugby League World Cup|\bRLWC\b/i], ['nrl', /\bNRL\b/],
   ['wbbl', /\bWBBL\b|Women's Big Bash/i], ['bbl', /\bBBL\b|Big Bash/i],
-  ['footballferns', /Football Ferns/i], ['allwhites', /All Whites/i], ['phoenix', /Wellington Phoenix|\bPhoenix\b/], ['aucklandfc', /Auckland FC/i], ['aleague', /A-League/i], ['epl', /Premier League|\bEPL\b/],
+  ['footballferns', /Football Ferns/i], ['allwhites', /All Whites/i], ['phoenixw', /Phoenix women|A-League Women/i], ['phoenix', /Wellington Phoenix|\bPhoenix\b/], ['aucklandfc', /Auckland FC/i], ['aleague', /A-League/i], ['epl', /Premier League|\bEPL\b/],
   ['nzboxing', /Joseph Parker|David Nyika|Mea Motu|Lani Daniels|Andrei Mikhailovich/i],
   // (ONE before the UFC, whose "MMA" would take a ONE story too)
   ['onefc', /\bONE (Championship|Fight Night|Friday Fights|Samurai)\b|\bONE \d{3}\b/],
@@ -708,8 +708,10 @@ async function ufcBuildup(events) {
 // counts for a game when it names both sides (or the race or fight night) and starts within two hours before to an hour
 // after the game; one starting later the same day or the next is the game shown delayed
 const TV_FREE = /^(TVNZ 1|TVNZ 2|Three|Sky Open|TVNZ DUKE|Whakaata Māori|Rush|Bravo|eden)$/;
-const TV_SKIP = /highlights|\bhls\b|\bl2h\b|\bwrap\b|archive|replay|review|classic|documentar|magazine|lounge|preview show|the breakdown|rewind|best of|motw|goal rush|countdown|press conference|weigh-in/i;
-const TV_NICK = { 'black caps': ['blackcaps', 'black caps', 'new zealand', 'nzl'], 'white ferns': ['white ferns', 'new zealand', 'nzl'], 'all blacks': ['all blacks', 'new zealand'],
+// (the Rapid League is the short curtain-raiser before each Tauihi game, between the same two sides)
+const TV_SKIP = /rapid league|highlights|\bhls\b|\bl2h\b|\bwrap\b|archive|replay|review|classic|documentar|magazine|lounge|preview show|the breakdown|rewind|best of|motw|goal rush|countdown|press conference|weigh-in/i;
+const TV_NICK = { 'northern kāhu': ['northern kahu', 'kahu'], 'mainland pouākai': ['mainland pouakai', 'pouakai'], 'tokomanawa queens': ['queens'], 'southern hoiho': ['hoiho'], 'tauranga whai': ['whai'],
+  'black caps': ['blackcaps', 'black caps', 'new zealand', 'nzl'], 'white ferns': ['white ferns', 'new zealand', 'nzl'], 'all blacks': ['all blacks', 'new zealand'],
   'black ferns': ['black ferns', 'new zealand'], kiwis: ['kiwis', 'new zealand', 'nzl'], 'kiwi ferns': ['kiwi ferns', 'new zealand'], 'silver ferns': ['silver ferns', 'new zealand'],
   'all whites': ['all whites', 'new zealand'], 'football ferns': ['football ferns', 'new zealand'], 'tall blacks': ['tall blacks', 'new zealand'], 'tall ferns': ['tall ferns', 'new zealand'],
   'black sticks': ['black sticks', 'new zealand'], wallabies: ['wallabies', 'australia', 'aus'], wallaroos: ['wallaroos', 'australia'], springboks: ['springboks', 'south africa'],
@@ -732,6 +734,8 @@ const TV_NZ = new RegExp([
 // not sport to add: horse racing and sales channels, studio and talk shows
 const TV_NOT_GAME = /trackside|karaka|sportscenter|get up\b|first take|pardon the interruption|nfl live|college football live|gameday|big day with|\bwrap\b|around the horn|pat mcafee|nba today|\bsale of\b/i;
 let tvGaps = null;
+// Tauihi's five clubs, by the word the TV guide uses for each
+const TAUIHI = [[/k[aā]hu/i, 'Northern Kāhu'], [/whai/i, 'Tauranga Whai'], [/queens/i, 'Tokomanawa Queens'], [/pou[aā]kai/i, 'Mainland Pouākai'], [/hoiho/i, 'Southern Hoiho']];
 // a national side's nickname says the sport: "BLACKCAPS v India" isn't the hockey test between the same two countries
 const TV_NICK_SPORT = [[/black ?caps|white ferns/i, 'cricket'], [/all blacks|black ferns|wallabies|wallaroos|springboks/i, 'rugby'], [/kiwi ferns|kangaroos|jillaroos/i, 'league'], [/silver ferns/i, 'netball'],
   [/all whites|football ferns/i, 'football'], [/tall blacks|tall ferns/i, 'basketball'], [/black sticks/i, 'hockey']];
@@ -739,7 +743,7 @@ async function tvGuide(events) {
   const cacheUrl = new URL('.cache/tvguide.json', ROOT);
   let cache = {};
   try { cache = JSON.parse(await readFile(cacheUrl, 'utf8')); } catch {}
-  if (!cache.t || cache.v !== 5 || Date.now() - cache.t > 6 * 36e5) {
+  if (!cache.t || cache.v !== 6 || Date.now() - cache.t > 6 * 36e5) {
     try {
       const items = [], seen = new Set(), lo = Date.now() - 2 * DAY, hi = Date.now() + 15 * DAY;
       // the Sky Sport Now guide (Sky Sport 1-9, ESPN, Select: all sport, so every listing counts), the Sky Go guide
@@ -768,17 +772,60 @@ async function tvGuide(events) {
         items.push({ src: url.split('/')[3], ch: ch[m[2]], at, text: `${title} | ${sub} | ${desc.slice(0, 240)}`, live: /\blive\b/i.test(`${title} ${sub} ${desc}`) });
       }
       }
-      cache = { t: Date.now(), v: 5, items }; // v: bumped when what's kept changes, so an old cache is read again
+      cache = { t: Date.now(), v: 6, items }; // v: bumped when what's kept changes, so an old cache is read again
       try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(cacheUrl, JSON.stringify(cache)); } catch {}
     } catch (err) { diag.tvGuide = 'error ' + err.message; if (!cache.items) return; }
   }
   const items = cache.items || [], hits = [];
+  // Tauihi Basketball Aotearoa, New Zealand's women's league: this guide is the one fixture source the site may read
+  // (Wikipedia has no season page, TheSportsDB doesn't list the league). Each game's listing ("Tauihi: Kahu v Queens",
+  // "LIVE coverage from Round 9 of Tauihi Basketball Aotearoa between the Northern Kahu and Tokomanawa Queens at
+  // Eventfinda Stadium, Auckland.") makes a card at the time its coverage starts. A game stays in .cache/tauihi.json once
+  // it has left the guide, so it stays in Results; one kept by hand (data/curated, for its result) wins over the guide's
+  try {
+    const keptUrl = new URL('.cache/tauihi.json', ROOT), nowT = Date.now();
+    let kept = {};
+    try { kept = JSON.parse(await readFile(keptUrl, 'utf8')); } catch {}
+    const club = n => (TAUIHI.find(([re]) => re.test(n || '')) || [])[1], fresh = {};
+    for (const it of [...items].sort((a, b) => a.at - b.at)) {
+      const [title, sub = '', desc = ''] = it.text.split(' | ');
+      if (!/^Tauihi\b/i.test(title)) continue;
+      const m = desc.match(/between (?:the )?(.+?) and (?:the )?(.+?) at (?:the )?([^.]+)/i), s = sub.match(/Tauihi:\s*(.+?)\s+v\s+(.+?)\s*$/i);
+      const home = club(m?.[1] || s?.[1]), away = club(m?.[2] || s?.[2]);
+      if (!home || !away || home === away) continue;
+      const rd = it.text.match(/\bRound (\d+)\b/i), stage = /grand final/i.test(it.text) ? 'Grand Final' : /semi-?final/i.test(it.text) ? 'Semi-final' : rd ? `Round ${rd[1]}` : '';
+      // the first showing is the game; a later one of the same game in the same round is a repeat
+      const key = `${new Date(it.at).getUTCFullYear()}|${home}|${away}|${stage}`;
+      if (fresh[key]) continue;
+      const place = (m?.[3] || '').split(',').map(x => x.trim()).filter(Boolean);
+      fresh[key] = { id: `tauihi-${new Date(it.at + 13 * 36e5).toISOString().slice(0, 10)}-${(home + away).toLowerCase().normalize('NFD').replace(/[^a-z]/g, '').slice(0, 40)}`, team: 'tauihi', tags: [], sport: 'basketball', comp: 'Tauihi', home, away,
+        startUTC: new Date(it.at).toISOString(), timeTBC: false, ...(stage ? { stage } : {}), venue: place[0] || '', city: place[1] ? `${place[1]}, New Zealand` : '', tz: 'Pacific/Auckland', status: 'upcoming',
+        source: 'https://en.wikipedia.org/wiki/Tauihi_Basketball_Aotearoa' };
+    }
+    // a game already played keeps the card it had (what the guide shows now is a repeat); one still to come follows the
+    // guide; the same two sides more than five days apart are two games (a listing may name no round)
+    for (const ev of Object.values(fresh)) {
+      const t = Date.parse(ev.startUTC), old = Object.entries(kept).find(([, o]) => o.home === ev.home && o.away === ev.away && Math.abs(t - Date.parse(o.startUTC)) < 5 * DAY);
+      if (old && Date.parse(old[1].startUTC) <= nowT) continue;
+      if (old) delete kept[old[0]];
+      kept[ev.id] = ev;
+    }
+    for (const [k, ev] of Object.entries(kept)) if (nowT - Date.parse(ev.startUTC) > 200 * DAY) delete kept[k];
+    try { await mkdir(new URL('.cache/', ROOT), { recursive: true }); await writeFile(keptUrl, JSON.stringify(kept)); } catch {}
+    const pair = e => [e.home, e.away].sort().join('|');
+    let made = 0;
+    for (const ev of Object.values(kept)) {
+      if (events.some(e => e.team === 'tauihi' && pair(e) === pair(ev) && Math.abs(Date.parse(e.startUTC) - Date.parse(ev.startUTC)) < 36 * 36e5)) continue;
+      const e = { ...ev }; applyBroadcast(e, rules); events.push(e); made++;
+    }
+    diag.tauihi = `${made} games from the TV guide (${Object.keys(fresh).length} listed now, ${Object.keys(kept).length} kept)`;
+  } catch (err) { diag.tauihi = 'error ' + err.message; }
   const sideNames = t => { const n = String(t || '').toLowerCase().replace(/\s+women('s)?$/, '').trim();
     return [...new Set([n, ...(TV_NICK[n] || []), ...(TV_CODE[n] ? [TV_CODE[n]] : []), ytSide(t)])].filter(x => x.length > 1); };
   // a name as a whole word, or as its adjective ("Australian Diamonds")
   const has = (text, w) => new RegExp(`(^|[^a-z])${w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}n?([^a-z]|$)`, 'i').test(text);
   const soloOf = e => !e.away || /^(motor|tennis|mma|boxing|sailing|golf|cycling)$/.test(e.sport);
-  const womenOf = e => /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'blackferns', 'kiwiferns', 'silverferns', 'tallferns', 'blacksticksw', 'wbbl', 'fpc', 'anzprem', 'footballferns', 'lpga'].includes(e.team);
+  const womenOf = e => /women/i.test(`${e.comp} ${e.home} ${e.away}`) || ['whiteferns', 'blackferns', 'kiwiferns', 'silverferns', 'tallferns', 'blacksticksw', 'wbbl', 'fpc', 'anzprem', 'footballferns', 'lpga', 'phoenixw', 'tauihi'].includes(e.team);
   // does a listing's text name this game: both its sides (or the race, fight night or tournament), and the men's or the
   // women's (loose: whichever, and any stage, for telling whether the site has the thing at all)
   const named = (e, t, loose) => {
@@ -794,7 +841,7 @@ async function tvGuide(events) {
     } else {
       if (![e.home, e.away].every(s => sideNames(s).some(n => has(t, n)))) return false;
       if (TV_NICK_SPORT.some(([re, sp]) => sp !== e.sport && re.test(t))) return false;
-      const wt = /women|\bw\b|ferns|wahine|wbbl|wncl|nrlw|jillaroos|wallaroos|wxv|aupiki/i.test(t);
+      const wt = /women|\bw\b|ferns|wahine|wbbl|wncl|nrlw|jillaroos|wallaroos|wxv|aupiki|tauihi/i.test(t);
       if (!loose && wt !== women) return false;
     }
     return true;
@@ -921,7 +968,7 @@ let tsdbCache = {};
 try { tsdbCache = JSON.parse(await readFile(tsdbCacheUrl, 'utf8')); } catch {}
 
 // same fixture from two sources? UFC cards match on date alone
-const WOMEN_KEYS = new Set(['footballferns', 'blackferns', 'whiteferns', 'kiwiferns', 'fpc', 'wxv', 'wbbl', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
+const WOMEN_KEYS = new Set(['phoenixw', 'tauihi', 'footballferns', 'blackferns', 'whiteferns', 'kiwiferns', 'fpc', 'wxv', 'wbbl', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
 const isW = e => WOMEN_KEYS.has(e.team) || /women|wheelchair/i.test([e.comp, e.home, e.away].join(' '));
 // a race weekend's sessions (qualifying, practice, Supercars' Saturday race) are never the race itself
 // women's, wheelchair or men's: a wheelchair game is never a women's one (England v Wales took England v Samoa's score)
@@ -2137,7 +2184,7 @@ const stateList = events.some(e => e.team === 'audomestic' && Math.abs(Date.pars
   ? Object.entries(await stateSquads(diag)).map(([team, players]) => ({ team, players })) : [];
 // other sides' current squads (NZ domestic cricket, the Big Bash, NBL, A-League, national and Super Rugby sides), from
 // their own pages, for sides with a game within four weeks; kept once in the feed, the page puts them on each game
-const WOMEN = new Set(['footballferns', 'blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc', 'wxv', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
+const WOMEN = new Set(['phoenixw', 'tauihi', 'footballferns', 'blackferns', 'whiteferns', 'kiwiferns', 'wbbl', 'fpc', 'wxv', 'blacksticksw', 'tallferns', 'silverferns', 'anzprem']);
 const genderKey = e => /wheelchair/i.test(e.comp || '') ? 'wc' : WOMEN.has(e.team) || /women|\bWBBL\b/i.test(`${e.comp} ${e.home} ${e.away}`) ? 'w' : 'm';
 const squadKeys = [...new Set(events.filter(e => Math.abs(Date.parse(e.startUTC) - now) < 30 * DAY)
   .flatMap(e => [e.home, e.away].map(t => `${e.sport}|${genderKey(e)}|${String(t || '').replace(/\s+Women('s)?$/, '')}`)))];

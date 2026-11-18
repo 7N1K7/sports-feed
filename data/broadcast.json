@@ -14,6 +14,8 @@
   { "comp": "^NRL", "broadcast": "Sky Sport / Sky Sport Now", "au": "Fox League and Kayo (every game) / Nine and 9Now (free, selected games)" },
   { "comp": "Premier League", "broadcast": "Sky Sport / Sky Sport Now" },
   { "team": "phoenix", "comp": "A-League", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Some games free on Sky Open", "au": "Paramount+ (every game) / Network 10 (one game a week)" },
+  { "team": "phoenixw", "broadcast": "Sky Sport / Sky Sport Now", "au": "Paramount+" },
+  { "team": "tauihi", "broadcast": "Sky Sport / Sky Sport Now" },
   { "team": "aucklandfc", "comp": "A-League", "broadcast": "Sky Sport / Sky Sport Now", "watchAlt": "Some games free on Sky Open", "au": "Paramount+ (every game) / Network 10 (one game a week)" },
   { "comp": "A-League", "broadcast": "Sky Sport / Sky Sport Now", "au": "Paramount+ (every game) / Network 10 (one game a week)" },
   { "comp": "\\bNBL\\b", "broadcast": "ESPN on Sky / Sky Sport Now / Disney+ (ESPN)", "au": "ESPN on Kayo, Foxtel or Disney+ (every game) / 9Now (free, Saturday games)" },

@@ -32,6 +32,7 @@
     { "title": "{S} Hallyburton Johnstone Shield", "sport": "cricket", "comp": "Hallyburton Johnstone Shield", "team": "nzdomestic", "tz": "Pacific/Auckland", "women": true, "formOnly": true, "formPrev": true },
     { "title": "{S} Super Smash (women's cricket)", "sport": "cricket", "comp": "Super Smash", "team": "nzdomestic", "tz": "Pacific/Auckland", "women": true, "formOnly": true, "formPrev": true },
     { "title": "{S} A-League Men", "sport": "football", "comp": "A-League Men", "classify": "aleague" },
+    { "title": "{S} Wellington Phoenix FC (women) season", "sport": "football", "comp": "A-League Women", "team": "phoenixw", "skipUnder": "pre-season|friendl" },
     { "title": "{S} Premier League", "sport": "football", "comp": "Premier League", "classify": "epl" },
     { "title": "{Y} NRL season", "sport": "league", "comp": "NRL", "classify": "nrl" },
     { "title": "{Y} NRL finals series", "sport": "league", "comp": "NRL finals", "classify": "nrl", "formPrev": true },
