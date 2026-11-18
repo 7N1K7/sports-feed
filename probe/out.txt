@@ -1,65 +1,119 @@
 == Masamichi Yabuki [boxer]
-   COMMONS Boxing080905 photoshop.jpg ;; Heavyweight Boxing Champs - українська мова.png ;; Roomaif best boxing fight.jpg ;; Boxing Entertainment Championship.png ;; Boxing 1892 by William Dickson.webm ;; Boxing Practice.jpg ;; Top-25-world-HW-boxing-champions.jpg ;; Baby Madison - Boxing.png
-   WIKIDATA Q81033502 (Japanese boxer) P18:- cat:- wikis:de,en,fr,ja,uk
+   WIKIDATA none: 
+   COMMONS nothing naming them (0 unrelated)
 == Nelson Hysa [boxer]
-   COMMONS Boxing080905 photoshop.jpg ;; Heavyweight Boxing Champs - українська мова.png ;; Roomaif best boxing fight.jpg ;; Boxing Entertainment Championship.png ;; Boxing 1892 by William Dickson.webm ;; Boxing Practice.jpg ;; Top-25-world-HW-boxing-champions.jpg ;; Baby Madison - Boxing.png
-   WIKIDATA Q20029125 (Albanian boxer) P18:- cat:- wikis:en,ja,pl
-   error ja.wikipedia.org 429
+   WIKIDATA none: 
+   COMMONS nothing naming them (5 unrelated)
 == Callum Smith [boxer]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS James MacCallum Smith 1934.jpg
 == Anthony Cacace [boxer]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS nothing naming them (6 unrelated)
 == Nick Ball [boxer]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS "Black Cube" by Nick Ball - geograph.org.uk - 7206704.jpg ;; Vortex - installation by Nick Ball - geograph.org.uk - 6231355.jpg ;; 'Absolutely Nothing Artificial' - installation by Nick Ball - geograph.org.uk - 5883736.jpg ;; 'Absolutely Nothing Artificial' - installation by Nick Ball - geograph.org.uk - 5883734.jpg ;; Nick Poss RedPocket Mobiles vs. Oakland Ballers 30 May 2026.jpg ;; Raveningham Sculpture Trail 2020, 'Rovers' by Nick Ball - geograph.org.uk - 6579909.jpg
 == Joshua Buatsi [boxer]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS nothing naming them (0 unrelated)
 == Willy Hutchinson [boxer]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS Memoirs of the life of Colonel Hutchinson, govenor of Nottingham castle and town (IA memoirscolonelhu00hutciala).pdf ;; 2010 Census Urban Cluster Reference Map for Hutchinson, Kansas - DPLA - 84d8c487c92093fb3d7a14f3e3779ee4.pdf ;; The Hutchinson family - or, The descendants of Barnard Hutchinson, of Cowlam, England (IA hutchinsonfamily00derb).pdf ;; The Hutchinson family - or, The descendants of Barnard Hutchinson, of Cowlam, England (IA hutchinsonfamily00derb 0).pdf ;; Spring and fall (catalog). 1919 - Hutchinson Nurseries ; P. H. Hutchinson, proprietor. (IA CAT31302505).pdf ;; Hutchinson papers (IA hutchinsonpapers02hutc).pdf
 == Emanuel Navarrete [boxer]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS nothing naming them (6 unrelated)
 == Dalton Smith [boxer]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS Dalton Smith.jpg ;; Edwin Dalton Smith03b.jpg ;; Edwin Dalton Smith00a.jpg ;; Edwin Dalton Smith01.jpg
 == Alberto Puello [boxer]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS nothing naming them (6 unrelated)
 == Sebastian Fundora [boxer]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS nothing naming them (0 unrelated)
 == Tom Nolan [boxer]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS Tom Nolan in Buckskin.webp ;; Tom Nolan in Buckskin (cropped).webp ;; Kay Bailey Hutchison presents Nolan Ryan an American flag flown over the U.S. Capitol.jpg ;; Tom Mooney and His co-Defendants. From Left to Right, Edward D. Nolan, Tom Mooney, Rena Mooney, Warren Billings and Israel Weinberg. 1917.png ;; John I. Nolan. Memorial addresses delivered in the House of representative of the United States in memory of John I. Nolan.djvu
 == Navajo Stirling [fighter]
-   error commons.wikimedia.org 429
-== Waldo Cortes-Acosta [fighter]
-   error commons.wikimedia.org 429
-== Joaquin Buckley [fighter]
-   error commons.wikimedia.org 429
-== Joshua Pacio [fighter]
-   error commons.wikimedia.org 429
-== Keito Yamakita [fighter]
-   error commons.wikimedia.org 429
-== Chihiro Sawada [fighter]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS nothing naming them (6 unrelated)
 == Kevin Vallejos [fighter]
-   error commons.wikimedia.org 429
-== Shamil Gaziev [fighter]
-   error commons.wikimedia.org 429
-== Amir Albazi [fighter]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS nothing naming them (6 unrelated)
+== Joshua Pacio [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (4 unrelated)
+== Keito Yamakita [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (0 unrelated)
+== Chihiro Sawada [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (1 unrelated)
+== Waldo Cortes-Acosta [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (6 unrelated)
+== Joaquin Buckley [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (6 unrelated)
 == Yaroslav Amosov [fighter]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS nothing naming them (0 unrelated)
 == Serghei Spivac [fighter]
-   error commons.wikimedia.org 429
-== Ion Cuțelaba [fighter]
-   error commons.wikimedia.org 429
-== Park Jun-yong [fighter]
-   error commons.wikimedia.org 429
-== Kyler Phillips [fighter]
-   error commons.wikimedia.org 429
-== Junior Tafa [fighter]
-   error commons.wikimedia.org 429
-== Chidi Njokuani [fighter]
-   error commons.wikimedia.org 429
-== Ignacio Bahamondes [fighter]
-   error commons.wikimedia.org 429
-== Mairon Santos [fighter]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS nothing naming them (0 unrelated)
+== Mário Pinto [fighter]
+   WIKIDATA none: 
+   COMMONS Mario Pinto Interview.png ;; Mário Carneiro, arquiteto, cineasta e pinto (1971).tiff ;; Travessura Score, Luís Álvares Pinto, Musica Brasilis.pdf
 == Santiago Luna [fighter]
-   error commons.wikimedia.org 429
+   WIKIDATA none: 
+   COMMONS Santiago Luna.JPG ;; Iglesia de Santiago, Luna*.JPG ;; Placa Mural Luna, Santiago 20240711.jpg ;; Luna (Zaragoza) Santiago 1 Planta.png ;; Luna (Zaragoza) Santiago 2 0 4 Fachada Oeste DSC 4120.png ;; Rio Luna a su paso por Santiago del Molinillo Leon España.JPG
+== Shamil Gaziev [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (6 unrelated)
+== Amir Albazi [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (0 unrelated)
+== Tahir Abdullayev [fighter]
+   WIKIDATA none: 
+   COMMONS Tahir Abdullayev.jpg
+== Kyler Phillips [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (6 unrelated)
+== Junior Tafa [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (6 unrelated)
+== Chidi Njokuani [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (0 unrelated)
+== Ignacio Bahamondes [fighter]
+   WIKIDATA none: 
+   COMMONS Ignacio-Bahamondes-e1774272916557-3905x2198.webp
+== Ion Cuțelaba [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (0 unrelated)
+== Park Jun-yong [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (6 unrelated)
+== Ryujin Nasukawa [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (0 unrelated)
+== Tatsumitsu Wada [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (0 unrelated)
+== Hiromi Wajima [fighter]
+   WIKIDATA none: 
+   COMMONS nothing naming them (0 unrelated)
+== Diogo Reis [fighter]
+   WIKIDATA none: 
+   COMMONS Avenida Almirante Reis 06.jpg ;; Avenida Almirante Reis 07.jpg
+TSDB Western Australia: Western Australia [Cricket / Sheffield Shield] badge:no
+TSDB Western Warriors: none
+TSDB Western Australia Warriors: none
+TSDB South Australia: South Australia [Cricket / Sheffield Shield] badge:no
+TSDB Southern Redbacks: none
+TSDB South Australia Redbacks: none
+TSDB West End Redbacks: none
+UFCPAGE UFC Fight Night: Bonfim vs. Brady: UFC Fight Night: Bonfim vs. Brady :: UFC Fight Night: Bonfim vs. Brady (also known as UFC Fight Night 297 and UFC Vegas 125) is an upcoming mixed martial arts event produced by the Ultimate Fighting Championship that is scheduled to take place on January 23, 2027, at the Meta Apex in Enterprise, Nevada, part of the Las Vegas Valley, United States.
+UFCPAGE UFC 336: UFC 336 :: UFC 336: Van vs. Kape is an upcoming mixed martial arts event produced by the Ultimate Fighting Championship that is scheduled to take place on January 30, 2027, at the Scotiabank Arena in Toronto, Ontario, Canada. 
+UFCPAGE UFC Fight Night: Salkilld vs. Saint Denis: UFC Fight Night: Salkilld vs. Saint Denis :: UFC Fight Night: Salkilld vs. Saint Denis (also known as UFC Fight Night 298) is an upcoming mixed martial arts event produced by the Ultimate Fighting Championship that is scheduled to take place on February 7, 2027, at the Afterpay Arena in Sydney, Australia.
+UFCPAGE UFC Fight Night: Pyfer vs. Nickal: UFC Fight Night: Pyfer vs. Nickal :: UFC Fight Night: Pyfer vs. Nickal (also known as UFC Fight Night 299) is an upcoming mixed martial arts event produced by the Ultimate Fighting Championship that is scheduled to take place on February 13, 2027, at the Rocket Arena in Cleveland, Ohio, United States.
