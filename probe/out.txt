@@ -1,9 +1,29 @@
-file:///home/runner/work/sports-feed/sports-feed/probe/probe.mjs:20
-  const d = await tsdb('search_all_leagues.php?l=' + encodeURIComponent(q)); log(`TSDB league "${q}": ${d.err ? 'error ' + d.err : JSON.stringify((d.countries || d.leagues || []).slice(0, 3).map(l => [l.idLeague, l.strLeague, l.strSport, l.strCurrentSeason]))}`);
-                                                                                                                                                                                               ^
-
-TypeError: (d.countries || d.leagues || []).slice(...).map is not a function
-    at file:///home/runner/work/sports-feed/sports-feed/probe/probe.mjs:20:192
-    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
-
-Node.js v22.23.4
+WIKI 2026–27 Wellington Phoenix FC (women) season: 39454 chars; templates: sort×53, sortname×35, fbaicon×29, fs player×28, football box collapsible×23, cite web×19, sortdate×19, flagicon×15, goal×13, cite news×12, legend inline×8, abbr×7, small×6, as of×5
+  HEADINGS Players / First-team squad / Transfers / Transfers in / From academy squad / Transfers out / Contract extensions / Pre-season and friendlies / Competitions / Overall record / A-League Women / League table / Results summary / Matches / Disciplinary record / See also / Notes / References / External links
+  SAMPLE {{football box collapsible ⏎ | round      =  ⏎ | date       = 29 September 2026 ⏎ | time       =  ⏎ | team1      = [[Western Sydney Wanderers FC (women)|Western Sydney Wanderers]] {{fbaicon|AUS}} ⏎ |score=… ⏎ |report=… ⏎ | team2      = {{fbaicon|NZL}} Wellington Phoenix ⏎ |goals1=… ⏎ |goals2=… ⏎ * [[Zoe Benson|Benson]] {{goal}}  ⏎ | stadium    =  ⏎ | location   = [[Sydney]], [[Australia]] ⏎ | attendance = 0 <small>([[behind closed doors (sport)|behind closed doors]])</small> ⏎ | referee    =  ⏎ | result     = W ⏎ | note       = Match was played over three 30-minute periods ⏎ }} ⏎ {{football box collapsible ⏎ | 
+WIKI 2026–27 A-League Women: 32681 chars; templates: flagicon×85, cite web×36, sort×28, center×21, fbaicon×11, cite tweet×4, cite news×4, centre×2, refn×2, updated×2, short description×1, use dmy dates×1, use australian english×1, infobox football league season×1
+  HEADINGS Clubs / Stadiums and locations / Personnel and kits / Managerial changes / Transfers / Foreign players / Regular season / League table / Results / Regular season statistics / Top scorers / End-of-season awards / Club awards / See also / Notes / References / External links
+  PART == Regular season == ⏎  ⏎ ===League table=== ⏎ {{… A-League Women table}} ⏎  ⏎ ==Results== ⏎ {{#invoke:sports results|main ⏎ | source = [https://aleagues.com.au/matches/a-league-women/ Results and Fixtures] ⏎ | update = 15 November 2026 ⏎ | matches_style = FBR | solid_cell=grey ⏎ | showteam = <!-- for bolding one team results --> ⏎ | team1 = ADL | team2 = BRI | team3 = CAN | team4 = CCM| team5 = MCY | team6 = MVC | team7 = NEW | team8 = PER | team9 = SYD | team10 = WEL | team11 = WSW ⏎  ⏎ | name_ADL      = [[Adelaide United FC (women)|Adelaide United]] ⏎ | name_BRI      = [[Brisbane Roar FC (women)|Brisbane Roar]] ⏎ | name_CAN      = [[Canberra United FC|Canberra United]] ⏎ | name_CCM      = [[Central Coast Mariners FC (women)|Central Coast Mariners]] ⏎ | name_MCY      = [[Melbourne City FC (women)|Melbourne City]] ⏎ | name_MVC      = [[Melbourne Victory FC (women)|Melbourne Victory]] ⏎ | name_NEW      = [[Newcastle Je
+WIKI 2026 Tauihi Basketball Aotearoa season: !404
+WIKI Tauihi Basketball Aotearoa: 18848 chars; templates: cite web×22, color box×13, cite news×6, short description×1, use dmy dates×1, use new zealand english×1, infobox sports league×1
+  HEADINGS History / Current clubs / League championships / See also / References / External links
+  PART no fixtures section
+WIKI 2025 Tauihi Basketball Aotearoa season: !404
+WIKI 2027 Tauihi Basketball Aotearoa season: !404
+TSDB league "Tauihi": {"countries":"Invalid name passed"}
+TSDB league "A-League Women": {"countries":"Invalid name passed"}
+TSDB league "Australian A-League Women": {"countries":"Invalid name passed"}
+TSDB league "New Zealand NBL": {"countries":"Invalid name passed"}
+TSDB league "Super Netball": {"countries":"Invalid name passed"}
+TSDB league "Suncorp Super Netball": {"countries":"Invalid name passed"}
+TSDB team "Wellington Phoenix Women": 144130 Wellington Phoenix Women [Soccer / Australian A-League Women 4805] badge:yes
+TSDB team "Wellington Phoenix": 134475 Wellington Phoenix [Soccer / Australian A-League 4356] badge:yes
+TSDB team "Northern Kahu": none
+TSDB team "Tokomanawa Queens": none
+TSDB team "Mainland Pouakai": error 429
+TSDB team "Southern Hoiho": error 429
+TSDB team "Whai": error 429
+COMMONS "Western Australia cricket logo": 31March2006.pdf ;; 16November2006.pdf ;; 15May2006.pdf ;; 16September2007.pdf ;; 22August2007.pdf ;; 19November2008.pdf
+COMMONS "WACA logo": 17December2006.pdf ;; 18January2008.pdf ;; 06December2006.pdf ;; Elementi di medicina (IA b22039314 0002).pdf ;; Prabawa (Pandom Wicara Basa Jawa).pdf ;; Works (IA dli.granth.36344).pdf
+COMMONS "South Australia cricket logo": Y.M.C.A. women playing cricket, Sydney University, R. Donaldson, 23 April 1941.jpg ;; 10july2005.pdf ;; 26August2007.pdf ;; 25August2007.pdf ;; 28December2005.pdf ;; 16November2006.pdf
+COMMONS "South Australian Cricket Association logo": 10july2005.pdf ;; 25August2007.pdf ;; 28December2005.pdf ;; 16November2006.pdf ;; 16September2007.pdf ;; 31March2006.pdf
