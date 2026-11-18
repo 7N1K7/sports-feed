@@ -1,19 +1,10 @@
-now 2026-11-18T18:53:32.010Z | feed built 2026-11-18T18:46:32.529Z (7 min ago) | site 799 | games 1129
-noResult | Ford Trophy | Auckland Aces v Otago Volts | 2026-11-11T21:30:00Z
-noResult | Ford Trophy | Central Stags v Wellington Firebirds | 2026-11-11T21:30:00Z
-noResult | Ford Trophy | Canterbury v Northern Districts | 2026-11-11T21:30:00Z
-noResult | Hallyburton Johnstone Shield | Central Hinds v Northern Districts | 2026-11-13T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Auckland Hearts v Wellington Blaze | 2026-11-13T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Canterbury Magicians v Otago Sparks | 2026-11-13T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Auckland Hearts v Wellington Blaze | 2026-11-14T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Canterbury Magicians v Otago Sparks | 2026-11-14T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Central Hinds v Northern Districts | 2026-11-14T21:30:00Z | noSource
-noResult | Dean Jones Trophy | New South Wales v South Australia | 2026-11-15T23:00:00.000Z
-noResult | Dean Jones Trophy | Queensland v Tasmania | 2026-11-16T00:00:00.000Z
-noResult | Dean Jones Trophy | Victoria v Western Australia | 2026-11-16T03:00:00.000Z
-noResult | Women's Big Bash League | Adelaide Strikers v Sydney Sixers | 2026-11-17T08:10:00Z
-thinWeeks: [{"s":"cricket","c":"Hallyburton Johnstone Shield","week":"2026-11-15","n":0,"usual":6,"stopped":true}]
-boxing upcoming: yabuki-fajardo-2026-11-26 2026-11-26T03:00:00Z ; kabayel-hysa-2026-11-28 2026-11-28T11:00:00Z ; fury-joshua-2026-12-11 2026-12-11T17:00:00Z ; bivol-smith-2026-12-12 2026-12-12T07:00:00Z ; cacace-ball-2026-12-19 2026-12-19T12:00:00Z
-not final | Women's Big Bash League (WBBL|12), League | Adelaide Strikers v Sydney Sixers | 2026-11-17T08:10:00Z | upcoming
-not final | Pakistan v Sri Lanka | Pakistan v Sri Lanka | 2026-11-17T04:30:00Z | upcoming
-page: new Extras wording true, saved-feed code true
+== 2026–27 Dean Jones Trophy: 200, 31966 chars, last edit 2026-11-14T23:05:12Z
+boxes 22
+16 November 2026 | {{cr-Aus|NSW-h|l}} v {{cr-Aus|SA}} | score1 filled true | result: | report = [https://www.cricinfo.com/ci/engine/match/#######.html Scorecard] | notes: }} | rain: | notes =
+16 November 2026 | {{cr-Aus|QLD-h|l}} v {{cr-Aus|TAS}} | score1 filled true | result: | report = [https://www.cricinfo.com/ci/engine/match/#######.html Scorecard] | notes: }} | rain: | notes =
+16 November 2026 | {{cr-Aus|VIC-h|l}} v {{cr-Aus|WA}} | score1 filled true | result: | report = [https://www.cricinfo.com/ci/engine/match/#######.html Scorecard] | notes: }} | rain: | notes =
+== 2026–27 Women's Big Bash League season: 200, 74291 chars, last edit 2026-11-17T16:31:27Z
+boxes 43
+15 November 2026 | [[Sydney Sixers (WBBL)|Sydney Sixers]] ( v [[Melbourne Renegades (WBBL)|Melbourne R | score1 filled true | result: Melbourne Renegades won by # wickets | notes: }} | rain: | notes = 
+16 November 2026 | [[Melbourne Stars (WBBL)|Melbourne Stars v [[Sydney Thunder (WBBL)|Sydney Thunder]] | score1 filled true | result: Melbourne Stars won by # runs | notes: }} | rain: | notes = 
+17 November 2026 | [[Adelaide Strikers (WBBL)|Adelaide Stri v [[Sydney Sixers (WBBL)|Sydney Sixers]] | score1 filled true | result: | report = [https://www.cricinfo.com/ci/engine/match/#######.html Scorecard] | notes: }} | rain: | notes = 
