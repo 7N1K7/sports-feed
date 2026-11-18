@@ -202,7 +202,8 @@ function eventsFromPage(title, text, cfg, cityTz) {
     if (!home || !away) continue;
     const d = dateOf(p.date || '', year);
     if (!d || d.m < 0) continue;
-    const venueRaw = clean(p.stadium || p.venue || p.arena || p.location || p.place || '');
+    // (an editor's slip: "[[Western Sydney Stadium|CommBank Stadium]] Stadium")
+    const venueRaw = clean(p.stadium || p.venue || p.arena || p.location || p.place || '').replace(/\b(Stadium|Park|Arena|Oval|Ground|Centre) \1\b/g, '$1');
     const parts = venueRaw.split(',').map(s => s.trim()).filter(Boolean);
     // some boxes give the ground and the town separately ("stadium = Lloyd Elsmore Park", "location = Auckland, New Zealand")
     const loc = (p.stadium || p.venue || p.arena) && (p.location || p.place) ? clean(p.location || p.place).split(',').map(s => s.trim()).filter(Boolean) : [];

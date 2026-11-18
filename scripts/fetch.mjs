@@ -780,16 +780,20 @@ async function tvGuide(events) {
   // Tauihi Basketball Aotearoa, New Zealand's women's league: this guide is the one fixture source the site may read
   // (Wikipedia has no season page, TheSportsDB doesn't list the league). Each game's listing ("Tauihi: Kahu v Queens",
   // "LIVE coverage from Round 9 of Tauihi Basketball Aotearoa between the Northern Kahu and Tokomanawa Queens at
-  // Eventfinda Stadium, Auckland.") makes a card at the time its coverage starts. A game stays in .cache/tauihi.json once
+  // Eventfinda Stadium, Auckland.") makes a card at the time its coverage starts. A game stays in .cache/tauihi-2.json once
   // it has left the guide, so it stays in Results; one kept by hand (data/curated, for its result) wins over the guide's
   try {
-    const keptUrl = new URL('.cache/tauihi.json', ROOT), nowT = Date.now();
+    const keptUrl = new URL('.cache/tauihi-2.json', ROOT), nowT = Date.now();
     let kept = {};
     try { kept = JSON.parse(await readFile(keptUrl, 'utf8')); } catch {}
     const club = n => (TAUIHI.find(([re]) => re.test(n || '')) || [])[1], fresh = {};
     for (const it of [...items].sort((a, b) => a.at - b.at)) {
       const [title, sub = '', desc = ''] = it.text.split(' | ');
-      if (!/^Tauihi\b/i.test(title)) continue;
+      // a repeat is listed like the game but without "live" (Sky shows them overnight and at midday): only a live listing
+      // counts, and never one between 11pm and 9am
+      if (!/^Tauihi\b/i.test(title) || !it.live) continue;
+      const hr = +new Intl.DateTimeFormat('en-NZ', { timeZone: 'Pacific/Auckland', hour: 'numeric', hourCycle: 'h23' }).format(new Date(it.at));
+      if (hr >= 23 || hr < 9) continue;
       const m = desc.match(/between (?:the )?(.+?) and (?:the )?(.+?) at (?:the )?([^.]+)/i), s = sub.match(/Tauihi:\s*(.+?)\s+v\s+(.+?)\s*$/i);
       const home = club(m?.[1] || s?.[1]), away = club(m?.[2] || s?.[2]);
       if (!home || !away || home === away) continue;
@@ -803,10 +807,12 @@ async function tvGuide(events) {
         source: 'https://en.wikipedia.org/wiki/Tauihi_Basketball_Aotearoa' };
     }
     // a game already played keeps the card it had (what the guide shows now is a repeat); one still to come follows the
-    // guide; the same two sides more than five days apart are two games (a listing may name no round)
+    // guide; the same two sides in another round, or more than five days apart where no round is named, are two games
     for (const ev of Object.values(fresh)) {
-      const t = Date.parse(ev.startUTC), old = Object.entries(kept).find(([, o]) => o.home === ev.home && o.away === ev.away && Math.abs(t - Date.parse(o.startUTC)) < 5 * DAY);
-      if (old && Date.parse(old[1].startUTC) <= nowT) continue;
+      const t = Date.parse(ev.startUTC), gap = o => Math.abs(t - Date.parse(o.startUTC));
+      const old = Object.entries(kept).find(([, o]) => o.home === ev.home && o.away === ev.away && (gap(o) < 5 * DAY || (o.stage && o.stage === ev.stage && gap(o) < 60 * DAY)));
+      // (a listing first seen after its time has passed isn't taken for a game: it may be a repeat of one the site never had)
+      if (old ? Date.parse(old[1].startUTC) <= nowT : t <= nowT) continue;
       if (old) delete kept[old[0]];
       kept[ev.id] = ev;
     }
