@@ -1,10 +1,20 @@
-== 2026–27 Dean Jones Trophy: 200, 31966 chars, last edit 2026-11-14T23:05:12Z
-boxes 22
-16 November 2026 | {{cr-Aus|NSW-h|l}} v {{cr-Aus|SA}} | score1 filled true | result: | report = [https://www.cricinfo.com/ci/engine/match/#######.html Scorecard] | notes: }} | rain: | notes =
-16 November 2026 | {{cr-Aus|QLD-h|l}} v {{cr-Aus|TAS}} | score1 filled true | result: | report = [https://www.cricinfo.com/ci/engine/match/#######.html Scorecard] | notes: }} | rain: | notes =
-16 November 2026 | {{cr-Aus|VIC-h|l}} v {{cr-Aus|WA}} | score1 filled true | result: | report = [https://www.cricinfo.com/ci/engine/match/#######.html Scorecard] | notes: }} | rain: | notes =
-== 2026–27 Women's Big Bash League season: 200, 74291 chars, last edit 2026-11-17T16:31:27Z
-boxes 43
-15 November 2026 | [[Sydney Sixers (WBBL)|Sydney Sixers]] ( v [[Melbourne Renegades (WBBL)|Melbourne R | score1 filled true | result: Melbourne Renegades won by # wickets | notes: }} | rain: | notes = 
-16 November 2026 | [[Melbourne Stars (WBBL)|Melbourne Stars v [[Sydney Thunder (WBBL)|Sydney Thunder]] | score1 filled true | result: Melbourne Stars won by # runs | notes: }} | rain: | notes = 
-17 November 2026 | [[Adelaide Strikers (WBBL)|Adelaide Stri v [[Sydney Sixers (WBBL)|Sydney Sixers]] | score1 filled true | result: | report = [https://www.cricinfo.com/ci/engine/match/#######.html Scorecard] | notes: }} | rain: | notes = 
+412px: new code true, sideways overflow false, page errors 0
+  two-sides "NZIND" {Black Caps v India} 127px
+  two-sides "AUSENG" {Australia v England} 137px
+  two-sides "SABAN" {South Africa v Bangladesh} 129px
+  named "WBBL" {Women's Big Bash} 77px
+  two-sides "NZIND" {Indian Centenary Series} 127px
+  named "Ferns v Net Blacks" {WM New Zealand Netball Series} 164px
+  named "Nations Champ." {Nations Championship} 142px
+  named "Nations Cup" {World Rugby Nations Cup} 121px
+  named "ATP Finals" {ATP Finals} 135px
+1280px: new code true, sideways overflow false, page errors 0
+  two-sides "NZIND" {Black Caps v India} 127px
+  two-sides "AUSENG" {Australia v England} 137px
+  two-sides "SABAN" {South Africa v Bangladesh} 129px
+  named "WBBL" {Women's Big Bash} 77px
+  two-sides "NZIND" {Indian Centenary Series} 127px
+  named "Ferns v Net Blacks" {WM New Zealand Netball Series} 164px
+  named "Nations Champ." {Nations Championship} 142px
+  named "Nations Cup" {World Rugby Nations Cup} 121px
+  named "ATP Finals" {ATP Finals} 135px
