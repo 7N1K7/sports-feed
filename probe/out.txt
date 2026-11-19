@@ -1,46 +1,9 @@
-now 2026-11-19T18:44:36.495Z | feed built 2026-11-19T18:34:42.600Z (10 min ago) | site 801 | games 1128
-noResult | Hallyburton Johnstone Shield | Central Hinds v Northern Districts | 2026-11-13T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Auckland Hearts v Wellington Blaze | 2026-11-13T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Canterbury Magicians v Otago Sparks | 2026-11-13T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Auckland Hearts v Wellington Blaze | 2026-11-14T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Canterbury Magicians v Otago Sparks | 2026-11-14T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Central Hinds v Northern Districts | 2026-11-14T21:30:00Z | noSource
-noResult | Women's Big Bash League | Hobart Hurricanes v Perth Scorchers | 2026-11-19T04:40:00Z
-thinWeeks: [{"s":"cricket","c":"Hallyburton Johnstone Shield","week":"2026-11-15","n":0,"usual":6,"stopped":true},{"s":"cricket","c":"Plunket Shield","week":"2026-11-19","n":0,"usual":3,"stopped":true}]
-tauihi | tauihi-2026-11-20-northernkahutokomanawaqueens | 2026-11-20T06:30:00.000Z | upcoming | Round 9 | Northern Kāhu v Tokomanawa Queens | Eventfinda Stadium, Auckland, New Zealand | has result false
-tauihi | tauihi-2026-11-21-taurangawhaimainlandpouakai | 2026-11-21T06:30:00.000Z | upcoming | Round 9 | Tauranga Whai v Mainland Pouākai | Queen Elizabeth Youth Centre, Tauranga, New Zealand | has result false
-tauihi | tauihi-2026-11-22-tokomanawaqueenssouthernhoiho | 2026-11-22T02:00:00.000Z | upcoming | Round 9 | Tokomanawa Queens v Southern Hoiho | Te Rauparaha Arena, Porirua, New Zealand | has result false
-tauihi | tauihi-2026-11-27-southernhoihonorthernkahu | 2026-11-27T06:30:00.000Z | upcoming | Round 10 | Southern Hoiho v Northern Kāhu | Edgar Centre, Dunedin, New Zealand | has result false
-tauihi | tauihi-2026-11-28-mainlandpouakaitokomanawaqueens | 2026-11-28T06:30:00.000Z | upcoming | Round 10 | Mainland Pouākai v Tokomanawa Queens | Parakiore Recreation and Sports Centre, Christchurch, New Zealand | has result false
-tauihi | tauihi-2026-11-29-taurangawhainorthernkahu | 2026-11-29T02:00:00.000Z | upcoming | Round 10 | Tauranga Whai v Northern Kāhu | Queen Elizabeth Youth Centre, Tauranga, New Zealand | has result false
-hand-kept | wbbl-12-m26-hobart-hurricanes-v-perth-scorchers | 2026-11-19T04:40:00Z | upcoming | Allan Border Field | tv: 2026-11-19T04:30:00.000Z Sky Sport 2 | has result false
-hand-kept | wbbl-12-m27-brisbane-heat-v-sydney-thunder | 2026-11-19T08:10:00Z | upcoming | Allan Border Field | tv: 2026-11-19T08:10:00.000Z Sky Sport 2 | has result false
-hand-kept | wbbl-12-m28-adelaide-strikers-v-melbourne-renegades | 2026-11-20T08:10:00Z | upcoming | Adelaide Oval | tv: 2026-11-20T07:45:00.000Z Sky Sport 2 | has result false
-hand-kept | wbbl-12-m29-hobart-hurricanes-v-sydney-thunder | 2026-11-21T01:00:00Z | upcoming | Ninja Stadium | tv: 2026-11-21T00:55:00.000Z Sky Sport 4 | has result false
-hand-kept | wbbl-12-m30-sydney-sixers-v-perth-scorchers | 2026-11-21T04:30:00Z | upcoming | North Sydney Oval | tv: 2026-11-21T04:00:00.000Z Sky Sport 4 | has result false
-hand-kept | wbbl-12-m31-brisbane-heat-v-adelaide-strikers | 2026-11-22T04:40:00Z | upcoming | Allan Border Field | tv: 2026-11-22T04:15:00.000Z Sky Sport 4 | has result false
-hand-kept | wbbl-12-m32-melbourne-stars-v-melbourne-renegades | 2026-11-22T08:10:00Z | upcoming | Junction Oval | tv: 2026-11-22T08:10:00.000Z Sky Sport 4 | has result false
-hand-kept | ps-r1-1-2026 | 2026-11-18T21:30:00Z | upcoming | University of Otago Oval | tv: none | has result false
-hand-kept | ps-r1-2-2026 | 2026-11-18T21:30:00Z | upcoming | Seddon Park | tv: none | has result false
-hand-kept | ps-r1-3-2026 | 2026-11-18T21:30:00Z | upcoming | Fitzherbert Park | tv: none | has result false
-hand-kept | bc-ind-test1-2026 | 2026-11-18T22:00:00Z | upcoming | Basin Reserve | tv: 2026-11-18T21:00:00.000Z Sky Sport 1 UHD ;; 2026-11-18T21:00:00.000Z Sky Sport 1 | has result false
-hand-kept | ss-nsw-qld-2026-11 | 2026-11-21T23:30:00Z | upcoming | Cricket Central | tv: 2026-11-21T23:25:00.000Z Sky Sport 9 | has result false
-hand-kept | bs-ind-centenary-1-2026 | 2026-11-19T05:30:00Z | final | Lloyd Elsmore Park | tv: none | has result true
-hand-kept | bs-ind-centenary-2-2026 | 2026-11-21T03:00:00Z | upcoming | Lloyd Elsmore Park | tv: none | has result false
-hand-kept | bs-ind-centenary-3-2026 | 2026-11-22T01:00:00Z | upcoming | Lloyd Elsmore Park | tv: none | has result false
-hand-kept | wmseries-2026-g2 | 2026-11-19T06:40:00Z | upcoming | Claudelands Arena | tv: 2026-11-19T06:30:00.000Z Sky Sport 1 UHD ;; 2026-11-19T06:30:00.000Z Sky Sport 1 | has result false
-hand-kept | wmseries-2026-g3 | 2026-11-21T06:40:00Z | upcoming | Claudelands Arena | tv: 2026-11-21T06:30:00.000Z Sky Sport 1 UHD ;; 2026-11-21T06:30:00.000Z Sky Sport 1 | has result false
-hand-kept | ab-eng-nz-2026-11-21 | 2026-11-21T14:10:00Z | upcoming | Allianz Stadium, Twickenham | tv: 2026-11-21T13:15:00.000Z Sky Sport 1 UHD ;; 2026-11-21T13:15:00.000Z Sky Sport 1 | has result false
-not final | Women's Big Bash League (WBBL|12), League | Hobart Hurricanes v Perth Scorchers | 2026-11-19T04:40:00Z | upcoming | wbbl-12-m26-hobart-hurricanes-v-perth-scorchers
-not final | Women's Big Bash League (WBBL|12), League | Brisbane Heat v Sydney Thunder | 2026-11-19T08:10:00Z | upcoming | wbbl-12-m27-brisbane-heat-v-sydney-thunder
-not final | Plunket Shield, Round 1 | Otago Volts v Canterbury | 2026-11-18T21:30:00Z | upcoming | ps-r1-1-2026
-not final | Plunket Shield, Round 1 | Northern Districts v Auckland Aces | 2026-11-18T21:30:00Z | upcoming | ps-r1-2-2026
-not final | Plunket Shield, Round 1 | Central Stags v Wellington Firebirds | 2026-11-18T21:30:00Z | upcoming | ps-r1-3-2026
-not final | 1st Test v India | New Zealand v India | 2026-11-18T22:00:00Z | upcoming | bc-ind-test1-2026
-not final | WM New Zealand Netball Series, Game 2 | New Zealand v Net Blacks | 2026-11-19T06:40:00Z | upcoming | wmseries-2026-g2
-tvGap | 2026-11-19T19:55:00.000Z | Sky Sport 4 | Rugby League: Fijian Cup: LIVE: Fijian Cup Touch D1 | LIVE coverage of Day 1 of the Fijian Cup Touch at Lawaqa Park, Sigatoka. Featuring teams from Fiji, New Zealand and Australia.
-tvGap | 2026-11-19T21:30:00.000Z | Sky Sport 5 | Bowls New Zealand: Oceania Champs: LIVE Oceania Champs: Day Two | LIVE coverage of the Oceania Championships 2026 Day Two. From Bowls Orewa, Auckland.
-tvGap | 2026-11-20T19:55:00.000Z | Sky Sport 5 | Rugby League: Fijian Cup: LIVE: Fijian Cup Touch D2 | LIVE coverage of Day 2 of the Fijian Cup Touch at Lawaqa Park, Sigatoka. Featuring teams from Fiji, New Zealand and Australia.
-tvGap | 2026-11-21T21:30:00.000Z | Sky Sport 5 | Bowls New Zealand: Oceania Champs: LIVE Oceania Champs: Day Four | LIVE coverage of the Oceania Championships 2026 Day Four. From Bowls Orewa, Auckland.
-tvGap | 2026-11-26T19:55:00.000Z | Sky Sport 4 | Rugby League: Fijian Cup: Fijian Cup Nines D1 | LIVE coverage of Day 1 of the Fijian Cup Nines at Lawaqa Park, Sigatoka. Featuring teams from Fiji, New Zealand and Australia.
-tvGap | 2026-11-27T19:55:00.000Z | Sky Sport 4 | Rugby League: Fijian Cup: Fijian Cup Nines D2 | LIVE coverage of Day 2 of the Fijian Cup Nines at Lawaqa Park, Sigatoka. Featuring teams from Fiji, New Zealand and Australia.
+== 2026–27 Plunket Shield season: 200, 4062 chars, last edit 2026-10-06T21:16:07Z
+headings: Points table / References / External links
+match boxes 0
+tables 0: 
+== 2026–27 Hallyburton Johnstone Shield: 200, 4961 chars, last edit 2026-09-19T03:45:36Z
+headings: Competition format / Teams and standing / Points table / Points summary / Fixtures / Final / References / External links
+match boxes 1
+Final | 21 February 2026 |  v  | [[Basin Reserve]], [[Wellington]] | time: 10:30 | result filled false | notes: 
+tables 0: 
