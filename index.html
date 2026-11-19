@@ -4164,8 +4164,16 @@ function compLook(c, sample) {
   const wm = h => sides ? sides.map((n, i) => `<i class="wm ${i ? 'r' : 'l'}" style="background-image:url('${esc(flagOf(n))}')"></i>`).join('') : `<span class="wmt">${crop(h)}</span>`;
   return { sides, look, w, sp, logo, vars, crop, wm };
 }
+// a series with a name of its own between two countries (the Black Sticks' Indian Centenary Series) is split in their
+// colours like a tour, the next game's home side first; a long name with no flags to stand for it (the Silver Ferns v
+// the Net Blacks: both New Zealand) gets a short one here. The full name stays on the series' page and its games'
+// pop-ups (the owner's call, 19 Nov 2026)
+const pairSides = (c, v) => { if (LOOKS.some(([re, o]) => re.test(c) && (!o.s || o.s === v.sport)) || !v.intl || v.sides.size !== 2) return null;
+  const s = [...new Set([...v.sides].map(sideCountry))]; if (s.length !== 2 || s.some(x => !x)) return null;
+  const h = v.nextHome || v.lastHome; return s[1] === h ? [s[1], s[0]] : s; };
+const ROW_NAME = { 'WM New Zealand Netball Series': 'Ferns v Net Blacks' };
 const nowChip = (c, v, st) => {
-  const fr = friendlySides(c, v), sides = seriesSides(c) || fr, full = fr ? `${fr.join(' v ')} friendlies` : plural(c);
+  const fr = friendlySides(c, v), sides = seriesSides(c) || fr || pairSides(c, v), full = fr ? `${fr.join(' v ')} friendlies` : plural(c);
   const tip = `${esc(full)}${v.rain ? ' (rain delay)' : v.live ? ' (live now)' : st.ended ? ' (finished)' : ''}`;
   const mark = v.live ? '<span class="livedot" role="img" aria-label="live"></span>' : st.ended ? '<span class="enddot" role="img" aria-label="finished">✓</span>' : '';
   const cls = `chip nowchip sport-${v.sport} ${v.live ? 'is-live' : ''} ${v.rain ? 'is-rain' : ''} ${st.ended ? 'is-ended' : ''}`;
@@ -4178,7 +4186,7 @@ const nowChip = (c, v, st) => {
   // a tournament with no look of its own: its sport's colour, deepened, and a trophy
   const [label, bg, glow0, ink, mk, logo] = look ? look.l : TB_PLAIN;
   const glow = v.w && !look?.w ? '#f06595' : glow0;
-  const name = label || shortComp(plural(c)).replace(/\s*\(W\)$/, '');
+  const name = label || ROW_NAME[c] || shortComp(plural(c)).replace(/\s*\(W\)$/, '');
   const lead = logo ? `<i class="tblogo" style="background-image:url('${logo[0]}');background-size:${logo[1]}%;background-position:${logo[2]}% ${logo[3]}%;width:${logo[4]}px${logo[5] ? `;height:${logo[5]}px;margin:0` : ''}${logo[6] ? `;filter:${MONO}` : ''}" aria-hidden="true"></i>` : TROPHY;
   return `<button type="button" class="${cls} tbrand" data-bigcomp="${esc(c)}" aria-pressed="${st.sel}" title="${tip}" style="--tb-bg:${bg};--tb-glow:${glow};--tb-ink:${ink};--tb-mark:${mk}">${lead}<span class="tbt">${esc(name)}</span>${mark}</button>`;
 };
