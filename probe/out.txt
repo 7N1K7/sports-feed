@@ -1,9 +1,30 @@
-== 2026–27 Plunket Shield season: 200, 4062 chars, last edit 2026-10-06T21:16:07Z
-headings: Points table / References / External links
-match boxes 0
-tables 0: 
-== 2026–27 Hallyburton Johnstone Shield: 200, 4961 chars, last edit 2026-09-19T03:45:36Z
-headings: Competition format / Teams and standing / Points table / Points summary / Fixtures / Final / References / External links
-match boxes 1
-Final | 21 February 2026 |  v  | [[Basin Reserve]], [[Wellington]] | time: 10:30 | result filled false | notes: 
-tables 0: 
+feed built 2026-11-19T18:48:39.824Z (4 min ago) | site 803 | games 1149
+Plunket Shield games 24
+  ps-r1-1-2026 | 2026-11-18T21:30:00Z | Plunket Shield, Round 1 | Otago Volts v Canterbury | University of Otago Oval, Dunedin, New Zealand | upcoming | watch: NZC YouTube (free stream)
+  ps-r1-2-2026 | 2026-11-18T21:30:00Z | Plunket Shield, Round 1 | Northern Districts v Auckland Aces | Seddon Park, Hamilton, New Zealand | upcoming | watch: NZC YouTube (free stream)
+  ps-r1-3-2026 | 2026-11-18T21:30:00Z | Plunket Shield, Round 1 | Central Stags v Wellington Firebirds | Fitzherbert Park, Palmerston North, New Zealand | upcoming | watch: NZC YouTube (free stream)
+  ps-r2-1-2026 | 2026-11-26T21:30:00Z | Plunket Shield, Round 2 | Northern Districts v Central Stags | Bay Oval, Mount Maunganui, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r2-2-2026 | 2026-11-26T21:30:00Z | Plunket Shield, Round 2 | Otago Volts v Wellington Firebirds | University of Otago Oval, Dunedin, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r2-3-2026 | 2026-11-27T21:30:00Z | Plunket Shield, Round 2 | Auckland Aces v Canterbury | Kennards Hire Community Oval, Auckland, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r3-1-2026 | 2026-12-06T21:30:00Z | Plunket Shield, Round 3 | Auckland Aces v Wellington Firebirds | Kennards Hire Community Oval, Auckland, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r3-2-2026 | 2026-12-06T21:30:00Z | Plunket Shield, Round 3 | Northern Districts v Canterbury | Seddon Park, Hamilton, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r3-3-2026 | 2026-12-06T21:30:00Z | Plunket Shield, Round 3 | Central Stags v Otago Volts | McLean Park, Napier, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r4-1-2026 | 2026-12-14T21:30:00Z | Plunket Shield, Round 4 | Central Stags v Auckland Aces | McLean Park, Napier, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r4-2-2026 | 2026-12-14T21:30:00Z | Plunket Shield, Round 4 | Canterbury v Wellington Firebirds | Hagley Oval, Christchurch, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r4-3-2026 | 2026-12-14T21:30:00Z | Plunket Shield, Round 4 | Otago Volts v Northern Districts | University of Otago Oval, Dunedin, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r5-1-2027 | 2027-02-28T21:30:00Z | Plunket Shield, Round 5 | Central Stags v Northern Districts | McLean Park, Napier, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r5-2-2027 | 2027-02-28T21:30:00Z | Plunket Shield, Round 5 | Wellington Firebirds v Canterbury | Basin Reserve, Wellington, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r5-3-2027 | 2027-02-28T21:30:00Z | Plunket Shield, Round 5 | Otago Volts v Auckland Aces | University of Otago Oval, Dunedin, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r6-1-2027 | 2027-03-09T21:30:00Z | Plunket Shield, Round 6 | Auckland Aces v Central Stags | Colin Maiden Park, Auckland, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r6-2-2027 | 2027-03-09T21:30:00Z | Plunket Shield, Round 6 | Wellington Firebirds v Otago Volts | Basin Reserve, Wellington, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r6-3-2027 | 2027-03-09T21:30:00Z | Plunket Shield, Round 6 | Canterbury v Northern Districts | Hagley Oval, Christchurch, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r7-1-2027 | 2027-03-17T21:30:00Z | Plunket Shield, Round 7 | Northern Districts v Otago Volts | Seddon Park, Hamilton, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r7-2-2027 | 2027-03-17T21:30:00Z | Plunket Shield, Round 7 | Wellington Firebirds v Central Stags | Basin Reserve, Wellington, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r7-3-2027 | 2027-03-17T21:30:00Z | Plunket Shield, Round 7 | Canterbury v Auckland Aces | Hagley Oval, Christchurch, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r8-1-2027 | 2027-03-25T21:30:00Z | Plunket Shield, Round 8 | Auckland Aces v Otago Volts | Colin Maiden Park, Auckland, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r8-2-2027 | 2027-03-25T21:30:00Z | Plunket Shield, Round 8 | Wellington Firebirds v Northern Districts | Basin Reserve, Wellington, New Zealand | undefined | watch: NZC YouTube (free stream)
+  ps-r8-3-2027 | 2027-03-25T21:30:00Z | Plunket Shield, Round 8 | Canterbury v Central Stags | Hagley Oval, Christchurch, New Zealand | undefined | watch: NZC YouTube (free stream)
+netball | wmseries-2026-g1 | final | has result true | https://www.silverferns.co.nz/silver-ferns/news/latest-news/silver-ferns-and-net-blacks-entertain-in-high-scoring-spectacle.html
+netball | wmseries-2026-g2 | final | has result true | https://www.nzsportswire.com/post/silver-ferns-beaten-big-time-by-net-blacks
+netball | wmseries-2026-g3 | upcoming | has result false | https://insidegovernment.co.nz/hamilton-scores-silver-ferns-triple-showdown/
+thinWeeks: [{"s":"cricket","c":"Hallyburton Johnstone Shield","week":"2026-11-15","n":0,"usual":6,"stopped":true},{"s":"cricket","c":"Plunket Shield","week":"2026-11-19","n":0,"usual":3,"stopped":true}]
