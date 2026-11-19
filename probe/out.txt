@@ -1,8 +1,7 @@
-feed built 2026-11-19T18:48:39.824Z (6 min ago) | site 803 | diag.checks: 7 games with no result after their time, 2 thin weeks
-thinWeeks: [{"s":"cricket","c":"Hallyburton Johnstone Shield","week":"2026-11-15","n":0,"usual":6,"stopped":true},{"s":"cricket","c":"Plunket Shield","week":"2026-11-19","n":0,"usual":3,"stopped":true}]
-{"id":"ps-r1-1-2026","sport":"cricket","team":"nzdomestic","comp":"Plunket Shield, Round 1","base":"Plunket Shield","startUTC":"2026-11-18T21:30:00Z","status":"upcoming","format":"First-class"}
-{"id":"ps-r1-2-2026","sport":"cricket","team":"nzdomestic","comp":"Plunket Shield, Round 1","base":"Plunket Shield","startUTC":"2026-11-18T21:30:00Z","status":"upcoming","format":"First-class"}
-{"id":"ps-r1-3-2026","sport":"cricket","team":"nzdomestic","comp":"Plunket Shield, Round 1","base":"Plunket Shield","startUTC":"2026-11-18T21:30:00Z","status":"upcoming","format":"First-class"}
-{"id":"ps-r2-1-2026","team":"nzdomestic","comp":"Plunket Shield, Round 2","base":"Plunket Shield","startUTC":"2026-11-26T21:30:00Z","format":"First-class"}
-{"id":"ps-r2-2-2026","team":"nzdomestic","comp":"Plunket Shield, Round 2","base":"Plunket Shield","startUTC":"2026-11-26T21:30:00Z","format":"First-class"}
-by sport|base: [["cricket|Plunket Shield",["2026-11-18","2026-11-18","2026-11-18"]],["undefined|Plunket Shield",["2026-11-26","2026-11-26","2026-11-27","2026-12-06","2026-12-06","2026-12-06","2026-12-14","2026-12-14","2026-12-14","2027-02-28","2027-02-28","2027-02-28","2027-03-09","2027-03-09","2027-03-09","2027-03-17","2027-03-17","2027-03-17","2027-03-25","2027-03-25","2027-03-25"]]]
+feed built 2026-11-19T18:55:44.595Z (5 min ago) | site 804 | games 1149 | no sport: 0 | no status: 0
+Plunket Shield games 24, with sport cricket 24, upcoming 24
+thinWeeks: [{"s":"cricket","c":"Hallyburton Johnstone Shield","week":"2026-11-15","n":0,"usual":6,"stopped":true}]
+card on the page: "PLUNKET SHIELD, ROUND 2 NZC FREE on NZC YouTube Northern Brave v Central Stags 10:30am Fri, 27 Nov in 7 days"
+card class: ev sport-cricket  
+pop-up from its link: "× PLUNKET SHIELD, ROUND 2 › NZC Northern Brave v Central Stags in 7 days This game Results 11 FIRST BALL (NZ) 10:30am Friday, 27 November WHERE Bay Oval, Mount Maunganui, New Zealand FORM Northern Brave W L L L W Central Stags D W L W L Match page ↗Ball by bal"
+page errors: 0 
