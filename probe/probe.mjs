@@ -1,18 +1,17 @@
-// daily check, 19 Nov: does Wikipedia have the Dean Jones Trophy games of 16 Nov and the WBBL game of 17 Nov yet? Digits in results masked.
+// v801: the live series row after the hockey and netball buttons were shortened. Names and widths only, no results.
 import { writeFileSync } from 'node:fs';
 const out = []; process.on('exit', () => writeFileSync('probe/out.txt', out.join('\n') + '\n'));
-const wait = ms => new Promise(r => setTimeout(r, ms));
-for (const [title, want] of [['2026–27 Dean Jones Trophy', /1[4-7] November/], ["2026–27 Women's Big Bash League season", /1[5-8] November/]]) {
-  try {
-    const r = await fetch('https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content|timestamp&rvslots=main&format=json&formatversion=2&titles=' + encodeURIComponent(title), { headers: { 'user-agent': 'kickoff-kiwi-probe (github.com/7N1K7/sports-feed)' } });
-    const j = await r.json(); const pg = j.query.pages[0]; const text = pg.revisions?.[0]?.slots?.main?.content || '';
-    out.push(`== ${title}: ${r.status}, ${text.length} chars, last edit ${pg.revisions?.[0]?.timestamp}`);
-    const boxes = text.split(/\{\{\s*(?:Single-innings cricket match|Limited overs matches|Cricket match summary)/i).slice(1);
-    out.push(`boxes ${boxes.length}`);
-    for (const b of boxes) { const body = b.slice(0, 1500); const date = (body.match(/\|\s*date\s*=\s*([^\n|]*)/) || [])[1] || '';
-      if (!want.test(date)) continue;
-      const g = k => ((body.match(new RegExp('\\|\\s*' + k + '\\s*=\\s*([^\\n]*)')) || [])[1] || '').replace(/\d/g, '#').slice(0, 90);
-      out.push(`${date.slice(0, 40)} | ${g('team1').slice(0, 40)} v ${g('team2').slice(0, 40)} | score1 filled ${!!g('score1').trim()} | result: ${g('result')} | notes: ${g('notes').slice(0, 60)} | rain: ${g('rain')}`); }
-  } catch (e) { out.push('error ' + title + ': ' + String(e.message).slice(0, 200)); }
-  await wait(1500);
-}
+const { chromium } = await import('playwright');
+const b = await chromium.launch({ channel: 'chrome' });
+try {
+  for (const w of [412, 1280]) {
+    const ctx = await b.newContext({ viewport: { width: w, height: 900 }, deviceScaleFactor: 2 });
+    await ctx.addInitScript(() => { try { localStorage.setItem('sf.nocount', 'true'); } catch {} });
+    const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push(String(e.message).slice(0, 120)));
+    await p.goto('https://kickoff.kiwi/?t=' + Date.now(), { waitUntil: 'domcontentloaded' }); await p.waitForSelector('#nowChips', { timeout: 30000 }).catch(() => {}); await p.waitForTimeout(1500);
+    const s = await p.evaluate(() => ({ code: /pairSides/.test(document.documentElement.innerHTML), chips: [...document.querySelectorAll('#nowChips > *')].map(c => `${c.classList.contains('two') ? 'two-sides' : 'named'} "${c.textContent.trim().replace(/\s+/g, ' ')}" {${c.getAttribute('aria-label') || c.title}} ${Math.round(c.getBoundingClientRect().width)}px`), ox: document.documentElement.scrollWidth > innerWidth }));
+    out.push(`${w}px: new code ${s.code}, sideways overflow ${s.ox}, page errors ${errs.length}`, ...s.chips.map(c => '  ' + c));
+    await p.locator('#nowBar').screenshot({ path: `probe/out-row-${w}.png` }).catch(e => out.push('shot: ' + e.message.slice(0, 80)));
+    await ctx.close(); }
+} catch (e) { out.push('probe error: ' + String(e.message).slice(0, 300)); }
+await b.close();
