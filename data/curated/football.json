@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-06T01:30:00Z",
+ "generatedAt": "2026-11-20T19:30:00Z",
  "events": [
   {
    "sport": "football",
@@ -40,6 +40,40 @@
    "source": "https://www.christchurchnz.com/visit/whats-on/all-whites-v-india",
    "score": "3-0",
    "summary": "Finn Surman, James McGarry and Chris Wood scored as the All Whites beat India in the first football game at Te Kaha."
+  },
+  {
+   "sport": "football",
+   "timeTBC": false,
+   "status": "upcoming",
+   "id": "ff-phi-1-2026",
+   "team": "footballferns",
+   "comp": "International friendly",
+   "home": "New Zealand",
+   "away": "Philippines",
+   "startUTC": "2026-11-29T03:00:00Z",
+   "venue": "Porirua Park",
+   "city": "Porirua",
+   "tz": "Pacific/Auckland",
+   "broadcast": "TVNZ DUKE / TVNZ+ (free)",
+   "watchNote": "Live on DUKE from 3:50pm (TVNZ DUKE+1 an hour later), per the TV guide. Kick-off taken as 4pm, ten minutes into the coverage",
+   "source": "https://tribune.net.ph/2026/11/18/kiwi-friendlies-boost-filipinas"
+  },
+  {
+   "sport": "football",
+   "timeTBC": false,
+   "status": "upcoming",
+   "id": "ff-phi-2-2026",
+   "team": "footballferns",
+   "comp": "International friendly",
+   "home": "New Zealand",
+   "away": "Philippines",
+   "startUTC": "2026-12-04T04:00:00Z",
+   "venue": "Porirua Park",
+   "city": "Porirua",
+   "tz": "Pacific/Auckland",
+   "broadcast": "TVNZ DUKE / TVNZ+ (free)",
+   "watchNote": "Live on DUKE from 4:50pm (TVNZ DUKE+1 an hour later), per the TV guide. Kick-off taken as 5pm, ten minutes into the coverage",
+   "source": "https://tribune.net.ph/2026/11/18/kiwi-friendlies-boost-filipinas"
   }
  ]
 }

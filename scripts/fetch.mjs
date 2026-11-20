@@ -709,7 +709,7 @@ async function ufcBuildup(events) {
 // after the game; one starting later the same day or the next is the game shown delayed
 const TV_FREE = /^(TVNZ 1|TVNZ 2|Three|Sky Open|TVNZ DUKE|Whakaata Māori|Rush|Bravo|eden)$/;
 // (the Rapid League is the short curtain-raiser before each Tauihi game, between the same two sides)
-const TV_SKIP = /rapid league|highlights|\bhls\b|\bl2h\b|\bwrap\b|archive|replay|review|classic|documentar|magazine|lounge|preview show|the breakdown|rewind|best of|motw|goal rush|countdown|press conference|weigh-in/i;
+const TV_SKIP = /rapid league|nothing but net|highlights|\bhls\b|\bl2h\b|\bwrap\b|archive|replay|review|classic|documentar|magazine|lounge|preview show|the breakdown|rewind|best of|motw|goal rush|countdown|press conference|weigh-in/i;
 const TV_NICK = { 'northern kāhu': ['northern kahu', 'kahu'], 'mainland pouākai': ['mainland pouakai', 'pouakai'], 'tokomanawa queens': ['queens'], 'southern hoiho': ['hoiho'], 'tauranga whai': ['whai'],
   'black caps': ['blackcaps', 'black caps', 'new zealand', 'nzl'], 'white ferns': ['white ferns', 'new zealand', 'nzl'], 'all blacks': ['all blacks', 'new zealand'],
   'black ferns': ['black ferns', 'new zealand'], kiwis: ['kiwis', 'new zealand', 'nzl'], 'kiwi ferns': ['kiwi ferns', 'new zealand'], 'silver ferns': ['silver ferns', 'new zealand'],
@@ -852,6 +852,19 @@ async function tvGuide(events) {
     }
     return true;
   };
+  // a UFC night starts when its live coverage here does. A live listing naming both headline fighters that begins well
+  // before the source's time is the night itself, so the card starts with it (TheSportsDB had Procházka v Stirling in
+  // Doha, Nov 2026, seven hours late: an hour after TVNZ Duke's six hours of live coverage were due to end)
+  const fold = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(), ufcMoved = [];
+  for (const e of events) {
+    if (e.team !== 'ufc' || e.status === 'final' || !e.startUTC || !e.away || /^TBC$/i.test(e.away)) continue;
+    const st = Date.parse(e.startUTC);
+    const first = items.filter(it => it.live && it.at - st < -2.5 * 36e5 && it.at - st > -12 * 36e5 && [e.home, e.away].every(n => has(fold(it.text), fold(n)))).sort((a, b) => a.at - b.at)[0];
+    if (!first) continue;
+    ufcMoved.push(`${e.home} v ${e.away}: ${e.startUTC.slice(0, 16)} to ${new Date(first.at).toISOString().slice(0, 16)} (${first.ch})`);
+    Object.assign(e, { startUTC: new Date(first.at).toISOString(), timeTBC: false });
+  }
+  if (ufcMoved.length) diag.ufcStart = `UFC nights started with their live TV coverage: ${ufcMoved.join('; ')}`;
   for (const e of events) {
     if (e.status === 'final' || !e.startUTC) continue;
     const start = Date.parse(e.startUTC);
