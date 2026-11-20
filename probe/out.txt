@@ -1,48 +1,7 @@
-now 2026-11-20T18:44:34.613Z | feed built 2026-11-20T18:37:57.539Z (7 min ago) | site 804 | games 1141 | no sport 0
-noResult | Hallyburton Johnstone Shield | Central Hinds v Northern Districts | 2026-11-13T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Auckland Hearts v Wellington Blaze | 2026-11-13T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Canterbury Magicians v Otago Sparks | 2026-11-13T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Auckland Hearts v Wellington Blaze | 2026-11-14T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Canterbury Magicians v Otago Sparks | 2026-11-14T21:30:00Z | noSource
-noResult | Hallyburton Johnstone Shield | Central Hinds v Northern Districts | 2026-11-14T21:30:00Z | noSource
-noResult | A-League Women | Western Sydney Wanderers v Wellington Phoenix | 2026-11-20T05:50:00.000Z
-noResult | Tauihi | Northern Kāhu v Tokomanawa Queens | 2026-11-20T06:30:00.000Z | noSource
-thinWeeks: [{"s":"cricket","c":"Hallyburton Johnstone Shield","week":"2026-11-15","n":0,"usual":6,"stopped":true}]
-tauihi | tauihi-2026-11-20-northernkahutokomanawaqueens | 2026-11-20T06:30:00.000Z | upcoming | Round 9 | Northern Kāhu v Tokomanawa Queens | Eventfinda Stadium | Auckland, New Zealand | has result false
-tauihi | tauihi-2026-11-21-taurangawhaimainlandpouakai | 2026-11-21T06:30:00.000Z | upcoming | Round 9 | Tauranga Whai v Mainland Pouākai | Queen Elizabeth Youth Centre | Tauranga, New Zealand | has result false
-tauihi | tauihi-2026-11-22-tokomanawaqueenssouthernhoiho | 2026-11-22T02:00:00.000Z | upcoming | Round 9 | Tokomanawa Queens v Southern Hoiho | Te Rauparaha Arena | Porirua, New Zealand | has result false
-tauihi | tauihi-2026-11-27-southernhoihonorthernkahu | 2026-11-27T06:30:00.000Z | upcoming | Round 10 | Southern Hoiho v Northern Kāhu | Edgar Centre | Dunedin, New Zealand | has result false
-tauihi | tauihi-2026-11-28-mainlandpouakaitokomanawaqueens | 2026-11-28T06:30:00.000Z | upcoming | Round 10 | Mainland Pouākai v Tokomanawa Queens | Parakiore Recreation and Sports Centre | Christchurch, New Zealand | has result false
-tauihi | tauihi-2026-11-29-taurangawhainorthernkahu | 2026-11-29T02:00:00.000Z | upcoming | Round 10 | Tauranga Whai v Northern Kāhu | Queen Elizabeth Youth Centre | Tauranga, New Zealand | has result false
-hand-kept | wbbl-12-m26-hobart-hurricanes-v-perth-scorchers | 2026-11-19T04:40:00Z | final | Allan Border Field | tv gap no listing | has result true
-hand-kept | wbbl-12-m27-brisbane-heat-v-sydney-thunder | 2026-11-19T08:10:00Z | final | Allan Border Field | tv gap no listing | has result true
-hand-kept | wbbl-12-m28-adelaide-strikers-v-melbourne-renegades | 2026-11-20T08:10:00Z | upcoming | Adelaide Oval | tv gap 25 min | has result false
-hand-kept | wbbl-12-m29-hobart-hurricanes-v-sydney-thunder | 2026-11-21T01:00:00Z | upcoming | Ninja Stadium | tv gap 5 min | has result false
-hand-kept | wbbl-12-m30-sydney-sixers-v-perth-scorchers | 2026-11-21T04:30:00Z | upcoming | North Sydney Oval | tv gap 30 min | has result false
-hand-kept | wbbl-12-m31-brisbane-heat-v-adelaide-strikers | 2026-11-22T04:40:00Z | upcoming | Allan Border Field | tv gap 25 min | has result false
-hand-kept | wbbl-12-m32-melbourne-stars-v-melbourne-renegades | 2026-11-22T08:10:00Z | upcoming | Junction Oval | tv gap 0 min | has result false
-hand-kept | g-fundora-zapotoczna-2026-11-20 | NOT IN FEED
-hand-kept | ss-nsw-qld-2026-11 | 2026-11-21T23:30:00Z | upcoming | Cricket Central | tv gap 5 min | has result false
-hand-kept | ss-wa-tas-2026-11 | 2026-11-23T02:30:00Z | upcoming | Perth Stadium | tv gap no listing | has result false
-hand-kept | sa-ban-t2-2026 | 2026-11-23T08:00:00Z | upcoming | SuperSport Park | tv gap no listing | has result false
-hand-kept | bs-ind-centenary-1-2026 | 2026-11-19T05:30:00Z | final | Lloyd Elsmore Park | tv gap no listing | has result true
-hand-kept | bs-ind-centenary-2-2026 | 2026-11-21T03:00:00Z | upcoming | Lloyd Elsmore Park | tv gap no listing | has result false
-hand-kept | bs-ind-centenary-3-2026 | 2026-11-22T01:00:00Z | upcoming | Lloyd Elsmore Park | tv gap no listing | has result false
-hand-kept | wmseries-2026-g3 | 2026-11-21T06:40:00Z | upcoming | Claudelands Arena | tv gap 10 min | has result false
-hand-kept | ab-eng-nz-2026-11-21 | 2026-11-21T14:10:00Z | upcoming | Allianz Stadium, Twickenham | tv gap 55 min | has result false
-not final | Women's Big Bash League (WBBL|12), League | Adelaide Strikers v Melbourne Renegades | 2026-11-20T08:10:00Z | upcoming | wbbl-12-m28-adelaide-strikers-v-melbourne-renegades
-not final | Plunket Shield, Round 1 | Otago Volts v Canterbury | 2026-11-18T21:30:00Z | upcoming | ps-r1-1-2026
-not final | Plunket Shield, Round 1 | Northern Districts v Auckland Aces | 2026-11-18T21:30:00Z | upcoming | ps-r1-2-2026
-not final | Plunket Shield, Round 1 | Central Stags v Wellington Firebirds | 2026-11-18T21:30:00Z | upcoming | ps-r1-3-2026
-not final | 1st Test v India | New Zealand v India | 2026-11-18T22:00:00Z | upcoming | bc-ind-test1-2026
-not final | A-League Women | Western Sydney Wanderers v Wellington Phoenix | 2026-11-20T05:50:00.000Z | upcoming | wiki-phoenixw-2026-11-20-westernsydneywandererswellingtonphoenix
-not final | Tauihi | Northern Kāhu v Tokomanawa Queens | 2026-11-20T06:30:00.000Z | upcoming | tauihi-2026-11-20-northernkahutokomanawaqueens
-tvGap | 2026-11-20T19:55:00.000Z | Sky Sport 5 | Rugby League: Fijian Cup: LIVE: Fijian Cup Touch D2 | LIVE coverage of Day 2 of the Fijian Cup Touch at Lawaqa Park, Sigatoka. Featuring teams from Fiji, New Zealand and Australia.
-tvGap | 2026-11-21T15:00:00.000Z | TVNZ DUKE | UFC Fight Night: UFC Fight Night: Prochazka v Stirling | Live coverage of UFC Fight Night from the ABHA Arena in Doha, Qatar which will feature Jiri Prochazka from Czechia taking on Navajo Stirling
-tvGap | 2026-11-21T16:00:00.000Z | TVNZ DUKE +1, TVNZ DUKE+1 | UFC Fight Night: UFC Fight Night: Prochazka v Stirling | Live coverage of UFC Fight Night from the ABHA Arena in Doha, Qatar which will feature Jiri Prochazka from Czechia taking on Navajo Stirling
-tvGap | 2026-11-21T21:30:00.000Z | Sky Sport 5 | Bowls New Zealand: Oceania Champs: LIVE Oceania Champs: Day Four | LIVE coverage of the Oceania Championships 2026 Day Four. From Bowls Orewa, Auckland.
-tvGap | 2026-11-24T00:00:00.000Z | ESPN 2 | Live: Nothing But Net | EPSN's Phil Murhpy and ESPN Aus NZ's resident basketball insider Kane Pitman preview upcoming NBA Finals action!
-tvGap | 2026-11-26T19:55:00.000Z | Sky Sport 4 | Rugby League: Fijian Cup: Fijian Cup Nines D1 | LIVE coverage of Day 1 of the Fijian Cup Nines at Lawaqa Park, Sigatoka. Featuring teams from Fiji, New Zealand and Australia.
-tvGap | 2026-11-27T19:55:00.000Z | Sky Sport 4 | Rugby League: Fijian Cup: Fijian Cup Nines D2 | LIVE coverage of Day 2 of the Fijian Cup Nines at Lawaqa Park, Sigatoka. Featuring teams from Fiji, New Zealand and Australia.
-tvGap | 2026-11-29T02:50:00.000Z | TVNZ DUKE | International Football | Live coverage of the New Zealand Football Ferns first match against the Philippines from Porirua Park in Porirua.
-tvGap | 2026-11-29T03:50:00.000Z | TVNZ DUKE+1 | International Football | Live coverage of the New Zealand Football Ferns first match against the Philippines from Porirua Park in Porirua.
+feed built 2026-11-20T18:37:57.539Z | site 804
+{"id":"tsdb-2601529","team":"ufc","comp":"UFC Fight Night 294","home":"Procházka","away":"Stirling","startUTC":"2026-11-21T22:00:00.000Z","timeTBC":false,"status":"upcoming","broadcast":"TVNZ+ (free) / TVNZ Duke (free) / UFC Fight Pass","tv":["2026-11-22T05:00:00.000Z Sky Arena"],"card":12,"source":"https://en.wikipedia.org/wiki/UFC_Fight_Night%3A_Proch%C3%A1zka_vs._Stirling"}
+{"id":"tsdb-2601528","team":"ufc","comp":"UFC 334","home":"Gane","away":"Hokit","startUTC":"2026-11-14T22:00:00.000Z","timeTBC":false,"status":"final","broadcast":"Sky Arena (pay-per-view) / TVNZ+ Event Pass (pay-per-view) / UFC Fight Pass (pay-per-view)","tv":[],"card":13,"source":"https://en.wikipedia.org/wiki/UFC_334"}
+{"id":"wiki-onefc-onesamurai5","team":"onefc","comp":"ONE Samurai 5","home":"Joshua Pacio","away":"Keito Yamakita","startUTC":"2026-11-18T08:30:00.000Z","timeTBC":false,"status":"final","broadcast":"live.onefc.com (pay-per-view)","tv":[],"card":10,"source":"https://en.wikipedia.org/wiki/2026_in_ONE_Championship#ONE_Samurai_5"}
+diag keys: ufcCards: ["UFC Fight Night: 13 bouts, intro","UFC 335: 6 bouts, intro","UFC Fight Night: 12 bouts, intro","UFC Fight Night: 12 bouts, intro","UFC 334: 13 bouts, intro","UFC Fight Night: 14 bouts, intro","UFC Fight Night: 12 bouts, intro","UFC 333: 14 bouts, intro","UFC || tsdb UFC: "next/last event" || ufcVideos: "449 recent UFC videos known; 0 fight-week videos on 0 of 2 events" || tvGaps: "9 live listings naming NZ, a NZ side, place or athlete with no game on the site: Rugby League: Fijian Cup: LIVE: Fijian Cup Touch D2 (Sky Sport 5, 11-20); UFC Fight Night: UFC Fight Night: Prochazka v Stirling (TVNZ DUKE, 11-21); UFC Fight Night: UFC Fight Ni || tvGuide: "2468 sport listings (read 2026-11-20T13:25; SkySportNow to 2026-11-26, SkyGo to 2026-12-05, nz to 2026-12-04); 115 games listed: Adelaide Strikers v Melbourne Renegades: Sky Sport 2; Hobart Hurricanes v Sydney Thunder: Sky Sport 4; Sydney Sixers v Perth Scorc
+football | aw-ind-1-2026 | allwhites | International friendly | New Zealand v India | 2026-11-12T06:00:00Z | final | https://www.aucklandstadiums.co.nz/event/all-whites-vs-india
+football | aw-ind-2-2026 | allwhites | International friendly | New Zealand v India | 2026-11-15T03:00:00Z | final | https://www.christchurchnz.com/visit/whats-on/all-whites-v-india
