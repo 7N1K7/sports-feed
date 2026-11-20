@@ -1,7 +1,24 @@
-feed built 2026-11-19T18:55:44.595Z (5 min ago) | site 804 | games 1149 | no sport: 0 | no status: 0
-Plunket Shield games 24, with sport cricket 24, upcoming 24
-thinWeeks: [{"s":"cricket","c":"Hallyburton Johnstone Shield","week":"2026-11-15","n":0,"usual":6,"stopped":true}]
-card on the page: "PLUNKET SHIELD, ROUND 2 NZC FREE on NZC YouTube Northern Brave v Central Stags 10:30am Fri, 27 Nov in 7 days"
-card class: ev sport-cricket  
-pop-up from its link: "× PLUNKET SHIELD, ROUND 2 › NZC Northern Brave v Central Stags in 7 days This game Results 11 FIRST BALL (NZ) 10:30am Friday, 27 November WHERE Bay Oval, Mount Maunganui, New Zealand FORM Northern Brave W L L L W Central Stags D W L W L Match page ↗Ball by bal"
-page errors: 0 
+feed built 2026-11-20T02:15:05.023Z (7 min ago) | site 804 | games 1155 | no sport 0
+checks: 6 games with no result after their time, 1 thin weeks | thinWeeks [{"s":"cricket","c":"Hallyburton Johnstone Shield","week":"2026-11-15","n":0,"usual":6,"stopped":true}]
+games from Fri 5pm to Mon 9am NZ: 69; time to be confirmed: 5; no where-to-watch: 0
+by sport: {"motor":4,"football":15,"basketball":23,"cricket":7,"rugby":12,"hockey":2,"netball":1,"mma":1,"golf":2,"sailing":1,"tennis":1}
+Fri 5:00 pm | motor | Formula 1 · Round 21 · Practice 2 | Las Vegas Grand Prix | upcoming | watch: Sky Sport / Sky Sport Now | tv: Fri 2:55 pm Sky Sport 2; Fri 6:00 pm Sky Sport 4K UHD
+Fri 6:50 pm | football | A-League Women | Western Sydney Wanderers v Wellington Phoenix | upcoming | watch: Sky Sport / Sky Sport Now | tv: Fri 6:45 pm Sky Sport 3
+Fri 7:30 pm | basketball | Tauihi | Northern Kāhu v Tokomanawa Queens | upcoming | watch: Sky Sport / Sky Sport Now | tv: Fri 7:30 pm Sky Sport 4
+Sat 1:30 pm | motor | Formula 1 · Round 21 · Practice 3 | Las Vegas Grand Prix | upcoming | watch: Sky Sport / Sky Sport Now | tv: Sat 11:00 am Sky Sport 4; Sat 1:15 pm Sky Sport 2
+Sat 3:30 pm | basketball | NBA | Utah Jazz v Phoenix Suns | upcoming | watch: ESPN on Sky / Sky Sport Now / Disney+ (E | tv: none
+Sat 4:00 pm | hockey | Indian Centenary Series · Match 2 | New Zealand v India | upcoming | watch: TVNZ+ (free, every game) | tv: none
+Sat 5:00 pm | football | A-League Men · Round 5 | Auckland FC v Melbourne Victory | upcoming | watch: Sky Sport / Sky Sport Now | tv: Sat 4:30 pm Sky Sport 3
+Sat 5:00 pm | motor | Formula 1 · Round 21 · Qualifying | Las Vegas Grand Prix | upcoming | watch: Sky Sport / Sky Sport Now | tv: Sat 3:10 pm Sky Sport 2; Sat 6:00 pm Sky Sport 4K UHD
+Sat 7:30 pm | basketball | Tauihi | Tauranga Whai v Mainland Pouākai | upcoming | watch: Sky Sport / Sky Sport Now | tv: Sat 7:30 pm Sky Sport 5
+Sat 7:40 pm | netball | WM New Zealand Netball Series, Game 3 | New Zealand v Net Blacks | upcoming | watch: Sky Sport / Sky Sport Now | tv: Sat 7:30 pm Sky Sport 1; Sat 7:30 pm Sky Sport 1 UHD
+Sat 9:30 pm | basketball | NBL | Melbourne United v New Zealand Breakers | upcoming | watch: ESPN on Sky / Sky Sport Now / Disney+ (E | tv: Sat 9:30 pm ESPN
+Sun 3:10 am | rugby | Nations Championship | England v All Blacks | upcoming | watch: Sky Sport / Sky Sport Now | tv: Sun 2:15 am Sky Sport 1; Sun 2:15 am Sky Sport 1 UHD
+Sun 4:00 am | mma | UFC Fight Night 294 | Procházka v Stirling | upcoming | TIME TBC | watch: TVNZ+ (free) / TVNZ Duke (free) / UFC Fi | tv: Sun 4:00 am TVNZ DUKE; Sun 5:00 am TVNZ DUKE +1
+Sun 12:30 pm | cricket | Sheffield Shield | New South Wales v Queensland | upcoming | watch: Sky Sport (selected games, no free strea | tv: Sun 12:25 pm Sky Sport 9
+Sun 2:00 pm | hockey | Indian Centenary Series · Match 3 | New Zealand v India | upcoming | watch: TVNZ+ (free, every game) | tv: none
+Sun 3:00 pm | football | A-League Men · Round 5 | Wellington Phoenix v Macarthur FC | upcoming | watch: Sky Sport / Sky Sport Now | tv: Sun 2:30 pm Sky Sport 3
+Sun 3:00 pm | basketball | Tauihi | Tokomanawa Queens v Southern Hoiho | upcoming | watch: Sky Sport / Sky Sport Now | tv: Sun 3:00 pm Sky Sport 4
+Sun 5:00 pm | basketball | NBL | S.E. Melbourne Phoenix v Cairns Taipans | upcoming | watch: ESPN on Sky / Sky Sport Now / Disney+ (E | tv: Sun 5:05 pm ESPN
+Sun 5:00 pm | motor | Formula 1 · Round 21 | Las Vegas Grand Prix | upcoming | watch: Sky Sport / Sky Sport Now | tv: Sun 3:30 pm Sky Sport 4K UHD; Sun 3:30 pm Sky Sport 2
+Sun 5:00 pm | golf | PGA Tour of Australasia | Queensland PGA Championship | upcoming | TIME TBC | watch: Sky Sport / Sky Sport Now | tv: Sun 2:30 pm Sky Sport 7
