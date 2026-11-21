@@ -4080,7 +4080,7 @@ const KIT = { 'New Zealand': ['#000000', '#ffffff'], Romania: ['#ffd100', '#002b
   Germany: ['#111111', '#ffffff'], Belgium: ['#c8102e', '#ffffff'], Spain: ['#c60b1e', '#ffc400'], Malaysia: ['#010066', '#ffcc00'], 'South Korea': ['#c8102e', '#ffffff'],
   China: ['#de2910', '#ffde00'], Chile: ['#d52b1e', '#ffffff'], Uruguay: ['#5cbfeb', '#0b1f3a'], Georgia: ['#c8102e', '#ffffff'], Portugal: ['#046a38', '#ffffff'],
   Lebanon: ['#c8102e', '#ffffff'], 'Great Britain': ['#012169', '#ffffff'], Nepal: ['#c8102e', '#ffffff'], Oman: ['#c8102e', '#ffffff'], 'United Arab Emirates': ['#00732f', '#ffffff'],
-  Namibia: ['#003580', '#ffffff'], Kenya: ['#006600', '#ffffff'], Jamaica: ['#009b3a', '#fed100'] };
+  Namibia: ['#003580', '#ffffff'], Kenya: ['#006600', '#ffffff'], Jamaica: ['#009b3a', '#fed100'], Philippines: ['#0038a8', '#ffffff'] };
 const KIT_SPORT = { football: { 'New Zealand': ['#f1f3f5', '#111111'] }, league: { Australia: ['#00843d', '#ffcd00'] }, hockey: { Australia: ['#00843d', '#ffcd00'] }, cricket: { England: ['#10307a', '#ffffff'] } };
 const SIDE_CODE = { 'New Zealand': 'NZ', Romania: 'ROU', 'Hong Kong': 'HK', Australia: 'AUS', India: 'IND', England: 'ENG', 'South Africa': 'SA', 'Sri Lanka': 'SL', Pakistan: 'PAK', Bangladesh: 'BAN',
   'West Indies': 'WI', Afghanistan: 'AFG', Zimbabwe: 'ZIM', Ireland: 'IRE', Scotland: 'SCO', Wales: 'WAL', France: 'FRA', Italy: 'ITA', Argentina: 'ARG', Japan: 'JPN',
@@ -4094,8 +4094,9 @@ const sideCountry = n => { const b = String(n || '').replace(/\s+(Women('s)?|Men
 // a two-sided series' two countries, in the name's order, or null
 const seriesSides = c => { const m = String(c || '').match(/^(.+?) v (.+)$/); if (!m) return null; const a = sideCountry(m[1]), b = sideCountry(m[2]); return a && b && a !== b ? [a, b] : null; };
 // friendlies now on that are all between the same two countries, as those two (the next game's home side first), or null
-const friendlySides = (c, v) => { if (!/^International friendly$/i.test(c) || v.pairs?.size !== 1 || v.pairs.has('?')) return null;
-  const s = [...v.pairs][0].split('|'), h = v.nextHome || v.lastHome; return s[1] === h ? [s[1], s[0]] : s; };
+// (the games still to come decide it: the All Whites' games against India, just finished, don't hide the Football Ferns' against the Philippines)
+const friendlySides = (c, v) => { const ps = v.pairsNext?.size ? v.pairsNext : v.pairs; if (!/^International friendly$/i.test(c) || ps?.size !== 1 || ps.has('?')) return null;
+  const s = [...ps][0].split('|'), h = v.nextHome || v.lastHome; return s[1] === h ? [s[1], s[0]] : s; };
 // a tournament's own look: [label, background, glow, text, mark colour, logo [url, size %, x %, y %, width, height]]. A women's
 // event sharing the men's look takes a pink glow; one with a look of its own says so (w)
 const TSDB = 'https://r2.thesportsdb.com/images/media/league/badge/';
@@ -4186,7 +4187,8 @@ const nowChip = (c, v, st) => {
   // a tournament with no look of its own: its sport's colour, deepened, and a trophy
   const [label, bg, glow0, ink, mk, logo] = look ? look.l : TB_PLAIN;
   const glow = v.w && !look?.w ? '#f06595' : glow0;
-  const name = label || ROW_NAME[c] || shortComp(plural(c)).replace(/\s*\(W\)$/, '');
+  // friendlies between more than one pair of countries say their sport ("Football friendlies")
+  const name = label || ROW_NAME[c] || (v.pairs && v.sports?.size === 1 && SPORT_LABEL[v.sport] ? `${SPORT_LABEL[v.sport]} friendlies` : shortComp(plural(c)).replace(/\s*\(W\)$/, ''));
   const lead = logo ? `<i class="tblogo" style="background-image:url('${logo[0]}');background-size:${logo[1]}%;background-position:${logo[2]}% ${logo[3]}%;width:${logo[4]}px${logo[5] ? `;height:${logo[5]}px;margin:0` : ''}${logo[6] ? `;filter:${MONO}` : ''}" aria-hidden="true"></i>` : TROPHY;
   return `<button type="button" class="${cls} tbrand" data-bigcomp="${esc(c)}" aria-pressed="${st.sel}" title="${tip}" style="--tb-bg:${bg};--tb-glow:${glow};--tb-ink:${ink};--tb-mark:${mk}">${lead}<span class="tbt">${esc(name)}</span>${mark}</button>`;
 };
@@ -4232,14 +4234,17 @@ function renderNowBar(now) {
     if ((t <= 0 && t > -10 * 864e5) || (t > 0 && t <= 18 * 36e5) || (e.openUTC && new Date(e.openUTC) <= now)) v.started = true;
     // a friendly's two countries, from its games of the last 10 days and next three weeks ('?' for a side with no flag or kit)
     if (/^International friendly$/i.test(c) && t > -10 * 864e5 && t < 21 * 864e5) { const a = sideCountry(e.home), b = sideCountry(e.away);
-      (v.pairs ||= new Set()).add(a && b && a !== b ? [a, b].sort().join('|') : '?'); }
+      const pr = a && b && a !== b ? [a, b].sort().join('|') : '?'; (v.pairs ||= new Set()).add(pr); (v.sports ||= new Set()).add(e.sport);
+      if (t > -4 * 36e5) (v.pairsNext ||= new Set()).add(pr); }
     if (t <= 0) {
       if (t >= (v.lastPlayed ?? -Infinity)) v.lastHome = sideCountry(e.home);
       v.lastPlayed = Math.max(v.lastPlayed ?? -Infinity, t);
       // roughly when its last game ended: a Test or first-class game's last day
       v.lastEnd = Math.max(v.lastEnd ?? -Infinity, t + ((DAYS[formatOf(e)] || 1) - 1) * 864e5);
     }
-    if (t > -4 * 36e5 && t < v.next) { v.next = t; v.nextHome = sideCountry(e.home); }
+    if (t > -4 * 36e5 && t < v.next) { v.next = t; v.nextHome = sideCountry(e.home);
+      // friendlies are one group across sports, men's and women's: the next game says which the chip shows
+      if (/^International friendly$/i.test(c)) { v.sport = e.sport; v.w = genderOf(e) === 'w'; } }
     if (isNZ(e)) v.nz = true;
     if (e.status === 'live' || (e.status !== 'final' && onNow(e, now))) {
       v.live = true;
